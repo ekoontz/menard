@@ -1,4 +1,4 @@
-(ns italianverbs.pos
+(ns babel.pos
   (:require
    [dag-unify.core :refer (unifyc)]))
 

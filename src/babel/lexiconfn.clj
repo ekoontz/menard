@@ -5,7 +5,7 @@
    [clojure.set :as set]
    [clojure.tools.logging :as log]
    [clojure.core :as core]
-   [italianverbs.pos :refer :all]
+   [babel.pos :refer :all]
    [dag-unify.core :refer :all :exclude (unify)])) ;; exclude unify because we redefine it here using unifyc (copy each arg)
 
 (declare listify)

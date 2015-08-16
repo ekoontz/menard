@@ -2,8 +2,6 @@
   (:refer-clojure :exclude [get-in deref resolve find future parents])
   (:require
    [clojure.core :as core]
-   ;; have to exclude partition-by because of some namespace clash, not sure how else to fix
-   [clojure.core.async :as async :exclude [partition-by]]
    [clojure.set :refer :all]
    [clojure.string :as string]
    [clojure.tools.logging :as log]

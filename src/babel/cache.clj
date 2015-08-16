@@ -1,4 +1,4 @@
-(ns italianverbs.cache
+(ns babel.cache
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
 
@@ -9,8 +9,8 @@
    [clojure.tools.logging :as log]
    [dag-unify.core :refer :all :exclude [unify]]
 
-   [italianverbs.over :exclude [overc overh]]
-   [italianverbs.over :as over]))
+   [babel.over :exclude [overc overh]]
+   [babel.over :as over]))
 
 ;; For now, this cache is just a stub; no actual caching is done; it simply calls 
 ;; the over/ equivalents of each of the defined functions.

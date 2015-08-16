@@ -3,9 +3,25 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[clj-time "0.7.0"]
+                 [compojure "1.1.6"]
                  [dag-unify "0.1.0-SNAPSHOT"]
-])
+                 [environ "1.0.0"]
+                 [hiccup "1.0.5"]
+                 [javax.servlet/servlet-api "2.5"]
+                 [korma "0.4.1"]
+                 [org.clojure/clojure "1.5.1"]
+                 [org.clojure/data.json "0.2.5"]
+                 [ring/ring-jetty-adapter "1.1.0"]
+                 [ring/ring-devel "1.1.0"]
+                 [ring-basic-authentication "1.0.1"]]
+  :plugins [[lein-environ "1.0.0"]
+            [lein-localrepo "0.4.0"]
+            [lein-pprint "1.1.1"]
+            [lein-ring "0.9.3"]])
+
+
+
 
 
 

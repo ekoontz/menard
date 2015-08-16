@@ -40,7 +40,7 @@
                                 lexeme)))
 
         ;; 3. apply language-specific grammatical rules to each element in the lexicon
-        ;; for an example of a language-specific rule, see italianverbs/morphology/italiano.clj:(defn agreement [lexical-entry]).
+        ;; for an example of a language-specific rule, see italiano/morphology.clj:(defn agreement [lexical-entry]).
         lexicon-stage-3 (if language-specific-rules
                           (map-function-on-map-vals
                            lexicon-stage-2

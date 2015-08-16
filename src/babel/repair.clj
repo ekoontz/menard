@@ -1,4 +1,4 @@
-(ns italianverbs.repair)
+(ns babel.repair)
 
 (require '[babel.writer :refer [fill-by-spec fill-verb]])
 (require '[babel.english :refer :all])

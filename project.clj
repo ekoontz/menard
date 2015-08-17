@@ -15,6 +15,7 @@
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
+  :resource-paths ["resources"]
   :plugins [[lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]

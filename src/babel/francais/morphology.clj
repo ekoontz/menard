@@ -298,6 +298,9 @@
                  ir-type (re-find #"ir$" infinitive)
                  re-type (re-find #"re$" infinitive)
                  stem (string/replace infinitive #"[iaeé]r$" "")
+                 stem (if re-type
+                        (string/replace infinitive #"re$" "")
+                        stem)
                  last-stem-char-is-i (re-find #"ir$" infinitive)
                  last-stem-char-is-e (re-find #"er$" infinitive)
                  is-care-or-gare? (re-find #"[cg]ar$" infinitive)
@@ -310,27 +313,36 @@
               (str stem "erais")
               (and (= person :1st) (= number :sing) ir-type)
               (str stem "irais")
+              (and (= person :1st) (= number :sing) re-type)
+              (str stem "rais")
            
               (and (= person :2nd) (= number :sing) ir-type)
               (str stem "erais")
               (and (= person :2nd) (= number :sing) er-type)
               (str stem "irais")
+              (and (= person :2nd) (= number :sing) re-type)
+              (str stem "rais")
            
               (and (= person :3rd) (= number :sing) ir-type)
               (str stem "erait")
               (and (= person :3rd) (= number :sing) er-type)
               (str stem "irait")
+              (and (= person :3rd) (= number :sing) re-type)
+              (str stem "rait")
 
               (and (= person :1st) (= number :plur) er-type)
               (str stem "erions")
               (and (= person :1st) (= number :plur) ir-type)
               (str stem "irions")
+              (and (= person :1st) (= number :plur) re-type)
+              (str stem "rions")
  
               (and (= person :2nd) (= number :plur) er-type)
               (str stem "eriez")
-              
               (and (= person :2nd) (= number :plur) ir-type)
               (str stem "iriez")
+              (and (= person :2nd) (= number :plur) re-type)
+              (str stem "riez")
 
               ;; </second person plural conditional>
 
@@ -338,10 +350,12 @@
               (and (= person :3rd) (= number :plur)
                    er-type)
               (str stem "eraient")
-           
               (and (= person :3rd) (= number :plur)
                    ir-type)
               (str stem "iraient")
+              (and (= person :3rd) (= number :plur)
+                   re-type)
+              (str stem "raient")
 
               ;; </third person plural conditional>
               :else

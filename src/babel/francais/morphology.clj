@@ -136,7 +136,11 @@
                                 (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
                  er-type (re-find #"er$" infinitive)
                  ir-type (re-find #"ir$" infinitive)
+                 re-type (re-find #"re$" infinitive)
                  stem (string/replace infinitive #"[iae]r$" "")
+                 stem (if re-type
+                        (string/replace infinitive #"re$" "")
+                        stem)
                  last-stem-char-is-i (re-find #"ir$" infinitive)
                  last-stem-char-is-e (re-find #"er$" infinitive)
                  person (get-in word '(:agr :person))
@@ -151,18 +155,27 @@
               
               (and (= person :1st) (= number :sing) ir-type)
               (str stem "is")
+
+              (and (= person :1st) (= number :sing) re-type)
+              (str stem "")
               
               (and (= person :2nd) (= number :sing) er-type)
               (str stem "es")
         
               (and (= person :2nd) (= number :sing) ir-type)
               (str stem "is")
+
+              (and (= person :2nd) (= number :sing) re-type)
+              (str stem "s")
                             
               (and (= person :3rd) (= number :sing) er-type)
               (str stem "e")
 
               (and (= person :3rd) (= number :sing) ir-type)
               (str stem "it")
+
+              (and (= person :3rd) (= number :sing) re-type)
+              (str stem "")
 
               (and (= person :1st) (= number :plur) er-type g-stem)
               (str stem "eons")
@@ -172,7 +185,11 @@
               
               (and (= person :1st) (= number :plur) ir-type)
               (str stem "issons")
-       
+
+              (and (= person :1st) (= number :plur) re-type)
+              (let [stem (string/replace stem #"d$" "")]
+                (str stem "ons"))
+              
               ;; <second person plural present>
 
               (and (= person :2nd) (= number :plur) er-type)
@@ -180,7 +197,9 @@
 
               (and (= person :2nd) (= number :plur) ir-type)
               (str stem "issez")  
-       
+
+              (and (= person :2nd) (= number :plur) re-type)
+              (str stem "ez")  
       
               ;; </second person plural present>
 
@@ -191,6 +210,10 @@
               (and (= person :3rd) (= number :plur)
                    ir-type)
               (str stem "issent")
+              (and (= person :3rd) (= number :plur)
+                   re-type)
+              (let [stem (string/replace stem #"d$" "")]
+                (str stem "nent"))
               
               ;; </third person plural present>
               
@@ -200,8 +223,7 @@
               (get-in word [:français])
               
               :else
-              (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word))))))
-           
+              (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word) " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type)))))           
            (and
             (= (get-in word '(:infl)) :futuro)
             (string? (get-in word '(:français))))

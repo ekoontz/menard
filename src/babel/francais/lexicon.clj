@@ -17,6 +17,9 @@
    "anoncier" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
+   ;;  CONJUGATES LIKE TENIR
+   "apprendre" {:synsem {:cat :verb
+                         :sem {:pred :imparare}}}
    "elle"
    {:synsem {:cat :noun
              :pronoun true
@@ -109,10 +112,6 @@
               :sem {:human true
                     :pred :voi}
              :subcat '()}}
-
-;;  CONJUGATES LIKE TENIR
-  "apprendre" {:synsem {:cat :verb
-                        :sem {:pred :imparare}}}
   
   "profiter (de)" {:synsem {:cat :verb
                             :sem {:pred :take-advantage-of}}}

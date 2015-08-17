@@ -294,7 +294,7 @@
                  ar-type (try (re-find #"ar$" infinitive)
                               (catch Exception e
                                 (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
-                 er-type (re-find #"er$" infinitive)
+                 er-type (re-find #"[eé]r$" infinitive)
                  ir-type (re-find #"ir$" infinitive)
                  re-type (re-find #"re$" infinitive)
                  stem (string/replace infinitive #"[iaeé]r$" "")

@@ -1,3 +1,5 @@
+[![Clojars Project](http://clojars.org/babel/latest-version.svg)](http://clojars.org/babel)
+
 # babel
 
 A Clojure library for generation of expressions from grammars and

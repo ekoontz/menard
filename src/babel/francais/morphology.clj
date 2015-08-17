@@ -309,7 +309,7 @@
                  er-type (re-find #"[eé]r$" infinitive)
                  ir-type (re-find #"ir$" infinitive)
                  re-type (re-find #"re$" infinitive)
-                 stem (string/replace infinitive #"[iaeé]r$" "")
+                 stem (string/replace infinitive #"i?[iaeé]r$" "")
                  stem (if re-type
                         (string/replace infinitive #"re$" "")
                         stem)
@@ -372,7 +372,6 @@
               ;; </third person plural conditional>
               :else
               (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))))))
-
               
            ;;QUI COMINCIA L’ IMPERFETTO
            (and

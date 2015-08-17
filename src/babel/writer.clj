@@ -203,24 +203,28 @@
     (throw (Exception. "No source language model was supplied.")))
   (if (nil? target-model)
     (throw (Exception. "No target language model was supplied.")))
-  (let [json-spec (json/write-str spec)
+  (let [target-language (:language @target-model)
+        json-spec (json/write-str spec)
         current-target-count
         (:count
          (first
           (k/exec-raw ["SELECT count(*) FROM expression 
                          WHERE structure @> ?::jsonb
                            AND language=?"
-                       [(json/write-str spec) (:language target-model)]]
+                       [(json/write-str spec) target-language]]
                       :results)))]
     (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
     (let [count (- count current-target-count)]
       (if (> current-target-count 0)
-        (log/warn (str "There are already: " current-target-count " expressions for spec: " spec)))
-      (log/info (str "Generating: " count " target expressions."))
-      (populate count
-                source-model
-                target-model
-                spec table))))
+        (log/warn (str "There are already " current-target-count " expressions for this spec.")))
+      (if (> count 0)
+        (do
+          (log/info (str "Generating " count " target expressions."))
+          (populate count
+                    source-model
+                    target-model
+                    spec table))
+        (log/warn (str " not generating any new expressions for this spec."))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)

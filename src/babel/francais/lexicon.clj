@@ -113,8 +113,8 @@
                     :pred :voi}
              :subcat '()}}
   
-  "profiter (de)" {:synsem {:cat :verb
-                            :sem {:pred :take-advantage-of}}}
+;  "profiter (de)" {:synsem {:cat :verb
+;                            :sem {:pred :take-advantage-of}}}
   
   "assurer" [{:synsem {:cat :verb
                        :sem {:pred :assure}}}

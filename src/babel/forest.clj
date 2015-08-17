@@ -1,13 +1,13 @@
 (ns babel.forest
   (:refer-clojure :exclude [get-in deref resolve find future parents])
   (:require
+   [babel.cache :refer (build-lex-sch-cache get-comp-phrases-of get-head-phrases-of get-lex
+                                            get-parent-phrases-for-spec)]
+   [babel.over :as over]
    [clojure.core :as core]
    [clojure.set :refer :all]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
-   [babel.cache :refer (build-lex-sch-cache get-comp-phrases-of get-head-phrases-of get-lex
-                                            get-parent-phrases-for-spec)]
-   [babel.over :as over]
    [dag-unify.core :refer (dissoc-paths get-in fail? fail-path-between lazy-shuffle ref? remove-false 
                                         remove-top-values-log strip-refs show-spec unifyc)]))
 
@@ -20,29 +20,31 @@
 (declare lightning-bolt)
 (declare generate-all)
 
-(defn generate [spec grammar lexicon index]
-  (first (take 1 (generate-all spec grammar lexicon index))))
+(defn generate [spec grammar lexicon index morph]
+  (first (take 1 (generate-all spec grammar lexicon index morph))))
 
 (defn generate-all-with-model [spec {grammar :grammar
                                      index :index
-                                     lexicon :lexicon}]
+                                     lexicon :lexicon
+                                     morph :morph}]
   (let [index (if (future? index) @index index)
         lexicon (if (future? lexicon) @lexicon lexicon)]
     (log/info (str "using grammar of size: " (.size grammar)))
     (log/info (str "using index of size: " (.size index)))
     (if (seq? spec)
-      (map generate-all spec grammar lexicon index)
+      (map generate-all spec grammar lexicon index morph)
       (generate spec grammar
                 (flatten (vals lexicon))
-                index))))
+                index
+                morph))))
 
-(defn generate-all [spec grammar lexicon index]
+(defn generate-all [spec grammar lexicon index morph]
   (filter #(not (fail? %))
           (cond (and (or (seq? spec)
                          (vector? spec))
                      (not (empty? spec)))
-                (lazy-cat (generate-all (first spec) grammar lexicon index)
-                          (generate-all (rest spec) grammar lexicon index))
+                (lazy-cat (generate-all (first spec) grammar lexicon index morph)
+                          (generate-all (rest spec) grammar lexicon index morph))
                 true
                 (do
                   (log/debug (str "generate-all with semantics: " (show-spec (remove-false (get-in spec [:synsem :sem])))))
@@ -51,10 +53,10 @@
                                       lexicon
                                       spec 0 index)
                       ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-                      (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index)
-                      (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index)
-                      (add-complements-to-bolts [:head :comp]             :top grammar lexicon index)
-                      (add-complements-to-bolts [:comp]                   :top grammar lexicon index))))))
+                      (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)
+                      (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
+                      (add-complements-to-bolts [:head :comp]             :top grammar lexicon index morph)
+                      (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph))))))
   
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
 (defn lightning-bolt [grammar lexicon spec & [ depth index parent]]
@@ -104,7 +106,7 @@ of this function with complements."
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))
 
-(defn add-complement [bolt path spec grammar lexicon cache]
+(defn add-complement [bolt path spec grammar lexicon cache morph]
   (let [input-spec spec
         cache (if (future? cache) @cache cache)
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
@@ -151,7 +153,7 @@ of this function with complements."
                                (if is-fail? :fail result)))
                      
                            ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
-                           (let [phrasal-complements (generate-all spec grammar lexicon cache)]
+                           (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
                              (if (= (rand-int 2) 0)
                                (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
@@ -160,7 +162,10 @@ of this function with complements."
 
               ;; else, no complements could be added to this bolt.
               (do
-                (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for " from-bolt ". Complements tried were: " complement-candidate-lexemes))
+                (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
+                               (morph from-bolt) "(rule: " (:rule from-bolt) ")"
+                               ". Complements tried were: " (morph complement-candidate-lexemes)))
+                  
                 ;; TODO: show warn about not finding ny phrasal complements, as well as not finding any lexical complements.
                 (log/debug (str " fail-paths:"))
                 (vec (map (fn [lexeme]
@@ -175,10 +180,10 @@ of this function with complements."
       (do
         (list bolt)))))
 
-(defn add-complements-to-bolts [bolts path spec grammar lexicon cache]
+(defn add-complements-to-bolts [bolts path spec grammar lexicon cache morph]
   (if (seq bolts)
-    (lazy-cat (add-complement (first bolts) path spec grammar lexicon cache)
-              (add-complements-to-bolts (rest bolts) path spec grammar lexicon cache))))
+    (lazy-cat (add-complement (first bolts) path spec grammar lexicon cache morph)
+              (add-complements-to-bolts (rest bolts) path spec grammar lexicon cache morph))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

@@ -158,7 +158,7 @@ of this function with complements."
                                (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
           (let [run-time (- (System/currentTimeMillis) start-time)]
-            (if (not (empty? (seq return-val)))
+            (if (empty? (seq return-val))
 
               ;; else, no complements could be added to this bolt.
               (do

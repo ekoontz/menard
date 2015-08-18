@@ -269,17 +269,18 @@
   "soulever" {:synsem {:cat :verb
                        :sem {:pred :lift}}}
 
-
   "gérer" {:synsem {:cat :verb
-                    :sem {:pred :manage??}}}
+                    :sem {:pred :manage}}}
   "envoyer" {:synsem {:cat :verb
-                      :sem {:pred :send??}}}
+                      :sem {:pred :send}}}
   "touer" {:synsem {:cat :verb
-                    :sem {:pred :??}}}
+                    :sem {:pred :kill}}}
   "mettre" {:synsem {:cat :verb
-                     :sem {:pred :??}}}
-  "regarder" {:synsem {:cat :verb
-                       :sem {:pred :look/watch??}}}
+                     :sem {:pred :set}}}
+  "regarder" [{:synsem {:cat :verb
+                        :sem {:pred :look}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :watch}}}]
   
   "remarquer" {:synsem {:cat :verb
                         :sem {:pred :note??}}}

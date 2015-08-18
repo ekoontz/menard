@@ -121,6 +121,11 @@
     :synsem {:cat :verb
              :sem {:pred :to-be-missing}}}
 
+
+   "begin" {:synsem {:cat :verb
+                     :sem {:pred :begin}}
+            :english {:past "began"}}
+
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
                              :place false}}}
@@ -156,6 +161,9 @@
                          :obj {:buyable true}}}
           :english {:past "bought"
                     :present {:3sing "buys"}}}
+
+   "call" {:synsem {:cat :verb
+                     :sem {:pred :call}}}
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
@@ -489,11 +497,20 @@
                     :pred :io}
               :subcat '()}}]
 
+   "imagine" {:synsem {:cat :verb
+                     :sem {:pred :imagine}}}
+
+   "import" {:synsem {:cat :verb
+                :sem {:pred :import}}}
+
    "improve" {:synsem {:cat :verb
                 :sem {:pred :improve}}}
 
    "increase" {:synsem {:cat :verb
                         :sem {:pred :increase}}}
+
+   "insist" {:synsem {:cat :verb
+                      :sem {:pred :insist}}}
 
    "insure" {:synsem {:cat :verb
                       :sem {:pred :insure}}}
@@ -569,6 +586,9 @@
 
    "lie" {:synsem {:cat :verb
                 :sem {:pred :lie }}}
+
+             "learn" {:synsem {:cat :verb
+                     :sem {:pred :imparare}}}
 
    "listen to" {:synsem {:cat :verb
                          :sem {:pred :listen-to}}
@@ -952,6 +972,15 @@
                :synsem {:cat :verb
                         :sem {:pred :transfer}}}
 
+   "transfer" {:english {:past "transferred"
+                         :participle "transferring"}
+               :synsem {:cat :verb
+                        :sem {:pred :transfer}}}
+
+   "try" {:synsem {:cat :verb
+                   :sem {:pred :try}}
+          :english {:past "tried"}}
+            
    "understand" {:english {:past "understood"}
                  :synsem {:cat :verb
                           :sem {:pred :understand}}}

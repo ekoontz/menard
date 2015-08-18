@@ -69,7 +69,8 @@
     (forest/generate spec
                      (:grammar model)
                      (:lexicon model)
-                     (:index model))))
+                     (:index model)
+                     fo)))
 
 ;; TODO: factor out to forest/.
 (defn generate-all [ & [spec {use-grammar :grammar

@@ -1465,7 +1465,7 @@
                {:synsem {:cat :verb
                          :sem {:pred :wear}}}]
 
-   "prendere" {:synsem {:cat :verb :sem {:pred :prendere}}
+   "prendere" {:synsem {:cat :verb :sem {:pred :take}}
                :italiano {:passato "preso"}}
 
    "prepararsi" (let [subject-semantics (ref {:human true})

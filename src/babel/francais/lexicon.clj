@@ -17,9 +17,20 @@
    "anoncier" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
+   "appeler" {:synsem {:cat :verb
+                       :sem {:pred :call}}}
+
+   "apporter" [{:synsem {:cat :verb
+                         :sem {:pred :take}}}
+               {:synsem {:cat :verb
+                         :sem {:pred :carry}}}]
+
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
                          :sem {:pred :imparare}}}
+
+   "commencer" {:synsem {:cat :verb
+                         :sem {:pred :begin}}}
    "elle"
    {:synsem {:cat :noun
              :pronoun true

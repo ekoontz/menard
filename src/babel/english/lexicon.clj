@@ -879,7 +879,7 @@
                        :sem {:pred :support}}}
 
    "take"  {:synsem {:cat :verb
-                     :sem {:pred :prendere}}
+                     :sem {:pred :take}}
             :english {:past "took"}}
 
    "take advantage of" {:english {:past "took advantage of"
@@ -893,7 +893,7 @@
    {:synsem {:cat :verb
              :sem {:pred :talk
                    :subj {:human true}}}}
-
+   
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}
                             :english {:past "taught"}}

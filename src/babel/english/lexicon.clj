@@ -966,12 +966,6 @@
               :present {:3sing "throws out"}
               :participle "throwing out"}}
 
-
-   "transfer" {:english {:past "transferred"
-                         :participle "transferring"}
-               :synsem {:cat :verb
-                        :sem {:pred :transfer}}}
-
    "transfer" {:english {:past "transferred"
                          :participle "transferring"}
                :synsem {:cat :verb

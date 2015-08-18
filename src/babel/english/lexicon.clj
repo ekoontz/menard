@@ -586,10 +586,10 @@
 
    "lie" {:synsem {:cat :verb
                 :sem {:pred :lie }}}
-
-             "learn" {:synsem {:cat :verb
-                     :sem {:pred :imparare}}}
-
+   
+   "lift" {:synsem {:cat :verb
+                    :sem {:pred :lift}}}
+             
    "listen to" {:synsem {:cat :verb
                          :sem {:pred :listen-to}}
                 :english {:participle "listening to"

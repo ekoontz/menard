@@ -576,6 +576,9 @@
                    :sem {:pred :key
                          :place false}}}
 
+   "kill" {:synsem {:cat :verb
+                    :sem {:pred :kill}}}
+
    "learn" {:synsem {:cat :verb
                      :sem {:pred :imparare}}}
 
@@ -585,7 +588,7 @@
                            :obj {:place false}}}}
 
    "lie" {:synsem {:cat :verb
-                :sem {:pred :lie }}}
+                :sem {:pred :lie}}}
    
    "lift" {:synsem {:cat :verb
                     :sem {:pred :lift}}}
@@ -595,6 +598,9 @@
                 :english {:participle "listening to"
                           :past "listened to"
                           :present {:3sing "listens to"}}}
+
+   "look" {:synsem {:cat :verb
+                    :sem {:pred :look}}}
 
    "look for" {:synsem {:cat :verb
                         :sem {:pred :cercare}}
@@ -797,15 +803,18 @@
            :english {:past "saw"
                      :past-participle "seen"}}
 
-   "sell"  {:synsem {:cat :verb
-                     :sem {:pred :vendere
-                           :subj {:human true}
-                           :obj {:human false}}}
-            :english {:past "sold"}}
+   "sell" {:synsem {:cat :verb
+                    :sem {:pred :vendere
+                          :subj {:human true}
+                          :obj {:human false}}}
+           :english {:past "sold"}}
 
-   "send"  {:synsem {:cat :verb
-                     :sem {:pred :mandare}}
-                           :english {:past "sent"}}
+   "send" {:synsem {:cat :verb
+                    :sem {:pred :mandare}}
+           :english {:past "sent"}}
+
+   "set" {:synsem {:cat :verb
+                     :sem {:pred :set}}}
 
    "share" {:synsem {:cat :verb
                      :sem {:pred :share}}}
@@ -1016,6 +1025,9 @@
                                    :sem subject-semantics}}}})
    "waste" {:synsem {:cat :verb
                 :sem {:pred :waste}}}
+
+   "watch" {:synsem {:cat :verb
+                    :sem {:pred :watch}}}
    "we (♀)"
    {:synsem {:cat :noun
              :pronoun true

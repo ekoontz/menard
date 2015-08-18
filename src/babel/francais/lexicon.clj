@@ -283,17 +283,19 @@
                         :sem {:pred :watch}}}]
   
   "remarquer" {:synsem {:cat :verb
-                        :sem {:pred :note??}}}
+                        :sem {:pred :note}}}
 
   "observer" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
   
   "oublier" {:synsem {:cat :verb
-                      :sem {:pred :forget??}}}
+                      :sem {:pred :forget}}}
+
   "participer" {:synsem {:cat :verb
-                         :sem {:pred :participate??}}}
+                         :sem {:pred :participate}}}
+
   "diviser" {:synsem {:cat :verb
-                      :sem {:pred :divide??}}}
+                      :sem {:pred :divide}}}
    
    })
 

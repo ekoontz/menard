@@ -1337,7 +1337,7 @@
                         :sem {:pred :mancare}}}
    
    "mandare"  {:synsem {:cat :verb
-                        :sem {:pred :mandare}}}
+                        :sem {:pred :send}}}
 
    "mangiare"
     {:synsem {:cat :verb

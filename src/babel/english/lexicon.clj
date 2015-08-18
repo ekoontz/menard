@@ -823,7 +823,7 @@
            :english {:past "sold"}}
 
    "send" {:synsem {:cat :verb
-                    :sem {:pred :mandare}}
+                    :sem {:pred :send}}
            :english {:past "sent"}}
 
    "set" {:synsem {:cat :verb

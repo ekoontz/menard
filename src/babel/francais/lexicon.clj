@@ -52,6 +52,15 @@
                    :gender :fem
                    :pred :loro}
              :subcat '()}}
+
+   "essayer" {:synsem {:cat :verb
+                      :sem {:pred :try}}}
+
+   "gagner" [{:synsem {:cat :verb
+                      :sem {:pred :earn}}}
+            {:synsem {:cat :verb
+                      :sem {:pred :win}}}]
+
    "il"
    {:synsem {:cat :noun
              :pronoun true
@@ -73,15 +82,27 @@
                    :gender :masc
                    :pred :loro}
              :subcat '()}}
-   "je"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :1st
-                   :number :sing}
-              :sem {:human true
-                    :pred :io}
-             :subcat '()}}
+
+
+  "imaginer" {:synsem {:cat :verb
+                       :sem {:pred :imagine}}}
+  "importer" {:synsem {:cat :verb
+                       :sem {:pred :import}}}
+
+  "insister" {:synsem {:cat :verb
+                       :sem {:pred :insist}}}
+
+;;  "interessér" {:synsem {:cat :verb
+;;                         :sem {:pred :interest??}}}
+
+  "je" {:synsem {:cat :noun
+                 :pronoun true
+                 :case :nom
+                 :agr {:person :1st
+                       :number :sing}
+                 :sem {:human true
+                       :pred :io}
+                 :subcat '()}}
    "manger"
    {:synsem {:cat :verb
              :sem {:pred :mangiare}}}
@@ -245,29 +266,10 @@
   "marcher" {:synsem {:cat :verb
                       :sem {:pred :work-nonhuman}}}
   
-  "gagner" [{:synsem {:cat :verb
-                      :sem {:pred :earn}}}
-            {:synsem {:cat :verb
-                      :sem {:pred :win}}}]
-
-  "imaginer" {:synsem {:cat :verb
-                       :sem {:pred :imagine??}}}
-  "importer" {:synsem {:cat :verb
-                       :sem {:pred :import??}}}
-  "commencer" {:synsem {:cat :verb
-                        :sem {:pred :begin??}}}
-  "insister" {:synsem {:cat :verb
-                       :sem {:pred :insist??}}}
-  "essayer" {:synsem {:cat :verb
-                      :sem {:pred :try??}}}
-  "interessér" {:synsem {:cat :verb
-                         :sem {:pred :interest??}}}
   "soulever" {:synsem {:cat :verb
-                       :sem {:pred :lift??}}}
-  "appeler" {:synsem {:cat :verb
-                      :sem {:pred :call??}}}
-  "apporter" {:synsem {:cat :verb
-                       :sem {:pred :take/carry??}}}
+                       :sem {:pred :lift}}}
+
+
   "gérer" {:synsem {:cat :verb
                     :sem {:pred :manage??}}}
   "envoyer" {:synsem {:cat :verb

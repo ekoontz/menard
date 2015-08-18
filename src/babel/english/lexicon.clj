@@ -234,6 +234,9 @@
    "displace" {:synsem {:cat :verb
                 :sem {:pred :displace}}}
 
+   "divide" {:synsem {:cat :verb
+                      :sem {:pred :divide}}}
+   
    "drink" {:synsem {:cat :verb
                      :sem {:pred :bere
                            :discrete false
@@ -313,6 +316,10 @@
 
    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
+
+   "forget" {:synsem {:cat :verb
+                      :sem {:pred :forget}}
+             :english {:past "forgot"}}
 
    "form" {:synsem {:cat :verb
                     :sem {:pred :form}}}
@@ -670,6 +677,9 @@
                    :pred :io}
              :subcat '()}}
 
+   "note" {:synsem {:cat :verb
+                    :sem {:pred :note}}}
+
    "observe" {:synsem {:cat :verb
                 :sem {:pred :observe}}}
 
@@ -707,6 +717,9 @@
    "paint"  {:synsem {:cat :verb
                       :sem {:pred :dipingere}}}
 
+   "participate"  {:synsem {:cat :verb
+                            :sem {:pred :participate}}}
+   
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").
    "play" [{:comment "We are talking about playing games or sports."

@@ -19,7 +19,7 @@
 
 ;; pass'e compos'e begins here
 (defn passe-compose [word]
-  (let [infinitive (get-in word '(:français))
+  (let [infinitive (get-in word '(:français :français))
         er-type (re-find #"[eé]r$" infinitive) ;; c.f. italiano -are
         re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
         ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
@@ -48,15 +48,12 @@
        (str butlast (suffix-of word)))
 
      ;; conjugate regular passato
-     (and (= :past (get-in word '(:infl)))
-          (string? (get-in word '(:français))))
-     (let [infinitive (get-in word '(:français))]
-
-       {:infinitive infinitive
-        :er-type er-type
-        :ir-type ir-type
-        :re-type re-type
-        :g-stem g-stem}))))
+     (= :past (get-in word '(:infl)))
+     {:infinitive infinitive
+      :er-type er-type
+      :ir-type ir-type
+      :re-type re-type
+      :g-stem g-stem})))
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 ;; TODO: lots of redundant code with other languages than French: refactor.

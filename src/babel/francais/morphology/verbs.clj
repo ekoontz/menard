@@ -25,60 +25,59 @@
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-    ;; QUI COMINCIA IL FUTURO FRANCESE
     (cond
-     
-     (and (= person :1st) (= number :sing) er-type)
-     (str stem "erai")
-     (and (= person :1st) (= number :sing) ir-type)
-     (str stem "iré")
-     (and (= person :1st) (= number :sing) re-type)
-     (str stem "rai")
-     
-     (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "iras")
-     (and (= person :2nd) (= number :sing) er-type)
-     (str stem "eras")
-     (and (= person :2nd) (= number :sing) re-type)
-     (str stem "ras")
-                            
-     (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "ira")
-     (and (= person :3rd) (= number :sing) er-type)
-     (str stem "era")
-     (and (= person :3rd) (= number :sing) re-type)
-     (str stem "ra")
-              
-     (and (= person :1st) (= number :plur) er-type)
-     (str stem "erons")
-     (and (= person :1st) (= number :plur) ir-type)
-     (str stem "irons")
-     (and (= person :1st) (= number :plur) re-type)
-     (str stem "rons")
-              
-     ;; <second person plural future>
-     (and (= person :2nd) (= number :plur) er-type)
-     (str stem "erez")
-     (and (= person :2nd) (= number :plur) ir-type)
-     (str stem "irez")
-     (and (= person :2nd) (= number :plur) re-type)
-     (str stem "rez")
-     ;; </second person plural future>
 
-     ;; <third person plural future>
+     (and (= person :1st) (= number :sing) er-type)
+     (str stem "erais")
+     (and (= person :1st) (= number :sing) ir-type)
+     (str stem "irais")
+     (and (= person :1st) (= number :sing) re-type)
+     (str stem "rais")
+
+     (and (= person :2nd) (= number :sing) ir-type)
+     (str stem "erais")
+     (and (= person :2nd) (= number :sing) er-type)
+     (str stem "irais")
+     (and (= person :2nd) (= number :sing) re-type)
+     (str stem "rais")
+    
+     (and (= person :3rd) (= number :sing) ir-type)
+     (str stem "erait")
+     (and (= person :3rd) (= number :sing) er-type)
+     (str stem "irait")
+     (and (= person :3rd) (= number :sing) re-type)
+     (str stem "rait")
+     
+     (and (= person :1st) (= number :plur) er-type)
+     (str stem "erions")
+     (and (= person :1st) (= number :plur) ir-type)
+     (str stem "irions")
+     (and (= person :1st) (= number :plur) re-type)
+     (str stem "rions")
+
+     (and (= person :2nd) (= number :plur) er-type)
+     (str stem "eriez")
+     (and (= person :2nd) (= number :plur) ir-type)
+     (str stem "iriez")
+     (and (= person :2nd) (= number :plur) re-type)
+     (str stem "riez")
+
+     ;; </second person plural conditional>
+
+     ;; <third person plural conditional>
      (and (= person :3rd) (= number :plur)
           er-type)
-     (str stem "eront")
+     (str stem "eraient")
      (and (= person :3rd) (= number :plur)
           ir-type)
-     (str stem "iront")
+     (str stem "iraient")
      (and (= person :3rd) (= number :plur)
           re-type)
-     (str stem "ront")
-     ;; </third person plural future>
-              
+     (str stem "raient")
+     
+     ;; </third person plural conditional>
      :else
-     (throw (Exception. (str "get-string: futuro regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
 (defn future [word]
   (let [infinitive (get-in word '(:français))
@@ -97,7 +96,6 @@
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-    ;; QUI COMINCIA IL FUTURO FRANCESE
     (cond
      
      (and (= person :1st) (= number :sing) er-type)

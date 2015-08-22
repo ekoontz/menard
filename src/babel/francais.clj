@@ -9,7 +9,7 @@
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [grammar]])
 (require '[babel.francais.lexicon :refer [lexicon-source]])
-(require '[babel.francais.morphology :refer [analyze exception-generator fo get-string passe-compose phonize]])
+(require '[babel.francais.morphology :refer [analyze exception-generator fo get-string phonize]])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 
 (require '[babel.parse :as parse])

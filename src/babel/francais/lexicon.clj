@@ -68,10 +68,6 @@
 
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
-
-
-
-
    "être"
    (let [infl (ref :top)
          agr (ref :top)]

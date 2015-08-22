@@ -252,9 +252,14 @@
         last-stem-char-is-e (re-find #"er$" infinitive)
                  person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))
-        passe-compose-suffix "é"
-        ]
+        passe-compose-suffix
+        (cond er-type "é"
+              re-type "u"
+              ir-type "i"
+              true
+              (throw (Exception. (str "passe-compose: don't know what to do with input argument " word))))]
     (cond
+     ;; irregular
      (get-in word [:passato])
      (get-in word [:passato])
      

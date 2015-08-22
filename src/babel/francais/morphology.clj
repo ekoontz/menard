@@ -2,14 +2,61 @@
   (:refer-clojure :exclude [get-in merge resolve]))
 
 (require '[babel.stringutils :refer :all])
+(require '[babel.francais.morphology.nouns :as nouns])
 (require '[clojure.core :as core])
 (require '[clojure.string :as string])
 (require '[clojure.string :refer (trim)])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
+
 (declare get-string)
 (declare suffix-of)
+
+(defn analyze [surface-form lookup-fn]
+  "return the map incorporating the lexical information about a surface form..."
+  (lookup-fn surface-form))
+
+;; pass'e compos'e begins here
+(defn passe-compose [word]
+  (let [infinitive (get-in word '(:français))
+        er-type (re-find #"[eé]r$" infinitive) ;; c.f. italiano -are
+        re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
+        ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
+        stem (string/replace infinitive #"[iaeé]r$" "")
+        stem (if re-type
+               (string/replace infinitive #"re$" "")
+               stem)
+        last-stem-char-is-i (re-find #"ir$" infinitive)
+        last-stem-char-is-e (re-find #"er$" infinitive)
+                 person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        g-stem (re-find #"[g]er$" infinitive)]
+    (cond
+     ;;
+     ;; conjugate irregular passato: option 1) using :passato-stem
+     (and (= :past (get-in word '(:infl)))
+          (get-in word '(:passato-stem)))
+     (let [irregular-passato (get-in word '(:passato-stem))]
+       (str irregular-passato (suffix-of word)))
+
+     ;; conjugate irregular passato: option 2) using :passato
+     (and (= :past (get-in word '(:infl)))
+          (get-in word '(:passato)))
+     (let [irregular-passato (get-in word '(:passato))
+           butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
+       (str butlast (suffix-of word)))
+
+     ;; conjugate regular passato
+     (and (= :past (get-in word '(:infl)))
+          (string? (get-in word '(:français))))
+     (let [infinitive (get-in word '(:français))]
+
+       {:infinitive infinitive
+        :er-type er-type
+        :ir-type ir-type
+        :re-type re-type
+        :g-stem g-stem}))))
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 ;; TODO: lots of redundant code with other languages than French: refactor.
@@ -574,316 +621,10 @@
      true
      expr)))
 
-(defn stem-per-passato-prossimo [infinitive]
-  "_infinitive_ should be a string (italian verb infinitive form)"
-  (string/replace infinitive #"^(.*)([aei])(re)$" (fn [[_ prefix vowel suffix]] (str prefix))))
-
-(defn passato-prossimo [infinitive]
-  (str (stem-per-passato-prossimo infinitive) "ato"))
-
-;; allows reconstruction of the infinitive form from the inflected form
-(def future-to-infinitive
-  {
-   ;; future
-   #"ò$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :sing
-                                  :person :1st}}}}
-   #"ai$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-   #"à$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   #"emo$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :plur
-                                  :person :1st}}}}
-   #"ete$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-   #"anno$" 
-   {:replace-with "e"
-    :unify-with {:français {:infl :futuro
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-(def present-to-infinitive-ire
-  {
-   ;; present -ire
-   #"o$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-   
-   #"i$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-
-   #"e$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-
-   #"iamo$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-   
-   #"ono$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-
-(def present-to-infinitive-ere
-  {;; present -ere
-   #"o$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-
-   #"i$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-   
-   #"e$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   
-   #"iamo$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-   
-   #"ano$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-(def present-to-infinitive-are
-  {
-   ;; present -are
-   #"o$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-
-   #"i$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-
-   #"e$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   
-   #"iamo$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-
-   #"ano$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-(def imperfect-to-infinitive-irreg1
-  {
-   ;; e.g.: "bevevo/bevevi/..etc" => "bere"
-   #"vevo$"
-   {:replace-with "re"
-    :unify-with {:français {:infl :imperfetto
-                            :agr {:number :sing
-                                  :person :1st}}}}
-
-   #"vevi$"
-   {:replace-with "re"
-    :unify-with {:français {:infl :imperfetto
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-
-   #"veva$"
-   {:replace-with "re"
-    :unify-with {:français {:infl :imperfetto
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   })
-
-(def past-to-infinitive
-  {#"ato$"
-   {:replace-with "are"
-    :unify-with {:français {:infl :past}}}
-
-   #"ito$"
-   {:replace-with "ire"
-    :unify-with {:français {:infl :past}}}
-
-   #"uto$"
-   {:replace-with "ere"
-    :unify-with {:français {:infl :past}}}})
-
-(def plural-to-singular-noun-fem-1
-  {#"e$"
-   {:replace-with "a"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:gender :fem
-                                :number :plur}}}}})
-
-(def plural-to-singular-noun-masc-1
-  {#"i$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:number :plur}}}}})
-
-(def plural-to-singular-noun-masc-2 ;; e.g. "cani" -> "cane"
-  {#"i$"
-   {:replace-with "e"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:number :plur}}}}})
-
-
-(def plural-to-singular-adj-masc
-  {#"i$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :masc
-                                :number :plur}}}}})
-
-(def plural-to-singular-adj-fem-sing
-  {#"a$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :sing}}}}})
-
-(def plural-to-singular-adj-fem-plur
-  {#"e$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :plur}}}}})
-
 (def infinitive-to-infinitive
   {:identity
    {:unify-with {:synsem {:cat :verb
                           :infl :infinitive}}}})
-
-(def lexical-noun-to-singular
-  {:identity
-   {:unify-with {:synsem {:cat :noun
-                          :agr {:number :sing}}}}})
-
-(defn analyze [surface-form lookup-fn]
-  "return the map incorporating the lexical information about a surface form."
-  (let [replace-pairs
-        ;; Even though it's possible for more than one KV pair to have the same key:
-        ;; e.g. plural-to-singular-noun-masc-1 and plural-to-singular-noun-masc-2 both have
-        ;; #"i$", they are distinct as separate keys in this 'replace-pairs' hash, as they should be.
-        (merge 
-         future-to-infinitive
-         imperfect-to-infinitive-irreg1
-         infinitive-to-infinitive ;; simply turns :top into :infl
-         lexical-noun-to-singular ;; turns :number :top to :number :sing
-         past-to-infinitive
-         present-to-infinitive-ire
-         present-to-infinitive-ere
-         present-to-infinitive-are
-         plural-to-singular-noun-fem-1
-         plural-to-singular-noun-masc-1
-         plural-to-singular-noun-masc-2
-         plural-to-singular-adj-masc
-         plural-to-singular-adj-fem-plur
-         plural-to-singular-adj-fem-sing
-         )
-        
-        analyzed
-        (remove fail?
-                (mapcat
-                 (fn [key]
-                   (if (and (not (keyword? key)) (re-find key surface-form))
-                        (let [replace-with (get replace-pairs key)
-                              lexical-form (if (= key :identity)
-                                             surface-form
-                                             (string/replace surface-form key
-                                                             (:replace-with replace-with)))
-                              looked-up (lookup-fn lexical-form)]
-                          (map #(unifyc 
-                                 %
-                                 (:unify-with replace-with))
-                               looked-up))))
-                 (keys replace-pairs)))
-
-        ;; Analyzed-via-identity is used to handle infinitive verbs: converts them from unspecified inflection to
-        ;; {:infl :infinitive}
-        ;; Might also be used in the future to convert nouns from unspecified number to singular number.
-        analyzed-via-identity
-        (remove fail?
-                (mapcat
-                 (fn [key]
-                   (if (and (keyword? key) (= key :identity))
-                        (let [lexical-form surface-form
-                              looked-up (lookup-fn lexical-form)]
-                          (map #(unifyc 
-                                 %
-                                 (:unify-with (get replace-pairs key)))
-                               looked-up))))
-                 (keys replace-pairs)))]
-
-
-    (concat
-     analyzed
-
-     ;; also lookup the surface form itself, which
-     ;; might be either the canonical form of a word, or an irregular conjugation of a word.
-     (if (not (empty? analyzed-via-identity))
-       analyzed-via-identity
-       (lookup-fn surface-form)))))
 
 (defn exception-generator [lexicon]
   (let [lexeme-kv (first lexicon)
@@ -1016,13 +757,7 @@
                        :infl infl}}))
 
    (= (get-in lexical-entry [:synsem :cat]) :noun)
-   (let [agr (ref :top)
-         cat (ref :top)]
-     (unifyc lexical-entry
-             {:français {:agr agr
-                        :cat cat}
-              :synsem {:agr agr
-                       :cat cat}}))
+   (nouns/agreement lexical-entry)
 
    true
    lexical-entry))

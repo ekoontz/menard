@@ -13,8 +13,9 @@
 (declare get-string)
 (declare suffix-of)
 
-;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
-;; TODO: lots of redundant code with other languages than French: refactor.
+;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
+;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
+;; 
 (defn get-string [word & [b]]
   (cond (and (nil? b)
              (seq? word))

@@ -572,7 +572,7 @@
         (str stem "amos")
 
         (and (= person :1st) (= number :plur) er-type)
-        (str stem "emos")
+        (str stem "imos")
 
         (and (= person :1st) (= number :plur) ir-type)
         (str stem "imos")

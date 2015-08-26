@@ -145,47 +145,47 @@
       (= (get-in word '(:infl)) :conditional)
       (string? (get-in word '(:espanol))))
      (verbs/conditional word
-                        {usted :usted
-                         tú :tu
-                         vosotros :vosotros
-                         ustedes :ustedes
+                        {:usted usted
+                         :tú tú
+                         :vosotros vosotros
+                         :ustedes ustedes
                          })              
      (and
       (= (get-in word '(:infl)) :futuro)
       (string? (get-in word '(:espanol))))
      (verbs/future word
-                   {usted :usted
-                    tú :tu
-                    vosotros :vosotros
-                    ustedes :ustedes
+                   {:usted usted
+                    :tú tú
+                    :vosotros vosotros
+                    :ustedes ustedes
                     })
      (and
       (= (get-in word '(:infl)) :imperfetto)
       (string? (get-in word '(:espanol))))
      (verbs/imperfect word
-                      {usted :usted
-                       tú :tu
-                       vosotros :vosotros
-                       ustedes :ustedes
+                      {:usted usted
+                       :tú tú
+                       :vosotros vosotros
+                       :ustedes ustedes
                        })
      (and
       (= (get-in word '(:infl)) :present)
       (string? (get-in word '(:espanol))))
      (verbs/present word
-                    {usted :usted
-                     tú :tu
-                     vosotros :vosotros
-                     ustedes :ustedes
+                    {:usted usted
+                     :tú tú
+                     :vosotros vosotros
+                     :ustedes ustedes
                      })
 
      (and
       (= (get-in word '(:infl)) :preterito)
       (string? (get-in word '(:espanol))))
      (verbs/preterito word
-                      {usted :usted
-                       tú :tu
-                       vosotros :vosotros
-                       ustedes :ustedes
+                      {:usted usted
+                       :tú tú
+                       :vosotros vosotros
+                       :ustedes ustedes
                        })
                       
      (string? (get-in word [:espanol]))

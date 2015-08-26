@@ -220,3 +220,7 @@
                             (list lexeme)))
                         lexemes))
               (vals @lexicon)))))
+
+(def verbs (filter (fn [lexeme]
+                     (contains? (set (get-in (get @lexicon lexeme) [:synsem :cat])) :verb))
+                   (keys @lexicon)))

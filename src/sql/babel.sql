@@ -15,4 +15,4 @@ CREATE SEQUENCE expression_id_seq
 
 ALTER TABLE ONLY expression ALTER COLUMN id SET DEFAULT nextval('expression_id_seq'::regclass);
 
-
+CREATE INDEX language_idx ON expression (language);

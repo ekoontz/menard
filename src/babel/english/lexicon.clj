@@ -105,7 +105,14 @@
                                     :2plur "are missed"
                                     :3plur "are missed"}}}
 
-   "be missing" {:english {:present {:1sing "am missing"
+   ;; TODO: for imperfect, generates things like 'he was be missinging'.
+   "be missing" {:english {:imperfect {:1sing "was missing"
+                                       :2sing "were missing"
+                                       :3sing "was missing"
+                                       :1plur "were missing"
+                                       :2plur "were missing"
+                                       :3plur "were missing"}
+                           :present {:1sing "am missing"
                                      :2sing "are missing"
                                      :3sing "is missing"
                                      :1plur "are missing"
@@ -117,8 +124,6 @@
                                   :1plur "were missing"
                                   :2plur "were missing"
                                   :3plur "were missing"}}
-                 :disable :fail ;; morphology not working for this verb:
-                 ;; generates things like 'he was be missinging'.
                  :synsem {:cat :verb
                           :sem {:pred :to-be-missing}}}
 

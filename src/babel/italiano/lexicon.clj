@@ -1,25 +1,7 @@
 (ns babel.italiano.lexicon
   (:require
    [babel.lexiconfn :refer (unify)]
-   [babel.italiano.pos :refer (adjective 
-                               agreement-noun
-                               cat-of-pronoun
-                               common-noun
-                               comparative
-                               countable-noun
-                               determiner
-                               drinkable-noun
-                               feminine-noun
-                               intransitive
-                               intransitive-unspecified-obj
-                               masculine-noun
-                               non-comparative-adjective
-                               noun
-                               pronoun-acc
-                               sentential-adverb
-                               transitive verb-subjective
-                               verb-aux)]
-   ))
+   [babel.italiano.pos :refer :all]))
 
 (def lexicon-source
   {"Antonia"

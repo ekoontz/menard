@@ -402,7 +402,10 @@
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (string/replace infinitive #"[iae]r$" "")
+        stem (cond (get-in word [:boot-stem1]) ;; if there is a :boot-stem1, use that..
+                   (get-in word [:boot-stem1])
+                   true ;; otherwise, pattern-match on the infinitive.
+                   (string/replace infinitive #"[iae]r$" ""))
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)

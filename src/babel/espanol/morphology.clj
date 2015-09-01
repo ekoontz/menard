@@ -382,25 +382,21 @@
     :unify-with {:espanol {:infl :present
                             :agr {:number :sing
                                   :person :2nd}}}}
-   
    #"e$"
    {:replace-with "ere"
     :unify-with {:espanol {:infl :present
                             :agr {:number :sing
                                   :person :3rd}}}}
-   
    #"iamo$"
    {:replace-with "ere"
     :unify-with {:espanol {:infl :present
                             :agr {:number :plur
                                   :person :1st}}}}
-
    #"ete$"
    {:replace-with "ere"
     :unify-with {:espanol {:infl :present
                             :agr {:number :plur
                                   :person :2nd}}}}
-   
    #"ano$"
    {:replace-with "ere"
     :unify-with {:espanol {:infl :present

@@ -402,13 +402,25 @@
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (cond (and (get-in word [:pret-stem])
-                        ;; if there is a :pret-stem, use that for 3rd person (singular or plural).
-                        (= :3rd (get-in word [:agr :person])))
-                   (get-in word [:pret-stem])
 
-                   true ;; otherwise, pattern-match on the infinitive.
-                   (string/replace infinitive #"[iae]r$" ""))
+        ;; default stem: will be used except under certain conditions, as described in next check.
+        stem (string/replace infinitive #"[iae]r$" "")
+
+        stem (if (get-in word [:pret-stem])
+               (cond  (and usted ;; if we in usted mode, and person is 2nd.
+                           (= :2nd (get-in word [:agr :person])))
+                      (get-in word [:pret-stem])
+                      
+                      (and ustedes  ;; if we in ustedes mode, and person is 2nd.
+                           (= :2nd (get-in word [:agr :person])))
+                      (get-in word [:pret-stem])
+                      
+                      (= :3rd (get-in word [:agr :person]))
+                      (get-in word [:pret-stem])
+                      true
+                      stem)
+               stem)
+               
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)

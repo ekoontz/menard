@@ -1,34 +1,34 @@
-;; Command line usage: 'lein run -m repair.es.todos/fix'
-(ns repair.es.todos)
-(require '[babel.writer :refer [fill-by-spec fill-verb write-lexicon]])
+;; Command line usage: 'lein run -m repair.fr.tout/fix <count>'
+(ns repair.fr.tout)
+(require '[babel.writer :refer [write-lexicon]])
 (require '[babel.english :as en])
-(require '[babel.espanol :as es :refer [verbs]])
-(require '[babel.espanol.morphology :as morph :refer [fo]])
+(require '[babel.francais :as fr :refer [parse verbs]])
+(require '[babel.francais.morphology :as morph :refer [fo]])
 (require '[babel.parse :as parse])
 (require '[babel.reader :as reader])
 (require '[babel.repair :refer [process]])
+;; these requires are for debugging/testing.
 (require '[clojure.data.json :as json])
 (require '[dag-unify.core :refer [unify deserialize]])
 
-(defn fix [ & [count]]
-  (let [count 10]
-    (write-lexicon "es" @es/lexicon)
+(defn fix [& [count]]
+  (let [count (if count count 10)]
+    (write-lexicon "fr" @fr/lexicon)
     (process
      (reduce concat
              (map (fn [verb]
                     (map (fn [tense]
                            {:fill
-                            {:spec (unify {:root {:espanol {:espanol verb}}}
+                            {:spec (unify {:root {:français {:français verb}}}
                                           tense)
                              :source-model en/small
-                             :target-model es/small
+                             :target-model fr/small
                              :count count}})
                          (shuffle
                           [
-                           {:synsem {:sem {:aspect :perfect
-                                           :tense :past}}}
                            {:synsem {:sem {:tense :conditional}}}
                            {:synsem {:sem {:tense :futuro}}}
+                           {:synsem {:sem {:infl :past}}}
                            {:synsem {:sem {:tense :present}}}
                            ])
                          ))

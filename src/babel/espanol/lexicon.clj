@@ -209,8 +209,9 @@
    "expresar" {:synsem {:cat :verb
                         :sem {:pred :express}}}
    
-   "faltar" {:synsem {:cat :verb
-                      :sem {:pred :to-be-missing}}}
+   ;; TODO: fix up so that it does not need to be disabled.
+;   "faltar" {:synsem {:cat :verb
+;                      :sem {:pred :to-be-missing}}}
    
    "formar" {:synsem {:cat :verb
                       :sem {:pred :form}}}

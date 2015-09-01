@@ -302,14 +302,14 @@
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         
-        stem (cond (and (get-in word [:boot-stem1])
+        stem (cond (and (get-in word [:boot-stem])
                         (or (= (get-in word [:agr :number])
                                :sing)
                             (and (= (get-in word [:agr :person])
                                     :3rd)
                                  (= (get-in word [:agr :number])
                                     :plur))))
-                   (get-in word [:boot-stem1])
+                   (get-in word [:boot-stem])
                    true
                    (string/replace infinitive #"[iae]r$" ""))
         
@@ -402,10 +402,10 @@
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (cond (and (get-in word [:boot-stem2])
-                        ;; if there is a :boot-stem2, use that for 3rd person (singular or plural).
+        stem (cond (and (get-in word [:pret-stem])
+                        ;; if there is a :pret-stem, use that for 3rd person (singular or plural).
                         (= :3rd (get-in word [:agr :person])))
-                   (get-in word [:boot-stem2])
+                   (get-in word [:pret-stem])
 
                    true ;; otherwise, pattern-match on the infinitive.
                    (string/replace infinitive #"[iae]r$" ""))

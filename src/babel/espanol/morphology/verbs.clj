@@ -52,9 +52,9 @@
      (and (= person :3rd) (= number :sing) ar-type)
      (str stem "aría")
      (and (= person :3rd) (= number :sing) er-type)
-     (str stem "iría")
-     (and (= person :3rd) (= number :sing) ir-type)
      (str stem "ería")
+     (and (= person :3rd) (= number :sing) ir-type)
+     (str stem "iría")
 
      (and (= person :1st) (= number :plur) ar-type)
      (str stem "aríamos")

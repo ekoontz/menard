@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in merge resolve]))
 (require '[babel.stringutils :refer :all])
 (require '[babel.espanol.morphology.nouns :as nouns])
+;; TODO: exclude clojure/core's future to prevent warnings "WARNING: future already refers to: #'clojure.core/future"
 (require '[clojure.core :as core])
 (require '[clojure.string :as string])
 (require '[clojure.string :refer (trim)])
@@ -103,7 +104,8 @@
 
      :else
      (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
-  
+
+;; TODO: mask clojure/core's future to prevent warnings "WARNING: future already refers to: #'clojure.core/future"
 (defn future [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]
@@ -393,6 +395,7 @@
      :else
      (throw (Exception. (str "get-string-1: present regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
+;; TODO: word should have usted/vosotros/etc inside it, not passed along here.
 (defn preterito [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]

@@ -10,8 +10,13 @@
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]
                  [korma "0.4.1"]
+                 [log4j/log4j "1.2.16" :exclusions [javax.mail/mail
+                                                    javax.jms/jms
+                                                    com.sun.jdmk/jmxtools
+                                                    com.sun.jmx/jmxri]]
                  [org.clojure/clojure "1.5.1"]
                  [org.clojure/data.json "0.2.5"]
+                 [org.clojure/tools.logging "0.2.6"]
                  [org.postgresql/postgresql "9.4-1201-jsonb-jdbc41-SNAPSHOT"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]

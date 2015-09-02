@@ -57,7 +57,9 @@
                                                   source-language-model :enrich true)
 
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
-        debug (log/debug (str "semantics: " semantics))
+        debug (log/debug (str "semantics of resulting expression: " semantics))
+        debug (log/trace (str "entire expression: " target-language-sentence))
+        debug (log/trace (str "french: " (get-in target-language-sentence [:français])))
 
         target-language-surface (target-fo target-language-sentence)
         debug (log/debug (str "target surface: " target-language-surface))
@@ -75,7 +77,14 @@
                   (if (= true mask-populate-errors)
                     (log/warn message)
                     ;; else
-                    (throw (Exception. message)))))
+                    (let [target-language-model (if (future? target-language-model)
+                                                  @target-language-model
+                                                  target-language-model)]
+                      (log/error message)
+                      (log/error "grammar: " (map :rule (:grammar target-language-model)))
+                      (log/error "lexicon: " (map (:morph target-language-model)
+                                                  (sort (keys (:lexicon target-language-model)))))
+                      (throw (Exception. message))))))
         source-language-sentence (engine/generate {:synsem {:sem semantics
                                                             :subcat '()}}
                                                   source-language-model
@@ -132,8 +141,8 @@
 (defn populate [num source-language-model target-language-model & [ spec table ]]
   (let [spec (if spec spec :top)
         debug (log/debug (str "populate spec(1): " spec))
-        debug (log/debug (str "type of source language model: " (type source-language-model)))
-        debug (log/debug (str "type of target language model: " (type target-language-model)))
+        debug (log/trace (str "type of source language model: " (type source-language-model)))
+        debug (log/trace (str "type of target language model: " (type target-language-model)))
         spec (cond
               (not (= :notfound (get-in spec [:synsem :sem :subj] :notfound)))
               (unify spec

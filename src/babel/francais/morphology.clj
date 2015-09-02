@@ -194,6 +194,9 @@
    (string? input)
    input
 
+   (get-in input [:français])
+   (string/trim (str (get-string (get-in input [:français]))))
+
    (and (map? input)
         (get-in input [:a])
         (get-in input [:b]))

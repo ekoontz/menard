@@ -59,7 +59,7 @@
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
         debug (log/debug (str "semantics: " semantics))
 
-        target-language-surface "wtf??" ;;(target-fo target-language-sentence)
+        target-language-surface (target-fo target-language-sentence)
         debug (log/debug (str "target surface: " target-language-surface))
 
         source-language (:language (if (future? source-language-model)

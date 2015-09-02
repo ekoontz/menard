@@ -1,3 +1,8 @@
+;; Command-line usage:
+;;
+;; lein run -m es/todos
+;; lein run -m es/todos <num>
+
 (ns es)
 
 (require '[babel.writer :refer [fill-by-spec fill-verb write-lexicon]])

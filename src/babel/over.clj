@@ -94,8 +94,8 @@
                   (unifyc {:head child}
                           {:head {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
       (if (not (fail? result))
-        (let [debug (log/debug (str "moreover-head " (get-in parent '(:comment)) " (SUCCESS) result sem: " (get-in result '(:synsem :sem))))
-              debug (log/debug (str "moreover-head (SUCCESS) parent (2x) sem: " (get-in parent '(:synsem :sem))))]
+        (let [debug (log/debug (str "moreover-head " (get-in parent '(:rule)) " succeeded; resulting sem: " (get-in result '(:synsem :sem))))
+              debug (log/debug (str "moreover-head parent sem was: " (get-in parent '(:synsem :sem))))]
           (merge {:head-filled true}
                  result))
 
@@ -130,7 +130,7 @@
                         {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
 
     (if (not (fail? result))
-      (let [debug (log/debug (str "moreover-comp (SUCCESS) parent (2x) sem: " (get-in parent '(:synsem :sem))))]
+      (let [debug (log/debug (str "moreover-comp added parent to child: " (:rule parent)))]
         (let [result
               (merge {:comp-filled true}
                      result)]
@@ -160,11 +160,14 @@
   (log/trace (str "seq? head:" (seq? head)))
   (log/trace (str "vector? head:" (vector? head)))
 
-  (if (map? parent)
-    (if (get-in parent '(:aliases))
-      (log/debug (str "overh: parent:" (get-in parent '(:aliases))))
+  (when (map? parent)
+    (do
+      (if (get-in parent '(:aliases))
+        (log/debug (str "overh: parent aliases:" (get-in parent '(:aliases)))))
       (if (get-in parent '(:comment))
-        (log/debug (str "overh: parent:" (get-in parent '(:comment)))))))
+        (log/trace (str "overh: parent comment:" (get-in parent '(:comment)))))
+      (if (get-in parent '(:rule))
+        (log/debug (str "overh: parent rule:" (get-in parent '(:rule)))))))
 
   (cond
 

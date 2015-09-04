@@ -16,12 +16,12 @@
                          (do
                            (if (:sql member-of-unit)
                              (do
-                               (println (str "doing sql: " (:sql member-of-unit)))
+                               (log/debug (str "doing sql: " (:sql member-of-unit)))
                                (exec-raw (:sql member-of-unit))))
 
                            (if (:fill member-of-unit)
                              (let [count (or (->> member-of-unit :fill :count) 10)]
-                               (println (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
+                               (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
                                              "; count=" count))
                                (fill-by-spec
                                 (->> member-of-unit :fill :spec)

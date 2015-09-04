@@ -36,7 +36,6 @@
              :subcat {:1 {:cat :noun
                           :sem {:city true}}}}}
 
-
        ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
        (let [complement-semantics (ref {:pred :a
                                         :mod {:pred :a}})]
@@ -289,7 +288,6 @@
                        :activity false
                        :discrete false
                        :subj {:human true}}}})
-
 
       ;; 3. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
       (let [agr-of-obj-of-main-verb (ref :top)]

@@ -33,7 +33,7 @@
                          transitivize
                          
                          ;; Cleanup functions can go here. Number them for ease of reading.
-                         ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 
+                         ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                          ;; rather than not having any inflection.
                          (map-function-on-map-vals 
                           (fn [k vals]

@@ -28,11 +28,11 @@
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
                          :sem {:pred :imparare}}}
-
    "avoir"
    {:synsem {:essere false
+             :sem {:pred :avere}
              :cat :verb}
-    :italiano {:français "avoir"
+    :français {:infinitive "avoir"
                :futuro-stem "aur"
                :drop-e true
                :present {:1sing "ai"

@@ -59,4 +59,7 @@
                                       {:synsem {:sem {:aspect :perfect
                                                       :tense :past}}})))))
                 (reduce concat
-                        (vals root-verbs))))))
+                        (map (fn [key]
+                               (get root-verbs key))
+                             (sort (keys root-verbs))))))))
+

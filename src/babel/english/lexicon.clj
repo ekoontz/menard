@@ -866,7 +866,7 @@
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}}
            :english {:past "snapped"
-                     :note "(pictures)"}}
+                     :note "pictures"}}
 
    "some"
    [{:synsem {:cat :det

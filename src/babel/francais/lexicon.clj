@@ -248,10 +248,6 @@
   "créer" {:synsem {:cat :verb
                     :sem {:pred :create}}}
   
-  ;; TODO: clarify semantics of this in English 
-  "cumplir" {:synsem {:cat :verb
-                      :sem {:pred :turn-years}}}
-                     
   "devoir" {:synsem {:cat :verb
                      :sem {:pred :have-to}}}
   ;; IRREGOLARE

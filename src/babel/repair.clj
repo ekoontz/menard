@@ -31,7 +31,7 @@
                                 (->> member-of-unit :fill :target-model))))
                            (if (:fill-verb member-of-unit)
                              (do
-                               (println (str "doing fill-verb: " (:fill-verb member-of-unit)))
+                               (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
                                (let [verb (:fill-verb member-of-unit)]
                                  (.size (fill-verb
                                          (:fill-verb member-of-unit)

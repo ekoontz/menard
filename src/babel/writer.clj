@@ -19,7 +19,7 @@
 ;; TODO: more fine-grained approach to dealing with exceptions:
 ;; should be sensitive to what caused the failure:
 ;; (which language,lexicon,grammar,etc..).
-(def mask-populate-errors true)
+(def mask-populate-errors false)
 
 (defn expression-pair [source-language-model target-language-model spec]
   "Generate a pair: {:source <source_expression :target <target_expression>}.
@@ -228,12 +228,15 @@
         (log/warn (str "There are already " current-target-count " expressions for this spec.")))
       (if (> count 0)
         (do
-          (log/info (str "Generating " count " target expressions."))
+          (log/info (str "Generating "
+                         count
+                         (if (> current-target-count 0) " more")
+                         " expressions."))
           (populate count
                     source-model
                     target-model
                     spec table))
-        (log/warn (str " not generating any new expressions for this spec."))))))
+        (log/warn (str "Since no more are required, not generating any for this spec."))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)
@@ -263,7 +266,7 @@
   (loop [canonical (sort (keys lexicon)) result nil]
     (if (not (empty? canonical))
       (let [canonical-form (first canonical)]
-        (println (str language ":" canonical-form))
+        (log/info (str language ":" canonical-form))
         (loop [lexemes (get lexicon canonical-form) inner-result nil]
           (if (not (empty? lexemes))
             (do

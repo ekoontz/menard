@@ -934,18 +934,7 @@
                 (re-find #"^s[t]" b))
            (str "gli " b)
 
-           ;; 1),2),3) handle e.g. "io lo ho visto" => "io l'ho visto"
-           ;; 1)
-           (and (= a "mi")
-                (string? b)
-                (re-find #"^[aeiouh]" b))
-           (str "m'" b)
-           ;; 2)
-           (and (= a "ti")
-                (string? b)
-                (re-find #"^[aeiouh]" b))
-           (str "t'" b)
-           ;; 3)
+           ;; handle e.g. "io lo ho visto" => "io l'ho visto"
            (and (string? a)
                 (re-find #"^l[ao]$" a)
                 (string? b)

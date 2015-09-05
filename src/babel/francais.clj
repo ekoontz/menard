@@ -36,10 +36,6 @@
                               (not (= :none (get-in % [:synsem :infl] :none))))
                          vals))))))
 
-(def verbs (filter (fn [lexeme]
-                     (contains? (set (get-in (get @lexicon lexeme) [:synsem :cat])) :verb))
-                   (keys @lexicon)))
-
 (defn lookup [token]
   "return the subset of lexemes that match this token from the lexicon."
   (analyze token #(get @lexicon %)))

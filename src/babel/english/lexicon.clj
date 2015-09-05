@@ -200,7 +200,7 @@
                      :sem {:pred :check}}}
 
    "come" {:synsem {:cat :verb
-                    :sem {:pred :venire}}
+                    :sem {:pred :come}}
            :english {:past "came"}}
 
    "comment" {:synsem {:cat :verb

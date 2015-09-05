@@ -189,9 +189,9 @@
                       :sem {:pred :cambiare}}} ;; TODO: add reflexive sense
 
    "chat" {:synsem {:cat :verb
-                    :english {:participle "chatting"
-                              :past "chatted"}
-                    :sem {:pred :chat}}}
+                    :sem {:pred :chat}}
+           :english {:participle "chatting"
+                     :past "chatted"}}
 
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}

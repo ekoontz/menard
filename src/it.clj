@@ -45,7 +45,7 @@
                                     (process [{:fill
                                                {:spec spec
                                                 :source-model en/small
-                                                :target-model it/small-plus-vp-pronoun}
+                                                :target-model it/small}
                                                :count count}])))
                                 (list {:synsem {:sem {:tense :conditional}}}
                                       {:synsem {:sem {:tense :futuro}}}

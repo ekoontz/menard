@@ -141,9 +141,6 @@
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
 
-(def small-plus-vp-pronoun
-  (future
-    (let [grammar
           (filter #(or (= (:rule %) "s-conditional-phrasal")
                        (= (:rule %) "s-conditional-nonphrasal")
                        (= (:rule %) "s-present-phrasal")
@@ -168,7 +165,7 @@
                                 v)]
                     (if (not (empty? filtered-v))
                       [k filtered-v]))))]
-      {:name "small-plus-vp-pronoun"
+      {:name "small"
        :language "it"
        :language-keyword :italiano
        :morph fo

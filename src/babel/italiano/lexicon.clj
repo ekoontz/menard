@@ -11,7 +11,6 @@
                    :person :3rd
                    :gender :fem}
              :propernoun true}}
-
    "Antonio"
    {:synsem {:agr {:number :sing
                    :person :3rd
@@ -19,7 +18,6 @@
              :sem {:pred :antonio
                    :human true}
              :propernoun true}}
-
    "a"
    [(let [location (ref {:place true})]
       {:synsem {:cat :prep
@@ -51,8 +49,7 @@
                            :sem {:pred :abandon}}}
 
    "abbassare"  {:synsem {:cat :verb
-                                        :sem {:pred :lower}}}
-
+                          :sem {:pred :lower}}}
    "abbracciare"
     {:synsem {:cat :verb
               :essere false
@@ -101,13 +98,11 @@
 
    "aggiungere" {:synsem {:cat :verb
                           :sem {:pred :add}}}
-
    "aiutare"
     {:synsem {:essere false
               :sem {:pred :aiutare
                     :activity true
                     :obj {:human true}}}}
-
    "alto"
    [;; non-comparative:
     (let [subject-sem (ref {:human true}) ;; only humans can be tall.
@@ -159,7 +154,6 @@
                     :activity false
                     :discrete false
                     :subj {:human true}}}}
-
    "amico"
    (unify agreement-noun
           common-noun
@@ -168,10 +162,8 @@
           {:synsem {:sem {:pred :amico
                           :human true
                           :child false}}})
-
    "ammirare" {:synsem {:cat :verb
                         :sem {:pred :admire}}}
-
    "andare"
     {:italiano {:italiano "andare"
                 :essere true
@@ -187,8 +179,7 @@
               :essere true
               :sem {:subj {:animate true}
                     :pred :andare}}}
-  
-   
+    
 ;   (map (fn [each]
 ;          (unify
 ;           each
@@ -237,7 +228,7 @@
 
    "approfittare"  {:synsem {:cat :verb
                              :sem {:pred :take-advantage-of}}}
-
+   
    "approvare" {:synsem {:cat :verb
                          :sem {:pred :approve}}}
 
@@ -254,7 +245,6 @@
 
    "aumentare"   {:synsem {:cat :verb
                            :sem {:pred :increase}}}
-
    "avere"
    (let [avere-common {:synsem {:essere false
                                 :cat :verb}
@@ -811,7 +801,6 @@
                                             :pronoun true
                                             :reflexive true
                                             :sem subject-semantics}}}})
-
       "domani"
       (unify sentential-adverb
              {:synsem {:cat :sent-modifier

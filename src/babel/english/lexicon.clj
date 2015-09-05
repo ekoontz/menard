@@ -958,30 +958,50 @@
                     :pred :loro}
               :subcat '()}}]
    
+   ;; TODO: move gender symbol to :notes for all "they" variants.
    "they (♂)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :gender :masc
-                   :number :plur}
-             :sem {:gender :masc
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :plur}
+              :sem {:gender :masc
                    :human true
-                   :pred :loro}
-             :subcat '()}}
-
+                    :pred :loro}
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :plur}
+              :sem {:gender :masc
+                   :human false
+                    :pred :loro}
+              :subcat '()}}]
    "they (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :gender :fem
-                   :number :plur}
-             :sem {:gender :fem
-                   :human true
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :plur}
+              :sem {:gender :fem
+                    :human true
                    :pred :loro}
-             :subcat '()}}
-
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :plur}
+              :sem {:gender :fem
+                    :human false
+                    :pred :loro}
+              :subcat '()}}]
+    
    "throw" {:english {:past "threw"}
             :synsem {:cat :verb
                      :sem {:pred :throw}}}

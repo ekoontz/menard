@@ -45,7 +45,7 @@
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
    "elle"
-   {:synsem {:cat :noun
+   [{:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
@@ -53,18 +53,38 @@
                    :gender :fem}
               :sem {:human true
                     :pred :lei}
-             :subcat '()}}
+              :subcat '()}}
+    {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:person :3rd
+                   :number :sing
+                   :gender :fem}
+              :sem {:human false
+                    :pred :lei}
+             :subcat '()}}]
+
    "elles"
-   {:synsem {:cat :noun
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :plur
+                    :gender :fem}
+              :sem {:human true
+                    :gender :fem
+                    :pred :loro}
+              :subcat '()}}
+    {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
                    :number :plur
                    :gender :fem}
-             :sem {:human true
+             :sem {:human false
                    :gender :fem
                    :pred :loro}
-             :subcat '()}}
+             :subcat '()}}]
 
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
@@ -106,27 +126,48 @@
                       :sem {:pred :win}}}]
 
    "il"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :number :sing
-                   :gender :masc}
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :sing
+                    :gender :masc}
               :sem {:human true
                     :pred :lui}
-             :subcat '()}}
-   "ils"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :number :plur
-                   :gender :masc}
-             :sem {:human true
-                   :gender :masc
-                   :pred :loro}
-             :subcat '()}}
+              :subcat
+              '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :sing
+                    :gender :masc}
+              :sem {:human false
+                    :pred :lui}
+              :subcat
+              '()}}]
 
+    "ils"
+    [{:synsem {:cat :noun
+               :pronoun true
+               :case :nom
+               :agr {:person :3rd
+                     :number :plur
+                     :gender :masc}
+               :sem {:human true
+                     :gender :masc
+                     :pred :loro}
+               :subcat '()}}
+     {:synsem {:cat :noun
+               :pronoun true
+               :case :nom
+               :agr {:person :3rd
+                     :number :plur
+                     :gender :masc}
+               :sem {:human false
+                     :gender :masc
+                     :pred :loro}
+               :subcat '()}}]
 
   "imaginer" {:synsem {:cat :verb
                        :sem {:pred :imagine}}}
@@ -304,7 +345,8 @@
                      :sem {:pred :form}}}
   
   "marcher" {:synsem {:cat :verb
-                      :sem {:pred :work-nonhuman}}}
+                      :sem {:subj {:human false}
+                            :pred :work-nonhuman}}}
   
   "soulever" {:synsem {:cat :verb
                        :sem {:pred :lift}}}

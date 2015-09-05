@@ -27,9 +27,3 @@
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
             [lein-ring "0.9.3"]])
-
-
-
-
-
-

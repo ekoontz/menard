@@ -6,11 +6,10 @@
 (ns it
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.writer :refer [fill-by-spec fill-verb write-lexicon]])
+(require '[babel.writer :refer [fill-by-spec fill-verb process write-lexicon]])
 (require '[babel.english :as en])
 (require '[babel.italiano :as it :refer [lexicon]])
 (require '[babel.korma :refer :all])
-(require '[babel.repair :refer [process]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer [get-in unify]])
 (require '[korma.core :refer :all])

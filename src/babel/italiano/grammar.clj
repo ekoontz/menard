@@ -202,6 +202,15 @@
                                            :tense :past}}})
                    (unifyc c10
                            root-is-head-root
+                           {:rule "s-future-reflexive"
+                            :head {:sem {:reflexive true}
+                                   :phrasal true}
+                            :synsem {:aux false
+                                     :infl :futuro
+                                     :cat :verb
+                                     :sem {:tense :futuro}}})
+                   (unifyc c10
+                           root-is-head-root
                            {:rule "s-future-phrasal"
                             :head {:phrasal true}
                             :synsem {:aux false
@@ -216,7 +225,15 @@
                                      :infl :futuro
                                      :cat :verb
                                      :sem {:tense :futuro}}})
-
+                   (unifyc c10
+                           root-is-head-root
+                           {:rule "s-conditional-reflexive"
+                            :head {:sem {:reflexive true}
+                                   :phrasal true}
+                            :synsem {:aux false
+                                     :infl :conditional
+                                     :cat :verb
+                                     :sem {:tense :conditional}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-conditional-phrasal"
@@ -251,6 +268,16 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
+                   (unifyc c10
+                           root-is-head-root
+                           {:rule "s-present-reflexive"
+                            :head {:sem {:reflexive true}
+                                   :phrasal true}
+                            :synsem {:aux false
+                                     :infl :present
+                                     :cat :verb
+                                     :sem {:aspect :progressive
+                                           :tense :present}}})
                    (unifyc c10
                            root-is-head
                            {:rule "s-present-nonphrasal"
@@ -295,9 +322,11 @@
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
-                                       :sem {:tense :past}
+                                       :sem {:reflexive true
+                                             :tense :past}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))
+
                    (unifyc h21
                            root-is-head
                            {:rule "vp-future"
@@ -333,7 +362,8 @@
                                      :infl {:not :past}}})
                    (unifyc c21
                            root-is-head
-                           {:head {:phrasal false}
+                           {:head {:phrasal false
+                                   :synsem {:sem {:reflexive true}}}
                             :comp {:synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun-nonphrasal"

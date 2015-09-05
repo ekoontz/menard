@@ -31,7 +31,24 @@
                          
                          ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                          transitivize
-                         
+
+                         ;; if a verb is not specifically marked as reflexive, it
+                         ;; is reflexive:false, to prevent generation of reflexive
+                         ;; sentences using nonreflexive verbs
+                         (map-function-on-map-vals
+                          (fn [k vals]
+                            (map (fn [val]
+                                   (cond (and (= (get-in val [:synsem :cat])
+                                                 :verb)
+                                              (= (get-in val [:synsem :aux])
+                                                 :false)
+                                              (= :none (get-in val [:synsem :sem :reflexive]
+                                                               :none)))
+                                         (unify val {:synsem {:sem {:reflexive false}}})
+                                         true
+                                        val))
+                                 vals)))
+
                          ;; Cleanup functions can go here. Number them for ease of reading.
                          ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                          ;; rather than not having any inflection.

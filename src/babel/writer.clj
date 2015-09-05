@@ -91,6 +91,11 @@
                       (log/error "grammar: " (map :rule (:grammar target-language-model)))
                       (log/error "lexicon: " (map (:morph target-language-model)
                                                   (sort (keys (:lexicon target-language-model)))))
+                      ;; TODO: add partial parses for more diagnostics:
+                      ;; need to try parsing same spec, but without the 
+                      ;;  {:synsem {:subcat '()}} that makes us try to generate
+                      ;; an entire sentence.
+                                             
                       (throw (Exception. message))))))
         source-language-sentence (engine/generate {:synsem {:sem semantics
                                                             :subcat '()}}
@@ -106,8 +111,11 @@
                                    "; target expression was: '" ((:morph  @target-language-model) target-language-sentence) "'"
                                    "; target rule was: '" (:rule target-language-sentence) "'"
                                    "; target head rule was: '" (:rule (:head target-language-sentence)) "'"
+                                   ;; TODO: add partial parses for more diagnostics:
+                                   ;; need to try parsing same spec, but without the 
+                                   ;;  {:synsem {:subcat '()}} that makes us try to generate
+                                   ;; an entire sentence.
                                    )
-
                       ]
                   (if (= true mask-populate-errors)
                     (log/warn message)

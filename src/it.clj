@@ -3,8 +3,7 @@
 ;; lein run -m it/tutti
 ;; lein run -m it/tutti <num>
 
-(ns it
-  (:refer-clojure :exclude [get-in]))
+(ns it (:refer-clojure :exclude [get-in]))
 
 (require '[babel.writer :refer [fill-by-spec fill-verb process write-lexicon]])
 (require '[babel.english :as en])
@@ -15,22 +14,21 @@
 (require '[korma.core :refer :all])
 (require '[korma.db :refer :all])
 
-;; subset of the lexicon: only verbs which are infinitives and that can be roots:
-;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-(def root-verbs
-  (zipmap
-   (keys @lexicon)
-   (map (fn [lexeme-set]
-          (filter (fn [lexeme]
-                    (and
-                     (= (get-in lexeme [:synsem :cat]) :verb)
-                     (= (get-in lexeme [:synsem :infl]) :top)
-                     (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
-                  lexeme-set))
-        (vals @lexicon))))
-
 (defn tutti [ & [count]]
-  (let [count (if count (Integer. count) 10)]
+  (let [count (if count (Integer. count) 10)
+        ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
+        ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
+        root-verbs 
+        (zipmap
+         (keys @lexicon)
+         (map (fn [lexeme-set]
+                (filter (fn [lexeme]
+                          (and
+                           (= (get-in lexeme [:synsem :cat]) :verb)
+                           (= (get-in lexeme [:synsem :infl]) :top)
+                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                        lexeme-set))
+              (vals @lexicon)))]
     (write-lexicon "it" @it/lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))

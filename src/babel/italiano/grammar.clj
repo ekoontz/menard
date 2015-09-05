@@ -202,15 +202,6 @@
                                            :tense :past}}})
                    (unifyc c10
                            root-is-head-root
-                           {:rule "s-future-reflexive"
-                            :head {:sem {:reflexive true}
-                                   :phrasal true}
-                            :synsem {:aux false
-                                     :infl :futuro
-                                     :cat :verb
-                                     :sem {:tense :futuro}}})
-                   (unifyc c10
-                           root-is-head-root
                            {:rule "s-future-phrasal"
                             :head {:phrasal true}
                             :synsem {:aux false
@@ -225,15 +216,6 @@
                                      :infl :futuro
                                      :cat :verb
                                      :sem {:tense :futuro}}})
-                   (unifyc c10
-                           root-is-head-root
-                           {:rule "s-conditional-reflexive"
-                            :head {:sem {:reflexive true}
-                                   :phrasal true}
-                            :synsem {:aux false
-                                     :infl :conditional
-                                     :cat :verb
-                                     :sem {:tense :conditional}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-conditional-phrasal"
@@ -268,16 +250,6 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
-                   (unifyc c10
-                           root-is-head-root
-                           {:rule "s-present-reflexive"
-                            :head {:sem {:reflexive true}
-                                   :phrasal true}
-                            :synsem {:aux false
-                                     :infl :present
-                                     :cat :verb
-                                     :sem {:aspect :progressive
-                                           :tense :present}}})
                    (unifyc c10
                            root-is-head
                            {:rule "s-present-nonphrasal"

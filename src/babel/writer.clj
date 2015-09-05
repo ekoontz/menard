@@ -8,18 +8,25 @@
     [dag-unify.core :refer [get-in strip-refs serialize unify ref?]]
     [babel.engine :as engine]
     [babel.korma :as korma]
-    [korma.core :as k]))
+    [korma.core :refer [exec-raw]]))
+
+;; TODO: more fine-grained approach to dealing with exceptions:
+;; should be sensitive to environment -
+;; e.g. do not throw exception in production; but *do* throw in dev.
+(def mask-populate-errors false)
+
+(declare populate)
+(defn -main [& args]
+  (if (not (nil? (first args)))
+    (populate (Integer. (first args)))
+    (populate 100)))
 
 (defn truncate [ & [table]]
   (let [table (if table table "expression")]
 ;; doesn't work:
-;;    (k/exec-raw ["TRUNCATE ?" [table]])))
-   (k/exec-raw [(str "TRUNCATE " table)])))
+;;    (exec-raw ["TRUNCATE ?" [table]])))
+   (exec-raw [(str "TRUNCATE " table)])))
 ;; catch exceptions when trying to populate
-;; TODO: more fine-grained approach to dealing with exceptions:
-;; should be sensitive to what caused the failure:
-;; (which language,lexicon,grammar,etc..).
-(def mask-populate-errors false)
 
 (defn expression-pair [source-language-model target-language-model spec]
   "Generate a pair: {:source <source_expression :target <target_expression>}.
@@ -123,7 +130,7 @@
    The serialized column allows loading a desired expression as a Clojure map into the runtime system, including
    the expression' internal structure-sharing."
 
-  (k/exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
+  (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
                     "'" (json/write-str (strip-refs expression)) "'"
                     ","
                     "'" (str (serialize expression)) "'"
@@ -134,7 +141,7 @@
                 model-name]]))
 
 (defn insert-lexeme [canonical lexeme language]
-  (k/exec-raw [(str "INSERT INTO lexeme 
+  (exec-raw [(str "INSERT INTO lexeme 
                                  (canonical, structure, serialized, language) 
                           VALUES (?,"
                     "'" (json/write-str (strip-refs lexeme)) "'"
@@ -222,7 +229,7 @@
         current-target-count
         (:count
          (first
-          (k/exec-raw ["SELECT count(*) FROM expression 
+          (exec-raw ["SELECT count(*) FROM expression 
                          WHERE structure @> ?::jsonb
                            AND language=?"
                        [(json/write-str spec) target-language]]
@@ -236,7 +243,7 @@
           (log/info (str "Generating "
                          count
                          (if (> current-target-count 0) " more")
-                         " expressions."))
+                         " expressions for spec: " spec))
           (populate count
                     source-model
                     target-model
@@ -263,7 +270,7 @@
             tenses))))
 
 (defn truncate-lexicon [language]
-  (k/exec-raw [(str "DELETE FROM lexeme WHERE language=?")
+  (exec-raw [(str "DELETE FROM lexeme WHERE language=?")
                [language]]))
 
 (defn write-lexicon [language lexicon]
@@ -281,7 +288,58 @@
         (recur (rest canonical) result))
       result)))
 
-(defn -main [& args]
-  (if (not (nil? (first args)))
-    (populate (Integer. (first args)))
-    (populate 100)))
+(defn process [ & units]
+  (do
+    (exec-raw "TRUNCATE expression_import")
+    (.size (map (fn [unit]
+           (.size (map (fn [member-of-unit]
+                         (do
+                           (if (:sql member-of-unit)
+                             (do
+                               (log/debug (str "doing sql: " (:sql member-of-unit)))
+                               (exec-raw (:sql member-of-unit))))
+
+                           (if (:fill member-of-unit)
+                             (let [count (or (->> member-of-unit :fill :count) 10)]
+                               (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
+                                             "; count=" count))
+                               (fill-by-spec
+                                (->> member-of-unit :fill :spec)
+                                count
+                                "expression_import"
+                                (->> member-of-unit :fill :source-model)
+                                (->> member-of-unit :fill :target-model))))
+                           (if (:fill-verb member-of-unit)
+                             (do
+                               (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
+                               (let [verb (:fill-verb member-of-unit)]
+                                 (.size (fill-verb
+                                         (:fill-verb member-of-unit)
+                                         (if (:count member-of-unit)
+                                           (:count member-of-unit)
+                                           1)
+                                         (->> member-of-unit :fill-verb :source-model)
+                                         (->> member-of-unit :fill-verb :target-model))))))))
+                       unit)))
+         units))
+    (exec-raw ["SELECT count(*) FROM expression_import"] :results)
+
+    (exec-raw "DROP TABLE IF EXISTS expression_distinct")
+
+    (exec-raw "CREATE TABLE expression_distinct (
+    language text,
+    model text,
+    surface text,
+    structure jsonb,
+    serialized text)")
+
+    (exec-raw "INSERT INTO expression_distinct (language,model,surface,structure,serialized) 
+         SELECT DISTINCT language,model,surface,structure,serialized 
+                    FROM expression_import")
+
+    (exec-raw "INSERT INTO expression (language,model,surface,structure,serialized)
+                    SELECT language,model,surface,structure,serialized
+                      FROM expression_distinct")
+    ))
+
+;; (process accompany care fornire indossare moltiplicare recuperare riconoscere riscaldare)

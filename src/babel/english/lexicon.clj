@@ -869,7 +869,7 @@
                                   :past-participle "sat down"
                                   :present {:3sing "sits down"}}
                         :synsem {:cat :verb
-                                 :sem {:pred :sit down}}}
+                                 :sem {:pred :sit-down}}}
 
    "sleep" {:synsem {:cat :verb
                      :sem {:subj {:animate true}

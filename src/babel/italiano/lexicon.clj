@@ -1201,7 +1201,8 @@
                                      :sem subject-semantics}}}})
 
    "lavorare"  {:synsem {:cat :verb
-                         :sem {:pred :work-human}}}
+                         :sem {:subj {:human true}
+                               :pred :work-human}}}
    "le"
    {:synsem {:cat :det
              :def :def

@@ -603,7 +603,7 @@
                                    merge-fn (:merge-fn path-and-merge-fn)]
                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                ;; and the value is a list of lexemes for that string.
-                               (log/debug (str (first lexeme-kv) "looking at path: " path))
+                               (log/debug (str (first lexeme-kv) ": looking at path: " path))
                                (mapcat (fn [lexeme]
                                          ;; this is where a unify/dissoc that supported
                                          ;; non-maps like :top and :fail, would be useful:

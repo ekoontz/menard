@@ -16,11 +16,6 @@
 (require '[korma.core :refer :all])
 (require '[korma.db :refer :all])
 
-(def verbs
-  (filter (fn [lexeme]
-            (contains? (set (get-in (get @lexicon lexeme) [:synsem :cat])) :verb))
-          (keys @lexicon)))
-
 ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
 ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
 (def root-verbs
@@ -39,7 +34,6 @@
   (let [count (if count (Integer. count) 10)]
     (write-lexicon "it" @it/lexicon)
     (log/info (str "done writing lexicon."))
-
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))
     (.size (map (fn [verb]
                   (let [root-form (get-in verb [:italiano :italiano])]

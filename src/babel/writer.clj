@@ -245,7 +245,7 @@
     (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
     (let [count (- count current-target-count)]
       (if (> current-target-count 0)
-        (log/warn (str "There are already " current-target-count " expressions for this spec.")))
+        (log/warn (str "There are already " current-target-count " expressions for: " spec)))
       (if (> count 0)
         (do
           (log/info (str "Generating "

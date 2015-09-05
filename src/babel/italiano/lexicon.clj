@@ -1427,6 +1427,10 @@
 
       (unify common2 intransitive intransitive-unspecified-obj)))
 
+   "piangere" {:italiano {:passato "pianto"}
+            :synsem {:cat :verb
+                     :sem {:pred :cry}}}
+
    "piegare" {:synsem {:cat :verb
                       :sem {:pred :fold}}}
 
@@ -1595,6 +1599,16 @@
                             :pred :suonare}}}
 ;                                            :obj {:music true}}}})
 
+ "svenire" {:synsem {:cat :verb
+                      :essere true
+                      :sem {:pred :faint}}
+             :italiano {:passato "svenuto"
+                        :present {:1sing "svengo"
+                                  :2sing "svieni"
+                                  :3sing "sviene"
+                                  :3plur "svengono"}
+                        :futuro-stem "sverr"}}
+
    "svegliarsi" (let [subject-semantics (ref {:animate true})
                       subject-agr (ref :top)]
                   {:synsem {:cat :verb
@@ -1704,7 +1718,7 @@
    
    "venire" {:synsem {:cat :verb
                       :essere true
-                      :sem {:pred :venire}}
+                      :sem {:pred :come}}
              :italiano {:passato "venuto"
                         :present {:1sing "vengo"
                                   :2sing "vieni"

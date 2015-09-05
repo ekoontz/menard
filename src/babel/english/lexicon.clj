@@ -200,7 +200,7 @@
                      :sem {:pred :check}}}
 
    "come" {:synsem {:cat :verb
-                    :sem {:pred :venire}}
+                    :sem {:pred :come}}
            :english {:past "came"}}
 
    "comment" {:synsem {:cat :verb
@@ -217,6 +217,9 @@
 
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
+
+   "cry" {:synsem {:cat :verb
+                    :sem {:pred :cry}}}
 
    "cut" {:english {:past "cut"
                     :participle "cutting"}
@@ -315,6 +318,9 @@
 
    "express" {:synsem {:cat :verb
                        :sem {:pred :express}}}
+
+  "faint" {:synsem {:cat :verb
+                    :sem {:pred :faint}}}
 
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}

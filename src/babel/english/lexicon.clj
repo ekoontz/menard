@@ -319,6 +319,9 @@
    "express" {:synsem {:cat :verb
                        :sem {:pred :express}}}
 
+  "faint" {:synsem {:cat :verb
+                    :sem {:pred :faint}}}
+
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 

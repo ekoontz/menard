@@ -1437,6 +1437,10 @@
 
       (unify common2 intransitive intransitive-unspecified-obj)))
 
+   "piangere" {:italiano {:passato "pianto"}
+            :synsem {:cat :verb
+                     :sem {:pred :cry}}}
+
    "piegare" {:synsem {:cat :verb
                       :sem {:pred :fold}}}
 

@@ -1089,13 +1089,12 @@
                           :pred :donna
                           :child false}}})
 
-   "work" [
-           {:synsem {:cat :verb
+   "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human
                            :subj {:human true}}}
-            :english {:note "(human)"}}
+            :english {:note "human"}}
            
-           {:english {:note "(nonliving or machines)"} ;; TODO: add support in UI for :note.
+           {:english {:note "nonliving or machines"} ;; TODO: add support in UI for :note.
             :synsem {:cat :verb
                      :sem {:subj {:living false
                                   :human false ;; should not need to add human=false and animate=false: living=false should suffice.

@@ -1728,7 +1728,7 @@
    
    "venire" {:synsem {:cat :verb
                       :essere true
-                      :sem {:pred :venire}}
+                      :sem {:pred :come}}
              :italiano {:passato "venuto"
                         :present {:1sing "vengo"
                                   :2sing "vieni"

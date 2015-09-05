@@ -218,6 +218,9 @@
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
 
+   "cry" {:synsem {:cat :verb
+                    :sem {:pred :cry}}}
+
    "cut" {:english {:past "cut"
                     :participle "cutting"}
           :synsem {:cat :verb

@@ -18,10 +18,6 @@
 ;; for debugging:
 (require '[babel.espanol.morphology.verbs :as verbs])
 
-(def get-string morph/get-string)
-(def grammar gram/grammar)
-(def lexicon-source lex/lexicon-source)
-
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon
   (future (-> (compile-lex lex/lexicon-source morph/exception-generator morph/phonize)
@@ -42,79 +38,6 @@
                               (not (= :none (get-in % [:synsem :infl] :none))))
                          vals))))))
 
-(defn lookup [token]
-  "return the subset of lexemes that match this token from the lexicon."
-  (morph/analyze token #(get @lexicon %)))
-
-(def es lookup) ;; abbreviation for the above
-
-(defn parse [string]
-  (parse/parse string lexicon lookup grammar))
-
-(def index nil)
-;; TODO: trying to print index takes forever and blows up emacs buffer:
-;; figure out how to change printable version to (keys index).
-(def index (future (create-index grammar (flatten (vals @lexicon)) head-principle)))
-
-(defn sentence [ & [spec]]
-  (let [spec (unify (if spec spec :top)
-                    {:synsem {:subcat '()
-                              :cat :verb}})]
-    (forest/generate spec grammar (flatten (vals @lexicon)) index)))
-
-(defn generate [ & [spec {use-grammar :grammar
-                          use-index :index
-                          use-lexicon :lexicon}]]
-  (let [spec (if spec spec :top)
-        use-grammar (if use-grammar use-grammar grammar)
-        use-index (if use-index use-index index)
-        use-lexicon (if use-lexicon use-lexicon lexicon)]
-    (log/info (str "using grammar of size: " (.size use-grammar)))
-    (if (seq? spec)
-      (map generate spec)
-      (forest/generate spec use-grammar
-                       (flatten (vals @use-lexicon))
-                       use-index))))
-
-;; TODO: factor out to forest/.
-(defn generate-all [ & [spec {use-grammar :grammar
-                              use-index :index
-                              use-lexicon :lexicon}]]
-  (let [spec (if spec spec :top)
-        use-grammar (if use-grammar use-grammar grammar)
-        use-index (if use-index use-index index)
-        use-lexicon (if use-lexicon use-lexicon lexicon)]
-    (log/info (str "using grammar of size: " (.size use-grammar)))
-    (log/info (str "using index of size: " (.size @use-index)))
-    (if (seq? spec)
-      (mapcat generate-all spec)
-      (forest/generate-all spec use-grammar
-                           (flatten (vals @use-lexicon))
-                           use-index))))
-
-;; TODO: move the following 2 to lexicon.clj:
-(def lookup-in
-  "find all members of the collection that matches with query successfully."
-  (fn [query collection]
-    (loop [coll collection matches nil]
-      (if (not (empty? coll))
-        (let [first-val (first coll)
-              result (unify/match (unify/copy query) (unify/copy first-val))]
-          (if (not (unify/fail? result))
-            (recur (rest coll)
-                   (cons first-val matches))
-            (recur (rest coll)
-                   matches)))
-        matches))))
-
-(defn choose-lexeme [spec]
-  (first (unify/lazy-shuffle (lookup-in spec (vals lexicon)))))
-
-(declare enrich)
-(declare against-pred)
-(declare against-comp)
-(declare matching-head-lexemes)
-(declare matching-comp-lexemes)
 
 (def small
   (future
@@ -187,7 +110,6 @@
                     (list result))))
               (matching-head-lexemes spec)))))
 
-;; TODO: not currently used: needs to be called from within (enrich).
 (defn against-comp [spec]
   (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
     (if (= :top pred-of-comp)
@@ -223,7 +145,3 @@
                             (list lexeme)))
                         lexemes))
               (vals @lexicon)))))
-
-(def verbs (filter (fn [lexeme]
-                     (contains? (set (get-in (get @lexicon lexeme) [:synsem :cat])) :verb))
-                   (keys @lexicon)))

@@ -6,17 +6,22 @@
 (def lexicon-source 
   {"abandonar" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}
-   
+
    "acabar" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
+
    "aceptar" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
+
    "acompañar" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}
+
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
+
    "apoyar" {:synsem {:cat :verb
                       :sem {:pred :support}}}
+
    "aprender" {:synsem {:cat :verb
                         :sem {:pred :imparare}}}
    
@@ -132,20 +137,7 @@
    "pintar" {:synsem {:cat :verb
                       :sem {:pred :paint}}}
    
-   "quedarse" (let [subject-semantics (ref {:animate true})
-                    subject-agr (ref :top)]
-                {:synsem {:cat :verb
-                          :sem {:pred :remain
-                                :reflexive true
-                                :subj subject-semantics
-                                :obj subject-semantics}
-                          :subcat {:1 {:agr subject-agr
-                                       :sem subject-semantics}
-                                   :2 {:agr subject-agr
-                                       :pronoun true
-                                       :reflexive true
-                                       :sem subject-semantics}}}})
-    "el"
+   "el"
    (unify determiner
           {:synsem {:cat :det
                     :def :def
@@ -322,7 +314,20 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
-   
+
+   "quedarse" (let [subject-semantics (ref {:animate true})
+                    subject-agr (ref :top)]
+                {:synsem {:cat :verb
+                          :sem {:pred :remain
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
    "tirar" [{:synsem {:cat :verb
                       :sem {:pred :throw-out}}}
             {:synsem {:cat :verb
@@ -372,18 +377,18 @@
                    :pred :voi}
              :subcat '()}}
    
-   
-   "yo"       {:synsem {:cat :noun
-                        :pronoun true
-                        :case :nom
-                        :agr {:gender :fem
-                              :person :1st
-                              :number :sing}
-                        :sem {:human true
-                              :pred :io}
-                        :subcat '()}}
-   
+   "yo"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :fem
+                   :person :1st
+                   :number :sing}
+             :sem {:human true
+                   :pred :io}
+             :subcat '()}}
    })
+
 
 
 

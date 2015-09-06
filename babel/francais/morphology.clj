@@ -379,7 +379,55 @@
                                            :agr {:number :plur
                                                  :person :3rd}}})}
 
-                            ;; adjectives
+                            ;; 3. imperfect-tense exceptions
+                            {:path [:français :imperfect :1sing]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:français :imperfect :2sing]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+
+                            {:path [:français :imperfect :3sing]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+
+                            {:path [:français :imperfect :1plur]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+
+                            {:path [:français :imperfect :2plur]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+
+                            {:path [:français :imperfect :3plur]
+                             :merge-fn
+                             (fn [val]
+                               {:français {:infl :imperfect
+                                           :français (get-in val [:français :imperfect :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+
+                            ;; 4. adjectives
                             {:path [:français :masc :plur]
                              :merge-fn
                              (fn [val]

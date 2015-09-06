@@ -30,11 +30,13 @@
 
 (deftest imperfect-irregular
   (let [result (engine/generate {:synsem {:subcat '()
+                                          :infl :imperfect
                                           :sem {:pred :be
-                                                :subj {:pred :I}
-                                                :tense :imperfect}}}
+                                                :subj {:pred :I}}}}
+
                                 fr/small)]
     (is (= "j'étais" (fo result)))))
+
 
 
 

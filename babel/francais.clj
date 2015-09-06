@@ -36,7 +36,8 @@
                         (cond (and (= (get-in val [:synsem :cat])
                                       :verb)
                                    (= :top (get-in val [:synsem :infl]))
-                                   (not (= :none (get-in val [:français :present] :none))))
+                                   (or (not (= :none (get-in val [:français :present] :none)))
+                                       (not (= :none (get-in val [:français :imperfect] :none)))))
                               (unify val
                                      {:synsem {:infl :infinitive}})
                               true
@@ -109,7 +110,7 @@
           (filter #(or (= (:rule %) "s-conditional-nonphrasal")
                        (= (:rule %) "s-present-nonphrasal")
                        (= (:rule %) "s-future-nonphrasal")
-                       (= (:rule %) "s-imperfetto-nonphrasal")
+                       (= (:rule %) "s-imperfect-nonphrasal")
                        (= (:rule %) "s-aux")
                        (= (:rule %) "vp-aux"))
                   grammar)

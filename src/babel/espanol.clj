@@ -15,6 +15,9 @@
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
 (require '[dag-unify.core :as unify])
 
+;; for debugging:
+(require '[babel.espanol.morphology.verbs :as verbs])
+
 (def get-string morph/get-string)
 (def grammar gram/grammar)
 (def lexicon-source lex/lexicon-source)

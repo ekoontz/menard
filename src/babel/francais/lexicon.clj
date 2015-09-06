@@ -96,7 +96,7 @@
                          :sem {:pred :give}}}                  
      "peindre" {:français {:boot-stem1 "pein"
                         :boot-stem2 "peign"}
-     :français {:passé "visto"
+     {:français {:passé "visto"
                :futuro-stem "paindr"
                :français :imparfait "peign"}}                 
              :synsem {:cat :verb

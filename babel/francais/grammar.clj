@@ -195,7 +195,7 @@
                            {:rule "s-future-phrasal"
                             :head {:phrasal true}
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb
                                      :sem {:tense :future}}})
                    (unifyc c10
@@ -203,9 +203,9 @@
                            {:rule "s-future-nonphrasal"
                             :head {:phrasal false}
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb
-                                     :sem {:tense :futuro}}})
+                                     :sem {:tense :future}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-conditional-phrasal"

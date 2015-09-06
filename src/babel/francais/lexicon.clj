@@ -44,6 +44,11 @@
    
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
+     
+     "ecouter" {:synsem {:cat :verb
+                         :sem {:pred :listen}}}                  
+                       
+                       
    "elle"
    [{:synsem {:cat :noun
              :pronoun true

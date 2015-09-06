@@ -1528,28 +1528,23 @@
                          :sem {:pred :scrivere}}
                 :italiano {:passato "scritto"}}
 
- "sedersi" (let [subject-semantics (ref {:animate true})
+   "sedersi" (let [subject-semantics (ref {:animate true})
                    subject-agr (ref :top)]
                {:synsem {:cat :verb
                          :essere true
-                         :sem {:pred :sit-down
-                  :present {:1sing "siedo"
-                          :2sing "siedi"
-                          :3sing "siede"
-                          :1plur "sediamo"
-                          :2plur "sedete"
-                          :3plur "siedono"}       
-                         :sem {:pred :get-up
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
+                         :sem {:pred :sit-down}
                          :subcat {:1 {:agr subject-agr
                                       :sem subject-semantics}
                                   :2 {:agr subject-agr
                                       :pronoun true
                                       :reflexive true
-                                      :sem subject-semantics}}}})
-
+                                      :sem subject-semantics}}}
+                :italiano {:present {:1sing "siedo"
+                                     :2sing "siedi"
+                                     :3sing "siede"
+                                     :1plur "sediamo"
+                                     :2plur "sedete"
+                                     :3plur "siedono"}}})
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
@@ -1809,3 +1804,4 @@
              :sem {:human true
                    :pred :voi}
               :subcat '()}}]})
+

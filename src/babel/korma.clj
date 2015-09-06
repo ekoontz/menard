@@ -20,8 +20,8 @@
                       (do
                         (log/warn
                          (str "DATABASE_URL not set in your environment: defaulting to:"
-                              "postgres://verbcoach@localhost:5432/verbcoach"))
-                        (str "postgres://verbcoach@localhost:5432/verbcoach")))]
+                              "postgres://babel@localhost:5432/babel"))
+                        (str "postgres://babel@localhost:5432/babel")))]
 
     ;; this constructs the actual database connection which is used throughout the code base.
     (postgres

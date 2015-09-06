@@ -195,36 +195,30 @@
                       :sem {:pred :try}}}
 
    "être"
-   (let [infl (ref :top)
-         agr (ref :top)]
-     {:synsem {:agr agr
-               :cat :verb
-               :essere true
-               :infl infl
-               :subcat {:1 {:agr agr}}}
-      :français {:agr agr
-                 :futuro-stem "ser"
-                 :infinitive "être"
-                 :infl infl
-                 :present {:1sing "suis"
-                           :2sing "es"
-                           :3sing "est"
-                           :1plur "sommes"
-                           :2plur "êtes"
-                           :3plur "sont"}
-                 :passato "été"
-                 :imperfect {:1sing "étais"
-                             :2sing "étais"
-                             :3sing "était"
-                             :1plur "étions"
-                             :2plur "étiez"
-                             :3plur "étaient"}
-                 :futuro {:1sing "serai"
-                          :2sing "seras"
-                          :3sing "sera"
-                          :1plur "serons"
-                          :2plur "serez"
-                          :3plur "seront"}}})
+   {:synsem {:cat :verb
+             :essere false
+             :sem {:pred :be}}
+    :français {:futuro-stem "ser"
+               :infinitive "être"
+               :present {:1sing "suis"
+                         :2sing "es"
+                         :3sing "est"
+                         :1plur "sommes"
+                         :2plur "êtes"
+                         :3plur "sont"}
+               :passato "été"
+               :imperfect {:1sing "étais"
+                           :2sing "étais"
+                           :3sing "était"
+                           :1plur "étions"
+                           :2plur "étiez"
+                           :3plur "étaient"}
+               :futuro {:1sing "serai"
+                        :2sing "seras"
+                        :3sing "sera"
+                        :1plur "serons"
+                        :2plur "serez"
+                        :3plur "seront"}}}
 
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}
@@ -312,7 +306,7 @@
                  :agr {:person :1st
                        :number :sing}
                  :sem {:human true
-                       :pred :io}
+                       :pred :I}
                  :subcat '()}}
   
   "laisser" {:synsem {:cat :verb

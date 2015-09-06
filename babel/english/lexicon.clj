@@ -75,7 +75,7 @@
    
    "be"
    {:synsem {:cat :verb
-             :sem {:pred :essere}}
+             :sem {:pred :be}}
     :english {:present {:1sing "am"
                         :2sing "are"
                         :3sing "is"
@@ -501,7 +501,7 @@
                     :person :1st
                     :number :sing}
               :sem {:human true
-                    :pred :io}
+                    :pred :I}
              :subcat '()}}
 
     {:english {:note "♀"}

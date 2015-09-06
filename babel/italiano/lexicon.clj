@@ -900,7 +900,7 @@
             essere-common
             {:notes "essere-adjective"
              :synsem {:cat :verb
-                      :sem {:pred :essere
+                      :sem {:pred :be
                             :subj :top
                             :obj :top}
                       :subcat {:1 {:cat :noun
@@ -913,7 +913,7 @@
                                    :agr {:gender gender
                                          :number number}}}}}))
 
-           (unify essere-common {:synsem {:sem {:pred :essere}}})
+           (unify essere-common {:synsem {:sem {:pred :be}}})
 
            ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
            (let [gender (ref :top)
@@ -932,7 +932,7 @@
                                      :def {:not :demonstrativo}
                                      :agr {:gender gender
                                            :number number}}}
-                        :sem {:pred :essere
+                        :sem {:pred :be
                               :activity false
                               :discrete false
                               :subj {:human human}
@@ -1076,7 +1076,7 @@
                        :person :1st
                        :number :sing}
                 :sem {:human true
-                      :pred :io}
+                      :pred :I}
                 :subcat '()}}
 
        {:synsem {:cat :noun
@@ -1419,7 +1419,6 @@
          {:synsem {:essere false
                    :sem {:pred :talk
                          :subj {:human true}}}}]
-
      (list
       (unify common1 transitive
              {:synsem {:sem {:obj {:speakable true}}}})

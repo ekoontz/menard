@@ -203,7 +203,6 @@
    (str (string/join " " 
                      (list (fo (get-in input [:a]))
                            (fo (get-in input [:b])))))
-                     
    (or (seq? input)
        (vector? input))
    (str "(" (string/join " , " 

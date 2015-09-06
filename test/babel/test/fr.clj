@@ -14,10 +14,7 @@
                                           :sem {:pred :sleep
                                                 :subj {:pred :I}
                                                 :tense :conditional}}}
-                                fr/small
-                                :enrich true)]
-    (is (= :1st (get-in result [:comp :synsem :agr :person])))
-    (is (= :sing (get-in result [:comp :synsem :agr :number])))
+                                fr/small)]
     (is (= "je dormirais" (fo result)))))
 
 (deftest present-irregular

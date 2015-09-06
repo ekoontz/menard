@@ -790,6 +790,10 @@
                           :physical-object true
                           :human false}}})
 
+ "remain" {:synsem {:cat :verb
+                      :sem {:pred :remain}}}
+
+
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}
 

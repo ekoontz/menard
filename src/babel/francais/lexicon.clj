@@ -30,7 +30,21 @@
                          :sem {:pred :imparare}}}
                        
     "attendre" {:synsem {:cat :verb
-                         :sem {:pred :wait}}}                   
+                         :sem {:pred :wait}}}    
+                       
+    "assurer" {:synsem {:cat :verb
+                         :sem {:pred :assure}}}    
+                       
+    "augmenter" {:synsem {:cat :verb
+                         :sem {:pred :increase}}}                   
+                       
+     "boire" {:synsem {:boot-stem1 "boiv"
+                        :boot-stem2 "buv"}
+    :français {:passato "bu"}                  
+             :synsem {:cat :verb
+                      :sem {:pred :drink}}}                  
+                      
+                       
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}

@@ -197,7 +197,7 @@
                             :synsem {:aux false
                                      :infl :futuro
                                      :cat :verb
-                                     :sem {:tense :futuro}}})
+                                     :sem {:tense :future}}})
                    (unifyc c10
                            root-is-head
                            {:rule "s-future-nonphrasal"
@@ -224,19 +224,19 @@
                                      :sem {:tense :conditional}}})
                    (unifyc c10
                            root-is-head-root
-                           {:rule "s-imperfetto-phrasal"
+                           {:rule "s-imperfect-phrasal"
                             :head {:phrasal true}
                             :synsem {:aux false
-                                     :infl :imperfetto
+                                     :infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
                    (unifyc c10
                            root-is-head
-                           {:rule "s-imperfetto-nonphrasal"
+                           {:rule "s-imperfect-nonphrasal"
                             :head {:phrasal false}
                             :synsem {:aux false
-                                     :infl :imperfetto
+                                     :infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
@@ -297,12 +297,12 @@
                    (unifyc h21
                            {:rule "vp-future"
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb}})
                    (unifyc h21
-                          {:rule "vp-imperfetto"
+                          {:rule "vp-imperfect"
                            :synsem {:aux false
-                                    :infl :imperfetto
+                                    :infl :imperfect
                                     :cat :verb}})
                    (unifyc h21
                            {:rule "vp-past"

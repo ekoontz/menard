@@ -60,6 +60,10 @@
                       
    "changer" {:synsem {:cat :verb
                          :sem {:pred :change}}}                   
+    
+    "chanter" {:synsem {:cat :verb
+                         :sem {:pred :sing}}}
+    
                       
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}

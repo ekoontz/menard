@@ -12,16 +12,16 @@
 (require '[environ.core :refer [env]])
 
 (defdb korma-db 
-  (let [database-url (cond
+  (let [default "postgres://postgres@localhost:5432/babel"
+        database-url (cond
                       (env :database-url)
                       (env :database-url)
                       
                       true
                       (do
                         (log/warn
-                         (str "DATABASE_URL not set in your environment: defaulting to:"
-                              "postgres://babel@localhost:5432/babel"))
-                        (str "postgres://babel@localhost:5432/babel")))]
+                         (str "DATABASE_URL not set in your environment: defaulting to:" default)
+                         default)))]
 
     ;; this constructs the actual database connection which is used throughout the code base.
     (postgres

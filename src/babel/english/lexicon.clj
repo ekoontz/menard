@@ -61,7 +61,7 @@
                       :sem {:pred :assure}}}
 
    "attend" {:synsem {:cat :verb
-                      :sem {:pred :frequentare}}}
+                      :sem {:pred :attend}}}
 
    "avoid" {:synsem {:cat :verb
                      :sem {:pred :avoid}}}

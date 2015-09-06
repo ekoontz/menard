@@ -1,7 +1,6 @@
 (ns babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.english :as en]
             [babel.francais :as es]
             [babel.francais.morphology :refer [fo]]
             [babel.writer :as writer]

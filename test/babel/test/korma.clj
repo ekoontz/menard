@@ -1,12 +1,11 @@
 ;; TODO: rename this - misleading name 
 ;; - it uses korma, but it is not itself korma.
-(ns italianverbs.test.korma
+(ns babel.test.korma
   (:refer-clojure :exclude [test])
   (:require [clj-time.coerce :as c]
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
-            [italianverbs.korma :refer :all]
             [korma.core :refer :all]
             [korma.db :refer [default-connection defdb postgres]]))
 

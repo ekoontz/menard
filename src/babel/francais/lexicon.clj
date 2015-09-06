@@ -94,6 +94,14 @@
                        
      "donner" {:synsem {:cat :verb
                          :sem {:pred :give}}}                  
+     "peindre" {:français {:boot-stem1 "pein"
+                        :boot-stem2 "peign"}
+     :français {:passé "visto"
+               :futuro-stem "paindr"
+               :français :imparfait "peign"}}                 
+             :synsem {:cat :verb
+                      :sem {:pred :paint}}}
+     
                        
    "elle"
    [{:synsem {:cat :noun

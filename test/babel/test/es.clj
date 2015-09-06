@@ -12,7 +12,7 @@
 
 (deftest generate-conditional
   (let [result (engine/generate {:synsem {:subcat '()
-                                          :sem {:pred :dormire
+                                          :sem {:pred :sleep
                                                 :subj {:pred :io}
                                                 :tense :conditional}}}
                                 es/small

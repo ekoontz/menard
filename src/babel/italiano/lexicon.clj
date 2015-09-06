@@ -247,7 +247,8 @@
                            :sem {:pred :increase}}}
    "avere"
    (let [avere-common {:synsem {:essere false
-                                :cat :verb}
+                                :cat :verb
+                                :reflexive false}
                        :italiano {:italiano "avere"
                                   :futuro-stem "avr"
                                   :drop-e true
@@ -1292,7 +1293,6 @@
 
    "macchiare" {:synsem {:cat :verb
                          :sem {:pred :stain}}}
-
    "madre"
    (unify agreement-noun
           common-noun

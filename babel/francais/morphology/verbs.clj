@@ -167,25 +167,25 @@
      (str stem "ais")
 
      (and (= person :1st) (= number :sing) ir-type)
-     (str stem "íssais")
+     (str stem "issais")
 
      (and (= person :2nd) (= number :sing) er-type)
      (str stem "ais")
            
      (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "íssais")
+     (str stem "issais")
               
      (and (= person :3rd) (= number :sing) er-type)
      (str stem "ait")
            
      (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "íssait")
+     (str stem "issait")
            
      (and (= person :1st) (= number :plur) er-type)
      (str stem "ions")
            
      (and (= person :1st) (= number :plur) ir-type)
-     (str stem "íssions")
+     (str stem "issions")
            
      ;; <second person plural imperfecto>
            
@@ -193,7 +193,7 @@
      (str stem "iez")
            
      (and (= person :2nd) (= number :plur) ir-type)
-     (str stem "íssiez")
+     (str stem "issiez")
                  
      ;; </second person plural imperfecto>
            
@@ -204,7 +204,7 @@
        
      (and (= person :3rd) (= number :plur)
           ir-type)
-     (str stem "íssaient")
+     (str stem "issaient")
      ;; </third person plural imperfecto>
            
      :else

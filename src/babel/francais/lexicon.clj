@@ -38,13 +38,6 @@
     "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}                   
                        
-     "boire" {:synsem {:boot-stem1 "boiv"
-                        :boot-stem2 "buv"}
-    :français {:passato "bu"}                  
-             :synsem {:cat :verb
-                      :sem {:pred :drink}}}                  
-                      
-                       
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}
@@ -59,13 +52,26 @@
                          :2plur "avez"
                          :3plur "ont"}}}
    
+    "boire" {:synsem {:boot-stem1 "boiv"
+                        :boot-stem2 "buv"}
+    :français {:passato "bu"}                  
+             :synsem {:cat :verb
+                      :sem {:pred :drink}}}                  
+                      
+   "changer" {:synsem {:cat :verb
+                         :sem {:pred :change}}}                   
+                      
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
      
      "ecouter" {:synsem {:cat :verb
                          :sem {:pred :listen}}}                  
+     
+     "marchcer" {:synsem {:cat :verb
+                         :sem {:pred :walk}}}
                        
-                       
+     "effacer" {:synsem {:cat :verb
+                         :sem {:pred :erase}}}                  
    "elle"
    [{:synsem {:cat :noun
              :pronoun true

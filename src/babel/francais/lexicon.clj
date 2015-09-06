@@ -28,6 +28,9 @@
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
                          :sem {:pred :imparare}}}
+                       
+    "attendre" {:synsem {:cat :verb
+                         :sem {:pred :wait}}}                   
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}

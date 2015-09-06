@@ -70,7 +70,10 @@
     
     "comprendre" {:synsem {:cat :verb
                          :sem {:pred :understand}}}
-     
+                       
+   "courir" {:synsem {:cat :verb
+                         :sem {:pred :run}}}
+                       
      "ecouter" {:synsem {:cat :verb
                          :sem {:pred :listen}}}                  
      

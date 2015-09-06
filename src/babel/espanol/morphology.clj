@@ -49,150 +49,147 @@
                               vosotros :vosotros
                               ustedes :ustedes
                               }]]
-  (cond (string? word)
-        word
-        (seq? word)
-        (map (string/join " " #(get-string-1 %))
-             word)
-        true
-  (let [person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        info (log/debug "get-string-1: input word: " word)
-        vosotros (if vosotros vosotros true)
-        ustedes (if ustedes ustedes false)
-        tú (if tú tú false)
-        usted (if usted usted false)]
+  (cond
+   (string? word)
+   word
+   (seq? word)
+   (map (string/join " " #(get-string-1 %))
+        word)
+   (= word :top) ".."
+   (ref? word)
+   (get-string-1 @word)
+   (map? word)
+   (let [person (get-in word '(:agr :person))
+         number (get-in word '(:agr :number))
+         info (log/debug "get-string-1: input word: " word)
+         vosotros (if vosotros vosotros true)
+         ustedes (if ustedes ustedes false)
+         tú (if tú tú false)
+         usted (if usted usted false)]
+     (log/debug (str "get-string-1: word: " word))
+     (log/debug (str "get-string-1: word (stripped-refs): " (strip-refs word)))
+     (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
+     (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
+     
+     (log/debug (str "word's a espanol is a string? " (get-in word '(:a :espanol)) " => " (string? (get-in word '(:a :espanol)))))
 
-    (log/debug (str "get-string-1: word: " word))
-    (log/debug (str "get-string-1: word (stripped-refs): " (strip-refs word)))
-    (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-    (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
+     (cond
+      ;; TODO: this is a special case that should be handled below instead
+      ;; of forcing every input to go through this check.
+      (= word {:initial false})
+      ".."
+      (= word {:initial true})
+      ".."
+      
+      (and (string? (get-in word '(:a)))
+           (string? (get-in word '(:b))))
+      (get-string (get-in word '(:a))
+                  (get-in word '(:b)))
 
-    (log/debug (str "word's a espanol is a string? " (get-in word '(:a :espanol)) " => " (string? (get-in word '(:a :espanol)))))
+      (and (string? (get-in word '(:a)))
+           (map? (get-in word '(:b))))
+      (get-string (get-in word '(:a))
+                  (get-in word '(:b)))
 
-    (cond
+      (and (map? (get-in word '(:a)))
+           (map? (get-in word '(:b))))
+      (get-string
+       (get-in word '(:a))
+       (get-in word '(:b)))
 
-     (= word :top) ".."
+      ;; TODO: this rule is pre-empting all of the following rules
+      ;; that look in :a and :b. Either remove those following rules
+      ;; if they are redundant and not needed, or move this general rule
+      ;; below the following rules.
+      (and (not (= :none (get-in word '(:a) :none)))
+           (not (= :none (get-in word '(:b) :none))))
+      (get-string (get-in word '(:a))
+                  (get-in word '(:b)))
 
-     (ref? word)
-     (get-string-1 @word)
+      (and
+       (string? (get-in word '(:a :espanol)))
+       (string? (get-in word '(:b :espanol)))
+       (or (= :none (get-in word '(:b :agr :number) :none))
+           (= :top (get-in word '(:b :agr :number) :none)))
+       )
+      (str (string/trim (get-in word '(:a :espanol)))
+           " "
+           (string/trim (get-in word '(:b :espanol))))
 
-     ;; TODO: this is a special case that should be handled below instead
-     ;; of forcing every input to go through this check.
-     (= word {:initial false})
-     ".."
-     (= word {:initial true})
-     ".."
+      (and
+       (string? (get-in word '(:a)))
+       (string? (get-in word '(:b :espanol)))
+       (or (= :none (get-in word '(:b :agr :number) :none))
+           (= :top (get-in word '(:b :agr :number) :none)))
+       )
+      (str (string/trim (get-in word '(:a)))
+           " "
+           (string/trim (get-in word '(:b :espanol))))
+      
+      (and
+       (string? (get-in word '(:a :espanol)))
+       (get-in word '(:a :espanol))
+       (or (= :none (get-in word '(:b :agr :number) :none))
+           (= :top (get-in word '(:b :agr :number) :none)))
+       (= (get-in word '(:a :infl)) :top))
+      (string/trim (str (get-in word '(:a :espanol))
+                        " " (get-string-1 (get-in word '(:b)))))
 
-     (and (string? (get-in word '(:a)))
-          (string? (get-in word '(:b))))
-     (get-string (get-in word '(:a))
-                 (get-in word '(:b)))
+      (= true (get-in word [:exception]))
+      (get-in word [:espanol])
 
-     (and (string? (get-in word '(:a)))
-          (map? (get-in word '(:b))))
-     (get-string (get-in word '(:a))
-                 (get-in word '(:b)))
-
-     (and (map? (get-in word '(:a)))
-          (map? (get-in word '(:b))))
-     (get-string
-      (get-in word '(:a))
-      (get-in word '(:b)))
-
-     ;; TODO: this rule is pre-empting all of the following rules
-     ;; that look in :a and :b. Either remove those following rules
-     ;; if they are redundant and not needed, or move this general rule
-     ;; below the following rules.
-     (and (not (= :none (get-in word '(:a) :none)))
-          (not (= :none (get-in word '(:b) :none))))
-     (get-string (get-in word '(:a))
-                 (get-in word '(:b)))
-
-     (and
-      (string? (get-in word '(:a :espanol)))
-      (string? (get-in word '(:b :espanol)))
-      (or (= :none (get-in word '(:b :agr :number) :none))
-          (= :top (get-in word '(:b :agr :number) :none)))
-      )
-     (str (string/trim (get-in word '(:a :espanol)))
-          " "
-          (string/trim (get-in word '(:b :espanol))))
-
-     (and
-      (string? (get-in word '(:a)))
-      (string? (get-in word '(:b :espanol)))
-      (or (= :none (get-in word '(:b :agr :number) :none))
-          (= :top (get-in word '(:b :agr :number) :none)))
-      )
-     (str (string/trim (get-in word '(:a)))
-          " "
-          (string/trim (get-in word '(:b :espanol))))
-
-     (and
-      (string? (get-in word '(:a :espanol)))
-      (get-in word '(:a :espanol))
-      (or (= :none (get-in word '(:b :agr :number) :none))
-          (= :top (get-in word '(:b :agr :number) :none)))
-      (= (get-in word '(:a :infl)) :top))
-     (string/trim (str (get-in word '(:a :espanol))
-                 " " (get-string-1 (get-in word '(:b)))))
-
-     (= true (get-in word [:exception]))
-     (get-in word [:espanol])
-
-     (and
-      (= (get-in word '(:infl)) :conditional)
-      (string? (get-in word '(:espanol))))
-     (verbs/conditional word
-                        {:usted usted
-                         :tú tú
-                         :vosotros vosotros
-                         :ustedes ustedes
-                         })              
-     (and
-      (= (get-in word '(:infl)) :futuro)
-      (string? (get-in word '(:espanol))))
-     (verbs/future word
-                   {:usted usted
-                    :tú tú
-                    :vosotros vosotros
-                    :ustedes ustedes
-                    })
-     (and
-      (= (get-in word '(:infl)) :imperfetto)
-      (string? (get-in word '(:espanol))))
-     (verbs/imperfect word
-                      {:usted usted
-                       :tú tú
-                       :vosotros vosotros
-                       :ustedes ustedes
-                       })
-     (and
-      (= (get-in word '(:infl)) :present)
-      (string? (get-in word '(:espanol))))
-     (verbs/present word
+      (and
+       (= (get-in word '[:infl]) :conditional)
+       (string? (get-in word [:espanol])))
+      (verbs/conditional word
+                         {:usted usted
+                          :tú tú
+                          :vosotros vosotros
+                          :ustedes ustedes
+                          })              
+      (and
+       (= (get-in word '(:infl)) :futuro)
+       (string? (get-in word '(:espanol))))
+      (verbs/future word
                     {:usted usted
                      :tú tú
                      :vosotros vosotros
                      :ustedes ustedes
                      })
+      (and
+       (= (get-in word '(:infl)) :imperfetto)
+       (string? (get-in word '(:espanol))))
+      (verbs/imperfect word
+                       {:usted usted
+                        :tú tú
+                        :vosotros vosotros
+                        :ustedes ustedes
+                        })
+      (and
+       (= (get-in word '(:infl)) :present)
+       (string? (get-in word '(:espanol))))
+      (verbs/present word
+                     {:usted usted
+                      :tú tú
+                      :vosotros vosotros
+                      :ustedes ustedes
+                      })
 
-     (and
-      (= (get-in word '(:infl)) :preterito)
-      (string? (get-in word '(:espanol))))
-     (verbs/preterito word
-                      {:usted usted
-                       :tú tú
-                       :vosotros vosotros
-                       :ustedes ustedes
-                       })
+      (and
+       (= (get-in word '(:infl)) :preterito)
+       (string? (get-in word '(:espanol))))
+      (verbs/preterito word
+                       {:usted usted
+                        :tú tú
+                        :vosotros vosotros
+                        :ustedes ustedes
+                        })
                       
-     (string? (get-in word [:espanol]))
-     (get-in word [:espanol])
+      (string? (get-in word [:espanol]))
+      (get-in word [:espanol])
 
-     true
-     (throw (Exception. (str "get-string-1: don't know what to do with input argument: " word)))))))
+      true
+      (throw (Exception. (str "get-string-1: don't know what to do with input argument: " word)))))))
 
 (defn get-string [a & [ b ]]
   (cond (and (nil? b)

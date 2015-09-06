@@ -14,6 +14,12 @@
    "accompagner" {:synsem {:cat :verb
                            :sem {:pred :accompany}}}
 
+   "acheter" {:synsem {:cat :verb
+                      :sem {:pred :comprare}}}
+
+   "aider" {:synsem {:cat :verb
+                     :sem {:pred :aiutare}}}
+   
    "anoncier" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
@@ -28,16 +34,18 @@
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
                          :sem {:pred :imparare}}}
+   
+   "assurer" [{:synsem {:cat :verb
+                        :sem {:pred :assure}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :insure}}}]
+
+   "attendre" {:synsem {:cat :verb
+                         :sem {:pred :wait}}}
                        
-    "attendre" {:synsem {:cat :verb
-                         :sem {:pred :wait}}}    
-                       
-    "assurer" {:synsem {:cat :verb
-                         :sem {:pred :assure}}}    
-                       
-    "augmenter" {:synsem {:cat :verb
+   "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}                   
-                       
+   
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}
@@ -51,74 +59,83 @@
                          :1plur "avons"
                          :2plur "avez"
                          :3plur "ont"}}}
-   
-    "boire" {:synsem {:boot-stem1 "boiv"
-                        :boot-stem2 "buv"}
-    :français {:passato "bu"}                  
-             :synsem {:cat :verb
-                      :sem {:pred :drink}}}                  
-                      
+
+   "baisser" {:synsem {:cat :verb
+                      :sem {:pred :lower}}}
+
+   "boire" {:français {:passato "bu"
+                       :boot-stem1 "boiv"
+                       :boot-stem2 "buv"}
+            :synsem {:cat :verb
+                     :sem {:pred :drink}}}
+
    "changer" {:synsem {:cat :verb
-                         :sem {:pred :change}}}                   
-    
-    "chanter" {:synsem {:cat :verb
-                         :sem {:pred :sing}}}
-    
-                      
+                      :sem {:pred :cambiare}}}
+   
+   "chanter" {:synsem {:cat :verb
+                       :sem {:pred :sing}}}
+   
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
+
+   "commenter" {:synsem {:cat :verb
+                         :sem {:pred :comment}}}
+   
+   "comprendre" {:synsem {:cat :verb
+                          :sem {:pred :understand}}}
+
+   "conserver" [{:synsem {:cat :verb
+                          :sem {:pred :conserve}}}
+                {:synsem {:cat :verb
+                          :sem {:pred :preserve}}}]
+   
+   "considérer" {:synsem {:cat :verb
+                         :sem {:pred :consider}}}
     
-    "comprendre" {:synsem {:cat :verb
-                         :sem {:pred :understand}}}
-                       
+   "couper" {:synsem {:cat :verb
+                      :sem {:pred :cut}}}
+  
    "courir" {:synsem {:cat :verb
-                         :sem {:pred :run}}}
-                       
-     "ecouter" {:synsem {:cat :verb
-                         :sem {:pred :listen}}}                  
-     
-     "marchcer" {:synsem {:cat :verb
-                         :sem {:pred :walk}}}
-                       
-     "effacer" {:synsem {:cat :verb
-                         :sem {:pred :erase}}}
-                       
-     "créer" {:synsem {:cat :verb
-                         :sem {:pred :believe}}}  
-     
-     "décider" {:synsem {:cat :verb
-                         :sem {:pred :decide}}}
-     
-     "désirer" {:synsem {:cat :verb
-                         :sem {:pred :desire}}}
-                       
-     "donner" {:synsem {:cat :verb
-                         :sem {:pred :give}}}
-                                          
-     "peindre" {:français {:boot-stem1 "pein"
-                        :boot-stem2 "peign"}
-     {:français {:passé "visto"
-               :futuro-stem "paindr"
-               :français :imparfait "peign"}}                 
-             :synsem {:cat :verb
-                      :sem {:pred :paint}}}
-     
-     "s'amuser" (let [subject-semantics (ref {:human true})
-                         subject-agr (ref :top)]
-                     {:synsem {:cat :verb
-                               :essere true
-                               :sem {:pred :have-fun
-                                     :reflexive true
-                                     :subj subject-semantics
-                                     :obj subject-semantics}
-                               :subcat {:1 {:agr subject-agr
-                                            :sem subject-semantics}
-                                        :2 {:agr subject-agr
-                                            :pronoun true
-                                            :reflexive true
-                                            :sem subject-semantics}}}})
-     
-                       
+                      :sem {:pred :run}}}
+
+   "créer" {:synsem {:cat :verb
+                     :sem {:pred :create}}}
+   
+   "decider" {:synsem {:cat :verb
+                       :sem {:pred :decide}}}
+
+   "developer" {:synsem {:cat :verb
+                        :sem {:pred :develop}}}
+
+   "devoir" {:synsem {:cat :verb
+                     :sem {:pred :have-to}}}
+
+   "diviser" {:synsem {:cat :verb
+                      :sem {:pred :divide}}}
+
+   "ecouter" {:synsem {:cat :verb
+                       :sem {:pred :listen}}}                  
+   
+   "effacer" {:synsem {:cat :verb
+                       :sem {:pred :erase}}}
+   
+   "croire" {:synsem {:cat :verb
+                      :sem {:pred :believe}}}  
+   
+   "décider" {:synsem {:cat :verb
+                       :sem {:pred :decide}}}
+   
+   "désirer" {:synsem {:cat :verb
+                       :sem {:pred :desire}}}
+   
+   "donner" {:synsem {:cat :verb
+                      :sem {:pred :give}}}
+   
+   "echapper" {:synsem {:cat :verb
+                        :sem {:pred :escape}}}
+
+   "écouter" {:synsem {:cat :verb
+                      :sem {:pred :listen-to}}}
    "elle"
    [{:synsem {:cat :noun
              :pronoun true
@@ -138,7 +155,6 @@
               :sem {:human false
                     :pred :lei}
              :subcat '()}}]
-
    "elles"
    [{:synsem {:cat :noun
               :pronoun true
@@ -161,8 +177,20 @@
                    :pred :loro}
              :subcat '()}}]
 
+   "enseigner" [{:synsem {:cat :verb
+                         :sem {:pred :show}}}
+               {:synsem {:cat :verb
+                         :sem {:pred :teach}}}]
+
+   "entrer" {:synsem {:cat :verb
+                     :sem {:pred :enter}}}
+
+   "envoyer" {:synsem {:cat :verb
+                       :sem {:pred :send}}}
+
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
+
    "être"
    (let [infl (ref :top)
          agr (ref :top)]
@@ -182,12 +210,12 @@
                            :2plur "êtes"
                            :3plur "sont"}
                  :passato "été"
-                 :imperfetto {:1sing "étais"
-                              :2sing "étais"
-                              :3sing "était"
-                              :1plur "étions"
-                              :2plur "étiez"
-                              :3plur "étaient"}
+                 :imperfect {:1sing "étais"
+                             :2sing "étais"
+                             :3sing "était"
+                             :1plur "étions"
+                             :2plur "étiez"
+                             :3plur "étaient"}
                  :futuro {:1sing "serai"
                           :2sing "seras"
                           :3sing "sera"
@@ -195,11 +223,31 @@
                           :2plur "serez"
                           :3plur "seront"}}})
 
+   "étudier" {:synsem {:cat :verb
+                       :sem {:pred :study}}}
+   
+   "éviter" {:synsem {:cat :verb
+                      :sem {:pred :avoid}}}
+  
+   "exister" {:synsem {:cat :verb
+                       :sem {:pred :exist}}}
+   
+   "exprimer" {:synsem {:cat :verb
+                        :sem {:pred :express}}}
+   
+   "expulser" {:synsem {:cat :verb
+                        :sem {:pred :throw-out}}}
+
+   "former" {:synsem {:cat :verb
+                     :sem {:pred :form}}}
+   
    "gagner" [{:synsem {:cat :verb
                       :sem {:pred :earn}}}
             {:synsem {:cat :verb
                       :sem {:pred :win}}}]
 
+   "gérer" {:synsem {:cat :verb
+                    :sem {:pred :manage}}}
    "il"
    [{:synsem {:cat :noun
               :pronoun true
@@ -263,10 +311,26 @@
                  :sem {:human true
                        :pred :io}
                  :subcat '()}}
-   "manger"
-   {:synsem {:cat :verb
-             :sem {:pred :mangiare}}}
-   "nous"
+  
+  "laisser" {:synsem {:cat :verb
+                      :sem {:pred :leave-behind}}}
+
+  "manger"
+  {:synsem {:cat :verb
+            :sem {:pred :mangiare}}}
+  
+  "manquer" {:synsem {:cat :verb
+                      :sem {:pred :to-be-missing}}}
+  
+  "marcher" [{:synsem {:cat :verb
+                       :sem {:pred :walk}}}
+             {:synsem {:cat :verb
+                       :sem {:subj {:human false}
+                              :pred :work-nonhuman}}}]
+
+  "mettre" {:synsem {:cat :verb
+                     :sem {:pred :set}}}
+  "nous"
    {:synsem {:cat :noun
              :pronoun true
              :case :nom
@@ -275,18 +339,72 @@
               :sem {:human true
                     :pred :noi}
              :subcat '()}}
+
+   "observer" {:synsem {:cat :verb
+                       :sem {:pred :observe}}}
+
+   "oublier" {:synsem {:cat :verb
+                      :sem {:pred :forget}}}
    "parler"
    [{:synsem {:cat :verb
               :sem {:pred :speak}}}
     {:synsem {:cat :verb
               :sem {:pred :talk}}}]
 
+   "partager" {:synsem {:cat :verb
+                       :sem {:pred :share}}}
+
+   "participer" {:synsem {:cat :verb
+                         :sem {:pred :participate}}}
+
+   "peindre" {:français {:boot-stem1 "pein"
+                         :boot-stem2 "peign"
+                         :passé "peint"
+                         :futuro-stem "paindr"
+                         :imperfect "peign"}
+              :synsem {:cat :verb
+                       :sem {:pred :paint}}}
+;  "profiter (de)" {:synsem {:cat :verb
+;                            :sem {:pred :take-advantage-of}}}
+
+
+  "regarder" [{:synsem {:cat :verb
+                        :sem {:pred :look}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :watch}}}]
+  
+  "remarquer" {:synsem {:cat :verb
+                        :sem {:pred :note}}}
+
+  "répondre" {:synsem {:cat :verb
+                       :sem {:pred :answer}}}
+
+  "s'amuser" (let [subject-semantics (ref {:human true})
+                    subject-agr (ref :top)]
+                {:synsem {:cat :verb
+                          :essere true
+                          :sem {:pred :have-fun
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
+  "soulever" {:synsem {:cat :verb
+                       :sem {:pred :lift}}}
+
   "soutenir" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
   "terminer" {:synsem {:cat :verb
                        :sem {:pred :finish}}}
-   "tu"
+
+  "touer" {:synsem {:cat :verb
+                    :sem {:pred :kill}}}
+  "tu"
    {:synsem {:cat :noun
              :pronoun true
              :case :nom
@@ -303,157 +421,7 @@
                    :number :plur}
               :sem {:human true
                     :pred :voi}
-             :subcat '()}}
-  
-;  "profiter (de)" {:synsem {:cat :verb
-;                            :sem {:pred :take-advantage-of}}}
-  
-  "assurer" [{:synsem {:cat :verb
-                       :sem {:pred :assure}}}
-             {:synsem {:cat :verb
-                       :sem {:pred :insure}}}]
-
-  "augmenter" {:synsem {:cat :verb
-                        :sem {:pred :increase}}}
-
-  "aider" {:synsem {:cat :verb
-                    :sem {:pred :aiutare}}}
-  
-  "baisser" {:synsem {:cat :verb
-                      :sem {:pred :lower}}}
-  
-  "changer" {:synsem {:cat :verb
-                      :sem {:pred :cambiare}}}
-  
-  "commenter" {:synsem {:cat :verb
-                        :sem {:pred :comment}}}
-  
-  "partager" {:synsem {:cat :verb
-                       :sem {:pred :share}}}
-  
-  "acheter" {:synsem {:cat :verb
-                      :sem {:pred :comprare}}}
-  
-  ;;CONJUGATES LIKE PRENDRE
-  "comprendre" {:synsem {:cat :verb
-                         :sem {:pred :understand}}}
-
-  "conserver" [{:synsem {:cat :verb
-                         :sem {:pred :conserve}}}
-               {:synsem {:cat :verb
-                         :sem {:pred :preserve}}}]
-  
-  "considérer" {:synsem {:cat :verb
-                         :sem {:pred :consider}}}
-  
-  ;;SIMILAR TO PRENDRE
-  "répondre" {:synsem {:cat :verb
-                       :sem {:pred :answer}}}
-  
-  
-  "corrir" {:synsem {:cat :verb
-                     :sem {:pred :run}}}
-  
-  ;;  LIKE PRENDRE
-  "correspondre" {:synsem {:cat :verb
-                           :sem {:pred :correspond}}}
-  
-  "couper" {:synsem {:cat :verb
-                     :sem {:pred :cut}}}
-  
-  "créer" {:synsem {:cat :verb
-                    :sem {:pred :create}}}
-  
-  "devoir" {:synsem {:cat :verb
-                     :sem {:pred :have-to}}}
-  ;; IRREGOLARE
-  "decider" {:synsem {:cat :verb
-                      :sem {:pred :decide}}}
-  
-  "laisser" {:synsem {:cat :verb
-                      :sem {:pred :leave-behind}}}
-  
-  "developer" {:synsem {:cat :verb
-                        :sem {:pred :develop}}}
-  
-  "désirer" {:synsem {:cat :verb
-                      :sem {:pred :desire}}}
-  
-  "expulser" {:synsem {:cat :verb
-                       :sem {:pred :throw-out}}}
-  
-  "enseigner" [{:synsem {:cat :verb
-                         :sem {:pred :show}}}
-               {:synsem {:cat :verb
-                         :sem {:pred :teach}}}]
-
-  "entrer" {:synsem {:cat :verb
-                     :sem {:pred :enter}}}
-  
-  "echapper" {:synsem {:cat :verb
-                       :sem {:pred :escape}}}
-
-  "écouter" {:synsem {:cat :verb
-                      :sem {:pred :listen-to}}}
-  
-  "attendre" [{:synsem {:cat :verb
-                        :sem {:pred :wait-for}}}
-              {:synsem {:cat :verb
-                        :sem {:pred :hope}}}]
-  
-  "étudier" {:synsem {:cat :verb
-                      :sem {:pred :study}}}
-  
-  "éviter" {:synsem {:cat :verb
-                     :sem {:pred :avoid}}}
-  
-  "exister" {:synsem {:cat :verb
-                      :sem {:pred :exist}}}
-  
-  "exprimer" {:synsem {:cat :verb
-                       :sem {:pred :express}}}
-  
-  "manquer" {:synsem {:cat :verb
-                      :sem {:pred :to-be-missing}}}
-  
-  "former" {:synsem {:cat :verb
-                     :sem {:pred :form}}}
-  
-  "marcher" {:synsem {:cat :verb
-                      :sem {:subj {:human false}
-                            :pred :work-nonhuman}}}
-  
-  "soulever" {:synsem {:cat :verb
-                       :sem {:pred :lift}}}
-
-  "gérer" {:synsem {:cat :verb
-                    :sem {:pred :manage}}}
-  "envoyer" {:synsem {:cat :verb
-                      :sem {:pred :send}}}
-  "touer" {:synsem {:cat :verb
-                    :sem {:pred :kill}}}
-  "mettre" {:synsem {:cat :verb
-                     :sem {:pred :set}}}
-  "regarder" [{:synsem {:cat :verb
-                        :sem {:pred :look}}}
-              {:synsem {:cat :verb
-                        :sem {:pred :watch}}}]
-  
-  "remarquer" {:synsem {:cat :verb
-                        :sem {:pred :note}}}
-
-  "observer" {:synsem {:cat :verb
-                       :sem {:pred :observe}}}
-  
-  "oublier" {:synsem {:cat :verb
-                      :sem {:pred :forget}}}
-
-  "participer" {:synsem {:cat :verb
-                         :sem {:pred :participate}}}
-
-  "diviser" {:synsem {:cat :verb
-                      :sem {:pred :divide}}}
-   
+             :subcat '()}}  
    })
 
 

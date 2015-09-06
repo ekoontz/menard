@@ -867,18 +867,17 @@
                     :sem {:pred :cantare}}
            :english {:past "sang"}}
 
-
-"sit down" {:english {:past "sat down"
-                                  :participle "sitting down"
-                                  :past-participle "sat down"
-                                  :present {:3sing "sits down"}}
-                        :synsem {:cat :verb
-                                 :sem {:pred :sit-down}}}
+   "sit down" {:english {:past "sat down"
+                         :participle "sitting down"
+                         :past-participle "sat down"
+                         :present {:3sing "sits down"}}
+               :synsem {:cat :verb
+                        :sem {:pred :sit-down}}}
 
    "sleep" {:synsem {:cat :verb
                      :sem {:subj {:animate true}
                            :discrete false
-                           :pred :dormire}}
+                           :pred :sleep}}
             :english {:past "slept"}}
 
    "snap" {:synsem {:cat :verb

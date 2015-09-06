@@ -833,7 +833,7 @@
                 :essere false
                 :sem {:subj {:animate true}
                       :discrete false
-                      :pred :dormire}}}
+                      :pred :sleep}}}
 
       "dovere" {:synsem {:cat :verb
                          :sem {:pred :have-to}}

@@ -131,6 +131,9 @@
    "donner" {:synsem {:cat :verb
                       :sem {:pred :give}}}
    
+   "dormir" {:synsem {:cat :verb
+                      :sem {:pred :sleep}}}
+
    "echapper" {:synsem {:cat :verb
                         :sem {:pred :escape}}}
 

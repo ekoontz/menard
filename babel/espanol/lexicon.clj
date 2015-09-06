@@ -131,7 +131,7 @@
    "dormir" {:espanol {:boot-stem "duerm"
                        :pret-stem "durm"}
              :synsem {:cat :verb
-                      :sem {:pred :dormire}}}
+                      :sem {:pred :sleep}}}
    
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}

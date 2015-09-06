@@ -4,7 +4,7 @@ script: lein with-profile travis-ci test
 addons:
   postgresql: "9.4"
 before_script:
-  - psql -c 'create database verbcoach;' -U postgres
-  - psql -U postgres verbcoach < src/sql/babel.sql
+  - psql -c 'create database babel;' -U postgres
+  - psql -U postgres babel < src/sql/babel.sql
 sudo: false
 

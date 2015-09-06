@@ -3,12 +3,13 @@
 
 (require '[babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)])
 (require '[babel.forest :as forest])
-(require '[babel.espanol.grammar :as gram])
+(require '[babel.enrich :refer [enrich]])
+(require '[babel.espanol.grammar :refer [grammar]])
 (require '[babel.espanol.lexicon :as lex])
+(require '[babel.espanol.pos :refer :all])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 (require '[babel.espanol.morphology :as morph :refer [fo]])
 (require '[babel.parse :as parse])
-(require '[babel.espanol.pos :refer :all])
 (require '[babel.ug :refer :all])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
@@ -37,8 +38,6 @@
                  (filter #(or (not (= :verb (get-in % [:synsem :cat])))
                               (not (= :none (get-in % [:synsem :infl] :none))))
                          vals))))))
-
-
 (def small
   (future
     (let [grammar
@@ -85,63 +84,3 @@
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
        })))
 
-(defn enrich [spec]
-  (let [against-pred (against-pred spec)]
-    (if true against-pred
-        (let [against-comp (map (fn [spec]
-                            (against-comp spec))
-                          (if (seq? against-pred)
-                            (seq (set against-pred))
-                            against-pred))]
-          (if (seq? against-comp)
-            (seq (set against-comp))
-            against-comp)))))
-
-(defn against-pred [spec]
-  (let [pred (get-in spec [:synsem :sem :pred] :top)]
-    (if (= :top pred)
-      spec
-      (mapcat (fn [lexeme]
-                (let [result (unify spec
-                                    {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}}
-                                    {:synsem {:essere (strip-refs (get-in lexeme [:synsem :essere] :top))}}
-                                    )]
-                  (if (not (fail? result))
-                    (list result))))
-              (matching-head-lexemes spec)))))
-
-(defn against-comp [spec]
-  (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
-    (if (= :top pred-of-comp)
-      spec
-      (mapcat (fn [lexeme]
-                (let [result (unify spec
-                                    {:comp {:synsem {:agr (strip-refs (get-in lexeme [:synsem :agr] :top))
-                                                     :sem (strip-refs (get-in lexeme [:synsem :sem] :top))}}})]
-                  (if (not (fail? result))
-                    (list result))))
-              (matching-comp-lexemes spec)))))
-
-(defn matching-head-lexemes [spec]
-  (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
-    (if (= pred-of-head :top)
-      spec
-      (mapcat (fn [lexemes]
-                (mapcat (fn [lexeme]
-                          (if (= pred-of-head
-                                 (get-in lexeme [:synsem :sem :pred] :top))
-                            (list lexeme)))
-                        lexemes))
-              (vals @lexicon)))))
-
-(defn matching-comp-lexemes [spec]
-  (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
-    (if (= pred-of-comp :top)
-      spec
-      (mapcat (fn [lexemes]
-                (mapcat (fn [lexeme]
-                          (if (= pred-of-comp
-                                 (get-in lexeme [:synsem :sem :pred] :top))
-                            (list lexeme)))
-                        lexemes))
-              (vals @lexicon)))))

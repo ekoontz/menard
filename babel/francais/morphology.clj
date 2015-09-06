@@ -136,12 +136,12 @@
            (verbs/conditional word)
               
            (and
-            (= (get-in word '(:infl)) :futuro)
+            (= (get-in word '(:infl)) :future)
             (string? (get-in word '(:français))))
            (verbs/future word)
 
            (and
-            (= (get-in word '(:infl)) :imperfetto)
+            (= (get-in word '(:infl)) :imperfect)
             (string? (get-in word '(:français))))
            (verbs/imperfect word)
 
@@ -326,11 +326,11 @@
                                        lexemes)))
                            [
                             ;; 1. past-tense exceptions
-                            {:path [:français :passato]
+                            {:path [:français :past]
                              :merge-fn
                              (fn [val]
                                {:français {:infl :past
-                                           :français (get-in val [:français :passato] :nothing)}})}
+                                           :français (get-in val [:français :past] :nothing)}})}
 
                             ;; 2. present-tense exceptions
                             {:path [:français :present :1sing]

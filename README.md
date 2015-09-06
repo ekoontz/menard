@@ -1,4 +1,5 @@
 [![Clojars Project](http://clojars.org/babel/latest-version.svg)](http://clojars.org/babel)
+[![Build Status](https://secure.travis-ci.org/ekoontz/babel.png?branch=master)](http://travis-ci.org/ekoontz/babel)
 
 # babel
 

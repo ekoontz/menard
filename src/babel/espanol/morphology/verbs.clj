@@ -9,10 +9,14 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
+(defn reflexive-to-infinitive [reflexive-infinitive]
+  "e.g.: quedarse -> quedar"
+  (string/replace reflexive-infinitive #"se$" ""))
+
 (defn conditional [word  & [ {usted :usted
                               vosotros :vosotros
                               ustedes :ustedes}]]
-  (let [infinitive (get-in word '(:espanol))
+  (let [infinitive (reflexive-to-infinitive (get-in word '[:espanol]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))

@@ -17,12 +17,11 @@
                  [org.clojure/clojure "1.5.1"]
                  [org.clojure/data.json "0.2.5"]
                  [org.clojure/tools.logging "0.2.6"]
-                 [org.postgresql/postgresql "9.4-1201-jsonb-jdbc41-SNAPSHOT"]
+                 [org.postgresql/postgresql "9.4-1202-jdbc41"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
   :resource-paths ["resources"]
-  :repositories {"eugene" "http://hiro-tan.org/~ekoontz/mvn/repository"}
   :plugins [[lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]

@@ -232,32 +232,32 @@
                            {:rule "s-future-phrasal-head"
                             :head {:phrasal true}
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb
-                                     :sem {:tense :futuro}}})
+                                     :sem {:tense :future}}})
                    (unifyc c10
                            root-is-head
                            {:rule "s-future-nonphrasal-head"
                             :head {:phrasal false}
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb
-                                     :sem {:tense :futuro}}})
+                                     :sem {:tense :future}}})
                    (unifyc c10
                            root-is-head-root
-                           {:rule "s-imperfetto-phrasal-head"
+                           {:rule "s-imperfect-phrasal-head"
                             :head {:phrasal true}
                             :synsem {:aux false
-                                     :infl :imperfetto
+                                     :infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
                    (unifyc c10
                            root-is-head-root
-                           {:rule "s-imperfetto-nonphrasal-head"
+                           {:rule "s-imperfect-nonphrasal-head"
                             :head {:phrasal false}
                             :synsem {:aux false
-                                     :infl :imperfetto
+                                     :infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
@@ -313,13 +313,13 @@
                    (unifyc h21
                            {:rule "vp-future"
                             :synsem {:aux false
-                                     :infl :futuro
+                                     :infl :future
                                      :cat :verb}})
 
                    (unifyc h21
-                          {:rule "vp-imperfetto"
+                          {:rule "vp-imperfect"
                            :synsem {:aux false
-                                    :infl :imperfetto
+                                    :infl :imperfect
                                     :cat :verb}})
 
                    (unifyc h21

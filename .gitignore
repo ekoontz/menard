@@ -9,5 +9,7 @@ pom.xml.asc
 /.nrepl-port
 *~
 dbs.txt
+[#]*[#]
+.[#]*
 
 

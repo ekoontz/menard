@@ -93,7 +93,8 @@
                          :sem {:pred :desire}}}
                        
      "donner" {:synsem {:cat :verb
-                         :sem {:pred :give}}}                  
+                         :sem {:pred :give}}}
+                                          
      "peindre" {:français {:boot-stem1 "pein"
                         :boot-stem2 "peign"}
      {:français {:passé "visto"

@@ -67,6 +67,9 @@
                       
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
+    
+    "comprendre" {:synsem {:cat :verb
+                         :sem {:pred :understand}}}
      
      "ecouter" {:synsem {:cat :verb
                          :sem {:pred :listen}}}                  

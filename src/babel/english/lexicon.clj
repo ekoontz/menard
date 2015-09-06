@@ -61,7 +61,7 @@
                       :sem {:pred :assure}}}
 
    "attend" {:synsem {:cat :verb
-                      :sem {:pred :frequentare}}}
+                      :sem {:pred :attend}}}
 
    "avoid" {:synsem {:cat :verb
                      :sem {:pred :avoid}}}
@@ -789,6 +789,10 @@
                           :comparative false
                           :physical-object true
                           :human false}}})
+
+ "remain" {:synsem {:cat :verb
+                      :sem {:pred :remain}}}
+
 
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}

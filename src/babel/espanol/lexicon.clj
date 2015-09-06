@@ -114,6 +114,21 @@
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}
    
+    "quedarse" (let [subject-semantics (ref {:animate true})
+                   subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :sem {:pred :remain
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+   
+   
    "el"
    (unify determiner
           {:synsem {:cat :det

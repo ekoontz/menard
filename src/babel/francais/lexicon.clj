@@ -28,6 +28,16 @@
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
                          :sem {:pred :imparare}}}
+                       
+    "attendre" {:synsem {:cat :verb
+                         :sem {:pred :wait}}}    
+                       
+    "assurer" {:synsem {:cat :verb
+                         :sem {:pred :assure}}}    
+                       
+    "augmenter" {:synsem {:cat :verb
+                         :sem {:pred :increase}}}                   
+                       
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}
@@ -42,8 +52,72 @@
                          :2plur "avez"
                          :3plur "ont"}}}
    
+    "boire" {:synsem {:boot-stem1 "boiv"
+                        :boot-stem2 "buv"}
+    :français {:passato "bu"}                  
+             :synsem {:cat :verb
+                      :sem {:pred :drink}}}                  
+                      
+   "changer" {:synsem {:cat :verb
+                         :sem {:pred :change}}}                   
+    
+    "chanter" {:synsem {:cat :verb
+                         :sem {:pred :sing}}}
+    
+                      
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
+    
+    "comprendre" {:synsem {:cat :verb
+                         :sem {:pred :understand}}}
+                       
+   "courir" {:synsem {:cat :verb
+                         :sem {:pred :run}}}
+                       
+     "ecouter" {:synsem {:cat :verb
+                         :sem {:pred :listen}}}                  
+     
+     "marchcer" {:synsem {:cat :verb
+                         :sem {:pred :walk}}}
+                       
+     "effacer" {:synsem {:cat :verb
+                         :sem {:pred :erase}}}
+                       
+     "créer" {:synsem {:cat :verb
+                         :sem {:pred :believe}}}  
+     
+     "décider" {:synsem {:cat :verb
+                         :sem {:pred :decide}}}
+     
+     "désirer" {:synsem {:cat :verb
+                         :sem {:pred :desire}}}
+                       
+     "donner" {:synsem {:cat :verb
+                         :sem {:pred :give}}}                  
+     "peindre" {:français {:boot-stem1 "pein"
+                        :boot-stem2 "peign"}
+     {:français {:passé "visto"
+               :futuro-stem "paindr"
+               :français :imparfait "peign"}}                 
+             :synsem {:cat :verb
+                      :sem {:pred :paint}}}
+     
+     "s'amuser" (let [subject-semantics (ref {:human true})
+                         subject-agr (ref :top)]
+                     {:synsem {:cat :verb
+                               :essere true
+                               :sem {:pred :have-fun
+                                     :reflexive true
+                                     :subj subject-semantics
+                                     :obj subject-semantics}
+                               :subcat {:1 {:agr subject-agr
+                                            :sem subject-semantics}
+                                        :2 {:agr subject-agr
+                                            :pronoun true
+                                            :reflexive true
+                                            :sem subject-semantics}}}})
+     
+                       
    "elle"
    [{:synsem {:cat :noun
              :pronoun true

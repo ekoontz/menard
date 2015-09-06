@@ -258,6 +258,16 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :present}}})
+                                         
+                     (unifyc c21
+                           root-is-head-root
+                           {:head {:phrasal true}
+                            :comp {:synsem {:cat :noun
+                                            :pronoun true}}
+                            :rule "vp-pronoun-phrasal"
+                            :synsem {:cat :verb
+                                     :infl {:not :past}}})                     
+                                         
                    (unifyc h21
                            {:rule "vp-infinitive"
                             :synsem {:aux false

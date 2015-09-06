@@ -8,7 +8,7 @@
 (declare matching-head-lexemes)
 
 (defn enrich [spec lexicon]
-  (let [against-pred (against-pred spec)]
+  (let [against-pred (against-pred spec lexicon)]
     (if true against-pred
         (let [against-comp (map (fn [spec]
                                   (against-comp spec lexicon))
@@ -54,7 +54,7 @@
                                  (get-in lexeme [:synsem :sem :pred] :top))
                             (list lexeme)))
                         lexemes))
-              (vals @lexicon)))))
+              (vals lexicon)))))
 
 (defn matching-comp-lexemes [spec lexicon]
   (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
@@ -66,4 +66,4 @@
                                  (get-in lexeme [:synsem :sem :pred] :top))
                             (list lexeme)))
                         lexemes))
-              (vals @lexicon)))))
+              (vals lexicon)))))

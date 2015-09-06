@@ -40,7 +40,8 @@
 
         spec (if (and do-enrich (:enrich language-model))
                ((:enrich language-model)
-                spec)
+                spec
+                (:lexicon language-model))
                spec)]
     (log/debug (str "calling forest/generate with spec: " (if (seq? spec)
                                                             (string/join "," spec)

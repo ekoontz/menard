@@ -81,7 +81,20 @@
                          :sem {:pred :walk}}}
                        
      "effacer" {:synsem {:cat :verb
-                         :sem {:pred :erase}}}                  
+                         :sem {:pred :erase}}}
+                       
+     "créer" {:synsem {:cat :verb
+                         :sem {:pred :believe}}}  
+     
+     "décider" {:synsem {:cat :verb
+                         :sem {:pred :decide}}}
+     
+     "désirer" {:synsem {:cat :verb
+                         :sem {:pred :desire}}}
+                       
+     "donner" {:synsem {:cat :verb
+                         :sem {:pred :give}}}                  
+                       
    "elle"
    [{:synsem {:cat :noun
              :pronoun true

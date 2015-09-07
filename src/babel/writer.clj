@@ -245,7 +245,7 @@
     (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
     (let [count (- count current-target-count)]
       (if (> current-target-count 0)
-        (log/warn (str "There are already " current-target-count " expressions for: " spec)))
+        (log/debug (str "There are already " current-target-count " expressions for: " spec)))
       (if (> count 0)
         (do
           (log/info (str "Generating "
@@ -256,7 +256,7 @@
                     source-model
                     target-model
                     spec table))
-        (log/warn (str "Since no more are required, not generating any for this spec."))))))
+        (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)

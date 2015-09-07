@@ -248,7 +248,7 @@
    "avere"
    (let [avere-common {:synsem {:essere false
                                 :cat :verb
-                                :reflexive false}
+                                :sem {:reflexive false}}
                        :italiano {:italiano "avere"
                                   :future-stem "avr"
                                   :drop-e true
@@ -311,8 +311,6 @@
                                 :agr agr-of-subj-of-main-verb
                                 :subcat {:1 {:agr agr-of-subj-of-main-verb}
                                          :2 '()}}}}}))])
-
-
    "bello"
    [;; non-comparative
     (unify adjective

@@ -20,11 +20,14 @@
 (deftest passato-prossimo-reflexive
   (let [result (engine/generate {:head {:synsem {:agr {:gender :fem}}}
                                  :synsem {:subcat '()
+                                          :infl :present
                                           :sem {:pred :get-up
                                                 :subj {:pred :I}
                                                 :tense :past
                                                 :aspect :perfect}}}
                                 it/small)]
-    (is (= "io mi sono alzata" (fo result)))))
+    (and (is (not (nil? result)))
+         (is (= "io mi sono alzata" (fo result))))))
+
 
 

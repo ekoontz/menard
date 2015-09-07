@@ -97,7 +97,7 @@
                        (= (:rule %) "s-future-nonphrasal")
                        (= (:rule %) "s-imperfect-nonphrasal")
                        (= (:rule %) "s-aux")
-                       (= (:rule %) "vp-aux"))
+                       (= (:rule %) "vp-aux-22"))
                   grammar)
           lexicon
           (into {}

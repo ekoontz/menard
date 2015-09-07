@@ -146,7 +146,7 @@
            (verbs/imperfect word)
 
            (and
-            (= (get-in word '(:infl)) :past))
+            (= (get-in word '(:infl)) :past-p))
            (verbs/passe-compose word)
            
            (and

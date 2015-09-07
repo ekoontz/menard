@@ -21,6 +21,19 @@
    "aider" {:synsem {:cat :verb
                      :sem {:pred :aiutare}}}
    
+   "aller" {:français {:essere true
+                       :future-stem "ir"
+                       :present {:1sing "vais"
+                                 :2sing "vas"
+                                 :3sing "va"
+                                 :1plur "allons"
+                                 :2plur "allez"
+                                 :3plur "vont"}}
+            :synsem {:cat :verb
+                     :essere true
+                     :sem {:subj {:animate true}
+                           :pred :andare}}}
+
    "anoncier" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
@@ -195,31 +208,34 @@
                       :sem {:pred :try}}}
 
    "être"
-   {:synsem {:cat :verb
-             :essere false
-             :sem {:pred :be}}
-    :français {:futuro-stem "ser"
-               :infinitive "être"
-               :present {:1sing "suis"
-                         :2sing "es"
-                         :3sing "est"
-                         :1plur "sommes"
-                         :2plur "êtes"
-                         :3plur "sont"}
-               :passato "été"
-               :imperfect {:1sing "étais"
-                           :2sing "étais"
-                           :3sing "était"
-                           :1plur "étions"
-                           :2plur "étiez"
-                           :3plur "étaient"}
-               :futuro {:1sing "serai"
+   (let [common
+         {:synsem {:cat :verb
+                   :essere false}
+          :français {:futuro-stem "ser"
+                     :infinitive "être"
+                     :present {:1sing "suis"
+                               :2sing "es"
+                               :3sing "est"
+                               :1plur "sommes"
+                               :2plur "êtes"
+                               :3plur "sont"}
+                     :passato "été"
+                     :imperfect {:1sing "étais"
+                                 :2sing "étais"
+                                 :3sing "était"
+                                 :1plur "étions"
+                                 :2plur "étiez"
+                                 :3plur "étaient"}
+                     :futuro {:1sing "serai"
                         :2sing "seras"
-                        :3sing "sera"
-                        :1plur "serons"
-                        :2plur "serez"
-                        :3plur "seront"}}}
+                              :3sing "sera"
+                              :1plur "serons"
+                              :2plur "serez"
+                              :3plur "seront"}}}]
+     [(unify common {:synsem {:sem {:pred :be}}})
+      (unify common verb-aux)])
 
+     
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}
    

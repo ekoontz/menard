@@ -588,12 +588,8 @@
            last-stem-char-is-i (re-find #"i$" stem)
 
            ;; for passato prossimo, the last char depends on gender and number, if an essere-verb.
-           suffix (suffix-of word)
-
-           ]
-
+           suffix (suffix-of word)]
        (cond
-
         ere-type
         (str stem "ut" suffix) ;; "uto","uti","uta" or "ute"
 

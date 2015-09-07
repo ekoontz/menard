@@ -189,7 +189,7 @@
                             :synsem {:infl :present
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :past}}})
+                                           :tense :passe-compose}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -273,17 +273,8 @@
                             :synsem {:aux false
                                      :infl :infinitive
                                      :cat :verb}})
-                   (unifyc h21
-                           {:rule "vp-aux"
-                            :head {:phrasal false}
-                            :synsem {:aux true
-                                     :infl :present
-                                     :sem {:tense :past}
-                                     :cat :verb}})
 
-                   ;; this rule is kind of complicated and made more so by
-                   ;; dependence on auxilary sense of "avere" which supplies the
-                   ;; obj-agr agreement between the object and the main (non-auxilary) verb.
+                   ;; [nous [être + naître]] => nous somme nées
                    (unifyc h22
                            (let [obj-agr (ref :top)]
                              {:head {:phrasal false}
@@ -291,9 +282,7 @@
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
-                                       :sem {:tense :past}
-                                       :subcat {:2 {:agr obj-agr}}}
-                              :français {:b {:obj-agr obj-agr}}}))
+                                       :sem {:tense :passe-compose}}}))
                    (unifyc h21
                            {:rule "vp-future"
                             :synsem {:aux false

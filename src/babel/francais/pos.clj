@@ -61,3 +61,5 @@
 
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
+
+(def verb-aux pos/verb-aux)

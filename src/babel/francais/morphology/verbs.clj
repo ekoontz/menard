@@ -323,7 +323,7 @@
 ;; pass'e compos'e begins here
 (defn passe-compose [word]
   (let [infinitive (get-in word '(:français))
-        er-type (re-find #"[eé]r$" infinitive) ;; c.f. italiano -are
+        er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
         re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
         ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
         stem (string/replace infinitive #"[iaeé]r$" "")
@@ -332,21 +332,34 @@
                stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
-                 person (get-in word '(:agr :person))
+        person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))
-        passe-compose-suffix
-        (cond er-type "é"
-              re-type "u"
-              ir-type "i"
+        gender-suffix
+        (cond (= :fem (get-in word [:agr :gender]))
+              "e"
               true
-              (throw (Exception. (str "passe-compose: don't know what to do with input argument " word))))]
+              "")
+
+        number-suffix
+        (cond (= :plur (get-in word [:agr :number]))
+              "s"
+              true
+              "")
+
+        verb-type-suffix
+        (cond er-type
+              "é"
+              re-type
+              "u"
+              true
+              "i")]        
     (cond
      ;; irregular
-     (get-in word [:passato])
-     (get-in word [:passato])
+     (get-in word [:past-p])
+     (str (get-in word [:past-p]) gender-suffix number-suffix)
      
      ;; regular
-     true (str stem passe-compose-suffix))))
+     true (str stem verb-type-suffix gender-suffix number-suffix))))
 
 (defn number-and-person [number person]
   (cond (and (= person :1st) (= number :sing))

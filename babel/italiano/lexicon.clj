@@ -1075,9 +1075,9 @@
                  :agr {:gender :fem
                        :person :1st
                        :number :sing}
-                :sem {:human true
-                      :pred :I}
-                :subcat '()}}
+                 :sem {:human true
+                       :pred :I}
+                 :subcat '()}}
 
        {:synsem {:cat :noun
                  :pronoun true
@@ -1086,7 +1086,7 @@
                        :person :1st
                        :number :sing}
                  :sem {:human true
-                       :pred :io}
+                       :pred :I}
                  :subcat '()}}]
       "la"
       ;; TODO: refactor commonalities
@@ -1328,7 +1328,7 @@
                      :person :1st
                      :number :sing}
                :sem {:human true
-                     :pred :io}
+                     :pred :I}
                :subcat '()}}
 
      {:synsem {:cat :noun

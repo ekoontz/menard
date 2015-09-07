@@ -45,7 +45,7 @@
                                                 :target-model it/small}
                                                :count count}])))
                                 (list {:synsem {:sem {:tense :conditional}}}
-                                      {:synsem {:sem {:tense :futuro}}}
+                                      {:synsem {:sem {:tense :future}}}
                                       {:synsem {:sem {:tense :present}}}
                                       {:synsem {:sem {:aspect :perfect
                                                       :tense :past}}})))))

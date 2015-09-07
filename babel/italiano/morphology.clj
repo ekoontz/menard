@@ -55,7 +55,7 @@
 
 (declare get-string)
 
-(defn stem-per-futuro [infinitive drop-e]
+(defn stem-per-futueo [infinitive drop-e]
   "turn an infinitive form into a stem that can be conjugated in the future tense."
 
   ;; e.g.: lavarsi => lavare
@@ -97,7 +97,7 @@
      true
      infinitive)))
 
-(defn stem-per-imperfetto [infinitive]
+(defn stem-per-imperfect [infinitive]
   "_infinitive_ should be a string (italian verb infinitive form)"
   ;; e.g.: lavarsi => lavare
   (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -285,10 +285,10 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-     ;; futuro: 1) irregular
+     ;; future 1) irregular
      (and
-      (= (get-in word '(:infl)) :futuro)
-      (map? (get-in word '(:futuro))))
+      (= (get-in word '(:infl)) :future)
+      (map? (get-in word '(:future))))
      (let [infinitive (get-in word '(:italiano))
            ;; e.g.: lavarsi => lavare
            infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -298,31 +298,31 @@
            number (get-in word '(:agr :number))]
        (cond
         (and (= person :1st) (= number :sing))
-        (get-in word '(:futuro :1sing))
+        (get-in word '(:future :1sing))
         (and (= person :2nd) (= number :sing))
-        (get-in word '(:futuro :2sing))
+        (get-in word '(:future :2sing))
         (and (= person :3rd) (= number :sing))
-        (get-in word '(:futuro :3sing))
+        (get-in word '(:future :3sing))
         (and (= person :1st) (= number :plur))
-        (get-in word '(:futuro :1plur))
+        (get-in word '(:future :1plur))
         (and (= person :2nd) (= number :plur))
-        (get-in word '(:futuro :2plur))
+        (get-in word '(:future :2plur))
         (and (= person :3rd) (= number :plur))
-        (get-in word '(:futuro :3plur))
+        (get-in word '(:future :3plur))
 
-        (and (= (get-in word '(:infl)) :futuro)
+        (and (= (get-in word '(:infl)) :future)
              (string? (get-in word '(:italiano))))
-        (str (get-in word '(:italiano)) " (futuro)")
+        (str (get-in word '(:italiano)) " (future)")
 
         true ;; failthrough: should usually not get here:
         ;; TODO: describe when it might be ok, i.e. why log/warn not log/error.
         (do (log/warn (str "get-string-1 could not match: " word))
         word)))
 
-     ;; futuro: 2) futuro-stem specified
-     (and (= (get-in word '(:infl)) :futuro)
-          (get-in word '(:futuro-stem)))
-     (let [stem (get-in word '(:futuro-stem))]
+     ;; future: 2) futueo-stem specified
+     (and (= (get-in word '(:infl)) :future)
+          (get-in word '(:future-stem)))
+     (let [stem (get-in word '(:future-stem))]
        (cond
         (and (= person :1st) (= number :sing))
         (str stem "ò")
@@ -342,8 +342,8 @@
         (and (= person :3rd) (= number :plur))
         (str stem "anno")))
 
-     ;; futuro 3) regular inflection of futuro.
-     (and (= (get-in word '(:infl)) :futuro)
+     ;; future 3) regular inflection of future.
+     (and (= (get-in word '(:infl)) :future)
           (get-in word '(:italiano)))
 
      (let [infinitive (get-in word '(:italiano))
@@ -354,7 +354,7 @@
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
            drop-e (get-in word '(:italiano :drop-e) false)
-           stem (stem-per-futuro infinitive drop-e)]
+           stem (stem-per-future infinitive drop-e)]
        (cond
         (and (= person :1st) (= number :sing))
         (str stem "ò")
@@ -379,8 +379,8 @@
 
      ;; regular inflection of conditional
      (and (= (get-in word '(:infl)) :conditional)
-          (string? (get-in word '(:futuro-stem) :none)))
-     (let [stem (get-in word '(:futuro-stem))
+          (string? (get-in word '(:future-stem) :none)))
+     (let [stem (get-in word '(:future-stem))
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
            drop-e (get-in word '(:italiano :drop-e) false)]
@@ -415,7 +415,7 @@
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
            drop-e (get-in word '(:italiano :drop-e) false)
-           stem (stem-per-futuro infinitive drop-e)]
+           stem (stem-per-future infinitive drop-e)]
 
        (cond
         (and (= person :1st) (= number :sing))
@@ -439,50 +439,50 @@
         :else
         (get-in word '(:italiano))))
 
-     ;; irregular imperfetto sense:
+     ;; irregular imperfect sense:
      ;; 1) use irregular based on number and person.
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :sing (get-in word '(:agr :number)))
       (= :1st (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :1sing))))
-     (get-in word '(:imperfetto :1sing))
+      (string? (get-in word '(:imperfect :1sing))))
+     (get-in word '(:imperfect :1sing))
 
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :sing (get-in word '(:agr :number)))
       (= :2nd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :2sing))))
-     (get-in word '(:imperfetto :2sing))
+      (string? (get-in word '(:imperfect :2sing))))
+     (get-in word '(:imperfect :2sing))
 
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :sing (get-in word '(:agr :number)))
       (= :3rd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :3sing))))
-     (get-in word '(:imperfetto :3sing))
+      (string? (get-in word '(:imperfect :3sing))))
+     (get-in word '(:imperfect :3sing))
 
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :plur (get-in word '(:agr :number)))
       (= :1st (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :1plur))))
-     (get-in word '(:imperfetto :1plur))
+      (string? (get-in word '(:imperfect :1plur))))
+     (get-in word '(:imperfect :1plur))
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :plur (get-in word '(:agr :number)))
       (= :2nd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :2plur))))
-     (get-in word '(:imperfetto :2plur))
+      (string? (get-in word '(:imperfect :2plur))))
+     (get-in word '(:imperfect :2plur))
      (and
-      (= (get-in word '(:infl)) :imperfetto)
+      (= (get-in word '(:infl)) :imperfect)
       (= :plur (get-in word '(:agr :number)))
       (= :3rd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfetto :3plur))))
-     (get-in word '(:imperfetto :3plur))
+      (string? (get-in word '(:imperfect :3plur))))
+     (get-in word '(:imperfect :3plur))
 
-     ;; regular imperfetto sense
-     (and (= (get-in word '(:infl)) :imperfetto)
+     ;; regular imperfect sense
+     (and (= (get-in word '(:infl)) :imperfect)
           (get-in word '(:italiano)))
      (let [infinitive (get-in word '(:italiano))
            ;; e.g.: lavarsi => lavare
@@ -491,7 +491,7 @@
                         infinitive)
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
-           stem (stem-per-imperfetto infinitive)]
+           stem (stem-per-imperfect infinitive)]
        (cond
         (and (= person :1st) (= number :sing))
         (str stem "vo")
@@ -1222,32 +1222,32 @@
    ;; future
    #"cherò$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :1st}}}}
    #"cherai$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :2nd}}}}
    #"cherà$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :3rd}}}}
    #"cheremo$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :1st}}}}
    #"cherete$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :2nd}}}}
    #"cheranno$" 
    {:replace-with "care"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :3rd}}}}})
 
@@ -1257,32 +1257,32 @@
    ;; future
    #"ò$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :1st}}}}
    #"ai$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :2nd}}}}
    #"à$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :sing
                                   :person :3rd}}}}
    #"emo$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :1st}}}}
    #"ete$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :2nd}}}}
    #"anno$" 
    {:replace-with "e"
-    :unify-with {:italiano {:infl :futuro
+    :unify-with {:italiano {:infl :future
                             :agr {:number :plur
                                   :person :3rd}}}}})
 
@@ -1413,19 +1413,19 @@
    ;; e.g.: "bevevo/bevevi/..etc" => "bere"
    #"vevo$"
    {:replace-with "re"
-    :unify-with {:italiano {:infl :imperfetto
+    :unify-with {:italiano {:infl :imperfect
                             :agr {:number :sing
                                   :person :1st}}}}
 
    #"vevi$"
    {:replace-with "re"
-    :unify-with {:italiano {:infl :imperfetto
+    :unify-with {:italiano {:infl :imperfect
                             :agr {:number :sing
                                   :person :2nd}}}}
 
    #"veva$"
    {:replace-with "re"
-    :unify-with {:italiano {:infl :imperfetto
+    :unify-with {:italiano {:infl :imperfect
                             :agr {:number :sing
                                   :person :3rd}}}}
    })

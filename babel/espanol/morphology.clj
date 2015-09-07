@@ -148,7 +148,7 @@
                           :ustedes ustedes
                           })              
       (and
-       (= (get-in word '(:infl)) :futuro)
+       (= (get-in word '(:infl)) :future)
        (string? (get-in word '(:espanol))))
       (verbs/future word
                     {:usted usted
@@ -157,7 +157,7 @@
                      :ustedes ustedes
                      })
       (and
-       (= (get-in word '(:infl)) :imperfetto)
+       (= (get-in word '(:infl)) :imperfect)
        (string? (get-in word '(:espanol))))
       (verbs/imperfect word
                        {:usted usted
@@ -297,32 +297,32 @@
    ;; future
    #"ò$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :sing
                                   :person :1st}}}}
    #"ai$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :sing
                                   :person :2nd}}}}
    #"à$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :sing
                                   :person :3rd}}}}
    #"emo$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :plur
                                   :person :1st}}}}
    #"ete$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :plur
                                   :person :2nd}}}}
    #"anno$" 
    {:replace-with "e"
-    :unify-with {:espanol {:infl :futuro
+    :unify-with {:espanol {:infl :future
                             :agr {:number :plur
                                   :person :3rd}}}}})
 
@@ -444,19 +444,19 @@
    ;; e.g.: "bevevo/bevevi/..etc" => "bere"
    #"vevo$"
    {:replace-with "re"
-    :unify-with {:espanol {:infl :imperfetto
+    :unify-with {:espanol {:infl :imperfect
                             :agr {:number :sing
                                   :person :1st}}}}
 
    #"vevi$"
    {:replace-with "re"
-    :unify-with {:espanol {:infl :imperfetto
+    :unify-with {:espanol {:infl :imperfect
                             :agr {:number :sing
                                   :person :2nd}}}}
 
    #"veva$"
    {:replace-with "re"
-    :unify-with {:espanol {:infl :imperfetto
+    :unify-with {:espanol {:infl :imperfect
                             :agr {:number :sing
                                   :person :3rd}}}}
    })

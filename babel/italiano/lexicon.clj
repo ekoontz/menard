@@ -168,7 +168,7 @@
     {:italiano {:italiano "andare"
                 :essere true
                 :drop-e true
-                :futuro-stem "andr"
+                :future-stem "andr"
                 :present {:1sing "vado"
                           :2sing "vai"
                           :3sing "va"
@@ -250,7 +250,7 @@
                                 :cat :verb
                                 :reflexive false}
                        :italiano {:italiano "avere"
-                                  :futuro-stem "avr"
+                                  :future-stem "avr"
                                   :drop-e true
                                   :present {:1sing "ho"
                                             :2sing "hai"
@@ -340,8 +340,8 @@
 
    "bere"
     {:italiano {:passato "bevuto"
-                :futuro-stem "berr"
-                :imperfetto {:1sing "bevevo"
+                :future-stem "berr"
+                :imperfect {:1sing "bevevo"
                              :2sing "bevevi"
                              :3sing "beveva"
                              :1plur "bevevamo"
@@ -437,7 +437,7 @@
    "cantare" {:synsem {:cat :verb
                        :sem {:pred :cantare}}}
 
-   "caricare" {:italiano {:futuro-stem "carich"}
+   "caricare" {:italiano {:future-stem "carich"}
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
 
@@ -691,7 +691,7 @@
                         :sem {:pred :dare}}
                :italiano {:present {:2sing "dai"
                                     :3plur "danno"}
-                          :futuro-stem "dar"}}
+                          :future-stem "dar"}}
 
 ;; TODO: something wrong here with respect to passato: probably the :essere=false is causing a problem.
 ;        :synsem {:cat :verb
@@ -806,8 +806,8 @@
       (unify sentential-adverb
              {:synsem {:cat :sent-modifier
                        :sem {:pred :domani}
-                       :subcat {:1 {:infl :futuro
-                                    :sem {:tense :futuro}
+                       :subcat {:1 {:infl :future
+                                    :sem {:tense :future}
                                     :subcat '()}}}
               :italiano "domani"})
 
@@ -824,7 +824,7 @@
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
                         :sem {:pred :dopodomani}
-                        :subcat {:1 {:infl :futuro
+                        :subcat {:1 {:infl :future
                                      :sem {:tense :future}
                                      :subcat '()}}}})
 
@@ -837,7 +837,7 @@
 
       "dovere" {:synsem {:cat :verb
                          :sem {:pred :have-to}}
-                :italiano {:futuro-stem "dovr"
+                :italiano {:future-stem "dovr"
                            :drop-e true
                            :present {:1sing "devo"
                                      :2sing "devi"
@@ -870,7 +870,7 @@
                         :infl infl
                         :subcat {:1 {:agr agr}}}
                :italiano {:agr agr
-                          :futuro-stem "sar"
+                          :future-stem "sar"
                           :infinitive "essere"
                           :infl infl
                           :present {:1sing "sono"
@@ -880,13 +880,13 @@
                                     :2plur "siete"
                                     :3plur "sono"}
                           :passato "stato"
-                          :imperfetto {:1sing "ero"
+                          :imperfect {:1sing "ero"
                                        :2sing "eri"
                                        :3sing "era"
                                        :1plur "eravamo"
                                        :2plur "eravate"
                                        :3plur "erano"}
-                          :futuro {:1sing "sarò"
+                          :future {:1sing "sarò"
                                    :2sing "sarai"
                                    :3sing "sarà"
                                    :1plur "saremo"
@@ -1010,7 +1010,7 @@
                            :sem {;:obj {:games true}
                                  :subj {:human true}
                                  :pred :giocare}}
-                  :italiano {:futuro-stem "giocher"}}
+                  :italiano {:future-stem "giocher"}}
 
       "gridare" {:synsem {:cat :verb
                           :sem {:subj {:human true}
@@ -1302,7 +1302,7 @@
                           :pred :madre
                           :child false}}})
 
-   "mancare"  {:italiano {:futuro-stem "mancher"}
+   "mancare"  {:italiano {:future-stem "mancher"}
                :synsem {:cat :verb
                         :sem {:pred :mancare}}}
    
@@ -1396,7 +1396,7 @@
                                    :2sing "ottieni"
                                    :3sing "ottiene"
                                    :3plur "otttengono"}
-                         :futuro-stem "otterr"}}
+                         :future-stem "otterr"}}
 
    "pane"
    ;; inherently singular.
@@ -1488,7 +1488,7 @@
              :italiano {:passato "rimasto"
                         :present {:1sing "rimango"
                                   :3plur "rimangono"}
-                        :futuro-stem "rimarr"}}
+                        :future-stem "rimarr"}}
 
    "riposare" {:synsem {:cat :verb
                         :sem {:pred :rest}}}
@@ -1631,7 +1631,7 @@
                                   :2sing "svieni"
                                   :3sing "sviene"
                                   :3plur "svengono"}
-                        :futuro-stem "sverr"}}
+                        :future-stem "sverr"}}
 
    "svegliarsi" (let [subject-semantics (ref {:animate true})
                       subject-agr (ref :top)]
@@ -1664,7 +1664,7 @@
                                    :2sing "tieni"
                                    :3sing "tiene"
                                    :3plur "tengono"}
-                         :futuro-stem "terr"}}
+                         :future-stem "terr"}}
    "ti"
    {:synsem {:cat :noun
              :pronoun true
@@ -1733,7 +1733,7 @@
    {:synsem {:cat :verb
              :sem {:pred :vedere}}
     :italiano {:passato "visto"
-               :futuro-stem "vedr"}}
+               :future-stem "vedr"}}
    
    "vendere"  {:synsem {:cat :verb 
                         :sem {:pred :vendere
@@ -1748,7 +1748,7 @@
                                   :2sing "vieni"
                                   :3sing "viene"
                                   :3plur "vengono"}
-                        :futuro-stem "verr"}}
+                        :future-stem "verr"}}
 
    "vestirsi" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]

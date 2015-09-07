@@ -44,7 +44,7 @@
                                                   :target-model fr/small}
                                                  :count count}])))
                                   [{:synsem {:sem {:tense :conditional}}}
-                                   {:synsem {:sem {:tense :futuro}}}
+                                   {:synsem {:sem {:tense :future}}}
                                    {:synsem {:sem {:tense :present}}}
                                    ;; TODO: enable this when ready:
                                    ;; {:synsem {:sem {:aspect :perfect

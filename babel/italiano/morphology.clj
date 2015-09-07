@@ -55,7 +55,7 @@
 
 (declare get-string)
 
-(defn stem-per-futueo [infinitive drop-e]
+(defn stem-for-future [infinitive drop-e]
   "turn an infinitive form into a stem that can be conjugated in the future tense."
 
   ;; e.g.: lavarsi => lavare
@@ -97,7 +97,7 @@
      true
      infinitive)))
 
-(defn stem-per-imperfect [infinitive]
+(defn stem-for-imperfect [infinitive]
   "_infinitive_ should be a string (italian verb infinitive form)"
   ;; e.g.: lavarsi => lavare
   (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -354,7 +354,7 @@
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
            drop-e (get-in word '(:italiano :drop-e) false)
-           stem (stem-per-future infinitive drop-e)]
+           stem (stem-for-future infinitive drop-e)]
        (cond
         (and (= person :1st) (= number :sing))
         (str stem "ò")
@@ -415,7 +415,7 @@
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
            drop-e (get-in word '(:italiano :drop-e) false)
-           stem (stem-per-future infinitive drop-e)]
+           stem (stem-for-future infinitive drop-e)]
 
        (cond
         (and (= person :1st) (= number :sing))
@@ -491,7 +491,7 @@
                         infinitive)
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))
-           stem (stem-per-imperfect infinitive)]
+           stem (stem-for-imperfect infinitive)]
        (cond
         (and (= person :1st) (= number :sing))
         (str stem "vo")
@@ -1209,12 +1209,12 @@
       )
      concat)))
 
-(defn stem-per-passato-prossimo [infinitive]
+(defn stem-for-passato-prossimo [infinitive]
   "_infinitive_ should be a string (italian verb infinitive form)"
   (string/replace infinitive #"^(.*)([aei])(re)$" (fn [[_ prefix vowel suffix]] (str prefix))))
 
 (defn passato-prossimo [infinitive]
-  (str (stem-per-passato-prossimo infinitive) "ato"))
+  (str (stem-for-passato-prossimo infinitive) "ato"))
 
 ;; allows reconstruction of the infinitive form from the inflected form
 (def future-to-infinitive-irreg1

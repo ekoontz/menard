@@ -8,6 +8,8 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
+(declare number-and-person)
+
 (defn conditional [word]
   (let [infinitive (get-in word '(:français))
         ar-type (try (re-find #"ar$" infinitive)
@@ -24,8 +26,11 @@
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
     (cond
+     (get-in word [:conditional number-and-person])
+     (get-in word [:conditional number-and-person])
 
      (and (= person :1st) (= number :sing) er-type)
      (str stem "erais")
@@ -61,7 +66,6 @@
      (str stem "iriez")
      (and (= person :2nd) (= number :plur) re-type)
      (str stem "riez")
-
      ;; </second person plural conditional>
 
      ;; <third person plural conditional>
@@ -74,8 +78,8 @@
      (and (= person :3rd) (= number :plur)
           re-type)
      (str stem "raient")
-     
      ;; </third person plural conditional>
+
      :else
      (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
@@ -95,8 +99,11 @@
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
     (cond
+     (get-in word [:conditional number-and-person])
+     (get-in word [:conditional number-and-person])
      
      (and (= person :1st) (= number :sing) er-type)
      (str stem "erai")
@@ -157,31 +164,37 @@
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (string/replace infinitive #"[iae]r$" "")
+        stem (if (get-in word [:imperfect-stem])
+               (get-in word [:imperfect-stem])
+               (string/replace infinitive #"[iae]r$" ""))
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
     (cond
-     (and (= person :1st) (= number :sing) er-type)
+     (get-in word [:imperfect number-and-person])
+     (get-in word [:imperfect number-and-person])
+
+     (and (= person :1st) (= number :sing) (or er-type stem))
      (str stem "ais")
 
      (and (= person :1st) (= number :sing) ir-type)
      (str stem "issais")
 
-     (and (= person :2nd) (= number :sing) er-type)
+     (and (= person :2nd) (= number :sing) (or er-type stem))
      (str stem "ais")
            
      (and (= person :2nd) (= number :sing) ir-type)
      (str stem "issais")
               
-     (and (= person :3rd) (= number :sing) er-type)
+     (and (= person :3rd) (= number :sing) (or er-type stem))
      (str stem "ait")
            
      (and (= person :3rd) (= number :sing) ir-type)
      (str stem "issait")
            
-     (and (= person :1st) (= number :plur) er-type)
+     (and (= person :1st) (= number :plur) (or er-type stem))
      (str stem "ions")
            
      (and (= person :1st) (= number :plur) ir-type)
@@ -189,7 +202,7 @@
            
      ;; <second person plural imperfecto>
            
-     (and (= person :2nd) (= number :plur) er-type)
+     (and (= person :2nd) (= number :plur) (or er-type stem))
      (str stem "iez")
            
      (and (= person :2nd) (= number :plur) ir-type)
@@ -198,8 +211,7 @@
      ;; </second person plural imperfecto>
            
      ;; <third person plural imperfecto>
-     (and (= person :3rd) (= number :plur)
-          er-type)
+     (and (= person :3rd) (= number :plur) (or er-type stem))
      (str stem "aient")
        
      (and (= person :3rd) (= number :plur)
@@ -227,9 +239,13 @@
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))
         g-stem (re-find #"[g]er$" infinitive)
+        number-and-person (number-and-person number person)
         ]
-    ;;QUI COMINCIANO I VERBI FRANCESI REGOLARI
     (cond
+     (get-in word [:present number-and-person])
+     (get-in word [:present number-and-person])
+
+     ;;QUI COMINCIANO I VERBI FRANCESI REGOLARI
      (and (= person :1st) (= number :sing) er-type)
      (str stem "e")
 
@@ -331,3 +347,19 @@
      
      ;; regular
      true (str stem passe-compose-suffix))))
+
+(defn number-and-person [number person]
+  (cond (and (= person :1st) (= number :sing))
+        :1sing
+        (and (= person :1st) (= number :plur))
+        :1plur
+        (and (= person :2nd) (= number :sing))
+        :2sing
+        (and (= person :2nd) (= number :plur))
+        :2plur
+        (and (= person :3rd) (= number :sing))
+        :3sing
+        (and (= person :3rd) (= number :plur))
+        :3plur
+        true
+        nil))

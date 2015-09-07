@@ -28,22 +28,6 @@
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
               transitivize
 
-              ;; make infinitive verbs with irregular present tense have inflection: :infinitive for their infinitive form.
-              ;; TODO: should do this for verbs that have *any* irregular forms - present tense or other.
-              (map-function-on-map-vals
-               (fn [k vals]
-                 (map (fn [val]
-                        (cond (and (= (get-in val [:synsem :cat])
-                                      :verb)
-                                   (= :top (get-in val [:synsem :infl]))
-                                   (or (not (= :none (get-in val [:français :present] :none)))
-                                       (not (= :none (get-in val [:français :imperfect] :none)))))
-                              (unify val
-                                     {:synsem {:infl :infinitive}})
-                              true
-                              val))
-                      vals)))
-              
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 
               ;; rather than not having any inflection.

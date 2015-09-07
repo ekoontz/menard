@@ -45,14 +45,13 @@
                        
    "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}                   
-   
    "avoir"
    {:synsem {:essere false
              :sem {:pred :avere}
              :cat :verb}
-    :français {:infinitive "avoir"
-               :futuro-stem "aur"
+    :français {:futuro-stem "aur"
                :drop-e true
+               :imperfect-stem "av"
                :present {:1sing "ai"
                          :2sing "as"
                          :3sing "a"

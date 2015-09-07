@@ -23,7 +23,7 @@
           (if (string? result)
             (trim result)
             result))
-
+        
         ;; je + aime = j'aime
         (and (not (nil? b))
              (let [a (get-string word)
@@ -139,7 +139,7 @@
             (= (get-in word '(:infl)) :future)
             (string? (get-in word '(:français))))
            (verbs/future word)
-
+           
            (and
             (= (get-in word '(:infl)) :imperfect)
             (string? (get-in word '(:français))))
@@ -184,7 +184,6 @@
 
 (defn fo [input]
   (cond 
-
    (= input :fail)
    (str input)
 

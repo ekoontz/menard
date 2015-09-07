@@ -25,7 +25,7 @@
                                 fr/small)]
     (is (= "je suis" (fo result)))))
 
-(deftest imperfect-irregular
+(deftest imperfect-irregular-être
   (let [result (engine/generate {:synsem {:subcat '()
                                           :infl :imperfect
                                           :sem {:pred :be
@@ -33,6 +33,19 @@
 
                                 fr/small)]
     (is (= "j'étais" (fo result)))))
+
+(deftest imperfect-irregular-avoir
+  (let [result (engine/generate {:synsem {:subcat '()
+                                          :infl :imperfect
+                                          :sem {:pred :avere
+                                                :subj {:pred :I}}}}
+                                fr/small)]
+    (and (is (not (nil? result)))
+         (is (= "av" (get-in result [:head :français :imperfect-stem])))
+         (is (= "j'avais" (fo result))))))
+
+
+
 
 
 

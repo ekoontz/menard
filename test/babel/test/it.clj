@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.italiano :as it :refer [lexicon]]
+            [babel.italiano.lexicon :refer [lexicon-source]]
             [babel.italiano.morphology :refer [fo]]
             [babel.writer :as writer]
             [clojure.string :as string]

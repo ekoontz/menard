@@ -1,5 +1,5 @@
 #!/bin/sh
 
-lein run -m es/todos
-lein run -m fr/tout
-lein run -m it/tutti
+lein run -m babel.espanol.writer/todos
+lein run -m babel.francais.writer/tout
+lein run -m babel.italiano.writer/tutti

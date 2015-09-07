@@ -1,7 +1,7 @@
 (ns babel.test.es
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.espanol :as es]
+            [babel.espanol.writer :as es]
             [babel.espanol.morphology :refer [fo]]
             [babel.writer :as writer]
             [clojure.string :as string]

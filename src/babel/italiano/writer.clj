@@ -1,7 +1,8 @@
-(ns babel.italiano
+(ns babel.italiano.writer
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.cache :refer (create-index)])
+(require '[babel.english.writer :as en])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.forest :as forest])
 (require '[babel.italiano.grammar :as gram])
@@ -11,6 +12,7 @@
 (require '[babel.lexiconfn :refer (compile-lex infinitives map-function-on-map-vals unify)])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer [head-principle]])
+(require '[babel.writer :refer [fill-by-spec fill-verb process write-lexicon]])
 
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
@@ -110,3 +112,44 @@
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
        })))
+
+(defn tutti [ & [count]]
+  (let [count (if count (Integer. count) 10)
+        ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
+        ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
+        root-verbs 
+        (zipmap
+         (keys @lexicon)
+         (map (fn [lexeme-set]
+                (filter (fn [lexeme]
+                          (and
+                           (= (get-in lexeme [:synsem :cat]) :verb)
+                           (= (get-in lexeme [:synsem :infl]) :top)
+                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                        lexeme-set))
+              (vals @lexicon)))]
+    (write-lexicon "it" @lexicon)
+    (log/info (str "done writing lexicon."))
+    (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))
+    (.size (map (fn [verb]
+                  (let [root-form (get-in verb [:italiano :italiano])]
+                    (log/debug (str "generating from root-form:" root-form))
+                    (.size (map (fn [tense]
+                                  (let [spec (unify {:root {:italiano {:italiano root-form}}}
+                                                    tense)]
+                                    (log/debug (str "generating from: " spec))
+                                    (process [{:fill
+                                               {:spec spec
+                                                :source-model en/small
+                                                :target-model small}
+                                               :count count}])))
+                                (list {:synsem {:sem {:tense :conditional}}}
+                                      {:synsem {:sem {:tense :future}}}
+                                      {:synsem {:sem {:tense :present}}}
+                                      {:synsem {:sem {:aspect :perfect
+                                                      :tense :past}}})))))
+                (reduce concat
+                        (map (fn [key]
+                               (get root-verbs key))
+                             (sort (keys root-verbs))))))))
+

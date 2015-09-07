@@ -15,7 +15,8 @@
                            :sem {:pred :accompany}}}
 
    "acheter" {:synsem {:cat :verb
-                      :sem {:pred :comprare}}}
+                       :sem {:subj {:human true}
+                             :pred :comprare}}}
 
    "aider" {:synsem {:cat :verb
                      :sem {:pred :aiutare}}}
@@ -375,20 +376,20 @@
   "répondre" {:synsem {:cat :verb
                        :sem {:pred :answer}}}
 
-  "s'amuser" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
-                {:synsem {:cat :verb
-                          :essere true
-                          :sem {:pred :have-fun
-                                :reflexive true
-                                :subj subject-semantics
-                                :obj subject-semantics}
-                          :subcat {:1 {:agr subject-agr
-                                       :sem subject-semantics}
-                                   :2 {:agr subject-agr
-                                       :pronoun true
-                                       :reflexive true
-                                       :sem subject-semantics}}}})
+;  "s'amuser" (let [subject-semantics (ref {:human true})
+;                    subject-agr (ref :top)]
+;                {:synsem {:cat :verb
+;                          :essere true
+;                          :sem {:pred :have-fun
+;                                :reflexive true
+;                                :subj subject-semantics
+;                                :obj subject-semantics}
+;                          :subcat {:1 {:agr subject-agr
+;                                       :sem subject-semantics}
+;                                   :2 {:agr subject-agr
+;                                       :pronoun true
+;                                       :reflexive true
+;                                       :sem subject-semantics}}}})
   "soulever" {:synsem {:cat :verb
                        :sem {:pred :lift}}}
 

@@ -1,4 +1,4 @@
-(ns babel.francais
+(ns babel.francais.writer
   (:refer-clojure :exclude [get-in]))
 
 (require '[clojure.string :as string])
@@ -6,16 +6,17 @@
 
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
 (require '[babel.cache :refer [create-index]])
+(require '[babel.english.writer :as en])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [grammar]])
 (require '[babel.francais.lexicon :refer [lexicon-source]])
 (require '[babel.francais.morphology :refer [analyze exception-generator fo get-string phonize]])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
-
 (require '[babel.parse :as parse])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
 (require '[babel.ug :refer [head-principle]])
+(require '[babel.writer :refer [process write-lexicon]])
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon
@@ -131,4 +132,47 @@
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
        })))
+
+(defn tout [ & [count]]
+  (let [count (if count (Integer. count) 10)]
+    (write-lexicon "fr" @lexicon)
+    (let [
+          ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
+          ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
+          root-verbs 
+          (zipmap
+           (keys @lexicon)
+           (map (fn [lexeme-set]
+                  (filter (fn [lexeme]
+                            (and
+                             (= (get-in lexeme [:synsem :cat]) :verb)
+                             (= (get-in lexeme [:synsem :infl]) :top)
+                             (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                          lexeme-set))
+                (vals @lexicon)))]
+      (.size (map (fn [verb]
+                    (let [root-form (get-in verb [:français :français])]
+                      (log/debug (str "generating from root-form:" root-form))
+                      (.size (map (fn [tense]
+                                    (let [spec (unify {:root {:français {:français root-form}}}
+                                                      tense)]
+                                      (log/debug (str "generating from: " spec))
+                                      (process [{:fill
+                                                 {:spec spec
+                                                  :source-model en/small
+                                                  :target-model small}
+                                                 :count count}])))
+                                  [{:synsem {:sem {:tense :conditional}}}
+                                   {:synsem {:sem {:tense :future}}}
+                                   {:synsem {:sem {:tense :present}}}
+                                   ;; TODO: enable this when ready:
+                                   ;; {:synsem {:sem {:aspect :perfect
+                                   ;;                 :tense :past}}}
+                                   ]
+                                  ))))
+                  (reduce concat
+                          (map (fn [key]
+                                 (get root-verbs key))
+                               (sort (keys root-verbs)))))))))
+
 

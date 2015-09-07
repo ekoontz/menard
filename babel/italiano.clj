@@ -41,13 +41,12 @@
                             (map (fn [val]
                                    (cond (and (= (get-in val [:synsem :cat])
                                                  :verb)
-                                              (= (get-in val [:synsem :aux])
-                                                 :false)
-                                              (= :none (get-in val [:synsem :sem :reflexive]
-                                                               :none)))
+                                              (= (get-in val [:synsem :aux] false)
+                                                 false)
+                                              (= :none (get-in val [:synsem :sem :reflexive] :none)))
                                          (unify val {:synsem {:sem {:reflexive false}}})
                                          true
-                                        val))
+                                         val))
                                  vals)))
 
                          ;; Cleanup functions can go here. Number them for ease of reading.

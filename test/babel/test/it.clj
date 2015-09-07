@@ -18,6 +18,16 @@
                                 it/small)]
     (is (= "io sono" (fo result)))))
 
+(deftest passato-prossimo
+  (let [result (engine/generate {:root {:italiano {:italiano "bere"}}
+                                 :synsem {:subcat ()
+                                          :sem {:subj {:pred :I}
+                                                :tense :past
+                                                :aspect :perfect}}}
+                                it/small)]
+    (and (is (not (nil? result)))
+         (is (= "io ho bevuto" (fo result))))))
+
 (deftest passato-prossimo-reflexive
   (let [result (engine/generate {:head {:synsem {:agr {:gender :fem}}}
                                  :synsem {:subcat '()

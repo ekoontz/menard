@@ -1,6 +1,16 @@
-(ns babel.core)
+(ns babel.core
+  (:require
+   [babel.workbook :as workbook]
+   [compojure.core :refer [context defroutes GET PUT POST DELETE ANY]]
+   [compojure.handler :as handler]
+   [compojure.route :as route]
+   ))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defroutes main-routes
+  (context "/" []
+           workbook/routes)
+  (route/resources "/"))
+
+(def app
+  (handler/site 
+   main-routes))

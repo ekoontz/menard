@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[clj-time "0.7.0"]
+                 [clojail "1.0.6"]
                  [compojure "1.1.6"]
                  [dag-unify "0.1.0-SNAPSHOT"]
                  [environ "1.0.0"]
@@ -25,4 +26,9 @@
   :plugins [[lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
-            [lein-ring "0.9.3"]])
+            [lein-ring "0.9.3"]]
+
+  :ring {:handler babel.core/app})
+
+
+

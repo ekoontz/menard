@@ -610,30 +610,8 @@
 
 (defn pretty-head [title & [js jss css_set]]
   (log/debug (str "pretty-head js: " js))
-  (if jss (log/debug (str "pretty-head jss: " jss)));; TODO: jss => js_set.
   [:head 
    [:meta {:http-equiv "Content-Type" :content "text/html; charset=utf-8"}]
-   [:link {:href "/webjars/css/normalize.css" :rel "stylesheet" :type "text/css"}]
-   (include-css "/css/style.css")
-   (include-css "/css/editor.css")
-   (include-css "/css/layout.css")
-   (include-css "/css/fs.css")
-   (include-css "/css/tag.css")
-   (include-css "/css/quiz.css")
-   (include-css "/css/fade.css")
-   (include-css "/css/test.css")
-
-   (h/include-css "/css/bootstrap.min.css")
-   (h/include-css "/css/prettify.css")
-   
-   ;; (TODO: make remote-or-local configurable)
-   (if false
-     (include-css "http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css")
-     (include-css "/css/font-awesome.min.css"))
-   (include-css "/css/game.css")
-   (include-css "/css/lab.css")
-   (include-css "/css/leaflet.css")
-   (include-css "/css/settings.css")
 
    [:style {:type "text/css"} "ul { padding-left: 2em }"]
 
@@ -641,53 +619,7 @@
    ;; begin Javascript includes
    
    [:script {:type "text/javascript" :src "/js/jquery-1.6.4.min.js"}]
-   [:script {:type "text/javascript" :src "/webjars/js/foundation.min.js" }]
-   [:script {:type "text/javascript" :src "/js/autogrow.js"}]
-
-   ;; TODO: move this [:script ] to quiz.clj somehow: should keep quiz.js stuff with quiz.clj, search.js stuff with search.clj,etc.
-   ;; TODO: use include-js for consistency for these rather than [:script ... ] for consistency.
-   [:script {:type "text/javascript" :src "/js/quiz.js"}]
    [:script {:type "text/javascript" :src "/js/workbook.js"}]
-   [:script {:type "text/javascript" :src "/js/search.js"}]
-   
-   (include-js "/js/prettify.js")
-
-   ;; things I haven't had time to play with.
-   ;; commented out to help startup speed while not being used.
-   ;;   (include-js "/js/lang-clj.js")
-   ;;   (include-js "/js/d3.v2.min.js")
-
-   (include-js "/js/log4.js")
-
-   (if js
-     (include-js js))
-   
-   ;; TODO: this is obviously broken; I don't know how to do this correctly:
-   (if (and jss (> (.size jss) 0))
-     (include-js (nth jss 0)))
-   (if (and jss (> (.size jss) 1))
-     (include-js (nth jss 1)))
-   (if (and jss (> (.size jss) 2))
-     (include-js (nth jss 2)))
-   (if (and jss (> (.size jss) 3))
-     (include-js (nth jss 3)))
-   (if (and jss (> (.size jss) 4))
-     (include-js (nth jss 4)))
-   ;; and so on..?
-
-   (if (string? css_set)
-     (include-css css_set))
-   (if (and css_set (or (vector? css_set) (seq? css_set)) (> (.size css_set) 0))
-     (include-css (nth css_set 0)))
-   (if (and css_set (or (vector? css_set) (seq? css_set)) (> (.size css_set) 1))
-     (include-css (nth css_set 1)))
-   (if (and css_set (or (vector? css_set) (seq? css_set)) (> (.size css_set) 2))
-     (include-css (nth css_set 2)))
-   ;; and so on..?
-
-
-    ; enable this 'reset.css' at some point.
-    ;  (include-css "/italian/css/reset.css")
 
    [:title (str title
                 (if (and title (not (= title "")))
@@ -714,6 +646,18 @@
       (:show-login-form options)
       content
       ))))
+
+(defn page [title & [content request resources]]
+  (let [resources (if (not (nil? resources)) (resources request))]
+    (page-body
+     (html
+      (if (and request (:query-params request) (get (:query-params request) "result"))
+        [:div {:class "fadeout"}
+         (get (:query-params request) "result")])
+      (if menubar-enabled (:menubar resources))
+      [:div#content content]
+      )
+     request title resources)))
 
 (declare tr)
 (def short-format

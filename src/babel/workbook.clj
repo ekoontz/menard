@@ -1,27 +1,24 @@
 (ns babel.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [clojure.core :exclude [get-in]]
-   [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
-   [clojure.set :as set]
-   [clojure.string :as string]
-   [clojure.tools.logging :as log]
-
-   [clojail.core :refer [sandbox]]
-   [clojail.testers :refer :all]
-
-   [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-
-   [hiccup.core :refer [html]]
-
    [babel.english.writer :as en]
    [babel.espanol.writer :as es]
+   [babel.francais.writer :as fr]
    [babel.italiano.writer :as it]
    [babel.over :refer [over]]
    [babel.html :as html]
    [babel.parse :refer [parse]]
    [babel.pos :as pos]
+   [clojail.core :refer [sandbox]]
+   [clojail.testers :refer :all]
+   [clojure.core :exclude [get-in]]
+   [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
+   [clojure.set :as set]
+   [clojure.string :as string]
+   [clojure.tools.logging :as log]
+   [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag-unify.core :refer [get-in remove-false strip-refs]]
+   [hiccup.core :refer [html]]
 ))
 
 ;; this does some sample runtime behavior (generates sentences)
@@ -138,7 +135,7 @@
   (let [search-query (get (get request :query-params) "search")]
     (html
      [:div#workbook-ui {:class "quiz-elem"}
-      [:h2 "Libro di Lavoro"]
+      [:h2 "Workbook"]
       [:div#searchbar
        [:textarea {:cols 80 :rows 4 :id "workbookq" }
         (if search-query

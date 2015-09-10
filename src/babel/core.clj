@@ -4,10 +4,12 @@
    [compojure.core :refer [context defroutes GET PUT POST DELETE ANY]]
    [compojure.handler :as handler]
    [compojure.route :as route]
-   ))
+   [ring.util.response :as resp]))
 
 (defroutes main-routes
-  (context "/" []
+  (GET "/" request
+       (resp/redirect "/workbook"))
+  (context "/workbook" []
            workbook/routes)
   (route/resources "/"))
 

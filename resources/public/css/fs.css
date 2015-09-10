@@ -1,0 +1,326 @@
+table.fs {
+    float:left;
+    padding-right:1em;
+    margin-right:1em;
+    margin:3px;
+    border: 2px solid lightgreen;
+    border-collapse:collapse;
+}
+
+td {
+}
+
+div.map h2 {
+    background:white;
+    margin:0;
+    padding:0;
+    margin-left:10%;
+    margin-top:0.5em;
+}
+
+/* feature structures (from fs.css@ef61fc6) */
+table.map {
+    background: white;
+    border: 2px solid lightgreen;
+}
+
+table.map th {
+    max-width:25%;
+    background: lightgreen;
+    border: 2px solid lightgreen;
+    text-align:right;
+}
+
+table.fs th {
+    text-align:center;
+    padding:2px;
+    padding-right:0.25em;
+    background: lightgreen;
+}
+
+table.fs td {
+    padding-right:1em;
+}
+
+hr {
+    width:100%;
+    float:left;
+}
+
+span.fail {
+    padding:2px;
+    background:red;
+}
+
+span.atom {
+}
+
+div.lev {
+    font-family: monospace;
+}
+
+div.map {
+    width:auto;
+    float:left;
+}
+
+table.map {
+    margin:0.25em;
+    border-collapse: collapse;
+}
+
+table.map th {
+    padding: 2px;
+}
+
+table.map td {
+    vertical-align:middle;
+}
+
+div.package {
+    border: 2px dashed black;
+    float:left;
+    width:auto;
+    margin:2px;
+}
+
+div.unknown {
+    background: #FF7F50;
+    padding:2px;
+}
+
+tr.hide {
+    display:none;
+}
+
+tr.comment td {
+    font-style:italic;
+}
+
+div.legend h2 {
+    float:left;
+    width:auto;
+    padding:2px;
+}
+
+div.legend {
+    font-size:small;
+    width:95%;
+    float:left;
+    padding:2px;
+}
+
+div.legend div.package-toc {
+    margin-bottom:2px;
+    float:right;
+    width:95%;
+}
+
+div.legend h3 {
+    width:80%;
+    text-align:right;
+    float:right;
+}
+
+table.generate th {
+    vertical-align:top;
+}
+
+td.hc {
+    border:0px dashed black;
+}
+
+td {
+    vertical-align:top;
+    border:0px dashed black;
+}
+
+table.generate div.result {
+    border:1px dashed black;
+    padding:1%;
+    float:left;
+    margin-bottom:1%;
+    margin-right:1%;
+}
+
+td.ref {
+    text-align:right;
+}
+
+span.string {
+    font-family:serif;
+    font-style:italic;
+}
+
+span.keyword,span.boolean {
+    font-weight:bold;
+}
+
+
+div.ref {
+    vertical-align:middle;
+    float:left;
+    width:auto;
+    border:2px solid black;
+    padding:2px;
+    margin:2px;
+}
+
+td.parent2child {
+    text-align:center;
+    border-bottom:3px solid #3ee;
+}
+
+td.parent {
+}
+
+td.parent > div {
+    maximum-width:50%;
+    margin-left:20%;
+}
+
+td.ref {
+    text-align:right;
+    width:5%;
+}
+
+div.phrase {
+    float:left;
+    border:1px solid lightblue;
+    margin:1.5em;
+}
+
+div.phrase table {
+    border-collapse:collapse;
+}
+
+table.dashed td, table.dashed th {
+    border: 1px dashed green;
+}
+
+table.complex {
+    border-collapse: nocollapse;
+}
+
+
+th.complex {
+    border-bottom: 2px solid green;
+    border-right: 2px solid green;
+}
+
+td.complex {
+    border-bottom: 2px solid green;
+}
+
+td.each {
+    border:1px dashed blue;
+}
+
+table {
+    float:left;
+}
+
+div.evalresult {
+    background:rgb(210,255,255);
+    padding-top:0.05em;
+    padding-bottom:0.05em;
+    padding-left:0.05em;
+    padding-right:0.05em;
+    width:80%;
+    float:right;
+    border:3px solid lightblue;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    overflow:auto;
+    margin-top:0.25em;
+    margin-bottom:0.25em;
+}
+
+div.evalinput {
+    background:white;
+    padding-top:0.5em;
+    padding-bottom:0.5em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    width:40%;
+    float:left;
+    font-style:italic;
+    font-family:monospace;
+    font-size: larger;
+    border:3px solid lightblue;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+}
+
+div.evalresult ul {
+    list-style-type:none;
+}
+
+ol.workbook {
+    margin:0;
+    padding:0;
+    float:left;
+}
+
+ol.workbook li {
+    padding:0;
+    margin:0;
+    float:left;
+    padding-left: 0.25em;
+    border-top:0px solid green;
+    border-left:0px solid lightblue;
+    border-bottom:0px solid green;
+    border-right:0px solid green;
+    width:100%;
+}
+
+ol.workbook {
+    margin:0.25em;
+    padding:0.25em;
+    float:left;
+    list-style: none;
+   }
+
+ol.workbook {
+    float:left;
+    counter-reset: workbook-counter 0;
+}
+
+/* Incrementing with each li. */
+ol.workbook > li + li {
+    float:left;
+    counter-increment: workbook-counter;
+}
+
+/* Adding the current counter value. */
+ol.workbook > li:before {
+    float:left;
+    padding-right:.25em;
+    content: counter(workbook-counter) ". "
+}
+
+td.hc {
+    border-right:0px solid green;
+    text-align:right;
+    font-weight:bold;
+    font-size:150%;
+}
+
+div.set {
+    min-width:4em;
+    float:left;
+}
+
+
+div.set div {
+    float:left;
+}
+
+div.set div.member {
+}
+
+div.set div.delimiter {
+    float:left;
+    border:0px dashed green;
+    vertical-align:middle;
+}

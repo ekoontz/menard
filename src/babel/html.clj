@@ -608,16 +608,13 @@
       (include-js (first includes))
       (includes-js (rest includes)))))
 
-(defn pretty-head [title & [js jss css_set]]
-  (log/debug (str "pretty-head js: " js))
+(defn pretty-head [title]
   [:head 
    [:meta {:http-equiv "Content-Type" :content "text/html; charset=utf-8"}]
 
-   [:style {:type "text/css"} "ul { padding-left: 2em }"]
+   (include-css "/css/bootstrap.min.css")
+   (include-css "/css/fs.css")
 
-   ;; end of CSS includes
-   ;; begin Javascript includes
-   
    [:script {:type "text/javascript" :src "/js/jquery-1.6.4.min.js"}]
    [:script {:type "text/javascript" :src "/js/workbook.js"}]
 
@@ -628,7 +625,6 @@
 
 (defn pretty-body [ options & content ]
   [:body
-;;   {:onload "start_game();"}
    {:onload (if (:onload options) (:onload options) "")}
    (into [:div {:class "columns small-12"}] content)])
 
@@ -640,7 +636,7 @@
                       (sort (keys env)))
                  "")
     (h/html5
-     (pretty-head title (:js options) (:jss options) (:css options))
+     (pretty-head title)
      (pretty-body
       options
       (:show-login-form options)

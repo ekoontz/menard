@@ -9,6 +9,7 @@
    [babel.html :as html]
    [babel.parse :refer [parse]]
    [babel.pos :as pos]
+   [babel.test.fr :as frtest]
    [clojail.core :refer [sandbox]]
    [clojail.testers :refer :all]
    [clojure.core :exclude [get-in]]

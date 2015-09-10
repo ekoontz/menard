@@ -15,7 +15,26 @@
 (def noun pos/noun)
 (def pronoun-acc pos/pronoun-acc)
 (def sentential-adverb pos/sentential-adverb)
-(def verb-aux pos/verb-aux)
+(def verb-aux
+  (let [sem (ref {:tense :past})]
+    (unifyc {:synsem {:sem sem
+                      :subcat {:2 {:infl :past}}}}
+            ;; whether a verb has essere or avere as its
+            ;; auxiliary to form its past form:
+            (let [aux (ref true)
+                  pred (ref :top)
+                  sem (ref {:pred pred})
+                  subject (ref :top)
+                  essere-binary-categorization (ref :top)]
+              {:synsem {:aux aux
+                        :sem sem
+                        :essere essere-binary-categorization
+                        :subcat {:1 subject
+                                 :2 {:cat :verb
+                                     :essere essere-binary-categorization
+                                     :aux false
+                           :subcat {:1 subject}
+                                     :sem sem}}}}))))
 
 (def noun-agreement
   (let [agr (ref :top)]

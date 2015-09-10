@@ -166,28 +166,6 @@
                                    :cat :prep}
                                :3 '()}}})))
 
-;; whether a verb has essere or avere as its
-;; auxiliary to form its passato-prossimo form:
-;; Must be encoded in both the :italiano (for morphological agreement)
-;; and the :synsem (for subcategorization by the appropriate aux verb).
-(def verb-aux
-  (let [essere-binary-categorization (ref :top)
-        aux (ref true)
-        pred (ref :top)
-        sem (ref {:tense :past
-                  :pred pred})
-        subject (ref :top)]
-    {:synsem {:aux aux
-              :sem sem
-              :essere essere-binary-categorization
-              :subcat {:1 subject
-                       :2 {:cat :verb
-                           :aux false
-                           :essere essere-binary-categorization
-                           :subcat {:1 subject}
-                           :sem sem
-                           :infl :past}}}}))
-
 ;; "Y is Xer than Z".
 (def comparative
   {:synsem {:sem {:comparative true}

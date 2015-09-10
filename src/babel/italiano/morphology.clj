@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in merge resolve]))
 
 (require '[babel.pos :refer (noun)])
+(require '[babel.italiano.pos :refer (verb-aux)])
 (require '[babel.stringutils :refer :all])
 (require '[clojure.core :as core])
 (require '[clojure.string :as string])
@@ -1723,6 +1724,23 @@
            {:synsem {:essere false}})
    true lexical-entry))
 
+(defn aux-verb-rule [lexical-entry]
+  "If a word's :synsem :aux is set to true, then auxify it (add all the
+  things that are consequent on its being an aux verb.
+   If, however, it is a verb and its :synsem :aux is not set,
+  then set its aux explicitly to false."
+  (cond (= (get-in lexical-entry '(:synsem :aux)) true)
+        (unifyc lexical-entry
+                verb-aux)
+        (and (= (get-in lexical-entry '(:synsem :cat)) :verb)
+             (= :none (get-in lexical-entry '(:synsem :aux) :none)))
+        (unifyc lexical-entry
+                {:synsem {:aux false}})
+        true
+        lexical-entry))
+
 (def italian-specific-rules
   (list agreement 
-        essere-default))
+        essere-default
+        aux-verb-rule))
+

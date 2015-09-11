@@ -5,7 +5,35 @@
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.parse :as parse]
    [babel.ug :refer :all]
-   [dag-unify.core :refer (get-in unifyc)]))
+   [dag-unify.core :refer (get-in merge unifyc)]))
+
+(def head-first
+  (let [head-french (ref :top)
+        comp-french (ref :top)]
+    (unifyc
+     {:comp {:français {:initial false}}
+      :head {:français {:initial true}}}
+     {:head {:français head-french}
+      :comp {:français comp-french}
+      :français {:a head-french
+                 :b comp-french}})))
+(def h21
+  (unifyc
+   subcat-2-principle
+   head-principle
+   head-first
+   {:comment "h21"
+    :schema-symbol 'h21
+    :first :head}))
+
+;; h21a is a specialization of h21. it's used for vp-aux to prevent over-generation.
+(def h21a
+  (merge
+   (unifyc
+    h21
+    {:head {:synsem {:subcat {:2 {:subcat {:2 '()}}}}}})
+   {:comment "h21a"
+    :schema-symbol 'h21a}))
 
 (def hc-agreement
   (let [agr (ref :top)]
@@ -258,8 +286,7 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :present}}})
-                                         
-                     (unifyc c21
+                   (unifyc c21
                            root-is-head-root
                            {:head {:phrasal true}
                             :comp {:synsem {:cat :noun
@@ -267,11 +294,18 @@
                             :rule "vp-pronoun-phrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})                     
-                                         
                    (unifyc h21
                            {:rule "vp-infinitive"
                             :synsem {:aux false
                                      :infl :infinitive
+                                     :cat :verb}})
+                   (unifyc h21a
+                           root-is-comp
+                           {:rule "vp-aux"
+                            :head {:phrasal false}
+                            :synsem {:aux true
+                                     :infl :present
+                                     :sem {:tense :passe-compose}
                                      :cat :verb}})
 
                    ;; [nous [être + naître]] => nous somme nées

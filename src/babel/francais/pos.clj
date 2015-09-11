@@ -4,6 +4,22 @@
 (require '[dag-unify.core :refer (unifyc)])
 (require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
 
+(def verb-aux
+  (let [sem (ref {:tense :passe-compose})]
+    (unifyc {:synsem {:sem sem
+                      :subcat {:2 {:infl :passe-compose}}}}
+            (let [aux (ref true)
+                  pred (ref :top)
+                  sem (ref {:pred pred})
+                  subject (ref :top)]
+              {:synsem {:aux aux
+                        :sem sem
+                        :subcat {:1 subject
+                                 :2 {:cat :verb
+                                     :aux false
+                                     :subcat {:1 subject}
+                                     :sem sem}}}}))))
+
 (def agreement-noun pos/agreement-noun)
 (def cat-of-pronoun pos/cat-of-pronoun)
 (def common-noun pos/common-noun)
@@ -42,7 +58,6 @@
              :synsem {:infl infl
                       :essere essere-type
                       :subcat {:1 {:agr agr}}}})))
-
 (def transitive
   (unifyc verb-subjective
           pos/transitive
@@ -61,5 +76,3 @@
 
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
-
-(def verb-aux pos/verb-aux)

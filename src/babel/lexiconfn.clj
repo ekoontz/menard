@@ -40,7 +40,8 @@
                                 lexeme)))
 
         ;; 3. apply language-specific grammatical rules to each element in the lexicon
-        ;; for an example of a language-specific rule, see italiano/morphology.clj:(defn agreement [lexical-entry]).
+        ;; for an example of a language-specific rule,
+        ;; see italiano/morphology.clj:(defn agreement [lexical-entry]).
         lexicon-stage-3 (if language-specific-rules
                           (map-function-on-map-vals
                            lexicon-stage-2
@@ -461,22 +462,6 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
           (check-one key val)))
      (keys lexicon))))
 
-
-(defn aux-verb-rule [lexical-entry]
-  "If a word's :synsem :aux is set to true, then auxify it (add all the
-  things that are consequent on its being an aux verb.
-   If, however, it is a verb and its :synsem :aux is not set,
-  then set its aux explicitly to false."
-  (cond (= (get-in lexical-entry '(:synsem :aux)) true)
-        (unifyc lexical-entry
-                verb-aux)
-        (and (= (get-in lexical-entry '(:synsem :cat)) :verb)
-             (= :none (get-in lexical-entry '(:synsem :aux) :none)))
-        (unifyc lexical-entry
-                {:synsem {:aux false}})
-        true
-        lexical-entry))
-
 (defn ditransitive-verb-rule [lexical-entry]
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
              (not (nil? (get-in lexical-entry '(:synsem :sem :iobj)))))
@@ -685,8 +670,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 ;; order the rules are applied, as long as all rules are applied at
 ;; each iteration. This is guaranteed by using these rules below in
 ;; (transform) so that the rules' outputs are reduced using unifyc.
-(def rules (list aux-verb-rule
-                 category-to-subcat
+(def rules (list category-to-subcat
                  commonnoun
                  determiner-stuff
                  ditransitive-verb-rule

@@ -227,14 +227,13 @@
                                  :2plur "étiez"
                                  :3plur "étaient"}
                      :futuro {:1sing "serai"
-                        :2sing "seras"
+                              :2sing "seras"
                               :3sing "sera"
                               :1plur "serons"
                               :2plur "serez"
                               :3plur "seront"}}}]
      [(unify common {:synsem {:sem {:pred :be}}})
       (unify common verb-aux)])
-
      
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}

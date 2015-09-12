@@ -61,7 +61,6 @@
 
 (def etre (first (filter #(= true (get-in % [:synsem :aux]))
                          (get @lexicon "être"))))
-
 (deftest over-test
   (let [result
         (over (get @fr/small :grammar)
@@ -72,6 +71,54 @@
          (not (empty? result))
          (= 1 (.size result)))))
 
+(deftest passe-compose-morphology
+  (let [result
+        {:français
+         {:a {:initial true,
+              :français "nous"},
+          :b {:b {:future-stem "ir",
+                  :agr {:number :plur,
+                        :person :1st},
+                  :present {:3plur "vont",
+                            :2plur "allez",
+                            :3sing "va",
+                            :1sing "vais",
+                            :2sing "vas",
+                            :1plur "allons"},
+                  :français "aller",
+                  :infl :passe-compose,
+                  :essere true,
+                  :initial false},
+              :initial false,
+              :a {:infl :present,
+                  :infinitive "être",
+                  :initial true,
+                  :agr {:number :plur,
+                        :person :1st},
+                  :essere false,
+                  :passato "été",
+                  :imperfect {:2sing "étais",
+                              :3plur "étaient",
+                              :2plur "étiez",
+                              :1sing "étais",
+                              :3sing "était",
+                              :1plur "étions"},
+                  :present {:2sing "es",
+                            :3plur "sont",
+                            :2plur "êtes",
+                            :1sing "suis",
+                            :3sing "est",
+                            :1plur "sommes"},
+                  :futuro {:2sing "seras",
+                           :3plur "seront",
+                           :2plur "serez",
+                           :1sing "serai",
+                           :3sing "sera",
+                           :1plur "serons"},
+                  :futuro-stem "ser",
+                  :exception true,
+                  :français "sommes"}}}}]
+    (is (= (fo result) "nous sommes allées"))))
 
 (deftest passe-compose-1
   (let [result

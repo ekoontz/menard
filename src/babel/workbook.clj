@@ -4,7 +4,7 @@
    [babel.engine :refer [generate]]
    [babel.english.writer :as en]
    [babel.espanol.writer :as es]
-   [babel.francais.writer :as fr]
+   [babel.francais.grammar :as fr]
    [babel.italiano.writer :as it]
    [babel.over :refer [over]]
    [babel.html :as html]

@@ -208,7 +208,6 @@
 
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
-
    "être"
    (let [common
          {:synsem {:cat :verb
@@ -317,14 +316,21 @@
 ;;  "interessér" {:synsem {:cat :verb
 ;;                         :sem {:pred :interest??}}}
 
-  "je" {:synsem {:cat :noun
-                 :pronoun true
-                 :case :nom
-                 :agr {:person :1st
-                       :number :sing}
-                 :sem {:human true
-                       :pred :I}
-                 :subcat '()}}
+  "je"
+  (let [common {:synsem {:cat :noun
+                         :pronoun true
+                         :case :nom
+                         :agr {:person :1st
+                               :number :sing}
+                         :sem {:human true
+                               :pred :I}
+                         :subcat '()}}]
+    [(unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :fem}}})
+     (unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :masc}}})])
   
   "laisser" {:synsem {:cat :verb
                       :sem {:pred :leave-behind}}}
@@ -422,23 +428,29 @@
   "touer" {:synsem {:cat :verb
                     :sem {:pred :kill}}}
   "tu"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :2nd
-                   :number :sing}
-              :sem {:human true
-                    :pred :tu}
-             :subcat '()}}
-   "vous"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :2nd
-                   :number :plur}
-              :sem {:human true
-                    :pred :voi}
-             :subcat '()}}  
+  (let [common {:synsem {:cat :nom
+                         :agr {:person :2nd
+                               :number :sing}
+                         :sem {:human true
+                               :pred :tu}}}]
+    [(unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :fem}}})
+     (unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :masc}}})])
+    "vous"
+   (let [common {:synsem {:case :nom
+                         :agr {:person :2nd
+                               :number :plur}
+                         :sem {:human true
+                               :pred :voi}}}]
+    [(unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :fem}}})
+     (unify gender-pronoun-agreement
+            common
+            {:synsem {:agr {:gender :masc}}})])
    })
 
 (def lexicon

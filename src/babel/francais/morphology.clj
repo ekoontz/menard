@@ -53,12 +53,12 @@
               number (get-in word '(:agr :number))
               info (log/debug "get-string: input word: " word)]
 
-          (log/debug (str "get-string: word: " word))
+          (log/trace (str "get-string: word: " word))
           (log/debug (str "get-string: word (stripped-refs): " (strip-refs word)))
-          (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-          (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
+          (log/debug (str "word's :a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
+          (log/debug (str "word's :b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
           
-          (log/debug (str "word's a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
+          (log/debug (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
 
           (cond
            (= word :top) ".."
@@ -303,7 +303,7 @@
                                    merge-fn (:merge-fn path-and-merge-fn)]
                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                ;; and the value is a list of lexemes for that string.
-                               (log/debug (str (first lexeme-kv) "looking at path: " path))
+                               (log/trace (str (first lexeme-kv) ": looking at path: " path))
                                (mapcat (fn [lexeme]
                                          ;; this is where a unify/dissoc that supported
                                          ;; non-maps like :top and :fail, would be useful:

@@ -23,6 +23,29 @@
    [hiccup.core :refer [html]]
 ))
 
+
+(def foo
+  (generate {:synsem {:subcat '()
+                      :infl :imperfect
+                      :sem {:pred :be
+                            :subj {:pred :I}}}}
+            @fr/small))
+
+
+(defn analyze [surface-form lookup-fn]
+  "return the map incorporating the lexical information about a surface form..."
+  (lookup-fn surface-form))
+
+(defn lookup [token]
+  "return the subset of lexemes that match this token from the lexicon."
+  (analyze token #(get (:lexicon @fr/small) %)))
+
+(defn parse [string]
+  (parse/parse string
+               (:lexicon @fr/small)
+               lookup
+               (:grammar @fr/small)))
+
 ;; this does some sample runtime behavior (generates sentences)
 ;; which allow certain things to get initialized so that remote (i.e. HTTP
 ;; requests to the same things will not fail with cryptic 'undefined'
@@ -175,25 +198,3 @@
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                @fr/small)
-
-(def foo
-  (generate {:synsem {:subcat '()
-                      :infl :imperfect
-                      :sem {:pred :be
-                            :subj {:pred :I}}}}
-            @fr/small))
-
-
-(defn analyze [surface-form lookup-fn]
-  "return the map incorporating the lexical information about a surface form..."
-  (lookup-fn surface-form))
-
-(defn lookup [token]
-  "return the subset of lexemes that match this token from the lexicon."
-  (analyze token #(get (:lexicon fr/small) %)))
-
-(defn parse [string]
-  (parse/parse string
-               (:lexicon fr/small)
-               lookup
-               (:grammar fr/small)))

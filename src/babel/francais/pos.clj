@@ -7,7 +7,7 @@
 (def verb-aux
   (let [sem (ref {:tense :passe-compose})]
     (unifyc {:synsem {:sem sem
-                      :subcat {:2 {:infl :passe-compose}}}}
+                      :subcat {:2 {:infl :past-p}}}}
             (let [aux (ref true)
                   pred (ref :top)
                   sem (ref {:pred pred})

@@ -123,11 +123,12 @@
 
 (deftest passe-compose-1
   (let [result
-        (forest/generate
-         {:synsem {:subcat '()
-                   :sem {:tense :passe-compose
-                         :subj {:pred :noi}
-                         :pred :andare}}}
+        (forest/generate (unifyc
+                          {:synsem {:subcat '()}}
+                          {:synsem {:sem {:subj {:pred :noi
+                                                 :gender :fem}
+                                          :pred :andare
+                                          :tense :passe-compose}}})
          (:grammar @fr/small)
          (:lexicon @fr/small)
          (:index @fr/small)
@@ -137,9 +138,9 @@
 
 (deftest passe-compose
   (let [result (engine/generate {:synsem {:sem {:pred :andare
-                                                :tense :passe-compose
                                                 :subj {:pred :noi
-                                                       :gender :fem}}}}
+                                                       :gender :fem}
+                                                :tense :passe-compose}}}
                                 fr/small)]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))

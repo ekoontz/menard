@@ -1,6 +1,7 @@
 (ns babel.enrich
   (:refer-clojure :exclude [get-in]))
 (require '[dag-unify.core :refer [fail? get-in strip-refs unify]])
+(require '[clojure.tools.logging :as log])
 
 (declare against-comp)
 (declare against-pred)
@@ -10,6 +11,7 @@
 (defn enrich [spec lexicon]
   (let [against-pred (against-pred spec lexicon)]
     (if true against-pred
+        ;; TODO: remove this else since it's never executed (since above we have "if true")
         (let [against-comp (map (fn [spec]
                                   (against-comp spec lexicon))
                                 (if (seq? against-pred)
@@ -29,7 +31,9 @@
                                     {:synsem {:essere (strip-refs (get-in lexeme [:synsem :essere] :top))}}
                                     )]
                   (if (not (fail? result))
-                    (list result))))
+                    (do
+                      (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
+                      (list result)))))
               (matching-head-lexemes spec lexicon)))))
 
 (defn against-comp [spec lexicon]

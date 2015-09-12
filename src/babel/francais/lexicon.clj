@@ -345,23 +345,15 @@
   "mettre" {:synsem {:cat :verb
                      :sem {:pred :set}}}
   "nous"
-  ;; TODO: factor out to francais/pos.
-  (let [gender (ref :top)
-        gender-agreement {:synsem {:agr {:gender gender}
-                                   :sem {:gender gender}}}
-        common {:synsem {:cat :noun
-                         :pronoun true
-                         :case :nom
+  (let [common {:synsem {:case :nom
                          :agr {:person :1st
-                               :gender :fem
                                :number :plur}
                          :sem {:human true
-                               :pred :noi}
-                         :subcat '()}}]
-    [(unify gender-agreement
+                               :pred :noi}}}]
+    [(unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :fem}}})
-     (unify gender-agreement
+     (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
   

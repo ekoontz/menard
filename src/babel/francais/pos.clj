@@ -76,3 +76,14 @@
 
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
+
+(def gender-pronoun-agreement
+  (let [gender (ref :top)]
+    {:synsem {:cat :noun
+              :pronoun true
+              :agr {:gender gender}
+              :sem {:gender gender}
+              :subcat '()}}))
+
+
+

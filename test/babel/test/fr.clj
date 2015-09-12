@@ -78,6 +78,7 @@
               :français "nous"},
           :b {:b {:future-stem "ir",
                   :agr {:number :plur,
+                        :gender :fem
                         :person :1st},
                   :present {:3plur "vont",
                             :2plur "allez",

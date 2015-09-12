@@ -516,7 +516,14 @@
                 )]
     suffix))
 
-(defn analyze [surface-form lookup-fn]
-  "return the map incorporating the lexical information about a surface form..."
-  (lookup-fn surface-form))
+(defn analyze [surface-form lexicon]
+  "return the map incorporating the lexical information about a surface form.
+   The function tries to analyze the surface form into a lexical form, and then 
+   looks up the hypothesized lexeme using lookup-fn."
+  (cond
+   (= surface-form "parle")
+   (get lexicon "parler")
+   true
+   (get lexicon surface-form)))
+
 

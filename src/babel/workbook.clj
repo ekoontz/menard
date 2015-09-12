@@ -31,19 +31,10 @@
                             :subj {:pred :I}}}}
             @fr/small))
 
-
-(defn analyze [surface-form lookup-fn]
-  "return the map incorporating the lexical information about a surface form..."
-  (lookup-fn surface-form))
-
-(defn lookup [token]
-  "return the subset of lexemes that match this token from the lexicon."
-  (analyze token #(get (:lexicon @fr/small) %)))
-
 (defn parse [string]
   (parse/parse string
                (:lexicon @fr/small)
-               lookup
+               (:lookup @fr/small)
                (:grammar @fr/small)))
 
 ;; this does some sample runtime behavior (generates sentences)

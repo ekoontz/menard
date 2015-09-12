@@ -4,7 +4,7 @@
    [clojure.tools.logging :as log]
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.francais.lexicon :refer [lexicon]]
-   [babel.francais.morphology :refer [fo]]
+   [babel.francais.morphology :refer [analyze fo]]
    [babel.parse :as parse]
    [babel.ug :refer :all]
    [dag-unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
@@ -402,6 +402,8 @@
       {:name "small"
        :language "fr"
        :language-keyword :français
+       :lookup (fn [arg]
+                 (analyze arg lexicon))
        :enrich enrich
        :grammar grammar
        :lexicon lexicon

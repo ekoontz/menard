@@ -521,9 +521,29 @@
    The function tries to analyze the surface form into a lexical form, and then 
    looks up the hypothesized lexeme using lookup-fn."
   (cond
-   (= surface-form "parle")
-   (get lexicon "parler")
+
+   (re-find #"e$" surface-form)
+   (concat
+
+    ;; -er type verb
+    (map (fn [lexeme]
+           (unifyc
+            lexeme
+            {:synsem {:subcat {:1 {:agr {:number :sing
+                                         :person :1st}}}
+                      :infl :present}}))
+         (get lexicon (string/replace surface-form #"(e)$" "$1r")))
+
+    ;; -ir type verb
+    (map (fn [lexeme]
+           (unifyc
+            lexeme
+            {:synsem {:subcat {:1 {:agr {:number :sing
+                                         :person :1st}}}
+                      :infl :present}}))
+         (get lexicon (string/replace surface-form #"(e)$" "ir")))
+    
+    (get lexicon surface-form))
+
    true
    (get lexicon surface-form)))
-
-

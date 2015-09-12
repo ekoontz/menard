@@ -3,9 +3,11 @@
   (:require 
    [clojure.tools.logging :as log]
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
+   [babel.francais.lexicon :refer [lexicon]]
+   [babel.francais.morphology :refer [fo]]
    [babel.parse :as parse]
    [babel.ug :refer :all]
-   [dag-unify.core :refer (get-in merge unifyc)]))
+   [dag-unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
 
 (def head-first
   (let [head-french (ref :top)
@@ -375,4 +377,80 @@
           (aux-is-head-feature phrase)))
        grammar))
 
+(declare enrich)
+
+(def small
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-nonphrasal")
+                       (= (:rule %) "s-present-nonphrasal")
+                       (= (:rule %) "s-future-nonphrasal")
+                       (= (:rule %) "s-imperfect-nonphrasal")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-aux"))
+                  grammar)
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :pronoun]) true))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "small"
+       :language "fr"
+       :language-keyword :français
+       :enrich enrich
+       :grammar grammar
+       :lexicon lexicon
+       :morph fo
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
+(def medium
+  (future
+    (let [lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v v]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "medium"
+       :enrich enrich
+       :grammar grammar
+       :lexicon lexicon
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)
+       })))
+
 (log/info "Français grammar defined.")
+
+(declare against-pred)
+(declare matching-head-lexemes)
+(defn enrich [spec lexicon]
+  (against-pred spec lexicon))
+
+(defn against-pred [spec lexicon]
+  (let [pred (get-in spec [:synsem :sem :pred] :top)]
+    (if (= :top pred)
+      spec
+      (mapcat (fn [lexeme]
+                (let [result (unify spec
+                                    {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}})]
+                  (if (not (fail? result))
+                    (do
+                      (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
+                      (list result)))))
+              (matching-head-lexemes spec lexicon)))))
+
+(defn matching-head-lexemes [spec lexicon]
+  (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
+    (if (= pred-of-head :top)
+      spec
+      (mapcat (fn [lexemes]
+                (mapcat (fn [lexeme]
+                          (if (= pred-of-head
+                                 (get-in lexeme [:synsem :sem :pred] :top))
+                            (list lexeme)))
+                        lexemes))
+              (vals lexicon)))))

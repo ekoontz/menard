@@ -2,10 +2,9 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
-            [babel.francais.writer :as fr :refer [small]]
+            [babel.francais.grammar :refer [small]]
             [babel.francais.morphology :refer [fo]]
             [babel.over :refer [over]]
-            [babel.writer :as writer]
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
@@ -16,7 +15,7 @@
                                           :sem {:pred :sleep
                                                 :subj {:pred :I}
                                                 :tense :conditional}}}
-                                fr/small)]
+                                small)]
     (is (= "je dormirais" (fo result)))))
 
 (deftest present-irregular
@@ -24,7 +23,7 @@
                                           :sem {:pred :be
                                                 :subj {:pred :I}
                                                 :tense :present}}}
-                                fr/small)]
+                                small)]
     (is (= "je suis" (fo result)))))
 
 (deftest imperfect-irregular-être
@@ -33,7 +32,7 @@
                                           :sem {:pred :be
                                                 :subj {:pred :I}}}}
 
-                                fr/small)]
+                                small)]
     (is (= "j'étais" (fo result)))))
 
 (deftest imperfect-irregular-avoir
@@ -41,13 +40,13 @@
                                           :infl :imperfect
                                           :sem {:pred :avere
                                                 :subj {:pred :I}}}}
-                                fr/small)]
+                                small)]
     (and (is (not (nil? result)))
          (is (= "av" (get-in result [:head :français :imperfect-stem])))
          (is (= "j'avais" (fo result))))))
 
 (deftest être-as-aux
-  (let [lexicon (:lexicon @fr/small)
+  (let [lexicon (:lexicon @small)
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
@@ -61,10 +60,10 @@
                            (:grammar @small))))
 
 (def etre (first (filter #(= true (get-in % [:synsem :aux]))
-                         (get (:lexicon @fr/small) "être"))))
+                         (get (:lexicon @small) "être"))))
 (deftest over-test
-  (let [lexicon (:lexicon @fr/small)
-        grammar (:grammar @fr/small)
+  (let [lexicon (:lexicon @small)
+        grammar (:grammar @small)
         result
         (over grammar
               (get lexicon "je")
@@ -132,10 +131,10 @@
                                                  :gender :fem}
                                           :pred :andare
                                           :tense :passe-compose}}})
-         (:grammar @fr/small)
-         (:lexicon @fr/small)
-         (:index @fr/small)
-         (:morph @fr/small))]
+         (:grammar @small)
+         (:lexicon @small)
+         (:index @small)
+         (:morph @small))]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 
@@ -144,7 +143,7 @@
                                                 :subj {:pred :noi
                                                        :gender :fem}
                                                 :tense :passe-compose}}}
-                                fr/small)]
+                                small)]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 

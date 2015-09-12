@@ -1,6 +1,7 @@
 (ns babel.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
+   [babel.engine :refer [generate]]
    [babel.english.writer :as en]
    [babel.espanol.writer :as es]
    [babel.francais.writer :as fr]
@@ -167,3 +168,17 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
+
+;; this def is needed to avoid initialization errors when evaluating within the workbook
+;; e.g.: evaluating things like:
+;;(generate {:synsem {:subcat '()
+;;                                          :infl :imperfect
+;;                                          :sem {:subj {:pred :I} :pred :be}}}
+;;                                @fr/small)
+
+(def foo
+  (generate {:synsem {:subcat '()
+                      :infl :imperfect
+                      :sem {:pred :be
+                            :subj {:pred :I}}}}
+            @fr/small))

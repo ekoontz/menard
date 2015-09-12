@@ -100,6 +100,7 @@
    
    (not (= :subcat (last path)))
    (not (= :italiano (last path)))
+   (not (= :français (last path)))
    (not (= :english (last path)))
    
    (not (= :none (:head arg :none)))
@@ -112,12 +113,17 @@
      (not (= :none (fs/get-in arg '(:head :italiano) :none)))
      (not (= :none (fs/get-in arg '(:comp :italiano) :none))))
     (and
+     (not (= :none (fs/get-in arg '(:head :français) :none)))
+     (not (= :none (fs/get-in arg '(:comp :français) :none))))
+    (and
      (not (= :none (fs/get-in arg '(:head :english) :none)))
      (not (= :none (fs/get-in arg '(:comp :english) :none)))))
    
    (or
     (and (fs/ref= arg '(:head :italiano) '(:italiano :a))
          (fs/ref= arg '(:comp :italiano) '(:italiano :b)))
+    (and (fs/ref= arg '(:head :français) '(:français :a))
+         (fs/ref= arg '(:comp :français) '(:français :b)))
     (and (fs/ref= arg '(:head :english) '(:english :a))
          (fs/ref= arg '(:comp :english) '(:english :b)))))]
     retval))
@@ -130,6 +136,7 @@
    (not (= :subcat (last path)))
    (not (= :italiano (last path)))
    (not (= :english (last path)))
+   (not (= :français (last path)))
    
    (not (= :none (:head arg :none)))
    (not (= :none (:comp arg :none)))
@@ -141,12 +148,17 @@
      (not (= :none (fs/get-in arg '(:head :italiano) :none)))
      (not (= :none (fs/get-in arg '(:comp :italiano) :none))))
     (and
+     (not (= :none (fs/get-in arg '(:head :français) :none)))
+     (not (= :none (fs/get-in arg '(:comp :français) :none))))
+    (and
      (not (= :none (fs/get-in arg '(:head :english) :none)))
      (not (= :none (fs/get-in arg '(:comp :english) :none)))))
    
    (or
     (and (fs/ref= arg '(:head :italiano) '(:italiano :b))
          (fs/ref= arg '(:comp :italiano) '(:italiano :a)))
+    (and (fs/ref= arg '(:head :français) '(:français :b))
+         (fs/ref= arg '(:comp :français) '(:français :a)))
     (and (fs/ref= arg '(:head :english) '(:english :b))
          (fs/ref= arg '(:comp :english) '(:english :a)))))]
     retval))
@@ -311,7 +323,7 @@
       (not (= :none (:2 arg :none))))
 
      (str
-      "<div class='phrase'>"
+      "<div class='phrase'>" "PHRASE"
       "  <table class='phrase'>"
       "    <tr>"
       "      <td class='parent2child'>&nbsp;</td><td class='parent2child parent' colspan='3'>"

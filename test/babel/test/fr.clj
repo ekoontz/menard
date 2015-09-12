@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
-            [babel.francais.writer :as fr :refer [small lexicon]]
+            [babel.francais.writer :as fr :refer [small]]
             [babel.francais.morphology :refer [fo]]
             [babel.over :refer [over]]
             [babel.writer :as writer]
@@ -47,11 +47,12 @@
          (is (= "j'avais" (fo result))))))
 
 (deftest être-as-aux
-  (let [result
+  (let [lexicon (:lexicon @fr/small)
+        result
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unifyc rule
-                               {:head (last (get @lexicon "être"))}))
+                               {:head (last (get lexicon "être"))}))
                      (:grammar @small)))]
     (and (is (not (empty? result)))
          (is (= (get-in (first result) [:rule]) "vp-aux")))))
@@ -60,13 +61,15 @@
                            (:grammar @small))))
 
 (def etre (first (filter #(= true (get-in % [:synsem :aux]))
-                         (get @lexicon "être"))))
+                         (get (:lexicon @fr/small) "être"))))
 (deftest over-test
-  (let [result
-        (over (get @fr/small :grammar)
-              (get @fr/lexicon "je")
-              (over (get @fr/small :grammar)
-                    (get @fr/lexicon "sommes") (get @fr/lexicon "aller")))]
+  (let [lexicon (:lexicon @fr/small)
+        grammar (:grammar @fr/small)
+        result
+        (over grammar
+              (get lexicon "je")
+              (over grammar
+                    (get lexicon "sommes") (get lexicon "aller")))]
     (and (not (nil? result))
          (not (empty? result))
          (= 1 (.size result)))))

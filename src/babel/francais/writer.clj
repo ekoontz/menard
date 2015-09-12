@@ -5,7 +5,7 @@
 (require '[babel.english.writer :as en])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [grammar]])
-(require '[babel.francais.lexicon :refer [lexicon-source]])
+(require '[babel.francais.lexicon :refer [lexicon]])
 (require '[babel.francais.morphology :refer [analyze exception-generator
                                              fo get-string phonize]])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
@@ -19,27 +19,6 @@
 
 (declare enrich)
 
-;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline
-;; as opposed to a argument-position-sensitive function.
-(def lexicon
-  (future (-> (compile-lex lexicon-source exception-generator phonize)
-
-              ;; make an intransitive version of every verb which has an
-              ;; [:sem :obj] path.
-              intransitivize
-              
-              ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-              transitivize
-
-              ;; Cleanup functions can go here. Number them for ease of reading.
-              ;; 1. this filters out any verbs without an inflection:
-              ;; infinitive verbs should have inflection ':infinitive', 
-              ;; rather than not having any inflection.
-              (map-function-on-map-vals 
-               (fn [k vals]
-                 (filter #(or (not (= :verb (get-in % [:synsem :cat])))
-                              (not (= :none (get-in % [:synsem :infl] :none))))
-                         vals))))))
 (def small
   (future
     (let [grammar

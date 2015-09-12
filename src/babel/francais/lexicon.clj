@@ -1,7 +1,9 @@
 (ns babel.francais.lexicon
   (:require
    [babel.lexiconfn :refer (unify)]
-   [babel.francais.pos :refer :all]))
+   [babel.francais.morphology :refer [exception-generator phonize]]
+   [babel.francais.pos :refer :all]
+   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]))
 
 (def lexicon-source 
   {
@@ -447,8 +449,22 @@
              :subcat '()}}  
    })
 
+(def lexicon
+  (future (-> (compile-lex lexicon-source exception-generator phonize)
 
+              ;; make an intransitive version of every verb which has an
+              ;; [:sem :obj] path.
+              intransitivize
+              
+              ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+              transitivize
 
-
-
-
+              ;; Cleanup functions can go here. Number them for ease of reading.
+              ;; 1. this filters out any verbs without an inflection:
+              ;; infinitive verbs should have inflection ':infinitive', 
+              ;; rather than not having any inflection.
+              (map-function-on-map-vals 
+               (fn [k vals]
+                 (filter #(or (not (= :verb (get-in % [:synsem :cat])))
+                              (not (= :none (get-in % [:synsem :infl] :none))))
+                         vals))))))

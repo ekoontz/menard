@@ -33,16 +33,19 @@
                          @language-model
                          language-model)
 
-        debug (log/debug (str "pre-enriched spec: " spec))
+        debug (log/debug (str "pre-enrich spec: " spec))
 
         spec (if (and do-enrich (:enrich language-model))
                ((:enrich language-model)
                 spec
                 (:lexicon language-model))
-               spec)]
-    (log/debug (str "calling forest/generate with spec: " (if (seq? spec)
-                                                            (string/join "," spec)
-                                                            spec)))
+               spec)
+        debug (if (seq? spec)
+                (.size
+                 (map #(log/debug (str "post-enrich spec: " %))
+                      spec))
+                (log/debug (str "post-enrich spec: " spec)))
+        ]
     (forest/generate spec 
                      (:grammar language-model)
                      (:lexicon language-model)

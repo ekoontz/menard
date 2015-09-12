@@ -320,7 +320,6 @@
      :else
      (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word) " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
 
-;; pass'e compos'e begins here
 (defn passe-compose [word]
   (let [infinitive (get-in word '(:français))
         er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are

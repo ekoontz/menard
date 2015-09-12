@@ -64,7 +64,8 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lighting-bolt@" depth ": grammar:" (string/join ", " (map :rule grammar))))
+  (log/debug (str "lighting-bolt@" depth ": " (strip-refs spec)))
+  (log/trace (str "lighting-bolt@" depth ": grammar:" (string/join ", " (map :rule grammar))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         index (if (future? index) @index index)
         lexicon (if (future? lexicon) @lexicon lexicon)
@@ -75,11 +76,11 @@ of this function with complements."
                                                        (unifyc spec rule))
                                                      (if parent (get-head-phrases-of parent index)
                                                          grammar))))
-        debug (log/debug (str "grammar size: " (.size grammar)))
-        debug (log/debug (str "candidate-parents size: " (if (nil? candidate-parents)
+        debug (log/trace (str "grammar size: " (.size grammar)))
+        debug (log/trace (str "candidate-parents size: " (if (nil? candidate-parents)
                                                            "no candidate-parents"
                                                            (.size candidate-parents))))
-        debug (log/debug (str "candidate-parents: " (if (nil? candidate-parents)
+        debug (log/trace (str "candidate-parents: " (if (nil? candidate-parents)
                                                       "no candidate-parents"
                                                       (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))
@@ -130,7 +131,7 @@ of this function with complements."
             complement-candidate-lexemes (if cached cached (flatten (vals lexicon)))]
         (let [semantics (get-in spec [:synsem :sem])]
           (if (not (nil? semantics))
-            (if (not (nil? semantics)) (log/debug (str "  with semantics:" semantics)))))
+            (if (not (nil? semantics)) (log/debug (str "  with semantics:" (strip-refs semantics))))))
         (log/trace (str " immediate parent:" (get-in immediate-parent [:rule])))
         (if (map? complement-candidate-lexemes)
           (log/error (str "complement-candidate-lexemes is unexpectedly a map with keys:" 

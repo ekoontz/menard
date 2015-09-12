@@ -522,6 +522,16 @@
    looks up the hypothesized lexeme using lookup-fn."
   (cond
 
+   (= surface-form "allées")
+   (concat 
+    (map (fn [lexeme]
+           (unifyc
+            lexeme
+            {:synsem {:subcat {:1 {:agr {:number :plur
+                                         :gender :fem}}}}}))
+         (get lexicon "aller"))
+    (get lexicon surface-form))
+   
    (re-find #"e$" surface-form)
    (concat
 

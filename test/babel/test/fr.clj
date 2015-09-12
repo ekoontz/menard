@@ -130,7 +130,8 @@
                           {:synsem {:sem {:subj {:pred :noi
                                                  :gender :fem}
                                           :pred :andare
-                                          :tense :passe-compose}}})
+                                          :aspect :perfect
+                                          :tense :past}}})
          (:grammar @small)
          (:lexicon @small)
          (:index @small)
@@ -142,7 +143,8 @@
   (let [result (engine/generate {:synsem {:sem {:pred :andare
                                                 :subj {:pred :noi
                                                        :gender :fem}
-                                                :tense :passe-compose}}}
+                                                :aspect :perfect
+                                                :tense :past}}}
                                 small)]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))

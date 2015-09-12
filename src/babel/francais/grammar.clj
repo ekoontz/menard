@@ -219,7 +219,7 @@
                             :synsem {:infl :present
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :passe-compose}}})
+                                           :tense :past}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -307,7 +307,7 @@
                             :head {:phrasal false}
                             :synsem {:aux true
                                      :infl :present
-                                     :sem {:tense :passe-compose}
+                                     :sem {:tense :past}
                                      :cat :verb}})
 
                    ;; [nous [être + naître]] => nous somme nées
@@ -318,7 +318,7 @@
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
-                                       :sem {:tense :passe-compose}}}))
+                                       :sem {:tense :past}}}))
                    (unifyc h21
                            {:rule "vp-future"
                             :synsem {:aux false

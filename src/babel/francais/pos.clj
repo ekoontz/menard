@@ -5,7 +5,8 @@
 (require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
 
 (def verb-aux
-  (let [sem (ref {:tense :passe-compose})]
+  (let [sem (ref {:aspect :perfect
+                  :tense :past})]
     (unifyc {:synsem {:sem sem
                       :subcat {:2 {:infl :past-p}}}}
             (let [aux (ref true)

@@ -49,9 +49,8 @@
                                   [{:synsem {:sem {:tense :conditional}}}
                                    {:synsem {:sem {:tense :future}}}
                                    {:synsem {:sem {:tense :present}}}
-                                   ;; TODO: enable this when ready:
-                                   ;; {:synsem {:sem {:aspect :perfect
-                                   ;;                 :tense :past}}}
+                                   {:synsem {:sem {:tense :past
+                                                   :aspect :perfect}}}
                                    ]
                                   ))))
                   (reduce concat

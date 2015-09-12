@@ -3,7 +3,6 @@
 
 (require '[babel.cache :refer [create-index]])
 (require '[babel.english.writer :as en])
-(require '[babel.enrich :refer [enrich]])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [grammar]])
 (require '[babel.francais.lexicon :refer [lexicon-source]])
@@ -17,6 +16,8 @@
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
+
+(declare enrich)
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline
 ;; as opposed to a argument-position-sensitive function.
@@ -125,4 +126,32 @@
                                  (get root-verbs key))
                                (sort (keys root-verbs)))))))))
 
+(declare against-pred)
+(declare matching-head-lexemes)
+(defn enrich [spec lexicon]
+  (against-pred spec lexicon))
 
+(defn against-pred [spec lexicon]
+  (let [pred (get-in spec [:synsem :sem :pred] :top)]
+    (if (= :top pred)
+      spec
+      (mapcat (fn [lexeme]
+                (let [result (unify spec
+                                    {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}})]
+                  (if (not (fail? result))
+                    (do
+                      (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
+                      (list result)))))
+              (matching-head-lexemes spec lexicon)))))
+
+(defn matching-head-lexemes [spec lexicon]
+  (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
+    (if (= pred-of-head :top)
+      spec
+      (mapcat (fn [lexemes]
+                (mapcat (fn [lexeme]
+                          (if (= pred-of-head
+                                 (get-in lexeme [:synsem :sem :pred] :top))
+                            (list lexeme)))
+                        lexemes))
+              (vals lexicon)))))

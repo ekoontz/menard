@@ -1,5 +1,6 @@
 (ns babel.writer
   (:refer-clojure :exclude [get-in merge])
+;  (:import [org.postgresql JDBCException])
   (:require
     [babel.lexiconfn :refer [sem-impl]]
     [clojure.data.json :as json]
@@ -138,7 +139,8 @@
    The serialized column allows loading a desired expression as a Clojure map into the runtime system, including
    the expression' internal structure-sharing."
 
-  (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
+  (try
+    (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
                     "'" (json/write-str (strip-refs expression)) "'"
                     ","
                     "'" (str (serialize expression)) "'"
@@ -146,7 +148,9 @@
                     "?,?)")
                [surface
                 language
-                model-name]]))
+                model-name]])
+    (catch Exception e
+      (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
   (exec-raw [(str "INSERT INTO lexeme 

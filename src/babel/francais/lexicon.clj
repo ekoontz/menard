@@ -62,18 +62,21 @@
    "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}                   
    "avoir"
-   {:synsem {:essere false
-             :sem {:pred :avere}
-             :cat :verb}
-    :français {:futuro-stem "aur"
-               :drop-e true
-               :imperfect-stem "av"
-               :present {:1sing "ai"
-                         :2sing "as"
-                         :3sing "a"
-                         :1plur "avons"
-                         :2plur "avez"
-                         :3plur "ont"}}}
+   (let [common
+         {:synsem {:essere false
+                   :cat :verb}
+          :français {:futuro-stem "aur"
+                     :drop-e true
+                     :imperfect-stem "av"
+                     :present {:1sing "ai"
+                               :2sing "as"
+                               :3sing "a"
+                               :1plur "avons"
+                               :2plur "avez"
+                               :3plur "ont"}}}]
+     [(unify common {:synsem {:sem {:pred :avere}}})
+      (unify common verb-aux
+             {:synsem {:subcat {:2 {:essere false}}}})])
 
    "baisser" {:synsem {:cat :verb
                       :sem {:pred :lower}}}
@@ -234,7 +237,10 @@
                               :2plur "serez"
                               :3plur "seront"}}}]
      [(unify common {:synsem {:sem {:pred :be}}})
-      (unify common verb-aux)])
+      (unify common verb-aux
+             {:synsem {:subcat {:2 {:essere true}}}})])
+   ;; ^^ in auxiliary form, "être" only allows essere=true verbs.
+   ;; compare with "avoir", which only allows essere=false verbs.
      
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}

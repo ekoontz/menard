@@ -8,7 +8,7 @@
    [babel.italiano.writer :as it]
    [babel.over :refer [over]]
    [babel.html :as html]
-   [babel.parse :refer [parse]]
+   [babel.parse :as parse]
    [babel.pos :as pos]
    [babel.test.fr :as frtest]
    [clojail.core :refer [sandbox]]
@@ -182,3 +182,18 @@
                       :sem {:pred :be
                             :subj {:pred :I}}}}
             @fr/small))
+
+
+(defn analyze [surface-form lookup-fn]
+  "return the map incorporating the lexical information about a surface form..."
+  (lookup-fn surface-form))
+
+(defn lookup [token]
+  "return the subset of lexemes that match this token from the lexicon."
+  (analyze token #(get (:lexicon fr/small) %)))
+
+(defn parse [string]
+  (parse/parse string
+               (:lexicon fr/small)
+               lookup
+               (:grammar fr/small)))

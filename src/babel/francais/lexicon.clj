@@ -57,7 +57,7 @@
                         :sem {:pred :insure}}}]
 
    "attendre" {:synsem {:cat :verb
-                         :sem {:pred :wait}}}
+                         :sem {:pred :wait-for}}}
                        
    "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}                   

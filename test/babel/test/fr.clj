@@ -87,7 +87,7 @@
                             :2sing "vas",
                             :1plur "allons"},
                   :français "aller",
-                  :infl :passe-compose,
+                  :infl :past-p,
                   :essere true,
                   :initial false},
               :initial false,

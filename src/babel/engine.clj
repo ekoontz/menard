@@ -32,9 +32,6 @@
         language-model (if (future? language-model)
                          @language-model
                          language-model)
-        morph (if (future? language-model)
-                (:morph @language-model)
-                (:morph language-model))
 
         debug (log/debug (str "pre-enriched spec: " spec))
 
@@ -50,7 +47,7 @@
                      (:grammar language-model)
                      (:lexicon language-model)
                      (:index language-model)
-                     morph)))
+                     (:morph language-model))))
 
 (defn generate-from-request [request]
   "respond to an HTTP client's request with a generated sentence, given the client's desired spec, language name, and language model name."

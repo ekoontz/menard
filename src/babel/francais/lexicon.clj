@@ -177,26 +177,15 @@
                     :pred :lei}
              :subcat '()}}]
    "elles"
-   [{:synsem {:cat :noun
+   {:synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:human true
-                    :gender :fem
+              :sem {:gender :fem
                     :pred :loro}
               :subcat '()}}
-    {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :number :plur
-                   :gender :fem}
-             :sem {:human false
-                   :gender :fem
-                   :pred :loro}
-             :subcat '()}}]
 
    "enseigner" [{:synsem {:cat :verb
                          :sem {:pred :show}}}
@@ -290,28 +279,17 @@
               '()}}]
 
     "ils"
-    [{:synsem {:cat :noun
-               :pronoun true
-               :case :nom
-               :agr {:person :3rd
-                     :number :plur
-                     :gender :masc}
-               :sem {:human true
-                     :gender :masc
-                     :pred :loro}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :plur
+                    :gender :masc}
+              :sem {:gender :masc
+                    :pred :loro}
                :subcat '()}}
-     {:synsem {:cat :noun
-               :pronoun true
-               :case :nom
-               :agr {:person :3rd
-                     :number :plur
-                     :gender :masc}
-               :sem {:human false
-                     :gender :masc
-                     :pred :loro}
-               :subcat '()}}]
 
-  "imaginer" {:synsem {:cat :verb
+    "imaginer" {:synsem {:cat :verb
                        :sem {:pred :imagine}}}
   "importer" {:synsem {:cat :verb
                        :sem {:pred :import}}}

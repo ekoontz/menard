@@ -728,7 +728,7 @@
               :subcat '()}}]
    
    "paint"  {:synsem {:cat :verb
-                      :sem {:pred :dipingere}}}
+                      :sem {:pred :paint}}}
 
    "participate"  {:synsem {:cat :verb
                             :sem {:pred :participate}}}

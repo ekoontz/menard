@@ -783,7 +783,7 @@
               :italiano {:cat :adjective}})
 
       "dipingere" {:synsem {:cat :verb
-                            :sem {:pred :dipingere}}
+                            :sem {:pred :paint}}
                    :italiano {:passato "dipinto"}}
 
       "divertirsi" (let [subject-semantics (ref {:human true})

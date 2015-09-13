@@ -312,7 +312,7 @@
                       :sem {:pred :enter}}}
 
    "erase"  {:synsem {:cat :verb
-                      :sem {:pred :cancellare}}}
+                      :sem {:pred :erase}}}
 
    "escape" {:synsem {:cat :verb
                       :sem {:pred :escape}}}

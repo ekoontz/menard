@@ -430,7 +430,7 @@
                         :sem {:pred :cambiare}}}
    
    "cancellare" {:synsem {:cat :verb
-                          :sem {:pred :cancellare}}}
+                          :sem {:pred :erase}}}
 
    "cantare" {:synsem {:cat :verb
                        :sem {:pred :sing}}}

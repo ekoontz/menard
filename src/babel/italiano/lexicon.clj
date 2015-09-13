@@ -981,8 +981,9 @@
       "fornire"  {:synsem {:cat :verb
                            :sem {:pred :furnish}}}
       
-      "frequentare"  {:synsem {:cat :verb
-                               :sem {:pred :frequentare}}}
+;; commenting out: no english equivalent      
+;      "frequentare"  {:synsem {:cat :verb
+;                               :sem {:pred :frequentare}}}
 
       "funzionare" {:synsem {:cat :verb
                              :essere false

@@ -132,6 +132,9 @@
                      :sem {:pred :begin}}
             :english {:past "began"}}
 
+   "believe" {:synsem {:cat :verb
+                       :sem {:pred :believe}}}
+   
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
                              :place false}}}

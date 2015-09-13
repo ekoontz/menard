@@ -80,7 +80,7 @@
 ;; the user for diagnostics rather than just logging them.
 ;; (e.g. those thrown by (max-lengths).)
 (defn workbookq [expr notused]
-  (do
+  (let [expr (string/trim expr)]
     ;; TODO: add timing information for each evaluation.
     (log/info (str "workbookq: evaluating expression: \"" expr "\""))
     (if expr

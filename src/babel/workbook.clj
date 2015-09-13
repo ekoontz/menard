@@ -23,19 +23,10 @@
    [hiccup.core :refer [html]]
 ))
 
-
-(def foo
-  (generate {:synsem {:subcat '()
-                      :infl :imperfect
-                      :sem {:pred :be
-                            :subj {:pred :I}}}}
-            @fr/small))
-
+;; TODO: add other languages
 (defn parse [string]
-  (parse/parse string
-               (:lexicon @fr/small)
-               (:lookup @fr/small)
-               (:grammar @fr/small)))
+  (concat
+   (fr/parse string)))
 
 ;; this does some sample runtime behavior (generates sentences)
 ;; which allow certain things to get initialized so that remote (i.e. HTTP
@@ -93,6 +84,7 @@
                                  ;; attempt to process the expression?
                                  (catch Exception e
                                    (log/error (str "failed to sandbox-load-string: " expr ":" e))
+                                   (log/error (str "stack: " (.printStackTrace e)))
                                    (str e)))]
                            (list
                             (str
@@ -189,3 +181,9 @@
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                @fr/small)
+(def foo
+  (generate {:synsem {:subcat '()
+                      :infl :imperfect
+                      :sem {:pred :be
+                            :subj {:pred :I}}}}
+            @fr/small))

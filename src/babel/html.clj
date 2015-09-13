@@ -626,6 +626,7 @@
 
    (include-css "/css/bootstrap.min.css")
    (include-css "/css/fs.css")
+   (include-css "/css/workbook.css")
 
    [:script {:type "text/javascript" :src "/js/jquery-1.6.4.min.js"}]
    [:script {:type "text/javascript" :src "/js/workbook.js"}]

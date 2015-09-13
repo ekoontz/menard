@@ -282,8 +282,17 @@
             tenses))))
 
 (defn truncate-lexicon [language]
-  (exec-raw [(str "DELETE FROM lexeme WHERE language=?")
-               [language]]))
+  (try
+    (exec-raw [(str "DELETE FROM lexeme WHERE language=?")
+               [language]])
+    (catch java.sql.SQLException sqle
+      (do
+        (log/error (str "Exception when truncating lexicon: " sqle))
+        (log/error (str "SQL error: " (.printStackTrace (.getNextException sqle))))))
+      
+    (catch Exception e
+      (do
+        (log/error (str "Exception when truncating lexicon: " e))))))
 
 (defn write-lexicon [language lexicon]
   (truncate-lexicon language)

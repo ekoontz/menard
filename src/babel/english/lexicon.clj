@@ -275,9 +275,7 @@
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
-                           :subj {:human true
-                                  :obj false}}}}
-
+                           :subj {:human true}}}}
    "eat"
    {:english {:past "ate"}
     :synsem {:cat :verb

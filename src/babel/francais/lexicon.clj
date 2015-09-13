@@ -252,9 +252,10 @@
                      :sem {:pred :form}}}
    
    "gagner" [{:synsem {:cat :verb
-                      :sem {:pred :earn}}}
-            {:synsem {:cat :verb
-                      :sem {:pred :win}}}]
+                       :sem {:pred :earn
+                             :subj {:human true}}}}
+             {:synsem {:cat :verb
+                       :sem {:pred :win}}}]
 
    "gérer" {:synsem {:cat :verb
                     :sem {:pred :manage}}}

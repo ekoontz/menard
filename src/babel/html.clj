@@ -166,6 +166,26 @@
 (def show-top true)
 (def show-true true)
 
+;; must be a set, not just a vector, so that contains? works as expected.
+(def hide-these-features (set [:comp-filled
+                               :a :b
+                               :activity
+                               :animate
+                               :buyable
+                               :drinkable
+                               :edible
+                               :futuro
+                               :imperfect
+                               :furniture
+                               :legible
+                               :mass
+                               :part-of-human-body
+                               :physical-object
+                               :place
+                               :present
+                               :speakable
+                               :artifact]))
+
 ;; TODO: use multimethod based on arg's type.
 (defn tablize [arg & [path serialized opts]]
  ;; set defaults.
@@ -438,21 +458,31 @@
               "<td class='ref'>"
               )
              " <td class='ref' colspan='2'>")
-           (tablize (second tr)
-                    ;; set 'path' param for recursive call to tablize.
-                    ;; Path' = Path . current_feature
-                    (concat path (list (first tr)))
-                    serialized
-                    {:as-tree false})
+           (cond (= (first tr) :surface)
+                 "FOO"
+                 true
+                 (tablize (second tr)
+                          ;; set 'path' param for recursive call to tablize.
+                          ;; Path' = Path . current_feature
+                          (concat path (list (first tr)))
+                          serialized
+                          {:as-tree false}))
            "   </td>"
            "</tr>"))
         ;; sorts the argument list in _arg__ by key name and remove uninteresting key-value pairs.
-        (remove #(or (= (first %) :aliases)
+        (remove #(or (contains? hide-these-features
+                                (first %))
+                     ;; TODO: all the below should go into hide-these-features.
+                     (= (first %) :aliases)
+                     (= (first %) :case)
                      (= (first %) :comment)
                      (= (first %) :comment-plaintext)
                      (= (first %) :extend)
+                     (= (first %) :pronoun)
+                     (= (first %) :propernoun)
                      (= (first %) :first)
                      (= (first %) :head-filled)
+                     (= (first %) :initial)
                      (= (first %) :phrasal)
                      (= (first %) :root)
                      (= (first %) :schema-symbol)

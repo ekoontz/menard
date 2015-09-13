@@ -686,7 +686,7 @@
 
       ;; TODO: account for "dare" being ditransitive.
       "dare"  {:synsem {:cat :verb
-                        :sem {:pred :dare}}
+                        :sem {:pred :give}}
                :italiano {:present {:2sing "dai"
                                     :3plur "danno"}
                           :future-stem "dar"}}

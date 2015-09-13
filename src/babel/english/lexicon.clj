@@ -383,7 +383,7 @@
 
    ;; TODO: account for "give" being ditransitive.
    "give" {:synsem {:cat :verb
-                    :sem {:pred :dare}}
+                    :sem {:pred :give}}
            :english {:past "gave"}}
 
    "go"

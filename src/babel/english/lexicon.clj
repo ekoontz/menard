@@ -865,7 +865,7 @@
                 :sem {:pred :sigh}}}
 
    "sing" {:synsem {:cat :verb
-                    :sem {:pred :cantare}}
+                    :sem {:pred :sing}}
            :english {:past "sang"}}
 
    "sit down" {:english {:past "sat down"

@@ -433,7 +433,7 @@
                           :sem {:pred :cancellare}}}
 
    "cantare" {:synsem {:cat :verb
-                       :sem {:pred :cantare}}}
+                       :sem {:pred :sing}}}
 
    "caricare" {:italiano {:future-stem "carich"}
                :synsem {:cat :verb

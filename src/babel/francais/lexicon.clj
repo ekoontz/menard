@@ -357,9 +357,11 @@
                       :sem {:pred :forget}}}
    "parler"
    [{:synsem {:cat :verb
-              :sem {:pred :speak}}}
+              :sem {:pred :speak
+                    :subj {:human true}}}}
     {:synsem {:cat :verb
-              :sem {:pred :talk}}}]
+              :sem {:pred :talk
+                    :subj {:human true}}}}]
 
    "partager" {:synsem {:cat :verb
                        :sem {:pred :share}}}

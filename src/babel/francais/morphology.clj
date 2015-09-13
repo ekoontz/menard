@@ -557,6 +557,17 @@
                                                          :person :3rd}}}
                                       :infl :present}}}
                 ]
+
+   ;; -er and -ir type verbs
+   #"^(\S+)es$" [{:replace-with "er" ;; parle -> parler
+                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                          :person :2nd}}}
+                                       :infl :present}}}
+                 {:replace-with "ir" ;; dorme -> dormir
+                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                          :person :2nd}}}
+                                       :infl :present}}}]
+
    }
   )
 

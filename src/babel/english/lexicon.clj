@@ -844,7 +844,8 @@
            :english {:past "sent"}}
 
    "set" {:synsem {:cat :verb
-                     :sem {:pred :set}}}
+                   :sem {:pred :set}}
+          :english {:past "set (past)"}}
 
    "share" {:synsem {:cat :verb
                      :sem {:pred :share}}}

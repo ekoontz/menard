@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.cache :refer [create-index]])
-(require '[babel.english.writer :as en])
+(require '[babel.english.grammar :as en])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [small medium]])
 (require '[babel.francais.lexicon :refer [lexicon]])

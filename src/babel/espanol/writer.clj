@@ -3,7 +3,7 @@
 
 (require '[babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)])
 (require '[babel.forest :as forest])
-(require '[babel.english.writer :as en])
+(require '[babel.english.grammar :as en])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol.grammar :refer [grammar]])
 (require '[babel.espanol.lexicon :as lex])

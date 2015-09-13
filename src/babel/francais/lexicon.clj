@@ -416,7 +416,8 @@
   "touer" {:synsem {:cat :verb
                     :sem {:pred :kill}}}
   "tu"
-  (let [common {:synsem {:cat :nom
+  (let [common {:synsem {:cat :noun
+                         :case :nom
                          :agr {:person :2nd
                                :number :sing}
                          :sem {:human true
@@ -427,8 +428,8 @@
      (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
-    "vous"
-   (let [common {:synsem {:case :nom
+  "vous"
+  (let [common {:synsem {:case :nom
                          :agr {:person :2nd
                                :number :plur}
                          :sem {:human true

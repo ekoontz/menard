@@ -1,6 +1,7 @@
 (ns babel.english.lexicon
   (:require
-   [babel.lexiconfn :refer (unify)]
+   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
+   [babel.english.morphology :as morph]
    [babel.english.pos :refer :all]))
 
 (def lexicon-source
@@ -1257,6 +1258,15 @@
               :subcat '()}}]
    })
 
+(def lexicon (future (-> (compile-lex lexicon-source 
+                                      morph/exception-generator 
+                                      morph/phonize morph/english-specific-rules)
+                         ;; make an intransitive version of every verb which has an
+                         ;; [:sem :obj] path.
+                         intransitivize
+
+                         ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                         transitivize)))
 
     
 

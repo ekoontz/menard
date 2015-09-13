@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.cache :refer (create-index)])
-(require '[babel.english.writer :as en])
+(require '[babel.english.grammar :as en])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.forest :as forest])
 (require '[babel.italiano.grammar :as gram])
@@ -140,7 +140,7 @@
                                     (log/debug (str "generating from: " spec))
                                     (process [{:fill
                                                {:spec spec
-                                                :source-model en/small
+                                                :source-model en/small-plus-vp-pronoun
                                                 :target-model small}
                                                :count count}])))
                                 (list {:synsem {:sem {:tense :conditional}}}

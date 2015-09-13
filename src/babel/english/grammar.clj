@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require 
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
-   [babel.english.lexicon :as en-lex]
+   [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (fo)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
@@ -366,4 +366,123 @@
           (aux-is-head-feature phrase)))
        grammar))
 
+(def small
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
+                       (= (:rule %) "s-present-nonphrasal-head")
+                       (= (:rule %) "s-future-nonphrasal-head")
+                       (= (:rule %) "s-imperfetto-nonphrasal-head")
+                       (= (:rule %) "s-past-nonphrasal-head")
+                       (= (:rule %) "s-aux"))
+                  grammar)
+
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :pronoun]) true))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))
+          ]
+      {:name "small"
+       :language "en"
+       :morph fo
+       :grammar grammar
+       :lexicon lexicon
+       :for {:es ;; a lexicon specific to when we want to use Español as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :es (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))
+
+             :it  ;; a lexicon specific to when we want to use Italiano as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :it (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))}
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
+(def small-plus-vp-pronoun
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
+                       (= (:rule %) "s-conditional-phrasal-head")
+                       (= (:rule %) "s-present-nonphrasal-head")
+                       (= (:rule %) "s-present-phrasal-head")
+                       (= (:rule %) "s-future-nonphrasal-head")
+                       (= (:rule %) "s-future-phrasal-head")
+                       (= (:rule %) "s-imperfetto-nonphrasal-head")
+                       (= (:rule %) "s-imperfetto-phrasal-head")
+                       (= (:rule %) "s-past-nonphrasal-head")
+                       (= (:rule %) "s-past-phrasal-head")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-past")
+                       (= (:rule %) "vp-pronoun"))
+                  grammar)
+
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :pronoun]) true))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))
+          ]
+      {:name "small-plus-vp-pronoun"
+       :language "en"
+       :morph fo
+       :grammar grammar
+       :lexicon lexicon
+       :for {:es ;; a lexicon specific to when we want to use Español as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :es (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))
+
+             :it  ;; a lexicon specific to when we want to use Italiano as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :it (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))}
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
+(def medium
+  (future
+    (let [lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v v]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "medium"
+       :grammar grammar
+       :morph fo
+       :lexicon lexicon
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
 (log/info "English grammar defined.")
+
+

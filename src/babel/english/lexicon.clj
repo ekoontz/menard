@@ -247,7 +247,7 @@
                       :sem {:pred :divide}}}
    
    "drink" {:synsem {:cat :verb
-                     :sem {:pred :bere
+                     :sem {:pred :drink
                            :discrete false
                            :subj {:animate true}
                            :obj {:drinkable true}}}

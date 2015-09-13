@@ -353,7 +353,7 @@
                           :3plur "bevono"}}
      :synsem {:cat :verb
               :essere false
-              :sem {:pred :bere
+              :sem {:pred :drink
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
 

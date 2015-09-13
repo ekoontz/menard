@@ -1538,7 +1538,10 @@
                    subject-agr (ref :top)]
                {:synsem {:cat :verb
                          :essere true
-                         :sem {:pred :sit-down}
+                         :sem {:pred :sit-down
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
                          :subcat {:1 {:agr subject-agr
                                       :sem subject-semantics}
                                   :2 {:agr subject-agr

@@ -22,6 +22,10 @@
 
    "aider" {:synsem {:cat :verb
                      :sem {:pred :aiutare}}}
+
+   "aimer" {:synsem {:cat :verb
+                     :sem {:pred :amare
+                           :subj {:human true}}}}
    
    "aller" {:français {:essere true
                        :future-stem "ir"

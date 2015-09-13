@@ -3,6 +3,7 @@
 (require '[babel.stringutils :refer :all])
 (require '[babel.francais.morphology.nouns :as nouns])
 (require '[babel.francais.morphology.verbs :as verbs])
+(require '[babel.parse :refer [toks]])
 (require '[clojure.core :as core])
 (require '[clojure.string :as string])
 (require '[clojure.string :refer (trim)])
@@ -519,32 +520,43 @@
 ;; used for parsing: TODO: unify with generation
 (def pattern-to-structure
   {
-   #"^(\S+)ée$" [{:replace-with "er"
+   #"^(j)$" [{:replace-with "e" ;; j' -> je
+              :structure :top}]
+   #"^(\S+)ée$" [{:replace-with "er" ;; allée -> aller
                   :structure {:synsem {:infl :past-p
                                        :subcat {:1 {:agr {:number :sing
                                                           :gender :fem}}}}}}]
-   #"^(\S+)ées$" [{:replace-with "er"
+   #"^(\S+)ées$" [{:replace-with "er" ;; allées -> aller
                    :structure {:synsem {:infl :past-p
                                         :subcat {:1 {:agr {:number :plur
                                                            :gender :fem}}}}}}]
-   #"^(\S+)é$" [{:replace-with "er"
+   #"^(\S+)é$" [{:replace-with "er" ;; allé -> aller
                  :structure {:synsem {:infl :past-p
                                       :subcat {:1 {:agr {:number :sing
                                                          :gender :masc}}}}}}]
-   #"^(\S+)és$" [{:replace-with "er"
+   #"^(\S+)és$" [{:replace-with "er" ;; allés -> aller
                   :structure {:synsem {:infl :past-p
                                        :subcat {:1 {:agr {:number :plur
                                                           :gender :masc}}}}}}]
-
    ;; -er and -ir type verbs
-   #"^(\S+)e$" [{:replace-with "er"
+   #"^(\S+)e$" [{:replace-with "er" ;; parle -> parler
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                          :person :1st}}}
                                       :infl :present}}}
-                {:replace-with "ir"
+                {:replace-with "ir" ;; dorme -> dormir
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                          :person :1st}}}
-                                      :infl :present}}}]
+                                      :infl :present}}}
+
+                {:replace-with "er" ;; parle -> parler
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :3rd}}}
+                                      :infl :present}}}
+                {:replace-with "ir" ;; dorme -> dormir
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :3rd}}}
+                                      :infl :present}}}
+                ]
    }
   )
 
@@ -574,7 +586,8 @@
                      (get lexicon (str (string/replace surface-form (:pattern match) "$1") (:replace-with match)))))
               matches)
       (get lexicon surface-form))
-
+     
      true
      (get lexicon surface-form))))
+
 

@@ -135,13 +135,7 @@
 
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}
-
-   "ecouter" {:synsem {:cat :verb
-                       :sem {:pred :listen}}}                  
-   
-   "effacer" {:synsem {:cat :verb
-                       :sem {:pred :erase}}}
-   
+      
    "croire" {:synsem {:cat :verb
                       :sem {:pred :believe}}}  
    
@@ -161,7 +155,10 @@
                         :sem {:pred :escape}}}
 
    "écouter" {:synsem {:cat :verb
-                      :sem {:pred :listen-to}}}
+                       :sem {:pred :listen-to}}}
+
+   "effacer" {:synsem {:cat :verb
+                       :sem {:pred :erase}}}
    "elle"
    [{:synsem {:cat :noun
              :pronoun true

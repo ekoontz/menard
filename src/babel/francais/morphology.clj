@@ -516,44 +516,65 @@
                 )]
     suffix))
 
+;; used for parsing: TODO: unify with generation
+(def pattern-to-structure
+  {
+   #"^(\S+)ée$" [{:replace-with "er"
+                  :structure {:synsem {:infl :past-p
+                                       :subcat {:1 {:agr {:number :sing
+                                                          :gender :fem}}}}}}]
+   #"^(\S+)ées$" [{:replace-with "er"
+                   :structure {:synsem {:infl :past-p
+                                        :subcat {:1 {:agr {:number :plur
+                                                           :gender :fem}}}}}}]
+   #"^(\S+)é$" [{:replace-with "er"
+                 :structure {:synsem {:infl :past-p
+                                      :subcat {:1 {:agr {:number :sing
+                                                         :gender :masc}}}}}}]
+   #"^(\S+)és$" [{:replace-with "er"
+                  :structure {:synsem {:infl :past-p
+                                       :subcat {:1 {:agr {:number :plur
+                                                          :gender :masc}}}}}}]
+
+   ;; -er and -ir type verbs
+   #"^(\S+)e$" [{:replace-with "er"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :1st}}}
+                                      :infl :present}}}
+                {:replace-with "ir"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :1st}}}
+                                      :infl :present}}}]
+   }
+  )
+
+(defn find-structure-from-pattern [patterns surface-form]
+  (if (not (empty? patterns))
+    (if (re-find (first patterns) surface-form)
+      (map (fn [each]
+             (merge {:pattern (first patterns)}
+                    each))
+           (get pattern-to-structure (first patterns)))
+      (find-structure-from-pattern (rest patterns) surface-form))))
+
 (defn analyze [surface-form lexicon]
   "return the map incorporating the lexical information about a surface form.
    The function tries to analyze the surface form into a lexical form, and then 
    looks up the hypothesized lexeme using lookup-fn."
-  (cond
+  (let [matches (find-structure-from-pattern (keys pattern-to-structure)
+                                             surface-form)]
+    (cond
+     (not (empty? matches))
+     (concat
+      (mapcat (fn [match]
+                (map (fn [lexeme]
+                       (unifyc
+                        lexeme
+                        (:structure match)))
+                     (get lexicon (str (string/replace surface-form (:pattern match) "$1") (:replace-with match)))))
+              matches)
+      (get lexicon surface-form))
 
-   (= surface-form "allées")
-   (concat 
-    (map (fn [lexeme]
-           (unifyc
-            lexeme
-            {:synsem {:subcat {:1 {:agr {:number :plur
-                                         :gender :fem}}}}}))
-         (get lexicon "aller"))
-    (get lexicon surface-form))
-   
-   (re-find #"e$" surface-form)
-   (concat
+     true
+     (get lexicon surface-form))))
 
-    ;; -er type verb
-    (map (fn [lexeme]
-           (unifyc
-            lexeme
-            {:synsem {:subcat {:1 {:agr {:number :sing
-                                         :person :1st}}}
-                      :infl :present}}))
-         (get lexicon (string/replace surface-form #"(e)$" "$1r")))
-
-    ;; -ir type verb
-    (map (fn [lexeme]
-           (unifyc
-            lexeme
-            {:synsem {:subcat {:1 {:agr {:number :sing
-                                         :person :1st}}}
-                      :infl :present}}))
-         (get lexicon (string/replace surface-form #"(e)$" "ir")))
-    
-    (get lexicon surface-form))
-
-   true
-   (get lexicon surface-form)))

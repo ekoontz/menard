@@ -650,7 +650,7 @@
              :agr {:person :1st
                    :number :sing}
              :sem {:human true
-                   :pred :io}
+                   :pred :I}
              :subcat '()}}
 
    "measure" {:synsem {:cat :verb
@@ -686,7 +686,7 @@
              :agr {:person :1st
                    :number :sing}
              :sem {:human true
-                   :pred :io}
+                   :pred :I}
              :subcat '()}}
 
    "note" {:synsem {:cat :verb

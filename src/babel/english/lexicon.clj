@@ -321,15 +321,15 @@
    "express" {:synsem {:cat :verb
                        :sem {:pred :express}}}
 
-  "faint" {:synsem {:cat :verb
-                    :sem {:pred :faint}}}
+   "faint" {:synsem {:cat :verb
+                     :sem {:pred :faint}}}
 
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 
    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
-
+   
    "forget" {:synsem {:cat :verb
                       :sem {:pred :forget}}
              :english {:past "forgot"}}

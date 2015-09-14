@@ -198,7 +198,7 @@
 
    "entrer" {:synsem {:cat :verb
                       :essere true
-                     :sem {:pred :enter}}}
+                      :sem {:pred :enter}}}
 
    "envoyer" {:synsem {:cat :verb
                        :sem {:pred :send}}}
@@ -258,7 +258,8 @@
                        :sem {:pred :earn
                              :subj {:human true}}}}
              {:synsem {:cat :verb
-                       :sem {:pred :win}}}]
+                       :sem {:pred :win
+                             :subj {:human true}}}}]
 
    "gérer" {:synsem {:cat :verb
                     :sem {:pred :manage}}}

@@ -1,9 +1,11 @@
 (ns babel.francais.lexicon
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.lexiconfn :refer (unify)]
    [babel.francais.morphology :refer [exception-generator phonize]]
    [babel.francais.pos :refer :all]
-   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]))
+   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
+   [dag-unify.core :refer [get-in]]))
 
 (def lexicon-source 
   {
@@ -27,8 +29,7 @@
                      :sem {:pred :amare
                            :subj {:human true}}}}
    
-   "aller" {:français {:essere true
-                       :future-stem "ir"
+   "aller" {:français {:future-stem "ir"
                        :present {:1sing "vais"
                                  :2sing "vas"
                                  :3sing "va"
@@ -196,6 +197,7 @@
                          :sem {:pred :teach}}}]
 
    "entrer" {:synsem {:cat :verb
+                      :essere true
                      :sem {:pred :enter}}}
 
    "envoyer" {:synsem {:cat :verb
@@ -454,6 +456,22 @@
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
               transitivize
 
+              ;; default: essere=false
+              (map-function-on-map-vals
+               (fn [k vals]
+                 (map (fn [val]
+                        ;; if: 1. the val's :cat is :verb
+                        ;;     2. it is not true that essere=true (either essere=false or essere is not defined)
+                        ;; then: essere=false
+                        (cond (and (= (get-in val [:synsem :cat])
+                                      :verb)
+                                   (not (= true (get-in val [:synsem :essere] false))))
+                              (unify val {:synsem {:essere false}})
+                                 
+                              true ;; otherwise, leave the verb alone
+                              val))
+                      vals)))
+              
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection:
               ;; infinitive verbs should have inflection ':infinitive', 

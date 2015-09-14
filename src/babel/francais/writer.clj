@@ -31,7 +31,7 @@
     (if false
       (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "abandoner"}}}))
 
-    (if true
+    (if false
       (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}}))
     (if true
       (delete-from-expressions "fr" {:synsem {:sem {:subj {:pred :io}}}}))

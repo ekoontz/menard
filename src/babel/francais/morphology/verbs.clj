@@ -326,7 +326,8 @@
       irregular
 
       ;; else, no :past-participle irregular form found, so use regular.
-      (let [er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
+      (let [essere (get-in word [:essere])
+            er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
             re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
             ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
             stem (string/replace infinitive #"[iaeé]r$" "")
@@ -357,7 +358,11 @@
                   true
                   "i")]        
         ;; regular
-        (str stem verb-type-suffix gender-suffix number-suffix)))))
+        (str stem verb-type-suffix
+             (if essere
+               gender-suffix "")
+             (if essere
+               number-suffix ""))))))
 
 (defn number-and-person [number person]
   (cond (and (= person :1st) (= number :sing))

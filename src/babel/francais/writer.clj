@@ -45,7 +45,7 @@
                 (vals @lexicon)))]
       (.size (map (fn [verb]
                     (let [root-form (get-in verb [:français :français])]
-                      (log/info (str "root:" root-form))
+                      (log/info (str "generate with:" root-form))
                       (.size (map (fn [tense]
                                     (let [spec (unify {:root {:français {:français root-form}}}
                                                       tense)]

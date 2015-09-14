@@ -12,13 +12,22 @@
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer [head-principle]])
-(require '[babel.writer :refer [process write-lexicon]])
+(require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
 
 (defn tout [ & [count]]
   (let [count (if count (Integer. count) 10)]
+
+    ;; A place to erase old mistakes (before attempting again).
+    ;; TODO: promote to the (process) command set.
+    ;; 
+    (if false
+      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "avoir"}}}))
+    (if false
+      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "être"}}}))
+
     (write-lexicon "fr" @lexicon)
     (let [
           ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
@@ -36,7 +45,7 @@
                 (vals @lexicon)))]
       (.size (map (fn [verb]
                     (let [root-form (get-in verb [:français :français])]
-                      (log/debug (str "generating from root-form:" root-form))
+                      (log/info (str "root:" root-form))
                       (.size (map (fn [tense]
                                     (let [spec (unify {:root {:français {:français root-form}}}
                                                       tense)]
@@ -45,7 +54,7 @@
                                                  {:spec spec
                                                   :source-model en/small
                                                   :target-model small}
-                                                 :count count}])))
+                                                 :count count}] "fr")))
                                   [{:synsem {:sem {:tense :conditional}}}
                                    {:synsem {:sem {:tense :future}}}
                                    {:synsem {:sem {:tense :present}}}

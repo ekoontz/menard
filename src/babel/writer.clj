@@ -294,6 +294,36 @@
       (do
         (log/error (str "Exception when truncating lexicon: " e))))))
 
+
+(defn delete-from-expressions [language spec]
+  (try
+    (do
+      (log/debug (str "deleting "
+                      (:count
+                       (first (exec-raw [(str "SELECT count(*) 
+                                                        FROM expression 
+                                                       WHERE language=?
+                                                         AND (structure @> ?::jsonb)")
+                                         [language (json/write-str spec)]]
+                                        :results)))
+                      " expression(s) from the language: " language " because each matches spec: " spec))
+      (exec-raw ["DELETE FROM expression 
+                   WHERE language=?
+                     AND (structure @> ?::jsonb)"
+                 [language
+                  (json/write-str spec)]]))
+
+
+    (catch java.sql.SQLException sqle
+      (do
+        (log/error (str "SQL Exception when deleting expressions: " sqle))
+        (log/error (str "next exception:" (.getNextException sqle)))
+        (log/error (str "SQL error: " (.printStackTrace (.getNextException sqle))))))
+    
+    (catch Exception e
+      (do
+        (log/error (str "Exception when deleting expressions: " e))))))
+  
 (defn write-lexicon [language lexicon]
   (truncate-lexicon language)
   (loop [canonical (sort (keys lexicon)) result nil]
@@ -309,58 +339,75 @@
         (recur (rest canonical) result))
       result)))
 
-(defn process [ & units]
-  (do
-    (exec-raw "TRUNCATE expression_import")
-    (.size (map (fn [unit]
-           (.size (map (fn [member-of-unit]
-                         (do
-                           (if (:sql member-of-unit)
-                             (do
-                               (log/debug (str "doing sql: " (:sql member-of-unit)))
-                               (exec-raw (:sql member-of-unit))))
+(defn process [units target-language]
+  (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
+  (let [import_table (str "expression_import_" target-language)
+        expression_distinct_table (str "expression_distinct_" target-language)]
 
-                           (if (:fill member-of-unit)
-                             (let [count (or (->> member-of-unit :fill :count) 10)]
-                               (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
-                                             "; count=" count))
-                               (fill-by-spec
-                                (->> member-of-unit :fill :spec)
-                                count
-                                "expression_import"
-                                (->> member-of-unit :fill :source-model)
-                                (->> member-of-unit :fill :target-model))))
-                           (if (:fill-verb member-of-unit)
-                             (do
-                               (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
-                               (let [verb (:fill-verb member-of-unit)]
-                                 (.size (fill-verb
-                                         (:fill-verb member-of-unit)
-                                         (if (:count member-of-unit)
-                                           (:count member-of-unit)
-                                           1)
-                                         (->> member-of-unit :fill-verb :source-model)
-                                         (->> member-of-unit :fill-verb :target-model))))))))
-                       unit)))
-         units))
-    (exec-raw ["SELECT count(*) FROM expression_import"] :results)
+    (exec-raw (str "DROP TABLE IF EXISTS " import_table))
 
-    (exec-raw "DROP TABLE IF EXISTS expression_distinct")
-
-    (exec-raw "CREATE TABLE expression_distinct (
+    (exec-raw (str "CREATE TABLE " import_table " (
     language text,
     model text,
     surface text,
     structure jsonb,
-    serialized text)")
+    serialized text)"))
 
-    (exec-raw "INSERT INTO expression_distinct (language,model,surface,structure,serialized) 
+    (log/debug (str "truncating import_table: " import_table))
+    (exec-raw [(str "TRUNCATE " import_table)])
+
+    (log/debug (str "Units: " (.size units)))
+    
+    (.size (map (fn [unit]
+                  (log/trace (str "TYPE OF UNIT: " (type unit)))
+                  (log/trace (str "KEYS OF UNIT: " (keys unit)))
+                  (let [member-of-unit unit]
+                    (log/debug (str "keys of member-of-unit:" (keys member-of-unit)))
+                    (if (:sql member-of-unit)
+                      (do
+                        (log/debug (str "doing sql: " (:sql member-of-unit)))
+                        (exec-raw (:sql member-of-unit))))
+                    
+                    (if (:fill member-of-unit)
+                      (let [count (or (->> member-of-unit :fill :count) 10)]
+                        (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
+                                        "; count=" count))
+                        (fill-by-spec
+                         (->> member-of-unit :fill :spec)
+                         count
+                         "expression_import"
+                         (->> member-of-unit :fill :source-model)
+                         (->> member-of-unit :fill :target-model))))
+                    (if (:fill-verb member-of-unit)
+                      (do
+                        (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
+                        (let [verb (:fill-verb member-of-unit)]
+                          (.size (fill-verb
+                                  (:fill-verb member-of-unit)
+                                  (if (:count member-of-unit)
+                                    (:count member-of-unit)
+                                    1)
+                                  (->> member-of-unit :fill-verb :source-model)
+                                  (->> member-of-unit :fill-verb :target-model))))))))
+                units))
+    (exec-raw [(str "SELECT count(*) FROM " import_table)] :results)
+
+    (exec-raw (str "DROP TABLE IF EXISTS " expression_distinct_table))
+
+    (exec-raw (str "CREATE TABLE " expression_distinct_table " (
+    language text,
+    model text,
+    surface text,
+    structure jsonb,
+    serialized text)"))
+
+    (exec-raw (str "INSERT INTO " expression_distinct_table " (language,model,surface,structure,serialized) 
          SELECT DISTINCT language,model,surface,structure,serialized 
-                    FROM expression_import")
+                    FROM " import_table ""))
 
-    (exec-raw "INSERT INTO expression (language,model,surface,structure,serialized)
+    (exec-raw (str "INSERT INTO expression (language,model,surface,structure,serialized)
                     SELECT language,model,surface,structure,serialized
-                      FROM expression_distinct")
+                      FROM " expression_distinct_table ""))
     ))
 
 ;; (process accompany care fornire indossare moltiplicare recuperare riconoscere riscaldare)

@@ -105,7 +105,7 @@
                 (vals @lexicon)))]
       (.size (map (fn [verb]
                     (let [root-form (get-in verb [:espanol :espanol])]
-                      (log/debug (str "generating from root-form:" root-form))
+                      (log/info (str "generating from root-form:" root-form))
                       (.size (map (fn [tense]
                                     (let [spec (unify {:root {:espanol {:espanol root-form}}}
                                                       tense)]
@@ -114,7 +114,7 @@
                                                  {:spec spec
                                                   :source-model en/small
                                                   :target-model small}
-                                                 :count count}])))
+                                                 :count count}] "es")))
                                   [{:synsem {:sem {:tense :conditional}}}
                                    {:synsem {:sem {:tense :future}}}
                                    {:synsem {:sem {:tense :present}}}

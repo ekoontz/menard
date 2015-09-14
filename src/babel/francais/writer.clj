@@ -28,6 +28,12 @@
     (if false
       (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "être"}}}))
 
+    (if false
+      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "abandoner"}}}))
+
+    (if false
+      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}}))
+
     (write-lexicon "fr" @lexicon)
     (let [
           ;; subset of the lexicon: only verbs which are infinitives and that can be roots:

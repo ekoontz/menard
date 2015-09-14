@@ -1,9 +1,13 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in merge resolve])
-  (:require 
+  (:require
+   [babel.cache :refer [create-index]]
+   [babel.enrich :refer [enrich]]
+   [babel.italiano.lexicon :refer [lexicon]]
+   [babel.italiano.morphology :refer [fo]]
+   [babel.ug :refer :all]
    [clojure.tools.logging :as log]
-   [dag-unify.core :refer (fail? get-in merge unifyc)]
-   [babel.ug :refer :all]))
+   [dag-unify.core :refer (fail? get-in merge unifyc)]))
 
 (def hc-agreement
   (let [agr (ref :top)]
@@ -371,5 +375,59 @@
           (aux-is-head-feature phrase)))
        (filter #(not (fail? %))
                grammar)))
+
+(def small
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-phrasal")
+                       (= (:rule %) "s-conditional-nonphrasal")
+                       (= (:rule %) "s-present-phrasal")
+                       (= (:rule %) "s-present-nonphrasal")
+                       (= (:rule %) "s-future-phrasal")
+                       (= (:rule %) "s-future-nonphrasal")
+                       (= (:rule %) "s-imperfect-phrasal")
+                       (= (:rule %) "s-imperfect-nonphrasal")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-aux")
+                       (= (:rule %) "vp-aux-22")
+                       (= (:rule %) "vp-pronoun-nonphrasal")
+                       (= (:rule %) "vp-pronoun-phrasal"))
+                  grammar)
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :pronoun]) true))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "small"
+       :language "it"
+       :language-keyword :italiano
+       :morph fo
+       :enrich enrich
+       :grammar grammar
+       :lexicon lexicon
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
+(def medium
+  (future
+    (let [lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v v]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "medium"
+       :language "it"
+       :language-keyword :italiano
+       :morph fo
+       :enrich enrich
+       :grammar grammar
+       :lexicon lexicon
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)
+       })))
 
 (log/info "Italian grammar defined.")

@@ -1,6 +1,7 @@
 (ns babel.italiano.lexicon
   (:require
-   [babel.lexiconfn :refer (unify)]
+   [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
+   [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer :all]))
 
 (def lexicon-source
@@ -1814,3 +1815,39 @@
                    :pred :voi}
               :subcat '()}}]})
 
+;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
+(def lexicon (future (-> (compile-lex lexicon-source
+                                      morph/exception-generator 
+                                      morph/phonize morph/italian-specific-rules)
+
+                         ;; make an intransitive version of every verb which has an
+                         ;; [:sem :obj] path.
+                         intransitivize
+                         
+                         ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                         transitivize
+
+                         ;; if a verb is not specifically marked as reflexive, it
+                         ;; is reflexive:false, to prevent generation of reflexive
+                         ;; sentences using nonreflexive verbs
+                         (map-function-on-map-vals
+                          (fn [k vals]
+                            (map (fn [val]
+                                   (cond (and (= (get-in val [:synsem :cat])
+                                                 :verb)
+                                              (= (get-in val [:synsem :aux] false)
+                                                 false)
+                                              (= :none (get-in val [:synsem :sem :reflexive] :none)))
+                                         (unify val {:synsem {:sem {:reflexive false}}})
+                                         true
+                                         val))
+                                 vals)))
+
+                         ;; Cleanup functions can go here. Number them for ease of reading.
+                         ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
+                         ;; rather than not having any inflection.
+                         (map-function-on-map-vals 
+                          (fn [k vals]
+                            (filter #(or (not (= :verb (get-in % [:synsem :cat])))
+                                         (not (= :none (get-in % [:synsem :infl] :none))))
+                                    vals))))))

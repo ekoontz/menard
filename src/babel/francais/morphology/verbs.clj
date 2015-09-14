@@ -321,44 +321,43 @@
      (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word) " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
 
 (defn passe-compose [word]
-  (let [infinitive (get-in word '(:français))
-        er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
-        re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
-        ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
-        stem (string/replace infinitive #"[iaeé]r$" "")
-        stem (if re-type
-               (string/replace infinitive #"re$" "")
-               stem)
-        last-stem-char-is-i (re-find #"ir$" infinitive)
-        last-stem-char-is-e (re-find #"er$" infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        gender-suffix
-        (cond (= :fem (get-in word [:agr :gender]))
-              "e"
-              true
-              "")
+  (let [infinitive (get-in word '(:français))]
+    (if-let [irregular (get-in word [:past-participle])]
+      irregular
 
-        number-suffix
-        (cond (= :plur (get-in word [:agr :number]))
-              "s"
-              true
-              "")
+      ;; else, no :past-participle irregular form found, so use regular.
+      (let [er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
+            re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
+            ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
+            stem (string/replace infinitive #"[iaeé]r$" "")
+            stem (if re-type
+                   (string/replace infinitive #"re$" "")
+                   stem)
+            last-stem-char-is-i (re-find #"ir$" infinitive)
+            last-stem-char-is-e (re-find #"er$" infinitive)
+            person (get-in word '(:agr :person))
+            number (get-in word '(:agr :number))
+            gender-suffix
+            (cond (= :fem (get-in word [:agr :gender]))
+                  "e"
+                  true
+                  "")
 
-        verb-type-suffix
-        (cond er-type
-              "é"
-              re-type
-              "u"
-              true
-              "i")]        
-    (cond
-     ;; irregular
-     (get-in word [:past-p])
-     (str (get-in word [:past-p]) gender-suffix number-suffix)
-     
-     ;; regular
-     true (str stem verb-type-suffix gender-suffix number-suffix))))
+            number-suffix
+            (cond (= :plur (get-in word [:agr :number]))
+                  "s"
+                  true
+                  "")
+
+            verb-type-suffix
+            (cond er-type
+                  "é"
+                  re-type
+                  "u"
+                  true
+                  "i")]        
+        ;; regular
+        (str stem verb-type-suffix gender-suffix number-suffix)))))
 
 (defn number-and-person [number person]
   (cond (and (= person :1st) (= number :sing))

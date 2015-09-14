@@ -71,6 +71,7 @@
                    :cat :verb}
           :français {:futuro-stem "aur"
                      :drop-e true
+                     :past-participle "eu"
                      :imperfect-stem "av"
                      :present {:1sing "ai"
                                :2sing "as"
@@ -86,7 +87,7 @@
    "baisser" {:synsem {:cat :verb
                       :sem {:pred :lower}}}
 
-   "boire" {:français {:passato "bu"
+   "boire" {:français {:past-participle "bu"
                        :boot-stem1 "boiv"
                        :boot-stem2 "buv"}
             :synsem {:cat :verb
@@ -214,7 +215,7 @@
                                :1plur "sommes"
                                :2plur "êtes"
                                :3plur "sont"}
-                     :passato "été"
+                     :past-participle "été"
                      :imperfect {:1sing "étais"
                                  :2sing "étais"
                                  :3sing "était"

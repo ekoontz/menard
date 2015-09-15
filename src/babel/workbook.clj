@@ -50,11 +50,21 @@
 (def workbook-sandbox
   (sandbox
    (conj
-    ;;clojail.testers/secure-tester-without-def
-    []
+    clojail.testers/secure-tester-without-def
     (blacklist-nses '[
+                      clojure.main
+                      java
+                      javax
+                      org.omg
+                      org.w3c
+                      org.xml
                       ])
     (blacklist-objects [
+                        clojure.lang.Compiler
+                        clojure.lang.Ref
+                        clojure.lang.Reflector
+                        clojure.lang.Namespace
+                        clojure.lang.Var clojure.lang.RT
                         ]))
    :refer-clojure false
    ;; using 60000 for development: for production, use much smaller value.
@@ -189,8 +199,8 @@
     ;; jdk1.5 management interfaces unavailable... JMX support disabled.
     ;; java.security.AccessControlException: access denied
     ;; ("javax.management.MBeanServerPermission" "createMBeanServer")
-    (expr 0)))
-
-
-
+    (try (expr 0)
+         (catch Exception e
+           (log/error (str "ignoring exception while trying to do (expr 0): "
+                           e))))))
 

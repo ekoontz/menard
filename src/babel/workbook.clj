@@ -194,7 +194,8 @@
                         :sem {:pred :be
                               :subj {:pred :I}}}}
               @fr/small)
-    ;; needed to avoid
+
+    ;; the below is needed to avoid:
     ;;INFO  56:12,470 com.mchange.v2.c3p0.C3P0Registry:
     ;; jdk1.5 management interfaces unavailable... JMX support disabled.
     ;; java.security.AccessControlException: access denied

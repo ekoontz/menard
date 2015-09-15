@@ -4,7 +4,8 @@
    [babel.cache :refer [create-index]]
    [babel.enrich :refer [enrich]]
    [babel.italiano.lexicon :refer [lexicon]]
-   [babel.italiano.morphology :refer [fo]]
+   [babel.italiano.morphology :refer [analyze fo]]
+   [babel.parse :as parse]
    [babel.ug :refer :all]
    [clojure.tools.logging :as log]
    [dag-unify.core :refer (fail? get-in merge unifyc)]))
@@ -407,6 +408,8 @@
        :language "it"
        :language-keyword :italiano
        :morph fo
+       :lookup (fn [arg]
+                 (analyze arg lexicon))
        :enrich enrich
        :grammar grammar
        :lexicon lexicon
@@ -424,10 +427,21 @@
        :language "it"
        :language-keyword :italiano
        :morph fo
+       :lookup (fn [arg]
+                 (analyze arg lexicon))
        :enrich enrich
        :grammar grammar
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
        })))
+
+(defn toks [surface]
+  (parse/toks surface (:lexicon @small) (:lookup @small)))
+
+(defn parse [surface]
+  (parse/parse surface
+               (:lexicon @small)
+               (:lookup @small)
+               (:grammar @small)))
 
 (log/info "Italian grammar defined.")

@@ -8,8 +8,10 @@
    [babel.italiano.grammar :as it]
    [babel.over :refer [over]]
    [babel.html :as html]
+   [babel.korma :as korma]
    [babel.parse :as parse]
    [babel.pos :as pos]
+   [babel.reader :as reader]
    [babel.test.fr :as frtest]
    [clojail.core :refer [sandbox]]
    [clojail.testers :refer :all]
@@ -23,11 +25,14 @@
    [hiccup.core :refer [html]]
 ))
 
-;; TODO: add other languages
+;; TODO: add other languages (English and Spanish)
 (defn parse [string]
   (concat
    (fr/parse string)
    (it/parse string)))
+
+(defn expr [id]
+  (reader/id2expression [id]))
 
 ;; this does some sample runtime behavior (generates sentences)
 ;; which allow certain things to get initialized so that remote (i.e. HTTP

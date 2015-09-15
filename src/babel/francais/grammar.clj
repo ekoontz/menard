@@ -441,8 +441,6 @@
 (defn analyze [arg]
   (morph/analyze arg lexicon))
 
-(def lookup (:lookup @small))
-
 (def medium
   (future
     (let [lexicon

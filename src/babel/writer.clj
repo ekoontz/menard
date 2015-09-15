@@ -46,6 +46,11 @@
 
         target-language-sentence (engine/generate spec target-language-model :enrich true)
 
+        target-language-sentence (if (:morph-walk-tree (if (future? target-language-model)
+                                                         @target-language-model
+                                                         target-langauge-model))
+                                   (:morph-walk-tree target-language-sentence))
+        
         target-language-sentence (let [subj (get-in target-language-sentence
                                                     [:synsem :sem :subj] :notfound)]
                                    (cond (not (= :notfound subj))
@@ -61,8 +66,13 @@
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
-        source-language-sentence (engine/generate (get-in target-language-sentence [:synsem :sem] :top)
+        source-language-sentence (engine/generate (get-in target-language-sentence
+                                                          [:synsem :sem] :top)
                                                   source-language-model :enrich true)
+        source-language-sentence (if (:morph-walk-tree (if (future? source-language-model)
+                                                         @source-language-model
+                                                         source-langauge-model))
+                                   (:morph-walk-tree source-language-sentence))
 
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
         debug (log/debug (str "semantics of resulting expression: " semantics))
@@ -187,8 +197,10 @@
       (let [sentence-pair (expression-pair source-language-model target-language-model spec)
             target-sentence (:target sentence-pair)
             source-sentence (:source sentence-pair)
-            source-language-model (if (ref? source-language-model) @source-language-model source-language-model)
-            target-language-model (if (ref? target-language-model) @target-language-model target-language-model)
+            source-language-model (if (ref? source-language-model)
+                                    @source-language-model source-language-model)
+            target-language-model (if (ref? target-language-model)
+                                    @target-language-model target-language-model)
 
             target-morphology (:morph @target-language-model)
             source-morphology (:morph @source-language-model)

@@ -372,7 +372,7 @@
           (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                        (= (:rule %) "s-present-nonphrasal-head")
                        (= (:rule %) "s-future-nonphrasal-head")
-                       (= (:rule %) "s-imperfetto-nonphrasal-head")
+                       (= (:rule %) "s-imperfect-nonphrasal-head")
                        (= (:rule %) "s-past-nonphrasal-head")
                        (= (:rule %) "s-aux"))
                   grammar)
@@ -423,8 +423,8 @@
                        (= (:rule %) "s-present-phrasal-head")
                        (= (:rule %) "s-future-nonphrasal-head")
                        (= (:rule %) "s-future-phrasal-head")
-                       (= (:rule %) "s-imperfetto-nonphrasal-head")
-                       (= (:rule %) "s-imperfetto-phrasal-head")
+                       (= (:rule %) "s-imperfect-nonphrasal-head")
+                       (= (:rule %) "s-imperfect-phrasal-head")
                        (= (:rule %) "s-past-nonphrasal-head")
                        (= (:rule %) "s-past-phrasal-head")
                        (= (:rule %) "s-aux")
@@ -484,5 +484,3 @@
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
 
 (log/info "English grammar defined.")
-
-

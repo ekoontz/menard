@@ -5,7 +5,7 @@
    [babel.english.grammar :as en]
    [babel.espanol.writer :as es]
    [babel.francais.grammar :as fr]
-   [babel.italiano.writer :as it]
+   [babel.italiano.grammar :as it]
    [babel.over :refer [over]]
    [babel.html :as html]
    [babel.parse :as parse]
@@ -26,7 +26,8 @@
 ;; TODO: add other languages
 (defn parse [string]
   (concat
-   (fr/parse string)))
+   (fr/parse string)
+   (it/parse string)))
 
 ;; this does some sample runtime behavior (generates sentences)
 ;; which allow certain things to get initialized so that remote (i.e. HTTP

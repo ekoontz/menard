@@ -32,7 +32,7 @@
    (it/parse string)))
 
 (defn expr [id]
-  (reader/id2expression [id]))
+  (reader/id2expression (Integer. id)))
 
 ;; this does some sample runtime behavior (generates sentences)
 ;; which allow certain things to get initialized so that remote (i.e. HTTP
@@ -50,21 +50,11 @@
 (def workbook-sandbox
   (sandbox
    (conj
-    clojail.testers/secure-tester-without-def
+    ;;clojail.testers/secure-tester-without-def
+    []
     (blacklist-nses '[
-                      clojure.main
-                      java
-                      javax
-                      org.omg
-                      org.w3c
-                      org.xml
                       ])
     (blacklist-objects [
-                        clojure.lang.Compiler
-                        clojure.lang.Ref
-                        clojure.lang.Reflector
-                        clojure.lang.Namespace
-                        clojure.lang.Var clojure.lang.RT
                         ]))
    :refer-clojure false
    ;; using 60000 for development: for production, use much smaller value.
@@ -188,8 +178,19 @@
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                @fr/small)
 (def foo
-  (generate {:synsem {:subcat '()
+  (do
+    (generate {:synsem {:subcat '()
                       :infl :imperfect
-                      :sem {:pred :be
-                            :subj {:pred :I}}}}
-            @fr/small))
+                        :sem {:pred :be
+                              :subj {:pred :I}}}}
+              @fr/small)
+    ;; needed to avoid
+    ;;INFO  56:12,470 com.mchange.v2.c3p0.C3P0Registry:
+    ;; jdk1.5 management interfaces unavailable... JMX support disabled.
+    ;; java.security.AccessControlException: access denied
+    ;; ("javax.management.MBeanServerPermission" "createMBeanServer")
+    (expr 0)))
+
+
+
+

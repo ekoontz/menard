@@ -21,11 +21,10 @@
     (generate spec source-language target-language)))
 
 (defn id2expression [id]
-  (let [results (db/exec-raw [(str "SELECT serialized::text AS structure,surface
-                                        FROM expression WHERE id=?")
+  (let [results (db/exec-raw [(str "SELECT serialized::text AS structure FROM expression WHERE id=?")
                               [id]]
                              :results)]
-    (first results)))
+    (deserialize (read-string(:structure (first results))))))
 
 (defn generate-question-and-correct-set [target-spec source-language source-locale target-language target-locale]
   "Return a set of semantically-equivalent expressions, for a given spec in the target language, and

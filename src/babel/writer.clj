@@ -46,10 +46,10 @@
 
         target-language-sentence (engine/generate spec target-language-model :enrich true)
 
-        target-language-sentence (if (:morph-walk-tree (if (future? target-language-model)
-                                                         @target-language-model
-                                                         target-langauge-model))
-                                   (:morph-walk-tree target-language-sentence))
+ ;       target-language-sentence (if (:morph-walk-tree (if (future? target-language-model)
+ ;                                                        @target-language-model
+ ;                                                        target-language-model))
+ ;                                  (:morph-walk-tree target-language-sentence))
         
         target-language-sentence (let [subj (get-in target-language-sentence
                                                     [:synsem :sem :subj] :notfound)]
@@ -69,10 +69,10 @@
         source-language-sentence (engine/generate (get-in target-language-sentence
                                                           [:synsem :sem] :top)
                                                   source-language-model :enrich true)
-        source-language-sentence (if (:morph-walk-tree (if (future? source-language-model)
-                                                         @source-language-model
-                                                         source-langauge-model))
-                                   (:morph-walk-tree source-language-sentence))
+;        source-language-sentence (if (:morph-walk-tree (if (future? source-language-model)
+;                                                         @source-language-model
+;                                                         source-language-model))
+;                                   (:morph-walk-tree source-language-sentence))
 
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
         debug (log/debug (str "semantics of resulting expression: " semantics))

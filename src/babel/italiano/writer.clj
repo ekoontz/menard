@@ -39,8 +39,8 @@
                                     (process [{:fill
                                                {:spec spec
                                                 :source-model en/small-plus-vp-pronoun
-                                                :target-model small}
-                                               :count count}] "it")))
+                                                :target-model small
+                                                :count count}}] "it")))
                                 (list {:synsem {:sem {:tense :conditional}}}
                                       {:synsem {:sem {:tense :future}}}
                                       {:synsem {:sem {:tense :present}}}

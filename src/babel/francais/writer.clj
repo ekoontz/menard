@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.cache :refer [create-index]])
+(require '[babel.engine :refer [generate]])
 (require '[babel.english.grammar :as en])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [small medium]])
@@ -67,11 +68,9 @@
                                    {:synsem {:sem {:tense :future}}}
                                    {:synsem {:sem {:tense :present}}}
                                    {:synsem {:sem {:tense :past
-                                                   :aspect :perfect}}}
-                                   ]
+                                                   :aspect :perfect}}}]
                                   ))))
                   (reduce concat
                           (map (fn [key]
                                  (get root-verbs key))
                                (sort (keys root-verbs)))))))))
-

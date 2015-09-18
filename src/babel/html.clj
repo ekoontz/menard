@@ -563,7 +563,6 @@
      (fn? arg)
      "&lambda;"
 
-
      ;; TODO: should support objects of any otherwise-unsupported class: simply print out the classname in fixed-width font.
      (= (type arg) org.eclipse.jetty.server.HttpInput)
      "<tt>org.eclipse.jetty.server.HttpInput</tt>"

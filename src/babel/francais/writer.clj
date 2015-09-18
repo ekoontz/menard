@@ -24,18 +24,8 @@
     ;; A place to erase old mistakes (before attempting again).
     ;; TODO: promote to the (process) command set.
     ;; 
-    (if false
-      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "avoir"}}}))
-    (if false
-      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "être"}}}))
-
-    (if false
-      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}, :root {:français {:français "abandoner"}}}))
-
-    (if false
-      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}}))
     (if true
-      (delete-from-expressions "fr" {:synsem {:sem {:subj {:pred :io}}}}))
+      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}}))
 
     (write-lexicon "fr" @lexicon)
     (let [

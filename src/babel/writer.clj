@@ -6,7 +6,7 @@
     [clojure.data.json :as json]
     [clojure.string :as string]
     [clojure.tools.logging :as log]
-    [dag-unify.core :refer [get-in strip-refs serialize unify ref?]]
+    [dag-unify.core :refer [get-in merge strip-refs serialize unify ref?]]
     [babel.engine :as engine]
     [babel.korma :as korma]
     [korma.core :refer [exec-raw]]))
@@ -44,6 +44,7 @@
         no-target-language (if (nil? target-language-model)
                              (throw (Exception. "No target language model was supplied.")))
 
+        ;; 1. generate sentence in target language.
         ;; resolve future
         target-language-model (if (future? target-language-model)
                                 @target-language-model
@@ -52,9 +53,8 @@
         target-language-sentence (engine/generate spec target-language-model :enrich true)
         
         target-language-sentence (if (:morph-walk-tree target-language-model)
-                                   (do
-                                     ((:morph-walk-tree target-language-model) target-language-sentence)
-                                     target-language-sentence)
+                                   (merge ((:morph-walk-tree target-language-model) target-language-sentence)
+                                          target-language-sentence)
                                    (do (log/warn (str "there is no morph-walk-tree function for the model:"
                                                       (:name target-language-model) " of language: "
                                                       (:language target-language-model)))
@@ -68,31 +68,15 @@
                                                   {:synsem {:sem {:subj subj}}}))
                                          true
                                          target-language-sentence))
+        target-fo (:morph target-language-model)
+
+        semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
+
+        ;; 2. generate sentence in source language using semantics of sentence in target language.
         ;; resolve future
         source-language-model (if (future? source-language-model)
                                 @source-language-model
                                 source-language-model)
-
-        source-fo (:morph source-language-model)
-        target-fo (:morph target-language-model)
-
-        ;; TODO: add warning if semantics of target-expression is merely :top - it's
-        ;; probably not what the caller expected. Rather it should be something more
-        ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
-        source-language-sentence (engine/generate (get-in target-language-sentence
-                                                          [:synsem :sem] :top)
-                                                  source-language-model :enrich true)
-
-        source-language-sentence (if (:morph-walk-tree source-language-model)
-                                   (do
-                                     ((:morph-walk-tree source-language-model) source-language-sentence)
-                                     source-language-sentence)
-                                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
-                                                      (:name source-language-model) " of language: "
-                                                      (:language source-language-model)))
-                                       source-language-sentence))
-
-        semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
         debug (log/debug (str "semantics of resulting expression: " semantics))
         debug (log/trace (str "entire expression: " target-language-sentence))
 
@@ -100,10 +84,10 @@
         debug (log/debug (str "target surface: " target-language-surface))
 
         source-language (:language source-language-model)
-        target-language (:language target-language-model)
         error (if (or (nil? target-language-surface)
                       (= target-language-surface ""))
-                (let [message (str "Could not generate a sentence in target language '" target-language 
+                (let [message (str "Could not generate a sentence in source language '"
+                                   (:language source-language-model) 
                                    "' for this spec: " spec)]
                   (if (= true mask-populate-errors)
                     (log/warn message)
@@ -119,17 +103,29 @@
                       ;; an entire sentence.
                                              
                       (throw (Exception. message))))))
-        source-language-sentence (engine/generate {:synsem {:sem semantics
-                                                            :subcat '()}}
-                                                  source-language-model
-                                                  :enrich true)
+
+        ;; TODO: add warning if semantics of target-expression is merely :top - it's
+        ;; probably not what the caller expected. Rather it should be something more
+        ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
+        source-language-sentence (engine/generate {:synsem {:sem semantics}}
+                                                  source-language-model :enrich true)
+
+        source-language-sentence (if (:morph-walk-tree source-language-model)
+                                   (merge ((:morph-walk-tree source-language-model) source-language-sentence)
+                                          source-language-sentence)
+                                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
+                                                      (:name source-language-model) " of language: "
+                                                      (:language source-language-model)))
+                                       source-language-sentence))
+
+        source-fo (:morph source-language-model)
         source-language-surface (source-fo source-language-sentence)
         debug (log/debug (str "source surface: " source-language-surface))
 
         error (if (or (nil? source-language-surface)
                       (= source-language-surface ""))
                 (let [message (str "Could not generate a sentence in source language '" source-language 
-                                   "' for this semantics: " semantics "; target language was: " target-language 
+                                   "' for this semantics: " semantics "; target language was: " (:language target-language-model)
                                    "; target expression was: '" ((:morph  @target-language-model) target-language-sentence) "'"
                                    "; target rule was: '" (:rule target-language-sentence) "'"
                                    "; target head rule was: '" (:rule (:head target-language-sentence)) "'"

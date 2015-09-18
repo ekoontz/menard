@@ -326,8 +326,6 @@
       (map? arg)
 
       (not (= :subcat (last path)))
-      (not (= :english (last path)))
-      (not (= :italiano (last path)))
 
       ;; display :extends properly (i.e. not a tree).
       ;; :extends will have features :a,:b,:c,..
@@ -429,46 +427,42 @@
        ""
        (map
         (fn [tr]
-          (str
-           "<tr"
-           (cond
-            ;; TODO: more general method to allow passage of css info from other parts of code:
-            (= (first tr) :paths)
-            " style='white-space:nowrap;'"
-            ;; use a custom CSS class for :comment.
-            (= (first tr) :comment)
-            " class='comment'"
-            ;; use a custom CSS class for :header (i.e. hide it with display:none)
-            (= (first tr) :header)
-            " class='hide' style='display:none'"
-            ;; ..handle other keywords that need a custom CSS class..
-            ;; default: no custom CSS class.
-            true "")
-           ">"
-           "   <th>"
-           (str (first tr))
-           "   </th>"
-           (if (= (type (second tr)) clojure.lang.Ref)
-             (str
-              "<td class='ref'>"
-              "  <div class='ref'>"
-              (fs/path-to-ref-index serialized (concat path (list (first tr))) 0)
-              "  </div>"
-              "</td>"
-              "<td class='ref'>"
-              )
-             " <td class='ref' colspan='2'>")
-           (cond (= (first tr) :surface)
-                 "FOO"
-                 true
-                 (tablize (second tr)
-                          ;; set 'path' param for recursive call to tablize.
-                          ;; Path' = Path . current_feature
-                          (concat path (list (first tr)))
-                          serialized
-                          {:as-tree false}))
-           "   </td>"
-           "</tr>"))
+          (let [feature (first tr)]
+            (str
+             "<tr"
+             (cond
+              ;; TODO: more general method to allow passage of css info from other parts of code:
+              (= (first tr) :paths)
+              " style='white-space:nowrap;'"
+              ;; use a custom CSS class for :comment.
+              (= (first tr) :comment)
+              " class='comment'"
+              ;; use a custom CSS class for :header (i.e. hide it with display:none)
+              (= (first tr) :header)
+              " class='hide' style='display:none'"
+              ;; ..handle other keywords that need a custom CSS class..
+              ;; default: no custom CSS class.
+              true "")
+             ">"
+             "<th>" feature "</th>"
+             (if (= (type (second tr)) clojure.lang.Ref)
+               (str
+                "<td class='ref'>"
+                "  <div class='ref'>"
+                (fs/path-to-ref-index serialized (concat path (list (first tr))) 0)
+                "  </div>"
+                "</td>"
+                "<td class='ref'>"
+                )
+               " <td class='ref' colspan='2'>")
+             (tablize (second tr)
+                      ;; set 'path' param for recursive call to tablize.
+                      ;; Path' = Path . current_feature
+                      (concat path (list (first tr)))
+                      serialized
+                      {:as-tree false})
+             "   </td>"
+             "</tr>")))
         ;; sorts the argument list in _arg__ by key name and remove uninteresting key-value pairs.
         (remove #(or (contains? hide-these-features
                                 (first %))
@@ -523,6 +517,10 @@
       "}")
      (= nil arg)
      (str "<div class='atom'><i>nil</i></div>")
+
+     (= (last path) :rule)
+     (str "<span class='keyword'>" arg "</span>")
+
      (= (type arg)
         java.lang.String)
      (str "<span class='string'>" arg "</span>")

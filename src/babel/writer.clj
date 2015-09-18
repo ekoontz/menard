@@ -44,13 +44,21 @@
         no-target-language (if (nil? target-language-model)
                              (throw (Exception. "No target language model was supplied.")))
 
-        target-language-sentence (engine/generate spec target-language-model :enrich true)
+        ;; resolve future
+        target-language-model (if (future? target-language-model)
+                                @target-language-model
+                                target-language-model)
 
- ;       target-language-sentence (if (:morph-walk-tree (if (future? target-language-model)
- ;                                                        @target-language-model
- ;                                                        target-language-model))
- ;                                  (:morph-walk-tree target-language-sentence))
+        target-language-sentence (engine/generate spec target-language-model :enrich true)
         
+        target-language-sentence (if (:morph-walk-tree target-language-model)
+                                   (do
+                                     ((:morph-walk-tree target-language-model) target-language-sentence)
+                                     target-language-sentence)
+                                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
+                                                      (:name target-language-model) " of language: "
+                                                      (:language target-language-model)))
+                                       target-language-sentence))
         target-language-sentence (let [subj (get-in target-language-sentence
                                                     [:synsem :sem :subj] :notfound)]
                                    (cond (not (= :notfound subj))
@@ -60,8 +68,13 @@
                                                   {:synsem {:sem {:subj subj}}}))
                                          true
                                          target-language-sentence))
-        source-fo (:morph @source-language-model)
-        target-fo (:morph @target-language-model)
+        ;; resolve future
+        source-language-model (if (future? source-language-model)
+                                @source-language-model
+                                source-language-model)
+
+        source-fo (:morph source-language-model)
+        target-fo (:morph target-language-model)
 
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
@@ -69,25 +82,25 @@
         source-language-sentence (engine/generate (get-in target-language-sentence
                                                           [:synsem :sem] :top)
                                                   source-language-model :enrich true)
-;        source-language-sentence (if (:morph-walk-tree (if (future? source-language-model)
-;                                                         @source-language-model
-;                                                         source-language-model))
-;                                   (:morph-walk-tree source-language-sentence))
+
+        source-language-sentence (if (:morph-walk-tree source-language-model)
+                                   (do
+                                     ((:morph-walk-tree source-language-model) source-language-sentence)
+                                     source-language-sentence)
+                                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
+                                                      (:name source-language-model) " of language: "
+                                                      (:language source-language-model)))
+                                       source-language-sentence))
 
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
         debug (log/debug (str "semantics of resulting expression: " semantics))
         debug (log/trace (str "entire expression: " target-language-sentence))
-        debug (log/trace (str "french: " (get-in target-language-sentence [:français])))
 
         target-language-surface (target-fo target-language-sentence)
         debug (log/debug (str "target surface: " target-language-surface))
 
-        source-language (:language (if (future? source-language-model)
-                                     @source-language-model
-                                     source-language-model))
-        target-language (:language (if (future? target-language-model)
-                                     @target-language-model
-                                     target-language-model))
+        source-language (:language source-language-model)
+        target-language (:language target-language-model)
         error (if (or (nil? target-language-surface)
                       (= target-language-surface ""))
                 (let [message (str "Could not generate a sentence in target language '" target-language 
@@ -95,9 +108,7 @@
                   (if (= true mask-populate-errors)
                     (log/warn message)
                     ;; else
-                    (let [target-language-model (if (future? target-language-model)
-                                                  @target-language-model
-                                                  target-language-model)]
+                    (let [target-language-model target-language-model]
                       (log/error message)
                       (log/error "grammar: " (map :rule (:grammar target-language-model)))
                       (log/error "lexicon: " (map (:morph target-language-model)

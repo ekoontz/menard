@@ -366,6 +366,16 @@
           (aux-is-head-feature phrase)))
        grammar))
 
+(defn morph-walk-tree [tree]
+  (log/debug (str "morph-walk-tree: " (fo tree)))
+  (merge
+   {:surface (fo (get-in tree [:english]))}
+   (if (get-in tree [:comp])
+     {:comp (morph-walk-tree (get-in tree [:comp]))}
+     {})
+   (if (get-in tree [:head])
+     {:head (morph-walk-tree (get-in tree [:head]))})))
+
 (def small
   (future
     (let [grammar
@@ -389,6 +399,10 @@
                       [k filtered-v]))))
           ]
       {:name "small"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
        :language "en"
        :morph fo
        :grammar grammar

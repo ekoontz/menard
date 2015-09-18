@@ -340,9 +340,7 @@
                    (unifyc h10
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}
-                            :rule "s-modifier"})
-
-))
+                            :rule "s-modifier"})))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
@@ -458,6 +456,10 @@
                       [k filtered-v]))))
           ]
       {:name "small-plus-vp-pronoun"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
        :language "en"
        :morph fo
        :grammar grammar
@@ -492,6 +494,10 @@
                     (if (not (empty? filtered-v))
                       [k filtered-v]))))]
       {:name "medium"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
        :grammar grammar
        :morph fo
        :lexicon lexicon

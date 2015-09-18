@@ -25,6 +25,7 @@
    [hiccup.core :refer [html]]
 ))
 
+;; TODO: move (parse) and (expr) to separate namespace: 'workbook/useful-user-functions' or something.
 ;; TODO: add other languages (English and Spanish)
 (defn parse [string]
   (concat

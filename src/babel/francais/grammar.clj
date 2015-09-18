@@ -410,7 +410,7 @@
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))
   (merge
-   {:surface (fo (get-in tree [:italiano]))}
+   {:surface (fo (get-in tree [:français]))}
    (if (get-in tree [:comp])
      {:comp (morph-walk-tree (get-in tree [:comp]))}
      {})

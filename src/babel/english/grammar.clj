@@ -335,7 +335,8 @@
                                    :synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun"
-                            :synsem {:cat :verb}})
+                            :synsem {:aux false
+                                     :cat :verb}})
 
                    (unifyc h10
                            {:head {:phrasal false

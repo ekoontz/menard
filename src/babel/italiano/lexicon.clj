@@ -358,7 +358,6 @@
                     :reflexive false
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
-
    "bianco"
    (unify adjective
           {:synsem {:cat :adjective
@@ -369,7 +368,6 @@
            :italiano {:masc {:plur "bianchi"}
                       :fem {:plur "bianche"}
                       :cat :adjective}})
-
    "birra"
    (unify agreement-noun
            drinkable-noun

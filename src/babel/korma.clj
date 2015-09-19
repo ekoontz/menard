@@ -19,9 +19,9 @@
                       
                       true
                       (do
-                        (log/warn
-                         (str "DATABASE_URL not set in your environment: defaulting to:" default))
-                        default))]
+                        (log/error
+                         (str "DATABASE_URL not set in your environment: you must define it; e.g.: " default)
+                         (throw (Exception. (str "could not find database name in your database-url."))))))]
     ;; this constructs the actual database connection which is used throughout the code base.
     (postgres
      ;; thanks to Jeroen van Dijk via http://stackoverflow.com/a/14625874

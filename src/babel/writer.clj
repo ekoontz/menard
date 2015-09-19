@@ -275,10 +275,11 @@
                          count
                          (if (> current-target-count 0) " more")
                          " expressions for spec: " spec))
-          (populate count
+          (populate 1
                     source-model
                     target-model
-                    spec table))
+                    spec table)
+          (fill-by-spec spec (- count 1) table source-model target-model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
@@ -360,9 +361,12 @@
 
 (defn process [units target-language]
   (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
-  (let [import_table (str "expression_import_" target-language)
-        expression_distinct_table (str "expression_distinct_" target-language)]
 
+  ;; cleanup: TODO: use temporary tables
+  (let [import_table (str "expression_import_" target-language "_" (rand-int 1000000))
+        expression_distinct_table (str "expression_distinct_" target-language "_" (rand-int 1000000))]
+
+    ;; cleanup: TODO: use temporary tables
     (exec-raw (str "DROP TABLE IF EXISTS " import_table))
 
     (exec-raw (str "CREATE TABLE " import_table " (
@@ -411,6 +415,7 @@
                 units))
     (exec-raw [(str "SELECT count(*) FROM " import_table)] :results)
 
+    ;; cleanup: TODO: use temporary tables
     (exec-raw (str "DROP TABLE IF EXISTS " expression_distinct_table))
 
     (exec-raw (str "CREATE TABLE " expression_distinct_table " (
@@ -427,6 +432,11 @@
     (exec-raw (str "INSERT INTO expression (language,model,surface,structure,serialized)
                     SELECT language,model,surface,structure,serialized
                       FROM " expression_distinct_table ""))
+
+    ;; cleanup: TODO: use temporary tables
+    (exec-raw (str "DROP TABLE " expression_distinct_table))
+    (exec-raw (str "DROP TABLE " import_table))
+    
     ))
 
 ;; (process accompany care fornire indossare moltiplicare recuperare riconoscere riscaldare)

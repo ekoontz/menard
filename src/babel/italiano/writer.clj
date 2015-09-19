@@ -23,7 +23,7 @@
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
               (vals @lexicon)))]
-    (if true
+    (if false
       (delete-from-expressions "it" {:synsem {:sem {:subj {:pred :io}}}}))
 
     (write-lexicon "it" @lexicon)

@@ -355,6 +355,7 @@
      :synsem {:cat :verb
               :essere false
               :sem {:pred :drink
+                    :reflexive false
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
 

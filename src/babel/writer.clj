@@ -126,7 +126,7 @@
                       (= source-language-surface ""))
                 (let [message (str "Could not generate a sentence in source language '" source-language 
                                    "' for this semantics: " semantics "; target language was: " (:language target-language-model)
-                                   "; target expression was: '" ((:morph  @target-language-model) target-language-sentence) "'"
+                                   "; target expression was: '" ((:morph  target-language-model) target-language-sentence) "'"
                                    "; target rule was: '" (:rule target-language-sentence) "'"
                                    "; target head rule was: '" (:rule (:head target-language-sentence)) "'"
                                    ;; TODO: add partial parses for more diagnostics:

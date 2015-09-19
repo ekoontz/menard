@@ -291,6 +291,7 @@
                    ;; this rule is kind of complicated and made more so by
                    ;; dependence on auxilary sense of "avere" which supplies the
                    ;; obj-agr agreement between the object and the main (non-auxilary) verb.
+                   ;; Note use of :reflexive below.
                    (unifyc h22
                            root-is-comp
                            (let [obj-agr (ref :top)]
@@ -337,6 +338,7 @@
                             :rule "vp-pronoun-phrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
+                   ;; Note use of :reflexive below.
                    (unifyc c21
                            root-is-head
                            {:head {:phrasal false
@@ -350,8 +352,7 @@
                            root-is-comp
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}
-                            :rule "s-modifier"})
-))
+                            :rule "s-modifier"})))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

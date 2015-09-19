@@ -29,6 +29,36 @@
    (exec-raw [(str "TRUNCATE " table)])))
 ;; catch exceptions when trying to populate
 
+(defn expression-single [model spec]
+  (let [no-language (if (nil? model)
+                             (throw (Exception. "No target language model was supplied.")))
+
+        ;; 1. generate sentence in target language.
+        ;; resolve future
+        model (if (future? model)
+                @model
+                model)
+
+        sentence (engine/generate spec model :enrich true)
+        
+        sentence (if (:morph-walk-tree model)
+                   (merge ((:morph-walk-tree model) sentence)
+                          sentence)
+                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
+                                      (:name model) " of language: "
+                                      (:language model)))
+                       sentence))
+        sentence (let [subj (get-in sentence
+                                    [:synsem :sem :subj] :notfound)]
+                   (cond (not (= :notfound subj))
+                         (do
+                           (log/debug (str "subject constraints: " subj))
+                           (unify sentence
+                                  {:synsem {:sem {:subj subj}}}))
+                         true
+                         sentence))]
+    {:target sentence}))
+
 (defn expression-pair [source-language-model target-language-model spec]
   "Generate a pair: {:source <source_expression :target <target_expression>}.
 
@@ -101,9 +131,7 @@
                       ;; need to try parsing same spec, but without the 
                       ;;  {:synsem {:subcat '()}} that makes us try to generate
                       ;; an entire sentence.
-                                             
                       (throw (Exception. message))))))
-
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
@@ -133,8 +161,7 @@
                                    ;; need to try parsing same spec, but without the 
                                    ;;  {:synsem {:subcat '()}} that makes us try to generate
                                    ;; an entire sentence.
-                                   )
-                      ]
+                                   )]
                   (if (= true mask-populate-errors)
                     (log/warn message)
                     ;; else

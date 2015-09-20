@@ -1430,6 +1430,15 @@
       (unify common1 intransitive intransitive-unspecified-obj)
 
       (unify common2 intransitive intransitive-unspecified-obj)))
+    
+    
+    "pensare"
+    {:synsem {:cat :verb
+              :essere false
+              :sem {:pred :think
+                    :activity false
+                    :discrete false
+                    :subj {:human true}}}}
 
    "piangere" {:italiano {:passato "pianto"}
             :synsem {:cat :verb

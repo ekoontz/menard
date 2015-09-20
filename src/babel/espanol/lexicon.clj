@@ -49,7 +49,7 @@
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :cambiare}}}
    
-   "cerrar" {:italiano {:boot-stem1 "cierr"
+   "cerrar" {:spanish {:boot-stem1 "cierr"
                         :boot-stem2 "cerr"}
              :synsem {:cat :verb
                       :sem {:pred :close}}}
@@ -214,6 +214,11 @@
                         :sem {:pred :show}}}
               {:synsem {:cat :verb
                         :sem {:pred :teach}}}]
+                      
+    "entender" {:spanish {:boot-stem1 "entiend"
+                        :boot-stem2 "entend"}
+             :synsem {:cat :verb
+                      :sem {:pred :understand-simply}}}                  
    
    "entrar" {:synsem {:cat :verb
                       :sem {:pred :enter}}}

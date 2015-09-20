@@ -73,7 +73,7 @@
                              :obj {:buyable true}}}}
    
    "comprender" {:synsem {:cat :verb
-                          :sem {:pred :understand}}}
+                          :sem {:pred :understand-deeply}}}
    
    "conservar" [{:synsem {:cat :verb
                           :sem {:pred :conserve}}}

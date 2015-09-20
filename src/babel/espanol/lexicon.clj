@@ -208,10 +208,10 @@
                    :pred :loro}
              :subcat '()}}
            
-    "empezar" {:italiano {:boot-stem1 "empiez"
+    "empezar" {:boot-stem1 "empiez"
                         :boot-stem2 "empez"}
              :synsem {:cat :verb
-                      :sem {:pred :begin}}}       
+                      :sem {:pred :begin}}       
    
    "enseñar" [{:synsem {:cat :verb
                         :sem {:pred :show}}}
@@ -326,6 +326,11 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
+                               
+    "pensar" {:spanish {:boot-stem1 "piens"
+                        :boot-stem2 "pens"}
+             :synsem {:cat :verb
+                      :sem {:pred :think}}}                           
 
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]

@@ -864,7 +864,8 @@
              :subcat '()}}
 
    "show" {:synsem {:cat :verb
-                    :sem {:pred :show}}}
+                    :sem {:pred :show
+                          :past-participle "shown"}}}
 
    "sigh" {:synsem {:cat :verb
                 :sem {:pred :sigh}}}
@@ -930,7 +931,8 @@
 
    "take"  {:synsem {:cat :verb
                      :sem {:pred :take}}
-            :english {:past "took"}}
+            :english {:past "took"
+                      :past-participle "taken"}}
 
    "take advantage of" {:english {:past "took advantage of"
                                   :participle "taking advantage of"

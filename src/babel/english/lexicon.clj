@@ -1026,7 +1026,11 @@
                     :human false
                     :pred :loro}
               :subcat '()}}]
-    
+            
+    "think" {:synsem {:cat :verb
+                     :sem {:pred :think }}
+            :english {:past "thought"}}        
+            
    "throw" {:english {:past "threw"}
             :synsem {:cat :verb
                      :sem {:pred :throw}}}

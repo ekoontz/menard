@@ -207,6 +207,11 @@
                    :gender :fem
                    :pred :loro}
              :subcat '()}}
+           
+    "empezar" {:italiano {:boot-stem1 "empiez"
+                        :boot-stem2 "empez"}
+             :synsem {:cat :verb
+                      :sem {:pred :begin}}}       
    
    "enseñar" [{:synsem {:cat :verb
                         :sem {:pred :show}}}

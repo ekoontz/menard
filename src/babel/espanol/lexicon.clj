@@ -49,6 +49,11 @@
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :cambiare}}}
    
+   "cerrar" {:italiano {:boot-stem1 "cierr"
+                        :boot-stem2 "cerr"}
+             :synsem {:cat :verb
+                      :sem {:pred :close}}}
+   
    "comentar" {:synsem {:cat :verb
                         :sem {:pred :comment}}}
    

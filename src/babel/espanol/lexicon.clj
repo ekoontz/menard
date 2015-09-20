@@ -141,9 +141,6 @@
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}
    
-   "pintar" {:synsem {:cat :verb
-                      :sem {:pred :paint}}}
-   
    "el"
    (unify determiner
           {:synsem {:cat :det
@@ -330,7 +327,11 @@
     "pensar" {:spanish {:boot-stem1 "piens"
                         :boot-stem2 "pens"}
              :synsem {:cat :verb
-                      :sem {:pred :think}}}                           
+                      :sem {:pred :think}}}
+                    
+                    
+    "pintar" {:synsem {:cat :verb
+                      :sem {:pred :paint}}}                
 
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]

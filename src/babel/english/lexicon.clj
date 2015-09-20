@@ -162,7 +162,7 @@
 
    "break" {:synsem {:cat :verb
                      :sem {:pred :break }}
-            :english {:past "break"}}
+            :english {:past "broke"}}
 
    "buy" {:synsem {:cat :verb
                    :sem {:pred :comprare

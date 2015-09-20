@@ -202,6 +202,9 @@
 
    "check" {:synsem {:cat :verb
                      :sem {:pred :check}}}
+                   
+   "close" {:synsem {:cat :verb
+                     :sem {:pred :close}}}                
 
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}}

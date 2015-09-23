@@ -459,7 +459,7 @@
                            :clothing true}}})
 
     "camminare"
-    {:synsem {:sem {:pred :run}
+    {:synsem {:sem {:pred :walk}
               :cat :verb}}
 
    "cane"

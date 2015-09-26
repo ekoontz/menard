@@ -102,6 +102,10 @@
 
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
 
+        target-language-surface (target-fo target-language-sentence)
+        debug (log/debug (str "target surface  : " target-language-surface))
+        debug (log/debug (str "target-semantics:" semantics))
+        
         ;; 2. generate sentence in source language using semantics of sentence in target language.
         ;; resolve future
         source-language-model (if (future? source-language-model)
@@ -110,14 +114,12 @@
         debug (log/debug (str "semantics of resulting expression: " semantics))
         debug (log/trace (str "entire expression: " target-language-sentence))
 
-        target-language-surface (target-fo target-language-sentence)
-        debug (log/debug (str "target surface: " target-language-surface))
 
         source-language (:language source-language-model)
         error (if (or (nil? target-language-surface)
                       (= target-language-surface ""))
-                (let [message (str "Could not generate a sentence in source language '"
-                                   (:language source-language-model) 
+                (let [message (str "Could not generate a sentence in target language '"
+                                   (:language target-language-model) 
                                    "' for this spec: " spec)]
                   (if (= true mask-populate-errors)
                     (log/warn message)

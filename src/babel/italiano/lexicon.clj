@@ -1017,6 +1017,17 @@
                                  :pred :giocare}}
                   :italiano {:future-stem "giocher"}}
 
+      "Giovanni e io"
+      [{:synsem {:cat :noun
+                 :pronoun true
+                 :case :nom
+                 :agr {:gender :masc
+                       :person :1st
+                       :number :plur}
+                 :sem {:human true
+                       :pred :giovanni-and-i}
+                 :subcat '()}}]
+
       "gridare" {:synsem {:cat :verb
                           :sem {:subj {:human true}
                                 :pred :yell}}}
@@ -1296,6 +1307,26 @@
             (unify common
                    {:synsem {:sem {:human true}}})])
 
+   "Luisa e io"
+   [{:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :fem
+                   :person :1st
+                   :number :plur}
+             :sem {:human true
+                   :pred :luisa-and-i}
+             :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+             :agr {:gender :masc
+                   :person :1st
+                   :number :plur}
+              :sem {:human true
+                    :pred :luisa-and-i}
+              :subcat '()}}]
+   
    "macchiare" {:synsem {:cat :verb
                          :sem {:pred :stain}}}
    "madre"

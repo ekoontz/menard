@@ -382,7 +382,18 @@
                 :present {:3sing "gets up"}
                 :past "got up"}})
 
-   ;; TODO: account for "give" being ditransitive.
+      "Giovanni and I"
+      [{:synsem {:cat :noun
+                 :pronoun true
+                 :case :nom
+                 :agr {:gender :masc
+                       :person :1st
+                       :number :plur}
+                 :sem {:human true
+                       :pred :giovanni-and-i}
+                 :subcat '()}}]
+
+      ;; TODO: account for "give" being ditransitive.
    "give" {:synsem {:cat :verb
                     :sem {:pred :give}}
            :english {:past "gave"}}
@@ -644,6 +655,28 @@
    "lower" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
 
+   "Luisa and I"
+   [{:english {:note "♂"}
+     :synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :fem
+                   :person :1st
+                   :number :plur}
+             :sem {:human true
+                   :pred :luisa-and-i}
+             :subcat '()}}
+    {:english {:note "♀"}
+     :synsem {:cat :noun
+              :pronoun true
+              :case :nom
+             :agr {:gender :masc
+                   :person :1st
+                   :number :plur}
+              :sem {:human true
+                    :pred :luisa-and-i}
+              :subcat '()}}]
+   
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
    "me" 

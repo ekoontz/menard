@@ -88,7 +88,7 @@
     (log/info (str "generating examples with this many verbs:"
                    (.size alzarsi)))
     (.size (map (fn [verb]
-                  (log/debug (str "HELLO: VERB: " verb))
+                  (log/trace (str "verb: " (strip-refs verb)))
                   (let [root-form (get-in verb [:italiano :italiano])]
                     (log/debug (str "generating from root-form:" root-form))
                     (.size (map (fn [tense]
@@ -113,7 +113,8 @@
                                                                              {:count 1
                                                                               :spec spec
                                                                               :target-model small
-                                                                              :source-model en/small-plus-vp-pronoun}}]
+                                                                              :source-model en/small-plus-vp-pronoun
+                                                                              }}]
                                                                 "it")))
                                                               [:sing :plur]))))
                                                     [:1st :2nd :3rd]))))
@@ -124,13 +125,14 @@
                                                  {:gender :fem}]
                                                 true
                                                 [:top])))))
-                                (list {:synsem {:sem {:tense :conditional}}}
-                                      {:synsem {:sem {:tense :future}}}
-                                      {:synsem {:sem {:tense :present}}}
-                                      {:synsem {:sem {:aspect :progressive
-                                                      :tense :past}}}
+                                (list ;{:synsem {:sem {:tense :conditional}}}
+                                      ;{:synsem {:sem {:tense :future}}}
+                                      ;{:synsem {:sem {:tense :present}}}
+                                      ;{:synsem {:sem {:aspect :progressive
+                                      ;                :tense :past}}}
                                       {:synsem {:sem {:aspect :perfect
-                                                      :tense :past}}})))))
+                                                      :tense :past}}}
+                                      )))))
                 alzarsi))))
 
 (defn tutti [ & [count]]

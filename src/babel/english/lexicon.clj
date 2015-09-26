@@ -508,6 +508,19 @@
                    :obj {:animate true}}}
     :english {:past "hugged"
               :participle "hugging"}}
+            
+    "Juan and I"
+      [{:synsem {:cat :noun
+                 :pronoun true
+                 :case :nom
+                 :agr {:gender :masc
+                       :person :1st
+                       :number :plur}
+                 :sem {:human true
+                       :pred :Juan-and-i}
+                 :subcat '()}}]        
+            
+            
    "I" 
    [{:english {:note "♂"}
      :synsem {:cat :noun

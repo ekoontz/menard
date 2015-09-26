@@ -276,6 +276,17 @@
              {:synsem {:cat :verb
                        :sem {:pred :talk
                              :subj {:human true}}}}]
+                           
+    "Juan y yo"
+      [{:synsem {:cat :noun
+                 :pronoun true
+                 :case :nom
+                 :agr {:gender :masc
+                       :person :1st
+                       :number :plur}
+                 :sem {:human true
+                       :pred :Juan-and-I}
+                 :subcat '()}}]                       
    
    "la"
    (unify determiner

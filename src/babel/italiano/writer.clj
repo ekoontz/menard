@@ -8,6 +8,9 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
+(defn rewrite-lexicon []
+  (write-lexicon "it" @lexicon))
+
 (defn camminare [ & [count]]
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:

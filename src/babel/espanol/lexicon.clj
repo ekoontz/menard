@@ -285,7 +285,7 @@
                        :person :1st
                        :number :plur}
                  :sem {:human true
-                       :pred :Juan-and-I}
+                       :pred :Juan-and-i}
                  :subcat '()}}]                       
    
    "la"

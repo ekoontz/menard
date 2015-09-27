@@ -98,26 +98,8 @@
                                                   {:synsem {:sem {:subj subj}}}))
                                          true
                                          target-language-sentence))
-        target-fo (:morph target-language-model)
 
-        semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
-
-        target-language-surface (target-fo target-language-sentence)
-        debug (log/debug (str "target surface  : " target-language-surface))
-        debug (log/debug (str "target-semantics:" semantics))
-        
-        ;; 2. generate sentence in source language using semantics of sentence in target language.
-        ;; resolve future
-        source-language-model (if (future? source-language-model)
-                                @source-language-model
-                                source-language-model)
-        debug (log/debug (str "semantics of resulting expression: " semantics))
-        debug (log/trace (str "entire expression: " target-language-sentence))
-
-
-        source-language (:language source-language-model)
-        error (if (or (nil? target-language-surface)
-                      (= target-language-surface ""))
+        error (if (nil? target-language-sentence)
                 (let [message (str "Could not generate a sentence in target language '"
                                    (:language target-language-model) 
                                    "' for this spec: " spec)]
@@ -134,6 +116,41 @@
                       ;;  {:synsem {:subcat '()}} that makes us try to generate
                       ;; an entire sentence.
                       (throw (Exception. message))))))
+
+        target-fo (:morph target-language-model)
+        target-language-surface (target-fo target-language-sentence)
+        semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
+
+        error (if (or (nil? target-language-surface)
+                      (empty? target-language-surface))
+                (let [message (str "Surface of target sentence was empty - spec was: " spec "; target-language-sentence was: " target-language-sentence)]
+                  (if (= true mask-populate-errors)
+                    (log/warn message)
+                    ;; else
+                    (let [target-language-model target-language-model]
+                      (log/error message)
+                      (log/error "grammar: " (map :rule (:grammar target-language-model)))
+                      (log/error "lexicon: " (map (:morph target-language-model)
+                                                  (sort (keys (:lexicon target-language-model)))))
+                      ;; TODO: add partial parses for more diagnostics:
+                      ;; need to try parsing same spec, but without the 
+                      ;;  {:synsem {:subcat '()}} that makes us try to generate
+                      ;; an entire sentence.
+                      (throw (Exception. message))))))
+
+        debug (log/debug (str "target surface  : " target-language-surface))
+        debug (log/debug (str "target-semantics:" semantics))
+        
+        ;; 2. generate sentence in source language using semantics of sentence in target language.
+        ;; resolve future
+        source-language-model (if (future? source-language-model)
+                                @source-language-model
+                                source-language-model)
+        debug (log/debug (str "semantics of resulting expression: " semantics))
+        debug (log/trace (str "entire expression: " target-language-sentence))
+
+
+        source-language (:language source-language-model)
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.

@@ -47,11 +47,13 @@
                           (generate-all (rest spec) grammar lexicon index morph))
                 true
                 (do
-                  (log/debug (str "generate-all with semantics: " (show-spec (remove-false (get-in spec [:synsem :sem])))))
+                  (log/trace (str "generate-all with semantics: " (show-spec (remove-false (get-in spec [:synsem :sem])))))
+                  (log/trace (str "generate-all with spec: " (strip-refs spec)))
+                  (log/trace (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
                   (log/trace (str "generate-all(details): " (show-spec spec)))
                   (-> (lightning-bolt grammar
                                       lexicon
-                                      spec 0 index)
+                                      spec 0 index nil morph)
                       ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
                       (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)
                       (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
@@ -59,13 +61,13 @@
                       (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph))))))
   
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
-(defn lightning-bolt [grammar lexicon spec & [ depth index parent]]
+(defn lightning-bolt [grammar lexicon spec & [ depth index parent morph]]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lighting-bolt@" depth ": " (strip-refs spec)))
-  (log/trace (str "lighting-bolt@" depth ": grammar:" (string/join ", " (map :rule grammar))))
+  (log/trace (str "lighting-bolt@" depth " spec:" (strip-refs spec)))
+  (log/debug (str "lighting-bolt@" depth " grammar:" (string/join ", " (map :rule grammar))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         index (if (future? index) @index index)
         lexicon (if (future? lexicon) @lexicon lexicon)
@@ -76,32 +78,45 @@ of this function with complements."
                                                        (unifyc spec rule))
                                                      (if parent (get-head-phrases-of parent index)
                                                          grammar))))
-        debug (log/trace (str "grammar size: " (.size grammar)))
-        debug (log/trace (str "candidate-parents size: " (if (nil? candidate-parents)
+        debug (log/debug (str "grammar size: " (.size grammar)))
+        debug (log/debug (str "candidate-parents size: " (if (nil? candidate-parents)
                                                            "no candidate-parents"
                                                            (.size candidate-parents))))
-        debug (log/trace (str "candidate-parents: " (if (nil? candidate-parents)
+        debug (log/debug (str "candidate-parents: " (if (nil? candidate-parents)
                                                       "no candidate-parents"
                                                       (string/join "," (map #(get-in % [:rule])
-                                                                            candidate-parents)))))
-
-
-        ]
+                                                                            candidate-parents)))))]
     (if (seq candidate-parents)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
-                      (over/overh parent (lazy-shuffle (get-lex parent :head index spec))))
+                      (let [candidate-lexemes (get-lex parent :head index spec)]
+                        (.size (map (fn [lexeme]
+                                      (log/debug (str "candidate head lexeme for parent " (:rule parent) " : " (if morph (morph lexeme)
+                                                                                                                   ;; TODO: throw exception here
+                                                                                                                   "NULL MORPH"))))
+                                    candidate-lexemes))
+                        (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)))
                     candidate-parents)
-
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
             ;; recursively call lightning-bolt with (+ 1 depth).
             (if (< depth maxdepth)
               (mapcat (fn [parent]
+                        (log/debug (str "calling over/overh with parent: " (:rule parent)))
                         (over/overh parent
-                                    (lightning-bolt grammar lexicon
-                                                    (get-in parent [:head])
-                                                    (+ 1 depth)
-                                                    index parent)))
+                                    (let [lb
+                                          (lightning-bolt grammar lexicon
+                                                          (get-in parent [:head])
+                                                          (+ 1 depth)
+                                                          index parent morph)]
+                                      (log/debug (str "calling over/overh with parent: " (:rule parent) " and phrasal child:"
+                                                      (:rule lb) " "
+                                                      (if morph
+                                                        (let [result (morph lb)]
+                                                          (if (empty? result)
+                                                            ;; TODO: throw exception here
+                                                            (str "(EMPTY): " lb)
+                                                            result)))))
+                                      lb) morph))
                       candidate-parents))]
         (if (= (rand-int 2) 0)
           (lazy-cat lexical phrasal)
@@ -131,7 +146,7 @@ of this function with complements."
             complement-candidate-lexemes (if cached cached (flatten (vals lexicon)))]
         (let [semantics (get-in spec [:synsem :sem])]
           (if (not (nil? semantics))
-            (if (not (nil? semantics)) (log/debug (str "  with semantics:" (strip-refs semantics))))))
+            (if (not (nil? semantics)) (log/trace (str "  with semantics:" (strip-refs semantics))))))
         (log/trace (str " immediate parent:" (get-in immediate-parent [:rule])))
         (if (map? complement-candidate-lexemes)
           (log/error (str "complement-candidate-lexemes is unexpectedly a map with keys:" 

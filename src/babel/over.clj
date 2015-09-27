@@ -9,9 +9,10 @@
    [babel.lexiconfn :refer [sem-impl]]))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.
+;; this (get-fail-path) is one example.
+(declare get-fail-path)
 
 ;; tree-building functions: useful for developing grammars.
-
 (defn into-list-of-maps [arg]
   (cond
 
@@ -61,14 +62,14 @@
       (log/trace (str "over-each-parent-comp: done. returning nil"))
       nil)))
 
-(defn over-each-head-child [parent children]
+(defn over-each-head-child [parent children morph]
   (log/trace (str "over-each-head-child: parent type: " (type parent)))
   (log/trace (str "over-each-head-child: head children type: " (type children)))
   (if (not (empty? children))
     (let [each-child (first children)]
       (lazy-cat
-       (overh parent each-child)
-       (over-each-head-child parent (rest children))))
+       (overh parent each-child morph)
+       (over-each-head-child parent (rest children) morph)))
     (do
       (log/trace (str "over-each-head-child: done. returning nil."))
       nil)))
@@ -85,34 +86,40 @@
       (log/trace (str "over-each-comp-child: done. returning nil."))
       nil)))
 
-(defn moreover-head [parent child lexfn-sem-impl]
+(defn moreover-head [parent child lexfn-sem-impl morph]
   (do
-    (log/debug (str "moreover-head (candidate) parent sem: " (get-in parent '(:synsem :sem) :no-semantics)))
-    (log/debug (str "moreover-head (candidate) head child sem:" (get-in child '(:synsem :sem) :top)))
+    (log/debug (str "moreover-head (candidate) parent sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
+    (log/debug (str "moreover-head (candidate) head child sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
           (unifyc parent
                   (unifyc {:head child}
                           {:head {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
       (if (not (fail? result))
-        (let [debug (log/debug (str "moreover-head " (get-in parent '(:rule)) " succeeded; resulting sem: " (get-in result '(:synsem :sem))))
-              debug (log/debug (str "moreover-head parent sem was: " (get-in parent '(:synsem :sem))))]
+        (let [debug (log/debug (str "moreover-head " (get-in parent '(:rule)) " succeeded: " (:rule result)
+                                    ":'" (morph result) "'"))
+              debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
           (merge {:head-filled true}
                  result))
 
-        ;; attempt to put head under parent failed: provide diagnostics through log/debug messages.
-        ;; TODO: make (fail-path) call part of each log/debug message to avoid computing it if log/debug is not enabled.
-        (let [debug (log/debug (str "unifyc arg1(head): " (strip-refs child)))
-              debug (log/debug (str "unifyc arg2(head): " (strip-refs {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})))
-              debug (log/debug (str "(strip-refs result):" (strip-refs result)))
-              debug (log/debug (str "(strip-refs result italiano):" (get-in (strip-refs result) [:italiano])))
-              fail-path (fail-path result)
-              debug (log/debug (str " fail-path: " fail-path))
-              debug (log/debug (str " path to head-value-at-fail:" (rest fail-path)))
-              debug (log/debug (str " head-value-at-fail: " (strip-refs (get-in child (rest fail-path)))))
-              debug (log/debug (str " parent-value-at-fail: " (strip-refs (get-in parent fail-path))))]
-          (do
-            (log/debug (str "moreover-head: fail-path: " fail-path))
-            :fail))))))
+        ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
+        (let [fail-path (get-fail-path (get-in parent [:head]) child)
+              debut (log/debug (str "moreover-head: failed to add head: " (morph child) " to parent: " (:rule parent)))
+              debug (log/debug (str "parent " (:rule parent)
+                                    " wanted head with: "
+                                    (strip-refs (get-in parent [:head]))))
+              debug (log/debug (str "candidate child has synsem: "
+                                   (strip-refs
+                                    (get-in
+                                     (unifyc child
+                                             {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
+                                     [:synsem]))))
+              debug (log/warn (str "fail-path: " (get-fail-path (get-in parent [:head])
+                                                                child)))
+              debug (log/warn (str "  parent@" fail-path "="
+                                    (get-in parent (concat [:head] fail-path))))
+              debug (log/warn (str "    head@" fail-path "="
+                                   (get-in child fail-path)))]
+          :fail)))))
 
 ;; Might be useful to set the following variable to true,
 ;; if doing grammar development and it would be unexpected
@@ -150,7 +157,7 @@
         (log/debug "moreover-comp:  parent value: " (get-in parent (fail-path result)))
         :fail))))
 
-(defn overh [parent head]
+(defn overh [parent head morph]
   "add given head as the head child of the phrase: parent."
   (log/trace (str "overh parent type: " (type parent)))
   (log/trace (str "overh head  type: " (type head)))
@@ -186,19 +193,19 @@
    (or (set? head)
        (vector? head))
    (do (log/trace "head is a set: converting to a seq.")
-       (overh parent (lazy-seq head)))
+       (overh parent (lazy-seq head) morph))
 
    (seq? head)
    (let [head-children head]
      (log/trace (str "head is a seq - actual type is " (type head)))
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-head-child parent head-children)))
+             (over-each-head-child parent head-children morph)))
 
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.
-   (let [result (moreover-head parent head sem-impl)
+   (let [result (moreover-head parent head sem-impl morph)
          is-fail? (fail? result)
          label (if (:rule parent) (:rule parent) (:comment parent))]
      (log/trace (str "overh result keys: " (if (map? result) (keys result) "(not a map)")))
@@ -256,8 +263,8 @@
      (if (not is-fail?)
        (list result)))))
 
-(defn overhc [parent head comp]
-  (overc (overh parent head) comp))
+(defn overhc [parent head comp morph]
+  (overc (overh parent head morph) comp))
 
 ;; TODO: distinguish between when:
 ;; 1) called with only a child1 (no child2),
@@ -300,5 +307,24 @@
                                      child2 child1)))
                    true
                    (throw (Exception. (str "Don't know what to do with parent: " parent))))
-
              (over (rest parents) child1 child2))))))))
+
+(defn get-fail-path [map1 map2]
+  (if (and (map? map1)
+           (map? map2))
+    (let [keys1 (keys map1)
+          keys2 (keys map2)
+          fail-keys (mapcat (fn [key]
+                              (if (fail?
+                                   (unifyc (get-in map1 [key] :top)
+                                           (get-in map2 [key] :top)))
+                                (list key)))
+                            (set (concat keys1 keys2)))]
+      (let [first-fail-key (first fail-keys)]
+        (if (not (empty? fail-keys))
+          (cons
+           first-fail-key (get-fail-path (get-in map1 [first-fail-key])
+                                         (get-in map2 [first-fail-key])))
+          (if (not (nil? first-fail-key))
+            [first-fail-key]))))))
+

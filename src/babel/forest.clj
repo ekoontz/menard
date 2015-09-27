@@ -109,13 +109,14 @@ of this function with complements."
                                                           (+ 1 depth)
                                                           index parent morph)]
                                       (log/debug (str "calling over/overh with parent: " (:rule parent) " and phrasal child:"
-                                                      (:rule lb) " "
-                                                      (if morph
-                                                        (let [result (morph lb)]
-                                                          (if (empty? result)
-                                                            ;; TODO: throw exception here
-                                                            (str "(EMPTY): " lb)
-                                                            result)))))
+                                                      "["
+                                                      (:rule lb) "] "
+                                                      (let [surface (morph lb)]
+                                                        (if (empty? surface)
+                                                          ''
+                                                          surface))))
+                                                        
+
                                       lb) morph))
                       candidate-parents))]
         (if (= (rand-int 2) 0)

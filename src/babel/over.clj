@@ -88,8 +88,8 @@
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (do
-    (log/debug (str "moreover-head (candidate) parent sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
-    (log/debug (str "moreover-head (candidate) head child sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
+    (log/debug (str "moreover-head (candidate) parent: [" (:rule parent) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
+    (log/debug (str "moreover-head (candidate) head child: [" (:rule child) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
           (unifyc parent
                   (unifyc {:head child}
@@ -97,17 +97,20 @@
       (if (not (fail? result))
         (let [debug (log/debug (str "moreover-head " (get-in parent '(:rule)) " succeeded: " (:rule result)
                                     ":'" (morph result) "'"))
+              debug (log/debug (str "child matched parents desired synsem:"
+                                    (strip-refs (get-in parent [:head :synsem]))))
+
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
           (merge {:head-filled true}
                  result))
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (let [fail-path (get-fail-path (get-in parent [:head]) child)
-              debut (log/debug (str "moreover-head: failed to add head: " (morph child) " to parent: " (:rule parent)))
-              debug (log/debug (str "parent " (:rule parent)
+              debut (log/debug (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (:rule parent)))
+              debug (log/trace (str "parent " (:rule parent)
                                     " wanted head with: "
-                                    (strip-refs (get-in parent [:head]))))
-              debug (log/debug (str "candidate child has synsem: "
+                                    (strip-refs (get-in parent [:head :synsem]))))
+              debug (log/trace (str "candidate child has synsem: "
                                    (strip-refs
                                     (get-in
                                      (unifyc child

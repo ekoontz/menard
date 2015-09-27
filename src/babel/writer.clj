@@ -109,8 +109,8 @@
                     (let [target-language-model target-language-model]
                       (log/error message)
                       (log/error "grammar: " (map :rule (:grammar target-language-model)))
-                      (log/error "lexicon: " (map (:morph target-language-model)
-                                                  (sort (keys (:lexicon target-language-model)))))
+                      (log/error "lexicon: " (string/join "," (map (:morph target-language-model)
+                                                                   (sort (keys (:lexicon target-language-model))))))
                       ;; TODO: add partial parses for more diagnostics:
                       ;; need to try parsing same spec, but without the 
                       ;;  {:synsem {:subcat '()}} that makes us try to generate

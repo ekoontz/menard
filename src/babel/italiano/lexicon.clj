@@ -1374,7 +1374,7 @@
                      :person :1st
                      :number :sing}
                :sem {:human true
-                     :pred :io}
+                     :pred :I}
                :subcat '()}}]
 
     "migliorare" {:synsem {:cat :verb

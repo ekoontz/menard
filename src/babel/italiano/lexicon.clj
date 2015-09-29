@@ -309,6 +309,9 @@
           :synsem {:infl :present
                    :subcat {:1 {:agr agr-of-subj-of-main-verb}
                             :2 {:essere false
+                                :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                                ;; this additional qualification here (:reflexive false) is not necessary
+                                ;; but is expected to reduce fails during generation.
                                 :agr agr-of-subj-of-main-verb
                                 :subcat {:1 {:agr agr-of-subj-of-main-verb}
                                          :2 '()}}}}}))])

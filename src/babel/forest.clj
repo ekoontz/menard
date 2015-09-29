@@ -102,22 +102,23 @@ of this function with complements."
             (if (< depth maxdepth)
               (mapcat (fn [parent]
                         (log/debug (str "calling over/overh with parent: " (:rule parent)))
-                        (over/overh parent
-                                    (let [lb
-                                          (lightning-bolt grammar lexicon
-                                                          (get-in parent [:head])
-                                                          (+ 1 depth)
-                                                          index parent morph)]
-                                      (log/debug (str "calling over/overh with parent: " (:rule parent) " and phrasal child:"
-                                                      "["
-                                                      (:rule lb) "] "
-                                                      (let [surface (morph lb)]
-                                                        (if (empty? surface)
-                                                          ''
-                                                          surface))))
-                                                        
-
-                                      lb) morph))
+                        (let [phrasal-children
+                              (lightning-bolt grammar lexicon
+                                              (get-in parent [:head])
+                                              (+ 1 depth)
+                                              index parent morph)]
+                          (log/debug (str "calling overh with parent: [" (:rule parent) "]" "'" (morph parent) "'"
+                                          " and children: "
+                                          (if phrasal-children
+                                            (str "(" (.size phrasal-children) ")")
+                                            "(nil)")
+                                          (string/join ","
+                                           (map (fn [child]
+                                                  (str "[" (:rule child) "]"
+                                                       "'" (morph child) "'"
+                                                       ))
+                                                phrasal-children))))
+                          (over/overh parent phrasal-children morph)))
                       candidate-parents))]
         (if (= (rand-int 2) 0)
           (lazy-cat lexical phrasal)

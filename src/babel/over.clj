@@ -95,9 +95,9 @@
                   (unifyc {:head child}
                           {:head {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
       (if (not (fail? result))
-        (let [debug (log/debug (str "moreover-head " (get-in parent '(:rule)) " succeeded: " (:rule result)
+        (let [debug (log/debug (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (:rule result)
                                     ":'" (morph result) "'"))
-              debug (log/debug (str "child matched parents desired synsem:"
+              debug (log/debug (str "moreover-head: child matched parent's desired head synsem:"
                                     (strip-refs (get-in parent [:head :synsem]))))
 
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
@@ -116,12 +116,12 @@
                                      (unifyc child
                                              {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
                                      [:synsem]))))
-              debug (log/warn (str "fail-path: " (get-fail-path (get-in parent [:head])
-                                                                child)))
-              debug (log/warn (str "  parent@" fail-path "="
+              debug (log/debug (str "fail-path: " (get-fail-path (get-in parent [:head])
+                                                                 child)))
+              debug (log/debug (str "  parent@" fail-path "="
                                     (get-in parent (concat [:head] fail-path))))
-              debug (log/warn (str "    head@" fail-path "="
-                                   (get-in child fail-path)))]
+              debug (log/debug (str "    head@" fail-path "="
+                                    (get-in child fail-path)))]
           :fail)))))
 
 ;; Might be useful to set the following variable to true,
@@ -225,6 +225,8 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
+  (throw (Exception. (str "GOT INTO OVERC.")))
+  
   (log/debug (str "set? parent:" (set? parent)))
   (log/debug (str "seq? parent:" (seq? parent)))
   (log/debug (str "seq? comp:" (seq? comp)))

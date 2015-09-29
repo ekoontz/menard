@@ -200,7 +200,8 @@ of this function with complements."
 
 (defn add-complements-to-bolts [bolts path spec grammar lexicon cache morph]
   (if (seq bolts)
-    (lazy-cat (add-complement (first bolts) path spec grammar lexicon cache morph)
+    (lazy-cat (if (not (fail? (first bolts)))
+                (add-complement (first bolts) path spec grammar lexicon cache morph))
               (add-complements-to-bolts (rest bolts) path spec grammar lexicon cache morph))))
 
 (defn path-to-map [path val]

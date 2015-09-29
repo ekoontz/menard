@@ -95,6 +95,12 @@
                 :english {:participle "be missed"
                           :future "be missed"
                           :conditional "be missed"
+                          :imperfect {:1sing "was being missed"
+                                      :2sing "were being missed"
+                                      :3sing "was being missed"
+                                      :1plur "were being missed"
+                                      :2plur "were being missed"
+                                      :3plur "were being missed"}
                           :past {:english "was missed"
                                  :2sing "were missed"
                                  :2plur "were missed"

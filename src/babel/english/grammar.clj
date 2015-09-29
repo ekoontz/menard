@@ -253,7 +253,7 @@
                                      :sem {:aspect :progressive
                                            :tense :past}}})
                    (unifyc c10
-                           root-is-head-root
+                           root-is-head
                            {:rule "s-imperfect-nonphrasal-head"
                             :head {:phrasal false}
                             :synsem {:aux false

@@ -462,7 +462,6 @@
     (exec-raw [(str "TRUNCATE " import_table)])
 
     (log/debug (str "Units: " (.size units)))
-    
     (.size (map (fn [unit]
                   (log/trace (str "TYPE OF UNIT: " (type unit)))
                   (log/trace (str "KEYS OF UNIT: " (keys unit)))
@@ -483,15 +482,15 @@
                          "expression_import"
                          (->> member-of-unit :fill :source-model)
                          (->> member-of-unit :fill :target-model))))
-                    (if (:fill-with-language member-of-unit)
-                      (let [count (or (->> member-of-unit :fill-with-language :count) 10)]
-                        (log/debug (str "doing fill-with-language: " (->> member-of-unit :fill-with-language :spec)
+                    (if (:fill-one-language member-of-unit)
+                      (let [count (or (->> member-of-unit :fill-one-language :count) 10)]
+                        (log/debug (str "doing fill-one-language: " (->> member-of-unit :fill-one-language :spec)
                                         "; count=" count))
                         (fill-language-by-spec
-                         (->> member-of-unit :fill-with-language :spec)
+                         (->> member-of-unit :fill-one-language :spec)
                          count
                          "expression_import"
-                         (->> member-of-unit :fill-with-language :model))))
+                         (->> member-of-unit :fill-one-language :model))))
                     (if (:fill-verb member-of-unit)
                       (do
                         (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))

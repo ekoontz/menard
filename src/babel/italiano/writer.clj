@@ -1,7 +1,6 @@
 (ns babel.italiano.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.english.grammar :as en])
 (require '[babel.italiano.grammar :refer [small]])
 (require '[babel.italiano.lexicon :refer [lexicon]])
 (require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
@@ -60,11 +59,10 @@
                                                                 (let [spec (unify spec
                                                                                   {:comp {:synsem {:agr {:number number}}}})]
                                                                   (log/debug (str "generating from spec: " spec))
-                                                                  (process [{:fill
+                                                                  (process [{:fill-one-language
                                                                              {:count 1
                                                                               :spec spec
-                                                                              :target-model small
-                                                                              :source-model en/small-plus-vp-pronoun
+                                                                              :model small
                                                                               }}]
                                                                 "it")))
                                                               [:sing :plur]))))

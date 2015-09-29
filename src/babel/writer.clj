@@ -294,7 +294,6 @@
   "choose one random member from target-lex-set and one from target-grammar-set, and populate from this pair"
   (let [lex-spec (nth target-lex-set (rand-int (.size target-lex-set)))
         grammar-spec (nth target-grammar-set (rand-int (.size target-grammar-set)))]
-    (populate 1 source-language-model target-language-model (unify lex-spec grammar-spec))))
 
 (defn fill-by-spec [spec count table source-model target-model]
   (if (nil? source-model)
@@ -327,6 +326,33 @@
                     spec table)
           (fill-by-spec spec (- count 1) table source-model target-model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
+
+(defn fill-one-language [spec count table model]
+  (let [language (:language @model)
+        json-spec (json/write-str spec)
+        current-target-count
+        (:count
+         (first
+          (exec-raw ["SELECT count(*) FROM expression 
+                         WHERE structure @> ?::jsonb
+                           AND language=?"
+                       [(json/write-str spec) language]]
+                      :results)))]
+    (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
+    (let [count (- count current-target-count)]
+      (if (> current-target-count 0)
+        (log/debug (str "There are already " current-target-count " expressions for: " spec " in language: " language)))
+      (if (> count 0)
+        (do
+          (log/info (str "Generating "
+                         count
+                         (if (> current-target-count 0) " more")
+                         " expressions for spec: " spec))
+          (populate-one-language 1
+                                 model
+                                 spec table)
+          (fill-one-language spec (- count 1) table model))
+        (log/debug (str "Since no more are required, not generating any for this spec in language: " language))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)
@@ -437,6 +463,17 @@
                         (log/debug (str "doing sql: " (:sql member-of-unit)))
                         (exec-raw (:sql member-of-unit))))
                     
+
+                    (if (:fill-one-language member-of-unit)
+                      (let [count (or (->> member-of-unit :fill-one-language :count) 10)]
+                        (log/debug (str "doing fill-one-language: " (->> member-of-unit :fill-one-language :spec)
+                                        "; count=" count))
+                        (fill-one-language
+                         (->> member-of-unit :fill-one-language :spec)
+                         count
+                         "expression_import"
+                         (->> member-of-unit :fill-one-language :model))))
+
                     (if (:fill member-of-unit)
                       (let [count (or (->> member-of-unit :fill :count) 10)]
                         (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)

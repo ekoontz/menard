@@ -40,7 +40,7 @@
     (.size (map (fn [verb]
                   (log/trace (str "verb: " (strip-refs verb)))
                   (let [root-form (get-in verb [:italiano :italiano])]
-                    (log/debug (str "generating from root-form:" root-form))
+                    (log/info (str "generating with verb: '" root-form "'"))
                     (.size (map (fn [tense]
                                   (let [spec (unify {:root {:italiano {:italiano root-form}}}
                                                     tense)]

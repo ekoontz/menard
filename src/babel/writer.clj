@@ -29,18 +29,19 @@
    (exec-raw [(str "TRUNCATE " table)])))
 ;; catch exceptions when trying to populate
 
-(defn expression-single [model spec]
+(defn expression [model spec]
   (let [no-language (if (nil? model)
                              (throw (Exception. "No target language model was supplied.")))
-
-        ;; 1. generate sentence in target language.
-        ;; resolve future
         model (if (future? model)
                 @model
                 model)
 
         sentence (engine/generate spec model :enrich true)
-        
+
+        check (if (nil? sentence)
+                (throw (Exception. (str "Could not generate a sentence for spec: " spec " for language: " (:language model)
+                                        " with model named: " (:name model)))))
+
         sentence (if (:morph-walk-tree model)
                    (merge ((:morph-walk-tree model) sentence)
                           sentence)
@@ -57,7 +58,7 @@
                                   {:synsem {:sem {:subj subj}}}))
                          true
                          sentence))]
-    {:target sentence}))
+    sentence))
 
 (defn expression-pair [source-language-model target-language-model spec]
   "Generate a pair: {:source <source_expression :target <target_expression>}.
@@ -66,7 +67,7 @@
 
    Then, the source expression is generated according to the semantics of this target expression.
 
-   Thus the source expression's spec is not specified directly - rather it is derived from the 
+   Thus the source expression's spec is not specified directly - rather it is derived from the
    semantics of the target expression."
 
   (let [no-source-language (if (nil? source-language-model)
@@ -98,32 +99,27 @@
                                                   {:synsem {:sem {:subj subj}}}))
                                          true
                                          target-language-sentence))
-
-        error (if (nil? target-language-sentence)
-                (let [message (str "Could not generate a sentence in target language '"
-                                   (:language target-language-model) 
-                                   "' for this spec: " spec)]
-                  (if (= true mask-populate-errors)
-                    (log/warn message)
-                    ;; else
-                    (let [target-language-model target-language-model]
-                      (log/error message)
-                      (log/error "grammar: " (map :rule (:grammar target-language-model)))
-                      (log/error "lexicon: " (string/join "," (map (:morph target-language-model)
-                                                                   (sort (keys (:lexicon target-language-model))))))
-                      ;; TODO: add partial parses for more diagnostics:
-                      ;; need to try parsing same spec, but without the 
-                      ;;  {:synsem {:subcat '()}} that makes us try to generate
-                      ;; an entire sentence.
-                      (throw (Exception. message))))))
-
         target-fo (:morph target-language-model)
-        target-language-surface (target-fo target-language-sentence)
+
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
 
+        ;; 2. generate sentence in source language using semantics of sentence in target language.
+        ;; resolve future
+        source-language-model (if (future? source-language-model)
+                                @source-language-model
+                                source-language-model)
+        debug (log/debug (str "semantics of resulting expression: " semantics))
+        debug (log/trace (str "entire expression: " target-language-sentence))
+
+        target-language-surface (target-fo target-language-sentence)
+        debug (log/debug (str "target surface: " target-language-surface))
+
+        source-language (:language source-language-model)
         error (if (or (nil? target-language-surface)
-                      (empty? target-language-surface))
-                (let [message (str "Surface of target sentence was empty - spec was: " spec "; target-language-sentence was: " target-language-sentence)]
+                      (= target-language-surface ""))
+                (let [message (str "Could not generate a sentence in source language '"
+                                   (:language source-language-model) 
+                                   "' for this spec: " spec)]
                   (if (= true mask-populate-errors)
                     (log/warn message)
                     ;; else
@@ -137,20 +133,6 @@
                       ;;  {:synsem {:subcat '()}} that makes us try to generate
                       ;; an entire sentence.
                       (throw (Exception. message))))))
-
-        debug (log/debug (str "target surface  : " target-language-surface))
-        debug (log/debug (str "target-semantics:" semantics))
-        
-        ;; 2. generate sentence in source language using semantics of sentence in target language.
-        ;; resolve future
-        source-language-model (if (future? source-language-model)
-                                @source-language-model
-                                source-language-model)
-        debug (log/debug (str "semantics of resulting expression: " semantics))
-        debug (log/trace (str "entire expression: " target-language-sentence))
-
-
-        source-language (:language source-language-model)
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
@@ -224,6 +206,30 @@
                [canonical (str (serialize lexeme))
                 language]]))
 
+(defn populate-with-language [num model spec]
+  (let [spec (if spec spec :top)
+        language (:language model)
+        debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
+    (dotimes [n num]
+      (let [sentence (expression model spec)
+            fo (:morph model)
+            surface (fo sentence)]
+        (if (empty? surface)
+          (let [err-mesg (str "Surface was empty for expression generated from spec: " spec)]
+            (log/error err-mesg)
+            (log/error (str " expression with empty surface has structure: " (strip-refs sentence)))
+            (throw (Exception. err-mesg))))
+        (log/info (str "populate-with-language:" language ": surface='"
+                       surface "'"))
+        (log/debug (str "populate-with-language:" language ": spec='"
+                       spec "'"))
+        (insert-expression sentence ;; underlying structure
+                           surface ;; text of expression
+                           "expression" ;; table in database
+                           language
+                           (:name model)) ;; name of language model; e.g.: 'small','medium'
+        ))))
+
 ;; TODO: use named optional parameters.
 (defn populate [num source-language-model target-language-model & [ spec table ]]
   (let [spec (if spec spec :top)
@@ -294,6 +300,7 @@
   "choose one random member from target-lex-set and one from target-grammar-set, and populate from this pair"
   (let [lex-spec (nth target-lex-set (rand-int (.size target-lex-set)))
         grammar-spec (nth target-grammar-set (rand-int (.size target-grammar-set)))]
+    (populate 1 source-language-model target-language-model (unify lex-spec grammar-spec))))
 
 (defn fill-by-spec [spec count table source-model target-model]
   (if (nil? source-model)
@@ -316,7 +323,7 @@
         (log/debug (str "There are already " current-target-count " expressions for: " spec)))
       (if (> count 0)
         (do
-          (log/info (str "Generating "
+          (log/debug (str "Generating "
                          count
                          (if (> current-target-count 0) " more")
                          " expressions for spec: " spec))
@@ -327,10 +334,15 @@
           (fill-by-spec spec (- count 1) table source-model target-model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
-(defn fill-one-language [spec count table model]
-  (let [language (:language @model)
+(defn fill-language-by-spec [spec count table model]
+  (let [model (if (future? model)
+                @model
+                model)
+        language (:language model)
+        debug (log/debug (str "THE LANGUAGE IS : " language))
+        debug (log/debug (str "THE SPEC IS : " spec))
         json-spec (json/write-str spec)
-        current-target-count
+        current-count
         (:count
          (first
           (exec-raw ["SELECT count(*) FROM expression 
@@ -338,21 +350,19 @@
                            AND language=?"
                        [(json/write-str spec) language]]
                       :results)))]
-    (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
-    (let [count (- count current-target-count)]
-      (if (> current-target-count 0)
-        (log/debug (str "There are already " current-target-count " expressions for: " spec " in language: " language)))
+    (log/debug (str "current-count for spec: " spec "=" current-count))
+    (let [count (- count current-count)]
+      (if (> current-count 0)
+        (log/debug (str "There are already " current-count " expressions for: " spec)))
       (if (> count 0)
         (do
-          (log/info (str "Generating "
+          (log/debug (str "Generating "
                          count
-                         (if (> current-target-count 0) " more")
+                         (if (> current-count 0) " more")
                          " expressions for spec: " spec))
-          (populate-one-language 1
-                                 model
-                                 spec table)
-          (fill-one-language spec (- count 1) table model))
-        (log/debug (str "Since no more are required, not generating any for this spec in language: " language))))))
+          (populate-with-language 1 model spec)
+          (fill-language-by-spec spec (- count 1) table model))
+        (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)
@@ -463,17 +473,6 @@
                         (log/debug (str "doing sql: " (:sql member-of-unit)))
                         (exec-raw (:sql member-of-unit))))
                     
-
-                    (if (:fill-one-language member-of-unit)
-                      (let [count (or (->> member-of-unit :fill-one-language :count) 10)]
-                        (log/debug (str "doing fill-one-language: " (->> member-of-unit :fill-one-language :spec)
-                                        "; count=" count))
-                        (fill-one-language
-                         (->> member-of-unit :fill-one-language :spec)
-                         count
-                         "expression_import"
-                         (->> member-of-unit :fill-one-language :model))))
-
                     (if (:fill member-of-unit)
                       (let [count (or (->> member-of-unit :fill :count) 10)]
                         (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
@@ -484,6 +483,15 @@
                          "expression_import"
                          (->> member-of-unit :fill :source-model)
                          (->> member-of-unit :fill :target-model))))
+                    (if (:fill-with-language member-of-unit)
+                      (let [count (or (->> member-of-unit :fill-with-language :count) 10)]
+                        (log/debug (str "doing fill-with-language: " (->> member-of-unit :fill-with-language :spec)
+                                        "; count=" count))
+                        (fill-language-by-spec
+                         (->> member-of-unit :fill-with-language :spec)
+                         count
+                         "expression_import"
+                         (->> member-of-unit :fill-with-language :model))))
                     (if (:fill-verb member-of-unit)
                       (do
                         (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))

@@ -17,6 +17,7 @@
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
+                           (or true (= (get-in lexeme [:synsem :sem :pred]) :talk)) ;; for development, restrict :pred to a single value.
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
@@ -32,11 +33,52 @@
                     (.size (map (fn [tense]
                                   (let [spec (unify {:root {:english {:english root-form}}}
                                                     tense)]
-                                    (log/debug (str "generating from: " spec))
-                                    (process [{:fill-with-language
-                                               {:spec spec
-                                                :model small-plus-vp-pronoun
-                                                :count count}}] "en")))
+                                    (.size
+                                     (map (fn [gender]
+                                            (let [spec (unify spec
+                                                              {:comp {:synsem {:agr gender}}})]
+                                              (log/trace (str "generating from gender: " gender))
+                                              (.size
+                                               (map (fn [person]
+                                                      (let [spec (unify spec
+                                                                        {:comp {:synsem {:agr {:person person}}}})]
+                                                        (log/trace (str "generating from person: " person))
+                                                        (.size
+                                                         (map (fn [number]
+                                                                (let [spec (unify spec
+                                                                                  {:comp {:synsem {:agr {:number number}}}})]
+                                                                  (log/debug (str "generating from spec: " spec))
+                                                                  (try
+                                                                    (process [{:fill-one-language
+                                                                               {:count 1
+                                                                                :spec spec
+                                                                                :model small
+                                                                                }}]
+                                                                             "it")
+                                                                    (catch Exception e
+                                                                      (cond
+
+                                                                       ;; TODO: make this conditional on
+                                                                       ;; there being a legitimate reason for the exception -
+                                                                       ;; e.g. the verb is "works (nonhuman)" (which takes a non-human
+                                                                       ;; subject), but we're trying to generate with
+                                                                       ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                                       ;; are human.
+                                                                       true
+
+                                                                       (log/warn (str "ignoring exception: " e))
+                                                                       false
+                                                                       (throw e))))
+                                                                  ))
+                                                              [:sing :plur]))))
+                                                    [:1st :2nd :3rd]))))
+                                          (cond (= tense
+                                                   {:synsem {:sem {:aspect :perfect
+                                                                   :tense :past}}})
+                                                [{:gender :masc}
+                                                 {:gender :fem}]
+                                                true
+                                                [:top])))))
                                 (list {:synsem {:sem {:tense :conditional}}}
                                       {:synsem {:sem {:tense :future}}}
                                       {:synsem {:sem {:tense :present}}}

@@ -338,12 +338,21 @@
                             :rule "vp-pronoun-phrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
-                   ;; Note use of :reflexive below.
+
+                   ;; Note {:reflexive true} below: for now, we are trying to
+                   ;; only generate reflexive sentences (e.g. "io mi alzo") and not transitive
+                   ;; sentences with pronouns (e.g. "io lo vedo").
+                   ;; We have a problem with generating transitive sentences otherwise,
+                   ;; which is not always desired in a given educational context (if we want to concentrate
+                   ;; on intransitive verbs plus reflexives).
+                   ;; Later, when we do want to generate transitive sentences with pronouns, we might need
+                   ;; to split this rule into two: one for reflexives, one for transitives.
                    (unifyc c21
                            root-is-head
                            {:head {:phrasal false
                                    :synsem {:sem {:reflexive true}}}
                             :comp {:synsem {:cat :noun
+                                            :reflexive true
                                             :pronoun true}}
                             :rule "vp-pronoun-nonphrasal"
                             :synsem {:cat :verb

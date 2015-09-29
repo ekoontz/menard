@@ -59,12 +59,28 @@
                                                                 (let [spec (unify spec
                                                                                   {:comp {:synsem {:agr {:number number}}}})]
                                                                   (log/debug (str "generating from spec: " spec))
-                                                                  (process [{:fill-one-language
-                                                                             {:count 1
-                                                                              :spec spec
-                                                                              :model small
-                                                                              }}]
-                                                                "it")))
+                                                                  (try
+                                                                    (process [{:fill-one-language
+                                                                               {:count 1
+                                                                                :spec spec
+                                                                                :model small
+                                                                                }}]
+                                                                             "it")
+                                                                    (catch Exception e
+                                                                      (cond
+
+                                                                       ;; TODO: make this conditional on
+                                                                       ;; there being a legitimate reason for the exception -
+                                                                       ;; e.g. the verb is "funzionare" (which takes a non-human
+                                                                       ;; subject), but we're trying to generate with
+                                                                       ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                                       ;; are human.
+                                                                       true
+
+                                                                       (log/warn (str "ignoring exception: " e))
+                                                                       false
+                                                                       (throw e))))
+                                                                  ))
                                                               [:sing :plur]))))
                                                     [:1st :2nd :3rd]))))
                                           (cond (= tense

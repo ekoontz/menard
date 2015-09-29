@@ -131,6 +131,9 @@ of this function with complements."
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)
         lexicon (if (future? lexicon) @lexicon lexicon)]
+    (log/debug (str "add-complement to bolt with bolt:[" (if (map? bolt) (:rule bolt)) "]" "'" (morph bolt) "'"))
+    (log/debug (str "add-complement to bolt with path:" path))
+
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (System/currentTimeMillis)
@@ -159,14 +162,15 @@ of this function with complements."
                         (or true
                         (not (fail? result))))
                       (map (fn [complement]
-                             (let [result
+                             (let [debug (log/debug (str "Trying complement:" (morph complement)))
+                                   result
                                    (unifyc bolt
                                            (path-to-map path
                                                         complement))
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do
-                                   (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
+                                   (log/debug (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
                                                                                            (strip-refs complement))))))
                                (if is-fail? :fail result)))
                      

@@ -1148,6 +1148,7 @@
    "wash" (let [subject-semantics (ref :top)]
             {:synsem {:cat :verb
                       :sem {:pred :wash
+                            :reflexive true
                             :subj subject-semantics
                             :obj subject-semantics}
                       :subcat {:1 {:sem subject-semantics}

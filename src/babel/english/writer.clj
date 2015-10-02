@@ -28,7 +28,7 @@
                                 (process [{:fill-one-language
                                            {:count 1
                                             :spec spec
-                                            :model small
+                                            :model small-plus-vp-pronoun
                                             }}]
                                          source-language-short-name)
                                 (catch Exception e

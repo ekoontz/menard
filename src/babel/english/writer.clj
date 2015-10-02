@@ -3,7 +3,7 @@
 
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun]])
 (require '[babel.english.lexicon :refer [lexicon]])
-(require '[babel.reader :refer [read-all]])
+(require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
@@ -12,20 +12,28 @@
   "generate English translations of all available Italian expressions."
   (let [italian-expressions (read-all :top "it")]
     (.size (map (fn [italian-expression]
-                  (do (log/info (str "Italian expression: " (:surface italian-expression)))
+                  (do (log/debug (str "Italian expression: " (:surface italian-expression)))
                       (log/debug (str "Italian semantics: " (get-in (:structure italian-expression) [:synsem :sem])))
                       (let [spec {:synsem {:sem (strip-refs (get-in (:structure italian-expression) [:synsem :sem]))}}]
-                        (log/debug (str "generating from spec: " spec))
-                        (try
-                          (process [{:fill-one-language
-                                     {:count 1
-                                      :spec spec
-                                      :model small
-                                      }}]
-                                   "it")
-                          (catch Exception e
-                           true
-                           (throw e))))))
+                        (let [existing-english-expression (read-one spec "en")]
+                          (if existing-english-expression
+                            ;; found existing expression: return that.
+                            (do
+                              (log/info (str (:surface italian-expression) " -> " (:surface existing-english-expression)))
+                              existing-english-expression)
+                            ;; else, no existing expression: generate a new one.
+                            (do
+                              (log/debug (str "generating from spec: " spec))
+                              (try
+                                (process [{:fill-one-language
+                                           {:count 1
+                                            :spec spec
+                                            :model small
+                                            }}]
+                                         "it")
+                                (catch Exception e
+                                  true
+                                  (throw e)))))))))
                 italian-expressions))))
 
 (defn all [ & [count]]

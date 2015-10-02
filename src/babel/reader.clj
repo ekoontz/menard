@@ -177,6 +177,29 @@
               :structure (deserialize (read-string (:serialized result)))})
            results))))
 
+(defn read-one [spec language]
+  (let [spec (unify spec
+                    {:synsem {:subcat '()}})
+
+        ;; normalize for JSON lookup
+        json-input-spec (if (= :top spec)
+                          {}
+                          spec)
+        
+        json-spec (json/write-str (strip-refs json-input-spec))
+        ]
+    (log/debug (str "looking for expressions in language: " language " with spec: " spec))
+    (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
+                                        FROM expression 
+                                       WHERE language=? AND structure @> "
+                                     "'" json-spec "' LIMIT 1")
+                                [language]]
+                               :results)]
+      (first (map (fn [result]
+                    {:surface (:surface result)
+                     :structure (deserialize (read-string (:serialized result)))})
+                  results)))))
+
 (defn contains [spec]
   "Find the sentences in English that match the spec, and the set of Italian sentences that each English sentence contains."
     (let [spec (if (= :top spec)

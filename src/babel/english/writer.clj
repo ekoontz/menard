@@ -24,6 +24,8 @@
                             ;; else, no existing expression: generate a new one.
                             (do
                               (log/debug (str "generating from spec: " spec))
+                              (log/info (str "generating using source expression: "
+                                             (:surface source-expression)))
                               (try
                                 (process [{:fill-one-language
                                            {:count 1

@@ -504,4 +504,10 @@
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
 
+(defn parse [surface]
+  (parse/parse surface
+               (:lexicon @small-plus-vp-pronoun)
+               (:lookup @small-plus-vp-pronoun)
+               (:grammar @small-plus-vp-pronoun)))
+
 (log/info "English grammar defined.")

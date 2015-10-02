@@ -29,6 +29,7 @@
 ;; TODO: add other languages (English and Spanish)
 (defn parse [string]
   (concat
+   (en/parse string)
    (fr/parse string)
    (it/parse string)))
 

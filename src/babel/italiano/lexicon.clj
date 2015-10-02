@@ -1,8 +1,10 @@
 (ns babel.italiano.lexicon
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
-   [babel.italiano.pos :refer :all]))
+   [babel.italiano.pos :refer :all]
+   [dag-unify.core :refer [get-in]]))
 
 (def lexicon-source
   {"Antonia"
@@ -567,7 +569,6 @@
                                 :discrete false
                                 :pred :cercare
                                 :subj {:animate true}}}}
-
       "città"
       (unify agreement-noun
              common-noun
@@ -579,7 +580,6 @@
                              :city true}
                        :subcat {:1 {:cat :det
                                     :def :def}}}})
-
       "cominciare"
       [{:synsem {:essere false
                           :sem {:activity true
@@ -591,7 +591,6 @@
                        :discrete false
                        :pred :start
                        :subj {:animate true}}}}]
-      
       "compito"
       (unify agreement-noun
              common-noun
@@ -602,7 +601,6 @@
                              :speakable false
                              :buyable false
                              :artifact true}}})
-
 
       "commentare"  {:synsem {:cat :verb
                               :sem {:pred :comment}}}

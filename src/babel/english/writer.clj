@@ -8,18 +8,18 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
-(defn italian []
-  "generate English translations of all available Italian expressions."
-  (let [italian-expressions (read-all :top "it")]
-    (.size (map (fn [italian-expression]
-                  (do (log/debug (str "Italian expression: " (:surface italian-expression)))
-                      (log/debug (str "Italian semantics: " (get-in (:structure italian-expression) [:synsem :sem])))
-                      (let [spec {:synsem {:sem (strip-refs (get-in (:structure italian-expression) [:synsem :sem]))}}]
+(defn translate [source-language-short-name]
+  "generate English translations of all available expressions in source language."
+  (let [source-expressions (read-all :top source-language-short-name)]
+    (.size (map (fn [source-expression]
+                  (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
+                      (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))
+                      (let [spec {:synsem {:sem (strip-refs (get-in (:structure source-expression) [:synsem :sem]))}}]
                         (let [existing-english-expression (read-one spec "en")]
                           (if existing-english-expression
                             ;; found existing expression: return that.
                             (do
-                              (log/info (str (:surface italian-expression) " -> " (:surface existing-english-expression)))
+                              (log/info (str (:surface source-expression) " -> " (:surface existing-english-expression)))
                               existing-english-expression)
                             ;; else, no existing expression: generate a new one.
                             (do
@@ -30,11 +30,11 @@
                                             :spec spec
                                             :model small
                                             }}]
-                                         "it")
+                                         source-language-short-name)
                                 (catch Exception e
                                   true
                                   (throw e)))))))))
-                italian-expressions))))
+                source-expressions))))
 
 (defn all [ & [count]]
   (let [count (if count (Integer. count) 10)

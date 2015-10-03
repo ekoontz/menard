@@ -90,6 +90,27 @@
                      :2plur "were"
                      :3plur "were"}}}
    
+   "be able to" {:english {:imperfect {:1sing "was able to"
+                                       :2sing "were was able to"
+                                       :3sing "was was able to"
+                                       :1plur "were was able to"
+                                       :2plur "were was able to"
+                                       :3plur "were was able to"}
+                           :present {:1sing "am was able to"
+                                     :2sing "are was able to"
+                                     :3sing "is was able to"
+                                     :1plur "are was able to"
+                                     :2plur "are was able to"
+                                     :3plur "are was able to"}
+                           :past {:1sing "was was able to"
+                                  :2sing "were was able to"
+                                  :3sing "was was able to"
+                                  :1plur "were was able to"
+                                  :2plur "were was able to"
+                                  :3plur "were was able to"}}
+                 :synsem {:cat :verb
+                          :sem {:pred :to-be-missing}}}
+   
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}
                 :english {:participle "be missed"
@@ -707,6 +728,14 @@
    
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
+              
+   "may" 
+   {:english {:past "might"
+              :present {:3sing "may"}
+              :future "be able to"
+              :conditional "might"}
+    :synsem {:cat :verb            
+              
    "me" 
    {:synsem {:cat :noun
              :pronoun true

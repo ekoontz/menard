@@ -279,6 +279,32 @@
              {:synsem {:cat :verb
                        :sem {:pred :talk
                              :subj {:human true}}}}]
+    
+    "ir" {:espanol {:future-stem "ir"
+                       :present {:1sing "voy"
+                                 :2sing "vas"
+                                 :3sing "va"
+                                 :1plur "vamos"
+                                 :2plur "vais"
+                                 :3plur "van"}
+                      :preterito {:1sing "fui"
+                                 :2sing "fuiste"
+                                 :3sing "fue"
+                                 :1plur "fuimos"
+                                 :2plur "fuisteis"
+                                 :3plur "fueron"}
+                      :imperfecto {:1sing "iba"
+                                 :2sing "ibas"
+                                 :3sing "iba"
+                                 :1plur "ibamos"
+                                 :2plur "ibais"
+                                 :3plur "iban"}
+            
+            
+            :synsem {:cat :verb
+                     
+                     :sem {:subj {:animate true}
+                           :pred :go}}}
                            
     "Juan y yo"
       [{:synsem {:cat :noun

@@ -1,21 +1,14 @@
 (ns babel.francais.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.cache :refer [create-index]])
-(require '[babel.engine :refer [generate]])
-(require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [small medium]])
 (require '[babel.francais.lexicon :refer [lexicon]])
 (require '[babel.francais.morphology :refer [analyze exception-generator
-                                             fo get-string phonize]])
+                                             fo]])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
-(require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
-(require '[babel.parse :as parse])
-(require '[babel.ug :refer [head-principle]])
 (require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
-(require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (fail? get-in strip-refs)])
+(require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn tout [ & [count]]
   (let [count (if count (Integer. count) 10)

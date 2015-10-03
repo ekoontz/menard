@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
-   [babel.italiano.morphology :as morph]
+   [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer :all]
    [dag-unify.core :refer [get-in]]))
 

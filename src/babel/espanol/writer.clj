@@ -42,7 +42,9 @@
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))
-    (.size (map (fn [verb]
+
+    ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
+    (.size (pmap (fn [verb]
                    (log/trace (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:espanol :espanol])]
                      (log/info (str "generating with verb: '" root-form "'"))

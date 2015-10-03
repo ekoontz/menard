@@ -1182,6 +1182,9 @@
 
    "walk" {:synsem {:cat :verb
                 :sem {:pred :walk}}}
+              
+   "want" {:synsem {:cat :verb
+                      :sem {:pred :want}}}        
 
    "warm" {:synsem {:cat :verb
                 :sem {:pred :warm}}}

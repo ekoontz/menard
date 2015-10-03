@@ -960,6 +960,9 @@
                    :subj {:human true}
                    :obj {:speakable true}}}}
 
+  "stay" {:synsem {:cat :verb
+                     :sem {:pred :stay}}}
+
    "stain" {:synsem {:cat :verb
                 :sem {:pred :stain}}}
 

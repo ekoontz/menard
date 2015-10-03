@@ -113,7 +113,7 @@
 (defn future [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]
-  (let [infinitive (get-in word '(:espanol))
+  (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
@@ -403,7 +403,7 @@
 (defn preterito [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]
-  (let [infinitive (get-in word '(:espanol))
+  (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))

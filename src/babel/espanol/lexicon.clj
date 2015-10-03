@@ -348,7 +348,7 @@
              :synsem {:cat :verb
                       :sem {:pred :think}}}
                     
-    "pintar" {:synsem {:cat :verb
+   "pintar" {:synsem {:cat :verb
                       :sem {:pred :paint}}}                
 
    "quedarse" (let [subject-semantics (ref {:animate true})

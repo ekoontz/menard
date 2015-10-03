@@ -375,6 +375,7 @@
     (let [spec (unify {:root {target-language-keyword {target-language-keyword verb}}}
                        spec)]
       (log/debug (str "fill-verb spec: " spec))
+      ;; use (map) for debugging
       (pmap (fn [tense] (fill-by-spec (unify spec
                                              tense)
                                       count

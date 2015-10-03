@@ -34,7 +34,9 @@
                                                    :model small-plus-vp-pronoun
                                                    }}]
                                                 source-language-short-name)]
-                                   (log/info (str "process result:" result)))
+                                   ;; TODO: 'result' is currently returning nil: should return something more indicative
+                                   ;; of what the (process) command did.
+                                   (log/debug (str "process result:" result)))
                                 (catch Exception e
                                   true
                                   (throw e)))))))))

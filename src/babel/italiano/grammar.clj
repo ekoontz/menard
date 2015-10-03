@@ -387,6 +387,7 @@
        (filter #(not (fail? %))
                grammar)))
 
+;; TODO: move to italiano/morphology
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))
   (merge

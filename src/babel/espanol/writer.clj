@@ -34,7 +34,7 @@
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
               (vals @lexicon)))
-        root-verb-keys
+        root-verb-array
         (reduce concat
                 (map (fn [key]
                        (get root-verbs key))
@@ -42,8 +42,8 @@
     (write-lexicon "es" @lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
-                   (.size root-verb-keys)))
-    (.size (pmap (fn [verb]
+                   (.size root-verb-array)))
+    (.size (map (fn [verb]
                    (log/trace (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:espanol :espanol])]
                      (log/info (str "generating with verb: '" root-form "'"))
@@ -102,6 +102,7 @@
                                        {:synsem {:sem {:aspect :perfect
                                                        :tense :past}}}
                                        )))))
-                 root-verb-keys))))
+                 root-verb-array))))
+
 
 

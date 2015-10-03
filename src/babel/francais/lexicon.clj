@@ -39,7 +39,7 @@
             :synsem {:cat :verb
                      :essere true
                      :sem {:subj {:animate true}
-                           :pred :andare}}}
+                           :pred :go}}}
 
    "anoncier" {:synsem {:cat :verb
                         :sem {:pred :announce}}}

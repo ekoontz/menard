@@ -52,7 +52,7 @@
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :cambiare}}}
    
-   "cerrar" {:spanish {:boot-stem1 "cierr"
+   "cerrar" {:espanol {:boot-stem1 "cierr"
                         :boot-stem2 "cerr"}
              :synsem {:cat :verb
                       :sem {:pred :close}}}
@@ -208,20 +208,20 @@
                    :pred :loro}
              :subcat '()}}
            
-    "empezar" {:boot-stem1 "empiez"
+   "empezar" {:espanol {:boot-stem1 "empiez"
                         :boot-stem2 "empez"}
-             :synsem {:cat :verb
-                      :sem {:pred :begin}}       
+              :synsem {:cat :verb
+                       :sem {:pred :begin}}}
    
    "enseñar" [{:synsem {:cat :verb
                         :sem {:pred :show}}}
               {:synsem {:cat :verb
                         :sem {:pred :teach}}}]
-                      
-    "entender" {:spanish {:boot-stem1 "entiend"
-                        :boot-stem2 "entend"}
-             :synsem {:cat :verb
-                      :sem {:pred :understand-simply}}}                  
+   
+   "entender" {:espanol {:boot-stem1 "entiend"
+                         :boot-stem2 "entend"}
+               :synsem {:cat :verb
+                        :sem {:pred :understand-simply}}}
    
    "entrar" {:synsem {:cat :verb
                       :sem {:pred :enter}}}
@@ -269,7 +269,7 @@
                             :subj {:human true}
                             :obj {:human false}}}}]
    
-   ;; TODO: handle syntax/semantics mismatch between Italian/Spanish and English.
+   ;; TODO: handle syntax/semantics mismatch between Italian/Espanol and English.
                                         ;                     "gustar" {:synsem {:cat :verb
                                         ;                                         :sem {:pred :??}}}
    
@@ -343,8 +343,8 @@
                                  :number :sing
                                  :def :def}}}})
                                
-    "pensar" {:spanish {:boot-stem1 "piens"
-                        :boot-stem2 "pens"}
+   "pensar" {:espanol {:boot-stem1 "piens"
+                       :boot-stem2 "pens"}
              :synsem {:cat :verb
                       :sem {:pred :think}}}
                     

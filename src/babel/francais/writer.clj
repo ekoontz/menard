@@ -3,7 +3,6 @@
 
 (require '[babel.cache :refer [create-index]])
 (require '[babel.engine :refer [generate]])
-(require '[babel.english.grammar :as en])
 (require '[babel.forest :as forest])
 (require '[babel.francais.grammar :refer [small medium]])
 (require '[babel.francais.lexicon :refer [lexicon]])
@@ -44,10 +43,10 @@
     ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
     (.size (pmap (fn [verb]
                    (log/trace (str "verb: " (strip-refs verb)))
-                   (let [root-form (get-in verb [:espanol :espanol])]
+                   (let [root-form (get-in verb [:français :français])]
                      (log/info (str "generating with verb: '" root-form "'"))
                      (.size (map (fn [tense]
-                                   (let [spec (unify {:root {:espanol {:espanol root-form}}}
+                                   (let [spec (unify {:root {:français {:français root-form}}}
                                                      tense)]
                                      (.size
                                       (map (fn [gender]
@@ -70,7 +69,7 @@
                                                                                  :spec spec
                                                                                  :model small
                                                                                  }}]
-                                                                              "es")
+                                                                              "fr")
                                                                      (catch Exception e
                                                                        (cond
                                                                         
@@ -102,49 +101,3 @@
                                                        :tense :past}}}
                                        )))))
                  root-verb-array))))
-
-        
-
-    ;; A place to erase old mistakes (before attempting again).
-    ;; TODO: promote to the (process) command set.
-    ;; 
-    (if true
-      (delete-from-expressions "fr" {:synsem {:sem {:aspect :perfect, :tense :past}}}))
-
-    (write-lexicon "fr" @lexicon)
-    (let [
-          ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
-          ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-          root-verbs 
-          (zipmap
-           (keys @lexicon)
-           (map (fn [lexeme-set]
-                  (filter (fn [lexeme]
-                            (and
-                             (= (get-in lexeme [:synsem :cat]) :verb)
-                             (= (get-in lexeme [:synsem :infl]) :top)
-                             (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
-                          lexeme-set))
-                (vals @lexicon)))]
-      (.size (map (fn [verb]
-                    (let [root-form (get-in verb [:français :français])]
-                      (log/info (str "generate with:" root-form))
-                      (.size (map (fn [tense]
-                                    (let [spec (unify {:root {:français {:français root-form}}}
-                                                      tense)]
-                                      (log/debug (str "generating from: " spec))
-                                      (process [{:fill
-                                                 {:spec spec
-                                                  :source-model en/small
-                                                  :target-model small}
-                                                 :count count}] "fr")))
-                                  [{:synsem {:sem {:tense :conditional}}}
-                                   {:synsem {:sem {:tense :future}}}
-                                   {:synsem {:sem {:tense :present}}}
-                                   {:synsem {:sem {:tense :past
-                                                   :aspect :perfect}}}]
-                                  ))))
-                  (reduce concat
-                          (map (fn [key]
-                                 (get root-verbs key))
-                               (sort (keys root-verbs)))))))))

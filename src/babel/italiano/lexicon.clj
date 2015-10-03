@@ -1687,6 +1687,13 @@
 
    "stampare"  {:synsem {:cat :verb 
                          :sem {:pred :stampare}}}
+                       
+   "stare"  {:synsem {:cat :verb
+                      :essere true
+                        :sem {:pred :stay}}
+               :italiano {:present {:2sing "stai"
+                                    :3plur "stanno"}
+                          :future-stem "star"}}                    
 
    "studiare"  {:synsem {:cat :verb 
                       :sem {:pred :study}}}

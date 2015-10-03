@@ -1,7 +1,10 @@
 (ns babel.espanol.lexicon
+  (:refer-clojure :exclude [get-in])
   (:require
-   [babel.lexiconfn :refer (unify)]
-   [babel.espanol.pos :refer :all]))
+   [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
+   [babel.italiano.morphology :as morph]
+   [babel.espanol.pos :refer :all]
+   [dag-unify.core :refer [get-in]]))
 
 (def lexicon-source 
   {"abandonar" {:synsem {:cat :verb
@@ -345,7 +348,6 @@
              :synsem {:cat :verb
                       :sem {:pred :think}}}
                     
-                    
     "pintar" {:synsem {:cat :verb
                       :sem {:pred :paint}}}                
 
@@ -423,7 +425,22 @@
              :subcat '()}}
    })
 
+;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
+(def lexicon
+  (future (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
 
-
-
-
+              ;; make an intransitive version of every verb which has an
+              ;; [:sem :obj] path.
+              intransitivize
+              
+              ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+              transitivize
+              
+              ;; Cleanup functions can go here. Number them for ease of reading.
+              ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 
+              ;; rather than not having any inflection.
+              (map-function-on-map-vals 
+               (fn [k vals]
+                 (filter #(or (not (= :verb (get-in % [:synsem :cat])))
+                              (not (= :none (get-in % [:synsem :infl] :none))))
+                         vals))))))

@@ -2,6 +2,9 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require 
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
+   [babel.enrich :refer [enrich]]
+   [babel.espanol.lexicon :refer [lexicon]]
+   [babel.espanol.morphology :refer [analyze fo]]
    [babel.parse :as parse]
    [babel.ug :refer :all]
    [clojure.tools.logging :as log]
@@ -359,5 +362,51 @@
          (modal-is-head-feature
           (aux-is-head-feature phrase)))
        grammar))
+
+(def small
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-nonphrasal")
+                       (= (:rule %) "s-present-nonphrasal")
+                       (= (:rule %) "s-future-nonphrasal")
+                       (= (:rule %) "s-imperfetto-nonphrasal")
+                       (= (:rule %) "s-preterito-nonphrasal")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-aux"))
+                  grammar)
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :pronoun]) true))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "small"
+       :language "es"
+       :language-keyword :espanol
+       :enrich enrich
+       :grammar grammar
+       :lexicon lexicon
+       :morph fo
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
+(def medium
+  (future
+    (let [lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v v]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))]
+      {:name "medium"
+       :enrich enrich
+       :morph fo
+       :grammar grammar
+       :lexicon lexicon
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)
+       })))
 
 (log/info "Español grammar defined.")

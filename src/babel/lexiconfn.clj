@@ -439,9 +439,18 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn map-function-on-map-vals [m f]
   (if (not (map? m))
     (throw (Exception. "Expected map as first input to map-function-on-map-vals, but got an input of type: " (type m))))
+  ;; TODO: add check for uniformity of type of keys
+  ;; i.e. check that they are either all strings, or all keywords, or all integers, etc.
+  ;; this is to avoid the need to log/debug below.
   (into {} 
         (for [[k v]
-              (sort m)]
+              ;; if you need to trace this, probably your input data
+              ;; is non-uniform: i.e. the map keys are not all one type
+              ;; (e.g. a mixture of strings and keywords rather than
+              ;;  purely one or the other)
+              ;; your keys or values 
+              (do (log/debug (str "sorting array: " m))
+                  (sort m))]
           ;; for each <k,v> pair, return a <k,v'>, where v' = f(v).
           [k (f k v)])))
 

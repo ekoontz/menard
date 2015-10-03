@@ -105,6 +105,12 @@
    ;;                     "cumplir" {:synsem {:cat :verb
    ;;                                         :sem {:pred :turn-years}}}
    
+   
+   "dar" {:espanol  {:present {:1sing "doy"
+                               :2plur "dais"}}
+          :synsem {:cat :verb
+                   :sem {:pred :give}}}
+   
    "deber" {:synsem {:cat :verb
                      :sem {:pred :have-to}}}
    

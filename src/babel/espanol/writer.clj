@@ -9,7 +9,7 @@
 (require '[babel.espanol.pos :refer :all])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 (require '[babel.espanol.lexicon :refer [lexicon]])
-(require '[babel.espanol.morphology :as morph :refer [fo]])
+(require '[babel.espanol.morphology :as morph :refer [fo morph-walk-tree]])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
 (require '[babel.writer :refer [process write-lexicon]])
@@ -81,10 +81,10 @@
                                                                         ;; subject), but we're trying to generate with
                                                                         ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
                                                                         ;; are human.
-                                                                        true
+                                                                        false
                                                                         
                                                                         (log/warn (str "ignoring exception: " e))
-                                                                        false
+                                                                        true
                                                                        (throw e))))
                                                                    ))
                                                                [:sing :plur]))))

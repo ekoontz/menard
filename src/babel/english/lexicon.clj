@@ -408,7 +408,7 @@
    {:synsem {:cat :verb
               :sem {:activity true
                     :discrete false
-                    :pred :andare
+                    :pred :go
                     :subj {:animate true}}}
     :english {:past "went"}}
 

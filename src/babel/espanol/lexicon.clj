@@ -417,8 +417,7 @@
    {:synsem {:cat :noun
              :pronoun true
              :case :nom
-             :agr {:gender :fem
-                   :person :1st
+             :agr {:person :1st
                    :number :sing}
              :sem {:human true
                    :pred :I}

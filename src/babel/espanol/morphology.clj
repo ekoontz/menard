@@ -735,3 +735,13 @@
 
 (def espanol-specific-rules
   (list agreement))
+
+(defn morph-walk-tree [tree]
+  (log/debug (str "morph-walk-tree: " (fo tree)))
+  (merge
+   {:surface (fo (get-in tree [:espanol]))}
+   (if (get-in tree [:comp])
+     {:comp (morph-walk-tree (get-in tree [:comp]))}
+     {})
+   (if (get-in tree [:head])
+     {:head (morph-walk-tree (get-in tree [:head]))})))

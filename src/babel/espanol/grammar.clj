@@ -4,11 +4,11 @@
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
-   [babel.espanol.morphology :refer [analyze fo]]
+   [babel.espanol.morphology :refer [analyze fo morph-walk-tree]]
    [babel.parse :as parse]
    [babel.ug :refer :all]
    [clojure.tools.logging :as log]
-   [dag-unify.core :refer (get-in unifyc)]))
+   [dag-unify.core :refer (get-in merge unifyc)]))
 
 (def hc-agreement
   (let [agr (ref :top)]
@@ -391,6 +391,10 @@
        :grammar grammar
        :lexicon lexicon
        :morph fo
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
 
 (def medium
@@ -404,6 +408,10 @@
       {:name "medium"
        :enrich enrich
        :morph fo
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
        :grammar grammar
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)

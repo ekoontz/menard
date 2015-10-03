@@ -180,6 +180,15 @@
    "call" {:synsem {:cat :verb
                      :sem {:pred :call}}}
 
+   "can" 
+   {:english {:past "could"
+              :present {:3sing "can"}
+              :future "be able to"
+              :conditional "could"}
+    :synsem {:cat :verb
+                   
+                     :sem {:pred :can}}}
+
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
                          :place false}}}

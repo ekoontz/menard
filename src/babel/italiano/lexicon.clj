@@ -1507,7 +1507,25 @@
                          :sem {:pred :carry}}}
                {:synsem {:cat :verb
                          :sem {:pred :wear}}}]
-
+   "potere" 
+   (let [shared-part-of-potere
+   {:synsem {:cat :verb}
+    :italiano {:future-stem "potr"
+    :drop-e true
+   :present {:1sing "posso"
+             :2sing "puoi"
+             :3sing "può"
+             :1plur "possiamo"
+             :2plur "potete"
+             :3plur "possono"}}}
+   [(merge shared-part-of-potere
+             {:synsem {:pred :can}})
+      (merge shared-part-of-potere
+             {:synsem {:pred :may}})
+           (merge shared-part-of-potere
+             {:synsem {:pred :be-able-to}})])                                
+                                    
+                                   
    "prendere" {:synsem {:cat :verb :sem {:pred :take}}
                :italiano {:passato "preso"}}
 

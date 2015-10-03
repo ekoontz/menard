@@ -977,6 +977,30 @@
       "evitare"  {:synsem {:cat :verb
                            :sem {:pred :avoid}}}
       
+      "fare"
+      (let [shared-part-of-fare
+              {:synsem {:cat :verb}
+               :italiano {:italiano "fare"
+                          :drop-e false
+                          :passato "fatto"
+                          :future-stem "far"
+                          :present {:1sing "faccio"
+                                    :2sing "fai"
+                                    :3sing "fa"
+                                    :1plur "facciamo"
+                                    :2plur "fate"
+                                    :3plur "fanno"}}}]
+    
+     [(merge shared-part-of-fare
+             {:synsem {:pred :do}})
+      (merge shared-part-of-fare
+             {:synsem {:pred :make}})]) 
+                     
+     
+     
+     
+     
+      
       "finire"  {:italiano {:boot-stem1 "finisc"
                             :boot-stem2 "fin"}
                  :synsem {:cat :verb

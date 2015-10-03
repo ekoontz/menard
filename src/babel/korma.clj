@@ -16,7 +16,8 @@
         database-url (cond
                       (env :database-url)
                       (env :database-url)
-                      
+
+                      true default
                       true
                       (do
                         (log/error

@@ -399,35 +399,84 @@
      :else
      (throw (Exception. (str "get-string-1: present regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
+(declare irregular-preterito)
+(declare regular-preterito)
 ;; TODO: word should have usted/vosotros/etc inside it, not passed along here.
 (defn preterito [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]
+  (let [irregular (get-in word [:preterito])]
+    (if (map? irregular)
+      (irregular-preterito word
+                           {:usted usted
+                            :vosotros vosotros
+                            :ustedes ustedes})
+      ;; else
+      (regular-preterito word
+                         {:usted usted
+                          :vosotros vosotros
+                          :ustedes ustedes}))))
+
+(defn irregular-preterito [word {usted :usted
+                                 vosotros :vosotros
+                                 ustedes :ustedes}]
+  (cond
+   (and (= :1st (get-in word [:agr :person]))
+        (= :sing (get-in word [:agr :number]))
+        (get-in word [:preterito :1sing]))
+   (get-in word [:preterito :1sing])
+   (and (= :2nd (get-in word [:agr :person]))
+        (= :sing (get-in word [:agr :number]))
+        (get-in word [:preterito :2sing]))
+   (get-in word [:preterito :2sing])
+   (and (= :3rd (get-in word [:agr :person]))
+        (= :sing (get-in word [:agr :number]))
+        (get-in word [:preterito :3sing]))
+   (get-in word [:preterito :3sing])
+   (and (= :1st (get-in word [:agr :person]))
+        (= :plur (get-in word [:agr :number]))
+        (get-in word [:preterito :1plur]))
+   (get-in word [:preterito :1plur])
+   (and (= :2nd (get-in word [:agr :person]))
+        (= :plur (get-in word [:agr :number]))
+        (get-in word [:preterito :2plur]))
+   (get-in word [:preterito :2plur])
+   (and (= :3rd (get-in word [:agr :person]))
+        (= :plur (get-in word [:agr :number]))
+        (get-in word [:preterito :3plur]))
+   (get-in word [:preterito :3plur])
+   true (regular-preterito word {usted :usted
+                                 vosotros :vosotros
+                                 ustedes :ustedes})))
+   
+(defn regular-preterito [word {usted :usted
+                               vosotros :vosotros
+                               ustedes :ustedes}]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-
+        
         ;; default stem: will be used except under certain conditions, as described in next check.
         stem (string/replace infinitive #"[iae]r$" "")
-
+        
         stem (if (get-in word [:pret-stem])
                (cond  (and usted ;; if we in usted mode, and person is 2nd.
                            (= :2nd (get-in word [:agr :person])))
                       (get-in word [:pret-stem])
-
+                      
                       (and ustedes  ;; if we in ustedes mode, and person is 2nd.
                            (= :2nd (get-in word [:agr :person])))
                       (get-in word [:pret-stem])
-
+                      
                       (= :3rd (get-in word [:agr :person]))
                       (get-in word [:pret-stem])
                       true
                       stem)
                stem)
-               
+        
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
@@ -435,23 +484,23 @@
         ustedes (if ustedes ustedes false)
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-
+    
     (cond
      (and (= person :1st) (= number :sing) ar-type)
      (str stem "é")
-
+     
      (and (= person :1st) (= number :sing) (or ir-type er-type))
      (str stem "í")
-
+     
      (and (= person :2nd) (= number :sing) ar-type (= usted false))
      (str stem "aste")
-
+     
      (and (= person :2nd) (= number :sing) (or ir-type er-type) (= usted false))
      (str stem "iste")
-
+     
      (and (= person :2nd) (= number :sing) ar-type (= usted true))
      (str stem "ó")
-
+     
      (and (= person :2nd) (= number :sing) (or ir-type er-type) (= usted true))
      (str stem "ió")
 

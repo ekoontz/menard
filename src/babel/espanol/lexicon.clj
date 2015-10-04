@@ -286,32 +286,28 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
     
-    "ir" {:espanol {:future-stem "ir"
-                       :present {:1sing "voy"
-                                 :2sing "vas"
-                                 :3sing "va"
-                                 :1plur "vamos"
-                                 :2plur "vais"
-                                 :3plur "van"}
-                      :preterito {:1sing "fui"
-                                 :2sing "fuiste"
-                                 :3sing "fue"
-                                 :1plur "fuimos"
-                                 :2plur "fuisteis"
-                                 :3plur "fueron"}
-                      :imperfecto {:1sing "iba"
-                                 :2sing "ibas"
-                                 :3sing "iba"
-                                 :1plur "ibamos"
-                                 :2plur "ibais"
-                                 :3plur "iban"}
-            
-            
-            :synsem {:cat :verb
-                     
-                     :sem {:subj {:animate true}
-                           :pred :go}}}
-                           
+   "ir" {:espanol {:future-stem "ir"
+                   :present {:1sing "voy"
+                             :2sing "vas"
+                             :3sing "va"
+                             :1plur "vamos"
+                             :2plur "vais"
+                             :3plur "van"}
+                   :preterito {:1sing "fui"
+                               :2sing "fuiste"
+                               :3sing "fue"
+                               :1plur "fuimos"
+                               :2plur "fuisteis"
+                               :3plur "fueron"}
+                   :imperfecto {:1sing "iba"
+                                :2sing "ibas"
+                                :3sing "iba"
+                                :1plur "ibamos"
+                                :2plur "ibais"
+                                :3plur "iban"}}
+         :synsem {:cat :verb
+                  :sem {:subj {:animate true}
+                        :pred :go}}}
     "Juan y yo"
       [{:synsem {:cat :noun
                  :pronoun true
@@ -387,7 +383,7 @@
    (let [shared-part-of-poder
                    {:espanol {:boot-stem1 "pued"
                               :boot-stem2 "pod"}
-                    :synsem {:cat :verb}}
+                    :synsem {:cat :verb}}]
      [(merge shared-part-of-poder
              {:synsem {:pred :can}})
       (merge shared-part-of-poder
@@ -395,23 +391,23 @@
       (merge shared-part-of-poder
              {:synsem {:pred :be-able-to}})])
    
-   "potere" 
-   (let [shared-part-of-potere
-   {:synsem {:cat :verb}
-    :italiano {:future-stem "potr"
-    :drop-e true
-   :present {:1sing "posso"
-             :2sing "puoi"
-             :3sing "può"
-             :1plur "possiamo"
-             :2plur "potete"
-             :3plur "possono"}}}
-   [(merge shared-part-of-potere
-             {:synsem {:pred :can}})
-      (merge shared-part-of-potere
-             {:synsem {:pred :may}})
-           (merge shared-part-of-potere
-             {:synsem {:pred :be-able-to}})])
+   "potere"
+          (let [shared-part-of-potere
+                {:synsem {:cat :verb}
+                 :italiano {:future-stem "potr"
+                            :drop-e true
+                            :present {:1sing "posso"
+                                      :2sing "puoi"
+                                      :3sing "può"
+                                      :1plur "possiamo"
+                                      :2plur "potete"
+                                      :3plur "possono"}}}]
+            [(merge shared-part-of-potere
+                    {:synsem {:pred :can}})
+             (merge shared-part-of-potere
+                    {:synsem {:pred :may}})
+             (merge shared-part-of-potere
+                    {:synsem {:pred :be-able-to}})])
    
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]
@@ -483,8 +479,7 @@
                    :number :sing}
              :sem {:human true
                    :pred :I}
-             :subcat '()}}
-   })
+             :subcat '()}}})
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon

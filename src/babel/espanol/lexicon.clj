@@ -110,7 +110,7 @@
                                :2plur "dais"}
                      :preterito {:1sing "di"
                                  :2sing "diste"
-                                 :3sing "diò"
+                                 :3sing "dio"
                                  :1plur "dimos"
                                  :2plur "disteis"
                                  :3plur "dieron"}}

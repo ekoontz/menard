@@ -263,7 +263,26 @@
    
    "expulser" {:synsem {:cat :verb
                         :sem {:pred :throw-out}}}
-
+   
+   "faire"
+      (let [shared-part-of-faire
+              {:synsem {:cat :verb}
+               :français {:français "faire"
+                          :drop-e false
+                          :passato "fait"
+                          :future-stem "fer"
+                          :present {:1sing "fais"
+                                    :2sing "fais"
+                                    :3sing "fait"
+                                    :1plur "faisons"
+                                    :2plur "faites"
+                                    :3plur "font"}}}]
+    
+     [(merge shared-part-of-faire
+             {:synsem {:pred :do}})
+      (merge shared-part-of-faire
+             {:synsem {:pred :make}})])
+   
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
    

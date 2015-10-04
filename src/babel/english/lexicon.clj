@@ -91,25 +91,25 @@
                      :3plur "were"}}}
    
    "be able to" {:english {:imperfect {:1sing "was able to"
-                                       :2sing "were was able to"
-                                       :3sing "was was able to"
-                                       :1plur "were was able to"
-                                       :2plur "were was able to"
-                                       :3plur "were was able to"}
-                           :present {:1sing "am was able to"
-                                     :2sing "are was able to"
-                                     :3sing "is was able to"
-                                     :1plur "are was able to"
-                                     :2plur "are was able to"
-                                     :3plur "are was able to"}
-                           :past {:1sing "was was able to"
-                                  :2sing "were was able to"
-                                  :3sing "was was able to"
-                                  :1plur "were was able to"
-                                  :2plur "were was able to"
-                                  :3plur "were was able to"}}
+                                       :2sing "were able to"
+                                       :3sing "was able to"
+                                       :1plur "were able to"
+                                       :2plur "were able to"
+                                       :3plur "were able to"}
+                           :present {:1sing "am able to"
+                                     :2sing "are able to"
+                                     :3sing "is able to"
+                                     :1plur "are able to"
+                                     :2plur "are able to"
+                                     :3plur "are able to"}
+                           :past {:1sing "was able to"
+                                  :2sing "were able to"
+                                  :3sing "was able to"
+                                  :1plur "were able to"
+                                  :2plur "were able to"
+                                  :3plur "were able to"}}
                  :synsem {:cat :verb
-                          :sem {:pred :to-be-missing}}}
+                          :sem {:pred :be-able-to}}}
    
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}

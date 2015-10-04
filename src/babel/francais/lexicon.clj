@@ -148,8 +148,8 @@
                                :1plur "devons"
                                :2plur "devez"
                                :3plur "doivent"}}}]
-     [(unify common {:synsem {:sem {:pred :have-to
-                                    :subj {:human true}}}})               
+     (unify common {:synsem {:sem {:pred :have-to
+                                   :subj {:human true}}}}))
   
    "décider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
@@ -414,7 +414,6 @@
                        :sem {:pred :paint}}}
 ;  "profiter (de)" {:synsem {:cat :verb
 ;                            :sem {:pred :take-advantage-of}}}
-
 
   "regarder" [{:synsem {:cat :verb
                         :sem {:pred :look}}}

@@ -727,14 +727,13 @@
    
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
-              
    "may" 
    {:english {:past "might"
-              :present {:3sing "may"}
+              :present "may"
               :future "be able to"
               :conditional "might"}
-    :synsem {:cat :verb            
-              
+    :synsem {:cat :verb
+             :sem {:pred :may}}}
    "me" 
    {:synsem {:cat :noun
              :pronoun true

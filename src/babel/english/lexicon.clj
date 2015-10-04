@@ -165,7 +165,6 @@
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
                              :place false}}}
-
    "black"
    (unify adjective
           {:synsem {:cat :adjective

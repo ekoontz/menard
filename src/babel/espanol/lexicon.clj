@@ -382,7 +382,13 @@
                     
    "pintar" {:synsem {:cat :verb
                       :sem {:pred :paint}}}                
-
+   
+   "poder" {:espanol {:boot-stem1 "pued"
+                        :boot-stem2 "pod"}
+              :synsem {:cat :verb
+                       :sem {:pred :can}}}
+   
+   
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb

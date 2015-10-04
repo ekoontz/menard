@@ -108,6 +108,12 @@
    
    "dar" {:espanol  {:present {:1sing "doy"
                                :2plur "dais"}}
+                     :preterito {:1sing "di"
+                                 :2sing "diste"
+                                 :3sing "diò"
+                                 :1plur "dimos"
+                                 :2plur "disteis"
+                                 :3plur "dieron"}
           :synsem {:cat :verb
                    :sem {:pred :give}}}
    

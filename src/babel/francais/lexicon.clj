@@ -149,16 +149,16 @@
                                :2plur "devez"
                                :3plur "doivent"}}}]
      [(unify common {:synsem {:sem {:pred :have-to
-                                    :subj {:human true}}}})                
-
-   "diviser" {:synsem {:cat :verb
-                      :sem {:pred :divide}}}
+                                    :subj {:human true}}}})               
   
    "décider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
    
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}
+   
+   "diviser" {:synsem {:cat :verb
+                      :sem {:pred :divide}}}
    
    "donner" {:synsem {:cat :verb
                       :sem {:pred :give}}}
@@ -263,7 +263,26 @@
    
    "expulser" {:synsem {:cat :verb
                         :sem {:pred :throw-out}}}
-
+   
+   "faire"
+      (let [shared-part-of-faire
+              {:synsem {:cat :verb}
+               :français {:français "faire"
+                          :drop-e false
+                          :passato "fait"
+                          :future-stem "fer"
+                          :present {:1sing "fais"
+                                    :2sing "fais"
+                                    :3sing "fait"
+                                    :1plur "faisons"
+                                    :2plur "faites"
+                                    :3plur "font"}}}]
+    
+     [(merge shared-part-of-faire
+             {:synsem {:pred :do}})
+      (merge shared-part-of-faire
+             {:synsem {:pred :make}})])
+   
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
    

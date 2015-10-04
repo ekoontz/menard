@@ -149,16 +149,16 @@
                                :2plur "devez"
                                :3plur "doivent"}}}]
      [(unify common {:synsem {:sem {:pred :have-to
-                                    :subj {:human true}}}})                
-
-   "diviser" {:synsem {:cat :verb
-                      :sem {:pred :divide}}}
+                                    :subj {:human true}}}})               
   
    "décider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
    
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}
+   
+   "diviser" {:synsem {:cat :verb
+                      :sem {:pred :divide}}}
    
    "donner" {:synsem {:cat :verb
                       :sem {:pred :give}}}

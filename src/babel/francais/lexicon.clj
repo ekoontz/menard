@@ -131,9 +131,22 @@
 
    "developer" {:synsem {:cat :verb
                         :sem {:pred :develop}}}
-
-   "devoir" {:synsem {:cat :verb
-                     :sem {:pred :have-to}}}
+   "devoir"
+   (let [common
+         {:synsem {:essere false
+                   :cat :verb}
+          :français {:futuro-stem "devr"
+                     :drop-e true
+                     :past-participle "dû"
+                     :imperfect-stem "dev"
+                     :present {:1sing "dois"
+                               :2sing "dois"
+                               :3sing "doit"
+                               :1plur "devons"
+                               :2plur "devez"
+                               :3plur "doivent"}}}]
+     [(unify common {:synsem {:sem {:pred :have-to
+                                    :subj {:human true}}}})                
 
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}

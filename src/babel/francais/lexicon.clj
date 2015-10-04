@@ -126,6 +126,9 @@
    "créer" {:synsem {:cat :verb
                      :sem {:pred :create}}}
    
+   "croire" {:synsem {:cat :verb
+                      :sem {:pred :believe}}}
+   
    "decider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
 
@@ -150,10 +153,7 @@
 
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}
-      
-   "croire" {:synsem {:cat :verb
-                      :sem {:pred :believe}}}  
-   
+  
    "décider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
    

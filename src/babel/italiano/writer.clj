@@ -3,10 +3,17 @@
 
 (require '[babel.italiano.grammar :refer [small]])
 (require '[babel.italiano.lexicon :refer [lexicon]])
-(require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
+(require '[babel.italiano.morphology :as morph])
+(require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 (require '[clojure.string :refer [join]])
+
+(defn expression [spec]
+  (writer/expression small spec))
+
+(defn fo [spec]
+  (morph/fo spec))
 
 (defn rewrite-lexicon []
   (write-lexicon "it" @lexicon))

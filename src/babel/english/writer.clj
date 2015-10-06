@@ -3,10 +3,22 @@
 
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun]])
 (require '[babel.english.lexicon :refer [lexicon]])
+(require '[babel.english.morphology :refer [fo]])
+
+;; lets us do things like:
+;; (es/fo (es/expression {:synsem {:sem {:pred :have-fun}}}))
+(require '[babel.espanol.writer :as es])
+
 (require '[babel.reader :refer [read-all read-one]])
-(require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
+(require '[babel.writer :as writer
+           :refer [delete-from-expressions
+                   fill-language-by-spec
+                   process write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
+
+(defn expression [spec]
+  (writer/expression small-plus-vp-pronoun spec))
 
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."

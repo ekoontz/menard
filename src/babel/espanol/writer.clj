@@ -6,12 +6,12 @@
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol.grammar :refer [small]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
-(require '[babel.espanol.morphology :as morph :refer [fo morph-walk-tree]])
+(require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
-(require '[babel.writer :refer [process write-lexicon]])
+(require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
@@ -19,6 +19,12 @@
 
 ;; for debugging:
 (require '[babel.espanol.morphology.verbs :as verbs])
+
+(defn expression [spec]
+  (writer/expression small spec))
+
+(defn fo [spec]
+  (morph/fo spec))
 
 (defn todos [ & [count]]
   (let [count (if count (Integer. count) 10)

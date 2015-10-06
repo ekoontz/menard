@@ -3,7 +3,7 @@
   (:require
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]
-   [babel.espanol.pos :refer :all]
+   [babel.espanol.pos :refer :all :as pos]
    [dag-unify.core :refer [get-in]]))
 
 (def lexicon-source 
@@ -493,10 +493,10 @@
 
               ;; make an intransitive version of every verb which has an
               ;; [:sem :obj] path.
-              intransitivize
+              pos/intransitivize
               
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-              transitivize
+              pos/transitivize
               
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 

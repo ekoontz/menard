@@ -233,6 +233,11 @@
               :synsem {:cat :verb
                        :sem {:pred :begin}}}
    
+   "encender" {:espanol {:boot-stem1 "enciend"
+                        :boot-stem2 "encend"}
+             :synsem {:cat :verb
+                      :sem {:pred :light}}}
+   
    "enseñar" [{:synsem {:cat :verb
                         :sem {:pred :show}}}
               {:synsem {:cat :verb

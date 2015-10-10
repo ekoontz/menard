@@ -5,7 +5,7 @@
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer :all]
-   [babel.pos :as pos]
+   [babel.pos :as pos :refer [pronoun-acc]]
    [dag-unify.core :refer [fail? get-in]]))
 
 (def lexicon-source 
@@ -334,6 +334,15 @@
                     :gender :fem
                     :number :sing}})
    
+   "me" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :1st
+                        :number :sing}
+                  :sem {:pred :I}
+                  :subcat '()}}
+
    "mujer"
    (unify agreement-noun
           common-noun
@@ -344,6 +353,15 @@
                                  :number :sing
                                  :def :def}}}})
    
+   "nos" {:synsem {:cat :noun
+                   :pronoun true
+                   :reflexive true
+                   :case pronoun-acc
+                   :agr {:person :1st
+                         :number :plur}
+                   :sem {:pred :noi}
+                   :subcat '()}}
+
    "nosotras"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -366,8 +384,19 @@
              :sem {:human true
                    :gender :masc
                    :pred :noi}
+             :subcat '()}}   
+
+   ;; 2nd person plural informal 'vosotros/as' (ES-only)
+   "os"
+   {:synsem {:cat cat-of-pronoun
+             :pronoun true
+             :reflexive true
+             :case pronoun-acc
+             :agr {:person :2nd
+                   :number :plur}
+             :sem {:human true
+                   :pred :voi}
              :subcat '()}}
-   
    "pan"
    (unify agreement-noun
           common-noun
@@ -431,18 +460,32 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
    "se"
-   [;; feminine singular
-    (let [cat (ref :noun)]
-      {:synsem {:cat cat
-                :pronoun true
-                :reflexive true
-                :case pos/pronoun-acc
-                :agr {:person :3rd
-                      :gender :fem
-                      :number :sing}
-                :sem {:pred :lei}
-                :subcat '()}})]
+   [;; 3rd singular or plural: 'él,ellas,..etc'
+    {:synsem {:cat :noun
+              :pronoun true
+              :reflexive true
+              :case pronoun-acc
+              :agr {:person :3rd}
+              :subcat '()}}
 
+    ;; 2nd plural: 'ustedes'
+    {:synsem {:cat :noun
+              :pronoun true
+              :reflexive true
+              :case pronoun-acc
+              :agr {:person :2nd
+                    :number :plur}
+              :subcat '()}}]
+
+   "te" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :2nd
+                        :number :sing}
+                  :sem {:pred :tu}
+                  :subcat '()}}
+   
    "tirar" [{:synsem {:cat :verb
                       :sem {:pred :throw-out}}}
             {:synsem {:cat :verb

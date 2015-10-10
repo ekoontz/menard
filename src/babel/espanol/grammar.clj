@@ -367,11 +367,15 @@
   (future
     (let [grammar
           (filter #(or (= (:rule %) "s-conditional-nonphrasal")
+                       (= (:rule %) "s-conditional-phrasal")
                        (= (:rule %) "s-present-nonphrasal")
                        (= (:rule %) "s-present-phrasal")
                        (= (:rule %) "s-future-nonphrasal")
-                       (= (:rule %) "s-imperfetto-nonphrasal")
+                       (= (:rule %) "s-future-phrasal")
+                       (= (:rule %) "s-imperfect-nonphrasal")
+                       (= (:rule %) "s-imperfect-phrasal")
                        (= (:rule %) "s-preterito-nonphrasal")
+                       (= (:rule %) "s-preterito-phrasal")
                        (= (:rule %) "s-aux")
                        (= (:rule %) "vp-pronoun")
                        (= (:rule %) "vp-aux"))

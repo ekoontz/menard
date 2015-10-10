@@ -311,7 +311,15 @@
      (get-in word [:espanol])
 
      :else
-     (throw (Exception. (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (let [word
+           ;; for debugging if exception is thrown, where _word_ is printed out as part of the error message
+           (merge word
+                    {:agr {:ir-type ir-type
+                           :ar-type ar-type
+                           :er-type er-type
+                           :vosotros vosotros
+                           :ustedes ustedes}})]
+       (throw (Exception. (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word))))))))
 
 (defn present [word & [ {usted :usted
                          vosotros :vosotros

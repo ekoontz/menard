@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [clojure.tools.logging :as log]
-   [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
+   [babel.lexiconfn :refer [compile-lex if-then
+                            map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer :all]
    [babel.pos :as pos :refer [pronoun-acc]]
@@ -326,7 +327,6 @@
                  :sem {:human true
                        :pred :Juan-and-i}
                  :subcat '()}}]                       
-   
    "la"
    (unify determiner
           {:synsem {:cat :det
@@ -342,7 +342,6 @@
                         :number :sing}
                   :sem {:pred :I}
                   :subcat '()}}
-
    "mujer"
    (unify agreement-noun
           common-noun
@@ -352,7 +351,6 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
-   
    "nos" {:synsem {:cat :noun
                    :pronoun true
                    :reflexive true
@@ -361,7 +359,6 @@
                          :number :plur}
                    :sem {:pred :noi}
                    :subcat '()}}
-
    "nosotras"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -373,7 +370,6 @@
                    :gender :fem
                    :pred :noi}
              :subcat '()}}
-   
    "nosotros"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -544,19 +540,6 @@
              :sem {:human true
                    :pred :I}
              :subcat '()}}})
-
-(defn if-then [lexicon if-has unify-with]
-  (map-function-on-map-vals
-   lexicon
-   (fn [k vals]
-     (mapcat (fn [val]
-               (cond (not (fail? (unify val if-has)))
-                     (do
-                       (log/debug (str val ": matches: if: " if-has " then " unify-with))
-                       (list (unify val unify-with)))
-                     true
-                     (list val)))
-             vals))))
   
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon

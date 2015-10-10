@@ -849,3 +849,15 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                               v)]
                 k)))
 
+(defn if-then [lexicon if-has unify-with]
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     (mapcat (fn [val]
+               (cond (not (fail? (unify val if-has)))
+                     (do
+                       (log/debug (str val ": matches: if: " if-has " then " unify-with))
+                       (list (unify val unify-with)))
+                     true
+                     (list val)))
+             vals))))

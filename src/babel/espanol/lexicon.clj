@@ -61,7 +61,7 @@
                      :sem {:pred :lower}}}
    
    "cambiar" {:synsem {:cat :verb
-                       :sem {:pred :cambiare}}}
+                       :sem {:pred :change}}}
    
    "cerrar" {:espanol {:boot-stem "cierr"}
              :synsem {:cat :verb

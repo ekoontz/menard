@@ -181,7 +181,7 @@
      :synsem {:cat :verb
               :essere true
               :sem {:subj {:animate true}
-                    :pred :andare}}}
+                    :pred :go}}}
     
 ;   (map (fn [each]
 ;          (unify

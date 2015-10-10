@@ -177,6 +177,9 @@
                           :physical-object true
                           :human false}}})
 
+   "boil" {:synsem {:cat :verb
+                :sem {:pred :boil}}}
+   
    "book"
    (unify agreement-noun
           common-noun
@@ -682,6 +685,9 @@
    "lift" {:synsem {:cat :verb
                     :sem {:pred :lift}}}
              
+   "light" {:synsem {:cat :verb
+                     :sem {:pred :light}}}
+   
    "listen to" {:synsem {:cat :verb
                          :sem {:pred :listen-to}}
                 :english {:participle "listening to"
@@ -926,6 +932,11 @@
    ;; TODO: search _within_ or _on_: depends on the object.
    ;;   "search"  {:synsem {:sem {:pred :cercare}}})
 
+   "scrub"  {:synsem {:cat :verb
+                     :sem {:pred :prendere}}
+            :english {:participle "scrubbing"
+                      :past "scrubbed"}}
+   
    "see"  {:synsem {:cat :verb
                     :sem {:pred :vedere}}
            :english {:past "saw"
@@ -1194,6 +1205,9 @@
    "warm" {:synsem {:cat :verb
                 :sem {:pred :warm}}}
 
+   "warn" {:synsem {:cat :verb
+                     :sem {:pred :warn}}}
+   
    "wash" (let [subject-semantics (ref :top)]
             {:synsem {:cat :verb
                       :sem {:pred :wash
@@ -1396,6 +1410,13 @@
                          ;; if a verb has an object,
                          ;; and the object is not {:reflexive true}
                          ;; then the object is {:reflexive false}
+
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
                                   {:synsem {:subcat {:2 {:reflexive false}}}}))))
+
+
+                         
+
+    
+

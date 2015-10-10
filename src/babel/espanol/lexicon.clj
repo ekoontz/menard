@@ -65,8 +65,7 @@
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :cambiare}}}
    
-   "cerrar" {:espanol {:boot-stem1 "cierr"
-                        :boot-stem2 "cerr"}
+   "cerrar" {:espanol {:boot-stem "cierr"}
              :synsem {:cat :verb
                       :sem {:pred :close}}}
    
@@ -248,8 +247,7 @@
                    :pred :loro}
              :subcat '()}}
            
-   "empezar" {:espanol {:boot-stem1 "empiez"
-                        :boot-stem2 "empez"}
+   "empezar" {:espanol {:boot-stem "empiez"}
               :synsem {:cat :verb
                        :sem {:pred :begin}}}
    
@@ -263,8 +261,7 @@
               {:synsem {:cat :verb
                         :sem {:pred :teach}}}]
    
-   "entender" {:espanol {:boot-stem1 "entiend"
-                         :boot-stem2 "entend"}
+   "entender" {:espanol {:boot-stem "entiend"}
                :synsem {:cat :verb
                         :sem {:pred :understand-simply}}}
    
@@ -453,8 +450,7 @@
                                  :number :sing
                                  :def :def}}}})
                                
-   "pensar" {:espanol {:boot-stem1 "piens"
-                       :boot-stem2 "pens"}
+   "pensar" {:espanol {:boot-stem "piens"}
              :synsem {:cat :verb
                       :sem {:pred :think}}}
                     
@@ -463,8 +459,7 @@
    
    "poder" 
    (let [shared-part-of-poder
-                   {:espanol {:boot-stem1 "pued"
-                              :boot-stem2 "pod"}
+                   {:espanol {:boot-stem "pued"}
                     :synsem {:cat :verb}}]
      [(merge shared-part-of-poder
              {:synsem {:pred :can}})
@@ -605,6 +600,10 @@
               (if-then {:synsem {:cat :verb
                                  :synsem {:aux false}}}
                        {:synsem {:aux false}})
+
+              (if-then {:synsem {:cat :verb
+                                 :subcat {:2 {:reflexive false}}}}
+                       {:synsem {:subcat {:2 {:reflexive false}}}})
               
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 

@@ -342,6 +342,15 @@
                         :number :sing}
                   :sem {:pred :I}
                   :subcat '()}}
+   "mentir" {:espanol {:boot-stem1 "mient"
+                        :boot-stem2 "ment"}
+             :synsem {:cat :verb
+                      :sem {:pred :close}}}
+   
+   
+   
+   
+   
    "mujer"
    (unify agreement-noun
           common-noun

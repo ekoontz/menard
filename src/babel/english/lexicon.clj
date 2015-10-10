@@ -232,8 +232,15 @@
                                         :pet true})}})
 
    "change" {:synsem {:cat :verb
-                      :sem {:pred :cambiare}}} ;; TODO: add reflexive sense
+                      :sem {:pred :change}}} ;; TODO: add reflexive sense
 
+   "change clothes" {:synsem {:cat :verb
+                              :sem {:pred :change-clothes
+                                    :subj {:human true}}}
+                     :english {:present {:3sing "changes clothes"}
+                               :participle "changing clothes"
+                               :past "changed clothes"}}
+   
    "chat" {:synsem {:cat :verb
                     :sem {:pred :chat}}
            :english {:participle "chatting"

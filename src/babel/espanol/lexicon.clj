@@ -19,16 +19,14 @@
    "aceptar" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
-   "acertar" {:espanol {:boot-stem1 "aciert"
-                        :boot-stem2 "acert"}
+   "acertar" {:espanol {:boot-stem "aciert"}
              :synsem {:cat :verb
                       :sem {:pred :guess}}}
    
    "acompañar" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}
 
-   "advertir" {:espanol {:boot-stem1 "adviert"
-                        :boot-stem2 "advert"}
+   "advertir" {:espanol {:boot-stem "adviert"}
              :synsem {:cat :verb
                       :sem {:pred :warn}}}
    
@@ -72,8 +70,7 @@
    "comentar" {:synsem {:cat :verb
                         :sem {:pred :comment}}}
    
-   "comenzar" {:espanol {:boot-stem1 "comienz"
-                        :boot-stem2 "comenz"}
+   "comenzar" {:espanol {:boot-stem "comienz"}
              :synsem {:cat :verb
                       :sem {:pred :begin}}}
    
@@ -95,8 +92,7 @@
    "comprender" {:synsem {:cat :verb
                           :sem {:pred :understand-deeply}}}
    
-   "confesar" {:espanol {:boot-stem1 "confies"
-                        :boot-stem2 "confes"}
+   "confesar" {:espanol {:boot-stem "confies"}
              :synsem {:cat :verb
                       :sem {:pred :confess}}}
    
@@ -251,8 +247,7 @@
               :synsem {:cat :verb
                        :sem {:pred :begin}}}
    
-   "encender" {:espanol {:boot-stem1 "enciend"
-                        :boot-stem2 "encend"}
+   "encender" {:espanol {:boot-stem "enciend"}
              :synsem {:cat :verb
                       :sem {:pred :light}}}
    
@@ -298,8 +293,7 @@
    "formar" {:synsem {:cat :verb
                       :sem {:pred :form}}}
    
-   "fregar" {:espanol {:boot-stem1 "frieg"
-                        :boot-stem2 "freg"}
+   "fregar" {:espanol {:boot-stem "frieg"}
              :synsem {:cat :verb
                       :sem {:pred :scrub}}}
    
@@ -327,8 +321,7 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
     
-   "hervir" {:espanol {:boot-stem1 "hierv"
-                        :boot-stem2 "herv"}
+   "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb
                       :sem {:pred :boil}}}
    
@@ -379,15 +372,9 @@
                         :number :sing}
                   :sem {:pred :I}
                   :subcat '()}}
-   "mentir" {:espanol {:boot-stem1 "mient"
-                        :boot-stem2 "ment"}
+   "mentir" {:espanol {:boot-stem "mient"}
              :synsem {:cat :verb
                       :sem {:pred :lie}}}
-   
-   
-   
-   
-   
    "mujer"
    (unify agreement-noun
           common-noun

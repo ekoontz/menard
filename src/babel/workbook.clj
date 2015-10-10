@@ -152,6 +152,14 @@
     (html
      [:div#workbook-ui {:class "quiz-elem"}
       [:h2 "Workbook"]
+
+      [:div.hints
+       [:h3 "Try:"]
+       [:div "(expr X)"]
+       [:div "(parse 'he sleeps')"]
+
+       ]
+
       [:div#searchbar
        [:textarea {:cols 80 :rows 4 :id "workbookq" }
         (if search-query

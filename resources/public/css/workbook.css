@@ -3,3 +3,22 @@ textarea {
    font-family: monospace;
 }
 
+.hints {
+    padding-left:5%;
+    width:95%;
+    float:left;
+}
+
+.hints h3 {
+    float:left;
+    width:100%;
+}
+    
+
+.hints div {
+    font-family: monospace;
+    border:1px solid #ddd;
+    float:left;
+    width:30%;
+    margin:0.5em;
+}

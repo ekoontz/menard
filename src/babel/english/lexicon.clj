@@ -1,8 +1,12 @@
 (ns babel.english.lexicon
+  (:refer-clojure :exclude [get-in])
   (:require
-   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
+   [babel.lexiconfn :refer (compile-lex if-then
+                                        map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
-   [babel.english.pos :refer :all]))
+   [babel.english.pos :refer :all]
+   [dag-unify.core :refer [fail? get-in]]))
+
 
 (def lexicon-source
   {
@@ -1384,7 +1388,18 @@
                          intransitivize
 
                          ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-                         transitivize)))
+                         transitivize
+
+                         ;; if a verb has an object,
+                         ;; and the object is not {:reflexive true}
+                         ;; then the object is {:reflexive false}
+
+                         (if-then {:synsem {:cat :verb
+                                            :subcat {:2 {:reflexive false}}}}
+                                  {:synsem {:subcat {:2 {:reflexive false}}}}))))
+
+
+                         
 
     
 

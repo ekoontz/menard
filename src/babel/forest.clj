@@ -96,7 +96,7 @@ of this function with complements."
                                                                                                                    "NULL MORPH"))))
                                     candidate-lexemes))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
-                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": " (string/join "," (map strip-refs result))))
+                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": (size=" (if result (.size result) "0") ")" (string/join "," (map strip-refs result))))
                           result)))
                     candidate-parents)
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.

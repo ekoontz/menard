@@ -339,8 +339,8 @@
                 @model
                 model)
         language (:language model)
-        debug (log/debug (str "THE LANGUAGE IS : " language))
-        debug (log/debug (str "THE SPEC IS : " spec))
+        debug (log/debug (str "fill-language-by-spec: language: " language))
+        debug (log/debug (str "fill-language-by-spec: spec: " spec))
         json-spec (json/write-str spec)
         current-count
         (:count

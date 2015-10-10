@@ -262,6 +262,9 @@
    "comment" {:synsem {:cat :verb
                        :sem {:pred :comment}}}
 
+   "consent" {:synsem {:cat :verb
+                        :sem {:pred :consent}}}
+   
    "conserve" {:synsem {:cat :verb
                         :sem {:pred :conserve}}}
 

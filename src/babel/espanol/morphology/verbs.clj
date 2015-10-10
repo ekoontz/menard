@@ -202,9 +202,13 @@
      (str stem "iran")
      
      ;; </third person plural future>
+
+     (= :top (get-in word [:agr]))
+     (do (log/debug (str "ignoring agr:top for stem: " stem " - maybe this is an incomplete phrase."))
+         "")
      
      :else
-     (throw (Exception. (str "get-string-1: futuro regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (throw (Exception. (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
 
 (defn imperfect [word & [ {usted :usted

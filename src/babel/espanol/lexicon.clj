@@ -19,6 +19,11 @@
    "aceptar" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
+   "acertar" {:espanol {:boot-stem1 "aciert"
+                        :boot-stem2 "acert"}
+             :synsem {:cat :verb
+                      :sem {:pred :guess}}}
+   
    "acompañar" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}
 
@@ -345,7 +350,7 @@
    "mentir" {:espanol {:boot-stem1 "mient"
                         :boot-stem2 "ment"}
              :synsem {:cat :verb
-                      :sem {:pred :close}}}
+                      :sem {:pred :lie}}}
    
    
    

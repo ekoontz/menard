@@ -450,6 +450,9 @@
             :english {:participle "grabbing"
                       :past "grabbed"}}
 
+   "guess" {:synsem {:cat :verb
+                     :sem {:pred :guess}}}
+   
    "have" {:synsem {:cat :verb
                     :sem {:activity false
                           :discrete false

@@ -1396,13 +1396,6 @@
                          ;; if a verb has an object,
                          ;; and the object is not {:reflexive true}
                          ;; then the object is {:reflexive false}
-
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
                                   {:synsem {:subcat {:2 {:reflexive false}}}}))))
-
-
-                         
-
-    
-

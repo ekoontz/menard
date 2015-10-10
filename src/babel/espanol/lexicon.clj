@@ -320,6 +320,11 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
     
+   "hervir" {:espanol {:boot-stem1 "hierv"
+                        :boot-stem2 "herv"}
+             :synsem {:cat :verb
+                      :sem {:pred :boil}}}
+   
    "ir" {:espanol {:future-stem "ir"
                    :present {:1sing "voy"
                              :2sing "vas"

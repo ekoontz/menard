@@ -26,6 +26,7 @@
   :plugins [[lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
+            [cider/cider-nrepl "0.10.0-SNAPSHOT"]
             [lein-ring "0.9.3"]]
 
   :ring {:handler babel.core/app})

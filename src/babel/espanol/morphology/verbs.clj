@@ -106,6 +106,11 @@
 
      ;; </third person plural conditional>
 
+     ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
+     (and (= (get-in word [:agr]) :top)
+          (string? (get-in word [:espanol])))
+     (get-in word [:espanol])
+     
      :else
      (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
@@ -203,9 +208,10 @@
      
      ;; </third person plural future>
 
-     (= :top (get-in word [:agr]))
-     (do (log/debug (str "ignoring agr:top for stem: " stem " - maybe this is an incomplete phrase."))
-         "")
+     ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
+     (and (= (get-in word [:agr]) :top)
+          (string? (get-in word [:espanol])))
+     (get-in word [:espanol])
      
      :else
      (throw (Exception. (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
@@ -298,6 +304,11 @@
      (str stem "ían")
      
      ;; </third person plural imperfecto>
+
+     ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
+     (and (= (get-in word [:agr]) :top)
+          (string? (get-in word [:espanol])))
+     (get-in word [:espanol])
 
      :else
      (throw (Exception. (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
@@ -557,6 +568,11 @@
      (str stem "ieron")
 
      ;; </third person plural preterite>
+
+     ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
+     (and (= (get-in word [:agr]) :top)
+          (string? (get-in word [:espanol])))
+     (get-in word [:espanol])
      
      :else
      (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))

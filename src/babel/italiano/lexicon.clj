@@ -1,10 +1,10 @@
 (ns babel.italiano.lexicon
-  (:refer-clojure :exclude [get-in])
+  (:refer-clojure :exclude [get-in merge])
   (:require
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer :all]
-   [dag-unify.core :refer [get-in]]))
+   [dag-unify.core :refer [get-in merge unifyc]]))
 
 (def lexicon-source
   {"Antonia"
@@ -1645,48 +1645,22 @@
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
-   "si"
-   [;; feminine singular
-    (let [cat (ref :noun)]
-      {:synsem {:cat cat
-                :pronoun true
-                :reflexive true
-                :case pronoun-acc
-                :agr {:person :3rd
-                      :gender :fem
-                      :number :sing}
-                :sem {:pred :lei}
-                :subcat '()}
-       :italiano {:cat cat
-                  :case pronoun-acc}})
-
-    ;; masculine singular
-    (let [cat (ref :noun)]
-      {:synsem {:cat cat
-                :pronoun true
-                :reflexive true
-                :case pronoun-acc
-                :agr {:person :3rd
-                      :gender :masc
-                      :number :sing}
-                :sem {:pred :lui}
-                :subcat '()}
-       :italiano {:cat cat
-                  :case pronoun-acc}})
-
-    ;; plural: unspecified gender
-    (let [cat (ref :noun)]
-      {:synsem {:cat cat
-                :pronoun true
-                :reflexive true
-                :case pronoun-acc
-                :agr {:person :3rd
-                      :number :plur}
-                :sem {:pred :loro}
-                :subcat '()}
-       :italiano {:cat cat
-                  :case pronoun-acc}})]
-
+   "si" (map #(merge % pronoun-reflexive)
+             ;; feminine singular
+             [{:synsem {:agr {:person :3rd
+                              :gender :fem
+                              :number :sing}
+                        :sem {:pred :lei}}}
+              ;; masculine singular
+              {:synsem {:agr {:person :3rd
+                              :gender :masc
+                              :number :sing}
+                        :sem {:pred :lui}}}
+              ;; plural: unspecified gender
+              {:synsem {:agr {:person :3rd
+                              :number :plur}
+                        :sem {:pred :loro}}}])
+   
    "sistemare" {:synsem {:cat :verb
                          :sem {:pred :organize}}}
 
@@ -1933,9 +1907,35 @@
                          ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                          transitivize
 
-                         ;; if a verb is not specifically marked as reflexive, it
+                         ;; reflexive pronouns
+                         (map-function-on-map-vals
+                          (let [agreement
+                                (let [case (ref :acc)
+                                      cat (ref :noun)]
+                                  {:synsem {:cat cat
+                                            :pronoun true
+                                            :subcat '()
+                                            :reflexive true
+                                            :case case}
+                                   :italiano {:cat cat
+                                              :case case}})]
+                            (fn [k vals]
+                              (map (fn [val]
+                                     (cond (and (= :noun (get-in val [:synsem :cat]))
+                                                (= true (get-in val [:synsem :reflexive]))
+                                                (= true (get-in val [:synsem :pronoun])))
+                                           (unify agreement val)
+
+                                           true val))
+                                   vals))))
+                         
+                         ;; If a verb is not specifically marked as reflexive, it
                          ;; is reflexive:false, to prevent generation of reflexive
-                         ;; sentences using nonreflexive verbs
+                         ;; sentences using nonreflexive verbs.
+                         ;; TODO: move this to within intransitivize and transitivize:
+                         ;; that is, within babel.italiano.pos, mark certain parts of speech
+                         ;; as reflexive=false to accomplish the same thing as we
+                         ;; are doing here.
                          (map-function-on-map-vals
                           (fn [k vals]
                             (map (fn [val]
@@ -1944,7 +1944,7 @@
                                               (= (get-in val [:synsem :aux] false)
                                                  false)
                                               (= :none (get-in val [:synsem :sem :reflexive] :none)))
-                                         (unify val {:synsem {:sem {:reflexive false}}})
+                                         (unifyc val {:synsem {:sem {:reflexive false}}})
                                          true
                                          val))
                                  vals)))

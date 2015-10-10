@@ -91,3 +91,11 @@
 
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
+
+(def pronoun-reflexive
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :acc
+            :reflexive true}})
+
+            

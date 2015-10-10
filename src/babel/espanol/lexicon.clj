@@ -286,6 +286,11 @@
    "formar" {:synsem {:cat :verb
                       :sem {:pred :form}}}
    
+   "fregar" {:espanol {:boot-stem1 "frieg"
+                        :boot-stem2 "freg"}
+             :synsem {:cat :verb
+                      :sem {:pred :scrub}}}
+   
    "funcionar" {:synsem {:cat :verb
                          :sem {:subj {:human false}
                                :pred :work-nonhuman}}}

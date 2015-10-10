@@ -434,6 +434,21 @@
    "cambiare" {:synsem {:cat :verb
                         :sem {:pred :change}}}
    
+   "cambiarsi" (let [subject-semantics (ref {:animate true})
+                   subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :change-clothes
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+   
    "cancellare" {:synsem {:cat :verb
                           :sem {:pred :erase}}}
 

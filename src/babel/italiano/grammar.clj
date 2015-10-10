@@ -387,11 +387,11 @@
        (filter #(not (fail? %))
                grammar)))
 
-;; TODO: move to italiano/morphology
+;; TODO: move to italiano/morphology or higher (language-universal)
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))
   (merge
-   {:surface (fo (get-in tree [:italiano]))}
+   {:surface (fo tree)}
    (if (get-in tree [:comp])
      {:comp (morph-walk-tree (get-in tree [:comp]))}
      {})

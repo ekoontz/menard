@@ -161,7 +161,7 @@
        ]
 
       [:div#searchbar
-       [:textarea {:cols 80 :rows 4 :id "workbookq" }
+       [:textarea {:cols 50 :rows 4 :id "workbookq" }
         (if search-query
           search-query
           "(+ 1 1)")

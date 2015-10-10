@@ -96,10 +96,9 @@
              :synsem {:cat :verb
                       :sem {:pred :confess}}}
    
-   "consentir" {:espanol {:boot-stem1 "consient"
-                        :boot-stem2 "consent"}
-             :synsem {:cat :verb
-                      :sem {:pred :consent}}}
+   "consentir" {:espanol {:boot-stem "consient"}
+                :synsem {:cat :verb
+                         :sem {:pred :consent}}}
    
    "conservar" [{:synsem {:cat :verb
                           :sem {:pred :conserve}}}

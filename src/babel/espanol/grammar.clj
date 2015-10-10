@@ -368,10 +368,12 @@
     (let [grammar
           (filter #(or (= (:rule %) "s-conditional-nonphrasal")
                        (= (:rule %) "s-present-nonphrasal")
+                       (= (:rule %) "s-present-phrasal")
                        (= (:rule %) "s-future-nonphrasal")
                        (= (:rule %) "s-imperfetto-nonphrasal")
                        (= (:rule %) "s-preterito-nonphrasal")
                        (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-pronoun")
                        (= (:rule %) "vp-aux"))
                   grammar)
           lexicon

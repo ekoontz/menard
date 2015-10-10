@@ -27,6 +27,11 @@
    "acompañar" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}
 
+   "advertir" {:espanol {:boot-stem1 "adviert"
+                        :boot-stem2 "advert"}
+             :synsem {:cat :verb
+                      :sem {:pred :warn}}}
+   
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 

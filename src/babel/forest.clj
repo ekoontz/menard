@@ -95,7 +95,9 @@ of this function with complements."
                                                                                                                    ;; TODO: throw exception here
                                                                                                                    "NULL MORPH"))))
                                     candidate-lexemes))
-                        (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)))
+                        (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
+                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": " (string/join "," (map strip-refs result))))
+                          result)))
                     candidate-parents)
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
             ;; recursively call lightning-bolt with (+ 1 depth).

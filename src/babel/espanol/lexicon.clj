@@ -73,6 +73,11 @@
    "comentar" {:synsem {:cat :verb
                         :sem {:pred :comment}}}
    
+   "comenzar" {:espanol {:boot-stem1 "comienz"
+                        :boot-stem2 "comenz"}
+             :synsem {:cat :verb
+                      :sem {:pred :begin}}}
+   
    "comer" [{:synsem {:cat :verb
                       :subcat {:2 {:cat :noun}}
                       :sem {:pred :mangiare

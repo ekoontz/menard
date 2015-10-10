@@ -1,10 +1,12 @@
 (ns babel.espanol.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
+   [clojure.tools.logging :as log]
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]
-   [babel.espanol.pos :refer :all :as pos]
-   [dag-unify.core :refer [get-in]]))
+   [babel.espanol.pos :refer :all]
+   [babel.pos :as pos]
+   [dag-unify.core :refer [fail? get-in]]))
 
 (def lexicon-source 
   {"abandonar" {:synsem {:cat :verb
@@ -428,6 +430,19 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
+   "se"
+   [;; feminine singular
+    (let [cat (ref :noun)]
+      {:synsem {:cat cat
+                :pronoun true
+                :reflexive true
+                :case pos/pronoun-acc
+                :agr {:person :3rd
+                      :gender :fem
+                      :number :sing}
+                :sem {:pred :lei}
+                :subcat '()}})]
+
    "tirar" [{:synsem {:cat :verb
                       :sem {:pred :throw-out}}}
             {:synsem {:cat :verb
@@ -487,16 +502,34 @@
                    :pred :I}
              :subcat '()}}})
 
+(defn if-then [lexicon if-has unify-with]
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     (mapcat (fn [val]
+               (cond (not (fail? (unify val if-has)))
+                     (do
+                       (log/debug (str val ": matches: if: " if-has " then " unify-with))
+                       (list (unify val unify-with)))
+                     true
+                     (list val)))
+             vals))))
+  
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon
   (future (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
 
               ;; make an intransitive version of every verb which has an
               ;; [:sem :obj] path.
-              pos/intransitivize
+              intransitivize
               
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-              pos/transitivize
+              transitivize
+
+              ;; if verb has no :aux, it's {:aux false}
+              (if-then {:synsem {:cat :verb
+                                 :synsem {:aux false}}}
+                       {:synsem {:aux false}})
               
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 

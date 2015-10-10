@@ -90,13 +90,8 @@
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
-                                           (cond (= tense
-                                                    {:synsem {:sem {:aspect :perfect
-                                                                    :tense :past}}})
-                                                 [{:gender :masc}
-                                                  {:gender :fem}]
-                                                 true
-                                                 [:top])))))
+                                           [{:gender :masc}
+                                            {:gender :fem}]))))
                                  (list {:synsem {:sem {:tense :conditional}}}
                                        {:synsem {:sem {:tense :future}}}
                                        {:synsem {:sem {:tense :present}}}

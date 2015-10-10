@@ -432,7 +432,7 @@
                            :clothing true}}})
 
    "cambiare" {:synsem {:cat :verb
-                        :sem {:pred :cambiare}}}
+                        :sem {:pred :change}}}
    
    "cancellare" {:synsem {:cat :verb
                           :sem {:pred :erase}}}

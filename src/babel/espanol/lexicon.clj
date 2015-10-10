@@ -96,6 +96,11 @@
    "comprender" {:synsem {:cat :verb
                           :sem {:pred :understand-deeply}}}
    
+   "confesar" {:espanol {:boot-stem1 "confies"
+                        :boot-stem2 "confes"}
+             :synsem {:cat :verb
+                      :sem {:pred :confess}}}
+   
    "conservar" [{:synsem {:cat :verb
                           :sem {:pred :conserve}}}
                 {:synsem {:cat :verb

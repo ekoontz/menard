@@ -383,6 +383,11 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
+   
+   "negar" {:espanol {:boot-stem "nieg"}
+                :synsem {:cat :verb
+                         :sem {:pred :deny}}}
+   
    "nos" {:synsem {:cat :noun
                    :pronoun true
                    :reflexive true

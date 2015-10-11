@@ -453,6 +453,10 @@
              :synsem {:cat :verb
                       :sem {:pred :think}}}
                     
+   "perder" {:espanol {:boot-stem "pierd"}
+                :synsem {:cat :verb
+                         :sem {:pred :lose}}}
+   
    "pintar" {:synsem {:cat :verb
                       :sem {:pred :paint}}}                
    

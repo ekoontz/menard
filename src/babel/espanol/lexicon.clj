@@ -111,6 +111,10 @@
    "contestar" {:synsem {:cat :verb
                          :sem {:pred :answer}}}
    
+   "convertir" {:espanol {:boot-stem "conviert"}
+                :synsem {:cat :verb
+                         :sem {:pred :convent}}}
+   
    "correr" {:synsem {:cat :verb
                       :sem {:pred :run}}}
    

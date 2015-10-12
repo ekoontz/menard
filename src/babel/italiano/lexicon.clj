@@ -752,7 +752,8 @@
       "desiderare"  {:synsem {:cat :verb
                               :sem {:pred :desire}}}
       
-      
+      "dettare" {:synsem {:cat :verb
+                         :sem {:pred :dictate}}}
       
       "di"
       {:synsem {:cat :prep

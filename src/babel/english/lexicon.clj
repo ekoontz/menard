@@ -474,6 +474,22 @@
                     :subj {:animate true}}}
     :english {:past "went"}}
 
+   "go downstairs"
+   {:synsem {:cat :verb
+              :sem {:activity true
+                    :discrete false
+                    :pred :go-downstairs
+                    :subj {:animate true}}}
+    :english {:past "went downstairs"}}
+   
+   "go upstairs"
+   {:synsem {:cat :verb
+              :sem {:activity true
+                    :discrete false
+                    :pred :go-upstairs
+                    :subj {:animate true}}}
+    :english {:past "went upstairs"}}
+   
    "grab"  {:synsem {:cat :verb
                      :sem {:pred :prendere}}
             :english {:participle "grabbing"

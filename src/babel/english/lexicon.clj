@@ -294,6 +294,9 @@
    "develop" {:synsem {:cat :verb
                        :sem {:pred :develop}}}
 
+   "dictate" {:synsem {:cat :verb
+                      :sem {:pred :dictate}}}
+   
    "dine" {:synsem {:cat :verb
                     :sem {:pred :cenare
                           :subj {:human true}}}}

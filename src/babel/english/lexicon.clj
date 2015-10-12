@@ -546,6 +546,9 @@
                    :pred :lui}
              :subcat '()}}
 
+   "hit" {:english {:past "hit"}
+             :synsem {:cat :verb
+                      :sem {:pred :hit}}}
    
    "hold"
    {:synsem {:cat :verb

@@ -414,6 +414,19 @@
       :english {:participle "getting dressed"
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
+   
+   "get on"
+   (let [subject-semantics (ref {:human true})]
+     {:synsem {:cat :verb
+               :sem {:pred :get-on
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting on"
+                :present {:3sing "gets on"}
+                :past "got on"}})
+   
    "get ready"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb

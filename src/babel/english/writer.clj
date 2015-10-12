@@ -5,10 +5,6 @@
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
 
-;; lets us do things like:
-;; (es/fo (es/expression {:synsem {:sem {:pred :have-fun}}}))
-(require '[babel.espanol.writer :as es])
-
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions

@@ -752,6 +752,8 @@
       "desiderare"  {:synsem {:cat :verb
                               :sem {:pred :desire}}}
       
+      
+      
       "di"
       {:synsem {:cat :prep
                 :sem {:pred :di
@@ -1744,7 +1746,7 @@
                            :sem {:pred :telefonare}}}
 
    "tenere"  {:synsem {:cat :verb 
-                      :sem {:pred :tenere}}
+                      :sem {:pred :hold}}
               :italiano {:passato "tenuto"
                          :present {:1sing "tengo"
                                    :2sing "tieni"

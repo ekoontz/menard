@@ -1627,6 +1627,16 @@
                           :physical-object true
                           :human false}}})
 
+   "salire"
+    {:italiano {:italiano "salire"
+                :essere true 
+                :present {:1sing "salgo"
+                          :3plur "salgono"}}
+     :synsem {:cat :verb
+              :essere true
+              :sem {:subj {:animate true}
+                    :pred :get-on}}}
+   
    "scappare"  {:synsem {:cat :verb 
                          :sem {:pred :escape}}}
 

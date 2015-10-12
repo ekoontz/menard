@@ -493,8 +493,7 @@
                           :pred :cane}}})
 
 
-   "capire" {:italiano {:boot-stem1 "capisc"
-                        :boot-stem2 "cap"}
+   "capire" {:italiano {:boot-stem "capisc"}
              :synsem {:cat :verb
                       :sem {:pred :understand}}}
 
@@ -595,6 +594,13 @@
                              :city true}
                        :subcat {:1 {:cat :det
                                     :def :def}}}})
+      
+      "colpire" {:italiano {:boot-stem "colpisc"}
+             [{:synsem {:cat :verb
+                         :sem {:pred :hit}}}
+               {:synsem {:cat :verb
+                         :sem {:pred :strike}}}]
+    
       "cominciare"
       [{:synsem {:essere false
                           :sem {:activity true
@@ -695,12 +701,6 @@
 
       "creare"  {:synsem {:cat :verb
                           :sem {:pred :create}}}
-
-
-      "colpire" {:italiano {:boot-stem1 "colpisc"
-                            :boot-stem2 "colp"}
-                 :synsem {:sem {:pred :strike}
-                          :cat :verb}}
 
       "controllare" {:synsem {:sem {:pred :check}
                               :cat :verb}}

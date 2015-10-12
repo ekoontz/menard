@@ -480,7 +480,8 @@
                     :discrete false
                     :pred :go-downstairs
                     :subj {:animate true}}}
-    :english {:past "went downstairs"}}
+    :english {:past "went downstairs"
+              :present {:3sing "goes downstairs"}}}
    
    "go upstairs"
    {:synsem {:cat :verb
@@ -488,7 +489,8 @@
                     :discrete false
                     :pred :go-upstairs
                     :subj {:animate true}}}
-    :english {:past "went upstairs"}}
+    :english {:past "went upstairs"
+              :present {:3sing "goes downstairs"}}}
    
    "grab"  {:synsem {:cat :verb
                      :sem {:pred :prendere}}

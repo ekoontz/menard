@@ -552,7 +552,7 @@
    
    "hold"
    {:synsem {:cat :verb
-             :sem {:pred :tenere}}
+             :sem {:pred :hold}}
     :english {:past "held"}}
 
    "hope"

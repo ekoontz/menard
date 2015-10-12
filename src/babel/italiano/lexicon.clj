@@ -595,12 +595,13 @@
                        :subcat {:1 {:cat :det
                                     :def :def}}}})
       
-      "colpire" {:italiano {:boot-stem "colpisc"}
-             [{:synsem {:cat :verb
-                         :sem {:pred :hit}}}
-               {:synsem {:cat :verb
-                         :sem {:pred :strike}}}]
-    
+      "colpire" (let [common {:italiano {:boot-stem "colpisc"}}]
+                  [(merge common
+                          {:synsem {:cat :verb
+                                    :sem {:pred :hit}}})
+                   (merge common
+                          {:synsem {:cat :verb
+                                    :sem {:pred :strike}}})])
       "cominciare"
       [{:synsem {:essere false
                           :sem {:activity true
@@ -1647,11 +1648,12 @@
                       :sem {:pred :scaricare}}}
    
    "scendere" [{:synsem {:cat :verb 
-                        :essere true
-                        :sem {:pred :get-off}}
-                      {:synsem {:cat :verb
-                         :sem {:pred :go-downstairs}}}
-               :italiano {:passato "sceso"}}]
+                         :essere true
+                         :sem {:pred :get-off}}
+                :italiano {:passato "sceso"}}                
+               {:synsem {:cat :verb
+                         :sem {:pred :go-downstairs}}
+                :italiano {:passato "sceso"}}]
    
    "scrivere"  {:synsem {:cat :verb 
                          :sem {:pred :scrivere}}
@@ -1899,14 +1901,14 @@
 
    "voi"
    [{:synsem {:cat cat-of-pronoun
-             :pronoun true
-             :case :nom
-             :agr {:person :2nd
-                   :gender :fem
-                   :number :plur}
-             :sem {:human true
-                   :pred :voi}
-             :subcat '()}}
+              :pronoun true
+              :case :nom
+              :agr {:person :2nd
+                    :gender :fem
+                    :number :plur}
+              :sem {:human true
+                    :pred :voi}
+              :subcat '()}}
 
     {:synsem {:cat cat-of-pronoun
               :pronoun true
@@ -1914,9 +1916,9 @@
               :agr {:person :2nd
                     :gender :masc
                     :number :plur}
-             :sem {:human true
-                   :pred :voi}
-              :subcat '()}}]})
+              :sem {:human true
+                    :pred :voi}
+              :subcat '()}}]
             
     "volere" {:synsem {:cat :verb
                          :sem {:pred :have-to}}
@@ -1927,7 +1929,7 @@
                                      :3sing "vuole"
                                      :1plur "vogliamo"
                                      :2plur "volete"
-                                     :3plur "vogliono"}}}
+                                     :3plur "vogliono"}}}})
         
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.

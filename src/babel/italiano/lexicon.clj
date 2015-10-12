@@ -1646,6 +1646,13 @@
    "scaricare" {:synsem {:cat :verb 
                       :sem {:pred :scaricare}}}
    
+   "scendere" [{:synsem {:cat :verb 
+                        :essere true
+                        :sem {:pred :get-off}}
+                      {:synsem {:cat :verb
+                         :sem {:pred :go-downstairs}}}
+               :italiano {:passato "sceso"}}]
+   
    "scrivere"  {:synsem {:cat :verb 
                          :sem {:pred :scrivere}}
                 :italiano {:passato "scritto"}}

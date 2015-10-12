@@ -169,9 +169,10 @@
     (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
                                         FROM expression 
                                        WHERE language=? AND structure @> "
-                                     "'" json-spec "'")
+                                     "'" json-spec "' ORDER BY SURFACE ASC")
                                 [language]]
                                :results)]
+      (log/debug (str "Number of expressions that that need to be translated: " (.size results)))
       (map (fn [result]
              {:surface (:surface result)
               :structure (deserialize (read-string (:serialized result)))})

@@ -1051,6 +1051,7 @@
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}}
            :english {:past "snapped"
+                     :participle "snapping"
                      :note "pictures"}}
 
    "some"

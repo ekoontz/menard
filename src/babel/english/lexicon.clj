@@ -402,7 +402,6 @@
    "game" {:synsem {:cat :noun
                     :sem {:pred :game
                           :games true}}}
-
    "get dressed"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb
@@ -414,7 +413,17 @@
       :english {:participle "getting dressed"
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
-   
+   "get off"
+   (let [subject-semantics (ref {:human true})]
+     {:synsem {:cat :verb
+               :sem {:pred :get-off
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting off"
+                :present {:3sing "gets off"}
+                :past "got off"}})
    "get on"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb
@@ -426,7 +435,6 @@
       :english {:participle "getting on"
                 :present {:3sing "gets on"}
                 :past "got on"}})
-   
    "get ready"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb

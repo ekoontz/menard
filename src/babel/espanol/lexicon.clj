@@ -588,6 +588,7 @@
                                  :synsem {:aux false}}}
                        {:synsem {:aux false}})
 
+              ;; if verb has no :reflexive, then :reflexive is false.
               (if-then {:synsem {:cat :verb
                                  :subcat {:2 {:reflexive false}}}}
                        {:synsem {:subcat {:2 {:reflexive false}}}})

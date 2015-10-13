@@ -388,7 +388,8 @@
                   :case pronoun-acc
                   :agr {:person :1st
                         :number :sing}
-                  :sem {:pred :I}
+                  :sem {:pred :I
+                        :human true}
                   :subcat '()}}
    "mentir" {:espanol {:boot-stem "mient"}
              :synsem {:cat :verb
@@ -413,7 +414,8 @@
                    :case pronoun-acc
                    :agr {:person :1st
                          :number :plur}
-                   :sem {:pred :noi}
+                   :sem {:pred :noi
+                         :human true}
                    :subcat '()}}
    "nosotras"
    {:synsem {:cat cat-of-pronoun
@@ -520,7 +522,8 @@
                   :case pronoun-acc
                   :agr {:person :2nd
                         :number :sing}
-                  :sem {:pred :tu}
+                  :sem {:pred :tu
+                        :human true}
                   :subcat '()}}
    
    "tirar" [{:synsem {:cat :verb
@@ -536,7 +539,6 @@
                   :sem {:human true
                         :pred :tu}
                   :subcat '()}}
-   
    "ustedes"
    {:synsem {:cat cat-of-pronoun
              :pronoun true

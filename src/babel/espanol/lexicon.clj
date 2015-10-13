@@ -473,17 +473,15 @@
    
    "poder" 
    (let [shared-part-of-poder
-                   {:espanol {:boot-stem "pued"}
-                    {:pret-stem "pud"}
-                    :synsem {:cat :verb}}]
+         {:espanol {:boot-stem "pued"
+                    :pret-stem "pud"}
+          :synsem {:cat :verb}}]
      [(merge shared-part-of-poder
              {:synsem {:pred :can}})
       (merge shared-part-of-poder
              {:synsem {:pred :may}})
       (merge shared-part-of-poder
              {:synsem {:pred :be-able-to}})])
-   
-   
    
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]

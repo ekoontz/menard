@@ -474,7 +474,7 @@
    "poder" 
    (let [shared-part-of-poder
                    {:espanol {:boot-stem "pued"}
-                    {:preterito-stem "pud"}
+                    {:pret-stem "pud"}
                     :synsem {:cat :verb}}]
      [(merge shared-part-of-poder
              {:synsem {:pred :can}})

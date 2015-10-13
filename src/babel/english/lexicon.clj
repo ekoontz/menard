@@ -534,6 +534,12 @@
                 :present {:3sing "has fun"}
                 :past "had fun"}})
    
+   "have lunch" {:synsem {:cat :verb
+                            :sem {:pred :have-lunch}}
+                   :english {:present {:3sing "has lunch"}
+                             :past "had lunch"
+                             :participle "having lunch"}}
+   
    "have to" {:synsem {:cat :verb
                        :sem {:pred :have-to}}
               :english {:present {:1sing "have to"

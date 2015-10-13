@@ -274,6 +274,9 @@
    "correspond" {:synsem {:cat :verb
                           :sem {:pred :correspond}}}
 
+   "count" {:synsem {:cat :verb
+                      :sem {:pred :count}}}
+   
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
 

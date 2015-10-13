@@ -907,13 +907,15 @@
             :synsem {:cat :verb
                      :sem {:pred :giocare
                            :subj {:human true}
-                           :obj {:games true}}}}
+                           :obj {:human false
+                                 :games true}}}}
 
            {:comment "We are talking about playing music or sounds."
             :synsem {:cat :verb
                      :sem {:pred :suonare
                            :subj {:human true}
-                           :obj {:music true}}}}]
+                           :obj {:human false
+                                 :music true}}}}]
 
    "prepare" (let [subject-semantics (ref {:human true})]
                {:synsem {:cat :verb

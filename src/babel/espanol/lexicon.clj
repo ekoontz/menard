@@ -115,6 +115,10 @@
    "considerar" {:synsem {:cat :verb
                           :sem {:pred :consider}}}
    
+   "contar" {:espanol {:boot-stem "cuent"}
+             :synsem {:cat :verb
+                      :sem {:pred :count}}}
+   
    "contestar" {:synsem {:cat :verb
                          :sem {:pred :answer}}}
    

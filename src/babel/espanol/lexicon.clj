@@ -30,6 +30,10 @@
              :synsem {:cat :verb
                       :sem {:pred :warn}}}
    
+   "almorzar" {:espanol {:boot-stem "almuerz"}
+             :synsem {:cat :verb
+                      :sem {:pred :have-lunch}}}
+   
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
@@ -62,6 +66,9 @@
    
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :change}}}
+   
+   "cenar" {:synsem {:cat :verb
+                       :sem {:pred :have-dinner}}}
    
    "cerrar" {:espanol {:boot-stem "cierr"}
              :synsem {:cat :verb
@@ -463,6 +470,7 @@
    "poder" 
    (let [shared-part-of-poder
                    {:espanol {:boot-stem "pued"}
+                    {:preterito-stem "pud"}
                     :synsem {:cat :verb}}]
      [(merge shared-part-of-poder
              {:synsem {:pred :can}})
@@ -588,7 +596,6 @@
                                  :synsem {:aux false}}}
                        {:synsem {:aux false}})
 
-              ;; if verb has no :reflexive, then :reflexive is false.
               (if-then {:synsem {:cat :verb
                                  :subcat {:2 {:reflexive false}}}}
                        {:synsem {:subcat {:2 {:reflexive false}}}})

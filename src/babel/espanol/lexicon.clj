@@ -31,8 +31,8 @@
                       :sem {:pred :warn}}}
    
    "almorzar" {:espanol {:boot-stem "almuerz"}
-             :synsem {:cat :verb
-                      :sem {:pred :have-lunch}}}
+               :synsem {:cat :verb
+                        :sem {:pred :have-lunch}}}
    
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}

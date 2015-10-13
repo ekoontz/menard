@@ -459,12 +459,7 @@
    "caricare" {:italiano {:future-stem "carich"}
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
-
-   "cenare" {:synsem {:cat :verb
-                      :essere false
-                      :sem {:subj {:human true}
-                            :pred :cenare}}}
-
+                      
    "camicia"
     (unify agreement-noun
            common-noun
@@ -531,6 +526,11 @@
                              :place false
                              :speakable false}}})
 
+     "cenare" {:synsem {:cat :verb
+                      :essere false
+                      :sem {:subj {:human true}
+                            :pred :have-dinner}}}
+     
      "chiacchierare" {:synsem {:cat :verb
                                :sem {:pred :chat}}}
       

@@ -95,7 +95,7 @@
                      :sem {:pred :drink}}}
 
    "changer" {:synsem {:cat :verb
-                      :sem {:pred :cambiare}}}
+                      :sem {:pred :change}}}
    
    "chanter" {:synsem {:cat :verb
                        :sem {:pred :sing}}}

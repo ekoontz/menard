@@ -645,6 +645,9 @@
       "considerare"  {:synsem {:cat :verb
                                :sem {:pred :consider}}}
 
+      "contare" {:synsem {:sem {:pred :count}
+              :cat :verb}}
+      
       "contento"
       [(let [complement-complement-sem (ref {:human true})
              complement-sem (ref {:pred :di

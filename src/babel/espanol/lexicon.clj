@@ -127,7 +127,7 @@
    
    "convertir" {:espanol {:boot-stem "conviert"}
                 :synsem {:cat :verb
-                         :sem {:pred :convent}}}
+                         :sem {:pred :convert}}}
    
    "correr" {:synsem {:cat :verb
                       :sem {:pred :run}}}

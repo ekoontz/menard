@@ -78,21 +78,24 @@
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}
    
-   "be"
-   {:synsem {:cat :verb
-             :sem {:pred :be}}
-    :english {:present {:1sing "am"
-                        :2sing "are"
-                        :3sing "is"
-                        :1plur "are"
-                        :2plur "are"
-                        :3plur "are"}
-              :past {:1sing "was"
-                     :2sing "were"
-                     :3sing "was"
-                     :1plur "were"
-                     :2plur "were"
-                     :3plur "were"}}}
+   "be" (let [number-agr (ref :top)]
+          {:synsem {:cat :verb
+                    :subcat {:1 {:agr number-agr} ;; In "to be" sentences, agreement exists with respect to :num :
+                             :2 {:pronoun false ;; ;; don't allow strange but grammatical "I am me", "you are him", etc.
+                                 :agr number-agr}} ;; e.g. : "they are cats" but *"they are cat".
+                    :sem {:pred :be}}
+           :english {:present {:1sing "am"
+                               :2sing "are"
+                               :3sing "is"
+                               :1plur "are"
+                               :2plur "are"
+                               :3plur "are"}
+                     :past {:1sing "was"
+                            :2sing "were"
+                            :3sing "was"
+                            :1plur "were"
+                            :2plur "were"
+                            :3plur "were"}}})
    
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -262,6 +265,9 @@
    "comment" {:synsem {:cat :verb
                        :sem {:pred :comment}}}
 
+   "confess" {:synsem {:cat :verb
+                       :sem {:pred :confess}}}
+
    "consent" {:synsem {:cat :verb
                         :sem {:pred :consent}}}
    
@@ -270,6 +276,9 @@
 
    "consider" {:synsem {:cat :verb
                         :sem {:pred :consider}}}
+
+   "convert" {:synsem {:cat :verb
+                       :sem {:pred :convert}}}
 
    "correspond" {:synsem {:cat :verb
                           :sem {:pred :correspond}}}
@@ -290,6 +299,9 @@
 
    "decide" {:synsem {:cat :verb
                       :sem {:pred :decide}}}
+
+   "defend" {:synsem {:cat :verb
+                      :sem {:pred :defend}}}
 
    "desire" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
@@ -999,7 +1011,7 @@
    ;;   "search"  {:synsem {:sem {:pred :cercare}}})
 
    "scrub"  {:synsem {:cat :verb
-                     :sem {:pred :prendere}}
+                     :sem {:pred :scrub}}
             :english {:participle "scrubbing"
                       :past "scrubbed"}}
    

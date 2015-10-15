@@ -50,11 +50,12 @@
                                     true
                                     (log/error (str "Could not translate source expression: "
                                                     "'" (get source-expression :surface) "'"
-                                                    " from language: " source-language-short-name 
-                                                    " with predicate: "
+                                                    " from language: '" source-language-short-name 
+                                                    "' with predicate: '"
                                                     (strip-refs (get-in source-expression [:structure :synsem :sem :pred]))
-                                                    " into English; subj: "
-                                                    (get-in source-expression [:structure :synsem :sem :subj :pred])))
+                                                    "' into English; subj: '"
+                                                    "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
+                                                    "'"))
                                     false
                                     (throw e))))))))))
                  source-expressions))))

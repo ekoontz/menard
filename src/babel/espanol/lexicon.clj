@@ -84,7 +84,10 @@
    "comer" [{:synsem {:cat :verb
                       :subcat {:2 {:cat :noun}}
                       :sem {:pred :mangiare
-                            :obj {:edible true}}}}
+                            :obj {:edible true
+                                  ;; TODO: should not need this: lexical compilation should enforce it.
+                                  :human false
+                                  }}}}
             {:synsem {:cat :verb
                       :sem {:pred :mangiare}}}]
    

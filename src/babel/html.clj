@@ -168,7 +168,7 @@
 
 ;; must be a set, not just a vector, so that contains? works as expected.
 (def hide-these-features (set [:comp-filled
-                               :a :b
+;                               :a :b
                                :activity
                                :animate
                                :buyable
@@ -276,7 +276,6 @@
       "    </tr>"
       "  </table>"
       "</div>")
-
 
      ;; displaying a phrase structure tree (2 children)
      ;; Head-final (C H)
@@ -465,7 +464,7 @@
              "</tr>")))
         ;; sorts the argument list in _arg__ by key name and remove uninteresting key-value pairs.
         (remove #(or (contains? hide-these-features
-                                (first %))
+                                     (first %))
                      ;; TODO: all the below should go into hide-these-features.
                      (= (first %) :aliases)
                      (= (first %) :case)
@@ -496,7 +495,6 @@
                           (= @(second %) :top))
                      (and (not show-true) (= (second %) true))
                      (and (not show-top) (= (second %) :top)))
-
                 (into (sorted-map) arg))
         ))
       "  </table>"

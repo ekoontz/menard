@@ -788,13 +788,17 @@
                         :past "looked up"
                         :present {:3sing "looks up"}}}
 
+   "lose" {:english {:participle "losing"
+                     :past "lost"}
+           :synsem {:cat :verb
+                    :sem {:pred :lose}}}
+
    "love" {:synsem {:cat :verb
                     :sem {:pred :amare
                           :subj {:human true}}}}
 
    "lower" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
-
    "Luisa and I"
    [{:english {:note "♂"}
      :synsem {:cat :noun

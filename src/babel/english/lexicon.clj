@@ -303,6 +303,9 @@
    "defend" {:synsem {:cat :verb
                       :sem {:pred :defend}}}
 
+   "deny" {:synsem {:cat :verb
+                    :sem {:pred :deny}}}
+
    "desire" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
 

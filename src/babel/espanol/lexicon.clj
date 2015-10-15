@@ -177,8 +177,8 @@
                       :sem {:pred :desire}}}
    
    "divertirse"
-   (let [subject-semantics (ref {:animate true})
-                    subject-agr (ref :top)]
+   (let [subject-semantics (ref {:human true})
+         subject-agr (ref :top)]
      {:espanol {:boot-stem "diviert"}
       :synsem {:cat :verb
                :sem {:pred :have-fun

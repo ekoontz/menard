@@ -53,8 +53,9 @@
                                                     " from language: '" source-language-short-name 
                                                     "' with predicate: '"
                                                     (strip-refs (get-in source-expression [:structure :synsem :sem :pred]))
-                                                    "' into English; subj:'"
+                                                    "' into English; subj:"
                                                     "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
+                                                    "; source semantics:'" (strip-refs (get-in source-expression [:structure :synsem :sem]))
                                                     "'"))
                                     false
                                     (throw e))))))))))

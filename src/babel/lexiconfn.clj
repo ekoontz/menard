@@ -861,3 +861,23 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                      true
                      (list val)))
              vals))))
+
+(defn get-fail-path [map1 map2]
+  (if (and (map? map1)
+           (map? map2))
+    (let [keys1 (keys map1)
+          keys2 (keys map2)
+          fail-keys (mapcat (fn [key]
+                              (if (fail?
+                                   (unifyc (get-in map1 [key] :top)
+                                           (get-in map2 [key] :top)))
+                                (list key)))
+                            (set (concat keys1 keys2)))]
+      (let [first-fail-key (first fail-keys)]
+        (if (not (empty? fail-keys))
+          (cons
+           first-fail-key (get-fail-path (get-in map1 [first-fail-key])
+                                         (get-in map2 [first-fail-key])))
+          (if (not (nil? first-fail-key))
+            [first-fail-key]))))))
+

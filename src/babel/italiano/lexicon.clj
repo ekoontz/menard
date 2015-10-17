@@ -227,7 +227,7 @@
                            :sem {:pred :support}}}
 
    "apprendere"  {:synsem {:cat :verb
-                           :sem {:pred :imparare}}}
+                           :sem {:pred :learn}}}
 
    "approfittare"  {:synsem {:cat :verb
                              :sem {:pred :take-advantage-of}}}

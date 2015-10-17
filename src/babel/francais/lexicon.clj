@@ -157,6 +157,24 @@
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}
    
+   "dire"
+      (let [shared-part-of-dire
+              {:synsem {:cat :verb}
+               :français {:français "dire"
+                          :passato "dit"
+                          :future-stem "dir"
+                          :imperfect-stem "dis"
+                          :present {:1sing "dis"
+                                    :2sing "dis"
+                                    :3sing "dit"
+                                    :1plur "disons"
+                                    :2plur "dites"
+                                    :3plur "disent"}}]
+            [(merge shared-part-of-dire
+                    {:synsem {:pred :say}})
+             (merge shared-part-of-dire
+                    {:synsem {:pred :tell}})])
+   
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}
    
@@ -372,7 +390,15 @@
                               :pred :work-nonhuman}}}]
 
   "mettre" {:synsem {:cat :verb
-                     :sem {:pred :set}}}
+                     :passato "mis"
+                     :present {:1sing "mets"
+                                    :2sing "mets"
+                                    :3sing "met"
+                                    :1plur "mettons"
+                                    :2plur "mettez"
+                                    :3plur "mettent"}
+                     
+                     :sem {:pred :put}}}
   "nous"
   (let [common {:synsem {:case :nom
                          :agr {:person :1st

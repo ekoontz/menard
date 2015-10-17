@@ -102,8 +102,8 @@
         number (get-in word '(:agr :number))
         number-and-person (number-and-person number person)]
     (cond
-     (get-in word [:conditional number-and-person])
-     (get-in word [:conditional number-and-person])
+     (get-in word [:future number-and-person])
+     (get-in word [:future number-and-person])
      
      (and (= person :1st) (= number :sing) er-type)
      (str stem "erai")

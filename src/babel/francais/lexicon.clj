@@ -415,6 +415,27 @@
 ;  "profiter (de)" {:synsem {:cat :verb
 ;                            :sem {:pred :take-advantage-of}}}
 
+  "pouvoir"
+   (let [shared-part-of-pouvoir
+         {:synsem {:essere false
+                   :cat :verb}
+          :français {:futuro-stem "pourr"
+                     :drop-e true
+                     :past-participle "pu"
+                     :imperfect-stem "pouv"
+                     :present {:1sing "peux"
+                               :2sing "peux"
+                               :3sing "peut"
+                               :1plur "pouvons"
+                               :2plur "pouvez"
+                               :3plur "peuvent"}}}]
+     [(merge shared-part-of-pouvoir
+             {:synsem {:pred :can}})
+      (merge shared-part-of-pouvoir
+             {:synsem {:pred :may}})
+      (merge shared-part-of-pouvoir
+             {:synsem {:pred :be-able-to}})])
+  
   "regarder" [{:synsem {:cat :verb
                         :sem {:pred :look}}}
               {:synsem {:cat :verb

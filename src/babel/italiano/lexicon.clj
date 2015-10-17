@@ -815,6 +815,19 @@
                             :sem {:pred :paint}}
                    :italiano {:passato "dipinto"}}
 
+      "dire"
+      (let [shared-part-of-dire
+              {:synsem {:cat :verb}
+               :italiano {:italiano "dicere"
+                          :drop-e false
+                          :passato "detto"
+                          :future-stem "dir"
+                          :present {:2plur "dite"}}]
+            [(merge shared-part-of-dire
+                    {:synsem {:pred :say}})
+             (merge shared-part-of-dire
+                    {:synsem {:pred :tell}})])
+      
       "divertirsi" (let [subject-semantics (ref {:human true})
                          subject-agr (ref :top)]
                      {:synsem {:cat :verb

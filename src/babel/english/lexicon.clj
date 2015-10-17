@@ -951,6 +951,11 @@
    "print"  {:synsem {:cat :verb
                       :sem {:pred :stampare}}}
 
+   "put" {:english {:past "put"
+                    :participle "putting"}
+          :synsem {:cat :verb
+                   :sem {:pred :put}}}
+   
    "read" ;; if this was a phonetic dictionary, there would be two entries for each pronounciation (i.e. both "reed" or "red" pronounciations)
    {:english {:past "read (past)"}
     :synsem {:cat :verb

@@ -119,8 +119,8 @@
    
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}
-                :english {:participle "be missed"
-                          :future "be missed"
+                :english {:future "be missed"
+                          :participle "being missed"
                           :conditional "be missed"
                           :imperfect {:1sing "was being missed"
                                       :2sing "were being missed"

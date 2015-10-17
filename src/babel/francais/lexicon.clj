@@ -54,7 +54,8 @@
 
    ;;  CONJUGATES LIKE TENIR
    "apprendre" {:synsem {:cat :verb
-                         :sem {:pred :imparare}}}
+                         :past-participle "appris"
+                         :sem {:pred :learn}}}
    
    "assurer" [{:synsem {:cat :verb
                         :sem {:pred :assure}}}
@@ -107,6 +108,7 @@
                          :sem {:pred :comment}}}
    
    "comprendre" {:synsem {:cat :verb
+                          :past-participle "compris"
                           :sem {:pred :understand}}}
 
    "conserver" [{:synsem {:cat :verb

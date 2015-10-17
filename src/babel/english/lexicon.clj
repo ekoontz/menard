@@ -1133,10 +1133,15 @@
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
-   "take"  {:synsem {:cat :verb
-                     :sem {:pred :take}}
-            :english {:past "took"
-                      :past-participle "taken"}}
+   "take" (let [common {:synsem {:cat :verb}
+                        :english {:past "took"
+                                  :past-participle "taken"}}]
+            [{:synsem {:sem {:pred :carry}}
+              :english {:note "carry"}}
+            
+             {:synsem {:sem {:pred :grab}}
+              :english {:note "grab"}}])
+                             
 
    "take advantage of" {:english {:past "took advantage of"
                                   :participle "taking advantage of"

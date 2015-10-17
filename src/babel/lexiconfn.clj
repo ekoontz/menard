@@ -5,6 +5,7 @@
    [clojure.set :as set]
    [clojure.tools.logging :as log]
    [clojure.core :as core]
+   [clojure.string :as string]
    [babel.pos :refer :all]
    [dag-unify.core :refer :all :exclude (unify)])) ;; exclude unify because we redefine it here using unifyc (copy each arg)
 
@@ -66,12 +67,25 @@
         (merge-with concat lexicon-stage-3 exceptions)]
     lexicon))
 
+(declare get-fail-path)
+
 (defn unify [ & args]
   "like unify/unify, but unify/copy each argument before unifying."
   (do
     (log/trace (str "(lexfn)unify args: " args))
     (log/trace (str "(lexfn)unify first arg: " (first args)))
-    (apply unifyc args)))
+    (let [retval (apply unifyc args)]
+      (if (not (fail? retval))
+        retval
+        
+        (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
+                           (if (= 2 (.size args))
+                             (str "failed path: " (get-fail-path (first args)
+                                                                 (second args)))
+                             ""))]
+                           
+          (log/error message)
+          (throw (Exception. message)))))))
 
 (defn cache-serialization [entry]
   "Copying ((unify/copy)ing) lexical entries during generation or parsing is done by serializing and then deserializing. 
@@ -786,15 +800,15 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                           (not (= '() (get-in val [:synsem :subcat :2]))))
 
                      (do
-                       (list (unifyc val 
-                                     transitive) ;; Make a 2-member list. member 1 is the transitive version..
+                       (list (unify val 
+                                    transitive) ;; Make a 2-member list. member 1 is the transitive version..
 
                              ;; .. and the other member of the list being the intransitive version.
                              ;; Turn the singular, transitive form into an intransitive form by
                              ;; doing some surgery on it: (remove the object) and intransitivize it
                              (let [without-object  ;; intransitive version
-                                   (unifyc intransitive-unspecified-obj
-                                           (dissoc-paths val
+                                   (unify intransitive-unspecified-obj
+                                          (dissoc-paths val
                                                          (list [:serialized]
                                                                [:synsem :sem :obj]
                                                                [:synsem :subcat :2])))]
@@ -809,8 +823,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                      (and (= (get-in val [:synsem :cat])
                              :verb)
                           (= :none (get-in val [:synsem :subcat :2] :none)))
-                     (list (unifyc val intransitive))
-                              
+                     (list (unify val intransitive))
+                     
                      ;; else just return vals:
                      true
                      (do (if (= :verb (get-in val [:synsem :cat]))
@@ -830,12 +844,12 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                        (not (= :unspec (get-in val [:synsem :sem :obj])))
                        (not (= '() (get-in val [:synsem :subcat :2])))
                        (not (nil? (get-in val [:synsem :sem :obj] nil))))
-                  (unifyc val
-                          transitive)
+                  (unify val
+                         transitive)
                   
                   (= (get-in val [:synsem :cat]) :verb)
-                  (unifyc val
-                          verb-subjective)
+                  (unify val
+                         verb-subjective)
                   true
                   val))
           vals))))
@@ -854,12 +868,13 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
    lexicon
    (fn [k vals]
      (mapcat (fn [val]
-               (cond (not (fail? (unify val if-has)))
-                     (do
-                       (log/debug (str val ": matches: if: " if-has " then " unify-with))
-                       (list (unify val unify-with)))
+               (let [result (unifyc val if-has)]
+                 (cond (not (fail? result))
+                       (do
+                         (log/debug (str val ": matches: if: " if-has " then " unify-with))
+                         (list result))
                      true
-                     (list val)))
+                     (list val))))
              vals))))
 
 (defn get-fail-path [map1 map2]

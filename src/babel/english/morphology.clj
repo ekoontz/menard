@@ -178,7 +178,6 @@
    (= true (get-in word '(:b :hidden)))
    (get-string-1 (get-in word '(:a)))
 
-   ;; TODO: s/futuro/future/
    (and (= (get-in word '(:infl)) :conditional)
         (get-in word '(:english))
         (not (nil? (get-in word '(:agr :number))))
@@ -194,7 +193,6 @@
          stem (replace infinitive #"^to " "")]
      (str "would " stem))
 
-   ;; TODO: s/futuro/future/
    (and (= (get-in word '(:infl)) :future)
         (get-in word '(:english))
         (not (nil? (get-in word '(:agr :number))))
@@ -210,7 +208,6 @@
          stem (replace infinitive #"^to " "")]
      (str "will " stem))
 
-   ;; TODO: s/imperfetto/imperfect/
    (and (= (get-in word '(:infl)) :imperfect)
         (get-in word '(:english)))
    (let [infinitive (get-in word '(:english))

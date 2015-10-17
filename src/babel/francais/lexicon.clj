@@ -443,6 +443,10 @@
 ;  "profiter (de)" {:synsem {:cat :verb
 ;                            :sem {:pred :take-advantage-of}}}
 
+  "prendre" {:synsem {:cat :verb
+                         :past-participle "pris"
+                         :sem {:pred :grab}}}
+  
   "pouvoir"
    (let [shared-part-of-pouvoir
          {:synsem {:essere false

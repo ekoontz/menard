@@ -47,13 +47,14 @@
 
     ;; get the structure of a random expression in the target language that matches the specification _spec_.
     ;; TODO: this is wasteful - we are getting *all* possible expressions, when we only need one (random) expression.
+    ;; instead, we should use the target.surface as an input to a hash function; that is, ORDER BY
+    ;; the value of the hash function on each row.
     (let [results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                         FROM expression AS target
                                        WHERE target.language=?
                                          AND target.structure IS NOT NULL
                                          AND target.surface != ''
-                                         AND target.structure @> '" target-json-spec "'
-")
+                                         AND target.structure @> '" target-json-spec "'")
                                 [target-language]]
                                :results)]
       (if (empty? results)

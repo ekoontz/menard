@@ -1016,6 +1016,10 @@
           :synsem {:cat :verb
                    :sem {:pred :run}}}
 
+   "say" {:synsem {:cat :verb
+                    :past "said"
+                    :sem {:pred :say}}}
+   
    "scold" {:synsem {:cat :verb
                 :sem {:pred :scold}}}
 
@@ -1153,6 +1157,12 @@
    "telephone" {:synsem {:cat :verb
                          :sem {:pred :telefonare}}}
 
+   "tell" {:synsem {:cat :verb
+                    :sem {:pred :tell
+                          :subj {:human true}
+                          :obj {:human false}}}
+           :english {:past "told"}}
+   
    "the"
    {:synsem {:cat :det
              :def :def

@@ -751,7 +751,7 @@
                     :sem {:pred :kill}}}
 
    "learn" {:synsem {:cat :verb
-                     :sem {:pred :imparare}}}
+                     :sem {:pred :learn}}}
 
    "leave" {:english {:past "left"}
             :synsem {:cat :verb

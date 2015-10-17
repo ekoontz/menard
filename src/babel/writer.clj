@@ -6,7 +6,7 @@
     [clojure.data.json :as json]
     [clojure.string :as string]
     [clojure.tools.logging :as log]
-    [dag-unify.core :refer [get-in merge strip-refs serialize unify ref?]]
+    [dag-unify.core :refer [fail? get-in merge strip-refs serialize unify ref?]]
     [babel.engine :as engine]
     [babel.korma :as korma]
     [korma.core :refer [exec-raw]]))
@@ -198,13 +198,18 @@
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
-  (exec-raw [(str "INSERT INTO lexeme 
+  (if (fail? lexeme)
+    (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
+      (log/error message)
+      (throw (Exception. message)))
+    ;; else, lexeme is valid for insertion
+    (exec-raw [(str "INSERT INTO lexeme 
                                  (canonical, structure, serialized, language) 
                           VALUES (?,"
                     "'" (json/write-str (strip-refs lexeme)) "'"
                     ",?,?)")
                [canonical (str (serialize lexeme))
-                language]]))
+                language]])))
 
 (defn populate-with-language [num model spec]
   (let [spec (if spec spec :top)

@@ -1560,7 +1560,7 @@
       (merge shared-part-of-potere
              {:synsem {:pred :be-able-to}})])
                                       
-   "prendere" {:synsem {:cat :verb :sem {:pred :take}}
+   "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
 
    "prepararsi" (let [subject-semantics (ref {:human true})

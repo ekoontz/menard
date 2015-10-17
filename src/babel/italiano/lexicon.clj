@@ -4,7 +4,7 @@
    [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer :all]
-   [dag-unify.core :refer [get-in merge unifyc]]))
+   [dag-unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source
   {"Antonia"
@@ -1997,7 +1997,7 @@
                                               (= (get-in val [:synsem :aux] false)
                                                  false)
                                               (= :none (get-in val [:synsem :sem :reflexive] :none)))
-                                         (unifyc val {:synsem {:sem {:reflexive false}}})
+                                         (unify val {:synsem {:sem {:reflexive false}}})
                                          true
                                          val))
                                  vals)))

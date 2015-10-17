@@ -45,6 +45,8 @@
                         :sem {:pred :announce}}}
 
    "appeler" {:synsem {:cat :verb
+                       :boot-stem "appell"
+                       :future-stem "appell"
                        :sem {:pred :call}}}
 
    "apporter" [{:synsem {:cat :verb

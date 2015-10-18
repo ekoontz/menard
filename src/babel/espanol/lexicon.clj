@@ -600,7 +600,7 @@
 
               ;; if verb has no :aux, it's {:aux false}
               (if-then {:synsem {:cat :verb
-                                 :synsem {:aux false}}}
+                                 :aux false}}
                        {:synsem {:aux false}})
 
               (if-then {:synsem {:cat :verb

@@ -71,21 +71,18 @@
 
 (defn unify [ & args]
   "like unify/unify, but unify/copy each argument before unifying."
-  (do
-    (log/trace (str "(lexfn)unify args: " args))
-    (log/trace (str "(lexfn)unify first arg: " (first args)))
-    (let [retval (apply unifyc args)]
-      (if (not (fail? retval))
-        retval
-        
-        (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
-                           (if (= 2 (.size args))
-                             (str "; failed path: " (get-fail-path (first args)
+  (log/trace (str "(lexfn)unify args: " args))
+  (log/trace (str "(lexfn)unify first arg: " (first args)))
+  (let [retval (apply unifyc args)]
+    (if (not (fail? retval))
+      retval
+      (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
+                         (if (= 2 (.size args))
+                           (str "; failed path: " (get-fail-path (first args)
                                                                  (second args)))
-                             ""))]
-                           
-          (log/error message)
-          (throw (Exception. message)))))))
+                           ""))]
+        (do (log/error message)
+            (throw (Exception. message)))))))
 
 (defn cache-serialization [entry]
   "Copying ((unify/copy)ing) lexical entries during generation or parsing is done by serializing and then deserializing. 

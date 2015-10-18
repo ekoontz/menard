@@ -793,6 +793,10 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                           (not (nil? (get-in val
                                              [:synsem :sem :obj]
                                              nil)))
+
+                          ;; don't try to transform into intransitive if verb is reflexive.
+                          (not (= true (get-in val [:synsem :sem :reflexive])))
+
                           (not (= :intensifier (get-in val [:synsem :subcat :2 :cat])))
                           (not (= '() (get-in val [:synsem :subcat :2]))))
 

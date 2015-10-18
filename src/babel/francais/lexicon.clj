@@ -162,22 +162,22 @@
                        :sem {:pred :desire}}}
    
    "dire"
-      (let [shared-part-of-dire
-              {:synsem {:cat :verb}
-               :français {:français "dire"
-                          :passato "dit"
-                          :future-stem "dir"
-                          :imperfect-stem "dis"
-                          :present {:1sing "dis"
-                                    :2sing "dis"
-                                    :3sing "dit"
-                                    :1plur "disons"
-                                    :2plur "dites"
-                                    :3plur "disent"}}]
-            [(merge shared-part-of-dire
-                    {:synsem {:pred :say}})
-             (merge shared-part-of-dire
-                    {:synsem {:pred :tell}})])
+   (let [shared-part-of-dire
+         {:synsem {:cat :verb}
+          :français {:français "dire"
+                     :passato "dit"
+                     :future-stem "dir"
+                     :imperfect-stem "dis"
+                     :present {:1sing "dis"
+                               :2sing "dis"
+                               :3sing "dit"
+                               :1plur "disons"
+                               :2plur "dites"
+                               :3plur "disent"}}}]
+     [(merge shared-part-of-dire
+             {:synsem {:pred :say}})
+      (merge shared-part-of-dire
+             {:synsem {:pred :tell}})])
    
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}

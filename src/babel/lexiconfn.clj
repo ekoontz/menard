@@ -80,7 +80,7 @@
         
         (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
                            (if (= 2 (.size args))
-                             (str "failed path: " (get-fail-path (first args)
+                             (str "; failed path: " (get-fail-path (first args)
                                                                  (second args)))
                              ""))]
                            

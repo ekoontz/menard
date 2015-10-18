@@ -1959,6 +1959,7 @@
                          ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                          transitivize
 
+                         ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
                          ;; reflexive pronouns
                          (map-function-on-map-vals
                           (let [agreement

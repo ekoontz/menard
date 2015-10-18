@@ -536,13 +536,13 @@
 (def lexicon
   (future (-> (compile-lex lexicon-source exception-generator phonize)
 
-              ;; make an intransitive version of every verb which has an
-              ;; [:sem :obj] path.
+              ;; make an intransitive version of every verb which has a path [:sem :obj].
               intransitivize
               
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
               transitivize
 
+              ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
               ;; default: essere=false
               (map-function-on-map-vals
                (fn [k vals]

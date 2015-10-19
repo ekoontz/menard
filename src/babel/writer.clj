@@ -38,6 +38,8 @@
 
         sentence (engine/generate spec model :enrich true)
 
+        sentence (merge sentence {:spec spec})
+
         check (if (nil? sentence)
                 (throw (Exception. (str "Could not generate a sentence for spec: " spec " for language: " (:language model)
                                         " with model named: " (:name model)))))

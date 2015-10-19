@@ -492,7 +492,6 @@
                      (= (first %) :head-filled)
                      (= (first %) :initial)
                      (= (first %) :phrasal)
-                     (= (first %) :root)
                      (= (first %) :schema-symbol)
                      (= (first %) :serialized)
                      (and (not show-true)

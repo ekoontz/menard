@@ -197,6 +197,22 @@
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
    
+   "dormirse"
+   (let [subject-semantics (ref {:human true})
+         subject-agr (ref :top)]
+     {:espanol {:boot-stem "duerm"}
+      :synsem {:cat :verb
+               :sem {:pred :fall-asleep
+                     :reflexive true
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:agr subject-agr
+                            :sem subject-semantics}
+                        :2 {:agr subject-agr
+                            :pronoun true
+                            :reflexive true
+                            :sem subject-semantics}}}})
+   
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}
    

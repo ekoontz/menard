@@ -76,6 +76,21 @@
                           :animate false
                           :pred :acqua}}})
 
+   "addormentarsi" (let [subject-semantics (ref {:animate true})
+                   subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :fall-asleep
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+   
    "affolato"
    [;; comparative
     (let [is-place (ref {:place true}) ;; only places can be crowded.

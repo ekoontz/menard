@@ -564,6 +564,21 @@
      "chiacchierare" {:synsem {:cat :verb
                                :sem {:pred :chat}}}
       
+     "chiamarsi" (let [subject-semantics (ref {:animate true})
+                   subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :be-called
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+     
      "chiedere" {:synsem {:cat :verb
                           :sem {:subj {:human true}
                                 :pred :chiedere}}

@@ -250,6 +250,21 @@
    "approvare" {:synsem {:cat :verb
                          :sem {:pred :approve}}}
 
+   "arrabbiarsi" (let [subject-semantics (ref {:animate true})
+                   subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :get-angry
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+   
    "ascoltare"  {:synsem {:cat :verb
                           :sem {:pred :listen-to}}}
 

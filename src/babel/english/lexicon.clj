@@ -399,6 +399,18 @@
    "faint" {:synsem {:cat :verb
                      :sem {:pred :faint}}}
 
+   "fall asleep"
+   (let [subject-semantics (ref {:animate true})]
+     {:synsem {:cat :verb
+               :sem {:pred :fall-asleep
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "falling asleep"
+                :present {:3sing "falls asleep"}
+                :past "fell asleep"}})
+   
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 

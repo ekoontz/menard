@@ -431,6 +431,18 @@
    "game" {:synsem {:cat :noun
                     :sem {:pred :game
                           :games true}}}
+   "get angry"
+   (let [subject-semantics (ref {:human true})]
+     {:synsem {:cat :verb
+               :sem {:pred :get-angry
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting angry"
+                :present {:3sing "gets angry"}
+                :past "got angry"}})
+   
    "get dressed"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb

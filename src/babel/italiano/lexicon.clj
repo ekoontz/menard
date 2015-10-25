@@ -1073,13 +1073,25 @@
      [(merge shared-part-of-fare
              {:synsem {:pred :do}})
       (merge shared-part-of-fare
-             {:synsem {:pred :make}})]) 
-                     
-     
-     
-     
-     
-      
+             {:synsem {:pred :make}})
+      (merge shared-part-of-fare
+             (let [subject-semantics (ref {:human true})
+                  subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :hurt-oneself
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}
+                                  :3 {:cat :adverb
+                                      :sem {:pred :bad}}}}}))])
+          
       "finire"  {:italiano {:boot-stem1 "finisc"
                             :boot-stem2 "fin"}
                  :synsem {:cat :verb
@@ -1441,6 +1453,9 @@
           {:synsem {:sem {:human true
                           :pred :madre
                           :child false}}})
+
+    "male" {:synsem {:cat :adverb
+                     :sem {:pred :bad}}}
 
    "mancare"  {:italiano {:future-stem "mancher"}
                :synsem {:cat :verb

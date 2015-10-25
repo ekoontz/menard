@@ -343,7 +343,7 @@
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
                    (unifyc c21
-                           root-is-head
+                           root-is-head-root
                            {:head {:phrasal true
                                    :subcat {:1 :top
                                             :2 :top}}

@@ -215,7 +215,6 @@
    
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}
-   
    "el"
    (unify determiner
           {:synsem {:cat :det
@@ -243,7 +242,6 @@
                          :gender :masc
                          :pred :lui}
                    :subcat '()}}]
-   
    "ella"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -251,11 +249,9 @@
              :agr {:person :3rd
                    :gender :fem
                    :number :sing}
-             :sem {:human true
-                   :gender :fem
+             :sem {:gender :fem
                    :pred :lei}
              :subcat '()}}
-   
    "ellos"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -263,11 +259,9 @@
              :agr {:person :3rd
                    :gender :masc
                    :number :plur}
-             :sem {:human true
-                   :gender :masc
+             :sem {:gender :masc
                    :pred :loro}
              :subcat '()}}
-   
    "ellas"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -275,8 +269,7 @@
              :agr {:person :3rd
                    :gender :fem
                    :number :plur}
-             :sem {:human true
-                   :gender :fem
+             :sem {:gender :fem
                    :pred :loro}
              :subcat '()}}
            
@@ -287,7 +280,6 @@
    "encender" {:espanol {:boot-stem "enciend"}
              :synsem {:cat :verb
                       :sem {:pred :light}}}
-   
    "enojarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]

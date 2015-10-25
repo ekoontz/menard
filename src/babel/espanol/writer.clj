@@ -3,6 +3,7 @@
 
 (require '[babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)])
 (require '[babel.forest :as forest])
+(require '[babel.engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol.grammar :refer [small]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
@@ -20,11 +21,12 @@
 ;; for debugging:
 (require '[babel.espanol.morphology.verbs :as verbs])
 
-(defn expression [spec]
-  (writer/expression small spec))
+(defn expression [& [spec]]
+  (let [spec (if spec spec :top)]
+    (writer/expression small spec)))
 
-(defn fo [spec]
-  (morph/fo spec))
+(defn fo [expression]
+  (morph/fo expression))
 
 (defn todos [ & [count]]
   (let [count (if count (Integer. count) 10)
@@ -110,6 +112,3 @@
                                                        :tense :past}}}
                                        )))))
                  root-verb-array))))
-
-
-

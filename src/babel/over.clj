@@ -224,6 +224,7 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
+  ;; disabled for now.
   (throw (Exception. (str "GOT INTO OVERC.")))
   
   (log/debug (str "set? parent:" (set? parent)))
@@ -267,7 +268,7 @@
      (if (not is-fail?)
        (list result)))))
 
-(defn overhc [parent head comp morph]
+(defn overhc [parent head comp & [morph]]
   (overc (overh parent head morph) comp))
 
 ;; TODO: distinguish between when:

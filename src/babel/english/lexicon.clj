@@ -692,6 +692,15 @@
              (merge common
                     {:synsem {:sem {:pred :hurt
                                     :obj {:animate true}}}})])
+   "Juan" {:synsem {:cat :noun
+                    :pronoun false
+                    :propernoun true
+                    :case :nom
+                    :agr {:gender :masc
+                          :number :sing}
+                    :sem {:human true
+                          :pred :Juan}
+                    :subcat '()}}
     "Juan and I"
       [{:synsem {:cat :noun
                  :pronoun true

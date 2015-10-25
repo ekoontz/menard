@@ -399,6 +399,16 @@
          :synsem {:cat :verb
                   :sem {:subj {:animate true}
                         :pred :go}}}
+
+   "Juan" {:synsem {:cat :noun
+                    :pronoun false
+                    :propernoun true
+                    :case :nom
+                    :agr {:gender :masc
+                          :number :sing}
+                    :sem {:human true
+                          :pred :Juan}
+                    :subcat '()}}
     "Juan y yo"
       [{:synsem {:cat :noun
                  :pronoun true

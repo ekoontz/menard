@@ -678,6 +678,25 @@
     :english {:past "hugged"
               :participle "hugging"}}
             
+    "hurt" (let [subject-semantics (ref {:human true})]
+               :english {:past "hurt"}
+               {:synsem {:cat :verb
+                         :sem {:pred :hurt-oneself
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:sem subject-semantics}
+                                  :2 {:pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
+    
+    
+    "hurt"
+   {:synsem {:cat :verb
+             :sem {:pred :hurt
+                   :subj {:human true}
+                   :obj {:animate true}}}
+    :english {:past "hurt"}}
+    
     "Juan and I"
       [{:synsem {:cat :noun
                  :pronoun true

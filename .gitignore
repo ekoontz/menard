@@ -13,4 +13,4 @@ dbs.txt
 .[#]*
 stage*
 all.out
-
+*.log

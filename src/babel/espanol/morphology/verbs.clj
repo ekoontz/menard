@@ -468,9 +468,9 @@
         (= :plur (get-in word [:agr :number]))
         (get-in word [:preterito :3plur]))
    (get-in word [:preterito :3plur])
-   true (regular-preterito word {usted :usted
-                                 vosotros :vosotros
-                                 ustedes :ustedes})))
+   true (regular-preterito word {:usted usted
+                                 :vosotros vosotros
+                                 :ustedes ustedes})))
    
 (defn regular-preterito [word {usted :usted
                                vosotros :vosotros

@@ -997,7 +997,7 @@
                                    :agr {:gender gender
                                          :number number}}}}}))
 
-           (unify essere-common {:synsem {:sem {:pred :be}}})
+         (unify essere-common {:synsem {:sem {:pred :be}}})
 
            ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
            (let [gender (ref :top)

@@ -326,11 +326,31 @@
                                      :infl :present
                                      :sem {:tense :present}
                                      :cat :verb}})
+                   (unifyc h32
+                           root-is-head
+                           {:rule "vp-32"
+                            :head {:phrasal false}
+                            :synsem {:aux false
+                                     :infl {:not :past}
+                                     :cat :verb}})
                    (unifyc c21
-                           {:comp {:phrasal false
+                           root-is-head
+                           {:head {:phrasal false}
+                            :comp {:phrasal false
                                    :synsem {:cat :noun
                                             :pronoun true}}
-                            :rule "vp-pronoun"
+                            :rule "vp-pronoun-nonphrasal"
+                            :synsem {:cat :verb
+                                     :infl {:not :past}}})
+                   (unifyc c21
+                           root-is-head
+                           {:head {:phrasal true
+                                   :subcat {:1 :top
+                                            :2 :top}}
+                            :comp {:phrasal false
+                                   :synsem {:cat :noun
+                                            :pronoun true}}
+                            :rule "vp-pronoun-phrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
                    (unifyc h10
@@ -377,7 +397,9 @@
                        (= (:rule %) "s-preterito-nonphrasal")
                        (= (:rule %) "s-preterito-phrasal")
                        (= (:rule %) "s-aux")
-                       (= (:rule %) "vp-pronoun")
+                       (= (:rule %) "vp-pronoun-nonphrasal")
+                       (= (:rule %) "vp-pronoun-phrasal")
+                       (= (:rule %) "vp-32")
                        (= (:rule %) "vp-aux"))
                   grammar)
           lexicon
@@ -394,6 +416,12 @@
        :language "es"
        :language-keyword :espanol
        :enrich enrich
+
+       ;; Will throw exception if more than 1 rule has the same :rule value:
+       :grammar-map (zipmap
+                     (map :rule grammar)
+                     grammar)
+                     
        :grammar grammar
        :lexicon lexicon
        :morph fo

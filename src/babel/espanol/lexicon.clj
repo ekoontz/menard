@@ -682,6 +682,10 @@
               (if-then {:synsem {:cat :verb
                                  :subcat {:2 {:reflexive false}}}}
                        {:synsem {:subcat {:2 {:reflexive false}}}})
+
+              (if-then {:synsem {:cat :verb
+                                 :subcat {:3 '()}}}
+                       {:synsem {:subcat {:3 '()}}})
               
               ;; Cleanup functions can go here. Number them for ease of reading.
               ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 

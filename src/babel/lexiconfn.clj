@@ -740,14 +740,21 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 
         true
         (do
-          (log/trace (str "transform: input :" lexical-entry))
-          (log/trace (str "transforming lexical entry: " lexical-entry))
-          (let [result (reduce #(if (or (fail? %1) (fail? %2))
-                                  (do
-                                    (if (fail? %1) (log/warn (str "fail at %1:" %1 " in lexical-entry: " (strip-refs lexical-entry))))
-                                    (if (fail? %2) (log/warn (str "fail at %2:" %2 " in lexical-entry: " (strip-refs lexical-entry))))
-                                    :fail)
-                                  (unifyc %1 %2))
+          (log/debug (str "transforming lexical entry: " lexical-entry))
+          (let [result (reduce #(if (fail? %1)
+                                  (let [message (str "lexical entry fail; entry:" (strip-refs %1) ";")]
+                                    (log/error message)
+                                    (throw (Exception. message)))
+                                      
+                                  (let [result (unifyc %1 %2)]
+                                    (if (fail? result)
+                                      (let [fail-path (get-fail-path %1 %2)
+                                            message (str "lexical entry reduce fail:(fail-path=" fail-path "): "
+                                                         {:f1 (strip-refs (get-in %1 fail-path))
+                                                          :f2 (strip-refs (get-in %2 fail-path))})]
+                                        (log/error message)
+                                        (throw (Exception. message)))
+                                      result)))
                                (map
                                 (fn [rule]
                                   ;; check for return value of (apply rule (list lexical-entry)):

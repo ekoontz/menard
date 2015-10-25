@@ -2,17 +2,19 @@
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
    [babel.engine :refer [generate]]
+   [babel.enrich :refer [against-pred]]
    [babel.english.grammar :as en]
+   [babel.espanol.grammar :as esg]
    [babel.espanol.writer :as es]
-   [babel.francais.grammar :as fr]
-   [babel.italiano.grammar :as it]
-   [babel.over :refer [over]]
+;   [babel.francais.grammar :as fr]
+;   [babel.italiano.grammar :as it]
+   [babel.over :refer [over overh overhc]]
    [babel.html :as html]
    [babel.korma :as korma]
    [babel.parse :as parse]
    [babel.pos :as pos]
    [babel.reader :as reader]
-   [babel.test.fr :as frtest]
+;   [babel.test.fr :as frtest]
    [clojail.core :refer [sandbox]]
    [clojail.testers :refer :all]
    [clojure.core :exclude [get-in]]
@@ -30,8 +32,10 @@
 (defn parse [string]
   (concat
    (en/parse string)
-   (fr/parse string)
-   (it/parse string)))
+;   (es/parse string)
+;   (fr/parse string)
+;   (it/parse string)))
+   ))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))
@@ -87,7 +91,8 @@
             (string/join " "
                          (let [loaded
                                (try
-                                 (workbook-sandbox (read-string expr))
+                                 (binding [*read-eval* true]
+                                   (workbook-sandbox (binding [*read-eval* true] (read-string expr))))
                                  ;; TODO: how can I show the stack trace for the
                                  ;; attempt to process the expression?
                                  (catch Exception e
@@ -199,11 +204,16 @@
 ;;                                @fr/small)
 (def foo
   (do
-    (generate {:synsem {:subcat '()
-                      :infl :imperfect
-                        :sem {:pred :be
-                              :subj {:pred :I}}}}
-              @fr/small)
+
+    (try
+      (generate {:synsem {:sem {:pred :be-called}}} @esg/small :add-subcat false)
+      (catch Exception e
+        (log/warn (str "ignoring exception while trying to generate: e=" e))))
+;    (generate {:synsem {:subcat '()
+;                      :infl :imperfect
+;                        :sem {:pred :be
+;                              :subj {:pred :I}}}}
+;              @fr/small)
 
     ;; the below is needed to avoid:
     ;;INFO  56:12,470 com.mchange.v2.c3p0.C3P0Registry:

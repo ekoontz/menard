@@ -76,10 +76,17 @@
   (let [retval (apply unifyc args)]
     (if (not (fail? retval))
       retval
-      (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
+      (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs (get-in args [:synsem])))
                          (if (= 2 (.size args))
-                           (str "; failed path: " (get-fail-path (first args)
-                                                                 (second args)))
+                           (let [fail-path (get-fail-path (first args) (second args))]
+                             (str "; failed path: " fail-path
+                                  "; arg1(" fail-path ")=" (get-in (first args) fail-path)
+                                  "; arg2(" fail-path ")=" (get-in (second args) fail-path)
+                                  "; arg1 empty(" fail-path ")=" (if (seq? (get-in (first args) fail-path))
+                                                                   (empty? (get-in (first args) fail-path)))
+                                  "; arg1 empty(" fail-path ")=" (if (seq? (get-in (second args) fail-path))
+                                                                   (empty? (get-in (second args) fail-path)))))
+
                            ""))]
         (do (log/error message)
             (throw (Exception. message)))))))
@@ -460,7 +467,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
               ;; (e.g. a mixture of strings and keywords rather than
               ;;  purely one or the other)
               ;; your keys or values 
-              (do (log/debug (str "sorting array: " m))
+              (do (log/trace (str "sorting array: " m))
                   (sort m))]
           ;; for each <k,v> pair, return a <k,v'>, where v' = f(v).
           [k (f k v)])))
@@ -797,7 +804,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                           ;; don't try to transform into intransitive if verb is reflexive.
                           (not (= true (get-in val [:synsem :sem :reflexive])))
 
+                          (not (= :adjective (get-in val [:synsem :subcat :2 :cat])))
                           (not (= :intensifier (get-in val [:synsem :subcat :2 :cat])))
+
                           (not (= '() (get-in val [:synsem :subcat :2]))))
 
                      (do
@@ -829,7 +838,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                      ;; else just return vals:
                      true
                      (do (if (= :verb (get-in val [:synsem :cat]))
-                           (log/debug (str "no modifications apply for val: " val " ; cat: " 
+                           (log/trace (str "no modifications apply for val: " val " ; cat: " 
                                           (get-in val [:synsem :cat]) "; subcat: "
                                           (get-in val [:synsem :subcat]))))
                          (list val))))
@@ -844,6 +853,10 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                           :verb)
                        (not (= :unspec (get-in val [:synsem :sem :obj])))
                        (not (= '() (get-in val [:synsem :subcat :2])))
+
+                       (not (= :adjective (get-in val [:synsem :subcat :2 :cat])))
+                       (not (= :intensifier (get-in val [:synsem :subcat :2 :cat])))
+                       
                        (not (nil? (get-in val [:synsem :sem :obj] nil))))
                   (unify val
                          transitive)

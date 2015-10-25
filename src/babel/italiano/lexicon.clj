@@ -859,14 +859,14 @@
       "dipingere" {:synsem {:cat :verb
                             :sem {:pred :paint}}
                    :italiano {:passato "dipinto"}}
-
-      "dire" (let [shared-part-of-dire
-                   {:synsem {:cat :verb}
-                    :italiano {:italiano "dicere"
-                               :drop-e false
-                               :passato "detto"
-                               :future-stem "dir"
-                               :present {:2plur "dite"}}}]
+   
+   "dire" (let [shared-part-of-dire
+                {:synsem {:cat :verb}
+                 :italiano {:infinitive "dicere"
+                            :drop-e false
+                            :passato "detto"
+                            :future-stem "dir"
+                            :present {:2plur "dite"}}}]
                [(merge shared-part-of-dire
                        {:synsem {:pred :say}})
                 (merge shared-part-of-dire

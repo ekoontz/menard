@@ -445,22 +445,27 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
-   
    "llamarse"
    (let [subject-semantics (ref {:human true})
+         called-semantics (ref :top)
          subject-agr (ref :top)]
      {:synsem {:cat :verb
                :sem {:pred :be-called
                      :reflexive true
                      :subj subject-semantics
-                     :obj subject-semantics}
+                     :obj called-semantics}
                :subcat {:1 {:agr subject-agr
+                            :propernoun false ;; avoid things like 'Juan se llamó Juan'
                             :sem subject-semantics}
                         :2 {:agr subject-agr
                             :pronoun true
                             :reflexive true
-                            :sem subject-semantics}}}})
-   
+                            :sem subject-semantics}
+                        :3 {:agr subject-agr
+                            :cat :noun
+                            :subcat '()
+                            :propernoun true}}}})
+
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

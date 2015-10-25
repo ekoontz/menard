@@ -304,7 +304,7 @@
              {:synsem {:pred :do}})
       (merge shared-part-of-faire
              {:synsem {:pred :make}})
-      (merge shared-part-of-farie
+      (merge shared-part-of-faire
              (let [subject-semantics (ref {:human true})
                   subject-agr (ref :top)]
                {:synsem {:cat :verb

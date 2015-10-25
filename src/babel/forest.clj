@@ -96,7 +96,11 @@ of this function with complements."
                                                                                                                    "NULL MORPH"))))
                                     candidate-lexemes))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
-                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": (size=" (if result (.size result) "0") ")" (string/join "," (map strip-refs result))))
+                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": (size=" (if result (.size result) "0") ")"
+                                          (string/join ","
+                                                       (map #(if morph (morph %1)
+                                                                 "(string)")
+                                                            result))))
                           result)))
                     candidate-parents)
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
@@ -161,8 +165,7 @@ of this function with complements."
         (let [shuffled-candidate-lexical-complements (lazy-shuffle complement-candidate-lexemes)
               return-val
               (filter (fn [result]
-                        (or true
-                        (not (fail? result))))
+                        (not (fail? result)))
                       (map (fn [complement]
                              (let [debug (log/debug (str "Trying complement:" (morph complement)))
                                    result
@@ -172,7 +175,7 @@ of this function with complements."
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do
-                                   (log/debug (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
+                                   (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
                                                                                            (strip-refs complement))))))
                                (if is-fail? :fail result)))
                      
@@ -188,17 +191,18 @@ of this function with complements."
               (do
                 (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
                                (morph from-bolt) "(rule: " (:rule from-bolt) ")"
+                               "; head rule:" (:rule (get-in from-bolt [:head]))
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
-                ;; TODO: show warn about not finding ny phrasal complements, as well as not finding any lexical complements.
+                ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
                 (log/debug (str " fail-paths:"))
                 (vec (map (fn [lexeme]
                             (log/debug (str " path in bolt: " path))
                             (log/debug (str " value of bolt at path: " (get-in bolt path)))
                             (log/debug (str " value of gender at path: " (get-in bolt (concat path [:synsem :agr :gender])))))
                           complement-candidate-lexemes))))
-                                                               
-            return-val)))
+            (do (log/debug (str "add-complement after adding complement: " (morph return-val)))
+                return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
       (do

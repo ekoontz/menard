@@ -1058,44 +1058,43 @@
       
       "fare"
       (let [shared-part-of-fare
-              {:synsem {:cat :verb}
-               :italiano {:italiano "fare"
-                          :drop-e false
-                          :passato "fatto"
-                          :future-stem "far"
-                          :present {:1sing "faccio"
-                                    :2sing "fai"
-                                    :3sing "fa"
+            {:synsem {:cat :verb}
+             :italiano {:italiano "fare"
+                        :drop-e false
+                        :passato "fatto"
+                        :future-stem "far"
+                        :present {:1sing "faccio"
+                                  :2sing "fai"
+                                  :3sing "fa"
                                     :1plur "facciamo"
-                                    :2plur "fate"
-                                    :3plur "fanno"}}}]
-    
-     [(merge shared-part-of-fare
-             {:synsem {:pred :do}})
-      (merge shared-part-of-fare
-             {:synsem {:pred :make}})
-      (merge shared-part-of-fare
-             (let [subject-semantics (ref {:human true})
-                  subject-agr (ref :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :hurt-oneself
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
+                                  :2plur "fate"
+                                  :3plur "fanno"}}}]
+        [(merge shared-part-of-fare
+                {:synsem {:pred :do}})
+         (merge shared-part-of-fare
+                {:synsem {:pred :make}})
+         (merge shared-part-of-fare
+                (let [subject-semantics (ref {:human true})
+                      subject-agr (ref :top)]
+                  {:synsem {:cat :verb
+                            :essere true
+                            :sem {:pred :hurt-oneself
+                                  :reflexive true
+                                  :subj subject-semantics
+                                  :obj subject-semantics}
+                            :subcat {:1 {:agr subject-agr
+                                         :sem subject-semantics}
+                                     :2 {:agr subject-agr
+                                         :pronoun true
                                       :reflexive true
-                                      :sem subject-semantics}
-                                  :3 {:cat :adverb
-                                      :sem {:pred :bad}}}}}))])
-          
-      "finire"  {:italiano {:boot-stem1 "finisc"
-                            :boot-stem2 "fin"}
-                 :synsem {:cat :verb
-                          :sem {:pred :finish}}}
+                                         :sem subject-semantics}
+                                     :3 {:cat :adverb
+                                         :sem {:pred :bad}}}}}))])
+   
+   "finire"  {:italiano {:boot-stem1 "finisc"
+                         :boot-stem2 "fin"}
+              :synsem {:cat :verb
+                       :sem {:pred :finish}}}
       
       "formare"  {:synsem {:cat :verb
                            :sem {:pred :form}}}

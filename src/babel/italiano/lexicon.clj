@@ -584,21 +584,21 @@
                                 :pred :chiedere}}
                  :italiano {:passato "chiesto"}}
 
-"chiudere" {:synsem {:cat :verb
-                          :sem {:subj {:human true}
-                                :pred :close}}
-                 :italiano {:passato "chiuso"}}
+   "chiudere" {:synsem {:cat :verb
+                        :sem {:subj {:human true}
+                              :pred :close}}
+               :italiano {:passato "chiuso"}}
 
-     "chiunque"
-     {:synsem {:cat :fail ; :noun ;; disabling until more constraints are put on usage of it (TODO).
-               :pronoun true
-               :case :nom
-               :agr {:person :3rd
-                     :number :sing}
-               :sem {:human true
-                      :pred :chiunque
-                     :elective-existential true}
-               :subcat '()}}
+;     "chiunque"
+;     {:synsem {:cat :fail ; :noun ;; disabling until more constraints are put on usage of it (TODO).
+;               :pronoun true
+;               :case :nom
+;               :agr {:person :3rd
+;                     :number :sing}
+;               :sem {:human true
+;                      :pred :chiunque
+;                     :elective-existential true}
+;               :subcat '()}}
 
       "ci"
       {:synsem {:cat :noun

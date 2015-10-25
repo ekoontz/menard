@@ -303,7 +303,24 @@
      [(merge shared-part-of-faire
              {:synsem {:pred :do}})
       (merge shared-part-of-faire
-             {:synsem {:pred :make}})])
+             {:synsem {:pred :make}})
+      (merge shared-part-of-farie
+             (let [subject-semantics (ref {:human true})
+                  subject-agr (ref :top)]
+               {:synsem {:cat :verb
+                         :essere true
+                         :sem {:pred :hurt-oneself
+                               :reflexive true
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}
+                                  :3 {:cat :adverb
+                                      :sem {:pred :bad}}}}}))])
    
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
@@ -380,6 +397,9 @@
   "laisser" {:synsem {:cat :verb
                       :sem {:pred :leave-behind}}}
 
+  "male" {:synsem {:cat :adverb
+                     :sem {:pred :bad}}}
+  
   "manger"
   {:synsem {:cat :verb
             :sem {:pred :mangiare}}}

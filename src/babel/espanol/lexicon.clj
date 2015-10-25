@@ -419,8 +419,7 @@
    "lastimarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
-     {:espanol 
-      :synsem {:cat :verb
+     {:synsem {:cat :verb
                :sem {:pred :hurt-oneself
                      :reflexive true
                      :subj subject-semantics
@@ -435,8 +434,7 @@
    "levantarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
-     {:espanol 
-      :synsem {:cat :verb
+     {:synsem {:cat :verb
                :sem {:pred :get-up
                      :reflexive true
                      :subj subject-semantics
@@ -451,8 +449,7 @@
    "llamarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
-     {:espanol 
-      :synsem {:cat :verb
+     {:synsem {:cat :verb
                :sem {:pred :be-called
                      :reflexive true
                      :subj subject-semantics

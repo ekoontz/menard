@@ -1996,15 +1996,15 @@
               :subcat '()}}]
             
     "volere" {:synsem {:cat :verb
-                         :sem {:pred :have-to}}
-                :italiano {:future-stem "vorr"
-                           :drop-e true
-                           :present {:1sing "voglio"
-                                     :2sing "vuoi"
-                                     :3sing "vuole"
-                                     :1plur "vogliamo"
-                                     :2plur "volete"
-                                     :3plur "vogliono"}}}})
+                       :sem {:pred :have-to}}
+              :italiano {:future-stem "vorr"
+                         :drop-e true
+                         :present {:1sing "voglio"
+                                   :2sing "vuoi"
+                                   :3sing "vuole"
+                                   :1plur "vogliamo"
+                                   :2plur "volete"
+                                   :3plur "vogliono"}}}})
         
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.

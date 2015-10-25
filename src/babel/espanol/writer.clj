@@ -84,17 +84,35 @@
                                                                      (catch Exception e
                                                                        (cond
                                                                         
-                                                                        ;; TODO: make this conditional on
-                                                                        ;; there being a legitimate reason for the exception -
-                                                                        ;; e.g. the verb is "funzionare" (which takes a non-human
-                                                                        ;; subject), but we're trying to generate with
-                                                                        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                                        ;; are human.
-                                                                        false
-                                                                        
-                                                                        (log/warn (str "ignoring exception: " e))
-                                                                        true
-                                                                       (throw e))))
+                                                                         ;;conditional on
+                                                                         ;; there being a legitimate reason for the exception -
+
+                                                                         ;; The verb is "funzionare" (which takes a non-human
+                                                                         ;; subject), but we're trying to generate with
+                                                                         ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                                         ;; are human.
+                                                                         (and
+                                                                          (= (get-in spec [:root :espanol :espanol])
+                                                                             "funcionar")
+                                                                          (or (= (get-in spec [:comp :synsem :agr :person])
+                                                                                 :1st)
+                                                                              (= (get-in spec [:comp :synsem :agr :person])
+                                                                                 :2nd)))
+                                                                         (log/warn (str "ignoring exception(1): " e))
+
+                                                                         (and
+                                                                          (= (get-in spec [:root :espanol :espanol])
+                                                                             "llamarse")
+                                                                          (get-in spec [:comp :synsem :arg :number]
+                                                                                  :plur))
+                                                                         (log/warn (str "ignoring exception(2): " e))
+
+                                                                         true
+                                                                         (do
+                                                                           (log/error (str "Going to throw exception since we "
+                                                                                           "couldn't generate any expression for spec:"
+                                                                                           spec))
+                                                                           (throw e)))))
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))

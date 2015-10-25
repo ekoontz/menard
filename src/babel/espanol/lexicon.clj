@@ -417,6 +417,22 @@
                     :gender :fem
                     :number :sing}})
    
+   "lastimarse"
+   (let [subject-semantics (ref {:human true})
+         subject-agr (ref :top)]
+     {:espanol 
+      :synsem {:cat :verb
+               :sem {:pred :hurt-oneself
+                     :reflexive true
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:agr subject-agr
+                            :sem subject-semantics}
+                        :2 {:agr subject-agr
+                            :pronoun true
+                            :reflexive true
+                            :sem subject-semantics}}}})
+   
    "levantarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]

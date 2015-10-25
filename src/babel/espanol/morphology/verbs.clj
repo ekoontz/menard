@@ -9,6 +9,8 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
+(def suppress-morph-exceptions false)
+
 (defn reflexive-to-infinitive [reflexive-infinitive]
   "e.g.: quedarse -> quedar"
   (string/replace reflexive-infinitive #"se$" ""))
@@ -214,8 +216,11 @@
      (get-in word [:espanol])
      
      :else
-     (throw (Exception. (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
-
+     (let [message (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if suppress-morph-exceptions
+         (do (log/warn message)
+             "??")
+         (throw (Exception. message)))))))
 
 (defn imperfect [word & [ {usted :usted
                            vosotros :vosotros
@@ -319,7 +324,12 @@
                            :er-type er-type
                            :vosotros vosotros
                            :ustedes ustedes}})]
-       (throw (Exception. (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word))))))))
+
+       (let [message (str "get-string-1: imperfect regular inflection: don't know what to do with input argument: " (strip-refs word))]
+         (if suppress-morph-exceptions
+           (do (log/warn message)
+               "??")
+           (throw (Exception. message))))))))
 
 (defn present [word & [ {usted :usted
                          vosotros :vosotros
@@ -420,7 +430,11 @@
      (get-in word [:espanol])
 
      :else
-     (throw (Exception. (str "get-string-1: present regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (let [message (str "get-string-1: present regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if suppress-morph-exceptions
+         (do (log/warn message)
+             "??")
+         (throw (Exception. message)))))))
 
 (declare irregular-preterito)
 (declare regular-preterito)
@@ -583,5 +597,8 @@
      (get-in word [:espanol])
      
      :else
-     (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
-
+     (let [message (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if suppress-morph-exceptions
+         (do (log/warn message)
+             "??")
+         (throw (Exception. message)))))))

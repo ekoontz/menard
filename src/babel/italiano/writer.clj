@@ -48,11 +48,11 @@
                    (log/trace (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
                      (log/info (str "generating with verb: '" root-form "'"))
-                     (.size (map (fn [tense]
+                     (.size (pmap (fn [tense]
                                    (let [spec (unify {:root {:italiano {:italiano root-form}}}
                                                      tense)]
                                      (.size
-                                      (map (fn [gender]
+                                      (pmap (fn [gender]
                                              (let [spec (unify spec
                                                                {:comp {:synsem {:agr gender}}})]
                                                (log/trace (str "generating from gender: " gender))

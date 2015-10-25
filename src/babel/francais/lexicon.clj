@@ -496,6 +496,23 @@
 ;                                       :reflexive true
 ;                                       :sem subject-semantics}}}})
   
+  "s'appeler" (let [subject-semantics (ref {:human true})
+                    subject-agr (ref :top)]
+                {:synsem {:cat :verb
+                          :essere true
+                          :français {:futuro-stem "appell"
+                                     :boot-stem "appell"}
+                          :sem {:pred :be-called
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
+  
   "s'endormir" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb

@@ -433,6 +433,22 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    
+   "llamarse"
+   (let [subject-semantics (ref {:human true})
+         subject-agr (ref :top)]
+     {:espanol 
+      :synsem {:cat :verb
+               :sem {:pred :be-called
+                     :reflexive true
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:agr subject-agr
+                            :sem subject-semantics}
+                        :2 {:agr subject-agr
+                            :pronoun true
+                            :reflexive true
+                            :sem subject-semantics}}}})
+   
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

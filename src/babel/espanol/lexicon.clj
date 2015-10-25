@@ -291,8 +291,7 @@
    "enojarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
-     {:espanol 
-      :synsem {:cat :verb
+     {:synsem {:cat :verb
                :sem {:pred :get-angry
                      :reflexive true
                      :subj subject-semantics

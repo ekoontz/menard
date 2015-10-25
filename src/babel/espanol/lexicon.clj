@@ -41,7 +41,7 @@
                       :sem {:pred :support}}}
 
    "aprender" {:synsem {:cat :verb
-                        :sem {:pred :imparare}}}
+                        :sem {:pred :learn}}}
    
    "aprovechar" [
                  {:synsem {:cat :verb

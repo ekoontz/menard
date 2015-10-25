@@ -1171,7 +1171,7 @@
                         :number :sing}})
 
       "imparare"  {:synsem {:cat :verb
-                            :sem {:pred :imparare}}}
+                            :sem {:pred :learn}}}
 
       "impegnare" {:synsem {:cat :verb
                             :sem {:pred :engage}}}

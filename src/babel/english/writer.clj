@@ -39,7 +39,7 @@
                                        (process [{:fill-one-language
                                                   {:count 1
                                                    :spec spec
-                                                   :model small-plus-vp-pronoun
+                                                   :model small-plus-plus-np
                                                    }}]
                                                 source-language-short-name)]
                                    ;; TODO: 'result' is currently returning nil: should return something more indicative

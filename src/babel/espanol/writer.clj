@@ -114,7 +114,7 @@
 
                                                                          true
                                                                          (do
-                                                                           (log/error (str "Going to throw exception since we "
+                                                                           (log/error (str "Stopping further generation: unexpectedly "
                                                                                            "couldn't generate any expression for spec:"
                                                                                            spec))
                                                                            (throw e)))))

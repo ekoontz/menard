@@ -450,8 +450,8 @@
                             :sem subject-semantics}}}})
    "llamarse"
    (let [subject-semantics (ref {:human true})
-         called-semantics (ref {:propernoun true})
-         subject-gender (ref {:propernoun false}) ;; avoid things like 'Juan se llamó Juan'
+         called-semantics (ref :top)
+         subject-gender (ref :top)
          subject-person (ref :top)
          subject-number (ref :top)]
      {:synsem {:cat :verb
@@ -471,9 +471,9 @@
                             :sem subject-semantics}
                         :3 {:agr {:number subject-number
                                   :gender subject-gender}
+                            :pronoun false
                             :cat :noun
-                            :subcat '()
-                            :sem {:propernoun true}}}}})
+                            :subcat '()}}}})
 
    "me" {:synsem {:cat :noun
                   :pronoun true

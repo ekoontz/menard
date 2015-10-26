@@ -407,7 +407,7 @@
                 (for [[k v] @lexicon]
                   (let [filtered-v
                         (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :sem :propernoun]) true)
                                      (= (get-in % [:synsem :pronoun]) true))
                                 v)]
                     (if (not (empty? filtered-v))

@@ -402,16 +402,16 @@
                     :sem {:human true
                           :pred :Juan}
                     :subcat '()}}
-    "Juan y yo"
-      [{:synsem {:cat :noun
-                 :pronoun true
-                 :case :nom
-                 :agr {:gender :masc
-                       :person :1st
-                       :number :plur}
-                 :sem {:human true
-                       :pred :Juan-and-i}
-                 :subcat '()}}]                       
+   "Juan y yo"
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:gender :masc
+                    :person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :Juan-and-i}
+              :subcat '()}}]                       
    "la"
    (unify determiner
           {:synsem {:cat :det
@@ -451,20 +451,24 @@
    "llamarse"
    (let [subject-semantics (ref {:human true})
          called-semantics (ref :top)
-         subject-agr (ref :top)]
+         subject-gender (ref :top)
+         subject-number (ref :top)]
      {:synsem {:cat :verb
                :sem {:pred :be-called
                      :reflexive true
                      :subj subject-semantics
                      :obj called-semantics}
-               :subcat {:1 {:agr subject-agr
+               :subcat {:1 {:agr {:number subject-number
+                                  :gender subject-gender}
                             :propernoun false ;; avoid things like 'Juan se llamó Juan'
                             :sem subject-semantics}
-                        :2 {:agr subject-agr
+                        :2 {:agr {:number subject-number
+                                  :gender subject-gender}
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}
-                        :3 {:agr subject-agr
+                        :3 {:agr {:number subject-number
+                                  :gender subject-gender}
                             :cat :noun
                             :subcat '()
                             :propernoun true}}}})

@@ -108,8 +108,8 @@
                                                                          (and
                                                                           (= (get-in spec [:root :espanol :espanol])
                                                                              "llamarse")
-                                                                          (get-in spec [:comp :synsem :arg :number]
-                                                                                  :plur))
+                                                                          (= (get-in spec [:comp :synsem :arg :number]
+                                                                                     :plur)))
                                                                          (log/info (str "ignoring exception(llamarse): " e))
 
                                                                          true

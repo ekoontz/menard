@@ -309,26 +309,24 @@
                                        :infl :present
                                        :sem {:tense :past}
                                        :subcat {:2 {:agr obj-agr}}}}))
-
                    (unifyc h21
                            {:rule "vp-future"
                             :synsem {:aux false
                                      :infl :future
                                      :cat :verb}})
-
                    (unifyc h21
                           {:rule "vp-imperfect"
                            :synsem {:aux false
                                     :infl :imperfect
                                     :cat :verb}})
-
                    (unifyc h21
+                           root-is-head
                            {:rule "vp-present"
+                            :head {:phrasal false}
                             :synsem {:aux false
                                      :infl :present
                                      :sem {:tense :present}
                                      :cat :verb}})
-
                    (unifyc h21
                            root-is-head
                            {:comp {:phrasal false
@@ -501,6 +499,7 @@
                        (= (:rule %) "s-past-phrasal-head")
                        (= (:rule %) "s-aux")
                        (= (:rule %) "vp-past")
+                       (= (:rule %) "vp-present")
                        (= (:rule %) "vp-pronoun")
                        (= (:rule %) "noun-phrase1"))
                   grammar)

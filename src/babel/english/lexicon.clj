@@ -76,24 +76,36 @@
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}
    
-   "be" (let [number-agr (ref :top)]
-          {:synsem {:cat :verb
-                    :subcat {:1 {:agr number-agr} ;; In "to be" sentences, agreement exists with respect to :num :
-                             :2 {:pronoun false ;; ;; don't allow strange but grammatical "I am me", "you are him", etc.
-                                 :agr number-agr}} ;; e.g. : "they are cats" but *"they are cat".
-                    :sem {:pred :be}}
-           :english {:present {:1sing "am"
-                               :2sing "are"
-                               :3sing "is"
-                               :1plur "are"
-                               :2plur "are"
-                               :3plur "are"}
-                     :past {:1sing "was"
-                            :2sing "were"
-                            :3sing "was"
-                            :1plur "were"
-                            :2plur "were"
-                            :3plur "were"}}})
+   "be" (let [number-agr (ref :top)
+              common {:synsem {:cat :verb
+                               :subcat {:1 {:agr number-agr} ;; In "to be" sentences, agreement exists with respect to :num :
+                                        :2 {:pronoun false ;; ;; don't allow strange but grammatical "I am me", "you are him", etc.
+                                            :agr number-agr}}} ;; e.g. : "they are cats" but *"they are cat".
+                      :english {:present {:1sing "am"
+                                          :2sing "are"
+                                          :3sing "is"
+                                          :1plur "are"
+                                          :2plur "are"
+                                          :3plur "are"}
+                                :past {:1sing "was"
+                                       :2sing "were"
+                                       :3sing "was"
+                                       :1plur "were"
+                                       :2plur "were"
+                                       :3plur "were"}}}]
+          [(merge common
+                  {:synsem {:sem {:pred :be}}})
+           (let [subject-semantics (ref {:spec {:def :possessive}
+                                         :pred :name})
+                 object-semantics (ref {:propernoun true})]
+             (merge common
+                    {:intransitivize false
+                     :synsem {:sem {:pred :be-called
+                                    :tense :present
+                                    :subj subject-semantics
+                                    :obj object-semantics}
+                              :subcat {:1 {:sem subject-semantics}
+                                       :2 {:sem object-semantics}}}}))])
    
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -368,7 +380,6 @@
           countable-noun
           {:synsem {:sem (unify animal {:pred :cane
                                         :pet true})}})
-
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
                            :subj {:human true}}}}
@@ -711,8 +722,6 @@
                  :sem {:human true
                        :pred :Juan-and-i}
                  :subcat '()}}]        
-            
-            
    "I" 
    [{:english {:note "♂"}
      :synsem {:cat :noun
@@ -951,7 +960,8 @@
    (unify agreement-noun
           common-noun
           countable-noun
-          {:synsem {:sem {:animate false}}})
+          {:synsem {:sem {:pred :name
+                          :animate false}}})
 
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}

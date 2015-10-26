@@ -38,11 +38,13 @@
 
         sentence (engine/generate spec model :enrich true)
 
-        sentence (merge sentence {:spec spec})
-
         check (if (nil? sentence)
-                (throw (Exception. (str "Could not generate a sentence for spec: " spec " for language: " (:language model)
-                                        " with model named: " (:name model)))))
+                (let [message (str "Could not generate a sentence for spec: " spec " for language: " (:language model)
+                                   " with model named: " (:name model))]
+                  (log/error message)
+                  (throw (Exception. message))))
+
+        sentence (merge sentence {:spec spec})
 
         sentence (if (:morph-walk-tree model)
                    (merge ((:morph-walk-tree model) sentence)
@@ -222,10 +224,9 @@
             fo (:morph model)
             surface (fo sentence)]
         (if (empty? surface)
-          (let [err-mesg (str "Surface was empty for expression generated from spec: " spec)]
-            (log/error err-mesg)
-            (log/error (str " expression with empty surface has structure: " (strip-refs sentence)))
-            (throw (Exception. err-mesg))))
+          (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
+            (log/warn (str "sentence: " sentence))
+            (log/warn warn-mesg)))
         (log/info (str "populate-with-language:" language ": surface='"
                        surface "'"))
         (log/debug (str "populate-with-language:" language ": spec='"

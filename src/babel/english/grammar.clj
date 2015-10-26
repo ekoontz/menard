@@ -509,7 +509,7 @@
                 (for [[k v] @lexicon]
                   (let [filtered-v
                         (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :sem :propernoun]) true)
                                      (= (get-in % [:synsem :cat]) :noun)
                                      (= (get-in % [:synsem :pronoun]) true)
                                      (= (get-in % [:synsem :cat]) :det))

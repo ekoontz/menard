@@ -4,5 +4,6 @@ if [ ! ${DATABASE_URL} ]; then
 fi
 
 echo "\d" |  psql -U ${USER} ${DB} | grep expression_import_ | awk '{print $3}' | xargs -I{} echo "drop table {};" | psql -U ${USER} ${DB}
+echo "\d" |  psql -U verbcoach ${DB} | grep expression_import_ | awk '{print $3}' | xargs -I{} echo "drop table {};" | psql -U verbcoach ${DB}
 
 

@@ -394,12 +394,12 @@
 
    "Juan" {:synsem {:cat :noun
                     :pronoun false
-                    :propernoun true
                     :case :nom
                     :agr {:gender :masc
                           :person :3rd
                           :number :sing}
                     :sem {:human true
+                          :propernoun true
                           :pred :Juan}
                     :subcat '()}}
    "Juan y yo"
@@ -450,8 +450,8 @@
                             :sem subject-semantics}}}})
    "llamarse"
    (let [subject-semantics (ref {:human true})
-         called-semantics (ref :top)
-         subject-gender (ref :top)
+         called-semantics (ref {:propernoun true})
+         subject-gender (ref {:propernoun false}) ;; avoid things like 'Juan se llamó Juan'
          subject-person (ref :top)
          subject-number (ref :top)]
      {:synsem {:cat :verb
@@ -462,7 +462,6 @@
                :subcat {:1 {:agr {:number subject-number
                                   :person subject-person
                                   :gender subject-gender}
-                            :propernoun false ;; avoid things like 'Juan se llamó Juan'
                             :sem subject-semantics}
                         :2 {:agr {:number subject-number
                                   :person subject-person
@@ -474,7 +473,7 @@
                                   :gender subject-gender}
                             :cat :noun
                             :subcat '()
-                            :propernoun true}}}})
+                            :sem {:propernoun true}}}}})
 
    "me" {:synsem {:cat :noun
                   :pronoun true

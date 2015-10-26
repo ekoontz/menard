@@ -11,20 +11,19 @@
   {
    "Antonia"
    {:synsem {:sem {:pred :antonia
+                   :propernoun true
                    :human true}
              :agr {:number :sing
                    :person :3rd
-                   :gender :fem}
-             :propernoun true}}
+                   :gender :fem}}}
 
    "Antonio"
    {:synsem {:agr {:number :sing
                    :person :3rd
                    :gender :masc}
              :sem {:pred :antonio
-                   :human true}
-             :propernoun true}}
-
+                   :propernoun true
+                   :human true}}}
    "a"
    {:synsem {:cat :det
              :def :indef
@@ -694,12 +693,12 @@
                                     :obj {:animate true}}}})])
    "Juan" {:synsem {:cat :noun
                     :pronoun false
-                    :propernoun true
                     :case :nom
                     :agr {:gender :masc
                           :person :3rd
                           :number :sing}
                     :sem {:human true
+                          :propernoun true
                           :pred :Juan}
                     :subcat '()}}
     "Juan and I"

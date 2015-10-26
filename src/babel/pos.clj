@@ -32,6 +32,7 @@
                     :agr agr}})
         common
         {:synsem {:cat :noun
+                  :sem {:propernoun false}
                   :agr {:person :3rd}
                   :subcat {:1 {:cat :det}
                            :2 '()}}}
@@ -77,10 +78,9 @@
 (def proper-noun
   {:synsem {:cat :noun
             :pronoun false
-            :propernoun true
+            :sem {:propernoun true}
             :agr {:person :3rd}
             :subcat '()}})
-
 
 ;; useful abbreviations (aliases for some commonly-used maps):
 (def human {:human true})

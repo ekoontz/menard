@@ -452,6 +452,7 @@
    (let [subject-semantics (ref {:human true})
          called-semantics (ref :top)
          subject-gender (ref :top)
+         subject-person (ref :top)
          subject-number (ref :top)]
      {:synsem {:cat :verb
                :sem {:pred :be-called
@@ -459,10 +460,12 @@
                      :subj subject-semantics
                      :obj called-semantics}
                :subcat {:1 {:agr {:number subject-number
+                                  :person subject-person
                                   :gender subject-gender}
                             :propernoun false ;; avoid things like 'Juan se llamó Juan'
                             :sem subject-semantics}
                         :2 {:agr {:number subject-number
+                                  :person subject-person
                                   :gender subject-gender}
                             :pronoun true
                             :reflexive true

@@ -81,11 +81,13 @@
                                                                                  :model small
                                                                                  }}]
                                                                               "es")
+
+                                                                     ;; TODO: move this to *before*
+                                                                     ;; attempting generation that fails.
                                                                      (catch Exception e
                                                                        (cond
-                                                                        
-                                                                         ;;conditional on
-                                                                         ;; there being a legitimate reason for the exception -
+                                                                         ;; Ignore the generation-failure exception, if
+                                                                         ;; there is a legitimate reason for the exception, such as:
 
                                                                          ;; The verb is "funzionare" (which takes a non-human
                                                                          ;; subject), but we're trying to generate with
@@ -98,14 +100,17 @@
                                                                                  :1st)
                                                                               (= (get-in spec [:comp :synsem :agr :person])
                                                                                  :2nd)))
-                                                                         (log/warn (str "ignoring exception(1): " e))
+                                                                         (log/info (str "ignoring exception(funcionar): " e))
 
+                                                                         ;; "llamarse": there is currently only singular
+                                                                         ;; proper names, so any attempt to use
+                                                                         ;; plural number with this verb will fail.
                                                                          (and
                                                                           (= (get-in spec [:root :espanol :espanol])
                                                                              "llamarse")
                                                                           (get-in spec [:comp :synsem :arg :number]
                                                                                   :plur))
-                                                                         (log/warn (str "ignoring exception(2): " e))
+                                                                         (log/info (str "ignoring exception(llamarse): " e))
 
                                                                          true
                                                                          (do

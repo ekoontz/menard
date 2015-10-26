@@ -108,8 +108,10 @@
                                                                          (and
                                                                           (= (get-in spec [:root :espanol :espanol])
                                                                              "llamarse")
-                                                                          (= (get-in spec [:comp :synsem :arg :number])
-                                                                             :plur))
+                                                                          (or (= (get-in spec [:comp :synsem :agr :number])
+                                                                                 :plur)
+                                                                              (= (get-in spec [:comp :synsem :agr :gender])
+                                                                                 :fem)))
                                                                          (log/info (str "ignoring exception(llamarse): " e))
 
                                                                          true

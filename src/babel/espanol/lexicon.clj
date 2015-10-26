@@ -397,6 +397,7 @@
                     :propernoun true
                     :case :nom
                     :agr {:gender :masc
+                          :person :3rd
                           :number :sing}
                     :sem {:human true
                           :pred :Juan}

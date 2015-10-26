@@ -1,11 +1,11 @@
 (ns babel.english.lexicon
-  (:refer-clojure :exclude [get-in])
+  (:refer-clojure :exclude [get-in merge])
   (:require
    [babel.lexiconfn :refer (compile-lex if-then
                                         map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer :all]
-   [dag-unify.core :refer [fail? get-in strip-refs]]))
+   [dag-unify.core :refer [fail? get-in merge strip-refs]]))
 
 (def lexicon-source
   {
@@ -245,7 +245,8 @@
                          :place false}}}
 
    "carry" {:synsem {:cat :verb
-                     :sem {:pred :carry}}
+                     :sem {:human true
+                           :pred :carry}}
             :english {:past "carried"}}
 
    "cat"
@@ -368,7 +369,6 @@
           countable-noun
           {:synsem {:sem (unify animal {:pred :cane
                                         :pet true})}})
-
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
@@ -935,6 +935,9 @@
    {:synsem {:cat :noun
              :sem {:pred :music}}}
    
+   "my"
+   {:synsem {:cat :det
+             :def :possessive}}
    "myself" 
    {:synsem {:cat :noun
              :pronoun true
@@ -945,6 +948,11 @@
              :sem {:human true
                    :pred :I}
              :subcat '()}}
+   "name"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          {:synsem {:sem {:animate false}}})
 
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}
@@ -1589,9 +1597,3 @@
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
                                   {:synsem {:subcat {:2 {:reflexive false}}}}))))
-
-
-                         
-
-    
-

@@ -486,6 +486,74 @@
                          [k filtered-v]))))}
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
 
+(def small-plus-plus-np
+  (future
+    (let [grammar
+          (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
+                       (= (:rule %) "s-conditional-phrasal-head")
+                       (= (:rule %) "s-present-nonphrasal-head")
+                       (= (:rule %) "s-present-phrasal-head")
+                       (= (:rule %) "s-future-nonphrasal-head")
+                       (= (:rule %) "s-future-phrasal-head")
+                       (= (:rule %) "s-imperfect-nonphrasal-head")
+                       (= (:rule %) "s-imperfect-phrasal-head")
+                       (= (:rule %) "s-past-nonphrasal-head")
+                       (= (:rule %) "s-past-phrasal-head")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-past")
+                       (= (:rule %) "vp-pronoun")
+                       (= (:rule %) "noun-phrase1"))
+                  grammar)
+
+          lexicon
+          (into {}
+                (for [[k v] @lexicon]
+                  (let [filtered-v
+                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                     (= (get-in % [:synsem :propernoun]) true)
+                                     (= (get-in % [:synsem :cat]) :noun)
+                                     (= (get-in % [:synsem :pronoun]) true)
+                                     (= (get-in % [:synsem :cat]) :det))
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))
+          ]
+      {:name "small-plus-plus-np"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
+       :language "en"
+       :morph fo
+       :grammar grammar
+
+       ;; Will throw exception if more than 1 rule has the same :rule value:
+       :grammar-map (zipmap
+                     (map :rule grammar)
+                     grammar)
+
+       :lexicon lexicon
+       :for {:es ;; a lexicon specific to when we want to use Español as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :es (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))
+
+             :it  ;; a lexicon specific to when we want to use Italiano as a target.
+             (into {}
+                   (for [[k v] lexicon]
+                     (let [filtered-v
+                           (filter #(or (= :unset (get-in % [:target]))
+                                        (= :it (get-in % [:target])))
+                                   v)]
+                       (if (not (empty? filtered-v))
+                         [k filtered-v]))))}
+       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+
 (def medium
   (future
     (let [lexicon

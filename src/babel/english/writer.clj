@@ -1,7 +1,7 @@
 (ns babel.english.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.english.grammar :refer [small small-plus-vp-pronoun]])
+(require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
 
@@ -14,7 +14,7 @@
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn expression [spec]
-  (writer/expression small-plus-vp-pronoun spec))
+  (writer/expression small-plus-plus-np spec))
 
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."

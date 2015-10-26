@@ -56,7 +56,7 @@
                    (log/trace (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:espanol :espanol])]
                      (log/info (str "generating with verb: '" root-form "'"))
-                     (.size (map (fn [tense]
+                     (.size (pmap (fn [tense]
                                    (let [spec (unify {:root {:espanol {:espanol root-form}}}
                                                      tense)]
                                      (.size

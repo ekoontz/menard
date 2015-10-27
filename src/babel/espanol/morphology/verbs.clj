@@ -9,6 +9,10 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
+;; TODO: replace with a runtime flag.
+;; issue is that logging requires partial morphological evaluation,
+;; whereas generation and batch jobs should immediately raise an exception.
+;; Correct solution should catch in logging code.
 (def suppress-morph-exceptions false)
 
 (defn reflexive-to-infinitive [reflexive-infinitive]

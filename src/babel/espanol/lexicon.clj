@@ -450,7 +450,7 @@
                             :sem subject-semantics}}}})
    "llamarse"
    (let [subject-semantics (ref {:human true})
-         called-semantics (ref :top)
+         called-semantics (ref {:propernoun true})
          subject-gender (ref :top)
          subject-person (ref :top)
          subject-number (ref :top)]
@@ -473,6 +473,7 @@
                                   :gender subject-gender}
                             :pronoun false
                             :cat :noun
+                            :sem called-semantics
                             :subcat '()}}}})
 
    "me" {:synsem {:cat :noun

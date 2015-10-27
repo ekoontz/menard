@@ -10,7 +10,6 @@
             [clojure.tools.logging :as log]
             [dag-unify.core :refer [get-in]]))
 
-
 (deftest generate-conditional
   (let [result (engine/generate {:synsem {:subcat '()
                                           :sem {:pred :sleep

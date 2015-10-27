@@ -190,7 +190,11 @@ of this function with complements."
               ;; else, no complements could be added to this bolt.
               (do
                 (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
-                               (morph from-bolt) "(rule: " (:rule from-bolt) ")"
+                               (try
+                                 (morph from-bolt)
+                                 (catch Exception e
+                                   "(exception caught)"))
+                               "(rule: " (:rule from-bolt) ")"
                                "; head rule:" (:rule (get-in from-bolt [:head]))
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   

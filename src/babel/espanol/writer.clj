@@ -10,7 +10,7 @@
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
-(require '[babel.log :refer [reload-config!]])
+(require '[babel.log :refer [rlog4j!]])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
 (require '[babel.writer :as writer :refer [process write-lexicon]])

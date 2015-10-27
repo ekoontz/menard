@@ -1,4 +1,5 @@
-(ns babel.test.fr
+(ns ^{:doc "French Testing Code"}
+    babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
@@ -56,11 +57,15 @@
     (and (is (not (empty? result)))
          (is (= (get-in (first result) [:rule]) "vp-aux")))))
 
-(def vp-aux (first (filter #(= (:rule %) "vp-aux")
-                           (:grammar @small))))
+(deftest vp-aux-test
+  (let [rule (first (filter #(= (:rule %) "vp-aux")
+                            (:grammar @small)))]
+    ))
 
-(def etre (first (filter #(= true (get-in % [:synsem :aux]))
-                         (get (:lexicon @small) "être"))))
+(def etre-test
+  (first (filter #(= true (get-in % [:synsem :aux]))
+                 (get (:lexicon @small) "être"))))
+
 (deftest over-test
   (let [lexicon (:lexicon @small)
         grammar (:grammar @small)

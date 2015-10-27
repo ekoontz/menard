@@ -21,7 +21,7 @@
 (require '[dag-unify.core :as unify])
 
 ;; for debugging:
-(require '[babel.espanol.morphology.verbs :as verbs])
+(require '[babel.espanol.morphology.verbs :as esverbs])
 
 (defn expression [& [spec]]
   (let [spec (if spec spec :top)]

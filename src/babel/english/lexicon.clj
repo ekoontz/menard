@@ -708,16 +708,16 @@
                     :agr {:number :sing
                           :person :3rd
                           :gender :masc}}}
-    "Juan and I"
-      [{:synsem {:cat :noun
-                 :pronoun true
-                 :case :nom
-                 :agr {:gender :masc
-                       :person :1st
-                       :number :plur}
-                 :sem {:human true
-                       :pred :Juan-and-i}
-                 :subcat '()}}]        
+   "Juan and I"
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:gender :masc
+                    :person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :Juan-and-i}
+              :subcat '()}}]        
    "I" 
    [{:english {:note "♂"}
      :synsem {:cat :noun
@@ -920,7 +920,6 @@
    "meet"  {:synsem {:cat :verb
                      :sem {:pred :incontrare}}
             :english {:past "met"}}
-
    "mother"
    (unify agreement-noun
           common-noun
@@ -934,11 +933,9 @@
 
    "multiply" {:synsem {:cat :verb
                 :sem {:pred :multiply}}}
-
    "music" 
    {:synsem {:cat :noun
              :sem {:pred :music}}}
-   
    "my"
    {:synsem {:cat :det
              :def :possessive}}

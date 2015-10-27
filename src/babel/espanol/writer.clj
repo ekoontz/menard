@@ -16,6 +16,7 @@
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
+(require '[clojure.tools.namespace.repl :refer [refresh refresh-all]])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
 (require '[dag-unify.core :as unify])
 

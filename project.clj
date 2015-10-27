@@ -11,7 +11,7 @@
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]
                  [korma "0.4.1"]
-                 [log4j/log4j "1.2.16" :exclusions [javax.mail/mail
+                 [log4j/log4j "1.2.17" :exclusions [javax.mail/mail
                                                     javax.jms/jms
                                                     com.sun.jdmk/jmxtools
                                                     com.sun.jmx/jmxri]]

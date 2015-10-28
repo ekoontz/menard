@@ -107,13 +107,13 @@ of this function with complements."
                               (get-in parent [:rule]) ": "
                               (string/join ","
                                            (map (fn [lexeme]
-                                                  (morph lexeme))
+                                                  (wrapped-morph morph lexeme))
                                                 candidate-lexemes))))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
                           (log/trace
                            (str "parent: " (get-in parent [:rule]) " with lexemes: "
                                 (string/join ","
-                                             (map morph
+                                             (map #(wrapped-morph morph %1)
                                                   result))))
                           (if (empty? result)
                             (log/warn (str "failed to attach any lexemes to: " (get-in parent [:rule])))
@@ -157,7 +157,7 @@ of this function with complements."
                                           (string/join ","
                                            (map (fn [child]
                                                   (str "[" (:rule child) "]"
-                                                       "'" (morph child) "'"
+                                                       "'" (wrapped-morph morph child) "'"
                                                        ))
                                                 phrasal-children))))
                           (over/overh parent phrasal-children morph)))

@@ -94,7 +94,7 @@
                   (unifyc {:head child}
                           {:head {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
       (if (not (fail? result))
-        (let [debug (log/debug (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
+        (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
               debug (log/debug (str "moreover-head: child matched parent's desired head synsem:"
                                     (strip-refs (get-in parent [:head :synsem]))))

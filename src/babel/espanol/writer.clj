@@ -30,6 +30,10 @@
 (defn fo [expression]
   (morph/fo expression))
 
+(defn reset []
+  (refresh-all)
+  (rlog4j!))
+
 (defn todos [ & [count]]
   (let [count (if count (Integer. count) 10)
         root-verbs 

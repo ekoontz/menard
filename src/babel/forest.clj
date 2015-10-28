@@ -142,32 +142,29 @@ of this function with complements."
                                    (string/join ","
                                                 (map #(get-in % [:rule]) candidate-parents)))))
 
-            phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-            ;; recursively call lightning-bolt with (+ 1 depth).
-            (if (< depth maxdepth)
-              (mapcat (fn [parent]
-                        (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
-                        (let [phrasal-children phrasal-children-candidates]
-                          (if (not (nil? phrasal-children))
-                            (do
-                              (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
-                                              " and phrasal children: "
-                                              (string/join ","
-                                                           (map (fn [child]
-                                                                  (str "[" (:rule child) "]"
-                                                                       "'"
-                                                                       
-                                                                       (try
-                                                                         (morph child)
-                                                                         (catch Exception e
-                                                                           "(exception caught)"))
-                                                                       
-                                                                       "'"
-                                                                       ))
-                                                                phrasal-children))))
-                              (over/overh parent phrasal-children morph))
-                            )))
-                      candidate-parents))]
+             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
+             ;; recursively call lightning-bolt with (+ 1 depth).
+             (if (< depth maxdepth)
+               (mapcat (fn [parent]
+                        (log/debug (str "calling over/overh with parent: " (:rule parent)))
+                        (let [phrasal-children
+                              (lightning-bolt grammar lexicon
+                                              (get-in parent [:head])
+                                              (+ 1 depth)
+                                              index parent morph)]
+                          (log/debug (str "calling overh with parent: [" (:rule parent) "]" "'" (morph parent) "'"
+                                          " and children: "
+                                          (if phrasal-children
+                                            (str "(" (.size phrasal-children) ")")
+                                            "(nil)")
+                                          (string/join ","
+                                           (map (fn [child]
+                                                  (str "[" (:rule child) "]"
+                                                       "'" (morph child) "'"
+                                                       ))
+                                                phrasal-children))))
+                          (over/overh parent phrasal-children morph)))
+                       candidate-parents))]
         (if (= (rand-int 2) 0)
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))

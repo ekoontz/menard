@@ -127,6 +127,8 @@ of this function with complements."
                           result)))
                     candidate-parents)
 
+            ;; TODO: throw exception if (get-in parent [:head]) is null.
+
             phrasal-children-candidates
             (if (< depth maxdepth)
               (lightning-bolt grammar lexicon

@@ -10,33 +10,31 @@
    [clojure.tools.logging :as log]
    [dag-unify.core :refer (get-in merge unifyc)]))
 
-(def hc-agreement
-  (let [agr (ref :top)]
-    {:synsem {:agr agr}
-     :head {:synsem {:agr agr}}
-     :comp {:espanol {:agr agr}
-            :synsem {:agr agr}}}))
-
 (def head-first
   (let [head-espanol (ref :top)
-        comp-espanol (ref :top)]
+        comp-espanol (ref :top)
+        rule (ref :top)]
     (unifyc
      {:comp {:espanol {:initial false}}
       :head {:espanol {:initial true}}}
      {:head {:espanol head-espanol}
       :comp {:espanol comp-espanol}
+      :rule rule
       :espanol {:a head-espanol
+                :rule1 rule
                 :b comp-espanol}})))
-
 (def head-last
   (let [head-espanol (ref :top)
-        comp-espanol (ref :top)]
+        comp-espanol (ref :top)
+        rule (ref :top)]
     (unifyc
      {:comp {:espanol {:initial true}}
       :head {:espanol {:initial false}}}
      {:head {:espanol head-espanol}
+      :rule rule
       :comp {:espanol comp-espanol}
       :espanol {:a comp-espanol
+                :rule rule
                 :b head-espanol}})))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
@@ -71,6 +69,12 @@
     :first :comp
     :comment "c21"}))
 
+(def hc-agreement
+  (let [agr (ref :top)]
+    {:synsem {:agr agr}
+     :head {:synsem {:agr agr}}
+     :comp {:espanol {:agr agr}
+            :synsem {:agr agr}}}))
 (def h11
   (unifyc
    subcat-1-1-principle

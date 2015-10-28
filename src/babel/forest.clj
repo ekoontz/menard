@@ -110,12 +110,26 @@ of this function with complements."
                                 (string/join ","
                                              (map morph
                                                   result))))
-                          (log/debug (str "results of attaching lexemes to: " (get-in parent [:rule]) ":"
-                                          (string/join ","
-                                                       (map #(wrapped-morph morph %1)
-                                                            result))))
+                          (if (empty? result)
+                            (log/warn (str "failed to attach any lexemes to: " (get-in parent [:rule])))
+                            (log/debug (str "results of attaching lexemes to: " (get-in parent [:rule]) ":"
+                                            (string/join ","
+                                                         (map #(wrapped-morph morph %1)
+                                                              result)))))
                           result)))
                     candidate-parents)
+
+            phrasal-children-candidates
+            (lightning-bolt grammar lexicon
+                            (get-in parent [:head])
+                            (+ 1 depth)
+                            index parent morph)
+
+            debug (if (empty? phrasal-children-candidates)
+                    (log/warn (str "NO PHRASAL CANDIDATES FOUND FOR candidate-parents: "
+                                   (string/join ","
+                                                (map #(get-in % [:rule]) candidate-parents)))))
+
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
             ;; recursively call lightning-bolt with (+ 1 depth).
             (if (< depth maxdepth)

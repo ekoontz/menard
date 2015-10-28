@@ -449,8 +449,8 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    "llamarse"
-   (let [subject-semantics (ref {:human true})
-         called-semantics (ref {:propernoun true})
+   (let [subject-semantics (ref :top)
+         called-semantics (ref :top)
          subject-gender (ref :top)
          subject-person (ref :top)
          subject-number (ref :top)]

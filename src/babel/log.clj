@@ -3,7 +3,7 @@
   (:import (org.apache.log4j Level
                              Logger
                              PropertyConfigurator)))
-(defn rlog4j!
+(defn log4j!
   "Reconfigures log4j from a log4j.properties file on the classpath"
   []
   (PropertyConfigurator/configure "/Users/ekoontz/babel/resources/log4j.properties"))

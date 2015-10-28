@@ -78,9 +78,6 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
 
-  (if (empty? spec)
-    (throw (Exception. (str "WHY ARE YOU CALLING LIGHTNING-BOLT WITH AN EMPTY SPEC? IT MAKES NO SENSE.")))
-    (log/debug (str "lightning-bolt with valid spec: " (strip-refs spec))))
   (if (not (empty? (strip-refs spec)))
     (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec))))
   (log/trace (str "lighting-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))

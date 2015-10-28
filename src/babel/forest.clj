@@ -93,6 +93,10 @@ of this function with complements."
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))]
+
+
+    (if (> depth 5)
+      (throw (Exception. (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
     (if (seq candidate-parents)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
@@ -120,10 +124,11 @@ of this function with complements."
                     candidate-parents)
 
             phrasal-children-candidates
-            (lightning-bolt grammar lexicon
-                            (get-in parent [:head])
-                            (+ 1 depth)
-                            index parent morph)
+            (if (< depth maxdepth)
+              (lightning-bolt grammar lexicon
+                              (get-in parent [:head])
+                              (+ 1 depth)
+                              index parent morph))
 
             debug (if (empty? phrasal-children-candidates)
                     (log/warn (str "NO PHRASAL CANDIDATES FOUND FOR candidate-parents: "
@@ -135,11 +140,7 @@ of this function with complements."
             (if (< depth maxdepth)
               (mapcat (fn [parent]
                         (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
-                        (let [phrasal-children
-                              (lightning-bolt grammar lexicon
-                                              (get-in parent [:head])
-                                              (+ 1 depth)
-                                              index parent morph)]
+                        (let [phrasal-children phrasal-children-candidates]
                           (if (not (nil? phrasal-children))
                             (do
                               (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"

@@ -146,7 +146,7 @@
     (lazy-shuffle result)))
 
 (defn get-head-phrases-of [parent cache]
-  (let [result (:head-phrases (get cache (:rule parent)))
+  (let [result (:head-phrases (get cache (get-in parent [:rule])))
         result (if (nil? result) (list) result)
         label (label-of parent)]
     (if (empty? result)
@@ -154,7 +154,7 @@
     (lazy-shuffle result)))
 
 (defn get-comp-phrases-of [parent cache]
-  (let [result (:comp-phrases (get cache (:rule parent)))
+  (let [result (:comp-phrases (get cache (get-in parent [:rule])))
         result (if (nil? result) (list) result)]
     (if (empty? result)
       (log/trace (str "comp-phrases of parent: " (label-of parent) " is empty.")))

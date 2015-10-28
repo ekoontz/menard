@@ -67,7 +67,7 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (log/trace (str "lighting-bolt@" depth " spec:" (strip-refs spec)))
-  (log/debug (str "lighting-bolt@" depth " grammar:" (string/join ", " (map :rule grammar))))
+  (log/debug (str "lighting-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         index (if (future? index) @index index)
         lexicon (if (future? lexicon) @lexicon lexicon)
@@ -91,12 +91,13 @@ of this function with complements."
             (mapcat (fn [parent]
                       (let [candidate-lexemes (get-lex parent :head index spec)]
                         (.size (map (fn [lexeme]
-                                      (log/debug (str "candidate head lexeme for parent " (:rule parent) " : " (if morph (morph lexeme)
-                                                                                                                   ;; TODO: throw exception here
-                                                                                                                   "NULL MORPH"))))
+                                      (log/trace
+                                       (str "candidate head lexeme for parent " (get-in parent [:rule]) " : " (if morph (morph lexeme)
+                                                                                                         ;; TODO: throw exception here
+                                                                                                         "NULL MORPH"))))
                                     candidate-lexemes))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
-                          (log/debug (str "results of attaching lexemes to: " (:rule parent) ": (size=" (if result (.size result) "0") ")"
+                          (log/debug (str "results of attaching lexemes to: " (get-in parent [:rule]) ": (size=" (if result (.size result) "0") ")"
                                           (string/join ","
                                                        (map #(if morph (morph %1)
                                                                  "(string)")
@@ -107,13 +108,13 @@ of this function with complements."
             ;; recursively call lightning-bolt with (+ 1 depth).
             (if (< depth maxdepth)
               (mapcat (fn [parent]
-                        (log/debug (str "calling over/overh with parent: " (:rule parent)))
+                        (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
                         (let [phrasal-children
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
                                               index parent morph)]
-                          (log/debug (str "calling overh with parent: [" (:rule parent) "]" "'" (morph parent) "'"
+                          (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
                                           " and children: "
                                           (if phrasal-children
                                             (str "(" (.size phrasal-children) ")")
@@ -137,7 +138,12 @@ of this function with complements."
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)
         lexicon (if (future? lexicon) @lexicon lexicon)]
-    (log/debug (str "add-complement to bolt with bolt:[" (if (map? bolt) (:rule bolt)) "]" "'" (morph bolt) "'"))
+    (log/debug (str "add-complement to bolt with bolt:["
+                    (if (map? bolt) (get-in bolt [:rule]))
+
+                    (wrapped-morph morph bolt)
+
+                    "'"))
     (log/debug (str "add-complement to bolt with path:" path))
 
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.

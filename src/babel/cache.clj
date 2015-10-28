@@ -1,12 +1,13 @@
 (ns babel.cache
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-
    ;; TODO: comment is misleading in that we never call core/get-in from this file.
+   ;; TODO: alphabetize
    [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
    [clojure.set :refer :all]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
+   ;; TODO: be more specific in :refer than :all.
    [dag-unify.core :refer :all :exclude [unify]]
 
    [babel.over :exclude [overc overh]]
@@ -47,7 +48,7 @@
   (log/debug (str "build-lex-sch-cache: grammar size: " (.size all-phrases)))
   (if (not (empty? phrases))
     (conj
-     {(:rule (first phrases))
+     {(get-in (first phrases) [:rule])
       {:comp
        (filter (fn [lex]
                  (not (fail? (unifyc (first phrases)
@@ -96,28 +97,28 @@
   (if (nil? schema)
     #{}
     (do
-      (log/debug (str "get-lex: " (:rule schema) " ; " head-or-comp))
+      (log/debug (str "get-lex: " (get-in schema [:rule]) " ; " head-or-comp))
       (if (not (map? schema))
         (throw (Exception. (str "first arguments should have been a map, but instead was of type: " (type schema) "; schema: " schema))))
-      (log/trace (str "get-lex schema: " (:rule schema) " for: " head-or-comp))
-      (if (nil? (:rule schema))
+      (log/trace (str "get-lex schema: " (get-in schema [:rule]) " for: " head-or-comp))
+      (if (nil? (get-in schema [:rule]))
         (throw (Exception. (str "no schema for: " schema))))
       (let [result (cond (= :head head-or-comp)
                          (if (and (= :head head-or-comp)
-                                  (not (nil? (:head (get cache (:rule schema))))))
+                                  (not (nil? (:head (get cache (get-in schema [:rule]))))))
                            (do
-                             (log/trace (str "get-lex hit: head for schema: " (:rule schema)))
-                             (:head (get cache (:rule schema))))
+                             (log/trace (str "get-lex hit: head for schema: " (get-in schema [:rule])))
+                             (:head (get cache (get-in schema [:rule]))))
 
-                           (do (log/warn (str "CACHE MISS 1 for rule: " (:rule schema) " h/c: " head-or-comp " :: cache:" (type cache)))
+                           (do (log/warn (str "CACHE MISS 1 for rule: " (get-in schema [:rule]) " h/c: " head-or-comp " :: cache:" (type cache)))
                                #{}))
 
                          (= :comp head-or-comp)
                          (if (and (= :comp head-or-comp)
-                                  (not (nil? (:comp (get cache (:rule schema))))))
+                                  (not (nil? (:comp (get cache (get-in schema [:rule]))))))
                            (do
-                             (log/trace (str "get-lex hit: comp for schema: " (:rule schema)))
-                             (:comp (get cache (:rule schema))))
+                             (log/trace (str "get-lex hit: comp for schema: " (get-in schema [:rule])))
+                             (:comp (get cache (get-in schema [:rule]))))
                            (do
                              (log/warn (str "CACHE MISS 2"))
                              nil))

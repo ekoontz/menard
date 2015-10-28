@@ -20,6 +20,17 @@
 (declare lightning-bolt)
 (declare generate-all)
 
+(defn wrapped-morph [morph-fn structure]
+  (if morph-fn
+    (try (let [result (morph-fn structure)]
+           result)
+         (catch Exception e
+           (do
+             (log/warn (str "ignoring exception: " e " and returning canonical form instead."))
+             (strip-refs (get-in structure [:espanol])))))
+    ;; TODO: consider throwing exception here.
+    "(morph-fn is null)"))
+
 (defn generate [spec grammar lexicon index morph]
   (first (take 1 (generate-all spec grammar lexicon index morph))))
 
@@ -99,8 +110,7 @@ of this function with complements."
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
                           (log/debug (str "results of attaching lexemes to: " (get-in parent [:rule]) ": (size=" (if result (.size result) "0") ")"
                                           (string/join ","
-                                                       (map #(if morph (morph %1)
-                                                                 "(string)")
+                                                       (map #(wrapped-morph morph %1)
                                                             result))))
                           result)))
                     candidate-parents)
@@ -122,7 +132,14 @@ of this function with complements."
                                           (string/join ","
                                            (map (fn [child]
                                                   (str "[" (:rule child) "]"
-                                                       "'" (morph child) "'"
+                                                       "'"
+
+                                                       (try
+                                                         (morph child)
+                                                         (catch Exception e
+                                                           "(exception caught)"))
+
+                                                       "'"
                                                        ))
                                                 phrasal-children))))
                           (over/overh parent phrasal-children morph)))
@@ -173,7 +190,7 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "Trying complement:" (morph complement)))
+                             (let [debug (log/trace (str "Trying complement:" (morph complement)))
                                    result
                                    (unifyc bolt
                                            (path-to-map path
@@ -205,13 +222,18 @@ of this function with complements."
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
                 ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
-                (log/debug (str " fail-paths:"))
                 (vec (map (fn [lexeme]
                             (log/debug (str " path in bolt: " path))
-                            (log/debug (str " value of bolt at path: " (get-in bolt path)))
-                            (log/debug (str " value of gender at path: " (get-in bolt (concat path [:synsem :agr :gender])))))
+                            (log/debug (str " cat@" path " = " (strip-refs (get-in bolt (concat path [:synsem :cat])))))
+                            (log/trace (str " sem@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem])))))
+                            (log/debug (str " pred@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))))
+                            (log/debug (str " agr@" path " = " (strip-refs (get-in bolt (concat path [:synsem :agr]))))))
                           complement-candidate-lexemes))))
-            (do (log/debug (str "add-complement after adding complement: " (morph return-val)))
+            (do (log/debug (str "add-complement after adding complement: "
+                                (try
+                                  (morph return-val)
+                                  (catch Exception e
+                                    "(exception caught)"))))
                 return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.

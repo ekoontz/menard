@@ -87,8 +87,8 @@
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (do
-    (log/debug (str "moreover-head (candidate) parent: [" (:rule parent) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
-    (log/debug (str "moreover-head (candidate) head child: [" (:rule child) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
+    (log/debug (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
+    (log/debug (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
           (unifyc parent
                   (unifyc {:head child}
@@ -105,8 +105,8 @@
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (let [fail-path (get-fail-path (get-in parent [:head]) child)
-              debut (log/debug (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (:rule parent)))
-              debug (log/trace (str "parent " (:rule parent)
+              debut (log/debug (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
+              debug (log/trace (str "parent " (get-in parent [:rule])
                                     " wanted head with: "
                                     (strip-refs (get-in parent [:head :synsem]))))
               debug (log/trace (str "candidate child has synsem: "
@@ -139,7 +139,7 @@
                         {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
 
     (if (not (fail? result))
-      (let [debug (log/debug (str "moreover-comp added parent to child: " (:rule parent)))]
+      (let [debug (log/debug (str "moreover-comp added parent to child: " (get-in parent [:rule])))]
         (let [result
               (merge {:comp-filled true}
                      result)]
@@ -176,7 +176,7 @@
       (if (get-in parent '(:comment))
         (log/trace (str "overh: parent comment:" (get-in parent '(:comment)))))
       (if (get-in parent '(:rule))
-        (log/debug (str "overh: parent rule:" (get-in parent '(:rule)))))))
+        (log/trace (str "overh: parent rule:" (get-in parent '(:rule)))))))
 
   (cond
 
@@ -209,7 +209,7 @@
    ;; and save 'true' for errors.
    (let [result (moreover-head parent head sem-impl morph)
          is-fail? (fail? result)
-         label (if (:rule parent) (:rule parent) (:comment parent))]
+         label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (log/trace (str "overh result keys: " (if (map? result) (keys result) "(not a map)")))
      (log/trace (str "overh italian value: " (if (map? result) (get-in result '(:italiano)) "(not a map)")))
      (log/trace (str "overh italian :a value: " (if (map? result) (get-in result '(:italiano :a)) "(not a map)")))

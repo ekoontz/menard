@@ -423,7 +423,8 @@
 
        ;; Will throw exception if more than 1 rule has the same :rule value:
        :grammar-map (zipmap
-                     (map :rule grammar)
+                     (map #(get-in % [:rule])
+                          grammar)
                      grammar)
                      
        :grammar grammar
@@ -455,4 +456,4 @@
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
        })))
 
-(log/info "Español grammar defined.")
+(log/info "Español grammars defined (small, medium).")

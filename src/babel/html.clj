@@ -531,7 +531,11 @@
      (str "<div class='atom'><i>nil</i></div>")
 
      (= (last path) :rule)
-     (str "<span class='keyword'>" arg "</span>")
+     (str "<span class='keyword'>"
+          (if (fs/ref? arg)
+            @arg
+            arg)
+          "</span>")
 
      (= (type arg)
         java.lang.String)

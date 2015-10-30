@@ -10,7 +10,6 @@
    [clojure.tools.logging :as log]
    [dag-unify.core :refer (dissoc-paths get-in fail? fail-path-between lazy-shuffle ref? remove-false 
                                         remove-top-values-log strip-refs show-spec unifyc)]))
-
 (def concurrent false)
 (declare path-to-map)
 (declare add-complement)
@@ -20,14 +19,37 @@
 (declare lightning-bolt)
 (declare generate-all)
 
+(defn show-as-tree [structure language-feature]
+  (cond
+    (and (map? structure)
+         (or (get-in structure [:a])
+             (get-in structure [:b])))
+    (str "[" (get-in structure [:rule]) " "
+         (show-as-tree (get-in structure [:a]) language-feature)
+         " "
+         (show-as-tree (get-in structure [:b]) language-feature)
+         "]")
+
+    (and (map? structure)
+         (get-in structure [language-feature])
+         (empty? (get-in structure [language-feature])))
+    (str "'" "--" "'")
+
+    (and (map? structure)
+         (get-in structure [language-feature]))
+    (str "'" (get-in structure [language-feature]) "'")
+
+    true
+    (str "??:" structure)))
+
 (defn wrapped-morph [morph-fn structure]
   (if morph-fn
     (try (let [result (morph-fn structure)]
            result)
          (catch Exception e
            (do
-             (log/warn (str "ignoring exception: " e " and returning canonical form instead."))
-             (strip-refs (get-in structure [:espanol])))))
+             (log/trace (str "ignoring exception: '" e "' and returning canonical form instead."))
+             (show-as-tree (get-in structure [:espanol]) :espanol))))
     ;; TODO: consider throwing exception here.
     "(morph-fn is null)"))
 
@@ -117,7 +139,8 @@ of this function with complements."
                                                   result))))
                           (if (empty? result)
                             (log/warn (str "failed to attach any lexemes to: " (get-in parent [:rule])))
-                            (log/debug (str "results of attaching lexemes to: " (get-in parent [:rule]) ":"
+
+                            (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
                                             (string/join ","
                                                          (map #(wrapped-morph morph %1)
                                                               result)))))
@@ -135,7 +158,7 @@ of this function with complements."
               (log/debug (str "not trying to add phrases as child because depth is greater than maxdepth:" maxdepth)))
 
             debug (if (empty? phrasal-children-candidates)
-                    (log/warn (str "NO PHRASAL CANDIDATES FOUND FOR candidate-parents: "
+                    (log/warn (str "no phrasal-children-candidates: candidates were:"
                                    (string/join ","
                                                 (map #(get-in % [:rule]) candidate-parents)))))
 
@@ -143,20 +166,20 @@ of this function with complements."
              ;; recursively call lightning-bolt with (+ 1 depth).
              (if (< depth maxdepth)
                (mapcat (fn [parent]
-                        (log/debug (str "calling over/overh with parent: " (:rule parent)))
+                        (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
                         (let [phrasal-children
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
                                               index parent morph)]
-                          (log/debug (str "calling overh with parent: [" (:rule parent) "]" "'" (morph parent) "'"
+                          (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
                                           " and children: "
                                           (if phrasal-children
                                             (str "(" (.size phrasal-children) ")")
                                             "(nil)")
                                           (string/join ","
                                            (map (fn [child]
-                                                  (str "[" (:rule child) "]"
+                                                  (str "[" (get-in child [:rule]) "]"
                                                        "'" (wrapped-morph morph child) "'"
                                                        ))
                                                 phrasal-children))))
@@ -206,7 +229,7 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/trace (str "Trying complement:" (morph complement)))
+                             (let [debug (log/debug (str "Trying lexical complement:" (wrapped-morph morph complement)))
                                    result
                                    (unifyc bolt
                                            (path-to-map path
@@ -214,8 +237,10 @@ of this function with complements."
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do
-                                   (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
-                                                                                           (strip-refs complement))))))
+                                   (log/debug (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
+                                                                                           (strip-refs complement)))))
+                                 (log/debug (str "SUCCESS! " (wrapped-morph morph complement))))
+                                 
                                (if is-fail? :fail result)))
                      
                            ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
@@ -229,12 +254,9 @@ of this function with complements."
               ;; else, no complements could be added to this bolt.
               (do
                 (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
-                               (try
-                                 (morph from-bolt)
-                                 (catch Exception e
-                                   "(exception caught)"))
-                               "(rule: " (:rule from-bolt) ")"
-                               "; head rule:" (:rule (get-in from-bolt [:head]))
+                               (wrapped-morph morph from-bolt)
+;                               "(rule: " (get-in from-bolt [:rule]) ")"
+;                               "; head rule:" (get-in from-bolt [:head :rule])
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
                 ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
@@ -246,10 +268,10 @@ of this function with complements."
                             (log/debug (str " agr@" path " = " (strip-refs (get-in bolt (concat path [:synsem :agr]))))))
                           complement-candidate-lexemes))))
             (do (log/debug (str "add-complement after adding complement: "
-                                (try
-                                  (morph return-val)
-                                  (catch Exception e
-                                    "(exception caught)"))))
+                                (string/join ","
+                                             (map (fn [each]
+                                                    (wrapped-morph morph each))
+                                                  return-val))))
                 return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.

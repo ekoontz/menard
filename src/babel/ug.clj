@@ -228,8 +228,8 @@
   (sentence-impl input))
 
 ;; Phrase [:root [1]]
-;;    /      \
-;; [1] H      C
+;;       /        \
+;;  [1] H          C
 (def root-is-head
   "'root' is used to generate and search for expressions that have a given lexeme as their root. e.g. the 'root' of 'io ho parlato' is 'parlare'"
   (let [root (ref :top)]
@@ -237,16 +237,16 @@
      :head root}))
 
 ;; Phrase [:root [1]]
-;;    /             \
-;;  H [:root [1]]      C
+;;        /       \
+;;  H [:root [1]]  C
 (def root-is-head-root
   (let [root (ref :top)]
     {:root root
      :head {:root root}}))
 
 ;; Phrase [:root [1]]
-;;    /      \
-;;   H       [1] C
+;;        /       \
+;;       H     [1] C
 (def root-is-comp
   (let [root (ref :top)]
     {:root root

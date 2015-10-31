@@ -21,7 +21,7 @@
       :comp {:espanol comp-espanol}
       :rule rule
       :espanol {:a head-espanol
-                :rule1 rule
+                :rule rule
                 :b comp-espanol}})))
 (def head-last
   (let [head-espanol (ref :top)

@@ -29,10 +29,14 @@
                                         do-enrich :do-enrich}]]
   (let [do-enrich (if do-enrich do-enrich true)
         spec (if (or (= false add-subcat)
-                     (fail? (unify spec {:synsem {:subcat '()}})))
+                     (fail? (unify spec {:synsem {:subcat '()}}))
+                     (not (:none (get-in spec [:synsem :subcat] :none))))
                spec
+
+               ;; else:
                (unify spec
                       {:synsem {:subcat '()}}))
+
         language-model (if (future? language-model)
                          @language-model
                          language-model)

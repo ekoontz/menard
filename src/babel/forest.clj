@@ -80,18 +80,50 @@
                           (generate-all (rest spec) grammar lexicon index morph))
                 true
                 (do
-                  (log/trace (str "generate-all with semantics: " (show-spec (remove-false (get-in spec [:synsem :sem])))))
-                  (log/trace (str "generate-all with spec: " (strip-refs spec)))
-                  (log/trace (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
-                  (log/trace (str "generate-all(details): " (show-spec spec)))
-                  (-> (lightning-bolt grammar
+                  (log/debug (str "generate-all with semantics: " (show-spec (remove-false (get-in spec [:synsem :sem])))))
+                  (log/debug (str "generate-all with spec: " (strip-refs spec)))
+                  (log/debug (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
+                  (log/debug (str "generate-all(details): " (show-spec spec)))
+                  (let [lb (lightning-bolt grammar
                                       lexicon
                                       spec 0 index nil morph)
-                      ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-                      (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)
-                      (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
-                      (add-complements-to-bolts [:head :comp]             :top grammar lexicon index morph)
-                      (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph))))))
+                        check1 (remove #(= % nil)
+                                       (concat
+
+                                        (map #(get-in % [:head :head :subcat]) lb)
+                                        (map #(get-in % [:head :subcat]) lb)
+                                        (map #(get-in % [:subcat]) lb)
+
+                                        ))]
+                    (if (not (empty? check1))
+                      (let [message (str "BAD BOLT RESULT: (foo):"
+                                         (string/join ","
+                                                      (map #(get-in % [:synsem :foo])
+                                                           lb))
+                                         " >>> "
+                                         (string/join ","
+                                                      (map #(get-in % [:head :head :subcat] :none)
+                                                           lb))
+                                         " >>> "
+                                         (string/join ","
+                                                      (map #(get-in % [:head :subcat] :none)
+                                                           lb))
+                                         " >>> "
+                                         (string/join ","
+                                                      (map #(get-in % [:subcat] :none)
+                                                           lb))
+                                         " >>> "
+                                         (string/join "," (map #(get-in % [:rule])
+                                                               lb)))]
+                        (log/error message)
+                        (throw (Exception. message))))
+
+                    (-> lb
+                        ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
+                        (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)
+                        (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
+                        (add-complements-to-bolts [:head :comp]             :top grammar lexicon index morph)
+                        (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph)))))))
   
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
 (defn lightning-bolt [grammar lexicon spec & [ depth index parent morph]]
@@ -124,7 +156,7 @@ of this function with complements."
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
                       (let [candidate-lexemes (get-lex parent :head index spec)]
-                        (log/trace
+                        (log/debug
                          (str "candidate head lexeme for parent: "
                               (get-in parent [:rule]) ": "
                               (string/join ","
@@ -132,13 +164,13 @@ of this function with complements."
                                                   (wrapped-morph morph lexeme))
                                                 candidate-lexemes))))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
-                          (log/trace
-                           (str "parent: " (get-in parent [:rule]) " with lexemes: "
+                          (log/debug
+                           (str "parent: " (get-in parent [:rule]) " with head lexemes: "
                                 (string/join ","
                                              (map #(wrapped-morph morph %1)
                                                   result))))
                           (if (empty? result)
-                            (log/warn (str "failed to attach any lexemes to: " (get-in parent [:rule])))
+                            (log/warn (str "failed to attach any head lexemes to: " (get-in parent [:rule])))
 
                             (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
                                             (string/join ","
@@ -189,6 +221,12 @@ of this function with complements."
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)
         lexicon (if (future? lexicon) @lexicon lexicon)]
+    
+    (if (not (= :none (get-in bolt [:head :head :subcat] :none)))
+      (let [message (str "BAD BOLT RESULT: " (get-in bolt [:head :head :subcat] :none))]
+        (log/error message)
+        (throw (Exception. message))))
+    
     (log/debug (str "add-complement to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (wrapped-morph morph bolt) "'"
@@ -230,9 +268,9 @@ of this function with complements."
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do
-                                   (log/debug (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
+                                   (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
                                                                                            (strip-refs complement)))))
-                                 (log/debug (str "Success: returning: " (wrapped-morph morph complement))))
+                                 (log/trace (str "Success: returning: " (wrapped-morph morph complement))))
                                  
                                (if is-fail? :fail result)))
                      
@@ -248,8 +286,6 @@ of this function with complements."
               (do
                 (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
                                (wrapped-morph morph from-bolt)
-;                               "(rule: " (get-in from-bolt [:rule]) ")"
-;                               "; head rule:" (get-in from-bolt [:head :rule])
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
                 ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
@@ -265,6 +301,10 @@ of this function with complements."
                                              (map (fn [each]
                                                     (wrapped-morph morph each))
                                                   return-val))))
+                (log/debug (str "BAD RESULT: " (string/join ","
+                                                            (map #(get-in % [:head :head :subcat] :none)
+                                                                 return-val))))
+                
                 return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.

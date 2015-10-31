@@ -28,7 +28,8 @@
 (defn generate [spec language-model & [{add-subcat :add-subcat
                                         do-enrich :do-enrich}]]
   (let [do-enrich (if do-enrich do-enrich true)
-        spec (if (= false add-subcat)
+        spec (if (or (= false add-subcat)
+                     (fail? (unify spec {:synsem {:subcat '()}})))
                spec
                (unify spec
                       {:synsem {:subcat '()}}))
@@ -49,11 +50,12 @@
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))
         ]
-    (forest/generate spec 
-                     (:grammar language-model)
-                     (:lexicon language-model)
-                     (:index language-model)
-                     (:morph language-model))))
+    (let [result (forest/generate spec 
+                                  (:grammar language-model)
+                                  (:lexicon language-model)
+                                  (:index language-model)
+                                  (:morph language-model))]
+      result)))
 
 (defn generate-from-request [request]
   "respond to an HTTP client's request with a generated sentence, given the client's desired spec, language name, and language model name."

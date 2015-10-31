@@ -514,8 +514,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn pronoun-and-propernouns [lexical-entry]
   (cond (= true (get-in lexical-entry '(:synsem :pronoun)))
         (unifyc lexical-entry
-                {:synsem {:cat :noun
-                          :sem {:propernoun false}
+                {:synsem {:propernoun false
+                          :cat :noun
                           :subcat '()}})
 
         (= true (get-in lexical-entry '(:synsem :sem :propernoun)))
@@ -523,7 +523,6 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                 {:synsem {:cat :noun
                           :pronoun false
                           :subcat '()}})
-
         true
         lexical-entry))
 
@@ -614,7 +613,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :noun)
              (= (not (empty? (get-in lexical-entry [:synsem :subcat]))))
              (not (= (get-in lexical-entry [:synsem :pronoun]) true))
-             (not (= (get-in lexical-entry [:synsem :sem :propernoun]) true)))
+             (not (= (get-in lexical-entry [:synsem :propernoun]) true)))
         (unifyc lexical-entry
                 (unifyc agreement-noun
                         common-noun

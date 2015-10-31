@@ -394,12 +394,12 @@
 
    "Juan" {:synsem {:cat :noun
                     :pronoun false
+                    :propernoun true
                     :case :nom
                     :agr {:gender :masc
                           :person :3rd
                           :number :sing}
                     :sem {:human true
-                          :propernoun true
                           :pred :Juan}
                     :subcat '()}}
    "Juan y yo"
@@ -433,7 +433,6 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
-   
    "levantarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
@@ -461,19 +460,17 @@
                      :obj called-semantics}
                :subcat {:1 {:agr {:number subject-number
                                   :person subject-person
-                                  :gender subject-gender}
-                            :sem subject-semantics}
+                                  :gender subject-gender}}
                         :2 {:agr {:number subject-number
                                   :person subject-person
                                   :gender subject-gender}
                             :pronoun true
-                            :reflexive true
-                            :sem subject-semantics}
+                            :reflexive true}
                         :3 {:agr {:number subject-number
                                   :gender subject-gender}
                             :pronoun false
-                            :cat :noun
                             :sem called-semantics
+                            :cat :noun
                             :subcat '()}}}})
 
    "me" {:synsem {:cat :noun
@@ -485,6 +482,7 @@
                   :sem {:pred :I
                         :human true}
                   :subcat '()}}
+
    "mentir" {:espanol {:boot-stem "mient"}
              :synsem {:cat :verb
                       :sem {:pred :lie}}}

@@ -116,10 +116,10 @@ of this function with complements."
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))]
-
-
+    ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
       (throw (Exception. (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
+
     (if (seq candidate-parents)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
@@ -148,30 +148,18 @@ of this function with complements."
                     candidate-parents)
 
             ;; TODO: throw exception if (get-in parent [:head]) is null.
-
-            phrasal-children-candidates
+            phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
+            ;; recursively call lightning-bolt with (+ 1 depth).
             (if (< depth maxdepth)
-              (lightning-bolt grammar lexicon
-                              (get-in parent [:head])
-                              (+ 1 depth)
-                              index parent morph)
-              (log/debug (str "not trying to add phrases as child because depth is greater than maxdepth:" maxdepth)))
-
-            debug (if (empty? phrasal-children-candidates)
-                    (log/warn (str "no phrasal-children-candidates: candidates were:"
-                                   (string/join ","
-                                                (map #(get-in % [:rule]) candidate-parents)))))
-
-             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-             ;; recursively call lightning-bolt with (+ 1 depth).
-             (if (< depth maxdepth)
-               (mapcat (fn [parent]
+              (mapcat (fn [parent]
                         (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
                         (let [phrasal-children
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
-                                              index parent morph)]
+                                              index parent morph)
+                              phrasal-children phrasal-children
+                              ]
                           (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
                                           " and children: "
                                           (if phrasal-children
@@ -183,6 +171,11 @@ of this function with complements."
                                                        "'" (wrapped-morph morph child) "'"
                                                        ))
                                                 phrasal-children))))
+                          (if (empty? phrasal-children)
+                            (let [message (str "no phrasal children for for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ")" )]
+                              (log/warn message)
+                              (if false (throw (Exception. message)))))
+                          
                           (over/overh parent phrasal-children morph)))
                        candidate-parents))]
         (if (= (rand-int 2) 0)

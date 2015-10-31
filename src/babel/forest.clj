@@ -239,7 +239,7 @@ of this function with complements."
                                  (do
                                    (log/debug (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
                                                                                            (strip-refs complement)))))
-                                 (log/debug (str "SUCCESS! " (wrapped-morph morph complement))))
+                                 (log/debug (str "Success: returning: " (wrapped-morph morph complement))))
                                  
                                (if is-fail? :fail result)))
                      

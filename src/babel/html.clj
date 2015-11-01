@@ -486,8 +486,6 @@
                      (= (first %) :comment)
                      (= (first %) :comment-plaintext)
                      (= (first %) :extend)
-                     (= (first %) :pronoun)
-                     (= (first %) :propernoun)
                      (= (first %) :first)
                      (= (first %) :head-filled)
                      (= (first %) :initial)

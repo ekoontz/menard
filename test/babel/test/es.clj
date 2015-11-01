@@ -19,7 +19,8 @@
                                 :enrich true)]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
-    (is (= "yo dormiría" (fo result)))))
+    (is (or (= "yo dormiría" (fo result))
+            (= "dormiría" (fo result))))))
 
 (deftest llamarse
   (let [result (es/expression {:synsem {:sem {:pred :be-called}}})]
@@ -27,9 +28,9 @@
 
 (deftest llamo
   (let [result (fo (es/expression {:synsem {:sem {:tense :present :aspect :progressive  :subj {:pred :I} :pred :be-called :obj {:pred :Juan}}}}))]
-    (or (= result
-           "yo me llamo Juan")
-        (= result "me llamo Juan"))))
+    (is (or (= result
+               "yo me llamo Juan")
+            (= result "me llamo Juan")))))
 
 
 

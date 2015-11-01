@@ -959,11 +959,16 @@
                    :pred :I}
              :subcat '()}}
    "name"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          {:synsem {:sem {:pred :name
-                          :animate false}}})
+   (let [of (ref :top)]
+     (unify agreement-noun
+            common-noun
+            countable-noun
+            {:synsem {:sem {:animate false
+                            :pred :name
+                            :subj of}
+                      :subcat {:1 {:cat :det
+                                   :def :possessive
+                                   :sem of}}}}))
 
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}

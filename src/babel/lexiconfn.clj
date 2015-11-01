@@ -71,8 +71,8 @@
 
 (defn unify [ & args]
   "like unify/unify, but unify/copy each argument before unifying."
-  (log/trace (str "(lexfn)unify args: " args))
-  (log/trace (str "(lexfn)unify first arg: " (first args)))
+  (log/trace (str "(lexfn)unify args: " (map strip-refs args)))
+  (log/trace (str "(lexfn)unify first arg: " (strip-refs (first args))))
   (let [retval (apply unifyc args)]
     (if (not (fail? retval))
       retval

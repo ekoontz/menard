@@ -161,22 +161,9 @@
 
 (defn overh [parent head morph]
   "add given head as the head child of the phrase: parent."
-  (log/trace (str "overh parent type: " (type parent)))
-  (log/trace (str "overh head  type: " (type head)))
-
-  (log/trace (str "set? parent:" (set? parent)))
-  (log/trace (str "seq? parent:" (seq? parent)))
-  (log/trace (str "seq? head:" (seq? head)))
-  (log/trace (str "vector? head:" (vector? head)))
-
   (when (map? parent)
     (do
-      (if (get-in parent '(:aliases))
-        (log/debug (str "overh: parent aliases:" (get-in parent '(:aliases)))))
-      (if (get-in parent '(:comment))
-        (log/trace (str "overh: parent comment:" (get-in parent '(:comment)))))
-      (if (get-in parent '(:rule))
-        (log/trace (str "overh: parent rule:" (get-in parent '(:rule)))))))
+      (log/trace (str "overh: parent: " (strip-refs parent)))))
 
   (cond
 
@@ -210,10 +197,7 @@
    (let [result (moreover-head parent head sem-impl morph)
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
-     (log/trace (str "overh result keys: " (if (map? result) (keys result) "(not a map)")))
-     (log/trace (str "overh italian value: " (if (map? result) (get-in result '(:italiano)) "(not a map)")))
-     (log/trace (str "overh italian :a value: " (if (map? result) (get-in result '(:italiano :a)) "(not a map)")))
-     (log/trace (str "overh italian :b value: " (if (map? result) (get-in result '(:italiano :b)) "(not a map)")))
+     (log/trace (str "overh result result: " (strip-refs result)))
      (if (not is-fail?)
        (list result)))))
 

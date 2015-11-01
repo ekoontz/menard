@@ -10,7 +10,17 @@
    [dag-unify.core :refer [fail? get-in]]))
 
 (def lexicon-source 
-  {"abandonar" {:synsem {:cat :verb
+  {""
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :1st
+                    :number :sing}
+              :sem {:human true
+                    :pred :I}
+              :subcat '()}}]
+
+   "abandonar" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}
 
    "acabar" {:synsem {:cat :verb
@@ -418,7 +428,6 @@
                     :def :def
                     :gender :fem
                     :number :sing}})
-   
    "lastimarse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]

@@ -4,6 +4,7 @@
    [babel.cache :refer (build-lex-sch-cache get-comp-phrases-of get-head-phrases-of get-lex
                                             get-parent-phrases-for-spec)]
    [babel.over :as over]
+   [babel.stringutils :refer [show-as-tree]]
    [clojure.core :as core]
    [clojure.set :refer :all]
    [clojure.string :as string]
@@ -18,40 +19,6 @@
 
 (declare lightning-bolt)
 (declare generate-all)
-
-(defn show-as-tree [structure language-feature]
-  (cond
-    (and (map? structure)
-         (or (get-in structure [:a])
-             (get-in structure [:b])))
-    (str "[" (get-in structure [:rule]) " "
-         (show-as-tree (get-in structure [:a]) language-feature)
-         " "
-         (show-as-tree (get-in structure [:b]) language-feature)
-         "]")
-
-    (and (map? structure)
-         (get-in structure [language-feature])
-         (empty? (get-in structure [language-feature])))
-    (str "'" "--" "'")
-
-    (and (map? structure)
-         (get-in structure [language-feature]))
-    (str "'" (get-in structure [language-feature]) "'")
-
-    true
-    (str "??:" structure)))
-
-(defn wrapped-morph [morph-fn structure]
-  (if morph-fn
-    (try (let [result (morph-fn structure)]
-           result)
-         (catch Exception e
-           (do
-             (log/trace (str "ignoring exception: '" e "' and returning canonical form instead."))
-             (show-as-tree (get-in structure [:espanol]) :espanol))))
-    ;; TODO: consider throwing exception here.
-    "(morph-fn is null)"))
 
 (defn generate [spec grammar lexicon index morph]
   (first (take 1 (generate-all spec grammar lexicon index morph))))
@@ -138,7 +105,7 @@ of this function with complements."
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         index (if (future? index) @index index)
         lexicon (if (future? lexicon) @lexicon lexicon)
-        depth (if depth depth 0)
+        depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
         candidate-parents (lazy-shuffle (filter #(not (fail? %))
                                                 (map (fn [rule]
@@ -161,20 +128,20 @@ of this function with complements."
                               (get-in parent [:rule]) ": "
                               (string/join ","
                                            (map (fn [lexeme]
-                                                  (wrapped-morph morph lexeme))
+                                                  (morph lexeme))
                                                 candidate-lexemes))))
                         (let [result (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph)]
                           (log/debug
                            (str "parent: " (get-in parent [:rule]) " with head lexemes: "
                                 (string/join ","
-                                             (map #(wrapped-morph morph %1)
+                                             (map #(morph %1)
                                                   result))))
                           (if (empty? result)
                             (log/warn (str "failed to attach any head lexemes to: " (get-in parent [:rule])))
 
                             (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
                                             (string/join ","
-                                                         (map #(wrapped-morph morph %1)
+                                                         (map #(morph %1)
                                                               result)))))
                           result)))
                     candidate-parents)
@@ -200,7 +167,7 @@ of this function with complements."
                                           (string/join ","
                                            (map (fn [child]
                                                   (str "[" (get-in child [:rule]) "]"
-                                                       "'" (wrapped-morph morph child) "'"
+                                                       "'" (morph child) "'"
                                                        ))
                                                 phrasal-children))))
                           (if (empty? phrasal-children)
@@ -221,15 +188,10 @@ of this function with complements."
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)
         lexicon (if (future? lexicon) @lexicon lexicon)]
-    
-    (if (not (= :none (get-in bolt [:head :head :subcat] :none)))
-      (let [message (str "BAD BOLT RESULT: " (get-in bolt [:head :head :subcat] :none))]
-        (log/error message)
-        (throw (Exception. message))))
-    
+
     (log/debug (str "add-complement to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
-                    " '" (wrapped-morph morph bolt) "'"
+                    " '" (morph bolt) "'"
                     "]"))
     (log/debug (str "add-complement to bolt with path:" path))
 
@@ -260,7 +222,7 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "Trying lexical complement:" (wrapped-morph morph complement)))
+                             (let [debug (log/debug (str "Trying lexical complement:" (morph complement)))
                                    result
                                    (unifyc bolt
                                            (path-to-map path
@@ -270,7 +232,7 @@ of this function with complements."
                                  (do
                                    (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
                                                                                            (strip-refs complement)))))
-                                 (log/trace (str "Success: returning: " (wrapped-morph morph complement))))
+                                 (log/trace (str "Success: returning: " (morph complement))))
                                  
                                (if is-fail? :fail result)))
                      
@@ -285,7 +247,7 @@ of this function with complements."
               ;; else, no complements could be added to this bolt.
               (do
                 (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
-                               (wrapped-morph morph from-bolt)
+                               (morph from-bolt)
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
                 ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
@@ -299,12 +261,8 @@ of this function with complements."
             (do (log/debug (str "add-complement after adding complement: "
                                 (string/join ","
                                              (map (fn [each]
-                                                    (wrapped-morph morph each))
+                                                    (morph each))
                                                   return-val))))
-                (log/debug (str "BAD RESULT: " (string/join ","
-                                                            (map #(get-in % [:head :head :subcat] :none)
-                                                                 return-val))))
-                
                 return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.

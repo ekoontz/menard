@@ -438,7 +438,6 @@
                         :pred :go}}}
 
    "Juan" {:synsem {:cat :noun
-                    :pronoun false
                     :propernoun true
                     :case :nom
                     :agr {:gender :masc

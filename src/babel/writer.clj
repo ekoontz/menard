@@ -3,12 +3,14 @@
 ;  (:import [org.postgresql JDBCException])
   (:require
     [babel.lexiconfn :refer [sem-impl]]
+    [babel.engine :as engine]
+    [babel.korma :as korma]
+    [babel.log :refer [log4j!]]
     [clojure.data.json :as json]
     [clojure.string :as string]
     [clojure.tools.logging :as log]
+    [clojure.tools.namespace.repl :refer [refresh refresh-all]]
     [dag-unify.core :refer [fail? get-in merge strip-refs serialize unify ref?]]
-    [babel.engine :as engine]
-    [babel.korma :as korma]
     [korma.core :refer [exec-raw]]))
 
 ;; TODO: more fine-grained approach to dealing with exceptions:
@@ -28,6 +30,10 @@
 ;;    (exec-raw ["TRUNCATE ?" [table]])))
    (exec-raw [(str "TRUNCATE " table)])))
 ;; catch exceptions when trying to populate
+
+(defn reset! []
+  (refresh-all)
+  (log4j!))
 
 (defn expression [model spec]
   (let [no-language (if (nil? model)

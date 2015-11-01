@@ -13,10 +13,9 @@
 (require '[babel.log :refer [log4j!]])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
-(require '[babel.writer :as writer :refer [process write-lexicon]])
+(require '[babel.writer :as writer :refer [process reset! write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
-(require '[clojure.tools.namespace.repl :refer [refresh refresh-all]])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])
 (require '[dag-unify.core :as unify])
 
@@ -29,10 +28,6 @@
 
 (defn fo [expression]
   (morph/fo expression))
-
-(defn reset! []
-  (refresh-all)
-  (log4j!))
 
 (defn todos [ & [count]]
   (let [count (if count (Integer. count) 10)

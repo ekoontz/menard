@@ -31,7 +31,7 @@
    (exec-raw [(str "TRUNCATE " table)])))
 ;; catch exceptions when trying to populate
 
-(defn reset! []
+(defn reload []
   (refresh-all)
   (log4j!))
 

@@ -13,7 +13,7 @@
 (require '[babel.log :refer [log4j!]])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
-(require '[babel.writer :as writer :refer [process reset! write-lexicon]])
+(require '[babel.writer :as writer :refer [process reload write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs)])

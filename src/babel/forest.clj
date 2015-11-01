@@ -215,17 +215,18 @@ of this function with complements."
 
               ;; else, no complements could be added to this bolt.
               (do
-                (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
+                (log/debug (str " add-complement took " run-time " msec, but found no lexical complements for "
                                (morph from-bolt)
                                ". Complements tried were: " (morph complement-candidate-lexemes)))
                   
                 ;; TODO: show warn about not finding any phrasal complements, as well as not finding any lexical complements.
                 (vec (map (fn [lexeme]
-                            (log/debug (str " path in bolt: " path))
-                            (log/debug (str " cat@" path " = " (strip-refs (get-in bolt (concat path [:synsem :cat])))))
-                            (log/trace (str " sem@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem])))))
-                            (log/debug (str " pred@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))))
-                            (log/debug (str " agr@" path " = " (strip-refs (get-in bolt (concat path [:synsem :agr]))))))
+                            (do
+                              (log/debug (str " path in bolt: " path))
+                              (log/debug (str " cat@" path " = " (strip-refs (get-in bolt (concat path [:synsem :cat])))))
+                              (log/trace (str " sem@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem])))))
+                              (log/debug (str " pred@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))))
+                              (log/debug (str " agr@" path " = " (strip-refs (get-in bolt (concat path [:synsem :agr])))))))
                           complement-candidate-lexemes))))
             (do (log/debug (str "add-complement after adding complement: "
                                 (string/join ","

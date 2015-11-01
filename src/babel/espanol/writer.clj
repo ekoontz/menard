@@ -30,7 +30,7 @@
 (defn fo [expression]
   (morph/fo expression))
 
-(defn reset []
+(defn reset! []
   (refresh-all)
   (log4j!))
 

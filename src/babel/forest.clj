@@ -105,13 +105,14 @@ of this function with complements."
                                 (string/join ","
                                              (map #(morph %1)
                                                   result))))
-                          (if (empty? result)
-                            (log/warn (str "failed to attach any head lexemes to: " (get-in parent [:rule])))
+                          (if (not (empty? (get-lex parent :head index spec)))
+                            (if (empty? result)
+                              (log/debug (str "failed to attach any head lexemes to: " (get-in parent [:rule])))
 
-                            (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
-                                            (string/join ","
-                                                         (map #(morph %1)
-                                                              result)))))
+                              (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
+                                              (string/join ","
+                                                           (map #(morph %1)
+                                                                result))))))
                           result)))
                     candidate-parents)
 
@@ -141,10 +142,9 @@ of this function with complements."
                                                 phrasal-children))))
                           (if (empty? phrasal-children)
                             (let [message (str "no phrasal children for for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ")" )]
-                              (log/warn message)
-                              (if false (throw (Exception. message)))))
-                          
-                          (over/overh parent phrasal-children morph)))
+                              (log/debug message))
+                            ;; else; there are phrasal-children, so attach them below parent:
+                            (over/overh parent phrasal-children morph))))
                        candidate-parents))]
         (if (= (rand-int 2) 0)
           (lazy-cat lexical phrasal)

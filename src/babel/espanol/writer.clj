@@ -101,7 +101,7 @@
                                                                                  :1st)
                                                                               (= (get-in spec [:comp :synsem :agr :person])
                                                                                  :2nd)))
-                                                                         (log/info (str "ignoring exception(funcionar): " e))
+                                                                         (log/info (str "ignoring exception(funcionar-is-only-nonhuman): " e))
 
                                                                          ;; "llamarse": there is currently only singular
                                                                          ;; proper names, so any attempt to use
@@ -113,7 +113,7 @@
                                                                                  :plur)
                                                                               (= (get-in spec [:comp :synsem :agr :gender])
                                                                                  :fem)))
-                                                                         (log/info (str "ignoring exception(llamarse): " e))
+                                                                         (log/info (str "ignoring exception(llamarse-is-only-singular): " e))
 
                                                                          true
                                                                          (do

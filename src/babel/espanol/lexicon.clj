@@ -479,8 +479,6 @@
                   :case pronoun-acc
                   :agr {:person :1st
                         :number :sing}
-                  :sem {:pred :I
-                        :human true}
                   :subcat '()}}
 
    "mentir" {:espanol {:boot-stem "mient"}
@@ -614,8 +612,6 @@
                   :case pronoun-acc
                   :agr {:person :2nd
                         :number :sing}
-                  :sem {:pred :tu
-                        :human true}
                   :subcat '()}}
    
    "tirar" [{:synsem {:cat :verb

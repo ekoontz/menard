@@ -643,7 +643,10 @@
              :sem {:pred :aiutare
                    :activity true
                    :obj {:human true}}}}
-
+   "her"
+   {:synsem {:cat :det
+             :sem {:pred :lei}
+             :def :possessive}}
    "herself"
    {:synsem {:cat :noun
              :pronoun true
@@ -667,6 +670,10 @@
              :sem {:human true
                    :pred :lui}
              :subcat '()}}
+   "his"
+   {:synsem {:cat :det
+             :sem {:pred :lui}
+             :def :possessive}}
 
    "hit" {:english {:past "hit"}
              :synsem {:cat :verb
@@ -939,6 +946,7 @@
              :sem {:pred :music}}}
    "my"
    {:synsem {:cat :det
+             :sem {:pred :I}
              :def :possessive}}
    "myself" 
    {:synsem {:cat :noun
@@ -1532,6 +1540,11 @@
                    :pred :voi}
              :subcat '()}}
 
+   "your"
+   {:synsem {:cat :det
+             :sem {:pred :tu}
+             :def :possessive}}
+   
    "yourself"
    [{:note "♀"
      :synsem {:cat :noun

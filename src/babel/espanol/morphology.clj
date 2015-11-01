@@ -12,36 +12,41 @@
 (declare get-string)
 
 (defn fo [input]
-  (cond 
+  (try
+    (cond 
 
-   (= input :fail)
-   (str input)
+      (= input :fail)
+      (str input)
 
-   (= (type input) clojure.lang.LazySeq)
-   (str "['" (string/join "','" (map fo input)) "']")
+      (= (type input) clojure.lang.LazySeq)
+      (str "['" (string/join "','" (map fo input)) "']")
 
-   (string? input)
-   input
+      (string? input)
+      input
 
-   (get-in input [:espanol])
-   (string/trim (str (get-string (get-in input [:espanol]))))
+      (get-in input [:espanol])
+      (string/trim (str (get-string (get-in input [:espanol]))))
    
-   (and (map? input)
-        (get-in input [:a])
-        (get-in input [:b]))
-   (str (string/join " " 
-                     (list (fo (get-in input [:a]))
-                           (fo (get-in input [:b])))))
+      (and (map? input)
+           (get-in input [:a])
+           (get-in input [:b]))
+      (str (string/join " " 
+                        (list (fo (get-in input [:a]))
+                              (fo (get-in input [:b])))))
                      
-   (or (seq? input)
-       (vector? input))
-   (str "(" (string/join " , " 
-                         (remove #(= % "")
-                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
-        ")")
+      (or (seq? input)
+          (vector? input))
+      (str "(" (string/join " , " 
+                            (remove #(= % "")
+                                    (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
+           ")")
 
-   true
-   ""))
+      true
+      "")
+    (catch Exception e
+      (do
+        (log/trace (str "ignoring exception: '" e "' and returning canonical form instead."))
+        (show-as-tree (get-in input [:espanol]) :espanol)))))
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 (defn get-string-1 [word & [ {usted :usted

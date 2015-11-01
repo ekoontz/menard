@@ -52,8 +52,8 @@
                   (log/debug (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
                   (log/debug (str "generate-all(details): " (show-spec spec)))
                   (let [lb (lightning-bolt grammar
-                                      lexicon
-                                      spec 0 index nil morph)]
+                                           lexicon
+                                           spec 0 index nil morph)]
                     (-> lb
                         ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
                         (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)

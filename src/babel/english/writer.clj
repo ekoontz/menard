@@ -4,7 +4,7 @@
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
-
+(require '[babel.forest :refer [lightning-bolt]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions
@@ -15,6 +15,15 @@
 
 (defn expression [spec]
   (writer/expression small-plus-plus-np spec))
+
+(defn bolt [spec]
+  (lightning-bolt (:grammar @small-plus-plus-np)
+                  (:lexicon @small-plus-plus-np)
+                  spec
+                  0
+                  (:index  @small-plus-plus-np)
+                  nil
+                  (:morph  @small-plus-plus-np)))
 
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."

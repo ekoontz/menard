@@ -32,7 +32,7 @@
                     :agr agr}})
         common
         {:synsem {:cat :noun
-                  :sem {:propernoun false}
+                  :propernoun false
                   :agr {:person :3rd}
                   :subcat {:1 {:cat :det}
                            :2 '()}}}
@@ -78,7 +78,7 @@
 (def proper-noun
   {:synsem {:cat :noun
             :pronoun false
-            :sem {:propernoun true}
+            :propernoun false
             :agr {:person :3rd}
             :subcat '()}})
 

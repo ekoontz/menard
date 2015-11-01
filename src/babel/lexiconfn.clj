@@ -518,7 +518,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                           :cat :noun
                           :subcat '()}})
 
-        (= true (get-in lexical-entry '(:synsem :sem :propernoun)))
+        (= true (get-in lexical-entry '(:synsem :propernoun)))
         (unifyc lexical-entry
                 {:synsem {:cat :noun
                           :pronoun false

@@ -17,8 +17,43 @@
               :agr {:person :1st
                     :number :sing}
               :sem {:human true
-                    :pred :I}
-              :subcat '()}}]
+                    :pred :I}}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :2nd
+                    :number :sing}
+              :sem {:human true
+                    :pred :tu}}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :sing}
+              :sem {:human true
+                    :pred :lui}}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :noi}}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :2nd
+                    :number :plur}
+              :sem {:human true
+                    :pred :voi}}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :number :plur}
+              :sem {:human true
+                    :pred :loro}}}
+    ]
 
    "abandonar" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}

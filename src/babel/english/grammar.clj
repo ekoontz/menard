@@ -167,7 +167,7 @@
                                        :sem {:number number-agreement
                                              :mod '()}}
                               :head {:phrasal false
-                                     :propernoun propernoun}
+                                     :synsem {:propernoun propernoun}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (unifyc c10
@@ -178,9 +178,10 @@
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
+                                       :propernoun propernoun
                                        :sem {:number number-agreement}}
                               :head {:phrasal true
-                                     :propernoun propernoun}
+                                     :synsem {:propernoun propernoun}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (unifyc h10

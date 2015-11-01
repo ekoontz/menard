@@ -53,38 +53,7 @@
                   (log/debug (str "generate-all(details): " (show-spec spec)))
                   (let [lb (lightning-bolt grammar
                                       lexicon
-                                      spec 0 index nil morph)
-                        check1 (remove #(= % nil)
-                                       (concat
-
-                                        (map #(get-in % [:head :head :subcat]) lb)
-                                        (map #(get-in % [:head :subcat]) lb)
-                                        (map #(get-in % [:subcat]) lb)
-
-                                        ))]
-                    (if (not (empty? check1))
-                      (let [message (str "BAD BOLT RESULT: (foo):"
-                                         (string/join ","
-                                                      (map #(get-in % [:synsem :foo])
-                                                           lb))
-                                         " >>> "
-                                         (string/join ","
-                                                      (map #(get-in % [:head :head :subcat] :none)
-                                                           lb))
-                                         " >>> "
-                                         (string/join ","
-                                                      (map #(get-in % [:head :subcat] :none)
-                                                           lb))
-                                         " >>> "
-                                         (string/join ","
-                                                      (map #(get-in % [:subcat] :none)
-                                                           lb))
-                                         " >>> "
-                                         (string/join "," (map #(get-in % [:rule])
-                                                               lb)))]
-                        (log/error message)
-                        (throw (Exception. message))))
-
+                                      spec 0 index nil morph)]
                     (-> lb
                         ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
                         (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)

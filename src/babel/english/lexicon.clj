@@ -104,7 +104,8 @@
                                     :subj subject-semantics
                                     :obj object-semantics}
                               :subcat {:1 {:sem subject-semantics}
-                                       :2 {:sem object-semantics}}}}))])
+                                       :2 {:propernoun true
+                                           :sem object-semantics}}}}))])
    
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"

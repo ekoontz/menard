@@ -11,19 +11,18 @@
   {
    "Antonia"
    {:synsem {:sem {:pred :antonia
-                   :propernoun true
                    :human true}
+             :propernoun true
              :agr {:number :sing
                    :person :3rd
                    :gender :fem}}}
-
    "Antonio"
-   {:synsem {:agr {:number :sing
+   {:synsem {:propernoun true
+             :agr {:number :sing
                    :person :3rd
                    :gender :masc}
-             :sem {:pred :antonio
-                   :propernoun true
-                   :human true}}}
+             :sem {:pred :antonio}
+                   :human true}}
    "a"
    {:synsem {:cat :det
              :def :indef
@@ -97,7 +96,7 @@
                   {:synsem {:sem {:pred :be}}})
            (let [subject-semantics (ref {:spec {:def :possessive}
                                          :pred :name})
-                 object-semantics (ref {:propernoun true})]
+                 object-semantics (ref :top)]
              (merge common
                     {:intransitivize false
                      :synsem {:sem {:pred :be-called
@@ -703,8 +702,8 @@
                     {:synsem {:sem {:pred :hurt
                                     :obj {:animate true}}}})])
    "Juan" {:synsem {:sem {:pred :Juan
-                          :propernoun true
                           :human true}
+                    :propernoun true
                     :agr {:number :sing
                           :person :3rd
                           :gender :masc}}}

@@ -25,6 +25,12 @@
   (let [result (es/expression {:synsem {:sem {:pred :be-called}}})]
     (not (empty? (fo result)))))
 
+(deftest llamo
+  (let [result (fo (es/expression {:synsem {:sem {:tense :present :aspect :progressive  :subj {:pred :I} :pred :be-called :obj {:pred :Juan}}}}))]
+    (or (= result
+           "yo me llamo Juan")
+        (= result "me llamo Juan"))))
+
 
 
 

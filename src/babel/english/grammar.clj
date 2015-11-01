@@ -157,25 +157,30 @@
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (ref :top)
+                                 propernoun (ref :top)]
                              {:rule "noun-phrase1"
                               :aliases (list "np1")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
+                                       :propernoun propernoun
                                        :sem {:number number-agreement
                                              :mod '()}}
-                              :head {:phrasal false}
+                              :head {:phrasal false
+                                     :propernoun propernoun}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (ref :top)
+                                 propernoun (ref :top)]
                              {:rule "noun-phrase2"
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
                                        :sem {:number number-agreement}}
-                              :head {:phrasal true}
+                              :head {:phrasal true
+                                     :propernoun propernoun}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (unifyc h10

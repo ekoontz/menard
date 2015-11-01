@@ -76,17 +76,13 @@
   (let [retval (apply unifyc args)]
     (if (not (fail? retval))
       retval
+      ;; TODO: log message is too long to read.
       (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs (get-in args [:synsem])))
                          (if (= 2 (.size args))
                            (let [fail-path (get-fail-path (first args) (second args))]
                              (str "; failed path: " fail-path
                                   "; arg1(" fail-path ")=" (get-in (first args) fail-path)
-                                  "; arg2(" fail-path ")=" (get-in (second args) fail-path)
-                                  "; arg1 empty(" fail-path ")=" (if (seq? (get-in (first args) fail-path))
-                                                                   (empty? (get-in (first args) fail-path)))
-                                  "; arg1 empty(" fail-path ")=" (if (seq? (get-in (second args) fail-path))
-                                                                   (empty? (get-in (second args) fail-path)))))
-
+                                  "; arg2(" fail-path ")=" (get-in (second args) fail-path)))
                            ""))]
         (do (log/error message)
             (throw (Exception. message)))))))

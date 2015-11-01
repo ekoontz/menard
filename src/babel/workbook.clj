@@ -3,7 +3,9 @@
   (:require
    [babel.engine :refer [generate]]
    [babel.enrich :refer [against-pred]]
-   [babel.english.grammar :as en]
+   [babel.english.grammar :as eng]
+   [babel.english.writer :as en]
+   [babel.english.morphology :as enm]
    [babel.espanol.grammar :as esg]
    [babel.espanol.writer :as es]
 ;   [babel.francais.grammar :as fr]
@@ -31,8 +33,8 @@
 ;; TODO: add other languages (English and Spanish)
 (defn parse [string]
   (concat
-   (en/parse string)
-;   (es/parse string)
+   (eng/parse string)
+;   (esg/parse string)
 ;   (fr/parse string)
 ;   (it/parse string)))
    ))
@@ -206,9 +208,21 @@
   (do
 
     (try
-      (generate {:synsem {:sem {:pred :be-called}}} @esg/small :add-subcat false)
+      (generate {:synsem {:subcat {:1 :top
+                                   :2 '()}
+                          :sem {:pred :be-called}}} @esg/small)
       (catch Exception e
         (log/warn (str "ignoring exception while trying to generate: e=" e))))
+
+                                        ;
+    (try
+      (generate {:synsem {:subcat {:1 :top
+                                   :2 '()}
+                          :sem {:pred :be-called}}} @eng/small-plus-plus-np)
+      (catch Exception e
+        (log/warn (str "ignoring exception while trying to generate: e=" e))))
+
+
 ;    (generate {:synsem {:subcat '()
 ;                      :infl :imperfect
 ;                        :sem {:pred :be

@@ -9,7 +9,7 @@
 (require '[babel.writer :as writer
            :refer [delete-from-expressions
                    fill-language-by-spec
-                   process write-lexicon]])
+                   process write-lexicon reload]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 

@@ -458,7 +458,8 @@
                      :reflexive true
                      :subj subject-semantics
                      :obj called-semantics}
-               :subcat {:1 {:agr {:number subject-number
+               :subcat {:1 {:propernoun false
+                            :agr {:number subject-number
                                   :person subject-person
                                   :gender subject-gender}}
                         :2 {:agr {:number subject-number
@@ -468,7 +469,7 @@
                             :reflexive true}
                         :3 {:agr {:number subject-number
                                   :gender subject-gender}
-                            :pronoun false
+                            :propernoun true
                             :sem called-semantics
                             :cat :noun
                             :subcat '()}}}})

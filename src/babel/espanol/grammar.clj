@@ -421,7 +421,7 @@
 
        ;; Will throw exception if more than 1 rule has the same :rule value:
        :grammar-map (zipmap
-                     (map #(get-in % [:rule])
+                     (map #(keyword (get-in % [:rule]))
                           grammar)
                      grammar)
                      

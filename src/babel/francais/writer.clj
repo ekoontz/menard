@@ -10,6 +10,9 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
+(defn rewrite-lexicon []
+  (write-lexicon "fr" @lexicon))
+
 (defn tout [ & [count]]
   (let [count (if count (Integer. count) 10)
         root-verbs 

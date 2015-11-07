@@ -198,7 +198,6 @@
                                :part-of-human-body
                                :physical-object
                                :place
-                               :present
                                :speakable
                                :artifact]))
 

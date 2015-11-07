@@ -101,12 +101,14 @@
                     {:intransitivize false
                      :synsem {:sem {:pred :be-called
                                     :tense :present
-                                    :subj subject-semantics
-                                    :obj object-semantics}
-                              :subcat {:1 {:sem subject-semantics}
-                                       :2 {:propernoun true
-                                           :cat :noun
-                                           :sem object-semantics}}}}))])
+                                    :subj {:pred :name}
+                                    :obj :top}
+                              :subcat {:1 {:cat :noun
+                                           :agr agr
+                                           :sem {:pred :name}}
+                                       :2 {:cat :noun
+                                           :agr agr
+                                           :propernoun true}}}}))])
    
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"

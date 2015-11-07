@@ -191,7 +191,7 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "Trying lexical complement:" (morph complement)))
+                             (let [debug (log/debug (str (morph bolt) ": trying lexical complement:" (morph complement)))
                                    result
                                    (unifyc bolt
                                            (path-to-map path

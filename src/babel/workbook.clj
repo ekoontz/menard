@@ -5,6 +5,7 @@
    [babel.enrich :refer [against-pred]]
    [babel.english.grammar :as eng]
    [babel.english.writer :as en]
+   [babel.english.lexicon :as enl]
    [babel.english.morphology :as enm]
    [babel.espanol.grammar :as esg]
    [babel.espanol.writer :as es]
@@ -16,6 +17,7 @@
    [babel.parse :as parse]
    [babel.pos :as pos]
    [babel.reader :as reader]
+   [babel.writer :as writer]
 ;   [babel.test.fr :as frtest]
    [clojail.core :refer [sandbox]]
    [clojail.testers :refer :all]
@@ -204,38 +206,3 @@
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                @fr/small)
-(def foo
-  (do
-
-    (try
-      (generate {:synsem {:subcat {:1 :top
-                                   :2 '()}
-                          :sem {:pred :be-called}}} @esg/small)
-      (catch Exception e
-        (log/warn (str "ignoring exception while trying to generate: e=" e))))
-
-                                        ;
-    (try
-      (generate {:synsem {:subcat {:1 :top
-                                   :2 '()}
-                          :sem {:pred :be-called}}} @eng/small-plus-plus-np)
-      (catch Exception e
-        (log/warn (str "ignoring exception while trying to generate: e=" e))))
-
-
-;    (generate {:synsem {:subcat '()
-;                      :infl :imperfect
-;                        :sem {:pred :be
-;                              :subj {:pred :I}}}}
-;              @fr/small)
-
-    ;; the below is needed to avoid:
-    ;;INFO  56:12,470 com.mchange.v2.c3p0.C3P0Registry:
-    ;; jdk1.5 management interfaces unavailable... JMX support disabled.
-    ;; java.security.AccessControlException: access denied
-    ;; ("javax.management.MBeanServerPermission" "createMBeanServer")
-    (try (expr 0)
-         (catch Exception e
-           (log/error (str "ignoring exception while trying to do (expr 0): "
-                           e))))))
-

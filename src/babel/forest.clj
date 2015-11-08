@@ -191,7 +191,10 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str (morph bolt) ": trying lexical complement:" (morph complement)))
+                             (let [debug (log/debug (str "["
+                                                         (get-in bolt [:rule]) " "
+                                                         (morph bolt) "]: trying lexical complement:" (morph complement)
+                                                         ))
                                    result
                                    (unifyc bolt
                                            (path-to-map path
@@ -228,7 +231,7 @@ of this function with complements."
                               (log/debug (str " pred@" path " = " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))))
                               (log/debug (str " agr@" path " = " (strip-refs (get-in bolt (concat path [:synsem :agr])))))))
                           complement-candidate-lexemes))))
-            (do (log/debug (str "add-complement after adding complement: "
+            (do (log/trace (str "add-complement after adding complement: "
                                 (string/join ","
                                              (map (fn [each]
                                                     (morph each))

@@ -24,16 +24,30 @@
    (string? input)
    input
 
-   (:english input)
-   (string/trim (str (get-string (:english input))))
-   
+   (and (map? input)
+        (get-in input [:english :a :english])
+        (get-in input [:english :b :english])
+        (or (map? (get-in input [:english :a :english]))
+            (map? (get-in input [:english :b :english]))))
+   (string/join " "
+                (list (get-string (get-in input [:english :a :english]))
+                      (get-string (get-in input [:english :b :english]))))
+   (and (map? input)
+        (get-in input [:english :a])
+        (get-in input [:english :b]))
+   (string/join " "
+                (list (get-string (get-in input [:english :a]))
+                      (get-string (get-in input [:english :b]))))
+   (and (map? input)
+        (get-in input [:english]))
+   (get-string (get-in input [:english]))
+
    (and (map? input)
         (get-in input [:a])
         (get-in input [:b]))
    (str (string/join " " 
                      (list (fo (get-in input [:a]))
                            (fo (get-in input [:b])))))
-                     
    (or (seq? input)
        (vector? input))
    (str "(" (string/join " , " 
@@ -143,7 +157,6 @@
    (get-string {:a (get-in word '(:a))
                  :b {:a (get-in word '(:b :a :past))
                      :b (get-in word '(:b :b))}})
-
    (and
     (get-in word '(:a))
     (get-in word '(:b))
@@ -156,9 +169,11 @@
    (and
     (get-in word '(:a))
     (get-in word '(:b)))
-   (get-string (get-in word '(:a))
-                (get-in word '(:b)))
+   (join " "
+         (list (fo (get-in word '(:a)))
+               (fo (get-in word '(:b)))))
 
+   ;; TODO: this seems wrong: how could :infl == :english?
    (and (= :english (get-in word '(:infl)))
         (string? (get-in word '(:english))))
    (get-in word '(:english))
@@ -173,7 +188,6 @@
    ""
    (= true (get-in word '(:a :hidden)))
    (get-string-1 (get-in word '(:b)))
-
 
    (= true (get-in word '(:b :hidden)))
    (get-string-1 (get-in word '(:a)))
@@ -348,7 +362,6 @@
 
            true
            (str stem "ed"))) ;; "play"->"played"
-
    (and
     (= :present (get-in word '(:infl)))
     (string? (get-in word '(:english))))
@@ -372,9 +385,11 @@
       (and (= person :1st) (= number :sing)
            (string? (get-in word '(:present :1sing))))
       (get-in word '(:present :1sing))
+
       (and (= person :2nd) (= number :sing)
            (string? (get-in word '(:present :2sing))))
       (get-in word '(:present :2sing))
+
       (and (= person :3rd) (= number :sing)
            (string? (get-in word '(:present :3sing))))
       (get-in word '(:present :3sing))
@@ -435,7 +450,6 @@
     (= (get-in word '(:cat) :noun)))
    (get-in word '(:plur))
 
-
    ;; TODO: remove support for deprecated :root - use :plur instead (as immediately above).
    (and
     (get-in word '(:root :plur))
@@ -465,7 +479,6 @@
     (= (get-in word '(:cat) :noun))
     (string? (get-in word '(:root :english))))
    (get-in word '(:root :english))
-
 
    (and
     (= (get-in word '(:agr :number)) :sing)
@@ -497,7 +510,6 @@
    (str (plural-en (get-in word '(:english :english)))
         (if (get-in word '(:english :note))
           (str (get-in word '(:english :note)))))
-
 
    (and (= (get-in word '(:cat)) :adjective)
         (string? (get-in word '(:english))))

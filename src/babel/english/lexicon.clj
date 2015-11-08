@@ -94,9 +94,7 @@
                                        :3plur "were"}}}]
           [(merge common
                   {:synsem {:sem {:pred :be}}})
-           (let [subject-semantics (ref {:spec {:def :possessive}
-                                         :pred :name})
-                 object-semantics (ref :top)]
+           (let [agr (ref :top)]
              (merge common
                     {:intransitivize false
                      :synsem {:sem {:pred :be-called
@@ -152,7 +150,7 @@
                                     :1plur "are called"
                                     :2plur "are called"
                                     :3plur "are called"}}}
-   
+
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}
                 :english {:future "be missed"
@@ -217,7 +215,6 @@
 
    "boil" {:synsem {:cat :verb
                 :sem {:pred :boil}}}
-   
    "book"
    (unify agreement-noun
           common-noun

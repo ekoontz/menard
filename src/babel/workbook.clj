@@ -9,6 +9,7 @@
    [babel.english.morphology :as enm]
    [babel.espanol.grammar :as esg]
    [babel.espanol.writer :as es]
+   [babel.forest :refer [lightning-bolt]]
 ;   [babel.francais.grammar :as fr]
 ;   [babel.italiano.grammar :as it]
    [babel.over :refer [over overh overhc]]
@@ -206,3 +207,8 @@
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                @fr/small)
+
+(def foo (en/expression {:synsem {:cat :noun}}))
+;(def foo (lightning-bolt nil nil nil))
+
+

@@ -8,7 +8,7 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer :all])
 
-(declare get-string)
+(declare get-string-1)
 (declare plural-en)
 
 (defn fo [input]
@@ -30,17 +30,17 @@
         (or (map? (get-in input [:english :a :english]))
             (map? (get-in input [:english :b :english]))))
    (string/join " "
-                (list (get-string (get-in input [:english :a :english]))
-                      (get-string (get-in input [:english :b :english]))))
+                (list (get-string-1 (get-in input [:english :a :english]))
+                      (get-string-1 (get-in input [:english :b :english]))))
    (and (map? input)
         (get-in input [:english :a])
         (get-in input [:english :b]))
    (string/join " "
-                (list (get-string (get-in input [:english :a]))
-                      (get-string (get-in input [:english :b]))))
+                (list (get-string-1 (get-in input [:english :a]))
+                      (get-string-1 (get-in input [:english :b]))))
    (and (map? input)
         (get-in input [:english]))
-   (get-string (get-in input [:english]))
+   (get-string-1 (get-in input [:english]))
 
    (and (map? input)
         (get-in input [:a])
@@ -141,9 +141,9 @@
     (string? (get-in word '(:b :a :past-participle)))
     (= (get-in word '(:a :infl)) :past))
    ;; recursive call after inflecting '(:b :a) to past.
-   (get-string {:a (get-in word '(:a))
-                 :b {:a (get-in word '(:b :a :past-participle))
-                     :b (get-in word '(:b :b))}})
+   (get-string-1 {:a (get-in word '(:a))
+                  :b {:a (get-in word '(:b :a :past-participle))
+                      :b (get-in word '(:b :b))}})
 
    ;; (could have) + (make X) => "could have made X"
    (and
@@ -154,9 +154,9 @@
     (string? (get-in word '(:b :a :past)))
     (= (get-in word '(:a :infl)) :past))
    ;; recursive call after inflecting '(:b :a) to past.
-   (get-string {:a (get-in word '(:a))
-                 :b {:a (get-in word '(:b :a :past))
-                     :b (get-in word '(:b :b))}})
+   (get-string-1 {:a (get-in word '(:a))
+                  :b {:a (get-in word '(:b :a :past))
+                      :b (get-in word '(:b :b))}})
    (and
     (get-in word '(:a))
     (get-in word '(:b))
@@ -529,71 +529,6 @@
 
    :else
    word))
-
-(defn get-string [a & [ b ] ]
-  (let [a (if (nil? a) "" a)
-        b (if (nil? b) "" b)
-        re-a (get-string-1 a)
-        re-b (get-string-1 b)]
-    (log/debug (str "get-string a: " a " => " re-a))
-    (log/debug (str "get-string b: " b " => " re-b))
-    (log/debug (str "a is modal?: " (= true (get-in a '(:modal)))))
-    (cond
-
-     (and (string? re-a)
-          (map? re-b)
-          (not (nil? (get-in re-b '(:a))))
-          (not (nil? (get-in re-b '(:b)))))
-     {:a re-a
-      :b re-b}
-
-     (and (map? a)
-          (map? re-a))
-          {:a re-a
-           :b re-b}
-
-     (and (map? a)
-          (= (get-in a '(:modal)) true)
-          (string? re-b))
-     (get-string-1 {:a re-a
-                     :b (replace re-b #"^to " "")})
-
-     (and (string? re-a)
-          (string? re-b))
-     (trim (str re-a " " re-b))
-
-     ;; new-style n' -> adj noun
-     (and
-      (= (get-in a '(:cat)) :adjective)
-      (= (get-in b '(:cat)) :noun)
-      (= (get-in a '(:agr :number)) :top))
-     {:a a
-      :b b}
-
-     ;; old-style n' -> adj noun
-     ;; TODO: remove this.
-     (and
-      (= (get-in a '(:cat)) :noun)
-      (= (get-in b '(:cat)) :adjective))
-     ;; If a is a noun, and b is a adj, reverse a and b in string,
-     ;;  so that italian word order is reversed to english word order.
-     {:a b
-      :b a}
-
-     (and (string? re-a) (string? re-b)
-          (= re-a "a")
-          (re-find #"^[aeiou]" re-b))
-     (str "an " re-b)
-
-     (and (string? re-a) (string? re-b))
-     (str re-a " " re-b)
-
-     (and (string? re-a) (string? (get-in re-b '(:english))))
-     (str re-a " " (get-in re-b '(:english)))
-
-     :else
-     {:a (if (nil? a) :top a)
-      :b (if (nil? b) :top b)})))
 
 (defn remove-to [english-verb-phrase]
   (let [english (get english-verb-phrase :english)]

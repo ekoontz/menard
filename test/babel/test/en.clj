@@ -3,7 +3,7 @@
   (:require [babel.engine :as engine]
             [babel.english.grammar :as eng]
             [babel.english.writer :as en]
-            [babel.english.morphology :refer [fo get-string get-string-1]]
+            [babel.english.morphology :refer [fo get-string-1]]
             [babel.writer :as writer]
             [clojure.string :as string]
             [clojure.test :refer :all]

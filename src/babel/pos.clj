@@ -26,9 +26,9 @@
           {:synsem {:cat cat
                     :pronoun pronoun
                     :case :top
-                    :subcat {:1 {:number number
-                                 :person person
-                                 :gender gender}}
+                    :subcat {:1 {:agr {:number number
+                                       :person person
+                                       :gender gender}}}
                     :agr agr}})
         common
         {:synsem {:cat :noun

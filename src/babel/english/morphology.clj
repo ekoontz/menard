@@ -20,7 +20,6 @@
    (= (type input) clojure.lang.LazySeq)
    (str "['" (string/join "','" (map fo input)) "']")
 
-
    (string? input)
    input
 
@@ -38,9 +37,14 @@
    (string/join " "
                 (list (get-string-1 (get-in input [:english :a]))
                       (get-string-1 (get-in input [:english :b]))))
+
+   (and (map? input)
+        (map? (get-in input [:english])))
+   (get-string-1 (get-in input [:english]))
+
    (and (map? input)
         (get-in input [:english]))
-   (get-string-1 (get-in input [:english]))
+   (get-string-1 input)
 
    (and (map? input)
         (get-in input [:a])

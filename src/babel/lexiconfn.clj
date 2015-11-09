@@ -580,6 +580,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 
 (defn transitive-verb-rule [lexical-entry]
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
+             (not (= false (get-in lexical-entry [:transitivize])))
              (not (nil? (get-in lexical-entry [:synsem :sem :obj])))
              (not (= (get-in lexical-entry [:synsem :sem :obj]) :unspec))
 

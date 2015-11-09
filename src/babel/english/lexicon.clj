@@ -94,18 +94,26 @@
                                        :3plur "were"}}}]
           [(merge common
                   {:synsem {:sem {:pred :be}}})
-           (let [agr (ref :top)]
-             (merge common
+           (let [subj-agr (ref :top)
+                 infl (ref :top)
+                 the-real-subj (ref :top)
+                 the-obj (ref :top)]
+             (unify common
+                    subject-verb-agreement
                     {:intransitivize false
-                     :synsem {:sem {:pred :be-called
+                     :transitivize false
+                     :synsem {:agr subj-agr
+                              :sem {:pred :be-called
                                     :tense :present
-                                    :subj {:pred :name}
-                                    :obj :top}
+                                    :subj the-real-subj
+                                    :obj the-obj}
                               :subcat {:1 {:cat :noun
-                                           :agr agr
-                                           :sem {:pred :name}}
+                                           :agr subj-agr
+                                           :sem {:pred :name
+                                                 :subj the-real-subj}}
                                        :2 {:cat :noun
-                                           :agr agr
+                                           :agr subj-agr
+                                           :sem the-obj
                                            :propernoun true}}}}))])
    
    "be able to" {:english {:imperfect {:1sing "was able to"

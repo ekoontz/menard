@@ -2,10 +2,10 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.english.morphology :refer (fo)])
-(require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
+(require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)])
 (require '[babel.pos :as pos])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :as unify :refer (dissoc-paths get-in serialize unifyc)])
+(require '[dag-unify.core :as unify :refer (dissoc-paths get-in serialize)])
 
 (def adjective pos/adjective)
 (def animal pos/common-noun)
@@ -17,16 +17,19 @@
     {:english {:agr agr}
      :synsem {:agr agr}}))
 
+(def subject-verb-agreement
+  (let [infl (ref :top)
+        agr (ref :top)]
+    {:english {:agr agr
+               :infl infl}
+     :synsem {:infl infl
+              :subcat {:1 {:agr agr}}}}))
+
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
-  (unifyc pos/verb-subjective
-          (let [infl (ref :top)
-                agr (ref :top)]
-            {:english {:agr agr
-                       :infl infl}
-             :synsem {:infl infl
-                      :subcat {:1 {:agr agr}}}})))
+  (unify pos/verb-subjective
+         subject-verb-agreement))
 
 (def transitive
   (unifyc verb-subjective

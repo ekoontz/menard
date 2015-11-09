@@ -103,7 +103,8 @@
                     {:intransitivize false
                      :transitivize false
                      :synsem {:agr subj-agr
-                              :sem {:pred :be-called
+                              :sem {:aspect :progressive
+                                    :pred :be-called
                                     :tense :present
                                     :subj the-real-subj
                                     :obj the-obj}

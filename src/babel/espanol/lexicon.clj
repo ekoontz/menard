@@ -497,8 +497,10 @@
          subject-person (ref :top)
          subject-number (ref :top)]
      {:synsem {:cat :verb
-               :sem {:pred :be-called
+               :sem {:aspect :progressive
+                     :pred :be-called
                      :reflexive true
+                     :tense :present
                      :subj subject-semantics
                      :obj called-semantics}
                :subcat {:1 {:propernoun false

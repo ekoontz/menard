@@ -644,6 +644,7 @@
                    :obj {:human true}}}}
    "her"
    {:synsem {:cat :det
+             :agr {:gender :fem}
              :sem {:pred :lei}
              :def :possessive}}
    "herself"
@@ -671,6 +672,7 @@
              :subcat '()}}
    "his"
    {:synsem {:cat :det
+             :agr {:gender :masc}
              :sem {:pred :lui}
              :def :possessive}}
 
@@ -958,17 +960,19 @@
                    :pred :I}
              :subcat '()}}
    "name"
-   (let [of (ref :top)]
+   (let [of (ref :top)
+         agr (ref :top)]
      (unify agreement-noun
             common-noun
             countable-noun
-            {:synsem {:sem {:animate false
+            {:synsem {:agr agr
+                      :sem {:animate false
                             :pred :name
                             :subj of}
-                      :subcat {:1 {:cat :det
+                      :subcat {:1 {:agr agr
+                                   :cat :det
                                    :def :possessive
                                    :sem of}}}}))
-
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}
 

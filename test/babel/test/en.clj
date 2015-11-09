@@ -153,10 +153,5 @@
                             :number :sing,
                             :person :3rd},
                       :english "Juan"}}}]
-    (is (or true (= (fo form)
+    (is (or false (= (fo form)
                     "your name is Juan")))))
-
-
-
-
-

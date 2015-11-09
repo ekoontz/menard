@@ -91,19 +91,12 @@
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
-  (let [subj-sem (ref :top)
-        subject-agreement (ref :nom)
-        infl (ref :top)
-        agr (ref :top)
-        essere-type (ref :top)]
-    {:synsem {:essere essere-type
-              :infl infl
-              :cat :verb
+  (let [subj-sem (ref :top)]
+    {:synsem {:cat :verb
               :sem {:subj subj-sem}
               :subcat {:1 {:sem subj-sem
                            :cat :noun
-                           :agr agr
-                           :case subject-agreement}}}}))
+                           :case :nom}}}}))
 
 ;; intransitive: has subject but no object.
 (def intransitive

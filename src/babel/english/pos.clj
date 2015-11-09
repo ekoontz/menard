@@ -32,16 +32,16 @@
          subject-verb-agreement))
 
 (def transitive
-  (unifyc verb-subjective
-          pos/transitive))
+  (unify verb-subjective
+         pos/transitive))
 
 (def intransitive-unspecified-obj
-  (unifyc verb-subjective
-          pos/intransitive-unspecified-obj))
+  (unify verb-subjective
+         pos/intransitive-unspecified-obj))
 
 (def intransitive
-  (unifyc verb-subjective
-          pos/intransitive))
+  (unify verb-subjective
+         pos/intransitive))
 
 (defn intransitivize [lexicon]
   (lexiconfn/intransitivize lexicon intransitive transitive intransitive-unspecified-obj))

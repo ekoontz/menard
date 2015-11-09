@@ -50,8 +50,9 @@
         (get-in input [:a])
         (get-in input [:b]))
    (str (string/join " " 
-                     (list (fo (get-in input [:a]))
-                           (fo (get-in input [:b])))))
+                     (list (get-string-1 (get-in input [:a]))
+                           (get-string-1 (get-in input [:b])))))
+
    (or (seq? input)
        (vector? input))
    (str "(" (string/join " , " 

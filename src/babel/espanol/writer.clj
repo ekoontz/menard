@@ -104,7 +104,7 @@
                                                                          (log/info (str "ignoring exception(funcionar-is-only-nonhuman): " e))
 
                                                                          ;; "llamarse": there is currently only singular
-                                                                         ;; proper names, so any attempt to use
+                                                                         ;; proper male names, so any attempt to use
                                                                          ;; plural number with this verb will fail.
                                                                          (and
                                                                           (= (get-in spec [:root :espanol :espanol])
@@ -112,7 +112,11 @@
                                                                           (or (= (get-in spec [:comp :synsem :agr :number])
                                                                                  :plur)
                                                                               (= (get-in spec [:comp :synsem :agr :gender])
-                                                                                 :fem)))
+                                                                                 :fem)
+                                                                              (and (not (= (get-in spec [:synsem :sem :tense])
+                                                                                           :present))
+                                                                                   (not (= (get-in spec [:synsem :sem :aspect])
+                                                                                           :progressive)))))
                                                                          (log/info (str "ignoring exception(llamarse-is-only-singular): " e))
 
                                                                          true

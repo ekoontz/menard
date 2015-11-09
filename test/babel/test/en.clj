@@ -40,6 +40,34 @@
            "is Antonia"))))
 
 (deftest generate-irregular-present-1
+  (let [form {:english {:a {:cat :verb,
+                            :infl :present,
+                            :present {:1sing "am",
+                                      :3plur "are",
+                                      :1plur "are",
+                                      :2plur "are",
+                                      :3sing "is",
+                                      :2sing "are"},
+                            :past {:1sing "was",
+                                   :3plur "were",
+                                   :1plur "were",
+                                   :2plur "were",
+                                   :3sing "was",
+                                   :2sing "were"},
+                            :agr {:person :3rd,
+                                  :gender :masc,
+                                  :number :sing},
+                            :english "be"},
+                        :b {:agr {:person :3rd,
+                                  :gender :masc,
+                                  :number :sing},
+                            :english "Antonio",
+                            :cat :noun,
+                            :pronoun false}}}]
+    (is (= (fo form)
+           "is Antonio"))))
+
+(deftest generate-irregular-present-2
   (let [form {:english {:past {:1sing "was",
                                :3plur "were",
                                :1plur "were",
@@ -62,7 +90,7 @@
     (is (= (fo form)
            "is"))))
 
-(deftest generate-irregular-present-2
+(deftest generate-irregular-present-3
   (let [form {:english {:a {:infl :present,
                             :past {:2sing "were",
                                    :1sing "was",
@@ -89,6 +117,45 @@
                             :english "Juan"}}}]
     (is (= (fo form)
            "is Juan"))))
+
+(deftest generate-irregular-present-4
+  (let [form {:a {:a {:english "your"}
+                  :b {:english "name",
+                      :pronoun false,
+                      :cat :noun,
+                      :agr {:pronoun false,
+                            :gender :masc,
+                            :number :sing,
+                            :person :3rd}}}
+              :b {:a {:agr {:pronoun false,
+                            :gender :masc,
+                            :number :sing,
+                            :person :3rd},
+                      :past {:2plur "were",
+                             :3sing "was",
+                             :2sing "were",
+                             :1sing "was",
+                             :3plur "were",
+                             :1plur "were"},
+                      :english "be",
+                      :present {:2plur "are",
+                                :3sing "is",
+                                :2sing "are",
+                                :1sing "am",
+                                :3plur "are",
+                                :1plur "are"},
+                      :infl :present,
+                      :cat :verb}
+                  :b {:cat :noun,
+                      :pronoun false,
+                      :agr {:pronoun false,
+                            :gender :masc,
+                            :number :sing,
+                            :person :3rd},
+                      :english "Juan"}}}]
+    (is (or true (= (fo form)
+                    "your name is Juan")))))
+
 
 
 

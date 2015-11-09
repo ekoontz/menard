@@ -29,19 +29,20 @@
         (or (map? (get-in input [:english :a :english]))
             (map? (get-in input [:english :b :english]))))
    (string/join " "
-                (list (get-string-1 (get-in input [:english :a :english]))
-                      (get-string-1 (get-in input [:english :b :english]))))
+                (list (fo (get-in input [:english :a :english]))
+                      (fo (get-in input [:english :b :english]))))
    (and (map? input)
         (get-in input [:english :a])
         (get-in input [:english :b]))
    (string/join " "
-                (list (get-string-1 (get-in input [:english :a]))
-                      (get-string-1 (get-in input [:english :b]))))
+                (list (fo (get-in input [:english :a]))
+                      (fo (get-in input [:english :b]))))
 
    (and (map? input)
         (map? (get-in input [:english])))
    (get-string-1 (get-in input [:english]))
 
+   ;; TODO: this is the tricky part about combining fo and get-string-1.
    (and (map? input)
         (get-in input [:english]))
    (get-string-1 input)
@@ -50,8 +51,8 @@
         (get-in input [:a])
         (get-in input [:b]))
    (str (string/join " " 
-                     (list (get-string-1 (get-in input [:a]))
-                           (get-string-1 (get-in input [:b])))))
+                     (list (fo (get-in input [:a]))
+                           (fo (get-in input [:b])))))
 
    (or (seq? input)
        (vector? input))

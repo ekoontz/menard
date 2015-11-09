@@ -597,7 +597,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 
 (defn verb-rule [lexical-entry]
   "every verb has at least a subject."
-  (cond (= (get-in lexical-entry [:synsem :cat]) :verb)
+  (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
+             (not (= false (get-in lexical-entry [:intransitivize]))))
         (unifyc
          lexical-entry
          verb-subjective)

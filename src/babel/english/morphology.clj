@@ -8,7 +8,7 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer :all])
 
-(declare get-string-1)
+(declare get-string)
 (declare plural-en)
 
 (defn fo [input]
@@ -40,12 +40,12 @@
 
    (and (map? input)
         (map? (get-in input [:english])))
-   (get-string-1 (get-in input [:english]))
+   (get-string (get-in input [:english]))
 
-   ;; TODO: this is the tricky part about combining fo and get-string-1.
+   ;; TODO: this is the tricky part about combining fo and get-string.
    (and (map? input)
         (get-in input [:english]))
-   (get-string-1 input)
+   (get-string input)
 
    (and (map? input)
         (get-in input [:a])
@@ -64,11 +64,11 @@
    true
    ""))
 
-(defn get-string-1 [word]
-  (log/debug (str "get-string-1: " word))
+(defn get-string [word]
+  (log/debug (str "get-string: " word))
   (cond
    (ref? word)
-   (get-string-1 @word)
+   (get-string @word)
 
    (= word :top)
    ".."
@@ -85,24 +85,24 @@
         (= (get-in word '(:infl)) :past)
         (string? (get-in word '(:a :past))))
    (str (get-in word '(:a :past)) " "
-        (get-string-1 (get-in word '(:b))))
+        (get-string (get-in word '(:b))))
 
    ;; :note is used for little annotations that are significant in italian but not in english
    ;; e.g. gender signs (♂,♀) on nouns like "professore" and "professoressa".
    (and (string? (get-in word '(:english)))
         (string? (get-in word '(:note))))
-   (str (trim (get-string-1 (dissoc word :note))) " (" (trim (get-in word '(:note))) ")")
+   (str (trim (get-string (dissoc word :note))) " (" (trim (get-in word '(:note))) ")")
 
    (= (get-in word '(:a)) :top)
    (str
-    ".." " " (get-string-1 (get-in word '(:b))))
+    ".." " " (get-string (get-in word '(:b))))
 
    ;; show elipsis (..) if :b is not specified.
    (and
     (= (get-in word '(:b)) :top)
-    (string? (get-string-1 (get-in word '(:a)))))
+    (string? (get-string (get-in word '(:a)))))
    (str
-    (get-string-1 (get-in word '(:a)))
+    (get-string (get-in word '(:a)))
     " " "..")
 
    ;; show elipsis (..) if :a is not specified.
@@ -110,7 +110,7 @@
     (= (get-in word '(:b)) :top)
     (string? (get-in word '(:a :english))))
    (str
-    (get-string-1 (get-in word '(:a :english)))
+    (get-string (get-in word '(:a :english)))
     " " "..")
 
    (string? word)
@@ -147,7 +147,7 @@
     (string? (get-in word '(:b :a :past-participle)))
     (= (get-in word '(:a :infl)) :past))
    ;; recursive call after inflecting '(:b :a) to past.
-   (get-string-1 {:a (get-in word '(:a))
+   (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past-participle))
                       :b (get-in word '(:b :b))}})
 
@@ -160,7 +160,7 @@
     (string? (get-in word '(:b :a :past)))
     (= (get-in word '(:a :infl)) :past))
    ;; recursive call after inflecting '(:b :a) to past.
-   (get-string-1 {:a (get-in word '(:a))
+   (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past))
                       :b (get-in word '(:b :b))}})
    (and
@@ -193,10 +193,10 @@
 ;;   "Ø"
    ""
    (= true (get-in word '(:a :hidden)))
-   (get-string-1 (get-in word '(:b)))
+   (get-string (get-in word '(:b)))
 
    (= true (get-in word '(:b :hidden)))
-   (get-string-1 (get-in word '(:a)))
+   (get-string (get-in word '(:a)))
 
    (and (= (get-in word '(:infl)) :conditional)
         (get-in word '(:english))
@@ -630,7 +630,7 @@
      (and
       (map? expr)
       (:english expr))
-     (str (get-string-1 (get-in expr '(:english))))
+     (str (get-string (get-in expr '(:english))))
 
      true
      expr)))

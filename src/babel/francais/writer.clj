@@ -6,7 +6,7 @@
 (require '[babel.francais.morphology :refer [analyze exception-generator
                                              fo]])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
-(require '[babel.writer :refer [delete-from-expressions process write-lexicon]])
+(require '[babel.writer :refer [delete-from-expressions process reload write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 

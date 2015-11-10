@@ -1,6 +1,5 @@
 (ns babel.writer
   (:refer-clojure :exclude [get-in merge])
-;  (:import [org.postgresql JDBCException])
   (:require
     [babel.lexiconfn :refer [sem-impl]]
     [babel.engine :as engine]

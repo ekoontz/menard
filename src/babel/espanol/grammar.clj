@@ -339,6 +339,9 @@
                                      :infl :present
                                      :sem {:tense :present}
                                      :cat :verb}})
+
+                   ;; e.g. used as: "tú te llamas Juan" -
+                   ;; [s-present-phrasal 'tú' [vp-pronoun-phrasal 'te' [vp32 'llamarse' 'Juan']]]
                    (unifyc h32
                            root-is-head
                            {:rule "vp-32"

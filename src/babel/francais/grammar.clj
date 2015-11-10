@@ -382,11 +382,15 @@
                                      :infl :present
                                      :sem {:tense :present}
                                      :cat :verb}})
+
+                   ;; [s-present "je" [vp-pronoun "m'" "amuse"]]
                    (unifyc c21
-                           {:comp {:phrasal false
+                           root-is-head
+                           {:head {:phrasal false}
+                            :comp {:phrasal false
                                    :synsem {:cat :noun
                                             :pronoun true}}
-                            :rule "vp-pronoun"
+                            :rule "vp-pronoun-nonphrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
                    (unifyc h10

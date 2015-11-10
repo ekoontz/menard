@@ -146,18 +146,23 @@
 
                    (unifyc h21
                            (let [head-synsem {:cat :intensifier
-                                              :modified true}] ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                              ;; TODO: document what purpose :modified
+                                              ;; serves (if any: if none, remove).
+                                              :modified true}] 
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
                    (unifyc h11-comp-subcat-1
                            (let [head-synsem {:cat :noun
                                               :modified true}]
-                             {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
+                             ;; rathole prevention ;; TODO: see if this can be removed.
+                             {:comp {:phrasal false 
                                      :synsem {:cat :adjective
                                               :mod head-synsem}}
                               :head {:phrasal false
-                                     :synsem {:modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                     ;; TODO: document what purpose :modified serves
+                                     ;; (if any: if none, remove).
+                                     :synsem {:modified false}}
                               :rule "nbar"
                               :synsem head-synsem}))
 
@@ -171,7 +176,8 @@
                                        :sem {:number number-agreement
                                              :mod '()}}
                               :head {:phrasal false}
-                              :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+                              ;; rathole prevention ;; TODO: see if this can be removed.
+                              :comp {:phrasal false}}))
 
                    (unifyc c10
                            comp-specs-head
@@ -182,7 +188,8 @@
                                        :cat :noun
                                        :sem {:number number-agreement}}
                               :head {:phrasal true}
-                              :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+                              ;; rathole prevention ;; TODO: see if this can be removed.
+                              :comp {:phrasal false}}))
 
                    (unifyc h10
                            {:rule "prepositional-phrase"
@@ -190,7 +197,9 @@
 
                    (unifyc c10
                            root-is-head-root
-                           {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
+                           ;; only a vp-aux may be the head child,
+                           ;; not simply a lexical auxiliary verb.
+                           {:head {:phrasal true
                                    :synsem {:aux true}}
                             :rule "s-aux"
                             :synsem {:infl :present
@@ -359,9 +368,7 @@
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}
                             :rule "s-modifier"})
-
 ))
-
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

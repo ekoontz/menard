@@ -531,7 +531,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "s'appeler" (let [subject-semantics (ref {:human true})
+  "se appeler" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -548,7 +548,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "s'endormir" (let [subject-semantics (ref {:human true})
+  "se endormir" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -563,7 +563,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "s'énerver" (let [subject-semantics (ref {:human true})
+  "se énerver" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -578,7 +578,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "s'ennuyer" (let [subject-semantics (ref {:human true})
+  "se ennuyer" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true

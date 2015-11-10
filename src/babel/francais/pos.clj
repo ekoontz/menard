@@ -61,8 +61,7 @@
                       :subcat {:1 {:agr agr}}}})))
 (def transitive
   (unifyc verb-subjective
-          pos/transitive
-          {:synsem {:essere false}}))
+          pos/transitive))
 
 (def intransitive-unspecified-obj
   (unifyc verb-subjective

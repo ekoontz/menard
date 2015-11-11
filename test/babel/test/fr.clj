@@ -54,17 +54,17 @@
                        (unifyc rule
                                {:head (last (get lexicon "être"))}))
                      (:grammar @small)))]
-    (and (is (not (empty? result)))
-         (is (= (get-in (first result) [:rule]) "vp-aux")))))
+    (is (not (empty? result)))
+    (is (= (get-in (first result) [:rule]) "vp-aux"))))
 
 (deftest vp-aux-test
   (let [rule (first (filter #(= (:rule %) "vp-aux")
                             (:grammar @small)))]
-    ))
+    (is (not (nil? rule)))))
 
 (def etre-test
-  (first (filter #(= true (get-in % [:synsem :aux]))
-                 (get (:lexicon @small) "être"))))
+  (is (not (nil? (first (filter #(= true (get-in % [:synsem :aux]))
+                                (get (:lexicon @small) "être")))))))
 
 (deftest over-test
   (let [lexicon (:lexicon @small)
@@ -74,9 +74,9 @@
               (get lexicon "je")
               (over grammar
                     (get lexicon "sommes") (get lexicon "aller")))]
-    (and (not (nil? result))
-         (not (empty? result))
-         (= 1 (.size result)))))
+    (is (not (nil? result)))
+    (is (not (empty? result)))
+    (is (= 1 (.size result)))))
 
 (deftest passe-compose-morphology
   (let [result
@@ -151,6 +151,7 @@
                                                 :aspect :perfect
                                                 :tense :past}}}
                                 small)]
-    (and (is (not (nil? result)))
-         (is (= (fo result) "nous sommes allées")))))
+    (is (not (nil? result)))
+    (is (= (fo result) "nous sommes allées"))))
+
 

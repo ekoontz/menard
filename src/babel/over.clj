@@ -208,9 +208,6 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
-  ;; disabled for now.
-  (throw (Exception. (str "GOT INTO OVERC.")))
-  
   (log/debug (str "set? parent:" (set? parent)))
   (log/debug (str "seq? parent:" (seq? parent)))
   (log/debug (str "seq? comp:" (seq? comp)))

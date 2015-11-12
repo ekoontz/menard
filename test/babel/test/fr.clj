@@ -71,12 +71,18 @@
         grammar (:grammar @small)
         result
         (over grammar
-              (get lexicon "je")
+              (get lexicon "nous")
               (over grammar
                     (get lexicon "sommes") (get lexicon "aller")))]
-    (is (not (nil? result)))
-    (is (not (empty? result)))
-    (is (= 1 (.size result)))))
+    (is (= 2 (.size result)))
+    (is (or (= (fo (nth result 0))
+               "nous sommes allées")
+            (= (fo (nth result 1))
+               "nous sommes allées")))
+    (is (or (= (fo (nth result 0))
+               "nous sommes allés")
+            (= (fo (nth result 1))
+               "nous sommes allés")))))
 
 (deftest passe-compose-morphology
   (let [result

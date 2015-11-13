@@ -39,4 +39,4 @@
     (str "'" (get-in structure [language-feature]) "'")
 
     true
-    (str "??:" structure)))
+    (str "-- " structure)))

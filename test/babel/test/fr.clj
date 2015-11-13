@@ -42,9 +42,9 @@
                                           :sem {:pred :avere
                                                 :subj {:pred :I}}}}
                                 small)]
-    (and (is (not (nil? result)))
-         (is (= "av" (get-in result [:head :français :imperfect-stem])))
-         (is (= "j'avais" (fo result))))))
+    (is (not (nil? result)))
+    (is (= "av" (get-in result [:head :français :imperfect-stem])))
+    (is (= "j'avais" (fo result)))))
 
 (deftest être-as-aux
   (let [lexicon (:lexicon @small)
@@ -140,7 +140,7 @@
                           {:synsem {:subcat '()}}
                           {:synsem {:sem {:subj {:pred :noi
                                                  :gender :fem}
-                                          :pred :andare
+                                          :pred :go
                                           :aspect :perfect
                                           :tense :past}}})
          (:grammar @small)
@@ -151,7 +151,7 @@
          (is (= (fo result) "nous sommes allées")))))
 
 (deftest passe-compose
-  (let [result (engine/generate {:synsem {:sem {:pred :andare
+  (let [result (engine/generate {:synsem {:sem {:pred :go
                                                 :subj {:pred :noi
                                                        :gender :fem}
                                                 :aspect :perfect

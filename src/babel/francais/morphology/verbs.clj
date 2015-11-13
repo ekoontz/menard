@@ -10,6 +10,8 @@
 
 (declare number-and-person)
 
+(def suppress-incomplete-morphology-errors true)
+
 (defn conditional [word]
   (let [infinitive (get-in word '(:français))
         ar-type (try (re-find #"ar$" infinitive)
@@ -81,7 +83,11 @@
      ;; </third person plural conditional>
 
      :else
-     (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (let [message (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if (= true suppress-incomplete-morphology-errors)
+         (do (log/warn message)
+             "(" (get-in word [:francais]) ")")
+         (throw (Exception. message)))))))
 
 (defn future [word]
   (let [infinitive (get-in word '(:français))
@@ -220,7 +226,11 @@
      ;; </third person plural imperfecto>
            
      :else
-     (throw (Exception. (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (let [message (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if (= true suppress-incomplete-morphology-errors)
+         (do (log/warn message)
+             "(" (get-in word [:francais]) ")")
+         (throw (Exception. message)))))))
 
 (defn present [word]
   (let [infinitive (get-in word '(:français))

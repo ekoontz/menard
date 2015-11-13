@@ -221,7 +221,7 @@
      
      :else
      (let [message (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
-       (if suppress-morph-exceptions
+       (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
          (throw (Exception. message)))))))
@@ -330,7 +330,7 @@
                            :ustedes ustedes}})]
 
        (let [message (str "get-string-1: imperfect regular inflection: don't know what to do with input argument: " (strip-refs word))]
-         (if suppress-morph-exceptions
+         (if (= suppress-morph-exceptions true)
            (do (log/warn message)
                "??")
            (throw (Exception. message))))))))
@@ -435,7 +435,7 @@
 
      :else
      (let [message (str "get-string-1: present regular inflection: don't know what to do with input argument: " (strip-refs word))]
-       (if suppress-morph-exceptions
+       (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
          (throw (Exception. message)))))))
@@ -602,7 +602,7 @@
      
      :else
      (let [message (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))]
-       (if suppress-morph-exceptions
+       (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
          (throw (Exception. message)))))))

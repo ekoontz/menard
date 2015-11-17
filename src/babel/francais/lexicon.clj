@@ -5,6 +5,7 @@
    [babel.francais.morphology :refer [exception-generator phonize]]
    [babel.francais.pos :refer :all]
    [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
+   [babel.pos :as pos :refer [pronoun-acc]]
    [dag-unify.core :refer [get-in]]))
 
 (def lexicon-source 
@@ -395,6 +396,14 @@
              {:synsem {:cat :verb
                        :sem {:subj {:human false}
                               :pred :work-nonhuman}}}]
+
+   "me" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :1st
+                        :number :sing}
+                  :subcat '()}}
 
   "mettre" {:synsem {:cat :verb
                      :passato "mis"

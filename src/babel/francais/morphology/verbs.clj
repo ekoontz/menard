@@ -12,8 +12,12 @@
 
 (def suppress-incomplete-morphology-errors true)
 
+(defn reflexive-to-infinitive [reflexive-infinitive]
+  "e.g.: se amuser -> amuser"
+  (string/replace reflexive-infinitive #"^se " ""))
+
 (defn conditional [word]
-  (let [infinitive (get-in word '(:français))
+  (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
@@ -90,7 +94,7 @@
          (throw (Exception. message)))))))
 
 (defn future [word]
-  (let [infinitive (get-in word '(:français))
+  (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
@@ -164,7 +168,7 @@
      (throw (Exception. (str "get-string: futuro regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
 
 (defn imperfect [word]           
-  (let [infinitive (get-in word '(:français))
+  (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
@@ -233,7 +237,7 @@
          (throw (Exception. message)))))))
 
 (defn present [word]
-  (let [infinitive (get-in word '(:français))
+  (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
@@ -331,7 +335,7 @@
      (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word) " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
 
 (defn passe-compose [word]
-  (let [infinitive (get-in word '(:français))]
+  (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))]
     (if-let [irregular (get-in word [:past-participle])]
       irregular
 

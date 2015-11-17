@@ -1,8 +1,8 @@
-function workbook() {
+function workbook(prefix) {
     var search_exp = $("#workbookq").val();
     $.ajax({
         dataType: "html",
-        url: "/workbook/q/?attrs=italian+english&search="+encodeURIComponent(search_exp),
+        url: prefix + "/q/?attrs=italian+english&search="+encodeURIComponent(search_exp),
         success: function (content) {
             $("#workbooka").prepend(content);
             $("#workbookq").focus();

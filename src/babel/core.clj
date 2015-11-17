@@ -1,6 +1,7 @@
 (ns babel.core
   (:require
    [babel.workbook :as workbook]
+   [babel.workbook.fr :as fr]
 
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
@@ -15,6 +16,8 @@
 (defroutes main-routes
   (GET "/" request
        (resp/redirect "/workbook"))
+  (context "/workbook/fr" []
+           fr/routes)
   (context "/workbook" []
            workbook/routes)
   (route/resources "/"))

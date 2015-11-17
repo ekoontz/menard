@@ -36,7 +36,7 @@
         ustedes (if ustedes ustedes false)
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-    
+
     (cond
      (and (= person :1st) (= number :sing) ar-type)
      (str stem "aría")
@@ -229,7 +229,7 @@
 (defn imperfect [word & [ {usted :usted
                            vosotros :vosotros
                            ustedes :ustedes}]]
-  (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
+  (let [infinitive (reflexive-to-infinitive (get-in word [:espanol]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))

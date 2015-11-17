@@ -1,6 +1,7 @@
 (ns babel.francais.grammar
   (:refer-clojure :exclude [get-in merge resolve])
   (:require 
+   [clojure.set :refer :all]
    [clojure.tools.logging :as log]
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.francais.lexicon :refer [lexicon]]
@@ -463,6 +464,13 @@
                  (morph/analyze arg lexicon))
        :enrich enrich
        :grammar grammar
+
+       ;; Will throw exception if more than 1 rule has the same :rule value:
+       :grammar-map (zipmap
+                     (map #(keyword (get-in % [:rule]))
+                          grammar)
+                     grammar)
+
        :lexicon lexicon
        :morph fo
        :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
@@ -477,18 +485,42 @@
                 (for [[k v] @lexicon]
                   (let [filtered-v v]
                     (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
+                      [k filtered-v]))))
+
+          grammar ;; small grammar + a few other things:
+          (seq (union (set (:grammar @small))
+                      (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
+                                        (= (:rule %) "s-present-phrasal"))
+                                   grammar))))]
       {:name "medium"
        :enrich enrich
        :grammar grammar
+
+       ;; Will throw exception if more than 1 rule has the same :rule value:
+       :grammar-map (zipmap
+                     (map #(keyword (get-in % [:rule]))
+                          grammar)
+                     grammar)
+
        :lexicon lexicon
        :index (create-index grammar (flatten (vals lexicon)) head-principle)
+
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
+       :language "fr"
+       :language-keyword :français
+       :lookup (fn [arg]
+                 (morph/analyze arg lexicon))
+       :morph fo
+       
        })))
 
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon @small)
-               (:lookup @small)
-               (:grammar @small)))
+               (:lexicon @medium)
+               (:lookup @medium)
+               (:grammar @medium)))
   
 (log/info "Français grammar defined.")

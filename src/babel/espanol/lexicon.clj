@@ -220,7 +220,6 @@
    
    "desear" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
-   
    "divertirse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
@@ -241,7 +240,6 @@
                        :pret-stem "durm"}
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
-   
    "dormirse"
    (let [subject-semantics (ref {:human true})
          subject-agr (ref :top)]
@@ -718,7 +716,8 @@
                    :pred :I}
              :subcat '()}}})
   
-;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
+;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a
+;; argument-position-sensitive function.
 (def lexicon
   (future (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
 
@@ -743,7 +742,8 @@
                        {:synsem {:subcat {:3 '()}}})
               
               ;; Cleanup functions can go here. Number them for ease of reading.
-              ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':infinitive', 
+              ;; 1. this filters out any verbs without an inflection: infinitive verbs
+              ;; should have inflection ':infinitive', 
               ;; rather than not having any inflection.
               (map-function-on-map-vals 
                (fn [k vals]

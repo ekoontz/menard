@@ -6,12 +6,16 @@
 (require '[babel.francais.morphology :refer [analyze exception-generator
                                              fo]])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
-(require '[babel.writer :refer [delete-from-expressions process reload write-lexicon]])
+(require '[babel.writer :as writer :refer [process reload write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
   (write-lexicon "fr" @lexicon))
+
+(defn expression [& [spec]]
+  (let [spec (if spec spec :top)]
+    (writer/expression medium spec)))
 
 (defn tout [ & [count]]
   (let [count (if count (Integer. count) 10)

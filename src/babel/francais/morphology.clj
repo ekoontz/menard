@@ -29,9 +29,10 @@
         (and (not (nil? b))
              (let [a (get-string word)
                    b (get-string b)]
-               (and (= a "je")
+               (and (re-find #"^[jmlt]e" a) ;; je/le/me/te
                     (re-find #"^[aeéiou]" b))))
-        (str "j'" (get-string b))
+        (let [a (get-string word)]
+          (str (string/replace a #"^([jmlt]).*" (fn [[_ suffix]] (str suffix "'"))) (get-string b)))
 
         (and (not (nil? word))
              (not (nil? b)))

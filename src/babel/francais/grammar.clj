@@ -391,7 +391,8 @@
                                    :synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun-nonphrasal"
-                            :synsem {:cat :verb
+                            :synsem {:aux false
+                                     :cat :verb
                                      :infl {:not :past}}})
                    (unifyc h10
                            {:head {:phrasal false

@@ -3,15 +3,29 @@
   (:require
    [babel.engine :refer [generate]]
    [babel.enrich :refer [against-pred]]
+
    [babel.english.grammar :as eng]
-   [babel.english.writer :as en]
    [babel.english.lexicon :as enl]
    [babel.english.morphology :as enm]
+   [babel.english.writer :as en]
+   
    [babel.espanol.grammar :as esg]
+   [babel.espanol.lexicon :as esl]
+   [babel.espanol.morphology :as esm]
    [babel.espanol.writer :as es]
+
    [babel.forest :refer [lightning-bolt]]
-;   [babel.francais.grammar :as fr]
-;   [babel.italiano.grammar :as it]
+
+   [babel.francais.grammar :as frg]
+   [babel.francais.lexicon :as frl]
+   [babel.francais.morphology :as frm]
+   [babel.francais.writer :as fr]
+
+   [babel.italiano.grammar :as itg]
+   [babel.italiano.lexicon :as itl]
+   [babel.italiano.morphology :as itm]
+   [babel.italiano.writer :as it]
+
    [babel.over :refer [over overh overhc]]
    [babel.html :as html]
    [babel.korma :as korma]
@@ -176,7 +190,7 @@
           search-query
           "(+ 1 1)")
         ]
-       [:button {:onclick "workbook()"} "evaluate"]]
+       [:button {:onclick "workbook('/workbook')"} "evaluate"]]
       [:div#workbooka
        (if search-query
          (workbookq search-query))]])))

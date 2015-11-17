@@ -5,7 +5,9 @@
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small]]
             [babel.francais.morphology :refer [fo]]
-            [babel.over :refer [over]]
+            [babel.francais.writer :refer [expression]]
+            [babel.over :as over]
+            [babel.workbook.fr :refer [over rules]]
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
@@ -160,4 +162,15 @@
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
 
+(deftest reflexive
+  (let [result (over (vals rules) 
+                     "je" 
+                     (over (get rules :vp-pronoun-nonphrasal)
+                           "me" "se amuser"))]
+    (is (= (fo (first result))
+           "je m'amuse"))))
+
+(deftest have-fun-sentence
+  (let [result (expression {:synsem {:sem {:pred :have-fun}}})]
+    (is (= (get-in result [:synsem :sem :pred]) :have-fun))))
 

@@ -380,11 +380,29 @@
             common
             {:synsem {:agr {:gender :masc}}})])
   
-  "laisser" {:synsem {:cat :verb
+   "la" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :3rd
+                        :gender :fem
+                        :number :sing}
+                  :subcat '()}}
+
+   "laisser" {:synsem {:cat :verb
                       :sem {:pred :leave-behind}}}
 
-  "male" {:synsem {:cat :adverb
-                     :sem {:pred :bad}}}
+   "le" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :3rd
+                        :gender :masc
+                        :number :sing}
+                  :subcat '()}}
+
+   "mal" {:synsem {:cat :adverb
+                   :sem {:pred :bad}}}
   
   "manger"
   {:synsem {:cat :verb
@@ -418,7 +436,7 @@
                      
                      :sem {:pred :put}}}
   "nous"
-  (let [common {:synsem {:case :nom
+  (let [common {:synsem {:case :top
                          :agr {:person :1st
                                :number :plur}
                          :sem {:human true
@@ -496,7 +514,15 @@
   "répondre" {:synsem {:cat :verb
                        :sem {:pred :answer}}}
 
-  "se amuser" (let [subject-semantics (ref {:human true})
+   "se" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :3rd
+                        :number :plur}
+                  :subcat '()}}
+
+   "se amuser" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -640,7 +666,7 @@
             common
             {:synsem {:agr {:gender :masc}}})])
   "vous"
-  (let [common {:synsem {:case :nom
+  (let [common {:synsem {:case :top
                          :agr {:person :2nd
                                :number :plur}
                          :sem {:human true

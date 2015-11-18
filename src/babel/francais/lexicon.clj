@@ -613,7 +613,15 @@
   "soutenir" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
-  "terminer" {:synsem {:cat :verb
+   "te" {:synsem {:cat :noun
+                  :pronoun true
+                  :reflexive true
+                  :case pronoun-acc
+                  :agr {:person :2nd
+                        :number :sing}
+                  :subcat '()}}
+
+   "terminer" {:synsem {:cat :verb
                        :sem {:pred :finish}}}
 
   "touer" {:synsem {:cat :verb

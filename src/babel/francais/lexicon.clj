@@ -165,6 +165,7 @@
    "dire"
    (let [shared-part-of-dire
          {:synsem {:cat :verb}
+          :disable true
           :français {:français "dire"
                      :passato "dit"
                      :future-stem "dir"
@@ -289,17 +290,18 @@
    
    "faire"
       (let [shared-part-of-faire
-              {:synsem {:cat :verb}
-               :français {:français "faire"
-                          :drop-e false
-                          :passato "fait"
-                          :future-stem "fer"
-                          :present {:1sing "fais"
-                                    :2sing "fais"
-                                    :3sing "fait"
-                                    :1plur "faisons"
-                                    :2plur "faites"
-                                    :3plur "font"}}}]
+            {:synsem {:cat :verb}
+             :disable true
+             :français {:français "faire"
+                        :drop-e false
+                        :passato "fait"
+                        :future-stem "fer"
+                        :present {:1sing "fais"
+                                  :2sing "fais"
+                                  :3sing "fait"
+                                  :1plur "faisons"
+                                  :2plur "faites"
+                                  :3plur "font"}}}]
     
      [(merge shared-part-of-faire
              {:synsem {:pred :do}})
@@ -463,7 +465,8 @@
   
   "pouvoir"
    (let [shared-part-of-pouvoir
-         {:synsem {:essere false
+         {:disable true
+          :synsem {:essere false
                    :cat :verb}
           :français {:futuro-stem "pourr"
                      :drop-e true

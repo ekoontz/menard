@@ -27,8 +27,18 @@
         ;; (i.e. vectorize the values of the map).
         lexicon-stage-1 (listify lexicon-source)
 
+        remove-disable (map-function-on-map-vals
+                        lexicon-stage-1
+                        (fn [k v]
+                          (remove #(= :fail %)
+                                  (map (fn [lexeme]
+                                         (if (= true (get-in lexeme [:disable]))
+                                           :fail
+                                           lexeme))
+                                       v))))
+
         phon-lexicon (map-function-on-map-vals
-                      lexicon-stage-1
+                      remove-disable
                       (fn [lexical-string lexical-val]
                         (phonize-fn lexical-val lexical-string)))
 

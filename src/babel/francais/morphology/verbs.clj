@@ -165,7 +165,10 @@
      ;; </third person plural future>
               
      :else
-     (throw (Exception. (str "get-string: futuro regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (let [message (str "get-string: futuro regular inflection: don't know what to do with input argument: " (strip-refs word))]
+       (if (= true suppress-incomplete-morphology-errors)
+         (do (log/warn message)
+             (throw (Exception. message))))))))
 
 (defn imperfect [word]           
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))

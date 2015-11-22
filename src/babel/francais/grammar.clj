@@ -490,7 +490,9 @@
           grammar ;; small grammar + a few other things:
           (seq (union (set (:grammar @small))
                       (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
-                                        (= (:rule %) "s-present-phrasal"))
+                                        (= (:rule %) "vp-pronoun-phrasal")
+                                        (= (:rule %) "s-present-phrasal")
+                                        (= (:rule %) "vp-aux-22"))
                                    grammar))))]
       {:name "medium"
        :enrich enrich

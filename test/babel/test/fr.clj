@@ -174,3 +174,12 @@
   (let [result (expression {:synsem {:sem {:pred :have-fun}}})]
     (is (= (get-in result [:synsem :sem :pred]) :have-fun))))
 
+(deftest vp-aux-reflexive
+  (let [result
+        (expression
+         {:synsem {:subcat '() :sem {:subj {:pred :lei}
+                                     :pred :have-fun :tense :past}}})]
+    (is (= (fo result) "elle l'est amusée"))))
+
+
+

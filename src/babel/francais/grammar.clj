@@ -356,6 +356,7 @@
 
                    ;; [nous [être + naître]] => nous somme nées
                    (unifyc h22
+                           root-is-comp
                            (let [obj-agr (ref :top)] ;; TODO: Remove: this obj-agr is not used.
                              {:head {:phrasal false}
                               :rule "vp-aux-22"

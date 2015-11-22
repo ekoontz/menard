@@ -73,7 +73,7 @@
    (let [common
          {:synsem {:essere false
                    :cat :verb}
-          :français {:futuro-stem "aur"
+          :français {:future-stem "aur"
                      :drop-e true
                      :past-participle "eu"
                      :imperfect-stem "av"
@@ -142,7 +142,7 @@
    (let [common
          {:synsem {:essere false
                    :cat :verb}
-          :français {:futuro-stem "devr"
+          :français {:future-stem "devr"
                      :drop-e true
                      :past-participle "dû"
                      :imperfect-stem "dev"
@@ -289,10 +289,9 @@
    "faire"
       (let [shared-part-of-faire
             {:synsem {:cat :verb}
-             :disable true
              :français {:français "faire"
                         :drop-e false
-                        :passato "fait"
+                        :past-participle "fait"
                         :future-stem "fer"
                         :present {:1sing "fais"
                                   :2sing "fais"
@@ -301,10 +300,10 @@
                                   :2plur "faites"
                                   :3plur "font"}}}]
     
-     [(merge shared-part-of-faire
-             {:synsem {:pred :do}})
-      (merge shared-part-of-faire
-             {:synsem {:pred :make}})])
+        [(unify shared-part-of-faire
+             {:synsem {:sem {:pred :do}}})
+         (unify shared-part-of-faire
+                {:synsem {:pred :make}})])
    
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
@@ -317,7 +316,7 @@
                              :subj {:human true}}}}]
 
    "gérer" {:synsem {:cat :verb
-                    :sem {:pred :manage}}}
+                     :sem {:pred :manage}}}
    "il"
    [{:synsem {:cat :noun
               :pronoun true
@@ -468,7 +467,7 @@
    "peindre" {:français {:boot-stem1 "pein"
                          :boot-stem2 "peign"
                          :passé "peint"
-                         :futuro-stem "paindr"
+                         :future-stem "paindr"
                          :imperfect "peign"}
               :synsem {:cat :verb
                        :sem {:pred :paint}}}
@@ -538,7 +537,7 @@
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
-                          :français {:futuro-stem "appell"
+                          :français {:future-stem "appell"
                                      :boot-stem "appell"}
                           :sem {:pred :be-called
                                 :reflexive true
@@ -553,7 +552,8 @@
 
    "se blesser" (let [subject-semantics (ref {:human true})
                       subject-agr (ref :top)]
-                  {:synsem {:cat :verb
+                  {
+                   :synsem {:cat :verb
                             :essere true
                             :sem {:pred :hurt-oneself
                                   :reflexive true
@@ -564,9 +564,11 @@
                                      :2 {:agr subject-agr
                                          :pronoun true
                                          :reflexive true
-                                         :sem subject-semantics}
-                                     :3 {:cat :adverb
-                                         :sem {:pred :bad}}}}})
+                                         :sem subject-semantics}}}})
+
+   ;; not supported in grammar yet.
+   ;;                                     :3 {:cat :adverb
+   ;;                                         :sem {:pred :bad}}}}})
    
   "se endormir" (let [subject-semantics (ref {:human true})
                     subject-agr (ref :top)]
@@ -602,7 +604,7 @@
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb
                           :essere true
-                          :français {:futuro-stem "ennui"
+                          :français {:future-stem "ennui"
                                      :boot-stem "ennui"}
                           :sem {:pred :get-bored
                                 :reflexive true

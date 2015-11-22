@@ -29,6 +29,9 @@
                ;; prendre -> prend
                (string/replace infinitive #"re$" "")
                stem)
+        stem (if (get-in word [:future-stem])
+               (get-in word [:future-stem])
+               stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         person (get-in word '(:agr :person))

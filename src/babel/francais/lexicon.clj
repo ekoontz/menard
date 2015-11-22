@@ -244,7 +244,7 @@
    (let [common
          {:synsem {:cat :verb
                    :essere false}
-          :français {:futuro-stem "ser"
+          :français {:future-stem "ser"
                      :infinitive "être"
                      :present {:1sing "suis"
                                :2sing "es"
@@ -481,10 +481,9 @@
   
   "pouvoir"
    (let [shared-part-of-pouvoir
-         {:disable true
-          :synsem {:essere false
+         {:synsem {:essere false
                    :cat :verb}
-          :français {:futuro-stem "pourr"
+          :français {:future-stem "pourr"
                      :drop-e true
                      :past-participle "pu"
                      :imperfect-stem "pouv"
@@ -494,12 +493,12 @@
                                :1plur "pouvons"
                                :2plur "pouvez"
                                :3plur "peuvent"}}}]
-     [(merge shared-part-of-pouvoir
-             {:synsem {:pred :can}})
-      (merge shared-part-of-pouvoir
-             {:synsem {:pred :may}})
-      (merge shared-part-of-pouvoir
-             {:synsem {:pred :be-able-to}})])
+     [(unify shared-part-of-pouvoir
+             {:synsem {:sem {:pred :can}}})
+      (unify shared-part-of-pouvoir
+             {:synsem {:sem {:pred :may}}})
+      (unify shared-part-of-pouvoir
+             {:synsem {:sem {:pred :be-able-to}}})])
   
   "regarder" [{:synsem {:cat :verb
                         :sem {:pred :look}}}

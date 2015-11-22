@@ -111,7 +111,7 @@
                          (let [loaded
                                (try
                                  (binding [*read-eval* true]
-                                   (workbook-sandbox (binding [*read-eval* true] (read-string expr))))
+                                   (eval (read-string expr)))
                                  ;; TODO: how can I show the stack trace for the
                                  ;; attempt to process the expression?
                                  (catch Exception e

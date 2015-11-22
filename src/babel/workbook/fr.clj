@@ -41,8 +41,7 @@
 
 (def foo (expression {:synsem {:cat :verb}}))
 ;(def foo (lightning-bolt nil nil nil))
-
-;(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
+(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
 
 (def rules (:grammar-map @medium))
 

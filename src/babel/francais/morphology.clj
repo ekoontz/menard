@@ -29,10 +29,20 @@
         (and (not (nil? b))
              (let [a (get-string word)
                    b (get-string b)]
-               (and (re-find #"^[jmlt]e" a) ;; je/le/me/te
+               (and (re-find #"^(je|tu)$" a) ;;
                     (re-find #"^[aeéiou]" b))))
         (let [a (get-string word)]
-          (str (string/replace a #"^([jmlt]).*" (fn [[_ suffix]] (str suffix "'"))) (get-string b)))
+          (str (string/replace a #"^(j|t).*" (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
+
+        ;; (elle) la + est (amuseé) = (elle) l'est (amuseé)
+        (and (not (nil? b))
+             (let [a (get-string word)
+                   b (get-string b)]
+               (and (re-find #"^(la|le|me|se|te)$" a) ;;
+                    (re-find #"^[aeéiou]" b))))
+        (let [a (get-string word)]
+          (str (string/replace a #"^(l|m|s|t).*"
+                               (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
 
         (and (not (nil? word))
              (not (nil? b)))

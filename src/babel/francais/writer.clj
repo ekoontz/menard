@@ -25,6 +25,8 @@
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
+                           ;; uncomment to only generate for a desired verb, e.g. "se amuser"
+                           ;;                           (= (get-in lexeme [:français :français]) "se amuser")
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))

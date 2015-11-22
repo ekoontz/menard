@@ -184,6 +184,7 @@
 
 ;; must be a set, not just a vector, so that contains? works as expected.
 (def hide-these-features (set [:comp-filled
+                               :root
 ;                               :a :b
                                :activity
                                :animate

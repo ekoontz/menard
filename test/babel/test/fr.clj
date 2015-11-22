@@ -163,7 +163,7 @@
     (is (= (fo result) "nous sommes allées"))))
 
 (deftest reflexive
-  (let [result (over (vals rules) 
+  (let [result (over (get rules :s-present-phrasal)
                      "je" 
                      (over (get rules :vp-pronoun-nonphrasal)
                            "me" "se amuser"))]

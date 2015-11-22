@@ -492,7 +492,9 @@
           (seq (union (set (:grammar @small))
                       (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
                                         (= (:rule %) "vp-pronoun-phrasal")
+                                        (= (:rule %) "s-conditional-phrasal")
                                         (= (:rule %) "s-present-phrasal")
+                                        (= (:rule %) "s-future-phrasal")
                                         (= (:rule %) "vp-aux-22"))
                                    grammar))))]
       {:name "medium"

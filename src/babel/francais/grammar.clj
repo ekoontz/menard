@@ -333,12 +333,13 @@
                                            :tense :present}}})
                    (unifyc c21
                            root-is-head-root
-                           {:head {:phrasal true}
+                           {:head {:phrasal true
+                                   :infl {:not :past-p}}
                             :comp {:synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun-phrasal"
-                            :synsem {:cat :verb
-                                     :infl {:not :past}}})                     
+                            :synsem {:cat :verb}})
+
                    (unifyc h21
                            {:rule "vp-infinitive"
                             :synsem {:aux false
@@ -375,7 +376,7 @@
                    (unifyc h21
                            {:rule "vp-past"
                             :synsem {:aux false
-                                     :infl :past
+                                     :infl :past-p
                                      :cat :verb}})
                    (unifyc h21
                            {:rule "vp-present"
@@ -387,14 +388,13 @@
                    ;; [s-present "je" [vp-pronoun "m'" "amuse"]]
                    (unifyc c21
                            root-is-head
-                           {:head {:phrasal false}
+                           {:head {:phrasal false
                             :comp {:phrasal false
                                    :synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun-nonphrasal"
                             :synsem {:aux false
-                                     :cat :verb
-                                     :infl {:not :past}}})
+                                     :cat :verb}})
                    (unifyc h10
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}

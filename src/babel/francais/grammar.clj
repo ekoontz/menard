@@ -28,7 +28,7 @@
              (do
                (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
                (list result)))))
-              (matching-head-lexemes spec lexicon)))))
+       (matching-head-lexemes spec lexicon)))))
 
 (defn matching-head-lexemes [spec lexicon]
   (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
@@ -356,7 +356,7 @@
 
                    ;; [nous [être + naître]] => nous somme nées
                    (unifyc h22
-                           (let [obj-agr (ref :top)]
+                           (let [obj-agr (ref :top)] ;; TODO: Remove: this obj-agr is not used.
                              {:head {:phrasal false}
                               :rule "vp-aux-22"
                               :synsem {:aux true
@@ -389,6 +389,7 @@
                    (unifyc c21
                            root-is-head
                            {:head {:phrasal false
+                                   :synsem {:infl {:not :past-p}}}
                             :comp {:phrasal false
                                    :synsem {:cat :noun
                                             :pronoun true}}

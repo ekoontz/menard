@@ -1,7 +1,6 @@
 (ns babel.francais.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.lexiconfn :refer (unify)]
    [babel.francais.morphology :refer [exception-generator phonize]]
    [babel.francais.pos :refer :all]
    [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
@@ -165,9 +164,8 @@
    "dire"
    (let [shared-part-of-dire
          {:synsem {:cat :verb}
-          :disable true
           :français {:français "dire"
-                     :passato "dit"
+                     :past-participle "dit"
                      :future-stem "dir"
                      :imperfect-stem "dis"
                      :present {:1sing "dis"
@@ -176,10 +174,10 @@
                                :1plur "disons"
                                :2plur "dites"
                                :3plur "disent"}}}]
-     [(merge shared-part-of-dire
-             {:synsem {:pred :say}})
-      (merge shared-part-of-dire
-             {:synsem {:pred :tell}})])
+     [(unify shared-part-of-dire
+             {:synsem {:sem {:pred :say}}})
+      (unify shared-part-of-dire
+             {:synsem {:sem {:pred :tell}}})])
    
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}

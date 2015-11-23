@@ -44,8 +44,8 @@
                              ;; else, no existing expression: generate a new one.
                              (do
                                (log/debug (str "generating from spec: " spec))
-                               (log/info (str "generating using source expression: "
-                                              (:surface source-expression)))
+                               (log/info (str "generating using source expression: '"
+                                              (:surface source-expression) "'"))
                                (try
                                  (let [result
                                        (process [{:fill-one-language

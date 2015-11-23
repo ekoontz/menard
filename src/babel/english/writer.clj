@@ -13,6 +13,9 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
 
+(defn rewrite-lexicon []
+  (write-lexicon "en" @lexicon))
+
 (defn expression [spec]
   (writer/expression small-plus-plus-np spec))
 

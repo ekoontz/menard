@@ -531,24 +531,35 @@
                                    :2 {:agr subject-agr
                                        :pronoun true
                                        :reflexive true
-                                       :sem subject-semantics}}}})
-  
-  "se appeler" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
-                {:synsem {:cat :verb
-                          :essere true
-                          :français {:future-stem "appell"
-                                     :boot-stem "appell"}
-                          :sem {:pred :be-called
-                                :reflexive true
-                                :subj subject-semantics
-                                :obj subject-semantics}
-                          :subcat {:1 {:agr subject-agr
-                                       :sem subject-semantics}
-                                   :2 {:agr subject-agr
-                                       :pronoun true
-                                       :reflexive true
-                                       :sem subject-semantics}}}})
+                                       :sem subject-semantics}}}})  
+   "se appeler"
+   (let [subject-semantics (ref :top)
+         called-semantics (ref :top)
+         subject-gender (ref :top)
+         subject-person (ref :top)
+         subject-number (ref :top)]
+     {:synsem {:cat :verb
+               :sem {:aspect :progressive
+                     :pred :be-called
+                     :reflexive true
+                     :tense :present
+                     :subj subject-semantics
+                     :obj called-semantics}
+               :subcat {:1 {:propernoun false
+                            :agr {:number subject-number
+                                  :person subject-person
+                                  :gender subject-gender}}
+                        :2 {:agr {:number subject-number
+                                  :person subject-person
+                                  :gender subject-gender}
+                            :pronoun true
+                            :reflexive true}
+                        :3 {:agr {:number subject-number
+                                  :gender subject-gender}
+                            :propernoun true
+                            :sem called-semantics
+                            :cat :noun
+                            :subcat '()}}}})
 
    "se blesser" (let [subject-semantics (ref {:human true})
                       subject-agr (ref :top)]

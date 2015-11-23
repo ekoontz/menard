@@ -3,7 +3,7 @@
   (:require
    [babel.francais.morphology :refer [exception-generator phonize]]
    [babel.francais.pos :refer :all]
-   [babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)]
+   [babel.lexiconfn :refer (compile-lex if-then map-function-on-map-vals unify)]
    [babel.pos :as pos :refer [pronoun-acc]]
    [dag-unify.core :refer [get-in]]))
 
@@ -705,7 +705,11 @@
               ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
               transitivize
 
-              ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
+              (if-then {:synsem {:cat :verb
+                                 :subcat {:3 '()}}}
+                       {:synsem {:subcat {:3 '()}}})
+              
+              ;; TODO: use lexiconfn/if-then here, like espanol/lexicon does.
               ;; default: essere=false
               (map-function-on-map-vals
                (fn [k vals]

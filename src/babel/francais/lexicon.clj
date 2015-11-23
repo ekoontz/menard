@@ -376,7 +376,14 @@
      (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
-  
+
+   "Juan" {:synsem {:sem {:pred :Juan
+                          :human true}
+                    :propernoun true
+                    :agr {:number :sing
+                          :person :3rd
+                          :gender :masc}}}
+   
    "la" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

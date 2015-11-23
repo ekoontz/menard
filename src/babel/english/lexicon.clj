@@ -1121,9 +1121,9 @@
           :synsem {:cat :verb
                    :sem {:pred :run}}}
 
-   "say" {:synsem {:cat :verb
-                    :past "said"
-                    :sem {:pred :say}}}
+   "say" {:english {:past "said"}
+          :synsem {:cat :verb
+                   :sem {:pred :say}}}
    
    "scold" {:synsem {:cat :verb
                 :sem {:pred :scold}}}

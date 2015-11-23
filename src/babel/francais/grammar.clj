@@ -386,6 +386,17 @@
                                      :sem {:tense :present}
                                      :cat :verb}})
 
+
+                   ;; e.g. used as: "je m'appelle Jean" -
+                   ;; [s-present-phrasal 'je' [vp-pronoun-phrasal 'm'' [vp32 'se appeler' 'Jean']]]
+                   (unifyc h32
+                           root-is-head
+                           {:rule "vp-32"
+                            :head {:phrasal false}
+                            :synsem {:aux false
+                                     :infl {:not :past}
+                                     :cat :verb}})
+
                    ;; [s-present "je" [vp-pronoun "m'" "amuse"]]
                    (unifyc c21
                            root-is-head
@@ -496,7 +507,8 @@
                                         (= (:rule %) "s-conditional-phrasal")
                                         (= (:rule %) "s-present-phrasal")
                                         (= (:rule %) "s-future-phrasal")
-                                        (= (:rule %) "vp-aux-22"))
+                                        (= (:rule %) "vp-aux-22")
+                                        (= (:rule %) "vp-32"))
                                    grammar))))]
       {:name "medium"
        :enrich enrich

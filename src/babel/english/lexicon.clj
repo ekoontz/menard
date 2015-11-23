@@ -1241,12 +1241,13 @@
    "take" (let [common {:synsem {:cat :verb}
                         :english {:past "took"
                                   :past-participle "taken"}}]
-            [{:synsem {:sem {:pred :carry}}
+            [{:synsem {:cat :verb
+                       :sem {:pred :carry}}
               :english {:note "carry"}}
             
-             {:synsem {:sem {:pred :grab}}
+             {:synsem {:cat :verb
+                       :sem {:pred :grab}}
               :english {:note "grab"}}])
-                             
 
    "take advantage of" {:english {:past "took advantage of"
                                   :participle "taking advantage of"

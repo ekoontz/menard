@@ -72,20 +72,31 @@
                                                                                  :model medium
                                                                                  }}]
                                                                               "fr")
+                                                                     ;; TODO: move this to *before*
+                                                                     ;; attempting generation that fails.
                                                                      (catch Exception e
                                                                        (cond
                                                                         
-                                                                        ;; TODO: make this conditional on
-                                                                        ;; there being a legitimate reason for the exception -
-                                                                        ;; e.g. the verb is "funzionare" (which takes a non-human
-                                                                        ;; subject), but we're trying to generate with
-                                                                        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                                        ;; are human.
-                                                                        false
-                                                                        
-                                                                        (log/warn (str "ignoring exception: " e))
-                                                                        true
-                                                                       (throw e))))
+                                                                         ;; "se appeler": there is currently only singular
+                                                                         ;; proper male names, so any attempt to use
+                                                                         ;; plural number with this verb will fail.
+                                                                         ;; Also verb is constrained in lexicon
+                                                                         ;; to only be present progressive.
+                                                                         (and
+                                                                          (= (get-in spec [:root :français :français])
+                                                                             "se appeler")
+                                                                          (or (= (get-in spec [:comp :synsem :agr :number])
+                                                                                 :plur)
+                                                                              (= (get-in spec [:comp :synsem :agr :gender])
+                                                                                 :fem)
+                                                                              (and (not (= (get-in spec [:synsem :sem :tense])
+                                                                                           :present))
+                                                                                   (not (= (get-in spec [:synsem :sem :aspect])
+                                                                                           :progressive)))))
+                                                                         (do (log/info (str "ignoring exception (se-appeler): " e)))
+
+                                                                         true
+                                                                         (throw e))))
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))

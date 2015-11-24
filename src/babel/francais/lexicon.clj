@@ -708,6 +708,13 @@
               (if-then {:synsem {:cat :verb
                                  :subcat {:3 '()}}}
                        {:synsem {:subcat {:3 '()}}})
+
+              ;; if object is not specified, then set to :unspec.
+              ;; this prevents translations that may have actual objects - e.g. would allow translations like:
+              ;; "Je mange" => "I eat the bread" whereas a better translation is "I eat".
+              (if-then {:synsem {:cat :verb
+                                 :sem {:obj :unspec}}}
+                       {:synsem {:sem {:obj :unspec}}})
               
               ;; TODO: use lexiconfn/if-then here, like espanol/lexicon does.
               ;; default: essere=false

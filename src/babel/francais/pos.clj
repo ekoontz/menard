@@ -84,6 +84,3 @@
               :agr {:gender gender}
               :sem {:gender gender}
               :subcat '()}}))
-
-
-

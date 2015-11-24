@@ -760,7 +760,8 @@
               :subcat '()}}]
 
    "imagine" {:synsem {:cat :verb
-                     :sem {:pred :imagine}}}
+                       :sem {:pred :imagine
+                             :subj {:human true}}}}
 
    "import" {:synsem {:cat :verb
                 :sem {:pred :import}}}

@@ -45,7 +45,8 @@
     ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
     (.size (pmap (fn [verb]
                    (log/trace (str "verb: " (strip-refs verb)))
-                   (let [root-form (get-in verb [:français :français])]
+                   (let [root-form (get-in verb [:français :français])
+                         essere (get-in verb [:synsem :essere])]
                      (log/info (str "generating with verb: '" root-form "'"))
                      (.size (map (fn [tense]
                                    (let [spec (unify {:root {:français {:français root-form}}}
@@ -100,13 +101,14 @@
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
-                                           (cond (= tense
-                                                    {:synsem {:sem {:aspect :perfect
-                                                                    :tense :past}}})
-                                                 [{:gender :masc}
-                                                  {:gender :fem}]
-                                                 true
-                                                 [:top])))))
+                                           (cond (and (= true essere)
+                                                      (= tense
+                                                         {:synsem {:sem {:aspect :perfect
+                                                                         :tense :past}}}))
+                                                      [{:gender :masc}
+                                                       {:gender :fem}]
+                                                      true
+                                                      [:top])))))
                                  (list {:synsem {:sem {:tense :conditional}}}
                                        {:synsem {:sem {:tense :future}}}
                                        {:synsem {:sem {:tense :present}}}

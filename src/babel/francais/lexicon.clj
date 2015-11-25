@@ -303,7 +303,7 @@
         [(unify shared-part-of-faire
              {:synsem {:sem {:pred :do}}})
          (unify shared-part-of-faire
-                {:synsem {:pred :make}})])
+                {:synsem {:sem {:pred :make}}})])
    
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}

@@ -7,6 +7,7 @@
             [babel.francais.morphology :refer [fo]]
             [babel.francais.writer :refer [expression]]
             [babel.over :as over]
+            [babel.writer :refer [reload]]
             [babel.workbook.fr :refer [over rules]]
             [clojure.string :as string]
             [clojure.test :refer :all]

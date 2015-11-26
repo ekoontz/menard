@@ -268,7 +268,6 @@
                      :sem {:human true
                            :pred :carry}}
             :english {:past "carried"}}
-
    "cat"
    (unify agreement-noun
           common-noun
@@ -1243,14 +1242,10 @@
                         :english {:past "took"
                                   :past-participle "taken"}}]
             [(unify common
-                    {:synsem {:cat :verb
-                              :sem {:pred :carry}}
-                     :english {:note "carry"}})
-            
+                    {:synsem {:sem {:pred :grab}}
+                     :english {:note "grab"}})
              (unify common
-                    {:synsem {:cat :verb
-                              :sem {:pred :grab}}
-                     :english {:note "grab"}})])
+                    {:synsem {:sem {:pred :take}}})])
 
    "take advantage of" {:english {:past "took advantage of"
                                   :participle "taking advantage of"

@@ -713,6 +713,7 @@
               ;; this prevents translations that may have actual objects - e.g. would allow translations like:
               ;; "Je mange" => "I eat the bread" whereas a better translation is "I eat".
               (if-then {:synsem {:cat :verb
+                                 :aux false
                                  :sem {:obj :unspec}}}
                        {:synsem {:sem {:obj :unspec}}})
               

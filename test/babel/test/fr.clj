@@ -182,5 +182,8 @@
                                      :pred :have-fun :tense :past}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
-
-
+(deftest named-sentence
+  (let [result (expression {:synsem {:sem {:pred :be-called
+                                           :subj {:pred :lui}
+                                           :obj {:pred :Juan}}}})]
+    (is (= (fo result) "il l'appele Juan"))))

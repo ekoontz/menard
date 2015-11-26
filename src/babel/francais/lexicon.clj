@@ -714,7 +714,9 @@
               ;; "Je mange" => "I eat the bread" whereas a better translation is "I eat".
               (if-then {:synsem {:cat :verb
                                  :aux false
-                                 :sem {:obj :unspec}}}
+                                 :sem {:obj :unspec
+                                       :reflexive false
+                                       }}}
                        {:synsem {:sem {:obj :unspec}}})
               
               ;; TODO: use lexiconfn/if-then here, like espanol/lexicon does.

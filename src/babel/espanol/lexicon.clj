@@ -408,6 +408,24 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
     
+   "hacer" {:espanol {:future-stem "har"
+                   :present {:1sing "hago"
+                             :2sing "haces"
+                             :3sing "hace"
+                             :1plur "hacemos"
+                             :2plur "hacéis"
+                             :3plur "hacen"}
+                   :preterito {:1sing "hize"
+                               :2sing "hiciste"
+                               :3sing "hize"
+                               :1plur "hicimos"
+                               :2plur "hicisteis"
+                               :3plur "hicieron"}}
+         [(merge shared-part-of-hacer
+                {:synsem {:pred :do}})
+         (merge shared-part-of-hacer
+                {:synsem {:pred :make}})]
+   
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb
                       :sem {:pred :boil}}}

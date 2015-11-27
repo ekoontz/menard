@@ -93,7 +93,9 @@
                                        :2plur "were"
                                        :3plur "were"}}}]
           [(merge common
-                  {:synsem {:sem {:pred :be}}})
+                  {:synsem {:subcat {:1 {:cat :noun}
+                                     :2 '()}
+                            :sem {:pred :be}}})
            (let [subj-agr (ref :top)
                  infl (ref :top)
                  the-real-subj (ref :top)

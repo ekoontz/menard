@@ -707,13 +707,16 @@
             
    "hurt" (let [common {:english {:past "hurt"}
                         :synsem {:cat :verb}}]
-            [(let [subject-semantics (ref {:human true})]
+            [(let [subject-semantics (ref {:human true})
+                   subject-agr (ref :top)]
                (merge common
                       {:synsem {:sem {:pred :hurt-oneself
                                       :subj subject-semantics
                                       :obj subject-semantics}
-                                :subcat {:1 {:sem subject-semantics}
-                                         :2 {:pronoun true
+                                :subcat {:1 {:agr subject-agr
+                                             :sem subject-semantics}
+                                         :2 {:agr subject-agr
+                                             :pronoun true
                                              :reflexive true
                                              :sem subject-semantics}}}}))
              (merge common
@@ -1284,11 +1287,10 @@
               :pronoun true
               :case :acc
               :reflexive true
-              :agr {:person :1st
+              :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:human true
-                    :pred :loro}
+              :sem {:human true}
               :subcat '()}}
     
     {:note "♂" 
@@ -1296,11 +1298,10 @@
               :pronoun true
               :case :acc
               :reflexive true
-              :agr {:person :1st
+              :agr {:person :3rd
                     :number :plur
                     :gender :masc}
-              :sem {:human true
-                    :pred :loro}
+              :sem {:human true}
               :subcat '()}}]
    
    ;; TODO: move gender symbol to :notes for all "they" variants.

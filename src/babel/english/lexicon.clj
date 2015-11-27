@@ -717,7 +717,7 @@
     :english {:past "hugged"
               :participle "hugging"}}
             
-   "hurt" (let [common {:english {:past "hurt"}
+   "hurt" (let [common {:english {:past "hurt (past)"}
                         :synsem {:cat :verb}}]
             [(let [subject-semantics (ref {:human true})
                    subject-agr (ref :top)]

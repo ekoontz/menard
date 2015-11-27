@@ -427,7 +427,8 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
     
-   "hacer" {:espanol {:future-stem "har"
+   "hacer" (let [shared-part-of-hacer
+           {:espanol {:future-stem "har"
                    :present {:1sing "hago"
                              :2sing "haces"
                              :3sing "hace"
@@ -443,7 +444,7 @@
          [(merge shared-part-of-hacer
                 {:synsem {:pred :do}})
          (merge shared-part-of-hacer
-                {:synsem {:pred :make}})]
+                {:synsem {:pred :make}})])
    
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb

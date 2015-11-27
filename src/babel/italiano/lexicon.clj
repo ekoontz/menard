@@ -295,7 +295,7 @@
        transitive
        avere-common
        {:note "avere (possess)"
-        :synsem {:sem {:pred :avere
+        :synsem {:sem {:pred :have
                        :activity false
                        :discrete false
                        :subj {:human true}
@@ -308,7 +308,7 @@
        verb-subjective
        intransitive-unspecified-obj
        {:note "avere (possess): unspecified object"
-        :synsem {:sem {:pred :avere
+        :synsem {:sem {:pred :have
                        :activity false
                        :discrete false
                        :subj {:human true}}}})

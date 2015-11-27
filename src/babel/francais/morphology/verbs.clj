@@ -169,9 +169,16 @@
           re-type)
      (str stem "ront")
      ;; </third person plural future>
-              
+
+     (and (or (= :top (get-in word [:agr]))
+              (= :top person)
+              (= :top (get-in word [:agr :gender]))
+              (= :top number))
+          (string? (get-in word [:français])))
+     (get-in word [:français])
+
      :else
-     (let [message (str "get-string: futuro regular inflection: don't know what to do with input argument: " (strip-refs word))]
+     (let [message (str "get-string: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
        (if (= true suppress-incomplete-morphology-errors)
          (do (log/warn message)
              (throw (Exception. message))))))))
@@ -237,7 +244,13 @@
           ir-type)
      (str stem "issaient")
      ;; </third person plural imperfecto>
-           
+
+     (and (or (= :top person)
+              (= :top (get-in word [:agr :gender]))
+              (= :top number))
+          (string? (get-in word [:français])))
+     (get-in word [:français])
+
      :else
      (let [message (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word))]
        (if (= true suppress-incomplete-morphology-errors)
@@ -265,8 +278,10 @@
         number-and-person (number-and-person number person)
         ]
     (cond
-     (get-in word [:present number-and-person])
-     (get-in word [:present number-and-person])
+
+      (and number-and-person
+           (get-in word [:present number-and-person]))
+      (get-in word [:present number-and-person])
 
      ;;QUI COMINCIANO I VERBI FRANCESI REGOLARI
      (and (= person :1st) (= number :sing) er-type)
@@ -340,8 +355,16 @@
           (string? (get-in word [:français])))
      (get-in word [:français])
 
+     (and (or (= :top person)
+              (= :top (get-in word [:agr :gender]))
+              (= :top number))
+           (string? (get-in word [:français])))
+     (get-in word [:français])
+
      :else
-     (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: " (strip-refs word) " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
+     (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: "
+                             (strip-refs word)
+                             " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
 
 (defn passe-compose [word]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))]

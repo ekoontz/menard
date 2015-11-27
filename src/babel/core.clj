@@ -2,6 +2,7 @@
   (:require
    [babel.workbook :as workbook]
    [babel.workbook.fr :as fr]
+   [babel.workbook.en :as en]
 
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
@@ -16,6 +17,8 @@
 (defroutes main-routes
   (GET "/" request
        (resp/redirect "/workbook"))
+  (context "/workbook/en" []
+           en/routes)
   (context "/workbook/fr" []
            fr/routes)
   (context "/workbook" []

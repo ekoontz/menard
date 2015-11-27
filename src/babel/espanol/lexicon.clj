@@ -736,6 +736,12 @@
                    :pred :voi}
              :subcat '()}}
    
+   "ver" {:espanol  {:present {:1sing "veo"
+                               :2plur "veis"}
+                     :preterito {:1sing "vi"
+                                 :3sing "vio"}}
+          :synsem {:cat :verb
+                   :sem {:pred :see}}}
    
    "vosotras"
    {:synsem {:cat cat-of-pronoun

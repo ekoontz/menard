@@ -606,7 +606,7 @@
    "have" {:synsem {:cat :verb
                     :sem {:activity false
                           :discrete false
-                          :pred :avere
+                          :pred :have
                           :subj {:human true}
                           :obj {:buyable true}}}
            :english {:present {:3sing "has"}

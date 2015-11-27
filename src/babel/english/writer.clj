@@ -30,6 +30,7 @@
 
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."
+  (rewrite-lexicon)
   (let [source-expressions (read-all :top source-language-short-name)]
     (.size (pmap (fn [source-expression]
                    (do (log/debug (str source-language-short-name ": " (:surface source-expression)))

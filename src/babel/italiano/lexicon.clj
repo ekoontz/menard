@@ -867,10 +867,10 @@
                             :passato "detto"
                             :future-stem "dir"
                             :present {:2plur "dite"}}}]
-               [(merge shared-part-of-dire
-                       {:synsem {:pred :say}})
-                (merge shared-part-of-dire
-                       {:synsem {:pred :tell}})])
+               [(unify shared-part-of-dire
+                       {:synsem {:sem {:pred :say}}})
+                (unify shared-part-of-dire
+                       {:synsem {:sem {:pred :tell}}})])
       
       "divertirsi" (let [subject-semantics (ref {:human true})
                          subject-agr (ref :top)]

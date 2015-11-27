@@ -83,7 +83,7 @@
                                :1plur "avons"
                                :2plur "avez"
                                :3plur "ont"}}}]
-     [(unify common {:synsem {:sem {:pred :avere
+     [(unify common {:synsem {:sem {:pred :have
                                     :subj {:human true}}}})
       (unify common verb-aux
              {:synsem {:subcat {:2 {:essere false}}}})])

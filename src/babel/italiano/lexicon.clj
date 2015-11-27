@@ -1407,7 +1407,26 @@
                     :number :plur}
               :sem {:human true
                     :pred :loro}
-              :subcat '()}}]
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :plur}
+              :sem {:human false
+                    :pred :loro}
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :plur}
+              :sem {:human false
+                    :pred :loro}
+              :subcat '()}}
+    ]
 
    "lui" (let [common {:synsem {:cat :noun
                                 :pronoun true

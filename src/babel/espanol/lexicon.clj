@@ -658,6 +658,23 @@
                         :number :sing}
                   :subcat '()}}
    
+    "tener" {:espanol {:future-stem "tendr"
+                   :present {:1sing "tengo"
+                             :2sing "tienes"
+                             :3sing "tiene"
+                             :1plur "tenemos"
+                             :2plur "tenéis"
+                             :3plur "tienen"}
+                   :preterito {:1sing "tuve"
+                               :2sing "tuviste"
+                               :3sing "tuvo"
+                               :1plur "tuvimos"
+                               :2plur "tuvisteis"
+                               :3plur "tuvieron"}}
+                             :synsem {:cat :verb
+                  :sem {:subj {:animate true}
+                        :pred :have}}}
+   
    "tirar" [{:synsem {:cat :verb
                       :sem {:pred :throw-out}}}
             {:synsem {:cat :verb

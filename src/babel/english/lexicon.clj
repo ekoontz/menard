@@ -665,8 +665,7 @@
              :agr {:person :3rd
                    :gender :fem
                    :number :sing}
-             :sem {:human true
-                   :pred :lei}
+             :sem {:human true}
              :subcat '()}}
 
    "himself"
@@ -677,8 +676,7 @@
              :agr {:person :3rd
                    :gender :masc
                    :number :sing}
-             :sem {:human true
-                   :pred :lui}
+             :sem {:human true}
              :subcat '()}}
    "his"
    {:synsem {:cat :det
@@ -721,6 +719,7 @@
              (merge common
                     {:synsem {:sem {:pred :hurt
                                     :obj {:animate true}}}})])
+
    "Juan" {:synsem {:sem {:pred :Juan
                           :human true}
                     :propernoun true
@@ -1313,7 +1312,7 @@
                     :gender :masc
                     :number :plur}
               :sem {:gender :masc
-                   :human true
+                    :human true
                     :pred :loro}
               :subcat '()}}
     {:synsem {:cat :noun
@@ -1623,11 +1622,10 @@
 
                          ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                          transitivize
-
+                         
                          ;; if a verb has an object,
                          ;; and the object is not {:reflexive true}
                          ;; then the object is {:reflexive false}
-
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
                                   {:synsem {:subcat {:2 {:reflexive false}}}}))))

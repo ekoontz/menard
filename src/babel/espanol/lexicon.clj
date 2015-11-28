@@ -659,6 +659,18 @@
       (merge shared-part-of-poder
              {:synsem {:pred :be-able-to}})])
    
+   "poner" {:espanol {:future-stem "pondr"
+                   :present {:1sing "tengo"
+                             :2sing "tienes"
+                             :3sing "tiene"
+                             :1plur "tenemos"
+                             :2plur "tenéis"
+                             :3plur "tienen"}
+                   :preterito-stem "tuv"}
+                             :synsem {:cat :verb
+                  :sem {:subj {:animate true}
+                        :pred :put}}}
+   
    "quedarse" (let [subject-semantics (ref {:animate true})
                     subject-agr (ref :top)]
                 {:synsem {:cat :verb

@@ -212,24 +212,24 @@
   "decidir" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
   
-  "decir" (let [shared-part-of-dire
-          {:espanol {:future-stem "dir"
-                   :present {:1sing "digo"
-                             :2sing "dices"
-                             :3sing "dice"
-                             :1plur "decimos"
-                             :2plur "decís"
-                             :3plur "dicen"}
-                   :preterito {:1sing "dije"
-                               :2sing "dijiste"
-                               :3sing "dije"
-                               :1plur "dijimos"
-                               :2plur "dijisteis"
-                               :3plur "dijeron"}}
-         [(merge shared-part-of-dire
-                       {:synsem {:pred :say}})
-                (merge shared-part-of-dire
-                       {:synsem {:pred :tell}})])
+  "decir" (let [common
+                {:espanol {:future-stem "dir"
+                           :present {:1sing "digo"
+                                     :2sing "dices"
+                                     :3sing "dice"
+                                     :1plur "decimos"
+                                     :2plur "decís"
+                                     :3plur "dicen"}
+                           :preterito {:1sing "dije"
+                                       :2sing "dijiste"
+                                       :3sing "dije"
+                                       :1plur "dijimos"
+                                       :2plur "dijisteis"
+                                       :3plur "dijeron"}}}]
+            [(unify common
+                    {:synsem {:pred :say}})
+             (unify common
+                    {:synsem {:pred :tell}})])
    
    "dejar" {:synsem {:cat :verb
                      :sem {:pred :leave-behind}}}
@@ -426,25 +426,24 @@
              {:synsem {:cat :verb
                        :sem {:pred :talk
                              :subj {:human true}}}}]
-    
-   "hacer" (let [shared-part-of-hacer
-                 {:espanol {:future-stem "har"
-                            :present {:1sing "hago"
-                                      :2sing "haces"
-                                      :3sing "hace"
-                                :1plur "hacemos"
-                                      :2plur "hacéis"
-                                      :3plur "hacen"}
-                            :preterito {:1sing "hize"
-                                        :2sing "hiciste"
-                                        :3sing "hize"
-                                        :1plur "hicimos"
-                                        :2plur "hicisteis"
-                                        :3plur "hicieron"}}}]
-             [(unify shared-part-of-hacer
-                     {:synsem {:pred :do}})
-              (unify shared-part-of-hacer
-                     {:synsem {:pred :make}})])
+   "hacer"
+   (let [common {:espanol {:future-stem "har"
+                           :present {:1sing "hago"
+                                     :2sing "haces"
+                                     :3sing "hace"
+                                     :1plur "hacemos"
+                                     :2plur "hacéis"
+                                     :3plur "hacen"}
+                           :preterito {:1sing "hize"
+                                       :2sing "hiciste"
+                                       :3sing "hize"
+                                       :1plur "hicimos"
+                                       :2plur "hicisteis"
+                                       :3plur "hicieron"}}}]
+     [(unify common
+             {:synsem {:pred :do}})
+      (unify common
+             {:synsem {:pred :make}})])
    
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb

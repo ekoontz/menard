@@ -1641,4 +1641,12 @@
                          ;; then the object is {:reflexive false}
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
-                                  {:synsem {:subcat {:2 {:reflexive false}}}}))))
+                                  {:synsem {:subcat {:2 {:reflexive false}}}})
+
+                         (if-then {:synsem {:cat :verb
+                                            :subcat {:2 {:pronoun true
+                                                         :reflexive true}}}}
+                                  (let [subject-agr (ref :top)]
+                                    {:synsem {:subcat {:1 {:agr subject-agr}
+                                                       :2 {:agr subject-agr}}}})))))
+

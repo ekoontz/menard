@@ -554,6 +554,9 @@
                             :cat :noun
                             :subcat '()}}}})
 
+   "llegar" {:synsem {:cat :verb
+                         :sem {:pred :arrive}}}
+   
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

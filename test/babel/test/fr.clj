@@ -42,7 +42,7 @@
 (deftest imperfect-irregular-avoir
   (let [result (engine/generate {:synsem {:subcat '()
                                           :infl :imperfect
-                                          :sem {:pred :avere
+                                          :sem {:pred :have
                                                 :subj {:pred :I}}}}
                                 small)]
     (is (not (nil? result)))

@@ -27,7 +27,7 @@
    {:synsem {:cat :det
              :def :indef
              :mass false
-             :agr {:number :sing}}}
+             :number :sing}}
 
    "abandon" {:synsem {:cat :verb
                        :sem {:pred :abandon}}}
@@ -243,6 +243,12 @@
                      :sem {:pred :break }}
             :english {:past "broke"}}
 
+   "bring" {:synsem {:cat :verb
+                   :sem {:pred :bring
+                         :subj {:human true}
+                         :obj {:buyable true}}}
+          :english {:past "brought"}}
+   
    "buy" {:synsem {:cat :verb
                    :sem {:pred :comprare
                          :subj {:human true}
@@ -264,7 +270,6 @@
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
-                         :human false
                          :place false}}}
 
    "carry" {:synsem {:cat :verb
@@ -321,6 +326,9 @@
    "consider" {:synsem {:cat :verb
                         :sem {:pred :consider}}}
 
+   "continue" {:synsem {:cat :verb
+                      :sem {:pred :continue}}}
+   
    "convert" {:synsem {:cat :verb
                        :sem {:pred :convert}}}
 
@@ -460,6 +468,9 @@
    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
    
+   "follow" {:synsem {:cat :verb
+                      :sem {:pred :follow}}}
+   
    "forget" {:synsem {:cat :verb
                       :sem {:pred :forget}}
              :english {:past "forgot"}}
@@ -467,11 +478,13 @@
    "form" {:synsem {:cat :verb
                     :sem {:pred :form}}}
 
+
    "furnish"  {:synsem {:cat :verb
                         :sem {:pred :furnish}}}
 
    "game" {:synsem {:cat :noun
-                    :sem {:pred :game}}}
+                    :sem {:pred :game
+                          :games true}}}
    "get angry"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb
@@ -483,19 +496,7 @@
       :english {:participle "getting angry"
                 :present {:3sing "gets angry"}
                 :past "got angry"}})
-
-   "get bored"
-   (let [subject-semantics (ref {:human true})]
-     {:synsem {:cat :verb
-               :sem {:pred :get-bored
-                     :subj subject-semantics
-                     :obj subject-semantics}
-               :subcat {:1 {:sem subject-semantics}
-                        :2 '()}}
-      :english {:participle "getting bored"
-                :present {:3sing "gets bored"}
-                :past "got bored"}})
-
+   
    "get dressed"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb
@@ -716,14 +717,21 @@
     :english {:past "hugged"
               :participle "hugging"}}
             
-   "hurt" (let [common {:english {:past "hurt (past)"}
+   "hurt" (let [common {:english {:past "hurt"}
                         :synsem {:cat :verb}}]
-            [(unify common
-                    {:synsem {:sem {:pred :hurt-oneself}
-                              :subcat {:1 {:sem {:human true}}
-                                       :2 {:pronoun true
-                                           :reflexive true}}}})
-             (unify common
+            [(let [subject-semantics (ref {:human true})
+                   subject-agr (ref :top)]
+               (merge common
+                      {:synsem {:sem {:pred :hurt-oneself
+                                      :subj subject-semantics
+                                      :obj subject-semantics}
+                                :subcat {:1 {:agr subject-agr
+                                             :sem subject-semantics}
+                                         :2 {:agr subject-agr
+                                             :pronoun true
+                                             :reflexive true
+                                             :sem subject-semantics}}}}))
+             (merge common
                     {:synsem {:sem {:pred :hurt
                                     :obj {:animate true}}}})])
 
@@ -1049,11 +1057,15 @@
                            :obj {:human false
                                  :music true}}}}]
 
-   "prepare" {:synsem {:cat :verb
-                       :sem {:pred :get-ready
-                             :subj {:human true}}
-                       :subcat {:2 {:pronoun true
-                                    :reflexive true}}}}
+   "prepare" (let [subject-semantics (ref {:human true})]
+               {:synsem {:cat :verb
+                         :sem {:pred :get-ready
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:sem subject-semantics}
+                                  :2 {:pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})
    "preserve" {:synsem {:cat :verb
                         :sem {:pred :preserve}}}
 
@@ -1420,12 +1432,16 @@
    "warn" {:synsem {:cat :verb
                      :sem {:pred :warn}}}
    
-   "wash" {:synsem {:cat :verb
-                    :sem {:pred :wash
-                          :subj {:human true}
-                          :reflexive true}
-                    :subcat {:2 {:pronoun true
-                                 :reflexive true}}}}
+   "wash" (let [subject-semantics (ref :top)]
+            {:synsem {:cat :verb
+                      :sem {:pred :wash
+                            :reflexive true
+                            :subj subject-semantics
+                            :obj subject-semantics}
+                      :subcat {:1 {:sem subject-semantics}
+                               :2 {:pronoun true
+                                   :reflexive true
+                                   :sem subject-semantics}}}})
    "waste" {:synsem {:cat :verb
                 :sem {:pred :waste}}}
 
@@ -1625,27 +1641,4 @@
                          ;; then the object is {:reflexive false}
                          (if-then {:synsem {:cat :verb
                                             :subcat {:2 {:reflexive false}}}}
-                                  {:synsem {:subcat {:2 {:reflexive false}}}})
-
-                         (if-then {:synsem {:cat :verb
-                                            :subcat {:2 {:pronoun true
-                                                         :reflexive true}}}}
-                                  (let [subject-agr (ref :top)
-                                        subject-semantics (ref :top)]
-                                    {:synsem {:subcat {:1 {:sem subject-semantics
-                                                           :agr subject-agr}
-                                                       :2 {:sem subject-semantics
-                                                           :cat :noun
-                                                           :case :acc
-                                                           :agr subject-agr}}}}))
-
-                         (if-then {:synsem {:cat :noun
-                                            :pronoun true
-                                            :reflexive false}}
-                                  {:synsem {:cat :noun
-                                            :pronoun true
-                                            :reflexive false}})
-                         
-                         )))
-                         
-
+                                  {:synsem {:subcat {:2 {:reflexive false}}}}))))

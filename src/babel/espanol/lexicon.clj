@@ -223,12 +223,7 @@
                                      :1plur "decimos"
                                      :2plur "decís"
                                      :3plur "dicen"}
-                           :preterito {:1sing "dije"
-                                       :2sing "dijiste"
-                                       :3sing "dije"
-                                       :1plur "dijimos"
-                                       :2plur "dijisteis"
-                                       :3plur "dijeron"}}}]
+                           :preterito-stem "dij"}}]
             [(unify common
                     {:synsem {:pred :say}})
              (unify common

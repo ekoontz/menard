@@ -191,6 +191,9 @@
    ;;                                         :sem {:pred :turn-years}}}
    
    
+   "creer" {:synsem {:cat :verb
+                          :sem {:pred :believe}}}
+   
    "dar" {:espanol  {:present {:1sing "doy"
                                :2plur "dais"}
                      :preterito {:1sing "di"

@@ -27,7 +27,7 @@
    {:synsem {:cat :det
              :def :indef
              :mass false
-             :number :sing}}
+             :agr {:number :sing}}}
 
    "abandon" {:synsem {:cat :verb
                        :sem {:pred :abandon}}}
@@ -264,6 +264,7 @@
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
+                         :human false
                          :place false}}}
 
    "carry" {:synsem {:cat :verb
@@ -470,8 +471,7 @@
                         :sem {:pred :furnish}}}
 
    "game" {:synsem {:cat :noun
-                    :sem {:pred :game
-                          :games true}}}
+                    :sem {:pred :game}}}
    "get angry"
    (let [subject-semantics (ref {:human true})]
      {:synsem {:cat :verb

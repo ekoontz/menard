@@ -1,7 +1,7 @@
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in merge])
   (:require
-   [babel.lexiconfn :refer [compile-lex map-function-on-map-vals unify]]
+   [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer :all]
    [dag-unify.core :refer [fail? get-in merge]]))
@@ -2080,6 +2080,16 @@
                                          val))
                                  vals)))
 
+                         ;; if object is not specified, then set to :unspec.
+                         ;; this prevents translations that may have actual objects - e.g. would allow translations like:
+                         ;; "io mangio" => "I eat the bread" whereas a better translation is simply "I eat".
+                         (if-then {:synsem {:cat :verb
+                                            :aux false
+                                            :sem {:obj :unspec
+                                                  :reflexive false
+                                                  }}}
+                                  {:synsem {:sem {:obj :unspec}}})
+                         
                          ;; Cleanup functions can go here. Number them for ease of reading.
                          ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                          ;; rather than not having any inflection.

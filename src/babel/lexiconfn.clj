@@ -911,9 +911,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                  (cond (not (fail? result))
                        (do
                          (log/debug (str val ": matches: if: " if-has " then " unify-with))
-                         (list result))
-                     true
-                     (list val))))
+                         (list (unifyc val unify-with)))
+                       true
+                       (list val))))
              vals))))
 
 (defn get-fail-path [map1 map2]

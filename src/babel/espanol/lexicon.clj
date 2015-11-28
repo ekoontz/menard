@@ -555,6 +555,13 @@
    "llegar" {:synsem {:cat :verb
                          :sem {:pred :arrive}}}
    
+   "llevar" (let [shared-part-of-llevar
+                       {:synsem {:cat :verb}}
+              [(unify shared-part-of-llevar
+                      {:synsem {:pred :carry}})
+               (unify shared-part-of-poder
+                      {:synsem {:pred :bring}})])
+   
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
@@ -650,11 +657,11 @@
          {:espanol {:boot-stem "pued"
                     :pret-stem "pud"}
           :synsem {:cat :verb}}]
-     [(merge shared-part-of-poder
+     [(unify shared-part-of-poder
              {:synsem {:pred :can}})
-      (merge shared-part-of-poder
+      (unify shared-part-of-poder
              {:synsem {:pred :may}})
-      (merge shared-part-of-poder
+      (unify shared-part-of-poder
              {:synsem {:pred :be-able-to}})])
    
    "poner" {:espanol {:future-stem "pondr"
@@ -687,9 +694,9 @@
             {:espanol {:boot-stem "quier"
                        :preterito-stem "quis"
                        :futuro-stem "querr"}}
-            [(merge shared-part-of-querer
+            [(unify shared-part-of-querer
              {:synsem {:pred :want}})
-      (merge shared-part-of-poder
+      (unify shared-part-of-poder
              {:synsem {:pred :love}})])
                                      
    "se"

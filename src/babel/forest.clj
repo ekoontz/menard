@@ -32,7 +32,7 @@
     (log/info (str "using grammar of size: " (.size grammar)))
     (log/info (str "using index of size: " (.size index)))
     (if (seq? spec)
-      (map generate-all spec grammar lexicon index morph)
+      (pmap generate-all spec grammar lexicon index morph)
       (generate spec grammar
                 (flatten (vals lexicon))
                 index
@@ -77,10 +77,10 @@ of this function with complements."
         depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
         candidate-parents (lazy-shuffle (filter #(not (fail? %))
-                                                (map (fn [rule]
-                                                       (unifyc spec rule))
-                                                     (if parent (get-head-phrases-of parent index)
-                                                         grammar))))
+                                                (pmap (fn [rule]
+                                                        (unifyc spec rule))
+                                                      (if parent (get-head-phrases-of parent index)
+                                                          grammar))))
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))]

@@ -208,9 +208,28 @@
    "defender" {:espanol {:boot-stem "defiend"}
                 :synsem {:cat :verb
                          :sem {:pred :defend}}}
-   
-   "decidir" {:synsem {:cat :verb
+
+  "decidir" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
+  
+  "decir" (let [shared-part-of-dire
+          {:espanol {:future-stem "dir"
+                   :present {:1sing "digo"
+                             :2sing "dices"
+                             :3sing "dice"
+                             :1plur "decimos"
+                             :2plur "decís"
+                             :3plur "dicen"}
+                   :preterito {:1sing "dije"
+                               :2sing "dijiste"
+                               :3sing "dije"
+                               :1plur "dijimos"
+                               :2plur "dijisteis"
+                               :3plur "dijeron"}}
+         [(merge shared-part-of-dire
+                       {:synsem {:pred :say}})
+                (merge shared-part-of-dire
+                       {:synsem {:pred :tell}})])
    
    "dejar" {:synsem {:cat :verb
                      :sem {:pred :leave-behind}}}
@@ -422,9 +441,9 @@
                                         :1plur "hicimos"
                                         :2plur "hicisteis"
                                         :3plur "hicieron"}}}]
-             [(merge shared-part-of-hacer
+             [(unify shared-part-of-hacer
                      {:synsem {:pred :do}})
-              (merge shared-part-of-hacer
+              (unify shared-part-of-hacer
                      {:synsem {:pred :make}})])
    
    "hervir" {:espanol {:boot-stem "hierv"}
@@ -717,6 +736,12 @@
                    :pred :voi}
              :subcat '()}}
    
+   "ver" {:espanol  {:present {:1sing "veo"
+                               :2plur "veis"}
+                     :preterito {:1sing "vi"
+                                 :3sing "vio"}}
+          :synsem {:cat :verb
+                   :sem {:pred :see}}}
    
    "vosotras"
    {:synsem {:cat cat-of-pronoun

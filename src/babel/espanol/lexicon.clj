@@ -669,6 +669,16 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
+                                     
+   "querer" (let [shared-part-of-querer
+            {:espanol {:boot-stem "quier"
+                       :preterito-stem "quis"
+                       :futuro-stem "querr"}}
+            [(merge shared-part-of-querer
+             {:synsem {:pred :want}})
+      (merge shared-part-of-poder
+             {:synsem {:pred :love}})])
+                                     
    "se"
    [;; 3rd singular or plural: 'él,ellas,..etc'
     {:synsem {:cat :noun

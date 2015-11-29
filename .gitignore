@@ -14,3 +14,5 @@ dbs.txt
 stage*
 all.out
 *.log
+
+expression.table.gz

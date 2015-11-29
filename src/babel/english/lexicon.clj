@@ -735,6 +735,13 @@
                     {:synsem {:sem {:pred :hurt
                                     :obj {:animate true}}}})])
 
+   "Jean" {:synsem {:sem {:pred :Jean
+                          :human true}
+                    :propernoun true
+                    :agr {:number :sing
+                          :person :3rd
+                          :gender :masc}}}
+
    "Juan" {:synsem {:sem {:pred :Juan
                           :human true}
                     :propernoun true

@@ -553,13 +553,13 @@
                             :subcat '()}}}})
 
    "llegar" {:synsem {:cat :verb
-                         :sem {:pred :arrive}}}
+                      :sem {:pred :arrive}}}
    
    "llevar" (let [shared-part-of-llevar
-                       {:synsem {:cat :verb}}
+                  {:synsem {:cat :verb}}]
               [(unify shared-part-of-llevar
                       {:synsem {:pred :carry}})
-               (unify shared-part-of-poder
+               (unify shared-part-of-llevar
                       {:synsem {:pred :bring}})])
    
    "me" {:synsem {:cat :noun
@@ -691,13 +691,13 @@
                                        :sem subject-semantics}}}})
                                      
    "querer" (let [shared-part-of-querer
-            {:espanol {:boot-stem "quier"
-                       :preterito-stem "quis"
-                       :futuro-stem "querr"}}
-            [(unify shared-part-of-querer
-             {:synsem {:pred :want}})
-      (unify shared-part-of-poder
-             {:synsem {:pred :love}})])
+                  {:espanol {:boot-stem "quier"
+                             :preterito-stem "quis"
+                             :futuro-stem "querr"}}]
+              [(unify shared-part-of-querer
+                      {:synsem {:pred :want}})
+               (unify shared-part-of-querer
+                      {:synsem {:pred :love}})])
                                      
    "se"
    [;; 3rd singular or plural: 'él,ellas,..etc'

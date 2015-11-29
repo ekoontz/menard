@@ -225,9 +225,9 @@
                                      :3plur "dicen"}
                            :preterito-stem "dij"}}]
             [(unify common
-                    {:synsem {:pred :say}})
+                    {:synsem {:sem {:pred :say}}})
              (unify common
-                    {:synsem {:pred :tell}})])
+                    {:synsem {:sem {:pred :tell}}})])
    
    "dejar" {:synsem {:cat :verb
                      :sem {:pred :leave-behind}}}
@@ -439,9 +439,9 @@
                                        :2plur "hicisteis"
                                        :3plur "hicieron"}}}]
      [(unify common
-             {:synsem {:pred :do}})
+             {:synsem {:sem {:pred :do}}})
       (unify common
-             {:synsem {:pred :make}})])
+             {:synsem {:sem {:pred :make}}})])
    
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb
@@ -558,9 +558,9 @@
    "llevar" (let [shared-part-of-llevar
                   {:synsem {:cat :verb}}]
               [(unify shared-part-of-llevar
-                      {:synsem {:pred :carry}})
+                      {:synsem {:sem {:pred :carry}}})
                (unify shared-part-of-llevar
-                      {:synsem {:pred :bring}})])
+                      {:synsem {:sem {:pred :bring}}})])
    
    "me" {:synsem {:cat :noun
                   :pronoun true
@@ -658,11 +658,11 @@
                     :pret-stem "pud"}
           :synsem {:cat :verb}}]
      [(unify shared-part-of-poder
-             {:synsem {:pred :can}})
+             {:synsem {:sem {:pred :can}}})
       (unify shared-part-of-poder
-             {:synsem {:pred :may}})
+             {:synsem {:sem {:pred :may}}})
       (unify shared-part-of-poder
-             {:synsem {:pred :be-able-to}})])
+             {:synsem {:sem {:pred :be-able-to}}})])
    
    "poner" {:espanol {:future-stem "pondr"
                    :present {:1sing "tengo"
@@ -695,9 +695,9 @@
                              :preterito-stem "quis"
                              :futuro-stem "querr"}}]
               [(unify shared-part-of-querer
-                      {:synsem {:pred :want}})
+                      {:synsem {:sem {:pred :want}}})
                (unify shared-part-of-querer
-                      {:synsem {:pred :love}})])
+                      {:synsem {:sem {:pred :love}}})])
                                      
    "se"
    [;; 3rd singular or plural: 'él,ellas,..etc'

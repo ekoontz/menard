@@ -503,17 +503,17 @@
         ;; default stem: will be used except under certain conditions, as described in next check.
         stem (string/replace infinitive #"[iae]r$" "")
         
-        stem (if (get-in word [:pret-stem])
+        stem (if (get-in word [:preterito-stem])
                (cond  (and usted ;; if we in usted mode, and person is 2nd.
                            (= :2nd (get-in word [:agr :person])))
-                      (get-in word [:pret-stem])
+                      (get-in word [:preterito-stem])
                       
                       (and ustedes  ;; if we in ustedes mode, and person is 2nd.
                            (= :2nd (get-in word [:agr :person])))
-                      (get-in word [:pret-stem])
+                      (get-in word [:preterito-stem])
                       
                       (= :3rd (get-in word [:agr :person]))
-                      (get-in word [:pret-stem])
+                      (get-in word [:preterito-stem])
                       true
                       stem)
                stem)

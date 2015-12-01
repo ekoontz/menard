@@ -3,6 +3,7 @@
    [babel.workbook :as workbook]
    [babel.workbook.fr :as fr]
    [babel.workbook.en :as en]
+   [babel.workbook.es :as es]
 
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
@@ -19,6 +20,8 @@
        (resp/redirect "/workbook"))
   (context "/workbook/en" []
            en/routes)
+  (context "/workbook/es" []
+           es/routes)
   (context "/workbook/fr" []
            fr/routes)
   (context "/workbook" []

@@ -41,9 +41,9 @@
                      :sem {:subj {:animate true}
                            :pred :go}}}
 
-   "anoncier" {:synsem {:cat :verb
-                        :sem {:pred :announce}}}
-
+   "annoncer" {:synsem {:cat :verb
+                       :sem {:pred :announce}}}
+   
    "appeler" {:synsem {:cat :verb
                        :boot-stem "appell"
                        :future-stem "appell"

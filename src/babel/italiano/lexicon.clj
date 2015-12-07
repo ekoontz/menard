@@ -518,7 +518,7 @@
                           :pred :cane}}})
 
 
-   "capire" {:italiano {:boot-stem "capisc"}
+   "capire" {:italiano {:boot-stem1 "capisc"}
              :synsem {:cat :verb
                       :sem {:pred :understand}}}
 
@@ -640,7 +640,7 @@
                        :subcat {:1 {:cat :det
                                     :def :def}}}})
       
-      "colpire" (let [common {:italiano {:boot-stem "colpisc"}}]
+      "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
                   [(merge common
                           {:synsem {:cat :verb
                                     :sem {:pred :hit}}})

@@ -126,8 +126,35 @@
     
    "couper" {:synsem {:cat :verb
                       :sem {:pred :cut}}}
-  
-   "courir" {:synsem {:cat :verb
+
+   ;; TODO: with 'courir', *everything* is an exception: this can probably be done better via
+   ;; morphology (francais/morphology/verbs.clj). Surely there are some regularities that we are missing.
+   "courir" {:français {:past-participle "couru"
+                        :present {:1sing "cours"
+                                  :2sing "cours"
+                                  :3sing "court"
+                                  :1plur "courons"
+                                  :2plur "courez"
+                                  :3plur "courent"}
+                        :imperfect {:1sing "courais"
+                                    :2sing "courais"
+                                    :3sing "courait"
+                                    :1plur "courions"
+                                    :2plur "couriez"
+                                    :3plur "couraient"}
+                        :future {:1sing "courrai"
+                                 :2sing "courras"
+                                 :3sing "courra"
+                                 :1plur "courrons"
+                                 :2plur "courrez"
+                                 :3plur "courront"}
+                        :conditional  {:1sing "courrais"
+                                       :2sing "courrais"
+                                       :3sing "courrait"
+                                       :1plur "courrions"
+                                       :2plur "courriez"
+                                       :3plur "courraient"}}
+             :synsem {:cat :verb
                       :sem {:pred :run}}}
 
    "créer" {:synsem {:cat :verb

@@ -2014,7 +2014,7 @@
               :subcat '()}}]
             
     "volere" {:synsem {:cat :verb
-                       :sem {:pred :have-to}}
+                       :sem {:pred :want}}
               :italiano {:future-stem "vorr"
                          :drop-e true
                          :present {:1sing "voglio"

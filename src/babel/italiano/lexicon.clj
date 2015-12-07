@@ -1096,11 +1096,11 @@
               :synsem {:cat :verb
                        :sem {:pred :finish}}}
       
-      "formare"  {:synsem {:cat :verb
-                           :sem {:pred :form}}}
+   "formare"  {:synsem {:cat :verb
+                        :sem {:pred :form}}}
 
-      "fornire"  {:synsem {:cat :verb
-                           :sem {:pred :furnish}}}
+   "fornire"  {:synsem {:cat :verb
+                        :sem {:pred :furnish}}}
       
 ;; commenting out: no english equivalent      
 ;      "frequentare"  {:synsem {:cat :verb

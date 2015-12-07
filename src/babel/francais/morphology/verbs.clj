@@ -24,7 +24,7 @@
         er-type (re-find #"[eé]r$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         re-type (re-find #"re$" infinitive)
-        stem (string/replace infinitive #"[iaeé]r$" "")
+        stem (string/replace infinitive #"i?[iaeé]r$" "")
         stem (if re-type
                ;; prendre -> prend
                (string/replace infinitive #"re$" "")

@@ -202,24 +202,28 @@
      (get-in word [:imperfect number-and-person])
      (get-in word [:imperfect number-and-person])
 
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :1st) (= number :sing) (or er-type stem))
      (str stem "ais")
 
      (and (= person :1st) (= number :sing) ir-type)
      (str stem "issais")
 
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :2nd) (= number :sing) (or er-type stem))
      (str stem "ais")
            
      (and (= person :2nd) (= number :sing) ir-type)
      (str stem "issais")
               
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :3rd) (= number :sing) (or er-type stem))
      (str stem "ait")
            
      (and (= person :3rd) (= number :sing) ir-type)
      (str stem "issait")
-           
+
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :1st) (= number :plur) (or er-type stem))
      (str stem "ions")
            
@@ -227,7 +231,8 @@
      (str stem "issions")
            
      ;; <second person plural imperfecto>
-           
+
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :2nd) (= number :plur) (or er-type stem))
      (str stem "iez")
            
@@ -237,6 +242,7 @@
      ;; </second person plural imperfecto>
            
      ;; <third person plural imperfecto>
+     ;; TODO: this seems wrong: 'stem' is never false
      (and (= person :3rd) (= number :plur) (or er-type stem))
      (str stem "aient")
        

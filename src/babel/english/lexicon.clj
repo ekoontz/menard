@@ -918,7 +918,7 @@
      :synsem {:cat :noun
              :pronoun true
              :case :nom
-             :agr {:gender :fem
+             :agr {:gender :masc
                    :person :1st
                    :number :plur}
              :sem {:human true
@@ -928,7 +928,7 @@
      :synsem {:cat :noun
               :pronoun true
               :case :nom
-             :agr {:gender :masc
+             :agr {:gender :fem
                    :person :1st
                    :number :plur}
               :sem {:human true

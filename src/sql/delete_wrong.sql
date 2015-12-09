@@ -60,3 +60,30 @@ DELETE FROM expression
                    WHERE root='svegliarsi' AND pred='have-fun');
 DELETE FROM expression WHERE language='it' AND surface ILIKE '%piegereb%';
 DELETE FROM expression WHERE language='fr' AND surface ILIKE '% allerez%';
+
+DELETE FROM expression
+ WHERE id IN (SELECT id
+  FROM (SELECT id,surface,
+               structure->'comp'->'english'->>'english' AS subj_en,
+               structure->'comp'->'english'->>'note' AS subj_note,
+               structure->'synsem'->'sem'->>'pred' AS pred,
+               language,
+               structure->'synsem'->'sem'->'subj'->>'gender' AS subj_gender
+          FROM expression) AS wrong
+  WHERE subj_note='♀'
+    AND subj_gender='masc');
+
+DELETE FROM expression
+ WHERE id IN (SELECT id
+  FROM (SELECT id,surface,
+               structure->'comp'->'english'->>'english' AS subj_en,
+               structure->'comp'->'english'->>'note' AS subj_note,
+               structure->'synsem'->'sem'->>'pred' AS pred,
+               language,
+               structure->'synsem'->'sem'->'subj'->>'gender' AS subj_gender
+          FROM expression) AS wrong
+  WHERE subj_note='♂'
+    AND subj_gender='fem');
+
+
+

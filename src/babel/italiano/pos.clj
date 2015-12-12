@@ -16,16 +16,16 @@
 (def pronoun-acc pos/pronoun-acc)
 (def sentential-adverb pos/sentential-adverb)
 (def verb-aux
-  (let [sem (ref {:tense :past})]
+  (let [sem (atom {:tense :past})]
     (unifyc {:synsem {:sem sem
                       :subcat {:2 {:infl :past}}}}
             ;; whether a verb has essere or avere as its
             ;; auxiliary to form its past form:
-            (let [aux (ref true)
-                  pred (ref :top)
-                  sem (ref {:pred pred})
-                  subject (ref :top)
-                  essere-binary-categorization (ref :top)]
+            (let [aux (atom true)
+                  pred (atom :top)
+                  sem (atom {:pred pred})
+                  subject (atom :top)
+                  essere-binary-categorization (atom :top)]
               {:synsem {:aux aux
                         :sem sem
                         :essere essere-binary-categorization
@@ -37,7 +37,7 @@
                                      :sem sem}}}}))))
 
 (def noun-agreement
-  (let [agr (ref :top)]
+  (let [agr (atom :top)]
     {:italiano {:agr agr}
      :synsem {:agr agr}}))
 
@@ -49,8 +49,8 @@
 
 (def adjective
   (unifyc pos/adjective
-          (let [agr (ref :top)
-                cat (ref :top)]
+          (let [agr (atom :top)
+                cat (atom :top)]
             {:italiano {:agr agr
                         :cat cat}
              :synsem {:agr agr
@@ -60,9 +60,9 @@
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
   (unifyc pos/verb-subjective
-          (let [infl (ref :top)
-                agr (ref :top)
-                essere-type (ref :top)]
+          (let [infl (atom :top)
+                agr (atom :top)
+                essere-type (atom :top)]
             {:italiano {:agr agr
                         :essere essere-type
                         :infl infl}

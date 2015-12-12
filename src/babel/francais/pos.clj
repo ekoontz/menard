@@ -5,14 +5,14 @@
 (require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
 
 (def verb-aux
-  (let [sem (ref {:aspect :perfect
+  (let [sem (atom {:aspect :perfect
                   :tense :past})]
     (unifyc {:synsem {:sem sem
                       :subcat {:2 {:infl :past-p}}}}
-            (let [aux (ref true)
-                  pred (ref :top)
-                  sem (ref {:pred pred})
-                  subject (ref :top)]
+            (let [aux (atom true)
+                  pred (atom :top)
+                  sem (atom {:pred pred})
+                  subject (atom :top)]
               {:synsem {:aux aux
                         :sem sem
                         :subcat {:1 subject
@@ -27,7 +27,7 @@
 (def determiner pos/determiner)
 
 (def noun-agreement
-  (let [agr (ref :top)]
+  (let [agr (atom :top)]
     {:français {:agr agr}
      :synsem {:agr agr}}))
 
@@ -39,8 +39,8 @@
 
 (def adjective
   (unifyc pos/adjective
-          (let [agr (ref :top)
-                cat (ref :top)]
+          (let [agr (atom :top)
+                cat (atom :top)]
             {:français {:agr agr
                         :cat cat}
              :synsem {:agr agr
@@ -50,9 +50,9 @@
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
   (unifyc pos/verb-subjective
-          (let [infl (ref :top)
-                agr (ref :top)
-                essere-type (ref :top)]
+          (let [infl (atom :top)
+                agr (atom :top)
+                essere-type (atom :top)]
             {:français {:agr agr
                         :essere essere-type
                         :infl infl}
@@ -78,7 +78,7 @@
   (lexiconfn/transitivize lexicon transitive verb-subjective))
 
 (def gender-pronoun-agreement
-  (let [gender (ref :top)]
+  (let [gender (atom :top)]
     {:synsem {:cat :noun
               :pronoun true
               :agr {:gender gender}

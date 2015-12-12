@@ -11,10 +11,10 @@
 ;;  /     \
 ;; H[1]    C
 (def head-principle-no-infl
-  (let [head-cat (ref :top)
-        head-essere (ref :top)
-        head-is-pronoun (ref :top)
-        head-sem (ref :top)]
+  (let [head-cat (atom :top)
+        head-essere (atom :top)
+        head-is-pronoun (atom :top)
+        head-sem (atom :top)]
     (unifyc phrasal
             {:synsem {:cat head-cat
                       :essere head-essere
@@ -32,8 +32,8 @@
 (def head-principle
   (unifyc head-principle-no-infl
           phrasal
-          (let [head-infl (ref :top)
-                agr (ref :top)]
+          (let [head-infl (atom :top)
+                agr (atom :top)]
             {:synsem {:infl head-infl
                       :agr agr}
              :head {:synsem {:infl head-infl
@@ -44,7 +44,7 @@
 ;;    /        \
 ;; H subcat<1>  C[1]
 (def subcat-1-principle
-  (let [comp-synsem (ref :top)]
+  (let [comp-synsem (atom :top)]
     {:synsem {:subcat '()}
      :head {:synsem {:subcat {:1 comp-synsem
                               :2 '()}}}
@@ -55,7 +55,7 @@
 ;;    /        \
 ;; H subcat<1>  C[1]
 (def subcat-1-principle-no-complement-subcat-restrictions
-  (let [comp-synsem (ref {:subcat :top})]
+  (let [comp-synsem (atom {:subcat :top})]
     {:synsem {:subcat '()}
      :head {:synsem {:subcat {:1 comp-synsem
                               :2 '()}}}
@@ -66,7 +66,7 @@
 ;;    /        \
 ;; H subcat<1>  C<>
 (def subcat-1-1-principle
-  (let [subcat (ref :top)]
+  (let [subcat (atom :top)]
     {:synsem {:subcat {:1 subcat
                        :2 '()}}
      :comp {:synsem {:subcat '()}}
@@ -79,9 +79,9 @@
 ;;    /           \
 ;; H subcat<1,3>  3:C<1,2>
 (def subcat-2-2-principle
-  (let [subcat1 (ref :top)
-        subcat2 (ref :top)
-        subcat3 (ref {:subcat {:1 subcat1
+  (let [subcat1 (atom :top)
+        subcat2 (atom :top)
+        subcat3 (atom {:subcat {:1 subcat1
                                :2 subcat2
                                :3 '()}})]
     {:synsem {:subcat {:1 subcat1
@@ -97,7 +97,7 @@
 ;;    /        \
 ;; H subcat<1>  C<>
 (def subcat-1-1-principle-comp-subcat-1
-  (let [subcat (ref :top)]
+  (let [subcat (atom :top)]
     {:synsem {:subcat {:1 subcat
                        :2 '()}}
      :comp {:synsem {:subcat {:1 :top
@@ -111,8 +111,8 @@
 ;;    /        \
 ;; H subcat<1,2>  C[2]
 (def subcat-2-principle
-  (let [comp-synsem (ref {:cat :top})
-        parent-subcat (ref {:cat :top})]
+  (let [comp-synsem (atom {:cat :top})
+        parent-subcat (atom {:cat :top})]
     {:synsem {:subcat {:1 parent-subcat
                        :2 '()}}
      :head {:synsem {:subcat {:1 parent-subcat
@@ -125,9 +125,9 @@
 ;;    /        \
 ;; H subcat<1,2>  C[2]<1,3>
 (def subcat-3-principle
-  (let [subcat-1 (ref :top)
-        subcat-3 (ref :top)
-        subcat-2 (ref {:subcat {:1 subcat-1
+  (let [subcat-1 (atom :top)
+        subcat-3 (atom :top)
+        subcat-2 (atom {:subcat {:1 subcat-1
                                 :2 subcat-3}})]
     {:synsem {:subcat {:1 subcat-1
                        :2 subcat-3
@@ -142,8 +142,8 @@
 ;;    /        \
 ;; H subcat<2>  C[2]<1>
 (def subcat-4-principle
-  (let [subcat-1 (ref :top)
-        subcat-2 (ref {:subcat {:1 subcat-1}})]
+  (let [subcat-1 (atom :top)
+        subcat-2 (atom {:subcat {:1 subcat-1}})]
     {:synsem {:subcat {:1 subcat-1
                        :2 '()}}
      :head {:synsem {:subcat {:1 subcat-2}}}
@@ -161,9 +161,9 @@
   ;; and would fit in here erroneously.
   ;; This is prevented by {:cat :top},
   ;; because (unify '() {:cat :top}) => :fail.
-  (let [subcat-1 (ref {:cat :top})
-        subcat-2 (ref {:cat :top})
-        subcat-3 (ref {:cat :top})]
+  (let [subcat-1 (atom {:cat :top})
+        subcat-2 (atom {:cat :top})
+        subcat-3 (atom {:cat :top})]
     {:head {:synsem {:subcat {:1 subcat-1
                               :2 subcat-2
                               :3 subcat-3}}}
@@ -172,16 +172,16 @@
                        :2 subcat-2}}}))
 
 (def comp-modifies-head
-  (let [human (ref :top)
-        animate (ref :top)
-        comp-semantics (ref {:animate animate :human human})
-        head-semantics (ref {:animate animate :human human :mod comp-semantics})]
+  (let [human (atom :top)
+        animate (atom :top)
+        comp-semantics (atom {:animate animate :human human})
+        head-semantics (atom {:animate animate :human human :mod comp-semantics})]
     {:head {:synsem {:sem head-semantics}}
      :comp {:synsem {:sem comp-semantics}}}))
 
 (def comp-specs-head
-  (let [comp-semantics (ref :top)
-        head-semantics (ref {:spec comp-semantics})]
+  (let [comp-semantics (atom :top)
+        head-semantics (atom {:spec comp-semantics})]
     {:head {:synsem {:sem head-semantics}}
      :comp {:synsem {:sem comp-semantics}}}))
 
@@ -232,7 +232,7 @@
 ;;  [1] H          C
 (def root-is-head
   "'root' is used to generate and search for expressions that have a given lexeme as their root. e.g. the 'root' of 'io ho parlato' is 'parlare'"
-  (let [root (ref :top)]
+  (let [root (atom :top)]
     {:root root
      :head root}))
 
@@ -240,7 +240,7 @@
 ;;        /       \
 ;;  H [:root [1]]  C
 (def root-is-head-root
-  (let [root (ref :top)]
+  (let [root (atom :top)]
     {:root root
      :head {:root root}}))
 
@@ -248,7 +248,7 @@
 ;;        /       \
 ;;       H     [1] C
 (def root-is-comp
-  (let [root (ref :top)]
+  (let [root (atom :top)]
     {:root root
      :comp root}))
 

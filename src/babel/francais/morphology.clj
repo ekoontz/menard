@@ -476,8 +476,8 @@
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (ref :top)
-         infl (ref :top)]
+   (let [cat (atom :top)
+         infl (atom :top)]
      (unifyc lexical-entry
              {:français {:cat cat
                          :infl infl}

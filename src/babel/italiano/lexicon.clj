@@ -22,7 +22,7 @@
                    :human true}
              :propernoun true}}
    "a"
-   [(let [location (ref {:place true})]
+   [(let [location (atom {:place true})]
       {:synsem {:cat :prep
                 :sem {:pred :a
                       :obj location
@@ -38,7 +38,7 @@
                           :sem {:city true}}}}}
 
        ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
-       (let [complement-semantics (ref {:pred :a
+       (let [complement-semantics (atom {:pred :a
                                         :mod {:pred :a}})]
          {:synsem {:cat :prep
                    :sem complement-semantics
@@ -76,8 +76,8 @@
                           :animate false
                           :pred :acqua}}})
 
-   "addormentarsi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+   "addormentarsi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :fall-asleep
@@ -93,8 +93,8 @@
    
    "affolato"
    [;; comparative
-    (let [is-place (ref {:place true}) ;; only places can be crowded.
-          than-this (ref {:pred :di
+    (let [is-place (atom {:place true}) ;; only places can be crowded.
+          than-this (atom {:pred :di
                           :mod is-place})]
       (unify adjective
               comparative
@@ -123,8 +123,8 @@
                     :obj {:human true}}}}
    "alto"
    [;; non-comparative:
-    (let [subject-sem (ref {:human true}) ;; only humans can be tall.
-          subject-agr (ref :top)] 
+    (let [subject-sem (atom {:human true}) ;; only humans can be tall.
+          subject-agr (atom :top)] 
       (unify adjective
              non-comparative-adjective
              {:synsem {:cat :adjective
@@ -137,10 +137,10 @@
                                     :sem subject-sem}
                                 :2 '()}}}))
     ;; comparative:
-    (let [complement-complement-sem (ref {:human true}) ;; only humans can be tall.
-          complement-sem (ref {:pred :di
+    (let [complement-complement-sem (atom {:human true}) ;; only humans can be tall.
+          complement-sem (atom {:pred :di
                                :mod complement-complement-sem})
-          subject-sem (ref {:human true})] ;; only humans can be tall.
+          subject-sem (atom {:human true})] ;; only humans can be tall.
       (unify adjective
              comparative
              {:synsem {:sem {:pred :alto
@@ -151,8 +151,8 @@
                                 :2 {:cat :prep
                                     :sem complement-sem}}}}))]
 
-   "alzarsi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+   "alzarsi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :get-up
@@ -226,7 +226,7 @@
 ;          (unify
 ;           transitive
 ;           ;; "andare" that takes a prepositional phrase
-;           (let [place-sem (ref {:place true
+;           (let [place-sem (atom {:place true
 ;                                 :pred :a})]
 ;             {:synsem {:sem {:location place-sem}
 ;                       :subcat {:2 {:sem place-sem
@@ -250,8 +250,8 @@
    "approvare" {:synsem {:cat :verb
                          :sem {:pred :approve}}}
 
-   "arrabbiarsi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+   "arrabbiarsi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :get-angry
@@ -314,7 +314,7 @@
                        :subj {:human true}}}})
 
       ;; 3. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-      (let [agr-of-obj-of-main-verb (ref :top)]
+      (let [agr-of-obj-of-main-verb (atom :top)]
         (unify
          verb-aux
          verb-subjective
@@ -332,7 +332,7 @@
       ;; "avere": auxiliary-verb: takes 2 args:
       ;; 1. subject that is the same as the subject of 2.
       ;; 2. an intransitive verb.
-      (let [agr-of-subj-of-main-verb (ref :top)]
+      (let [agr-of-subj-of-main-verb (atom :top)]
         (unify
          verb-aux
          verb-subjective
@@ -354,10 +354,10 @@
                            :comparative false
                            }}}) ;; for now, no restrictions on what can be beautiful.
     
-    (let [complement-complement-sem (ref :top) ;; for now no restrictions
-          complement-sem (ref {:pred :di
+    (let [complement-complement-sem (atom :top) ;; for now no restrictions
+          complement-sem (atom {:pred :di
                                :mod complement-complement-sem})
-          subject-sem (ref :top)] ;; subject can be anything.
+          subject-sem (atom :top)] ;; subject can be anything.
       (unify adjective
               comparative
               {:synsem {:sem {:pred :bello
@@ -464,8 +464,8 @@
    "cambiare" {:synsem {:cat :verb
                         :sem {:pred :change}}}
    
-   "cambiarsi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+   "cambiarsi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :change-clothes
@@ -564,8 +564,8 @@
      "chiacchierare" {:synsem {:cat :verb
                                :sem {:pred :chat}}}
       
-     "chiamarsi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+     "chiamarsi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :be-called
@@ -694,10 +694,10 @@
               :cat :verb}}
       
       "contento"
-      [(let [complement-complement-sem (ref {:human true})
-             complement-sem (ref {:pred :di
+      [(let [complement-complement-sem (atom {:human true})
+             complement-sem (atom {:pred :di
                                   :mod complement-complement-sem})
-             subject-sem (ref {:place true})]
+             subject-sem (atom {:place true})]
          (unify adjective
                 comparative
                 {:synsem {:sem {:pred :contento
@@ -726,10 +726,10 @@
                                  :sem {:pred :correspond}}}
 
       "corto"
-      [(let [complement-complement-sem (ref {:human true}) ;; only humans can be short.
-             complement-sem (ref {:pred :di
+      [(let [complement-complement-sem (atom {:human true}) ;; only humans can be short.
+             complement-sem (atom {:pred :di
                                   :mod complement-complement-sem})
-             subject-sem (ref {:human true})] ;; only humans can be short.
+             subject-sem (atom {:human true})] ;; only humans can be short.
         (unify adjective
                comparative
                {:synsem {:sem {:pred :corto
@@ -872,8 +872,8 @@
                 (unify shared-part-of-dire
                        {:synsem {:sem {:pred :tell}}})])
       
-      "divertirsi" (let [subject-semantics (ref {:human true})
-                         subject-agr (ref :top)]
+      "divertirsi" (let [subject-semantics (atom {:human true})
+                         subject-agr (atom :top)]
                      {:synsem {:cat :verb
                                :essere true
                                :sem {:pred :have-fun
@@ -946,8 +946,8 @@
 
       "essere"
       (let [essere-common 
-            (let [infl (ref :top)
-                  agr (ref :top)]
+            (let [infl (atom :top)
+                  agr (atom :top)]
               {:synsem {:agr agr
                         :cat :verb
                         :essere true
@@ -978,8 +978,8 @@
                                    :3plur "saranno"}}})]
         [;; essere: adjective
          ;; TODO: unify essere-adjective and essere-intensifier into one lexical entry.
-         (let [gender (ref :top)
-               number (ref :top)]
+         (let [gender (atom :top)
+               number (atom :top)]
            (unify
             essere-common
             {:notes "essere-adjective"
@@ -1000,9 +1000,9 @@
          (unify essere-common {:synsem {:sem {:pred :be}}})
 
            ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-           (let [gender (ref :top)
-                 number (ref :top)
-                 human (ref :top)]
+           (let [gender (atom :top)
+                 number (atom :top)
+                 human (atom :top)]
              (unify
               transitive
               essere-common
@@ -1024,12 +1024,12 @@
 
            ;; essere: intensifier
            ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"
-           (let [gender (ref :top)
-                 number (ref :top)
-                 subject (ref {:agr {:gender gender
+           (let [gender (atom :top)
+                 number (atom :top)
+                 subject (atom {:agr {:gender gender
                                      :number number}
                                :cat :noun})
-                 comp-pred (ref :top)
+                 comp-pred (atom :top)
                  comp-sem (ref
                            {:activity false
                             :pred comp-pred
@@ -1074,8 +1074,8 @@
          (merge shared-part-of-fare
                 {:synsem {:pred :make}})
          (merge shared-part-of-fare
-                (let [subject-semantics (ref {:human true})
-                      subject-agr (ref :top)]
+                (let [subject-semantics (atom {:human true})
+                      subject-agr (atom :top)]
                   {:synsem {:cat :verb
                             :essere true
                             :sem {:pred :hurt-oneself
@@ -1306,8 +1306,8 @@
                 :sem {:number :plur
                       :person :2nd}}}]
 
-   "lavarsi" (let [subject-semantics (ref :top)
-                   subject-agr (ref :top)]
+   "lavarsi" (let [subject-semantics (atom :top)
+                   subject-agr (atom :top)]
               {:synsem {:cat :verb
                         :essere true
                         :sem {:pred :wash
@@ -1640,8 +1640,8 @@
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
 
-   "prepararsi" (let [subject-semantics (ref {:human true})
-                      subject-agr (ref :top)]
+   "prepararsi" (let [subject-semantics (atom {:human true})
+                      subject-agr (atom :top)]
                   {:synsem {:cat :verb
                             :essere true
                             :sem {:pred :get-ready
@@ -1752,8 +1752,8 @@
                          :sem {:pred :scrivere}}
                 :italiano {:passato "scritto"}}
 
-   "sedersi" (let [subject-semantics (ref {:animate true})
-                   subject-agr (ref :top)]
+   "sedersi" (let [subject-semantics (atom {:animate true})
+                   subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true
                          :sem {:pred :sit-down
@@ -1834,8 +1834,8 @@
                                   :3plur "svengono"}
                         :future-stem "sverr"}}
 
-   "svegliarsi" (let [subject-semantics (ref {:animate true})
-                      subject-agr (ref :top)]
+   "svegliarsi" (let [subject-semantics (atom {:animate true})
+                      subject-agr (atom :top)]
                   {:synsem {:cat :verb
                             :essere true
                             :sem {:pred :wake-up
@@ -1951,8 +1951,8 @@
                                   :3plur "vengono"}
                         :future-stem "verr"}}
 
-   "vestirsi" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+   "vestirsi" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :sem {:pred :get-dressed
@@ -2041,8 +2041,8 @@
                          ;; reflexive pronouns
                          (map-function-on-map-vals
                           (let [agreement
-                                (let [case (ref :acc)
-                                      cat (ref :noun)]
+                                (let [case (atom :acc)
+                                      cat (atom :noun)]
                                   {:synsem {:cat cat
                                             :pronoun true
                                             :subcat '()

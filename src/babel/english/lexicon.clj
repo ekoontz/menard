@@ -75,7 +75,7 @@
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}
    
-   "be" (let [number-agr (ref :top)
+   "be" (let [number-agr (atom :top)
               common {:synsem {:cat :verb
                                :subcat {:1 {:agr number-agr} ;; In "to be" sentences, agreement exists with respect to :num :
                                         :2 {:pronoun false ;; ;; don't allow strange but grammatical "I am me", "you are him", etc.
@@ -96,10 +96,10 @@
                   {:synsem {:subcat {:1 {:cat :noun}
                                      :2 '()}
                             :sem {:pred :be}}})
-           (let [subj-agr (ref :top)
-                 infl (ref :top)
-                 the-real-subj (ref :top)
-                 the-obj (ref :top)]
+           (let [subj-agr (atom :top)
+                 infl (atom :top)
+                 the-real-subj (atom :top)
+                 the-obj (atom :top)]
              (unify common
                     subject-verb-agreement
                     {:intransitivize false
@@ -451,7 +451,7 @@
                      :sem {:pred :faint}}}
 
    "fall asleep"
-   (let [subject-semantics (ref {:animate true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :fall-asleep
                      :subj subject-semantics
@@ -486,7 +486,7 @@
                     :sem {:pred :game
                           :games true}}}
    "get angry"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-angry
                      :subj subject-semantics
@@ -498,7 +498,7 @@
                 :past "got angry"}})
    
    "get dressed"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-dressed
                      :subj subject-semantics
@@ -509,7 +509,7 @@
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
    "get off"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-off
                      :subj subject-semantics
@@ -520,7 +520,7 @@
                 :present {:3sing "gets off"}
                 :past "got off"}})
    "get on"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-on
                      :subj subject-semantics
@@ -531,7 +531,7 @@
                 :present {:3sing "gets on"}
                 :past "got on"}})
    "get ready"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-ready
                      :subj subject-semantics
@@ -542,7 +542,7 @@
                 :present {:3sing "gets ready"}
                 :past "got ready"}})
    "get up"
-   (let [subject-semantics (ref {:animate true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-up
                      :subj subject-semantics
@@ -618,7 +618,7 @@
                              :past "had dinner"
                              :participle "having dinner"}}
    "have fun"
-   (let [subject-semantics (ref {:human true})]
+   (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :have-fun
                      :subj subject-semantics
@@ -719,8 +719,8 @@
             
    "hurt" (let [common {:english {:past "hurt"}
                         :synsem {:cat :verb}}]
-            [(let [subject-semantics (ref {:human true})
-                   subject-agr (ref :top)]
+            [(let [subject-semantics (atom {:human true})
+                   subject-agr (atom :top)]
                (merge common
                       {:synsem {:sem {:pred :hurt-oneself
                                       :subj subject-semantics
@@ -992,8 +992,8 @@
                    :pred :I}
              :subcat '()}}
    "name"
-   (let [of (ref :top)
-         agr (ref :top)]
+   (let [of (atom :top)
+         agr (atom :top)]
      (unify agreement-noun
             common-noun
             countable-noun
@@ -1064,7 +1064,7 @@
                            :obj {:human false
                                  :music true}}}}]
 
-   "prepare" (let [subject-semantics (ref {:human true})]
+   "prepare" (let [subject-semantics (atom {:human true})]
                {:synsem {:cat :verb
                          :sem {:pred :get-ready
                                :subj subject-semantics
@@ -1416,7 +1416,7 @@
    "wait"  {:synsem {:cat :verb
                      :sem {:pred :wait-for}}}
    "wake up"
-   (let [subject-semantics (ref {:animate true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :wake-up
                      :subj subject-semantics
@@ -1439,7 +1439,7 @@
    "warn" {:synsem {:cat :verb
                      :sem {:pred :warn}}}
    
-   "wash" (let [subject-semantics (ref :top)]
+   "wash" (let [subject-semantics (atom :top)]
             {:synsem {:cat :verb
                       :sem {:pred :wash
                             :reflexive true

@@ -9,8 +9,8 @@
 (require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
 
 (defn agreement [lexical-entry]
-  (let [agr (ref :top)
-        cat (ref :top)]
+  (let [agr (atom :top)
+        cat (atom :top)]
     (unifyc lexical-entry
             {:français {:agr agr
                         :cat cat}

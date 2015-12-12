@@ -43,8 +43,8 @@
               (vals lexicon)))))
 
 (def head-first
-  (let [head-french (ref :top)
-        comp-french (ref :top)]
+  (let [head-french (atom :top)
+        comp-french (atom :top)]
     (unifyc
      {:comp {:français {:initial false}}
       :head {:français {:initial true}}}
@@ -71,15 +71,15 @@
     :schema-symbol 'h21a}))
 
 (def hc-agreement
-  (let [agr (ref :top)]
+  (let [agr (atom :top)]
     {:synsem {:agr agr}
      :head {:synsem {:agr agr}}
      :comp {:français {:agr agr}
             :synsem {:agr agr}}}))
 
 (def head-first
-  (let [head-français (ref :top)
-        comp-français (ref :top)]
+  (let [head-français (atom :top)
+        comp-français (atom :top)]
     (unifyc
      {:comp {:français {:initial false}}
       :head {:français {:initial true}}}
@@ -89,8 +89,8 @@
                 :b comp-français}})))
 
 (def head-last
-  (let [head-français (ref :top)
-        comp-français (ref :top)]
+  (let [head-français (atom :top)
+        comp-français (atom :top)]
     (unifyc
      {:comp {:français {:initial true}}
       :head {:français {:initial false}}}
@@ -146,7 +146,7 @@
 
 
 (def h11-comp-subcat-1
-  (let [subcat (ref :top)]
+  (let [subcat (atom :top)]
     (unifyc
      {:head {:synsem {:subcat {:1 subcat}}}
       :comp {:synsem {:subcat {:1 subcat}}}}
@@ -225,7 +225,7 @@
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (atom :top)]
                              {:rule "noun-phrase1"
                               :aliases (list "np1")
                               :synsem {:agr {:number number-agreement}
@@ -238,7 +238,7 @@
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (atom :top)]
                              {:rule "noun-phrase2"
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
@@ -357,7 +357,7 @@
                    ;; [nous [être + naître]] => nous somme nées
                    (unifyc h22
                            root-is-comp
-                           (let [obj-agr (ref :top)] ;; TODO: Remove: this obj-agr is not used.
+                           (let [obj-agr (atom :top)] ;; TODO: Remove: this obj-agr is not used.
                              {:head {:phrasal false}
                               :rule "vp-aux-22"
                               :synsem {:aux true
@@ -417,7 +417,7 @@
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unifyc phrase
-                (let [ref (ref :top)]
+                (let [ref (atom :top)]
                   {:synsem {:aux ref}
                    :head {:synsem {:aux ref}}}))
         true phrase))
@@ -425,7 +425,7 @@
 (defn modal-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unifyc phrase
-                (let [ref (ref :top)]
+                (let [ref (atom :top)]
                   {:synsem {:modal ref}
                    :head {:synsem {:modal ref}}}))
         true phrase))

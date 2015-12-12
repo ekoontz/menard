@@ -764,15 +764,15 @@
        (lookup-fn surface-form)))))
 
 (def pronoun-semantic-gender-agreement
-  (let [gender (ref :top)]
+  (let [gender (atom :top)]
     {:synsem {:sem {:gender gender}
               :agr {:gender gender}}}))
 
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (ref :top)
-         infl (ref :top)]
+   (let [cat (atom :top)
+         infl (atom :top)]
      (unifyc lexical-entry
              {:english {:cat cat
                         :infl infl}
@@ -781,9 +781,9 @@
 
    (and (= (get-in lexical-entry [:synsem :cat]) :noun)
         (= (get-in lexical-entry [:synsem :pronoun]) true))
-   (let [agr (ref :top)
-         cat (ref :top)
-         pronoun (ref :top)]
+   (let [agr (atom :top)
+         cat (atom :top)
+         pronoun (atom :top)]
      (unifyc lexical-entry
              {:english {:agr agr
                         :cat cat
@@ -794,9 +794,9 @@
              pronoun-semantic-gender-agreement))
 
    (= (get-in lexical-entry [:synsem :cat]) :noun)
-   (let [agr (ref :top)
-         cat (ref :top)
-         pronoun (ref :top)]
+   (let [agr (atom :top)
+         cat (atom :top)
+         pronoun (atom :top)]
      (unifyc lexical-entry
              {:english {:agr agr
                         :cat cat

@@ -1679,15 +1679,15 @@
                   common))))
 
 (def pronoun-semantic-gender-agreement
-  (let [gender (ref :top)]
+  (let [gender (atom :top)]
     {:synsem {:sem {:gender gender}
               :agr {:gender gender}}}))
 
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (ref :top)
-         infl (ref :top)]
+   (let [cat (atom :top)
+         infl (atom :top)]
      (unifyc lexical-entry
              {:italiano {:cat cat
                          :infl infl}
@@ -1703,13 +1703,13 @@
         (= (get-in lexical-entry [:synsem :subcat :1]) :top))
    ;; nouns which select articles that match in gender and number.
    (unifyc lexical-entry
-           (let [number (ref :top)
-                 gender (ref :top)
-                 person (ref :top)
-                 agr (ref {:number number
+           (let [number (atom :top)
+                 gender (atom :top)
+                 person (atom :top)
+                 agr (atom {:number number
                            :gender gender
                            :person person})
-                 cat (ref :top)]
+                 cat (atom :top)]
              {:synsem {:cat cat
                        :case :top
                        :subcat {:1 {:number number

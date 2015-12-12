@@ -238,8 +238,8 @@
    "desear" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
    "divertirse"
-   (let [subject-semantics (ref {:human true})
-         subject-agr (ref :top)]
+   (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
      {:espanol {:boot-stem "diviert"}
       :synsem {:cat :verb
                :sem {:pred :have-fun
@@ -258,8 +258,8 @@
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
    "dormirse"
-   (let [subject-semantics (ref {:human true})
-         subject-agr (ref :top)]
+   (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
      {:espanol {:boot-stem "duerm"}
       :synsem {:cat :verb
                :sem {:pred :fall-asleep
@@ -341,8 +341,8 @@
              :synsem {:cat :verb
                       :sem {:pred :light}}}
    "enojarse"
-   (let [subject-semantics (ref {:human true})
-         subject-agr (ref :top)]
+   (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :get-angry
                      :reflexive true
@@ -496,8 +496,8 @@
                     :gender :fem
                     :number :sing}})
    "lastimarse"
-   (let [subject-semantics (ref {:human true})
-         subject-agr (ref :top)]
+   (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :hurt-oneself
                      :reflexive true
@@ -510,8 +510,8 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    "levantarse"
-   (let [subject-semantics (ref {:human true})
-         subject-agr (ref :top)]
+   (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :get-up
                      :reflexive true
@@ -524,11 +524,11 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    "llamarse"
-   (let [subject-semantics (ref :top)
-         called-semantics (ref :top)
-         subject-gender (ref :top)
-         subject-person (ref :top)
-         subject-number (ref :top)]
+   (let [subject-semantics (atom :top)
+         called-semantics (atom :top)
+         subject-gender (atom :top)
+         subject-person (atom :top)
+         subject-number (atom :top)]
      {:synsem {:cat :verb
                :sem {:aspect :progressive
                      :pred :be-called
@@ -676,8 +676,8 @@
                      :sem {:subj {:animate true}
                            :pred :put}}}
    
-   "quedarse" (let [subject-semantics (ref {:animate true})
-                    subject-agr (ref :top)]
+   "quedarse" (let [subject-semantics (atom {:animate true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :sem {:pred :remain
                                 :reflexive true

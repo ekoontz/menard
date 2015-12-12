@@ -11,9 +11,9 @@
    [dag-unify.core :refer (get-in merge unifyc)]))
 
 (def head-first
-  (let [head-espanol (ref :top)
-        comp-espanol (ref :top)
-        rule (ref :top)]
+  (let [head-espanol (atom :top)
+        comp-espanol (atom :top)
+        rule (atom :top)]
     (unifyc
      {:comp {:espanol {:initial false}}
       :head {:espanol {:initial true}}}
@@ -24,9 +24,9 @@
                 :rule rule
                 :b comp-espanol}})))
 (def head-last
-  (let [head-espanol (ref :top)
-        comp-espanol (ref :top)
-        rule (ref :top)]
+  (let [head-espanol (atom :top)
+        comp-espanol (atom :top)
+        rule (atom :top)]
     (unifyc
      {:comp {:espanol {:initial true}}
       :head {:espanol {:initial false}}}
@@ -70,7 +70,7 @@
     :comment "c21"}))
 
 (def hc-agreement
-  (let [agr (ref :top)]
+  (let [agr (atom :top)]
     {:synsem {:agr agr}
      :head {:synsem {:agr agr}}
      :comp {:espanol {:agr agr}
@@ -89,7 +89,7 @@
 
 
 (def h11-comp-subcat-1
-  (let [subcat (ref :top)]
+  (let [subcat (atom :top)]
     (unifyc
      {:head {:synsem {:subcat {:1 subcat}}}
       :comp {:synsem {:subcat {:1 subcat}}}}
@@ -168,7 +168,7 @@
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (atom :top)]
                              {:rule "noun-phrase1"
                               :aliases (list "np1")
                               :synsem {:agr {:number number-agreement}
@@ -181,7 +181,7 @@
 
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (ref :top)]
+                           (let [number-agreement (atom :top)]
                              {:rule "noun-phrase2"
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
@@ -309,7 +309,7 @@
                    ;; dependence on auxilary sense of "avere" which supplies the
                    ;; obj-agr agreement between the object and the main (non-auxilary) verb.
                    (unifyc h22
-                           (let [obj-agr (ref :top)]
+                           (let [obj-agr (atom :top)]
                              {:head {:phrasal false}
                               :rule "vp-aux-22"
                               :synsem {:aux true
@@ -376,7 +376,7 @@
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unifyc phrase
-                (let [ref (ref :top)]
+                (let [ref (atom :top)]
                   {:synsem {:aux ref}
                    :head {:synsem {:aux ref}}}))
         true phrase))
@@ -384,7 +384,7 @@
 (defn modal-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unifyc phrase
-                (let [ref (ref :top)]
+                (let [ref (atom :top)]
                   {:synsem {:modal ref}
                    :head {:synsem {:modal ref}}}))
         true phrase))

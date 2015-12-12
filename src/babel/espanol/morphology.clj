@@ -718,8 +718,8 @@
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (ref :top)
-         infl (ref :top)]
+   (let [cat (atom :top)
+         infl (atom :top)]
      (unifyc lexical-entry
              {:espanol {:cat cat
                          :infl infl}
@@ -727,8 +727,8 @@
                        :infl infl}}))
 
    (= (get-in lexical-entry [:synsem :cat]) :noun)
-   (let [agr (ref :top)
-         cat (ref :top)]
+   (let [agr (atom :top)
+         cat (atom :top)]
      (unifyc lexical-entry
              {:espanol {:agr agr
                         :cat cat}

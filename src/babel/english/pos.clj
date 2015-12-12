@@ -13,13 +13,13 @@
 (def countable-noun pos/common-noun)
 
 (def agreement-noun
-  (let [agr (ref :top)]
+  (let [agr (atom :top)]
     {:english {:agr agr}
      :synsem {:agr agr}}))
 
 (def subject-verb-agreement
-  (let [infl (ref :top)
-        agr (ref :top)]
+  (let [infl (atom :top)
+        agr (atom :top)]
     {:english {:agr agr
                :infl infl}
      :synsem {:infl infl

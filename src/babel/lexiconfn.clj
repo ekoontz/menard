@@ -369,8 +369,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
          merged))))) ;; no more implications: return
 
 (def essere-common
-  (let [infl (ref :top)
-        agr (ref :top)]
+  (let [infl (atom :top)
+        agr (atom :top)]
     {:synsem {:essere true
               :subcat {:1 {:agr agr}}
               :agr agr
@@ -500,7 +500,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
              (not (nil? (get-in lexical-entry '(:synsem :sem :iobj)))))
         (unifyc
          lexical-entry
-         (let [ref (ref :top)]
+         (let [ref (atom :top)]
            {:synsem {:subcat {:3 {:sem ref}}
                      :sem {:iobj ref}}}))
         true
@@ -509,7 +509,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn intensifier-agreement [lexical-entry]
   (cond (= (get-in lexical-entry '(:synsem :cat)) :intensifier)
         (unifyc
-         (let [agr (ref :top)]
+         (let [agr (atom :top)]
            {:synsem {:agr agr
                      :subcat {:1 {:agr agr}
                               :2 {:agr agr}}}})

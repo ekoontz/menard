@@ -557,8 +557,8 @@
                         :number :plur}
                   :subcat '()}}
 
-   "se amuser" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+   "se amuser" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :sem {:pred :have-fun
@@ -572,11 +572,11 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})  
    "se appeler"
-   (let [subject-semantics (ref :top)
-         called-semantics (ref :top)
-         subject-gender (ref :top)
-         subject-person (ref :top)
-         subject-number (ref :top)]
+   (let [subject-semantics (atom :top)
+         called-semantics (atom :top)
+         subject-gender (atom :top)
+         subject-person (atom :top)
+         subject-number (atom :top)]
      {:synsem {:cat :verb
                :sem {:aspect :progressive
                      :pred :be-called
@@ -600,8 +600,8 @@
                             :cat :noun
                             :subcat '()}}}})
 
-   "se blesser" (let [subject-semantics (ref {:human true})
-                      subject-agr (ref :top)]
+   "se blesser" (let [subject-semantics (atom {:human true})
+                      subject-agr (atom :top)]
                   {
                    :synsem {:cat :verb
                             :essere true
@@ -620,8 +620,8 @@
    ;;                                     :3 {:cat :adverb
    ;;                                         :sem {:pred :bad}}}}})
    
-  "se endormir" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+  "se endormir" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :sem {:pred :fall-asleep
@@ -635,8 +635,8 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "se énerver" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+  "se énerver" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :sem {:pred :get-angry
@@ -650,8 +650,8 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "se ennuyer" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+  "se ennuyer" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :français {:future-stem "ennui"
@@ -667,8 +667,8 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "se lever" (let [subject-semantics (ref {:human true})
-                    subject-agr (ref :top)]
+  "se lever" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
                           :sem {:pred :get-up

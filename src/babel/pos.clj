@@ -5,24 +5,24 @@
 ;; TODO: this file has a lot of language-specific stuff that should be factored into pos/$language.
 ;; for example, english does not have gender agreement between articles, nouns and adjectives.
 (def noun
-  (let [gender (ref :top)
+  (let [gender (atom :top)
         ;; common nouns are underspecified for number: number selection (:sing or :plur) is deferred until later.
         ;; (except for mass nouns which are only singular)
-        number (ref :top)
+        number (atom :top)
         ;; common nouns are neither nominative or accusative. setting their case to :top allows them to (match) with
         ;; verbs' case specifications like {:case {:not :acc}} or {:case {:not :nom}}.
-        case (ref :top)
-        person (ref :top)
+        case (atom :top)
+        person (atom :top)
         agreement
-        (let [number (ref :top)
-              gender (ref :top)
-              person (ref :top)
-              pronoun (ref :top)
-              agr (ref {:number number
+        (let [number (atom :top)
+              gender (atom :top)
+              person (atom :top)
+              pronoun (atom :top)
+              agr (atom {:number number
                         :pronoun pronoun
                         :gender gender
                         :person person})
-              cat (ref :top)]
+              cat (atom :top)]
           {:synsem {:cat cat
                     :pronoun pronoun
                     :case :top
@@ -41,14 +41,14 @@
         feminine {:synsem {:agr {:gender :fem}}}
 
         mass
-        (let [mass (ref true)]
+        (let [mass (atom true)]
           {:synsem {:subcat {:1 {:cat :det
                                  :mass mass
                                  :number :sing}}
                     :sem {:mass mass}}})
 
         countable
-        (let [mass (ref false)]
+        (let [mass (atom false)]
           {:synsem {:subcat {:1 {:cat :det
                                  :mass mass}}
                     :sem {:mass mass}}})
@@ -71,7 +71,7 @@
 (def drinkable-noun (:drinkable noun))
 
 (def determiner
-  (let [def (ref :top)]
+  (let [def (atom :top)]
     {:synsem {:def def
               :sem {:def def}}}))
 
@@ -91,7 +91,7 @@
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
-  (let [subj-sem (ref :top)]
+  (let [subj-sem (atom :top)]
     {:synsem {:cat :verb
               :sem {:subj subj-sem}
               :subcat {:1 {:sem subj-sem
@@ -111,8 +111,8 @@
 ;; transitive: has both subject and object.
 (def transitive
   (unifyc verb-subjective
-          (let [obj-sem (ref :top)
-                infl (ref :top)]
+          (let [obj-sem (atom :top)
+                infl (atom :top)]
             {:synsem {:sem {:obj obj-sem}
                       :infl infl
                       :subcat {:2 {:sem obj-sem
@@ -122,8 +122,8 @@
 
 (def transitive-but-object-cat-not-set
   (unifyc verb-subjective
-          (let [obj-sem (ref :top)
-                infl (ref :top)]
+          (let [obj-sem (atom :top)
+                infl (atom :top)]
             {:synsem {:sem {:obj obj-sem}
                       :infl infl
                       :subcat {:2 {:sem obj-sem
@@ -133,9 +133,9 @@
 
 (def modal
   "modal verbs take a VP[inf] as their 2nd arg. the subject of the modal verb is the same as the subject of the VP[inf]"
-  (let [subj-sem (ref :top)
-        vp-inf-sem (ref {:subj subj-sem})
-        subj-subcat (ref {:cat :noun
+  (let [subj-sem (atom :top)
+        vp-inf-sem (atom {:subj subj-sem})
+        subj-subcat (atom {:cat :noun
                           :sem subj-sem})]
      {:synsem {:sem {:subj subj-sem
                      :obj vp-inf-sem}
@@ -150,8 +150,8 @@
 ;; TODO: not using this: either use or lose.
 (def transitive-but-with-prepositional-phrase-instead-of-noun
   (unifyc verb-subjective
-          (let [obj-sem (ref :top)
-                infl (ref :top)]
+          (let [obj-sem (atom :top)
+                infl (atom :top)]
             {:synsem {:sem {:obj obj-sem}
                       :infl infl
                       :subcat {:2 {:sem obj-sem
@@ -167,7 +167,7 @@
                      :2 {:cat :prep
                          :subcat '()}}}})
 
-(def pronoun-acc (ref :acc))
+(def pronoun-acc (atom :acc))
 
 (def subcat1 {:synsem {:subcat {:1 {:cat :top}
                                 :2 '()}}})
@@ -177,16 +177,16 @@
 (def non-comparative-adjective
   subcat1)
 
-(def comp-sem (ref {:activity false
+(def comp-sem (atom {:activity false
                     :discrete false}))
 
-(def disjunctive-case-of-pronoun (ref :disj))
-(def cat-of-pronoun (ref :noun))
+(def disjunctive-case-of-pronoun (atom :disj))
+(def cat-of-pronoun (atom :noun))
 
 (def subcat0 {:synsem {:subcat '()}})
 
 (def sentential-adverb
-  (let [sentential-sem (ref :top)]
+  (let [sentential-sem (atom :top)]
     {:synsem {:cat :sent-modifier
               :sem {:subj sentential-sem}
               :subcat {:1 {:sem sentential-sem

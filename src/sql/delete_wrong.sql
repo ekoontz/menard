@@ -87,3 +87,4 @@ DELETE FROM expression
 
 
 
+DELETE FROM expression WHERE language='fr' AND surface ILIKE '%Juan%';

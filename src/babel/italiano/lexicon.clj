@@ -77,19 +77,19 @@
                           :pred :acqua}}})
 
    "addormentarsi" (let [subject-semantics (atom {:animate true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :fall-asleep
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}})
+                         subject-agr (atom :top)]
+                     {:synsem {:cat :verb
+                               :essere true
+                               :sem {:pred :fall-asleep
+                                     :reflexive true
+                                     :subj subject-semantics
+                                     :obj subject-semantics}
+                               :subcat {:1 {:agr subject-agr
+                                            :sem subject-semantics}
+                                        :2 {:agr subject-agr
+                                            :pronoun true
+                                            :reflexive true
+                                            :sem subject-semantics}}}})
    
    "affolato"
    [;; comparative

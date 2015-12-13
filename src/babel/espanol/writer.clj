@@ -40,7 +40,7 @@
                 (filter (fn [lexeme]
                           (and
                            ;; how to only generate for a single infinitive (for testing/development):
-                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
+                           ;;                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))

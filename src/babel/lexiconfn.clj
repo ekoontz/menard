@@ -80,14 +80,14 @@
 (declare get-fail-path)
 
 (defn unify [ & args]
-  "like unify/unify, but unify/copy each argument before unifying."
+  "like unify/unify, but unify/copy each argument before unifying, and throw an exception if unification fails."
   (log/trace (str "(lexfn)unify args: " (map strip-refs args)))
   (log/trace (str "(lexfn)unify first arg: " (strip-refs (first args))))
   (let [retval (apply unifyc args)]
     (if (not (fail? retval))
       retval
       ;; TODO: log message is too long to read.
-      (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs (get-in args [:synsem])))
+      (let [message (str "Failed to unify args:" (string/join " , " (map strip-refs args))
                          (if (= 2 (.size args))
                            (let [fail-path (get-fail-path (first args) (second args))]
                              (str "; failed path: " fail-path

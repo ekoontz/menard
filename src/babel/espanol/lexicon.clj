@@ -13,6 +13,7 @@
   {""
    [{:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :1st
                     :number :sing}
@@ -20,6 +21,7 @@
                     :pred :I}}}
     {:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :2nd
                     :number :sing}
@@ -27,6 +29,7 @@
                     :pred :tu}}}
     {:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :3rd
                     :number :sing}
@@ -34,6 +37,7 @@
                     :pred :lui}}}
     {:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :1st
                     :number :plur}
@@ -41,6 +45,7 @@
                     :pred :noi}}}
     {:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :2nd
                     :number :plur}
@@ -48,6 +53,7 @@
                     :pred :voi}}}
     {:synsem {:cat :noun
               :pronoun true
+              :null-pronoun true
               :case :nom
               :agr {:person :3rd
                     :number :plur}
@@ -479,6 +485,15 @@
                     :sem {:human true
                           :pred :Juan}
                     :subcat '()}}
+   "Juana" {:synsem {:cat :noun
+                    :propernoun true
+                    :case :nom
+                    :agr {:gender :fem
+                          :person :3rd
+                          :number :sing}
+                     :sem {:human true
+                           :pred :Juana}
+                    :subcat '()}}
    "Juan y yo"
    [{:synsem {:cat :noun
               :pronoun true
@@ -822,6 +837,11 @@
                                  :subcat {:2 {:reflexive false}}}}
                        {:synsem {:subcat {:2 {:reflexive false}}}})
 
+              (if-then {:synsem {:cat :noun
+                                 :pronoun true
+                                 :null-pronoun false}}
+                       {:synsem {:null-pronoun false}})
+              
               (if-then {:synsem {:cat :verb
                                  :subcat {:3 '()}}}
                        {:synsem {:subcat {:3 '()}}})

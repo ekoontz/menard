@@ -748,6 +748,12 @@
                     :agr {:number :sing
                           :person :3rd
                           :gender :masc}}}
+   "Juana" {:synsem {:sem {:pred :Juana
+                          :human true}
+                     :propernoun true
+                     :agr {:number :sing
+                           :person :3rd
+                           :gender :fem}}}
    "Juan and I"
    [{:synsem {:cat :noun
               :pronoun true

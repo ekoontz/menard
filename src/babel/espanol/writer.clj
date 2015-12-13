@@ -40,7 +40,7 @@
                 (filter (fn [lexeme]
                           (and
                            ;; how to only generate for a single infinitive (for testing/development):
-                           ;;                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
+                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
@@ -62,22 +62,22 @@
                    (let [root-form (get-in verb [:espanol :espanol])]
                      (log/info (str "generating with verb: '" root-form "'"))
                      (.size (pmap (fn [tense]
-                                   (let [spec (unify {:root {:espanol {:espanol root-form}}}
-                                                     tense)]
+                                    (let [spec (unify/unify {:root {:espanol {:espanol root-form}}}
+                                                            tense)]
                                      (.size
                                       (map (fn [gender]
-                                             (let [spec (unify spec
-                                                               {:comp {:synsem {:agr gender}}})]
+                                             (let [spec (unify/unify spec
+                                                                     {:comp {:synsem {:agr gender}}})]
                                                (log/trace (str "generating from gender: " gender))
                                                (.size
                                                 (map (fn [person]
-                                                       (let [spec (unify spec
-                                                                         {:comp {:synsem {:agr {:person person}}}})]
+                                                       (let [spec (unify/unify spec
+                                                                               {:comp {:synsem {:agr {:person person}}}})]
                                                          (log/trace (str "generating from person: " person))
                                                          (.size
                                                           (map (fn [number]
-                                                                 (let [spec (unify spec
-                                                                                   {:comp {:synsem {:agr {:number number}}}})]
+                                                                 (let [spec (unify/unify spec
+                                                                                         {:comp {:synsem {:agr {:number number}}}})]
                                                                    (log/debug (str "generating from spec: " spec))
                                                                    (try
                                                                      (process [{:fill-one-language
@@ -93,7 +93,11 @@
                                                                        (cond
                                                                          ;; Ignore the generation-failure exception, if
                                                                          ;; there is a legitimate reason for the exception, such as:
-
+                                        ;
+                                                                         ;; The spec was :fail.
+                                                                         (= spec :fail)
+                                                                         (log/warn (str "ignoring spec: :fail : can't generate anything from that."))
+                                                                         
                                                                          ;; The verb is "funzionare" (which takes a non-human
                                                                          ;; subject), but we're trying to generate with
                                                                          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
@@ -136,19 +140,36 @@
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
-                                           (cond (= tense
-                                                    {:synsem {:sem {:aspect :perfect
-                                                                    :tense :past}}})
+                                           (cond (or true (= tense
+                                                             {:synsem {:sem {:aspect :perfect
+                                                                             :tense :past}}}))
                                                  [{:gender :masc}
                                                   {:gender :fem}]
                                                  true
                                                  [:top])))))
-                                 (list {:synsem {:sem {:tense :conditional}}}
-                                       {:synsem {:sem {:tense :future}}}
-                                       {:synsem {:sem {:tense :present}}}
-                                       {:synsem {:sem {:aspect :progressive
-                                                       :tense :past}}}
-                                       {:synsem {:sem {:aspect :perfect
-                                                       :tense :past}}}
-                                       )))))
+                                  (mapcat (fn [tense]
+                                            (filter #(not (= :fail %))
+                                                    (list
+                                                     (unify/unify tense
+                                                                  {:comp {:synsem {:pronoun true
+                                                                                   :null-pronoun true}}})
+                                                     (unify/unify tense
+                                                                  {:comp {:synsem {:pronoun true
+                                                                                   :null-pronoun false}}})
+                                                     (unify/unify tense
+                                                                  {:comp {:synsem {:agr {:person :3rd
+                                                                                         :number :sing}
+                                                                                   :pronoun false}}}))))
+                                          (list {:synsem {:sem {:tense :conditional}}}
+                                                {:synsem {:sem {:tense :future}}}
+                                                {:synsem {:sem {:tense :present}}}
+                                                {:synsem {:sem {:aspect :perfect
+                                                                :tense :past}}}
+                                                {:synsem {:sem {:aspect :perfect
+                                                                :tense :past}}}
+
+                                                ))
+
+
+                                 ))))
                  root-verb-array))))

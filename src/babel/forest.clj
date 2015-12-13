@@ -68,7 +68,8 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
 
-  (if (not (empty? (strip-refs spec)))
+  (if (and (not (= :fail spec))
+           (not (empty? (strip-refs spec))))
     (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec))))
   (log/trace (str "lighting-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.

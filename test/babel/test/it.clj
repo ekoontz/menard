@@ -1,7 +1,7 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :refer [generate]]
-            [babel.italiano.grammar :refer [small]]
+            [babel.italiano.grammar :refer [small parse]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :refer [fo]]
             [clojure.test :refer :all]
@@ -23,8 +23,8 @@
                                          :tense :past
                                          :aspect :perfect}}}
                          small)]
-    (and (is (not (nil? result)))
-         (is (= "io ho bevuto" (fo result))))))
+    (is (not (nil? result)))
+    (is (= "io ho bevuto" (fo result)))))
 
 (deftest passato-prossimo-reflexive
   (let [result (generate {:head {:synsem {:agr {:gender :fem}}}
@@ -35,5 +35,12 @@
                                          :tense :past
                                          :aspect :perfect}}}
                          small)]
-    (and (is (not (nil? result)))
-         (is (= "io mi sono alzata" (fo result))))))
+    (is (not (nil? result)))
+    (is (= "io mi sono alzata" (fo result)))))
+
+(deftest parse-io-parlo
+  (let [result (parse "io parlo")]
+    (is (not (empty? result)))
+    (is (= "io parlo") (fo (first result)))))
+
+        

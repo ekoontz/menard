@@ -76,10 +76,7 @@
                     :sem {:pred :support}}}
    
    "be" (let [number-agr (atom :top)
-              common {:synsem {:cat :verb
-                               :subcat {:1 {:agr number-agr} ;; In "to be" sentences, agreement exists with respect to :num :
-                                        :2 {:pronoun false ;; ;; don't allow strange but grammatical "I am me", "you are him", etc.
-                                            :agr number-agr}}} ;; e.g. : "they are cats" but *"they are cat".
+              common {:synsem {:cat :verb}
                       :english {:present {:1sing "am"
                                           :2sing "are"
                                           :3sing "is"
@@ -92,10 +89,14 @@
                                        :1plur "were"
                                        :2plur "were"
                                        :3plur "were"}}}]
-          [(merge common
+          [;; intransitive
+           (unify common
                   {:synsem {:subcat {:1 {:cat :noun}
                                      :2 '()}
                             :sem {:pred :be}}})
+
+
+           ;; be + propernoun, e.g. "I am John"
            (let [subj-agr (atom :top)
                  infl (atom :top)
                  the-real-subj (atom :top)
@@ -113,12 +114,19 @@
                               :subcat {:1 {:cat :noun
                                            :agr subj-agr
                                            :sem {:pred :name
-                                                 :subj the-real-subj}}
+                                                 :subj the-real-subj}
+
+                                           }
                                        :2 {:cat :noun
                                            :agr subj-agr
                                            :sem the-obj
-                                           :propernoun true}}}}))])
-   
+                                           :propernoun true ;; "I am John"
+                                           }
+                                       } ;; subcat {
+                              } ;; synsem {
+                     } ;; end of map
+                    ))])
+
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
                                        :3sing "was able to"

@@ -12,7 +12,7 @@
    [environ.core :refer [env]]
    [hiccup.element :as e]
    [hiccup.page :as h]
-   [dag-unify.core :as fs]))
+   [dag-unify.core :as fs :refer [get-in ref= ref?]]))
 
 (def menubar-enabled true)
 
@@ -112,30 +112,30 @@
    
    (or
     (and
-     (not (= :none (fs/get-in arg '(:head :english) :none)))
-     (not (= :none (fs/get-in arg '(:comp :english) :none))))
+     (not (= :none (get-in arg '(:head :english) :none)))
+     (not (= :none (get-in arg '(:comp :english) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :espanol) :none)))
-     (not (= :none (fs/get-in arg '(:comp :espanol) :none))))
+     (not (= :none (get-in arg '(:head :espanol) :none)))
+     (not (= :none (get-in arg '(:comp :espanol) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :français) :none)))
-     (not (= :none (fs/get-in arg '(:comp :français) :none))))
+     (not (= :none (get-in arg '(:head :français) :none)))
+     (not (= :none (get-in arg '(:comp :français) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :italiano) :none)))
-     (not (= :none (fs/get-in arg '(:comp :italiano) :none)))))
+     (not (= :none (get-in arg '(:head :italiano) :none)))
+     (not (= :none (get-in arg '(:comp :italiano) :none)))))
    
    (or
-    (and (fs/ref= arg '(:head :italiano) '(:italiano :a))
-         (fs/ref= arg '(:comp :italiano) '(:italiano :b)))
+    (and (ref= arg '(:head :italiano) '(:italiano :a))
+         (ref= arg '(:comp :italiano) '(:italiano :b)))
 
-    (and (fs/ref= arg '(:head :français) '(:français :a))
-         (fs/ref= arg '(:comp :français) '(:français :b)))
+    (and (ref= arg '(:head :français) '(:français :a))
+         (ref= arg '(:comp :français) '(:français :b)))
 
-    (and (fs/ref= arg '(:head :espanol) '(:espanol :a))
-         (fs/ref= arg '(:comp :espanol) '(:espanol :b)))
+    (and (ref= arg '(:head :espanol) '(:espanol :a))
+         (ref= arg '(:comp :espanol) '(:espanol :b)))
 
-    (and (fs/ref= arg '(:head :english) '(:english :a))
-         (fs/ref= arg '(:comp :english) '(:english :b)))))]
+    (and (ref= arg '(:head :english) '(:english :a))
+         (ref= arg '(:comp :english) '(:english :b)))))]
     retval))
 
 (defn head-final? [arg path]
@@ -156,27 +156,27 @@
    
    (or
     (and
-     (not (= :none (fs/get-in arg '(:head :italiano) :none)))
-     (not (= :none (fs/get-in arg '(:comp :italiano) :none))))
+     (not (= :none (get-in arg '(:head :italiano) :none)))
+     (not (= :none (get-in arg '(:comp :italiano) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :espanol) :none)))
-     (not (= :none (fs/get-in arg '(:comp :espanol) :none))))
+     (not (= :none (get-in arg '(:head :espanol) :none)))
+     (not (= :none (get-in arg '(:comp :espanol) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :français) :none)))
-     (not (= :none (fs/get-in arg '(:comp :français) :none))))
+     (not (= :none (get-in arg '(:head :français) :none)))
+     (not (= :none (get-in arg '(:comp :français) :none))))
     (and
-     (not (= :none (fs/get-in arg '(:head :english) :none)))
-     (not (= :none (fs/get-in arg '(:comp :english) :none)))))
+     (not (= :none (get-in arg '(:head :english) :none)))
+     (not (= :none (get-in arg '(:comp :english) :none)))))
    
    (or
-    (and (fs/ref= arg '(:head :italiano) '(:italiano :b))
-         (fs/ref= arg '(:comp :italiano) '(:italiano :a)))
-    (and (fs/ref= arg '(:head :espanol) '(:espanol :b))
-         (fs/ref= arg '(:comp :espanol) '(:espanol :a)))
-    (and (fs/ref= arg '(:head :français) '(:français :b))
-         (fs/ref= arg '(:comp :français) '(:français :a)))
-    (and (fs/ref= arg '(:head :english) '(:english :b))
-         (fs/ref= arg '(:comp :english) '(:english :a)))))]
+    (and (ref= arg '(:head :italiano) '(:italiano :b))
+         (ref= arg '(:comp :italiano) '(:italiano :a)))
+    (and (ref= arg '(:head :espanol) '(:espanol :b))
+         (ref= arg '(:comp :espanol) '(:espanol :a)))
+    (and (ref= arg '(:head :français) '(:français :b))
+         (ref= arg '(:comp :français) '(:français :a)))
+    (and (ref= arg '(:head :english) '(:english :b))
+         (ref= arg '(:comp :english) '(:english :a)))))]
     retval))
 
 (def show-top true)
@@ -260,7 +260,7 @@
       "    <tr>"
       "      <td class='ref'>"
 
-      (if (= (type (:head arg)) clojure.lang.Ref)
+      (if (ref? arg)
         (str
          "     <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:head)) 0)
@@ -269,14 +269,14 @@
       "      </td>"
       "      <td class='hc'>H</td><td>"
 
-      (tablize (if (= (type (:head arg)) clojure.lang.Ref)
+      (tablize (if (ref? arg)
                  @(:head arg)
                  (:head arg))
                (concat path '(:head)) serialized opts)
       "      </td>"
       "      <td class='ref'>"
 
-      (if (= (type (:comp arg)) clojure.lang.Ref)
+      (if (ref? (:comp arg))
         (str
          "    <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:comp)) 0)
@@ -284,7 +284,7 @@
 
       "      </td>"
       "      <td class='hc'>C</td><td>"
-      (tablize (if (= (type (:comp arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:comp arg))
                  @(:comp arg)
                  (:comp arg))
                (concat path '(:comp)) serialized opts)
@@ -306,27 +306,27 @@
       "    </tr>"
       "    <tr>"
       "      <td class='ref'>"
-      (if (= (type (:comp arg)) clojure.lang.Ref)
+      (if (ref? (:comp arg))
         (str
          "     <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:comp)) 0)
          "     </div>"))
       "      </td>"
       "      <td class='hc'>C</td><td>"
-      (tablize (if (= (type (:comp arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:comp arg))
                  @(:comp arg)
                  (:comp arg))
                (concat path '(:comp)) serialized opts)
       "      </td>"
       "      <td class='ref'>"
-      (if (= (type (:head arg)) clojure.lang.Ref)
+      (if (ref? (:head arg))
         (str
          "    <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:head)) 0)
          "    </div>"))
       "      </td>"
       "      <td class='hc'>H</td><td>"
-      (tablize (if (= (type (:head arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:head arg))
                  @(:head arg)
                  (:head arg))
                (concat path '(:head)) serialized opts)
@@ -365,27 +365,27 @@
       "    </tr>"
       "    <tr>"
       "      <td class='ref'>"
-      (if (= (type (:1 arg)) clojure.lang.Ref)
+      (if (ref? (:1 arg))
         (str
          "     <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:1)) 0)
          "     </div>"))
       "      </td>"
       "      <td>"
-      (tablize (if (= (type (:1 arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:1 arg))
                  @(:1 arg)
                  (:1 arg))
                (concat path '(:1)) serialized opts)
       "      </td>"
       "      <td class='ref'>"
-      (if (= (type (:2 arg)) clojure.lang.Ref)
+      (if (ref? (:2 arg))
         (str
          "    <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:2)) 0)
          "    </div>"))
          "      </td>"
          "      <td>"
-      (tablize (if (= (type (:2 arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:2 arg))
                  @(:2 arg)
                  (:2 arg))
                (concat path '(:2)) serialized opts)
@@ -416,14 +416,14 @@
       "    </tr>"
       "    <tr>"
       "      <td>"
-      (if (= (type (:1 arg)) clojure.lang.Ref)
+      (if (ref? (:1 arg))
         (str
          "    <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:1)) 0)
          "    </div>"))
          "      </td>"
          "      <td>"
-      (tablize (if (= (type (:1 arg)) clojure.lang.Ref)
+      (tablize (if (ref? (:1 arg))
                  @(:1 arg) (:1 arg))
                (concat path (list :1))
                serialized opts)
@@ -460,7 +460,7 @@
               true "")
              ">"
              "<th>" feature "</th>"
-             (if (= (type (second tr)) clojure.lang.Ref)
+             (if (ref? (second tr))
                (str
                 "<td class='ref'>"
                 "  <div class='ref'>"
@@ -493,17 +493,17 @@
                      (= (first %) :schema-symbol)
                      (= (first %) :serialized)
                      (and (not show-true)
-                          (fs/ref? (second %))
+                          (ref? (second %))
                           (= @(second %) false))
                      (and (not show-top)
-                          (fs/ref? (second %))
+                          (ref? (second %))
                           (= @(second %) :top))
                      (and (not show-true) (= (second %) false))
                      (and (not show-top) (= (second %) :top))
 
-                     (and (not show-true) (fs/ref? (second %))
+                     (and (not show-true) (ref? (second %))
                           (= @(second %) true))
-                     (and (not show-true) (fs/ref? (second %))
+                     (and (not show-true) (ref? (second %))
                           (= @(second %) :top))
                      (and (not show-true) (= (second %) true))
                      (and (not show-top) (= (second %) :top)))
@@ -530,7 +530,7 @@
 
      (= (last path) :rule)
      (str "<span class='keyword'>"
-          (if (fs/ref? arg)
+          (if (ref? arg)
             @arg
             arg)
           "</span>")
@@ -557,14 +557,14 @@
             java.lang.Double))
      (str "<span class='atom'>" arg "</span>")
 
-     (and (= (type arg) clojure.lang.Ref)
+     (and (ref? arg)
           (= @arg nil))
      (str "NIL.")
 
      (symbol? arg)
      (str "<i>" arg "</i>")
 
-     (= (type arg) clojure.lang.Ref)
+     (ref? arg)
      (let [is-first (fs/is-first-path serialized path 0
                                       (fs/path-to-ref-index serialized path 0))]
        (str (if (and (or (= (last path) :subcat)

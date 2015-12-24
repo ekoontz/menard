@@ -42,7 +42,7 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag-unify.core :refer [get-in remove-false strip-refs]]
+   [dag-unify.core :refer [get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]
 ))
 

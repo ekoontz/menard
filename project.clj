@@ -16,6 +16,7 @@
                                                     com.sun.jdmk/jmxtools
                                                     com.sun.jmx/jmxri]]
                  [org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]
                  [org.clojure/data.json "0.2.5"]
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.namespace "0.2.11"]

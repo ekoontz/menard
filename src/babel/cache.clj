@@ -4,11 +4,11 @@
    ;; TODO: comment is misleading in that we never call core/get-in from this file.
    ;; TODO: alphabetize
    [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
-   [clojure.set :refer :all]
+;;   [clojure.set :refer :all]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    ;; TODO: be more specific in :refer than :all.
-   [dag-unify.core :refer :all :exclude [unify]]
+   [dag_unify.core :refer :all :exclude [unify]]
 
    [babel.over :exclude [overc overh]]
    [babel.over :as over]))

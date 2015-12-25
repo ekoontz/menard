@@ -9,7 +9,7 @@
     [clojure.string :as string]
     [clojure.tools.logging :as log]
     [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-    [dag-unify.core :refer [fail? get-in merge strip-refs serialize unify ref?]]
+    [dag_unify.core :refer [fail? get-in merge strip-refs serialize unify ref?]]
     [korma.core :refer [exec-raw]]))
 
 ;; TODO: more fine-grained approach to dealing with exceptions:

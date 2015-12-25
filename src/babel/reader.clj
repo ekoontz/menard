@@ -4,7 +4,7 @@
    [babel.korma :as korma]
    [clojure.data.json :as json]
    [clojure.tools.logging :as log]
-   [dag-unify.core :as unify :refer [deserialize get-in ref? strip-refs unify]]
+   [dag_unify.core :as unify :refer [deserialize get-in ref? strip-refs unify]]
    [korma.core :as db]])
 
 ;; Configure database's 'expression' table to find the expressions.

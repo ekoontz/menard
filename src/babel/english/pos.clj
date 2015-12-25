@@ -5,7 +5,7 @@
 (require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)])
 (require '[babel.pos :as pos])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :as unify :refer (dissoc-paths get-in serialize)])
+(require '[dag_unify.core :as unify :refer (dissoc-paths get-in serialize)])
 
 (def adjective pos/adjective)
 (def animal pos/common-noun)

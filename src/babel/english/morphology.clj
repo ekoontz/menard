@@ -6,7 +6,7 @@
 (require '[clojure.string :refer :all])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer :all])
+(require '[dag_unify.core :refer :all])
 
 (declare get-string)
 (declare plural-en)

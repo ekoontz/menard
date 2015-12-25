@@ -6,11 +6,10 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag-unify.core :refer [fail? get-in merge strip-refs unify unifyc]]
-
    [babel.forest :as forest]
    [babel.html :refer [tablize]]
-   [babel.ug :refer (head-principle)]))
+   [babel.ug :refer (head-principle)]
+   [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]))
 
 (declare lookup)
 (declare generate-from-request)

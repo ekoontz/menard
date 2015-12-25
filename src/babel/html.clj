@@ -12,7 +12,7 @@
    [environ.core :refer [env]]
    [hiccup.element :as e]
    [hiccup.page :as h]
-   [dag-unify.core :as fs :refer [get-in ref= ref?]]))
+   [dag_unify.core :as fs :refer [get-in ref= ref?]]))
 
 (def menubar-enabled true)
 

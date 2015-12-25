@@ -5,7 +5,7 @@
                                         map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer :all]
-   [dag-unify.core :refer [fail? get-in merge strip-refs]]))
+   [dag_unify.core :refer [fail? get-in merge strip-refs]]))
 
 (def lexicon-source
   {

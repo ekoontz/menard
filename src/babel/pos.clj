@@ -1,6 +1,6 @@
 (ns babel.pos
   (:require
-   [dag-unify.core :refer (unifyc)]))
+   [dag_unify.core :refer (unifyc)]))
 
 ;; TODO: this file has a lot of language-specific stuff that should be factored into pos/$language.
 ;; for example, english does not have gender agreement between articles, nouns and adjectives.

@@ -8,7 +8,7 @@
    [babel.parse :as parse]
    [babel.ug :refer :all]
    [clojure.tools.logging :as log]
-   [dag-unify.core :refer (get-in merge unifyc)]))
+   [dag_unify.core :refer (get-in merge unifyc)]))
 
 (def head-first
   (let [head-espanol (atom :top)

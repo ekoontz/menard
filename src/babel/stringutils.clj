@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[clojure.string :as string])
-(require '[dag-unify.core :refer [get-in]])
+(require '[dag_unify.core :refer [get-in]])
 
 (defn replace-from-list [regexp-list target]
   "Apply the first regexp pair (from=>to) from regexp-list to target;

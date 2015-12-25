@@ -1,11 +1,11 @@
 (ns babel.parse
  (:refer-clojure :exclude [get-in resolve find]))
 
+(require '[babel.over :as over])
 (require '[clojure.string :as str])
 (require '[clojure.tools.logging :as log])
 
-(require '[babel.over :as over])
-(require '[dag-unify.core :refer (get-in strip-refs)])
+(require '[dag_unify.core :refer (get-in strip-refs)])
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")

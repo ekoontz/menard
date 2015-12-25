@@ -2,10 +2,10 @@
   (:refer-clojure :exclude [get get-in merge resolve find parents])
   (:require
    [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
-   [clojure.set :refer :all]
+;;   [clojure.set :refer :all]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
-   [dag-unify.core :refer [fail? fail-path get-in merge strip-refs unifyc]]
+   [dag_unify.core :refer [fail? fail-path get-in merge strip-refs unifyc]]
    [babel.lexiconfn :refer [get-fail-path sem-impl]]))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.

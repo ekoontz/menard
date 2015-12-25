@@ -1,3 +1,5 @@
+;; TODO: we don't use much korma functionality here; might as well simply
+;; use a clojure wrapper around JDBC.
 ;; TODO: rename this file - misleading name 'korma.clj'.
 ;; It uses korma, but it is not itself part of korma.
 (ns babel.korma
@@ -5,7 +7,7 @@
   (:require [clj-time.coerce :as c]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [dag-unify.core :refer (unify fail?)]
+            [dag_unify.core :refer (unify fail?)]
             [korma.core :refer :all]
             [korma.db :refer [default-connection defdb postgres]]))
 

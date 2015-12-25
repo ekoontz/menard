@@ -8,7 +8,7 @@
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
-            [dag-unify.core :refer [get-in]]))
+            [dag_unify.core :refer [get-in]]))
 
 (deftest generate-irregular-present
   (let [form {:english {:a {:english {:past {:1sing "was",

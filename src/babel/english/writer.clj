@@ -11,7 +11,7 @@
                    fill-language-by-spec
                    process write-lexicon reload]])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
+(require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
   (write-lexicon "en" @lexicon))

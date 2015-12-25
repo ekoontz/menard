@@ -7,7 +7,7 @@
    [clojure.core :as core]
    [clojure.string :as string]
    [babel.pos :refer :all]
-   [dag-unify.core :refer :all :exclude (unify)])) ;; exclude unify because we redefine it here using unifyc (copy each arg)
+   [dag_unify.core :refer :all :exclude (unify)])) ;; exclude unify because we redefine it here using unifyc (copy each arg)
 
 (declare listify)
 (declare map-function-on-map-vals)

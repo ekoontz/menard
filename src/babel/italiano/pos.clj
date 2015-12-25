@@ -2,7 +2,7 @@
 
 (require '[babel.lexiconfn :as lexiconfn])
 (require '[babel.pos :as pos])
-(require '[dag-unify.core :refer (unifyc)])
+(require '[dag_unify.core :refer (unifyc)])
 
 (def agreement-noun pos/agreement-noun)
 (def cat-of-pronoun pos/cat-of-pronoun)

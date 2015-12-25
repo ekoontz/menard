@@ -16,8 +16,8 @@
 (require '[babel.writer :as writer :refer [process reload write-lexicon]])
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (fail? get-in strip-refs)])
-(require '[dag-unify.core :as unify])
+(require '[dag_unify.core :refer (fail? get-in strip-refs)])
+(require '[dag_unify.core :as unify])
 
 ;; for debugging:
 (require '[babel.espanol.morphology.verbs :as esverbs])

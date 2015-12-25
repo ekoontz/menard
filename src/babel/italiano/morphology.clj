@@ -8,7 +8,7 @@
 (require '[clojure.string :as string])
 (require '[clojure.string :refer (trim)])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)])
+(require '[dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)])
 
 (defn phrase-is-finished? [phrase]
   (cond

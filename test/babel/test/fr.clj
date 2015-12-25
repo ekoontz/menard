@@ -12,7 +12,7 @@
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
-            [dag-unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
+            [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
 
 (deftest conditional
   (let [result (engine/generate {:synsem {:subcat '()

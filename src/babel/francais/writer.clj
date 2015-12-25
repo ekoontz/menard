@@ -8,7 +8,7 @@
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
 (require '[babel.writer :as writer :refer [process reload write-lexicon]])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
+(require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
   (write-lexicon "fr" @lexicon))

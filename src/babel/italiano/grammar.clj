@@ -8,7 +8,7 @@
    [babel.parse :as parse]
    [babel.ug :refer :all]
    [clojure.tools.logging :as log]
-   [dag-unify.core :refer (fail? get-in merge unifyc)]))
+   [dag_unify.core :refer (fail? get-in merge unifyc)]))
 
 (def hc-agreement
   (let [agr (atom :top)]

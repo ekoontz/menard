@@ -6,7 +6,7 @@
 (require '[babel.italiano.morphology :as morph])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.tools.logging :as log])
-(require '[dag-unify.core :refer (fail? get-in strip-refs unify)])
+(require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 (require '[clojure.string :refer [join]])
 
 (defn expression [spec]

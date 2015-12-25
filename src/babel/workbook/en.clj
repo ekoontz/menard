@@ -25,7 +25,7 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag-unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
+   [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]
 ))
 

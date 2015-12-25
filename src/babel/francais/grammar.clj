@@ -8,7 +8,7 @@
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
    [babel.ug :refer :all]
-   [dag-unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
+   [dag_unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
 (declare against-pred)
 (declare matching-head-lexemes)
 

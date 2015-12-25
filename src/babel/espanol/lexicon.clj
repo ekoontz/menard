@@ -7,7 +7,7 @@
    [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer :all]
    [babel.pos :as pos :refer [pronoun-acc]]
-   [dag-unify.core :refer [fail? get-in]]))
+   [dag_unify.core :refer [fail? get-in]]))
 
 (def lexicon-source 
   {""

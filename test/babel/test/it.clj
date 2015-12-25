@@ -6,7 +6,7 @@
             [babel.italiano.morphology :refer [fo]]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
-            [dag-unify.core :refer [get-in]]))
+            [dag_unify.core :refer [get-in]]))
 
 (deftest present-irregular
   (let [result (generate {:synsem {:subcat '()

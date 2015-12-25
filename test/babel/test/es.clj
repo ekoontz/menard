@@ -8,7 +8,7 @@
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
-            [dag-unify.core :refer [get-in]]))
+            [dag_unify.core :refer [get-in]]))
 
 (deftest generate-conditional
   (let [result (engine/generate {:synsem {:subcat '()

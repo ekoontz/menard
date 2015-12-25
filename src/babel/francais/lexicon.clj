@@ -5,7 +5,7 @@
    [babel.francais.pos :refer :all]
    [babel.lexiconfn :refer (compile-lex if-then map-function-on-map-vals unify)]
    [babel.pos :as pos :refer [pronoun-acc]]
-   [dag-unify.core :refer [get-in]]))
+   [dag_unify.core :refer [get-in]]))
 
 (def lexicon-source 
   {

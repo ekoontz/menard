@@ -4,7 +4,7 @@
    [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer :all]
-   [dag-unify.core :refer [fail? get-in merge]]))
+   [dag_unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source
   {"Antonia"

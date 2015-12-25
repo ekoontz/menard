@@ -1,7 +1,7 @@
 (ns babel.francais.pos)
 
 (require '[babel.pos :as pos])
-(require '[dag-unify.core :refer (unifyc)])
+(require '[dag_unify.core :refer (unifyc)])
 (require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
 
 (def verb-aux

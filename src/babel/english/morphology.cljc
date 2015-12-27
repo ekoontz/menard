@@ -1,12 +1,10 @@
 (ns babel.english.morphology
-  (:refer-clojure :exclude [get-in merge resolve replace reverse]))
-
-(require '[babel.pos :refer (noun)])
-(require '[clojure.core :as core])
-(require '[clojure.string :refer :all])
-(require '[clojure.string :as string])
-(require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer :all])
+  (:refer-clojure :exclude [get-in merge resolve replace reverse])
+  (:require [babel.pos :refer (noun)]
+            [clojure.string :as string :refer [join replace trim]]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log]) 
+            [dag_unify.core :refer [copy fail? get-in merge ref? unifyc]]))
 
 (declare get-string)
 (declare plural-en)
@@ -210,7 +208,7 @@
         (not (nil? (get-in word '(:agr :number))))
         (not (nil? (get-in word '(:agr :person)))))
    (let [infinitive (get-in word '(:english))
-         stem (replace infinitive #"^to " "")]
+         stem (string/replace infinitive #"^to " "")]
      (str "would " stem))
 
    (and (= (get-in word '(:infl)) :future)

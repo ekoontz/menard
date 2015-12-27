@@ -2,12 +2,12 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.english.grammar :as eng]
-            [babel.english.writer :as en]
             [babel.english.morphology :refer [fo get-string]]
-            [babel.writer :as writer]
             [clojure.string :as string]
-            [clojure.test :refer :all]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.test :refer [deftest is]])
+            #?(:cljs [cljs.test :refer-macros [deftest is]])
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
 (deftest generate-irregular-present

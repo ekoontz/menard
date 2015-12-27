@@ -5,10 +5,9 @@
                                             get-parent-phrases-for-spec)]
    [babel.over :as over]
    [babel.stringutils :refer [show-as-tree]]
-   [clojure.core :as core]
-   [clojure.set :refer :all]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
    [dag_unify.core :refer (dissoc-paths get-in fail? fail-path-between lazy-shuffle
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unifyc)]))

@@ -1,13 +1,23 @@
 (ns babel.lexiconfn
-  (:refer-clojure :exclude [get-in merge resolve find])
-  (:use [clojure.set])
+  (:refer-clojure :exclude [exists? get-in merge resolve find])
   (:require
    [clojure.set :as set]
-   [clojure.tools.logging :as log]
-   [clojure.core :as core]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [babel.pos :refer :all]
-   [dag_unify.core :refer :all :exclude (unify)])) ;; exclude unify because we redefine it here using unifyc (copy each arg)
+   [babel.pos :refer [agreement-noun common-noun determiner
+                      intransitive modal noun
+                      subcat0 subcat1
+                      transitive-but-object-cat-not-set
+                      verb-subjective]]
+   [dag_unify.core :as unify :refer [dissoc-paths exists? fail-path fail? get-in isomorphic?
+                                     merge serialize strip-refs unifyc]]))
+
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
 
 (declare listify)
 (declare map-function-on-map-vals)
@@ -96,7 +106,7 @@
                                true
                                ""))]
         (do (log/error message)
-            (throw (Exception. message)))))))
+            (throw (exception message)))))))
 
 (defn cache-serialization [entry]
   "Copying ((unify/copy)ing) lexical entries during generation or parsing is done by serializing and then deserializing. 
@@ -122,7 +132,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                             italian)})
              (dissoc
               (dissoc
-               (if (not (= :none (core/get entry :serialized :none)))
+               (if (not (= :none (get entry :serialized :none)))
                  (conj {:serialized (serialize entry)}
                        entry)
                  (conj {:serialized (serialize (dissoc entry :serialized))}
@@ -163,13 +173,13 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn italian-pluralize [singular gender]
   (cond
    (= gender :masc)
-   (replace #"([oe])$" "i" singular)
+   (string/replace #"([oe])$" "i" singular)
    (= gender :fem)
-   (replace #"([a])$" "e" singular)))
+   (string/replace #"([a])$" "e" singular)))
 
 ;; TODO move to morphology
 (defn english-pluralize [singular]
-  (str (replace #"([sxz])$" "$1e" singular) "s"))
+  (str (string/replace #"([sxz])$" "$1e" singular) "s"))
 
 (defn sem-impl [input]
   "expand input feature structures with semantic (really cultural) implicatures, e.g., if human, then not buyable or edible"
@@ -351,18 +361,17 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
            (cond (= input :fail) :fail
 
                  (seq? input)
-                 (log/error (Exception. (str "input was unexpectedly a sequence: " input)))
+                 (log/error (exception (str "input was unexpectedly a sequence: " input)))
 ;                 (first (remove #(= {} %) 
 ;                                (remove #(nil? %) input)))
 
                  true
-                 ;; don't need the features of merge (at least not yet), so use core/merge.
-                 (core/merge input animate artifact buyable city clothing consumable consumable-false drinkable
-                             drinkable-xor-edible-1 drinkable-xor-edible-2
-                             edible furniture human inanimate
-                             legible material-false non-places
-                             not-legible-if-not-artifact part-of-human-body pets place
-                             ))]
+                 (merge input animate artifact buyable city clothing consumable consumable-false drinkable
+                        drinkable-xor-edible-1 drinkable-xor-edible-2
+                        edible furniture human inanimate
+                        legible material-false non-places
+                        not-legible-if-not-artifact part-of-human-body pets place
+                        ))]
        (log/trace (str "sem-impl so far: " merged))
        (if (not (= merged input)) ;; TODO: make this check more efficient: count how many rules were hit
          ;; rather than equality-check to see if merged has changed.
@@ -463,7 +472,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 ;; http://stackoverflow.com/a/1677927
 (defn map-function-on-map-vals [m f]
   (if (not (map? m))
-    (throw (Exception. "Expected map as first input to map-function-on-map-vals, but got an input of type: " (type m))))
+    (throw (exception (str "Expected map as first input to map-function-on-map-vals, but got an input of type: " (type m)))))
   ;; TODO: add check for uniformity of type of keys
   ;; i.e. check that they are either all strings, or all keywords, or all integers, etc.
   ;; this is to avoid the need to log/debug below.
@@ -752,7 +761,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
           (let [result (reduce #(if (fail? %1)
                                   (let [message (str "lexical entry fail; entry:" (strip-refs %1) ";")]
                                     (log/error message)
-                                    (throw (Exception. message)))
+                                    (throw (exception message)))
                                       
                                   (let [result (unifyc %1 %2)]
                                     (if (fail? result)
@@ -761,19 +770,19 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                                          {:f1 (strip-refs (get-in %1 fail-path))
                                                           :f2 (strip-refs (get-in %2 fail-path))})]
                                         (log/error message)
-                                        (throw (Exception. message)))
+                                        (throw (exception message)))
                                       result)))
                                (map
                                 (fn [rule]
                                   ;; check for return value of (apply rule (list lexical-entry)):
                                   ;; if not list, make it a list.
-                                  (let [debug (log/debug "applying rule: " rule " to lexical entry: " (strip-refs lexical-entry))
+                                  (let [debug (log/debug (str "applying rule: " rule " to lexical entry: " (strip-refs lexical-entry)))
                                         result (rule lexical-entry)]
                                     (if (fail? result)
                                       (let [message
                                             (str "rule: " rule " caused lexical entry: " (strip-refs lexical-entry) " to fail.")]
                                         (log/error message)
-                                        (throw (Exception. message)))
+                                        (throw (exception message)))
                                       (do
                                         (log/debug (str "rule: " rule " was ok."))
                                         result))))

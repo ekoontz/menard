@@ -1,12 +1,17 @@
 (ns babel.over
   (:refer-clojure :exclude [get get-in merge resolve find parents])
   (:require
-   [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
-;;   [clojure.set :refer :all]
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [fail? fail-path get-in merge strip-refs unifyc]]
    [babel.lexiconfn :refer [get-fail-path sem-impl]]))
+
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.
 ;; using (get-fail-path) is one example.
@@ -30,7 +35,7 @@
    (keyword? arg)
    (list arg)
 
-   true (throw (Exception. (str "into-map: don't know what to do with a " (type arg) ".")))))
+   true (throw (exception (str "into-map: don't know what to do with a " (type arg) ".")))))
 
 (declare overh)
 (declare overc)
@@ -145,18 +150,18 @@
                      result)]
           result))
       (do
-        (log/debug "moreover-comp: fail at: " (fail-path result))
+        (log/debug (str "moreover-comp: fail at: " (fail-path result)))
         (if (and
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
-          (throw (Exception. (str "failed to add complement: " child "  to: phrase: " parent
+          (throw (exception (str "failed to add complement: " child "  to: phrase: " parent
                                   ". Failed path was: " (fail-path result)
                                   ". Value of parent at path is: "
                                   (get-in parent (fail-path result))
                                   "; Synsem of child is: "
                                   (get-in child '(:synsem) :top)))))
-        (log/debug "moreover-comp: complement synsem: " (get-in child '(:synsem) :top))
-        (log/debug "moreover-comp:  parent value: " (get-in parent (fail-path result)))
+        (log/debug (str "moreover-comp: complement synsem: " (get-in child '(:synsem) :top)))
+        (log/debug (str "moreover-comp:  parent value: " (get-in parent (fail-path result))))
         :fail))))
 
 (defn overh [parent head morph]
@@ -228,8 +233,8 @@
                (not (fail? result)))
              (over-each-parent-comp parents comp)))
 
-   (future? comp)
-   (overc parent (deref comp))
+   #?(:clj (future? comp))
+   #?(:clj (overc parent (deref comp)))
 
    (or (set? comp)
        (vector? comp))
@@ -274,11 +279,11 @@
                    ;; In this case, supposed 'parent' is really a lexical item: for now, definition of 'lexical item' is,
                    ;; it has a non-nil value for :serialized - just return nil, nothing else to do.
 
-                   (throw (Exception. (str "Don't know what to do with this parent: " parent)))
+                   (throw (exception (str "Don't know what to do with this parent: " parent)))
 
                    ;; if parent is a symbol, evaluate it; should evaluate to a list of expansions (which might also be symbols, etc).
-                   (symbol? parent)
-                   (over (eval parent) child1 child2)
+                   #?(:clj (symbol? parent))
+                   #?(:clj (over (eval parent) child1 child2))
 
                    ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
                    ;; and figure out head-comp ordering from :first attribute.
@@ -292,5 +297,5 @@
                                    (if (= (:first parent) :head)
                                      child2 child1)))
                    true
-                   (throw (Exception. (str "Don't know what to do with parent: " parent))))
+                   (throw (exception (str "Don't know what to do with parent: " parent))))
              (over (rest parents) child1 child2))))))))

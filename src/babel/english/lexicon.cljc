@@ -4,8 +4,19 @@
    [babel.lexiconfn :refer (compile-lex if-then
                                         map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
-   [babel.english.pos :refer :all]
+   [babel.english.pos :refer [adjective
+                              agreement-noun
+                              animal
+                              common-noun
+                              countable-noun
+                              intransitivize
+                              subject-verb-agreement
+                              transitivize]]
    [dag_unify.core :refer [fail? get-in merge strip-refs]]))
+
+#?(:cljs
+   (defn- future [expr]
+     expr))
 
 (def lexicon-source
   {

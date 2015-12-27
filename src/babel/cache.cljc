@@ -3,15 +3,20 @@
   (:require
    ;; TODO: comment is misleading in that we never call core/get-in from this file.
    ;; TODO: alphabetize
-   [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
 ;;   [clojure.set :refer :all]
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    ;; TODO: be more specific in :refer than :all.
-   [dag_unify.core :refer :all :exclude [unify]]
+   [dag_unify.core :refer [fail? get-in label-of lazy-shuffle show-spec unifyc]]
 
-   [babel.over :exclude [overc overh]]
    [babel.over :as over]))
+
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
 
 ;; For now, this cache is just a stub; no actual caching is done; it simply calls 
 ;; the over/ equivalents of each of the defined functions.
@@ -99,10 +104,10 @@
     (do
       (log/debug (str "get-lex: " (get-in schema [:rule]) " ; " head-or-comp))
       (if (not (map? schema))
-        (throw (Exception. (str "first arguments should have been a map, but instead was of type: " (type schema) "; schema: " schema))))
+        (throw (exception (str "first arguments should have been a map, but instead was of type: " (type schema) "; schema: " schema))))
       (log/trace (str "get-lex schema: " (get-in schema [:rule]) " for: " head-or-comp))
       (if (nil? (get-in schema [:rule]))
-        (throw (Exception. (str "no schema for: " schema))))
+        (throw (exception (str "no schema for: " schema))))
       (let [result (cond (= :head head-or-comp)
                          (if (and (= :head head-or-comp)
                                   (not (nil? (:head (get cache (get-in schema [:rule]))))))

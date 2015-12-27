@@ -6,12 +6,28 @@
    [babel.english.morphology :refer (fo)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
-   [babel.ug :refer :all]
-   [clojure.tools.logging :as log]
+   [babel.ug :refer [comp-modifies-head
+                     comp-specs-head
+                     head-principle
+                     root-is-comp
+                     root-is-head root-is-head-root
+                     subcat-1-principle
+                     subcat-1-1-principle
+                     subcat-1-1-principle-comp-subcat-1
+                     subcat-2-principle
+                     subcat-2-2-principle
+                     subcat-5-principle
+                     ]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (get-in unifyc)]))
 
 (declare cache)
 (declare grammar)
+
+#?(:cljs
+   (defn future [expression]
+     expression))
 
 (def hc-agreement
   (let [agr (atom :top)]
@@ -57,17 +73,6 @@
     :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comp {:synsem {:subcat '()}}}))
-
-(def h21
-  (unifyc
-   subcat-2-principle
-   head-principle
-   head-first
-   {:comp {:synsem {:subcat '()
-                    :pronoun true}}
-    :schema-symbol 'h21 ;; used by over-each-parent to know where to put children.
-    :first :comp
-    :comment "h21"}))
 
 (def c11
   (unifyc
@@ -134,7 +139,7 @@
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS
 
-(def grammar (list (unifyc h21
+(def grammar-pre (list (unifyc h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
 
@@ -367,7 +372,7 @@
   (map (fn [phrase]
          (modal-is-head-feature
           (aux-is-head-feature phrase)))
-       grammar))
+       grammar-pre))
 
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))

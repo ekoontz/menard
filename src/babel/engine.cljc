@@ -1,27 +1,29 @@
 (ns babel.engine
   (:refer-clojure :exclude [get-in merge])
-  (:use [hiccup core page])
   (:require
-   [clojure.data.json :as json]
+   #?(:clj [clojure.data.json :as json])
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
-   [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
+   #?(:clj [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]])
    [babel.forest :as forest]
    [babel.html :refer [tablize]]
    [babel.ug :refer (head-principle)]
-   [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]))
+   [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]
+   #?(:clj [hiccup.page :as h])))
 
 (declare lookup)
 (declare generate-from-request)
 (declare resolve-model)
 
-(def routes
-  (compojure/routes
-   (GET "/lookup" request
-       (lookup request))
+#?(:clj
+   (def routes
+     (compojure/routes
+      (GET "/lookup" request
+           (lookup request))
 
-  (GET "/generate" request
-       (generate-from-request request))))
+      (GET "/generate" request
+           (generate-from-request request)))))
 
 ;; TODO: use a option map/destructuring thing.
 (defn generate [spec language-model & [{add-subcat :add-subcat
@@ -36,9 +38,12 @@
                (unify spec
                       {:synsem {:subcat '()}}))
 
-        language-model (if (future? language-model)
-                         @language-model
-                         language-model)
+        language-model
+        #?(:clj (if (future? language-model)
+                  @language-model
+                  language-model))
+        #?(:cljs language-model)
+        
 
         debug (log/debug (str "pre-enrich spec: " spec))
 
@@ -60,6 +65,7 @@
                                   (:morph language-model))]
       result)))
 
+#?(:clj
 (defn generate-from-request [request]
   "respond to an HTTP client's request with a generated sentence, given the client's desired spec, language name, and language model name."
   ;; TODO: 'pred' request param here is deprecated: use spec's {:synsem {:sem {:pred}}} instead.
@@ -103,7 +109,7 @@
                    "Cache-Control" "no-cache, no-store, must-revalidate"
                    "Pragma" "no-cache"
                    "Expires" "0"}
-         :body (html
+         :body (h/html
                 [:head
                  [:title "generate: debug"]
                  (include-css "/css/fs.css")
@@ -147,138 +153,137 @@
                 [:h2 "request"]
                 (tablize request)]
 
-               ]])}))))
+               ]])})))))
 
-(defn resolve-model [model lang]
-  (cond
-   (= model "en-small")
-   (eval (symbol "babel.english/small"))
+#?(:clj
+   (defn resolve-model [model lang]
+     (cond
+       (= model "en-small")
+       (eval (symbol "babel.english/small"))
 
-   (= model "it-small")
-   (eval (symbol "babel.italiano/small"))
+       (= model "it-small")
+       (eval (symbol "babel.italiano/small"))
 
-   ;; defaults if no model is given
-   (= lang "en")
-   (eval (symbol "babel.english/small"))
+       ;; defaults if no model is given
+       (= lang "en")
+       (eval (symbol "babel.english/small"))
 
-   (= lang "it")
-   (eval (symbol "babel.italiano/small"))
+       (= lang "it")
+       (eval (symbol "babel.italiano/small"))
 
-   true ;; TODO: throw exception "no language model" if we got here.
-   (eval (symbol "babel.english/small"))))
+       true ;; TODO: throw exception "no language model" if we got here.
+       (eval (symbol "babel.english/small")))))
 
-(def possible-preds [:top])
+#?(:clj
+   (defn lang-to-lexicon [language]
+     (cond
+       (= language "en")
+       (eval (symbol "babel.english/lexicon"))
+       true
+       (eval (symbol "babel.italiano/lexicon")))))
 
-(defn lang-to-lexicon [language]
-  (cond
-   (= language "en")
-   (eval (symbol "babel.english/lexicon"))
-   true
-   (eval (symbol "babel.italiano/lexicon"))))
+#?(:clj
+   (def possible-preds [:top]))
 
-(defn lookup [request]
-  (let [lang (get-in request [:params :lang] "en") ;; if no lang specified, use english.
-        lexicon (lang-to-lexicon lang)
-        spec (if (not (= :null (get-in request [:params :spec] :null)))
-               (json/read-str (get-in request [:params :spec])
-                              :key-fn keyword
-                              :value-fn (fn [k v]
-                                          (cond (string? v)
-                                                (keyword v)
-                                                :else v)))
-               :fail)
+#?(:clj
+   (defn lookup [request]
+     (let [lang (get-in request [:params :lang] "en") ;; if no lang specified, use english.
+           lexicon (lang-to-lexicon lang)
+           spec (if (not (= :null (get-in request [:params :spec] :null)))
+                  (json/read-str (get-in request [:params :spec])
+                                 :key-fn keyword
+                                 :value-fn (fn [k v]
+                                             (cond (string? v)
+                                                   (keyword v)
+                                                   :else v)))
+                  :fail)
 
-        spec (unifyc spec {:synsem {:aux false
-                                    :infl :infinitive
-                                    :sem {:intensified false}}})
+           spec (unifyc spec {:synsem {:aux false
+                                       :infl :infinitive
+                                       :sem {:intensified false}}})
 
-        intermediate
-        (into {}
-              (for [[k v] @lexicon]
-                (let [filtered-v
-                      (filter #(not (fail? (unifyc % spec)))
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
+           intermediate
+           (into {}
+                 (for [[k v] @lexicon]
+                   (let [filtered-v
+                         (filter #(not (fail? (unifyc % spec)))
+                                 v)]
+                     (if (not (empty? filtered-v))
+                       [k filtered-v]))))
 
-        results
-        {(keyword lang)
-         (string/join "," (sort (keys intermediate)))}]
+           results
+           {(keyword lang)
+            (string/join "," (sort (keys intermediate)))}]
+       
+       (if (not (= "true" (get-in request [:params :debug])))
+         ;; non-debug mode:
+         {:status 200
+          :headers {"Content-Type" "application/json;charset=utf-8"
+                    "Cache-Control" "no-cache, no-store, must-revalidate"
+                    "Pragma" "no-cache"
+                    "Expires" "0"}
+          :body (json/write-str results)}
 
-    (if (not (= "true" (get-in request [:params :debug])))
-      ;; non-debug mode:
-      {:status 200
-       :headers {"Content-Type" "application/json;charset=utf-8"
-                 "Cache-Control" "no-cache, no-store, must-revalidate"
-                 "Pragma" "no-cache"
-                 "Expires" "0"}
-       :body (json/write-str results)}
-
-      ;; debug mode:
-      {:status 200
-       :headers {"Content-Type" "text/html;charset=utf-8"
-                 "Cache-Control" "no-cache, no-store, must-revalidate"
-                 "Pragma" "no-cache"
-                 "Expires" "0"}
-       :body (html
-              [:head
-               [:title "lookup: debug"]
-               (include-css "/css/fs.css")
-               (include-css "/css/layout.css")
-               (include-css "/css/quiz.css")
-               (include-css "/css/style.css")
-               (include-css "/css/debug.css")
-               ]
-              [:body
-               [:div
-
-                [:div.major
-
-                 [:h2 "input"]
-
-                 [:table
-
-                  [:tr
-                   [:th "requested-spec"]
-                   [:td
-                    (tablize (json/read-str (get-in request [:params :spec])
-                                            :key-fn keyword
-                                            :value-fn (fn [k v]
-                                                        (cond (string? v)
-                                                              (keyword v)
-                                                              :else v))))]]
-                  [:tr 
-                   [:th "spec"]
-
-                   [:td (tablize spec)]
-                   ]
-
-
-
+         ;; debug mode:
+         {:status 200
+          :headers {"Content-Type" "text/html;charset=utf-8"
+                    "Cache-Control" "no-cache, no-store, must-revalidate"
+                    "Pragma" "no-cache"
+                    "Expires" "0"}
+          :body (h/html
+                 [:head
+                  [:title "lookup: debug"]
+                  (include-css "/css/fs.css")
+                  (include-css "/css/layout.css")
+                  (include-css "/css/quiz.css")
+                  (include-css "/css/style.css")
+                  (include-css "/css/debug.css")
                   ]
-                 ]
-                ]
+                 [:body
+                  [:div
 
+                   [:div.major
 
-               [:div.major
-                [:h2 "intermediate"]
-                [:table
-                (map #(html [:tr 
-                             [:th.intermediate %]
-                             [:td.intermediate (map (fn [each-val]
-                                                      (html [:div.intermediate (tablize each-val)]))
-                                                    (get intermediate %))]])
-                     (keys intermediate))]]
+                    [:h2 "input"]
 
-               [:div.major
-                [:h2 "output"]
-                [:pre (json/write-str results)]]
+                    [:table
 
-               [:div#request {:class "major"}
-                [:h2 "request"]
-                (tablize request)]
+                     [:tr
+                      [:th "requested-spec"]
+                      [:td
+                       (tablize (json/read-str (get-in request [:params :spec])
+                                               :key-fn keyword
+                                               :value-fn (fn [k v]
+                                                           (cond (string? v)
+                                                                 (keyword v)
+                                                                 :else v))))]]
+                     [:tr 
+                      [:th "spec"]
 
-               ])})))
+                      [:td (tablize spec)]
+                      ]
+                     ]
+                    ]
+                   ]
+                  [:div.major
+                   [:h2 "intermediate"]
+                   [:table
+                    (map #(h/html [:tr 
+                                   [:th.intermediate %]
+                                   [:td.intermediate (map (fn [each-val]
+                                                            (h/html [:div.intermediate (tablize each-val)]))
+                                                          (get intermediate %))]])
+                         (keys intermediate))]]
+
+                  [:div.major
+                   [:h2 "output"]
+                   [:pre (json/write-str results)]]
+
+                  [:div#request {:class "major"}
+                   [:h2 "request"]
+                   (tablize request)]
+
+                  ])}))))
 
 (defn get-meaning [input-map]
   "create a language-independent syntax+semantics that can be translated efficiently. The :cat specification helps speed up generation by avoiding searching syntactic constructs that are different from the desired input."

@@ -1,7 +1,6 @@
 (ns babel.ug
   (:refer-clojure :exclude [get-in merge resolve])
-  (:require [clojure.tools.logging :as log]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [dag_unify.core :refer (fail? get-in merge unifyc)]))
 
 (def phrasal {:phrasal true})

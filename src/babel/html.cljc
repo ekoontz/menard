@@ -1,17 +1,14 @@
 (ns babel.html
-  (:use
-   [hiccup core page]
-   [ring.util.codec :as codec])
   (:require
-   [clj-time.coerce :as c]
-   [clj-time.core :as t]
-   [clj-time.format :as f]
+   #?(:clj [clj-time.coerce :as c])
+   #?(:clj [:clj-time.core :as t])
+   #?(:clj [:clj-time.format :as f])
    [clojure.set :as set]
    [clojure.string :as string]
-   [clojure.tools.logging :as log]
-   [environ.core :refer [env]]
-   [hiccup.element :as e]
-   [hiccup.page :as h]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
+   #?(:clj [environ.core :refer [env]])
+   #?(:clj [hiccup.page :as h])
    [dag_unify.core :as fs :refer [get-in ref= ref?]]))
 
 (def menubar-enabled true)

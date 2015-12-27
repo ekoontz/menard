@@ -25,12 +25,28 @@
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
   :resource-paths ["resources"]
-  :plugins [[lein-environ "1.0.0"]
+  :plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
+            [lein-cljsbuild "1.1.2"]
+            [lein-doo "0.1.6"]
+            [lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
-            [cider/cider-nrepl "0.10.0-SNAPSHOT"]
             [lein-ring "0.9.3"]]
 
+  ;; run clojure tests with "lein test"
+  ;; run clojurescript tests with "lein doo phantom test"
+  :cljsbuild {:builds [{:id "test"
+                        :source-paths ["src" "test"]
+                        :compiler {:output-to "out/testable.js"
+                                   ;; you must have {:optimizations :whitespace}
+                                   ;; to avoid "ReferenceError: Can't find variable: goog"
+                                   :optimizations :whitespace}}]}
+  :doo {:paths {:phantom "phantomjs --web-security=false"
+                :slimer "slimerjs --ignore-ssl-errors=true"
+                :karma "karma --port=9881 --no-colors"
+                :rhino "rhino -strict"
+                :node "node --trace-gc --trace-gc-verbose"}}
+  
   :ring {:handler babel.core/app})
 
 

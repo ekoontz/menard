@@ -49,8 +49,8 @@
 
    End result is a set of phrase => {:comp subset-of-lexicon 
                                      :head subset-of-lexicon}."
-  (log/debug (str "build-lex-sch-cache: lexicon size: " (.size lexicon)))
-  (log/debug (str "build-lex-sch-cache: grammar size: " (.size all-phrases)))
+  (log/debug (str "build-lex-sch-cache: lexicon size: " (count lexicon)))
+  (log/debug (str "build-lex-sch-cache: grammar size: " (count all-phrases)))
   (if (not (empty? phrases))
     (conj
      {(get-in (first phrases) [:rule])
@@ -185,7 +185,7 @@
   (let [lexicon (if (map? lexicon)
                   (keys lexicon)
                   lexicon)]
-    (log/debug (str "create index with lexicon: " (.size lexicon)))
+    (log/debug (str "create index with lexicon: " (count lexicon)))
     (conj (build-lex-sch-cache grammar
                                (map (fn [lexeme]
                                       (log/debug (str "trying(ci) lexeme: " lexeme))

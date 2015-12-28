@@ -11,8 +11,14 @@
 
 (declare get-string)
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
 (defn fo [input]
-  (try
+;  (try
     (cond 
 
       (= input :fail)
@@ -43,11 +49,12 @@
 
       true
       "")
-    (catch Exception e
-      (do
-        (log/trace (str "ignoring exception: '" e "' and returning canonical form instead."))
-        (show-as-tree (get-in input [:espanol]) :espanol)))))
-
+  ;; TODO: commented out until I figure out exception-catching in Javascript
+;    (catch Exception e
+;      (do
+;        (log/trace (str "ignoring exception: '" e "' and returning canonical form instead."))
+;        (show-as-tree (get-in input [:espanol]) :espanol)))))
+)
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 (defn get-string-1 [word & [ {usted :usted
                               tú :tu
@@ -194,7 +201,7 @@
       (get-in word [:espanol])
 
       true
-      (throw (Exception. (str "get-string-1: don't know what to do with input argument: " word)))))))
+      (exception (str "get-string-1: don't know what to do with input argument: " word))))))
 
 (defn get-string [a & [ b ]]
   (cond (and (nil? b)

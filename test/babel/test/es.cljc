@@ -23,11 +23,12 @@
             (= "dormiría" (fo result))))))
 
 (deftest llamarse
-  (let [result (engine/expression {:synsem {:sem {:pred :be-called}}})]
+  (let [result (engine/expression esg/small {:synsem {:sem {:pred :be-called}}})]
     (not (empty? (fo result)))))
 
 (deftest llamo
-  (let [result (fo (engine/expression {:synsem {:sem {:tense :present :aspect :progressive  :subj {:pred :I} :pred :be-called :obj {:pred :Juan}}}}))]
+  (let [result (fo (engine/expression esg/small
+                                      {:synsem {:sem {:tense :present :aspect :progressive  :subj {:pred :I} :pred :be-called :obj {:pred :Juan}}}}))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

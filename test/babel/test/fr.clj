@@ -3,11 +3,9 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
-            [babel.francais.grammar :refer [small]]
+            [babel.francais.grammar :refer [small medium]]
             [babel.francais.morphology :refer [fo]]
-            [babel.francais.writer :refer [expression]]
             [babel.over :as over]
-            [babel.writer :refer [reload]]
             [babel.workbook.fr :refer [over rules]]
             [clojure.string :as string]
             [clojure.test :refer :all]
@@ -172,18 +170,21 @@
            "je m'amuse"))))
 
 (deftest have-fun-sentence
-  (let [result (expression {:synsem {:sem {:pred :have-fun}}})]
+  (let [result (engine/expression medium
+                                  {:synsem {:sem {:pred :have-fun}}})]
     (is (= (get-in result [:synsem :sem :pred]) :have-fun))))
 
 (deftest vp-aux-reflexive
   (let [result
-        (expression
+        (engine/expression
+         medium
          {:synsem {:subcat '() :sem {:subj {:pred :lei}
                                      :pred :have-fun :tense :past}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
 (deftest named-sentence
-  (let [result (expression {:synsem {:sem {:pred :be-called
-                                           :subj {:pred :lui}
-                                           :obj {:pred :Jean}}}})]
+  (let [result (engine/expression medium
+                                  {:synsem {:sem {:pred :be-called
+                                                  :subj {:pred :lui}
+                                                  :obj {:pred :Jean}}}})]
     (is (= (fo result) "il l'appele Jean"))))

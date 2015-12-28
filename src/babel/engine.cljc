@@ -298,9 +298,6 @@
 (defn expression [model spec]
   (let [no-language (if (nil? model)
                              (throw (Exception. "No target language model was supplied.")))
-        model (if (future? model)
-                @model
-                model)
 
         sentence (generate spec model :enrich true)
 

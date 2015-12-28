@@ -1,6 +1,7 @@
 (ns babel.francais.writer
   (:refer-clojure :exclude [get-in]))
 
+(require '[babel.engine :as engine])
 (require '[babel.francais.grammar :refer [small medium]])
 (require '[babel.francais.lexicon :refer [lexicon]])
 (require '[babel.francais.morphology :refer [analyze exception-generator
@@ -15,7 +16,7 @@
 
 (defn expression [& [spec]]
   (let [spec (if spec spec :top)]
-    (writer/expression medium spec)))
+    (engine/expression medium spec)))
 
 (defn tout [ & [count]]
   (let [count (if count (Integer. count) 10)

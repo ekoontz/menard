@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require [babel.espanol.morphology.nouns :as nouns]
             [babel.espanol.morphology.verbs :as verbs]
+            [babel.stringutils :refer [show-as-tree]]
             [clojure.string :as string]
             [clojure.string :refer (trim)]
             #?(:clj [clojure.tools.logging :as log])

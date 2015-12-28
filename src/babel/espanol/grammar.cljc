@@ -6,8 +6,13 @@
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :refer [analyze fo morph-walk-tree]]
    [babel.parse :as parse]
-   [babel.ug :refer [head-principle
-                     subcat-1-principle]]
+   [babel.stringutils :refer [show-as-tree]]
+   [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
+                     subcat-1-principle subcat-1-1-principle
+                     subcat-1-1-principle-comp-subcat-1
+                     subcat-2-principle subcat-2-2-principle
+                     subcat-5-principle
+                     ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (get-in merge unifyc)]))
@@ -398,72 +403,70 @@
        grammar))
 
 (def small
-  (future
-    (let [grammar
-          (filter #(or (= (get-in % [:rule]) "s-conditional-nonphrasal")
-                       (= (get-in % [:rule]) "s-conditional-phrasal")
-                       (= (get-in % [:rule]) "s-present-nonphrasal")
-                       (= (get-in % [:rule]) "s-present-phrasal")
-                       (= (get-in % [:rule]) "s-future-nonphrasal")
-                       (= (get-in % [:rule]) "s-future-phrasal")
-                       (= (get-in % [:rule]) "s-imperfect-nonphrasal")
-                       (= (get-in % [:rule]) "s-imperfect-phrasal")
-                       (= (get-in % [:rule]) "s-preterito-nonphrasal")
-                       (= (get-in % [:rule]) "s-preterito-phrasal")
-                       (= (get-in % [:rule]) "s-aux")
-                       (= (get-in % [:rule]) "vp-pronoun-nonphrasal")
-                       (= (get-in % [:rule]) "vp-pronoun-phrasal")
-                       (= (get-in % [:rule]) "vp-32")
-                       (= (get-in % [:rule]) "vp-aux"))
-                  grammar)
-          lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v
-                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                     (= (get-in % [:synsem :propernoun]) true)
-                                     (= (get-in % [:synsem :pronoun]) true))
-                                v)]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
-      {:name "small"
-       :language "es"
-       :language-keyword :espanol
-       :enrich enrich
-
-       ;; Will throw exception if more than 1 rule has the same :rule value:
-       :grammar-map (zipmap
-                     (map #(keyword (get-in % [:rule]))
-                          grammar)
-                     grammar)
-                     
-       :grammar grammar
-       :lexicon lexicon
-       :morph fo
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+  (let [grammar
+        (filter #(or (= (get-in % [:rule]) "s-conditional-nonphrasal")
+                     (= (get-in % [:rule]) "s-conditional-phrasal")
+                     (= (get-in % [:rule]) "s-present-nonphrasal")
+                     (= (get-in % [:rule]) "s-present-phrasal")
+                     (= (get-in % [:rule]) "s-future-nonphrasal")
+                     (= (get-in % [:rule]) "s-future-phrasal")
+                     (= (get-in % [:rule]) "s-imperfect-nonphrasal")
+                     (= (get-in % [:rule]) "s-imperfect-phrasal")
+                     (= (get-in % [:rule]) "s-preterito-nonphrasal")
+                     (= (get-in % [:rule]) "s-preterito-phrasal")
+                     (= (get-in % [:rule]) "s-aux")
+                     (= (get-in % [:rule]) "vp-pronoun-nonphrasal")
+                     (= (get-in % [:rule]) "vp-pronoun-phrasal")
+                     (= (get-in % [:rule]) "vp-32")
+                     (= (get-in % [:rule]) "vp-aux"))
+                grammar)
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                   (= (get-in % [:synsem :propernoun]) true)
+                                   (= (get-in % [:synsem :pronoun]) true))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    {:name "small"
+     :language "es"
+     :language-keyword :espanol
+     :enrich enrich
+     
+     ;; Will throw exception if more than 1 rule has the same :rule value:
+     :grammar-map (zipmap
+                   (map #(keyword (get-in % [:rule]))
+                        grammar)
+                   grammar)
+     
+     :grammar grammar
+     :lexicon lexicon
+     :morph fo
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (def medium
-  (future
-    (let [lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v v]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
-      {:name "medium"
-       :enrich enrich
-       :morph fo
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :grammar grammar
-       :lexicon lexicon
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)
-       })))
+  (let [lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v v]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    {:name "medium"
+     :enrich enrich
+     :morph fo
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :grammar grammar
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     }))
 
 (log/info "Español grammars defined (small, medium).")

@@ -1658,19 +1658,20 @@
               :subcat '()}}]
    })
 
-(def lexicon (future (-> (compile-lex lexicon-source 
-                                      morph/exception-generator 
-                                      morph/phonize morph/english-specific-rules)
-                         ;; make an intransitive version of every verb which has an
-                         ;; [:sem :obj] path.
-                         intransitivize
+(def lexicon (-> (compile-lex lexicon-source 
+                              morph/exception-generator 
+                              morph/phonize morph/english-specific-rules)
+                 ;; make an intransitive version of every verb which has an
+                 ;; [:sem :obj] path.
+                 intransitivize
 
-                         ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-                         transitivize
+                 ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                 transitivize
                          
-                         ;; if a verb has an object,
-                         ;; and the object is not {:reflexive true}
-                         ;; then the object is {:reflexive false}
-                         (if-then {:synsem {:cat :verb
-                                            :subcat {:2 {:reflexive false}}}}
-                                  {:synsem {:subcat {:2 {:reflexive false}}}}))))
+                 ;; if a verb has an object,
+                 ;; and the object is not {:reflexive true}
+                 ;; then the object is {:reflexive false}
+                 (if-then {:synsem {:cat :verb
+                                    :subcat {:2 {:reflexive false}}}}
+                          {:synsem {:subcat {:2 {:reflexive false}}}})))
+

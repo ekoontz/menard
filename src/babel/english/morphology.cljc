@@ -15,9 +15,6 @@
    (= input :fail)
    (str input)
 
-   (= (type input) clojure.lang.LazySeq)
-   (str "['" (string/join "','" (map fo input)) "']")
-
    (string? input)
    input
 
@@ -373,7 +370,7 @@
          ;; TODO: throw exception rather than encoding error "(no root)" as part
          ;; of the english string.
          root (if (nil? root) "(no root)" root)
-         root (if (not (= (type root) java.lang.String))
+         root (if (not (string? root))
                 (get-in word '(:english :english))
                 root)
          person (get-in word '(:agr :person))

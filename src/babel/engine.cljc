@@ -54,7 +54,7 @@
                 (:lexicon language-model))
                spec)
         debug (if (seq? spec)
-                (.size
+                (count
                  (map #(log/debug (str "post-enrich spec: " %))
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))
@@ -294,3 +294,39 @@
     {:synsem {:cat (get-in input-map [:synsem :cat] :top)
               :sem (get-in input-map [:synsem :sem] :top)
               :subcat (get-in input-map [:synsem :subcat] :top)}}))
+
+(defn expression [model spec]
+  (let [no-language (if (nil? model)
+                             (throw (Exception. "No target language model was supplied.")))
+        model (if (future? model)
+                @model
+                model)
+
+        sentence (generate spec model :enrich true)
+
+        check (if (nil? sentence)
+                (let [message (str "Could not generate a sentence for spec: " spec " for language: " (:language model)
+                                   " with model named: " (:name model))]
+                  (log/error message)
+                  (throw (Exception. message))))
+
+        sentence (merge sentence {:spec spec})
+
+        sentence (if (:morph-walk-tree model)
+                   (merge ((:morph-walk-tree model) sentence)
+                          sentence)
+                   (do (log/warn (str "there is no morph-walk-tree function for the model:"
+                                      (:name model) " of language: "
+                                      (:language model)))
+                       sentence))
+        sentence (let [subj (get-in sentence
+                                    [:synsem :sem :subj] :notfound)]
+                   (cond (not (= :notfound subj))
+                         (do
+                           (log/debug (str "subject constraints: " subj))
+                           (unify sentence
+                                  {:synsem {:sem {:subj subj}}}))
+                         true
+                         sentence))]
+    sentence))
+

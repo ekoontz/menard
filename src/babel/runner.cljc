@@ -3,6 +3,7 @@
             [babel.core]))
 
 #?(:cljs (doo-tests 'babel.test.core_test))
+#?(:cljs (doo-tests 'babel.test.pos))
 ;;#?(:cljs (doo-tests 'babel.test.en))
 
 

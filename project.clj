@@ -37,7 +37,9 @@
   ;; run clojure tests with "lein test"
   ;; run clojurescript tests with "lein doo slimer test"
   :cljsbuild {:builds [{:id "test"
-                        :source-paths ["src" "test"]
+                        :source-paths ["src" "test"
+                                       "src/babel/espanol"
+                                       ]
                         :compiler {:output-to "out/testable.js"
                                    ;; you must have {:optimizations :whitespace}
                                    ;; to avoid "ReferenceError: Can't find variable: goog"

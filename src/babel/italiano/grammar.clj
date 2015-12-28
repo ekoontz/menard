@@ -469,4 +469,4 @@
                (:lookup @small)
                (:grammar @small)))
 
-(log/info "Italian grammar defined.")
+(log/info "Italiano grammar defined.")

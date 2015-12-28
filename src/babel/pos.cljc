@@ -78,7 +78,7 @@
 (def proper-noun
   {:synsem {:cat :noun
             :pronoun false
-            :propernoun false
+            :propernoun true
             :agr {:person :3rd}
             :subcat '()}})
 

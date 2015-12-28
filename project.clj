@@ -35,17 +35,17 @@
             [lein-ring "0.9.3"]]
 
   ;; run clojure tests with "lein test"
-  ;; run clojurescript tests with "lein doo phantom test"
+  ;; run clojurescript tests with "lein doo slimer test"
   :cljsbuild {:builds [{:id "test"
                         :source-paths ["src" "test"]
                         :compiler {:output-to "out/testable.js"
                                    ;; you must have {:optimizations :whitespace}
                                    ;; to avoid "ReferenceError: Can't find variable: goog"
                                    :optimizations :whitespace}}]}
-  :doo {:paths {:phantom "phantomjs --web-security=false"
+  :doo {:paths {:phantom "phantomjs --debug=true --web-security=false  --disk-cache=true --webdriver=127.0.0.1:8910"
                 :slimer "slimerjs --ignore-ssl-errors=true"
                 :karma "karma --port=9881 --no-colors"
-                :rhino "rhino -strict"
+                :rhino "java -jar ~/Downloads/rhino1_7R4/js-14.jar -strict"
                 :node "node --trace-gc --trace-gc-verbose"}}
   
   :ring {:handler babel.core/app})

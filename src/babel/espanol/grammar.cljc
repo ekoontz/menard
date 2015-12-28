@@ -6,8 +6,10 @@
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :refer [analyze fo morph-walk-tree]]
    [babel.parse :as parse]
-   [babel.ug :refer :all]
-   [clojure.tools.logging :as log]
+   [babel.ug :refer [head-principle
+                     subcat-1-principle]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (get-in merge unifyc)]))
 
 (def head-first

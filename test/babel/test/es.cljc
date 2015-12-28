@@ -2,9 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.espanol.grammar :as esg]
-            [babel.espanol.writer :as es]
             [babel.espanol.morphology :refer [fo]]
-            [babel.writer :as writer]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])

@@ -1,13 +1,11 @@
 (ns babel.espanol.morphology.verbs
-  (:refer-clojure :exclude [get-in merge resolve]))
-(require '[babel.stringutils :refer :all])
-(require '[babel.espanol.morphology.nouns :as nouns])
-;; TODO: exclude clojure/core's future to prevent warnings "WARNING: future already refers to: #'clojure.core/future"
-(require '[clojure.core :as core])
-(require '[clojure.string :as string])
-(require '[clojure.string :refer (trim)])
-(require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
+  (:refer-clojure :exclude [get-in merge resolve])
+  (:require [babel.espanol.morphology.nouns :as nouns]
+            [clojure.string :as string]
+            [clojure.string :refer (trim)]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log])
+            [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 ;; TODO: replace with a runtime flag.
 ;; issue is that logging requires partial morphological evaluation,

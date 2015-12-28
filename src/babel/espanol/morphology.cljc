@@ -1,13 +1,12 @@
 (ns babel.espanol.morphology
-  (:refer-clojure :exclude [get-in merge resolve]))
-(require '[babel.espanol.morphology.nouns :as nouns])
-(require '[babel.espanol.morphology.verbs :as verbs])
-(require '[babel.stringutils :refer :all])
-(require '[clojure.core :as core])
-(require '[clojure.string :as string])
-(require '[clojure.string :refer (trim)])
-(require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)])
+  (:refer-clojure :exclude [get-in merge resolve])
+  (:require [babel.espanol.morphology.nouns :as nouns]
+            [babel.espanol.morphology.verbs :as verbs]
+            [clojure.string :as string]
+            [clojure.string :refer (trim)]
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log])
+            [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 (declare get-string)
 

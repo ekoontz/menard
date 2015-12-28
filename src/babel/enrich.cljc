@@ -1,7 +1,9 @@
 (ns babel.enrich
-  (:refer-clojure :exclude [get-in]))
-(require '[dag_unify.core :refer [fail? get-in strip-refs unify]])
-(require '[clojure.tools.logging :as log])
+  (:refer-clojure :exclude [get-in])
+  (:require
+   [dag_unify.core :refer [fail? get-in strip-refs unify]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log])))
 
 (declare against-comp)
 (declare against-pred)

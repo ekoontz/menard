@@ -1,11 +1,12 @@
 (ns babel.espanol.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [clojure.tools.logging :as log]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log])
    [babel.lexiconfn :refer [compile-lex if-then
                             map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]
-   [babel.espanol.pos :refer :all]
+   [babel.espanol.pos :refer [determiner]]
    [babel.pos :as pos :refer [pronoun-acc]]
    [dag_unify.core :refer [fail? get-in]]))
 

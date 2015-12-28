@@ -1,11 +1,11 @@
 (ns babel.parse
- (:refer-clojure :exclude [get-in resolve find]))
-
-(require '[babel.over :as over])
-(require '[clojure.string :as str])
-(require '[clojure.tools.logging :as log])
-
-(require '[dag_unify.core :refer (get-in strip-refs)])
+ (:refer-clojure :exclude [get-in resolve find])
+ (:require
+  [babel.over :as over]
+  [clojure.string :as string]
+  #?(:clj [clojure.tools.logging :as log])
+  #?(:cljs [babel.logjs :as log])
+  [dag_unify.core :refer (get-in strip-refs)]))
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
@@ -13,8 +13,10 @@
 (declare toks2)
 
 (defn toks [s lexicon lookup]
-  (let [lexicon (if (future? lexicon) @lexicon lexicon)]
-    (vec (toks2 (str/split s tokenizer) lexicon lookup))))
+  (let [lexicon
+        #?(:clj (if (future? lexicon) @lexicon lexicon))
+        #?(:cljs lexicon)]
+    (vec (toks2 (string/split s tokenizer) lexicon lookup))))
 
 (defn toks2 [tokens lexicon lookup]
   "like (toks), but use lexicon to consolidate two initial tokens into one. may consolidate larger groups than two in the future."

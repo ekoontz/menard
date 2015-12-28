@@ -21,6 +21,7 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [org.postgresql/postgresql "9.4-1204-jdbc42"]
+                 [ring/ring-codec "1.0.0"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]

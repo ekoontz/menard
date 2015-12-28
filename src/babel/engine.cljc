@@ -7,10 +7,11 @@
    #?(:cljs [babel.logjs :as log]) 
    #?(:clj [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]])
    [babel.forest :as forest]
-   [babel.html :refer [tablize]]
+   #?(:clj [babel.html :refer [tablize]])
    [babel.ug :refer (head-principle)]
    [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]
-   #?(:clj [hiccup.page :as h])))
+   #?(:clj [hiccup.page :refer [include-css]])
+   #?(:clj [hiccup.core :refer [html]])))
 
 (declare lookup)
 (declare generate-from-request)
@@ -109,7 +110,7 @@
                    "Cache-Control" "no-cache, no-store, must-revalidate"
                    "Pragma" "no-cache"
                    "Expires" "0"}
-         :body (h/html
+         :body (html
                 [:head
                  [:title "generate: debug"]
                  (include-css "/css/fs.css")
@@ -230,7 +231,7 @@
                     "Cache-Control" "no-cache, no-store, must-revalidate"
                     "Pragma" "no-cache"
                     "Expires" "0"}
-          :body (h/html
+          :body (html
                  [:head
                   [:title "lookup: debug"]
                   (include-css "/css/fs.css")
@@ -268,10 +269,10 @@
                   [:div.major
                    [:h2 "intermediate"]
                    [:table
-                    (map #(h/html [:tr 
+                    (map #(html [:tr 
                                    [:th.intermediate %]
                                    [:td.intermediate (map (fn [each-val]
-                                                            (h/html [:div.intermediate (tablize each-val)]))
+                                                            (html [:div.intermediate (tablize each-val)]))
                                                           (get intermediate %))]])
                          (keys intermediate))]]
 

@@ -20,6 +20,16 @@
 (declare lightning-bolt)
 (declare generate-all)
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
+(defn current-time []
+  #?(:clj (System/currentTimeMillis))
+  #?(:cljs (.getTime (js/Date.))))
+
 (defn generate [spec grammar lexicon index morph]
   (first (take 1 (generate-all spec grammar lexicon index morph))))
 
@@ -27,12 +37,17 @@
                                      index :index
                                      lexicon :lexicon
                                      morph :morph}]
-  (let [index (if (future? index) @index index)
-        lexicon (if (future? lexicon) @lexicon lexicon)]
+  (let [index
+        #?(:clj (if (future? index) @index index))
+        #?(:cljs index)
+        lexicon
+        #?(:clj (if (future? lexicon) @lexicon lexicon))
+        #?(:cljs lexicon)]
     (log/info (str "using grammar of size: " (.size grammar)))
     (log/info (str "using index of size: " (.size index)))
     (if (seq? spec)
-      (pmap generate-all spec grammar lexicon index morph)
+      #?(:clj (pmap generate-all spec grammar lexicon index morph))
+      #?(:cljs (map generate-all spec grammar lexicon index morph))
       (generate spec grammar
                 (flatten (vals lexicon))
                 index
@@ -73,21 +88,32 @@ of this function with complements."
     (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec))))
   (log/trace (str "lighting-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
-        index (if (future? index) @index index)
-        lexicon (if (future? lexicon) @lexicon lexicon)
+        index
+        #?(:clj (if (future? index) @index index))
+        #?(:cljs index)
+        
+        lexicon
+        #?(:clj (if (future? lexicon) @lexicon lexicon))
+        #?(:cljs lexicon)
+
         depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
         candidate-parents (lazy-shuffle (filter #(not (fail? %))
-                                                (pmap (fn [rule]
-                                                        (unifyc spec rule))
-                                                      (if parent (get-head-phrases-of parent index)
-                                                          grammar))))
+                                                #?(:clj (pmap (fn [rule]
+                                                                (unifyc spec rule))
+                                                              (if parent (get-head-phrases-of parent index)
+                                                                  grammar)))
+                                                #?(:cljs (map (fn [rule]
+                                                                (unifyc spec rule))
+                                                              (if parent (get-head-phrases-of parent index)
+                                                                  grammar)))))
+                                                                   
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
-      (throw (Exception. (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
+      (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
 
     (if (seq candidate-parents)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
@@ -153,12 +179,16 @@ of this function with complements."
 
 (defn add-complement [bolt path spec grammar lexicon cache morph]
   (let [input-spec spec
-        cache (if (future? cache) @cache cache)
+        cache
+        #?(:clj (if (future? cache) @cache cache))
+        #?(:cljs cache)
+        
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)
-        lexicon (if (future? lexicon) @lexicon lexicon)]
-
+        lexicon
+        #?(:clj (if (future? lexicon) @lexicon lexicon))
+        #?(:cljs lexicon)]
     (log/debug (str "add-complement to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (morph bolt) "'"
@@ -167,7 +197,7 @@ of this function with complements."
 
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
-            start-time (System/currentTimeMillis)
+            start-time (current-time)
             cached (if cache
                      (do
                        (let [result (get-lex immediate-parent :comp cache spec)]
@@ -214,7 +244,7 @@ of this function with complements."
                              (if (= (rand-int 2) 0)
                                (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
-          (let [run-time (- (System/currentTimeMillis) start-time)]
+          (let [run-time (- (current-time) start-time)]
             (if (empty? (seq return-val))
 
               ;; else, no complements could be added to this bolt.

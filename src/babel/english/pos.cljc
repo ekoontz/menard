@@ -1,11 +1,12 @@
 (ns babel.english.pos
-  (:refer-clojure :exclude [get-in]))
-
-(require '[babel.english.morphology :refer (fo)])
-(require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)])
-(require '[babel.pos :as pos])
-(require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :as unify :refer (dissoc-paths get-in serialize)])
+  (:refer-clojure :exclude [get-in])
+  (:require
+   [babel.english.morphology :refer (fo)]
+   [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)]
+   [babel.pos :as pos]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
+   [dag_unify.core :as unify :refer (dissoc-paths get-in serialize)]))
 
 (def adjective pos/adjective)
 (def animal pos/common-noun)

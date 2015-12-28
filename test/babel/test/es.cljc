@@ -6,8 +6,10 @@
             [babel.espanol.morphology :refer [fo]]
             [babel.writer :as writer]
             [clojure.string :as string]
-            [clojure.test :refer :all]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.test :refer [deftest is]])
+            #?(:cljs [cljs.test :refer-macros [deftest is]])
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
 (deftest generate-conditional

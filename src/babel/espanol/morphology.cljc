@@ -24,9 +24,6 @@
       (= input :fail)
       (str input)
 
-      (= (type input) clojure.lang.LazySeq)
-      (str "['" (string/join "','" (map fo input)) "']")
-
       (string? input)
       input
 

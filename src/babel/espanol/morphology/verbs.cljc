@@ -7,6 +7,12 @@
             #?(:cljs [babel.logjs :as log])
             [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
 ;; TODO: replace with a runtime flag.
 ;; issue is that logging requires partial morphological evaluation,
 ;; whereas generation and batch jobs should immediately raise an exception.
@@ -23,7 +29,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word '[:espanol]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
@@ -120,7 +126,7 @@
      (get-in word [:espanol])
      
      :else
-     (throw (Exception. (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word)))))))
+     (exception (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))))))
 
 ;; TODO: mask clojure/core's future to prevent warnings "WARNING: future already refers to: #'clojure.core/future"
 (defn future [word & [ {usted :usted
@@ -129,7 +135,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
@@ -229,7 +235,7 @@
        (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
-         (throw (Exception. message)))))))
+         (exception message))))))
 
 (defn imperfect [word & [ {usted :usted
                            vosotros :vosotros

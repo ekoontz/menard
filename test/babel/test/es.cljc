@@ -24,7 +24,7 @@
 
 (deftest llamarse
   (let [result (engine/expression esg/small {:synsem {:sem {:pred :be-called}}})]
-    (not (empty? (fo result)))))
+    (is (not (empty? (fo result))))))
 
 (deftest llamo
   (let [result (fo (engine/expression esg/small

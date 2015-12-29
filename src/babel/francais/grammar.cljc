@@ -1,13 +1,18 @@
 (ns babel.francais.grammar
   (:refer-clojure :exclude [get-in merge resolve])
   (:require 
+   [clojure.set :refer [union]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
-   [babel.ug :refer [head-principle subcat-2-principle]]
+   [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
+                     root-is-comp root-is-head-root root-is-head
+                     subcat-1-principle subcat-1-1-principle
+                     subcat-1-1-principle-comp-subcat-1 subcat-2-principle
+                     subcat-2-2-principle subcat-5-principle]]
    [dag_unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
 (declare against-pred)
 (declare matching-head-lexemes)

@@ -190,7 +190,14 @@
     (is (= (fo result) "nous sommes allées"))))
 
 (deftest reflexive
-  (let [result (over (get rules :s-present-phrasal)
+  (let [rules {:s-present-phrasal
+               (first (filter medium
+                              #(= (get % :rule) "s-present-phrasal")))
+               :vp-pronoun-non-phrasal
+               (first (filter medium
+                              #(= (get % :rule) "vp-pronoun-nonphrasal")))}
+
+        result (over (get rules :s-present-phrasal)
                      "je" 
                      (over (get rules :vp-pronoun-nonphrasal)
                            "me" "se amuser"))]

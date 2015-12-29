@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require
    [babel.pos :refer (noun)]
-   [babel.italiano.pos :refer (verb-aux)]
+   [babel.italiano.pos :refer (pronoun-acc verb-aux)]
+   [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])

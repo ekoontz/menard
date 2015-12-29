@@ -1,8 +1,7 @@
-(ns babel.francais.pos)
-
-(require '[babel.pos :as pos])
-(require '[dag_unify.core :refer (unifyc)])
-(require '[babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)])
+(ns babel.francais.pos
+  (:require [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)]
+            [babel.pos :as pos]
+            [dag_unify.core :refer (unifyc)]))
 
 (def verb-aux
   (let [sem (atom {:aspect :perfect

@@ -3,8 +3,13 @@
   (:require
    [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
-   [babel.italiano.pos :refer [noun intransitive-unspecified-obj
-                               transitive verb-aux verb-subjective]]
+   [babel.italiano.pos :refer [adjective agreement-noun cat-of-pronoun
+                               common-noun comparative countable-noun determiner
+                               drinkable-noun feminine-noun noun intransitive intransitivize
+                               intransitive-unspecified-obj
+                               masculine-noun non-comparative-adjective
+                               pronoun-acc pronoun-reflexive sentential-adverb
+                               transitive transitivize verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source

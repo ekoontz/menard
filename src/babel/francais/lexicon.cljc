@@ -2,7 +2,9 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.francais.morphology :refer [exception-generator phonize]]
-;   [babel.francais.pos :refer :all]
+   [babel.francais.pos :refer [gender-pronoun-agreement intransitivize
+                               transitive transitivize
+                               verb-aux]]
    [babel.lexiconfn :refer (compile-lex if-then map-function-on-map-vals unify)]
    [babel.pos :as pos :refer [pronoun-acc]]
    [dag_unify.core :refer [get-in]]))

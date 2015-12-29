@@ -6,11 +6,39 @@
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.morphology :refer [fo]]
             [babel.over :as over]
-            [babel.workbook.fr :refer [over rules]]
             [clojure.string :as string]
-            [clojure.test :refer :all]
-            [clojure.tools.logging :as log]
+            #?(:clj [clojure.test :refer [deftest is]])
+            #?(:cljs [cljs.test :refer-macros [deftest is]])
+            #?(:clj [clojure.tools.logging :as log])
+            #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
+
+;; TODO: (lookup) and (over) convenience functions are duplicated in
+;; babel.workbook.francais: factor out to babel.francais.
+;; TODO: do morphological analysis
+;; do find non-infinitives (e.g. find 'parler' given 'parle')
+;; and then apply conjugated parts to lexeme
+;; i.e. if input is 'parle', return
+;; list of lexemes; for each, [:synsem :agr :person] will be
+;; 1st, 2nd, or 3rd, and for all, number will be singular.
+(defn lookup [lexeme]
+  (get (:lexicon @medium) lexeme))
+
+(defn over
+  ([arg1]
+   (over/over (vals (:grammar-map @medium)) (lookup arg1)))
+  ([grammar arg1]
+   (over/over grammar (lookup arg1)))
+  ([grammar arg1 arg2]
+   (cond (string? arg1)
+         (over grammar (lookup arg1)
+               arg2)
+
+         (string? arg2)
+         (over grammar arg1 (lookup arg2))
+
+         true
+         (over/over grammar arg1 arg2))))
 
 (deftest conditional
   (let [result (engine/generate {:synsem {:subcat '()

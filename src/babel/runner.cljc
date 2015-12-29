@@ -5,6 +5,7 @@
 #?(:cljs (doo-tests 'babel.test.pos))
 #?(:cljs (doo-tests 'babel.test.en))
 #?(:cljs (doo-tests 'babel.test.es))
+#?(:cljs (doo-tests 'babel.test.fr))
 ;;#?(:cljs (doo-all-tests))
 
 

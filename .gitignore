@@ -16,3 +16,4 @@ all.out
 *.log
 /out
 expression.table.gz
+doo-index.html

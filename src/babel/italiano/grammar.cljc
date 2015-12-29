@@ -6,8 +6,9 @@
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
-   [babel.ug :refer :all]
-   [clojure.tools.logging :as log]
+   [babel.ug :refer [head-principle subcat-1-principle]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (fail? get-in merge unifyc)]))
 
 (def hc-agreement

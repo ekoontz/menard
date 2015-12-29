@@ -1,14 +1,13 @@
 (ns babel.italiano.morphology
-  (:refer-clojure :exclude [get-in merge resolve]))
-
-(require '[babel.pos :refer (noun)])
-(require '[babel.italiano.pos :refer (verb-aux)])
-(require '[babel.stringutils :refer :all])
-(require '[clojure.core :as core])
-(require '[clojure.string :as string])
-(require '[clojure.string :refer (trim)])
-(require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)])
+  (:refer-clojure :exclude [get-in merge resolve])
+  (:require
+   [babel.pos :refer (noun)]
+   [babel.italiano.pos :refer (verb-aux)]
+   [clojure.string :as string]
+   [clojure.string :refer (trim)]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)]))
 
 (defn phrase-is-finished? [phrase]
   (cond

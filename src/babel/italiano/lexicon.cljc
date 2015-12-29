@@ -3,7 +3,8 @@
   (:require
    [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
    [babel.italiano.morphology :as morph]
-   [babel.italiano.pos :refer :all]
+   [babel.italiano.pos :refer [noun intransitive-unspecified-obj
+                               transitive verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source

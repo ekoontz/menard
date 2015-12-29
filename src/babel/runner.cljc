@@ -6,6 +6,7 @@
 #?(:cljs (doo-tests 'babel.test.en))
 #?(:cljs (doo-tests 'babel.test.es))
 #?(:cljs (doo-tests 'babel.test.fr))
+#?(:cljs (doo-tests 'babel.test.it))
 ;;#?(:cljs (doo-all-tests))
 
 

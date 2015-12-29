@@ -1,8 +1,8 @@
-(ns babel.italiano.pos)
-
-(require '[babel.lexiconfn :as lexiconfn])
-(require '[babel.pos :as pos])
-(require '[dag_unify.core :refer (unifyc)])
+(ns babel.italiano.pos
+  (:require
+   [babel.lexiconfn :as lexiconfn]
+   [babel.pos :as pos]
+   [dag_unify.core :refer (unifyc)]))
 
 (def agreement-noun pos/agreement-noun)
 (def cat-of-pronoun pos/cat-of-pronoun)

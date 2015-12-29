@@ -243,7 +243,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word [:espanol]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
@@ -344,7 +344,7 @@
          (if (= suppress-morph-exceptions true)
            (do (log/warn message)
                "??")
-           (throw (Exception. message))))))))
+           (exception message)))))))
 
 (defn present [word & [ {usted :usted
                          vosotros :vosotros
@@ -352,7 +352,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         
@@ -449,7 +449,7 @@
        (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
-         (throw (Exception. message)))))))
+         (exception message))))))
 
 (declare irregular-preterito)
 (declare regular-preterito)
@@ -507,7 +507,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         
@@ -605,4 +605,5 @@
        (if (= suppress-morph-exceptions true)
          (do (log/warn message)
              "??")
-         (throw (Exception. message)))))))
+         (exception message))))))
+

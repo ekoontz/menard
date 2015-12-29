@@ -43,8 +43,8 @@
         lexicon
         #?(:clj (if (future? lexicon) @lexicon lexicon))
         #?(:cljs lexicon)]
-    (log/info (str "using grammar of size: " (.size grammar)))
-    (log/info (str "using index of size: " (.size index)))
+    (log/info (str "using grammar of size: " (count grammar)))
+    (log/info (str "using index of size: " (count index)))
     (if (seq? spec)
       #?(:clj (pmap generate-all spec grammar lexicon index morph))
       #?(:cljs (map generate-all spec grammar lexicon index morph))
@@ -159,7 +159,7 @@ of this function with complements."
                           (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
                                           " and children: "
                                           (if phrasal-children
-                                            (str "(" (.size phrasal-children) ")")
+                                            (str "(" (count phrasal-children) ")")
                                             "(nil)")
                                           (string/join ","
                                            (map (fn [child]
@@ -203,7 +203,7 @@ of this function with complements."
                        (let [result (get-lex immediate-parent :comp cache spec)]
                          (if (not (nil? result))
                            (log/debug (str " cached lexical subset ratio: " 
-                                           (string/replace (str (/ (* 1.0 (/ (.size lexicon) (.size result)))))
+                                           (string/replace (str (/ (* 1.0 (/ (count lexicon) (count result)))))
                                                            #"\.(..).*"
                                                            (fn [[_ two-digits]] (str "." two-digits))))))
                          result))

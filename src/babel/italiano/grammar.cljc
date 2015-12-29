@@ -6,7 +6,12 @@
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
-   [babel.ug :refer [head-principle subcat-1-principle]]
+   [babel.ug :refer [comp-modifies-head head-principle subcat-1-principle subcat-1-1-principle subcat-2-principle
+                     comp-specs-head root-is-head-root
+     subcat-1-1-principle-comp-subcat-1 root-is-comp
+                     subcat-2-2-principle root-is-head
+                     subcat-5-principle
+                     ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (fail? get-in merge unifyc)]))

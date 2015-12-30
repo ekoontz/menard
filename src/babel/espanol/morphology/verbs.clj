@@ -504,18 +504,7 @@
         stem (string/replace infinitive #"[iae]r$" "")
         
         stem (if (get-in word [:preterito-stem])
-               (cond  (and usted ;; if we in usted mode, and person is 2nd.
-                           (= :2nd (get-in word [:agr :person])))
-                      (get-in word [:preterito-stem])
-                      
-                      (and ustedes  ;; if we in ustedes mode, and person is 2nd.
-                           (= :2nd (get-in word [:agr :person])))
-                      (get-in word [:preterito-stem])
-                      
-                      (= :3rd (get-in word [:agr :person]))
-                      (get-in word [:preterito-stem])
-                      true
-                      stem)
+               (get-in word [:preterito-stem])
                stem)
         
         last-stem-char-is-i (re-find #"ir$" infinitive)

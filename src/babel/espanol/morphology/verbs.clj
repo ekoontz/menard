@@ -29,6 +29,10 @@
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
+        ;; conditional shares usage of :futuro-stem with future.
+        stem (if (get-in word [:futuro-stem])
+               (get-in word [:futuro-stem])
+               stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
@@ -122,8 +126,8 @@
 
 ;; TODO: mask clojure/core's future to prevent warnings "WARNING: future already refers to: #'clojure.core/future"
 (defn future [word & [ {usted :usted
-                           vosotros :vosotros
-                           ustedes :ustedes}]]
+                        vosotros :vosotros
+                        ustedes :ustedes}]]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
@@ -131,6 +135,9 @@
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
+        stem (if (get-in word [:futuro-stem])
+               (get-in word [:futuro-stem])
+               stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)

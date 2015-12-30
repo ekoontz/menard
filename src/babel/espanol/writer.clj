@@ -29,8 +29,10 @@
 (defn fo [expression]
   (morph/fo expression))
 
-(defn todos [ & [count]]
+(defn todos [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
+        lexemes (if lexeme (list (get @lexicon lexeme))
+                    (vals @lexicon))
         root-verbs 
         (zipmap
          (keys @lexicon)
@@ -41,7 +43,7 @@
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
-              (vals @lexicon)))
+              lexemes))
         root-verb-array
         (reduce concat
                 (map (fn [key]

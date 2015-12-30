@@ -65,8 +65,8 @@
                        :sem {:pred :accept}}}
 
    "acertar" {:espanol {:boot-stem "aciert"}
-             :synsem {:cat :verb
-                      :sem {:pred :guess}}}
+              :synsem {:cat :verb
+                       :sem {:pred :guess}}}
    
    "acompañar" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}

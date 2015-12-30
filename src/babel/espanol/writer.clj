@@ -118,8 +118,12 @@
                                                                               (and (not (= (get-in spec [:synsem :sem :tense])
                                                                                            :present))
                                                                                    (not (= (get-in spec [:synsem :sem :aspect])
-                                                                                           :progressive)))))
-                                                                         (log/info (str "ignoring exception(llamarse-is-only-singular): " e))
+                                                                                           :progressive)))
+                                                                              (and (= (get-in spec [:synsem :sem :tense])
+                                                                                      :past)
+                                                                                   (= (get-in spec [:synsem :sem :aspect])
+                                                                                      :progressive))))
+                                                                         (log/info (str "ignoring exception(llamarse-is-only-singular and present): " e))
 
                                                                          true
                                                                          (do

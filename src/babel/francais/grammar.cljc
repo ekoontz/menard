@@ -462,7 +462,7 @@
                 grammar)
         lexicon
         (into {}
-              (for [[k v] @lexicon]
+              (for [[k v] lexicon]
                 (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :verb)
                                    (= (get-in % [:synsem :propernoun]) true)
@@ -496,7 +496,7 @@
 (def medium
   (let [lexicon
         (into {}
-              (for [[k v] @lexicon]
+              (for [[k v] lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))

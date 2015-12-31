@@ -37,13 +37,13 @@
 ;;(generate {:synsem {:subcat '()
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                @en/small)
+;;                                en/small)
 
 (def foo (expression {:synsem {:cat :verb}}))
 ;(def foo (lightning-bolt nil nil nil))
 (def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
 
-(def rules (:grammar-map @small-plus-plus-np))
+(def rules (:grammar-map small-plus-plus-np))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -52,14 +52,14 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon @small-plus-plus-np) lexeme))
+  (get (:lexicon small-plus-plus-np) lexeme))
 
 (defn over
   ([arg1]
    (cond (string? arg1)
          (over (lookup arg1))
          true
-         (over/over (vals (:grammar-map @small-plus-plus-np)) arg1)))
+         (over/over (vals (:grammar-map small-plus-plus-np)) arg1)))
   ([arg1 arg2]
    (cond (string? arg1)
          (over (lookup arg1)
@@ -67,7 +67,7 @@
          (string? arg2)
          (over arg1 (lookup arg2))
          true
-         (over/over (vals (:grammar-map @small-plus-plus-np))
+         (over/over (vals (:grammar-map small-plus-plus-np))
                     arg1 arg2))))
 
 (def workbook-sandbox-en

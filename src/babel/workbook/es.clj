@@ -37,13 +37,13 @@
 ;;(generate {:synsem {:subcat '()
 ;;                                          :infl :imperfect
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                @es/small)
+;;                                es/small)
 
 (def foo (expression {:synsem {:cat :verb}}))
 ;(def foo (lightning-bolt nil nil nil))
 (def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
 
-(def rules (:grammar-map @medium))
+(def rules (:grammar-map medium))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -52,11 +52,11 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon @medium) lexeme))
+  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map @medium)) (lookup arg1)))
+   (over/over (vals (:grammar-map medium)) (lookup arg1)))
   ([grammar arg1]
    (over/over grammar (lookup arg1)))
   ([grammar arg1 arg2]

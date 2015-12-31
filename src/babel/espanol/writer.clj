@@ -3,7 +3,7 @@
 
 (require '[babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)])
 (require '[babel.forest :as forest])
-(require '[babel.engine :refer [generate]])
+(require '[babel.engine :as engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol.grammar :refer [small]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
@@ -24,7 +24,7 @@
 
 (defn expression [& [spec]]
   (let [spec (if spec spec :top)]
-    (writer/expression small spec)))
+    (engine/expression small spec)))
 
 (defn fo [expression]
   (morph/fo expression))

@@ -1,6 +1,7 @@
 (ns babel.english.writer
   (:refer-clojure :exclude [get-in]))
 
+(require '[babel.engine :as engine])
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
@@ -14,19 +15,20 @@
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
-  (write-lexicon "en" @lexicon))
+  (write-lexicon "en" lexicon))
 
 (defn expression [spec]
-  (writer/expression small-plus-plus-np spec))
+  (let [spec (if spec spec :top)]
+    (engine/expression small-plus-plus-np spec)))
 
 (defn bolt [spec]
-  (lightning-bolt (:grammar @small-plus-plus-np)
-                  (:lexicon @small-plus-plus-np)
+  (lightning-bolt (:grammar small-plus-plus-np)
+                  (:lexicon small-plus-plus-np)
                   spec
                   0
-                  (:index  @small-plus-plus-np)
+                  (:index  small-plus-plus-np)
                   nil
-                  (:morph  @small-plus-plus-np)))
+                  (:morph  small-plus-plus-np)))
 
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."
@@ -81,7 +83,7 @@
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
         root-verbs 
         (zipmap
-         (keys @lexicon)
+         (keys lexicon)
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
@@ -90,9 +92,9 @@
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
-              (vals @lexicon)))]
+              (vals lexicon)))]
 
-    (write-lexicon "en" @lexicon)
+    (write-lexicon "en" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))
     (.size (pmap (fn [verb]

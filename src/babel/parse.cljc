@@ -22,7 +22,7 @@
   "like (toks), but use lexicon to consolidate two initial tokens into one. may consolidate larger groups than two in the future."
   (cond (nil? tokens) nil
         (empty? tokens) nil
-        (> (.size tokens) 1)
+        (> (count tokens) 1)
         ;; it's two or more tokens, so try to combine the first and the second of them:
         (let [looked-up (lookup (str (first tokens) " " (second tokens)))]
           (if (not (empty? looked-up))
@@ -33,20 +33,20 @@
             (cons (lookup (first tokens))
                   (toks2 (rest tokens) lexicon lookup))))
         ;; only one token left: look it up.
-        (= (.size tokens) 1)
+        (= (count tokens) 1)
         (list (lookup (first tokens)))
         true
         nil))
 
 (defn create-unigram-map [args index]
-  (if (< index (.size args))
+  (if (< index (count args))
     (merge
      {[index (+ 1 index)]
       (subvec args index (+ 1 index))}
      (create-unigram-map args (+ 1 index)))))
 
 (defn create-bigram-map [args index grammar]
-  (if (< (+ 1 index) (.size args))
+  (if (< (+ 1 index) (count args))
     (let [left-side (subvec args index (+ 1 index))
           right-side (subvec args (+ 1 index) (+ 2 index))]
       (merge
@@ -58,7 +58,7 @@
 (declare over)
 
 (defn create-trigram-map [args index grammar bigrams]
-  (if (< (+ 2 index) (.size args))
+  (if (< (+ 2 index) (count args))
     (do
       (merge
        {[index (+ 3 index)]
@@ -84,12 +84,12 @@
   (over/over grammar left right))
 
 (defn create-ngram-map [args left ngrams grammar split-at x]
-  (log/debug (str "create-ngram-map: left:" left ";split-at:" split-at "; size:" (.size args) "; x:" x))
+  (log/debug (str "create-ngram-map: left:" left ";split-at:" split-at "; size:" (count args) "; x:" x))
   (if (< (+ left (- split-at 2))
-         (/ (.size args) 2))
+         (/ (count args) 2))
     (lazy-cat
      (let [left-parses (get ngrams [left (+ left (- split-at 0))] '())
-           right-parses (get ngrams [(+ left split-at 0) (- (.size args) 0)] '())]
+           right-parses (get ngrams [(+ left split-at 0) (- (count args) 0)] '())]
        (if (and (not (empty? left-parses))
                 (not (empty? right-parses)))
          (over grammar left-parses right-parses)))
@@ -104,7 +104,7 @@
                                     (create-xgram-map args (- x 1) 0 grammar))]
                (cond
                 (= x 3) (create-trigram-map args index grammar nminus1grams)
-                (< (+ x index) (+ 1 (.size args)))
+                (< (+ x index) (+ 1 (count args)))
                 (let [runlevel (if runlevel runlevel 0)]
                   (log/debug (str "create-xgram-map: x=" x "; index=" index "; runlevel=" runlevel))
                   (log/debug (str "  -> create-ngram-map(index:" index ";split-at: " 1 ";x:" x))
@@ -137,8 +137,8 @@
         ;; return the parse of the whole expression.
         ;; TODO: if a parse for the whole expression is not found,
         ;; return the largest subparse(s).
-        (get (create-xgram-map arg (.size arg) 0 grammar)
-             [0 (.size arg)])
+        (get (create-xgram-map arg (count arg) 0 grammar)
+             [0 (count arg)])
         true
         :error))
 

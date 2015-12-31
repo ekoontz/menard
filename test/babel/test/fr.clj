@@ -185,5 +185,5 @@
 (deftest named-sentence
   (let [result (expression {:synsem {:sem {:pred :be-called
                                            :subj {:pred :lui}
-                                           :obj {:pred :Juan}}}})]
-    (is (= (fo result) "il l'appele Juan"))))
+                                           :obj {:pred :Jean}}}})]
+    (is (= (fo result) "il l'appele Jean"))))

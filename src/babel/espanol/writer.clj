@@ -35,7 +35,7 @@
                     (vals @lexicon))
         root-verbs 
         (zipmap
-         (keys @lexicon)
+         (keys lexicon)
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
@@ -51,7 +51,7 @@
                 (map (fn [key]
                        (get root-verbs key))
                      (sort (keys root-verbs))))]
-    (write-lexicon "es" @lexicon)
+    (write-lexicon "es" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))

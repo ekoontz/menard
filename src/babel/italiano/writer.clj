@@ -17,7 +17,7 @@
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (write-lexicon "it" @lexicon))
+  (write-lexicon "it" lexicon))
 
 (defn tutti [ & [count]]
   (let [count (if count (Integer. count) 10)
@@ -25,7 +25,7 @@
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
         root-verbs 
         (zipmap
-         (keys @lexicon)
+         (keys lexicon)
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
@@ -33,7 +33,7 @@
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
-              (vals @lexicon)))
+              (vals lexicon)))
 
         tutti
         (reduce concat
@@ -41,7 +41,7 @@
                        (get root-verbs key))
                      (sort (keys root-verbs))))]
 
-    (write-lexicon "it" @lexicon)
+    (write-lexicon "it" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size tutti)))

@@ -8,6 +8,12 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. error-string)))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
 (declare number-and-person)
 
 (def suppress-incomplete-morphology-errors true)
@@ -20,7 +26,7 @@
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"[eé]r$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         re-type (re-find #"re$" infinitive)
@@ -94,13 +100,13 @@
        (if (= true suppress-incomplete-morphology-errors)
          (do (log/warn message)
              "(" (get-in word [:francais]) ")")
-         (throw (Exception. message)))))))
+         (exception message))))))
 
 (defn future [word]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"[eé]r$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         re-type (re-find #"re$" infinitive)
@@ -181,13 +187,13 @@
      (let [message (str "get-string: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
        (if (= true suppress-incomplete-morphology-errors)
          (do (log/warn message)
-             (throw (Exception. message))))))))
+             (exception message)))))))
 
 (defn imperfect [word]           
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (if (get-in word [:imperfect-stem])
@@ -262,13 +268,13 @@
        (if (= true suppress-incomplete-morphology-errors)
          (do (log/warn message)
              "(" (get-in word [:francais]) ")")
-         (throw (Exception. message)))))))
+         (exception message))))))
 
 (defn present [word]
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
-                       (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"[eé]r$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         re-type (re-find #"re$" infinitive)
@@ -368,9 +374,9 @@
      (get-in word [:français])
 
      :else
-     (throw (Exception. (str "get-string: present regular inflection: don't know what to do with input argument: "
-                             (strip-refs word)
-                             " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type))))))
+     (exception (str "get-string: present regular inflection: don't know what to do with input argument: "
+                     (strip-refs word)
+                     " (er-type: " er-type "; ir-type: " ir-type "; re-type: " re-type)))))
 
 (defn passe-compose [word]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))]

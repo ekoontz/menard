@@ -1036,7 +1036,7 @@
                                      :number number}
                                :cat :noun})
                  comp-pred (atom :top)
-                 comp-sem (ref
+                 comp-sem (atom
                            {:activity false
                             :pred comp-pred
                             :discrete false})]
@@ -2032,75 +2032,75 @@
         
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
-(def lexicon (future (-> (compile-lex lexicon-source
-                                      morph/exception-generator 
-                                      morph/phonize morph/italian-specific-rules)
+(def lexicon (-> (compile-lex lexicon-source
+                              morph/exception-generator 
+                              morph/phonize morph/italian-specific-rules)
 
-                         ;; make an intransitive version of every verb which has an
-                         ;; [:sem :obj] path.
-                         intransitivize
+                 ;; make an intransitive version of every verb which has an
+                 ;; [:sem :obj] path.
+                 intransitivize
                          
-                         ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-                         transitivize
+                 ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                 transitivize
 
-                         ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
-                         ;; reflexive pronouns
-                         (map-function-on-map-vals
-                          (let [agreement
-                                (let [case (atom :acc)
-                                      cat (atom :noun)]
-                                  {:synsem {:cat cat
-                                            :pronoun true
-                                            :subcat '()
-                                            :reflexive true
-                                            :case case}
-                                   :italiano {:cat cat
-                                              :case case}})]
-                            (fn [k vals]
-                              (map (fn [val]
-                                     (cond (and (= :noun (get-in val [:synsem :cat]))
-                                                (= true (get-in val [:synsem :reflexive]))
-                                                (= true (get-in val [:synsem :pronoun])))
-                                           (unify agreement val)
-
-                                           true val))
-                                   vals))))
+                 ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
+                 ;; reflexive pronouns
+                 (map-function-on-map-vals
+                  (let [agreement
+                        (let [case (atom :acc)
+                              cat (atom :noun)]
+                          {:synsem {:cat cat
+                                    :pronoun true
+                                    :subcat '()
+                                    :reflexive true
+                                    :case case}
+                           :italiano {:cat cat
+                                      :case case}})]
+                    (fn [k vals]
+                      (map (fn [val]
+                             (cond (and (= :noun (get-in val [:synsem :cat]))
+                                        (= true (get-in val [:synsem :reflexive]))
+                                        (= true (get-in val [:synsem :pronoun])))
+                                   (unify agreement val)
+                                   true val))
+                           vals))))
                          
-                         ;; If a verb is not specifically marked as reflexive, it
-                         ;; is reflexive:false, to prevent generation of reflexive
-                         ;; sentences using nonreflexive verbs.
-                         ;; TODO: move this to within intransitivize and transitivize:
-                         ;; that is, within babel.italiano.pos, mark certain parts of speech
-                         ;; as reflexive=false to accomplish the same thing as we
-                         ;; are doing here.
-                         (map-function-on-map-vals
-                          (fn [k vals]
-                            (map (fn [val]
-                                   (cond (and (= (get-in val [:synsem :cat])
-                                                 :verb)
-                                              (= (get-in val [:synsem :aux] false)
-                                                 false)
-                                              (= :none (get-in val [:synsem :sem :reflexive] :none)))
-                                         (unify val {:synsem {:sem {:reflexive false}}})
-                                         true
-                                         val))
-                                 vals)))
+                 ;; If a verb is not specifically marked as reflexive, it
+                 ;; is reflexive:false, to prevent generation of reflexive
+                 ;; sentences using nonreflexive verbs.
+                 ;; TODO: move this to within intransitivize and transitivize:
+                 ;; that is, within babel.italiano.pos, mark certain parts of speech
+                 ;; as reflexive=false to accomplish the same thing as we
+                 ;; are doing here.
+                 (map-function-on-map-vals
+                  (fn [k vals]
+                    (map (fn [val]
+                           (cond (and (= (get-in val [:synsem :cat])
+                                         :verb)
+                                      (= (get-in val [:synsem :aux] false)
+                                         false)
+                                      (= :none (get-in val [:synsem :sem :reflexive] :none)))
+                                 (unify val {:synsem {:sem {:reflexive false}}})
+                                 true
+                                 val))
+                         vals)))
 
-                         ;; if object is not specified, then set to :unspec.
-                         ;; this prevents translations that may have actual objects - e.g. would allow translations like:
-                         ;; "io mangio" => "I eat the bread" whereas a better translation is simply "I eat".
-                         (if-then {:synsem {:cat :verb
-                                            :aux false
-                                            :sem {:obj :unspec
-                                                  :reflexive false
-                                                  }}}
-                                  {:synsem {:sem {:obj :unspec}}})
+                 ;; if object is not specified, then set to :unspec.
+                 ;; this prevents translations that may have actual objects - e.g. would allow translations like:
+                 ;; "io mangio" => "I eat the bread" whereas a better translation is simply "I eat".
+                 (if-then {:synsem {:cat :verb
+                                    :aux false
+                                    :sem {:obj :unspec
+                                          :reflexive false
+                                          }}}
+                          {:synsem {:sem {:obj :unspec}}})
                          
-                         ;; Cleanup functions can go here. Number them for ease of reading.
-                         ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
-                         ;; rather than not having any inflection.
-                         (map-function-on-map-vals 
-                          (fn [k vals]
-                            (filter #(or (not (= :verb (get-in % [:synsem :cat])))
-                                         (not (= :none (get-in % [:synsem :infl] :none))))
-                                    vals))))))
+                 ;; Cleanup functions can go here. Number them for ease of reading.
+                 ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
+                 ;; rather than not having any inflection.
+                 (map-function-on-map-vals 
+                  (fn [k vals]
+                    (filter #(or (not (= :verb (get-in % [:synsem :cat])))
+                                 (not (= :none (get-in % [:synsem :infl] :none))))
+                            vals)))))
+

@@ -405,74 +405,72 @@
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
 (def small
-  (future
-    (let [grammar
-          (filter #(or (= (:rule %) "s-conditional-phrasal")
-                       (= (:rule %) "s-conditional-nonphrasal")
-                       (= (:rule %) "s-present-phrasal")
-                       (= (:rule %) "s-present-nonphrasal")
-                       (= (:rule %) "s-future-phrasal")
-                       (= (:rule %) "s-future-nonphrasal")
-                       (= (:rule %) "s-imperfect-phrasal")
-                       (= (:rule %) "s-imperfect-nonphrasal")
-                       (= (:rule %) "s-aux")
-                       (= (:rule %) "vp-aux")
-                       (= (:rule %) "vp-aux-22")
-                       (= (:rule %) "vp-pronoun-nonphrasal")
-                       (= (:rule %) "vp-pronoun-phrasal"))
-                  grammar)
-          lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v
-                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                     (= (get-in % [:synsem :propernoun]) true)
-                                     (= (get-in % [:synsem :pronoun]) true))
-                                v)]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
-      {:name "small"
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :language "it"
-       :language-keyword :italiano
-       :morph fo
-       :lookup (fn [arg]
-                 (analyze arg lexicon))
-       :enrich enrich
-       :grammar grammar
-       :lexicon lexicon
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+  (let [grammar
+        (filter #(or (= (:rule %) "s-conditional-phrasal")
+                     (= (:rule %) "s-conditional-nonphrasal")
+                     (= (:rule %) "s-present-phrasal")
+                     (= (:rule %) "s-present-nonphrasal")
+                     (= (:rule %) "s-future-phrasal")
+                     (= (:rule %) "s-future-nonphrasal")
+                     (= (:rule %) "s-imperfect-phrasal")
+                     (= (:rule %) "s-imperfect-nonphrasal")
+                     (= (:rule %) "s-aux")
+                     (= (:rule %) "vp-aux")
+                     (= (:rule %) "vp-aux-22")
+                     (= (:rule %) "vp-pronoun-nonphrasal")
+                     (= (:rule %) "vp-pronoun-phrasal"))
+                grammar)
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                   (= (get-in % [:synsem :propernoun]) true)
+                                   (= (get-in % [:synsem :pronoun]) true))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    {:name "small"
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "it"
+     :language-keyword :italiano
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (def medium
-  (future
-    (let [lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v v]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
-      {:name "medium"
-       :language "it"
-       :language-keyword :italiano
-       :morph fo
-       :lookup (fn [arg]
-                 (analyze arg lexicon))
-       :enrich enrich
-       :grammar grammar
-       :lexicon lexicon
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)
-       })))
+  (let [lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v v]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    {:name "medium"
+     :language "it"
+     :language-keyword :italiano
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     }))
 
 (defn toks [surface]
-  (parse/toks surface (:lexicon @small) (:lookup @small)))
+  (parse/toks surface (:lexicon small) (:lookup small)))
 
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon @small)
-               (:lookup @small)
-               (:grammar @small)))
+               (:lexicon small)
+               (:lookup small)
+               (:grammar small)))
 
 (log/info "Italiano grammar defined.")

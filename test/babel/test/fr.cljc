@@ -22,11 +22,11 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon @medium) lexeme))
+  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map @medium)) (lookup arg1)))
+   (over/over (vals (:grammar-map medium)) (lookup arg1)))
   ([grammar arg1]
    (over/over grammar (lookup arg1)))
   ([grammar arg1 arg2]
@@ -76,28 +76,28 @@
     (is (= "j'avais" (fo result)))))
 
 (deftest être-as-aux
-  (let [lexicon (:lexicon @small)
+  (let [lexicon (:lexicon small)
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unifyc rule
                                {:head (last (get lexicon "être"))}))
-                     (:grammar @small)))]
+                     (:grammar small)))]
     (is (not (empty? result)))
     (is (= (get-in (first result) [:rule]) "vp-aux"))))
 
 (deftest vp-aux-test
   (let [rule (first (filter #(= (:rule %) "vp-aux")
-                            (:grammar @small)))]
+                            (:grammar small)))]
     (is (not (nil? rule)))))
 
 (def etre-test
   (is (not (nil? (first (filter #(= true (get-in % [:synsem :aux]))
-                                (get (:lexicon @small) "être")))))))
+                                (get (:lexicon small) "être")))))))
 
 (deftest over-test
-  (let [lexicon (:lexicon @small)
-        grammar (:grammar @small)
+  (let [lexicon (:lexicon small)
+        grammar (:grammar small)
         result
         (over grammar
               (get lexicon "nous")
@@ -172,10 +172,10 @@
                                           :pred :go
                                           :aspect :perfect
                                           :tense :past}}})
-         (:grammar @small)
-         (:lexicon @small)
-         (:index @small)
-         (:morph @small))]
+         (:grammar small)
+         (:lexicon small)
+         (:index small)
+         (:morph small))]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 
@@ -191,11 +191,11 @@
 
 (deftest reflexive
   (let [rules {:s-present-phrasal
-               (first (filter medium
-                              #(= (get % :rule) "s-present-phrasal")))
-               :vp-pronoun-non-phrasal
-               (first (filter medium
-                              #(= (get % :rule) "vp-pronoun-nonphrasal")))}
+               (first (filter #(= (get % :rule) "s-present-phrasal")
+                              (:grammar medium)))
+               :vp-pronoun-nonphrasal
+               (first (filter #(= (get % :rule) "vp-pronoun-nonphrasal")
+                              (:grammar medium)))}
 
         result (over (get rules :s-present-phrasal)
                      "je" 

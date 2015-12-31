@@ -452,98 +452,91 @@
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
 (def small
-  (future
-    (let [grammar
-          (filter #(or (= (:rule %) "s-conditional-nonphrasal")
-                       (= (:rule %) "s-present-nonphrasal")
-                       (= (:rule %) "s-future-nonphrasal")
-                       (= (:rule %) "s-imperfect-nonphrasal")
-                       (= (:rule %) "s-aux")
-                       (= (:rule %) "vp-aux"))
-                  grammar)
-          lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v
-                        (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                     (= (get-in % [:synsem :propernoun]) true)
-                                     (= (get-in % [:synsem :pronoun]) true))
-                                v)]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))]
-      {:name "small"
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :language "fr"
-       :language-keyword :français
-       :lookup (fn [arg]
-                 (morph/analyze arg lexicon))
-       :enrich enrich
-       :grammar grammar
-
-       ;; Will throw exception if more than 1 rule has the same :rule value:
-       :grammar-map (zipmap
-                     (map #(keyword (get-in % [:rule]))
-                          grammar)
-                     grammar)
-
-       :lexicon lexicon
-       :morph fo
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)})))
+  (let [grammar
+        (filter #(or (= (:rule %) "s-conditional-nonphrasal")
+                     (= (:rule %) "s-present-nonphrasal")
+                     (= (:rule %) "s-future-nonphrasal")
+                     (= (:rule %) "s-imperfect-nonphrasal")
+                     (= (:rule %) "s-aux")
+                     (= (:rule %) "vp-aux"))
+                grammar)
+        lexicon
+        (into {}
+              (for [[k v] @lexicon]
+                (let [filtered-v
+                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                                   (= (get-in % [:synsem :propernoun]) true)
+                                   (= (get-in % [:synsem :pronoun]) true))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    {:name "small"
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "fr"
+     :language-keyword :français
+     :lookup (fn [arg]
+               (morph/analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     ;; Will throw exception if more than 1 rule has the same :rule value:
+     :grammar-map (zipmap
+                   (map #(keyword (get-in % [:rule]))
+                        grammar)
+                   grammar)
+     :lexicon lexicon
+     :morph fo
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn analyze [arg]
   (morph/analyze arg lexicon))
 
 (def medium
-  (future
-    (let [lexicon
-          (into {}
-                (for [[k v] @lexicon]
-                  (let [filtered-v v]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))
+  (let [lexicon
+        (into {}
+              (for [[k v] @lexicon]
+                (let [filtered-v v]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))
 
-          grammar ;; small grammar + a few other things:
-          (seq (union (set (:grammar @small))
-                      (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
-                                        (= (:rule %) "vp-pronoun-phrasal")
-                                        (= (:rule %) "s-conditional-phrasal")
-                                        (= (:rule %) "s-present-phrasal")
-                                        (= (:rule %) "s-future-phrasal")
-                                        (= (:rule %) "vp-aux-22")
-                                        (= (:rule %) "vp-32"))
-                                   grammar))))]
-      {:name "medium"
-       :enrich enrich
-       :grammar grammar
+        grammar ;; small grammar + a few other things:
+        (seq (union (set (:grammar small))
+                    (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
+                                      (= (:rule %) "vp-pronoun-phrasal")
+                                      (= (:rule %) "s-conditional-phrasal")
+                                      (= (:rule %) "s-present-phrasal")
+                                      (= (:rule %) "s-future-phrasal")
+                                      (= (:rule %) "vp-aux-22")
+                                      (= (:rule %) "vp-32"))
+                                 grammar))))]
+    {:name "medium"
+     :enrich enrich
+     :grammar grammar
+     ;; Will throw exception if more than 1 rule has the same :rule value:
+     :grammar-map (zipmap
+                   (map #(keyword (get-in % [:rule]))
+                        grammar)
+                   grammar)
 
-       ;; Will throw exception if more than 1 rule has the same :rule value:
-       :grammar-map (zipmap
-                     (map #(keyword (get-in % [:rule]))
-                          grammar)
-                     grammar)
-
-       :lexicon lexicon
-       :index (create-index grammar (flatten (vals lexicon)) head-principle)
-
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :language "fr"
-       :language-keyword :français
-       :lookup (fn [arg]
-                 (morph/analyze arg lexicon))
-       :morph fo
-       
-       })))
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "fr"
+     :language-keyword :français
+     :lookup (fn [arg]
+               (morph/analyze arg lexicon))
+     :morph fo
+     }))
 
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon @medium)
-               (:lookup @medium)
-               (:grammar @medium)))
-  
+               (:lexicon medium)
+               (:lookup medium)
+               (:grammar medium)))
+
 (log/info "Français grammar defined.")

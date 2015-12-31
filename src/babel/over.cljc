@@ -91,7 +91,7 @@
       nil)))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
-  (do
+  (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result

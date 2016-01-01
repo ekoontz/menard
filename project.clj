@@ -47,7 +47,7 @@
   :doo {:paths {:phantom "phantomjs --debug=true --web-security=false  --disk-cache=true --webdriver=127.0.0.1:8910"
                 :slimer "slimerjs --ignore-ssl-errors=true"
                 :karma "karma --port=9881 --no-colors"
-                :rhino "java -jar ~/Downloads/rhino1_7R4/js-14.jar -strict"
+                :rhino "java -jar /Users/ekoontz/Downloads/rhino1_7R4/js-14.jar -strict"
                 :node "node --trace-gc --trace-gc-verbose"}}
   
   :ring {:handler babel.core/app})

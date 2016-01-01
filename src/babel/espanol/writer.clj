@@ -58,7 +58,7 @@
 
     ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
     (.size (pmap (fn [verb]
-                   (log/trace (str "verb: " (strip-refs verb)))
+                   (log/debug (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:espanol :espanol])]
                      (log/info (str "generating with verb: '" root-form "'"))
                      (.size (pmap (fn [tense]
@@ -68,17 +68,37 @@
                                       (map (fn [gender]
                                              (let [spec (unify/unify spec
                                                                      {:comp {:synsem {:agr gender}}})]
-                                               (log/trace (str "generating from gender: " gender))
+                                               (log/debug (str "generating from gender: " gender))
                                                (.size
                                                 (map (fn [person]
-                                                       (let [spec (unify/unify spec
-                                                                               {:comp {:synsem {:agr {:person person}}}})]
-                                                         (log/trace (str "generating from person: " person))
+                                                       (let [debug (log/debug (str "generating from spec(pre-person):" spec))
+                                                             unify-with {:comp {:synsem {:agr {:person person}}}}
+                                                             unified (unify/unify spec unify-with)
+                                                             
+                                                             spec
+                                                             (if (fail? unified)
+                                                               (let [message
+                                                                     (log/warn (str "could not unify " spec " with person specification:" unify-with "."))]
+                                                                 (if true
+                                                                   (do
+                                                                     (log/warn message)
+                                                                     (log/warn (str "Ignoring and continuing."))
+                                                                     unified)
+                                                                   (do
+                                                                     (log/error message)
+                                                                     (log/error "Stopping further processing now.")
+                                                                     (throw (Exception. message)))))
+                                                               unified)
+
+                                                             ]
+                                                         (log/debug (str "generating from person: " person))
+                                                         (log/debug (str "generating from spec+person: " spec))
                                                          (.size
                                                           (map (fn [number]
-                                                                 (let [spec (unify/unify spec
+                                                                 (let [debug (log/debug (str "generating from spec(1): " spec))
+                                                                       spec (unify/unify spec
                                                                                          {:comp {:synsem {:agr {:number number}}}})]
-                                                                   (log/debug (str "generating from spec: " spec))
+                                                                   (log/debug (str "generating from spec(2): " spec))
                                                                    (try
                                                                      (process [{:fill-one-language
                                                                                 {:count 1
@@ -96,7 +116,11 @@
                                         ;
                                                                          ;; The spec was :fail.
                                                                          (= spec :fail)
-                                                                         (log/warn (str "ignoring spec: :fail : can't generate anything from that."))
+                                                                         (if true
+                                                                           (log/warn (str "ignoring spec: :fail : can't generate anything from that."))
+                                                                           (let [message "spec is fail!"]
+                                                                             (log/error message)
+                                                                             (throw (Exception. message))))
                                                                          
                                                                          ;; The verb is "funzionare" (which takes a non-human
                                                                          ;; subject), but we're trying to generate with
@@ -140,6 +164,7 @@
                                                                    ))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
+                                           ;; TODO: why is this check disabled with (or true ..)?
                                            (cond (or true (= tense
                                                              {:synsem {:sem {:aspect :perfect
                                                                              :tense :past}}}))

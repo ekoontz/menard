@@ -31,8 +31,8 @@
 
 (defn todos [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
-        lexemes (if lexeme (list (get @lexicon lexeme))
-                    (vals @lexicon))
+        lexemes (if lexeme (list (get lexicon lexeme))
+                    (vals lexicon))
         root-verbs 
         (zipmap
          (keys lexicon)

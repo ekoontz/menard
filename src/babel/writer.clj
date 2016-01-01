@@ -407,23 +407,7 @@
 (defn process [units target-language]
   (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
 
-  ;; cleanup: TODO: use temporary tables
-  (let [import_table (str "expression_import_" target-language "_" (rand-int 1000000))
-        expression_distinct_table (str "expression_distinct_" target-language "_" (rand-int 1000000))]
-
-    ;; cleanup: TODO: use temporary tables
-    (exec-raw (str "DROP TABLE IF EXISTS " import_table))
-
-    (exec-raw (str "CREATE TABLE " import_table " (
-    language text,
-    model text,
-    surface text,
-    structure jsonb,
-    serialized text)"))
-
-    (log/debug (str "truncating import_table: " import_table))
-    (exec-raw [(str "TRUNCATE " import_table)])
-
+  (let []
     (log/debug (str "Units: " (.size units)))
     (.size (map (fn [unit]
                   (log/trace (str "TYPE OF UNIT: " (type unit)))
@@ -442,7 +426,7 @@
                         (fill-by-spec
                          (->> member-of-unit :fill :spec)
                          count
-                         "expression_import"
+                         "expression"
                          (->> member-of-unit :fill :source-model)
                          (->> member-of-unit :fill :target-model))))
                     (if (:fill-one-language member-of-unit)
@@ -452,7 +436,7 @@
                         (fill-language-by-spec
                          (->> member-of-unit :fill-one-language :spec)
                          count
-                         "expression_import"
+                         "expression"
                          (->> member-of-unit :fill-one-language :model))))
                     (if (:fill-verb member-of-unit)
                       (do
@@ -466,29 +450,6 @@
                                   (->> member-of-unit :fill-verb :source-model)
                                   (->> member-of-unit :fill-verb :target-model))))))))
                 units))
-    (exec-raw [(str "SELECT count(*) FROM " import_table)] :results)
-
-    ;; cleanup: TODO: use temporary tables
-    (exec-raw (str "DROP TABLE IF EXISTS " expression_distinct_table))
-
-    (exec-raw (str "CREATE TABLE " expression_distinct_table " (
-    language text,
-    model text,
-    surface text,
-    structure jsonb,
-    serialized text)"))
-
-    (exec-raw (str "INSERT INTO " expression_distinct_table " (language,model,surface,structure,serialized) 
-         SELECT DISTINCT language,model,surface,structure,serialized 
-                    FROM " import_table ""))
-
-    (exec-raw (str "INSERT INTO expression (language,model,surface,structure,serialized)
-                    SELECT language,model,surface,structure,serialized
-                      FROM " expression_distinct_table ""))
-
-    ;; cleanup: TODO: use temporary tables
-    (exec-raw (str "DROP TABLE " expression_distinct_table))
-    (exec-raw (str "DROP TABLE " import_table))
     
     ))
 

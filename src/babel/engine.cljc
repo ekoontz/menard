@@ -39,13 +39,6 @@
                (unify spec
                       {:synsem {:subcat '()}}))
 
-        language-model
-        #?(:clj (if (future? language-model)
-                  @language-model
-                  language-model))
-        #?(:cljs language-model)
-        
-
         debug (log/debug (str "pre-enrich spec: " spec))
 
         spec (if (and do-enrich (:enrich language-model))
@@ -205,7 +198,7 @@
 
            intermediate
            (into {}
-                 (for [[k v] @lexicon]
+                 (for [[k v] lexicon]
                    (let [filtered-v
                          (filter #(not (fail? (unifyc % spec)))
                                  v)]

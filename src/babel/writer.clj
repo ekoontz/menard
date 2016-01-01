@@ -51,10 +51,6 @@
 
         ;; 1. generate sentence in target language.
         ;; resolve future
-        target-language-model (if (future? target-language-model)
-                                @target-language-model
-                                target-language-model)
-
         target-language-sentence (engine/generate spec target-language-model :enrich true)
         
         target-language-sentence (if (:morph-walk-tree target-language-model)
@@ -78,10 +74,6 @@
         semantics (strip-refs (get-in target-language-sentence [:synsem :sem] :top))
 
         ;; 2. generate sentence in source language using semantics of sentence in target language.
-        ;; resolve future
-        source-language-model (if (future? source-language-model)
-                                @source-language-model
-                                source-language-model)
         debug (log/debug (str "semantics of resulting expression: " semantics))
         debug (log/trace (str "entire expression: " target-language-sentence))
 
@@ -234,19 +226,14 @@
       (let [sentence-pair (expression-pair source-language-model target-language-model spec)
             target-sentence (:target sentence-pair)
             source-sentence (:source sentence-pair)
-            source-language-model (if (ref? source-language-model)
-                                    @source-language-model source-language-model)
-            target-language-model (if (ref? target-language-model)
-                                    @target-language-model target-language-model)
-
-            target-morphology (:morph @target-language-model)
-            source-morphology (:morph @source-language-model)
+            target-morphology (:morph target-language-model)
+            source-morphology (:morph source-language-model)
 
             source-sentence-surface (source-morphology source-sentence)
             target-sentence-surface (target-morphology target-sentence)
 
-            source-language (:language @source-language-model)
-            target-language (:language @target-language-model)
+            source-language (:language source-language-model)
+            target-language (:language target-language-model)
 
             ]
 
@@ -285,7 +272,7 @@
     (throw (Exception. "No source language model was supplied.")))
   (if (nil? target-model)
     (throw (Exception. "No target language model was supplied.")))
-  (let [target-language (:language @target-model)
+  (let [target-language (:language target-model)
         json-spec (json/write-str spec)
         current-target-count
         (:count
@@ -313,10 +300,7 @@
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
 (defn fill-language-by-spec [spec count table model]
-  (let [model (if (future? model)
-                @model
-                model)
-        language (:language model)
+  (let [language (:language model)
         debug (log/debug (str "fill-language-by-spec: language: " language))
         debug (log/debug (str "fill-language-by-spec: spec: " spec))
         json-spec (json/write-str spec)
@@ -344,7 +328,7 @@
 
 (defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)
-        target-language-keyword (:language-keyword @target-model)
+        target-language-keyword (:language-keyword target-model)
         tenses [{:synsem {:sem {:tense :conditional}}}
                 {:synsem {:sem {:tense :futuro}}}
                 {:synsem {:sem {:tense :past :aspect :progressive}}}

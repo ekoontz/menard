@@ -74,15 +74,17 @@
                                                        (let [debug (log/debug (str "generating from spec(pre-person):" spec))
                                                              unify-with {:comp {:synsem {:agr {:person person}}}}
                                                              unified (unify/unify spec unify-with)
-                                                             
+                                                             debug (if (fail? unified)
+                                                                     (do
+                                                                       (log/info (str "spec=fail:tried to generate with spec(pre-person):" spec))
+                                                                       (log/info (str "spec=fail:tried to generate with unify-with      : " unify-with))))
                                                              spec
                                                              (if (fail? unified)
-                                                               (let [message
-                                                                     (log/warn (str "could not unify " spec " with person specification:" unify-with "."))]
+                                                               (let [message (str "could not unify " spec " with person specification:" unify-with ".")]
                                                                  (if true
                                                                    (do
-                                                                     (log/warn message)
-                                                                     (log/warn (str "Ignoring and continuing."))
+                                                                     (log/debug message)
+                                                                     (log/debug (str "Ignoring and continuing."))
                                                                      unified)
                                                                    (do
                                                                      (log/error message)
@@ -100,12 +102,16 @@
                                                                                          {:comp {:synsem {:agr {:number number}}}})]
                                                                    (log/debug (str "generating from spec(2): " spec))
                                                                    (try
-                                                                     (process [{:fill-one-language
-                                                                                {:count 1
-                                                                                 :spec spec
-                                                                                 :model small
-                                                                                 }}]
-                                                                              "es")
+                                                                     (if (fail? spec)
+                                                                       (do
+                                                                         (log/debug (str "ignoring failed spec."))
+                                                                         0)
+                                                                       (process [{:fill-one-language
+                                                                                  {:count 1
+                                                                                   :spec spec
+                                                                                   :model small
+                                                                                   }}]
+                                                                                "es"))
 
                                                                      ;; TODO: move this to *before*
                                                                      ;; attempting generation that fails.
@@ -117,7 +123,7 @@
                                                                          ;; The spec was :fail.
                                                                          (= spec :fail)
                                                                          (if true
-                                                                           (log/warn (str "ignoring spec: :fail : can't generate anything from that."))
+                                                                           (log/warn (str "spec is fail!"))
                                                                            (let [message "spec is fail!"]
                                                                              (log/error message)
                                                                              (throw (Exception. message))))
@@ -135,16 +141,28 @@
                                                                                  :2nd)))
                                                                          (log/info (str "ignoring exception(funcionar-is-only-nonhuman): " e))
 
+                                                                         
+                                                                         ;; The verb is "funzionare" (which takes a non-human
+                                                                         ;; subject), but we're trying to generate a non-pronoun complement;
+                                                                         ;; there are no such single words in the lexicon that are both
+                                                                         ;; non-human and non-pronoun. There are *human* non-pronouns in the lexicon,
+                                                                         ;; however: proper names like "Juan". If we added a place (e.g. "Madrid"), then
+                                                                         ;; we would have a non-human non-pronoun in the lexicon.
+                                                                         (and
+                                                                          (= (get-in spec [:root :espanol :espanol])
+                                                                             "funcionar")
+                                                                          (= (get-in spec [:comp :synsem :pronoun])
+                                                                             false))
+                                                                         (log/info (str "ignoring exception(funcionar-is-only-pronoun): " e))
+
                                                                          ;; "llamarse": there is currently only singular
-                                                                         ;; proper male names, so any attempt to use
+                                                                         ;; proper singular names, so any attempt to use
                                                                          ;; plural number with this verb will fail.
                                                                          (and
                                                                           (= (get-in spec [:root :espanol :espanol])
                                                                              "llamarse")
                                                                           (or (= (get-in spec [:comp :synsem :agr :number])
                                                                                  :plur)
-                                                                              (= (get-in spec [:comp :synsem :agr :gender])
-                                                                                 :fem)
                                                                               (and (not (= (get-in spec [:synsem :sem :tense])
                                                                                            :present))
                                                                                    (not (= (get-in spec [:synsem :sem :aspect])
@@ -154,6 +172,14 @@
                                                                                    (= (get-in spec [:synsem :sem :aspect])
                                                                                       :progressive))))
                                                                          (log/info (str "ignoring exception(llamarse-is-only-singular and present): " e))
+
+                                                                         ;; "llamarse": subject must be a pronoun
+                                                                         (and
+                                                                          (= (get-in spec [:root :espanol :espanol])
+                                                                             "llamarse")
+                                                                          (= (get-in spec [:comp :synsem :pronoun])
+                                                                             false))
+                                                                         (log/info (str "ignoring exception(llamarse-requires-pronoun-as-subject): " e))
 
                                                                          true
                                                                          (do

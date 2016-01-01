@@ -35,7 +35,7 @@
               :case :nom
               :agr {:person :3rd
                     :number :sing}
-              :sem {:human true
+              :sem {:human :top ; intended for use as both "he" and "it"
                     :pred :lui}}}
     {:synsem {:cat :noun
               :pronoun true
@@ -59,7 +59,7 @@
               :case :nom
               :agr {:person :3rd
                     :number :plur}
-              :sem {:human true
+              :sem {:human :top ; intended for use as "they" whether human or not.
                     :pred :loro}}}
     ]
 

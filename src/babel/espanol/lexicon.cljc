@@ -80,8 +80,8 @@
                          :sem {:pred :accompany}}}
 
    "advertir" {:espanol {:boot-stem "adviert"}
-             :synsem {:cat :verb
-                      :sem {:pred :warn}}}
+               :synsem {:cat :verb
+                        :sem {:pred :warn}}}
    
    "almorzar" {:espanol {:boot-stem "almuerz"}
                :synsem {:cat :verb

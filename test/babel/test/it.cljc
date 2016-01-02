@@ -8,7 +8,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [get-in]]))
+            [dag_unify.core :refer [get-in strip-refs]]))
 
 (deftest present-irregular
   (let [result (generate {:synsem {:subcat '()

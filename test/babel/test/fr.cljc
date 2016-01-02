@@ -103,7 +103,7 @@
               (get lexicon "nous")
               (over grammar
                     (get lexicon "sommes") (get lexicon "aller")))]
-    (is (= 2 (.size result)))
+    (is (= 2 (count result)))
     (is (or (= (fo (nth result 0))
                "nous sommes allées")
             (= (fo (nth result 1))

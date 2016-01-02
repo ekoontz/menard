@@ -199,8 +199,12 @@
    (= input :fail)
    (str input)
 
-   (= (type input) clojure.lang.LazySeq)
-   (str "['" (string/join "','" (map fo input)) "']")
+   (or (seq? input)
+       (vector? input))
+   (str "(" (string/join " , " 
+                         (remove #(= % "")
+                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
+        ")")
 
    (string? input)
    input
@@ -214,12 +218,6 @@
    (str (string/join " " 
                      (list (fo (get-in input [:a]))
                            (fo (get-in input [:b])))))
-   (or (seq? input)
-       (vector? input))
-   (str "(" (string/join " , " 
-                         (remove #(= % "")
-                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
-        ")")
 
    true
    ""))

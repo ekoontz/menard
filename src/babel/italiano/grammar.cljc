@@ -451,7 +451,8 @@
               (for [[k v] lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        rules (map #(keyword (get-in % [:rule])) grammar)]
     {:name "medium"
      :language "it"
      :language-keyword :italiano
@@ -460,6 +461,9 @@
                (analyze arg lexicon))
      :enrich enrich
      :grammar grammar
+     :rules rules
+     :rule-map (zipmap rules
+                       grammar)
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      }))

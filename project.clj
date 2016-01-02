@@ -48,8 +48,9 @@
                 :rhino "java -jar /Users/ekoontz/Downloads/rhino1_7R4/js-14.jar -strict"
                 :node "node --trace-gc --trace-gc-verbose"}}
   
-  :ring {:handler babel.core/app}
-  :hooks [leiningen.cljsbuild])
+  :ring {:handler babel.core/app})
+;; this hook doesn't work yet.
+;;  :hooks [leiningen.cljsbuild])
 
 
 

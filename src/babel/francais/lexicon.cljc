@@ -640,7 +640,7 @@
    ;;                                     :3 {:cat :adverb
    ;;                                         :sem {:pred :bad}}}}})
    
-  "se endormir" (let [subject-semantics (atom {:human true})
+  "s'endormir" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -655,7 +655,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "se énerver" (let [subject-semantics (atom {:human true})
+  "s'énerver" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -670,7 +670,7 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
-  "se ennuyer" (let [subject-semantics (atom {:human true})
+  "s'ennuyer" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -687,6 +687,21 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
   
+ "s'enrager" (let [subject-semantics (atom {:human true})
+                    subject-agr (atom :top)]
+                {:synsem {:cat :verb
+                          :essere true
+                          :sem {:pred :get-angry
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
+ 
   "se lever" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb

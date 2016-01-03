@@ -1293,6 +1293,7 @@
    {:synsem {:cat :det
              :def :possessive
              :agr {:gender :fem
+                   :person :3rd
                    :number :sing}
              :number :sing
              :sem {:number :sing
@@ -1301,6 +1302,7 @@
    [{:synsem {:cat :det
               :def :possessive
               :agr {:gender :fem
+                    :person :2nd
                     :number :sing}
               :number :sing
               :sem {:number :sing
@@ -1310,6 +1312,7 @@
               :pronoun true
               :def :possessive
               :agr {:gender :fem
+                    :person :2nd
                     :number :sing}
               :sem {:number :sing
                     :person :2nd}}}]

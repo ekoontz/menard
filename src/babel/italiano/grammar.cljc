@@ -8,7 +8,7 @@
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head head-principle subcat-1-principle subcat-1-1-principle subcat-2-principle
                      comp-specs-head root-is-head-root
-     subcat-1-1-principle-comp-subcat-1 root-is-comp
+                     subcat-1-1-principle-comp-subcat-1 root-is-comp
                      subcat-2-2-principle root-is-head
                      subcat-5-principle
                      ]]
@@ -473,8 +473,8 @@
 
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon small)
-               (:lookup small)
-               (:grammar small)))
+               (:lexicon medium)
+               (:lookup medium)
+               (:grammar medium)))
 
 (log/info "Italiano grammar defined.")

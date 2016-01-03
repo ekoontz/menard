@@ -32,8 +32,7 @@
                            :subj {:human true}}}}
    "ajouter" {:synsem {:cat :verb
                      :sem {:pred :add}}}
-   
-   
+    
    "aller" {:français {:future-stem "ir"
                        :present {:1sing "vais"
                                  :2sing "vas"

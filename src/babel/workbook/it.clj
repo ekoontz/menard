@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-   [babel.italiano.grammar :refer [medium parse small]]
+   [babel.italiano.grammar :refer [medium small]]
    [babel.italiano.lexicon :refer :all]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.italiano.writer :refer [expression]]
@@ -214,5 +214,21 @@
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
 
-(defn generate [spec]
-  (engine/generate spec medium))
+(defn generate
+  ([spec]
+   (engine/generate spec medium))
+  ([spec model]
+   (engine/generate spec model)))
+
+(defn parse
+  ([string]
+   (parse/parse string
+                (:lexicon medium)
+                (:lookup medium)
+                (:grammar medium)))
+  ([string model]
+   (parse/parse string
+                (:lexicon model)
+                (:lookup model)
+                (:grammar model))))
+

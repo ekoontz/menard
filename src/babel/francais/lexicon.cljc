@@ -291,7 +291,7 @@
                                  :1plur "étions"
                                  :2plur "étiez"
                                  :3plur "étaient"}
-                     :futuro {:1sing "serai"
+                     :future {:1sing "serai"
                               :2sing "seras"
                               :3sing "sera"
                               :1plur "serons"
@@ -303,6 +303,20 @@
    ;; ^^ in auxiliary form, "être" only allows essere=true verbs.
    ;; compare with "avoir", which only allows essere=false verbs.
      
+   "étreindre" {:synsem {:cat :verb
+                         :sem {:pred :hug}
+                         :essere false}
+                :français {:future-stem "étreind"
+                           :infinitive "étreindre"
+                           :present {:1sing "étreins"
+                                     :2sing "étreins"
+                                     :3sing "étreint"
+                                     :1plur "étreignons"
+                                     :2plur "étreignez"
+                                     :3plur "étreignent"}
+                          :past-participle "étreint"
+                          :imperfect-stem "étreindr"}}
+   
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}
    

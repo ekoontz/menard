@@ -529,7 +529,7 @@
 ;; used for parsing: TODO: unify with generation
 (def pattern-to-structure
   {
-   #"^(j)$" [{:replace-with "e" ;; j' -> je
+   #"^([jmst])$" [{:replace-with "e" ;; j' -> je,m' -> me, s' -> se, etc
               :structure :top}]
    #"^(\S+)ée$" [{:replace-with "er" ;; allée -> aller
                   :structure {:synsem {:infl :past-p

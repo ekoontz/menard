@@ -1,14 +1,13 @@
-(ns babel.workbook.fr
+(ns babel.espanol.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [babel.engine :refer [generate]]
+   [babel.engine :as engine]
 
    [babel.forest :refer [lightning-bolt]]
-
-   [babel.francais.grammar :refer :all]
-   [babel.francais.lexicon :refer :all]
-   [babel.francais.morphology :as morph :refer [fo]]
-   [babel.francais.writer :refer [expression]]
+   [babel.espanol.grammar :refer [small medium]]
+   [babel.espanol.lexicon :refer [lexicon]]
+   [babel.espanol.morphology :as morph :refer [fo]]
+   [babel.espanol.writer :refer [expression]]
 
    [babel.html :as html]
    [babel.korma :as korma]
@@ -29,30 +28,29 @@
    [hiccup.core :refer [html]]
 ))
 
+(defn generate
+  ([spec]
+   (engine/generate spec medium))
+  ([spec model]
+   (engine/generate spec model)))
+
+(defn lookup [lexeme]
+  ((:lookup medium) lexeme))
+
+(defn parse
+  ([string]
+   (parse/parse string
+                (:lexicon medium)
+                (:lookup medium)
+                (:grammar medium)))
+  ([string model]
+   (parse/parse string
+                (:lexicon model)
+                (:lookup model)
+                (:grammar model))))
+
 (defn expr [id]
   (reader/id2expression (Integer. id)))
-
-;; this def is needed to avoid initialization errors when evaluating within the workbook
-;; e.g.: evaluating things like:
-;;(generate {:synsem {:subcat '()
-;;                                          :infl :imperfect
-;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                fr/small)
-
-(def foo (expression {:synsem {:cat :verb}}))
-;(def foo (lightning-bolt nil nil nil))
-(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
-
-(def rules (:grammar-map medium))
-
-;; TODO: do morphological analysis
-;; do find non-infinitives (e.g. find 'parler' given 'parle')
-;; and then apply conjugated parts to lexeme
-;; i.e. if input is 'parle', return
-;; list of lexemes; for each, [:synsem :agr :person] will be
-;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup [lexeme]
-  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
@@ -70,12 +68,7 @@
          true
          (over/over grammar arg1 arg2))))
 
-;(def fooexpr (expr 1))
-
-;(def foo2 (lookup "je"))
-;(def foo3 (lookup "me"))
-
-(def workbook-sandbox-fr
+(def workbook-sandbox-es
   (sandbox
    (conj
     clojail.testers/secure-tester-without-def
@@ -98,7 +91,7 @@
    ;; using 60000 for development: for production, use much smaller value.
    :timeout 60000
 ;   :timeout 15000
-   :namespace 'babel.workbook.fr))
+   :namespace 'babel.espanol.workbook))
 
 
 ;; TODO: some exceptions from evaluating a string should be shown to
@@ -114,7 +107,7 @@
                          (let [loaded
                                (try
                                  (binding [*read-eval* true]
-                                   (workbook-sandbox-fr (binding [*read-eval* true] (read-string expr))))
+                                   (workbook-sandbox-es (binding [*read-eval* true] (read-string expr))))
                                  ;; TODO: how can I show the stack trace for the
                                  ;; attempt to process the expression?
                                  (catch Exception e
@@ -178,7 +171,7 @@
   (let [search-query (get (get request :query-params) "search")]
     (html
      [:div#workbook-ui {:class "quiz-elem"}
-      [:h2 "French Workbook"]
+      [:h2 "Spanish Workbook"]
 
       [:div.hints
        [:h3 "Try:"]
@@ -193,7 +186,7 @@
           search-query
           "(+ 1 1)")
         ]
-       [:button {:onclick "workbook('/workbook/fr')"} "evaluate"]]
+       [:button {:onclick "workbook('/workbook/es')"} "evaluate"]]
       [:div#workbooka
        (if search-query
          (workbookq search-query))]])))
@@ -207,7 +200,7 @@
 
    (GET "/" request
         {:status 200
-         :body (html/page "French Workbook" (workbook-ui request) request)
+         :body (html/page "Spanish Workbook" (workbook-ui request) request)
          :headers {"Content-Type" "text/html;charset=utf-8"}})
 
    (GET "/q/" request

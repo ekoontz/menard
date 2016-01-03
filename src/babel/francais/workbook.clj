@@ -1,22 +1,18 @@
-(ns babel.workbook.en
+(ns babel.francais.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [babel.engine :refer [generate]]
-
+   [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-
-   [babel.english.grammar :refer :all]
-   [babel.english.lexicon :refer :all]
-   [babel.english.morphology :as morph :refer [fo]]
-   [babel.english.writer :refer [expression]]
-
+   [babel.francais.grammar :refer [small medium]]
+   [babel.francais.lexicon :refer [lexicon]]
+   [babel.francais.morphology :as morph :refer [fo]]
+   [babel.francais.writer :refer [expression]]
    [babel.html :as html]
    [babel.korma :as korma]
    [babel.over :as over]
    [babel.parse :as parse]
    [babel.pos :as pos]
    [babel.reader :as reader]
-   [babel.writer :as writer :refer [reload]]
    [clojail.core :refer [sandbox]]
    [clojail.testers :refer :all]
    [clojure.core :exclude [get-in]]
@@ -26,24 +22,34 @@
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
-   [hiccup.core :refer [html]]
-))
+   [hiccup.core :refer [html]]))
+
+(defn generate
+  ([spec]
+   (engine/generate spec medium))
+  ([spec model]
+   (engine/generate spec model)))
+
+(defn parse
+  ([string]
+   (parse/parse string
+                (:lexicon medium)
+                (:lookup medium)
+                (:grammar medium)))
+  ([string model]
+   (parse/parse string
+                (:lexicon model)
+                (:lookup model)
+                (:grammar model))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))
-
-;; this def is needed to avoid initialization errors when evaluating within the workbook
-;; e.g.: evaluating things like:
-;;(generate {:synsem {:subcat '()
-;;                                          :infl :imperfect
-;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                en/small)
 
 (def foo (expression {:synsem {:cat :verb}}))
 ;(def foo (lightning-bolt nil nil nil))
 (def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
 
-(def rules (:grammar-map small-plus-plus-np))
+(def rules (:grammar-map medium))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -52,25 +58,25 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon small-plus-plus-np) lexeme))
+  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
+   (over/over (vals (:grammar-map medium)) (lookup arg1)))
+  ([grammar arg1]
+   (over/over grammar (lookup arg1)))
+  ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over (lookup arg1))
-         true
-         (over/over (vals (:grammar-map small-plus-plus-np)) arg1)))
-  ([arg1 arg2]
-   (cond (string? arg1)
-         (over (lookup arg1)
+         (over grammar (lookup arg1)
                arg2)
-         (string? arg2)
-         (over arg1 (lookup arg2))
-         true
-         (over/over (vals (:grammar-map small-plus-plus-np))
-                    arg1 arg2))))
 
-(def workbook-sandbox-en
+         (string? arg2)
+         (over grammar arg1 (lookup arg2))
+
+         true
+         (over/over grammar arg1 arg2))))
+
+(def workbook-sandbox-fr
   (sandbox
    (conj
     clojail.testers/secure-tester-without-def
@@ -93,8 +99,7 @@
    ;; using 60000 for development: for production, use much smaller value.
    :timeout 60000
 ;   :timeout 15000
-   :namespace 'babel.workbook.en))
-
+   :namespace 'babel.francais.workbook))
 
 ;; TODO: some exceptions from evaluating a string should be shown to
 ;; the user for diagnostics rather than just logging them.
@@ -109,7 +114,7 @@
                          (let [loaded
                                (try
                                  (binding [*read-eval* true]
-                                   (workbook-sandbox-en (binding [*read-eval* true] (read-string expr))))
+                                   (workbook-sandbox-fr (binding [*read-eval* true] (read-string expr))))
                                  ;; TODO: how can I show the stack trace for the
                                  ;; attempt to process the expression?
                                  (catch Exception e
@@ -173,12 +178,12 @@
   (let [search-query (get (get request :query-params) "search")]
     (html
      [:div#workbook-ui {:class "quiz-elem"}
-      [:h2 "English Workbook"]
+      [:h2 "French Workbook"]
 
       [:div.hints
        [:h3 "Try:"]
        [:div "(expr X)"]
-       [:div "(parse 'I speak')"]
+       [:div "(parse 'je parle')"]
 
        ]
 
@@ -188,7 +193,7 @@
           search-query
           "(+ 1 1)")
         ]
-       [:button {:onclick "workbook('/workbook/en')"} "evaluate"]]
+       [:button {:onclick "workbook('/workbook/fr')"} "evaluate"]]
       [:div#workbooka
        (if search-query
          (workbookq search-query))]])))
@@ -202,7 +207,7 @@
 
    (GET "/" request
         {:status 200
-         :body (html/page "English Workbook" (workbook-ui request) request)
+         :body (html/page "French Workbook" (workbook-ui request) request)
          :headers {"Content-Type" "text/html;charset=utf-8"}})
 
    (GET "/q/" request
@@ -211,3 +216,4 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
+

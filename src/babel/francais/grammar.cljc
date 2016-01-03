@@ -539,4 +539,4 @@
                (:lookup medium)
                (:grammar medium)))
 
-(log/info "Français grammar defined.")
+(log/info "Français grammar defined (small, medium).")

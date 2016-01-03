@@ -1,4 +1,4 @@
-(ns babel.workbook.it
+(ns babel.italiano.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
    [babel.engine :as engine]
@@ -25,6 +25,24 @@
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]
 ))
+
+(defn generate
+  ([spec]
+   (engine/generate spec medium))
+  ([spec model]
+   (engine/generate spec model)))
+
+(defn parse
+  ([string]
+   (parse/parse string
+                (:lexicon medium)
+                (:lookup medium)
+                (:grammar medium)))
+  ([string model]
+   (parse/parse string
+                (:lexicon model)
+                (:lookup model)
+                (:grammar model))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))
@@ -95,7 +113,7 @@
    ;; using 60000 for development: for production, use much smaller value.
    :timeout 60000
 ;   :timeout 15000
-   :namespace 'babel.workbook.it))
+   :namespace 'babel.italiano.workbook))
 
 
 ;; TODO: some exceptions from evaluating a string should be shown to
@@ -213,22 +231,3 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
-
-(defn generate
-  ([spec]
-   (engine/generate spec medium))
-  ([spec model]
-   (engine/generate spec model)))
-
-(defn parse
-  ([string]
-   (parse/parse string
-                (:lexicon medium)
-                (:lookup medium)
-                (:grammar medium)))
-  ([string model]
-   (parse/parse string
-                (:lexicon model)
-                (:lookup model)
-                (:grammar model))))
-

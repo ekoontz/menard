@@ -1,9 +1,10 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :refer [generate]]
-            [babel.italiano.grammar :refer [small parse]]
+            [babel.italiano.grammar :refer [small]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :refer [fo]]
+            [babel.italiano.workbook :refer [parse]]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])

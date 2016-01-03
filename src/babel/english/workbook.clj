@@ -1,14 +1,13 @@
-(ns babel.workbook.es
+(ns babel.english.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [babel.engine :refer [generate]]
+   [babel.engine :as engine]
 
    [babel.forest :refer [lightning-bolt]]
-
-   [babel.espanol.grammar :refer :all]
-   [babel.espanol.lexicon :refer :all]
-   [babel.espanol.morphology :as morph :refer [fo]]
-   [babel.espanol.writer :refer [expression]]
+   [babel.english.grammar :refer [small small-plus-plus-np medium]]
+   [babel.english.lexicon :refer :all]
+   [babel.english.morphology :as morph :refer [fo]]
+   [babel.english.writer :refer [expression]]
 
    [babel.html :as html]
    [babel.korma :as korma]
@@ -29,21 +28,29 @@
    [hiccup.core :refer [html]]
 ))
 
+(defn generate
+  ([spec]
+   (engine/generate spec medium))
+  ([spec model]
+   (engine/generate spec model)))
+
+(defn lookup [lexeme]
+  ((:lookup medium) lexeme))
+
+(defn parse
+  ([string]
+   (parse/parse string
+                (:lexicon medium)
+                (:lookup medium)
+                (:grammar medium)))
+  ([string model]
+   (parse/parse string
+                (:lexicon model)
+                (:lookup model)
+                (:grammar model))))
+
 (defn expr [id]
   (reader/id2expression (Integer. id)))
-
-;; this def is needed to avoid initialization errors when evaluating within the workbook
-;; e.g.: evaluating things like:
-;;(generate {:synsem {:subcat '()
-;;                                          :infl :imperfect
-;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                es/small)
-
-(def foo (expression {:synsem {:cat :verb}}))
-;(def foo (lightning-bolt nil nil nil))
-(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
-
-(def rules (:grammar-map medium))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -52,30 +59,25 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon medium) lexeme))
+  (get (:lexicon small-plus-plus-np) lexeme))
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map medium)) (lookup arg1)))
-  ([grammar arg1]
-   (over/over grammar (lookup arg1)))
-  ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over grammar (lookup arg1)
-               arg2)
-
-         (string? arg2)
-         (over grammar arg1 (lookup arg2))
-
+         (over (lookup arg1))
          true
-         (over/over grammar arg1 arg2))))
+         (over/over (vals (:grammar-map small-plus-plus-np)) arg1)))
+  ([arg1 arg2]
+   (cond (string? arg1)
+         (over (lookup arg1)
+               arg2)
+         (string? arg2)
+         (over arg1 (lookup arg2))
+         true
+         (over/over (vals (:grammar-map small-plus-plus-np))
+                    arg1 arg2))))
 
-;(def fooexpr (expr 1))
-
-;(def foo2 (lookup "je"))
-;(def foo3 (lookup "me"))
-
-(def workbook-sandbox-es
+(def workbook-sandbox-en
   (sandbox
    (conj
     clojail.testers/secure-tester-without-def
@@ -98,7 +100,7 @@
    ;; using 60000 for development: for production, use much smaller value.
    :timeout 60000
 ;   :timeout 15000
-   :namespace 'babel.workbook.es))
+   :namespace 'babel.english.workbook))
 
 
 ;; TODO: some exceptions from evaluating a string should be shown to
@@ -114,7 +116,7 @@
                          (let [loaded
                                (try
                                  (binding [*read-eval* true]
-                                   (workbook-sandbox-es (binding [*read-eval* true] (read-string expr))))
+                                   (workbook-sandbox-en (binding [*read-eval* true] (read-string expr))))
                                  ;; TODO: how can I show the stack trace for the
                                  ;; attempt to process the expression?
                                  (catch Exception e
@@ -178,12 +180,12 @@
   (let [search-query (get (get request :query-params) "search")]
     (html
      [:div#workbook-ui {:class "quiz-elem"}
-      [:h2 "Spanish Workbook"]
+      [:h2 "English Workbook"]
 
       [:div.hints
        [:h3 "Try:"]
        [:div "(expr X)"]
-       [:div "(parse 'je parle')"]
+       [:div "(parse 'I speak')"]
 
        ]
 
@@ -193,7 +195,7 @@
           search-query
           "(+ 1 1)")
         ]
-       [:button {:onclick "workbook('/workbook/es')"} "evaluate"]]
+       [:button {:onclick "workbook('/workbook/en')"} "evaluate"]]
       [:div#workbooka
        (if search-query
          (workbookq search-query))]])))
@@ -207,7 +209,7 @@
 
    (GET "/" request
         {:status 200
-         :body (html/page "Spanish Workbook" (workbook-ui request) request)
+         :body (html/page "English Workbook" (workbook-ui request) request)
          :headers {"Content-Type" "text/html;charset=utf-8"}})
 
    (GET "/q/" request

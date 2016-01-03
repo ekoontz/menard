@@ -580,4 +580,4 @@
                (:lookup small-plus-vp-pronoun)
                (:grammar small-plus-vp-pronoun)))
 
-(log/info "English grammar defined.")
+(log/info "English grammar defined (small,small-plus-vp-pronoun,medium).")

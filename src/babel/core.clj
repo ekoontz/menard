@@ -1,10 +1,10 @@
 (ns babel.core
   (:require
    [babel.workbook :as workbook]
-   [babel.workbook.fr :as fr]
-   [babel.workbook.en :as en]
-   [babel.workbook.es :as es]
-   [babel.workbook.it :as it]
+   [babel.francais.workbook :as fr]
+   [babel.english.workbook :as en]
+   [babel.espanol.workbook :as es]
+   [babel.italiano.workbook :as it]
 
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.

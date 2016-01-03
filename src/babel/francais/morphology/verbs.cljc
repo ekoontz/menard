@@ -1,5 +1,5 @@
 (ns babel.francais.morphology.verbs
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [future get-in merge resolve])
   (:require
    [babel.francais.morphology.nouns :as nouns]
    [clojure.string :as string]

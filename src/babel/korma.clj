@@ -3,7 +3,7 @@
 ;; TODO: rename this file - misleading name 'korma.clj'.
 ;; It uses korma, but it is not itself part of korma.
 (ns babel.korma
-  (:refer-clojure :exclude [test])
+  (:refer-clojure :exclude [test update])
   (:require [clj-time.coerce :as c]
             [clojure.string :as string]
             [clojure.tools.logging :as log]

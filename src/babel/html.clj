@@ -1,4 +1,5 @@
 (ns babel.html
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:use
    [hiccup core page]
    [ring.util.codec :as codec])

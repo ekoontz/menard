@@ -4,7 +4,6 @@
    [babel.pos :as pos]
    [dag_unify.core :refer (unifyc)]))
 
-(def agreement-noun pos/agreement-noun)
 (def cat-of-pronoun pos/cat-of-pronoun)
 (def common-noun pos/common-noun)
 (def comparative pos/comparative)
@@ -37,16 +36,20 @@
                                      :sem sem}}}}))))
 
 (def noun-agreement
-  (let [agr (atom :top)]
-    {:italiano {:agr agr}
-     :synsem {:agr agr}}))
+  (let [agr (atom :top)
+        cat (atom :top)]
+    {:italiano {:agr agr
+                :cat cat}
+     :synsem {:cat cat
+              :agr agr}}))
+
+(def agreement-noun (unifyc noun-agreement pos/agreement-noun))
 
 (def feminine-noun (unifyc
-                    noun-agreement (:feminine pos/noun)))
+                    pos/agreement-noun (:feminine pos/noun)))
 
 (def masculine-noun (unifyc
-                     noun-agreement (:masculine pos/noun)))
-
+                     pos/agreement-noun (:masculine pos/noun)))
 (def adjective
   (unifyc pos/adjective
           (let [agr (atom :top)

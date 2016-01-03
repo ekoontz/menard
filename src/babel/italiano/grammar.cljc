@@ -477,4 +477,4 @@
                (:lookup medium)
                (:grammar medium)))
 
-(log/info "Italiano grammar defined.")
+(log/info "Italiano grammars defined (small, medium).")

@@ -271,7 +271,8 @@
    "dormirse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
-     {:espanol {:boot-stem "duerm"}
+     {:espanol {:boot-stem "duerm"
+                :pret-stem "durm"}
       :synsem {:cat :verb
                :sem {:pred :fall-asleep
                      :reflexive true

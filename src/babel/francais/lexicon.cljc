@@ -527,8 +527,9 @@
                          :imperfect "peign"}
               :synsem {:cat :verb
                        :sem {:pred :paint}}}
-;  "profiter (de)" {:synsem {:cat :verb
-;                            :sem {:pred :take-advantage-of}}}
+   
+   "profiter (de)" {:synsem {:cat :verb
+                             :sem {:pred :take-advantage-of}}}
 
   "prendre" [{:synsem {:cat :verb
                        :past-participle "pris"

@@ -1306,6 +1306,7 @@
               :sem {:number :sing
                     :person :2nd}}}
     {:synsem {:cat :noun
+              :case :acc
               :pronoun true
               :def :possessive
               :agr {:gender :fem

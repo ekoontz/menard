@@ -25,7 +25,7 @@
                              :pred :comprare}}}
 
    "aider" {:synsem {:cat :verb
-                     :sem {:pred :aiutare}}}
+                     :sem {:pred :help}}}
 
    "aimer" {:synsem {:cat :verb
                      :sem {:pred :amare

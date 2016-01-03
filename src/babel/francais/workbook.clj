@@ -58,7 +58,7 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  (get (:lexicon medium) lexeme))
+  ((:lookup medium) lexeme))
 
 (defn over
   ([arg1]

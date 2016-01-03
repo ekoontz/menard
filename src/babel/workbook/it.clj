@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-   [babel.italiano.grammar :refer :all]
+   [babel.italiano.grammar :refer [medium parse small]]
    [babel.italiano.lexicon :refer :all]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.italiano.writer :refer [expression]]

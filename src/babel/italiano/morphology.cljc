@@ -231,10 +231,18 @@
      (and
       (= (get-in word '(:agr :gender)) :fem)
       (= (get-in word '(:agr :number)) :plur)
-      (= (get-in word '(:cat)) :adjective))
+      (= (get-in word '(:cat)) :adjective)
+      (re-find #"o$" (get-in word [:italiano])))
      (string/replace (get-in word '(:italiano))
-                     #"[eo]$" "e") ;; nero => nere
-
+                     #"[o]$" "e") ;; nero => nere
+     (and
+      (= (get-in word '(:agr :gender)) :fem)
+      (= (get-in word '(:agr :number)) :plur)
+      (= (get-in word '(:cat)) :adjective)
+      (re-find #"e$" (get-in word [:italiano])))
+     (string/replace (get-in word '(:italiano))
+                     #"[e]$" "i") ;; difficile => difficili
+     
      ;; handle lexical exceptions (plural nouns):
      (and
       (= (get-in word '(:agr :number)) :plur)
@@ -253,7 +261,18 @@
      (string/replace (get-in word '(:italiano))
                      #"[eo]$" "i") ;; dottore => dottori; medico => medici
 
-     ;; regular feminine nouns
+     ;; regular feminine nouns ending in 'e':
+     (and
+      (string? (get-in word [:italiano]))
+      (= (get-in word '(:agr :gender)) :fem)
+      (= (get-in word '(:agr :number)) :plur)
+      (= (get-in word '(:cat)) :noun)
+      (get-in word '(:italiano))
+      (re-find #"e$" (get-in word [:italiano])))
+     (string/replace (get-in word '(:italiano))
+                     #"[e]$" "i") ;; madre => madri
+
+     ;; regular feminine nouns not ending in 'e'
      (and
       (string? (get-in word [:italiano]))
       (= (get-in word '(:agr :gender)) :fem)

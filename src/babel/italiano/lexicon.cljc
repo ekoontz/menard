@@ -524,11 +524,9 @@
                           :pet true
                           :pred :cane}}})
 
-
    "capire" {:italiano {:boot-stem1 "capisc"}
              :synsem {:cat :verb
                       :sem {:pred :understand}}}
-
    "casa"
     (unify agreement-noun
            common-noun
@@ -1692,13 +1690,13 @@
    "ricordare"  {:synsem {:cat :verb
                           :sem {:pred :ricordare}}}
 
-"rimanere" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :remain}}
-             :italiano {:passato "rimasto"
-                        :present {:1sing "rimango"
-                                  :3plur "rimangono"}
-                        :future-stem "rimarr"}}
+   "rimanere" {:synsem {:cat :verb
+                        :essere true
+                        :sem {:pred :remain}}
+               :italiano {:passato "rimasto"
+                          :present {:1sing "rimango"
+                                    :3plur "rimangono"}
+                          :future-stem "rimarr"}}
 
    "riposare" {:synsem {:cat :verb
                         :sem {:pred :rest}}}

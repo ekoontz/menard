@@ -1,7 +1,7 @@
 (ns babel.workbook.it
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [babel.engine :refer [generate]]
+   [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
    [babel.italiano.grammar :refer :all]
    [babel.italiano.lexicon :refer :all]
@@ -213,3 +213,6 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
+
+(defn generate [spec]
+  (engine/generate spec medium))

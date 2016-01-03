@@ -200,7 +200,7 @@
         result (over (get rules :s-present-phrasal)
                      "je" 
                      (over (get rules :vp-pronoun-nonphrasal)
-                           "me" "se amuser"))]
+                           "me" "s'amuser"))]
     (is (= (fo (first result))
            "je m'amuse"))))
 

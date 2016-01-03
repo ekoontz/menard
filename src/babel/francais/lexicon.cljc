@@ -576,7 +576,7 @@
                         :number :plur}
                   :subcat '()}}
 
-   "se amuser" (let [subject-semantics (atom {:human true})
+   "s'amuser" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -590,7 +590,7 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})  
-   "se appeler"
+   "s'appeler"
    (let [subject-semantics (atom :top)
          called-semantics (atom :top)
          subject-gender (atom :top)
@@ -715,7 +715,6 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-  
   "soulever" {:synsem {:cat :verb
                        :sem {:pred :lift}}}
 

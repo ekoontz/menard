@@ -20,8 +20,14 @@
 
 (defn reflexive-to-infinitive [reflexive-infinitive]
   "e.g.: se amuser -> amuser"
-  (string/replace reflexive-infinitive #"^se " ""))
-
+  (cond
+    (re-find #"^se " reflexive-infinitive)
+    (string/replace reflexive-infinitive #"^se " "")
+    (re-find #"^s'" reflexive-infinitive)
+    (string/replace reflexive-infinitive #"^s'" "")
+    true
+    reflexive-infinitive))
+    
 (defn conditional [word]
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)

@@ -1076,9 +1076,9 @@
                                   :2plur "fate"
                                   :3plur "fanno"}}}]
         [(merge shared-part-of-fare
-                {:synsem {:pred :do}})
+                {:synsem {:sem {:pred :do}}})
          (merge shared-part-of-fare
-                {:synsem {:pred :make}})
+                {:synsem {:sem {:pred :make}}})
          (merge shared-part-of-fare
                 (let [subject-semantics (atom {:human true})
                       subject-agr (atom :top)]

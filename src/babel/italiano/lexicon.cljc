@@ -906,13 +906,12 @@
 
       "donna"
       (unify agreement-noun
-              common-noun
-              countable-noun
-              feminine-noun
-              {:synsem {:sem {:human true
-                              :pred :donna
-                              :child false}}})
-      
+             common-noun
+             countable-noun
+             feminine-noun
+             {:synsem {:sem {:human true
+                             :pred :donna
+                             :child false}}})
       "dopodomani"
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
@@ -920,7 +919,6 @@
                         :subcat {:1 {:infl :future
                                      :sem {:tense :future}
                                      :subcat '()}}}})
-
       "dormire"
       {:synsem {:cat :verb
                 :essere false

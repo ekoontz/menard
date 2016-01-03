@@ -93,6 +93,9 @@
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
+   "añadir" {:synsem {:cat :verb
+                        :sem {:pred :add}}}
+   
    "apoyar" {:synsem {:cat :verb
                       :sem {:pred :support}}}
 

@@ -1295,7 +1295,6 @@
              :agr {:gender :fem
                    :person :3rd
                    :number :sing}
-             :number :sing
              :sem {:number :sing
                    :person :3rd}}}
    "la tua"

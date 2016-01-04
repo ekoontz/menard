@@ -56,8 +56,8 @@
    "abbandonare" {:synsem {:cat :verb
                            :sem {:pred :abandon}}}
 
-   "abbassare"  {:synsem {:cat :verb
-                          :sem {:pred :lower}}}
+   "abbassare" {:synsem {:cat :verb
+                         :sem {:pred :lower}}}
    "abbracciare"
     {:synsem {:cat :verb
               :essere false
@@ -353,9 +353,8 @@
                                 :subcat {:1 {:agr agr-of-subj-of-main-verb}
                                          :2 '()}}}}}))])
    
-   "ballare" [ {:synsem {:cat :verb
-                            :sem {:pred :dance}}}
-   
+   "ballare" {:synsem {:cat :verb
+                       :sem {:pred :dance}}}
    "bello"
    [;; non-comparative
     (unify adjective
@@ -1161,15 +1160,12 @@
 
       "guidare"  {:synsem {:cat :verb
                            :sem {:pred :guidare}}}
-      
       "i"
       (unify determiner
              {:synsem {:cat :det
                        :def :def
                        :agr {:gender :masc
                              :number :plur}}})
-
-
       "il"
       (unify determiner
               {:synsem {:cat :det
@@ -1194,7 +1190,7 @@
 
       "interrompere" {:italiano {:passato "interrotto"}
                       :synsem {:cat :verb
-                               :sem {:pred :interrupt}}}
+                               :sem {:pred :interrupt}}} 
       
 ;; commenting out until discussed with Franco
 ;;      "" ;; empty pronominal subject e.g. "mangio" = "io mangio".
@@ -1263,8 +1259,7 @@
        {:synsem {:cat :det
                  :def :def
                  :agr {:gender :fem
-                       :number :sing}}}
-      
+                       :number :sing}}}]
       "la loro"
       {:synsem {:cat :det
                 :def :possessive

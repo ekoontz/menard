@@ -167,6 +167,9 @@
    "croire" {:synsem {:cat :verb
                       :sem {:pred :believe}}}
    
+   "danser" {:synsem {:cat :verb
+                       :sem {:pred :dance}}}
+   
    "decider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
 

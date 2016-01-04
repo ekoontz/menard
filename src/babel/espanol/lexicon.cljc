@@ -102,6 +102,9 @@
    "aprender" {:synsem {:cat :verb
                         :sem {:pred :learn}}}
    
+   "aprobar" {:synsem {:cat :verb
+                        :sem {:pred :approve}}}
+   
    "aprovechar" [
                  {:synsem {:cat :verb
                            :sem {:pred :take-advantage-of}}}
@@ -122,6 +125,9 @@
    
    "bajar" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
+   
+   "beber" {:synsem {:cat :verb
+                     :sem {:pred :drink}}}
    
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :change}}}

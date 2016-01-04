@@ -37,22 +37,21 @@
                              :subcat '()
                              :sem location}
                          :2 '()}}})
-
-       {:synsem {:cat :prep
-             :sem {:pred :in}
-             :subcat {:1 {:cat :noun
-                          :sem {:city true}}}}}
-
-       ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
-       (let [complement-semantics (atom {:pred :a
-                                        :mod {:pred :a}})]
-         {:synsem {:cat :prep
-                   :sem complement-semantics
-                   :subcat {:1 {:cat :verb
-                                :sem complement-semantics
+    {:synsem {:cat :prep
+              :sem {:pred :in}
+              :subcat {:1 {:cat :noun
+                           :sem {:city true}}}}}
+    
+    ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
+    (let [complement-semantics (atom {:pred :a
+                                      :mod {:pred :a}})]
+      {:synsem {:cat :prep
+                :sem complement-semantics
+                :subcat {:1 {:cat :verb
+                             :sem complement-semantics
                                 :subcat {:1 :top
                                          :2 '()}}
-                            :2 '()}}})]
+                         :2 '()}}})]
 
    "abbandonare" {:synsem {:cat :verb
                            :sem {:pred :abandon}}}
@@ -657,17 +656,20 @@
                    (merge common
                           {:synsem {:cat :verb
                                     :sem {:pred :strike}}})])
-      "cominciare"
-      [{:synsem {:essere false
-                          :sem {:activity true
-                                :discrete false
-                                :pred :begin
-                                :subj {:animate true}}}}
-       {:synsem {:essere false
-                 :sem {:activity true
-                       :discrete false
-                       :pred :start
-                       :subj {:animate true}}}}]
+              "cominciare"
+              [{:synsem {:cat :verb
+                         :essere false
+                         :sem {:activity true
+                               :discrete false
+                               :pred :begin
+                               :subj {:animate true}}}}
+               {:synsem {:cat :verb
+                         :essere false
+                         :sem {:activity true
+                               :discrete false
+                               :pred :start
+                               :subj {:animate true}}}}]
+
       "compito"
       (unify agreement-noun
              common-noun
@@ -788,19 +790,17 @@
       "dei"
       {:synsem {:cat :det
                 :def :partitivo
-                :number :plur
-                :gender :masc}}
-
+                :agr {:number :plur
+                      :gender :masc}}}
       "delle"
       {:synsem {:cat :det
                 :def :partitivo
-                :number :plur
-                :gender :fem}}
-
-               
+                :agr {:number :plur
+                      :gender :fem}}}
       "deludere"
        {:italiano {:passato "deluso"}
-        :synsem {:essere false
+        :synsem {:cat :Verb
+                 :essere false
                  :sem {:deliberate false
                        :discrete true
                        :activity false
@@ -830,23 +830,20 @@
       "di la"
       {:synsem {:cat :det
                 :def :partitivo
-                :number :sing
-                :mass true
-                :gender :fem}}
-
+                :agr {:number :sing
+                      :gender :fem}
+                :mass true}}
       "di le"
       {:synsem {:cat :det
                 :def :partitivo
-                :number :plur
-                :gender :fem}}
-
+                :agr {:number :plur
+                      :gender :fem}}}
       "di il"
       {:synsem {:cat :det
                 :def :partitivo
-                :number :sing
                 :mass true
-                :gender :masc}}
-
+                :agr {:number :sing
+                      :gender :masc}}}
       "difficile"
       ;; non-comparative
       ;; TODO: add comparative
@@ -1080,9 +1077,9 @@
                                   :2plur "fate"
                                   :3plur "fanno"}}}]
         [(merge shared-part-of-fare
-                {:synsem {:pred :do}})
+                {:synsem {:sem {:pred :do}}})
          (merge shared-part-of-fare
-                {:synsem {:pred :make}})
+                {:synsem {:sem {:pred :make}}})
          (merge shared-part-of-fare
                 (let [subject-semantics (atom {:human true})
                       subject-agr (atom :top)]
@@ -1169,17 +1166,17 @@
       (unify determiner
              {:synsem {:cat :det
                        :def :def
-                       :gender :masc
-                       :number :plur}})
+                       :agr {:gender :masc
+                             :number :plur}}})
 
 
       "il"
       (unify determiner
               {:synsem {:cat :det
                         :def :def
-                        :gender :masc
-                        :number :sing}})
-
+                        :agr {:gender :masc
+                              :number :sing}}})
+              
       "imparare"  {:synsem {:cat :verb
                             :sem {:pred :learn}}}
 
@@ -1265,30 +1262,30 @@
        ;; 3. article
        {:synsem {:cat :det
                  :def :def
-                 :gender :fem
-                 :number :sing}}]
+                 :agr {:gender :fem
+                       :number :sing}}}
       
       "la loro"
       {:synsem {:cat :det
                 :def :possessive
-                :gender :fem
-                :number :sing
+                :agr {:gender :fem
+                      :number :sing}
                 :sem {:number :plur
                       :person :3rd}}}
 
       "la mia"
       {:synsem {:cat :det
                 :def :possessive
-                :gender :fem
-                :number :sing
+                :agr {:gender :fem
+                      :number :sing}
                 :sem {:number :sing
                       :person :1st}}}
 
       "la nostra"
       {:synsem {:cat :det
                 :def :possessive
-                :gender :fem
-                :number :sing
+                :agr {:gender :fem
+                      :number :sing}
                 :sem {:number :plur
                       :person :1st}}}
 
@@ -1297,22 +1294,22 @@
    "la sua"
    {:synsem {:cat :det
              :def :possessive
-             :gender :fem
-             :number :sing
+             :agr {:gender :fem
+                   :number :sing}
              :sem {:number :sing
                    :person :3rd}}}
    "la tua"
    [{:synsem {:cat :det
               :def :possessive
-              :gender :fem
-              :number :sing
+              :agr {:gender :fem
+                    :number :sing}
               :sem {:number :sing
                     :person :2nd}}}
 
     {:synsem {:cat :det
               :def :possessive
-              :gender :fem
-              :number :sing
+              :agr {:gender :fem
+                    :number :sing}
                 :sem {:number :plur
                       :person :2nd}}}]
 
@@ -1337,8 +1334,8 @@
    "le"
    {:synsem {:cat :det
              :def :def
-             :gender :fem
-             :number :plur}}
+             :agr {:gender :fem
+                   :number :plur}}}
    "lei"
    (let [common {:synsem {:cat :noun
                           :pronoun true
@@ -1641,11 +1638,11 @@
                                :2plur "potete"
                                :3plur "possono"}}}]
      [(merge shared-part-of-potere
-             {:synsem {:pred :can}})
+             {:synsem {:sem {:pred :can}}})
       (merge shared-part-of-potere
-             {:synsem {:pred :may}})
+             {:synsem {:sem {:pred :may}}})
       (merge shared-part-of-potere
-             {:synsem {:pred :be-able-to}})])
+             {:synsem {:sem {:pred :be-able-to}}})])
                                       
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
@@ -1669,8 +1666,8 @@
    "qualche"
    {:synsem {:cat :det
              :def :indef
-             :mass false
-             :number :sing}}
+             :agr {:mass false
+                   :number :sing}}}
 
    "racontare" {:synsem {:cat :verb
                          :sem {:pred :recount}}}
@@ -1925,17 +1922,17 @@
               :subcat '()}}]
 
    "un"
-   [{:synsem {:cat :det
-              :def :indef
-              :mass false
-              :gender :masc
-              :number :sing}}]
+       {:synsem {:cat :det
+                 :def :indef
+                 :mass false
+                 :agr {:gender :masc
+                       :number :sing}}}
    "una"
-   [{:synsem {:cat :det
+    {:synsem {:cat :det
               :def :indef
               :mass false
-              :gender :fem
-              :number :sing}}]
+              :agr {:gender :fem
+                    :number :sing}}}
 
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}

@@ -368,6 +368,9 @@
           :synsem {:cat :verb
                    :sem {:pred :cut}}}
 
+   "dance" {:synsem {:cat :verb
+                      :sem {:pred :dance}}}
+   
    "decide" {:synsem {:cat :verb
                       :sem {:pred :decide}}}
 

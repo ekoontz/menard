@@ -123,6 +123,9 @@
                       :sem {:pred :aiutare
                             :obj {:human true}}}}
    
+   "bailar" {:synsem {:cat :verb
+                     :sem {:pred :dance}}}
+   
    "bajar" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
    

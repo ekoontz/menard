@@ -529,7 +529,7 @@
 ;; used for parsing: TODO: unify with generation
 (def pattern-to-structure
   {
-   #"^([jmst])$" [{:replace-with "e" ;; j' -> je,m' -> me, s' -> se, etc
+   #"^([jlmst])$" [{:replace-with "e" ;; j' -> je,m' -> me, s' -> se, etc
               :structure :top}]
    #"^(\S+)ée$" [{:replace-with "er" ;; allée -> aller
                   :structure {:synsem {:infl :past-p
@@ -548,27 +548,72 @@
                                        :subcat {:1 {:agr {:number :plur
                                                           :gender :masc}}}}}}]
    ;; -er and -ir type verbs
-   #"^(\S+)e$" [{:replace-with "er" ;; parle -> parler
+   #"^(\S+)e$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 1st singular
+                {:replace-with "er"
+                 :replace-pattern "s'$1"
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                          :person :1st}}}
                                       :infl :present}}}
+                ;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 3rd singular
+                {:replace-with "er"
+                 :replace-pattern "s'$1"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :3rd}}}
+                                      :infl :present}}}
+
+                ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 1st singular
+                {:replace-with "er"
+                 :replace-pattern "se $1"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :1st}}}
+                                      :infl :present}}}
+                ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 3rd singular
+                {:replace-with "er"
+                 :replace-pattern "se $1"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :3rd}}}
+                                      :infl :present}}}
+
+                ;; non-reflexive verbs: 1st singular
+                {:replace-with "er" ;; parle -> parler
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :1st}}}
+                                      :infl :present}}}
+
+                ;; non-reflexive verbs: 3rd singular
+                {:replace-with "er" ;; parle -> parler
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :3rd}}}
+                                      :infl :present}}}
+
                 {:replace-with "ir" ;; dorme -> dormir
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                          :person :1st}}}
                                       :infl :present}}}
 
-                {:replace-with "er" ;; parle -> parler
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :3rd}}}
-                                      :infl :present}}}
                 {:replace-with "ir" ;; dorme -> dormir
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                          :person :3rd}}}
                                       :infl :present}}}
                 ]
 
+   
    ;; -er and -ir type verbs
-   #"^(\S+)es$" [{:replace-with "er" ;; parle -> parler
+   #"^(\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
+                {:replace-with "er"
+                 :replace-pattern "s'$1"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :2nd}}}
+                                      :infl :present}}}
+
+                 ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 2nd singular
+                {:replace-with "er"
+                 :replace-pattern "se $1"
+                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                         :person :2nd}}}
+                                      :infl :present}}}
+
+                 {:replace-with "er" ;; parle -> parler
                   :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                           :person :2nd}}}
                                        :infl :present}}}
@@ -603,7 +648,11 @@
                        (unifyc
                         lexeme
                         (:structure match)))
-                     (get lexicon (str (string/replace surface-form (:pattern match) "$1") (:replace-with match)))))
+                     (let [replace-pattern (if (:replace-pattern match)
+                                             (:replace-pattern match)
+                                             "$1")]
+                       (get lexicon (str (string/replace surface-form (:pattern match) replace-pattern)
+                                         (:replace-with match))))))
               matches)
       (get lexicon surface-form))
      

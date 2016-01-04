@@ -13,18 +13,18 @@
    [dag_unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source
-  {"Antonia"
-   {:synsem {:sem {:pred :antonia
+  {"Luisa"
+   {:synsem {:sem {:pred :luisa
                    :human true}
              :agr {:number :sing
                    :person :3rd
                    :gender :fem}
              :propernoun true}}
-   "Antonio"
+   "Gianluca"
    {:synsem {:agr {:number :sing
                    :person :3rd
                    :gender :masc}
-             :sem {:pred :antonio
+             :sem {:pred :gianluca
                    :human true}
              :propernoun true}}
    "a"
@@ -123,10 +123,9 @@
    "aggiungere" {:synsem {:cat :verb
                           :sem {:pred :add}}}
    "aiutare"
-   {:synsem {:cat :verb
-             :essere false
-             :sem {:pred :aiutare
-                   :activity true
+    {:synsem {:essere false
+              :sem {:pred :aiutare
+                    :activity true
                     :obj {:human true}}}}
    "alto"
    [;; non-comparative:
@@ -354,6 +353,10 @@
                                 :agr agr-of-subj-of-main-verb
                                 :subcat {:1 {:agr agr-of-subj-of-main-verb}
                                          :2 '()}}}}}))])
+   
+   "ballare" [ {:synsem {:cat :verb
+                            :sem {:pred :dance}}}
+   
    "bello"
    [;; non-comparative
     (unify adjective
@@ -524,9 +527,11 @@
                           :pet true
                           :pred :cane}}})
 
+
    "capire" {:italiano {:boot-stem1 "capisc"}
              :synsem {:cat :verb
                       :sem {:pred :understand}}}
+
    "casa"
     (unify agreement-noun
            common-noun
@@ -652,19 +657,17 @@
                    (merge common
                           {:synsem {:cat :verb
                                     :sem {:pred :strike}}})])
-   "cominciare"
-   [{:synsem {:cat :verb
-              :essere false
-              :sem {:activity true
-                    :discrete false
-                    :pred :begin
-                    :subj {:animate true}}}}
-    {:synsem {:cat :verb
-              :essere false
-              :sem {:activity true
-                    :discrete false
-                    :pred :start
-                    :subj {:animate true}}}}]
+      "cominciare"
+      [{:synsem {:essere false
+                          :sem {:activity true
+                                :discrete false
+                                :pred :begin
+                                :subj {:animate true}}}}
+       {:synsem {:essere false
+                 :sem {:activity true
+                       :discrete false
+                       :pred :start
+                       :subj {:animate true}}}}]
       "compito"
       (unify agreement-noun
              common-noun
@@ -785,21 +788,19 @@
       "dei"
       {:synsem {:cat :det
                 :def :partitivo
-                :agr {:gender :masc
-                      :number :plur}}}
+                :number :plur
+                :gender :masc}}
 
       "delle"
       {:synsem {:cat :det
                 :def :partitivo
                 :number :plur
-                :agr {:gender :fem
-                      :number :plur}}}
+                :gender :fem}}
 
                
       "deludere"
        {:italiano {:passato "deluso"}
-        :synsem {:cat :verb
-                 :essere false
+        :synsem {:essere false
                  :sem {:deliberate false
                        :discrete true
                        :activity false
@@ -829,22 +830,22 @@
       "di la"
       {:synsem {:cat :det
                 :def :partitivo
-                :agr {:gender :fem
-                      :number :sing}
-                :mass true}}
+                :number :sing
+                :mass true
+                :gender :fem}}
 
       "di le"
       {:synsem {:cat :det
                 :def :partitivo
-                :agr {:gender :fem
-                      :number :plur}}}
+                :number :plur
+                :gender :fem}}
 
       "di il"
       {:synsem {:cat :det
                 :def :partitivo
-                :agr {:gender :masc
-                      :number :sing}
-                :mass true}}
+                :number :sing
+                :mass true
+                :gender :masc}}
 
       "difficile"
       ;; non-comparative
@@ -906,12 +907,13 @@
 
       "donna"
       (unify agreement-noun
-             common-noun
-             countable-noun
-             feminine-noun
-             {:synsem {:sem {:human true
-                             :pred :donna
-                             :child false}}})
+              common-noun
+              countable-noun
+              feminine-noun
+              {:synsem {:sem {:human true
+                              :pred :donna
+                              :child false}}})
+      
       "dopodomani"
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
@@ -919,6 +921,7 @@
                         :subcat {:1 {:infl :future
                                      :sem {:tense :future}
                                      :subcat '()}}}})
+
       "dormire"
       {:synsem {:cat :verb
                 :essere false
@@ -1077,9 +1080,9 @@
                                   :2plur "fate"
                                   :3plur "fanno"}}}]
         [(merge shared-part-of-fare
-                {:synsem {:sem {:pred :do}}})
+                {:synsem {:pred :do}})
          (merge shared-part-of-fare
-                {:synsem {:sem {:pred :make}}})
+                {:synsem {:pred :make}})
          (merge shared-part-of-fare
                 (let [subject-semantics (atom {:human true})
                       subject-agr (atom :top)]
@@ -1166,14 +1169,16 @@
       (unify determiner
              {:synsem {:cat :det
                        :def :def
-                       :agr {:gender :masc
-                             :number :plur}}})
+                       :gender :masc
+                       :number :plur}})
+
+
       "il"
       (unify determiner
               {:synsem {:cat :det
                         :def :def
-                        :agr {:number :sing
-                              :gender :masc}}})
+                        :gender :masc
+                        :number :sing}})
 
       "imparare"  {:synsem {:cat :verb
                             :sem {:pred :learn}}}
@@ -1260,30 +1265,30 @@
        ;; 3. article
        {:synsem {:cat :det
                  :def :def
-                 :agr {:gender :fem
-                       :number :sing}}}]
+                 :gender :fem
+                 :number :sing}}]
+      
       "la loro"
       {:synsem {:cat :det
                 :def :possessive
-                :agr {:gender :fem
-                      :number :sing}
+                :gender :fem
+                :number :sing
                 :sem {:number :plur
                       :person :3rd}}}
 
       "la mia"
       {:synsem {:cat :det
                 :def :possessive
-                :agr {:gender :fem
-                      :number :sing}
+                :gender :fem
+                :number :sing
                 :sem {:number :sing
                       :person :1st}}}
 
       "la nostra"
       {:synsem {:cat :det
                 :def :possessive
+                :gender :fem
                 :number :sing
-                :agr {:gender :fem
-                      :number :sing}
                 :sem {:number :plur
                       :person :1st}}}
 
@@ -1292,30 +1297,25 @@
    "la sua"
    {:synsem {:cat :det
              :def :possessive
-             :agr {:gender :fem
-                   :person :3rd
-                   :number :sing}
+             :gender :fem
+             :number :sing
              :sem {:number :sing
                    :person :3rd}}}
    "la tua"
    [{:synsem {:cat :det
               :def :possessive
-              :agr {:gender :fem
-                    :person :2nd
-                    :number :sing}
+              :gender :fem
               :number :sing
               :sem {:number :sing
                     :person :2nd}}}
-    {:synsem {:cat :noun
-              :case :acc
-              :pronoun true
+
+    {:synsem {:cat :det
               :def :possessive
-              :agr {:gender :fem
-                    :person :2nd
-                    :number :sing}
-              :sem {:number :sing
-                    :person :2nd}}}]
-   
+              :gender :fem
+              :number :sing
+                :sem {:number :plur
+                      :person :2nd}}}]
+
    "lavarsi" (let [subject-semantics (atom :top)
                    subject-agr (atom :top)]
               {:synsem {:cat :verb
@@ -1337,8 +1337,8 @@
    "le"
    {:synsem {:cat :det
              :def :def
-             :agr {:gender :fem
-                   :number :plur}}}
+             :gender :fem
+             :number :plur}}
    "lei"
    (let [common {:synsem {:cat :noun
                           :pronoun true
@@ -1641,11 +1641,11 @@
                                :2plur "potete"
                                :3plur "possono"}}}]
      [(merge shared-part-of-potere
-             {:synsem {:sem {:pred :can}}})
+             {:synsem {:pred :can}})
       (merge shared-part-of-potere
-             {:synsem {:sem {:pred :may}}})
+             {:synsem {:pred :may}})
       (merge shared-part-of-potere
-             {:synsem {:sem {:pred :be-able-to}}})])
+             {:synsem {:pred :be-able-to}})])
                                       
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
@@ -1670,7 +1670,7 @@
    {:synsem {:cat :det
              :def :indef
              :mass false
-             :agr {:number :sing}}}
+             :number :sing}}
 
    "racontare" {:synsem {:cat :verb
                          :sem {:pred :recount}}}
@@ -1691,13 +1691,13 @@
    "ricordare"  {:synsem {:cat :verb
                           :sem {:pred :ricordare}}}
 
-   "rimanere" {:synsem {:cat :verb
-                        :essere true
-                        :sem {:pred :remain}}
-               :italiano {:passato "rimasto"
-                          :present {:1sing "rimango"
-                                    :3plur "rimangono"}
-                          :future-stem "rimarr"}}
+"rimanere" {:synsem {:cat :verb
+                      :essere true
+                      :sem {:pred :remain}}
+             :italiano {:passato "rimasto"
+                        :present {:1sing "rimango"
+                                  :3plur "rimangono"}
+                        :future-stem "rimarr"}}
 
    "riposare" {:synsem {:cat :verb
                         :sem {:pred :rest}}}
@@ -1925,17 +1925,17 @@
               :subcat '()}}]
 
    "un"
-   {:synsem {:cat :det
-             :def :indef
-             :mass false
-             :agr {:number :sing
-                   :gender :masc}}}
+   [{:synsem {:cat :det
+              :def :indef
+              :mass false
+              :gender :masc
+              :number :sing}}]
    "una"
-   {:synsem {:cat :det
-             :def :indef
-             :mass false
-             :agr {:number :sing
-                   :gender :fem}}}
+   [{:synsem {:cat :det
+              :def :indef
+              :mass false
+              :gender :fem
+              :number :sing}}]
 
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}

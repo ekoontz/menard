@@ -548,20 +548,20 @@
                                        :subcat {:1 {:agr {:number :plur
                                                           :gender :masc}}}}}}]
    ;; -er and -ir type verbs
-   #"^(\S+)e$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 1st singular
-                {:replace-with "er"
-                 :replace-pattern "s'$1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :1st}}}
-                                      :infl :present}}}
-                ;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 3rd singular
-                {:replace-with "er"
-                 :replace-pattern "s'$1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :3rd}}}
-                                      :infl :present}}}
-
-                ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 1st singular
+   #"^([aeéiou]\S+)e$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 1st singular
+                       {:replace-with "er"
+                        :replace-pattern "s'$1"
+                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                                :person :1st}}}
+                                             :infl :present}}}
+                       ;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 3rd singular
+                       {:replace-with "er"
+                        :replace-pattern "s'$1"
+                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                                :person :3rd}}}
+                                             :infl :present}}}]
+   
+   #"^(\S+)e$" [;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 1st singular
                 {:replace-with "er"
                  :replace-pattern "se $1"
                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
@@ -597,22 +597,36 @@
                                       :infl :present}}}
                 ]
 
-   
+   ;; -er and -ir type verbs
+   #"^(aeéiou\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
+                       {:replace-with "er"
+                        :replace-pattern "s'$1"
+                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                                :person :2nd}}}
+                                             :infl :present}}}
+                       {:replace-with "er" ;; parle -> parler
+                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                                :person :2nd}}}
+                                             :infl :present}}}
+                       {:replace-with "ir" ;; dorme -> dormir
+                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                                :person :2nd}}}
+                                             :infl :present}}}]
+
    ;; -er and -ir type verbs
    #"^(\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
-                {:replace-with "er"
-                 :replace-pattern "s'$1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :2nd}}}
-                                      :infl :present}}}
+                 {:replace-with "er"
+                  :replace-pattern "s'$1"
+                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                          :person :2nd}}}
+                                       :infl :present}}}
 
                  ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 2nd singular
-                {:replace-with "er"
-                 :replace-pattern "se $1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :2nd}}}
-                                      :infl :present}}}
-
+                 {:replace-with "er"
+                  :replace-pattern "se $1"
+                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
+                                                          :person :2nd}}}
+                                       :infl :present}}}
                  {:replace-with "er" ;; parle -> parler
                   :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                           :person :2nd}}}
@@ -621,7 +635,7 @@
                   :structure {:synsem {:subcat {:1 {:agr {:number :sing
                                                           :person :2nd}}}
                                        :infl :present}}}]
-
+   
    }
   )
 

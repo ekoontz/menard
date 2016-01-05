@@ -5,6 +5,7 @@
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.morphology :refer [fo]]
+            [babel.francais.workbook :refer [generate parse]]
             [babel.over :as over]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -223,3 +224,19 @@
                                                   :subj {:pred :lui}
                                                   :obj {:pred :Jean}}}})]
     (is (= (fo result) "il l'appele Jean"))))
+
+(deftest parse-reflexive
+  (let [result (first (parse "il l'amuse"))]
+    (not (nil? result))
+    (is (= (get-in result [:synsem :sem :pred])
+           :have-fun))
+    (is (= (get-in result [:synsem :sem :subj :pred])
+           :lui))))
+
+(deftest parse-reflexive
+  (let [result (first (parse "tu t'amuses"))]
+    (not (nil? result))
+    (is (= (get-in result [:synsem :sem :pred])
+           :have-fun))
+    (is (= (get-in result [:synsem :sem :subj :pred])
+           :tu))))

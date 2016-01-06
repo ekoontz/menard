@@ -535,14 +535,23 @@
                   :structure {:synsem {:infl :past-p
                                        :subcat {:1 {:agr {:number :sing
                                                           :gender :fem}}}}}}]
-   #"^(\S+)ées$" [{:replace-with "er" ;; allées -> aller
+   #"^([^aeéiou]\S+)ées$" [{:replace-with "er" ;; allées -> aller
                    :structure {:synsem {:infl :past-p
                                         :subcat {:1 {:agr {:number :plur
                                                            :gender :fem}}}}}}]
+   #"^([aeéiou]\S+)é$" [{:replace-with "er" ;; amusé -> s'amuser
+                         :structure {:synsem {:infl :past-p
+                                              :subcat {:1 {:agr {:number :sing
+                                                                 :gender :masc}}}}}}]
    #"^(\S+)é$" [{:replace-with "er" ;; allé -> aller
                  :structure {:synsem {:infl :past-p
                                       :subcat {:1 {:agr {:number :sing
                                                          :gender :masc}}}}}}]
+   #"^([aeéiou]\S+)és$" [{:replace-with "er" ;; amusés -> s'amuser
+                          :replace-pattern "se $1"
+                          :structure {:synsem {:infl :past-p
+                                               :subcat {:1 {:agr {:number :plur
+                                                                  :gender :masc}}}}}}]
    #"^(\S+)és$" [{:replace-with "er" ;; allés -> aller
                   :structure {:synsem {:infl :past-p
                                        :subcat {:1 {:agr {:number :plur

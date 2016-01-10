@@ -607,7 +607,7 @@
                 ]
 
    ;; -er and -ir type verbs
-   #"^(aeéiou\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
+   #"^([aeéiou]\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
                        {:replace-with "er"
                         :replace-pattern "s'$1"
                         :structure {:synsem {:subcat {:1 {:agr {:number :sing

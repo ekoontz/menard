@@ -4,7 +4,7 @@
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
-            [babel.francais.morphology :refer [fo]]
+            [babel.francais.morphology :refer [fo analyze]]
             [babel.francais.workbook :refer [generate parse]]
             [babel.over :as over]
             [clojure.string :as string]
@@ -240,3 +240,8 @@
            :have-fun))
     (is (= (get-in result [:synsem :sem :subj :pred])
            :tu))))
+
+(deftest parse-reflexive-past
+  (let [result (first (parse "tu t'es amusé"))]
+    (is (not (nil? result)))))
+

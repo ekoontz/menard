@@ -90,15 +90,19 @@
                                             spec
                                             (if (fail? unified)
                                               (let [message (str "could not unify " spec " with person specification:" unify-with ".")]
-                                                (if false
+                                                (cond
+                                                  (and (= (get-in spec [:comp :synsem :agr :person])
+                                                          :3rd)
+                                                       (= (get-in spec [:comp :synsem :pronoun])
+                                                          false))
                                                   (do
                                                     (log/debug message)
                                                     (log/debug (str "Ignoring and continuing."))
-                                                    unified)
-                                                  (do
-                                                    (log/error message)
-                                                    (log/error "Stopping further processing now.")
-                                                    (throw (Exception. message)))))
+                                                    :fail)
+                                                  true
+                                                  (do (log/error message)
+                                                      (log/error "Stopping further processing now.")
+                                                      (throw (Exception. message)))))
                                               unified)
                                             ]
                                         (log/debug (str "generating from person: " person))

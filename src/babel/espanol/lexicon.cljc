@@ -718,7 +718,7 @@
                                 :3sing "pone"
                                 :1plur "ponemos"
                                 :2plur "ponéis"
-                             :3plur "ponen"}
+                                :3plur "ponen"}
                       :preterito-stem "pus"}
             :synsem {:cat :verb
                      :sem {:subj {:animate true}

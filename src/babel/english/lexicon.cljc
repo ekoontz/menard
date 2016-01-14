@@ -575,6 +575,14 @@
                 :present {:3sing "gets up"}
                 :past "got up"}})
 
+   "Gianluca"
+   {:synsem {:agr {:number :sing
+                   :person :3rd
+                   :gender :masc}
+             :sem {:pred :gianluca
+                   :human true}
+             :propernoun true}}
+
       "Giovanni and I"
       [{:synsem {:cat :noun
                  :pronoun true
@@ -941,7 +949,15 @@
 
    "lower" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
-   "Luisa and I"
+   "Luisa"
+   {:synsem {:sem {:pred :luisa
+                   :human true}
+             :agr {:number :sing
+                   :person :3rd
+                   :gender :fem}
+             :propernoun true}}
+
+  "Luisa and I"
    [{:english {:note "♂"}
      :synsem {:cat :noun
              :pronoun true

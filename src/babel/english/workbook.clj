@@ -2,13 +2,11 @@
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
    [babel.engine :as engine]
-
    [babel.forest :refer [lightning-bolt]]
    [babel.english.grammar :refer [small small-plus-plus-np medium]]
    [babel.english.lexicon :refer :all]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.english.writer :refer [expression]]
-
    [babel.html :as html]
    [babel.korma :as korma]
    [babel.over :as over]
@@ -25,8 +23,7 @@
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
-   [hiccup.core :refer [html]]
-))
+   [hiccup.core :refer [html]]))
 
 (defn generate
   ([spec]

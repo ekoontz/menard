@@ -640,7 +640,7 @@
                           :subj {:human true}
                           :obj {:buyable true}}}
            :english {:present {:3sing "has"}
-                             :past "had"}}
+                     :past "had"}}
 
    "have dinner" {:synsem {:cat :verb
                             :sem {:pred :have-dinner}}

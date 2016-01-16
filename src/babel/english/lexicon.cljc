@@ -1320,7 +1320,6 @@
                                   :present {:3sing "takes advantage of"}}
                         :synsem {:cat :verb
                                  :sem {:pred :take-advantage-of}}}
-
    "talk"
    {:synsem {:cat :verb
              :sem {:pred :talk

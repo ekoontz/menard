@@ -1937,7 +1937,7 @@
 
    "vedere" 
    {:synsem {:cat :verb
-             :sem {:pred :vedere}}
+             :sem {:pred :see}}
     :italiano {:passato "visto"
                :future-stem "vedr"}}
    

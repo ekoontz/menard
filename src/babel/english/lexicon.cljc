@@ -1204,7 +1204,7 @@
                       :past "scrubbed"}}
    
    "see"  {:synsem {:cat :verb
-                    :sem {:pred :vedere}}
+                    :sem {:pred :see}}
            :english {:past "saw"
                      :past-participle "seen"}}
 

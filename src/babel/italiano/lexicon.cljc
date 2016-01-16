@@ -12,6 +12,11 @@
                                transitive transitivize verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge]]))
 
+;; TODO: move this somewhere like 'universal-lexicon' and use in all lexicons.
+(def universals
+  {:say {:synsem {:sem {:subj {:human true}}}}
+   :tell {:synsem {:sem {:subj {:human true}}}}})
+  
 (def lexicon-source
   {"Luisa"
    {:synsem {:sem {:pred :luisa

@@ -1,7 +1,10 @@
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in merge])
   (:require
+   [babel.lexicon :refer [universals]]
    [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :as morph]
    [babel.italiano.pos :refer [adjective agreement-noun cat-of-pronoun
                                common-noun comparative countable-noun determiner
@@ -12,11 +15,6 @@
                                transitive transitivize verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge]]))
 
-;; TODO: move this somewhere like 'universal-lexicon' and use in all lexicons.
-(def universals
-  {:say {:synsem {:sem {:subj {:human true}}}}
-   :tell {:synsem {:sem {:subj {:human true}}}}})
-  
 (def lexicon-source
   {"Luisa"
    {:synsem {:sem {:pred :luisa
@@ -871,9 +869,7 @@
                             :sem {:pred :paint}}
                    :italiano {:passato "dipinto"}}
    
-   "dire" (let [universal-say (:say universals)
-                universal-tell (:tell universals)
-                shared-part-of-dire
+   "dire" (let [shared-part-of-dire
                 {:synsem {:cat :verb}
                  :italiano {:infinitive "dicere"
                             :drop-e false
@@ -881,10 +877,8 @@
                             :future-stem "dir"
                             :present {:2plur "dite"}}}]
             [(unify shared-part-of-dire
-                    universal-say
                     {:synsem {:sem {:pred :say}}})
              (unify shared-part-of-dire
-                    universal-tell
                     {:synsem {:sem {:pred :tell}}})])
       
       "divertirsi" (let [subject-semantics (atom {:human true})
@@ -2041,6 +2035,20 @@
                               morph/exception-generator 
                               morph/phonize morph/italian-specific-rules)
 
+                 (map-function-on-map-vals
+                  (fn [k vals]
+                    (do
+                      (map (fn [val]
+                             (let [pred (get-in val [:synsem :sem :pred] nil)]
+                               (cond
+                                 (and pred (get universals pred))
+                                 ;; since there are universals for this verb's :pred, unify the verb with the universals.
+                                 (unify (get universals pred)
+                                        val)
+                                 true
+                                 val)))
+                           vals))))
+                 
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.
                  intransitivize

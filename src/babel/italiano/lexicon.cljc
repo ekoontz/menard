@@ -871,17 +871,21 @@
                             :sem {:pred :paint}}
                    :italiano {:passato "dipinto"}}
    
-   "dire" (let [shared-part-of-dire
+   "dire" (let [universal-say (:say universals)
+                universal-tell (:tell universals)
+                shared-part-of-dire
                 {:synsem {:cat :verb}
                  :italiano {:infinitive "dicere"
                             :drop-e false
                             :passato "detto"
                             :future-stem "dir"
                             :present {:2plur "dite"}}}]
-               [(unify shared-part-of-dire
-                       {:synsem {:sem {:pred :say}}})
-                (unify shared-part-of-dire
-                       {:synsem {:sem {:pred :tell}}})])
+            [(unify shared-part-of-dire
+                    universal-say
+                    {:synsem {:sem {:pred :say}}})
+             (unify shared-part-of-dire
+                    universal-tell
+                    {:synsem {:sem {:pred :tell}}})])
       
       "divertirsi" (let [subject-semantics (atom {:human true})
                          subject-agr (atom :top)]

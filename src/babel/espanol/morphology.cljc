@@ -62,8 +62,8 @@
    (string? word)
    word
    (seq? word)
-   (map (string/join " " #(get-string-1 %))
-        word)
+   (string/join " " (map #(get-string-1 %)
+                         word))
    (= word :top) ".."
    (ref? word)
    (get-string-1 @word)

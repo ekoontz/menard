@@ -526,6 +526,41 @@
                 )]
     suffix))
 
+(def replace-patterns
+  [[#"^([aeéiou].*)é" "s'$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :masc}}}}}]
+   [#"^([aeéiou].*)és" "s'$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :masc}}}}}]
+   [#"^([aeéiou].*)ée" "s'$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :fem}}}}}]
+   [#"^([aeéiou].*)ées" "s'$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :fem}}}}}]
+   [#"^([^aeéiou].*)é" "se $1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :masc}}}}}]
+   [#"^([^aeéiou].*)és" "se $1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :masc}}}}}]
+   [#"^([^aeéiou].*)ée" "se $1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :fem}}}}}]
+   [#"^([^aeéiou].*)ées" "se $1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :fem}}}}}]
+   ])
+
 ;; used for parsing: TODO: unify with generation
 (def pattern-to-structure
   {
@@ -536,9 +571,9 @@
                                        :subcat {:1 {:agr {:number :sing
                                                           :gender :fem}}}}}}]
    #"^([^aeéiou]\S+)ées$" [{:replace-with "er" ;; allées -> aller
-                   :structure {:synsem {:infl :past-p
-                                        :subcat {:1 {:agr {:number :plur
-                                                           :gender :fem}}}}}}]
+                            :structure {:synsem {:infl :past-p
+                                                 :subcat {:1 {:agr {:number :plur
+                                                                    :gender :fem}}}}}}]
    #"^([aeéiou]\S+)é$" [{:replace-with "er" ;; amusé -> s'amuser
                          :structure {:synsem {:infl :past-p
                                               :subcat {:1 {:agr {:number :sing

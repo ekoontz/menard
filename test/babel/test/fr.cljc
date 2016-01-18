@@ -4,7 +4,7 @@
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
-            [babel.francais.morphology :refer [fo analyze]]
+            [babel.francais.morphology :refer [analyze fo replace-patterns]]
             [babel.francais.workbook :refer [generate parse]]
             [babel.over :as over]
             [clojure.string :as string]
@@ -244,4 +244,28 @@
 (deftest parse-reflexive-past
   (let [result (first (parse "tu t'es amusé"))]
     (is (not (nil? result)))))
+
+(defn get-lex [exp]
+  (filter #(not (nil? (:lookup %)))
+          (map #(let [from (first %)
+                      to (second %)
+                      unify-with (nth % 2)
+                      lex (string/replace exp from to)]
+                  {:lex lex
+                   :lookup (lookup lex)
+                   :unified (map (fn [entry]
+                                   (unifyc unify-with entry))
+                                 (lookup lex))})
+               replace-patterns)))
+
+(defn get-lex2 [exp]
+  (mapcat #(let [from (first %)
+                 to (second %)
+                 unify-with (nth % 2)
+                 lex (string/replace exp from to)]
+             (map (fn [entry]
+                    (unifyc unify-with entry))
+                  (lookup lex)))
+          replace-patterns))
+
 

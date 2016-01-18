@@ -86,15 +86,10 @@ of this function with complements."
   (if (and (not (= :fail spec))
            (not (empty? (strip-refs spec))))
     (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec))))
-  (log/trace (str "lighting-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
+  (if (not parent)
+    (log/warn (str "no parent for lightning-bolt@" depth " with spec: " (strip-refs spec))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
-        index
-        #?(:clj (if (future? index) @index index))
-        #?(:cljs index)
-        
-        lexicon
-        #?(:clj (if (future? lexicon) @lexicon lexicon))
-        #?(:cljs lexicon)
+        debug (log/debug (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
 
         depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
@@ -109,7 +104,8 @@ of this function with complements."
         
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
-                                                                            candidate-parents)))))]
+                                                                            candidate-parents))))
+                (log/warn (str "candidate-parents are empty!")))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
       (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
@@ -152,9 +148,7 @@ of this function with complements."
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
-                                              index parent morph)
-                              phrasal-children phrasal-children
-                              ]
+                                              index parent morph)]
                           (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
                                           " and children: "
                                           (if phrasal-children
@@ -167,10 +161,14 @@ of this function with complements."
                                                        ))
                                                 phrasal-children))))
                           (if (empty? phrasal-children)
-                            (let [message (str "no phrasal children for for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ")" )]
+                            (let [message (str "no phrasal children for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ")" )]
                               (log/debug message))
                             ;; else; there are phrasal-children, so attach them below parent:
-                            (over/overh parent phrasal-children morph))))
+                            (do
+                              (log/debug (str "phrasal-children:" (map morph phrasal-children)))
+                              (over/overh parent phrasal-children morph)))
+                          )
+                        )
                        candidate-parents))]
         (if (= (rand-int 2) 0)
           (lazy-cat lexical phrasal)
@@ -221,7 +219,7 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "["
+                             (let [debug (log/debug (str "add complement ["
                                                          (get-in bolt [:rule]) " "
                                                          (morph bolt) "]: trying lexical complement:" (morph complement)
                                                          ))

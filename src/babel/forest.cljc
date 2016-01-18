@@ -98,16 +98,15 @@ of this function with complements."
 
         depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
-        candidate-parents (lazy-shuffle (filter #(not (fail? %))
-                                                #?(:clj (pmap (fn [rule]
-                                                                (unifyc spec rule))
-                                                              (if parent (get-head-phrases-of parent index)
-                                                                  grammar)))
-                                                #?(:cljs (map (fn [rule]
-                                                                (unifyc spec rule))
-                                                              (if parent (get-head-phrases-of parent index)
-                                                                  grammar)))))
-                                                                   
+        debug (log/debug (str "looking for candidate parents.."))
+        candidate-parents (filter #(not (fail? %))
+                                  (map (fn [rule]
+                                         (unifyc spec rule))
+                                       (if parent (get-head-phrases-of parent index)
+                                           grammar)))
+
+        debug (log/debug (str "done looking for candidate parents:" candidate-parents))
+        
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents)))))]

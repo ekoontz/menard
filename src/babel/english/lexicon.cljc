@@ -38,7 +38,7 @@
    {:synsem {:cat :det
              :def :indef
              :mass false
-             :number :sing}}
+             :agr {:number :sing}}}
 
    "abandon" {:synsem {:cat :verb
                        :sem {:pred :abandon}}}
@@ -694,11 +694,15 @@
              :sem {:pred :aiutare
                    :activity true
                    :obj {:human true}}}}
-   "her"
-   {:synsem {:cat :det
-             :agr {:gender :fem}
-             :sem {:pred :lei}
-             :def :possessive}}
+    "her"
+    (map #(unify %
+                 {:synsem {:cat :det
+                           :agr {:gender :fem}
+                           :sem {:pred :lei}
+                           :def :possessive}})
+         [{:synsem {:agr {:number :sing}}}
+          {:synsem {:agr {:number :plur}}}])
+    
    "herself"
    {:synsem {:cat :noun
              :pronoun true
@@ -721,11 +725,14 @@
              :sem {:human true}
              :subcat '()}}
    "his"
-   {:synsem {:cat :det
-             :agr {:gender :masc}
-             :sem {:pred :lui}
-             :def :possessive}}
-
+   (map #(unify %
+                {:synsem {:cat :det
+                          :agr {:gender :masc}
+                          :sem {:pred :lui}
+                          :def :possessive}})
+        [{:synsem {:agr {:number :sing}}}
+         {:synsem {:agr {:number :plur}}}])
+                 
    "hit" {:english {:past "hit"}
              :synsem {:cat :verb
                       :sem {:pred :hit}}}
@@ -1022,9 +1029,13 @@
    {:synsem {:cat :noun
              :sem {:pred :music}}}
    "my"
-   {:synsem {:cat :det
-             :sem {:pred :I}
-             :def :possessive}}
+   (map #(unify %
+                {:synsem {:cat :det
+                          :sem {:pred :I}
+                          :def :possessive}})
+        [{:synsem {:agr {:number :sing}}}
+         {:synsem {:agr {:number :plur}}}])
+   
    "myself" 
    {:synsem {:cat :noun
              :pronoun true
@@ -1061,7 +1072,16 @@
    "organize" {:synsem {:cat :verb
                 :sem {:pred :organize}}}
 
-   "ourselves"
+   "our"
+   (map #(unify %
+                {:synsem {:cat :det
+                          :agr {:gender :masc}
+                          :sem {:pred :noi}
+                          :def :possessive}})
+        [{:synsem {:agr {:number :sing}}}
+         {:synsem {:agr {:number :plur}}}])
+
+    "ourselves"
    [{:note "♀" 
      :synsem {:cat :noun
               :pronoun true
@@ -1264,15 +1284,13 @@
            :english {:past "snapped"
                      :participle "snapping"
                      :note "pictures"}}
-
    "some"
    [{:synsem {:cat :det
               :def :partitivo
-              :number :plur}}
+              :agr {:number :plur}}}
     {:synsem {:cat :det
               :def :indef
-              :number :sing}}]
-
+              :agr {:number :sing}}}]
    "speak"
    {:english {:past "spoke"
               :past-participle "spoken"}
@@ -1335,11 +1353,21 @@
    "tell" {:english {:past "told"}
            :synsem {:cat :verb
                     :sem {:pred :tell}}}
-   "the"
-   {:synsem {:cat :det
-             :def :def
-             :mass false}}
+   "the" (map #(unify % 
+                      {:synsem {:cat :det
+                                :def :def
+                                :mass false}})
+              [{:synsem {:agr {:number :sing}}}
+               {:synsem {:agr {:number :plur}}}])
 
+   "their"
+   (map #(unify %
+                {:synsem {:cat :det
+                          :sem {:pred :loro}
+                          :def :possessive}})
+        [{:synsem {:agr {:number :sing}}}
+         {:synsem {:agr {:number :plur}}}])
+    
    "themselves"
    [{:note "♀" 
      :synsem {:cat :noun
@@ -1618,9 +1646,12 @@
              :subcat '()}}
 
    "your"
-   {:synsem {:cat :det
-             :sem {:pred :tu}
-             :def :possessive}}
+   (map #(unify %
+                {:synsem {:cat :det
+                          :sem {:pred :tu}
+                          :def :possessive}})
+        [{:synsem {:agr {:number :sing}}}
+         {:synsem {:agr {:number :plur}}}])
    
    "yourself"
    [{:note "♀"

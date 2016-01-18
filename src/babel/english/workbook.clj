@@ -27,9 +27,13 @@
 
 (defn generate
   ([spec]
-   (engine/generate spec medium))
+   (let [result (engine/generate spec medium)]
+     (unify {:surface (fo result)}
+            result)))
   ([spec model]
-   (engine/generate spec model)))
+   (let [result (engine/generate spec model)]
+     (conj {:surface (fo result)}
+           result))))
 
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))

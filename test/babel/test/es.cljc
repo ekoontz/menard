@@ -28,7 +28,11 @@
 
 (deftest llamo
   (let [result (fo (engine/expression esg/small
-                                      {:synsem {:sem {:tense :present :aspect :progressive  :subj {:pred :I} :pred :be-called :obj {:pred :Juan}}}}))]
+                                      {:synsem {:sem {:tense :present
+                                                      :aspect :progressive
+                                                      :subj {:pred :I}
+                                                      :pred :be-called
+                                                      :obj {:pred :Juan}}}}))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

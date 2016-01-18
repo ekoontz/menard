@@ -17,7 +17,7 @@
 ;; issue is that logging requires partial morphological evaluation,
 ;; whereas generation and batch jobs should immediately raise an exception.
 ;; Correct solution should catch in logging code.
-(def suppress-morph-exceptions false)
+(def suppress-morph-exceptions true)
 
 (defn reflexive-to-infinitive [reflexive-infinitive]
   "e.g.: quedarse -> quedar"

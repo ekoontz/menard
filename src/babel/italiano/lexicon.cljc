@@ -1270,7 +1270,6 @@
                       :number :sing}
                 :sem {:number :plur
                       :person :3rd}}}
-
       "la mia"
       {:synsem {:cat :det
                 :def :possessive
@@ -1278,7 +1277,6 @@
                       :number :sing}
                 :sem {:number :sing
                       :person :1st}}}
-
       "la nostra"
       {:synsem {:cat :det
                 :def :possessive

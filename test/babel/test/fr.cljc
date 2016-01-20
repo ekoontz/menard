@@ -4,9 +4,11 @@
   (:require [babel.engine :as engine]
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
-            [babel.francais.morphology :refer [analyze fo replace-patterns]]
-            [babel.francais.workbook :refer [generate parse]]
+            [babel.francais.lexicon :refer [lexicon]]
+            [babel.francais.morphology :refer [analyze fo possible-lexemes replace-patterns]]
+            [babel.francais.workbook :refer [generate lookup parse tokenize]]
             [babel.over :as over]
+            [babel.parse :as parse]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
@@ -14,7 +16,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
 
-;; TODO: (lookup) and (over) convenience functions are duplicated in
+;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -22,8 +24,6 @@
 ;; i.e. if input is 'parle', return
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup [lexeme]
-  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
@@ -259,13 +259,12 @@
                replace-patterns)))
 
 (defn get-lex2 [exp]
-  (mapcat #(let [from (first %)
-                 to (second %)
-                 unify-with (nth % 2)
-                 lex (string/replace exp from to)]
-             (map (fn [entry]
-                    (unifyc unify-with entry))
-                  (lookup lex)))
-          replace-patterns))
-
-
+  (filter (fn [result] (not (= :fail result)))
+          (mapcat #(let [from (first %)
+                         to (second %)
+                         unify-with (nth % 2)
+                         lex (string/replace exp from to)]
+                     (map (fn [entry]
+                            (unifyc unify-with entry))
+                          (lookup lex)))
+                  replace-patterns)))

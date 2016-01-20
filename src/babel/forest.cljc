@@ -85,9 +85,10 @@ of this function with complements."
 
   (if (and (not (= :fail spec))
            (not (empty? (strip-refs spec))))
-    (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec))))
+    (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec) "; parent: " (if parent
+                                                                                      (:rule parent)))))
   (if (not parent)
-    (log/warn (str "no parent for lightning-bolt@" depth " with spec: " (strip-refs spec))))
+    (log/debug (str "no parent for lightning-bolt@" depth " with spec: " (strip-refs spec))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         debug (log/debug (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
 
@@ -105,7 +106,7 @@ of this function with complements."
         debug (if (not (empty? candidate-parents))
                 (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-parents))))
-                (log/warn (str "candidate-parents are empty!")))]
+                (log/debug (str "no candidate-parents for spec: " (strip-refs spec))))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
       (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))

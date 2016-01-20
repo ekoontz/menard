@@ -28,7 +28,7 @@
 (defn generate
   ([spec]
    (let [result (engine/generate spec medium)]
-     (unify {:surface (fo result)}
+     (conj {:surface (fo result)}
             result)))
   ([spec model]
    (let [result (engine/generate spec model)]

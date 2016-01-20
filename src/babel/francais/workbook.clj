@@ -50,6 +50,10 @@
                      (:lookup model)
                      (:grammar model)))))
 
+(defn tokenize [string]
+  (parse/toks string
+              (:lexicon medium)
+              (:lookup medium)))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

@@ -13,10 +13,11 @@
 (declare toks2)
 
 (defn toks [s lexicon lookup]
-  (let [lexicon
-        #?(:clj (if (future? lexicon) @lexicon lexicon))
-        #?(:cljs lexicon)]
-    (vec (toks2 (string/split s tokenizer) lexicon lookup))))
+  (let [tokens (string/split s tokenizer)
+        tokens2 (toks2 tokens lexicon lookup)]
+    (log/debug (str "tokens: " tokens))
+    (log/debug (str "tokens2 size: " (count tokens2)))
+    (vec tokens2)))
 
 (defn toks2 [tokens lexicon lookup]
   "like (toks), but use lexicon to consolidate two initial tokens into one. may consolidate larger groups than two in the future."

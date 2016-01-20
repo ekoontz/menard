@@ -9,7 +9,7 @@
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-
+(declare over)
 (declare toks2)
 
 (defn toks [s lexicon lookup]
@@ -20,7 +20,9 @@
     (vec tokens2)))
 
 (defn toks2 [tokens lexicon lookup]
-  "like (toks), but use lexicon to consolidate two initial tokens into one. may consolidate larger groups than two in the future."
+  "take a list of strings and looks up each in lexicon, as well as
+  looking up sub-lists of two tokens in the lexicon as well. May
+  consolidate larger-than-two sub-lists in the future."
   (cond (nil? tokens) nil
         (empty? tokens) nil
         (> (count tokens) 1)
@@ -47,12 +49,17 @@
      (create-unigram-map args (+ 1 index)))))
 
 (defn create-bigram-map [args index grammar]
+  (log/debug (str "create-bigram-map: args count: " (count args)))
   (if (< (+ 1 index) (count args))
     (let [left-side (subvec args index (+ 1 index))
           right-side (subvec args (+ 1 index) (+ 2 index))]
+      (log/debug (str "create-bigram-map: size of left-side: " (count left-side)))
+      (log/debug (str "create-bigram-map: size of right-side: " (count right-side)))
       (merge
        {[index (+ 2 index)]
-        (over/over grammar left-side right-side)}
+        (over grammar
+              (list (first left-side))
+              (list (first right-side)))}
        (create-bigram-map args (+ index 1) grammar)))
     (create-unigram-map args 0)))
 
@@ -82,6 +89,7 @@
 
 (defn over [grammar left right]
   "opportunity for additional logging before calling the real (over)"
+  (log/debug (str "parse/over: grammar: " (count grammar) " left: " (type left) "; right: " (type right)))
   (over/over grammar left right))
 
 (defn create-ngram-map [args left ngrams grammar split-at x]
@@ -99,7 +107,24 @@
 (defn create-xgram-map [args x index grammar & [nminus1grams runlevel]]
   (cond (= x 0) {}
         (= x 1) (create-unigram-map args index)
-        (= x 2) (create-bigram-map args index grammar)
+        (= x 2) (let [bigram-map (create-bigram-map args index grammar)]
+                  (log/trace (str "create-xgram-map: bigram-map: " bigram-map))
+                  (log/debug (str "create-xgram-map: keys: " (keys bigram-map)))
+                  (log/debug (str "create-xgram-map: vals: "
+                                  (string/join ";"
+                                               (map
+                                                (fn [val]
+                                                  (string/join ","
+                                                               (map (fn [x]
+                                                                      (cond
+                                                                        (map? x)
+                                                                        (:rule x)
+                                                                        true (str
+                                                                              "not map:"
+                                                                              (type x))))
+                                                                    val)))
+                                                (vals bigram-map)))))
+                  bigram-map)
 
         true (let [nminus1grams (if nminus1grams nminus1grams
                                     (create-xgram-map args (- x 1) 0 grammar))]
@@ -128,7 +153,9 @@
 (defn parse [arg lexicon lookup grammar]
   "return a list of all possible parse trees for a string or a list of lists of maps (a result of looking up in a dictionary a list of tokens from the input string)"
   (cond (string? arg)
-        (parse (toks arg lexicon lookup) lexicon lookup grammar)
+        (let [tokens (toks arg lexicon lookup)]
+          (log/debug (str "tokens: " (count tokens)))
+          (parse tokens lexicon lookup grammar))
 
         (and (vector? arg)
              (empty? (rest arg)))

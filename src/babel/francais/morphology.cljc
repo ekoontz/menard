@@ -529,7 +529,7 @@
 (def replace-patterns
   [
    ;; pronouns: e.g.: "t'" => "te"
-   [#"^([lmst])" "$1e" :top]
+   [#"^([jlmst])" "$1e" :top]
    [#"^(l)" "$1a" :top]
     
    ;; <reflexive past>: e.g. "amusé" => "s'amuser"

@@ -528,7 +528,8 @@
 
 (def replace-patterns
   [
-   ;; pronouns: e.g.: "t'" => "te"
+   ;; pronouns: e.g.: "t'" => "te". The apostrophe (')
+   ;; is already removed by the tokenizer.
    [#"^([jlmst])" "$1e" :top]
    [#"^(l)" "$1a" :top]
     
@@ -605,6 +606,21 @@
                                  :person :3rd}}}
               :infl :present}}]
 
+   [#"^([aeéiou]\S+)ons$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :1st}}}
+              :infl :present}}]
+
+   [#"^([aeéiou]\S+)ez$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :2nd}}}
+              :infl :present}}]
+
+   [#"^([aeéiou]\S+)ent$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :3rd}}}
+              :infl :present}}]
+  
    [#"^([^aeéiou]\S+)e$" "se $1er"
     {:synsem {:subcat {:1 {:agr {:number :sing
                                  :person :1st}}}
@@ -619,6 +635,22 @@
     {:synsem {:subcat {:1 {:agr {:number :sing
                                  :person :3rd}}}
               :infl :present}}]
+
+   [#"^([^aeéiou]\S+)ons$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :1st}}}
+              :infl :present}}]
+
+   [#"^([^aeéiou]\S+)ez$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :2nd}}}
+              :infl :present}}]
+
+   [#"^([^aeéiou]\S+)ent$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :plur
+                                 :person :3rd}}}
+              :infl :present}}]
+   
    ;; </reflexive present -er and -ir type verbs>
 
    ;; <present non-reflexive>

@@ -527,194 +527,197 @@
     suffix))
 
 (def replace-patterns
-  [[#"^([aeéiou].*)é" "s'$1er"
+  [
+   ;; pronouns: e.g.: "t'" => "te"
+   [#"^([lmst])" "$1e" :top]
+   [#"^(l)" "$1a" :top]
+    
+   ;; <reflexive past>: e.g. "amusé" => "s'amuser"
+   [#"^([aeéiou].*)é$" "s'$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :sing
                                  :gender :masc}}}}}]
-   [#"^([aeéiou].*)és" "s'$1er"
+   [#"^([aeéiou].*)és$" "s'$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :plur
                                  :gender :masc}}}}}]
-   [#"^([aeéiou].*)ée" "s'$1er"
+   [#"^([aeéiou].*)ée$" "s'$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :sing
                                  :gender :fem}}}}}]
-   [#"^([aeéiou].*)ées" "s'$1er"
+   [#"^([aeéiou].*)ées$" "s'$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :plur
                                  :gender :fem}}}}}]
-   [#"^([^aeéiou].*)é" "se $1er"
+   [#"^([^aeéiou].*)é$" "se $1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :sing
                                  :gender :masc}}}}}]
-   [#"^([^aeéiou].*)és" "se $1er"
+   [#"^([^aeéiou].*)és$" "se $1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :plur
                                  :gender :masc}}}}}]
-   [#"^([^aeéiou].*)ée" "se $1er"
+   [#"^([^aeéiou].*)ée$" "se $1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :sing
                                  :gender :fem}}}}}]
-   [#"^([^aeéiou].*)ées" "se $1er"
+   [#"^([^aeéiou].*)ées$" "se $1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :plur
                                  :gender :fem}}}}}]
+   ;; </reflexive past>
+
+   ;; <past>: e.g. "parlé" => "parler"
+   [#"^([aeéiou].*)é$" "$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :masc}}}}}]
+   [#"^([aeéiou].*)és$" "$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :masc}}}}}]
+   [#"^([aeéiou].*)ée$" "$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :sing
+                                 :gender :fem}}}}}]
+   [#"^([aeéiou].*)ées$" "$1er"
+    {:synsem {:infl :past-p
+              :subcat {:1 {:agr {:number :plur
+                                 :gender :fem}}}}}]
+   ;; </past>
+
+   ;; <reflexive present -er and -ir type verbs>
+   [#"^([aeéiou]\S+)e$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :1st}}}
+              :infl :present}}]
+
+   [#"^([aeéiou]\S+)es$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :2nd}}}
+              :infl :present}}]
+
+   [#"^([aeéiou]\S+)e$" "s'$1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :3rd}}}
+              :infl :present}}]
+
+   [#"^([^aeéiou]\S+)e$" "se $1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :1st}}}
+              :infl :present}}]
+
+   [#"^([^aeéiou]\S+)es$" "se $1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :2nd}}}
+              :infl :present}}]
+
+   [#"^([^aeéiou]\S+)e$" "se $1er"
+    {:synsem {:subcat {:1 {:agr {:number :sing
+                                 :person :3rd}}}
+              :infl :present}}]
+   ;; </reflexive present -er and -ir type verbs>
+
+   ;; <present non-reflexive>
+   ;; <-er verbs>
+   [#"^(\S+)e$" "$1er" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                    :person :1st}}}
+                                 :infl :present}}]
+
+   [#"^(\S+)es$" "$1er" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                   :person :2nd}}}
+                                :infl :present}}]
+
+   [#"^(\S+)e$" "$1er" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                    :person :3rd}}}
+                                 :infl :present}}]
+   
+   [#"^(\S+)ons$" "$1er" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                    :person :1st}}}
+                                 :infl :present}}]
+
+   [#"^(\S+)ez$" "$1er" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                   :person :2nd}}}
+                                :infl :present}}]
+
+   [#"^(\S+)ent$" "$1er" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                    :person :3rd}}}
+                                 :infl :present}}]
+   ;; </-er verbs>
+
+   ;; <ir verbs>
+   [#"^(\S+)e$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                    :person :1st}}}
+                                 :infl :present}}]
+
+   [#"^(\S+)es$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                   :person :2nd}}}
+                                :infl :present}}]
+
+   [#"^(\S+)e$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :sing
+                                                    :person :3rd}}}
+                                 :infl :present}}]
+   
+   [#"^(\S+)ons$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                    :person :1st}}}
+                                 :infl :present}}]
+
+   [#"^(\S+)ez$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                   :person :2nd}}}
+                                :infl :present}}]
+
+   [#"^(\S+)ent$" "$1ir" {:synsem {:subcat {:1 {:agr {:number :plur
+                                                    :person :3rd}}}
+                                 :infl :present}}]
+   ;; </ir verbs>   
+   ;; </present non-reflexive>
+
    ])
 
-;; used for parsing: TODO: unify with generation
-(def pattern-to-structure
-  {
-   #"^([jlmst])$" [{:replace-with "e" ;; j' -> je,m' -> me, s' -> se, etc
-              :structure :top}]
-   #"^(\S+)ée$" [{:replace-with "er" ;; allée -> aller
-                  :structure {:synsem {:infl :past-p
-                                       :subcat {:1 {:agr {:number :sing
-                                                          :gender :fem}}}}}}]
-   #"^([^aeéiou]\S+)ées$" [{:replace-with "er" ;; allées -> aller
-                            :structure {:synsem {:infl :past-p
-                                                 :subcat {:1 {:agr {:number :plur
-                                                                    :gender :fem}}}}}}]
-   #"^([aeéiou]\S+)é$" [{:replace-with "er" ;; amusé -> s'amuser
-                         :structure {:synsem {:infl :past-p
-                                              :subcat {:1 {:agr {:number :sing
-                                                                 :gender :masc}}}}}}]
-   #"^(\S+)é$" [{:replace-with "er" ;; allé -> aller
-                 :structure {:synsem {:infl :past-p
-                                      :subcat {:1 {:agr {:number :sing
-                                                         :gender :masc}}}}}}]
-   #"^([aeéiou]\S+)és$" [{:replace-with "er" ;; amusés -> s'amuser
-                          :replace-pattern "se $1"
-                          :structure {:synsem {:infl :past-p
-                                               :subcat {:1 {:agr {:number :plur
-                                                                  :gender :masc}}}}}}]
-   #"^(\S+)és$" [{:replace-with "er" ;; allés -> aller
-                  :structure {:synsem {:infl :past-p
-                                       :subcat {:1 {:agr {:number :plur
-                                                          :gender :masc}}}}}}]
-   ;; -er and -ir type verbs
-   #"^([aeéiou]\S+)e$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 1st singular
-                       {:replace-with "er"
-                        :replace-pattern "s'$1"
-                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                                :person :1st}}}
-                                             :infl :present}}}
-                       ;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 3rd singular
-                       {:replace-with "er"
-                        :replace-pattern "s'$1"
-                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                                :person :3rd}}}
-                                             :infl :present}}}]
-   
-   #"^(\S+)e$" [;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 1st singular
-                {:replace-with "er"
-                 :replace-pattern "se $1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :1st}}}
-                                      :infl :present}}}
-                ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 3rd singular
-                {:replace-with "er"
-                 :replace-pattern "se $1"
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :3rd}}}
-                                      :infl :present}}}
-
-                ;; non-reflexive verbs: 1st singular
-                {:replace-with "er" ;; parle -> parler
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :1st}}}
-                                      :infl :present}}}
-
-                ;; non-reflexive verbs: 3rd singular
-                {:replace-with "er" ;; parle -> parler
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :3rd}}}
-                                      :infl :present}}}
-
-                {:replace-with "ir" ;; dorme -> dormir
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :1st}}}
-                                      :infl :present}}}
-
-                {:replace-with "ir" ;; dorme -> dormir
-                 :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                         :person :3rd}}}
-                                      :infl :present}}}
-                ]
-
-   ;; -er and -ir type verbs
-   #"^([aeéiou]\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
-                       {:replace-with "er"
-                        :replace-pattern "s'$1"
-                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                                :person :2nd}}}
-                                             :infl :present}}}
-                       {:replace-with "er" ;; parle -> parler
-                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                                :person :2nd}}}
-                                             :infl :present}}}
-                       {:replace-with "ir" ;; dorme -> dormir
-                        :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                                :person :2nd}}}
-                                             :infl :present}}}]
-
-   ;; -er and -ir type verbs
-   #"^(\S+)es$" [;; reflexive verbs beginning with a vowel: (e.g. "s'amuser") : 2nd singular
-                 {:replace-with "er"
-                  :replace-pattern "s'$1"
-                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                          :person :2nd}}}
-                                       :infl :present}}}
-
-                 ;; reflexive verbs beginning with a non-vowel: (e.g. "se lever") : 2nd singular
-                 {:replace-with "er"
-                  :replace-pattern "se $1"
-                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                          :person :2nd}}}
-                                       :infl :present}}}
-                 {:replace-with "er" ;; parle -> parler
-                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                          :person :2nd}}}
-                                       :infl :present}}}
-                 {:replace-with "ir" ;; dorme -> dormir
-                  :structure {:synsem {:subcat {:1 {:agr {:number :sing
-                                                          :person :2nd}}}
-                                       :infl :present}}}]
-   
-   }
-  )
-
-(defn find-structure-from-pattern [patterns surface-form]
-  (if (not (empty? patterns))
-    (if (re-find (first patterns) surface-form)
-      (map (fn [each]
-             (merge {:pattern (first patterns)}
-                    each))
-           (get pattern-to-structure (first patterns)))
-      (find-structure-from-pattern (rest patterns) surface-form))))
+(defn possible-lexemes [surface-form]
+  (filter #(not (nil? %))
+          (map
+           (fn [replace-pattern]
+             (let [ ;; regular expression that matches the surface form
+                   from (nth replace-pattern 0)
+          
+                   ;; expression that is used by string/replace along with the first regexp and the surface form,
+                   ;; to create the lexical string
+                   to (nth replace-pattern 1)
+          
+                   ;; unifies with the lexical entry to create the inflected form.
+                   unify-with (nth replace-pattern 2)
+          
+                   lex (if (re-matches from surface-form)
+                         (do
+                           (log/info (str "MATCHED SURFACE FORM: " surface-form " with from:"
+                                          from " and to: " to "; unify-with: " unify-with))
+                           (string/replace surface-form from to)))]
+               (if (re-matches from surface-form)
+                 {:from from
+                  :to to
+                  :lex lex})))
+           replace-patterns)))
 
 (defn analyze [surface-form lexicon]
-  "return the map incorporating the lexical information about a surface form.
-   The function tries to analyze the surface form into a lexical form, and then 
-   looks up the hypothesized lexeme using lookup-fn."
-  (let [matches (find-structure-from-pattern (keys pattern-to-structure)
-                                             surface-form)]
-    (cond
-     (not (empty? matches))
-     (concat
-      (mapcat (fn [match]
-                (map (fn [lexeme]
-                       (unifyc
-                        lexeme
-                        (:structure match)))
-                     (let [replace-pattern (if (:replace-pattern match)
-                                             (:replace-pattern match)
-                                             "$1")]
-                       (get lexicon (str (string/replace surface-form (:pattern match) replace-pattern)
-                                         (:replace-with match))))))
-              matches)
-      (get lexicon surface-form))
-     
-     true
-     (get lexicon surface-form))))
+  "Analyze a single surface form into a set of lexical forms."
+  (concat (if (get lexicon surface-form)
+            (get lexicon surface-form))
+          (mapcat
+           (fn [replace-pattern]
+             (let [ ;; regular expression that matches the surface form
+                   from (nth replace-pattern 0)]
+               (if (re-matches from surface-form)
+                 (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+                       ;; to create the lexical string
+                       to (nth replace-pattern 1)
 
-
+                       ;; unifies with the lexical entry to create the inflected form.
+                       unify-with (nth replace-pattern 2)
+                     
+                       lex (string/replace surface-form from to)]
+                   (filter (fn [result] (not (= :fail result)))
+                           (map (fn [lexical-entry]
+                                  (unifyc unify-with lexical-entry))
+                                (get lexicon lex)))))))
+           replace-patterns)))

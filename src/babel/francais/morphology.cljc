@@ -567,24 +567,27 @@
                                  :gender :fem}}}}}]
    ;; </reflexive past>
 
-   ;; <past>: e.g. "parlé" => "parler"
-   [#"^([aeéiou].*)é$" "$1er"
+   ;; <non-reflexive past>: e.g. "parlé" => "parler"
+   ;; singular: could be masculine or feminine
+   [#"^(.*)é$" "$1er"
     {:synsem {:infl :past-p
-              :subcat {:1 {:agr {:number :sing
-                                 :gender :masc}}}}}]
-   [#"^([aeéiou].*)és$" "$1er"
+              :subcat {:1 {:agr {:number :sing}}}}}]
+   ;; plural: could be masculine or feminine
+   [#"^(.*)és$" "$1er"
     {:synsem {:infl :past-p
-              :subcat {:1 {:agr {:number :plur
-                                 :gender :masc}}}}}]
-   [#"^([aeéiou].*)ée$" "$1er"
+              :subcat {:1 {:agr {:number :plur}}}}}]
+
+   ;; singular feminine
+   [#"^(.*)ée$" "$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :sing
                                  :gender :fem}}}}}]
-   [#"^([aeéiou].*)ées$" "$1er"
+   ;; plural feminine
+   [#"^(.*)ées$" "$1er"
     {:synsem {:infl :past-p
               :subcat {:1 {:agr {:number :plur
                                  :gender :fem}}}}}]
-   ;; </past>
+   ;; </non-reflexive past>
 
    ;; <reflexive present -er and -ir type verbs>
    [#"^([aeéiou]\S+)e$" "s'$1er"

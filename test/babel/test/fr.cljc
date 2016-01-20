@@ -241,6 +241,17 @@
     (is (= (get-in result [:synsem :sem :subj :pred])
            :tu))))
 
+(deftest parse-past-nonreflexive
+  (let [result (parse "j'ai parlé")]
+    (not (nil? result))
+    (is (= 4 (count result)))
+    (is (or (= (get-in (first result) [:synsem :sem :pred])
+               :talk)
+            (= (get-in (first result) [:synsem :sem :pred])
+               :speak)))
+    (is (= (get-in (first result) [:synsem :sem :tense])
+           :past))))
+
 (deftest parse-reflexive-past
   (let [result (first (parse "tu t'es amusé"))]
     (is (not (nil? result)))))

@@ -150,7 +150,10 @@
                      result)]
           result))
       (do
+        (log/debug (str "moreover-comp: fail: " result))
         (log/debug (str "moreover-comp: fail at: " (fail-path result)))
+        (log/debug (str "moreover-comp: fail: parent: " (strip-refs (get-in parent [:rule]))))
+        (log/debug (str "moreover-comp: fail: child: " (strip-refs child)))
         (if (and
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
@@ -160,8 +163,8 @@
                                   (get-in parent (fail-path result))
                                   "; Synsem of child is: "
                                   (get-in child '(:synsem) :top)))))
-        (log/debug (str "moreover-comp: complement synsem: " (get-in child '(:synsem) :top)))
-        (log/debug (str "moreover-comp:  parent value: " (get-in parent (fail-path result))))
+        (log/debug (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
+        (log/debug (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
         :fail))))
 
 (defn overh [parent head morph]

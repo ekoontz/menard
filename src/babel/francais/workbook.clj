@@ -26,21 +26,30 @@
 
 (defn generate
   ([spec]
-   (engine/generate spec medium))
+   (let [result (engine/generate spec medium)]
+     (conj {:surface (fo result)}
+            result)))
   ([spec model]
-   (engine/generate spec model)))
+   (let [result (engine/generate spec model)]
+     (conj {:surface (fo result)}
+           result))))
 
 (defn parse
   ([string]
-   (parse/parse string
-                (:lexicon medium)
-                (:lookup medium)
-                (:grammar medium)))
+   (map #(conj {:surface (fo %)}
+               %)
+        (parse/parse string
+                     (:lexicon medium)
+                     (:lookup medium)
+                     (:grammar medium))))
   ([string model]
-   (parse/parse string
-                (:lexicon model)
-                (:lookup model)
-                (:grammar model))))
+   (map #(conj {:surface (fo %)}
+               %)
+        (parse/parse string
+                     (:lexicon model)
+                     (:lookup model)
+                     (:grammar model)))))
+
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

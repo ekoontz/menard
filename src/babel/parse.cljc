@@ -27,7 +27,7 @@
         (let [looked-up (lookup (str (first tokens) " " (second tokens)))]
           (if (not (empty? looked-up))
             ;; found a match by combining first two tokens.
-            (cons looked-up
+            (cons (list looked-up)
                   (toks2 (rest (rest tokens)) lexicon lookup))
             ;; else, no match: consider the first token as a standalone token and continue.
             (cons (lookup (first tokens))

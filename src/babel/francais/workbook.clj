@@ -196,7 +196,7 @@
       [:div.hints
        [:h3 "Try:"]
        [:div "(expr X)"]
-       [:div "(parse 'je parle')"]
+       [:div "(parse \"je parle\")"]
 
        ]
 

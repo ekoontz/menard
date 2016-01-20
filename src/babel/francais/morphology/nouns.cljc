@@ -7,6 +7,13 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
+(def replace-patterns
+  [
+   ;; pronouns: e.g.: "t'" => "te". The apostrophe (')
+   ;; is already removed by the tokenizer.
+   {:i [#"^([jlmst])" "$1e"]}
+   {:i [#"^(l)" "$1a"]}])
+
 (defn agreement [lexical-entry]
   (let [agr (atom :top)
         cat (atom :top)]

@@ -10,6 +10,11 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
+(def replace-patterns
+  (concat
+   nouns/replace-patterns
+   verbs/replace-patterns))
+
 (declare analyze)
 (declare get-string)
 (declare suffix-of)
@@ -526,22 +531,19 @@
                 )]
     suffix))
 
-(def replace-patterns
-  (concat verbs/replace-patterns))
-
 (defn possible-lexemes [surface-form]
   (filter #(not (nil? %))
           (map
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth replace-pattern 0)
+                   from (nth (:i replace-pattern) 0)
           
                    ;; expression that is used by string/replace along with the first regexp and the surface form,
                    ;; to create the lexical string
-                   to (nth replace-pattern 1)
+                   to (nth (:i replace-pattern) 1)
           
                    ;; unifies with the lexical entry to create the inflected form.
-                   unify-with (nth replace-pattern 2)
+                   unify-with (:u replace-pattern)
           
                    lex (if (re-matches from surface-form)
                          (do
@@ -561,14 +563,16 @@
           (mapcat
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth replace-pattern 0)]
+                   from (nth (:i replace-pattern) 0)]
                (if (re-matches from surface-form)
                  (let [;; expression that is used by string/replace along with the first regexp and the surface form,
                        ;; to create the lexical string
-                       to (nth replace-pattern 1)
+                       to (nth (:i replace-pattern) 1)
 
                        ;; unifies with the lexical entry to create the inflected form.
-                       unify-with (nth replace-pattern 2)
+                       unify-with (if (:u replace-pattern)
+                                    (:u replace-pattern)
+                                    :top) ;; default unify-with
                      
                        lex (string/replace surface-form from to)]
                    (filter (fn [result] (not (= :fail result)))

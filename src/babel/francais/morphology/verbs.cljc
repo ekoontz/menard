@@ -10,20 +10,23 @@
 
 (def replace-patterns
   [;; <reflexive past>: e.g. "amusé" => "s'amuser"
-   {:i [#"^([aeéiou].*)é$" "s'$1er"] ;; :i : inflection
+   {:i [#"^([aeéiou].*)é$"   "s'$1er"] ;; :i : inflection
     :c [#"s'([aeéiou].*)er$" "$1é"]  ;; :c : conjugation
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :masc}}}}}}
-   {:i [#"^([aeéiou].*)és$" "s'$1er"]
+   {:i [#"^([aeéiou].*)és$"  "s'$1er"]
+    :c [#"s'([aeéiou].*)er$" "$1és"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :masc}}}}}}
-   {:i [#"^([aeéiou].*)ée$" "s'$1er"]
+   {:i [#"^([aeéiou].*)ée$"  "s'$1er"]
+    :c [#"s'([aeéiou].*)er$" "$1ée"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
    {:i [#"^([aeéiou].*)ées$" "s'$1er"]
+    :c [#"s'([aeéiou].*)er$" "$1ées"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}

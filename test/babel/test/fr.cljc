@@ -5,7 +5,8 @@
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
-            [babel.francais.morphology :refer [analyze fo possible-lexemes replace-patterns]]
+            [babel.francais.morphology :refer [analyze conjugate fo
+                                               possible-lexemes replace-patterns]]
             [babel.francais.workbook :refer [generate lookup parse tokenize]]
             [babel.over :as over]
             [babel.parse :as parse]
@@ -255,6 +256,20 @@
 (deftest parse-reflexive-past
   (let [result (first (parse "tu t'es amusé"))]
     (is (not (nil? result)))))
+
+(deftest conjugate1
+  (let [from #"s'([aeéiou].*)er$"
+        infinitive "s'amuser"
+        to "$1é"]
+    (is (= "amusé" (string/replace infinitive from to)))))
+
+(deftest conjugate2
+  (is (= "amusé" (conjugate "s'amuser"
+                            {:synsem {:infl :past-p :subcat {:1 {:agr {:number :sing}}}}}))))
+(deftest conjugate3
+  (is (= (conjugate "s'amuser"
+                    {:synsem {:infl :past-p :subcat {:1 {:agr {:number :plur}}}}})
+         "amusés")))
 
 (defn get-lex [exp]
   (filter #(not (nil? (:lookup %)))

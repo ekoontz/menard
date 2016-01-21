@@ -580,3 +580,24 @@
                                   (unifyc unify-with lexical-entry))
                                 (get lexicon lex)))))))
            replace-patterns)))
+
+(defn conjugate [infinitive unify-with]
+  "Conjugate an infinitive into a surface form by taking the first 
+   element of replace-patterns where the element's :u unifies successfully with
+   unify-with."
+  (first
+   (take 1
+         (remove #(nil? %)
+                 (map
+                  (fn [replace-pattern]
+                    (let [from (nth (:c replace-pattern) 0)
+                          to (nth (:c replace-pattern) 1)
+                          unify-against (if (:u replace-pattern)
+                                          (:u replace-pattern)
+                                          :top)]
+                      (if (and from to
+                               (not (fail? (unifyc unify-against
+                                                   unify-with))))
+                        (string/replace infinitive from to))))
+                  replace-patterns)))))
+

@@ -9,45 +9,213 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 (def replace-patterns-source
-  [;; <reflexive past>: e.g. "amusé" => "s'amuser"
-   {:i [#"^([aeéiou]\S+)é$"    "s'$1er"] ;; :i : how to transform a finite form to infinitive
-    :c [#"^s'([aeéiou]\S+)er$" "$1é"]  ;; :c : how to transform an infinitive into a finite form.
+  [
+   ;; <present>
+   ;; <non-reflexive present>
+   ;; <-er verbs>
+   {:p [#"^([^' ]+)e$"         "$1er"]
+    :g [#"^([^' ]+)er$"        "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)es$"        "$1er"]
+    :g [#"^([^' ]+)er$"        "$1es"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)e$"         "$1er"]
+    :g [#"^([^' ]+)er$"        "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+   
+   {:p [#"^([^' ]+)ons$"       "$1er"]
+    :g [#"^([^' ]+)er$"        "$1ons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)ez$"        "$1er"]
+    :g [#"^([^' ]+)er$"        "$1ez"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)ent$"       "$1er"]
+    :g [#"^([^' ]+)er$"        "$1ent"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+   ;; </-er verbs>
+
+   ;; <ir verbs>
+   {:p [#"^([^' ]+)e$"         "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)es$"        "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1es"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)e$"         "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+   
+   {:p [#"^([^' ]+)ons$"       "$1ir"]
+    :g [#"^([^' ]+)ir$"           "$1ons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)ez$"        "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1ez"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)ent$"       "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1ent"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+   ;; </ir verbs>   
+   ;; </present>
+
+      ;; <reflexive present -er and -ir type verbs>
+   {:comment "present reflexive 1st person singular"
+    :p [#"^([aeéiou]\S+)e$"    "s'$1er"]
+    :g [#"^s'(\S+)[ie]r$"      "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:comment "present reflexive 2nd person singular"
+    :p [#"^([aeéiou]\S+)es$"   "s'$1er"]
+    :g [#"^s'(\S+)[ie]r$"      "$1es"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:comment "present reflexive 3rd person singular"
+    :p [#"^([aeéiou]\S+)e$"    "s'$1er"]
+    :g [#"^s'(\S+)[ie]r$"      "$1e"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+
+   {:p [#"^([aeéiou]\S+)ons$"  "s'$1er"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([aeéiou]\S+)ez$"   "s'$1er"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([aeéiou]\S+)ent$"  "s'$1er"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+  
+   {:p [#"^([^aeéiou]\S+)e$"   "se $1er"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^aeéiou]\S+)es$"  "se $1er"]
+    :g [#"^se (\S+)[ie]r$"     "$1es"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+  
+   {:p [#"^([^aeéiou]\S+)e$"   "se $1er"]
+    :g [#"^se (\S+)[ie]r$"     "$1es"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^aeéiou]\S+)ons$" "s'$1er"]
+    :g [#"^se (\S+)[ie]r$"     "$1ons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^aeéiou]\S+)ez$"  "s'$1er"]
+    :g [#"^se (\S+)[ie]r$"     "$1ez"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^aeéiou]\S+)ent$" "s'$1er"]
+    :g [#"^se (\S+)[ie]r$"     "$1ent"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+   
+   ;; </reflexive present -er and -ir type verbs>
+
+   ;; <reflexive past>: e.g. "amusé" => "s'amuser"
+   {:comment "past participle reflexive singular masculine -er where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)é$"    "s'$1er"] ;; :p : how to transform a finite form to infinitive
+    :g [#"^s'([aeéiou]\S+)er$" "$1é"]  ;; :g : how to transform an infinitive into a finite form.
     :u {:synsem {:infl :past-p ;; :u : what to unify against for these tranformations to occur.
                  :subcat {:1 {:agr {:number :sing
                                     :gender :masc}}}}}}
-   {:i [#"^([aeéiou]\S+)és$"   "s'$1er"]
-    :c [#"^s'([aeéiou]\S+)er$" "$1és"]
+
+   {:comment "past participle reflexive plural masculine -er where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)és$"   "s'$1er"]
+    :g [#"^s'([aeéiou]\S+)er$" "$1és"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :masc}}}}}}
-   {:i [#"^([aeéiou]\S+)ée$"   "s'$1er"]
-    :c [#"^s'([aeéiou]\S+)er$" "$1ée"]
+
+   {:comment "past participle reflexive singular feminine -er where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)ée$"   "s'$1er"]
+    :g [#"^s'([aeéiou]\S+)er$" "$1ée"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
-   {:i [#"^([aeéiou]\S+)ées$"  "s'$1er"]
-    :c [#"^s'([aeéiou]\S+)er$" "$1ées"]
+
+   {:comment "past participle reflexive plural feminine -er where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)ées$"  "s'$1er"]
+    :g [#"^s'([aeéiou]\S+)er$" "$1ées"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
-   {:i [#"^([^aeéiou]\S+)é$"   "se $1er"]
-    :c [#"^se (\S+)er$"        "$1é"]
+
+   {:comment "past participle reflexive singular masculine -er where stem does not begin with a vowel"
+    :p [#"^([^aeéiou]\S+)é$"   "se $1er"]
+    :g [#"^se (\S+)er$"        "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :masc}}}}}}
 
-   {:i [#"^([^aeéiou]\S+)és$"  "se $1er"]
-    :c [#"^se (\S+)er$"        "$1és"]
+   {:comment "past participle reflexive plural masculine -er where stem does not begin with a vowel"
+    :p [#"^([^aeéiou]\S+)és$"  "se $1er"]
+    :g [#"^se (\S+)er$"        "$1és"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :masc}}}}}}
-   {:i [#"^([^aeéiou]\S+)ée$"  "se $1er"]
-    :c [#"^se (\S+)er$"        "$1é"]
+
+   {:comment "past participle reflexive singular feminine -er where stem does not begin with a vowel"
+    :p [#"^([^aeéiou]\S+)ée$"  "se $1er"]
+    :g [#"^se (\S+)er$"        "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
-   {:i [#"^([^aeéiou]\S+)ées$" "se $1er"]
-    :c [#"^se (\S+)er$"        "$1ées"]
+
+   {:comment "past participle reflexive plural feminine -er where stem does not begin with a vowel"
+    :p [#"^([^aeéiou]\S+)ées$" "se $1er"]
+    :g [#"^se (\S+)er$"        "$1ées"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
@@ -55,179 +223,36 @@
 
    ;; <non-reflexive past>: e.g. "parlé" => "parler"
    ;; singular: could be masculine or feminine
-   {:i [#"^(\S+)é$"            "$1er"]
-    :c [#"^(\S+)er$"           "$1é"]
+   {:comment "past participle non-reflexive singular"
+    :p [#"^(\S+)é$"            "$1er"]
+    :g [#"^(\S+)er$"           "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing}}}}}}
 
    ;; plural: could be masculine or feminine
-   {:i [#"^(\S+)és$"           "$1er"]
-    :c [#"^(\S+)er$"           "$1é"]
+   {:comment "past participle non-reflexive plural"
+    :p [#"^(\S+)és$"           "$1er"]
+    :g [#"^(\S+)er$"           "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur}}}}}}
    
    ;; singular feminine
-   {:i [#"^(\S+)ée$"           "$1er"]
-    :c [#"^(\S+)er$"           "$1ée"]
+   {:comment "past participle non-reflexive singular masculine"
+    :p [#"^(\S+)ée$"           "$1er"]
+    :g [#"^(\S+)er$"           "$1ée"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
    ;; plural feminine
-   {:i [#"^(\S+)ées$"          "$1er"]
-    :c [#"^(\S+)er$"           "$1ée"]
+   {:comment "past participle non-reflexive plural feminine"
+    :p [#"^(\S+)ées$"          "$1er"]
+    :g [#"^(\S+)er$"           "$1ée"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
    ;; </non-reflexive past>
 
-   ;; <reflexive present -er and -ir type verbs>
-   {:i [#"^([aeéiou]\S+)e$"    "s'$1er"]
-    :c [#"^s'(\S+)[ie]r$"      "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
 
-   {:i [#"^([aeéiou]\S+)es$"   "s'$1er"]
-    :c [#"^s'(\S+)[ie]r$"      "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^([aeéiou]\S+)e$"    "s'$1er"]
-    :c [#"^s'(\S+)[ie]r$"      "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
-
-   {:i [#"^([aeéiou]\S+)ons$"  "s'$1er"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^([aeéiou]\S+)ez$"   "s'$1er"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^([aeéiou]\S+)ent$"  "s'$1er"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
-  
-   {:i [#"^([^aeéiou]\S+)e$"   "se $1er"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^([^aeéiou]\S+)es$"  "se $1er"]
-    :c [#"^se (\S+)[ie]r$"     "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
-  
-   {:i [#"^([^aeéiou]\S+)e$"   "se $1er"]
-    :c [#"^se (\S+)[ie]r$"     "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
-
-   {:i [#"^([^aeéiou]\S+)ons$" "s'$1er"]
-    :c [#"^se (\S+)[ie]r$"     "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^([^aeéiou]\S+)ez$"  "s'$1er"]
-    :c [#"^se (\S+)[ie]r$"     "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-              :infl :present}}}
-
-   {:i [#"^([^aeéiou]\S+)ent$" "s'$1er"]
-    :c [#"^se (\S+)[ie]r$"     "$1ent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
-   
-   ;; </reflexive present -er and -ir type verbs>
-
-   ;; <present non-reflexive>
-   ;; <-er verbs>
-   {:i [#"^(\S+)e$"            "$1er"]
-    :c [#"^(\S+)er$"           "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)es$"           "$1er"]
-    :c [#"^(\S+)er$"           "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)e$"            "$1er"]
-    :c [#"^([^ ']+)er$"           "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
-   
-   {:i [#"^(\S+)ons$"          "$1er"]
-    :c [#"^(\S+)er$"           "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)ez$"           "$1er"]
-    :c [#"^(\S+)er$"           "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)ent$"          "$1er"]
-    :c [#"^(\S+)er$"           "$1ent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
-   ;; </-er verbs>
-
-   ;; <ir verbs>
-   {:i [#"^(\S+)e$"            "$1ir"]
-    :c [#"^(\S+)ir$"           "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)es$"           "$1ir"]
-    :c [#"^(\S+)ir$"           "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)e$"            "$1ir"]
-    :c [#"^(\S+)ir$"           "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
-   
-   {:i [#"^(\S+)ons$"          "$1ir"]
-    :c [#"^(\S+)ir$"           "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)ez$"           "$1ir"]
-    :c [#"^(\S+)ir$"           "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
-
-   {:i [#"^(\S+)ent$"          "$1ir"]
-    :c [#"^(\S+)ir$"           "$1ent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
-   ;; </ir verbs>   
-   ;; </present non-reflexive>
 
    ])
 
@@ -236,8 +261,8 @@
 ;; the :francais part of the verb.
 (def replace-patterns
   (map (fn [pattern]
-         {:i (:i pattern)
-          :c (:c pattern)
+         {:p (:p pattern)
+          :g (:g pattern)
           :u (unifyc (unifyc (:u pattern)
                              (let [agr (atom :top)
                                    infl (atom :top)]

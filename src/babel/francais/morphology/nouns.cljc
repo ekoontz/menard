@@ -11,8 +11,8 @@
   [
    ;; pronouns: e.g.: "t'" => "te". The apostrophe (')
    ;; is already removed by the tokenizer.
-   {:i [#"^([jlmst])" "$1e"]}
-   {:i [#"^(l)" "$1a"]}])
+   {:p [#"^([jlmst])" "$1e"]}
+   {:p [#"^(l)" "$1a"]}])
 
 (defn agreement [lexical-entry]
   (let [agr (atom :top)

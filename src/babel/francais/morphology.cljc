@@ -547,11 +547,11 @@
           (map
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth (:i replace-pattern) 0)
+                   from (nth (:p replace-pattern) 0)
           
                    ;; expression that is used by string/replace along with the first regexp and the surface form,
                    ;; to create the lexical string
-                   to (nth (:i replace-pattern) 1)
+                   to (nth (:p replace-pattern) 1)
           
                    ;; unifies with the lexical entry to create the inflected form.
                    unify-with (:u replace-pattern)
@@ -574,11 +574,11 @@
           (mapcat
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth (:i replace-pattern) 0)]
+                   from (nth (:p replace-pattern) 0)]
                (if (re-matches from surface-form)
                  (let [;; expression that is used by string/replace along with the first regexp and the surface form,
                        ;; to create the lexical string
-                       to (nth (:i replace-pattern) 1)
+                       to (nth (:p replace-pattern) 1)
 
                        ;; unifies with the lexical entry to create the inflected form.
                        unify-with (if (:u replace-pattern)
@@ -601,8 +601,8 @@
          (remove #(nil? %)
                  (map
                   (fn [replace-pattern]
-                    (let [from (nth (:c replace-pattern) 0)
-                          to (nth (:c replace-pattern) 1)
+                    (let [from (nth (:g replace-pattern) 0)
+                          to (nth (:g replace-pattern) 1)
                           unify-against (if (:u replace-pattern)
                                           (:u replace-pattern)
                                           :top)]

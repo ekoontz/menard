@@ -42,7 +42,7 @@
          true
          (over/over grammar arg1 arg2))))
 
-(deftest conditional
+(deftest generate-conditional
   (let [result (engine/generate {:synsem {:subcat '()
                                           :sem {:pred :sleep
                                                 :subj {:pred :I}
@@ -50,7 +50,7 @@
                                 small)]
     (is (= "je dormirais" (fo result)))))
 
-(deftest present-irregular
+(deftest generate-present-irregular
   (let [result (engine/generate {:synsem {:subcat '()
                                           :sem {:pred :be
                                                 :subj {:pred :I}
@@ -58,7 +58,7 @@
                                 small)]
     (is (= "je suis" (fo result)))))
 
-(deftest imperfect-irregular-être
+(deftest generate-imperfect-irregular-être
   (let [result (engine/generate {:synsem {:subcat '()
                                           :infl :imperfect
                                           :sem {:pred :be
@@ -67,7 +67,7 @@
                                 small)]
     (is (= "j'étais" (fo result)))))
 
-(deftest imperfect-irregular-avoir
+(deftest generate-imperfect-irregular-avoir
   (let [result (engine/generate {:synsem {:subcat '()
                                           :infl :imperfect
                                           :sem {:pred :have
@@ -165,7 +165,7 @@
                   :français "sommes"}}}}]
     (is (= (fo result) "nous sommes allées"))))
 
-(deftest passe-compose-1
+(deftest generate-passe-compose-1
   (let [result
         (forest/generate (unifyc
                           {:synsem {:subcat '()}}
@@ -181,7 +181,7 @@
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 
-(deftest passe-compose
+(deftest generate-passe-compose
   (let [result (engine/generate {:synsem {:sem {:pred :go
                                                 :subj {:pred :noi
                                                        :gender :fem}
@@ -191,7 +191,7 @@
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
 
-(deftest reflexive
+(deftest generate-reflexive-present
   (let [rules {:s-present-phrasal
                (first (filter #(= (get % :rule) "s-present-phrasal")
                               (:grammar medium)))
@@ -206,12 +206,12 @@
     (is (= (fo (first result))
            "je m'amuse"))))
 
-(deftest have-fun-sentence
+(deftest generate-have-fun-sentence
   (let [result (engine/expression medium
                                   {:synsem {:sem {:pred :have-fun}}})]
     (is (= (get-in result [:synsem :sem :pred]) :have-fun))))
 
-(deftest vp-aux-reflexive
+(deftest generate-vp-aux-reflexive
   (let [result
         (engine/expression
          medium
@@ -219,7 +219,7 @@
                                      :pred :have-fun :tense :past}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
-(deftest named-sentence
+(deftest generate-named-sentence
   (let [result (engine/expression medium
                                   {:synsem {:sem {:pred :be-called
                                                   :subj {:pred :lui}

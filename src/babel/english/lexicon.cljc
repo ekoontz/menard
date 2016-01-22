@@ -1359,8 +1359,7 @@
                     :sem {:pred :tell}}}
    "the" (map #(unify % 
                       {:synsem {:cat :det
-                                :def :def
-                                :mass false}})
+                                :def :def}})
               [{:synsem {:agr {:number :sing}}}
                {:synsem {:agr {:number :plur}}}])
 

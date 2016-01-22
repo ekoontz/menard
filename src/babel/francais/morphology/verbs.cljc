@@ -9,9 +9,8 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 
-(def present-nonreflexive
+(def present-nonreflexive-er
   [
-   ;; <-er verbs>
    {:p [#"^([^' ]+)e$"         "$1er"]
     :g [#"^([^' ]+)er$"        "$1e"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -30,8 +29,14 @@
                                     :person :3rd}}}
                  :infl :present}}}
    
-   {:p [#"^([^' ]+)ons$"       "$1er"]
-    :g [#"^([^' ]+)er$"        "$1ons"]
+   {:p [#"^([^' ]+)([^e])ons$" "$1$2er"]
+    :g [#"^([^' ]+)([^g])er$"  "$1$2ons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)(g)eons$"   "$1$2er"]
+    :g [#"^([^' ]+)(g)er$"     "$1$2eons"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :present}}}
@@ -47,17 +52,19 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :present}}}
-   ;; </-er verbs>
+   ])
 
+(def present-nonreflexive-ir
+  [
    ;; <ir verbs>
-   {:p [#"^([^' ]+)e$"         "$1ir"]
-    :g [#"^([^' ]+)ir$"        "$1e"]
+   {:p [#"^([^' ]+)is$"         "$1ir"]
+    :g [#"^([^' ]+)ir$"         "$1is"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}
                  :infl :present}}}
 
-   {:p [#"^([^' ]+)es$"        "$1ir"]
-    :g [#"^([^' ]+)ir$"        "$1es"]
+   {:p [#"^([^' ]+)it$"        "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1it"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}
                  :infl :present}}}
@@ -68,27 +75,66 @@
                                     :person :3rd}}}
                  :infl :present}}}
    
-   {:p [#"^([^' ]+)ons$"       "$1ir"]
-    :g [#"^([^' ]+)ir$"           "$1ons"]
+   {:p [#"^([^' ]+)issons$"    "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1issons"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :present}}}
 
-   {:p [#"^([^' ]+)ez$"        "$1ir"]
-    :g [#"^([^' ]+)ir$"        "$1ez"]
+   {:p [#"^([^' ]+)issez$"     "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1issez"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :2nd}}}
                  :infl :present}}}
 
-   {:p [#"^([^' ]+)ent$"       "$1ir"]
-    :g [#"^([^' ]+)ir$"        "$1ent"]
+   {:p [#"^([^' ]+)issent$"    "$1ir"]
+    :g [#"^([^' ]+)ir$"        "$1issent"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :present}}}
    ;; </ir verbs>   
-   ;; </present>
 
-      ;; <reflexive present -er and -ir type verbs>
+   ;; <re verbs>
+   {:p [#"^([^' ]+)$"           "$1re"]
+    :g [#"^([^' ]+)re$"        "$1"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)s$"        "$1re"]
+    :g [#"^([^' ]+)re$"       "$1s"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)$"         "$1re"]
+    :g [#"^([^' ]+)re$"       "$1"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+   
+   {:p [#"^([^' ]+)ons$"      "$1re"]
+    :g [#"^([^' ]+)re$"       "$1ons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)ez$"       "$1re"]
+    :g [#"^([^' ]+)re$"       "$1ez"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)nent$"     "$1re"]
+    :g [#"^([^' ]+)re$"       "$1nent"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+])
+
+(def present-reflexive
+  ;; reflexive present -er and -ir type verbs
+  [
    {:comment "present reflexive 1st person singular, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)e$"    "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1e"]
@@ -219,8 +265,8 @@
                                     :gender :masc}}}}}}
 
    {:comment "past participle reflexive singular feminine -er where stem does not begin with a vowel"
-    :p [#"^([^aeéiou]\S+)ée$"  "se $1er"]
-    :g [#"^se ([^aeéiou]\S+)er$"        "$1é"]
+    :p [#"^([^aeéiou]\S+)ée$"    "se $1er"]
+    :g [#"^se ([^aeéiou]\S+)er$" "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
@@ -267,8 +313,12 @@
 
 (def replace-patterns-source
   (apply concat
-         [present-nonreflexive
-          past-reflexive]))
+         [
+          present-nonreflexive-er
+          present-nonreflexive-ir
+          present-reflexive
+          past-reflexive
+          ]))
 
 ;; this (map..) is needed because a word within a syntactic tree will be conjugated
 ;; as a part of :a or :b within the tree, and with its :infl and :agr as keys within

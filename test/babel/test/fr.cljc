@@ -257,6 +257,34 @@
   (let [result (first (parse "tu t'es amusé"))]
     (is (not (nil? result)))))
 
+(deftest parse-present
+  (let [result (parse "nous parlons")]
+    (is (not (nil? result)))
+    (is (or (= (get-in (first result)
+                       [:synsem :sem :pred])
+               :speak)
+            (= (get-in (first result)
+                       [:synsem :sem :pred])
+               :talk)))
+    (is (= (get-in (first result)
+                   [:synsem :infl])
+           :present))))
+
+(deftest parse-present-with-g
+  (let [result (parse "nous mangeons")]
+    (is (not (nil? result)))
+    (is (= (get-in (first result)
+                   [:synsem :sem :pred])
+           :mangiare))
+    (is (= (get-in (first result)
+                   [:synsem :infl])
+           :present))))
+
+(deftest conjugate-present-with-g
+  (is (= "mangeons" (conjugate "manger"
+                               {:synsem {:infl :present
+                                         :subcat {:1 {:agr {:number :plur
+                                                            :person :1st}}}}}))))
 (deftest conjugate1
   (let [from #"s'([aeéiou].*)er$"
         infinitive "s'amuser"

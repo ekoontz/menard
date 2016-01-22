@@ -178,9 +178,7 @@
                (get-in word [:present number-and-person])
 
                true
-               (if true
-                 (conjugate (get-in word [:français]) word)
-                 (verbs/present word))))
+               (conjugate (get-in word [:français]) word)))
            
            (and
             (get-in word '(:a))

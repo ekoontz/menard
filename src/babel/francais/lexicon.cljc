@@ -483,11 +483,11 @@
   "mettre" {:synsem {:cat :verb
                      :passato "mis"
                      :present {:1sing "mets"
-                                    :2sing "mets"
-                                    :3sing "met"
-                                    :1plur "mettons"
-                                    :2plur "mettez"
-                                    :3plur "mettent"}
+                               :2sing "mets"
+                               :3sing "met"
+                               :1plur "mettons"
+                               :2plur "mettez"
+                               :3plur "mettent"}
                      
                      :sem {:pred :put}}}
   "nous"

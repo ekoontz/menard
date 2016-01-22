@@ -19,6 +19,8 @@
 (declare get-string)
 (declare suffix-of)
 
+(declare conjugate)
+
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
 ;; 
@@ -169,7 +171,16 @@
            (and
             (= (get-in word '(:infl)) :present)
             (string? (get-in word '(:français))))
-           (verbs/present word)
+           (let [number-and-person (verbs/number-and-person number person)]
+             (cond
+               (and number-and-person
+                    (get-in word [:present number-and-person]))
+               (get-in word [:present number-and-person])
+
+               true
+               (if true
+                 (conjugate (get-in word [:français]) word)
+                 (verbs/present word))))
            
            (and
             (get-in word '(:a))
@@ -596,8 +607,14 @@
                                           (:u replace-pattern)
                                           :top)]
                       (if (and from to
+                               (re-matches from infinitive)
                                (not (fail? (unifyc unify-against
                                                    unify-with))))
-                        (string/replace infinitive from to))))
+                        (do
+                          (log/debug (str "matched infinitive: " infinitive))
+                          (log/debug (str "from: " from))
+                          (log/debug (str "to: " to))
+                          (log/debug (str "unify-with: " (strip-refs unify-with)))
+                          (log/debug (str "unify-against"  (strip-refs unify-against)))
+                          (string/replace infinitive from to)))))
                   replace-patterns)))))
-

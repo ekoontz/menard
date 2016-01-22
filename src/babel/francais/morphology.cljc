@@ -575,6 +575,7 @@
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
                    from (nth (:p replace-pattern) 0)]
+               (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
                (if (re-matches from surface-form)
                  (let [;; expression that is used by string/replace along with the first regexp and the surface form,
                        ;; to create the lexical string
@@ -614,7 +615,7 @@
                           (log/debug (str "matched infinitive: " infinitive))
                           (log/debug (str "from: " from))
                           (log/debug (str "to: " to))
-                          (log/debug (str "unify-with: " (strip-refs unify-with)))
-                          (log/debug (str "unify-against"  (strip-refs unify-against)))
+                          (log/debug (str "input spec: " (strip-refs unify-with)))
+                          (log/debug (str "pattern spec:"  (strip-refs unify-against)))
                           (string/replace infinitive from to)))))
                   replace-patterns)))))

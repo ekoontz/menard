@@ -66,6 +66,9 @@
    "approve" {:synsem {:cat :verb
                 :sem {:pred :approve}}}
 
+   "arrive" {:synsem {:cat :verb
+                      :sem {:pred :arrive}}}
+   
    "ask" {:synsem {:cat :verb
                    :sem {:pred :chiedere
                          :subj {:human true}}}}

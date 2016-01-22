@@ -95,7 +95,7 @@
    ;; </ir verbs>   
 
    ;; <re verbs>
-   {:p [#"^([^' ]+)$"           "$1re"]
+   {:p [#"^([^' ]+)$"          "$1re"]
     :g [#"^([^' ]+)re$"        "$1"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}
@@ -112,21 +112,22 @@
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :3rd}}}
                  :infl :present}}}
-   
-   {:p [#"^([^' ]+)ons$"      "$1re"]
-    :g [#"^([^' ]+)re$"       "$1ons"]
+
+   ;; e.g. apprendre => apprenons
+   {:p [#"^([^' ]+)ons$"      "$1dre"]
+    :g [#"^([^' ]+)dre$"      "$1ons"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :present}}}
 
-   {:p [#"^([^' ]+)ez$"       "$1re"]
-    :g [#"^([^' ]+)re$"       "$1ez"]
+   {:p [#"^([^' ]+)ez$"       "$1dre"]
+    :g [#"^([^' ]+)dre$"      "$1ez"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :2nd}}}
                  :infl :present}}}
 
-   {:p [#"^([^' ]+)nent$"     "$1re"]
-    :g [#"^([^' ]+)re$"       "$1nent"]
+   {:p [#"^([^' ]+)nent$"     "$1dre"]
+    :g [#"^([^' ]+)dre$"      "$1nent"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :present}}}

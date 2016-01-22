@@ -280,11 +280,21 @@
                    [:synsem :infl])
            :present))))
 
-(deftest conjugate-present-with-g
+(deftest conjugate-present-er
+  (is (= "parlons" (conjugate "parler"
+                               {:synsem {:infl :present
+                                         :subcat {:1 {:agr {:number :plur
+                                                            :person :1st}}}}}))))
+(deftest conjugate-present-er-with-g
   (is (= "mangeons" (conjugate "manger"
                                {:synsem {:infl :present
                                          :subcat {:1 {:agr {:number :plur
                                                             :person :1st}}}}}))))
+(deftest conjugate-present-re-with-d
+  (is (= "apprenons" (conjugate "apprendre"
+                                  {:synsem {:infl :present
+                                            :subcat {:1 {:agr {:number :plur
+                                                               :person :1st}}}}}))))
 (deftest conjugate1
   (let [from #"s'([aeéiou].*)er$"
         infinitive "s'amuser"

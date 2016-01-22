@@ -1030,6 +1030,7 @@
                 :sem {:pred :multiply}}}
    "music" 
    {:synsem {:cat :noun
+             :mass true
              :sem {:pred :music}}}
    "my"
    (map #(unify %

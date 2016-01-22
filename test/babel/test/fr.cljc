@@ -5,7 +5,7 @@
             [babel.forest :as forest]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
-            [babel.francais.morphology :refer [analyze conjugate fo
+            [babel.francais.morphology :refer [analyze conjugate fo get-string
                                                possible-lexemes replace-patterns]]
             [babel.francais.workbook :refer [generate lookup parse tokenize]]
             [babel.over :as over]
@@ -265,11 +265,48 @@
 
 (deftest conjugate2
   (is (= "amusé" (conjugate "s'amuser"
-                            {:synsem {:infl :past-p :subcat {:1 {:agr {:number :sing}}}}}))))
+                            {:synsem {:infl :past-p
+                                      :subcat {:1 {:agr {:number :sing}}}}}))))
 (deftest conjugate3
   (is (= (conjugate "s'amuser"
-                    {:synsem {:infl :past-p :subcat {:1 {:agr {:number :plur}}}}})
+                    {:synsem {:infl :past-p
+                              :subcat {:1 {:agr {:number :plur}}}}})
          "amusés")))
+
+(deftest conjugate4
+  (is (= (conjugate "s'amuser"
+                    {:synsem {:infl :past-p
+                              :subcat {:1 {:agr {:gender :masc
+                                                 :number :plur}}}}})
+         "amusés")))
+
+(deftest conjugate5
+  (is (= (conjugate "s'amuser"
+                    {:synsem {:infl :past-p
+                              :subcat {:1 {:agr {:gender :fem
+                                                 :number :plur}}}}})
+         "amusées")))
+
+(deftest conjugate6
+  (is (= (conjugate "se blesser"
+                    {:synsem {:infl :past-p
+                              :subcat {:1 {:agr {:gender :masc
+                                                 :number :sing}}}}})
+         "blessé")))
+
+(deftest conjugate7
+  (is (= (conjugate "se blesser"
+                    {:synsem {:infl :past-p
+                              :subcat {:1 {:agr {:gender :fem
+                                                 :number :plur}}}}})
+         "blessées")))
+
+(deftest conjugate7
+  (is (= (conjugate "se blesser"
+                    {:synsem {:infl :present
+                              :subcat {:1 {:agr {:person :2nd
+                                                 :number :sing}}}}})
+         "blesses")))
 
 (defn get-lex [exp]
   (filter #(not (nil? (:lookup %)))

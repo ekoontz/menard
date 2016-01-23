@@ -295,6 +295,13 @@
                                   {:synsem {:infl :present
                                             :subcat {:1 {:agr {:number :plur
                                                                :person :1st}}}}}))))
+
+(deftest conjugate-conditional
+  (is (= "parlerions"
+         (conjugate "parler"
+                    {:synsem {:infl :conditional
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :1st}}}}}))))
 (deftest conjugate1
   (let [from #"s'([aeéiou].*)er$"
         infinitive "s'amuser"

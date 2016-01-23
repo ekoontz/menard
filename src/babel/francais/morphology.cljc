@@ -150,9 +150,18 @@
            (get-in word [:français])
 
            (and
-            (= (get-in word '(:infl)) :conditional)
-            (string? (get-in word '(:français))))
-           (verbs/conditional word)
+            (or (= (get-in word [:infl]) :conditional)
+                (= (get-in word [:infl]) :present))
+            (string? (get-in word [:français])))
+           (let [number-and-person (verbs/number-and-person number person)
+                 infl (get-in word [:infl])]
+             (cond
+               (and number-and-person
+                    (get-in word [infl number-and-person]))
+               (get-in word [infl number-and-person])
+
+               true
+               (conjugate (get-in word [:français]) word)))
               
            (and
             (= (get-in word '(:infl)) :future)
@@ -167,18 +176,6 @@
            (and
             (= (get-in word '(:infl)) :past-p))
            (verbs/passe-compose word)
-           
-           (and
-            (= (get-in word '(:infl)) :present)
-            (string? (get-in word '(:français))))
-           (let [number-and-person (verbs/number-and-person number person)]
-             (cond
-               (and number-and-person
-                    (get-in word [:present number-and-person]))
-               (get-in word [:present number-and-person])
-
-               true
-               (conjugate (get-in word [:français]) word)))
            
            (and
             (get-in word '(:a))

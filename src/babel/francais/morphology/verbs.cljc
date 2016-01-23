@@ -9,7 +9,7 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 
-(def present-nonreflexive-er
+(def present-nonreflexive-er-verb
   [
    {:p [#"^([^' ]+)e$"         "$1er"]
     :g [#"^([^' ]+)er$"        "$1e"]
@@ -54,7 +54,7 @@
                  :infl :present}}}
    ])
 
-(def present-nonreflexive-ir
+(def present-nonreflexive-ir-verb
   [
    ;; <ir verbs>
    {:p [#"^([^' ]+)is$"         "$1ir"]
@@ -312,13 +312,199 @@
    ;; </non-reflexive past>
    ])
 
+(def conditional
+  [
+   {:p [#"^(\S+)ais$"       "$1"]
+    :g [#"^(\S+)$"          "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ais$"       "s'$1"]
+    :g [#"^s'(\S+)$"        "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ais$"       "se $1"]
+    :g [#"^se (\S+)$"       "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ais$"       "$1"]
+    :g [#"^(\S+)$"          "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ais$"       "s'$1"]
+    :g [#"^s'(\S+)$"        "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ais$"       "se $1"]
+    :g [#"^se (\S+)$"       "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rais$"      "$1re"]
+    :g [#"^(\S+)$"          "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rais$"      "s'$1re"]
+    :g [#"^s'(\S+)$"        "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rais$"      "se $1re"]
+    :g [#"^se (\S+)re$"     "$1rais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rais$"      "$1"]
+    :g [#"^(\S+)re$"        "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rais$"      "s'$1"]
+    :g [#"^s'(\S+)re$"      "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rais$"      "se $1"]
+    :g [#"^se (\S+)$"       "$1ais"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ait$"       "$1"]
+    :g [#"^(\S+)$"          "$1ait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ait$"       "s'$1"]
+    :g [#"^s'(\S+)$"        "$1ait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ait$"       "se $1"]
+    :g [#"^se (\S+)$"       "$1ait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)rait$"      "$1re"]
+    :g [#"^(\S+)re$"        "$1rait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)rait$"      "s'$1re"]
+    :g [#"^s'(\S+)$"        "$1rait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)rait$"      "se $1re"]
+    :g [#"^se (\S+)$"       "$1ait"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ions$"      "$1"]
+    :g [#"^(\S+)$"          "$1ions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ions$"      "s'$1"]
+    :g [#"^s' (\S+)$"       "$1ions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ions$"      "se $1"]
+    :g [#"^se (\S+)$"       "$1ions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rions$"     "$1re"]
+    :g [#"^(\S+)re$"        "$1rions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rions$"     "s'$1re"]
+    :g [#"^s'(\S+)$"        "$1ions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rions$"     "se $1re"]
+    :g [#"^se (\S+)$"       "$1rions"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)iez$"       "$1"]
+    :g [#"^(\S+)$"          "$1iez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)iez$"       "s'$1"]
+    :g [#"^s'(\S+)$"        "$1iez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)iez$"       "se $1"]
+    :g [#"^se (\S+)$"       "$1iez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)riez$"      "$1re"]
+    :g [#"^(\S+)re$"        "$1riez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)riez$"      "s'$1re"]
+    :g [#"^s'(\S+)re$"      "$1riez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)riez$"      "se $1re"]
+    :g [#"^se (\S+)re$"     "$1riez"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)aient$"     "$1"]
+    :g [#"^(\S+)$"          "$1aient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)aient$"     "s'$1"]
+    :g [#"^s'(\S+)$"        "$1aient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)aient$"     "se $1"]
+    :g [#"^se (\S+)$"       "$1aient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)raient$"    "$1re"]
+    :g [#"^(\S+)$"          "$1aient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)raient$"    "s'$1re"]
+    :g [#"^s'(\S+)$"        "$1aient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)raient$"    "se $1re"]
+    :g [#"^se (\S+)re$"     "$1raient"]
+    :u {:synsem {:infl :conditional
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   ]
+  )
+
 (def replace-patterns-source
   (apply concat
          [
-          present-nonreflexive-er
-          present-nonreflexive-ir
+          present-nonreflexive-er-verb
+          present-nonreflexive-ir-verb
           present-reflexive
           past-reflexive
+          conditional
           ]))
 
 ;; this (map..) is needed because a word within a syntactic tree will be conjugated
@@ -357,86 +543,6 @@
     (string/replace reflexive-infinitive #"^s'" "")
     true
     reflexive-infinitive))
-    
-(defn conditional [word]
-  (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
-        ar-type (try (re-find #"ar$" infinitive)
-                     (catch Exception e
-                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
-        er-type (re-find #"[eé]r$" infinitive)
-        ir-type (re-find #"ir$" infinitive)
-        re-type (re-find #"re$" infinitive)
-        stem (string/replace infinitive #"i?[iaeé]r$" "")
-        stem (if re-type
-               ;; prendre -> prend
-               (string/replace infinitive #"re$" "")
-               stem)
-        stem (if (get-in word [:future-stem])
-               (get-in word [:future-stem])
-               stem)
-        last-stem-char-is-i (re-find #"ir$" infinitive)
-        last-stem-char-is-e (re-find #"er$" infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        number-and-person (number-and-person number person)]
-    (cond
-     (get-in word [:conditional number-and-person])
-     (get-in word [:conditional number-and-person])
-
-     (and (= person :1st) (= number :sing) er-type)
-     (str stem "erais")
-     (and (= person :1st) (= number :sing) ir-type)
-     (str stem "irais")
-     (and (= person :1st) (= number :sing) re-type)
-     (str stem "rais")
-
-     (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "erais")
-     (and (= person :2nd) (= number :sing) er-type)
-     (str stem "irais")
-     (and (= person :2nd) (= number :sing) re-type)
-     (str stem "rais")
-    
-     (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "erait")
-     (and (= person :3rd) (= number :sing) er-type)
-     (str stem "irait")
-     (and (= person :3rd) (= number :sing) re-type)
-     (str stem "rait")
-     
-     (and (= person :1st) (= number :plur) er-type)
-     (str stem "erions")
-     (and (= person :1st) (= number :plur) ir-type)
-     (str stem "irions")
-     (and (= person :1st) (= number :plur) re-type)
-     (str stem "rions")
-
-     (and (= person :2nd) (= number :plur) er-type)
-     (str stem "eriez")
-     (and (= person :2nd) (= number :plur) ir-type)
-     (str stem "iriez")
-     (and (= person :2nd) (= number :plur) re-type)
-     (str stem "riez")
-     ;; </second person plural conditional>
-
-     ;; <third person plural conditional>
-     (and (= person :3rd) (= number :plur)
-          er-type)
-     (str stem "eraient")
-     (and (= person :3rd) (= number :plur)
-          ir-type)
-     (str stem "iraient")
-     (and (= person :3rd) (= number :plur)
-          re-type)
-     (str stem "raient")
-     ;; </third person plural conditional>
-
-     :else
-     (let [message (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))]
-       (if (= true suppress-incomplete-morphology-errors)
-         (do (log/warn message)
-             "(" (get-in word [:francais]) ")")
-         (exception message))))))
 
 (defn future [word]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))

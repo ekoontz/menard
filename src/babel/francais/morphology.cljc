@@ -151,6 +151,7 @@
 
            (and
             (or (= (get-in word [:infl]) :conditional)
+                (= (get-in word [:infl]) :future)
                 (= (get-in word [:infl]) :present))
             (string? (get-in word [:français])))
            (let [number-and-person (verbs/number-and-person number person)
@@ -163,11 +164,6 @@
                true
                (conjugate (get-in word [:français]) word)))
               
-           (and
-            (= (get-in word '(:infl)) :future)
-            (string? (get-in word '(:français))))
-           (verbs/future word)
-           
            (and
             (= (get-in word '(:infl)) :imperfect)
             (string? (get-in word '(:français))))

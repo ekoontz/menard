@@ -497,6 +497,191 @@
    ]
   )
 
+(def future
+  [
+   {:p [#"^(\S+)ai$"     "$1"]
+    :g [#"^(\S+)$"       "$1ai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ai$"     "s'$1"]
+    :g [#"^s'(\S+)$"     "$1ai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ai$"     "se $1"]
+    :g [#"^se (\S+)$"    "$1ai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)as$"     "$1"]
+    :g [#"^(\S+)$"       "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)as$"     "s'$1"]
+    :g [#"^s'(\S+)$"     "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)as$"     "se $1"]
+    :g [#"^se (\S+)$"    "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rai$"    "$1re"]
+    :g [#"^(\S+)$"       "$1ai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rai$"    "s'$1re"]
+    :g [#"^s'(\S+)$"     "$1ai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rai$"    "se $1re"]
+    :g [#"^se (\S+)re$"  "$1rai"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ras$"    "$1"]
+    :g [#"^(\S+)re$"     "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ras$"    "s'$1"]
+    :g [#"^s'(\S+)re$"   "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ras$"    "se $1"]
+    :g [#"^se (\S+)$"    "$1as"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)a$"      "$1"]
+    :g [#"^(\S+)$"       "$1a"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)a$"      "s'$1"]
+    :g [#"^s'(\S+)$"     "$1a"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)a$"      "se $1"]
+    :g [#"^se (\S+)$"    "$1a"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ra$"     "$1re"]
+    :g [#"^(\S+)re$"     "$1ra"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ra$"     "s'$1re"]
+    :g [#"^s'(\S+)$"     "$1ra"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ra$"     "se $1re"]
+    :g [#"^se (\S+)$"    "$1a"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ons$"    "$1"]
+    :g [#"^(\S+)$"       "$1ons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ons$"    "s'$1"]
+    :g [#"^s' (\S+)$"    "$1ons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ons$"    "se $1"]
+    :g [#"^se (\S+)$"    "$1ons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rons$"   "$1re"]
+    :g [#"^(\S+)re$"     "$1rons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rons$"   "s'$1re"]
+    :g [#"^s'(\S+)$"     "$1ons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)rons$"   "se $1re"]
+    :g [#"^se (\S+)$"    "$1rons"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(\S+)ez$"     "$1"]
+    :g [#"^(\S+)$"       "$1ez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ez$"     "s'$1"]
+    :g [#"^s'(\S+)$"     "$1ez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ez$"     "se $1"]
+    :g [#"^se (\S+)$"    "$1ez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rez$"    "$1re"]
+    :g [#"^(\S+)re$"     "$1rez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rez$"    "s'$1re"]
+    :g [#"^s'(\S+)re$"   "$1rez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)rez$"    "se $1re"]
+    :g [#"^se (\S+)re$"  "$1rez"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(\S+)ont$"    "$1"]
+    :g [#"^(\S+)$"       "$1ont"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ont$"    "s'$1"]
+    :g [#"^s'(\S+)$"     "$1ont"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ont$"    "se $1"]
+    :g [#"^se (\S+)$"    "$1ont"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ront$"   "$1re"]
+    :g [#"^(\S+)$"       "$1ont"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ront$"   "s'$1re"]
+    :g [#"^s'(\S+)$"     "$1ont"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   {:p [#"^(\S+)ront$"   "se $1re"]
+    :g [#"^se (\S+)re$"  "$1ront"]
+    :u {:synsem {:infl :future
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}
+   ]
+  )
+
 (def replace-patterns-source
   (apply concat
          [
@@ -505,6 +690,7 @@
           present-reflexive
           past-reflexive
           conditional
+          future
           ]))
 
 ;; this (map..) is needed because a word within a syntactic tree will be conjugated
@@ -543,93 +729,6 @@
     (string/replace reflexive-infinitive #"^s'" "")
     true
     reflexive-infinitive))
-
-(defn future [word]
-  (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))
-        ar-type (try (re-find #"ar$" infinitive)
-                     (catch Exception e
-                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
-        er-type (re-find #"[eé]r$" infinitive)
-        ir-type (re-find #"ir$" infinitive)
-        re-type (re-find #"re$" infinitive)
-        stem (string/replace infinitive #"[iaeé]r$" "")
-        stem (if re-type
-               ;; prendre -> prend
-               (string/replace infinitive #"re$" "")
-               stem)
-        stem (if (get-in word [:future-stem])
-               (get-in word [:future-stem])
-               stem)
-        last-stem-char-is-i (re-find #"ir$" infinitive)
-        last-stem-char-is-e (re-find #"er$" infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        number-and-person (number-and-person number person)]
-    (cond
-     (get-in word [:future number-and-person])
-     (get-in word [:future number-and-person])
-     
-     (and (= person :1st) (= number :sing) er-type)
-     (str stem "erai")
-     (and (= person :1st) (= number :sing) ir-type)
-     (str stem "iré")
-     (and (= person :1st) (= number :sing) re-type)
-     (str stem "rai")
-     
-     (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "iras")
-     (and (= person :2nd) (= number :sing) er-type)
-     (str stem "eras")
-     (and (= person :2nd) (= number :sing) re-type)
-     (str stem "ras")
-                            
-     (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "ira")
-     (and (= person :3rd) (= number :sing) er-type)
-     (str stem "era")
-     (and (= person :3rd) (= number :sing) re-type)
-     (str stem "ra")
-              
-     (and (= person :1st) (= number :plur) er-type)
-     (str stem "erons")
-     (and (= person :1st) (= number :plur) ir-type)
-     (str stem "irons")
-     (and (= person :1st) (= number :plur) re-type)
-     (str stem "rons")
-              
-     ;; <second person plural future>
-     (and (= person :2nd) (= number :plur) er-type)
-     (str stem "erez")
-     (and (= person :2nd) (= number :plur) ir-type)
-     (str stem "irez")
-     (and (= person :2nd) (= number :plur) re-type)
-     (str stem "rez")
-     ;; </second person plural future>
-
-     ;; <third person plural future>
-     (and (= person :3rd) (= number :plur)
-          er-type)
-     (str stem "eront")
-     (and (= person :3rd) (= number :plur)
-          ir-type)
-     (str stem "iront")
-     (and (= person :3rd) (= number :plur)
-          re-type)
-     (str stem "ront")
-     ;; </third person plural future>
-
-     (and (or (= :top (get-in word [:agr]))
-              (= :top person)
-              (= :top (get-in word [:agr :gender]))
-              (= :top number))
-          (string? (get-in word [:français])))
-     (get-in word [:français])
-
-     :else
-     (let [message (str "get-string: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
-       (if (= true suppress-incomplete-morphology-errors)
-         (do (log/warn message)
-             (exception message)))))))
 
 (defn imperfect [word]           
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))

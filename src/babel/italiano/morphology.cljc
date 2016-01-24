@@ -2,13 +2,14 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require
    [babel.pos :refer (noun)]
-   [babel.italiano.morphology :refer (plural-to-singular-noun-fem-1
-                                      plural-to-singular-noun-masc-1
-                                      plural-to-singular-noun-masc-2
-                                      plural-to-singular-adj-masc
-                                      plural-to-singular-adj-fem-sing
-                                      plural-to-singular-adj-fem-plur
-                                      )]
+   [babel.italiano.morphology.adjectives
+    :refer (plural-to-singular-adj-masc
+            plural-to-singular-adj-fem-sing
+            plural-to-singular-adj-fem-plur)]
+   [babel.italiano.morphology.nouns
+    :refer (plural-to-singular-noun-fem-1
+            plural-to-singular-noun-masc-1
+            plural-to-singular-noun-masc-2)]
    [babel.italiano.pos :refer (pronoun-acc verb-aux)]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]

@@ -25,25 +25,3 @@
    {:replace-with "e"
     :unify-with {:synsem {:cat :noun
                           :agr {:number :plur}}}}})
-
-
-(def plural-to-singular-adj-masc
-  {#"i$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :masc
-                                :number :plur}}}}})
-
-(def plural-to-singular-adj-fem-sing
-  {#"a$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :sing}}}}})
-
-(def plural-to-singular-adj-fem-plur
-  {#"e$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :plur}}}}})

@@ -21,7 +21,7 @@
 (def total-errors (atom 0))
 (def total (atom 0))
 
-(defn read-expressions [this-many]
+(defn read-expressions [& [this-many]]
   (let [this-many (if this-many (Integer. this-many))
         results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                       FROM expression AS target
@@ -48,13 +48,13 @@
                                             :subj (get-in structure [:synsem :sem :subj])
                                             :pred (get-in structure [:synsem :sem :pred])}}
                              :root {:français {:français (get-in structure [:root :français :français])}}}]
-                        (log/error (str "we think it should be: (" spec "): '"
+                        (if false (log/error (str "we think it should be:'"
                                         (fo (generate spec
                                                       )
                                             )
                                         "'."
                                         )
-                                   ))
+                                   )))
                       (swap! total-errors (fn [current] (+ 1 current)))
                       (log/error (str "errors so far: " @total-errors " out of "
                                       @total "; error rate=" (string/replace (str (/ @total-errors (+ 0.0 @total)) "00")

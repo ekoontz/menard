@@ -3,7 +3,8 @@
   (:require 
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.english.lexicon :refer [lexicon]]
-   [babel.english.morphology :refer (fo)]
+   [babel.english.morphology :refer (analyze fo)]
+   [babel.enrich :refer [enrich]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head
@@ -20,7 +21,7 @@
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (get-in unifyc)]))
+   [dag_unify.core :refer (get-in remove-matching-keys unifyc)]))
 
 (declare cache)
 (declare grammar)
@@ -582,10 +583,46 @@
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(defn parse [surface]
-  (parse/parse surface
-               (:lexicon small-plus-vp-pronoun)
-               (:lookup small-plus-vp-pronoun)
-               (:grammar small-plus-vp-pronoun)))
+(def np-grammar
+  (let [grammar
+        (filter #(or (= (:rule %) "noun-phrase2")
+                     (= (:rule %) "nbar"))
+                grammar)
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(or (= (get-in % [:synsem :cat]) :adjective)
+                                   (= (get-in % [:synsem :cat]) :det)
+                                   (and (= (get-in % [:synsem :cat]) :noun)
+                                        (not (= (get-in % [:synsem :propernoun] false) true))
+                                        (not (= (get-in % [:synsem :pronoun] false) true))))
+                              v)
+                      remove-semantic-features
+                      (map (fn [lexeme]
+                             (remove-matching-keys lexeme
+                                                   #(or
+                                                     (= % :activity)        (= % :animate)  (= % :artifact)
+                                                     (= % :buyable)         (= % :clothing) (= % :consumable)
+                                                     (= % :drinkable)       (= % :edible)   (= % :furniture)
+                                                     (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                     (= % :physical-object) (= % :place)    (= % :speakable))))
+                           filtered-v)]
+                  (if (not (empty? remove-semantic-features))
+                    [k remove-semantic-features]))))]
+    {:name "np-grammar"
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "en"
+     :language-keyword :english
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (log/info "English grammar defined (small,small-plus-vp-pronoun,medium).")

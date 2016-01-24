@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-   [babel.english.grammar :refer [small small-plus-plus-np medium]]
+   [babel.english.grammar :refer [small small-plus-plus-np medium np-grammar]]
    [babel.english.lexicon :refer :all]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.english.writer :refer [expression]]

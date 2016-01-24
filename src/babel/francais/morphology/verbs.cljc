@@ -288,7 +288,7 @@
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing}}}}}}
 
-   {:comment "past participle non-reflexive singular -re"
+   {:comment "past participle non-reflexive -re"
     :p [#"^(\S+)u$"            "$1re"]
     :g [#"^(\S+)re$"           "$1u"]
     :u {:synsem {:infl :past-p}}}

@@ -56,7 +56,6 @@
 
 (def present-nonreflexive-ir-verb
   [
-   ;; <ir verbs>
    {:p [#"^([^' ]+)is$"         "$1ir"]
     :g [#"^([^' ]+)ir$"         "$1is"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -92,9 +91,10 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :present}}}
-   ;; </ir verbs>   
+   ])
 
-   ;; <re verbs>
+(def present-nonreflexive-re-verb
+  [
    {:p [#"^([^' ]+)$"          "$1re"]
     :g [#"^([^' ]+)re$"        "$1"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -708,6 +708,7 @@
           past-reflexive
           present-nonreflexive-er-verb
           present-nonreflexive-ir-verb
+          present-nonreflexive-re-verb
           present-reflexive
           future
           ]))

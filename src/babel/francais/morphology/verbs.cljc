@@ -282,18 +282,29 @@
 
    ;; <non-reflexive past>: e.g. "parlé" => "parler"
    ;; singular: could be masculine or feminine
-   {:comment "past participle non-reflexive singular"
+   {:comment "past participle non-reflexive singular -er"
     :p [#"^(\S+)é$"            "$1er"]
     :g [#"^(\S+)er$"           "$1é"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing}}}}}}
 
+   {:comment "past participle non-reflexive singular -re"
+    :p [#"^(\S+)u$"            "$1re"]
+    :g [#"^(\S+)re$"           "$1u"]
+    :u {:synsem {:infl :past-p}}}
+
+   {:comment "past participle non-reflexive singular -ir"
+    :p [#"^(\S+)i$"            "$1re"]
+    :g [#"^(\S+)ir$"           "$1i"]
+    :u {:synsem {:infl :past-p}}}
+   
    ;; plural: could be masculine or feminine
    {:comment "past participle non-reflexive plural"
     :p [#"^(\S+)és$"           "$1er"]
-    :g [#"^(\S+)er$"           "$1é"]
+    :g [#"^(\S+)er$"           "$1és"]
     :u {:synsem {:infl :past-p
-                 :subcat {:1 {:agr {:number :plur}}}}}}
+                 :subcat {:1 {:agr {:gender :masc
+                                    :number :plur}}}}}}
    
    ;; singular feminine
    {:comment "past participle non-reflexive singular masculine"
@@ -305,7 +316,7 @@
    ;; plural feminine
    {:comment "past participle non-reflexive plural feminine"
     :p [#"^(\S+)ées$"          "$1er"]
-    :g [#"^(\S+)er$"           "$1ée"]
+    :g [#"^(\S+)er$"           "$1ées"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
@@ -810,50 +821,6 @@
          (do (log/warn message)
              "(" (get-in word [:francais]) ")")
          (exception message))))))
-
-(defn passe-compose [word]
-  (let [infinitive (reflexive-to-infinitive (get-in word '(:français)))]
-    (if-let [irregular (get-in word [:past-participle])]
-      irregular
-
-      ;; else, no :past-participle irregular form found, so use regular.
-      (let [essere (get-in word [:essere])
-            er-type (re-find #"[ée]r$" infinitive) ;; c.f. italiano -are
-            re-type (re-find #"re$" infinitive) ;; c.f. italian -ere
-            ir-type (re-find #"ir$" infinitive) ;; c.f. italian -ire
-            stem (string/replace infinitive #"[iaeé]r$" "")
-            stem (if re-type
-                   (string/replace infinitive #"re$" "")
-                   stem)
-            last-stem-char-is-i (re-find #"ir$" infinitive)
-            last-stem-char-is-e (re-find #"er$" infinitive)
-            person (get-in word '(:agr :person))
-            number (get-in word '(:agr :number))
-            gender-suffix
-            (cond (= :fem (get-in word [:agr :gender]))
-                  "e"
-                  true
-                  "")
-
-            number-suffix
-            (cond (= :plur (get-in word [:agr :number]))
-                  "s"
-                  true
-                  "")
-
-            verb-type-suffix
-            (cond er-type
-                  "é"
-                  re-type
-                  "u"
-                  true
-                  "i")]        
-        ;; regular
-        (str stem verb-type-suffix
-             (if essere
-               gender-suffix "")
-             (if essere
-               number-suffix ""))))))
 
 (defn number-and-person [number person]
   (cond (and (= person :1st) (= number :sing))

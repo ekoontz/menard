@@ -169,10 +169,14 @@
             (string? (get-in word '(:français))))
            (verbs/imperfect word)
 
-           (and
-            (= (get-in word '(:infl)) :past-p))
-           (verbs/passe-compose word)
-           
+           (= (get-in word '(:infl)) :past-p)
+           (let [number-and-person (verbs/number-and-person number person)
+                 infl (get-in word [:infl])]
+             (cond (and number-and-person
+                        (get-in word [infl number-and-person]))
+                   (get-in word [infl number-and-person])
+                   true
+                   (conjugate (get-in word [:français]) word)))
            (and
             (get-in word '(:a))
             (get-in word '(:b)))

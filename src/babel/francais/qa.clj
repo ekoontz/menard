@@ -13,6 +13,10 @@
    [korma.core :as db]))
 
 ;; DELETE FROM expression WHERE id IN (SELECT id FROM (SELECT id,surface FROM expression WHERE language='fr' AND structure->'synsem'->'sem'->'subj'->>'pred' = 'Juan') AS foo);
+;; DELETE FROM expression WHERE id IN (SELECT id FROM (SELECT id,surface FROM expression WHERE language='fr' AND surface ILIKE '% aimir%') AS foo);
+;; DELETE FROM expression WHERE id IN (SELECT id FROM (SELECT id,surface FROM expression WHERE language='fr' AND surface ILIKE '% appelir%') AS foo);
+;; DELETE FROM expression WHERE id IN (SELECT id FROM (SELECT id,surface FROM expression WHERE language='fr' AND surface ILIKE '% apportir%') AS foo);
+;; DELETE FROM expression WHERE id IN (SELECT id FROM (SELECT id,surface FROM expression WHERE language='fr' AND surface ILIKE '% assurir%') AS foo);
 
 (def total-errors (atom 0))
 (def total (atom 0))
@@ -57,7 +61,7 @@
                                                                        #"^(....).*" "$1"))))
                   (log/info (str "parse results: " (count parsed)))))))
           (if this-many
-            (take this-many results)
+            (take this-many (shuffle results))
             results)))))
 
 

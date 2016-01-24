@@ -1028,10 +1028,14 @@
 
    "multiply" {:synsem {:cat :verb
                 :sem {:pred :multiply}}}
+
+   ;; TODO: should not need to provide an irregular plural form
+   ;; [:sem :mass]=true should be sufficient.
    "music" 
-   {:synsem {:cat :noun
-             :mass true
-             :sem {:pred :music}}}
+   {:english {:plur "music"}
+    :synsem {:cat :noun
+             :sem {:pred :music
+                   :mass true}}}
    "my"
    (map #(unify %
                 {:synsem {:cat :det

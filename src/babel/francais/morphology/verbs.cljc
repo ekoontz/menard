@@ -555,17 +555,17 @@
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :sing
                                     :person :1st}}}}}}
-   {:p [#"^(\S+)ras$"    "$1"]
+   {:p [#"^(\S+)ras$"    "$1re"]
     :g [#"^(\S+)re$"     "$1as"]
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}}}}
-   {:p [#"^(\S+)ras$"    "s'$1"]
+   {:p [#"^(\S+)ras$"    "s'$1re"]
     :g [#"^s'(\S+)re$"   "$1as"]
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}}}}
-   {:p [#"^(\S+)ras$"    "se $1"]
+   {:p [#"^(\S+)ras$"    "se $1re"]
     :g [#"^se (\S+)$"    "$1as"]
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :sing
@@ -676,12 +676,12 @@
                  :subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}}}}
    {:p [#"^(\S+)ront$"   "$1re"]
-    :g [#"^(\S+)$"       "$1ont"]
+    :g [#"^(\S+)re$"     "$1ront"]
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}}}}
    {:p [#"^(\S+)ront$"   "s'$1re"]
-    :g [#"^s'(\S+)$"     "$1ont"]
+    :g [#"^s'(\S+)re$"   "$1ont"]
     :u {:synsem {:infl :future
                  :subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}}}}

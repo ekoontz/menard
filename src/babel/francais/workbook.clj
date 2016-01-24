@@ -231,5 +231,9 @@
 
 (def initialize
   (do (fo (parse "je parle"))
-      (str "" (expression {:synsem {:cat :verb}}))))
+      (generate {:synsem {:sem {:pred :drink
+                                :tense :present}
+                          :infl :present}})))
+
+
 

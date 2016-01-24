@@ -170,13 +170,11 @@
            (verbs/imperfect word)
 
            (= (get-in word '(:infl)) :past-p)
-           (let [number-and-person (verbs/number-and-person number person)
-                 infl (get-in word [:infl])]
-             (cond (and number-and-person
-                        (get-in word [infl number-and-person]))
-                   (get-in word [infl number-and-person])
-                   true
-                   (conjugate (get-in word [:français]) word)))
+           (cond (get-in word [:past-participle])
+                 (get-in word [:past-participle])
+                 true
+                 (conjugate (get-in word [:français]) word))
+
            (and
             (get-in word '(:a))
             (get-in word '(:b)))
@@ -345,11 +343,11 @@
                                        lexemes)))
                            [
                             ;; 1. past-tense exceptions
-                            {:path [:français :past]
+                            {:path [:français :past-participle]
                              :merge-fn
                              (fn [val]
-                               {:français {:infl :past
-                                           :français (get-in val [:français :past] :nothing)}})}
+                               {:français {:infl :past-p
+                                           :français (get-in val [:français :past-participle] :nothing)}})}
 
                             ;; 2. present-tense exceptions
                             {:path [:français :present :1sing]

@@ -36,7 +36,7 @@
         (and (not (nil? b))
              (let [a (get-string word)
                    b (get-string b)]
-               (and (re-find #"^(je)$" a) ;;
+               (and (re-find #"^(je)$" a)
                     (re-find #"^[aeéiou]" b))))
         (let [a (get-string word)]
           (str (string/replace a #"^(j).*" (fn [[_ prefix]] (str prefix "'"))) (get-string b)))

@@ -14,7 +14,7 @@
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (fail? get-in merge unifyc)]))
+   [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
 (def hc-agreement
   (let [agr (atom :top)]
@@ -467,5 +467,46 @@
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      }))
+
+(def np-grammar
+  (let [grammar
+        (filter #(= (:rule %) "noun-phrase2")
+                grammar)
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(or (= (get-in % [:synsem :cat]) :adjective)
+                                   (= (get-in % [:synsem :cat]) :det)
+                                   (and (= (get-in % [:synsem :cat]) :noun)
+                                        (not (= (get-in % [:synsem :propernoun] false) true))
+                                        (not (= (get-in % [:synsem :pronoun] false) true))))
+                              v)
+                      remove-semantic-features
+                      (map (fn [lexeme]
+                             (remove-matching-keys lexeme
+                                                   #(or
+                                                     (= % :activity)        (= % :animate)  (= % :artifact)
+                                                     (= % :buyable)         (= % :clothing) (= % :consumable)
+                                                     (= % :drinkable)       (= % :edible)   (= % :furniture)
+                                                     (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                     (= % :physical-object) (= % :place)    (= % :speakable))))
+                           filtered-v)]
+                  (if (not (empty? remove-semantic-features))
+                    [k remove-semantic-features]))))]
+    {:name "np-grammar"
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "it"
+     :language-keyword :italiano
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (log/info "Italiano grammars defined (small, medium).")

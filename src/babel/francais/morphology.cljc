@@ -162,7 +162,10 @@
                (get-in word [infl number-and-person])
 
                true
-               (conjugate (get-in word [:français]) word)))
+               (let [infinitive (if (get-in word [:future-stem])
+                                  (get-in word [:future-stem])
+                                  (get-in word [:français]))]
+                 (conjugate infinitive word))))
               
            (and
             (= (get-in word '(:infl)) :imperfect)

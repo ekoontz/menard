@@ -409,6 +409,8 @@
      :language "en"
      :morph fo
      :grammar grammar
+     :lookup (fn [arg]
+               (analyze arg lexicon))
      :lexicon lexicon
      :for {:es ;; a lexicon specific to when we want to use Español as a target.
            (into {}
@@ -465,6 +467,8 @@
                           (merge tree
                                  (morph-walk-tree tree))))
      :language "en"
+     :lookup (fn [arg]
+               (analyze arg lexicon))
      :morph fo
      :grammar grammar
      :lexicon lexicon
@@ -529,6 +533,8 @@
      :language "en"
      :morph fo
      :grammar grammar
+     :lookup (fn [arg]
+               (analyze arg lexicon))
 
      ;; Will throw exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
@@ -569,6 +575,8 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
+     :lookup (fn [arg]
+               (analyze arg lexicon))
      :grammar grammar
      :morph fo
      :lexicon lexicon

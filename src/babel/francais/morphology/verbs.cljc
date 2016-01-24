@@ -220,13 +220,12 @@
                                     :person :3rd}}}
                  :infl :present}}}])
 
-(def past
+(def past-reflexive
   [
-   ;; <reflexive past>: e.g. "amusé" => "s'amuser"
    {:comment "past participle reflexive singular masculine -er where stem begins with a vowel"
-    :p [#"^([aeéiou]\S+)é$"    "s'$1er"] ;; :p : how to transform a finite form to infinitive
-    :g [#"^s'([aeéiou]\S+)er$" "$1é"]  ;; :g : how to transform an infinitive into a finite form.
-    :u {:synsem {:infl :past-p ;; :u : what to unify against for these tranformations to occur.
+    :p [#"^([aeéiou]\S+)é$"    "s'$1er"]
+    :g [#"^s'([aeéiou]\S+)er$" "$1é"]
+    :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :sing
                                     :gender :masc}}}}}}
 
@@ -278,15 +277,23 @@
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
-   ;; </reflexive past>
+   ])
 
-   ;; <non-reflexive past>: e.g. "parlé" => "parler"
+(def past
+  [
    ;; singular: could be masculine or feminine
    {:comment "past participle non-reflexive singular -er"
     :p [#"^(\S+)é$"            "$1er"]
     :g [#"^(\S+)er$"           "$1é"]
     :u {:synsem {:infl :past-p
+                 :essere true
                  :subcat {:1 {:agr {:number :sing}}}}}}
+
+   {:comment "past participle non-reflexive singular -er"
+    :p [#"^(\S+)é$"            "$1er"]
+    :g [#"^(\S+)er$"           "$1é"]
+    :u {:synsem {:infl :past-p
+                 :essere false}}}
 
    {:comment "past participle non-reflexive -re"
     :p [#"^(\S+)u$"            "$1re"]
@@ -303,9 +310,9 @@
     :p [#"^(\S+)és$"           "$1er"]
     :g [#"^(\S+)er$"           "$1és"]
     :u {:synsem {:infl :past-p
+                 :essere true
                  :subcat {:1 {:agr {:gender :masc
                                     :number :plur}}}}}}
-   
    ;; singular feminine
    {:comment "past participle non-reflexive singular masculine"
     :p [#"^(\S+)ée$"           "$1er"]
@@ -318,9 +325,9 @@
     :p [#"^(\S+)ées$"          "$1er"]
     :g [#"^(\S+)er$"           "$1ées"]
     :u {:synsem {:infl :past-p
+                 :essere true
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
-   ;; </non-reflexive past>
    ])
 
 (def conditional
@@ -698,6 +705,7 @@
          [
           conditional
           past
+          past-reflexive
           present-nonreflexive-er-verb
           present-nonreflexive-ir-verb
           present-reflexive
@@ -714,9 +722,12 @@
           :g (:g pattern)
           :u (unifyc (:u pattern)
                      (let [agr (atom :top)
+                           essere (atom :top)
                            infl (atom :top)]
-                       {:synsem {:infl infl
+                       {:synsem {:essere essere
+                                 :infl infl
                                  :subcat {:1 {:agr agr}}}
+                        :essere essere
                         :infl infl
                         :agr agr}))})
        replace-patterns-source))

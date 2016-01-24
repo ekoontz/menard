@@ -2,6 +2,13 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require
    [babel.pos :refer (noun)]
+   [babel.italiano.morphology :refer (plural-to-singular-noun-fem-1
+                                      plural-to-singular-noun-masc-1
+                                      plural-to-singular-noun-masc-2
+                                      plural-to-singular-adj-masc
+                                      plural-to-singular-adj-fem-sing
+                                      plural-to-singular-adj-fem-plur
+                                      )]
    [babel.italiano.pos :refer (pronoun-acc verb-aux)]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
@@ -1458,47 +1465,6 @@
    #"uto$"
    {:replace-with "ere"
     :unify-with {:italiano {:infl :past}}}})
-
-(def plural-to-singular-noun-fem-1
-  {#"e$"
-   {:replace-with "a"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:gender :fem
-                                :number :plur}}}}})
-
-(def plural-to-singular-noun-masc-1
-  {#"i$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:number :plur}}}}})
-
-(def plural-to-singular-noun-masc-2 ;; e.g. "cani" -> "cane"
-  {#"i$"
-   {:replace-with "e"
-    :unify-with {:synsem {:cat :noun
-                          :agr {:number :plur}}}}})
-
-
-(def plural-to-singular-adj-masc
-  {#"i$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :masc
-                                :number :plur}}}}})
-
-(def plural-to-singular-adj-fem-sing
-  {#"a$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :sing}}}}})
-
-(def plural-to-singular-adj-fem-plur
-  {#"e$"
-   {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
-                          :agr {:gender :fem
-                                :number :plur}}}}})
 
 (def identity-analyzers
   {:infinitive-verbs

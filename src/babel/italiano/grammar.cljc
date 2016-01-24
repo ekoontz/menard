@@ -468,13 +468,4 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      }))
 
-(defn toks [surface]
-  (parse/toks surface (:lexicon small) (:lookup small)))
-
-(defn parse [surface]
-  (parse/parse surface
-               (:lexicon medium)
-               (:lookup medium)
-               (:grammar medium)))
-
 (log/info "Italiano grammars defined (small, medium).")

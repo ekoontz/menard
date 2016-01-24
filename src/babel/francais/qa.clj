@@ -23,6 +23,7 @@
 
 (defn read-expressions [& [this-many]]
   (let [this-many (if this-many (Integer. this-many))
+        map (if this-many map pmap)
         results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                       FROM expression AS target
                                      WHERE target.language=?
@@ -62,7 +63,11 @@
                   (log/info (str "parse results: " (count parsed)))))))
           (if this-many
             (take this-many (shuffle results))
-            results)))))
+            results)))
+    (log/info (str "final error ratio:" @total-errors " out of "
+                   @total "; error rate=" (string/replace (str (/ @total-errors (+ 0.0 @total)) "00")
+                                                          #"^(....).*" "$1")))))
+
 
 
 

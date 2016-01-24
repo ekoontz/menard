@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-   [babel.italiano.grammar :refer [medium small]]
+   [babel.italiano.grammar :refer [medium small np-grammar]]
    [babel.italiano.lexicon :refer :all]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.italiano.writer :refer [expression]]
@@ -22,7 +22,8 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
+   [dag_unify.core :refer [fail-path-between get-in merge remove-false
+                           remove-matching-keys strip-refs unify]]
    [hiccup.core :refer [html]]
 ))
 

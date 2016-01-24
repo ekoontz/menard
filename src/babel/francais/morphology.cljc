@@ -162,9 +162,12 @@
                (get-in word [infl number-and-person])
 
                true
-               (let [infinitive (if (get-in word [:future-stem])
-                                  (get-in word [:future-stem])
-                                  (get-in word [:français]))]
+               (let [infinitive (cond (and (= :future (get-in word [:infl]))
+                                           (get-in word [:future-stem]))
+                                      (get-in word [:future-stem])
+                                      ;; TODO: add checks for other -stem features, like :imperfect-stem.
+                                      true
+                                      (get-in word [:français]))]
                  (conjugate infinitive word))))
               
            (and

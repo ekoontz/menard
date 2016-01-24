@@ -696,11 +696,11 @@
 (def replace-patterns-source
   (apply concat
          [
+          conditional
+          past
           present-nonreflexive-er-verb
           present-nonreflexive-ir-verb
           present-reflexive
-          past-reflexive
-          conditional
           future
           ]))
 

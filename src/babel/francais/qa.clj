@@ -25,7 +25,7 @@
   (let [this-many (if this-many (Integer. this-many))
         results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                       FROM expression AS target
-                                     WHERE target.language=? 
+                                     WHERE target.language=?
                                   ORDER BY target.surface")
                               ["fr"]]
                              :results)]

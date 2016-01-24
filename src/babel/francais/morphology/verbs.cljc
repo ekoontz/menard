@@ -272,8 +272,8 @@
                                     :gender :fem}}}}}}
 
    {:comment "past participle reflexive plural feminine -er where stem does not begin with a vowel"
-    :p [#"^([^aeéiou]\S+)ées$" "se $1er"]
-    :g [#"^se ([^aeéiou]\S+)er$"        "$1ées"]
+    :p [#"^([^aeéiou]\S+)ées$"   "se $1er"]
+    :g [#"^se ([^aeéiou]\S+)er$" "$1ées"]
     :u {:synsem {:infl :past-p
                  :subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}}}}
@@ -281,49 +281,48 @@
 
 (def past
   [
-   ;; singular: could be masculine or feminine
-   {:comment "past participle non-reflexive singular -er"
+   {:comment "past participle non-reflexive singular -er; essere=true"
     :p [#"^(\S+)é$"            "$1er"]
-    :g [#"^(\S+)er$"           "$1é"]
+    :g [#"^([^' ]+)er$"        "$1é"]
     :u {:synsem {:infl :past-p
                  :essere true
                  :subcat {:1 {:agr {:number :sing}}}}}}
 
-   {:comment "past participle non-reflexive singular -er"
+   {:comment "past participle non-reflexive singular -er; essere=false"
     :p [#"^(\S+)é$"            "$1er"]
-    :g [#"^(\S+)er$"           "$1é"]
+    :g [#"^([^' ]+)er$"        "$1é"]
     :u {:synsem {:infl :past-p
                  :essere false}}}
 
    {:comment "past participle non-reflexive -re"
     :p [#"^(\S+)u$"            "$1re"]
-    :g [#"^(\S+)re$"           "$1u"]
+    :g [#"^([^' ]+)re$"        "$1u"]
     :u {:synsem {:infl :past-p}}}
 
    {:comment "past participle non-reflexive -ir"
     :p [#"^(\S+)i$"            "$1ir"]
-    :g [#"^(\S+)ir$"           "$1i"]
+    :g [#"^([^' ]+)ir$"        "$1i"]
     :u {:synsem {:infl :past-p}}}
    
-   ;; plural: could be masculine or feminine
-   {:comment "past participle non-reflexive plural"
+   {:comment "past participle non-reflexive plural; essere=true"
     :p [#"^(\S+)és$"           "$1er"]
-    :g [#"^(\S+)er$"           "$1és"]
+    :g [#"^([^' ]+)er$"        "$1és"]
     :u {:synsem {:infl :past-p
                  :essere true
                  :subcat {:1 {:agr {:gender :masc
                                     :number :plur}}}}}}
    ;; singular feminine
-   {:comment "past participle non-reflexive singular masculine"
+   {:comment "past participle non-reflexive singular feminine; essere=true"
     :p [#"^(\S+)ée$"           "$1er"]
-    :g [#"^(\S+)er$"           "$1ée"]
+    :g [#"^([^' ]+)er$"        "$1ée"]
     :u {:synsem {:infl :past-p
+                 :essere true
                  :subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}}}}
    ;; plural feminine
-   {:comment "past participle non-reflexive plural feminine"
+   {:comment "past participle non-reflexive plural feminine; essere=true"
     :p [#"^(\S+)ées$"          "$1er"]
-    :g [#"^(\S+)er$"           "$1ées"]
+    :g [#"^([^' ]+)er$"        "$1ées"]
     :u {:synsem {:infl :past-p
                  :essere true
                  :subcat {:1 {:agr {:number :plur

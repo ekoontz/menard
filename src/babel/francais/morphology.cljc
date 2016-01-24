@@ -36,7 +36,7 @@
         (and (not (nil? b))
              (let [a (get-string word)
                    b (get-string b)]
-               (and (re-find #"^(je)$" a) ;;
+               (and (re-find #"^(je)$" a)
                     (re-find #"^[aeéiou]" b))))
         (let [a (get-string word)]
           (str (string/replace a #"^(j).*" (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
@@ -150,38 +150,37 @@
            (get-in word [:français])
 
            (and
-            (= (get-in word '(:infl)) :conditional)
-            (string? (get-in word '(:français))))
-           (verbs/conditional word)
+            (or (= (get-in word [:infl]) :conditional)
+                (= (get-in word [:infl]) :future)
+                (= (get-in word [:infl]) :present))
+            (string? (get-in word [:français])))
+           (let [number-and-person (verbs/number-and-person number person)
+                 infl (get-in word [:infl])]
+             (cond
+               (and number-and-person
+                    (get-in word [infl number-and-person]))
+               (get-in word [infl number-and-person])
+
+               true
+               (let [infinitive (cond (and (= :future (get-in word [:infl]))
+                                           (get-in word [:future-stem]))
+                                      (get-in word [:future-stem])
+                                      ;; TODO: add checks for other -stem features, like :imperfect-stem.
+                                      true
+                                      (get-in word [:français]))]
+                 (conjugate infinitive word))))
               
-           (and
-            (= (get-in word '(:infl)) :future)
-            (string? (get-in word '(:français))))
-           (verbs/future word)
-           
            (and
             (= (get-in word '(:infl)) :imperfect)
             (string? (get-in word '(:français))))
            (verbs/imperfect word)
 
-           (and
-            (= (get-in word '(:infl)) :past-p))
-           (verbs/passe-compose word)
-           
-           (and
-            (= (get-in word '(:infl)) :present)
-            (string? (get-in word '(:français))))
-           (let [number-and-person (verbs/number-and-person number person)]
-             (cond
-               (and number-and-person
-                    (get-in word [:present number-and-person]))
-               (get-in word [:present number-and-person])
+           (= (get-in word '(:infl)) :past-p)
+           (cond (get-in word [:past-participle])
+                 (get-in word [:past-participle])
+                 true
+                 (conjugate (get-in word [:français]) word))
 
-               true
-               (if true
-                 (conjugate (get-in word [:français]) word)
-                 (verbs/present word))))
-           
            (and
             (get-in word '(:a))
             (get-in word '(:b)))
@@ -350,11 +349,11 @@
                                        lexemes)))
                            [
                             ;; 1. past-tense exceptions
-                            {:path [:français :past]
+                            {:path [:français :past-participle]
                              :merge-fn
                              (fn [val]
-                               {:français {:infl :past
-                                           :français (get-in val [:français :past] :nothing)}})}
+                               {:français {:infl :past-p
+                                           :français (get-in val [:français :past-participle] :nothing)}})}
 
                             ;; 2. present-tense exceptions
                             {:path [:français :present :1sing]
@@ -547,11 +546,11 @@
           (map
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth (:i replace-pattern) 0)
+                   from (nth (:p replace-pattern) 0)
           
                    ;; expression that is used by string/replace along with the first regexp and the surface form,
                    ;; to create the lexical string
-                   to (nth (:i replace-pattern) 1)
+                   to (nth (:p replace-pattern) 1)
           
                    ;; unifies with the lexical entry to create the inflected form.
                    unify-with (:u replace-pattern)
@@ -574,11 +573,12 @@
           (mapcat
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
-                   from (nth (:i replace-pattern) 0)]
+                   from (nth (:p replace-pattern) 0)]
+               (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
                (if (re-matches from surface-form)
                  (let [;; expression that is used by string/replace along with the first regexp and the surface form,
                        ;; to create the lexical string
-                       to (nth (:i replace-pattern) 1)
+                       to (nth (:p replace-pattern) 1)
 
                        ;; unifies with the lexical entry to create the inflected form.
                        unify-with (if (:u replace-pattern)
@@ -601,8 +601,8 @@
          (remove #(nil? %)
                  (map
                   (fn [replace-pattern]
-                    (let [from (nth (:c replace-pattern) 0)
-                          to (nth (:c replace-pattern) 1)
+                    (let [from (nth (:g replace-pattern) 0)
+                          to (nth (:g replace-pattern) 1)
                           unify-against (if (:u replace-pattern)
                                           (:u replace-pattern)
                                           :top)]
@@ -614,7 +614,7 @@
                           (log/debug (str "matched infinitive: " infinitive))
                           (log/debug (str "from: " from))
                           (log/debug (str "to: " to))
-                          (log/debug (str "unify-with: " (strip-refs unify-with)))
-                          (log/debug (str "unify-against"  (strip-refs unify-against)))
+                          (log/debug (str "input spec: " (strip-refs unify-with)))
+                          (log/debug (str "pattern spec:"  (strip-refs unify-against)))
                           (string/replace infinitive from to)))))
                   replace-patterns)))))

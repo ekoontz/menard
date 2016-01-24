@@ -33,16 +33,10 @@
 (defn translate [source-language-short-name]
   "generate English translations of all available expressions in source language."
   (rewrite-lexicon)
-  (let [source-expressions (read-all
-                            {:synsem {:sem {:pred :arrive}}}
-
-;                            {:synsem {:sem
-;
-;                                      {:tense :future, :pred :be-able-to, :subj {:mass false, :furniture false, :pred :tu, :place false, :drinkable false, :human true, :animate true, :speakable false, :activity false, :physical-object true, :buyable false, :legible false, :artifact false, :edible false, :part-of-human-body false}}
-;{:aspect :perfect, :tense :past, :subj {:mass false, :furniture false, :pred :luisa-and-i, :place false, :drinkable false, :human true, :animate true, :speakable false, :activity false, :physical-object true, :buyable false, :legible false, :artifact false, :gender :fem, :edible false, :part-of-human-body false}, :reflexive false, :pred :imparare} 
-;                                      }}
-
-                            source-language-short-name)]
+  (let [spec :top
+        ;; {:synsem {:sem {:pred :arrive}}}
+        source-expressions (read-all spec
+                                     source-language-short-name)]
     (.size (pmap (fn [source-expression]
                    (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
                        (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))

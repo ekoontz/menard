@@ -24,6 +24,9 @@
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
+(defn analyze [surface-form]
+  (morph/analyze surface-form lexicon))
+
 (defn generate
   ([spec]
    (let [result (engine/generate spec medium)]
@@ -57,10 +60,6 @@
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))
-
-(def foo (expression {:synsem {:cat :verb}}))
-;(def foo (lightning-bolt nil nil nil))
-(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
 
 (def rules (:grammar-map medium))
 
@@ -229,4 +228,12 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
+
+(def initialize
+  (do (fo (parse "je parle"))
+      (generate {:synsem {:sem {:pred :drink
+                                :tense :present}
+                          :infl :present}})))
+
+
 

@@ -220,7 +220,7 @@
                                     :person :3rd}}}
                  :infl :present}}}])
 
-(def past-reflexive
+(def past
   [
    ;; <reflexive past>: e.g. "amusé" => "s'amuser"
    {:comment "past participle reflexive singular masculine -er where stem begins with a vowel"
@@ -293,8 +293,8 @@
     :g [#"^(\S+)re$"           "$1u"]
     :u {:synsem {:infl :past-p}}}
 
-   {:comment "past participle non-reflexive singular -ir"
-    :p [#"^(\S+)i$"            "$1re"]
+   {:comment "past participle non-reflexive -ir"
+    :p [#"^(\S+)i$"            "$1ir"]
     :g [#"^(\S+)ir$"           "$1i"]
     :u {:synsem {:infl :past-p}}}
    

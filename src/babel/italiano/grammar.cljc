@@ -470,7 +470,8 @@
 
 (def np-grammar
   (let [grammar
-        (filter #(= (:rule %) "noun-phrase2")
+        (filter #(or (= (:rule %) "noun-phrase2")
+                     (= (:rule %) "nbar"))
                 grammar)
         lexicon
         (into {}

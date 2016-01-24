@@ -41,9 +41,9 @@
 (defn parse
   ([string]
    (parse/parse string
-                (:lexicon medium)
-                (:lookup medium)
-                (:grammar medium)))
+                (:lexicon small)
+                (:lookup small)
+                (:grammar small)))
   ([string model]
    (parse/parse string
                 (:lexicon model)

@@ -67,8 +67,18 @@
 ;; i.e. if input is 'parle', return
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup [lexeme]
-  ((:lookup medium) lexeme))
+(defn lookup
+  ([string]
+   ((:lookup medium) string))
+  ([string model]
+   ((:lookup model) string)))
+
+;; TODO: deprecate lookup; use analyze instead.
+(defn analyze
+  ([surface-form]
+   (morph/analyze surface-form (:lexicon medium)))
+  ([surface-form model]
+   (morph/analyze surface-form (:lexicon model))))
 
 (defn over
   ([arg1]

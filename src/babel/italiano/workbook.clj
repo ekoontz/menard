@@ -35,15 +35,19 @@
 
 (defn parse
   ([string]
-   (parse/parse string
-                (:lexicon medium)
-                (:lookup medium)
-                (:grammar medium)))
+   (map #(conj {:surface (fo %)}
+               %)
+        (parse/parse string
+                     (:lexicon medium)
+                     (:lookup medium)
+                     (:grammar medium))))
   ([string model]
-   (parse/parse string
-                (:lexicon model)
-                (:lookup model)
-                (:grammar model))))
+   (map #(conj {:surface (fo %)}
+               %)
+        (parse/parse string
+                     (:lexicon model)
+                     (:lookup model)
+                     (:grammar model)))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

@@ -6,6 +6,7 @@
     :refer (plural-to-singular-adj-masc
             plural-to-singular-adj-fem-sing
             plural-to-singular-adj-fem-plur)]
+   [babel.italiano.morphology.articles :as articles]
    [babel.italiano.morphology.nouns
     :refer (plural-to-singular-noun-fem-1
             plural-to-singular-noun-masc-1
@@ -1484,6 +1485,8 @@
         ;; e.g. plural-to-singular-noun-masc-1 and plural-to-singular-noun-masc-2 both have
         ;; #"i$", they are distinct as separate keys in this 'replace-pairs' hash, as they should be.
         (merge 
+
+         ;; verb morphology
          future-to-infinitive-irreg1
          future-to-infinitive
          imperfect-to-infinitive-irreg1
@@ -1491,12 +1494,18 @@
          present-to-infinitive-ire
          present-to-infinitive-ere
          present-to-infinitive-are
+
+         ;; noun morphology
          plural-to-singular-noun-fem-1
          plural-to-singular-noun-masc-1
          plural-to-singular-noun-masc-2
+
+         ;; adjective morphology
          plural-to-singular-adj-masc
          plural-to-singular-adj-fem-plur
          plural-to-singular-adj-fem-sing
+
+         articles/l-apostrophe
          )
         
         analyzed

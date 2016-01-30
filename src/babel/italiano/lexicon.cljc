@@ -789,11 +789,21 @@
                             :sem {:pred :decide}}
                    :italiano {:passato "deciso"}}
 
+      "del"
+      {:synsem {:cat :det
+                :def :partitivo
+                :agr {:number :singular
+                      :gender :masc}}}
       "dei"
       {:synsem {:cat :det
                 :def :partitivo
                 :agr {:number :plur
                       :gender :masc}}}
+      "della"
+      {:synsem {:cat :det
+                :def :partitivo
+                :agr {:number :sing
+                      :gender :fem}}}
       "delle"
       {:synsem {:cat :det
                 :def :partitivo

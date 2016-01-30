@@ -4,18 +4,6 @@
 (def l-apostrophe
   {
 
-   #"^dei$"
-   {:replace-with "de i"
-    :unify-with :top}
-
-   #"^del$"
-   {:replace-with "di il"
-    :unify-with :top}
-
-   #"^della$"
-   {:replace-with "di la"
-    :unify-with :top}
-   
    #"^l$"
    {:replace-with "la"
     :unify-with :top}

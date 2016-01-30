@@ -83,19 +83,26 @@
                  :sem (get-in (first (parse (fo expr) np-grammar))
                               [:synsem :sem])})))))
 
-(def foo2
-  (filter #(not (nil? %))
-          (take 200
-                (repeatedly #(let [expr
-                                   (generate {:synsem {:sem {:spec {:def :top}
-                                                             :mod {:pred :top}
-                                                             :number :top
-                                                             :pred :top}}}
-                                             np-grammar)]
-                               (if (empty? (parse (fo expr) np-grammar))
-                                 {:fo (fo expr)
-                                  :expr (get-in expr [:synsem :sem])
-                                  :sem (get-in (first (parse (fo expr) np-grammar))
-                                               [:synsem :sem])}))))))
+(deftest roundtrip-many
+  (is (empty?
+       (filter #(not (nil? %))
+               (take 10
+                     (repeatedly #(let [expr
+                                        (generate {:synsem {:sem {:spec {:def :top}
+                                                                  :mod {:pred :top}
+                                                                  :number :top
+                                                                  :pred :top}}}
+                                                  np-grammar)]
+                                    (if (empty? (parse (fo expr) np-grammar))
+                                      (do
+                                        (log/error (str "failed to parse: " (fo expr)))
+                                        {:fo (fo expr)
+                                         :expr (get-in expr [:synsem :sem])
+                                         :sem (get-in (first (parse (fo expr) np-grammar))
+                                                      [:synsem :sem])})
+                                      (log/info (str "parse OK:" (fo expr)))))))))))
+
+
+
 
 

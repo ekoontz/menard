@@ -1,15 +1,21 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :refer [generate]]
-            [babel.italiano.grammar :refer [small]]
+            [babel.italiano.grammar :refer [small medium]]
             [babel.italiano.lexicon :refer [lexicon]]
-            [babel.italiano.morphology :refer [fo]]
+            [babel.italiano.morphology :refer [analyze fo]]
             [babel.italiano.workbook :refer [parse]]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in strip-refs]]))
+
+(deftest analyze-1
+  (let [singular (analyze "compito" (:lookup medium))
+        plural  (analyze "compiti" (:lookup medium))]
+    (is (not (nil? singular)))
+    (is (not (nil? plural)))))
 
 (deftest present-irregular
   (let [result (generate {:synsem {:subcat '()

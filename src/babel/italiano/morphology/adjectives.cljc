@@ -12,6 +12,11 @@
    {:replace-with "o"
     :unify-with {:synsem {:cat :adjective
                           :agr {:gender :masc
+                                :number :plur}}}}
+   #"i$"
+   {:replace-with "e"
+    :unify-with {:synsem {:cat :adjective
+                          :agr {:gender :masc
                                 :number :plur}}}}})
 
 (def plural-to-singular-adj-fem-sing

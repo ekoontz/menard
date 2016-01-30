@@ -83,3 +83,19 @@
                  :sem (get-in (first (parse (fo expr) np-grammar))
                               [:synsem :sem])})))))
 
+(def foo2
+  (filter #(not (nil? %))
+          (take 200
+                (repeatedly #(let [expr
+                                   (generate {:synsem {:sem {:spec {:def :top}
+                                                             :mod {:pred :top}
+                                                             :number :top
+                                                             :pred :top}}}
+                                             np-grammar)]
+                               (if (empty? (parse (fo expr) np-grammar))
+                                 {:fo (fo expr)
+                                  :expr (get-in expr [:synsem :sem])
+                                  :sem (get-in (first (parse (fo expr) np-grammar))
+                                               [:synsem :sem])}))))))
+
+

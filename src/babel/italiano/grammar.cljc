@@ -491,6 +491,7 @@
                                                      (= % :buyable)         (= % :clothing) (= % :consumable)
                                                      (= % :drinkable)       (= % :edible)   (= % :furniture)
                                                      (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                     (= % :pet)
                                                      (= % :physical-object) (= % :place)    (= % :speakable))))
                            filtered-v)]
                   (if (not (empty? remove-semantic-features))

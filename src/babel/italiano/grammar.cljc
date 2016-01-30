@@ -488,7 +488,8 @@
                              (remove-matching-keys lexeme
                                                    #(or
                                                      (= % :activity)        (= % :animate)  (= % :artifact)
-                                                     (= % :buyable)         (= % :clothing) (= % :consumable)
+                                                     (= % :buyable)         (= % :child)    (= % :clothing)
+                                                     (= % :consumable)
                                                      (= % :drinkable)       (= % :edible)   (= % :furniture)
                                                      (= % :human)           (= % :legible)  (= % :part-of-human-body)
                                                      (= % :pet)

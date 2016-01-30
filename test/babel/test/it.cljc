@@ -1,7 +1,7 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :refer [generate]]
-            [babel.italiano.grammar :refer [small medium]]
+            [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :refer [fo]]
             [babel.italiano.workbook :refer [analyze parse]]
@@ -59,3 +59,27 @@
     (is (= "io parlo") (fo (first result)))))
 
         
+(deftest round-trip-1
+  (let [expr (generate {:synsem {:sem {:spec {:def :def} 
+                                       :mod {:pred :difficile}
+                                       :number :sing
+                                     :pred :donna}}} 
+                       np-grammar)]
+    (is (= (fo expr) "la donna difficila"))
+    (is (not (empty? (parse (fo expr) np-grammar))))))
+
+;; useful for adding more round-trip tests.
+(def foo
+  (take 1 (repeatedly
+           #(let [expr (generate {:synsem {:sem
+                                           {:spec {:def :top}
+                                            :mod {:pred :top}
+                                            :number :top
+                                            :pred :top}}}
+                                 np-grammar)]
+              (if (empty? (parse (fo expr) np-grammar))
+                {:fo (fo expr)
+                 :expr (get-in expr [:synsem :sem])
+                 :sem (get-in (first (parse (fo expr) np-grammar))
+                              [:synsem :sem])})))))
+

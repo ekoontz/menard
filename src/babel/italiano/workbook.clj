@@ -67,9 +67,12 @@
 
 (defn analyze
   ([surface-form]
-   (morph/analyze surface-form (:lookup medium)))
+   (analyze surface-form medium))
   ([surface-form model]
-   (morph/analyze surface-form (:lookup medium))))
+   (cond (fn? model)
+         (morph/analyze surface-form model)
+         true
+         (morph/analyze surface-form (:lookup model)))))
 
 (defn over
   ([arg1]

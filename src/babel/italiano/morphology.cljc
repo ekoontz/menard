@@ -1648,6 +1648,13 @@
                              (fn [val]
                                {:italiano {:agr {:gender :fem
                                                  :number :plur}}})}
+                            ;; nouns
+                            {:path [:italiano :plur]
+                             :merge-fn
+                             (fn [val]
+                               {:synsem {:cat :noun}
+                                :italiano {:agr {:number :plur}}})}
+                            
                             ])]
         (concat result (exception-generator (rest lexicon)))))))
 

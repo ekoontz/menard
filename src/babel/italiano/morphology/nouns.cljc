@@ -15,8 +15,13 @@
                                 :number :plur}}}}})
 
 (def plural-to-singular-noun-masc-1
-  {#"i$"
-   {:replace-with "o"
+  {
+   #"ii$" ;; e.g. "braccio" => "bracci"
+   {:replace-with "io"
+    :unify-with {:synsem {:cat :noun
+                          :agr {:number :plur}}}}
+   #"([^i])i$"
+   {:replace-with "$1o"
     :unify-with {:synsem {:cat :noun
                           :agr {:number :plur}}}}})
 

@@ -1240,11 +1240,6 @@
                  :sem {:human true
                        :pred :I}
                  :subcat '()}}]
-   "l"
-   {:synsem {:cat :det
-             :def :def
-             :agr {:gender :top
-                   :number :sing}}}
       "la"
       ;; TODO: refactor commonalities
       ;; 1. pronoun: human

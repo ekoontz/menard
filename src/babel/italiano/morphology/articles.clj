@@ -7,6 +7,10 @@
    #"^l$"
    {:replace-with "la"
     :unify-with :top}
+
+   #"^l$"
+   {:replace-with "il"
+    :unify-with :top}
    
    #"^gli$"
    {:replace-with "i"

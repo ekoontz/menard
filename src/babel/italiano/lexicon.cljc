@@ -799,6 +799,11 @@
                 :def :partitivo
                 :agr {:number :plur
                       :gender :masc}}}
+      "dell"
+      {:synsem {:cat :det
+                :def :partitivo
+                :agr {:number :sing
+                      :gender :top}}}
       "della"
       {:synsem {:cat :det
                 :def :partitivo
@@ -1235,6 +1240,11 @@
                  :sem {:human true
                        :pred :I}
                  :subcat '()}}]
+   "l"
+   {:synsem {:cat :det
+             :def :def
+             :agr {:gender :top
+                   :number :sing}}}
       "la"
       ;; TODO: refactor commonalities
       ;; 1. pronoun: human

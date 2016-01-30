@@ -65,37 +65,24 @@
 
 (def rules (:grammar-map medium))
 
-;; TODO: do morphological analysis
-;; do find non-infinitives (e.g. find 'parler' given 'parle')
-;; and then apply conjugated parts to lexeme
-;; i.e. if input is 'parle', return
-;; list of lexemes; for each, [:synsem :agr :person] will be
-;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup
-  ([string]
-   ((:lookup medium) string))
-  ([string model]
-   ((:lookup model) string)))
-
-;; TODO: deprecate lookup; use analyze instead.
 (defn analyze
   ([surface-form]
-   (morph/analyze surface-form (:lexicon medium)))
+   (morph/analyze surface-form (:lookup medium)))
   ([surface-form model]
-   (morph/analyze surface-form (:lexicon model))))
+   (morph/analyze surface-form (:lookup medium))))
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map medium)) (lookup arg1)))
+   (over/over (vals (:grammar-map medium)) (analyze arg1 medium)))
   ([grammar arg1]
-   (over/over grammar (lookup arg1)))
+   (over/over grammar (analyze arg1)))
   ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over grammar (lookup arg1)
+         (over grammar (analyze arg1)
                arg2)
 
          (string? arg2)
-         (over grammar arg1 (lookup arg2))
+         (over grammar arg1 (analyze arg2))
 
          true
          (over/over grammar arg1 arg2))))

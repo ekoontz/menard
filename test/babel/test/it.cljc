@@ -3,8 +3,8 @@
   (:require [babel.engine :refer [generate]]
             [babel.italiano.grammar :refer [small medium]]
             [babel.italiano.lexicon :refer [lexicon]]
-            [babel.italiano.morphology :refer [analyze fo]]
-            [babel.italiano.workbook :refer [parse]]
+            [babel.italiano.morphology :refer [fo]]
+            [babel.italiano.workbook :refer [analyze parse]]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
@@ -14,6 +14,12 @@
 (deftest analyze-1
   (let [singular (analyze "compito" (:lookup medium))
         plural  (analyze "compiti" (:lookup medium))]
+    (is (not (nil? singular)))
+    (is (not (nil? plural)))))
+
+(deftest analyze-2
+  (let [singular (analyze "difficile" (:lookup medium))
+        plural  (analyze "difficili" (:lookup medium))]
     (is (not (nil? singular)))
     (is (not (nil? plural)))))
 

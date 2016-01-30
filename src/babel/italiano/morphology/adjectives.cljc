@@ -31,4 +31,11 @@
    {:replace-with "o"
     :unify-with {:synsem {:cat :adjective
                           :agr {:gender :fem
+                                :number :plur}}}}
+   #"i$"
+   {:replace-with "e"
+    :unify-with {:synsem {:cat :adjective
+                          :agr {:gender :fem
                                 :number :plur}}}}})
+
+

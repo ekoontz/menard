@@ -792,7 +792,7 @@
       "del"
       {:synsem {:cat :det
                 :def :partitivo
-                :agr {:number :singular
+                :agr {:number :sing
                       :gender :masc}}}
       "dei"
       {:synsem {:cat :det

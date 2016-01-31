@@ -878,7 +878,8 @@
                              :artifact true
                              :physical-object true
                              :edible false}}
-              :italiano {:cat :adjective}})
+              :italiano {:cat :adjective
+                         :fem {:sing "difficile"}}})
 
       "dipingere" {:synsem {:cat :verb
                             :sem {:pred :paint}}

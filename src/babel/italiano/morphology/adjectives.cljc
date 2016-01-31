@@ -42,5 +42,3 @@
     :unify-with {:synsem {:cat :adjective
                           :agr {:gender :fem
                                 :number :plur}}}}})
-
-

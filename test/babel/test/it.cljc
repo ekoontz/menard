@@ -1,6 +1,6 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :refer [generate]]
+  (:require [babel.engine :refer [generate generate-all]]
             [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :refer [fo]]
@@ -85,22 +85,27 @@
                  :expr (get-in expr [:synsem :sem])
                  :sem (get-in (first (parse (fo expr) np-grammar))
                               [:synsem :sem])})))))
+(deftest roundtrip-all
+  (let [do-this-many 100] ;; doing them all takes minutes rather than seconds.
+    (is (empty?
+         (filter #(not (nil? %))
+                 (let [expressions
+                       (generate-all {:synsem {:sem {:spec {:def :top}
+                                                     :mod {:pred :top}
+                                                     :number :top
+                                                     :pred :top}}}
+                                     np-grammar)]
+                   (pmap (fn [expr] 
+                           (if (empty? (parse (fo expr) np-grammar))
+                             (do
+                               (log/error (str "failed to parse: " (fo expr)))
+                             {:fo (fo expr)
+                              :expr (get-in expr [:synsem :sem])
+                              :sem (get-in (first (parse (fo expr) np-grammar))
+                                           [:synsem :sem])})
+                             (log/info (str "parse OK:" (fo expr)))))
+                         (if (= do-this-many :all)
+                           expressions
+                           (take do-this-many expressions)))))))))
 
-(deftest roundtrip-many
-  (is (empty?
-       (filter #(not (nil? %))
-               (take 10
-                     (repeatedly #(let [expr
-                                        (generate {:synsem {:sem {:spec {:def :top}
-                                                                  :mod {:pred :top}
-                                                                  :number :top
-                                                                  :pred :top}}}
-                                                  np-grammar)]
-                                    (if (empty? (parse (fo expr) np-grammar))
-                                      (do
-                                        (log/error (str "failed to parse: " (fo expr)))
-                                        {:fo (fo expr)
-                                         :expr (get-in expr [:synsem :sem])
-                                         :sem (get-in (first (parse (fo expr) np-grammar))
-                                                      [:synsem :sem])})
-                                      (log/info (str "parse OK:" (fo expr)))))))))))
+  

@@ -1141,7 +1141,7 @@
              common-noun
              countable-noun
              masculine-noun
-             {:synsem {:sem {:animal true
+             {:synsem {:sem {:animate true
                              :human false
                              :pred :gatto
                              :pet true}}})
@@ -2130,4 +2130,3 @@
                     (filter #(or (not (= :verb (get-in % [:synsem :cat])))
                                  (not (= :none (get-in % [:synsem :infl] :none))))
                             vals)))))
-

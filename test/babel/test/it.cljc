@@ -65,8 +65,11 @@
                                        :number :sing
                                      :pred :donna}}} 
                        np-grammar)]
-    (is (= (fo expr) "la donna difficila"))
+    (is (= (fo expr) "la donna difficile"))
     (is (not (empty? (parse (fo expr) np-grammar))))))
+
+(deftest forbid-mispelling
+ (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
 ;; useful for adding more round-trip tests.
 (def foo
@@ -101,8 +104,3 @@
                                          :sem (get-in (first (parse (fo expr) np-grammar))
                                                       [:synsem :sem])})
                                       (log/info (str "parse OK:" (fo expr)))))))))))
-
-
-
-
-

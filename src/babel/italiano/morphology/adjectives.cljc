@@ -10,35 +10,41 @@
 (def plural-to-singular-adj-masc
   {#"i$"
    {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:masc {:plur :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :masc
                                 :number :plur}}}}
    #"i$"
    {:replace-with "e"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:masc {:plur :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :masc
                                 :number :plur}}}}})
 
 (def plural-to-singular-adj-fem-sing
   {#"a$"
    {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:fem {:sing :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :fem
                                 :number :sing}}}}
    #"a$"
    {:replace-with "e"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:fem {:sing :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :fem
                                 :number :sing}}}}})
 
 (def plural-to-singular-adj-fem-plur
   {#"e$"
    {:replace-with "o"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:fem {:plur :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :fem
                                 :number :plur}}}}
    #"i$"
    {:replace-with "e"
-    :unify-with {:synsem {:cat :adjective
+    :unify-with {:italiano {:fem {:plur :not-string}}
+                 :synsem {:cat :adjective
                           :agr {:gender :fem
                                 :number :plur}}}}})

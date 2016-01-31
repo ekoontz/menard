@@ -59,6 +59,39 @@
                                   (:morph language-model))]
       result)))
 
+;; TODO: use a option map/destructuring thing.
+(defn generate-all [spec language-model & [{add-subcat :add-subcat
+                                            do-enrich :do-enrich}]]
+  (let [do-enrich (if do-enrich do-enrich true)
+        spec (if (or (= false add-subcat)
+                     (fail? (unify spec {:synsem {:subcat '()}}))
+                     (not (= :none (get-in spec [:synsem :subcat] :none))))
+               spec
+
+               ;; else:
+               (unify spec
+                      {:synsem {:subcat '()}}))
+
+        debug (log/debug (str "pre-enrich spec: " spec))
+
+        spec (if (and do-enrich (:enrich language-model))
+               ((:enrich language-model)
+                spec
+                (:lexicon language-model))
+               spec)
+        debug (if (seq? spec)
+                (count
+                 (map #(log/debug (str "post-enrich spec: " %))
+                      spec))
+                (log/debug (str "post-enrich spec: " spec)))
+        ]
+    (let [result (forest/generate-all spec 
+                                      (:grammar language-model)
+                                      (:lexicon language-model)
+                                      (:index language-model)
+                                      (:morph language-model))]
+      result)))
+
 #?(:clj
 (defn generate-from-request [request]
   "respond to an HTTP client's request with a generated sentence, given the client's desired spec, language name, and language model name."

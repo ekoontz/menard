@@ -27,6 +27,7 @@
            (generate-from-request request)))))
 
 ;; TODO: use a option map/destructuring thing.
+;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 (defn generate [spec language-model & [{add-subcat :add-subcat
                                         do-enrich :do-enrich}]]
   (let [do-enrich (if do-enrich do-enrich true)

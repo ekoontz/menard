@@ -29,9 +29,15 @@
 
 (defn generate
   ([spec]
-   (engine/generate spec medium))
+   (take 1 (engine/generate-all spec medium)))
   ([spec model]
-   (engine/generate spec model)))
+   (take 1 (engine/generate-all spec model))))
+
+(defn generate-all
+  ([spec]
+   (engine/generate-all spec medium))
+  ([spec model]
+   (engine/generate-all spec model)))
 
 (defn parse
   ([string]

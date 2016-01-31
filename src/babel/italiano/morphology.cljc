@@ -302,6 +302,21 @@
      (string/replace (get-in word '(:italiano))
                      #"[eo]$" "e") ;; nero => nere
 
+     ;; TODO: move this down to other adjectives.
+     ;; this was moved up here to avoid
+     ;; another rule from matching it.
+     ;; exceptional feminine singular adjectives
+     (and
+      (= (get-in word '(:agr :gender)) :fem)
+      (= (get-in word '(:agr :number)) :sing)
+      (= (get-in word '(:cat)) :adjective)
+      (string? (get-in word '(:fem :sing))))
+     (get-in word '(:fem :sing))
+
+     ;; TODO: move this down to other adjectives.
+     ;; this was moved up here to avoid
+     ;; another rule from matching it.
+     ;; regular feminine singular adjectives
      (and
       (string? (get-in word [:italiano]))
       (= (get-in word '(:agr :gender)) :fem)
@@ -309,7 +324,7 @@
       (= (get-in word '(:cat)) :adjective))
      (string/replace (get-in word '(:italiano))
                      #"[eo]$" "a") ;; nero => nera
-
+     
      (and (= :infinitive (get-in word '(:infl)))
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
@@ -1648,6 +1663,11 @@
                              (fn [val]
                                {:italiano {:agr {:gender :fem
                                                  :number :plur}}})}
+                            {:path [:italiano :fem :sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:agr {:gender :fem
+                                                 :number :sing}}})}
                             ;; nouns
                             {:path [:italiano :plur]
                              :merge-fn

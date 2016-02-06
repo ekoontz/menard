@@ -739,7 +739,8 @@
                                        :sem subject-semantics}}}})
                                      
    "querer" (let [shared-part-of-querer
-                  {:espanol {:boot-stem "quier"
+                  {:synsem {:cat :verb}
+                   :espanol {:boot-stem "quier"
                              :preterito-stem "quis"
                              :futuro-stem "querr"}}]
               [(unify shared-part-of-querer

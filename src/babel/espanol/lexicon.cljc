@@ -860,6 +860,12 @@
 ;; argument-position-sensitive function.
 (def lexicon
   (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
+
+      ;; if a non-auxiliary verb has no :obj, then its {:obj is :unspec}.
+      (if-then {:synsem {:cat :verb
+                         :aux false
+                         :sem {:obj :unspec}}}
+               {:synsem {:sem {:obj :unspec}}})
       
       ;; make an intransitive version of every verb which has an
       ;; [:sem :obj] path.
@@ -867,7 +873,7 @@
       
       ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
       transitivize
-      
+
       ;; if verb has no :aux, it's {:aux false}
       (if-then {:synsem {:cat :verb
                          :aux false}}

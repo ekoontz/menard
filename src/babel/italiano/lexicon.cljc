@@ -1088,10 +1088,16 @@
                         :drop-e false
                         :passato "fatto"
                         :future-stem "far"
+                        :imperfect {:1sing "facevo"
+                                     :2sing "facevi"
+                                     :3sing "faceva"
+                                     :1plur "facevamo"
+                                     :2plur "facevate"
+                                     :3plur "facevano"}
                         :present {:1sing "faccio"
                                   :2sing "fai"
                                   :3sing "fa"
-                                    :1plur "facciamo"
+                                  :1plur "facciamo"
                                   :2plur "fate"
                                   :3plur "fanno"}}}]
         [(merge shared-part-of-fare

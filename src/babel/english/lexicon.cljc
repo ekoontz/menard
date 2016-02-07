@@ -230,7 +230,8 @@
 
    "begin" {:synsem {:cat :verb
                      :sem {:pred :begin}}
-            :english {:past "began"}}
+            :english {:past "began"
+                      :participle "beginning"}}
 
    "believe" {:synsem {:cat :verb
                        :sem {:pred :believe}}}

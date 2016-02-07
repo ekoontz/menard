@@ -868,3 +868,10 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                          (get-in map2 [first-fail-key])))
           (if (not (nil? first-fail-key))
             [first-fail-key]))))))
+
+(defn lexicon-for-generation [lexicon]
+  "filter elements of a lexicon that are not intended for generation (:use-for-generation=false)"
+  (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] :true)))
+                                   (get lexicon k))])
+                (keys lexicon))))
+

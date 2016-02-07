@@ -31,11 +31,7 @@
   #?(:cljs (.getTime (js/Date.))))
 
 (defn generate [spec grammar lexicon index morph]
-  (let [lexicon
-        (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation])))
-                                         (get lexicon k))])
-                      (keys lexicon)))]
-    (first (take 1 (generate-all spec grammar lexicon index morph)))))
+  (first (take 1 (generate-all spec grammar lexicon index morph))))
 
 (defn generate-all-with-model [spec {grammar :grammar
                                      index :index

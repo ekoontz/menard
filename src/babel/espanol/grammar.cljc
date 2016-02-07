@@ -5,6 +5,7 @@
    [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :refer [analyze fo morph-walk-tree]]
+   [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
@@ -431,7 +432,8 @@
                                    (= (get-in % [:synsem :pronoun]) true))
                               v)]
                   (if (not (empty? filtered-v))
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        lexicon (lexicon-for-generation lexicon)]
     {:name "small"
      :language "es"
      :language-keyword :espanol
@@ -458,7 +460,8 @@
               (for [[k v] lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        lexicon (lexicon-for-generation lexicon)]
     {:name "medium"
      :enrich enrich
      :morph fo

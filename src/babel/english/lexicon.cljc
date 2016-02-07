@@ -751,7 +751,7 @@
    
    "hug"
    {:synsem {:cat :verb
-             :sem {:pred :abbracciare
+             :sem {:pred :hug
                    :subj {:human true}
                    :obj {:animate true}}}
     :english {:past "hugged"

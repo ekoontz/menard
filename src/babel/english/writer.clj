@@ -1,7 +1,7 @@
 (ns babel.english.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.engine :as engine])
+(require '[babel.engine :as engine :refer [generate]])
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])

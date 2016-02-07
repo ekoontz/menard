@@ -4,7 +4,8 @@
    [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
-   [babel.espanol.morphology :refer [analyze fo morph-walk-tree]]
+   [babel.espanol.morphology :as morph
+    :refer [analyze fo morph-walk-tree]]
    [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
@@ -423,6 +424,7 @@
                      (= (get-in % [:rule]) "vp-32")
                      (= (get-in % [:rule]) "vp-aux"))
                 grammar)
+        lexicon-for-analysis lexicon
         lexicon
         (into {}
               (for [[k v] lexicon]
@@ -433,10 +435,12 @@
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon (lexicon-for-generation lexicon)]
+        lexicon-for-generation (lexicon-for-generation lexicon)]
     {:name "small"
      :language "es"
      :language-keyword :espanol
+     :lookup (fn [arg]
+               (morph/analyze arg lexicon-for-analysis))
      :enrich enrich
      
      ;; Will throw exception if more than 1 rule has the same :rule value:
@@ -452,18 +456,20 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
 
 (def medium
-  (let [lexicon
+  (let [lexicon-for-generation
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon (lexicon-for-generation lexicon)]
+        lexicon-for-analysis lexicon]
     {:name "medium"
      :enrich enrich
+     :lookup (fn [arg]
+               (morph/analyze arg lexicon-for-analysis))
      :morph fo
      :morph-walk-tree (fn [tree]
                         (do
@@ -471,7 +477,13 @@
                                  (morph-walk-tree tree))))
      :grammar grammar
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      }))
+
+(defn parse [surface]
+  (parse/parse surface
+               (:lexicon small)
+               (:lookup small)
+               (:grammar small)))
 
 (log/info "Español grammars defined (small, medium).")

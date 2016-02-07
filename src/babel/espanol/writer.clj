@@ -5,7 +5,7 @@
 (require '[babel.forest :as forest])
 (require '[babel.engine :as engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
-(require '[babel.espanol.grammar :refer [small]])
+(require '[babel.espanol.grammar :refer [small parse]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])

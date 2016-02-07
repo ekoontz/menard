@@ -359,7 +359,6 @@
       (do
         (log/error (str "Exception when truncating lexicon: " e))))))
 
-
 (defn delete-from-expressions [language spec]
   (try
     (do

@@ -73,7 +73,7 @@
                          :sem {:pred :abandon}}}
 
    "abrazar" {:synsem {:cat :verb
-                         :sem {:pred :hug}}}
+                       :sem {:pred :hug}}}
    
    "acabar" {:synsem {:cat :verb
                       :sem {:pred :finish}}}

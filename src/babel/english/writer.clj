@@ -39,11 +39,13 @@
 
         spec (if root
                (unify spec
-                      {:root {:espanol {:espanol root}}}))
+                      {:root {:espanol {:espanol root}}})
+               spec)
 
+        use-map-fn pmap
         source-expressions (read-all spec
                                      source-language-short-name)]
-    (.size (pmap (fn [source-expression]
+    (.size (use-map-fn (fn [source-expression]
                    (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
                        (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))
                        (let [spec {:synsem {:sem (strip-refs (get-in (:structure source-expression) [:synsem :sem]))}}]

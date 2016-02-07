@@ -254,7 +254,7 @@
                        :sem {:pred :decide}}}
   
   "decir" (let [common
-                {:espanol {:future-stem "dir"
+                {:espanol {:futuro-stem "dir"
                            :present {:1sing "digo"
                                      :2sing "dices"
                                      :3sing "dice"
@@ -464,7 +464,7 @@
                        :sem {:pred :talk
                              :subj {:human true}}}}]
    "hacer"
-   (let [common {:espanol {:future-stem "har"
+   (let [common {:espanol {:futuro-stem "har"
                            :present {:1sing "hago"
                                      :2sing "haces"
                                      :3sing "hace"
@@ -486,7 +486,7 @@
              :synsem {:cat :verb
                       :sem {:pred :boil}}}
    
-   "ir" {:espanol {:future-stem "ir"
+   "ir" {:espanol {:futuro-stem "ir"
                    :present {:1sing "voy"
                              :2sing "vas"
                              :3sing "va"
@@ -712,7 +712,7 @@
       (unify shared-part-of-poder
              {:synsem {:sem {:pred :be-able-to}}})])
    
-   "poner" {:espanol {:future-stem "pondr"
+   "poner" {:espanol {:futuro-stem "pondr"
                       :present {:1sing "pongo"
                                 :2sing "pones"
                                 :3sing "pone"
@@ -774,7 +774,7 @@
                         :number :sing}
                   :subcat '()}}
    
-    "tener" {:espanol {:future-stem "tendr"
+    "tener" {:espanol {:futuro-stem "tendr"
                    :present {:1sing "tengo"
                              :2sing "tienes"
                              :3sing "tiene"

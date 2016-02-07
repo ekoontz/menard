@@ -33,9 +33,9 @@
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
-        ;; conditional shares usage of :future-stem with future.
-        stem (if (get-in word [:future-stem])
-               (get-in word [:future-stem])
+        ;; conditional shares usage of :futuro-stem with future.
+        stem (if (get-in word [:futuro-stem])
+               (get-in word [:futuro-stem])
                stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
@@ -139,8 +139,8 @@
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
         stem (string/replace infinitive #"[iae]r$" "")
-        stem (if (get-in word [:future-stem])
-               (get-in word [:future-stem])
+        stem (if (get-in word [:futuro-stem])
+               (get-in word [:futuro-stem])
                stem)
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)

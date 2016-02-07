@@ -861,10 +861,12 @@
 (def lexicon
   (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
 
-      ;; if a non-auxiliary verb has no :obj, then its {:obj is :unspec}.
+      ;; if a non-auxiliary, non-reflexive verb has no :obj,
+      ;; then its {:obj is :unspec}.
       (if-then {:synsem {:cat :verb
                          :aux false
-                         :sem {:obj :unspec}}}
+                         :sem {:reflexive false
+                               :obj :unspec}}}
                {:synsem {:sem {:obj :unspec}}})
       
       ;; make an intransitive version of every verb which has an

@@ -37,7 +37,7 @@
         ;; for debugging: use map: in-order rather than interleaved by multiple workers.
         ;; for production: use pmap.
         ;;        use-map-fn pmap
-        use-map-fn map
+        use-map-fn pmap
 
         root-verbs 
         (zipmap

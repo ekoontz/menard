@@ -30,11 +30,17 @@
                   nil
                   (:morph  small-plus-plus-np)))
 
-(defn translate [source-language-short-name]
-  "generate English translations of all available expressions in source language."
+(defn translate [source-language-short-name & [root]]
+  "generate English translations of all available expressions in source language. Optionally takes a root form of a verb in the source language."
+  ;; example usage: (translate "es" "abrazar")
   (rewrite-lexicon)
   (let [spec :top
         ;; {:synsem {:sem {:pred :arrive}}}
+
+        spec (if root
+               (unify spec
+                      {:root {:espanol {:espanol root}}}))
+
         source-expressions (read-all spec
                                      source-language-short-name)]
     (.size (pmap (fn [source-expression]

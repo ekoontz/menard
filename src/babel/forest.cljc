@@ -1,5 +1,5 @@
 (ns babel.forest
-  (:refer-clojure :exclude [get-in deref resolve find future parents])
+  (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
    [babel.cache :refer (build-lex-sch-cache get-comp-phrases-of get-head-phrases-of get-lex
                                             get-parent-phrases-for-spec)]
@@ -31,18 +31,17 @@
   #?(:cljs (.getTime (js/Date.))))
 
 (defn generate [spec grammar lexicon index morph]
-  (first (take 1 (generate-all spec grammar lexicon index morph))))
+  (let [lexicon
+        (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation])))
+                                         (get lexicon k))])
+                      (keys lexicon)))]
+    (first (take 1 (generate-all spec grammar lexicon index morph)))))
 
 (defn generate-all-with-model [spec {grammar :grammar
                                      index :index
                                      lexicon :lexicon
                                      morph :morph}]
-  (let [index
-        #?(:clj (if (future? index) @index index))
-        #?(:cljs index)
-        lexicon
-        #?(:clj (if (future? lexicon) @lexicon lexicon))
-        #?(:cljs lexicon)]
+  (let []
     (log/info (str "using grammar of size: " (count grammar)))
     (log/info (str "using index of size: " (count index)))
     (if (seq? spec)
@@ -177,16 +176,9 @@ of this function with complements."
 
 (defn add-complement [bolt path spec grammar lexicon cache morph]
   (let [input-spec spec
-        cache
-        #?(:clj (if (future? cache) @cache cache))
-        #?(:cljs cache)
-        
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
-        spec (unifyc spec bolt-spec)
-        lexicon
-        #?(:clj (if (future? lexicon) @lexicon lexicon))
-        #?(:cljs lexicon)]
+        spec (unifyc spec bolt-spec)]
     (log/debug (str "add-complement to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (morph bolt) "'"

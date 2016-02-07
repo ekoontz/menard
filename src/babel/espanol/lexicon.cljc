@@ -13,7 +13,8 @@
 
 (def lexicon-source 
   {""
-   [{:synsem {:cat :noun
+   [{:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom
@@ -21,7 +22,8 @@
                     :number :sing}
               :sem {:human true
                     :pred :I}}}
-    {:synsem {:cat :noun
+    {:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom
@@ -29,7 +31,8 @@
                     :number :sing}
               :sem {:human true
                     :pred :tu}}}
-    {:synsem {:cat :noun
+    {:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom
@@ -37,7 +40,8 @@
                     :number :sing}
               :sem {:human :top ; intended for use as both "he" and "it"
                     :pred :lui}}}
-    {:synsem {:cat :noun
+    {:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom
@@ -45,7 +49,8 @@
                     :number :plur}
               :sem {:human true
                     :pred :noi}}}
-    {:synsem {:cat :noun
+    {:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom
@@ -53,7 +58,8 @@
                     :number :plur}
               :sem {:human true
                     :pred :voi}}}
-    {:synsem {:cat :noun
+    {:use-for-generation false
+     :synsem {:cat :noun
               :pronoun true
               :null-pronoun true
               :case :nom

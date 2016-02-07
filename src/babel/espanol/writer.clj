@@ -215,9 +215,10 @@
                         (mapcat (fn [tense]
                                   (filter #(not (= :fail %))
                                           (list
-                                           (unify/unify tense
-                                                        {:comp {:synsem {:pronoun true
-                                                                         :null-pronoun true}}})
+                                           ;; don't generate with null-pronouns - too confusing and inconsistent.
+;                                           (unify/unify tense
+;                                                        {:comp {:synsem {:pronoun true
+;                                                                         :null-pronoun true}}})
                                            (unify/unify tense
                                                         {:comp {:synsem {:pronoun true
                                                                          :null-pronoun false}}})

@@ -89,7 +89,7 @@
                                                                     ;; to only be present progressive.
                                                                     (and
                                                                      (= (get-in spec [:root :français :français])
-                                                                        "se appeler")
+                                                                        "s'appeler")
                                                                      (or (= (get-in spec [:comp :synsem :agr :number])
                                                                             :plur)
                                                                          (= (get-in spec [:comp :synsem :agr :gender])

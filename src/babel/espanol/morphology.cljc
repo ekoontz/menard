@@ -183,7 +183,6 @@
                       :vosotros vosotros
                       :ustedes ustedes
                       })
-
       (and
        (= (get-in word '(:infl)) :preterito)
        (string? (get-in word '(:espanol))))

@@ -23,6 +23,8 @@
   "e.g.: quedarse -> quedar"
   (string/replace reflexive-infinitive #"se$" ""))
 
+(declare number-and-person)
+
 (defn conditional [word  & [ {usted :usted
                               vosotros :vosotros
                               ustedes :ustedes}]]
@@ -43,9 +45,12 @@
         vosotros (if vosotros vosotros true)
         ustedes (if ustedes ustedes false)
         person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
-
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
     (cond
+     (get-in word [:condicional number-and-person])
+     (get-in word [:condicional number-and-person])
+
      (and (= person :1st) (= number :sing) ar-type)
      (str stem "aría")
      (and (= person :1st) (= number :sing) er-type)
@@ -151,6 +156,9 @@
         number (get-in word '(:agr :number))]
 
     (cond
+     (get-in word [:futuro number-and-person])
+     (get-in word [:futuro number-and-person])
+
      (and (= person :1st) (= number :sing) ar-type)
      (str stem "aré")
      (and (= person :1st) (= number :sing) er-type)
@@ -371,9 +379,11 @@
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
         person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
-
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
     (cond
+     (get-in word [:present number-and-person])
+     (get-in word [:present number-and-person])
      
      (and (= person :1st) (= number :sing))
      (str stem "o")
@@ -607,3 +617,18 @@
              "??")
          (exception message))))))
 
+(defn number-and-person [number person]
+  (cond (and (= person :1st) (= number :sing))
+        :1sing
+        (and (= person :1st) (= number :plur))
+        :1plur
+        (and (= person :2nd) (= number :sing))
+        :2sing
+        (and (= person :2nd) (= number :plur))
+        :2plur
+        (and (= person :3rd) (= number :sing))
+        :3sing
+        (and (= person :3rd) (= number :plur))
+        :3plur
+        true
+        nil))

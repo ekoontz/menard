@@ -34,6 +34,7 @@
         
         ;; je + aime = j'aime
         (and (not (nil? b))
+             (not (nil? (get-string b)))
              (let [a (get-string word)
                    b (get-string b)]
                (and (re-find #"^(je)$" a)

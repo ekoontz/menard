@@ -792,6 +792,12 @@
                                     :1plur "tendrìamos"
                                     :2plur "tendrìais"
                                     :3plur "tendrìan"}
+                      :preterito {:1sing "tuve"
+                                    :2sing "tuviste"
+                                    :3sing "tuvo"
+                                    :1plur "tuvimos"
+                                    :2plur "tuvisteis"
+                                    :3plur "tuvieron"}
                       :present {:1sing "tengo"
                                 :2sing "tienes"
                                 :3sing "tiene"

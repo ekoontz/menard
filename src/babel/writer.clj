@@ -152,9 +152,9 @@
 
   (try
     (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
-                    "'" (json/write-str (strip-refs expression)) "'"
+                    "$$" (json/write-str (strip-refs expression)) "$$"
                     ","
-                    "'" (str (serialize expression)) "'"
+                    "$$" (str (serialize expression)) "$$"
                     ","
                     "?,?)")
                [surface
@@ -164,6 +164,7 @@
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
+  (log/debug (str "insert-lexeme: canonical=" canonical ",lexeme=" lexeme ",language=" language))
   (if (fail? lexeme)
     (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
       (log/error message)
@@ -172,7 +173,7 @@
     (exec-raw [(str "INSERT INTO lexeme 
                                  (canonical, structure, serialized, language) 
                           VALUES (?,"
-                    "'" (json/write-str (strip-refs lexeme)) "'"
+                    "$$" (json/write-str (strip-refs lexeme)) "$$"
                     ",?,?)")
                [canonical (str (serialize lexeme))
                 language]])))

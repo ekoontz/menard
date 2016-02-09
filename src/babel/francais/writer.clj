@@ -19,101 +19,105 @@
     (engine/expression medium spec)))
 
 (defn tout [ & [count]]
-  (let [count (if count (Integer. count) 10)
+  (let [use-map-fn map
+        count (if count (Integer. count) 10)
         root-verbs 
         (zipmap
          (keys lexicon)
-         (map (fn [lexeme-set]
-                (filter (fn [lexeme]
-                          (and
-                           ;; uncomment to only generate for a desired verb, e.g. "se amuser"
-                           ;;                           (= (get-in lexeme [:français :français]) "se amuser")
-                           (= (get-in lexeme [:synsem :cat]) :verb)
-                           (= (get-in lexeme [:synsem :infl]) :top)
-                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
-                        lexeme-set))
-              (vals lexicon)))
+         (use-map-fn
+          (fn [lexeme-set]
+            (filter (fn [lexeme]
+                      (and
+                       ;; uncomment to only generate for a desired verb, e.g. "se amuser"
+                       ;;                           (= (get-in lexeme [:français :français]) "se amuser")
+                       (= (get-in lexeme [:synsem :cat]) :verb)
+                       (= (get-in lexeme [:synsem :infl]) :top)
+                       (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                    lexeme-set))
+          (vals lexicon)))
         root-verb-array
         (reduce concat
-                (map (fn [key]
-                       (get root-verbs key))
-                     (sort (keys root-verbs))))]
+                (use-map-fn (fn [key]
+                              (get root-verbs key))
+                            (sort (keys root-verbs))))]
     (write-lexicon "fr" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))
 
     ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
-    (.size (pmap (fn [verb]
-                   (log/trace (str "verb: " (strip-refs verb)))
-                   (let [root-form (get-in verb [:français :français])
-                         essere (get-in verb [:synsem :essere])]
-                     (log/info (str "generating with verb: '" root-form "'"))
-                     (.size (map (fn [tense]
-                                   (let [spec (unify {:root {:français {:français root-form}}}
-                                                     tense)]
-                                     (.size
-                                      (map (fn [gender]
-                                             (let [spec (unify spec
-                                                               {:comp {:synsem {:agr gender}}})]
-                                               (log/trace (str "generating from gender: " gender))
-                                               (.size
-                                                (map (fn [person]
-                                                       (let [spec (unify spec
-                                                                         {:comp {:synsem {:agr {:person person}}}})]
-                                                         (log/trace (str "generating from person: " person))
-                                                         (.size
-                                                          (map (fn [number]
-                                                                 (let [spec (unify spec
-                                                                                   {:comp {:synsem {:agr {:number number}}}})]
-                                                                   (log/debug (str "generating from spec: " spec))
-                                                                   (try
-                                                                     (process [{:fill-one-language
-                                                                                {:count 1
-                                                                                 :spec spec
-                                                                                 :model medium
-                                                                                 }}]
-                                                                              "fr")
-                                                                     ;; TODO: move this to *before*
-                                                                     ;; attempting generation that fails.
-                                                                     (catch Exception e
-                                                                       (cond
+    (.size (use-map-fn
+            (fn [verb]
+              (log/trace (str "verb: " (strip-refs verb)))
+              (let [root-form (get-in verb [:français :français])
+                    essere (get-in verb [:synsem :essere])]
+                (log/info (str "generating with verb: '" root-form "'"))
+                (.size (map (fn [tense]
+                              (let [spec (unify {:root {:français {:français root-form}}}
+                                                tense)]
+                                (.size
+                                 (map (fn [gender]
+                                        (let [spec (unify spec
+                                                          {:comp {:synsem {:agr gender}}})]
+                                          (log/trace (str "generating from gender: " gender))
+                                          (.size
+                                           (map (fn [person]
+                                                  (let [spec (unify spec
+                                                                    {:comp {:synsem {:agr {:person person}}}})]
+                                                    (log/trace (str "generating from person: " person))
+                                                    (.size
+                                                     (map (fn [number]
+                                                            (let [spec (unify spec
+                                                                              {:comp {:synsem {:agr {:number number}}}})]
+                                                              (log/debug (str "generating from spec: " spec))
+                                                              (try
+                                                                (process [{:fill-one-language
+                                                                           {:count 1
+                                                                            :spec spec
+                                                                            :model medium
+                                                                            }}]
+                                                                         "fr")
+                                                                ;; TODO: move this to *before*
+                                                                ;; attempting generation that fails.
+                                                                (catch Exception e
+                                                                  (cond
                                                                         
-                                                                         ;; "se appeler": there is currently only singular
-                                                                         ;; proper male names, so any attempt to use
-                                                                         ;; plural number with this verb will fail.
-                                                                         ;; Also verb is constrained in lexicon
-                                                                         ;; to only be present progressive.
-                                                                         (and
-                                                                          (= (get-in spec [:root :français :français])
-                                                                             "se appeler")
-                                                                          (or (= (get-in spec [:comp :synsem :agr :number])
-                                                                                 :plur)
-                                                                              (= (get-in spec [:comp :synsem :agr :gender])
-                                                                                 :fem)
-                                                                              (and (not (= (get-in spec [:synsem :sem :tense])
-                                                                                           :present))
-                                                                                   (not (= (get-in spec [:synsem :sem :aspect])
-                                                                                           :progressive)))))
-                                                                         (do (log/info (str "ignoring exception (se-appeler): " e)))
+                                                                    ;; "se appeler": there is currently only singular
+                                                                    ;; proper male names, so any attempt to use
+                                                                    ;; plural number with this verb will fail.
+                                                                    ;; Also verb is constrained in lexicon
+                                                                    ;; to only be present progressive.
+                                                                    (and
+                                                                     (= (get-in spec [:root :français :français])
+                                                                        "se appeler")
+                                                                     (or (= (get-in spec [:comp :synsem :agr :number])
+                                                                            :plur)
+                                                                         (= (get-in spec [:comp :synsem :agr :gender])
+                                                                            :fem)
+                                                                         (and (not (= (get-in spec [:synsem :sem :tense])
+                                                                                      :present))
+                                                                              (not (= (get-in spec [:synsem :sem :aspect])
+                                                                                      :progressive)))))
+                                                                    (do (log/info (str "ignoring exception (se-appeler): " e)))
+                                                                    
+                                                                    true
+                                                                    (throw e))))
+                                                              ))
+                                                          [:sing :plur]))))
+                                                [:1st :2nd :3rd]))))
+                                      (cond (and (= true essere)
+                                                 (= tense
+                                                    {:synsem {:sem {:aspect :perfect
+                                                                    :tense :past}}}))
+                                            [{:gender :masc}
+                                             {:gender :fem}]
+                                            true
+                                            [:top])))))
+                            (list {:synsem {:sem {:tense :conditional}}}
+                                  {:synsem {:sem {:tense :future}}}
+                                  {:synsem {:sem {:tense :present}}}
+                                  {:synsem {:sem {:aspect :perfect
+                                                  :tense :past}}}
+                                  )))))
+            root-verb-array))))
 
-                                                                         true
-                                                                         (throw e))))
-                                                                   ))
-                                                               [:sing :plur]))))
-                                                     [:1st :2nd :3rd]))))
-                                           (cond (and (= true essere)
-                                                      (= tense
-                                                         {:synsem {:sem {:aspect :perfect
-                                                                         :tense :past}}}))
-                                                      [{:gender :masc}
-                                                       {:gender :fem}]
-                                                      true
-                                                      [:top])))))
-                                 (list {:synsem {:sem {:tense :conditional}}}
-                                       {:synsem {:sem {:tense :future}}}
-                                       {:synsem {:sem {:tense :present}}}
-                                       {:synsem {:sem {:aspect :perfect
-                                                       :tense :past}}}
-                                       )))))
-                 root-verb-array))))

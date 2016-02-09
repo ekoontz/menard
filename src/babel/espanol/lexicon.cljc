@@ -780,7 +780,18 @@
                         :number :sing}
                   :subcat '()}}
    
-    "tener" {:espanol {:futuro-stem "tendr"
+    "tener" {:espanol {:futuro {:1sing "tendré"
+                             :2sing "tendras"
+                             :3sing "tendrà"
+                             :1plur "tendremos"
+                             :2plur "tendréis"
+                             :3plur "tendràn"}
+                   :condicional {:1sing "tendrìa"
+                             :2sing "tendrìas"
+                             :3sing "tendrìa"
+                             :1plur "tendrìamos"
+                             :2plur "tendrìais"
+                             :3plur "tendrìan"}
                    :present {:1sing "tengo"
                              :2sing "tienes"
                              :3sing "tiene"

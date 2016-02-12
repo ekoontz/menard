@@ -553,8 +553,7 @@
          plural-to-singular-noun-masc-2
          plural-to-singular-adj-masc
          plural-to-singular-adj-fem-plur
-         plural-to-singular-adj-fem-sing
-         )
+         plural-to-singular-adj-fem-sing)
         
         analyzed
         (remove fail?

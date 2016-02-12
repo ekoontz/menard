@@ -24,22 +24,6 @@
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
-(defn analyze
-  ([surface-form]
-   (morph/analyze surface-form (:lexicon medium)))
-  ([surface-form model]
-   (morph/analyze surface-form (:lexicon model))))
-
-(defn generate
-  ([spec]
-   (let [result (engine/generate spec medium)]
-     (conj {:surface (fo result)}
-            result)))
-  ([spec model]
-   (let [result (engine/generate spec model)]
-     (conj {:surface (fo result)}
-           result))))
-
 (defn parse
   ([string]
    (map #(conj {:surface (fo %)}
@@ -55,6 +39,21 @@
                      (:lexicon model)
                      (:lookup model)
                      (:grammar model)))))
+(defn analyze
+  ([surface-form]
+   (morph/analyze surface-form (:lexicon medium)))
+  ([surface-form model]
+   (morph/analyze surface-form (:lexicon model))))
+
+(defn generate
+  ([spec]
+   (let [result (first (take 1 (engine/generate-all spec medium)))]
+     (conj {:surface (fo result)}
+           result)))
+  ([spec model]
+   (let [result (first (take 1 (engine/generate-all spec model)))]
+     (conj {:surface (fo result)}
+           result))))
 
 (defn tokenize [string]
   (parse/toks string

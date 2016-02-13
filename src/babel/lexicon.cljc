@@ -5,8 +5,3 @@
                         :obj {:speakable true}}}}
    :tell {:synsem {:sem {:subj {:human true}
                          :obj {:human true}}}}})
-
-
-
-
-  

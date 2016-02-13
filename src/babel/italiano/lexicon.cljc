@@ -365,6 +365,7 @@
                            :comparative false
                            }}}) ;; for now, no restrictions on what can be beautiful.
     
+    ;; comparative
     (let [complement-complement-sem (atom :top) ;; for now no restrictions
           complement-sem (atom {:pred :di
                                :mod complement-complement-sem})

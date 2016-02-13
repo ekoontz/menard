@@ -60,11 +60,13 @@
 
         
 (deftest round-trip-1
-  (let [expr (generate {:synsem {:sem {:spec {:def :def} 
+  (let [expr (generate {:synsem {:subcat '()
+                                 :sem {:spec {:def :def} 
                                        :mod {:pred :difficile}
                                        :number :sing
                                      :pred :donna}}} 
-                       np-grammar)]
+                       np-grammar
+                       {:allow-meta-lexemes false})]
     (is (= (fo expr) "la donna difficile"))
     (is (not (empty? (parse (fo expr) np-grammar))))))
 
@@ -85,7 +87,7 @@
                  :expr (get-in expr [:synsem :sem])
                  :sem (get-in (first (parse (fo expr) np-grammar))
                               [:synsem :sem])})))))
-(deftest roundtrip-all
+(deftest roundtrip-np-grammar
   (let [do-this-many 100]
     (is (empty?
          (filter #(not (nil? %))
@@ -102,6 +104,28 @@
                              {:fo (fo expr)
                               :expr (get-in expr [:synsem :sem])
                               :sem (get-in (first (parse (fo expr) np-grammar))
+                                           [:synsem :sem])})
+                             (log/info (str "parse OK:" (fo expr)))))
+                         (if (= do-this-many :all)
+                           expressions
+                           (take do-this-many expressions)))))))))
+
+(deftest roundtrip-small-grammar
+  (let [do-this-many 1000]
+    (is (empty?
+         (filter #(not (nil? %))
+                 (let [expressions
+                       (generate-all {:synsem {:cat :verb
+                                               :sem {:tense :present}
+                                               :subcat '()}}
+                                     small)]
+                   (pmap (fn [expr] 
+                           (if (empty? (parse (fo expr) small))
+                             (do
+                               (log/error (str "failed to parse: " (fo expr)))
+                             {:fo (fo expr)
+                              :expr (get-in expr [:synsem :sem])
+                              :sem (get-in (first (parse (fo expr) small))
                                            [:synsem :sem])})
                              (log/info (str "parse OK:" (fo expr)))))
                          (if (= do-this-many :all)

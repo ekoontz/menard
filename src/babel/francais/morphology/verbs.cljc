@@ -8,7 +8,6 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
-
 (def present-nonreflexive-er-verb
   [
    {:p [#"^([^' ]+)e$"         "$1er"]

@@ -1955,7 +1955,7 @@
    (unify agreement-noun
           common-noun
           countable-noun
-          feminine-noun
+          masculine-noun
           {:synsem {:sem {:human true
                           :pred :man
                           :child false}}})

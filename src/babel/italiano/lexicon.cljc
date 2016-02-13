@@ -140,7 +140,7 @@
                              :comparative false
                              :arg1 subject-sem
                              :human true}
-                       :subcat {:1 {:cat :noun
+                       :subcat {:1 {:cat :det
                                     :agr subject-agr
                                     :sem subject-sem}
                                 :2 '()}}}))

@@ -3,7 +3,7 @@
   (:require [babel.engine :refer [generate generate-all]]
             [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
-            [babel.italiano.morphology :refer [fo]]
+            [babel.italiano.morphology :refer [fo new-style replace-patterns]]
             [babel.italiano.workbook :refer [analyze parse]]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])

@@ -1493,9 +1493,40 @@
    :determiners
    {:unify-with {:synsem {:cat :det}}}})
 
-(defn analyze [surface-form lookup-fn]
+(def replace-patterns
+  [
+   {:p [#"^(parl)i$" "$1are"]}
+   ])
+
+(defn new-style [surface-form lexicon]
+  (mapcat
+   (fn [replace-pattern]
+     (let [ ;; regular expression that matches the surface form
+           from (nth (:p replace-pattern) 0)]
+       (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
+       (if (re-matches from surface-form)
+         (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+               ;; to create the lexical string
+               to (nth (:p replace-pattern) 1)
+               ;; unifies with the lexical entry to create the inflected form.
+               unify-with (if (:u replace-pattern)
+                            (:u replace-pattern)
+                            :top) ;; default unify-with
+               lex (string/replace surface-form from to)]
+           (filter (fn [result] (not (= :fail result)))
+                   (map (fn [lexical-entry]
+                          (unifyc unify-with lexical-entry))
+                        (get lexicon lex)))))))
+   replace-patterns))
+
+(defn analyze [surface-form lexicon]
   "return the map incorporating the lexical information about a surface form."
-  (let [replace-pairs
+  (let [
+        ;; TODO: remove: backwards compatibility
+        lookup-fn (fn [surface-form]
+                    (get lexicon surface-form))
+        new-style (new-style surface-form lexicon)
+        replace-pairs
         ;; Even though it's possible for more than one KV pair to have the same key:
         ;; e.g. plural-to-singular-noun-masc-1 and plural-to-singular-noun-masc-2 both have
         ;; #"i$", they are distinct as separate keys in this 'replace-pairs' hash, as they should be.
@@ -1559,6 +1590,9 @@
                  (keys identity-analyzers)))]
 
     (concat
+
+     new-style
+
      analyzed
 
      ;; also lookup the surface form itself, which

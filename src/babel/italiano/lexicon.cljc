@@ -127,10 +127,11 @@
    "aggiungere" {:synsem {:cat :verb
                           :sem {:pred :add}}}
    "aiutare"
-    {:synsem {:essere false
-              :sem {:pred :aiutare
-                    :activity true
-                    :obj {:human true}}}}
+   {:synsem {:essere false
+             :cat :verb
+             :sem {:pred :aiutare
+                   :activity true
+                   :obj {:human true}}}}
    "alto"
    [;; non-comparative:
     (let [subject-sem (atom {:human true}) ;; only humans can be tall.

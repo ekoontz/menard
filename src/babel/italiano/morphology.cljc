@@ -11,6 +11,7 @@
     :refer (plural-to-singular-noun-fem-1
             plural-to-singular-noun-masc-1
             plural-to-singular-noun-masc-2)]
+   [babel.italiano.morphology.verbs :as verbs]
    [babel.italiano.pos :refer (pronoun-acc verb-aux)]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
@@ -1494,9 +1495,8 @@
    {:unify-with {:synsem {:cat :det}}}})
 
 (def replace-patterns
-  [
-   {:p [#"^(parl)i$" "$1are"]}
-   ])
+  (concat
+   verbs/replace-patterns))
 
 (defn new-style [surface-form lexicon]
   (mapcat

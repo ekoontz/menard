@@ -371,14 +371,14 @@
                                :mod complement-complement-sem})
           subject-sem (atom :top)] ;; subject can be anything.
       (unify adjective
-              comparative
-              {:synsem {:sem {:pred :bello
-                              :arg1 subject-sem
-                              :arg2 complement-complement-sem}
-                        :subcat {:1 {:cat :noun
+             comparative
+             {:synsem {:sem {:pred :bello
+                             :arg1 subject-sem
+                             :arg2 complement-complement-sem}
+                       :subcat {:1 {:cat :noun
                                     :sem subject-sem}
-                                 :2 {:cat :prep
-                                     :sem complement-sem}}}}))]
+                                :2 {:cat :prep
+                                    :sem complement-sem}}}}))]
 
    "bene"
    {:synsem {:cat :adverb

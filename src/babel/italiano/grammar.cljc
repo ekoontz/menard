@@ -477,9 +477,9 @@
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v
-                      (filter #(or (= (get-in % [:synsem :cat]) :adjective)
-                                   (= (get-in % [:synsem :cat]) :det)
-                                   (and (= (get-in % [:synsem :cat]) :noun)
+                      (filter #(or (= (get-in % [:synsem :cat] :adjective) :adjective)
+                                   (= (get-in % [:synsem :cat] :det) :det)
+                                   (and (= (get-in % [:synsem :cat] :noun) :noun)
                                         (not (= (get-in % [:synsem :propernoun] false) true))
                                         (not (= (get-in % [:synsem :pronoun] false) true))))
                               v)

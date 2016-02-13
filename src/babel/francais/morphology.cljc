@@ -19,7 +19,6 @@
 (declare get-string)
 (declare suffix-of)
 
-
 (defn analyze [surface-form lexicon]
   "Analyze a single surface form into a set of lexical forms."
   (concat (if (get lexicon surface-form)

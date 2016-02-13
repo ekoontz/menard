@@ -16,7 +16,9 @@
    [dag_unify.core :refer [fail? get-in merge]]))
 
 (def lexicon-source
-  {"Luisa"
+  {"_" {}
+
+   "Luisa"
    {:synsem {:sem {:pred :luisa
                    :human true}
              :agr {:number :sing

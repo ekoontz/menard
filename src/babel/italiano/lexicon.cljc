@@ -928,7 +928,6 @@
               {:synsem {:sem {:human true
                               :pred :donna
                               :child false}}})
-      
       "dopodomani"
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
@@ -954,7 +953,6 @@
                                      :1plur "dobbiamo"
                                      :2plur "dovete"
                                      :3plur "devono"}}}
-
 
       "entrare" {:synsem {:cat :verb
                           :essere true
@@ -1952,6 +1950,15 @@
               :agr {:gender :fem
                     :number :sing}}}
 
+   "uomo"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          feminine-noun
+          {:synsem {:sem {:human true
+                          :pred :man
+                          :child false}}})
+   
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}
 

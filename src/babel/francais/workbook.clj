@@ -232,10 +232,17 @@
   ))
 
 (def initialize
-  (do (fo (parse "je parle"))
-      (generate {:synsem {:sem {:pred :drink
-                                :tense :present}
-                          :infl :present}})))
+  (take 1 (generate
+           ;; assemble a structure and (generate) from..
+           {:synsem {:sem
+
+                     ;; .. taking a parse of a simple sentence..
+                     (-> (parse "je parle")
+                         first
+                         strip-refs
+                         ;; and then extracting its semantics.
+                         :synsem :sem)}})))
+
 
 
 

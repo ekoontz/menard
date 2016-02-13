@@ -1327,128 +1327,6 @@
                             :agr {:number :plur
                                   :person :3rd}}}}})
 
-(def present-to-infinitive-ire
-  {
-   ;; present -ire
-   #"o$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-   
-   #"i$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-
-   #"e$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-
-   #"iamo$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-   
-   #"ono$"
-   {:replace-with "ire"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-
-(def present-to-infinitive-ere
-  {;; present -ere
-   #"o$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-
-   #"i$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-   
-   #"e$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   
-   #"iamo$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-   
-   #"ano$"
-   {:replace-with "ere"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
-(def present-to-infinitive-are
-  {
-   ;; present -are
-   #"o$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :1st}}}}
-
-   #"ci$" ;; e.g. "abbracci" => "abbracciare"
-   {:replace-with "ciare"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-   #"[^c]i$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :2nd}}}}
-
-   #"e$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :sing
-                                  :person :3rd}}}}
-   
-   #"iamo$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :1st}}}}
-
-   #"ete$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :2nd}}}}
-
-   #"ano$"
-   {:replace-with "are"
-    :unify-with {:italiano {:infl :present
-                            :agr {:number :plur
-                                  :person :3rd}}}}})
-
 (def imperfect-to-infinitive-irreg1
   {
    ;; e.g.: "bevevo/bevevi/..etc" => "bere"
@@ -1537,9 +1415,6 @@
          future-to-infinitive
          imperfect-to-infinitive-irreg1
          past-to-infinitive
-         present-to-infinitive-ire
-         present-to-infinitive-ere
-         present-to-infinitive-are
 
          ;; noun morphology
          plural-to-singular-noun-fem-1

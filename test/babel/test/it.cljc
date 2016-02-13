@@ -86,7 +86,7 @@
                  :sem (get-in (first (parse (fo expr) np-grammar))
                               [:synsem :sem])})))))
 (deftest roundtrip-all
-  (let [do-this-many 100] ;; doing them all takes minutes rather than seconds.
+  (let [do-this-many 100]
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions

@@ -14,37 +14,36 @@
 
 (defn toks [s lookup]
   (let [tokens (string/split s tokenizer)
-        tokens2 (toks2 tokens lookup)]
+        tokens2 (toks2 tokens (count tokens))]
     (log/debug (str "tokens: " tokens))
     (log/debug (str "tokens2 size: " (count tokens2)))
-    (vec tokens2)))
+    (map (fn [token-vector]
+           (map lookup token-vector))
+         tokens2)))
 
-(defn toks2 [tokens lookup]
-  "take a list of strings and looks up each using lookup, as well as
-  looking up sub-lists of two tokens as well. May consolidate
-  larger-than-two sub-lists in the future."
-  (cond (nil? tokens) nil
-        (empty? tokens) nil
-        (> (count tokens) 1)
-        ;; it's two or more tokens, so try to combine the first and the second of them:
-        (let [;lookup-2 (if (> (count tokens) 1)
-              ;           (lookup (str (first tokens) " " (second tokens))))
-              lookup-3 (if (> (count tokens) 2)
-                         (lookup (str (first tokens) " " (second tokens) " " (nth tokens 2))))]
-          (cond (and ;(not (empty? looked-up-2))
-                     (not (empty? lookup-3)))
-            ;; found a match by combining first two tokens.
-            (cons (list lookup-3)
-                  (toks2 (rest (rest (rest tokens))) lookup))
-            ;; else, no match: consider the first token as a standalone token and continue.
-            true
-            (cons (lookup (first tokens))
-                  (toks2 (rest tokens) lookup))))
-        ;; only one token left: look it up.
-        (= (count tokens) 1)
-        (list (lookup (first tokens)))
-        true
-        nil))
+(defn toks2 [tokens n]
+  "group tokens together into every possible sequence of n or less tokens."
+  (cond
+    (< n 1) nil
+    (= n 1) (vec (list tokens))
+    (> n (count tokens)) (toks2 tokens (count tokens))
+
+    (= (count tokens) n) ;; ([a b]; n = 2) => [["a b"] ["a" "b"]]
+    (cons [(string/join " " tokens)]
+          (toks2 tokens (- n 1)))
+    
+    (> (count tokens) n) ;; ([a b c]; n = 2) => [["a b" "c"] ["a" "b c"]]
+    (concat (let [first-token (string/join " " (subvec tokens 0 n))]
+              (map #(vec (cons first-token %))
+                   (toks2 (subvec tokens n (count tokens))
+                          n)))
+            (let [last-token (string/join " " (subvec tokens (- (count tokens) n) (count tokens)))]
+              (map #(vec (concat % (list last-token)))
+                   (toks2 (subvec tokens 0 (- (count tokens) n))
+                          n)))
+            (toks2 tokens (- n 1)))
+    true
+    tokens))
 
 (defn create-unigram-map [args index]
   (if (< index (count args))

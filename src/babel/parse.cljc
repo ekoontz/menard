@@ -12,29 +12,34 @@
 (declare over)
 (declare toks2)
 
-(defn toks [s lexicon lookup]
+(defn toks [s lookup]
   (let [tokens (string/split s tokenizer)
-        tokens2 (toks2 tokens lexicon lookup)]
+        tokens2 (toks2 tokens lookup)]
     (log/debug (str "tokens: " tokens))
     (log/debug (str "tokens2 size: " (count tokens2)))
     (vec tokens2)))
 
-(defn toks2 [tokens lexicon lookup]
-  "take a list of strings and looks up each in lexicon, as well as
-  looking up sub-lists of two tokens in the lexicon as well. May
-  consolidate larger-than-two sub-lists in the future."
+(defn toks2 [tokens lookup]
+  "take a list of strings and looks up each using lookup, as well as
+  looking up sub-lists of two tokens as well. May consolidate
+  larger-than-two sub-lists in the future."
   (cond (nil? tokens) nil
         (empty? tokens) nil
         (> (count tokens) 1)
         ;; it's two or more tokens, so try to combine the first and the second of them:
-        (let [looked-up (lookup (str (first tokens) " " (second tokens)))]
-          (if (not (empty? looked-up))
+        (let [;lookup-2 (if (> (count tokens) 1)
+              ;           (lookup (str (first tokens) " " (second tokens))))
+              lookup-3 (if (> (count tokens) 2)
+                         (lookup (str (first tokens) " " (second tokens) " " (nth tokens 2))))]
+          (cond (and ;(not (empty? looked-up-2))
+                     (not (empty? lookup-3)))
             ;; found a match by combining first two tokens.
-            (cons (list looked-up)
-                  (toks2 (rest (rest tokens)) lexicon lookup))
+            (cons (list lookup-3)
+                  (toks2 (rest (rest (rest tokens))) lookup))
             ;; else, no match: consider the first token as a standalone token and continue.
+            true
             (cons (lookup (first tokens))
-                  (toks2 (rest tokens) lexicon lookup))))
+                  (toks2 (rest tokens) lookup))))
         ;; only one token left: look it up.
         (= (count tokens) 1)
         (list (lookup (first tokens)))
@@ -150,12 +155,12 @@
                 nminus1grams))))
 
 ;; TODO: move tokenization to within lexicon.
-(defn parse [arg lexicon lookup grammar]
+(defn parse [arg lookup grammar]
   "return a list of all possible parse trees for a string or a list of lists of maps (a result of looking up in a dictionary a list of tokens from the input string)"
   (cond (string? arg)
-        (let [tokens (toks arg lexicon lookup)]
+        (let [tokens (toks arg lookup)]
           (log/debug (str "tokens: " (count tokens)))
-          (parse tokens lexicon lookup grammar))
+          (parse tokens lookup grammar))
 
         (and (vector? arg)
              (empty? (rest arg)))

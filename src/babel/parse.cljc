@@ -171,5 +171,11 @@
         ;; return the largest subparse(s).
         (get (create-xgram-map arg (count arg) 0 grammar)
              [0 (count arg)])
+
+        (seq? arg)
+        (mapcat #(parse (vec %) lookup grammar)
+                arg)
+        
+        ;; TODO: throw exception here.
         true
         (str "unexpected input: type: " (type arg))))

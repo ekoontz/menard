@@ -173,5 +173,3 @@
              [0 (count arg)])
         true
         (str "unexpected input: type: " (type arg))))
-
-;(log/info (str "parse: " (it/fo (parse "il gatto ha dormito" it/lexicon it-g/grammar))))

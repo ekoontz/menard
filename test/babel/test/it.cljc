@@ -4,6 +4,7 @@
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :refer [fo new-style replace-patterns]]
             [babel.italiano.workbook :refer [analyze generate generate-all parse]]
+            [babel.parse :as parse]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])

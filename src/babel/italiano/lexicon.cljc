@@ -422,8 +422,6 @@
            feminine-noun
            {:synsem {:sem {:pred :birra
                            :artifact true}}})
-
-
    "braccio"
    (unify agreement-noun
           common-noun

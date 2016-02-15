@@ -577,7 +577,8 @@
      "chiacchierare" {:synsem {:cat :verb
                                :sem {:pred :chat}}}
       
-     "chiamarsi" (let [subject-semantics (atom {:animate true})
+   ;; TODO: add :3 to this verb (see French)
+   "chiamarsi" (let [subject-semantics (atom {:animate true})
                    subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true

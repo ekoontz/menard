@@ -172,6 +172,6 @@
         (get (create-xgram-map arg (count arg) 0 grammar)
              [0 (count arg)])
         true
-        :error))
+        (str "unexpected input: type: " (type arg))))
 
 ;(log/info (str "parse: " (it/fo (parse "il gatto ha dormito" it/lexicon it-g/grammar))))

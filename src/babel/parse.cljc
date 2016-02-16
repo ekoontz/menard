@@ -17,8 +17,8 @@
         tokens2 (toks2 tokens (count tokens))]
     (log/debug (str "tokens: " tokens))
     (log/debug (str "tokens2 size: " (count tokens2)))
-    (map (fn [token-vector]
-           (map lookup token-vector))
+    (pmap (fn [token-vector]
+            (pmap lookup token-vector))
          tokens2)))
 
 (defn toks2 [tokens n]
@@ -34,13 +34,13 @@
     
     (> (count tokens) n) ;; ([a b c]; n = 2) => [["a b" "c"] ["a" "b c"]]
     (concat (let [first-token (string/join " " (subvec tokens 0 n))]
-              (map #(vec (cons first-token %))
-                   (toks2 (subvec tokens n (count tokens))
-                          n)))
+              (pmap #(vec (cons first-token %))
+                    (toks2 (subvec tokens n (count tokens))
+                           n)))
             (let [last-token (string/join " " (subvec tokens (- (count tokens) n) (count tokens)))]
-              (map #(vec (concat % (list last-token)))
-                   (toks2 (subvec tokens 0 (- (count tokens) n))
-                          n)))
+              (pmap #(vec (concat % (list last-token)))
+                    (toks2 (subvec tokens 0 (- (count tokens) n))
+                           n)))
             (toks2 tokens (- n 1)))
     true
     tokens))

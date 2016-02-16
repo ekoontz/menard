@@ -104,7 +104,7 @@
                               :expr (get-in expr [:synsem :sem])
                               :sem (get-in (first (parse (fo expr) np-grammar))
                                            [:synsem :sem])})
-                             (log/info (str "parse OK:" (fo expr)))))
+                             (log/info (str "parse OK:" (get-in expr [:rule]) " " (fo expr)))))
                          (if (= do-this-many :all)
                            expressions
                            (take do-this-many expressions)))))))))

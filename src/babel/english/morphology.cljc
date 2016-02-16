@@ -223,6 +223,10 @@
          stem (replace infinitive #"^to " "")]
      (str "will " stem))
 
+   ;; irregular imperfect
+   ;; TODO
+   
+   ;; regular imperfect
    (and (= (get-in word '(:infl)) :imperfect)
         (get-in word '(:english)))
    (let [infinitive (get-in word '(:english))

@@ -51,7 +51,12 @@
   (is (= 2 (count (toks "je suis" lookup)))))
 
 (deftest toks-test2
-  (is (= 2 (count (nth (toks "je suis" lookup) 0)))))
+  ;;  (toks2 (string/split "je suis" tokenizer) 2) => (["je suis"] ["je" "suis"])
+  (is (or (= 1 (count (nth (toks "je suis" lookup) 0)))
+          (= 1 (count (nth (toks "je suis" lookup) 1))))))
+
 
 (deftest toks-test3
-  (is (= 2 (count (nth (toks "je suis" lookup) 1)))))
+  (is (or (= 2 (count (nth (toks "je suis" lookup) 0)))
+          (= 2 (count (nth (toks "je suis" lookup) 1))))))
+

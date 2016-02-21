@@ -1392,9 +1392,9 @@
                             :top) ;; default unify-with
                lex (string/replace surface-form from to)]
            (filter (fn [result] (not (= :fail result)))
-                   (map (fn [lexical-entry]
-                          (unifyc unify-with lexical-entry))
-                        (get lexicon lex)))))))
+                   (pmap (fn [lexical-entry]
+                           (unifyc unify-with lexical-entry))
+                         (get lexicon lex)))))))
    replace-patterns))
 
 (defn analyze [surface-form lexicon]

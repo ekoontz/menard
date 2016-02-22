@@ -454,3 +454,53 @@
     ))
 
 ;; (process accompany care fornire indossare moltiplicare recuperare riconoscere riscaldare)
+(defn generate-from-spec [model spec tenses genders persons numbers & [count]]
+  (log/debug (str "generate-from-spec: " spec))
+  (let [count (if count (Integer. count) 10)]
+    (.size (pmap (fn [tense]
+                   (let [spec (unify spec
+                                     tense)]
+                     (.size
+                      (pmap (fn [gender]
+                              (let [spec (unify spec
+                                                {:comp {:synsem {:agr gender}}})]
+                                (log/trace (str "generating from gender: " gender))
+                                (.size
+                                 (map (fn [person]
+                                        (let [spec (unify spec
+                                                          {:comp {:synsem {:agr {:person person}}}})]
+                                          (log/trace (str "generating from person: " person))
+                                          (.size
+                                           (map (fn [number]
+                                                  (let [spec (unify spec
+                                                                    {:comp {:synsem {:agr {:number number}}}})]
+                                                    (log/debug (str "generating from spec: " spec))
+                                                    (try
+                                                      (process [{:fill-one-language
+                                                                 {:count 1
+                                                                  :spec spec
+                                                                  :model model
+                                                                  }}]
+                                                               "it")
+                                                      (catch Exception e
+                                                        (cond
+                                                          
+                                                          ;; TODO: make this conditional on
+                                                          ;; there being a legitimate reason for the exception -
+                                                          ;; e.g. the verb is "funzionare" (which takes a non-human
+                                                          ;; subject), but we're trying to generate with
+                                                          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                          ;; are human.
+                                                          true
+                                                          
+                                                          (log/warn (str "ignoring exception: " e))
+                                                          false
+                                                          (throw e))))
+                                                    ))
+                                                numbers
+                                                ))))
+                                      persons
+                                      ))))
+                            genders))))
+                 tenses))))
+    

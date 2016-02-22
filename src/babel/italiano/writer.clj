@@ -19,66 +19,22 @@
 (defn rewrite-lexicon []
   (write-lexicon "it" lexicon))
 
-(defn generate-from-spec [spec & [count]]
-  (log/debug (str "generate-from-spec: " spec))
-  (let [count (if count (Integer. count) 10)]
-    (.size (pmap (fn [tense]
-                   (let [spec (unify spec
-                                     tense)]
-                     (.size
-                      (pmap (fn [gender]
-                              (let [spec (unify spec
-                                                {:comp {:synsem {:agr gender}}})]
-                                (log/trace (str "generating from gender: " gender))
-                                (.size
-                                 (map (fn [person]
-                                        (let [spec (unify spec
-                                                          {:comp {:synsem {:agr {:person person}}}})]
-                                          (log/trace (str "generating from person: " person))
-                                          (.size
-                                           (map (fn [number]
-                                                  (let [spec (unify spec
-                                                                    {:comp {:synsem {:agr {:number number}}}})]
-                                                    (log/debug (str "generating from spec: " spec))
-                                                    (try
-                                                      (process [{:fill-one-language
-                                                                 {:count 1
-                                                                  :spec spec
-                                                                  :model small
-                                                                  }}]
-                                                               "it")
-                                                      (catch Exception e
-                                                        (cond
-                                                          
-                                                          ;; TODO: make this conditional on
-                                                          ;; there being a legitimate reason for the exception -
-                                                          ;; e.g. the verb is "funzionare" (which takes a non-human
-                                                          ;; subject), but we're trying to generate with
-                                                          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                          ;; are human.
-                                                          true
-                                                          
-                                                          (log/warn (str "ignoring exception: " e))
-                                                          false
-                                                          (throw e))))
-                                                    ))
-                                                [:sing :plur]))))
-                                      [:1st :2nd :3rd]))))
-                            [{:gender :masc}
-                             {:gender :fem}]))))
-                 (list {:synsem {:sem {:tense :conditional}}}
-                       {:synsem {:sem {:tense :future}}}
-                       {:synsem {:sem {:tense :present}}}
-                       {:synsem {:sem {:aspect :progressive
-                                       :tense :past}}}
-                       {:synsem {:sem {:aspect :perfect
-                                       :tense :past}}}
-                       )))))
-    
 (defn generate-one-verb [root-form & [count]]
   (log/info (str "generating examples with root-form:" root-form))
-  (generate-from-spec
+  (writer/generate-from-spec
+   small
    {:root {:italiano {:italiano root-form}}}
+   [{:synsem {:sem {:tense :conditional}}}
+    {:synsem {:sem {:tense :future}}}
+    {:synsem {:sem {:tense :present}}}
+    {:synsem {:sem {:aspect :progressive
+                    :tense :past}}}
+    {:synsem {:sem {:aspect :perfect
+                    :tense :past}}}]
+   [{:gender :masc}
+    {:gender :fem}]
+   [:1st :2nd :3rd]
+   [:sing :plur]
    count))
 
 (defn tutti [ & [count lexeme]]

@@ -663,19 +663,19 @@
                    (merge common
                           {:synsem {:cat :verb
                                     :sem {:pred :strike}}})])
-              "cominciare"
-              [{:synsem {:cat :verb
-                         :essere false
-                         :sem {:activity true
-                               :discrete false
-                               :pred :begin
-                               :subj {:animate true}}}}
-               {:synsem {:cat :verb
-                         :essere false
-                         :sem {:activity true
-                               :discrete false
-                               :pred :start
-                               :subj {:animate true}}}}]
+   "cominciare"
+   [{:synsem {:cat :verb
+              :essere false
+              :sem {:activity true
+                    :discrete false
+                    :pred :begin
+                    :subj {:animate true}}}}
+    {:synsem {:cat :verb
+              :essere false
+              :sem {:activity true
+                    :discrete false
+                    :pred :start
+                    :subj {:animate true}}}}]
 
       "compito"
       (unify agreement-noun

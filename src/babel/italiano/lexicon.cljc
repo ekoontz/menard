@@ -274,6 +274,10 @@
                                       :reflexive true
                                       :sem subject-semantics}}}})
    
+   "arrivare" {:synsem {:essere true 
+                            :cat :verb
+                            :sem {:pred :arrive}}}
+   
    "ascoltare"  {:synsem {:cat :verb
                           :sem {:pred :listen-to}}}
 
@@ -898,8 +902,7 @@
              (unify shared-part-of-dire
                     {:synsem {:sem {:pred :tell}}})])
       
-      "andare"
-    
+      
       "diventare" {:synsem {:essere true 
                             :cat :verb
                             :sem {:pred :become}}}

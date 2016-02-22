@@ -228,6 +228,10 @@
                  :synsem {:cat :verb
                           :sem {:pred :to-be-missing}}}
 
+   "become" {:synsem {:cat :verb
+                    :sem {:pred :become}}
+           :english {:past "became"}}
+   
    "begin" {:synsem {:cat :verb
                      :sem {:pred :begin}}
             :english {:past "began"

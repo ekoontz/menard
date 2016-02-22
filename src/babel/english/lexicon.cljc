@@ -923,7 +923,7 @@
                       :sem {:pred :leave-behind
                             :obj {:place false}}}}
         
-            {:english {:note "(on a trip)"
+            {:english {:note "on a trip"
                        :past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave}}}

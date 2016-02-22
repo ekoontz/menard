@@ -898,6 +898,13 @@
              (unify shared-part-of-dire
                     {:synsem {:sem {:pred :tell}}})])
       
+      "andare"
+    
+      "diventare" {:italiano {:italiano "diventare"
+                :essere true 
+                {:synsem {:cat :verb
+                          :sem {:pred :become}}}
+      
       "divertirsi" (let [subject-semantics (atom {:human true})
                          subject-agr (atom :top)]
                      {:synsem {:cat :verb

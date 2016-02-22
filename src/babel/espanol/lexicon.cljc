@@ -637,6 +637,11 @@
                                  :number :sing
                                  :def :def}}}})
    
+   "nacer" {:espanol  {:present {:1sing "nazco"}}
+            :synsem {:cat :verb
+                      :sem {:pred :be-born}}}
+   
+   
    "negar" {:espanol {:boot-stem "nieg"}
                 :synsem {:cat :verb
                          :sem {:pred :deny}}}

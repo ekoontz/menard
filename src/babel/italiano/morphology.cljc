@@ -1643,7 +1643,6 @@
                                     :person person
                                     :gender gender}}
                        :agr agr}}))
-
    true
    lexical-entry))
 

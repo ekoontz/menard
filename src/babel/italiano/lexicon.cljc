@@ -1384,7 +1384,7 @@
     :synsem {:cat :verb
              :essere false
              :sem {:discrete false
-                   :pred :leggere
+                   :pred :read
                    :subj {:human true}
                    :obj {:legible true}}}}
    "libro"

@@ -538,8 +538,7 @@
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-off
-                     :subj subject-semantics
-                     :obj subject-semantics}
+                     :subj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
                         :2 '()}}
       :english {:participle "getting off"
@@ -549,8 +548,7 @@
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-on
-                     :subj subject-semantics
-                     :obj subject-semantics}
+                     :subj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
                         :2 '()}}
       :english {:participle "getting on"

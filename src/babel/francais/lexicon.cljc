@@ -780,6 +780,24 @@
      (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
+  
+  "venir"
+   (let [common
+         {:synsem {:essere true
+                   :cat :verb}
+          :français {:future-stem "viendr"
+                     :drop-e true
+                     :past-participle "venu"
+                     :imperfect-stem "ven"
+                     :present {:1sing "vienss"
+                               :2sing "viens"
+                               :3sing "vient"
+                               :1plur "venons"
+                               :2plur "venez"
+                               :3plur "viennent"}}}]
+     (unify common {:synsem {:sem {:pred :come
+                                   :subj {:human true}}}}))
+  
   "vous"
   (let [common {:synsem {:case :top
                          :agr {:person :2nd

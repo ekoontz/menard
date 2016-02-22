@@ -19,10 +19,74 @@
 (defn rewrite-lexicon []
   (write-lexicon "it" lexicon))
 
-(defn tutti [ & [count]]
+(defn generate-from-spec [spec & [count]]
+  (log/debug (str "generate-from-spec: " spec))
+  (let [count (if count (Integer. count) 10)]
+    (.size (pmap (fn [tense]
+                   (let [spec (unify spec
+                                     tense)]
+                     (.size
+                      (pmap (fn [gender]
+                              (let [spec (unify spec
+                                                {:comp {:synsem {:agr gender}}})]
+                                (log/trace (str "generating from gender: " gender))
+                                (.size
+                                 (map (fn [person]
+                                        (let [spec (unify spec
+                                                          {:comp {:synsem {:agr {:person person}}}})]
+                                          (log/trace (str "generating from person: " person))
+                                          (.size
+                                           (map (fn [number]
+                                                  (let [spec (unify spec
+                                                                    {:comp {:synsem {:agr {:number number}}}})]
+                                                    (log/debug (str "generating from spec: " spec))
+                                                    (try
+                                                      (process [{:fill-one-language
+                                                                 {:count 1
+                                                                  :spec spec
+                                                                  :model small
+                                                                  }}]
+                                                               "it")
+                                                      (catch Exception e
+                                                        (cond
+                                                          
+                                                          ;; TODO: make this conditional on
+                                                          ;; there being a legitimate reason for the exception -
+                                                          ;; e.g. the verb is "funzionare" (which takes a non-human
+                                                          ;; subject), but we're trying to generate with
+                                                          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                          ;; are human.
+                                                          true
+                                                          
+                                                          (log/warn (str "ignoring exception: " e))
+                                                          false
+                                                          (throw e))))
+                                                    ))
+                                                [:sing :plur]))))
+                                      [:1st :2nd :3rd]))))
+                            [{:gender :masc}
+                             {:gender :fem}]))))
+                 (list {:synsem {:sem {:tense :conditional}}}
+                       {:synsem {:sem {:tense :future}}}
+                       {:synsem {:sem {:tense :present}}}
+                       {:synsem {:sem {:aspect :progressive
+                                       :tense :past}}}
+                       {:synsem {:sem {:aspect :perfect
+                                       :tense :past}}}
+                       )))))
+    
+(defn generate-one-verb [root-form & [count]]
+  (log/info (str "generating examples with root-form:" root-form))
+  (generate-from-spec
+   {:root {:italiano {:italiano root-form}}}
+   count))
+
+(defn tutti [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
+        lexemes (if lexeme (list (get lexicon lexeme))
+                    (vals lexicon))
         root-verbs 
         (zipmap
          (keys lexicon)
@@ -33,7 +97,7 @@
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
-              (vals lexicon)))
+              lexemes))
 
         tutti
         (reduce concat
@@ -48,57 +112,6 @@
     (.size (pmap (fn [verb]
                    (log/trace (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
-                     (log/info (str "generating with verb: '" root-form "'"))
-                     (.size (pmap (fn [tense]
-                                   (let [spec (unify {:root {:italiano {:italiano root-form}}}
-                                                     tense)]
-                                     (.size
-                                      (pmap (fn [gender]
-                                             (let [spec (unify spec
-                                                               {:comp {:synsem {:agr gender}}})]
-                                               (log/trace (str "generating from gender: " gender))
-                                               (.size
-                                                (map (fn [person]
-                                                       (let [spec (unify spec
-                                                                         {:comp {:synsem {:agr {:person person}}}})]
-                                                         (log/trace (str "generating from person: " person))
-                                                         (.size
-                                                          (map (fn [number]
-                                                                 (let [spec (unify spec
-                                                                                   {:comp {:synsem {:agr {:number number}}}})]
-                                                                   (log/debug (str "generating from spec: " spec))
-                                                                   (try
-                                                                     (process [{:fill-one-language
-                                                                                {:count 1
-                                                                                 :spec spec
-                                                                                 :model small
-                                                                                 }}]
-                                                                              "it")
-                                                                     (catch Exception e
-                                                                       (cond
-                                                                        
-                                                                        ;; TODO: make this conditional on
-                                                                        ;; there being a legitimate reason for the exception -
-                                                                        ;; e.g. the verb is "funzionare" (which takes a non-human
-                                                                        ;; subject), but we're trying to generate with
-                                                                        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                                        ;; are human.
-                                                                        true
-                                                                        
-                                                                        (log/warn (str "ignoring exception: " e))
-                                                                        false
-                                                                       (throw e))))
-                                                                   ))
-                                                               [:sing :plur]))))
-                                                     [:1st :2nd :3rd]))))
-                                           [{:gender :masc}
-                                            {:gender :fem}]))))
-                                 (list {:synsem {:sem {:tense :conditional}}}
-                                       {:synsem {:sem {:tense :future}}}
-                                       {:synsem {:sem {:tense :present}}}
-                                       {:synsem {:sem {:aspect :progressive
-                                                       :tense :past}}}
-                                       {:synsem {:sem {:aspect :perfect
-                                                       :tense :past}}}
-                                       )))))
+                     (generate-one-verb root-form count)))
                  tutti))))
+

@@ -39,7 +39,7 @@
 
         spec (if root
                (unify spec
-                      {:root {:espanol {:espanol root}}})
+                      {:root {:english {:english root}}})
                spec)
 
         use-map-fn pmap

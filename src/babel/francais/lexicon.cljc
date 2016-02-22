@@ -490,6 +490,20 @@
                                :3plur "mettent"}
                      
                      :sem {:pred :put}}}
+  
+  "naître" {:synsem {:cat :verb
+                     :future-stem "naîtr"
+                     :imperfect-stem "naiss"
+                     :passato "né"
+                     :present {:1sing "nais"
+                               :2sing "nais"
+                               :3sing "naît"
+                               :1plur "naissons"
+                               :2plur "naissez"
+                               :3plur "naissent"}
+                     
+                     :sem {:pred :be-born}}}
+  
   "nous"
   (let [common {:synsem {:case :top
                          :agr {:person :1st

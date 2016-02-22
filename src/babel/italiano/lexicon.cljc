@@ -1633,9 +1633,8 @@
       (unify common2 intransitive intransitive-unspecified-obj)))
     
     "partire" {:synsem {:essere true 
-                            :cat :verb
-                            :sem {:pred :leave}}}
-    
+                        :cat :verb
+                        :sem {:pred :leave}}}
     "pensare"
     {:synsem {:cat :verb
               :essere false

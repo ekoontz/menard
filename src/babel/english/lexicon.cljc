@@ -916,10 +916,19 @@
    "learn" {:synsem {:cat :verb
                      :sem {:pred :learn}}}
 
-   "leave" {:english {:past "left"}
-            :synsem {:cat :verb
-                     :sem {:pred :leave-behind
-                           :obj {:place false}}}}
+   "leave" [
+            
+            {:english {:past "left"}
+             :synsem {:cat :verb
+                      :sem {:pred :leave-behind
+                            :obj {:place false}}}}
+        
+            {:english {:note "(on a trip)"
+                       :past "left"}
+             :synsem {:cat :verb
+                      :sem {:pred :leave}}}
+                                                     
+                         ]
 
    "lie" {:synsem {:cat :verb
                 :sem {:pred :lie}}}

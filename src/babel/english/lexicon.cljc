@@ -420,6 +420,12 @@
 
    "disappoint" {:synsem {:cat :verb
                           :sem {:pred :deludere}}}
+
+   "do" {:synsem {:cat :verb
+                  :sem {:pred :do}}
+         :english {:past "did"
+                   :present {:3sing "does"}}}
+
    "download" {:synsem {:cat :verb
                         :sem {:pred :scaricare}}}
 
@@ -1000,7 +1006,11 @@
               :sem {:human true
                     :pred :luisa-and-i}
               :subcat '()}}]
-   
+
+   "make" {:synsem {:cat :verb
+                    :sem {:pred :make}}
+           :english {:past "made"}}
+
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
    "may" 
@@ -1319,7 +1329,10 @@
                    :subj {:human true}
                    :obj {:speakable true}}}}
 
-  "stay" {:synsem {:cat :verb
+   "start" {:synsem {:cat :verb
+                     :sem {:pred :start}}}
+   
+   "stay" {:synsem {:cat :verb
                      :sem {:pred :stay}}}
 
    "stain" {:synsem {:cat :verb

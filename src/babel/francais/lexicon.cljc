@@ -198,6 +198,24 @@
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}
    
+   "devenir"
+   (let [common
+         {:synsem {:essere true
+                   :cat :verb}
+          :français {:future-stem "deviendr"
+                     :drop-e true
+                     :past-participle "devenu"
+                     :imperfect-stem "deven"
+                     :present {:1sing "devienss"
+                               :2sing "deviens"
+                               :3sing "devient"
+                               :1plur "devenons"
+                               :2plur "devenez"
+                               :3plur "deviennent"}}}]
+     (unify common {:synsem {:sem {:pred :become
+                                   :subj {:human true}}}}))
+   
+   
    "dire"
    (let [shared-part-of-dire
          {:synsem {:cat :verb}

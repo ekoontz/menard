@@ -39,54 +39,55 @@
 
         spec (if root
                (unify spec
-                      {:root {:english {:english root}}})
+                      {:synsem {:sem {:pred :do}}})
+;                      {:root {:english {:english root}}})
                spec)
 
         use-map-fn pmap
         source-expressions (read-all spec
                                      source-language-short-name)]
-    (.size (use-map-fn (fn [source-expression]
-                   (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
-                       (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))
-                       (let [spec {:synsem {:sem (strip-refs (get-in (:structure source-expression) [:synsem :sem]))}}]
-                         (let [existing-english-expression (read-one spec "en")]
-                           (if existing-english-expression
-                             ;; found existing expression: return that.
-                             (do
-                               (log/info (str (:surface source-expression) " -> " (:surface existing-english-expression)))
-                               existing-english-expression)
-                             ;; else, no existing expression: generate a new one.
-                             (do
-                               (log/debug (str "generating from spec: " spec))
-                               (log/info (str "generating using source expression: '"
-                                              (:surface source-expression) "'"))
-                               (try
-                                 (let [result
-                                       (process [{:fill-one-language
-                                                  {:count 1
-                                                   :spec spec
-                                                   :model small-plus-plus-np
-                                                   }}]
-                                                source-language-short-name)]
-                                   ;; TODO: 'result' is currently returning nil: should return something more indicative
-                                   ;; of what the (process) command did.
-                                   (log/debug (str "process result:" result)))
-                                (catch Exception e
-                                  (cond
-                                    true
-                                    (log/error (str "Could not translate source expression: "
-                                                    "'" (get source-expression :surface) "'"
-                                                    " from language: '" source-language-short-name 
-                                                    "' with predicate: '"
-                                                    (strip-refs (get-in source-expression [:structure :synsem :sem :pred]))
-                                                    "' into English; subj:"
-                                                    "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
-                                                    "'; source semantics:'"
-                                                    (strip-refs (get-in source-expression [:structure :synsem :sem]))
-                                                    "'"))
-                                    false
-                                    (throw e))))))))))
-                 source-expressions))))
+    (count (use-map-fn (fn [source-expression]
+                         (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
+                             (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))
+                             (let [spec {:synsem {:sem (strip-refs (get-in (:structure source-expression) [:synsem :sem]))}}]
+                               (let [existing-english-expression (read-one spec "en")]
+                                 (if existing-english-expression
+                                   ;; found existing expression: return that.
+                                   (do
+                                     (log/info (str (:surface source-expression) " -> " (:surface existing-english-expression)))
+                                     existing-english-expression)
+                                   ;; else, no existing expression: generate a new one.
+                                   (do
+                                     (log/debug (str "generating from spec: " spec))
+                                     (log/info (str "generating using source expression: '"
+                                                    (:surface source-expression) "'"))
+                                     (try
+                                       (let [result
+                                             (process [{:fill-one-language
+                                                        {:count 1
+                                                         :spec spec
+                                                         :model small-plus-plus-np
+                                                         }}]
+                                                      source-language-short-name)]
+                                         ;; TODO: 'result' is currently returning nil: should return something more indicative
+                                         ;; of what the (process) command did.
+                                         (log/debug (str "process result:" result)))
+                                       (catch Exception e
+                                         (cond
+                                           true
+                                           (log/error (str "Could not translate source expression: "
+                                                           "'" (get source-expression :surface) "'"
+                                                           " from language: '" source-language-short-name 
+                                                           "' with predicate: '"
+                                                           (strip-refs (get-in source-expression [:structure :synsem :sem :pred]))
+                                                           "' into English; subj:"
+                                                           "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
+                                                           "'; source semantics:'"
+                                                           (strip-refs (get-in source-expression [:structure :synsem :sem]))
+                                                           "'"))
+                                           false
+                                           (throw e))))))))))
+                       source-expressions))))
 
 (defn all [ & [count]]
   (let [count (if count (Integer. count) 10)

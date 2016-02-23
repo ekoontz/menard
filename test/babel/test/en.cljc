@@ -1,7 +1,7 @@
 (ns babel.test.en
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.english.grammar :as eng]
+            [babel.english.grammar :refer [small small-plus-vp-pronoun medium]]
             [babel.english.morphology :refer [fo get-string]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])

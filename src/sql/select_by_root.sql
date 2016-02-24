@@ -11,4 +11,11 @@ WHERE (expression.language='it' AND expression.structure->'root'->'italiano'->>'
     $$
     LANGUAGE SQL;
 
-
+CREATE VIEW exp_with_root
+    AS SELECT id,created,language,model,surface,structure,
+    serialized,COALESCE(
+	structure->'root'->'italiano'->>'italiano',
+        structure->'root'->'francais'->>'francais',
+   	structure->'root'->'english'->>'english',
+	structure->'root'->'espanol'->>'espanol') AS root
+FROM expression;

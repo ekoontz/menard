@@ -25,6 +25,12 @@
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
+(defn analyze
+  ([surface-form]
+   (analyze surface-form (:lexicon medium)))
+  ([surface-form lexicon]
+   (morph/analyze surface-form lexicon)))
+
 (defn generate
   ([spec]
    (let [result (engine/generate spec medium)]

@@ -1,6 +1,7 @@
 (ns babel.english.writer
   (:refer-clojure :exclude [get-in]))
 
+(require '[babel.config :refer [language-to-root-spec]])
 (require '[babel.engine :as engine :refer [generate]])
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
@@ -39,8 +40,7 @@
 
         spec (if root
                (unify spec
-                      {:synsem {:sem {:pred :do}}})
-;                      {:root {:english {:english root}}})
+                      (language-to-root-spec source-language-short-name root))
                spec)
 
         use-map-fn pmap

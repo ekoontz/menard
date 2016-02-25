@@ -3,6 +3,8 @@
   (:require [babel.engine :as engine]
             [babel.english.grammar :refer [small small-plus-vp-pronoun medium]]
             [babel.english.morphology :refer [fo get-string]]
+            [babel.english.workbook :refer [analyze generate parse]]
+            [babel.parse :as parse]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])

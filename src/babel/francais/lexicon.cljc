@@ -63,9 +63,9 @@
                          :past-participle "appris"
                          :sem {:pred :learn}}}
    
-   "arriver" {:synsem {:cat :verb
+   "rester" {:synsem {:cat :verb
                        :essere true
-                       :sem {:pred :arrive}}}
+                       :sem {:pred :remain}}}
    
    "assurer" [{:synsem {:cat :verb
                         :sem {:pred :assure}}}

@@ -32,7 +32,7 @@
                        :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY
                  }
   :resource-paths ["resources"]
-  :plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
+  :plugins [[cider/cider-nrepl "0.10.2"]
             [lein-cljsbuild "1.1.2"]
             [lein-doo "0.1.6"]
             [lein-environ "1.0.0"]

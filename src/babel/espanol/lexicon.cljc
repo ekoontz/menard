@@ -759,6 +759,10 @@
                (unify shared-part-of-querer
                       {:synsem {:sem {:pred :love}}})])
                                      
+   "salir" {:espanol  {:present {:1sing "salgo"}}
+            :synsem {:cat :verb
+                      :sem {:pred :go-out}}}
+   
    "se"
    [;; 3rd singular or plural: 'él,ellas,..etc'
     {:synsem {:cat :noun

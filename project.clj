@@ -1,4 +1,4 @@
-(defproject babel "0.1.0-SNAPSHOT"
+(defproject babel "1.0.0"
   :description "A Clojure library for generation of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Eclipse Public License"
@@ -6,7 +6,7 @@
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "0.1.0-SNAPSHOT"]
+                 [dag_unify "1.0.0"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]
@@ -25,6 +25,12 @@
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
+  :repositories {"eugene" "http://ec2-54-193-4-63.us-west-1.compute.amazonaws.com/mvn/repository"
+                 "hiro-tan" "http://hiro-tan.org/mvn/repository"
+                 "s3" {:url "s3p://ekoontz-repo/releases/"
+                       :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
+                       :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY
+                 }
   :resource-paths ["resources"]
   :plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
             [lein-cljsbuild "1.1.2"]
@@ -32,7 +38,8 @@
             [lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
-            [lein-ring "0.9.3"]]
+            [lein-ring "0.9.3"]
+            [s3-wagon-private "1.2.0"]]
 
   ;; run clojure tests with "lein test"
   ;; run clojurescript tests with "lein doo slimer test"

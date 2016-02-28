@@ -2056,15 +2056,16 @@
 
    "vivere" 
    [{:synsem {:cat :verb
-             :sem {:pred :live}}
-    :italiano {:passato "vissuto"
-               :future-stem "vivr"
-               :essere true}}
+              :sem {:pred :live}
+              :essere true}
+     :italiano {:passato "vissuto"
+                :future-stem "vivr"}}
+
     {:synsem {:cat :verb
-             :sem {:pred :live}}
-    :italiano {:passato "vissuto"
-               :future-stem "vivr"
-               :essere false}}]
+              :sem {:pred :live}
+              :essere true}
+     :italiano {:passato "vissuto"
+                :future-stem "vivr"}}]
    
    "voi"
    [{:synsem {:cat cat-of-pronoun

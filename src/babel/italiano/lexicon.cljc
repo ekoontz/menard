@@ -1564,6 +1564,11 @@
 
    ;; non-comparative
    ;; TODO: add comparative
+   "nascere" {:synsem {:cat :verb
+                      :essere true
+                      :sem {:pred :be-born}}
+             :italiano {:passato "nato"}}
+   
    "nero"
    (unify adjective
           {:synsem {:cat :adjective

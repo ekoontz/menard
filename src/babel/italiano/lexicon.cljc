@@ -1723,7 +1723,7 @@
 
 "rimanere" {:synsem {:cat :verb
                       :essere true
-                      :sem {:pred :remain}}
+                      :sem {:pred :remain1}}
              :italiano {:passato "rimasto"
                         :present {:1sing "rimango"
                                   :3plur "rimangono"}

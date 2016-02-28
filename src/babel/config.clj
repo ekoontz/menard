@@ -54,7 +54,7 @@
         language-keyword (keyword language-keyword-name)]
     {:root {language-keyword {language-keyword root}}}))
 
-;; TODO: throw exception rather than 'unknown for unknown languages.
+;; TODO: throw exception rather than 'unknown' for unknown languages.
 (defn short-language-name-to-long [lang]
   (cond (= lang "it") "Italian"
         (= lang "en") "English"

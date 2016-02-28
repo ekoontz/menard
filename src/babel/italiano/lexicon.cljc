@@ -1983,6 +1983,15 @@
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}
 
+   "uscire" (let [common {:synsem {:cat :verb}
+                                   :essere true
+                                   :sem {:subj {:animate true}}
+                          :italiano {:italiano "uscire"
+                                     :present {:boot-stem1 "esc"
+                                               :boot-stem2 "usc"}}}]
+             [(merge common {:synsem {:sem {:pred :go-out}}})
+              (merge common {:synsem {:sem {:pred :exit}}})])
+   
    "vedere" 
    {:synsem {:cat :verb
              :sem {:pred :see}}
@@ -2047,16 +2056,15 @@
 
    "vivere" 
    [{:synsem {:cat :verb
-              :sem {:pred :live}
-              :essere true}
-     :italiano {:passato "vissuto"
-                :future-stem "vivr"}}
-
+             :sem {:pred :live}}
+    :italiano {:passato "vissuto"
+               :future-stem "vivr"
+               :essere true}}
     {:synsem {:cat :verb
-              :sem {:pred :live}
-              :essere true}
-     :italiano {:passato "vissuto"
-                :future-stem "vivr"}}]
+             :sem {:pred :live}}
+    :italiano {:passato "vissuto"
+               :future-stem "vivr"
+               :essere false}}]
    
    "voi"
    [{:synsem {:cat cat-of-pronoun

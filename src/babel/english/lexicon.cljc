@@ -501,6 +501,9 @@
 
    "exist" {:synsem {:cat :verb
                      :sem {:pred :exist}}}
+   
+   "exit" {:synsem {:cat :verb
+                     :sem {:pred :exit}}}
 
    "express" {:synsem {:cat :verb
                        :sem {:pred :express}}}

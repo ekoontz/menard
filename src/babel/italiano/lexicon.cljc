@@ -1708,6 +1708,10 @@
    "recuperare" {:synsem {:cat :verb
                            :sem {:pred :recover}}}
 
+   "restare" {:synsem {:essere true 
+                            :cat :verb
+                            :sem {:pred :remain2}}}
+   
    "restituire" {:italiano {:boot-stem1 "restituisc"
                             :boot-stem2 "restitu"}
                  :synsem {:cat :verb

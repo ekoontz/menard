@@ -650,6 +650,15 @@
     :english {:past "went downstairs"
               :present {:3sing "goes downstairs"}}}
    
+   "go out"
+   {:synsem {:cat :verb
+              :sem {:activity true
+                    :discrete false
+                    :pred :go-out
+                    :subj {:animate true}}}
+    :english {:past "went out"
+              :present {:3sing "goes out"}}}
+   
    "go upstairs"
    {:synsem {:cat :verb
               :sem {:activity true
@@ -657,7 +666,7 @@
                     :pred :go-upstairs
                     :subj {:animate true}}}
     :english {:past "went upstairs"
-              :present {:3sing "goes downstairs"}}}
+              :present {:3sing "goes upstairs"}}}
    
    "grab"  {:synsem {:cat :verb
                      :sem {:pred :prendere}}

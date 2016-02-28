@@ -1230,9 +1230,18 @@
                           :physical-object true
                           :human false}}})
 
- "remain" {:synsem {:cat :verb
-                      :sem {:pred :remain}}}
-
+ "remain" [{:synsem {:cat :verb
+                      :sem {:pred :remain}}} ;; for other than italian
+                    
+          ;; these two below are for Italian.          
+           
+           {:english {:note {:it "ri"}}
+            :synsem {:cat :verb
+                      :sem {:pred :remain1}}}
+          {:english {:note {:it "re"}}
+            :synsem {:cat :verb
+                      :sem {:pred :remain2}}}
+]
 
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}

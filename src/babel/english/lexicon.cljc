@@ -162,8 +162,30 @@
                  :synsem {:cat :verb
                           :sem {:pred :be-able-to}}}
    
+   "be born" {:synsem {:cat :verb
+                         :sem {:pred :be-born}}
+                :english {:future "be born"
+                          :participle "being born"
+                          :conditional "be born"
+                          :imperfect {:1sing "was being born"
+                                      :2sing "were being born"
+                                      :3sing "was being born"
+                                      :1plur "were being born"
+                                      :2plur "were being born"
+                                      :3plur "were being born"}
+                          :past {:english "was born"
+                                 :2sing "were born"
+                                 :2plur "were born"
+                                 :3plur "were born"}
+                          :present {:1sing "am born"
+                                    :2sing "are born"
+                                    :3sing "is born"
+                                    :1plur "are born"
+                                    :2plur "are born"
+                                    :3plur "are born"}}}
+   
    "be called" {:synsem {:cat :verb
-                         :sem {:pred :mancare}}
+                         :sem {:pred :be-called}}
                 :english {:future "be called"
                           :participle "being called"
                           :conditional "be called"

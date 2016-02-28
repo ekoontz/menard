@@ -2045,6 +2045,12 @@
           {:synsem {:sem {:pred :vino
                           :artifact true}}})
 
+   "vivere" 
+   {:synsem {:cat :verb
+             :sem {:pred :live}}
+    :italiano {:passato "vissuto"
+               :future-stem "vivr"}}
+   
    "voi"
    [{:synsem {:cat cat-of-pronoun
               :pronoun true

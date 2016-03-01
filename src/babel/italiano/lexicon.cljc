@@ -1868,7 +1868,7 @@
                             :pred :suonare}}}
 ;                                            :obj {:music true}}}})
 
- "svenire" {:synsem {:cat :verb
+   "svenire" {:synsem {:cat :verb
                       :essere true
                       :sem {:pred :faint}}
              :italiano {:passato "svenuto"

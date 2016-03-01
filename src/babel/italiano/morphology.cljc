@@ -632,7 +632,6 @@
            ere-type (re-find #"ere$" infinitive)
            ire-type (re-find #"ire$" infinitive)
            stem (string/replace infinitive #"[iae]re$" "")
-           last-stem-char-is-i (re-find #"i$" stem)
 
            ;; for passato prossimo, the last char depends on gender and number, if an essere-verb.
            suffix (suffix-of word)]
@@ -1414,7 +1413,6 @@
          future-to-infinitive-irreg1
          future-to-infinitive
          imperfect-to-infinitive-irreg1
-         past-to-infinitive
 
          ;; noun morphology
          plural-to-singular-noun-fem-1

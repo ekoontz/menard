@@ -1,5 +1,161 @@
 (ns babel.italiano.morphology.verbs)
 
+(def replace-patterns-conditional
+  [])
+
+(def replace-patterns-future
+  [
+   {:p [#"^([^ ]+)erò" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+   {:p [#"^([^ ]+)erò" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erai" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+   {:p [#"^([^ ]+)erai" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erà" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erà" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eremo" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eremo" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+   
+   {:p [#"^([^ ]+)erete" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+   
+   {:p [#"^([^ ]+)eranno" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+   {:p [#"^([^ ]+)eranno" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   
+   ])
+
+(def replace-patterns-past-tense
+  [
+   {:p [#"^([^ ]+)ata" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ata" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ate" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ate" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ati" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ati" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ato" "$1are"]
+    :u {:synsem {:infl :past}}}
+
+   {:p [#"^([^ ]+)ato" "$1arsi"]
+    :u {:synsem {:infl :past}}}
+   
+   {:p [#"^([^ ]+)ita" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ita" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)iti" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)iti" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ito" "$1ire"]
+    :u {:synsem {:infl :past}}}
+
+   {:p [#"^([^ ]+)ito" "$1irsi"]
+    :u {:synsem {:infl :past}}}
+   
+   {:p [#"^([^ ]+)uta" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :sing}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)uta" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :sing}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ute" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :sing}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)ute" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :sing}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)uti" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)uti" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)uto" "$1ere"]
+    :u {:synsem {:infl :past}}}
+
+   {:p [#"^([^ ]+)uto" "$1ersi"]
+    :u {:synsem {:infl :past}}}
+
+   ])
+
 (def replace-patterns-present-tense
   [
    {:p [#"^([^' ]+)o$"         "$1are"]
@@ -198,4 +354,6 @@
 
 (def replace-patterns
   (concat
+   replace-patterns-future
+   replace-patterns-past-tense
    replace-patterns-present-tense))

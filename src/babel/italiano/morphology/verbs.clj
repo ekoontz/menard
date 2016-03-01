@@ -135,6 +135,7 @@
 
    {:p [#"^([^ ]+)ato" "$1arsi"]
     :u {:synsem {:infl :past}}}
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
 
    ;; scese -> sceso -> scendere
    {:p [#"^([^ ]+)ese" "$1eso"]
@@ -147,6 +148,8 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :gender :masc}}}
                  :infl :past}}}
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    
    {:p [#"^([^ ]+)ita" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -158,6 +161,7 @@
                                     :gender :fem}}}
                  :infl :past}}}
 
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
    {:p [#"^([^ ]+)ite" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}
@@ -168,6 +172,8 @@
                                     :gender :fem}}}
                  :infl :past}}}
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)iti" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
@@ -186,27 +192,37 @@
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)uta" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
 
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
    {:p [#"^([^ ]+)uta" "$1uto"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :fem}}}
                  :infl :past}}}
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)ute" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)ute" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
 
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
    {:p [#"^([^ ]+)ute" "$1irsi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :plur}}}
@@ -223,6 +239,8 @@
                  :infl :past}}}
 
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)uti" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
@@ -231,10 +249,13 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
 
+<<<<<<< b6ea163566c5ecee1dd050597d404e51c7b145b1
    {:p [#"^([^ ]+)uti" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
 
+=======
+>>>>>>> transitioning to pattern-based analysis for passato and futuro
    {:p [#"^([^ ]+)uto" "$1ere"]
     :u {:synsem {:infl :past}}}
 

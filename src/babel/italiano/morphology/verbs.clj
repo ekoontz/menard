@@ -9,7 +9,14 @@
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}
                  :infl :future}}}
-   {:p [#"^([^ ]+)erò" "$1ere"]
+
+   ;; optional second r: berro -> bere
+   {:p [#"^([^ ]+)er[r]?ò" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erò" "$1iare"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}
                  :infl :future}}}
@@ -18,7 +25,13 @@
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}
                  :infl :future}}}
-   {:p [#"^([^ ]+)erai" "$1ere"]
+
+   {:p [#"^([^ ]+)er[r]?ai" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erai" "$1iare"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}
                  :infl :future}}}
@@ -28,7 +41,12 @@
                                     :person :3rd}}}
                  :infl :future}}}
 
-   {:p [#"^([^ ]+)erà" "$1ere"]
+   {:p [#"^([^ ]+)er[r]?à" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erà" "$1iare"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :3rd}}}
                  :infl :future}}}
@@ -38,12 +56,27 @@
                                     :person :1st}}}
                  :infl :future}}}
 
-   {:p [#"^([^ ]+)eremo" "$1ere"]
+   {:p [#"^([^ ]+)er[r]?emo" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eremo" "$1iare"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :future}}}
    
-   {:p [#"^([^ ]+)erete" "$1ere"]
+   {:p [#"^([^ ]+)erete" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)er[r]?ete" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erete" "$1iare"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :2nd}}}
                  :infl :future}}}
@@ -52,12 +85,17 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :future}}}
-   {:p [#"^([^ ]+)eranno" "$1ere"]
+
+   {:p [#"^([^ ]+)er[r]?anno" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :future}}}
 
-   
+   {:p [#"^([^ ]+)eranno" "$1iare"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+
    ])
 
 (def replace-patterns-past-tense
@@ -97,6 +135,18 @@
 
    {:p [#"^([^ ]+)ato" "$1arsi"]
     :u {:synsem {:infl :past}}}
+
+   ;; scese -> sceso -> scendere
+   {:p [#"^([^ ]+)ese" "$1eso"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   ;; scesi -> sceso -> scendere
+   {:p [#"^([^ ]+)esi" "$1eso"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
    
    {:p [#"^([^ ]+)ita" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -105,6 +155,16 @@
 
    {:p [#"^([^ ]+)ita" "$1irsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ite" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ite" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :gender :fem}}}
                  :infl :past}}}
 
@@ -126,25 +186,52 @@
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
+
    {:p [#"^([^ ]+)uta" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)uta" "$1uto"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :fem}}}
                  :infl :past}}}
 
    {:p [#"^([^ ]+)ute" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
+
    {:p [#"^([^ ]+)ute" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
                                     :number :sing}}}
                  :infl :past}}}
+
+   {:p [#"^([^ ]+)ute" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ute" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)ute" "$1uto"]
+    :u {:synsem {:subcat {:1 {:agr {:gender :fem
+                                    :number :plur}}}
+                 :infl :past}}}
+
 
    {:p [#"^([^ ]+)uti" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
 
    {:p [#"^([^ ]+)uti" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)uti" "$1ire"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
                  :infl :past}}}
 

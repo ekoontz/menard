@@ -12,14 +12,14 @@
             [dag_unify.core :refer [get-in strip-refs]]))
 
 (deftest analyze-1
-  (let [singular (analyze "compito" (:lookup medium))
-        plural  (analyze "compiti" (:lookup medium))]
+  (let [singular (analyze "compito")
+        plural  (analyze "compiti")]
     (is (not (empty? singular)))
     (is (not (empty? plural)))))
 
 (deftest analyze-2
-  (let [singular (analyze "difficile" (:lookup medium))
-        plural  (analyze "difficili" (:lookup medium))]
+  (let [singular (analyze "difficile")
+        plural  (analyze "difficili")]
     (is (not (empty? singular)))
     (is (not (empty? plural)))))
 

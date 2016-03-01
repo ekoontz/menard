@@ -14,14 +14,17 @@
 (deftest analyze-1
   (let [singular (analyze "compito" (:lookup medium))
         plural  (analyze "compiti" (:lookup medium))]
-    (is (not (nil? singular)))
-    (is (not (nil? plural)))))
+    (is (not (empty? singular)))
+    (is (not (empty? plural)))))
 
 (deftest analyze-2
   (let [singular (analyze "difficile" (:lookup medium))
         plural  (analyze "difficili" (:lookup medium))]
-    (is (not (nil? singular)))
-    (is (not (nil? plural)))))
+    (is (not (empty? singular)))
+    (is (not (empty? plural)))))
+
+(deftest analyze-3
+  (is (not (empty? (analyze "svegliata")))))
 
 (deftest present-irregular
   (let [result (first (take 1 (generate {:synsem {:subcat '()

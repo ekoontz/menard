@@ -841,6 +841,16 @@
                    :pred :voi}
              :subcat '()}}
    
+   "venir" {:espanol {:futuro-stem "vendr"
+                      :present {:1sing "vengo"
+                                :2sing "vienes"
+                                :3sing "viene"
+                                :3plur "vienen"}
+                      :preterito-stem "vin"}
+            :synsem {:cat :verb
+                     :sem {:subj {:animate true}
+                           :pred :come}}}
+   
    "ver" {:espanol  {:present {:1sing "veo"
                                :2plur "veis"}
                      :preterito {:1sing "vi"

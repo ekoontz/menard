@@ -669,6 +669,7 @@
                     :pred :go-upstairs
                     :subj {:animate true}}}
     :english {:past "went upstairs"
+              :participle "going upstrairs"
               :present {:3sing "goes upstairs"}}}
    
    "grab"  {:synsem {:cat :verb

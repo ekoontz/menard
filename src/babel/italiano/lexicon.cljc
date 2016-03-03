@@ -2055,8 +2055,10 @@
                           :artifact true}}})
 
    "vivere" 
+   ;; FIXME: this is simply a duplicate apparently?
    [{:synsem {:cat :verb
-              :sem {:pred :live}
+              :sem {:subj {:animate true}
+                    :pred :live}
               :essere true}
      :italiano {:passato "vissuto"
                 :future-stem "vivr"}}

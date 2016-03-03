@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.english.grammar :refer [small small-plus-vp-pronoun medium]]
+            [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
             [babel.english.workbook :refer [analyze generate parse]]
             [babel.parse :as parse]
@@ -10,7 +11,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [get-in]]))
+            [dag_unify.core :refer [get-in strip-refs]]))
 
 (deftest generate-irregular-present
   (let [form {:english {:a {:english {:past {:1sing "was",
@@ -157,3 +158,21 @@
                       :english "Juan"}}}]
     (is (or false (= (fo form)
                     "your name is Juan")))))
+
+(deftest generate-irregular-imperfect
+  (let [form {:english
+              {:a {:english "you all",
+                   :agr {:person :2nd, :gender :fem, :number :plur},
+                   :cat :noun, :pronoun true},
+               :b {:past "went downstairs",
+                   :participle "going downstairs"
+                   :present {:3sing "goes downstairs"},
+                   :english "go downstairs",
+                   :cat :verb,
+                   :infl :imperfect,
+                   :agr {:person :2nd, :gender
+                         :fem, :number
+                         :plur}}}}]
+    (is (= (fo form)
+           "you all were going downstairs"))))
+

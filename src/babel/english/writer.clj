@@ -43,6 +43,9 @@
                       (language-to-root-spec source-language-short-name root))
                spec)
 
+        debug (log/debug (str "using root:" root))
+        debug (log/debug (str "using spec:" (strip-refs spec)))
+        
         use-map-fn pmap
         source-expressions (read-all spec
                                      source-language-short-name)]
@@ -84,7 +87,7 @@
                                                            "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
                                                            "'; source semantics:'"
                                                            (strip-refs (get-in source-expression [:structure :synsem :sem]))
-                                                           "'"))
+                                                           "'" " ; exception: " e))
                                            false
                                            (throw e))))))))))
                        source-expressions))))

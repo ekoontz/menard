@@ -985,6 +985,10 @@
                           :past "listened to"
                           :present {:3sing "listens to"}}}
 
+   "live" {:synsem {:cat :verb
+                    :sem {:subj {:animate true}
+                          :pred :live}}}
+
    "look" {:synsem {:cat :verb
                     :sem {:pred :look}}}
 

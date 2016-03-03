@@ -1093,8 +1093,8 @@
    ;; TODO: should not need to provide an irregular plural form
    ;; [:sem :mass]=true should be sufficient.
    "music" 
-   {:english {:plur "music"}
-    :synsem {:cat :noun
+   {:synsem {:agr {:number :sing}
+             :cat :noun
              :sem {:pred :music
                    :mass true}}}
    "my"

@@ -84,6 +84,7 @@
 
    "bag" {:synsem {:cat :noun
                    :sem {:pred :bag
+                         :animate false
                          :place false}}}
 
    "base" {:synsem {:cat :verb
@@ -264,6 +265,7 @@
    
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
+                             :animate false
                              :place false}}}
    "black"
    (unify adjective
@@ -319,6 +321,7 @@
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
+                         :animate false
                          :place false}}}
 
    "carry" {:synsem {:cat :verb
@@ -545,6 +548,7 @@
 
    "game" {:synsem {:cat :noun
                     :sem {:pred :game
+                          :animate false
                           :games true}}}
    "get angry"
    (let [subject-semantics (atom {:human true})]
@@ -651,6 +655,7 @@
                     :pred :go-downstairs
                     :subj {:animate true}}}
     :english {:past "went downstairs"
+              :participle "going downstairs"
               :present {:3sing "goes downstairs"}}}
    
    "go out"
@@ -660,6 +665,7 @@
                     :pred :go-out
                     :subj {:animate true}}}
     :english {:past "went out"
+              :participle "going out"
               :present {:3sing "goes out"}}}
    
    "go upstairs"
@@ -949,6 +955,7 @@
 
    "key" {:synsem {:cat :noun
                    :sem {:pred :key
+                         :animate false
                          :place false}}}
 
    "kill" {:synsem {:cat :verb
@@ -1096,6 +1103,7 @@
    {:synsem {:agr {:number :sing}
              :cat :noun
              :sem {:pred :music
+                   :animate false
                    :mass true}}}
    "my"
    (map #(unify %

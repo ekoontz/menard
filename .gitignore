@@ -19,3 +19,4 @@ expression.table.gz
 doo-index.html
 /.repl-1.7.170
 figwheel_server.log
+*.gz

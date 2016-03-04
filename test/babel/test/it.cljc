@@ -110,7 +110,7 @@
                            (take do-this-many expressions)))))))))
 
 (deftest roundtrip-small-grammar
-  (let [do-this-many 100]
+  (let [do-this-many 200]
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions

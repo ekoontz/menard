@@ -113,6 +113,7 @@
                            (take do-this-many expressions)))))))))
 
 (deftest roundtrip-small-grammar
+  (let [do-this-many 200]
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions
@@ -132,3 +133,4 @@
                                              [:synsem :sem])})
                              (log/info (str "parse OK:" (fo expr)))))
                          expressions)))))))
+

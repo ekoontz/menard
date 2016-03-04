@@ -24,8 +24,7 @@
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
-  :repositories {"eugene" "http://ec2-54-193-4-63.us-west-1.compute.amazonaws.com/mvn/repository"
-                 "hiro-tan" "http://hiro-tan.org/mvn/repository"
+  :repositories {"hiro-tan" "http://hiro-tan.org/mvn/repository"
                  "s3" {:url "s3p://ekoontz-repo/releases/"
                        :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
                        :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY

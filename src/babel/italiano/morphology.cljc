@@ -203,7 +203,7 @@
                  " " (get-string-1 (get-in word '(:b)))))
 
      ;; TODO: all of the rules that handle exceptions should be removed:
-     ;; exceptions are dealt with at compile-time now, via italianverbs.lexicon.italiano/exception-generator
+     ;; exceptions are dealt with at compile-time now, via babel.italiano.morphology/exception-generator
 
      ;; handle lexical exceptions (plural feminine adjectives):
      (and
@@ -1558,6 +1558,49 @@
                                            :agr {:number :plur
                                                  :person :3rd}}})}
 
+                            ;; 3. future-tense exceptions
+                            {:path [:italiano :future :1sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :future :2sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            {:path [:italiano :future :3sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            {:path [:italiano :future :1plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            {:path [:italiano :future :2plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            {:path [:italiano :future :3plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
                             ;; adjectives
                             {:path [:italiano :masc :plur]
                              :merge-fn

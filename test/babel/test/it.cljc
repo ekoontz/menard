@@ -114,19 +114,19 @@
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions
-                       (generate-all {:synsem {:cat :verb
-                                               :sem {:tense :present}
-                                               :subcat '()}}
-                                     small)]
+                       (take do-this-many
+                             (repeatedly
+                              #(first (generate {:synsem {:cat :verb
+                                                          :sem {:tense :present}
+                                                          :subcat '()}}
+                                                small))))]
                    (pmap (fn [expr] 
                            (if (empty? (parse (fo expr) small))
                              (do
                                (log/error (str "failed to parse: " (fo expr)))
-                             {:fo (fo expr)
-                              :expr (get-in expr [:synsem :sem])
-                              :sem (get-in (first (parse (fo expr) small))
-                                           [:synsem :sem])})
+                               {:fo (fo expr)
+                                :expr (get-in expr [:synsem :sem])
+                                :sem (get-in (first (parse (fo expr) small))
+                                             [:synsem :sem])})
                              (log/info (str "parse OK:" (fo expr)))))
-                         (if (= do-this-many :all)
-                           expressions
-                           (take do-this-many expressions)))))))))
+                         expressions)))))))

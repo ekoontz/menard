@@ -2100,7 +2100,6 @@
                                    :1plur "vogliamo"
                                    :2plur "volete"
                                    :3plur "vogliono"}}}})
-        
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon (-> (compile-lex lexicon-source

@@ -184,29 +184,6 @@
                                     :1plur "are born"
                                     :2plur "are born"
                                     :3plur "are born"}}}
-   
-   "be called" {:synsem {:cat :verb
-                         :sem {:pred :be-called}}
-                :english {:future "be called"
-                          :participle "being called"
-                          :conditional "be called"
-                          :imperfect {:1sing "was being called"
-                                      :2sing "were being called"
-                                      :3sing "was being called"
-                                      :1plur "were being called"
-                                      :2plur "were being called"
-                                      :3plur "were being called"}
-                          :past {:english "was called"
-                                 :2sing "were called"
-                                 :2plur "were called"
-                                 :3plur "were called"}
-                          :present {:1sing "am called"
-                                    :2sing "are called"
-                                    :3sing "is called"
-                                    :1plur "are called"
-                                    :2plur "are called"
-                                    :3plur "are called"}}}
-
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}
                 :english {:future "be missed"

@@ -882,7 +882,9 @@
 ;                             :activity true ;; TODO: cannot declare this as an activity because of some semantic implicature..
                              :artifact true
                              :physical-object true
-                             :edible false}}})
+                             :edible false}}
+              :italiano {:cat :adjective
+                         :fem {:sing "difficile"}}})
 
       "dipingere" {:synsem {:cat :verb
                             :sem {:pred :paint}}

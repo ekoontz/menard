@@ -8,6 +8,7 @@
             plural-to-singular-adj-fem-sing
             plural-to-singular-adj-fem-plur)]
    [babel.italiano.morphology.articles :as articles]
+   [babel.italiano.morphology.determiners :as determiners]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.nouns
     :refer (plural-to-singular-noun-fem-1
@@ -1377,6 +1378,7 @@
 (def replace-patterns
   (concat
    adjectives/replace-patterns
+   determiners/replace-patterns
    nouns/replace-patterns
    verbs/replace-patterns))
 

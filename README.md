@@ -14,14 +14,16 @@ lexicons.
 
 ## Create babel database
 
-```createuser babel
+```
+createuser babel
 createdb -U babel babel
 psql -U babel babel < src/sql/babel.sql
 ```
 
 ## Set environment so that babel can find your database
 
-```export DATABASE_URL="postgres://verbcoach@localhost/verbcoach"
+```
+export DATABASE_URL="postgres://verbcoach@localhost/verbcoach"
 ```
 
 ## Generate sentences
@@ -36,7 +38,8 @@ etc). Each pair will be the Italian sentence and its English
 translation. Each will be added to the `expression` table. You can then
 see them from sql with:
 
-```psql -U babel babel
+```
+psql -U babel babel
 SELECT surface,language FROM expression LIMIT 10;
 verbcoach=> SELECT id,language,surface FROM expression LIMIT 5;
   id   | language |        surface
@@ -51,6 +54,3 @@ verbcoach=> SELECT id,language,surface FROM expression LIMIT 5;
 ## License
 
 Copyright © 2015 Eugene Koontz
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.

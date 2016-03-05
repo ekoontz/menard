@@ -649,10 +649,12 @@
              common-noun
              countable-noun
              feminine-noun
-             {:synsem {:sem {:pred :città
+             {:synsem {:sem {:artifact true
                              :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
-                             :artifact true ;;
-                             :city true}
+                             :city true
+                             :place true
+                             :pred :città
+                             }
                        :subcat {:1 {:cat :det
                                     :def :def}}}})
       

@@ -60,7 +60,6 @@
   (let [result (parse "io parlo")]
     (is (not (empty? result)))
     (is (= "io parlo") (fo (first result)))))
-
         
 (deftest round-trip-1
   (let [expr (generate {:synsem {:subcat '()
@@ -99,16 +98,23 @@
                            (take do-this-many expressions)))))))))
 
 (deftest roundtrip-small-grammar
-  (let [do-this-many 200]
+  (let [do-this-many 20]
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions
-                       (take do-this-many
-                             (repeatedly
-                              #(generate {:synsem {:cat :verb
-                                                   :sem {:tense :present}
-                                                   :subcat '()}}
-                                         small)))]
+                       (concat
+                        (take do-this-many
+                              (repeatedly
+                               #(generate {:synsem {:cat :verb
+                                                    :sem {:tense :present}
+                                                    :subcat '()}}
+                                          small)))
+                        (take do-this-many
+                              (repeatedly
+                               #(generate {:synsem {:cat :verb
+                                                    :sem {:tense :future}
+                                                    :subcat '()}}
+                                          small))))]
                    (pmap (fn [expr] 
                            (if (empty? (parse (fo expr) small))
                              (do

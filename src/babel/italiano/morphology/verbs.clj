@@ -1,6 +1,9 @@
-(ns babel.italiano.morphology.verbs)
+(ns babel.italiano.morphology.verbs
+  (:require 
+   [dag_unify.core :refer [unify]]))
 
 (def replace-patterns-conditional
+  ;; TODO
   [])
 
 (def replace-patterns-future
@@ -509,7 +512,15 @@
    ])
 
 (def replace-patterns
-  (concat
-   replace-patterns-future
-   replace-patterns-past-tense
-   replace-patterns-present-tense))
+  (map (fn [each]   ;; unify with {:synsem {:cat :verb}} for all rules.
+         {:p (:p each)
+          :u (unify (:u each)
+                    {:synsem {:cat :verb}})
+          :g (:g each)})
+       (concat
+        replace-patterns-future
+        replace-patterns-past-tense
+        replace-patterns-present-tense)))
+
+
+  

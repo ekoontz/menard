@@ -2,11 +2,13 @@
   (:refer-clojure :exclude [get-in merge resolve])
   (:require
    [babel.pos :refer (noun)]
+   [babel.italiano.morphology.adjectives :as adjectives]
    [babel.italiano.morphology.adjectives
     :refer (plural-to-singular-adj-masc
             plural-to-singular-adj-fem-sing
             plural-to-singular-adj-fem-plur)]
    [babel.italiano.morphology.articles :as articles]
+   [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.nouns
     :refer (plural-to-singular-noun-fem-1
             plural-to-singular-noun-masc-1
@@ -121,6 +123,7 @@
      infinitive)))
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
+;; TODO: use replace patterns instead (as with French)
 (defn get-string-1 [word]
   (if (seq? word)
     (map (string/join " " #(get-string-1 %))
@@ -1373,106 +1376,42 @@
 
 (def replace-patterns
   (concat
+   adjectives/replace-patterns
+   nouns/replace-patterns
    verbs/replace-patterns))
 
-(defn new-style [surface-form lexicon]
+(defn analyze-regular [surface-form lexicon]
+  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form"
   (mapcat
    (fn [replace-pattern]
      (let [ ;; regular expression that matches the surface form
            from (nth (:p replace-pattern) 0)]
-       (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
+       (log/debug (str "trying replace-pattern:" replace-pattern " against surface-form: " surface-form))
        (if (re-matches from surface-form)
-         (let [;; expression that is used by string/replace along with the first regexp and the surface form,
-               ;; to create the lexical string
-               to (nth (:p replace-pattern) 1)
-               ;; unifies with the lexical entry to create the inflected form.
-               unify-with (if (:u replace-pattern)
-                            (:u replace-pattern)
-                            :top) ;; default unify-with
-               lex (string/replace surface-form from to)]
-           (filter (fn [result] (not (= :fail result)))
-                   (pmap (fn [lexical-entry]
-                           (unifyc unify-with lexical-entry))
-                         (get lexicon lex)))))))
+         (do
+           (log/debug (str "found matching replace-pattern:" replace-pattern " for surface-form: " surface-form))
+           (log/debug (str "using unify-with: " (:u replace-pattern)))
+           (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+                 ;; to create the lexical string
+                 to (nth (:p replace-pattern) 1)
+                 ;; unifies with the lexical entry to create the inflected form.
+                 unify-with (if (:u replace-pattern)
+                              (:u replace-pattern)
+                              :top) ;; default unify-with
+                 potential-lexical-form (string/replace surface-form from to)]
+             (filter (fn [result] (not (= :fail result)))
+                     (pmap (fn [lexical-entry]
+                             (let [result (unifyc unify-with lexical-entry)]
+                               (log/debug (str "unifyc result:" result))
+                               result))
+                           (get lexicon potential-lexical-form))))))))
    replace-patterns))
 
 (defn analyze [surface-form lexicon]
-  "return the map incorporating the lexical information about a surface form."
-  (let [
-        ;; TODO: remove: backwards compatibility
-        lookup-fn (fn [surface-form]
-                    (get lexicon surface-form))
-        new-style (new-style surface-form lexicon)
-        replace-pairs
-        ;; Even though it's possible for more than one KV pair to have the same key:
-        ;; e.g. plural-to-singular-noun-masc-1 and plural-to-singular-noun-masc-2 both have
-        ;; #"i$", they are distinct as separate keys in this 'replace-pairs' hash, as they should be.
-        (merge 
-
-         ;; verb morphology
-         future-to-infinitive-irreg1
-         future-to-infinitive
-         imperfect-to-infinitive-irreg1
-
-         ;; noun morphology
-         plural-to-singular-noun-fem-1
-         plural-to-singular-noun-masc-1
-         plural-to-singular-noun-masc-2
-
-         ;; adjective morphology
-         plural-to-singular-adj-masc
-         plural-to-singular-adj-fem-plur
-         plural-to-singular-adj-fem-sing
-
-         articles/l-apostrophe
-         )
-        
-        analyzed
-        (remove fail?
-                (mapcat
-                 (fn [key]
-                   (if (re-find key surface-form)
-                        (let [replace-with (get replace-pairs key)
-                              lexical-form (if (= key :identity)
-                                             surface-form
-                                             (string/replace surface-form key
-                                                             (:replace-with replace-with)))
-                              looked-up (lookup-fn lexical-form)]
-                          (map #(unifyc 
-                                 %
-                                 (:unify-with replace-with))
-                               looked-up))))
-                 (keys replace-pairs)))
-
-        ;; Analyzed-via-identity is used to: 
-        ;; 1. handle infinitive verbs: converts them from unspecified inflection to
-        ;; {:infl :infinitive}
-        ;; 2. convert nouns from unspecified number to singular number: {:synsem {:agr {:num :sing}}}
-        analyzed-via-identity
-        (remove fail?
-                (mapcat
-                 (fn [key]
-                   (let [lexical-form surface-form
-                         looked-up (lookup-fn lexical-form)]
-                     (map #(unifyc 
-                            %
-                            (:unify-with (get replace-pairs key))
-                            {:via key
-                             :identity-with (get replace-pairs key)})
-                          looked-up)))
-                 (keys identity-analyzers)))]
-
-    (concat
-
-     new-style
-
-     analyzed
-
-     ;; also lookup the surface form itself, which
-     ;; might be either the canonical form of a word, or an irregular conjugation of a word.
-     (if (not (empty? analyzed-via-identity))
-       analyzed-via-identity
-     (lookup-fn surface-form)))))
+  "return an array of the maps, each of which represents the lexical information about a surface form."
+  (concat
+   (analyze-regular surface-form lexicon)
+   (get lexicon surface-form)))
 
 (defn exception-generator [lexicon]
   (let [lexeme-kv (first lexicon)
@@ -1483,7 +1422,7 @@
                                    merge-fn (:merge-fn path-and-merge-fn)]
                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                ;; and the value is a list of lexemes for that string.
-                               (log/debug (str (first lexeme-kv) " looking at path: " path))
+                               (log/debug (str (first lexeme-kv) " generating exception for path: " path))
                                (mapcat (fn [lexeme]
                                          ;; this is where a unify/dissoc that supported
                                          ;; non-maps like :top and :fail, would be useful:

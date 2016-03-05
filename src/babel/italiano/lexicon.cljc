@@ -504,7 +504,6 @@
    "caricare" {:italiano {:future-stem "carich"}
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
-                      
    "camicia"
     (unify agreement-noun
            common-noun

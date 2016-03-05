@@ -13,6 +13,11 @@
                                     :person :1st}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)vrò" "$1vere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+
    {:p [#"^([^ ]+)erò" "$1arsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}
@@ -69,6 +74,16 @@
                                     :person :2nd}}}
                  :infl :future}}}
 
+   {:p [#"([^ ]+)ichai" "$1icare"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"([^ ]+)cherai" "$1are"] ;; cercherai -> cercare
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+   
    {:p [#"^([^ ]+)erà" "$1are"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :3rd}}}
@@ -94,18 +109,42 @@
                                     :person :3rd}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)eramo" "$1ere"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
 
    {:p [#"^([^ ]+)eremo" "$1are"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :future}}}
 
+   {:p [#"([^ ]+)ichemo" "$1icare"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+   
+   {:p [#"^([^ ]+)remo" "$1ere"] ;; "avremo" -> "avere"
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)iremo" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+   
    {:p [#"^([^ ]+)iremo" "$1irsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :future}}}
 
    {:p [#"^([^ ]+)eremo" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eremo" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :future}}}
@@ -149,6 +188,16 @@
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :2nd}}}
                  :infl :future}}}
+
+   {:p [#"^([^ ]+)irete" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)irete" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
    
    {:p [#"^([^ ]+)eranno" "$1are"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
@@ -170,6 +219,21 @@
                                     :person :3rd}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)eranno" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)iranno" "$1ire"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)iranno" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+   
    ])
 
 (def replace-patterns-past-tense

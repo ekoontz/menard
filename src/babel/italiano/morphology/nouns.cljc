@@ -10,14 +10,30 @@
 (def replace-patterns
   [
 
+   {:p [#"(.*)e$" "$1a"] ;; "donne" -> "donna"
+    :u {:synsem {:cat :noun
+                 :agr {:gender :fem
+                       :number :plur}}}}
+
+   {:p [#"(.*)e$" "$1à"] ;; "citte" -> "città"
+    :u {:synsem {:cat :noun
+                 :agr {:gender :fem
+                       :number :plur}}}}
+
    {:p [#"(.*)i$" "$1io"] ;; "bracci" -> "braccio"
     :u {:synsem {:cat :noun
                  :agr {:number :plur}}}}
 
-   {:p [#"([^i])i$" "$1e"] ;; "cani" -> "cane"
+   {:p [#"(.*)i$" "$1e"] ;; "cani" -> "cane"
     :u {:synsem {:cat :noun
                  :agr {:gender :masc
                        :number :plur}}}}
+
+   {:p [#"(.*)i$" "$1o"] ;; "compiti" -> "compito"
+    :u {:synsem {:cat :noun
+                 :agr {:number :plur}}}}
+
+   
    
    ])
 

@@ -29,9 +29,9 @@
 
 (defn generate
   ([spec]
-   (take 1 (engine/generate-all spec medium)))
+   (first (take 1 (engine/generate-all spec medium))))
   ([spec model]
-   (take 1 (engine/generate-all spec model))))
+   (first (take 1 (engine/generate-all spec model)))))
 
 (defn generate-all
   ([spec]

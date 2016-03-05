@@ -27,32 +27,32 @@
   (is (not (empty? (analyze "svegliata")))))
 
 (deftest present-irregular
-  (let [result (first (take 1 (generate {:synsem {:subcat '()
-                                                  :sem {:pred :be
-                                                        :subj {:pred :I}
-                                                        :tense :present}}}
-                                        small)))]
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :be
+                                         :subj {:pred :I}
+                                         :tense :present}}}
+                         small)]
     (is (= "io sono" (fo result)))))
 
 (deftest passato-prossimo
-  (let [result (first (take 1 (generate {:root {:italiano {:italiano "bere"}}
-                                         :synsem {:subcat ()
-                                                  :sem {:subj {:pred :I}
-                                                        :tense :past
-                                                        :aspect :perfect}}}
-                                        small)))]
+  (let [result (generate {:root {:italiano {:italiano "bere"}}
+                          :synsem {:subcat ()
+                                   :sem {:subj {:pred :I}
+                                         :tense :past
+                                         :aspect :perfect}}}
+                         small)]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
 (deftest passato-prossimo-reflexive
-  (let [result (first (take 1 (generate {:head {:synsem {:agr {:gender :fem}}}
-                                         :synsem {:subcat '()
-                                                  :infl :present
-                                                  :sem {:pred :get-up
-                                                        :subj {:pred :I}
-                                                        :tense :past
-                                                        :aspect :perfect}}}
-                                        small)))]
+  (let [result (generate {:head {:synsem {:agr {:gender :fem}}}
+                          :synsem {:subcat '()
+                                   :infl :present
+                                   :sem {:pred :get-up
+                                         :subj {:pred :I}
+                                         :tense :past
+                                         :aspect :perfect}}}
+                         small)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
@@ -63,32 +63,18 @@
 
         
 (deftest round-trip-1
-  (let [expr (first (take 1 (generate {:synsem {:subcat '()
-                                                :sem {:spec {:def :def} 
-                                                      :mod {:pred :difficile}
-                                                      :number :sing
-                                                      :pred :donna}}} 
-                                      np-grammar)))]
+  (let [expr (generate {:synsem {:subcat '()
+                                 :sem {:spec {:def :def} 
+                                       :mod {:pred :difficile}
+                                       :number :sing
+                                       :pred :donna}}} 
+                       np-grammar)]
     (is (= (fo expr) "la donna difficile"))
     (is (not (empty? (parse (fo expr) np-grammar))))))
 
 (deftest forbid-mispelling
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
-;; useful for adding more round-trip tests.
-(def foo
-  (take 1 (repeatedly
-           #(let [expr (generate {:synsem {:sem
-                                           {:spec {:def :top}
-                                            :mod {:pred :top}
-                                            :number :top
-                                            :pred :top}}}
-                                 np-grammar)]
-              (if (empty? (parse (fo expr) np-grammar))
-                {:fo (fo expr)
-                 :expr (get-in expr [:synsem :sem])
-                 :sem (get-in (first (parse (fo expr) np-grammar))
-                              [:synsem :sem])})))))
 (deftest roundtrip-np-grammar
   (let [do-this-many 100]
     (is (empty?
@@ -119,10 +105,10 @@
                  (let [expressions
                        (take do-this-many
                              (repeatedly
-                              #(first (generate {:synsem {:cat :verb
-                                                          :sem {:tense :present}
-                                                          :subcat '()}}
-                                                small))))]
+                              #(generate {:synsem {:cat :verb
+                                                   :sem {:tense :present}
+                                                   :subcat '()}}
+                                         small)))]
                    (pmap (fn [expr] 
                            (if (empty? (parse (fo expr) small))
                              (do

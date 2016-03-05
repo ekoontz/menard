@@ -24,10 +24,10 @@
     :u {:synsem {:cat :noun
                  :agr {:number :plur}}}}
 
-   {:p [#"(.*)i$" "$1e"] ;; "cani" -> "cane"
+   {:p [#"(.*)i$" "$1e"] ;; "cani" -> "cane"; "madri" -> "madre"
+    ;; (note that no gender is specified in :u because it could be either.
     :u {:synsem {:cat :noun
-                 :agr {:gender :masc
-                       :number :plur}}}}
+                 :agr {:number :plur}}}}
 
    {:p [#"(.*)i$" "$1o"] ;; "compiti" -> "compito"
     :u {:synsem {:cat :noun

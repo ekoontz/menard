@@ -10,6 +10,21 @@
                                     :person :1st}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)erò" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erò" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+   
+   {:p [#"^([^ ]+)irò" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :future}}}
+
    ;; optional second r: berro -> bere
    {:p [#"^([^ ]+)er[r]?ò" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
@@ -26,12 +41,27 @@
                                     :person :2nd}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)erai" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erai" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
    {:p [#"^([^ ]+)er[r]?ai" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}
                  :infl :future}}}
 
    {:p [#"^([^ ]+)erai" "$1iare"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)irai" "$1irsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}
                  :infl :future}}}
@@ -51,7 +81,28 @@
                                     :person :3rd}}}
                  :infl :future}}}
 
+   {:p [#"^([^ ]+)erà" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)irà" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+
    {:p [#"^([^ ]+)eremo" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)iremo" "$1irsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eremo" "$1arsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}
                  :infl :future}}}
@@ -67,6 +118,21 @@
                  :infl :future}}}
    
    {:p [#"^([^ ]+)erete" "$1are"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erete" "$1arsi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erete" "$1ersi"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)erete" "$1irsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :2nd}}}
                  :infl :future}}}
@@ -92,6 +158,11 @@
                  :infl :future}}}
 
    {:p [#"^([^ ]+)eranno" "$1iare"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :future}}}
+
+   {:p [#"^([^ ]+)eranno" "$1arsi"]
     :u {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}
                  :infl :future}}}

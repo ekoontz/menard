@@ -96,6 +96,24 @@
                         expressions))))))
 
 (deftest roundtrip-present
+  (let [do-this-many 200
+        expressions (take do-this-many
+                          (repeatedly
+                           #(generate {:synsem {:cat :verb
+                                                :sem {:tense :present}
+                                                :subcat '()}}
+                                      small)))]
+    (is (= 200
+           (count (pmap (fn [expr] 
+                          (let [fo (fo expr)
+                                parsed (parse fo)]
+                            (if (not (empty? parsed))
+                              (log/info (str "parse OK:" fo))
+                              (log/error (str "parse failed: " fo)))
+                            (is (not (empty? parsed)))))
+                        expressions))))))
+
+(deftest roundtrip-imperfect
   (let [do-this-many 200]
     (is (empty?
          (filter #(not (nil? %))
@@ -103,7 +121,9 @@
                        (take do-this-many
                              (repeatedly
                               #(generate {:synsem {:cat :verb
-                                                   :sem {:tense :present}
+                                                   :infl :imperfect
+                                                   :sem {:tense :past
+                                                         :aspec :progressive}
                                                    :subcat '()}}
                                          small)))]
                    (pmap (fn [expr] 

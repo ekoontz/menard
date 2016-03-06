@@ -1607,9 +1607,8 @@
                          :present {:1sing "ottengo"
                                    :2sing "ottieni"
                                    :3sing "ottiene"
-                                   :3plur "otttengono"}
+                                   :3plur "ottengono"}
                          :future-stem "otterr"}}
-
    "pane"
    ;; inherently singular.
    (unify agreement-noun

@@ -78,27 +78,22 @@
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
 (deftest roundtrip-np-grammar
-  (let [do-this-many 100]
-    (is (empty?
-         (filter #(not (nil? %))
-                 (let [expressions
-                       (generate-all {:synsem {:sem {:spec {:def :top}
-                                                     :mod {:pred :top}
-                                                     :number :top
-                                                     :pred :top}}}
-                                     np-grammar)]
-                   (pmap (fn [expr] 
-                           (if (empty? (parse (fo expr) np-grammar))
-                             (do
-                               (log/error (str "failed to parse: " (fo expr)))
-                             {:fo (fo expr)
-                              :expr (get-in expr [:synsem :sem])
-                              :sem (get-in (first (parse (fo expr) np-grammar))
-                                           [:synsem :sem])})
-                             (log/info (str "parse OK:" (get-in expr [:rule]) " " (fo expr)))))
-                         (if (= do-this-many :all)
-                           expressions
-                           (take do-this-many expressions)))))))))
+  (let [do-this-many 200
+        expressions (take do-this-many
+                           (generate-all {:synsem {:sem {:spec {:def :top}
+                                                         :mod {:pred :top}
+                                                         :number :top
+                                                         :pred :top}}}
+                                         np-grammar))]
+    (is (= 200
+           (count (pmap (fn [expr] 
+                          (let [fo (fo expr)
+                                parsed (parse fo np-grammar)]
+                            (if (not (empty? parsed))
+                              (log/info (str "parse OK:" fo))
+                              (log/error (str "parse failed: " fo)))
+                            (is (not (empty? parsed)))))
+                        expressions))))))
 
 (deftest roundtrip-present
   (let [do-this-many 200]

@@ -78,14 +78,14 @@
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
 (deftest roundtrip-np-grammar
-  (let [do-this-many 200
+  (let [do-this-many 20
         expressions (take do-this-many
                            (generate-all {:synsem {:sem {:spec {:def :top}
                                                          :mod {:pred :top}
                                                          :number :top
                                                          :pred :top}}}
                                          np-grammar))]
-    (is (= 200
+    (is (= 20
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
                                 parsed (parse fo np-grammar)]
@@ -96,14 +96,14 @@
                         expressions))))))
 
 (deftest roundtrip-present
-  (let [do-this-many 200
+  (let [do-this-many 20
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 200
+    (is (= 20
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -114,7 +114,7 @@
                         expressions))))))
 
 (deftest roundtrip-imperfect
-  (let [do-this-many 200
+  (let [do-this-many 20
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -123,7 +123,7 @@
                                                       :aspect :progressive}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 200
+    (is (= 20
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -134,7 +134,7 @@
                         expressions))))))
 
 (deftest roundtrip-past
-  (let [do-this-many 200
+  (let [do-this-many 20
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -143,7 +143,7 @@
                                                       :aspect :perfect}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 200
+    (is (= 20
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -154,14 +154,14 @@
                         expressions))))))
 
 (deftest roundtrip-future
-  (let [do-this-many 200
+  (let [do-this-many 20
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 200
+    (is (= 20
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -170,5 +170,24 @@
                               (log/error (str "parse failed: " fo)))
                             (is (not (empty? parsed)))))
                         expressions))))))
+
+(deftest roundtrip-conditional
+  (let [do-this-many 20
+        expressions (take do-this-many
+                          (repeatedly
+                           #(generate {:synsem {:cat :verb
+                                                :sem {:tense :conditional}
+                                                :subcat '()}}
+                                      small)))]
+    (is (= 20
+           (count (pmap (fn [expr]
+                          (let [fo (fo expr)
+                                parsed (parse fo)]
+                            (if (not (empty? parsed))
+                              (log/info (str "parse OK:" fo))
+                              (log/error (str "parse failed: " fo)))
+                            (is (not (empty? parsed)))))
+                        expressions))))))
+
 
 

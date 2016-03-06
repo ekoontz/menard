@@ -1823,8 +1823,7 @@
              ;; feminine singular
              [{:synsem {:agr {:person :3rd
                               :gender :fem
-                              :number :sing}
-                        :sem {:pred :lei}}}
+                              :number :sing}}}
               ;; masculine singular
               {:synsem {:agr {:person :3rd
                               :gender :masc

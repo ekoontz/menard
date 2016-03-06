@@ -26,7 +26,68 @@
                       (group-by-two (:p x)))))
           patterns))
 
-(def replace-patterns-future
+(def replace-patterns-imperfect-tense
+  (expand-replace-patterns
+   {:synsem {:infl :imperfect}}
+   [
+    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :1st}}}}}
+     :p [
+         #"(.*)avo$" "$1are"
+         #"(.*)avo$" "$1arsi"
+         #"(.*)ivo$" "$1ire"
+         #"(.*)ivo$" "$1irsi"
+         ]
+
+     }
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :2nd}}}}}
+     :p [
+         #"(.*)avi$" "$1are"
+         #"(.*)avi$" "$1arsi"
+         #"(.*)ivi$" "$1ire"
+         #"(.*)ivi$" "$1irsi"
+         ]
+     }
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :3rd}}}}}
+     :p [
+         #"(.*)ava$" "$1are"
+         #"(.*)ava$" "$1arsi"
+         ]
+     }
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :1st}}}}}
+     :p [
+         #"(.*)avamo$" "$1are"
+         #"(.*)avamo$" "$1arsi"
+         ]
+
+     }
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :2nd}}}}}
+     :p [
+         #"(.*)avate$" "$1are"
+         #"(.*)avate$" "$1arsi"
+         ]
+     }
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :3rd}}}}}
+     :p [
+         #"(.*)avano$" "$1are"
+         #"(.*)avano$" "$1arsi"
+         ]
+     }
+
+    
+    ]))
+
+(def replace-patterns-future-tense
   (expand-replace-patterns
    {:synsem {:infl :future}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -404,7 +465,8 @@
                     {:synsem {:cat :verb}})
           :g (:g each)})
        (concat
-        replace-patterns-future
+        replace-patterns-future-tense
+        replace-patterns-imperfect-tense
         replace-patterns-past-tense
         replace-patterns-present-tense)))
 

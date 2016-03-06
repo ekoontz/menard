@@ -261,199 +261,80 @@
          ]}]))
 
 (def replace-patterns-past-tense
-  [
-   {:p [#"^([^ ]+)esa" "$1eso"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)ese" "$1eso"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)esi" "$1eso"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)([aiu])ta" "$1$2to"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)([aiu])te" "$1$2to"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)([aiu])ti" "$1$2to"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
+  (concat
+   (expand-replace-patterns
+    {:synsem {:infl :past}}
+    [
+     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                        :gender :fem}}}}}
+      :p [
+          #"^([^ ]+)esa"       "$1eso"
+          #"^([^ ]+)([aiu])ta" "$1$2to"
+          #"^([^ ]+)tita"      "$1tito"
+          #"^([^ ]+)asta"      "$1asto"
+          #"^([^ ]+)ata"       "$1are"
+          #"^([^ ]+)ata"       "$1arsi"
+          #"^([^ ]+)ita"       "$1ire"
+          #"^([^ ]+)ita"       "$1irsi"
+          #"^([^ ]+)uta"       "$1ere"
+          #"^([^ ]+)uta"       "$1ersi"
+          #"^([^ ]+)uta"       "$1uto"
+          ]
+      }
 
-   {:p [#"^([^ ]+)tita" "$1tito"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)tite" "$1tito"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)titi" "$1tito"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
+     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                        :gender :fem}}}}}
+      :p [
+          #"^([^ ]+)ese" "$1eso"
+          #"^([^ ]+)([aiu])te" "$1$2to"
+          #"^([^ ]+)tite" "$1tito"
+          #"^([^ ]+)aste" "$1asto"
+          #"^([^ ]+)ese" "$1eso"           ;; scese -> sceso -> scendere
+          #"^([^ ]+)ate" "$1are"
+          #"^([^ ]+)ate" "$1arsi"
+          #"^([^ ]+)ite" "$1ire"
+          #"^([^ ]+)ite" "$1irsi"
+          #"^([^ ]+)ute" "$1ere"
+          #"^([^ ]+)ute" "$1ersi"
+          #"^([^ ]+)ute" "$1irsi"
+          #"^([^ ]+)ute" "$1ire"
+          #"^([^ ]+)ute" "$1uto"
 
-   {:p [#"^([^ ]+)asta" "$1asto"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)aste" "$1asto"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-   {:p [#"^([^ ]+)asti" "$1asto"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
+          ]
+      }
 
-   {:p [#"^([^ ]+)ata" "$1are"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
+     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                        :gender :masc}}}}}
+      :p [
+          #"^([^ ]+)esi"       "$1eso"
+          #"^([^ ]+)([aiu])ti" "$1$2to"
+          #"^([^ ]+)titi"      "$1tito"
+          #"^([^ ]+)asti"      "$1asto"
+          #"^([^ ]+)ati"       "$1are"
+          #"^([^ ]+)ati"       "$1arsi"
+          #"^([^ ]+)esi"       "$1eso"    ;; scesi -> sceso -> scendere
+          ]
+      }
 
-   {:p [#"^([^ ]+)ata" "$1arsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ate" "$1are"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ate" "$1arsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ati" "$1are"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ati" "$1arsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ato" "$1are"]
-    :u {:synsem {:infl :past}}}
-
-   {:p [#"^([^ ]+)ato" "$1arsi"]
-    :u {:synsem {:infl :past}}}
-
-   ;; scese -> sceso -> scendere
-   {:p [#"^([^ ]+)ese" "$1eso"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   ;; scesi -> sceso -> scendere
-   {:p [#"^([^ ]+)esi" "$1eso"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :masc}}}
-                 :infl :past}}}
-   
-   {:p [#"^([^ ]+)ita" "$1ire"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ita" "$1irsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ite" "$1ire"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ite" "$1irsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)iti" "$1ire"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)iti" "$1irsi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ito" "$1ire"]
-    :u {:synsem {:infl :past}}}
-
-   {:p [#"^([^ ]+)ito" "$1irsi"]
-    :u {:synsem {:infl :past}}}
-   
-   {:p [#"^([^ ]+)uta" "$1ere"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :sing}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uta" "$1ersi"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :sing}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uta" "$1uto"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :sing}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ute" "$1ere"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :plur}}}
-                 :infl :past}}}
-   
-   {:p [#"^([^ ]+)ute" "$1ersi"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ute" "$1irsi"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ute" "$1ire"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :gender :fem}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)ute" "$1uto"]
-    :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uti" "$1ere"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uti" "$1ersi"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uti" "$1ire"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur}}}
-                 :infl :past}}}
-
-   {:p [#"^([^ ]+)uto" "$1ere"]
-    :u {:synsem {:infl :past}}}
-
-   {:p [#"^([^ ]+)uto" "$1ersi"]
-    :u {:synsem {:infl :past}}}
-
-   ])
+     {:agr {:synsem {:subcat {:1 {:agr {:number :plur}}}}}
+      :p [
+          #"^([^ ]+)iti" "$1ire"
+          #"^([^ ]+)iti" "$1irsi"
+          #"^([^ ]+)uti" "$1ere"
+          #"^([^ ]+)uti" "$1ersi"
+          #"^([^ ]+)uti" "$1ire"
+          ]}
+     
+     {:agr :top
+      :p [
+          #"^([^ ]+)ato" "$1are"
+          #"^([^ ]+)ato" "$1arsi"
+          #"^([^ ]+)ito" "$1ire"
+          #"^([^ ]+)ito" "$1irsi"
+          #"^([^ ]+)uto" "$1ere"
+          #"^([^ ]+)uto" "$1ersi"
+          ]}
+     ])))
 
 (def replace-patterns-present-tense
   (expand-replace-patterns

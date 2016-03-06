@@ -23,6 +23,14 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)]))
 
+;; replace-patterns are declarative data that determine how analysis (and soon conjugation) are performed.
+(def replace-patterns
+  (concat
+   adjectives/replace-patterns
+   determiners/replace-patterns
+   nouns/replace-patterns
+   verbs/replace-patterns))
+
 (defn phrase-is-finished? [phrase]
   (cond
    (string? phrase) true
@@ -1374,13 +1382,6 @@
                           :agr {:number :sing}}}}
    :determiners
    {:unify-with {:synsem {:cat :det}}}})
-
-(def replace-patterns
-  (concat
-   adjectives/replace-patterns
-   determiners/replace-patterns
-   nouns/replace-patterns
-   verbs/replace-patterns))
 
 (defn analyze-regular [surface-form lexicon]
   "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form"

@@ -356,16 +356,17 @@
 
    {:p [#"^([^ ]+)uta" "$1uto"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :fem}}}
+                                    :number :sing}}}
                  :infl :past}}}
 
    {:p [#"^([^ ]+)ute" "$1ere"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :sing}}}
+                                    :number :plur}}}
                  :infl :past}}}
+   
    {:p [#"^([^ ]+)ute" "$1ersi"]
     :u {:synsem {:subcat {:1 {:agr {:gender :fem
-                                    :number :sing}}}
+                                    :number :plur}}}
                  :infl :past}}}
 
    {:p [#"^([^ ]+)ute" "$1irsi"]

@@ -100,24 +100,17 @@
                            expressions
                            (take do-this-many expressions)))))))))
 
-(deftest roundtrip-small-grammar
-  (let [do-this-many 20]
+(deftest roundtrip-present
+  (let [do-this-many 200]
     (is (empty?
          (filter #(not (nil? %))
                  (let [expressions
-                       (concat
-                        (take do-this-many
-                              (repeatedly
-                               #(generate {:synsem {:cat :verb
-                                                    :sem {:tense :present}
-                                                    :subcat '()}}
-                                          small)))
-                        (take do-this-many
-                              (repeatedly
-                               #(generate {:synsem {:cat :verb
-                                                    :sem {:tense :future}
-                                                    :subcat '()}}
-                                          small))))]
+                       (take do-this-many
+                             (repeatedly
+                              #(generate {:synsem {:cat :verb
+                                                   :sem {:tense :present}
+                                                   :subcat '()}}
+                                         small)))]
                    (pmap (fn [expr] 
                            (if (empty? (parse (fo expr) small))
                              (do
@@ -128,4 +121,27 @@
                                              [:synsem :sem])})
                              (log/info (str "parse OK:" (fo expr)))))
                          expressions)))))))
+
+(deftest roundtrip-future
+  (let [do-this-many 200]
+    (is (empty?
+         (filter #(not (nil? %))
+                 (let [expressions
+                       (take do-this-many
+                             (repeatedly
+                              #(generate {:synsem {:cat :verb
+                                                   :sem {:tense :future}
+                                                   :subcat '()}}
+                                         small)))]
+                   (pmap (fn [expr] 
+                           (if (empty? (parse (fo expr) small))
+                             (do
+                               (log/error (str "failed to parse: " (fo expr)))
+                               {:fo (fo expr)
+                                :expr (get-in expr [:synsem :sem])
+                                :sem (get-in (first (parse (fo expr) small))
+                                             [:synsem :sem])})
+                             (log/info (str "parse OK:" (fo expr)))))
+                         expressions)))))))
+
 

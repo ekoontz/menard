@@ -35,6 +35,7 @@
      :p [
          #"(.*)avo$" "$1are"
          #"(.*)avo$" "$1arsi"
+         #"(.*)cevo$" "$1re"
          #"(.*)evo$" "$1ere"
          #"(.*)evo$" "$1ersi"
          #"(.*)ivo$" "$1ire"
@@ -47,6 +48,7 @@
      :p [
          #"(.*)avi$" "$1are"
          #"(.*)avi$" "$1arsi"
+         #"(.*)cevi$" "$1re"
          #"(.*)evi$" "$1ere"
          #"(.*)evi$" "$1ersi"
          #"(.*)ivi$" "$1ire"
@@ -57,24 +59,26 @@
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :3rd}}}}}
      :p [
-         #"(.*)ava$" "$1are"
-         #"(.*)ava$" "$1arsi"
-         #"(.*)eva$" "$1ere"
-         #"(.*)eva$" "$1ersi"
-         #"(.*)iva$" "$1ire"
-         #"(.*)iva$" "$1irsi"
+         #"(.*)ava$"  "$1are"
+         #"(.*)ava$"  "$1arsi"
+         #"(.*)ceva$" "$1re"
+         #"(.*)eva$"  "$1ere"
+         #"(.*)eva$"  "$1ersi"
+         #"(.*)iva$"  "$1ire"
+         #"(.*)iva$"  "$1irsi"
          ]
      }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :1st}}}}}
      :p [
-         #"(.*)avamo$" "$1are"
-         #"(.*)avamo$" "$1arsi"
-         #"(.*)evamo$" "$1ere"
-         #"(.*)evamo$" "$1ersi"
-         #"(.*)ivamo$" "$1ire"
-         #"(.*)ivamo$" "$1irsi"
+         #"(.*)avamo$"  "$1are"
+         #"(.*)avamo$"  "$1arsi"
+         #"(.*)cevamo$" "$1re"
+         #"(.*)evamo$"  "$1ere"
+         #"(.*)evamo$"  "$1ersi"
+         #"(.*)ivamo$"  "$1ire"
+         #"(.*)ivamo$"  "$1irsi"
          ]
 
      }
@@ -82,24 +86,26 @@
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :2nd}}}}}
      :p [
-         #"(.*)avate$" "$1are"
-         #"(.*)avate$" "$1arsi"
-         #"(.*)evate$" "$1ere"
-         #"(.*)evate$" "$1ersi"
-         #"(.*)ivate$" "$1ire"
-         #"(.*)ivate$" "$1irsi"
+         #"(.*)avate$"  "$1are"
+         #"(.*)avate$"  "$1arsi"
+         #"(.*)cevate$" "$1re"
+         #"(.*)evate$"  "$1ere"
+         #"(.*)evate$"  "$1ersi"
+         #"(.*)ivate$"  "$1ire"
+         #"(.*)ivate$"  "$1irsi"
          ]
      }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :3rd}}}}}
      :p [
-         #"(.*)avano$" "$1are"
-         #"(.*)avano$" "$1arsi"
-         #"(.*)evano$" "$1ere"
-         #"(.*)evano$" "$1ersi"
-         #"(.*)ivano$" "$1ire"
-         #"(.*)ivano$" "$1irsi"
+         #"(.*)avano$"  "$1are"
+         #"(.*)avano$"  "$1arsi"
+         #"(.*)cevano$" "$1re"
+         #"(.*)evano$"  "$1ere"
+         #"(.*)evano$"  "$1ersi"
+         #"(.*)ivano$"  "$1ire"
+         #"(.*)ivano$"  "$1irsi"
          ]
      }
     

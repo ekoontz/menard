@@ -1400,7 +1400,13 @@
                  unify-with (if (:u replace-pattern)
                               (:u replace-pattern)
                               :top) ;; default unify-with
-                 potential-lexical-form (string/replace surface-form from to)]
+                 debug (log/debug (str "surface-form: " surface-form "; from: " from "; to:" to))
+                 potential-lexical-form
+                 (try
+                   (string/replace surface-form from to)
+                   (catch Exception e
+                     (throw (Exception. (str "Can't string/replace on: "
+                                             "surface-form: " surface-form "; from: " from "; to:" to)))))]
              (filter (fn [result] (not (= :fail result)))
                      (pmap (fn [lexical-entry]
                              (let [result (unifyc unify-with lexical-entry)]

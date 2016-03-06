@@ -1828,12 +1828,10 @@
               ;; masculine singular
               {:synsem {:agr {:person :3rd
                               :gender :masc
-                              :number :sing}
-                        :sem {:pred :lui}}}
+                              :number :sing}}}
               ;; plural: unspecified gender
               {:synsem {:agr {:person :3rd
-                              :number :plur}
-                        :sem {:pred :loro}}}])
+                              :number :plur}}}])
    
    "sistemare" {:synsem {:cat :verb
                          :sem {:pred :organize}}}

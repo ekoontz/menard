@@ -1458,6 +1458,54 @@
                                {:italiano {:infl :past
                                            :italiano (get-in val [:italiano :passato] :nothing)}})}
 
+                            ;; 1.5 imperfect
+                            {:path [:italiano :imperfect :1sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :imperfect :2sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+
+                            {:path [:italiano :imperfect :3sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+
+                            {:path [:italiano :imperfect :1plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+
+                            {:path [:italiano :imperfect :2plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+
+                            {:path [:italiano :imperfect :3plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+                            
                             ;; 2. present-tense exceptions
                             {:path [:italiano :present :1sing]
                              :merge-fn

@@ -9,6 +9,12 @@
 
 (def replace-patterns
   [
+
+   {:p [#"^gli$" "i"] ;; "gli" -> "i"
+    :u {:synsem {:cat :det
+                 :agr {:number :plur
+                       :gender :masc}}}}
+
    {:p [#"^l$" "la"] ;; "l'" -> "la"
     :u {:synsem {:cat :det
                  :agr {:number :sing

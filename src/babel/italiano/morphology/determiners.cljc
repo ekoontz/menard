@@ -13,4 +13,11 @@
     :u {:synsem {:cat :det
                  :agr {:number :sing
                        :gender :fem}}}}
+
+   {:p [#"^l$" "il"] ;; "l'" -> "il"
+    :u {:synsem {:cat :det
+                 :agr {:number :sing
+                       :gender :masc}}}}
+
+
    ])

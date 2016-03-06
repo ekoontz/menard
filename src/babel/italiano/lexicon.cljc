@@ -1868,16 +1868,6 @@
                             :pred :suonare}}}
 ;                                            :obj {:music true}}}})
 
-   "svenire" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :faint}}
-             :italiano {:passato "svenuto"
-                        :present {:1sing "svengo"
-                                  :2sing "svieni"
-                                  :3sing "sviene"
-                                  :3plur "svengono"}
-                        :future-stem "sverr"}}
-
    "svegliarsi" (let [subject-semantics (atom {:animate true})
                       subject-agr (atom :top)]
                   {:synsem {:cat :verb
@@ -1892,6 +1882,16 @@
                                          :pronoun true
                                          :reflexive true
                                          :sem subject-semantics}}}})
+   "svenire" {:synsem {:cat :verb
+                      :essere true
+                      :sem {:pred :faint}}
+             :italiano {:passato "svenuto"
+                        :present {:1sing "svengo"
+                                  :2sing "svieni"
+                                  :3sing "sviene"
+                                  :3plur "svengono"}
+                        :future-stem "sverr"}}
+
    "sviluppare"  {:synsem {:cat :verb 
                       :sem {:pred :develop}}}
 

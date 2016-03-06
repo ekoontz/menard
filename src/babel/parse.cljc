@@ -15,8 +15,6 @@
 (defn toks [s lookup]
   (let [tokens (string/split s tokenizer)
         tokens2 (toks2 tokens (count tokens))]
-    (log/debug (str "tokens: " tokens))
-    (log/debug (str "tokens2 size: " (count tokens2)))
     (pmap (fn [token-vector]
             (pmap lookup token-vector))
          tokens2)))
@@ -158,7 +156,6 @@
   "return a list of all possible parse trees for a string or a list of lists of maps (a result of looking up in a dictionary a list of tokens from the input string)"
   (cond (string? arg)
         (let [tokens (toks arg lookup)]
-          (log/debug (str "tokens: " (count tokens)))
           (parse tokens lookup grammar))
 
         (and (vector? arg)

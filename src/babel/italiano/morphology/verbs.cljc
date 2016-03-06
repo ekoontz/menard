@@ -262,6 +262,57 @@
 
 (def replace-patterns-past-tense
   [
+   {:p [#"^([^ ]+)esa" "$1eso"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)ese" "$1eso"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)esi" "$1eso"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)([aiu])ta" "$1$2to"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)([aiu])te" "$1$2to"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)([aiu])ti" "$1$2to"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)tita" "$1tito"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)tite" "$1tito"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)titi" "$1tito"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+
+   {:p [#"^([^ ]+)asta" "$1asto"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)aste" "$1asto"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :fem}}}
+                 :infl :past}}}
+   {:p [#"^([^ ]+)asti" "$1asto"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :gender :masc}}}
+                 :infl :past}}}
+
    {:p [#"^([^ ]+)ata" "$1are"]
     :u {:synsem {:subcat {:1 {:agr {:number :sing
                                     :gender :fem}}}

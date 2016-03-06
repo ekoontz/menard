@@ -33,13 +33,13 @@
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
      :p [
-         #"(.*)avo$" "$1are"
-         #"(.*)avo$" "$1arsi"
+         #"(.*)avo$"  "$1are"
+         #"(.*)avo$"  "$1arsi"
          #"(.*)cevo$" "$1re"
-         #"(.*)evo$" "$1ere"
-         #"(.*)evo$" "$1ersi"
-         #"(.*)ivo$" "$1ire"
-         #"(.*)ivo$" "$1irsi"
+         #"(.*)evo$"  "$1ere"
+         #"(.*)evo$"  "$1ersi"
+         #"(.*)ivo$"  "$1ire"
+         #"(.*)ivo$"  "$1irsi"
          ]
      }
 

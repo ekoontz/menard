@@ -999,11 +999,11 @@
                                     :3plur "sono"}
                           :passato "stato"
                           :imperfect {:1sing "ero"
-                                       :2sing "eri"
-                                       :3sing "era"
-                                       :1plur "eravamo"
-                                       :2plur "eravate"
-                                       :3plur "erano"}
+                                      :2sing "eri"
+                                      :3sing "era"
+                                      :1plur "eravamo"
+                                      :2plur "eravate"
+                                      :3plur "erano"}
                           :future {:1sing "sarò"
                                    :2sing "sarai"
                                    :3sing "sarà"

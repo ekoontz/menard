@@ -219,6 +219,9 @@
        (if search-query
          (workbookq search-query))]])))
 
+(def foo (analyze "sono"))
+(def foo (count (parse "io mi sono seduto")))
+
 (def routes
   (compojure/routes
 

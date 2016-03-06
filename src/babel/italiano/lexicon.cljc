@@ -2097,7 +2097,12 @@
                                    :3sing "vuole"
                                    :1plur "vogliamo"
                                    :2plur "volete"
-                                   :3plur "vogliono"}}}})
+                                   :3plur "vogliono"}}}
+
+   ":top" {:synsem :top}
+   ":top-noun" {:synsem {:cat :noun}}
+
+   })
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon (-> (compile-lex lexicon-source

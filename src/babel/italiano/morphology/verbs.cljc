@@ -35,10 +35,11 @@
      :p [
          #"(.*)avo$" "$1are"
          #"(.*)avo$" "$1arsi"
+         #"(.*)evo$" "$1ere"
+         #"(.*)evo$" "$1ersi"
          #"(.*)ivo$" "$1ire"
          #"(.*)ivo$" "$1irsi"
          ]
-
      }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -46,6 +47,8 @@
      :p [
          #"(.*)avi$" "$1are"
          #"(.*)avi$" "$1arsi"
+         #"(.*)evi$" "$1ere"
+         #"(.*)evi$" "$1ersi"
          #"(.*)ivi$" "$1ire"
          #"(.*)ivi$" "$1irsi"
          ]
@@ -56,6 +59,10 @@
      :p [
          #"(.*)ava$" "$1are"
          #"(.*)ava$" "$1arsi"
+         #"(.*)eva$" "$1ere"
+         #"(.*)eva$" "$1ersi"
+         #"(.*)iva$" "$1ire"
+         #"(.*)iva$" "$1irsi"
          ]
      }
 
@@ -64,6 +71,10 @@
      :p [
          #"(.*)avamo$" "$1are"
          #"(.*)avamo$" "$1arsi"
+         #"(.*)evamo$" "$1ere"
+         #"(.*)evamo$" "$1ersi"
+         #"(.*)ivamo$" "$1ire"
+         #"(.*)ivamo$" "$1irsi"
          ]
 
      }
@@ -73,6 +84,10 @@
      :p [
          #"(.*)avate$" "$1are"
          #"(.*)avate$" "$1arsi"
+         #"(.*)evate$" "$1ere"
+         #"(.*)evate$" "$1ersi"
+         #"(.*)ivate$" "$1ire"
+         #"(.*)ivate$" "$1irsi"
          ]
      }
 
@@ -81,9 +96,12 @@
      :p [
          #"(.*)avano$" "$1are"
          #"(.*)avano$" "$1arsi"
+         #"(.*)evano$" "$1ere"
+         #"(.*)evano$" "$1ersi"
+         #"(.*)ivano$" "$1ire"
+         #"(.*)ivano$" "$1irsi"
          ]
      }
-
     
     ]))
 

@@ -117,146 +117,146 @@
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
      :p [
-         #"^([^ ]+)erò"     "$1are"
-         #"^([^ ]+)cherò"   "$1care" ;; cercherò -> cercare
-         #"^([^ ]+)chò"     "$1care" ;; carichò -> caricare
-         #"^([^ ]+)erò"     "$1arsi"
-         #"^([^ ]+)er[r]?ò" "$1ere"
-         #"^([^ ]+)erò"     "$1ersi"
-         #"^([^ ]+)erò"     "$1iare"
-         #"^([^ ]+)errò"    "$1ere"
-         #"^([^ ]+)errò"    "$1enere" ;; otterrò -> ottenere
-         #"^([^ ]+)irò"     "$1ire"
-         #"^([^ ]+)irò"     "$1irsi"
-         #"^([^ ]+)drò"     "$1dare"
-         #"^([^ ]+)drò"     "$1dere"
-         #"^([^ ]+)rò"      "$1re"
-         #"^([^ ]+)rò"      "$1ere" ;; potrò -> potere
-         #"^([^ ]+)trò"     "$1tere"
-         #"^([^ ]+)vrò"     "$1vere"
-         #"^([^ ]+)rrò"     "$1lere" ;; vorrò -> volere
-         #"^([^ ]+)rrò"     "$1nire" ;; verrò -> venire
-         #"^([^ ]+)gherò"   "$1gare" ;; piegherò -> piegare
-         #"^([^ ]+)rrò"     "$1nere" ;; rimarrò -> rimanere
+         #"(.*)erò"     "$1are"
+         #"(.*)cherò"   "$1care" ;; cercherò -> cercare
+         #"(.*)chò"     "$1care" ;; carichò -> caricare
+         #"(.*)erò"     "$1arsi"
+         #"(.*)er[r]?ò" "$1ere"
+         #"(.*)erò"     "$1ersi"
+         #"(.*)erò"     "$1iare"
+         #"(.*)errò"    "$1ere"
+         #"(.*)errò"    "$1enere" ;; otterrò -> ottenere
+         #"(.*)irò"     "$1ire"
+         #"(.*)irò"     "$1irsi"
+         #"(.*)drò"     "$1dare"
+         #"(.*)drò"     "$1dere"
+         #"(.*)rò"      "$1re"
+         #"(.*)rò"      "$1ere" ;; potrò -> potere
+         #"(.*)trò"     "$1tere"
+         #"(.*)vrò"     "$1vere"
+         #"(.*)rrò"     "$1lere" ;; vorrò -> volere
+         #"(.*)rrò"     "$1nire" ;; verrò -> venire
+         #"(.*)gherò"   "$1gare" ;; piegherò -> piegare
+         #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
          ]}
            
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :2nd}}}}}
      :p [
-         #"^([^ ]+)ai"       "$1e" ;; farai -> fare
-         #"^([^ ]+)erai"     "$1are"
-         #"^([^ ]+)erai"     "$1arsi"
-         #"([^ ]+)cherai"    "$1care" ;; cercherai -> cercare
-         #"^([^ ]+)drai"     "$1dare"
-         #"^([^ ]+)erai"     "$1ersi"
-         #"^([^ ]+)errai"    "$1enere" ;; otterrai -> ottenere
-         #"^([^ ]+)er[r]?ai" "$1ere"
-         #"^([^ ]+)erai"     "$1iare"
-         #"^([^ ]+)errai"    "$1edere" ;; verrà -> vedere
-         #"^([^ ]+)gherai"   "$1gare" ;; piegherai -> piegare
-         #"^([^ ]+)ichai"    "$1icare"
-         #"^([^ ]+)irai"     "$1ire"
-         #"^([^ ]+)irai"     "$1irsi"
-         #"^([^ ]+)errai"    "$1enire" ;; sverrai -> svenire
-         #"^([^ ]+)rai"      "$1ere" ;; potrai -> potere
-         #"^([^ ]+)vrai"     "$1vere"
-         #"^([^ ]+)rrai"     "$1lere"  ;; vorrai -> volere
-         #"^([^ ]+)rrai"     "$1nere"  ;; rimarrai -> rimanere
+         #"(.*)ai"       "$1e" ;; farai -> fare
+         #"(.*)erai"     "$1are"
+         #"(.*)erai"     "$1arsi"
+         #"(.*)cherai"    "$1care" ;; cercherai -> cercare
+         #"(.*)drai"     "$1dare"
+         #"(.*)erai"     "$1ersi"
+         #"(.*)errai"    "$1enere" ;; otterrai -> ottenere
+         #"(.*)er[r]?ai" "$1ere"
+         #"(.*)erai"     "$1iare"
+         #"(.*)errai"    "$1edere" ;; verrà -> vedere
+         #"(.*)gherai"   "$1gare" ;; piegherai -> piegare
+         #"(.*)ichai"    "$1icare"
+         #"(.*)irai"     "$1ire"
+         #"(.*)irai"     "$1irsi"
+         #"(.*)errai"    "$1enire" ;; sverrai -> svenire
+         #"(.*)rai"      "$1ere" ;; potrai -> potere
+         #"(.*)vrai"     "$1vere"
+         #"(.*)rrai"     "$1lere"  ;; vorrai -> volere
+         #"(.*)rrai"     "$1nere"  ;; rimarrai -> rimanere
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :3rd}}}}}
      :p [
-         #"^([^ ]+)chà"     "$1care"
-         #"^([^ ]+)cherà"   "$1care"
-         #"^([^ ]+)drà"     "$1dare"
-         #"^([^ ]+)vrà"     "$1vere"
-         #"^([^ ]+)erà"     "$1are"
-         #"^([^ ]+)erà"     "$1arsi"
-         #"^([^ ]+)er[r]?à" "$1ere"
-         #"^([^ ]+)erà"     "$1ersi"
-         #"^([^ ]+)erà"     "$1iare"
-         #"^([^ ]+)errà"    "$1edere" ;; verrà -> vedere
-         #"^([^ ]+)errà"    "$1enere" ;; otterrà -> ottenere
-         #"^([^ ]+)gherà"   "$1gare" ;; piegherà -> piegare
-         #"^([^ ]+)irà"     "$1ire"
-         #"^([^ ]+)irà"     "$1irsi"
-         #"^([^ ]+)rà"      "$1re"
-         #"^([^ ]+)errà"    "$1enire" ;; sverrà -> svenire
-         #"^([^ ]+)rà"      "$1ere" ;; potrà -> potere
-         #"^([^ ]+)rrà"     "$1lere"  ;; vorrà -> volere
-         #"^([^ ]+)rrà"     "$1nere" ;; rimarrà -> rimanere
+         #"(.*)chà"     "$1care"
+         #"(.*)cherà"   "$1care"
+         #"(.*)drà"     "$1dare"
+         #"(.*)vrà"     "$1vere"
+         #"(.*)erà"     "$1are"
+         #"(.*)erà"     "$1arsi"
+         #"(.*)er[r]?à" "$1ere"
+         #"(.*)erà"     "$1ersi"
+         #"(.*)erà"     "$1iare"
+         #"(.*)errà"    "$1edere" ;; verrà -> vedere
+         #"(.*)errà"    "$1enere" ;; otterrà -> ottenere
+         #"(.*)gherà"   "$1gare" ;; piegherà -> piegare
+         #"(.*)irà"     "$1ire"
+         #"(.*)irà"     "$1irsi"
+         #"(.*)rà"      "$1re"
+         #"(.*)errà"    "$1enire" ;; sverrà -> svenire
+         #"(.*)rà"      "$1ere" ;; potrà -> potere
+         #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
+         #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :1st}}}}}
      :p [
-         #"^([^ ]+)cheremo"   "$1care" ;; giocheremo -> giocare
-         #"^([^ ]+)eramo"     "$1ere"
-         #"^([^ ]+)eremo"     "$1are"
-         #"^([^ ]+)erremo"    "$1enere" ;; otterremo -> ottenere
-         #"([^ ]+)ichemo"     "$1icare" ;; carichemo -> caricare
-         #"^([^ ]+)remo"      "$1are" ;; "andremo" -> "andare"
-         #"^([^ ]+)remo"      "$1ere" ;; "avremo" -> "avere"
-         #"^([^ ]+)rremo"     "$1nere" ;; "terremo" -> "tenere"
-         #"^([^ ]+)emo"       "$1e" ;; "daremo" -> "dare"
-         #"^([^ ]+)gheremo"   "$1gare" ;; piegherete -> piegare
-         #"^([^ ]+)iremo"     "$1ire"
-         #"^([^ ]+)iremo"     "$1irsi"
-         #"^([^ ]+)erremo"    "$1edere" ;; verremo -> vedere
-         #"^([^ ]+)erremo"    "$1enire" ;; sverremo -> svenire
-         #"^([^ ]+)eremo"     "$1arsi"
-         #"^([^ ]+)eremo"     "$1ersi"
-         #"^([^ ]+)er[r]?emo" "$1ere"
-         #"^([^ ]+)rremo"     "$1lere"  ;; vorremo -> volere
-         #"^([^ ]+)eremo"     "$1iare"
+         #"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
+         #"(.*)eramo"     "$1ere"
+         #"(.*)eremo"     "$1are"
+         #"(.*)erremo"    "$1enere" ;; otterremo -> ottenere
+         #"(.*)ichemo"     "$1icare" ;; carichemo -> caricare
+         #"(.*)remo"      "$1are" ;; "andremo" -> "andare"
+         #"(.*)remo"      "$1ere" ;; "avremo" -> "avere"
+         #"(.*)rremo"     "$1nere" ;; "terremo" -> "tenere"
+         #"(.*)emo"       "$1e" ;; "daremo" -> "dare"
+         #"(.*)gheremo"   "$1gare" ;; piegherete -> piegare
+         #"(.*)iremo"     "$1ire"
+         #"(.*)iremo"     "$1irsi"
+         #"(.*)erremo"    "$1edere" ;; verremo -> vedere
+         #"(.*)erremo"    "$1enire" ;; sverremo -> svenire
+         #"(.*)eremo"     "$1arsi"
+         #"(.*)eremo"     "$1ersi"
+         #"(.*)er[r]?emo" "$1ere"
+         #"(.*)rremo"     "$1lere"  ;; vorremo -> volere
+         #"(.*)eremo"     "$1iare"
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :2nd}}}}}
      :p [
-         #"^([^ ]+)arete"     "$1are"
-         #"^([^ ]+)chete"     "$1care" ;; carichete -> caricare
-         #"^([^ ]+)cherete"   "$1care" ;; giocherete -> giocare
-         #"^([^ ]+)drete"     "$1dare"
-         #"^([^ ]+)erete"     "$1are"
-         #"^([^ ]+)erete"     "$1arsi"
-         #"^([^ ]+)erete"     "$1ersi"
-         #"^([^ ]+)erete"     "$1irsi"
-         #"^([^ ]+)gherete"   "$1gare" ;; piegherete -> piegare
-         #"^([^ ]+)er[r]?ete" "$1ere"
-         #"^([^ ]+)erete"     "$1iare"
-         #"^([^ ]+)errete"    "$1enere" ;; otterrete -> ottenere
-         #"^([^ ]+)irete"     "$1ire"
-         #"^([^ ]+)irete"     "$1irsi"
-         #"^([^ ]+)vrete"     "$1vere"
-         #"^([^ ]+)rete"      "$1ere" ;; potrete -> potere
-         #"^([^ ]+)rrete"     "$1lere"  ;; vorrete -> volere
-         #"^([^ ]+)rrete"     "$1nere" ;; rimarrete -> rimanere
-         #"^([^ ]+)rrete"     "$1nire" ;; verrete -> venire
+         #"(.*)arete"     "$1are"
+         #"(.*)chete"     "$1care" ;; carichete -> caricare
+         #"(.*)cherete"   "$1care" ;; giocherete -> giocare
+         #"(.*)drete"     "$1dare"
+         #"(.*)erete"     "$1are"
+         #"(.*)erete"     "$1arsi"
+         #"(.*)erete"     "$1ersi"
+         #"(.*)erete"     "$1irsi"
+         #"(.*)gherete"   "$1gare" ;; piegherete -> piegare
+         #"(.*)er[r]?ete" "$1ere"
+         #"(.*)erete"     "$1iare"
+         #"(.*)errete"    "$1enere" ;; otterrete -> ottenere
+         #"(.*)irete"     "$1ire"
+         #"(.*)irete"     "$1irsi"
+         #"(.*)vrete"     "$1vere"
+         #"(.*)rete"      "$1ere" ;; potrete -> potere
+         #"(.*)rrete"     "$1lere"  ;; vorrete -> volere
+         #"(.*)rrete"     "$1nere" ;; rimarrete -> rimanere
+         #"(.*)rrete"     "$1nire" ;; verrete -> venire
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :3rd}}}}}
      :p [
-         #"^([^ ]+)channo"     "$1care"
-         #"^([^ ]+)cheranno"   "$1care"
-         #"^([^ ]+)dranno"     "$1dare"
-         #"^([^ ]+)dranno"     "$1edere" ;; vedranno -> vedere
-         #"^([^ ]+)eranno"     "$1are"
-         #"^([^ ]+)eranno"     "$1iare"
-         #"^([^ ]+)eranno"     "$1arsi"
-         #"^([^ ]+)eranno"     "$1ersi"
-         #"^([^ ]+)erranno"    "$1enire"
-         #"^([^ ]+)erranno"    "$1enere" ;; otterranno -> ottenere
-         #"^([^ ]+)er[r]?anno" "$1ere"
-         #"^([^ ]+)gheranno"   "$1gare" ;; piegherete -> piegare
-         #"^([^ ]+)iranno"     "$1ire"
-         #"^([^ ]+)iranno"     "$1irsi"
-         #"^([^ ]+)ranno"      "$1re"
-         #"^([^ ]+)ranno"      "$1ere" ;; potranno -> potere
-         #"^([^ ]+)vranno"     "$1vere"
-         #"^([^ ]+)rranno"     "$1lere"  ;; vorranno -> volere
+         #"(.*)channo"     "$1care"
+         #"(.*)cheranno"   "$1care"
+         #"(.*)dranno"     "$1dare"
+         #"(.*)dranno"     "$1edere" ;; vedranno -> vedere
+         #"(.*)eranno"     "$1are"
+         #"(.*)eranno"     "$1iare"
+         #"(.*)eranno"     "$1arsi"
+         #"(.*)eranno"     "$1ersi"
+         #"(.*)erranno"    "$1enire"
+         #"(.*)erranno"    "$1enere" ;; otterranno -> ottenere
+         #"(.*)er[r]?anno" "$1ere"
+         #"(.*)gheranno"   "$1gare" ;; piegherete -> piegare
+         #"(.*)iranno"     "$1ire"
+         #"(.*)iranno"     "$1irsi"
+         #"(.*)ranno"      "$1re"
+         #"(.*)ranno"      "$1ere" ;; potranno -> potere
+         #"(.*)vranno"     "$1vere"
+         #"(.*)rranno"     "$1lere"  ;; vorranno -> volere
 
          ]}]))
 
@@ -268,37 +268,37 @@
      {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                         :gender :fem}}}}}
       :p [
-          #"^([^ ]+)esa"       "$1eso"
-          #"^([^ ]+)([aiu])ta" "$1$2to"
-          #"^([^ ]+)tita"      "$1tito"
-          #"^([^ ]+)asta"      "$1asto"
-          #"^([^ ]+)ata"       "$1are"
-          #"^([^ ]+)ata"       "$1arsi"
-          #"^([^ ]+)ita"       "$1ire"
-          #"^([^ ]+)ita"       "$1irsi"
-          #"^([^ ]+)uta"       "$1ere"
-          #"^([^ ]+)uta"       "$1ersi"
-          #"^([^ ]+)uta"       "$1uto"
+          #"(.*)esa"       "$1eso"
+          #"(.*)([aiu])ta" "$1$2to"
+          #"(.*)tita"      "$1tito"
+          #"(.*)asta"      "$1asto"
+          #"(.*)ata"       "$1are"
+          #"(.*)ata"       "$1arsi"
+          #"(.*)ita"       "$1ire"
+          #"(.*)ita"       "$1irsi"
+          #"(.*)uta"       "$1ere"
+          #"(.*)uta"       "$1ersi"
+          #"(.*)uta"       "$1uto"
           ]
       }
 
      {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                         :gender :fem}}}}}
       :p [
-          #"^([^ ]+)ese" "$1eso"
-          #"^([^ ]+)([aiu])te" "$1$2to"
-          #"^([^ ]+)tite" "$1tito"
-          #"^([^ ]+)aste" "$1asto"
-          #"^([^ ]+)ese" "$1eso"           ;; scese -> sceso -> scendere
-          #"^([^ ]+)ate" "$1are"
-          #"^([^ ]+)ate" "$1arsi"
-          #"^([^ ]+)ite" "$1ire"
-          #"^([^ ]+)ite" "$1irsi"
-          #"^([^ ]+)ute" "$1ere"
-          #"^([^ ]+)ute" "$1ersi"
-          #"^([^ ]+)ute" "$1irsi"
-          #"^([^ ]+)ute" "$1ire"
-          #"^([^ ]+)ute" "$1uto"
+          #"(.*)ese" "$1eso"
+          #"(.*)([aiu])te" "$1$2to"
+          #"(.*)tite" "$1tito"
+          #"(.*)aste" "$1asto"
+          #"(.*)ese" "$1eso"           ;; scese -> sceso -> scendere
+          #"(.*)ate" "$1are"
+          #"(.*)ate" "$1arsi"
+          #"(.*)ite" "$1ire"
+          #"(.*)ite" "$1irsi"
+          #"(.*)ute" "$1ere"
+          #"(.*)ute" "$1ersi"
+          #"(.*)ute" "$1irsi"
+          #"(.*)ute" "$1ire"
+          #"(.*)ute" "$1uto"
 
           ]
       }
@@ -306,33 +306,33 @@
      {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                         :gender :masc}}}}}
       :p [
-          #"^([^ ]+)esi"       "$1eso"
-          #"^([^ ]+)([aiu])ti" "$1$2to"
-          #"^([^ ]+)titi"      "$1tito"
-          #"^([^ ]+)asti"      "$1asto"
-          #"^([^ ]+)ati"       "$1are"
-          #"^([^ ]+)ati"       "$1arsi"
-          #"^([^ ]+)esi"       "$1eso"    ;; scesi -> sceso -> scendere
+          #"(.*)esi"       "$1eso"
+          #"(.*)([aiu])ti" "$1$2to"
+          #"(.*)titi"      "$1tito"
+          #"(.*)asti"      "$1asto"
+          #"(.*)ati"       "$1are"
+          #"(.*)ati"       "$1arsi"
+          #"(.*)esi"       "$1eso"    ;; scesi -> sceso -> scendere
           ]
       }
 
      {:agr {:synsem {:subcat {:1 {:agr {:number :plur}}}}}
       :p [
-          #"^([^ ]+)iti" "$1ire"
-          #"^([^ ]+)iti" "$1irsi"
-          #"^([^ ]+)uti" "$1ere"
-          #"^([^ ]+)uti" "$1ersi"
-          #"^([^ ]+)uti" "$1ire"
+          #"(.*)iti" "$1ire"
+          #"(.*)iti" "$1irsi"
+          #"(.*)uti" "$1ere"
+          #"(.*)uti" "$1ersi"
+          #"(.*)uti" "$1ire"
           ]}
      
      {:agr :top
       :p [
-          #"^([^ ]+)ato" "$1are"
-          #"^([^ ]+)ato" "$1arsi"
-          #"^([^ ]+)ito" "$1ire"
-          #"^([^ ]+)ito" "$1irsi"
-          #"^([^ ]+)uto" "$1ere"
-          #"^([^ ]+)uto" "$1ersi"
+          #"(.*)ato" "$1are"
+          #"(.*)ato" "$1arsi"
+          #"(.*)ito" "$1ire"
+          #"(.*)ito" "$1irsi"
+          #"(.*)uto" "$1ere"
+          #"(.*)uto" "$1ersi"
           ]}
      ])))
 
@@ -342,77 +342,77 @@
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
      :p [
-         #"^([^' ]+)o$"         "$1are"
-         #"^([^' ]+)o$"         "$1ere"
-         #"^([^' ]+)isco$"      "$1ire"
-         #"^([^' ]+)o$"         "$1ire"
-         #"^([^' ]+)o$"         "$1arsi" ;; alzo -> alzarsi
-         #"^([^' ]+)o$"         "$1irsi" ;; diverto -> divertirso
-         #"^([^' ]+)ico$"       "$1ire" ;; dico -> dire
+         #"(.*)o$"         "$1are"
+         #"(.*)o$"         "$1ere"
+         #"(.*)isco$"      "$1ire"
+         #"(.*)o$"         "$1ire"
+         #"(.*)o$"         "$1arsi" ;; alzo -> alzarsi
+         #"(.*)o$"         "$1irsi" ;; diverto -> divertirso
+         #"(.*)ico$"       "$1ire" ;; dico -> dire
          ]}
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :2nd}}}}}
      :p [
-         #"^([^' ]+)i$"         "$1are" ;; lavi -> lavare
-         #"^([^' ]+)i$"         "$1iare" ;; studi -> studiare
-         #"^([^' ]+)i$"         "$1arsi" ;; lavi -> lavarsi
-         #"^([^' ]+)cci$"       "$1cciare" ;; abbracci -> abbracciare
-         #"^([^' ]+)i$"         "$1ere"
-         #"^([^' ]+)i$"         "$1ire" ;; senti -> sentire
-         #"^([^' ]+c)hi$"       "$1are" ;; cerchi -> cercare
-         #"^([^' ]+)i$"         "$1iarsi" ;; arrabi -> arrabiarsi
-         #"^([^' ]+)sci$"       "$1re" ;; finisci -> finire
-         #"^([^' ]+)i$"         "$1irsi" ;; diverti -> divertirsi
-         #"^([^' ]+)ici$"       "$1ire" ;; dici -> dire
-         #"^([^' ]+)hi$"        "$1are" ;; pieghi -> piegare
+         #"(.*)i$"         "$1are" ;; lavi -> lavare
+         #"(.*)i$"         "$1iare" ;; studi -> studiare
+         #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
+         #"(.*)cci$"       "$1cciare" ;; abbracci -> abbracciare
+         #"(.*)i$"         "$1ere"
+         #"(.*)i$"         "$1ire" ;; senti -> sentire
+         #"(.*c)hi$"       "$1are" ;; cerchi -> cercare
+         #"(.*)i$"         "$1iarsi" ;; arrabi -> arrabiarsi
+         #"(.*)sci$"       "$1re" ;; finisci -> finire
+         #"(.*)i$"         "$1irsi" ;; diverti -> divertirsi
+         #"(.*)ici$"       "$1ire" ;; dici -> dire
+         #"(.*)hi$"        "$1are" ;; pieghi -> piegare
          ]}  
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :3rd}}}}}
      
      :p [
-         #"^([^' ]+)a$"         "$1are"
-         #"^([^' ]+)e$"         "$1ere"
-         #"^([^' ]+)e$"         "$1ire"
-         #"^([^' ]+)a$"         "$1arsi" ;; prepara -> preperarsi
-         #"^([^' ]+)sce$"       "$1re" ;; finisce -> finire
-         #"^([^' ]+)te$"        "$1tirsi" ;; diverte -> divertirsi
-         #"^([^' ]+)ice$"       "$1ire" ;; dice -> dire
+         #"(.*)a$"         "$1are"
+         #"(.*)e$"         "$1ere"
+         #"(.*)e$"         "$1ire"
+         #"(.*)a$"         "$1arsi" ;; prepara -> preperarsi
+         #"(.*)sce$"       "$1re" ;; finisce -> finire
+         #"(.*)te$"        "$1tirsi" ;; diverte -> divertirsi
+         #"(.*)ice$"       "$1ire" ;; dice -> dire
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :1st}}}}}
      :p [
-         #"^([^' ]+)iamo$"      "$1are"  ;; parliamo -> parlare
-         #"^([^' ]+)iamo$"      "$1iare" ;; mangiamo -> mangiare
-         #"^([^' ]+)iamo$"      "$1ere"
-         #"^([^' ]+)iamo$"      "$1ire"
-         #"^([^' ]+c)hiamo$"    "$1are" ;; sprechiamo -> sprecare
-         #"^([^' ]+)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
-         #"^([^' ]+)iamo$"      "$1arsi" ;; chiamiamo -> chiamarsi
-         #"^([^' ]+)iamo$"      "$1irsi" ;; divertiamo -> divertirsi
-         #"^([^' ]+)ciamo$"     "$1re" ;; diciamo -> dire
-         #"^([^' ]+)hiamo$"     "$1are" ;; pieghiamo -> piegare
+         #"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
+         #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
+         #"(.*)iamo$"      "$1ere"
+         #"(.*)iamo$"      "$1ire"
+         #"(.*c)hiamo$"    "$1are" ;; sprechiamo -> sprecare
+         #"(.*)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
+         #"(.*)iamo$"      "$1arsi" ;; chiamiamo -> chiamarsi
+         #"(.*)iamo$"      "$1irsi" ;; divertiamo -> divertirsi
+         #"(.*)ciamo$"     "$1re" ;; diciamo -> dire
+         #"(.*)hiamo$"     "$1are" ;; pieghiamo -> piegare
          ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :2nd}}}}}
      :p [
-         #"^([^' ]+)([aei])te$" "$1$2re" ;; parlate -> parlare
-         #"^([^' ]+)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
+         #"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
+         #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
          ]}
     
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :3rd}}}}}
      :p [
-         #"^([^' ]+)ano$"       "$1are"
-         #"^([^' ]+)ono$"       "$1ere"
-         #"^([^' ]+)ono$"       "$1ire"
-         #"^([^' ]+)ano$"       "$1arsi" ;; alzano -> alzarsi
-         #"^([^' ]+)scono$"     "$1re" ;; finiscono -> finire
-         #"^([^' ]+)ono$"       "$1irsi" ;; divertono -> divertirsi
-         #"^([^' ]+)cono$"      "$1re" ;; dicono -> dire
-         #"^([^' ]+)ono$"       "$1irsi" ;; vestono -> vestirsi
+         #"(.*)ano$"       "$1are"
+         #"(.*)ono$"       "$1ere"
+         #"(.*)ono$"       "$1ire"
+         #"(.*)ano$"       "$1arsi" ;; alzano -> alzarsi
+         #"(.*)scono$"     "$1re" ;; finiscono -> finire
+         #"(.*)ono$"       "$1irsi" ;; divertono -> divertirsi
+         #"(.*)cono$"      "$1re" ;; dicono -> dire
+         #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
          ]}]))
 
 (def replace-patterns

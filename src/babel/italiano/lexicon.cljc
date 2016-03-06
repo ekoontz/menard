@@ -1725,13 +1725,13 @@
    "ricordare"  {:synsem {:cat :verb
                           :sem {:pred :ricordare}}}
 
-"rimanere" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :remain1}}
-             :italiano {:passato "rimasto"
-                        :present {:1sing "rimango"
-                                  :3plur "rimangono"}
-                        :future-stem "rimarr"}}
+   "rimanere" {:synsem {:cat :verb
+                        :essere true
+                        :sem {:pred :remain1}}
+               :italiano {:passato "rimasto"
+                          :present {:1sing "rimango"
+                                    :3plur "rimangono"}
+                          :future-stem "rimarr"}}
 
    "riposare" {:synsem {:cat :verb
                         :sem {:pred :rest}}}

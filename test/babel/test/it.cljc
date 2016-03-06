@@ -114,49 +114,41 @@
                         expressions))))))
 
 (deftest roundtrip-imperfect
-  (let [do-this-many 200]
-    (is (empty?
-         (filter #(not (nil? %))
-                 (let [expressions
-                       (take do-this-many
-                             (repeatedly
-                              #(generate {:synsem {:cat :verb
-                                                   :infl :imperfect
-                                                   :sem {:tense :past
-                                                         :aspec :progressive}
-                                                   :subcat '()}}
-                                         small)))]
-                   (pmap (fn [expr] 
-                           (if (empty? (parse (fo expr) small))
-                             (do
-                               (log/error (str "failed to parse: " (fo expr)))
-                               {:fo (fo expr)
-                                :expr (get-in expr [:synsem :sem])
-                                :sem (get-in (first (parse (fo expr) small))
-                                             [:synsem :sem])})
-                             (log/info (str "parse OK:" (fo expr)))))
-                         expressions)))))))
+  (let [do-this-many 200
+        expressions (take do-this-many
+                          (repeatedly
+                           #(generate {:synsem {:cat :verb
+                                                :infl :imperfect
+                                                :sem {:tense :past
+                                                      :aspec :progressive}
+                                                :subcat '()}}
+                                      small)))]
+    (is (= 200
+           (count (pmap (fn [expr]
+                          (let [fo (fo expr)
+                                parsed (parse fo)]
+                            (if (not (empty? parsed))
+                              (log/info (str "parse OK:" fo))
+                              (log/error (str "parse failed: " fo)))
+                            (is (not (empty? parsed)))))
+                        expressions))))))
 
 (deftest roundtrip-future
-  (let [do-this-many 200]
-    (is (empty?
-         (filter #(not (nil? %))
-                 (let [expressions
-                       (take do-this-many
-                             (repeatedly
-                              #(generate {:synsem {:cat :verb
-                                                   :sem {:tense :future}
-                                                   :subcat '()}}
-                                         small)))]
-                   (pmap (fn [expr] 
-                           (if (empty? (parse (fo expr) small))
-                             (do
-                               (log/error (str "failed to parse: " (fo expr)))
-                               {:fo (fo expr)
-                                :expr (get-in expr [:synsem :sem])
-                                :sem (get-in (first (parse (fo expr) small))
-                                             [:synsem :sem])})
-                             (log/info (str "parse OK:" (fo expr)))))
-                         expressions)))))))
+  (let [do-this-many 200
+        expressions (take do-this-many
+                          (repeatedly
+                           #(generate {:synsem {:cat :verb
+                                                :sem {:tense :future}
+                                                :subcat '()}}
+                                      small)))]
+    (is (= 200
+           (count (pmap (fn [expr]
+                          (let [fo (fo expr)
+                                parsed (parse fo)]
+                            (if (not (empty? parsed))
+                              (log/info (str "parse OK:" fo))
+                              (log/error (str "parse failed: " fo)))
+                            (is (not (empty? parsed)))))
+                        expressions))))))
 
 

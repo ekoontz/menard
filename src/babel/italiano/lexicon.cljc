@@ -2065,7 +2065,6 @@
               :essere true}
      :italiano {:passato "vissuto"
                 :future-stem "vivr"}}]
-   
    "voi"
    [{:synsem {:cat cat-of-pronoun
               :pronoun true

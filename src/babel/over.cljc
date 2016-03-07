@@ -109,23 +109,25 @@
                  result))
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
-        (let [fail-path (get-fail-path (get-in parent [:head]) child)
-              debut (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
-              debug (log/trace (str "parent " (get-in parent [:rule])
-                                    " wanted head with: "
-                                    (strip-refs (get-in parent [:head :synsem]))))
-              debug (log/trace (str "candidate child has synsem: "
-                                   (strip-refs
-                                    (get-in
-                                     (unifyc child
-                                             {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
-                                     [:synsem]))))
-              debug (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
-                                                                 child)))
-              debug (log/trace (str "  parent@" fail-path "="
-                                    (get-in parent (concat [:head] fail-path))))
-              debug (log/trace (str "    head@" fail-path "="
-                                    (get-in child fail-path)))]
+        (if (= *extra-diagnostics* true)
+          (let [fail-path (get-fail-path (get-in parent [:head]) child)
+                debut (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
+                debug (log/trace (str "parent " (get-in parent [:rule])
+                                      " wanted head with: "
+                                      (strip-refs (get-in parent [:head :synsem]))))
+                debug (log/trace (str "candidate child has synsem: "
+                                      (strip-refs
+                                       (get-in
+                                        (unifyc child
+                                                {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
+                                        [:synsem]))))
+                debug (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
+                                                                   child)))
+                debug (log/trace (str "  parent@" fail-path "="
+                                      (get-in parent (concat [:head] fail-path))))
+                debug (log/trace (str "    head@" fail-path "="
+                                      (get-in child fail-path)))]
+            :fail)
           :fail)))))
 
 ;; Might be useful to set the following variable to true,

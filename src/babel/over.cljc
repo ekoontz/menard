@@ -98,7 +98,8 @@
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
           (unify (copy parent)
-                 (unify {:head (copy child)}
+                 (unify {:head (copy child)
+                         :head-filled true}
                         {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}}))]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
@@ -107,8 +108,7 @@
                                     (strip-refs (get-in parent [:head :synsem]))))
 
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
-          (merge {:head-filled true}
-                 result))
+          result)
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (if (= *extra-diagnostics* true)

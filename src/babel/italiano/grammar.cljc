@@ -424,9 +424,11 @@
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v
-                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                   (= (get-in % [:synsem :propernoun]) true)
-                                   (= (get-in % [:synsem :pronoun]) true))
+                      (filter #(and
+                                (not (= true (get-in % [:top])))
+                                (or (= (get-in % [:synsem :cat]) :verb)
+                                    (= (get-in % [:synsem :propernoun]) true)
+                                    (= (get-in % [:synsem :pronoun]) true)))
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
@@ -449,7 +451,9 @@
   (let [lexicon
         (into {}
               (for [[k v] lexicon]
-                (let [filtered-v v]
+                (let [filtered-v
+                      (filter #(not (= true (get-in % [:top])))
+                              v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         rules (map #(keyword (get-in % [:rule])) grammar)]
@@ -477,11 +481,12 @@
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v
-                      (filter #(or (= (get-in % [:synsem :cat] :adjective) :adjective)
-                                   (= (get-in % [:synsem :cat] :det) :det)
-                                   (and (= (get-in % [:synsem :cat] :noun) :noun)
-                                        (not (= (get-in % [:synsem :propernoun] false) true))
-                                        (not (= (get-in % [:synsem :pronoun] false) true))))
+                      (filter #(and (not (= true (get-in % [:top])))
+                                    (or (= (get-in % [:synsem :cat] :adjective) :adjective)
+                                        (= (get-in % [:synsem :cat] :det) :det)
+                                        (and (= (get-in % [:synsem :cat] :noun) :noun)
+                                             (not (= (get-in % [:synsem :propernoun] false) true))
+                                             (not (= (get-in % [:synsem :pronoun] false) true)))))
                               v)
                       remove-semantic-features
                       (map (fn [lexeme]

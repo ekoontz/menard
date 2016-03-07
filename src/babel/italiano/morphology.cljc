@@ -1686,10 +1686,11 @@
 (defn essere-default [lexical-entry]
   "if :essere is not set, then it's false."
   (cond
-   (= (get-in lexical-entry [:synsem :essere] :top) :top)
-   (unifyc lexical-entry
-           {:synsem {:essere false}})
-   true lexical-entry))
+    (and (not (= (get-in lexical-entry [:top]) true))
+         (= (get-in lexical-entry [:synsem :essere] :top) :top))
+    (unifyc lexical-entry
+            {:synsem {:essere false}})
+    true lexical-entry))
 
 (defn aux-verb-rule [lexical-entry]
   "If a word's :synsem :aux is set to true, then auxify it (add all the

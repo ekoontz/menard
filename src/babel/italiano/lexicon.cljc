@@ -2098,8 +2098,10 @@
                                    :2plur "volete"
                                    :3plur "vogliono"}}}
 
-   ":top" {:synsem :top}
-   ":top-noun" {:synsem {:cat :noun}}
+   ":top" {:synsem :top
+           :top true}
+   ":top-noun" {:synsem {:cat :noun}
+                :top true}
 
    })
 
@@ -2174,7 +2176,8 @@
                  ;; if object is not specified, then set to :unspec.
                  ;; this prevents translations that may have actual objects - e.g. would allow translations like:
                  ;; "io mangio" => "I eat the bread" whereas a better translation is simply "I eat".
-                 (if-then {:synsem {:cat :verb
+                 (if-then {:top false
+                           :synsem {:cat :verb
                                     :aux false
                                     :sem {:obj :unspec
                                           :reflexive false

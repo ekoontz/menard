@@ -63,10 +63,6 @@
 ;;                                          :sem {:subj {:pred :I} :pred :be}}}
 ;;                                fr/small)
 
-(def foo (expression {:synsem {:cat :verb}}))
-;(def foo (lightning-bolt nil nil nil))
-(def foo2 (expression {:synsem {:sem {:pred :have-fun}}}))
-
 (def rules (:grammar-map medium))
 
 (defn analyze
@@ -90,11 +86,6 @@
 
          true
          (over/over grammar arg1 arg2))))
-
-;(def fooexpr (expr 1))
-
-;(def foo2 (lookup "je"))
-;(def foo3 (lookup "me"))
 
 (def workbook-sandbox-it
   (sandbox
@@ -219,8 +210,9 @@
        (if search-query
          (workbookq search-query))]])))
 
-(def foo (analyze "sono"))
-(def foo (count (parse "io mi sono seduto")))
+;(def foo (expression {:synsem {:cat :verb}}))
+;(def foo (expression {:synsem {:sem {:pred :have-fun}}}))
+(def foo (count (take 1 (parse "io dormo"))))
 
 (def routes
   (compojure/routes

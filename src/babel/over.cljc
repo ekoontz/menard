@@ -4,7 +4,7 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [fail? fail-path get-in merge strip-refs unifyc]]
+   [dag_unify.core :refer [copy fail? fail-path get-in merge strip-refs unify unifyc]]
    [babel.lexiconfn :refer [get-fail-path sem-impl]]))
 
 (defn exception [error-string]
@@ -90,14 +90,16 @@
       (log/trace (str "over-each-comp-child: done. returning nil."))
       nil)))
 
+(def ^:dynamic *extra-diagnostics* false)
+
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
-          (unifyc parent
-                  (unifyc {:head child}
-                          {:head {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
+          (unify (copy parent)
+                 (unify {:head (copy child)}
+                        {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}}))]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
@@ -141,9 +143,9 @@
   (log/debug (str "moreover-comp type comp:" (type child)))
 
   (let [result
-        (unifyc parent
-                (unifyc {:comp child}
-                        {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
+        (unify (copy parent)
+               (unifyc {:comp child}
+                       {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
 
     (if (not (fail? result))
       (let [debug (log/debug (str "moreover-comp added parent to child: " (get-in parent [:rule])))]

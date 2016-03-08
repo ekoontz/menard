@@ -55,8 +55,8 @@
   (if (< (+ 1 index) (count args))
     (let [left-side (subvec args index (+ 1 index))
           right-side (subvec args (+ 1 index) (+ 2 index))]
-      (log/debug (str "create-bigram-map: size of left-side: " (count left-side)))
-      (log/debug (str "create-bigram-map: size of right-side: " (count right-side)))
+      (log/trace (str "create-bigram-map: size of left-side: " (count left-side)))
+      (log/trace (str "create-bigram-map: size of right-side: " (count right-side)))
       (merge
        {[index (+ 2 index)]
         (over grammar
@@ -91,11 +91,12 @@
 
 (defn over [grammar left right]
   "opportunity for additional logging before calling the real (over)"
-  (log/debug (str "parse/over: grammar: " (count grammar) " left: " (type left) "; right: " (type right)))
+  (log/trace (str "parse/over: grammar size: " (count grammar)))
   (over/over grammar left right))
 
 (defn create-ngram-map [args left ngrams grammar split-at x]
-  (log/debug (str "create-ngram-map: left:" left ";split-at:" split-at "; size:" (count args) "; x:" x))
+  (log/debug (str "create-ngram-map: left:" left ";split-at:" split-at))
+  (log/trace (str "create-ngram-map: left:" left ";split-at:" split-at "; size:" (count args) "; x:" x))
   (if (< (+ left (- split-at 2))
          (/ (count args) 2))
     (lazy-cat
@@ -112,7 +113,7 @@
         (= x 2) (let [bigram-map (create-bigram-map args index grammar)]
                   (log/trace (str "create-xgram-map: bigram-map: " bigram-map))
                   (log/debug (str "create-xgram-map: keys: " (keys bigram-map)))
-                  (log/debug (str "create-xgram-map: vals: "
+                  (log/trace (str "create-xgram-map: vals: "
                                   (string/join ";"
                                                (map
                                                 (fn [val]
@@ -135,8 +136,8 @@
                 (< (+ x index) (+ 1 (count args)))
                 (let [runlevel (if runlevel runlevel 0)]
                   (log/debug (str "create-xgram-map: x=" x "; index=" index "; runlevel=" runlevel))
-                  (log/debug (str "  -> create-ngram-map(index:" index ";split-at: " 1 ";x:" x))
-                  (log/debug (str "  -> create-xgram-map(x:" x "; index:" (+ 1 index)))
+                  (log/trace (str "  -> create-ngram-map(index:" index ";split-at: " 1 ";x:" x))
+                  (log/trace (str "  -> create-xgram-map(x:" x "; index:" (+ 1 index)))
                   (create-xgram-map args x (+ index 1) grammar 
 
                                     ;; combine the parses for this span from [index to (+ x index))...

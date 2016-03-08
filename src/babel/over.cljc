@@ -104,9 +104,11 @@
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
-              debug (log/debug (str "moreover-head: child matched parent's desired head synsem:"
-                                    (strip-refs (get-in parent [:head :synsem]))))
-
+              debug (log/debug (str "moreover-head: [" (get-in parent [:rule]) " H:"
+                                    (if (get-in child [:rule])
+                                      (get-in child [:rule])
+                                      (get-in parent [:head :synsem :cat]))
+                                    "]"))
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
           result)
 
@@ -139,8 +141,8 @@
 (def ^:dynamic *throw-exception-if-failed-to-add-complement* false)
 
 (defn moreover-comp [parent child lexfn-sem-impl]
-  (log/debug (str "moreover-comp type parent: " (type parent)))
-  (log/debug (str "moreover-comp type comp:" (type child)))
+  (log/trace (str "moreover-comp type parent: " (type parent)))
+  (log/trace (str "moreover-comp type comp:" (type child)))
 
   (let [result
         (unify (copy parent)
@@ -148,16 +150,21 @@
                        {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
 
     (if (not (fail? result))
-      (let [debug (log/debug (str "moreover-comp added parent to child: " (get-in parent [:rule])))]
+      (let [debug (log/debug (str "moreover-comp: [" (get-in parent [:rule]) " C: "
+                                  (if (get-in child [:rule])
+                                    (get-in child [:rule])
+                                    (get-in child [:synsem :cat]))
+                                  "]"))]
         (let [result
               (merge {:comp-filled true}
                      result)]
           result))
       (do
-        (log/debug (str "moreover-comp: fail: " result))
-        (log/debug (str "moreover-comp: fail at: " (fail-path result)))
-        (log/debug (str "moreover-comp: fail: parent: " (strip-refs (get-in parent [:rule]))))
-        (log/debug (str "moreover-comp: fail: child: " (strip-refs child)))
+        (log/trace (str "moreover-comp: fail: " result))
+        (log/trace (str "moreover-comp: fail at: " (fail-path result)))
+        (log/debug (str "moreover-comp: fail: parent: " (strip-refs (get-in parent [:rule])) ";"
+                        "child cat: " (get-in child [:synsem :cat])))
+        (log/trace (str "moreover-comp: fail: child: " (strip-refs child)))
         (if (and
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
@@ -167,8 +174,8 @@
                                   (get-in parent (fail-path result))
                                   "; Synsem of child is: "
                                   (get-in child '(:synsem) :top)))))
-        (log/debug (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
-        (log/debug (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
+        (log/trace (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
+        (log/trace (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
         :fail))))
 
 (defn overh [parent head morph]
@@ -220,13 +227,13 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
-  (log/debug (str "set? parent:" (set? parent)))
-  (log/debug (str "seq? parent:" (seq? parent)))
-  (log/debug (str "seq? comp:" (seq? comp)))
+  (log/trace (str "set? parent:" (set? parent)))
+  (log/trace (str "seq? parent:" (seq? parent)))
+  (log/trace (str "seq? comp:" (seq? comp)))
 
-  (log/debug (str "type of parent: " (type parent)))
-  (log/debug (str "type of comp  : " (type comp)))
-  (log/debug (str "nil? comp  : " (nil? comp)))
+  (log/trace (str "type of parent: " (type parent)))
+  (log/trace (str "type of comp  : " (type comp)))
+  (log/trace (str "nil? comp  : " (nil? comp)))
 
   (cond
    (nil? comp) nil
@@ -245,12 +252,12 @@
 
    (or (set? comp)
        (vector? comp))
-   (do (log/debug "comp is a set: converting to a seq.")
+   (do (log/trace "comp is a set: converting to a seq.")
        (overc parent (lazy-seq comp)))
 
    (seq? comp)
    (let [comp-children comp]
-     (log/debug (str "comp is a seq - actual type is " (type comp)))
+     (log/trace (str "comp is a seq - actual type is " (type comp)))
      (filter (fn [result]
                (not (fail? result)))
              (over-each-comp-child parent comp-children)))
@@ -279,7 +286,7 @@
         (over (list parents) child1 child2)
         (if (not (empty? parents))
           (let [parent (first parents)]
-            (log/debug (str "over: parent: " (first (:aliases parent))))
+            (log/trace (str "over: parent: " (get-in parent [:rule])))
             (concat
              (cond (and (map? parent)
                         (not (nil? (:serialized parent))))

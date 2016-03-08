@@ -189,5 +189,13 @@
                             (is (not (empty? parsed)))))
                         expressions))))))
 
+(deftest the-red-cat-woke-up
+  (let [result (parse "il gatto rosso si è alzato")]
+    ;; should find at least one structure:
+    (is (not (empty? result)))
+    ;; formatting the first of the resultant parse trees:
+    ;; output should be the same as the input to the parser:
+    (is (= "il gatto rosso si è alzato"
+           (fo (first result))))))
 
 

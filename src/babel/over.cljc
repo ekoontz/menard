@@ -91,47 +91,59 @@
       nil)))
 
 (def ^:dynamic *extra-diagnostics* false)
+(def ^:dynamic *check-parent-and-head-child-cat-equal* true)
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
-          (unify (copy parent)
-                 (unify {:head (copy child)
-                         :head-filled true}
-                        {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}}))]
+          (if (and
+               *check-parent-and-head-child-cat-equal*
+               (not (= (get-in parent [:synsem :cat])
+                       (get-in child [:synsem :cat]))))
+               :fail
+            (unify (copy parent)
+                   (unify {:head (copy child)
+                           :head-filled true}
+                          {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}})))]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
-              debug (log/debug (str "moreover-head: [" (get-in parent [:rule]) " H:"
+              debug (log/debug (str "moreover-head: [" (get-in parent [:rule]) " H: "
                                     (if (get-in child [:rule])
                                       (get-in child [:rule])
-                                      (get-in parent [:head :synsem :cat]))
+                                      (get-in child [:surface]))
                                     "]"))
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
           result)
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
-        (if (= *extra-diagnostics* true)
-          (let [fail-path (get-fail-path (get-in parent [:head]) child)
-                debut (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
-                debug (log/trace (str "parent " (get-in parent [:rule])
-                                      " wanted head with: "
-                                      (strip-refs (get-in parent [:head :synsem]))))
-                debug (log/trace (str "candidate child has synsem: "
-                                      (strip-refs
-                                       (get-in
-                                        (unifyc child
-                                                {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
-                                        [:synsem]))))
-                debug (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
-                                                                   child)))
-                debug (log/trace (str "  parent@" fail-path "="
-                                      (get-in parent (concat [:head] fail-path))))
-                debug (log/trace (str "    head@" fail-path "="
-                                      (get-in child fail-path)))]
-            :fail)
+        (do
+          (if (= *extra-diagnostics* true)
+            (let [fail-path (get-fail-path (get-in parent [:head]) child)]
+              (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
+              (log/trace (str "parent " (get-in parent [:rule])
+                              " wanted head with: "
+                              (strip-refs (get-in parent [:head :synsem]))))
+              (log/trace (str "candidate child has synsem: "
+                              (strip-refs
+                               (get-in
+                                (unifyc child
+                                        {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
+                                [:synsem]))))
+              (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
+                                                           child)))
+              (log/trace (str "  parent@" fail-path "="
+                              (get-in parent (concat [:head] fail-path))))
+              (log/trace (str "    head@" fail-path "="
+                              (get-in child fail-path)))))
+          (log/debug (str "moreover-head: fail: parent: " (strip-refs (get-in parent [:rule])) ";"
+                          "child [" (get-in child [:surface]) "]; cat: " (get-in child [:synsem :cat])))
+          (if (and (not (= (get-in parent [:synsem :cat])
+                           (get-in child [:synsem :cat])))
+                   (not *check-parent-and-head-child-cat-equal*))
+            (log/warn (str "moreover-head: CHILD CAT DIFFERS FROM HEAD CAT!")))
           :fail)))))
 
 ;; Might be useful to set the following variable to true,

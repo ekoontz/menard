@@ -157,10 +157,13 @@
   (log/trace (str "moreover-comp type comp:" (type child)))
 
   (let [result
-        (unify (copy parent)
-               (unifyc {:comp child}
-                       {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
-
+        (if (and *check-parent-and-head-child-cat-equal*
+                 (not (= (get-in parent [:comp :synsem :cat])
+                         (get-in child [:synsem :cat]))))
+          :fail
+          (unify (copy parent)
+                 (unifyc {:comp child}
+                         {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}})))]
     (if (not (fail? result))
       (let [debug (log/debug (str "moreover-comp: [" (get-in parent [:rule]) " C: "
                                   (if (get-in child [:rule])

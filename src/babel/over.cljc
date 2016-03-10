@@ -4,7 +4,7 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail? fail-path get-in merge strip-refs unify unifyc]]
+   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]
    [babel.lexiconfn :refer [get-fail-path sem-impl]]))
 
 (defn exception [error-string]
@@ -92,16 +92,23 @@
 
 (def ^:dynamic *extra-diagnostics* false)
 (def ^:dynamic *check-parent-and-head-child-cat-equal* true)
+(def ^:dynamic *check-infl* true)
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [result
-          (if (and
-               *check-parent-and-head-child-cat-equal*
-               (not (= (get-in parent [:synsem :cat])
-                       (get-in child [:synsem :cat]))))
+          (if (or (and
+                   *check-parent-and-head-child-cat-equal*
+                   (not (= (get-in parent [:synsem :cat])
+                           (get-in child [:synsem :cat]))))
+                  (and
+                   *check-infl*
+                   (or (fail? (unify (get-in parent [:head :synsem :infl] :top)
+                                     (get-in child [:synsem :infl] :top)))
+                       (fail? (unify (get-in parent [:head :synsem :sem :tense] :top)
+                                     (get-in child [:synsem :sem :tense] :top))))))
                :fail
                (unify
                 (merge
@@ -116,6 +123,13 @@
                                     ":'" (morph result) "'"))
               debug (log/debug (str "moreover-head: pass:     " (strip-refs (get-in parent [:rule])) " -> "
                                     "[" (get-in child [:surface]) "]"))
+              debug
+              (let [p-sc (get-in parent [:head :synsem :subcat :1 :cat] :top)
+                    c-sc (get-in child [:synsem :subcat :1 :cat] :top)]
+                (if (fail? (unify p-sc c-sc))
+                  (do
+                    (log/debug (str "moreover-head: pass: parent sc:" (get-in parent [:head :synsem :subcat :1 :cat] :none)))
+                    (log/debug (str "moreover-head: pass: head sc:  " (get-in child [:synsem :subcat :1 :cat] :none))))))
               debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
           result)
 
@@ -143,13 +157,21 @@
                            (get-in child [:synsem :cat])))
                    (not *check-parent-and-head-child-cat-equal*))
             (log/warn (str "moreover-head: CHILD CAT DIFFERS FROM HEAD CAT!")))
+          (if (fail? (unify (get-in parent [:head :synsem :subcat :1 :cat])
+                            (get-in child [:synsem :subcat :1 :cat])))
+            (log/trace (str "moreover-head: SUBCAT parent head subcat 1:" (get-in parent [:head :synsem :subcat :1 :cat]) ";"
+                            "moreover-head: SUBCAT        head subcat 1:" (get-in child [:synsem :subcat :1 :cat]))))
           (if (= (get-in parent [:synsem :cat])
                  (get-in child [:synsem :cat]))
-            (log/debug (str "moreover-head: failcat== " (strip-refs (get-in parent [:rule])) "; "
-                            "child: " (get-in child [:surface]) ""))
-            (log/debug (str "moreover-head: failcat!= " (strip-refs (get-in parent [:rule])) "; "
+            (log/trace (str "moreover-head: failcat== " (strip-refs (get-in parent [:rule])) "; "
                             "child: " (get-in child [:surface]) "")))
-
+          (if (and false ;; TODO (if no-pre-checks-have-caught-this ..)
+                   (get-in parent [:head :synsem :infl])
+                   (get-in comp [:synsem :infl]))
+            (log/debug (str "moreover-head: fail-path-between:"
+                            (fail-path-between parent {:head child}))))
+          (log/trace (str "moreover-head: failcat!= " (strip-refs (get-in parent [:rule])) "; "
+                          "child: " (get-in child [:surface]) ""))
           :fail)))))
 
 ;; Might be useful to set the following variable to true,
@@ -161,7 +183,7 @@
 (defn moreover-comp [parent child lexfn-sem-impl]
   (log/trace (str "moreover-comp type parent: " (type parent)))
   (log/trace (str "moreover-comp type comp:" (type child)))
-
+  
   (let [result
         (if (and *check-parent-and-head-child-cat-equal*
                  (not (= (get-in parent [:comp :synsem :cat])
@@ -170,7 +192,7 @@
           (unify
            (merge
             (copy parent)
-            ;; TODO: don't merge this in: surface-calculation should happen on-demand, not in this
+            ;; TODO: don't merge :surface in here: surface-calculation should happen on-demand, not in this
             ;; time-critical code. i.e. build surface of tree by doing a depth-first traversal, not
             ;; storing stuff within tree in case someone is interested.
             {:surface (str

@@ -96,12 +96,24 @@
 
 (defn head-pre-checks [parent child]
   (or
-   (fail? (unify (get-in parent [:head :synsem :infl] :top)
-                 (get-in child [:synsem :infl] :top)))
-   (fail? (unify (get-in parent [:head :synsem :sem :tense] :top)
-                 (get-in child [:synsem :sem :tense] :top)))
-   (fail? (unify (get-in parent [:synsem :cat])
-                 (get-in child [:synsem :cat])))))
+   (fail? (unifyc (get-in parent [:head :synsem :infl] :top)
+                  (get-in child [:synsem :infl] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :sem :tense] :top)
+                  (get-in child [:synsem :sem :tense] :top)))
+   (fail? (unifyc (get-in parent [:synsem :cat])
+                  (get-in child [:synsem :cat])))
+   (fail? (unifyc (get-in parent [:head :synsem :cat])
+                  (get-in child [:synsem :cat])))
+   (fail? (unifyc (get-in parent [:head :synsem :subcat :1])
+                  (get-in child [:synsem :subcat :1])))
+   (fail? (unifyc (get-in parent [:head :synsem :subcat :2])
+                  (get-in child [:synsem :subcat :2])))
+
+   ))
+
+   
+
+;; (fo (first (take 1 (parse "il gatto rosso si è alzato"))))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]

@@ -95,14 +95,13 @@
 (def ^:dynamic *check-infl* true)
 
 (defn head-pre-checks [parent child]
-  (not
-   (or
-    (fail? (unify (get-in parent [:head :synsem :infl] :top)
-                  (get-in child [:synsem :infl] :top)))
-    (fail? (unify (get-in parent [:head :synsem :sem :tense] :top)
-                  (get-in child [:synsem :sem :tense] :top)))
-    (fail? (unify (get-in parent [:synsem :cat])
-                  (get-in child [:synsem :cat]))))))
+  (or
+   (fail? (unify (get-in parent [:head :synsem :infl] :top)
+                 (get-in child [:synsem :infl] :top)))
+   (fail? (unify (get-in parent [:head :synsem :sem :tense] :top)
+                 (get-in child [:synsem :sem :tense] :top)))
+   (fail? (unify (get-in parent [:synsem :cat])
+                 (get-in child [:synsem :cat])))))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]

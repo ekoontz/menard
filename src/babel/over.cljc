@@ -113,10 +113,10 @@
 (defn comp-pre-checks [parent child]
   (or
    (fail? (unifyc (get-in parent [:comp :synsem :cat])
-                  (get-in child [:synsem :cat])))
-   ))
+                  (get-in child [:synsem :cat])))))
 
-;; (fo (first (take 1 (parse "il gatto rosso si è alzato"))))
+;; good benchmark: run the following in babel.test.it:
+;; (take 5 (repeatedly #(time (fo (first (parse "il gatto rosso si è alzato"))))))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]
@@ -199,9 +199,7 @@
   (log/trace (str "moreover-comp type comp:" (type child)))
   
   (let [result
-        (if (and *check-parent-and-head-child-cat-equal*
-                 (not (= (get-in parent [:comp :synsem :cat])
-                         (get-in child [:synsem :cat]))))
+        (if (comp-pre-checks parent child)
           :fail
           (unify
            (merge
@@ -218,7 +216,6 @@
       (let [debug (log/debug (str "moreover-comp: pass:     "
                                   "[" (get-in parent [:surface]) "];" " child ["
                                   (get-in child [:surface]) "]"))]
-
         (let [result
               (merge {:comp-filled true}
                      result)]
@@ -235,11 +232,11 @@
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
           (throw (exception (str "failed to add complement: " child "  to: phrase: " parent
-                                  ". Failed path was: " (fail-path result)
-                                  ". Value of parent at path is: "
-                                  (get-in parent (fail-path result))
-                                  "; Synsem of child is: "
-                                  (get-in child '(:synsem) :top)))))
+                                 ". Failed path was: " (fail-path result)
+                                 ". Value of parent at path is: "
+                                 (get-in parent (fail-path result))
+                                 "; Synsem of child is: "
+                                 (get-in child '(:synsem) :top)))))
         (log/trace (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
         (log/trace (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
         :fail))))

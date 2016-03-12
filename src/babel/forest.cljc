@@ -235,9 +235,12 @@ of this function with complements."
 
               ;; else, no complements could be added to this bolt.
               (do
-                (log/trace (str " add-complement took " run-time " msec, but found no lexical complements for "
-                               (morph from-bolt)
-                               ". Complements tried were: " (morph complement-candidate-lexemes)))))
+                (log/warn (str " add-complement took " run-time " msec, but found no lexical complements for "
+                               "'" (morph from-bolt) "'"
+                               ". Complements tried were:" (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
+                                                                 (- (count complement-candidate-lexemes) 5) " more.")))))
+
+
             (do (log/trace (str "add-complement after adding complement: "
                                 (string/join ","
                                              (map (fn [each]

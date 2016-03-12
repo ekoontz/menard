@@ -44,15 +44,22 @@
    (map #(conj {:surface (fo %)}
                %)
         (parse/parse string
-                     (:lookup medium)
+                     (fn [token]
+                       (map (fn [looked-up]
+                              (merge {:surface (str "'" token "'")}
+                                     looked-up))
+                            ((:lookup medium) token)))
                      (:grammar medium))))
   ([string model]
    (map #(conj {:surface (fo %)}
                %)
         (parse/parse string
-                     (:lookup model)
+                     (fn [token]
+                       (map (fn [looked-up]
+                              (merge {:surface (str "'" token "'")}
+                                     looked-up))
+                            ((:lookup model) token)))
                      (:grammar model)))))
-
 (defn expr [id]
   (reader/id2expression (Integer. id)))
 

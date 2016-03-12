@@ -199,11 +199,14 @@
            (fo (first result))))))
 
 (defn run-benchmark []
-  (repeatedly #(time
-                (fo
-                 (first
-                  (parse
-                   (let [expression (generate :top)
-                         surface (fo expression)]
-                     (log/info (str "expression: "  surface))
-                     surface)))))))
+  (repeatedly #(let [debug (println "starting generation")
+                     expr (time (generate :top))]
+                 (println (str "generated expression: " (fo expr)))
+                 (let [parsed (time (first (take 1 (parse (fo expr)))))]
+                   (println (str "parsed: " (fo parsed)))
+                   (println "")))))
+
+
+
+
+                      

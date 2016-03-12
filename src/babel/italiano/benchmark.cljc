@@ -13,13 +13,17 @@
             [clojure.string :as string]
             [dag_unify.core :refer [get-in strip-refs]]))
 
-(defn run-benchmark []
-  (repeatedly #(let [debug (println "starting generation")
-                     expr (time (generate :top))]
-                 (println (str "generated expression: " (fo expr)))
-                 (let [parsed (time (first (take 1 (parse (fo expr)))))]
-                   (println (str "parsed: " (fo parsed)))
-                   (println "")))))
-(defn -main []
-  (take 5 (run-benchmark)))
+(defn run-benchmark [times]
+  (count (take (Integer/parseInt times)
+               (repeatedly #(let [debug (println "starting generation..")
+                                  expr (time (generate :top))]
+                              (println (str "generated expression: " (fo expr)))
+                              (println (str "starting parsing.."))
+                              (let [parsed (time (first (take 1 (parse (fo expr)))))]
+                                (println (str "parsed: " (fo parsed)))
+                                (println "")))))))
+(defn -main [times]
+  (run-benchmark times))
+
+
 

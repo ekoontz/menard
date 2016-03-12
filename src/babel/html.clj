@@ -261,7 +261,7 @@
       "    <tr>"
       "      <td class='ref'>"
 
-      (if (ref? arg)
+      (if (ref? (:head arg))
         (str
          "     <div class='ref'>"
          (fs/path-to-ref-index serialized (concat path '(:head)) 0)
@@ -270,7 +270,7 @@
       "      </td>"
       "      <td class='hc'>H</td><td>"
 
-      (tablize (if (ref? arg)
+      (tablize (if (ref? (:head arg))
                  @(:head arg)
                  (:head arg))
                (concat path '(:head)) serialized opts)

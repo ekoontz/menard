@@ -8,9 +8,9 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer (dissoc-paths get-in fail? fail-path-between lazy-shuffle
+   [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path-between lazy-shuffle
                                         ref? remove-false remove-top-values-log
-                                        strip-refs show-spec unifyc)]))
+                                        strip-refs show-spec unify unifyc)]))
 (def concurrent false)
 (declare path-to-map)
 (declare add-complement)
@@ -213,9 +213,9 @@ of this function with complements."
                                                          (morph bolt) "]: trying lexical complement:" (morph complement)
                                                          ))
                                    result
-                                   (unifyc bolt
+                                   (unify  (copy bolt)
                                            (path-to-map path
-                                                        complement))
+                                                        (copy complement)))
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do

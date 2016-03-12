@@ -203,7 +203,23 @@ of this function with complements."
         (if (map? complement-candidate-lexemes)
           (log/error (str "complement-candidate-lexemes is unexpectedly a map with keys:" 
                           ( keys complement-candidate-lexemes))))
-        (let [shuffled-candidate-lexical-complements (lazy-shuffle complement-candidate-lexemes)
+        (let [shuffled-candidate-lexical-complements complement-candidate-lexemes
+              complement-pre-check (fn [child parent]
+                                     (or true
+                                     (and (not (fail?
+                                                (unifyc (get-in child [:synsem :cat] :top)
+                                                        (get-in parent [:comp :synsem :cat] :top))))
+                                          (not (fail?
+                                                (unifyc (get-in child [:synsem :subcat :1 :cat] :top)
+                                                        (get-in parent [:comp :synsem :subcat :1 :cat] :top)))))))
+              filtered-lexical-complements
+              (filter (fn [lexeme]
+                        (complement-pre-check lexeme bolt))
+                      shuffled-candidate-lexical-complements)
+              debug (log/trace (str "shuffled size: " (count shuffled-candidate-lexical-complements)))
+              debug (log/trace (str "filtered size: " (count filtered-lexical-complements)))
+              shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
+              
               return-val
               (filter (fn [result]
                         (not (fail? result)))
@@ -234,6 +250,7 @@ of this function with complements."
             (if (empty? (seq return-val))
 
               ;; else, no complements could be added to this bolt.
+              ;; TODO: throw an error.
               (do
                 (log/warn (str " add-complement to " (get-in bolt [:rule]) " took " run-time " msec, but found no lexical complements for "
                                "'" (morph from-bolt) "'"

@@ -61,7 +61,7 @@
                   (log/debug (str "generate-all with spec: " (strip-refs spec)))
                   (log/debug (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
                   (log/debug (str "generate-all(details): " (show-spec spec)))
-                  (let [lb (lightning-bolt grammar
+                  (let [lb (lightning-bolt (lazy-shuffle grammar)
                                            lexicon
                                            spec 0 index nil morph)]
                     (-> lb

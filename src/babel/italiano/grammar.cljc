@@ -154,6 +154,9 @@
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS
 
+(def vp-non-pronoun
+  {:comp {:synsem {:pronoun false}}})
+
 (def grammar (list (unifyc h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
@@ -300,6 +303,7 @@
                    ;; Note use of :reflexive below.
                    (unifyc h22
                            root-is-comp
+                           vp-non-pronoun
                            (let [obj-agr (atom :top)]
                              {:head {:phrasal false}
                               :rule "vp-aux-22"
@@ -316,26 +320,34 @@
                            {:rule "vp-future"
                             :synsem {:aux false
                                      :infl :future
-                                     :cat :verb}})
+                                     :cat :verb}}
+                           vp-non-pronoun)
+
                    (unifyc h21
                            root-is-head
                            {:rule "vp-imperfect"
                             :synsem {:aux false
                                      :infl :imperfect
-                                     :cat :verb}})
+                                     :cat :verb}}
+                           vp-non-pronoun)
+                   
                    (unifyc h21
                            root-is-head
                            {:rule "vp-past"
                             :synsem {:aux false
                                      :infl :past
-                                     :cat :verb}})
+                                     :cat :verb}}
+                           vp-non-pronoun)
+                   
                    (unifyc h21
                            root-is-head
                            {:rule "vp-present"
                             :synsem {:aux false
                                      :infl :present
                                      :sem {:tense :present}
-                                     :cat :verb}})
+                                     :cat :verb}}
+                           vp-non-pronoun)
+                   
                    (unifyc c21
                            root-is-head-root
                            {:head {:phrasal true}

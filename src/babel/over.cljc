@@ -115,9 +115,6 @@
    (fail? (unifyc (get-in parent [:comp :synsem :cat])
                   (get-in child [:synsem :cat])))))
 
-;; good benchmark: run the following in babel.test.it:
-;; (take 5 (repeatedly #(time (fo (first (parse "il gatto rosso si è alzato"))))))
-
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))

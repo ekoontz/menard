@@ -198,4 +198,12 @@
     (is (= "il gatto rosso si è alzato"
            (fo (first result))))))
 
-
+(defn run-benchmark []
+  (repeatedly #(time
+                (fo
+                 (first
+                  (parse
+                   (let [expression (generate :top)
+                         surface (fo expression)]
+                     (log/info (str "expression: "  surface))
+                     surface)))))))

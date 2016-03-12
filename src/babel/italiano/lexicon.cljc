@@ -1403,7 +1403,7 @@
                     :person :3rd
                     :number :sing}
               :sem {:human true
-                    :pred :lo}
+                    :pred :lui}
               :subcat '()}}
 
     {:synsem {:cat :noun
@@ -1414,7 +1414,7 @@
                     :number :sing}
               :sem {:human false
                     :place false
-                    :pred :lo}
+                    :pred :lui}
               :subcat '()}
        :italiano {:initial true  ;; TODO: verify that 'lo' above and this below are being unified correctly.
                   :pronoun true

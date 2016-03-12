@@ -175,7 +175,7 @@ of this function with complements."
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)]
-    (log/trace (str "add-complement to bolt with bolt:["
+    (log/debug (str "add-complement at path: " path " to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (morph bolt) "'"
                     "]"))
@@ -204,17 +204,16 @@ of this function with complements."
           (log/error (str "complement-candidate-lexemes is unexpectedly a map with keys:" 
                           ( keys complement-candidate-lexemes))))
         (let [shuffled-candidate-lexical-complements complement-candidate-lexemes
-              complement-pre-check (fn [child parent]
-                                     (or true
+              complement-pre-check (fn [child parent path-to-child]
                                      (and (not (fail?
                                                 (unifyc (get-in child [:synsem :cat] :top)
-                                                        (get-in parent [:comp :synsem :cat] :top))))
+                                                        (get-in path-to-child [:synsem :cat] :top))))
                                           (not (fail?
                                                 (unifyc (get-in child [:synsem :subcat :1 :cat] :top)
-                                                        (get-in parent [:comp :synsem :subcat :1 :cat] :top)))))))
+                                                            (get-in path-to-child [:synsem :subcat :1 :cat] :top))))))
               filtered-lexical-complements
               (filter (fn [lexeme]
-                        (complement-pre-check lexeme bolt))
+                        (complement-pre-check lexeme bolt path))
                       shuffled-candidate-lexical-complements)
               debug (log/trace (str "shuffled size: " (count shuffled-candidate-lexical-complements)))
               debug (log/trace (str "filtered size: " (count filtered-lexical-complements)))

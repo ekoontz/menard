@@ -115,8 +115,7 @@
                         ]))
    :refer-clojure false
    ;; using 60000 for development: for production, use much smaller value.
-   :timeout 60000
-;   :timeout 15000
+   :timeout 5000
    :namespace 'babel.italiano.workbook))
 
 

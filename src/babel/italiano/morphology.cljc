@@ -602,7 +602,7 @@
               (= :top (get-in word '(:agr :number)))))
      ;; not enough information.
      (do
-       (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
+       (log/debug (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
        (get-in word '(:passato)))
 
      ;; TODO: do not use brackets: if there's an error about there being

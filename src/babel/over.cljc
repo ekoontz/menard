@@ -108,10 +108,13 @@
                   (get-in child [:synsem :subcat :1])))
    (fail? (unifyc (get-in parent [:head :synsem :subcat :2])
                   (get-in child [:synsem :subcat :2])))
-
    ))
 
-   
+(defn comp-pre-checks [parent child]
+  (or
+   (fail? (unifyc (get-in parent [:comp :synsem :cat])
+                  (get-in child [:synsem :cat])))
+   ))
 
 ;; (fo (first (take 1 (parse "il gatto rosso si è alzato"))))
 

@@ -1243,8 +1243,7 @@
                  :agr {:gender :fem
                        :person :1st
                        :number :sing}
-                 :sem {:human true
-                       :pred :I}
+                 :sem {:pred :I}
                  :subcat '()}}
 
        {:synsem {:cat :noun
@@ -1253,8 +1252,7 @@
                  :agr {:gender :masc
                        :person :1st
                        :number :sing}
-                 :sem {:human true
-                       :pred :I}
+                 :sem {:pred :I}
                  :subcat '()}}]
       "la"
       ;; TODO: refactor commonalities
@@ -1585,8 +1583,7 @@
              :agr {:gender :fem
                    :person :1st
                    :number :plur}
-             :sem {:human true
-                   :pred :noi}
+             :sem {:pred :noi}
              :subcat '()}}
     {:synsem {:cat :noun
               :pronoun true
@@ -1594,8 +1591,7 @@
              :agr {:gender :masc
                    :person :1st
                    :number :plur}
-              :sem {:human true
-                    :pred :noi}
+              :sem {:pred :noi}
               :subcat '()}}]
 
    "osservare" {:synsem {:cat :verb
@@ -1942,8 +1938,7 @@
               :agr {:person :2nd
                     :gender :fem
                     :number :sing}
-              :sem {:human true
-                    :pred :tu}
+              :sem {:pred :tu}
               :subcat '()}}
     {:synsem {:cat :noun
               :pronoun true
@@ -1951,10 +1946,8 @@
               :agr {:person :2nd
                     :gender :masc
                     :number :sing}
-              :sem {:human true
-                    :pred :tu}
+              :sem {:pred :tu}
               :subcat '()}}]
-
    "un"
        {:synsem {:cat :det
                  :def :indef
@@ -1967,7 +1960,6 @@
               :mass false
               :agr {:gender :fem
                     :number :sing}}}
-
    "uomo"
    (unify agreement-noun
           common-noun
@@ -1988,7 +1980,6 @@
                                                :boot-stem2 "usc"}}}]
              [(merge common {:synsem {:sem {:pred :go-out}}})
               (merge common {:synsem {:sem {:pred :exit}}})])
-   
    "vedere" 
    {:synsem {:cat :verb
              :sem {:pred :see}}
@@ -2024,8 +2015,6 @@
                                       :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-
-
    "vi"
    {:synsem {:cat :noun
              :pronoun true
@@ -2043,7 +2032,6 @@
                         :sem {:pred :win
                               :subj {:human true}
                               :obj {:human false}}}}
-
    "vino"
    (unify drinkable-noun
           agreement-noun
@@ -2072,8 +2060,7 @@
               :agr {:person :2nd
                     :gender :fem
                     :number :plur}
-              :sem {:human true
-                    :pred :voi}
+              :sem {:pred :voi}
               :subcat '()}}
 
     {:synsem {:cat cat-of-pronoun
@@ -2082,8 +2069,7 @@
               :agr {:person :2nd
                     :gender :masc
                     :number :plur}
-              :sem {:human true
-                    :pred :voi}
+              :sem {:pred :voi}
               :subcat '()}}]
             
     "volere" {:synsem {:cat :verb

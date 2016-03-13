@@ -1038,7 +1038,9 @@
                                    :agr {:gender gender
                                          :number number}}}}}))
 
-         (unify essere-common {:synsem {:sem {:pred :be}}})
+         ;; TODO: do we need this? maybe remove?
+         (unify essere-common {:notes "be"
+                               :synsem {:sem {:pred :be}}})
 
            ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
            (let [gender (atom :top)

@@ -175,7 +175,7 @@ of this function with complements."
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
         spec (unifyc spec bolt-spec)]
-    (log/debug (str "add-complement at path: " path " to bolt with bolt:["
+    (log/trace (str "add-complement at path: " path " to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (morph bolt) "'"
                     "]"))
@@ -184,7 +184,7 @@ of this function with complements."
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
-            cached (if cache
+            cached (if (and true cache)
                      (do
                        (let [result (get-lex immediate-parent :comp cache spec)]
                          (if (not (nil? result))
@@ -193,7 +193,7 @@ of this function with complements."
                                                            #"\.(..).*"
                                                            (fn [[_ two-digits]] (str "." two-digits))))))
                          result))
-                     (do (log/warn (str "no cache: will go through entire lexicon."))
+                     (do (log/trace (str "no cache: will go through entire lexicon."))
                          nil))
             complement-candidate-lexemes (if cached cached (flatten (vals lexicon)))]
         (let [semantics (get-in spec [:synsem :sem])]
@@ -226,20 +226,22 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "add complement ["
-                                                         (get-in bolt [:rule]) " "
-                                                         (morph bolt) "]: trying lexical complement:" (morph complement)
-                                                         ))
+                             (let [debug
+                                   (if (or true (= (morph bolt) "alzarsi"))
+                                     (log/debug (str "add complement ["
+                                                     (get-in bolt [:rule]) " "
+                                                     (morph bolt) "]: trying lexical complement:" (morph complement)
+                                                     )))
                                    result
-                                   (unify  (copy bolt)
-                                           (path-to-map path
+                                   (unify (copy bolt)
+                                          (path-to-map path
                                                         (copy complement)))
                                    is-fail? (fail? result)]
                                (if is-fail?
                                  (do
-                                   (log/trace (str "fail-path-between:" (fail-path-between (strip-refs (get-in bolt path))
-                                                                                           (strip-refs complement)))))
-                                 (log/trace (str "Success: returning: " (morph complement))))
+                                   (log/debug (str "fail-path-between(bolt=val1/comp=val2):" (fail-path-between (strip-refs (get-in bolt path))
+                                                                                                      (strip-refs complement)))))
+                                 (log/debug (str "Success: returning: " (morph result))))
                                  
                                (if is-fail? :fail result)))
                      
@@ -253,9 +255,12 @@ of this function with complements."
 
               ;; else, no complements could be added to this bolt: Throw an exception
               (let [message
-                    (str " add-complement to " (get-in bolt [:rule]) " took " run-time " msec, but found no lexical complements for "
+                    (str " add-complement to " (get-in bolt [:rule]) " at path: " path " took " run-time " msec, but found no lexical complements for "
                          "'" (morph from-bolt) "'"
-                         ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
+;                         ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
+                         ". Desired complement synsem/sem/pred was: " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))
+;                         ". Head is:" (strip-refs (get-in bolt (concat (butlast path) [:head])))
+                         ". Head notes:" (strip-refs (get-in bolt (concat (butlast path) [:head :notes])))
                          ". Complements tried were:"
                          (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
                               (- (count complement-candidate-lexemes) 5) " more."))]

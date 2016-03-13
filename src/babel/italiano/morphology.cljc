@@ -302,7 +302,7 @@
       (= (get-in word '(:cat)) :noun)
       (get-in word '(:italiano)))
      (string/replace (get-in word '(:italiano))
-                     #"[a]$" "e") ;; donna => donne
+                     #"[aà]$" "e") ;; donna => donne
 
      ;; TODO: move this down to other adjectives.
      ;; this was moved up here to avoid

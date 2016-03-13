@@ -200,25 +200,15 @@ of this function with complements."
           (if (not (nil? semantics))
             (if (not (nil? semantics)) (log/trace (str "  with semantics:" (strip-refs semantics))))))
         (log/trace (str " immediate parent:" (get-in immediate-parent [:rule])))
-        (let [shuffled-candidate-lexical-complements complement-candidate-lexemes
-              complement-pre-check (fn [child parent path-to-child]
-                                     (and (not (fail?
-                                                (unifyc (get-in child [:synsem :cat] :top)
-                                                        (get-in path-to-child [:synsem :cat] :top))))
-                                          (not (fail?
-                                                (unifyc (get-in child [:synsem :subcat :1 :cat] :top)
-                                                        (get-in path-to-child [:synsem :subcat :1 :cat] :top))))
-                                          (not (fail?
-                                                (unifyc (get-in child [:synsem :subcat :2 :cat] :top)
-                                                        (get-in path-to-child [:synsem :subcat :2 :cat] :top))))
-                                          (not (fail?
-                                                (unifyc (get-in child [:synsem :sem :pred] :top)
-                                                        (get-in path-to-child [:synsem :sem :pred] :top))))))
-              filtered-lexical-complements
-              (filter (fn [lexeme]
-                        (complement-pre-check lexeme bolt path))
-                      shuffled-candidate-lexical-complements)
-              debug (log/trace (str "shuffled size: " (count shuffled-candidate-lexical-complements)))
+        (let [complement-pre-check (fn [child parent path-to-child]
+                                     (let [child-in-bolt (get-in bolt path-to-child)]
+                                       (and (not (fail?
+                                                  (unifyc (get-in child [:synsem] :top)
+                                                          (get-in child-in-bolt [:synsem] :top)))))))
+              filtered-lexical-complements (filter (fn [lexeme]
+                                                     (complement-pre-check lexeme bolt path))
+                                                   complement-candidate-lexemes)
+              debug (log/trace (str "pre-filtered size: " (count complement-candidate-lexemes)))
               debug (log/trace (str "filtered size: " (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               
@@ -226,21 +216,18 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug
-                                   (if (or true (= (morph bolt) "alzarsi"))
-                                     (log/debug (str "add complement ["
-                                                     (get-in bolt [:rule]) " "
-                                                     (morph bolt) "]: trying lexical complement:" (morph complement)
-                                                     )))
+                             (let [debug (log/debug (str "add complement ["
+                                                         (get-in bolt [:rule]) " "
+                                                         (morph bolt) "]: trying lexical complement:" (morph complement)))
                                    result
                                    (unify (copy bolt)
                                           (path-to-map path
                                                         (copy complement)))
                                    is-fail? (fail? result)]
                                (if is-fail?
-                                 (do
-                                   (log/debug (str "fail-path-between(bolt=val1/comp=val2):" (fail-path-between (strip-refs (get-in bolt path))
-                                                                                                      (strip-refs complement)))))
+                                 (let [fail-path (fail-path-between (strip-refs (get-in bolt path))
+                                                                    (strip-refs complement))]
+                                   (log/debug (str "fail-path-between(bolt=val1/comp=val2):" fail-path)))
                                  (log/debug (str "Success: returning: " (morph result))))
                                  
                                (if is-fail? :fail result)))

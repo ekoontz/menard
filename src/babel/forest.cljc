@@ -216,9 +216,9 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "add complement ["
-                                                         (get-in bolt [:rule]) " "
-                                                         (morph bolt) "]: trying lexical complement:" (morph complement)))
+                             (let [debug (log/debug (str "add complement to ["
+                                                         (get-in immediate-parent [:rule]) " "
+                                                         (morph immediate-parent) "]: trying lexical complement:" (morph complement)))
                                    result
                                    (unify (copy bolt)
                                           (path-to-map path
@@ -228,7 +228,7 @@ of this function with complements."
                                  (let [fail-path (fail-path-between (strip-refs (get-in bolt path))
                                                                     (strip-refs complement))]
                                    (log/debug (str "fail-path-between(bolt=val1/comp=val2):" fail-path)))
-                                 (log/debug (str "Success: returning: " (morph result))))
+                                 (log/debug (str "success:" (:rule result) " returning: " (morph result))))
                                  
                                (if is-fail? :fail result)))
                      

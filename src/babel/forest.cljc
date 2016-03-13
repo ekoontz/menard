@@ -243,7 +243,7 @@ of this function with complements."
                                (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
           (let [run-time (- (current-time) start-time)]
-            (if (empty? (seq return-val))
+            (if (empty? return-val)
 
               ;; else, no complements could be added to this bolt: Throw an exception
               (let [message

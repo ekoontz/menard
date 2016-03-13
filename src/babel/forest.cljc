@@ -253,7 +253,8 @@ of this function with complements."
               (do
                 (log/warn (str " add-complement to " (get-in bolt [:rule]) " took " run-time " msec, but found no lexical complements for "
                                "'" (morph from-bolt) "'"
-                               ". Desired complement spec was: " (strip-refs (get-in bolt [:comp])) ". Complements tried were:"
+                               ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
+                               ". Complements tried were:"
                                (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
                                     (- (count complement-candidate-lexemes) 5) " more.")))))
             

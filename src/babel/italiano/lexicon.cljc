@@ -2027,6 +2027,7 @@
           common-noun
           countable-noun
           masculine-noun
+          {:italiano {:plur "uomini"}}
           {:synsem {:sem {:human true
                           :pred :man
                           :child false}}})

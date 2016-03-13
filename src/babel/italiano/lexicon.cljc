@@ -1009,7 +1009,14 @@
                                    :3sing "sarà"
                                    :1plur "saremo"
                                    :2plur "sarete"
-                                   :3plur "saranno"}}})]
+                                   :3plur "saranno"}
+
+                          :conditional {:1sing "sarei"
+                                        :2sing "saresti"
+                                        :3sing "sarebbe"
+                                        :1plur "saremmo"
+                                        :2plur "sareste"
+                                        :3plur "sarebberano"}}})]                          
         [;; essere: adjective
          ;; TODO: unify essere-adjective and essere-intensifier into one lexical entry.
          (let [gender (atom :top)

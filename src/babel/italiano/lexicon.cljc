@@ -1094,7 +1094,8 @@
            (unify essere-common
                    verb-aux
                    verb-subjective
-                   {:italiano {:notes "essere-aux"}})])
+                   {:notes "essere-aux"
+                    :italiano {:notes "essere-aux"}})])
       
       "evitare"  {:synsem {:cat :verb
                            :sem {:pred :avoid}}}

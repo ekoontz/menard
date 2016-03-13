@@ -1099,7 +1099,6 @@
       
       "evitare"  {:synsem {:cat :verb
                            :sem {:pred :avoid}}}
-      
       "fare"
       (let [shared-part-of-fare
             {:synsem {:cat :verb}

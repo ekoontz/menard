@@ -1597,6 +1597,50 @@
                                            :italiano (get-in val [:italiano :future :3plur] :nothing)
                                            :agr {:number :plur
                                                  :person :3rd}}})}
+
+                            ;; 4. conditional-tense exceptions
+                            {:path [:italiano :conditional :1sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :conditional :2sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            {:path [:italiano :conditional :3sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            {:path [:italiano :conditional :1plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            {:path [:italiano :conditional :2plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            {:path [:italiano :conditional :3plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
                             ;; adjectives
                             {:path [:italiano :masc :plur]
                              :merge-fn

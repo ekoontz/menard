@@ -1068,29 +1068,29 @@
 
            ;; essere: intensifier
            ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"
-           (let [gender (atom :top)
-                 number (atom :top)
-                 subject (atom {:agr {:gender gender
-                                     :number number}
-                               :cat :noun})
-                 comp-pred (atom :top)
-                 comp-sem (atom
-                           {:activity false
-                            :pred comp-pred
-                            :discrete false})]
-             (unify
-              verb-subjective
-              essere-common
-              {:notes "essere-intensifer"
-               :synsem {:cat :verb
-                        :subcat {:1 subject
-                                 :2 {:cat :intensifier
-                                     :sem comp-sem
-                                     :subcat {:1 subject
-                                              :2 '()}}}
-                        :sem {:pred comp-pred
-                              :intensified true
-                              :obj comp-sem}}}))
+;           (let [gender (atom :top)
+;                 number (atom :top)
+;                 subject (atom {:agr {:gender gender
+;                                     :number number}
+;                               :cat :noun})
+;                 comp-pred (atom :top)
+;                 comp-sem (atom
+;                           {:activity false
+;                            :pred comp-pred
+;                            :discrete false})]
+;             (unify
+;              verb-subjective
+;              essere-common
+;              {:notes "essere-intensifer"
+;               :synsem {:cat :verb
+;                        :subcat {:1 subject
+;                                 :2 {:cat :intensifier
+;                                     :sem comp-sem
+;                                     :subcat {:1 subject
+;                                              :2 '()}}}
+;                        :sem {:pred comp-pred
+;                              :intensified true
+;                              :obj comp-sem}}}))
 
            (unify essere-common
                    verb-aux

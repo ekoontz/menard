@@ -207,7 +207,13 @@ of this function with complements."
                                                         (get-in path-to-child [:synsem :cat] :top))))
                                           (not (fail?
                                                 (unifyc (get-in child [:synsem :subcat :1 :cat] :top)
-                                                            (get-in path-to-child [:synsem :subcat :1 :cat] :top))))))
+                                                        (get-in path-to-child [:synsem :subcat :1 :cat] :top))))
+                                          (not (fail?
+                                                (unifyc (get-in child [:synsem :subcat :2 :cat] :top)
+                                                        (get-in path-to-child [:synsem :subcat :2 :cat] :top))))
+                                          (not (fail?
+                                                (unifyc (get-in child [:synsem :sem :pred] :top)
+                                                        (get-in path-to-child [:synsem :sem :pred] :top))))))
               filtered-lexical-complements
               (filter (fn [lexeme]
                         (complement-pre-check lexeme bolt path))

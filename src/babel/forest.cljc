@@ -248,23 +248,23 @@ of this function with complements."
           (let [run-time (- (current-time) start-time)]
             (if (empty? (seq return-val))
 
-              ;; else, no complements could be added to this bolt.
-              ;; TODO: throw an error.
-              (do
-                (log/warn (str " add-complement to " (get-in bolt [:rule]) " took " run-time " msec, but found no lexical complements for "
-                               "'" (morph from-bolt) "'"
-                               ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
-                               ". Complements tried were:"
-                               (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
-                                    (- (count complement-candidate-lexemes) 5) " more.")))))
-            
+              ;; else, no complements could be added to this bolt: Throw an exception
+              (let [message
+                    (str " add-complement to " (get-in bolt [:rule]) " took " run-time " msec, but found no lexical complements for "
+                         "'" (morph from-bolt) "'"
+                         ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
+                         ". Complements tried were:"
+                         (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
+                              (- (count complement-candidate-lexemes) 5) " more."))]
+                (log/error message)
+                (throw (exception message)))
 
-            (do (log/trace (str "add-complement after adding complement: "
-                                (string/join ","
-                                             (map (fn [each]
-                                                    (morph each))
-                                                  return-val))))
-                return-val))))
+              (do (log/trace (str "add-complement after adding complement: "
+                                  (string/join ","
+                                               (map (fn [each]
+                                                      (morph each))
+                                                    return-val))))
+                  return-val)))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
       (do

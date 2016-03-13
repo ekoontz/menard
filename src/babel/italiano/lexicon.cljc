@@ -46,16 +46,17 @@
                            :sem {:city true}}}}}
     
     ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
-    (let [complement-semantics (atom {:pred :a
-                                      :mod {:pred :a}})]
-      {:synsem {:cat :prep
-                :sem complement-semantics
-                :subcat {:1 {:cat :verb
-                             :sem complement-semantics
-                                :subcat {:1 :top
-                                         :2 '()}}
-                         :2 '()}}})]
-
+;    (let [complement-semantics (atom {:pred :a
+;                                      :mod {:pred :a}})]
+;      {:synsem {:cat :prep
+;                :sem complement-semantics
+;                :subcat {:1 {:cat :verb
+;                             :sem complement-semantics
+;                                :subcat {:1 :top
+;                                         :2 '()}}
+;                         :2 '()}}})
+    ]
+   
    "abbandonare" {:synsem {:cat :verb
                            :sem {:pred :abandon}}}
 

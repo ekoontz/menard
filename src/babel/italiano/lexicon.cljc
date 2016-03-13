@@ -1403,60 +1403,6 @@
                           :buyable true
                           :consumable false
                           :artifact true}}})
-
-   ;; TODO: parser should turn 'l' into 'lo' and 'la'.
-   "l"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case pronoun-acc
-              :agr {:gender :masc
-                    :person :3rd
-                    :number :sing}
-              :sem {:human true
-                    :pred :lui}
-              :subcat '()}}
-
-    {:synsem {:cat :noun
-              :pronoun true
-              :case pronoun-acc
-              :agr {:gender :masc
-                    :person :3rd
-                    :number :sing}
-              :sem {:human false
-                    :place false
-                    :pred :lui}
-              :subcat '()}
-       :italiano {:initial true
-                  :pronoun true
-                  :cat :noun
-                  :case pronoun-acc}}
-
-    {:synsem {:cat :noun
-              :pronoun true
-              :case pronoun-acc
-              :agr {:gender :fem
-                    :person :3rd
-                    :number :sing}
-              :sem {:human true
-                    :pred :lei}
-              :subcat '()}}
-
-    {:synsem {:cat :noun
-              :pronoun true
-              :case pronoun-acc
-              :agr {:gender :fem
-                    :person :3rd
-                    :number :sing}
-              :sem {:human false
-                    :place false
-                    :pred :lei}
-              :subcat '()}
-     :italiano {:initial true
-                :pronoun true
-                :cat :noun
-                :case pronoun-acc}}
-    ]
-   
    "lo"
    [{:synsem {:cat :noun
               :pronoun true

@@ -200,9 +200,6 @@ of this function with complements."
           (if (not (nil? semantics))
             (if (not (nil? semantics)) (log/trace (str "  with semantics:" (strip-refs semantics))))))
         (log/trace (str " immediate parent:" (get-in immediate-parent [:rule])))
-        (if (map? complement-candidate-lexemes)
-          (log/error (str "complement-candidate-lexemes is unexpectedly a map with keys:" 
-                          ( keys complement-candidate-lexemes))))
         (let [shuffled-candidate-lexical-complements complement-candidate-lexemes
               complement-pre-check (fn [child parent path-to-child]
                                      (and (not (fail?

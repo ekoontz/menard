@@ -22,6 +22,8 @@
 (defn toks2 [tokens n]
   "group tokens together into every possible sequence of n or less tokens."
   (cond
+    (seq? tokens)
+    (toks2 (vec tokens) n)
     (< n 1) nil
     (= n 1) (vec (list tokens))
     (> n (count tokens)) (toks2 tokens (count tokens))

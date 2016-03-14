@@ -942,7 +942,6 @@
                         :subcat {:1 {:infl :future
                                      :sem {:tense :future}
                                      :subcat '()}}}})
-
       "dormire"
       {:synsem {:cat :verb
                 :essere false

@@ -100,15 +100,14 @@
                   (get-in child [:synsem :infl] :top)))
    (fail? (unifyc (get-in parent [:head :synsem :sem :tense] :top)
                   (get-in child [:synsem :sem :tense] :top)))
-   (fail? (unifyc (get-in parent [:synsem :cat])
-                  (get-in child [:synsem :cat])))
-   (fail? (unifyc (get-in parent [:head :synsem :cat])
-                  (get-in child [:synsem :cat])))
-   (fail? (unifyc (get-in parent [:head :synsem :subcat :1])
-                  (get-in child [:synsem :subcat :1])))
-   (fail? (unifyc (get-in parent [:head :synsem :subcat :2])
-                  (get-in child [:synsem :subcat :2])))
-   ))
+   (fail? (unifyc (get-in parent [:synsem :cat] :top)
+                  (get-in child [:synsem :cat] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :cat] :top)
+                  (get-in child [:synsem :cat] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :subcat :1] :top)
+                  (get-in child [:synsem :subcat :1] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :subcat :2] :top)
+                  (get-in child [:synsem :subcat :2] :top)))))
 
 (defn comp-pre-checks [parent child]
   (or
@@ -197,7 +196,9 @@
   
   (let [result
         (if (comp-pre-checks parent child)
-          :fail
+          (do
+            (log/trace (str "child: " child " failed pre-check."))
+            :fail)
           (unify
            (merge
             (copy parent)

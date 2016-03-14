@@ -221,7 +221,9 @@
       ;; else: fail:
       (do
         (log/trace (str "moreover-comp: fail: " result))
-        (log/trace (str "moreover-comp: fail at: " (fail-path result)))
+        (log/debug (str "moreover-comp: fail-path-between:"
+                        (fail-path-between parent {:comp child})))
+
         (log/debug (str "moreover-comp: fail:     "
                         "[" (get-in parent [:surface]) "];" " child ["
                         (get-in child [:surface]) "]"))

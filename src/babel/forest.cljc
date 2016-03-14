@@ -252,8 +252,8 @@ of this function with complements."
                          (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
                               (- (count complement-candidate-lexemes) 5) " more."))]
                 (log/error message)
-                (throw (exception message)))
-
+;                (throw (exception message)))
+)
               (do (log/trace (str "add-complement after adding complement: "
                                   (string/join ","
                                                (map (fn [each]

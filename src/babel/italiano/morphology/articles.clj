@@ -5,7 +5,15 @@
   {
 
    #"^l$"
+   {:replace-with "le"
+    :unify-with :top}
+
+   #"^l$"
    {:replace-with "la"
+    :unify-with :top}
+
+   #"^l$"
+   {:replace-with "lo"
     :unify-with :top}
 
    #"^l$"

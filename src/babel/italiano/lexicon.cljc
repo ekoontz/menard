@@ -806,11 +806,6 @@
                 :def :partitivo
                 :agr {:number :plur
                       :gender :masc}}}
-      "dell"
-      {:synsem {:cat :det
-                :def :partitivo
-                :agr {:number :sing
-                      :gender :top}}}
       "della"
       {:synsem {:cat :det
                 :def :partitivo
@@ -2092,7 +2087,6 @@
                                    :1plur "vogliamo"
                                    :2plur "volete"
                                    :3plur "vogliono"}}}
-
    ":top" {:synsem :top
            :top true}
    ":top-noun" {:synsem {:cat :noun}

@@ -460,7 +460,15 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (def medium
-  (let [lexicon
+  (let [parse-lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v 
+                      (filter (fn [x] true)
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))
+        lexicon
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v
@@ -474,7 +482,7 @@
      :language-keyword :italiano
      :morph fo
      :lookup (fn [arg]
-               (analyze arg lexicon))
+               (analyze arg parse-lexicon))
      :enrich enrich
      :grammar grammar
      :rules rules

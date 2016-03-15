@@ -4,11 +4,25 @@
    [clojure.string :as string]
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
+   [babel.italiano.pos :refer [pronoun-acc]]
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
 
 (def replace-patterns
   [
+
+   {:p [#"^l$" "la"] ;; "l'" -> "la"
+    :u {:synsem {:cat :noun
+                 :pronoun true
+                 :case pronoun-acc
+                 :agr {:number :sing
+                       :gender :fem}}}}
+   {:p [#"^l$" "lo"] ;; "l'" -> "lo"
+    :u {:synsem {:cat :noun
+                 :pronoun true
+                 :case pronoun-acc
+                 :agr {:number :sing
+                       :gender :masc}}}}
 
    {:p [#"(.*)e$" "$1a"] ;; "donne" -> "donna"
     :u {:synsem {:cat :noun

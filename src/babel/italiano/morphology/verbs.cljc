@@ -556,6 +556,7 @@
          #"(.*)rebbero"      "$1re"
          #"(.*)rebbero"      "$1ere" ;; potrebbero -> potere
          #"(.*)vrebbero"     "$1vere"
+         #"(.*)rrebbero"     "$1nere" ;; rimarreste -> rimanere
          #"(.*)rrebbero"     "$1lere"  ;; vorrebbero -> volere
 
          ]}]))

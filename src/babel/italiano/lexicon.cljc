@@ -1259,7 +1259,8 @@
                  :sem {:pred :I}
                  :subcat '()}}]
       "la"
-      ;; TODO: refactor commonalities
+   ;; as with "lo", do we need both of these "lo" entries? try to get by with just one.
+   ;; TODO: refactor commonalities 
       ;; 1. pronoun: human
       [{:synsem {:cat :noun
                  :pronoun true
@@ -1398,6 +1399,8 @@
                           :buyable true
                           :consumable false
                           :artifact true}}})
+
+   ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
    "lo"
    [{:synsem {:cat :noun
               :pronoun true

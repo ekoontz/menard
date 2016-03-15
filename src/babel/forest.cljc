@@ -216,9 +216,9 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "add complement to ["
-                                                         (get-in immediate-parent [:rule]) " "
-                                                         (morph immediate-parent) "]: trying lexical complement:" (morph complement)))
+                             (let [debug (log/debug (str "adding complement to: ["
+                                                         (get-in bolt [:rule]) " "
+                                                         (morph bolt) "]: trying lexical complement:" (morph complement)))
                                    result
                                    (unify (copy bolt)
                                           (path-to-map path

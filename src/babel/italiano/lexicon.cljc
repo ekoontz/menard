@@ -1011,7 +1011,7 @@
                                         :3sing "sarebbe"
                                         :1plur "saremmo"
                                         :2plur "sareste"
-                                        :3plur "sarebberano"}}})]                          
+                                        :3plur "sarebbero"}}})]                          
         [;; essere: adjective
          ;; TODO: unify essere-adjective and essere-intensifier into one lexical entry.
          (let [gender (atom :top)

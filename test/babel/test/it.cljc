@@ -85,7 +85,7 @@
                                                          :number :top
                                                          :pred :top}}}
                                          np-grammar))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
                                 parsed (parse fo np-grammar)]
@@ -103,7 +103,7 @@
                                                 :sem {:tense :present}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -123,7 +123,7 @@
                                                       :aspect :progressive}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -143,7 +143,7 @@
                                                       :aspect :perfect}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -161,7 +161,7 @@
                                                 :sem {:tense :future}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]
@@ -172,14 +172,14 @@
                         expressions))))))
 
 (deftest roundtrip-conditional
-  (let [do-this-many 20
+  (let [do-this-many 100
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
                                                 :subcat '()}}
                                       small)))]
-    (is (= 20
+    (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
                                 parsed (parse fo)]

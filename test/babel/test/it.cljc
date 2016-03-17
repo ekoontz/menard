@@ -77,8 +77,15 @@
 (deftest forbid-mispelling
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
+;; <roundtrip parsing tests>
+;; these tests will not pass if you
+;; don't have enough linguistic material
+;; (grammar + lexicon) to generate
+;; enough 'do-this-many' sentences to test.
+;; The 'do-this-many' is controlled by each
+;; deftest's 'do-this-many' below.
 (deftest roundtrip-np-grammar
-  (let [do-this-many 20
+  (let [do-this-many 100
         expressions (take do-this-many
                            (generate-all {:synsem {:sem {:spec {:def :top}
                                                          :mod {:pred :top}

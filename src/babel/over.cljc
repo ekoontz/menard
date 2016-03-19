@@ -122,18 +122,13 @@
           (if (head-pre-checks parent child)
             :fail
             (unify
-             (merge
-              (copy parent)
-              {:surface (str 
-                         (get-in parent [:rule]) " -> " (get-in child [:surface]) "")})
+             (copy parent)
              (unify {:head (copy child)
                      :head-filled true}
                     {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}})))]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
-              debug (log/debug (str "moreover-head: pass:     " (strip-refs (get-in parent [:rule])) " -> "
-                                    "[" (get-in child [:surface]) "]"))
               debug
               (let [p-sc (get-in parent [:head :synsem :subcat :1 :cat] :top)
                     c-sc (get-in child [:synsem :subcat :1 :cat] :top)]
@@ -171,17 +166,11 @@
                                 (get-in child [:synsem :subcat :1 :cat])))
                 (log/trace (str "moreover-head: SUBCAT parent head subcat 1:" (get-in parent [:head :synsem :subcat :1 :cat]) ";"
                                 "moreover-head: SUBCAT        head subcat 1:" (get-in child [:synsem :subcat :1 :cat]))))
-              (if (= (get-in parent [:synsem :cat])
-                     (get-in child [:synsem :cat]))
-                (log/trace (str "moreover-head: failcat== " (strip-refs (get-in parent [:rule])) "; "
-                                "child: " (get-in child [:surface]) "")))
               (if (and false ;; TODO (if no-pre-checks-have-caught-this ..)
                        (get-in parent [:head :synsem :infl])
                        (get-in comp [:synsem :infl]))
                 (log/debug (str "moreover-head: fail-path-between:"
-                                (fail-path-between parent {:head child}))))
-              (log/trace (str "moreover-head: failcat!= " (strip-refs (get-in parent [:rule])) "; "
-                              "child: " (get-in child [:surface]) ""))))
+                                (fail-path-between parent {:head child}))))))
           :fail)))))
 
 ;; Might be useful to set the following variable to true,
@@ -200,33 +189,17 @@
             (log/trace (str "child: " child " failed pre-check."))
             :fail)
           (unify
-           (merge
-            (copy parent)
-            ;; TODO: don't merge :surface in here: surface-calculation should happen on-demand, not in this
-            ;; time-critical code. i.e. build surface of tree by doing a depth-first traversal, not
-            ;; storing stuff within tree in case someone is interested.
-            {:surface (str
-                       "" 
-                       (get-in parent [:surface]) " " (get-in child [:surface]) "")})
+           (copy parent)
            (unifyc {:comp child}
                    {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}})))]
     (if (not (fail? result))
-      (let [debug (log/debug (str "moreover-comp: pass:     "
-                                  "[" (get-in parent [:surface]) "];" " child ["
-                                  (get-in child [:surface]) "]"))]
-        (let [result
-              (merge {:comp-filled true}
-                     result)]
-          result))
+      (merge {:comp-filled true}
+             result)
       ;; else: fail:
       (do
         (log/trace (str "moreover-comp: fail: " result))
         (log/debug (str "moreover-comp: fail-path-between:"
                         (fail-path-between parent {:comp child})))
-
-        (log/debug (str "moreover-comp: fail:     "
-                        "[" (get-in parent [:surface]) "];" " child ["
-                        (get-in child [:surface]) "]"))
         (log/trace (str "moreover-comp: fail: child: " (strip-refs child)))
         (if (and
              *throw-exception-if-failed-to-add-complement*

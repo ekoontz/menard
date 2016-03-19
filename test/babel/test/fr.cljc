@@ -7,7 +7,7 @@
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
                                                possible-lexemes replace-patterns]]
-            [babel.francais.workbook :refer [generate lookup parse tokenize]]
+            [babel.francais.workbook :refer [generate lookup parse]]
             [babel.over :as over]
             [babel.parse :as parse]
             [clojure.string :as string]

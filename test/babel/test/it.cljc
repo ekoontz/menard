@@ -12,6 +12,7 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log])
             [clojure.string :as string]
+            [clojure.set :as set]
             [dag_unify.core :refer [get-in strip-refs]]))
 
 (deftest analyze-1
@@ -205,15 +206,19 @@
     (is (= "il gatto rosso si è alzato"
            (fo (first result))))))
 
-(defn run-benchmark []
-  (repeatedly #(let [debug (println "starting generation")
-                     expr (time (generate :top))]
-                 (println (str "generated expression: " (fo expr)))
-                 (let [parsed (time (first (take 1 (parse (fo expr)))))]
-                   (println (str "parsed: " (fo parsed)))
-                   (println "")))))
+;; tricky tokenization of 'la sua' and 'la loro' as lexemes.
+(deftest parsing
+  (count
+   (map (fn [surface]
+          (let [semantics (strip-refs
+                           (get-in
+                            (first (parse surface medium))
+                            [:synsem :sem]))]
+            (is (map? semantics))))
+        ["la sua ragazza"
+         "la sua ragazza dorme"
+         "la sua ragazza bella dorme"
+         "noi beviamo la loro acqua bella"
+         "noi abbiamo bevuto la loro acqua bella"])))
 
 
-
-
-                      

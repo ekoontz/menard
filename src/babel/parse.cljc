@@ -2,6 +2,7 @@
  (:refer-clojure :exclude [get-in resolve find])
  (:require
   [babel.over :as over]
+  [clojure.set :refer [union]]
   [clojure.string :as string]
   #?(:clj [clojure.tools.logging :as log])
   #?(:cljs [babel.logjs :as log])
@@ -10,172 +11,141 @@
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
 (declare over)
-(declare toks2)
-
-(defn toks [s lookup]
-  (let [tokens (string/split s tokenizer)
-        tokens2 (toks2 tokens (count tokens))]
-    (pmap (fn [token-vector]
-            (pmap lookup token-vector))
-         tokens2)))
-
-(defn toks2 [tokens n]
-  "group tokens together into every possible sequence of n or less tokens."
-  (cond
-    (seq? tokens)
-    (toks2 (vec tokens) n)
-    (< n 1) nil
-    (= n 1) (vec (list tokens))
-    (> n (count tokens)) (toks2 tokens (count tokens))
-
-    (= (count tokens) n) ;; ([a b]; n = 2) => [["a b"] ["a" "b"]]
-    (cons [(string/join " " tokens)]
-          (toks2 tokens (- n 1)))
-    
-    (> (count tokens) n) ;; ([a b c]; n = 2) => [["a b" "c"] ["a" "b c"]]
-    (concat (let [first-token (string/join " " (subvec tokens 0 n))]
-              (pmap #(vec (cons first-token %))
-                    (toks2 (subvec tokens n (count tokens))
-                           n)))
-            (let [last-token (string/join " " (subvec tokens (- (count tokens) n) (count tokens)))]
-              (pmap #(vec (concat % (list last-token)))
-                    (toks2 (subvec tokens 0 (- (count tokens) n))
-                           n)))
-            (toks2 tokens (- n 1)))
-    true
-    tokens))
-
-(defn create-unigram-map [args index]
-  (if (< index (count args))
-    (merge
-     {[index (+ 1 index)]
-      (subvec args index (+ 1 index))}
-     (create-unigram-map args (+ 1 index)))))
-
-(defn create-bigram-map [args index grammar]
-  (log/debug (str "create-bigram-map: args count: " (count args)))
-  (if (< (+ 1 index) (count args))
-    (let [left-side (subvec args index (+ 1 index))
-          right-side (subvec args (+ 1 index) (+ 2 index))]
-      (log/trace (str "create-bigram-map: size of left-side: " (count left-side)))
-      (log/trace (str "create-bigram-map: size of right-side: " (count right-side)))
-      (merge
-       {[index (+ 2 index)]
-        (over grammar
-              (list (first left-side))
-              (list (first right-side)))}
-       (create-bigram-map args (+ index 1) grammar)))
-    (create-unigram-map args 0)))
-
-(declare over)
-
-(defn create-trigram-map [args index grammar bigrams]
-  (if (< (+ 2 index) (count args))
-    (do
-      (merge
-       {[index (+ 3 index)]
-        (lazy-cat
-         ;; [ a b | c ]
-         (let [left-parse (get bigrams [index (+ 2 index)])
-               right-parse (get bigrams [(+ 2 index) (+ 3 index)])]
-           (if (and (not (empty? left-parse))
-                    (not (empty? right-parse)))
-             (over grammar left-parse right-parse)))
-
-         ;; [ a | b c ]
-         (let [left-parse (get bigrams [index (+ 1 index)])
-               right-parse (get bigrams [(+ 1 index) (+ 3 index)])]
-           (if (and (not (empty? left-parse))
-                    (not (empty? right-parse)))
-             (over grammar left-parse right-parse))))}
-       (create-trigram-map args (+ index 1) grammar bigrams)))
-    bigrams))
 
 (defn over [grammar left right]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
   (over/over grammar left right))
 
-(defn create-ngram-map [args left ngrams grammar split-at x]
-  (log/debug (str "create-ngram-map: left:" left ";split-at:" split-at))
-  (log/trace (str "create-ngram-map: left:" left ";split-at:" split-at "; size:" (count args) "; x:" x))
-  (if (< (+ left (- split-at 2))
-         (/ (count args) 2))
-    (lazy-cat
-     (let [left-parses (get ngrams [left (+ left (- split-at 0))] '())
-           right-parses (get ngrams [(+ left split-at 0) (- (count args) 0)] '())]
-       (if (and (not (empty? left-parses))
-                (not (empty? right-parses)))
-         (over grammar left-parses right-parses)))
-     (create-ngram-map args left ngrams grammar (+ 1 split-at) x))))
+(defn cross-product [x y]
+  (mapcat (fn [each-x]
+            (filter #(not (nil? %))
+                    (map (fn [each-y]
+                           (if (= (second each-x) (first each-y))
+                             [each-x each-y]))
+                         y)))
+          x))
 
-(defn create-xgram-map [args x index grammar & [nminus1grams runlevel]]
-  (cond (= x 0) {}
-        (= x 1) (create-unigram-map args index)
-        (= x 2) (let [bigram-map (create-bigram-map args index grammar)]
-                  (log/trace (str "create-xgram-map: bigram-map: " bigram-map))
-                  (log/debug (str "create-xgram-map: keys: " (keys bigram-map)))
-                  (log/trace (str "create-xgram-map: vals: "
-                                  (string/join ";"
-                                               (map
-                                                (fn [val]
-                                                  (string/join ","
-                                                               (map (fn [x]
-                                                                      (cond
-                                                                        (map? x)
-                                                                        (:rule x)
-                                                                        true (str
-                                                                              "not map:"
-                                                                              (type x))))
-                                                                    val)))
-                                                (vals bigram-map)))))
-                  bigram-map)
+(defn spanpairs [n]
+  (mapcat (fn [x]
+            (map (fn [y]
+                   [x y])
+                 (range (+ x 1) (+ n 1))))
+          (range 0 n)))
 
-        true (let [nminus1grams (if nminus1grams nminus1grams
-                                    (create-xgram-map args (- x 1) 0 grammar))]
-               (cond
-                (= x 3) (create-trigram-map args index grammar nminus1grams)
-                (< (+ x index) (+ 1 (count args)))
-                (let [runlevel (if runlevel runlevel 0)]
-                  (log/debug (str "create-xgram-map: x=" x "; index=" index "; runlevel=" runlevel))
-                  (log/trace (str "  -> create-ngram-map(index:" index ";split-at: " 1 ";x:" x))
-                  (log/trace (str "  -> create-xgram-map(x:" x "; index:" (+ 1 index)))
-                  (create-xgram-map args x (+ index 1) grammar 
+(defn square [x]
+  (let [pairs (spanpairs x)]
+    (cross-product pairs pairs)))
 
-                                    ;; combine the parses for this span from [index to (+ x index))...
-                                    (merge 
+(defn span-map [n]
+  "take a 'square span array' and reorganizes it into a map of size -> _spans_,
+   where _size_ is an integer, and _spans_ are all the [left,right] pairs whose combined
+   size is equal to _size_."
+  (let [spans
+        (square n)]
+    (merge
+     {1 (map
+         (fn [i]
+           [i (+ 1 i)])
+         (range 0 n))}
+     (reduce (fn [resultant-map this-submap]
+               (merge-with union ;; TODO: this could get expensive - consider alternatives.
+                           resultant-map this-submap))
+             (map (fn [span-pair]
+                    (let [left-span (first span-pair)
+                          left-boundary (first left-span)
+                          right-span (second span-pair)
+                          right-boundary (second right-span)]
+                      {(- right-boundary left-boundary)
+                       (list span-pair)}))
+                  spans)))))
 
-                                     {[index (+ x index)]
-                                      (create-ngram-map args index nminus1grams grammar 1 x)}
+(defn parses [input n model span-map]
+  (log/trace (str "calling parses " n "; span-maps: " (get span-map n)))
+  (cond
+    (= n 1) input
+    (> n 1)
+    (let [minus-1 (parses input (- n 1) model span-map)]
+      (merge minus-1
+             (reduce (fn [x y]
+                       (do
+                         (log/trace (str "merge x: " (keys x)))
+                         (log/trace (str "merge y: " (keys y)))
+                         (merge-with concat x y)))
+                     (map (fn [span-pair]
+                            ;; create a new key/value pair: [i,j] => parses,
+                            ;; where each parse in parses matches the tokens from [i,j] in the input.
+                            {[(first (first span-pair))
+                              (second (second span-pair))]
+                             (let [left (get minus-1 (first span-pair))
+                                   right (get minus-1 (second span-pair))]
+                               (log/debug (str "span-pair: " span-pair))
+                               (log/debug (str "left: " ((:morph model)
+                                                         left)))
+                               (log/debug (str "right: " ((:morph model)
+                                                         right)))
+                               (let [left-strings (filter string? left)
+                                     right-strings (filter string? right)
+                                     left-lexemes (mapcat (:lookup model)
+                                                          left-strings)
+                                     right-lexemes (mapcat (:lookup model)
+                                                          right-strings)
+                                     left-signs (concat left-lexemes (filter map? left))
+                                     right-signs (concat right-lexemes (filter map? right))
+                                     debug (do (log/debug (str "left-signs: " ((:morph model)
+                                                                               left-signs)))
+                                               (log/debug (str "right-signs: " ((:morph model)
+                                                                               right-signs)))
+                                               (log/debug (str "left-strings: " (string/join "," left-strings)))
+                                               (log/debug (str "right-strings: " (string/join "," right-strings)))
+                                               (log/debug (str "looked-up left-strings:" (string/join ","  (map (:morph model)
+                                                                                                               (mapcat (:lookup model)
+                                                                                                                       left-strings)))))
+                                               (log/debug (str "looked-up right-strings:" (string/join "," (map (:morph model)
+                                                                                                               (mapcat (:lookup model)
+                                                                                                                       right-strings))))))
+                                     result
+                                     (concat
+                                      (if (and (not (empty? left-signs))
+                                               (not (empty? right-signs)))
+                                        (do
+                                          (log/debug (str "span-pair: " span-pair))
+                                          (over (:grammar model) left-signs right-signs)))
+                                      [(string/join " " [(first left-strings) (first right-strings)])])]
+                                 (if (not (empty? result))
+                                   (log/debug
+                                    (str "result: "
+                                         [(first (first span-pair))
+                                          (second (second span-pair))] " "
+                                         (string/join "; "
+                                                      (map (fn [each-parse]
+                                                             (str
+                                                              (get each-parse :rule) ":'"
+                                                              ((:morph model) each-parse)
+                                                              "'"))
+                                                           result)))))
+                                 result))})
+                              (get span-map n)))))))
 
-                                     ;; .. with parses of all of the proceeding consituent parts.
-                                     nminus1grams)
-                                    (+ 1 runlevel)))
-                true
-                nminus1grams))))
+(defn parse [input model]
+  "return a list of all possible parse trees for a string or a list of lists of maps
+   (a result of looking up in a dictionary a list of tokens from the input string)"
+  (let [tokens (string/split input tokenizer)
+        token-count (count tokens)
+        token-count-range (range 0 token-count)
+        input-map (zipmap (map (fn [i] [i (+ i 1)])
+                               token-count-range)
+                          (map (fn [i] [(nth tokens i)])
+                               token-count-range))]
+    (log/debug (str "input map: " input-map))
+    (let [all-parses
+          (parses input-map token-count model
+                  (span-map token-count))
+          result
+          {:token-count token-count
+           :complete-parses
+           (filter map? (get all-parses
+                             [0 token-count]))
+           :all-parses all-parses}]
+      (:complete-parses result))))
 
-;; TODO: move tokenization to within lexicon.
-(defn parse [arg lookup grammar]
-  "return a list of all possible parse trees for a string or a list of lists of maps (a result of looking up in a dictionary a list of tokens from the input string)"
-  (cond (string? arg)
-        (let [tokens (toks arg lookup)]
-          (parse tokens lookup grammar))
-
-        (and (vector? arg)
-             (empty? (rest arg)))
-        (first arg)
-
-        (vector? arg)
-        ;; return the parse of the whole expression.
-        ;; TODO: if a parse for the whole expression is not found,
-        ;; return the largest subparse(s).
-        (get (create-xgram-map arg (count arg) 0 grammar)
-             [0 (count arg)])
-
-        (seq? arg)
-        (mapcat #(parse (vec %) lookup grammar)
-                arg)
-        
-        ;; TODO: throw exception here.
-        true
-        (str "unexpected input: type: " (type arg))))

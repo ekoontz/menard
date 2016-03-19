@@ -1708,8 +1708,13 @@
                          :sem {:pred :recount}}}
 
    "recuperare" {:synsem {:cat :verb
-                           :sem {:pred :recover}}}
+                          :sem {:pred :recover}}}
 
+   "ragazza" {:synsem {:cat :noun
+                       :agr {:gender :fem}
+                       :sem {:pred :girl
+                             :human true}}}
+              
    "restare" {:synsem {:essere true 
                             :cat :verb
                             :sem {:pred :remain2}}}

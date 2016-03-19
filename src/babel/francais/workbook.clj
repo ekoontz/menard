@@ -26,17 +26,10 @@
 
 (defn parse
   ([string]
-   (map #(conj {:surface (fo %)}
-               %)
-        (parse/parse string
-                     (:lookup medium)
-                     (:grammar medium))))
+   (parse/parse string medium))
   ([string model]
-   (map #(conj {:surface (fo %)}
-               %)
-        (parse/parse string
-                     (:lookup model)
-                     (:grammar model)))))
+   (parse/parse string model)))
+
 (defn analyze
   ([surface-form]
    (morph/analyze surface-form (:lexicon medium)))
@@ -52,11 +45,6 @@
    (let [result (first (take 1 (engine/generate-all spec model)))]
      (conj {:surface (fo result)}
            result))))
-
-(defn tokenize [string]
-  (parse/toks string
-              (:lexicon medium)
-              (:lookup medium)))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

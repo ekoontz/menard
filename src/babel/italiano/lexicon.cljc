@@ -1791,6 +1791,7 @@
                          :sem {:pred :get-off}}
                 :italiano {:passato "sceso"}}                
                {:synsem {:cat :verb
+                         :essere true
                          :sem {:pred :go-downstairs}}
                 :italiano {:passato "sceso"}}]
    

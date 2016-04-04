@@ -112,7 +112,13 @@
 (defn comp-pre-checks [parent child]
   (or
    (fail? (unifyc (get-in parent [:comp :synsem :cat])
-                  (get-in child [:synsem :cat])))))
+                  (get-in child [:synsem :cat])))
+   (fail? (unifyc (get-in parent [:comp :synsem :agr] :top)
+                  (get-in child [:synsem :agr] :top)))
+   (fail? (unifyc (get-in parent [:comp :synsem :pronoun] :top)
+                  (get-in child [:synsem :pronoun] :top)))
+   (fail? (unifyc (get-in parent [:comp :synsem :subcat] :top)
+                  (get-in child [:synsem :subcat] :top)))))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
   (let [morph (if morph morph (fn [x] x))]

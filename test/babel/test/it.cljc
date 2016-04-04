@@ -223,3 +223,6 @@
          "noi beviamo la loro acqua bella"
          "noi abbiamo bevuto la loro acqua bella"
          "Luisa e io abbiamo bevuto la loro acqua bella"])))
+
+;; benchmark:
+;;(take 1 (repeatedly #(time (get-in (first (parse "Luisa e io abbiamo bevuto la loro acqua bella" medium)) [:synsem :sem :pred]))))

@@ -139,6 +139,7 @@
 (defn parse [input model]
   "return a list of all possible parse trees for a string or a list of lists of maps
    (a result of looking up in a dictionary a list of tokens from the input string)"
+  (log/info (str "parsing input: '" input "'"))
   (let [tokens (string/split input tokenizer)
         token-count (count tokens)
         token-count-range (range 0 token-count)
@@ -146,7 +147,7 @@
                                token-count-range)
                           (map (fn [i] [(nth tokens i)])
                                token-count-range))]
-    (log/debug (str "input map: " input-map))
+    (log/debug (str "input map:" input-map))
     (let [all-parses
           (parses input-map token-count model
                   (span-map token-count))
@@ -156,5 +157,8 @@
            (filter map? (get all-parses
                              [0 token-count]))
            :all-parses all-parses}]
+      (if (empty? (:complete-parses result))
+        (log/warn (str "could not parse: " input))
+        (log/info (str "successfully parsed input: '" input "'")))
       (:complete-parses result))))
 

@@ -20,17 +20,17 @@
 (defn cross-product [x y]
   (mapcat (fn [each-x]
             (filter #(not (nil? %))
-                    (map (fn [each-y]
-                           (if (= (second each-x) (first each-y))
-                             [each-x each-y]))
-                         y)))
+                    (pmap (fn [each-y]
+                            (if (= (second each-x) (first each-y))
+                              [each-x each-y]))
+                          y)))
           x))
 
 (defn spanpairs [n]
   (mapcat (fn [x]
-            (map (fn [y]
-                   [x y])
-                 (range (+ x 1) (+ n 1))))
+            (pmap (fn [y]
+                    [x y])
+                  (range (+ x 1) (+ n 1))))
           (range 0 n)))
 
 (defn square [x]
@@ -44,21 +44,21 @@
   (let [spans
         (square n)]
     (merge
-     {1 (map
+     {1 (pmap
          (fn [i]
            [i (+ 1 i)])
          (range 0 n))}
      (reduce (fn [resultant-map this-submap]
                (merge-with union ;; TODO: this could get expensive - consider alternatives.
                            resultant-map this-submap))
-             (map (fn [span-pair]
-                    (let [left-span (first span-pair)
-                          left-boundary (first left-span)
-                          right-span (second span-pair)
-                          right-boundary (second right-span)]
-                      {(- right-boundary left-boundary)
-                       (list span-pair)}))
-                  spans)))))
+             (pmap (fn [span-pair]
+                     (let [left-span (first span-pair)
+                           left-boundary (first left-span)
+                           right-span (second span-pair)
+                           right-boundary (second right-span)]
+                       {(- right-boundary left-boundary)
+                        (list span-pair)}))
+                   spans)))))
 
 (defn parses [input n model span-map]
   (log/trace (str "calling parses " n "; span-maps: " (get span-map n)))
@@ -72,60 +72,60 @@
                          (log/trace (str "merge x: " (keys x)))
                          (log/trace (str "merge y: " (keys y)))
                          (merge-with concat x y)))
-                     (map (fn [span-pair]
-                            ;; create a new key/value pair: [i,j] => parses,
-                            ;; where each parse in parses matches the tokens from [i,j] in the input.
-                            {[(first (first span-pair))
-                              (second (second span-pair))]
-                             (let [left (get minus-1 (first span-pair))
-                                   right (get minus-1 (second span-pair))]
-                               (log/debug (str "span-pair: " span-pair))
-                               (log/debug (str "left: " ((:morph model)
-                                                         left)))
-                               (log/debug (str "right: " ((:morph model)
-                                                         right)))
-                               (let [left-strings (filter string? left)
-                                     right-strings (filter string? right)
-                                     left-lexemes (mapcat (:lookup model)
-                                                          left-strings)
-                                     right-lexemes (mapcat (:lookup model)
-                                                          right-strings)
-                                     left-signs (concat left-lexemes (filter map? left))
-                                     right-signs (concat right-lexemes (filter map? right))
-                                     debug (do (log/debug (str "left-signs: " ((:morph model)
-                                                                               left-signs)))
-                                               (log/debug (str "right-signs: " ((:morph model)
-                                                                               right-signs)))
-                                               (log/debug (str "left-strings: " (string/join "," left-strings)))
-                                               (log/debug (str "right-strings: " (string/join "," right-strings)))
-                                               (log/debug (str "looked-up left-strings:" (string/join ","  (map (:morph model)
-                                                                                                               (mapcat (:lookup model)
-                                                                                                                       left-strings)))))
-                                               (log/debug (str "looked-up right-strings:" (string/join "," (map (:morph model)
-                                                                                                               (mapcat (:lookup model)
-                                                                                                                       right-strings))))))
-                                     result
-                                     (concat
-                                      (if (and (not (empty? left-signs))
-                                               (not (empty? right-signs)))
-                                        (do
-                                          (log/debug (str "span-pair: " span-pair))
-                                          (over (:grammar model) left-signs right-signs)))
-                                      [(string/join " " [(first left-strings) (first right-strings)])])]
-                                 (if (not (empty? result))
-                                   (log/debug
-                                    (str "result: "
-                                         [(first (first span-pair))
-                                          (second (second span-pair))] " "
-                                         (string/join "; "
-                                                      (map (fn [each-parse]
-                                                             (str
-                                                              (get each-parse :rule) ":'"
-                                                              ((:morph model) each-parse)
-                                                              "'"))
-                                                           result)))))
-                                 result))})
-                              (get span-map n)))))))
+                     (pmap (fn [span-pair]
+                             ;; create a new key/value pair: [i,j] => parses,
+                             ;; where each parse in parses matches the tokens from [i,j] in the input.
+                             {[(first (first span-pair))
+                               (second (second span-pair))]
+                              (let [left (get minus-1 (first span-pair))
+                                    right (get minus-1 (second span-pair))]
+                                (log/debug (str "span-pair: " span-pair))
+                                (log/debug (str "left: " ((:morph model)
+                                                          left)))
+                                (log/debug (str "right: " ((:morph model)
+                                                           right)))
+                                (let [left-strings (filter string? left)
+                                      right-strings (filter string? right)
+                                      left-lexemes (mapcat (:lookup model)
+                                                           left-strings)
+                                      right-lexemes (mapcat (:lookup model)
+                                                            right-strings)
+                                      left-signs (concat left-lexemes (filter map? left))
+                                      right-signs (concat right-lexemes (filter map? right))
+                                      debug (do (log/debug (str "left-signs: " ((:morph model)
+                                                                                left-signs)))
+                                                (log/debug (str "right-signs: " ((:morph model)
+                                                                                 right-signs)))
+                                                (log/debug (str "left-strings: " (string/join "," left-strings)))
+                                                (log/debug (str "right-strings: " (string/join "," right-strings)))
+                                                (log/debug (str "looked-up left-strings:" (string/join ","  (map (:morph model)
+                                                                                                                 (mapcat (:lookup model)
+                                                                                                                         left-strings)))))
+                                                (log/debug (str "looked-up right-strings:" (string/join "," (map (:morph model)
+                                                                                                                 (mapcat (:lookup model)
+                                                                                                                         right-strings))))))
+                                      result
+                                      (concat
+                                       (if (and (not (empty? left-signs))
+                                                (not (empty? right-signs)))
+                                         (do
+                                           (log/debug (str "span-pair: " span-pair))
+                                           (over (:grammar model) left-signs right-signs)))
+                                       [(string/join " " [(first left-strings) (first right-strings)])])]
+                                  (if (not (empty? result))
+                                    (log/debug
+                                     (str "result: "
+                                          [(first (first span-pair))
+                                           (second (second span-pair))] " "
+                                          (string/join "; "
+                                                       (map (fn [each-parse]
+                                                              (str
+                                                               (get each-parse :rule) ":'"
+                                                               ((:morph model) each-parse)
+                                                               "'"))
+                                                            result)))))
+                                  result))})
+                           (get span-map n)))))))
 
 (defn parse [input model]
   "return a list of all possible parse trees for a string or a list of lists of maps

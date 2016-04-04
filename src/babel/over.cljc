@@ -98,6 +98,12 @@
   (or
    (fail? (unifyc (get-in parent [:head :synsem :infl] :top)
                   (get-in child [:synsem :infl] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :subcat] :top)
+                  (get-in child [:synsem :subcat] :top)))
+   (fail? (unifyc (get-in parent [:head :phrasal] :top)
+                  (get-in child [:phrasal] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :sem :reflexive] :top)
+                  (get-in child [:synsem :sem :reflexive] :top)))
    (fail? (unifyc (get-in parent [:head :synsem :sem :tense] :top)
                   (get-in child [:synsem :sem :tense] :top)))
    (fail? (unifyc (get-in parent [:synsem :cat] :top)
@@ -124,8 +130,9 @@
   (let [morph (if morph morph (fn [x] x))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
-    (let [result
-          (if (head-pre-checks parent child)
+    (let [head-pre-checks (head-pre-checks parent child)
+          result
+          (if head-pre-checks
             :fail
             (unify
              (copy parent)
@@ -147,6 +154,9 @@
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (do
+          (if (not (= true head-pre-checks))
+            (log/warn (str "moreover-head: pre-checked missed: fail-path-between:"
+                           (fail-path-between parent {:head child}))))
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]
               (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))

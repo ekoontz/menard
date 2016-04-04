@@ -92,18 +92,24 @@
                                                             right-strings)
                                       left-signs (concat left-lexemes (filter map? left))
                                       right-signs (concat right-lexemes (filter map? right))
-                                      debug (do (log/debug (str "left-signs: " ((:morph model)
-                                                                                left-signs)))
-                                                (log/debug (str "right-signs: " ((:morph model)
-                                                                                 right-signs)))
-                                                (log/debug (str "left-strings: " (string/join "," left-strings)))
-                                                (log/debug (str "right-strings: " (string/join "," right-strings)))
-                                                (log/debug (str "looked-up left-strings:" (string/join ","  (map (:morph model)
-                                                                                                                 (mapcat (:lookup model)
-                                                                                                                         left-strings)))))
-                                                (log/debug (str "looked-up right-strings:" (string/join "," (map (:morph model)
-                                                                                                                 (mapcat (:lookup model)
-                                                                                                                         right-strings))))))
+                                      debug (do (if (not (empty? left-signs))
+                                                  (log/debug (str "left-signs: " ((:morph model)
+                                                                                  left-signs))))
+                                                (if (not (empty? right-signs))
+                                                  (log/debug (str "right-signs: " ((:morph model)
+                                                                                   right-signs))))
+                                                (if (not (empty? left-strings))
+                                                  (log/debug (str "left-strings: " (string/join "," left-strings))))
+                                                (if (not (empty? right-strings))
+                                                  (log/debug (str "right-strings: " (string/join "," right-strings))))
+                                                (if (not (empty? left-strings))
+                                                  (log/debug (str "looked-up left-strings:" (string/join ","  (map (:morph model)
+                                                                                                                   (mapcat (:lookup model)
+                                                                                                                           left-strings))))))
+                                                (if (not (empty? right-strings))
+                                                  (log/debug (str "looked-up right-strings:" (string/join "," (map (:morph model)
+                                                                                                                   (mapcat (:lookup model)
+                                                                                                                           right-strings)))))))
                                       result
                                       (concat
                                        (if (and (not (empty? left-signs))
@@ -111,6 +117,9 @@
                                          (do
                                            (log/debug (str "span-pair: " span-pair))
                                            (over (:grammar model) left-signs right-signs)))
+
+                                       ;; TODO: explain why we can use (first) here for the left- and right-strings.
+                                       ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
                                        [(string/join " " [(first left-strings) (first right-strings)])])]
                                   (if (not (empty? result))
                                     (log/debug

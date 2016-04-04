@@ -219,6 +219,5 @@
          "la sua ragazza dorme"
          "la sua ragazza bella dorme"
          "noi beviamo la loro acqua bella"
-         "noi abbiamo bevuto la loro acqua bella"])))
-
-
+         "noi abbiamo bevuto la loro acqua bella"
+         "Luisa e io abbiamo bevuto la loro acqua bella"])))

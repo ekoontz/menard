@@ -188,23 +188,28 @@
 (defn moreover-comp [parent child lexfn-sem-impl]
   (log/trace (str "moreover-comp type parent: " (type parent)))
   (log/trace (str "moreover-comp type comp:" (type child)))
+  (log/debug (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
+  (log/debug (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
-  (let [result
-        (if (comp-pre-checks parent child)
+  (let [pre-check (comp-pre-checks parent child)
+        result
+        (if pre-check
           (do
-            (log/trace (str "child: " child " failed pre-check."))
+            (log/debug (str "child failed pre-check."))
             :fail)
           (unifyc parent
                   {:comp child}
                   {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
     (if (not (fail? result))
-      (merge {:comp-filled true}
-             result)
+      (do (log/debug "unification was successful.")
+          (merge {:comp-filled true}
+                 result))
       ;; else: fail:
       (do
         (log/trace (str "moreover-comp: fail: " result))
-        (log/debug (str "moreover-comp: fail-path-between:"
-                        (fail-path-between parent {:comp child})))
+        (if (= false pre-check)
+          (log/warn (str "moreover-comp: pre-checked missed: fail-path-between:"
+                         (fail-path-between parent {:comp child}))))
         (log/trace (str "moreover-comp: fail: child: " (strip-refs child)))
         (if (and
              *throw-exception-if-failed-to-add-complement*

@@ -78,8 +78,6 @@
 (deftest forbid-mispelling
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
-;;babel.test.it> (take 1000 (repeatedly #(let [generated (fo (generate :top)) parsed (parse generated medium)] (log/info (str "generated: " generated)) (log/info (str "semantics: " (or (strip-refs (get-in (first parsed) [:synsem :sem])) "NO PARSE FOUND FOR: " generated))))))
-
 ;; <roundtrip parsing tests>
 ;; these tests will not pass if you
 ;; don't have enough linguistic material
@@ -224,5 +222,18 @@
          "noi abbiamo bevuto la loro acqua bella"
          "Luisa e io abbiamo bevuto la loro acqua bella"])))
 
-;; benchmark:
-;;(take 1 (repeatedly #(time (get-in (first (parse "Luisa e io abbiamo bevuto la loro acqua bella" medium)) [:synsem :sem :pred]))))
+;; roundtrip parser testing
+(defn roundtrip-parsing [n]
+  (take n
+        (repeatedly #(let [generated
+                           (fo (generate {:synsem {:cat :verb
+                                                   :subcat '()}}))
+                           parsed (parse generated medium)]
+                       (log/info (str "generated: " generated))
+                       (log/info (str "semantics: "
+                                      (or (strip-refs (get-in (first parsed) [:synsem :sem]))
+                                          (str "NO PARSE FOUND FOR: " generated))))
+                       {:generated generated
+                        :pred (get-in (first parsed) [:synsem :sem :pred])
+                        :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
+

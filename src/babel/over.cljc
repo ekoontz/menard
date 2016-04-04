@@ -188,10 +188,9 @@
           (do
             (log/trace (str "child: " child " failed pre-check."))
             :fail)
-          (unify
-           (copy parent)
-           (unifyc {:comp child}
-                   {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}})))]
+          (unifyc parent
+                  {:comp child}
+                  {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
     (if (not (fail? result))
       (merge {:comp-filled true}
              result)

@@ -78,6 +78,8 @@
 (deftest forbid-mispelling
  (is (empty? (parse (fo "la donna difficila") np-grammar))))
 
+;;babel.test.it> (take 1000 (repeatedly #(let [generated (fo (generate :top)) parsed (parse generated medium)] (log/info (str "generated: " generated)) (log/info (str "semantics: " (or (strip-refs (get-in (first parsed) [:synsem :sem])) "NO PARSE FOUND FOR: " generated))))))
+
 ;; <roundtrip parsing tests>
 ;; these tests will not pass if you
 ;; don't have enough linguistic material

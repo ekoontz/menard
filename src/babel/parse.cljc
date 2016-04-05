@@ -61,7 +61,7 @@
                    spans)))))
 
 (defn parses [input n model span-map]
-  (log/trace (str "calling parses " n "; span-maps: " (get span-map n)))
+  (log/debug (str "(parses " n "; span-maps: " (get span-map n) ")"))
   (cond
     (= n 1) input
     (> n 1)

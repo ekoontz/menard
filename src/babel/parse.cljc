@@ -69,28 +69,38 @@
              (reduce (fn [x y]
                        (merge-with concat x y))
                      (pmap (fn [span-pair]
+
                              ;; create a new key/value pair: [i,j] => parses,
                              ;; where each parse in parses matches the tokens from [i,j] in the input.
-                             {[(first (first span-pair))
+                             {
+
+                              ;; <key>
+                              [(first (first span-pair))
                                (second (second span-pair))]
+                              ;; </key>
+
+                              ;; <value>
                               (let [left (get minus-1 (first span-pair))
                                     right (get minus-1 (second span-pair))
-                                    left-strings (set (filter string? left))
-                                    right-strings (set (filter string? right))
+                                    left-strings (filter string? left)
+                                    right-strings (filter string? right)
                                     left-lexemes (mapcat (:lookup model)
                                                          left-strings)
                                     right-lexemes (mapcat (:lookup model)
                                                           right-strings)
-                                    left-signs (concat left-lexemes (filter map? left))
-                                    right-signs (concat right-lexemes (filter map? right))]
-                                (concat
+                                    left-signs (lazy-cat left-lexemes (filter map? left))
+                                    right-signs (lazy-cat right-lexemes (filter map? right))]
+                                (lazy-cat
                                  (if (and (not (empty? left-signs))
                                           (not (empty? right-signs)))
                                    (over (:grammar model) left-signs right-signs))
                                  
                                  ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                  ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
-                                 [(string/join " " [(first left-strings) (first right-strings)])]))})
+                                 [(string/join " " [(first left-strings) (first right-strings)])]))
+                              ;; </value>
+                              })
+
                            (get span-map n)))))))
 
 (defn parse [input model]

@@ -1405,6 +1405,7 @@
    [{:synsem {:cat :noun
               :pronoun true
               :case pronoun-acc
+              :reflexive false
               :agr {:gender :masc
                     :person :3rd
                     :number :sing}
@@ -1415,6 +1416,7 @@
     {:synsem {:cat :noun
               :pronoun true
               :case pronoun-acc
+              :reflexive false
               :agr {:gender :masc
                     :person :3rd
                     :number :sing}

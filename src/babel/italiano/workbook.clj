@@ -100,7 +100,7 @@
                         ]))
    :refer-clojure false
    ;; using 60000 for development: for production, use much smaller value.
-   :timeout 5000
+   :timeout 10000
    :namespace 'babel.italiano.workbook))
 
 
@@ -215,6 +215,15 @@
    (GET "/" request
         {:status 200
          :body (html/page "Italian Workbook" (workbook-ui request) request)
+         :headers {"Content-Type" "text/html;charset=utf-8"}})
+
+   (GET "/parse/" request
+        {:status 200
+         :body
+         (let [debug (log/info (str "sending string to parser.."))]
+           (str "" (html/tablize
+                    (get-in (strip-refs (first (parse (get (get request :query-params) "string"))))
+                            [:synsem :sem]))))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
 
    (GET "/q/" request

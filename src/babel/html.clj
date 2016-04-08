@@ -566,14 +566,8 @@
      (str "<i>" arg "</i>")
 
      (ref? arg)
-     (let [is-first (fs/is-first-path serialized path 0
-                                      (fs/path-to-ref-index serialized path 0))]
-       (str (if (and (or (= (last path) :subcat)
-                         (= is-first true))
-                     (or false (not (= (last path) :head)))
-                     (or false (not (= (last path) :comp))))
-              (tablize @arg path serialized
-                       (merge opts {:as-tree false})))))
+     (tablize @arg path serialized
+              (merge opts {:as-tree false}))
 
      (fn? arg)
      "&lambda;"

@@ -22,8 +22,9 @@
 (defn run-benchmark [times]
   (count (take (Integer/parseInt times)
                (repeatedly #(let [debug (println "starting generation..")
-                                  expr (time (generate :top))]
-                              (println (str "generated expression: " (fo expr)))
+                                  expr (time (generate {:comp {:synsem {:agr {:person :3rd}}}
+                                                        :synsem {:cat :verb}}))]
+                              (println (str "generated: " (fo expr)))
                               (println (str "starting parsing.."))
                               (let [parsed (time (take 1 (parse (fo expr))))]
                                 (if (empty? parsed)

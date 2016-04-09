@@ -235,6 +235,7 @@
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :3rd}}}}}
      :p [
+         #"(.*)rranno"     "$1nere"
          #"(.*)channo"     "$1care"
          #"(.*)cheranno"   "$1care"
          #"(.*)dranno"     "$1dare"

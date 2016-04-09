@@ -13,7 +13,7 @@
             #?(:cljs [babel.logjs :as log])
             [clojure.string :as string]
             [clojure.set :as set]
-            [dag_unify.core :refer [get-in strip-refs]]))
+            [dag_unify.core :refer [copy get-in strip-refs]]))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

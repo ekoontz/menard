@@ -70,7 +70,13 @@
                         (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
                         (add-complements-to-bolts [:head :comp]             :top grammar lexicon index morph)
                         (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph)))))))
-  
+
+(defn lexemes-before-phrases []
+  ;; TODO: take depth as an argument; make phrases decreasingly likely as depth increases.
+  (let [result (= (rand-int 3) 0)]
+    (log/debug (str "lexemes-before-phrases => " result))
+    result))
+
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
 (defn lightning-bolt [grammar lexicon spec & [ depth index parent morph]]
   "Returns a lazy-sequence of all possible trees given a spec, where
@@ -166,7 +172,7 @@ of this function with complements."
                           )
                         )
                        candidate-parents))]
-        (if (= (rand-int 2) 0)
+        (if (lexemes-before-phrases)
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))
 
@@ -233,10 +239,16 @@ of this function with complements."
                                (if is-fail? :fail result)))
                      
                            ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
-                           (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
-                             (if (= (rand-int 2) 0)
-                               (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                               (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
+                           (do
+                             (log/debug (str "generating lexical complements with spec: " (strip-refs spec)))
+                             (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
+                               (if (lexemes-before-phrases)
+                                 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
+                                 (do
+                                   (if (not (empty? phrasal-complements))
+                                     (log/debug (str "first phrasal complement for: " (get-in bolt [:rule]) ":" (morph (first phrasal-complements))))
+                                     (log/debug (str "no phrasal complements for: " (get-in bolt [:rule]) ".")))
+                                   (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))]
           (let [run-time (- (current-time) start-time)]
             (if (empty? return-val)
 

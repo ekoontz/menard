@@ -1568,23 +1568,14 @@
     
     "muovere" {:synsem {:cat :verb
                         :sem {:pred :move}}}
-    
-    "nascere"
-   {:italiano {:passato "nato"}
-    :synsem {:cat :verb
-             :essere true
-             :sem {:discrete false
-                   :pred :be-born
-                   :subj {:human true}
-                   :obj {:legible true}}}}
 
-   ;; non-comparative
-   ;; TODO: add comparative
    "nascere" {:synsem {:cat :verb
                       :essere true
                       :sem {:pred :be-born}}
              :italiano {:passato "nato"}}
    
+   ;; non-comparative
+   ;; TODO: add comparative
    "nero"
    (unify adjective
           {:synsem {:cat :adjective

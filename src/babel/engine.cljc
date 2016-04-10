@@ -26,10 +26,22 @@
       (GET "/generate" request
            (generate-from-request request)))))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
 ;; TODO: use a option map/destructuring thing.
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 (defn generate [spec language-model & [{add-subcat :add-subcat
                                         do-enrich :do-enrich}]]
+  (let [grammar (:grammar language-model)]
+    (if (empty? grammar)
+      (do
+        (log/error (str "grammar is empty."))
+        (exception (str "grammar is empty.")))))
+
   (let [do-enrich (if do-enrich do-enrich true)
         spec (if (or (= false add-subcat)
                      (fail? (unify spec {:synsem {:subcat '()}}))

@@ -874,4 +874,3 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
   (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] :true)))
                                    (get lexicon k))])
                 (keys lexicon))))
-

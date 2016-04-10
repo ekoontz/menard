@@ -177,7 +177,6 @@
                                      :synsem {:modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
                               :rule "nbar"
                               :synsem head-synsem}))
-
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)]
@@ -189,7 +188,6 @@
                                              :mod '()}}
                               :head {:phrasal false}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
-
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)]

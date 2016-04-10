@@ -29,6 +29,8 @@
                        :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
                        :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY
                  }
+
+  :filespecs [{:type :path :path "compiled"}]
   :resource-paths ["resources"]
   :plugins [[cider/cider-nrepl "0.11.0"]
             [lein-cljsbuild "1.1.2"]

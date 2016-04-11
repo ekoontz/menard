@@ -1,3 +1,4 @@
+;; TODO: nouns do not need {:essere false}
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in merge])
   (:require

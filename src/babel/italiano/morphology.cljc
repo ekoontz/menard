@@ -858,6 +858,7 @@
      word)
     )))
 
+;; TODO: replace 'a' and 'b' with 'left' and 'right': latter easier to talk about
 (defn get-string [a & [ b ]]
   (cond (and (nil? b)
              (seq? a))

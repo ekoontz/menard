@@ -269,8 +269,10 @@ of this function with complements."
 ;                         ". Head is:" (strip-refs (get-in bolt (concat (butlast path) [:head])))
                          ". Head notes:" (strip-refs (get-in bolt (concat (butlast path) [:head :notes])))
                          ". Complements tried were:"
-                         (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes))) ".. and "
-                              (- (count complement-candidate-lexemes) 5) " more."))]
+                         (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes)))
+                              (if (< 0 (- (count complement-candidate-lexemes) 5))
+                                (str ".. and "
+                                     (- (count complement-candidate-lexemes) 5) " more."))))]
                 (log/error message)
 ;                (throw (exception message)))
 )

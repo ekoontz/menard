@@ -2154,7 +2154,7 @@
                            vals))))
                          
                  ;; If a verb is not specifically marked as reflexive, it
-                 ;; is reflexive:false, to prevent generation of reflexive
+                 ;; is {:reflexive false}, to prevent generation of reflexive
                  ;; sentences using nonreflexive verbs.
                  ;; TODO: move this to within intransitivize and transitivize:
                  ;; that is, within babel.italiano.pos, mark certain parts of speech

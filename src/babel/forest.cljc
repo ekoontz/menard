@@ -277,10 +277,7 @@ of this function with complements."
 ;                (throw (exception message)))
 )
               (do (log/debug (str "add-complement after adding complement: "
-                                  (string/join ","
-                                               (map (fn [each]
-                                                      (morph each))
-                                                    return-val))))
+                                  (morph (first return-val)) ",.."))
                   return-val)))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.

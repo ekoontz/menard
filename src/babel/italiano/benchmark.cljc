@@ -28,7 +28,9 @@
                               (println (str "starting parsing.."))
                               (let [parsed (time (take 1 (parse (fo expr))))]
                                 (if (empty? parsed)
-                                  (throw (exception (str "could not parse: " (fo expr)))))
+                                  (throw (exception (str "could not parse: " (fo expr) " with semantics:"
+                                                         (strip-refs (get-in expr [:synsem :sem]))))))
+                                                         
                                 (println (str "parsed: " (fo (first parsed))))
                                 (println "")))))))
 (defn -main [times]

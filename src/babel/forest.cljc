@@ -220,8 +220,8 @@ of this function with complements."
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
-              debug (log/debug (str "pre-filtered size: " (count complement-candidate-lexemes)))
-              debug (log/debug (str "filtered size: " (count filtered-lexical-complements)))
+              debug (log/debug (str "add-complement pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
+              debug (log/debug (str "add-complement post-filtered lexeme size: " (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               
               return-val

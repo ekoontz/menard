@@ -237,3 +237,17 @@
                         :pred (get-in (first parsed) [:synsem :sem :pred])
                         :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
 
+(defn ps-tree [tree morph]
+  "return just the essentials of a tree: just rule names and surface forms at leaves."
+  (let [rule (get-in tree [:rule])
+        head (get-in tree [:head])
+        comp (get-in tree [:comp])]
+    (if (and head comp rule)
+      (conj {:rule rule}
+            {:head (ps-tree head morph)
+             :comp (ps-tree comp morph)})
+      (morph tree))))
+
+
+
+    

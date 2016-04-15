@@ -264,10 +264,7 @@ of this function with complements."
               (let [message
                     (str " add-complement to " (get-in bolt [:rule]) " at path: " path " took " run-time " msec, but found no lexical complements for "
                          "'" (morph from-bolt) "'"
-;                         ". Desired complement cat was: " (strip-refs (get-in bolt (concat path [:synsem :cat])))
-                         ". Desired complement synsem/sem/pred was: " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))
-;                         ". Head is:" (strip-refs (get-in bolt (concat (butlast path) [:head])))
-                         ". Head notes:" (strip-refs (get-in bolt (concat (butlast path) [:head :notes])))
+                         ". Desired complement [:synsem :sem :pred] was: " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))
                          ". Complements tried were:"
                          (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes)))
                               (if (< 0 (- (count complement-candidate-lexemes) 5))

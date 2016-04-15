@@ -248,6 +248,14 @@
              :comp (ps-tree comp morph)})
       (morph tree))))
 
+;; should fail fast: instead seems to run forever.
+(deftest difficult-generate
+  (let [synsem
+        {:synsem {:sem {:pred :be
+                        :subj {:pred :città}
+                        :obj {:pred :calzoni}}}}]
+    (is (or true ;; test won't complete (yet) without disabling with this 'or true'.
+            (not (nil? (generate synsem)))))))
 
 
     

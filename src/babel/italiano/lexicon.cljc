@@ -1988,14 +1988,14 @@
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}
 
-   "uscire" (let [common {:synsem {:cat :verb}
+   "uscire" (let [common {:synsem {:cat :verb
                                    :essere true
-                                   :sem {:subj {:animate true}}
+                                   :sem {:subj {:animate true}}}
                           :italiano {:italiano "uscire"
                                      :present {:boot-stem1 "esc"
                                                :boot-stem2 "usc"}}}]
-             [(merge common {:synsem {:sem {:pred :go-out}}})
-              (merge common {:synsem {:sem {:pred :exit}}})])
+              [(merge common {:synsem {:sem {:pred :go-out}}})
+               (merge common {:synsem {:sem {:pred :exit}}})])
    "vedere" 
    {:synsem {:cat :verb
              :sem {:pred :see}}

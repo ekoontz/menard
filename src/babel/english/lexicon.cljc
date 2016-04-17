@@ -1039,7 +1039,12 @@
    "may" 
    {:english {:past "might"
               :participle "able to"
-              :present "may"
+              :present {:1sing "may"
+                        :2sing "may"
+                        :3sing "may"
+                        :1plur "may"
+                        :2plur "may"
+                        :3plur "may"}
               :future "be able to"
               :conditional "might"}
     :synsem {:cat :verb

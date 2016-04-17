@@ -11,6 +11,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log])
+            [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [clojure.set :as set]
             [dag_unify.core :refer [copy get-in strip-refs]]))

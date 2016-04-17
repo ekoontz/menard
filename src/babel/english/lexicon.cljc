@@ -1038,6 +1038,7 @@
                 :sem {:pred :manage}}}
    "may" 
    {:english {:past "might"
+              :participle "able to"
               :present "may"
               :future "be able to"
               :conditional "might"}

@@ -1046,7 +1046,7 @@
                         :2plur "may"
                         :3plur "may"}
               :future "be able to"
-              :conditional "might"}
+              :conditional "be able to"}
     :synsem {:cat :verb
              :sem {:pred :may}}}
    "me" 

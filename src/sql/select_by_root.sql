@@ -3,8 +3,10 @@ CREATE OR REPLACE VIEW expression_with_root
     serialized,
     structure->'synsem'->'sem'->'subj'->>'pred' AS subj,
     COALESCE(structure->'synsem'->'sem'->'obj'->>'pred',
-            structure->'synsem'->'sem'->>'obj') AS obj,
-    structure->'synsem'->'sem'->>'pred' AS pred,
+             structure->'synsem'->'sem'->>'obj') AS obj,
+	structure->'synsem'->'sem'->>'pred' AS pred,
+	structure->'synsem'->'sem'->>'tense' AS tense,
+	structure->'synsem'->'sem'->>'aspect' AS aspect,
        COALESCE(
 	structure->'root'->'italiano'->>'italiano',
         structure->'root'->'français'->>'français',

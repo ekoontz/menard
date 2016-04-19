@@ -1,7 +1,7 @@
 (ns babel.test.en
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.english.grammar :refer [small small-plus-vp-pronoun medium]]
+            [babel.english.grammar :refer [small small-plus-plus-np small-plus-vp-pronoun medium]]
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
             [babel.english.workbook :refer [analyze generate parse]]

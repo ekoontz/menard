@@ -1248,7 +1248,8 @@
                  :agr {:gender :fem
                        :person :1st
                        :number :sing}
-                 :sem {:pred :I}
+                 :sem {:pred :I
+                       :human true}
                  :subcat '()}}
 
        {:synsem {:cat :noun
@@ -1257,7 +1258,8 @@
                  :agr {:gender :masc
                        :person :1st
                        :number :sing}
-                 :sem {:pred :I}
+                 :sem {:pred :I
+                       :human true}
                  :subcat '()}}]
       "la"
    ;; as with "lo", do we need both of these "lo" entries? try to get by with just one.
@@ -1592,7 +1594,8 @@
              :agr {:gender :fem
                    :person :1st
                    :number :plur}
-             :sem {:pred :noi}
+              :sem {:pred :noi
+                    :human true}
              :subcat '()}}
     {:synsem {:cat :noun
               :pronoun true
@@ -1600,7 +1603,8 @@
              :agr {:gender :masc
                    :person :1st
                    :number :plur}
-              :sem {:pred :noi}
+              :sem {:pred :noi
+                    :human true}
               :subcat '()}}]
 
    "osservare" {:synsem {:cat :verb
@@ -1953,7 +1957,8 @@
               :agr {:person :2nd
                     :gender :fem
                     :number :sing}
-              :sem {:pred :tu}
+              :sem {:pred :tu
+                    :human true}
               :subcat '()}}
     {:synsem {:cat :noun
               :pronoun true
@@ -1961,7 +1966,8 @@
               :agr {:person :2nd
                     :gender :masc
                     :number :sing}
-              :sem {:pred :tu}
+              :sem {:pred :tu
+                    :human true}
               :subcat '()}}]
    "un"
        {:synsem {:cat :det
@@ -2076,7 +2082,8 @@
               :agr {:person :2nd
                     :gender :fem
                     :number :plur}
-              :sem {:pred :voi}
+              :sem {:pred :voi
+                    :human true}
               :subcat '()}}
 
     {:synsem {:cat cat-of-pronoun
@@ -2085,7 +2092,8 @@
               :agr {:person :2nd
                     :gender :masc
                     :number :plur}
-              :sem {:pred :voi}
+              :sem {:pred :voi
+                    :human true}
               :subcat '()}}]
             
     "volere" {:synsem {:cat :verb

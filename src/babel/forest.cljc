@@ -270,7 +270,7 @@ of this function with complements."
                               (if (< 0 (- (count complement-candidate-lexemes) 5))
                                 (str ".. and "
                                      (- (count complement-candidate-lexemes) 5) " more."))))]
-                (log/error message)
+                (log/warn message)
 ;                (throw (exception message)))
 )
               (do (log/debug (str "add-complement after adding complement: "

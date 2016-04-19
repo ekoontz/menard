@@ -1,16 +1,18 @@
 (ns babel.core
   (:require
-   [babel.workbook :as workbook]
-   [babel.francais.workbook :as fr]
    [babel.english.workbook :as en]
    [babel.espanol.workbook :as es]
+   [babel.francais.workbook :as fr]
+   [babel.html :as html]
    [babel.italiano.workbook :as it]
-
+   [babel.reader :as reader]
+   [babel.workbook :as workbook]
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
    ;;   [clojure.tools.nrepl.server :as nrepl-server]
    ;;   [cider.nrepl :refer (cider-nrepl-handler)]
 
+   [clojure.tools.logging :as log]
    [compojure.core :refer [context defroutes GET PUT POST DELETE ANY]]
    [compojure.handler :as handler]
    [compojure.route :as route]
@@ -29,6 +31,12 @@
            it/routes)
   (context "/workbook" []
            workbook/routes)
+  (GET "/expr/:expr" request
+       (let [expr (:expr (:route-params request))]
+         (log/info (str "expr(1):" expr))
+         (log/info (str "expr(2):" (Integer. expr)))
+         {:status 200
+          :body (html/page "Expr" (html/tablize (reader/id2expression (Integer. expr))))}))
   (route/resources "/"))
 
 (def app

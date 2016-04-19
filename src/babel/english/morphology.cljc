@@ -888,16 +888,16 @@
                              :merge-fn
                              (fn [val]
                                {:synsem {:cat :verb
-                                         :subcat {:2 {:agr {:number :plur
+                                         :subcat {:1 {:agr {:number :plur
                                                             :person :2nd}}}}
-                                :english {:infl :present
+                                :english {:infl :past
                                           :english (get-in val [:english :past :2plur])}})}
 
                             {:path [:english :past :3plur]
                              :merge-fn
                              (fn [val]
                                {:synsem {:cat :verb
-                                         :subcat {:3 {:agr {:number :plur
+                                         :subcat {:1 {:agr {:number :plur
                                                             :person :3rd}}}}
                                 :english {:infl :past
                                           :english (get-in val [:english :past :3plur])}})}

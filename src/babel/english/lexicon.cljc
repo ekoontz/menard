@@ -25,12 +25,12 @@
 
    ;; useful meta-lexeme for debugging generation or parsing -
    ;;    modify its constraints as you prefer for what you are trying to debug.
-   "_"
-   (unify agreement-noun
-          common-noun
-          feminine-noun
-          countable-noun
-          {:synsem {:sem {:pred :blank}}})
+;   "_"
+;   (unify agreement-noun
+;          common-noun
+;          feminine-noun
+;          countable-noun
+;          {:synsem {:sem {:pred :blank}}})
 
    "Antonia"
    {:synsem {:sem {:pred :antonia

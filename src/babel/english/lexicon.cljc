@@ -160,6 +160,11 @@
                                        :1plur "were able to"
                                        :2plur "were able to"
                                        :3plur "were able to"}
+
+                           ;; TODO: improve this. Currently sounds pretty awkward:
+                           ;; "he was being able to"
+                           :participle "being able to"
+
                            :present {:1sing "am able to"
                                      :2sing "are able to"
                                      :3sing "is able to"

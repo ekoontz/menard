@@ -559,6 +559,17 @@
       :english {:participle "getting angry"
                 :present {:3sing "gets angry"}
                 :past "got angry"}})
+   "get bored"
+   (let [subject-semantics (atom {:human true})]
+     {:synsem {:cat :verb
+               :sem {:pred :get-bored
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting bored"
+                :present {:3sing "gets bored"}
+                :past "got bored"}})
    
    "get dressed"
    (let [subject-semantics (atom {:human true})]

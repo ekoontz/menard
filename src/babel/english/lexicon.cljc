@@ -1811,5 +1811,16 @@
                  ;; then the object is {:reflexive false}
                  (if-then {:synsem {:cat :verb
                                     :subcat {:2 {:reflexive false}}}}
-                          {:synsem {:subcat {:2 {:reflexive false}}}})))
+                          {:synsem {:subcat {:2 {:reflexive false}}}})
+
+                 ;; subject-and-reflexive-pronoun agreement
+                 (if-then {:synsem {:sem {:reflexive true}
+                                    :cat :verb
+                                    :subcat {:1 :top
+                                             :2 :top}}}
+                                          
+                          (let [subject-agr (atom :top)]
+                            {:synsem {:subcat {:1 {:agr subject-agr}
+                                               :2 {:agr subject-agr}}}}))))
+                                
 

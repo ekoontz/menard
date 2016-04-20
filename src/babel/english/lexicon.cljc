@@ -23,6 +23,8 @@
 (def lexicon-source
   {
 
+   ;; useful meta-lexeme for debugging generation or parsing -
+   ;;    modify its constraints as you prefer for what you are trying to debug.
    "_"
    (unify agreement-noun
           common-noun

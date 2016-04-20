@@ -239,9 +239,10 @@ of this function with complements."
                                                         (copy complement)))
                                    is-fail? (fail? result)]
                                (if is-fail?
-                                 (let [fail-path (fail-path-between (strip-refs (get-in bolt path))
-                                                                    (strip-refs complement))]
-                                   (log/debug (str "fail-path-between(bolt=val1/comp=val2):" fail-path)))
+                                 (log/debug (str "fail-path-between(bolt=val1/comp=val2):"
+                                                 (fail-path-between (strip-refs (get-in bolt path))
+                                                                    (strip-refs complement))))
+                                                                                
                                  (log/debug (str "success:" (:rule result) " returning: " (morph result))))
                                  
                                (if is-fail? :fail result)))

@@ -2,11 +2,13 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.english.morphology :refer (fo)]
+   ;; TODO: use unify/unifyc, not lexiconfn/unify: they are (should be equivalent), and
+   ;; to have both is confusing.
    [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)]
    [babel.pos :as pos]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :as unify :refer (dissoc-paths get-in serialize)]))
+   [dag_unify.core :as unify :refer (dissoc-paths get-in serialize unifyc)]))
 
 (def adjective pos/adjective)
 (def animal pos/common-noun)

@@ -779,7 +779,7 @@
               :sem {:human true}
               :subcat '()}}
 
-   "himself"
+    "himself"
    {:synsem {:cat :noun
              :pronoun true
              :case :acc
@@ -789,14 +789,10 @@
                    :number :sing}
              :sem {:human true}
              :subcat '()}}
-   "his"
-   (map #(unify %
-                {:synsem {:cat :det
-                          :agr {:gender :masc}
-                          :sem {:pred :lui}
-                          :def :possessive}})
-        [{:synsem {:agr {:number :sing}}}
-         {:synsem {:agr {:number :plur}}}])
+
+   "his" {:synsem {:cat :det
+                   :sem {:pred :lui}
+                   :def :possessive}}
                  
    "hit" {:english {:past "hit"}
              :synsem {:cat :verb

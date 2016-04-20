@@ -458,6 +458,9 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (def medium
+  ;; TODO: remove parse-lexicon.
+  ;; Should not need a separate parse-lexicon here: for debugging,
+  ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
   (let [parse-lexicon
         (into {}
               (for [[k v] lexicon]

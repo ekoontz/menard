@@ -179,3 +179,5 @@
     (is (= (fo form)
            "you all were going downstairs"))))
 
+(deftest simple-parse
+  (is (not (empty? (parse "she sleeps")))))

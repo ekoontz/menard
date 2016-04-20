@@ -26,6 +26,7 @@
                           y)))
           x))
 
+;; TODO: make a static lookup table, at least for n < (e.g.) 5.
 (defn spanpairs [n]
   (mapcat (fn [x]
             (pmap (fn [y]

@@ -707,9 +707,7 @@
    {:unify-with {:synsem {:cat :noun
                           :agr {:number :sing}}}}})
 
-
-
-(defn analyze [surface-form lookup-fn]
+(defn analyze [surface-form lexicon]
   "return the map incorporating the lexical information about a surface form."
   (let [replace-pairs
         (merge 
@@ -737,7 +735,7 @@
                    (if (and (not (keyword? key)) (re-find key surface-form))
                      (let [lexical-form (string/replace surface-form key
                                                         (:replace-with (get replace-pairs key)))
-                           looked-up (lookup-fn lexical-form)]
+                           looked-up (get lexicon lexical-form)]
                        (map #(unifyc % (:unify-with (get replace-pairs key)))
                             looked-up))))
                  (keys replace-pairs)))
@@ -748,7 +746,7 @@
                  (fn [key]
                    (if (keyword? key)
                      (let [lexical-form surface-form
-                           looked-up (lookup-fn lexical-form)]
+                           looked-up (get lexicon lexical-form)]
                        (map #(unifyc % (:unify-with (get replace-pairs key)))
                             looked-up))))
                  (keys replace-pairs)))]
@@ -760,7 +758,7 @@
      ;; might be either the canonical form of a word, or an irregular conjugation of a word.
      (if (not (empty? analyzed-via-identity))
        analyzed-via-identity
-       (lookup-fn surface-form)))))
+       (get lexicon surface-form)))))
 
 (def pronoun-semantic-gender-agreement
   (let [gender (atom :top)]

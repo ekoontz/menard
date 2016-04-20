@@ -831,6 +831,9 @@
                                              :sem subject-semantics}}}}))
              (merge common
                     {:synsem {:sem {:pred :hurt
+                                    ;; TODO: consider making lexicon post-processing rule:
+                                    ;; if not(reflexive=true) => reflexive=false
+                                    :reflexive false
                                     :obj {:animate true}}}})])
 
    "Jean" {:synsem {:sem {:pred :Jean

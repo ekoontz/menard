@@ -136,10 +136,10 @@
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS
 
-(def grammar-pre (list (unifyc h21
+(def grammar (list (unifyc h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
-
+                   
                    (unifyc h21
                            (let [head-synsem {:cat :intensifier
                                               :modified true}] ;; TODO: document what purpose :modified serves (if any: if none, remove).
@@ -369,7 +369,7 @@
   (map (fn [phrase]
          (modal-is-head-feature
           (aux-is-head-feature phrase)))
-       grammar-pre))
+       grammar))
 
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))

@@ -18,11 +18,12 @@
    [clojail.testers :refer :all]
    [clojure.core :exclude [get-in]]
    [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
+   [clojure.repl :refer [doc]]
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
+   [dag_unify.core :refer [fail? fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
 (defn analyze

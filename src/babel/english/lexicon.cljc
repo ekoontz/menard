@@ -9,7 +9,9 @@
                               animal
                               common-noun
                               countable-noun
+                              feminine-noun
                               intransitivize
+                              masculine-noun
                               subject-verb-agreement
                               transitivize]]
    [dag_unify.core :refer [fail? get-in merge strip-refs]]))
@@ -20,6 +22,14 @@
 
 (def lexicon-source
   {
+
+   "_"
+   (unify agreement-noun
+          common-noun
+          feminine-noun
+          countable-noun
+          {:synsem {:sem {:pred :blank}}})
+
    "Antonia"
    {:synsem {:sem {:pred :antonia
                    :human true}
@@ -502,6 +512,15 @@
       :english {:participle "falling asleep"
                 :present {:3sing "falls asleep"}
                 :past "fell asleep"}})
+
+   "father"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          masculine-noun
+          {:synsem {:sem {:human true
+                          :pred :father
+                          :child false}}})
    
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
@@ -1070,6 +1089,7 @@
    (unify agreement-noun
           common-noun
           countable-noun
+          feminine-noun
           {:synsem {:sem {:human true
                           :pred :madre
                           :child false}}})
@@ -1631,6 +1651,7 @@
    (unify agreement-noun
           common-noun
           countable-noun
+          feminine-noun
           {:english {:plur "women"}
            :synsem {:sem {:human true
                           :pred :donna

@@ -743,15 +743,21 @@
              :sem {:pred :aiutare
                    :activity true
                    :obj {:human true}}}}
-    "her"
-    (map #(unify %
-                 {:synsem {:cat :det
-                           :agr {:gender :fem}
-                           :sem {:pred :lei}
-                           :def :possessive}})
-         [{:synsem {:agr {:number :sing}}}
-          {:synsem {:agr {:number :plur}}}])
-    
+   "her"
+   [{:synsem {:cat :det
+              :sem {:pred :lei}
+              :def :possessive}}
+
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :acc
+              :reflexive false
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :sing}
+              :sem {:human true}
+              :subcat '()}}]
+   
    "herself"
    {:synsem {:cat :noun
              :pronoun true

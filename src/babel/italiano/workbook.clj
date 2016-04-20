@@ -18,6 +18,7 @@
    [clojail.testers :refer :all]
    [clojure.core :exclude [get-in]]
    [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
+   [clojure.repl :refer [doc]]
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.tools.logging :as log]

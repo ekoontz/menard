@@ -46,15 +46,9 @@
 
 (defn parse
   ([string]
-   (parse/parse string
-                (:lexicon small)
-                (:lookup small)
-                (:grammar small)))
+   (parse/parse string medium))
   ([string model]
-   (parse/parse string
-                (:lexicon model)
-                (:lookup model)
-                (:grammar model))))
+   (parse/parse string model)))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

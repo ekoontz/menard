@@ -1711,8 +1711,8 @@
              :agr {:mass false
                    :number :sing}}}
 
-   "racontare" {:synsem {:cat :verb
-                         :sem {:pred :recount}}}
+   "raccontare" {:synsem {:cat :verb
+                          :sem {:pred :recount}}}
 
    "recuperare" {:synsem {:cat :verb
                           :sem {:pred :recover}}}

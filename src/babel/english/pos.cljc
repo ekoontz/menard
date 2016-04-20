@@ -13,6 +13,12 @@
 (def common-noun pos/common-noun)
 (def countable-noun pos/common-noun)
 
+(def feminine-noun (unifyc
+                    pos/agreement-noun (:feminine pos/noun)))
+
+(def masculine-noun (unifyc
+                    pos/agreement-noun (:masculine pos/noun)))
+
 (def agreement-noun
   (let [agr (atom :top)]
     {:english {:agr agr}

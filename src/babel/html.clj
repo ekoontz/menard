@@ -336,65 +336,6 @@
       "  </table>"
       "</div>")
 
-
-     ;; displaying a phrase structure tree (2 children)
-     (and
-      (map? arg)
-
-      (not (= :subcat (last path)))
-
-      ;; display :extends properly (i.e. not a tree).
-      ;; :extends will have features :a,:b,:c,..
-      (not (= :a (last path)))
-      (not (= :b (last path)))
-      (not (= :c (last path)))
-      (not (= :d (last path)))
-      (not (= :e (last path)))
-      (not (= :f (last path)))
-      (not (= :g (last path)))
-
-      (not (= :none (:1 arg :none)))
-      (not (= :none (:2 arg :none))))
-
-     (str
-      "<div class='phrase'>" "PHRASE"
-      "  <table class='phrase'>"
-      "    <tr>"
-      "      <td class='parent2child'>&nbsp;</td><td class='parent2child parent' colspan='3'>"
-      (tablize (dissoc (dissoc arg :1) :2) path serialized opts)
-      "      </td><td class='parent2child'>&nbsp;</td>"
-      "    </tr>"
-      "    <tr>"
-      "      <td class='ref'>"
-      (if (ref? (:1 arg))
-        (str
-         "     <div class='ref'>"
-         (fs/path-to-ref-index serialized (concat path '(:1)) 0)
-         "     </div>"))
-      "      </td>"
-      "      <td>"
-      (tablize (if (ref? (:1 arg))
-                 @(:1 arg)
-                 (:1 arg))
-               (concat path '(:1)) serialized opts)
-      "      </td>"
-      "      <td class='ref'>"
-      (if (ref? (:2 arg))
-        (str
-         "    <div class='ref'>"
-         (fs/path-to-ref-index serialized (concat path '(:2)) 0)
-         "    </div>"))
-         "      </td>"
-         "      <td>"
-      (tablize (if (ref? (:2 arg))
-                 @(:2 arg)
-                 (:2 arg))
-               (concat path '(:2)) serialized opts)
-      "      </td><td>&nbsp;</td>"
-      "    </tr>"
-      "  </table>"
-      "</div>")
-
     ;; displaying a phrase structure tree (1 child)
      (and
       (or true (not (nil? opts)))

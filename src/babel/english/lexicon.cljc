@@ -1613,6 +1613,7 @@
    "warn" {:synsem {:cat :verb
                      :sem {:pred :warn}}}
    
+   ;; TODO: rename {:pred :wash} to {:pred :wash-oneself} and add non-reflexive "wash" with {:pred :wash}.
    "wash" (let [subject-semantics (atom :top)]
             {:synsem {:cat :verb
                       :sem {:pred :wash

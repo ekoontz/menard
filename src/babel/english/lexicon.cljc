@@ -768,6 +768,16 @@
                    :number :sing}
              :sem {:human true}
              :subcat '()}}
+    "him"
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :acc
+              :reflexive false
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :sing}
+              :sem {:human true}
+              :subcat '()}}
 
    "himself"
    {:synsem {:cat :noun

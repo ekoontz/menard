@@ -1832,7 +1832,8 @@
                           {:synsem {:subcat {:2 {:reflexive false}}}})
 
                  ;; if not(reflexive), then reflexive = false.
-                 (if-then {:synsem {:sem {:reflexive false}}}
+                 (if-then {:synsem {:cat :verb
+                                    :sem {:reflexive false}}}
                           {:synsem {:sem {:reflexive false}}})
                  
                  ;; subject-and-reflexive-pronoun agreement

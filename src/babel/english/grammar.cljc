@@ -24,7 +24,6 @@
    [dag_unify.core :refer (get-in remove-matching-keys unifyc)]))
 
 (declare cache)
-(declare grammar)
 
 (def hc-agreement
   (let [agr (atom :top)]
@@ -365,6 +364,8 @@
                    :head {:synsem {:modal ref}}}))
         true phrase))
 
+;; TODO: rewrite this and and above 2 functions into
+;; a single threaded (->) function.
 (def grammar
   (map (fn [phrase]
          (modal-is-head-feature

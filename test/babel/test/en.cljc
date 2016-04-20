@@ -5,7 +5,10 @@
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
             [babel.english.workbook :refer [analyze generate parse]]
+
+            ;; TODO: add parsing tests
             [babel.parse :as parse]
+
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])

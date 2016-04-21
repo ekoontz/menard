@@ -1517,7 +1517,29 @@
                     :number :plur
                     :gender :masc}
               :sem {:human true}
-              :subcat '()}}]
+              :subcat '()}}
+{:note "♀" 
+     :synsem {:cat :noun
+              :pronoun true
+              :case :acc
+              :reflexive true
+              :agr {:person :3rd
+                    :number :plur
+                    :gender :fem}
+              :sem {:human false}
+              :subcat '()}}
+    
+    {:note "♂" 
+     :synsem {:cat :noun
+              :pronoun true
+              :case :acc
+              :reflexive true
+              :agr {:person :3rd
+                    :number :plur
+                    :gender :masc}
+              :sem {:human false}
+              :subcat '()}}
+    ]
    
    ;; TODO: move gender symbol to :notes for all "they" variants.
    "they (♂)"

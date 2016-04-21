@@ -1560,7 +1560,7 @@
                     :gender :masc
                     :number :plur}
               :sem {:gender :masc
-                   :human false
+                    :human false
                     :pred :loro}
               :subcat '()}}]
    "they (♀)"

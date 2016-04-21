@@ -590,7 +590,7 @@
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
    "get off"
-   (let [subject-semantics (atom {:human true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-off
                      :subj subject-semantics}
@@ -600,7 +600,7 @@
                 :present {:3sing "gets off"}
                 :past "got off"}})
    "get on"
-   (let [subject-semantics (atom {:human true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-on
                      :subj subject-semantics}
@@ -1859,8 +1859,8 @@
                  ;; subject-and-reflexive-pronoun agreement
                  (if-then {:synsem {:sem {:reflexive true}
                                     :cat :verb
-                                    :subcat {:1 :top
-                                             :2 :top}}}
+                                    :subcat {:1 {:agr :top}
+                                             :2 {:agr :top}}}}
                                           
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}

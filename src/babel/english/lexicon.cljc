@@ -44,8 +44,8 @@
              :agr {:number :sing
                    :person :3rd
                    :gender :masc}
-             :sem {:pred :antonio}
-                   :human true}}
+             :sem {:pred :antonio
+                   :human true}}}
    "a"
    {:synsem {:cat :det
              :def :indef

@@ -481,7 +481,7 @@
    "cambiare" {:synsem {:cat :verb
                         :sem {:pred :change}}}
    
-   "cambiarsi" (let [subject-semantics (atom {:animate true})
+   "cambiarsi" (let [subject-semantics (atom {:human true})
                    subject-agr (atom :top)]
                {:synsem {:cat :verb
                          :essere true

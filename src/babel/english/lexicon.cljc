@@ -554,7 +554,7 @@
                           :animate false
                           :games true}}}
    "get angry"
-   (let [subject-semantics (atom {:human true})]
+   (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-angry
                      :subj subject-semantics

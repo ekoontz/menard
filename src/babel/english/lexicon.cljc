@@ -305,13 +305,13 @@
                      :sem {:pred :call}}}
 
    "can" 
-   {:english {:past "could"
+   {:english {:participle "being able to"
+              :past "could"
               :present {:3sing "can"}
               :future "be able to"
-              :conditional "could"}
+              :conditional "be able to"}
     :synsem {:cat :verb
-                   
-                     :sem {:pred :can}}}
+             :sem {:pred :can}}}
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car

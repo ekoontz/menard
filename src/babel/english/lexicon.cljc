@@ -334,6 +334,7 @@
 
    "change clothes" {:synsem {:cat :verb
                               :sem {:pred :change-clothes
+                                    :reflexive true
                                     :subj {:human true}}}
                      :english {:present {:3sing "changes clothes"}
                                :participle "changing clothes"
@@ -557,6 +558,7 @@
    (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-angry
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
@@ -611,6 +613,7 @@
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-ready
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
@@ -622,6 +625,7 @@
    (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :get-up
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}

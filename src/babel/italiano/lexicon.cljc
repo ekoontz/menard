@@ -503,7 +503,7 @@
                        :sem {:pred :sing
                              :subj {:human true}}}}
 
-   "caricare" {:italiano {:future-stem "carich"}
+   "caricare" {:italiano {:future-stem "caricher"}
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
    "camicia"

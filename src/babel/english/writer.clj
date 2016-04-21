@@ -77,8 +77,7 @@
                                          ;; of what the (process) command did.
                                          (log/debug (str "process result:" result)))
                                        (catch Exception e
-                                         (cond
-                                           true
+                                         (let [catch-and-log-error false]
                                            (log/error (str "Could not translate source expression: "
                                                            "'" (get source-expression :surface) "'"
                                                            " from language: '" source-language-short-name 
@@ -89,8 +88,11 @@
                                                            "'; source semantics:'"
                                                            (strip-refs (get-in source-expression [:structure :synsem :sem]))
                                                            "'" " ; exception: " e))
-                                           false
-                                           (throw e))))))))))
+                                           (cond
+                                             catch-and-log-error
+                                             (log/info (str "ignoring above error and continuing."))
+                                             true
+                                             (throw e)))))))))))
                        source-expressions))))
 
 (defn all [ & [count]]

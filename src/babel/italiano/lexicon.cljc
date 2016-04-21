@@ -1998,8 +1998,8 @@
                                    :essere true
                                    :sem {:subj {:animate true}}}
                           :italiano {:italiano "uscire"
-                                     :present {:boot-stem1 "esc"
-                                               :boot-stem2 "usc"}}}]
+                                     :boot-stem1 "esc"
+                                     :boot-stem2 "usc"}}]
               [(merge common {:synsem {:sem {:pred :go-out}}})
                (merge common {:synsem {:sem {:pred :exit}}})])
    "vedere" 

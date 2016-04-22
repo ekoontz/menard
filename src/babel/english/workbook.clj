@@ -33,6 +33,10 @@
    (morph/analyze surface-form lexicon)))
 
 (defn generate
+  ([]
+   (let [result (engine/generate :top medium)]
+     (conj {:surface (fo result)}
+            result)))
   ([spec]
    (let [result (engine/generate spec medium)]
      (conj {:surface (fo result)}

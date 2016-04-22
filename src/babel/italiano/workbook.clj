@@ -29,6 +29,8 @@
 ))
 
 (defn generate
+  ([]
+   (first (take 1 (engine/generate-all :top medium))))
   ([spec]
    (first (take 1 (engine/generate-all spec medium))))
   ([spec model]

@@ -133,20 +133,23 @@ of this function with complements."
     (if (seq candidate-parents)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
-                      (let [candidate-lexemes (get-lex parent :head index spec)]
-                        (log/debug
-                         (str "candidate head lexeme for parent: "
+                      (let [head-is-phrasal (get-in parent [:head :phrasal] false)
+                            candidate-lexemes (if (not (= true head-is-phrasal))
+                                                (get-lex parent :head index spec))]
+                        (log/trace
+                         (str "candidate head lexemes for parent phrase "
                               (get-in parent [:rule]) ": "
                               (string/join ","
                                            (map (fn [lexeme]
                                                   (morph lexeme))
                                                 candidate-lexemes))))
                         (let [result
-                              (if (empty? (get-lex parent :head index spec))
-                                (do (log/warn (str "no head lexemes found for parent: " (:rule parent) " and spec: "
-                                                   (strip-refs spec)))
-                                    nil)
-                                (over/overh parent (lazy-shuffle (get-lex parent :head index spec)) morph))]
+                              (if (empty? candidate-lexemes)
+                                (if (= true head-is-phrasal)
+                                  (log/debug (str "no head lexemes possible because spec requires a phrasal head."))
+                                  (log/warn (str "no head lexemes found for parent: " (:rule parent) " and spec: "
+                                                 (strip-refs spec))))
+                                (over/overh parent (lazy-shuffle candidate-lexemes) morph))]
                           (if (not (empty? result))
                             (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
                                             (string/join ","

@@ -127,7 +127,9 @@
           (if (nil? (first (map :source results)))
             (do
               (log/error (str "no source expression found for semantics: "
-                              (strip-refs (get-in target-expression [:synsem :sem]))))
+                              (get-in (strip-refs (deserialize
+                                                   (read-string (:target target-expression))))
+                                      [:synsem :sem])))
               (throw (Exception.
                       (str "no source expression found for target expression: '"
                            (:surface target-expression) "' and semantics: " 

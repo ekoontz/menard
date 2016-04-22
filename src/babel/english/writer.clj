@@ -32,8 +32,9 @@
                   (:morph  small-plus-plus-np)))
 
 (defn translate [source-language-short-name & [root]]
-  "generate English translations of all available expressions in source language. Optionally takes a root form of a verb in the source language."
-  ;; example usage: (translate "es" "abrazar")
+  "Generate translations from source language (e.g. 'it' for Italian) into English.
+   Optionally takes a root form of a verb in the source language."
+  ;; Example usage: (translate \"es\" \"abrazar\"
   (rewrite-lexicon)
   (let [spec :top
         ;; {:synsem {:sem {:pred :arrive}}}
@@ -50,50 +51,63 @@
         use-map-fn map
         source-expressions (read-all spec
                                      source-language-short-name)]
-    (count (use-map-fn (fn [source-expression]
-                         (do (log/debug (str source-language-short-name ": " (:surface source-expression)))
-                             (log/debug (str source-language-short-name ": " (get-in (:structure source-expression) [:synsem :sem])))
-                             (let [spec {:synsem {:sem (strip-refs (get-in (:structure source-expression) [:synsem :sem]))}}]
-                               (let [existing-english-expression (read-one spec "en")]
-                                 (if existing-english-expression
-                                   ;; found existing expression: return that.
-                                   (do
-                                     (log/info (str (:surface source-expression) " -> " (:surface existing-english-expression)))
-                                     existing-english-expression)
-                                   ;; else, no existing expression: generate a new one.
-                                   (do
-                                     (log/debug (str "generating from spec: " spec))
-                                     (log/info (str "generating using source expression: '"
-                                                    (:surface source-expression) "'"))
-                                     (try
-                                       (let [result
-                                             (process [{:fill-one-language
-                                                        {:count 1
-                                                         :spec spec
-                                                         :model small-plus-plus-np
-                                                         }}]
-                                                      source-language-short-name)]
-                                         ;; TODO: 'result' is currently returning nil: should return something more indicative
-                                         ;; of what the (process) command did.
-                                         (log/debug (str "process result:" result)))
-                                       (catch Exception e
-                                         (let [catch-and-log-error false]
-                                           (log/error (str "Could not translate source expression: "
-                                                           "'" (get source-expression :surface) "'"
-                                                           " from language: '" source-language-short-name 
-                                                           "' with predicate: '"
-                                                           (strip-refs (get-in source-expression [:structure :synsem :sem :pred]))
-                                                           "' into English; subj:"
-                                                           "'" (get-in source-expression [:structure :synsem :sem :subj :pred])
-                                                           "'; source semantics:'"
-                                                           (strip-refs (get-in source-expression [:structure :synsem :sem]))
-                                                           "'" " ; exception: " e))
-                                           (cond
-                                             catch-and-log-error
-                                             (log/info (str "ignoring above error and continuing."))
-                                             true
-                                             (throw e)))))))))))
-                       source-expressions))))
+    (count
+     (use-map-fn
+      (fn [source-expression]
+        (do (log/debug
+             (str source-language-short-name ": "
+                  (:surface source-expression)))
+            (log/debug (str source-language-short-name ": "
+                            (get-in (:structure source-expression) [:synsem :sem])))
+            (let [spec {:synsem {:sem
+                                 (strip-refs (get-in
+                                              (:structure source-expression)
+                                              [:synsem :sem]))}}]
+              (let [existing-english-expression (read-one spec "en")]
+                (if existing-english-expression
+                  ;; found existing expression: return that.
+                  (do
+                    (log/info (str (:surface source-expression)
+                                   " -> " (:surface existing-english-expression)))
+                    existing-english-expression)
+                  ;; else, no existing expression: generate a new one.
+                  (do
+                    (log/debug (str "generating from spec: " spec))
+                    (log/info (str "generating using source expression: '"
+                                   (:surface source-expression) "'"))
+                    (try
+                      (let [result
+                            (process [{:fill-one-language
+                                       {:count 1
+                                        :spec spec
+                                        :model small-plus-plus-np
+                                        }}]
+                                     source-language-short-name)]
+                        ;; TODO: 'result' is currently
+                        ;; returning nil: should return something more indicative
+                        ;; of what the (process) command did.
+                        (log/debug (str "process result:" result)))
+                      (catch Exception e
+                        (let [catch-and-log-error false]
+                          (log/error (str "Could not translate source expression: "
+                                          "'" (get source-expression :surface) "'"
+                                          " from language: '" source-language-short-name 
+                                          "' with predicate: '"
+                                          (strip-refs (get-in source-expression
+                                                              [:structure :synsem :sem :pred]))
+                                          "' into English; subj:"
+                                          "'" (get-in source-expression
+                                                      [:structure :synsem :sem :subj :pred])
+                                          "'; source semantics:'"
+                                          (strip-refs (get-in source-expression
+                                                              [:structure :synsem :sem]))
+                                          "'" " ; exception: " e))
+                          (cond
+                            catch-and-log-error
+                            (log/info (str "ignoring above error and continuing."))
+                            true
+                            (throw e)))))))))))
+      source-expressions))))
 
 (defn all [ & [count]]
   (let [count (if count (Integer. count) 10)
@@ -105,7 +119,8 @@
          (map (fn [lexeme-set]
                 (filter (fn [lexeme]
                           (and
-                           (or true (= (get-in lexeme [:synsem :sem :pred]) :talk)) ;; for development, restrict :pred to a single value.
+                           ;; for development, restrict :pred to a single value.
+                           (or true (= (get-in lexeme [:synsem :sem :pred]) :talk))
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
@@ -115,6 +130,7 @@
     (write-lexicon "en" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))
+    ;; TODO: rewrite with threading macro (->)
     (.size (pmap (fn [verb]
                    (let [root-form (get-in verb [:english :english])]
                      (log/debug (str "generating from root-form:" root-form))

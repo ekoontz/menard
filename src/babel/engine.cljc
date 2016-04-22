@@ -85,7 +85,10 @@
                (unify spec
                       {:synsem {:subcat '()}}))
 
-        debug (log/debug (str "pre-enrich spec: " spec))
+        debug (log/info (str "generate-all:"
+                             {:language (:language language-model)
+                              :model (:name language-model)
+                              :spec spec}))
 
         spec (if (and do-enrich (:enrich language-model))
                ((:enrich language-model)
@@ -103,6 +106,15 @@
                                       (:lexicon language-model)
                                       (:index language-model)
                                       (:morph language-model))]
+      (if (not (empty? result))
+        (log/info (str "successfully generated with:"
+                       {:language (:language language-model)
+                        :model (:name language-model)
+                        :spec spec} " => '" ((:morph language-model) (first result)) "'"))
+        (log/warn (str "generate-all: failed to generate with: "
+                       {:language (:language language-model)
+                        :model (:name language-model)
+                        :spec spec})))
       result)))
 
 #?(:clj

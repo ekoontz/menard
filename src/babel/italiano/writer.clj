@@ -19,23 +19,7 @@
 (defn rewrite-lexicon []
   (write-lexicon "it" lexicon))
 
-(defn generate-one-verb [root-form & [count]]
-  (log/info (str "generating examples with root-form:" root-form))
-  (writer/generate-from-spec
-   small
-   {:root {:italiano {:italiano root-form}}}
-   [{:synsem {:sem {:tense :conditional}}}
-    {:synsem {:sem {:tense :future}}}
-    {:synsem {:sem {:tense :present}}}
-    {:synsem {:sem {:aspect :progressive
-                    :tense :past}}}
-    {:synsem {:sem {:aspect :perfect
-                    :tense :past}}}]
-   [{:gender :masc}
-    {:gender :fem}]
-   [:1st :2nd :3rd]
-   [:sing :plur]
-   count))
+(declare generate-one-verb)
 
 (defn tutti [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
@@ -66,8 +50,32 @@
     (log/info (str "generating examples with this many verbs:"
                    (.size tutti)))
     (.size (pmap (fn [verb]
-                   (log/trace (str "verb: " (strip-refs verb)))
+                   (log/debug (str "verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
-                     (generate-one-verb root-form count)))
+                     (generate-one-verb (unify
+                                         {:synsem {:sem
+                                                   (get-in verb [:synsem :sem] :top)}}
+                                         {:root {:italiano {:italiano root-form}}})
+                                        count)))
                  tutti))))
+
+(defn generate-one-verb [spec & [count]]
+  (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
+  (writer/generate-from-spec
+   small
+   (strip-refs spec)
+
+   [{:synsem {:sem {:tense :conditional}}}
+    {:synsem {:sem {:tense :future}}}
+    {:synsem {:sem {:tense :present}}}
+    {:synsem {:sem {:aspect :progressive
+                    :tense :past}}}
+    {:synsem {:sem {:aspect :perfect
+                    :tense :past}}}]
+   [{:gender :masc}
+    {:gender :fem}]
+   [:1st :2nd :3rd]
+   [:sing :plur]
+   count))
+
 

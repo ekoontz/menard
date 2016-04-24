@@ -6,6 +6,7 @@
    [babel.html :as html]
    [babel.italiano.workbook :as it]
    [babel.reader :as reader]
+   [babel.say :as say]
    [babel.workbook :as workbook]
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
@@ -21,6 +22,8 @@
 (defroutes main-routes
   (GET "/" request
        (resp/redirect "/workbook"))
+  (context "/say" []
+           say/routes)
   (context "/workbook/en" []
            en/routes)
   (context "/workbook/es" []

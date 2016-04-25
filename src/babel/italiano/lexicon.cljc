@@ -1047,20 +1047,23 @@
          ;; essere: prepositional phrase
          (let [gender (atom :top)
                number (atom :top)
-               obj (atom {:pred :top})]
+               obj (atom {:pred :top})
+               pred (atom :top)]
            (unify
             essere-common
             {:notes "essere-prepositional-phrase"
              :synsem {:cat :verb
                       :aux false
-                      :sem {:pred :top
-                            :subj :top
+                      :sem {:pred pred
                             :obj obj}
+                      ;; TODO: should not need agreement: should be covered by
+                      ;; essere-common.
                       :subcat {:1 {:cat :noun
                                    :agr {:gender gender
                                          :number number}}
                                :2 {:cat :prep
-                                   :sem obj}
+                                   :sem {:pred pred
+                                         :obj obj}}
                                :3 '()}}}))
          
          ;; TODO: do we need this? maybe remove?

@@ -1014,7 +1014,8 @@
                                         :2plur "sareste"
                                         :3plur "sarebbero"}}})]                          
         [;; essere: adjective
-         ;; TODO: unify essere-adjective and essere-intensifier into one lexical entry.
+         ;; TODO: unify essere-adjective, essere-prepositional-phrase
+         ;; and essere-intensifier into one lexical entry.
          (let [gender (atom :top)
                number (atom :top)]
            (unify
@@ -1025,8 +1026,8 @@
                             :subj :top
                             :obj :top}
                       :subcat {:1 {:cat :noun
-                                 :agr {:gender gender
-                                       :number number}}
+                                   :agr {:gender gender
+                                         :number number}}
                                :2 {:cat :adjective
                                    :sem {:comparative false}
                                    :subcat {:1 :top
@@ -1034,6 +1035,25 @@
                                    :agr {:gender gender
                                          :number number}}}}}))
 
+         ;; essere: prepositional phrase
+         (let [gender (atom :top)
+               number (atom :top)
+               obj (atom :top)]
+           (unify
+            essere-common
+            {:notes "essere-prepositional-phrase"
+             :synsem {:cat :verb
+                      :sem {:pred :top
+                            :subj :top
+                            :obj obj}
+                      :subcat {:1 {:cat :noun
+                                   :agr {:gender gender
+                                         :number number}}
+                               :2 {:cat :top
+                                        ;:cat :prep
+                                   :sem obj}
+                               :3 '()}}}))
+         
          ;; TODO: do we need this? maybe remove?
          (unify essere-common {:notes "be"
                                :synsem {:sem {:pred :be}}})

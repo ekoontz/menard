@@ -6,10 +6,12 @@
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
-   [babel.ug :refer [comp-modifies-head head-principle subcat-1-principle subcat-1-1-principle subcat-2-principle
-                     comp-specs-head root-is-head-root
-                     subcat-1-1-principle-comp-subcat-1 root-is-comp
-                     subcat-2-2-principle root-is-head
+   [babel.ug :refer [comp-modifies-head comp-specs-head
+                     head-principle root-is-comp
+                     root-is-head root-is-head-root subcat-1-principle
+                     subcat-1-1-principle subcat-2-principle
+                     subcat-1-1-principle-comp-subcat-1 
+                     subcat-2-2-principle
                      subcat-5-principle
                      ]]
    #?(:clj [clojure.tools.logging :as log])

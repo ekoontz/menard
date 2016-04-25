@@ -502,10 +502,6 @@
    "cantare" {:synsem {:cat :verb
                        :sem {:pred :sing
                              :subj {:human true}}}}
-
-   "caricare" {:italiano {:future-stem "caricher"}
-               :synsem {:cat :verb
-                        :sem {:pred :caricare}}}
    "camicia"
     (unify agreement-noun
            common-noun
@@ -538,16 +534,19 @@
              :synsem {:cat :verb
                       :sem {:pred :understand}}}
 
+   "caricare" {:italiano {:future-stem "caricher"}
+               :synsem {:cat :verb
+                        :sem {:pred :caricare}}}
    "casa"
-    (unify agreement-noun
-           common-noun
-           countable-noun
-           feminine-noun
-           {:synsem {:sem {:pred :casa
-                           :activity false ;; should not need this probably: should be inferrable from  :place==true or perhaps :artifact==true.
-                           :buyable true
-                           :artifact true
-                           :place true}}})
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          feminine-noun
+          {:synsem {:sem {:pred :casa
+                          :activity false ;; should not need this probably: should be inferrable from  :place==true or perhaps :artifact==true.
+                          :buyable true
+                          :artifact true
+                          :place true}}})
 
     "cattivo"
      (unify adjective

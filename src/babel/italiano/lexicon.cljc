@@ -2172,6 +2172,7 @@
                                     :case case}
                            :italiano {:cat cat
                                       :case case}})]
+                    (log/debug (str "reflexive pronoun check key: " key))
                     (fn [k vals]
                       (map (fn [val]
                              (cond (and (= :noun (get-in val [:synsem :cat]))

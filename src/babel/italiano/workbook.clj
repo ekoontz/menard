@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
-   [babel.italiano.grammar :refer [medium small np-grammar]]
+   [babel.italiano.grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer :all]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.italiano.writer :refer [expression]]
@@ -23,24 +23,31 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :refer [fail? fail-path-between get-in merge remove-false
-                           remove-matching-keys strip-refs unify]]
-   [hiccup.core :refer [html]]
-))
+   [dag_unify.core :refer [fail? fail-path-between get-in remove-false strip-refs unify]]
+   [hiccup.core :refer [html]]))
+
+(defn analyze
+  ([surface-form]
+   (analyze surface-form (:lexicon medium)))
+  ([surface-form lexicon]
+   (morph/analyze surface-form lexicon)))
 
 (defn generate
   ([]
-   (first (take 1 (engine/generate-all :top medium))))
+   (let [result (engine/generate :top medium)]
+     (conj {:surface (fo result)}
+            result)))
   ([spec]
-   (first (take 1 (engine/generate-all spec medium))))
+   (let [result (engine/generate spec medium)]
+     (conj {:surface (fo result)}
+            result)))
   ([spec model]
-   (first (take 1 (engine/generate-all spec model)))))
+   (let [result (engine/generate spec model)]
+     (conj {:surface (fo result)}
+           result))))
 
-(defn generate-all
-  ([spec]
-   (engine/generate-all spec medium))
-  ([spec model]
-   (engine/generate-all spec model)))
+(defn lookup [lexeme]
+  ((:lookup medium) lexeme))
 
 (defn parse
   ([string]
@@ -51,36 +58,30 @@
 (defn expr [id]
   (reader/id2expression (Integer. id)))
 
-;; this def is needed to avoid initialization errors when evaluating within the workbook
-;; e.g.: evaluating things like:
-;;(generate {:synsem {:subcat '()
-;;                                          :infl :imperfect
-;;                                          :sem {:subj {:pred :I} :pred :be}}}
-;;                                fr/small)
-
-(def rules (:grammar-map medium))
-
-(defn analyze
-  ([surface-form]
-   (analyze surface-form (:lexicon medium)))
-  ([surface-form lexicon]
-   (morph/analyze surface-form lexicon)))
+;; TODO: do morphological analysis
+;; do find non-infinitives (e.g. find 'parler' given 'parle')
+;; and then apply conjugated parts to lexeme
+;; i.e. if input is 'parle', return
+;; list of lexemes; for each, [:synsem :agr :person] will be
+;; 1st, 2nd, or 3rd, and for all, number will be singular.
+(defn lookup [lexeme]
+  (get (:lexicon medium) lexeme))
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map medium)) (analyze arg1 medium)))
-  ([grammar arg1]
-   (over/over grammar (analyze arg1)))
-  ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over grammar (analyze arg1)
-               arg2)
-
-         (string? arg2)
-         (over grammar arg1 (analyze arg2))
-
+         (over (lookup arg1))
          true
-         (over/over grammar arg1 arg2))))
+         (over/over (vals (:grammar-map medium)) arg1)))
+  ([arg1 arg2]
+   (cond (string? arg1)
+         (over (lookup arg1)
+               arg2)
+         (string? arg2)
+         (over arg1 (lookup arg2))
+         true
+         (over/over (vals (:grammar-map medium))
+                    arg1 arg2))))
 
 (def workbook-sandbox-it
   (sandbox
@@ -103,7 +104,8 @@
                         ]))
    :refer-clojure false
    ;; using 60000 for development: for production, use much smaller value.
-   :timeout 10000
+   :timeout 60000
+;   :timeout 15000
    :namespace 'babel.italiano.workbook))
 
 
@@ -184,12 +186,12 @@
   (let [search-query (get (get request :query-params) "search")]
     (html
      [:div#workbook-ui {:class "quiz-elem"}
-      [:h2 "Italian Workbook"]
+      [:h2 "Italiano Workbook"]
 
       [:div.hints
        [:h3 "Try:"]
        [:div "(expr X)"]
-       [:div "(parse 'je parle')"]
+       [:div "(parse 'I speak')"]
 
        ]
 
@@ -204,10 +206,6 @@
        (if search-query
          (workbookq search-query))]])))
 
-;(def foo (expression {:synsem {:cat :verb}}))
-;(def foo (expression {:synsem {:sem {:pred :have-fun}}}))
-(def foo (count (take 1 (parse "io dormo"))))
-
 (def routes
   (compojure/routes
 
@@ -220,18 +218,12 @@
          :body (html/page "Italian Workbook" (workbook-ui request) request)
          :headers {"Content-Type" "text/html;charset=utf-8"}})
 
-   (GET "/parse/" request
-        {:status 200
-         :body
-         (let [debug (log/info (str "sending string to parser.."))]
-           (str "" (html/tablize
-                    (get-in (strip-refs (first (parse (get (get request :query-params) "string"))))
-                            [:synsem :sem]))))
-         :headers {"Content-Type" "text/html;charset=utf-8"}})
-
    (GET "/q/" request
         {:status 200
          :body (workbookq (get (get request :query-params) "search")
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
+
+;; not sure why this is necessary: investigate why english/workbook.clj doesn't need it.
+(def foo (count (take 1 (parse "io dormo"))))

@@ -538,15 +538,24 @@
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
    "casa"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:synsem {:sem {:pred :casa
-                          :activity false ;; should not need this probably: should be inferrable from  :place==true or perhaps :artifact==true.
-                          :buyable true
-                          :artifact true
-                          :place true}}})
+   [(unify agreement-noun
+           common-noun
+           countable-noun
+           feminine-noun
+           {:synsem {:sem {:pred :casa
+                           :city false
+                           :activity false ;; should not need this probably: should be inferrable from  :place==true or perhaps :artifact==true.
+                           :buyable true
+                           :artifact true
+                           :place true}}})
+
+    ;; in the sense of "a casa": no article needed.
+    {:synsem {:cat :noun
+              :sem {:city false
+                    :place true
+                    :animate false
+                    :pred :casa}
+              :subcat '()}}]
 
     "cattivo"
      (unify adjective

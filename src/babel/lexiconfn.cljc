@@ -761,6 +761,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 
                           (not (= :adjective (get-in val [:synsem :subcat :2 :cat])))
                           (not (= :intensifier (get-in val [:synsem :subcat :2 :cat])))
+                          (not (= :prep (get-in val [:synsem :subcat :2 :cat])))
                           (not (= false (get-in val [:intransitivize])))
 
                           (not (= '() (get-in val [:synsem :subcat :2]))))
@@ -814,6 +815,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                        
                        (not (= :adjective (get-in val [:synsem :subcat :2 :cat])))
                        (not (= :intensifier (get-in val [:synsem :subcat :2 :cat])))
+                       (not (= :prep (get-in val [:synsem :subcat :2 :cat])))
                        
                        (not (nil? (get-in val [:synsem :sem :obj] nil))))
                   (unify val

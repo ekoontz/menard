@@ -1057,28 +1057,28 @@
          (unify essere-common {:notes "be"
                                :synsem {:sem {:pred :be}}})
 
-           ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-           (let [gender (atom :top)
-                 number (atom :top)
-                 human (atom :top)]
-             (unify
-              transitive
-              essere-common
-              {:notes "copula" ;; significant only for debugging.
-               :synsem {:cat :verb
-                        :subcat {:1 {:cat :noun
-                                     :agr {:gender gender
-                                           :number number}}
-                                 :2 {:cat :noun
-                                     :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
-                                     :def {:not :demonstrativo}
-                                     :agr {:gender gender
-                                           :number number}}}
-                        :sem {:pred :be
-                              :activity false
-                              :discrete false
-                              :subj {:human human}
-                              :obj {:human human}}}}))
+         ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
+         (let [gender (atom :top)
+               number (atom :top)
+               human (atom :top)]
+           (unify
+            transitive
+            essere-common
+            {:notes "copula" ;; significant only for debugging.
+             :synsem {:cat :verb
+                      :subcat {:1 {:cat :noun
+                                   :agr {:gender gender
+                                         :number number}}
+                               :2 {:cat :noun
+                                   :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
+                                   :def {:not :demonstrativo}
+                                   :agr {:gender gender
+                                         :number number}}}
+                      :sem {:pred :be
+                            :activity false
+                            :discrete false
+                            :subj {:human human}
+                            :obj {:human human}}}}))
 
            ;; essere: intensifier
            ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"

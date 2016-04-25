@@ -789,7 +789,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                      
                      (and (= (get-in val [:synsem :cat])
                              :verb)
-                          (= :none (get-in val [:synsem :subcat :2] :none)))
+                          (= '() (get-in val [:synsem :subcat :2] '())))
                      (list (unify val intransitive))
                      
                      ;; else just return vals:

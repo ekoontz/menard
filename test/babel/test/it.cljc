@@ -5,7 +5,7 @@
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
             [babel.italiano.morphology.verbs :as verbs]
-            [babel.italiano.workbook :refer [analyze generate generate-all parse]]
+            [babel.italiano.workbook :refer [analyze generate parse]]
             [babel.parse :as parse]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
@@ -14,7 +14,8 @@
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [clojure.set :as set]
-            [dag_unify.core :refer [copy get-in strip-refs]]))
+            [dag_unify.core :refer [copy get-in strip-refs]]
+            [babel.engine :as engine]))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -89,11 +90,11 @@
 (deftest roundtrip-np-grammar
   (let [do-this-many 100
         expressions (take do-this-many
-                           (generate-all {:synsem {:sem {:spec {:def :top}
-                                                         :mod {:pred :top}
-                                                         :number :top
-                                                         :pred :top}}}
-                                         np-grammar))]
+                          (engine/generate-all {:synsem {:sem {:spec {:def :top}
+                                                               :mod {:pred :top}
+                                                               :number :top
+                                                               :pred :top}}}
+                                               np-grammar))]
     (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
@@ -259,4 +260,16 @@
             (not (nil? (generate synsem)))))))
 
 
-    
+(deftest casa-parse
+  (is (not (empty?
+            (parse "io sono a casa")))))
+
+(deftest casa-generate
+  (let [result (generate 
+                {:synsem {:cat :verb 
+                          :sem {:tense :present 
+                                :pred :a 
+                                :obj {:pred :casa} 
+                                :subj {:pred :I}}}})]
+    (is (or true
+            (= (fo result) "io sono a casa")))))

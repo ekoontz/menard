@@ -1038,19 +1038,19 @@
          ;; essere: prepositional phrase
          (let [gender (atom :top)
                number (atom :top)
-               obj (atom :top)]
+               obj (atom {:pred :top})]
            (unify
             essere-common
             {:notes "essere-prepositional-phrase"
              :synsem {:cat :verb
+                      :aux false
                       :sem {:pred :top
                             :subj :top
                             :obj obj}
                       :subcat {:1 {:cat :noun
                                    :agr {:gender gender
                                          :number number}}
-                               :2 {:cat :top
-                                        ;:cat :prep
+                               :2 {:cat :prep
                                    :sem obj}
                                :3 '()}}}))
          

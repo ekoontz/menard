@@ -555,7 +555,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn commonnoun [lexical-entry]
   ;; subcat non-empty: pronoun is false
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :noun)
-             (= (not (empty? (get-in lexical-entry [:synsem :subcat]))))
+             (not (empty? (get-in lexical-entry [:synsem :subcat])))
              (not (= (get-in lexical-entry [:synsem :pronoun]) true))
              (not (= (get-in lexical-entry [:synsem :propernoun]) true)))
         (unifyc lexical-entry

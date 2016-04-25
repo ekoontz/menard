@@ -97,10 +97,12 @@
     (if (not (fail? retval))
       retval
       ;; TODO: log message is too long to read.
-      (let [message (str "Failed to unify args; (#args=" (count args) "):"
-                         (string/join " // " (map str args)) ";types:"
-                         (string/join " // " (map type args)) ";null?"
-                         (string/join " // " (map nil? args)) ";"
+      (let [message (str "Failed to unify args:"
+                         (string/join ";  "
+                                      (map (fn [arg]
+                                             (dissoc (strip-refs arg)
+                                                     :serialized))
+                                           args))
                          
                          (cond (= 2 (count args))
                                (let [fail-path (get-fail-path (first args) (second args))]

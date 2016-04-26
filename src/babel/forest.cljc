@@ -99,6 +99,7 @@ of this function with complements."
       (exception (str "grammar is empty."))))
   
   (if (and (not (= :fail spec))
+           (not (= :top spec))
            (not (empty? (strip-refs spec))))
     (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec) "; parent: " (if parent
                                                                                       (:rule parent)))))

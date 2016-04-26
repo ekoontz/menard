@@ -280,7 +280,7 @@ of this function with complements."
                                 (str ".. and "
                                      (- (count complement-candidate-lexemes) 5) " more."))))]
                 (log/warn message)
-;                (throw (exception message)))
+;                (exception message)
 )
               (do (log/debug (str "add-complement after adding complement: "
                                   (morph (first return-val)) ",.."))

@@ -32,22 +32,8 @@
   (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
     (if (= pred-of-head :top)
       spec
-      (mapcat (fn [lexemes]
-                (mapcat (fn [lexeme]
-                          (if (= pred-of-head
-                                 (get-in lexeme [:synsem :sem :pred] :top))
-                            (list lexeme)))
-                        lexemes))
-              (vals lexicon)))))
+      (filter (fn [lexeme]
+                (= pred-of-head
+                   (get-in lexeme [:synsem :sem :pred] :top)))
+              (reduce concat (vals lexicon))))))
 
-(defn matching-comp-lexemes [spec lexicon]
-  (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
-    (if (= pred-of-comp :top)
-      spec
-      (mapcat (fn [lexemes]
-                (mapcat (fn [lexeme]
-                          (if (= pred-of-comp
-                                 (get-in lexeme [:synsem :sem :pred] :top))
-                            (list lexeme)))
-                        lexemes))
-              (vals lexicon)))))

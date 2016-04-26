@@ -12,17 +12,7 @@
 
 ;; TODO: these rules are language-specific, so move all of this to italiano/writer (similar to what we did with French).
 (defn enrich [spec lexicon]
-  (let [against-pred (against-pred spec lexicon)]
-    (if true against-pred
-        ;; TODO: remove this else since it's never executed (since above we have "if true")
-        (let [against-comp (map (fn [spec]
-                                  (against-comp spec lexicon))
-                                (if (seq? against-pred)
-                                  (seq (set against-pred))
-                                  against-pred))]
-          (if (seq? against-comp)
-            (seq (set against-comp))
-            against-comp)))))
+  (against-pred spec lexicon))
 
 (defn against-pred [spec lexicon]
   (let [pred (get-in spec [:synsem :sem :pred] :top)]
@@ -38,18 +28,6 @@
                       (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
                       (list result)))))
               (matching-head-lexemes spec lexicon)))))
-
-(defn against-comp [spec lexicon]
-  (let [pred-of-comp (get-in spec [:synsem :sem :subj :pred] :top)]
-    (if (= :top pred-of-comp)
-      spec
-      (mapcat (fn [lexeme]
-                (let [result (unify spec
-                                    {:comp {:synsem {:agr (strip-refs (get-in lexeme [:synsem :agr] :top))
-                                                     :sem (strip-refs (get-in lexeme [:synsem :sem] :top))}}})]
-                  (if (not (fail? result))
-                    (list result))))
-              (matching-comp-lexemes spec)))))
 
 (defn matching-head-lexemes [spec lexicon]
   (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]

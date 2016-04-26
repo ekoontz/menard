@@ -113,7 +113,11 @@ of this function with complements."
         debug (log/debug (str "looking for candidate parents with parent: " (:rule parent) " and spec: " (strip-refs spec)))
         candidate-parents (filter #(not (fail? %))
                                   (map (fn [rule]
-                                         (do (log/debug (str "testing rule: " (:rule rule)))
+                                         (do (log/debug (str "testing rule::: " (:rule rule)))
+                                             (log/debug (str " result: " (unifyc spec rule)))
+                                             (log/debug (if (fail? (unifyc spec rule))
+                                                          (str "fail path: " (fail-path-between spec rule))
+                                                          (str "rule: " (:rule rule) " successfully unified with spec: " (strip-refs spec))))
                                              (unifyc spec rule)))
                                        (if parent (get-head-phrases-of parent index)
                                            grammar)))

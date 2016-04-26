@@ -1048,7 +1048,8 @@
          ;; essere: prepositional phrase
          (let [gender (atom :top)
                number (atom :top)
-               obj (atom {:pred :top})
+               obj (atom {:pred :top
+                          :place true})
                pred (atom :top)]
            (unify
             essere-common

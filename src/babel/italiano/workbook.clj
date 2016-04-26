@@ -233,7 +233,7 @@
 
 ;; not sure why this is necessary: investigate why english/workbook.clj doesn't need it.
 (def foo (count (take 1 (parse "io dormo"))))
-(def foo2 (count (take 1 (generate {:synsem {:sem {:pred :dormo
+(def foo2 (count (take 1 (generate {:synsem {:sem {:pred :sleep
                                                    :tense :present
                                                    :subj {:pred :I}}}}))))
 

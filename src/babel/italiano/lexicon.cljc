@@ -1062,6 +1062,7 @@
                                    :agr {:gender gender
                                          :number number}}
                                :2 {:cat :prep
+                                   :subcat '()
                                    :sem {:pred pred
                                          :obj obj}}
                                :3 '()}}}))

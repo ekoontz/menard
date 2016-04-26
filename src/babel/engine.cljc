@@ -54,11 +54,23 @@
 
         debug (log/debug (str "pre-enrich spec: " spec))
 
-        spec (if (and do-enrich (:enrich language-model))
-               ((:enrich language-model)
-                spec
-                (:lexicon language-model))
-               spec)
+        post-enrich-spec (if (and do-enrich (:enrich language-model))
+                           ((:enrich language-model)
+                            spec
+                            (:lexicon language-model))
+                           spec)
+
+        spec (if (not (empty? post-enrich-spec))
+               post-enrich-spec
+               (list spec))
+
+        debug (log/debug (str "post-enrich spec: "
+                              (string/join ";" spec)))
+
+        check-for-empty-spec (if (empty? spec)
+                               (do (log/error (str "post-enrich spec is empty!"))
+                                   (exception (str "post-enrich spec is empty!"))))
+
         debug (if (seq? spec)
                 (count
                  (map #(log/debug (str "post-enrich spec: " %))

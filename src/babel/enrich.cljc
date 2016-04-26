@@ -12,9 +12,6 @@
 
 ;; TODO: these rules are language-specific, so move all of this to italiano/writer (similar to what we did with French).
 (defn enrich [spec lexicon]
-  (against-pred spec lexicon))
-
-(defn against-pred [spec lexicon]
   (let [pred (get-in spec [:synsem :sem :pred] :top)]
     (log/debug (str "against-pred with spec: " spec " and pred: " pred))
     (if (= :top pred)
@@ -24,14 +21,9 @@
               (map (fn [lexeme]
                      (unify spec
                             {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}}))
-                   (matching-head-lexemes spec lexicon))))))
+                   (filter (fn [lexeme]
+                             (= pred
+                                (get-in lexeme [:synsem :sem :pred] :top)))
+                           (reduce concat (vals lexicon))))))))
 
-(defn matching-head-lexemes [spec lexicon]
-  (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]
-    (if (= pred-of-head :top)
-      spec
-      (filter (fn [lexeme]
-                (= pred-of-head
-                   (get-in lexeme [:synsem :sem :pred] :top)))
-              (reduce concat (vals lexicon))))))
-
+    

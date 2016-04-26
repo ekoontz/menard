@@ -39,12 +39,17 @@
             result)))
   ([spec]
    (let [result (engine/generate spec medium)]
-     (conj {:surface (fo result)}
-            result)))
+     (if result
+       (conj {:surface (fo result)}
+             result))))
   ([spec model]
    (let [result (engine/generate spec model)]
-     (conj {:surface (fo result)}
-           result))))
+     (if result
+       (conj {:surface (fo result)}
+             result)))))
+
+(defn lightning-bolt [spec]
+  (forest/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
 
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))

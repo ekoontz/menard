@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
    [babel.engine :as engine]
-   [babel.forest :refer [lightning-bolt]]
+   [babel.forest :as forest]
    [babel.italiano.grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer :all]
    [babel.italiano.morphology :as morph :refer [fo]]

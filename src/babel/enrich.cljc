@@ -19,14 +19,12 @@
     (log/debug (str "against-pred with spec: " spec " and pred: " pred))
     (if (= :top pred)
       spec
-      (mapcat (fn [lexeme]
-                (let [result (unify spec
-                                    {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}})]
-                  (if (not (fail? result))
-                    (do
-                      (log/debug (str "matched head lexeme: " (strip-refs lexeme)))
-                      (list result)))))
-              (matching-head-lexemes spec lexicon)))))
+      (filter (fn [result]
+                (not (fail? result)))
+              (map (fn [lexeme]
+                     (unify spec
+                            {:synsem {:sem (strip-refs (get-in lexeme [:synsem :sem] :top))}}))
+                   (matching-head-lexemes spec lexicon))))))
 
 (defn matching-head-lexemes [spec lexicon]
   (let [pred-of-head (get-in spec [:synsem :sem :pred] :top)]

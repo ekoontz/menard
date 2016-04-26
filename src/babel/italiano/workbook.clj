@@ -35,8 +35,9 @@
 (defn generate
   ([]
    (let [result (engine/generate :top medium)]
-     (conj {:surface (fo result)}
-            result)))
+     (if result
+       (conj {:surface (fo result)}
+             result))))
   ([spec]
    (let [result (engine/generate spec medium)]
      (if result

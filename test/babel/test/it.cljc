@@ -1,11 +1,14 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
-  (:require [babel.italiano.grammar :refer [small medium np-grammar]]
+  (:require [babel.engine :as engine]
+            [babel.forest :as forest]
+            [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
             [babel.italiano.morphology.verbs :as verbs]
-            [babel.italiano.workbook :refer [analyze generate parse]]
+            [babel.italiano.workbook :refer [analyze generate lightning-bolt parse]]
+            [babel.over :as over]
             [babel.parse :as parse]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
@@ -14,8 +17,7 @@
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [clojure.set :as set]
-            [dag_unify.core :refer [copy get-in strip-refs]]
-            [babel.engine :as engine]))
+            [dag_unify.core :refer [copy fail? get-in strip-refs]]))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -269,7 +271,7 @@
                 {:synsem {:cat :verb 
                           :sem {:tense :present 
                                 :pred :a 
-                                :obj {:pred :casa} 
+                                :obj {:pred :casa
+                                      :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
                                 :subj {:pred :I}}}})]
-    (is (or true
-            (= (fo result) "io sono a casa")))))
+    (is (= (fo result) "io sono a casa"))))

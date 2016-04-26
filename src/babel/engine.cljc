@@ -42,7 +42,7 @@
         (log/error (str "grammar is empty."))
         (exception (str "grammar is empty.")))))
 
-  (let [do-enrich false ;(if do-enrich do-enrich true)
+  (let [do-enrich (if do-enrich do-enrich true)
         spec (if (or (= false add-subcat)
                      (fail? (unify spec {:synsem {:subcat '()}}))
                      (not (= :none (get-in spec [:synsem :subcat] :none))))

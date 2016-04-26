@@ -550,12 +550,13 @@
                            :place true}}})
 
     ;; in the sense of "a casa": no article needed.
-    {:synsem {:cat :noun
-              :sem {:city false
-                    :place true
-                    :animate false
-                    :pred :casa}
-              :subcat '()}}]
+;    {:synsem {:cat :noun
+;              :sem {:city false
+;                    :place true
+;                    :animate false
+;                    :pred :casa}
+;              :subcat '()}}
+    ]
 
     "cattivo"
      (unify adjective

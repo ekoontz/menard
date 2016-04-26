@@ -95,8 +95,11 @@
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
 
+;; TODO: move place/city to if/then rules.
 (def pronoun-reflexive
   {:synsem {:cat :noun
+            :sem {:place false
+                  :city false}
             :pronoun true
             :case :acc
             :reflexive true}})

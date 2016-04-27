@@ -280,8 +280,11 @@ of this function with complements."
                                 (str ".. and "
                                      (- (count complement-candidate-lexemes) 5) " more."))))]
                 (log/warn message)
-;                (exception message)
-)
+
+                ;; set to true to work on optimizing generation, since this situation of failing to add any
+                ;; complements is expensive.
+                (if false (exception message))
+                )
               (do (log/debug (str "add-complement after adding complement: "
                                   (morph (first return-val)) ",.."))
                   return-val)))))

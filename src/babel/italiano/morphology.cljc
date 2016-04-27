@@ -714,6 +714,19 @@
            person (get-in word '(:agr :person))
            number (get-in word '(:agr :number))]
        (cond
+
+        (and (= person :1st) (= number :sing)
+             (get-in word [:boot-stem1]))
+        (str (get-in word [:boot-stem1]) "o")
+
+        (and (= person :2nd) (= number :sing)
+             (get-in word [:boot-stem1]))
+        (str (get-in word [:boot-stem1]) "i")
+
+        (and (= person :3rd) (= number :sing)
+             (get-in word [:boot-stem1]))
+        (str (get-in word [:boot-stem1]) "e")
+         
         (and (= person :1st) (= number :sing))
         (str stem "o")
 
@@ -754,6 +767,10 @@
 
         (and (= person :2nd) (= number :plur) ire-type)
         (str stem "ite")
+
+        (and (= person :3rd) (= number :plur)
+             (get-in word [:boot-stem1]))
+        (str (get-in word [:boot-stem1]) "ono")
 
         (and (= person :3rd) (= number :plur)
              ire-type)

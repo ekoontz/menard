@@ -5,7 +5,7 @@
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
             [babel.italiano.morphology.verbs :as verbs]
-            [babel.italiano.workbook :refer [analyze generate generate-all parse]]
+            [babel.italiano.workbook :refer [analyze generate parse]]
             [babel.parse :as parse]
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])

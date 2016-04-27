@@ -17,33 +17,38 @@
   (log/trace (str "parse/over: grammar size: " (count grammar)))
   (over/over grammar left right))
 
-(defn cross-product [x y]
+(defn square-cross-product [x]
   (mapcat (fn [each-x]
             (filter #(not (nil? %))
                     (pmap (fn [each-y]
                             (if (= (second each-x) (first each-y))
                               [each-x each-y]))
-                          y)))
+                          x)))
           x))
 
-;; TODO: make a static lookup table, at least for n < (e.g.) 5.
-(defn spanpairs [n]
-  (mapcat (fn [x]
-            (pmap (fn [y]
-                    [x y])
-                  (range (+ x 1) (+ n 1))))
-          (range 0 n)))
-
-(defn square [x]
-  (let [pairs (spanpairs x)]
-    (cross-product pairs pairs)))
-
 (defn span-map [n]
-  "take a 'square span array' and reorganizes it into a map of size -> _spans_,
+  "take a 'square span array' and return a map of size -> _spans_,
    where _size_ is an integer, and _spans_ are all the [left,right] pairs whose combined
    size is equal to _size_."
-  (let [spans
-        (square n)]
+  ;; for example:
+  ;; (span-map 5) =>
+  ;; {1 ([0 1]         [1 2] ...) ;; all of these are of size 1
+  ;;  2 ([[0 1] [1 2]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 2
+  ;;  3 ([[0 2] [2 3]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 3
+  ;;  4 ([[0 3] [3 4]] [[1 2] [2 4]] ..
+  ;;  5 ([[0 4] [4 5]] [[1 3] [3 5]] ... ) } ;; each pair has a combined size of 5.
+  (let [
+        ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
+        ;; e.g. (spanpairs 5) =>
+        ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
+        spanpairs (fn [n]
+                    (mapcat (fn [x]
+                              (pmap (fn [y]
+                                      [x y])
+                                    (range (+ x 1) (+ n 1))))
+                            (range 0 n)))
+
+        spans (square-cross-product (spanpairs n))]
     (merge
      {1 (pmap
          (fn [i]
@@ -75,12 +80,12 @@
                              ;; where each parse in parses matches the tokens from [i,j] in the input.
                              {
 
-                              ;; <key>
+                              ;; <key: [i,j]>
                               [(first (first span-pair))
                                (second (second span-pair))]
                               ;; </key>
 
-                              ;; <value>
+                              ;; <value: parses for strings indexed at [i,j]>
                               (let [left (get minus-1 (first span-pair))
                                     right (get minus-1 (second span-pair))
                                     left-strings (filter string? left)
@@ -104,9 +109,10 @@
 
                            (get span-map n)))))))
 
-(defn parse [input model]
+(defn parse
   "return a list of all possible parse trees for a string or a list of lists of maps
    (a result of looking up in a dictionary a list of tokens from the input string)"
+  [input model]
   (log/info (str "parsing input: '" input "'"))
   (let [tokens (string/split input tokenizer)
         token-count (count tokens)

@@ -226,6 +226,9 @@
          "noi abbiamo bevuto la loro acqua bella"
          "Luisa e io abbiamo bevuto la loro acqua bella"])))
 
+(deftest parse-with-boot-stem
+  (is (not (empty? (:parses (first (parse "lei esce")))))))
+
 ;; roundtrip parser testing
 (defn roundtrip-parsing [n]
   (take n

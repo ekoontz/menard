@@ -1302,6 +1302,10 @@
             (if lexeme-kv
               (let [result (mapcat (fn [path-and-merge-fn]
                                      (let [path (:path path-and-merge-fn)
+                                           surface-form-fn (if (:surface-form path-and-merge-fn)
+                                                             (:surface-form path-and-merge-fn)
+                                                             (fn [lexeme]
+                                                               (get-in lexeme path :none)))
                                            merge-fn (:merge-fn path-and-merge-fn)]
                                        ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                        ;; and the value is a list of lexemes for that string.
@@ -1310,7 +1314,8 @@
                                                  ;; this is where a unify/dissoc that supported
                                                  ;; non-maps like :top and :fail, would be useful:
                                                  ;; would not need the (if (not (fail? lexeme)..)) check
-                                                 ;; to avoid a difficult-to-understand "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
+                                                 ;; to avoid a difficult-to-understand "java.lang.ClassCastException:
+                                                 ;; clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
                                                  (let [lexeme (cond (= lexeme :fail)
                                                                     :fail
                                                                     (= lexeme :top)
@@ -1318,11 +1323,12 @@
                                                                     true
                                                                     (dissoc (copy lexeme) :serialized))]
                                                    (if (not (= :none (get-in lexeme path :none)))
-                                                     (list {(get-in lexeme path :none)
-                                                            (merge
-                                                             lexeme
-                                                             (unifyc (merge-fn lexeme)
-                                                                     {:italiano {:exception true}}))}))))
+                                                     (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                                         (list {(surface-form-fn lexeme)
+                                                                (merge
+                                                                 lexeme
+                                                                 (unifyc (merge-fn lexeme)
+                                                                         {:italiano {:exception true}}))})))))
                                                lexemes)))
                                    [
                                     ;; 1. past-tense exceptions
@@ -1427,7 +1433,48 @@
                                                    :italiano (get-in val [:italiano :present :3plur] :nothing)
                                                    :agr {:number :plur
                                                          :person :3rd}}})}
-                                    
+
+                                    ;; 2.1. present tense boot-stem
+                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "o"))]
+                                      {:path [:italiano :boot-stem1]
+                                       :surface-form surface-form
+                                       :merge-fn
+                                       (fn [val]
+                                         {:italiano {:infl :present
+                                                     :italiano (surface-form val)
+                                                     :agr {:number :sing
+                                                           :person :1st}}})})
+
+                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "i"))]
+                                      {:path [:italiano :boot-stem1]
+                                       :surface-form surface-form
+                                       :merge-fn
+                                       (fn [val]
+                                         {:italiano {:infl :present
+                                                     :italiano (surface-form val)
+                                                     :agr {:number :sing
+                                                           :person :2nd}}})})
+
+                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "e"))]
+                                      {:path [:italiano :boot-stem1]
+                                       :surface-form surface-form
+                                       :merge-fn
+                                       (fn [val]
+                                         {:italiano {:infl :present
+                                                     :italiano (surface-form val)
+                                                     :agr {:number :sing
+                                                           :person :3rd}}})})
+
+                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "ono"))]
+                                      {:path [:italiano :boot-stem1]
+                                       :surface-form surface-form
+                                       :merge-fn
+                                       (fn [val]
+                                         {:italiano {:infl :present
+                                                     :italiano (surface-form val)
+                                                     :agr {:number :plur
+                                                           :person :3rd}}})})
+
                                     ;; 3. future-tense exceptions
                                     {:path [:italiano :future :1sing]
                                      :merge-fn

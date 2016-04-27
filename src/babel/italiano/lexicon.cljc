@@ -2228,7 +2228,11 @@
                                           :reflexive false
                                           }}}
                           {:synsem {:sem {:obj :unspec}}})
-                         
+
+                 ;; subject of verbs must have nominative case
+                 (if-then {:synsem {:cat :verb}}
+                          {:synsem {:subcat {:1 {:case :nom}}}})
+                 
                  ;; Cleanup functions can go here. Number them for ease of reading.
                  ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                  ;; rather than not having any inflection.

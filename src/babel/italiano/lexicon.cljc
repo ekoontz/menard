@@ -132,6 +132,11 @@
              :sem {:pred :aiutare
                    :activity true
                    :obj {:human true}}}}
+
+   "alla prossima"
+   {:synsem {:cat :exclamation
+             :sem {:pred :bye}}}
+
    "alto"
    [;; non-comparative:
     (let [subject-sem (atom {:human true}) ;; only humans can be tall.

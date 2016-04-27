@@ -32,6 +32,7 @@
    size is equal to _size_."
   ;; for example:
   ;; (span-map 5) =>
+  ;; 
   ;; {1 ([0 1]         [1 2] ...) ;; all of these are of size 1
   ;;  2 ([[0 1] [1 2]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 2
   ;;  3 ([[0 2] [2 3]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 3
@@ -110,29 +111,41 @@
                            (get span-map n)))))))
 
 (defn parse
-  "return a list of all possible parse trees for a string or a list of lists of maps
-   (a result of looking up in a dictionary a list of tokens from the input string)"
-  [input model]
-  (log/info (str "parsing input: '" input "'"))
-  (let [tokens (string/split input tokenizer)
-        token-count (count tokens)
-        token-count-range (range 0 token-count)
-        input-map (zipmap (map (fn [i] [i (+ i 1)])
-                               token-count-range)
-                          (map (fn [i] [(nth tokens i)])
-                               token-count-range))]
-    (log/debug (str "input map:" input-map))
-    (let [all-parses
-          (parses input-map token-count model
-                  (span-map token-count))
-          result
-          {:token-count token-count
-           :complete-parses
-           (filter map? (get all-parses
-                             [0 token-count]))
-           :all-parses all-parses}]
-      (if (empty? (:complete-parses result))
-        (log/warn (str "could not parse: " input))
-        (log/info (str "successfully parsed input: '" input "'")))
-      (:complete-parses result))))
+  "return a list of all possible parse trees for a string or a sequence of tokens.
+   In the latter case, the tokens will be produced by splitting a string in 
+   some language-dependent. If the input is a string, then use a 
+   language-independent tokenizer to turn the string into a sequence of tokens."
+  ([input model]
+   (log/info (str "parsing input: '" input "'"))
+   (cond (string? input)
+         (parse (string/split input tokenizer) model)
+         
+         (or (seq? input) (vector? input))
+         ;; assume input is a list of tokens.
+         (let [tokens input
+               token-count (count tokens)
+               token-count-range (range 0 token-count)
+               input-map (zipmap (map (fn [i] [i (+ i 1)])
+                                      token-count-range)
+                                 (map (fn [i] [(nth tokens i)])
+                                      token-count-range))]
+           (log/debug (str "input map:" input-map))
+           (let [all-parses
+                 (parses input-map token-count model
+                         (span-map token-count))
+                 result
+                 {:token-count token-count
+                  :complete-parses
+                  (filter map? (get all-parses
+                                    [0 token-count]))
+                  :all-parses all-parses}]
+             (if (empty? (:complete-parses result))
+               (log/warn (str "could not parse: " input))
+               (log/info (str "successfully parsed input: " input "")))
+             (:complete-parses result)))
 
+         true
+         (throw (Exception. "Don't know how to parse input of type: " (type input))))))
+
+
+  

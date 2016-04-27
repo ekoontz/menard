@@ -1197,60 +1197,62 @@
      true
      expr)))
 
+(def preposition-plus-article
+  [[#"\ba il "  "al "]
+   [#"\ba lo "  "allo "]
+   [#"\ba la "  "alla "]
+   [#"\ba l'"   "all'"]
+   [#"\ba i "   "ai "]
+   [#"\ba gli " "agli "]
+   [#"\ba le "  "alle "]
+   
+   [#"\bda il "  "dal "]
+   [#"\bda lo "  "dallo "]
+   [#"\bda la "  "dalla "]
+   [#"\bda l'"   "dall'"]
+   [#"\bda i "   "dai "]
+   [#"\bda gli " "dagli "]
+   [#"\bda le "  "dalle "]
+
+   [#"\bde il "  "del "]
+   [#"\bde lo "  "dello "]
+   [#"\bde la "  "della "]
+   [#"\bde l'"   "dell'"]
+   [#"\bde i "   "dei "]
+   [#"\bde gli " "degli "]
+   [#"\bde le "  "delle "]
+
+   [#"\bdi il "  "del "]
+   [#"\bdi lo "  "dello "]
+   [#"\bdi la "  "della "]
+   [#"\bdi l'"   "dell'"]
+   [#"\bdi i "   "dei "]
+   [#"\bdi gli " "degli "]
+   [#"\bdi le "  "delle "]
+
+   [#"\bin il "  "nel "]
+   [#"\bin lo "  "nello "]
+   [#"\bin la "  "nella "]
+   [#"\bin l'"   "nell'"]
+   [#"\bin i "   "nei "]
+   [#"\bin gli " "negli "]
+   [#"\bin le "  "nelle "]
+
+   [#"\bsu il "  "sul "]
+   [#"\bsu lo "  "sullo "]
+   [#"\bsu la "  "sulla "]
+   [#"\bsu l'"   "sull'"]
+   [#"\bsu i "   "sui "]
+   [#"\bsu gli " "sugli "]
+   [#"\bsu le "  "sulle "]
+      ])
+
 (defn conjugate-italian-prep [prep np]
   (let [concat (str (get prep :italiano)
                     " "
                     (get np :italiano))]
     (replace-from-list
-     (list
-      (list #"\ba il " "al ")
-      (list #"\ba lo " "allo ")
-      (list #"\ba la " "alla ")
-      (list #"\ba l'" "all'")
-      (list #"\ba i " "ai ")
-      (list #"\ba gli " "agli ")
-      (list #"\ba le " "alle ")
-
-      (list #"\bda il " "dal ")
-      (list #"\bda lo " "dallo ")
-      (list #"\bda la " "dalla ")
-      (list #"\bda l'" "dall'")
-      (list #"\bda i " "dai ")
-      (list #"\bda gli " "dagli ")
-      (list #"\bda le " "dalle ")
-
-      (list #"\bde il " "del ")
-      (list #"\bde lo " "dello ")
-      (list #"\bde la " "della ")
-      (list #"\bde l'" "dell'")
-      (list #"\bde i " "dei ")
-      (list #"\bde gli " "degli ")
-      (list #"\bde le " "delle ")
-
-      (list #"\bdi il " "del ")
-      (list #"\bdi lo " "dello ")
-      (list #"\bdi la " "della ")
-      (list #"\bdi l'" "dell'")
-      (list #"\bdi i " "dei ")
-      (list #"\bdi gli " "degli ")
-      (list #"\bdi le " "delle ")
-
-      (list #"\bin il " "nel ")
-      (list #"\bin lo " "nello ")
-      (list #"\bin la " "nella ")
-      (list #"\bin l'" "nell'")
-      (list #"\bin i " "nei ")
-      (list #"\bin gli " "negli ")
-      (list #"\bin le " "nelle ")
-
-      (list #"\bsu il " "sul ")
-      (list #"\bsu lo " "sullo ")
-      (list #"\bsu la " "sulla ")
-      (list #"\bsu l'" "sull'")
-      (list #"\bsu i " "sui ")
-      (list #"\bsu gli " "sugli ")
-      (list #"\bsu le " "sulle ")
-      )
+     preposition-plus-article
      concat)))
 
 (defn analyze-regular [surface-form lexicon]

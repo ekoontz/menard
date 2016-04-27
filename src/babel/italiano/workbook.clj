@@ -56,6 +56,7 @@
   ((:lookup medium) lexeme))
 
 (defn parse
+  "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
   ([string]
    (parse/parse string medium))
   ([string model]

@@ -550,7 +550,8 @@
                            :place true}}})
 
     ;; in the sense of "a casa": no article needed.
-    {:synsem {:cat :noun
+    {:synsem {:case :acc
+              :cat :noun
               :sem {:city false
                     :spec {:def :none} ;; "a casa", not "a mia casa", etc
                     :place true

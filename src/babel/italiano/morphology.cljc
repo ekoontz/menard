@@ -1323,7 +1323,7 @@
                                                                     true
                                                                     (dissoc (copy lexeme) :serialized))]
                                                    (if (not (= :none (get-in lexeme path :none)))
-                                                     (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                                     (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme) 
                                                          (list {(surface-form-fn lexeme)
                                                                 (merge
                                                                  lexeme

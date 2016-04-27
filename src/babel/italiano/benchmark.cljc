@@ -1,6 +1,7 @@
 (ns babel.italiano.benchmark
   (:refer-clojure :exclude [get-in])
-  (:require [babel.italiano.grammar :refer [small medium np-grammar]]
+  (:require [babel.engine :refer [generate-all]]
+            [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
@@ -19,20 +20,24 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-(defn run-benchmark [times]
-  (count (take (Integer/parseInt times)
-               (repeatedly #(let [debug (println "starting generation..")
-                                  expr (time (generate {:comp {:synsem {:agr {:person :3rd}}}
-                                                        :synsem {:cat :verb}}))]
-                              (println (str "generated: " (fo expr)))
-                              (println (str "starting parsing.."))
-                              (let [parsed (time (take 1 (parse (fo expr))))]
-                                (if (empty? parsed)
-                                  (throw (exception (str "could not parse: " (fo expr) " with semantics:"
-                                                         (strip-refs (get-in expr [:synsem :sem]))))))
-                                                         
-                                (println (str "parsed: " (fo (first parsed))))
-                                (println "")))))))
+(defn run-benchmark
+  ([]
+   (run-benchmark 10))
+
+  ([times]
+   (count (take (Integer/parseInt times)
+                (repeatedly #(let [debug (println "starting generation..")
+                                   expr (time (generate {:comp {:synsem {:agr {:person :3rd}}}
+                                                         :synsem {:cat :verb}}))]
+                               (println (str "generated: " (fo expr)))
+                               (println (str "starting parsing.."))
+                               (let [parsed (time (take 1 (parse (fo expr))))]
+                                 (if (empty? parsed)
+                                   (throw (exception (str "could not parse: " (fo expr) " with semantics:"
+                                                          (strip-refs (get-in expr [:synsem :sem]))))))
+                                 
+                                 (println (str "parsed: " (fo (first parsed))))
+                                 (println ""))))))))
 (defn -main [times]
   (run-benchmark times))
 

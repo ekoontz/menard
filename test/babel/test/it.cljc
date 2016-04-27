@@ -65,9 +65,9 @@
     (is (= "io mi sono alzata" (fo result)))))
 
 (deftest parse-io-parlo
-  (let [result (parse "io parlo")]
+  (let [result (:parses (first (parse "io parlo")))]
     (is (not (empty? result)))
-    (is (= "io parlo") (fo (first result)))))
+    (is (= "io parlo") (fo (first (:parses (first result)))))))
         
 (deftest round-trip-1
   (let [expr (generate {:synsem {:subcat '()
@@ -77,10 +77,10 @@
                                        :pred :donna}}} 
                        np-grammar)]
     (is (= (fo expr) "la donna difficile"))
-    (is (not (empty? (parse (fo expr) np-grammar))))))
+    (is (not (empty? (:parses (first (parse (fo expr) np-grammar))))))))
 
 (deftest forbid-mispelling
- (is (empty? (parse (fo "la donna difficila") np-grammar))))
+ (is (empty? (:parses (parse (fo "la donna difficila") np-grammar)))))
 
 ;; <roundtrip parsing tests>
 ;; these tests will not pass if you
@@ -100,7 +100,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
-                                parsed (parse fo np-grammar)]
+                                parsed (:parses (first (parse fo np-grammar)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -118,7 +118,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
-                                parsed (parse fo)]
+                                parsed (:parses (first (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -138,7 +138,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (parse fo)]
+                                parsed (:parses (first (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -158,7 +158,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (parse fo)]
+                                parsed (:parses (first (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -176,7 +176,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (parse fo)]
+                                parsed (:parses (first (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -194,7 +194,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (parse fo)]
+                                parsed (:parses (first (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -202,7 +202,7 @@
                         expressions))))))
 
 (deftest the-red-cat-woke-up
-  (let [result (parse "il gatto rosso si è alzato")]
+  (let [result (:parses (first (parse "il gatto rosso si è alzato")))]
     ;; should find at least one structure:
     (is (not (empty? result)))
     ;; formatting the first of the resultant parse trees:
@@ -216,7 +216,7 @@
    (map (fn [surface]
           (let [semantics (strip-refs
                            (get-in
-                            (first (parse surface medium))
+                            (first (:parses (first (parse surface medium))))
                             [:synsem :sem]))]
             (is (map? semantics))))
         ["la sua ragazza"
@@ -232,11 +232,14 @@
         (repeatedly #(let [generated
                            (fo (generate {:synsem {:cat :verb
                                                    :subcat '()}}))
-                           parsed (parse generated medium)]
+                           parsed (:parses (first (parse generated medium)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
-                                      (or (strip-refs (get-in (first parsed) [:synsem :sem]))
-                                          (str "NO PARSE FOUND FOR: " generated))))
+                                      (or
+                                       (strip-refs
+                                        (get-in (first parsed)
+                                                [:synsem :sem]))
+                                       (str "NO PARSE FOUND FOR: " generated))))
                        {:generated generated
                         :pred (get-in (first parsed) [:synsem :sem :pred])
                         :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
@@ -264,7 +267,7 @@
 
 (deftest casa-parse
   (is (not (empty?
-            (parse "io sono a casa")))))
+            (:parses (parse "io sono a casa"))))))
 
 (deftest casa-generate
   (let [result (generate 

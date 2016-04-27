@@ -55,12 +55,32 @@
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))
 
+(def tokenizer #"[ ']")
+
+(defn analyze-tokens
+  "given a string, generate a list of tokenization hypotheses."
+  [string]
+  (list
+   (string/split string tokenizer)))
+
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
-  ([string]
-   (parse/parse string medium))
-  ([string model]
-   (parse/parse string model)))
+
+  ([input]
+   (parse input medium))
+
+  ([input model]
+   (cond (string? input)
+         (map (fn [tokenization]
+                {:tokenization tokenization
+                 :parses (parse tokenization model)})
+              (analyze-tokens input))
+
+         (or (seq? input) (vector? input))
+         (parse/parse input model)
+        
+         true
+         (str "don't know how to parse input: " (type input)))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

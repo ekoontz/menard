@@ -272,6 +272,16 @@
   (is (not (empty?
             (:parses (first (parse "io sono a casa")))))))
 
+
+(deftest gestiscono
+  (let [result
+        (take 5 (repeatedly #(generate {:synsem {:sem {:subj {:pred :loro} :pred :manage  :tense :present}}})))]
+    (count (map (fn [each]
+                  (is (= "loro gestiscono" (fo each))))
+                (map :surface
+                     result)))))
+
+
 (deftest casa-generate
   (let [result (generate 
                 {:synsem {:cat :verb 

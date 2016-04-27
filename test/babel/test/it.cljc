@@ -270,7 +270,7 @@
 
 (deftest casa-parse
   (is (not (empty?
-            (:parses (parse "io sono a casa"))))))
+            (:parses (first (parse "io sono a casa")))))))
 
 (deftest casa-generate
   (let [result (generate 

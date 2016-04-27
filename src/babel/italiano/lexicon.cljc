@@ -6,7 +6,7 @@
    [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.italiano.morphology :as morph]
+   [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
    [babel.italiano.pos :refer [adjective agreement-noun cat-of-pronoun
                                common-noun comparative countable-noun determiner
                                drinkable-noun feminine-noun noun intransitive intransitivize
@@ -2156,8 +2156,8 @@
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon (-> (compile-lex lexicon-source
-                              morph/exception-generator 
-                              morph/phonize morph/italian-specific-rules)
+                              exception-generator 
+                              phonize italian-specific-rules)
 
                  (map-function-on-map-vals
                   (fn [k vals]
@@ -2234,7 +2234,7 @@
                                           }}}
                           {:synsem {:sem {:obj :unspec}}})
 
-                 ;; subject of verbs must have nominative case
+                 ;; subject of verbs must have nominative case: prevents wrong things like article-less noun "casa" being the subject of a sentence.
                  (if-then {:synsem {:cat :verb}}
                           {:synsem {:subcat {:1 {:case :nom}}}})
                  

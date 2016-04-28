@@ -31,12 +31,13 @@
                                                          :synsem {:cat :verb}}))]
                                (println (str "generated: " (fo expr)))
                                (println (str "starting parsing.."))
-                               (let [parsed (time (take 1 (parse (fo expr))))]
-                                 (if (empty? parsed)
+                               (let [parsed (time (take 1 (parse (fo expr))))
+                                     parses (reduce concat (map :parses parsed))]
+                                 (if (empty? parses)
                                    (throw (exception (str "could not parse: " (fo expr) " with semantics:"
                                                           (strip-refs (get-in expr [:synsem :sem]))))))
                                  
-                                 (println (str "parsed: " (fo (first parsed))))
+                                 (println (str "parsed: " (fo (first parses))))
                                  (println ""))))))))
 (defn -main [times]
   (run-benchmark times))

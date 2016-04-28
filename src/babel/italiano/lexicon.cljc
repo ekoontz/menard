@@ -5,7 +5,10 @@
    [babel.lexicon :refer [universals]]
    [babel.lexiconfn :refer [compile-lex if-then constrain-vals-if
                             filter-vals
-                            map-function-on-map-vals unify]]
+                            map-function-on-map-vals
+                            rewrite-keys unify]] ;; TODO: use dag_unify/unifyc instead:
+   ;; deprecate lexiconfn/unify.
+
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
@@ -2226,9 +2229,23 @@
                  (if-then {:synsem {:cat :verb}}
                           {:synsem {:subcat {:1 {:case :nom}}}})
                  
-                 ;; Cleanup functions can go here. Number them for ease of reading.
-                 ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
+                 ;; filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                  ;; rather than not having any inflection.
                  (filter-vals
                   #(or (not (= :verb (get-in % [:synsem :cat])))
-                       (not (= :none (get-in % [:synsem :infl] :none)))))))
+                       (not (= :none (get-in % [:synsem :infl] :none)))))
+
+                 ;; TODO: use italiano.morphology/preposition-plus-article regexp pairs.
+                 ;; rather than hard-wired rules here.
+                 (rewrite-keys 
+                  (fn [k]
+                    (cond
+                      (= k "alla prossima")
+                      "a la prossima"
+                      true k)))
+                 
+                 ))
+
+
+  
+

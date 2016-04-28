@@ -891,6 +891,13 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                  (get lexicon k))])
              (keys lexicon))))
 
+(defn rewrite-keys [lexicon rewrite-fn]
+  (into {}
+        (map (fn [k]
+               [(rewrite-fn k)
+                (get lexicon k)])
+             (keys lexicon))))
+
 (defn get-fail-path [map1 map2]
   (if (and (map? map1)
            (map? map2))

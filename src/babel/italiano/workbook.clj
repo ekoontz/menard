@@ -74,7 +74,7 @@
   ([input model]
    (cond (string? input)
          (map (fn [tokenization]
-                {:tokenization tokenization
+                {:tokens tokenization
                  :parses (parse tokenization model)})
               (analyze-tokens input))
 

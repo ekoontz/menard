@@ -60,8 +60,10 @@
 (defn analyze-tokens
   "given a string, generate a list of tokenization hypotheses."
   [string]
-  (list
-   (string/split string tokenizer)))
+  (map #(string/split % tokenizer)
+       (if true
+         (morph/replace-over [string])
+         [string])))
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"

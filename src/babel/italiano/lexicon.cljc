@@ -900,9 +900,9 @@
               :italiano {:cat :adjective
                          :fem {:sing "difficile"}}})
 
-      "dipingere" {:synsem {:cat :verb
-                            :sem {:pred :paint}}
-                   :italiano {:passato "dipinto"}}
+   "dipingere" {:synsem {:cat :verb
+                         :sem {:pred :paint}}
+                :italiano {:passato "dipinto"}}
    
    "dire" (let [shared-part-of-dire
                 {:synsem {:cat :verb}

@@ -1,23 +1,24 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :as engine]
-            [babel.forest :as forest]
-            [babel.italiano.grammar :refer [small medium np-grammar]]
-            [babel.italiano.lexicon :refer [lexicon]]
-            [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
-            [babel.italiano.morphology.nouns :as nouns]
-            [babel.italiano.morphology.verbs :as verbs]
-            [babel.italiano.workbook :refer [analyze generate lightning-bolt parse]]
-            [babel.over :as over]
-            [babel.parse :as parse]
-            #?(:clj [clojure.test :refer [deftest is]])
-            #?(:cljs [cljs.test :refer-macros [deftest is]])
-            #?(:clj [clojure.tools.logging :as log])
-            #?(:cljs [babel.logjs :as log])
-            [clojure.repl :refer [doc]]
-            [clojure.string :as string]
-            [clojure.set :as set]
-            [dag_unify.core :refer [copy fail? get-in strip-refs]]))
+  (:require
+   [babel.engine :as engine]
+   [babel.forest :as forest]
+   [babel.italiano.grammar :refer [small medium np-grammar]]
+   [babel.italiano.lexicon :refer [lexicon]]
+   [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
+   [babel.italiano.morphology.nouns :as nouns]
+   [babel.italiano.morphology.verbs :as verbs]
+   [babel.italiano.workbook :refer [analyze generate lightning-bolt parse]]
+   [babel.over :as over]
+   [babel.parse :as parse]
+   #?(:clj [clojure.test :refer [deftest is]])
+   #?(:cljs [cljs.test :refer-macros [deftest is]])
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log])
+   [clojure.repl :refer [doc]]
+   [clojure.string :as string]
+   [clojure.set :as set]
+   [dag_unify.core :refer [copy fail? get-in strip-refs]]))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

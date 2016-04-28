@@ -292,3 +292,8 @@
                                       :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
                                 :subj {:pred :I}}}})]
     (is (= (fo result) "io sono a casa"))))
+
+(deftest alla-prossima
+  (let [alla-prossima "alla prossima"]))
+
+    

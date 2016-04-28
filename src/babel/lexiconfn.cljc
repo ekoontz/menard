@@ -865,7 +865,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
              vals))))
 
 ;; TODO: s/unifyc/unify/ for performance
-(defn if-then-with-fn [lexicon if-has-with-fn unify-with-fn]
+(defn constrain-vals [lexicon if-has-with-fn unify-with-fn]
   (map-function-on-map-vals
    lexicon
    (fn [k vals]

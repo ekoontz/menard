@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [get-in merge])
   (:require
    [babel.lexicon :refer [universals]]
-   [babel.lexiconfn :refer [compile-lex if-then if-then-with-fn
+   [babel.lexiconfn :refer [compile-lex if-then constrain-vals
                             map-function-on-map-vals unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -2160,7 +2160,7 @@
                               exception-generator 
                               phonize italian-specific-rules)
                  
-                 (if-then-with-fn
+                 (constrain-vals
                   (fn [val]
                     (if (get universals (get-in val [:synsem :sem :pred]))
                       :top

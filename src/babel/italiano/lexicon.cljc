@@ -3,7 +3,8 @@
   (:refer-clojure :exclude [get-in merge])
   (:require
    [babel.lexicon :refer [universals]]
-   [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals unify]]
+   [babel.lexiconfn :refer [compile-lex if-then if-then-with-fn
+                            map-function-on-map-vals unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
@@ -2158,20 +2159,14 @@
 (def lexicon (-> (compile-lex lexicon-source
                               exception-generator 
                               phonize italian-specific-rules)
-
-                 (map-function-on-map-vals
-                  (fn [k vals]
-                    (do
-                      (map (fn [val]
-                             (let [pred (get-in val [:synsem :sem :pred] nil)]
-                               (cond
-                                 (and pred (get universals pred))
-                                 ;; since there are universals for this verb's :pred, unify the verb with the universals.
-                                 (unify (get universals pred)
-                                        val)
-                                 true
-                                 val)))
-                           vals))))
+                 
+                 (if-then-with-fn
+                  (fn [val]
+                    (if (get universals (get-in val [:synsem :sem :pred]))
+                      :top
+                      :fail))
+                  (fn [val]
+                    (get universals (get-in val [:synsem :sem :pred]))))
                  
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.

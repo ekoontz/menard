@@ -78,7 +78,8 @@
                                        :pred :donna}}} 
                        np-grammar)]
     (is (= (fo expr) "la donna difficile"))
-    (is (not (empty? (:parses (first (parse (fo expr) np-grammar))))))))
+    (is (not (empty? (reduce concat (map
+                                     :parses (parse (fo expr) np-grammar))))))))
 
 (deftest forbid-mispelling
  (is (empty? (:parses (parse (fo "la donna difficila") np-grammar)))))
@@ -101,7 +102,8 @@
     (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo np-grammar)))]
+                                parsed (reduce concat (map :parses
+                                                           (parse fo np-grammar)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -119,7 +121,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr] 
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo)))]
+                                parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -139,7 +141,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo)))]
+                                parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -159,7 +161,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo)))]
+                                parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -177,7 +179,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo)))]
+                                parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -195,7 +197,7 @@
     (is (= do-this-many
            (count (pmap (fn [expr]
                           (let [fo (fo expr)
-                                parsed (:parses (first (parse fo)))]
+                                parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
                               (log/info (str "parse OK:" fo))
                               (log/error (str "parse failed: " fo)))
@@ -217,7 +219,8 @@
    (map (fn [surface]
           (let [semantics (strip-refs
                            (get-in
-                            (first (:parses (first (parse surface medium))))
+                            (first
+                             (reduce concat (map :parses (parse surface medium))))
                             [:synsem :sem]))]
             (is (map? semantics))))
         ["la sua ragazza"
@@ -236,7 +239,7 @@
         (repeatedly #(let [generated
                            (fo (generate {:synsem {:cat :verb
                                                    :subcat '()}}))
-                           parsed (:parses (first (parse generated medium)))]
+                           parsed (reduce concat (map :parses (parse generated medium)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
                                       (or
@@ -268,11 +271,9 @@
     (is (or true ;; test won't complete (yet) without disabling with this 'or true'.
             (not (nil? (generate synsem)))))))
 
-
 (deftest casa-parse
   (is (not (empty?
-            (:parses (first (parse "io sono a casa")))))))
-
+            (reduce concat (map :parses (parse "io sono a casa")))))))
 
 (deftest gestiscono
   (let [result
@@ -281,7 +282,6 @@
                   (is (= "loro gestiscono" (fo each))))
                 (map :surface
                      result)))))
-
 
 (deftest casa-generate
   (let [result (generate 

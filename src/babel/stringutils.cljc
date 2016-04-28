@@ -11,7 +11,7 @@
     (let [regexp-pair (first regexp-list)
           regexp-from (first regexp-pair)
           regexp-to (second regexp-pair)
-          result (string/replace regexp-from regexp-to target)]
+          result (string/replace target regexp-from regexp-to)]
       (if (= result target)
         (replace-from-list (rest regexp-list) target)
         result))

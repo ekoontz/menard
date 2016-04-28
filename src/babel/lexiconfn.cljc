@@ -848,16 +848,33 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                               v)]
                 k)))
 
+;; TODO: s/unifyc/unify/ for performance
 (defn if-then [lexicon if-has unify-with]
   (map-function-on-map-vals
    lexicon
    (fn [k vals]
      (mapcat (fn [val]
+
                (let [result (unifyc val if-has)]
                  (cond (not (fail? result))
                        (do
                          (log/debug (str val ": matches: if: " if-has " then " unify-with))
                          (list (unifyc val unify-with)))
+                       true
+                       (list val))))
+             vals))))
+
+;; TODO: s/unifyc/unify/ for performance
+(defn if-then-with-fn [lexicon if-has-with-fn unify-with-fn]
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     (mapcat (fn [val]
+               (let [result (unifyc val (if-has-with-fn val))]
+                 (cond (not (fail? result))
+                       (do
+                         (log/debug (str val ": matches: if-has-with-fn: " if-has-with-fn " then " unify-with-fn))
+                         (list (unifyc val (unify-with-fn val))))
                        true
                        (list val))))
              vals))))

@@ -23,6 +23,57 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)]))
 
+;; TODO: convert all morphology rules to this format used for prepositions:
+(def preposition-plus-article
+  [["a il"   "al"]
+   ["a lo"   "allo"]
+   ["a la"   "alla"]
+   ["a l'"   "all'"]
+   ["a i"    "ai"]
+   ["a gli"  "agli"]
+   ["a le"   "alle"]
+   
+   ["da il"  "dal"]
+   ["da lo"  "dallo"]
+   ["da la"  "dalla"]
+   ["da l'"  "dall'"]
+   ["da i"   "dai"]
+   ["da gli" "dagli"]
+   ["da le"  "dalle"]
+
+   ["de il"  "del"]
+   ["de lo"  "dello"]
+   ["de la"  "della"]
+   ["de l'"  "dell'"]
+   ["de i"   "dei"]
+   ["de gli" "degli"]
+   ["de le"  "delle"]
+
+   ["di il"  "del"]
+   ["di lo"  "dello"]
+   ["di la"  "della"]
+   ["di l'"  "dell'"]
+   ["di i"   "dei"]
+   ["di gli" "degli"]
+   ["di le"  "delle"]
+
+   ["in il"  "nel"]
+   ["in lo"  "nello"]
+   ["in la"  "nella"]
+   ["in l'"  "nell'"]
+   ["in i"   "nei"]
+   ["in gli" "negli"]
+   ["in le"  "nelle"]
+
+   ["su il"  "sul"]
+   ["su lo"  "sullo"]
+   ["su la"  "sulla"]
+   ["su l'"  "sull'"]
+   ["su i"   "sui"]
+   ["su gli" "sugli"]
+   ["su le"  "sulle"]
+      ])
+
 ;; replace-patterns are declarative data that determine how analysis (and soon conjugation) are performed.
 (def replace-patterns
   (concat
@@ -1214,55 +1265,19 @@
      true
      expr)))
 
-(def preposition-plus-article
-  [[#"\ba il "  "al "]
-   [#"\ba lo "  "allo "]
-   [#"\ba la "  "alla "]
-   [#"\ba l'"   "all'"]
-   [#"\ba i "   "ai "]
-   [#"\ba gli " "agli "]
-   [#"\ba le "  "alle "]
-   
-   [#"\bda il "  "dal "]
-   [#"\bda lo "  "dallo "]
-   [#"\bda la "  "dalla "]
-   [#"\bda l'"   "dall'"]
-   [#"\bda i "   "dai "]
-   [#"\bda gli " "dagli "]
-   [#"\bda le "  "dalle "]
+(def ppa-tokens-to-surface
+  (map (fn [pair]
+         [(java.util.regex.Pattern/compile
+           (str "\\b" (first pair) "\\b"))
+          (second pair)])
+       preposition-plus-article))
 
-   [#"\bde il "  "del "]
-   [#"\bde lo "  "dello "]
-   [#"\bde la "  "della "]
-   [#"\bde l'"   "dell'"]
-   [#"\bde i "   "dei "]
-   [#"\bde gli " "degli "]
-   [#"\bde le "  "delle "]
-
-   [#"\bdi il "  "del "]
-   [#"\bdi lo "  "dello "]
-   [#"\bdi la "  "della "]
-   [#"\bdi l'"   "dell'"]
-   [#"\bdi i "   "dei "]
-   [#"\bdi gli " "degli "]
-   [#"\bdi le "  "delle "]
-
-   [#"\bin il "  "nel "]
-   [#"\bin lo "  "nello "]
-   [#"\bin la "  "nella "]
-   [#"\bin l'"   "nell'"]
-   [#"\bin i "   "nei "]
-   [#"\bin gli " "negli "]
-   [#"\bin le "  "nelle "]
-
-   [#"\bsu il "  "sul "]
-   [#"\bsu lo "  "sullo "]
-   [#"\bsu la "  "sulla "]
-   [#"\bsu l'"   "sull'"]
-   [#"\bsu i "   "sui "]
-   [#"\bsu gli " "sugli "]
-   [#"\bsu le "  "sulle "]
-      ])
+(def ppa-surface-to-tokens
+  (map (fn [pair]
+         [(java.util.regex.Pattern/compile
+           (str "\\b" (second pair) "\\b"))
+          (first pair)])
+       preposition-plus-article))
 
 (defn conjugate-italian-prep [prep np]
   (let [concat (str (get prep :italiano)

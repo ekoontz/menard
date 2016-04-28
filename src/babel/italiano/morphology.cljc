@@ -74,6 +74,28 @@
    ["su le"  "sulle"]
       ])
 
+
+;; TODO: pre-compile these rules rather than building regexp objects at runtime.
+(defn apply-one-rule [string from-to-pair]
+  (let [from (second from-to-pair)
+        to (first from-to-pair)]
+    (let [from-pattern (java.util.regex.Pattern/compile
+                        (str "\\b" from "\\b"))]
+      (string/replace string from-pattern to))))
+
+(defn replace-over [strings]
+  (let [result (set (reduce concat
+                            (map (fn [string]
+                                   (map #(apply-one-rule string %)
+                                        preposition-plus-article))
+                                 strings)))]
+    (if (not (= result strings))
+      (replace-over result)
+      strings)))
+
+(defn tokenize-prepositions-in [string & [match-pairs]]
+  string)
+  
 ;; replace-patterns are declarative data that determine how analysis (and soon conjugation) are performed.
 (def replace-patterns
   (concat

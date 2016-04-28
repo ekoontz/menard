@@ -864,19 +864,18 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                        (list val))))
              vals))))
 
-;; TODO: s/unifyc/unify/ for performance
-(defn constrain-vals [lexicon if-has-with-fn unify-with-fn]
+(defn constrain-vals [lexicon if-fn then-fn]
   (into {}
         (map (fn [k]
                [k
                 (map
                  (fn [val]
-                   (let [result (unifyc val (if-has-with-fn val))]
+                   (let [result (unifyc val (if-fn val))]
                      (cond (not (fail? result))
                            (do
-                             (log/debug (str val ": matches: if-has-with-fn: "
-                                             if-has-with-fn " then " unify-with-fn))
-                             (unifyc val (unify-with-fn val)))
+                             (log/debug (str val ": matches: constrain-vals:"
+                                             (if-fn val)))
+                             (unify val (then-fn val)))
                            true
                            val)))
                  (get lexicon k))])

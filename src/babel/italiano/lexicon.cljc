@@ -2167,56 +2167,46 @@
                       :fail))
                   (fn [val]
                     (get universals (get-in val [:synsem :sem :pred]))))
-                 
-                 ;; make an intransitive version of every verb which has an
-                 ;; [:sem :obj] path.
+
+                 ;; TODO: refactor this; it's very monolithic currently:
                  intransitivize
                          
                  ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                 ;; TODO: refactor this; it's very monolithic currently:
                  transitivize
 
-                 ;; TODO: use lexiconfn/if-then where possible, like espanol/lexicon does.
-                 ;; reflexive pronouns
-                 (map-function-on-map-vals
-                  (let [agreement
-                        (let [case (atom :acc)
-                              cat (atom :noun)]
-                          {:synsem {:cat cat
-                                    :pronoun true
-                                    :subcat '()
-                                    :reflexive true
-                                    :case case}
-                           :italiano {:cat cat
-                                      :case case}})]
-                    (log/debug (str "reflexive pronoun check key: " key))
-                    (fn [k vals]
-                      (map (fn [val]
-                             (cond (and (= :noun (get-in val [:synsem :cat]))
-                                        (= true (get-in val [:synsem :reflexive]))
-                                        (= true (get-in val [:synsem :pronoun])))
-                                   (unify agreement val)
-                                   true val))
-                           vals))))
+                 (constrain-vals
+                  (fn [val]
+                    (and (= :noun (get-in val [:synsem :cat]))
+                         (= true (get-in val [:synsem :reflexive]))
+                         (= true (get-in val [:synsem :pronoun]))))
+                  (fn [val]
+                    (unify (let [case (atom :acc)
+                                 cat (atom :noun)]
+                             {:synsem {:cat cat
+                                       :pronoun true
+                                       :subcat '()
+                                       :reflexive true
+                                       :case case}
+                              :italiano {:cat cat
+                                         :case case}}))))
                          
                  ;; If a verb is not specifically marked as reflexive, it
                  ;; is {:reflexive false}, to prevent generation of reflexive
                  ;; sentences using nonreflexive verbs.
-                 ;; TODO: move this to within intransitivize and transitivize:
+                 ;; TODO: consider moving this to within intransitivize and transitivize:
                  ;; that is, within babel.italiano.pos, mark certain parts of speech
                  ;; as reflexive=false to accomplish the same thing as we
                  ;; are doing here.
-                 (map-function-on-map-vals
-                  (fn [k vals]
-                    (map (fn [val]
-                           (cond (and (= (get-in val [:synsem :cat])
-                                         :verb)
-                                      (= (get-in val [:synsem :aux] false)
-                                         false)
-                                      (= :none (get-in val [:synsem :sem :reflexive] :none)))
-                                 (unify val {:synsem {:sem {:reflexive false}}})
-                                 true
-                                 val))
-                         vals)))
+                 (constrain-vals
+                  (fn [val]
+                    (and (= (get-in val [:synsem :cat])
+                            :verb)
+                         (= (get-in val [:synsem :aux] false)
+                            false)
+                         (= :none (get-in val [:synsem :sem :reflexive] :none))))
+                  (fn [val]
+                    (unify val {:synsem {:sem {:reflexive false}}})))
 
                  ;; if object is not specified, then set to :unspec.
                  ;; this prevents translations that may have actual objects - e.g. would allow translations like:

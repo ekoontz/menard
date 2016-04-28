@@ -3,7 +3,8 @@
   (:refer-clojure :exclude [get-in merge])
   (:require
    [babel.lexicon :refer [universals]]
-   [babel.lexiconfn :refer [compile-lex if-then constrain-vals
+   [babel.lexiconfn :refer [compile-lex if-then constrain-vals-if
+                            filter-vals
                             map-function-on-map-vals unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -2158,9 +2159,11 @@
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon (-> (compile-lex lexicon-source
                               exception-generator 
-                              phonize italian-specific-rules)
-                 
-                 (constrain-vals
+                              ;; TODO: rewrite phonize as (constrain-val-if)(one or more)
+                              phonize
+                              ;; TODO: rewrite italian-specific-rules as (constrain-vals-if)(one or more)
+                              italian-specific-rules)
+                 (constrain-vals-if
                   (fn [val]
                     (if (get universals (get-in val [:synsem :sem :pred]))
                       :top
@@ -2175,7 +2178,7 @@
                  ;; TODO: refactor this; it's very monolithic currently:
                  transitivize
 
-                 (constrain-vals
+                 (constrain-vals-if
                   (fn [val]
                     (and (= :noun (get-in val [:synsem :cat]))
                          (= true (get-in val [:synsem :reflexive]))
@@ -2198,7 +2201,7 @@
                  ;; that is, within babel.italiano.pos, mark certain parts of speech
                  ;; as reflexive=false to accomplish the same thing as we
                  ;; are doing here.
-                 (constrain-vals
+                 (constrain-vals-if
                   (fn [val]
                     (and (= (get-in val [:synsem :cat])
                             :verb)
@@ -2226,8 +2229,6 @@
                  ;; Cleanup functions can go here. Number them for ease of reading.
                  ;; 1. this filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                  ;; rather than not having any inflection.
-                 (map-function-on-map-vals 
-                  (fn [k vals]
-                    (filter #(or (not (= :verb (get-in % [:synsem :cat])))
-                                 (not (= :none (get-in % [:synsem :infl] :none))))
-                            vals)))))
+                 (filter-vals
+                  #(or (not (= :verb (get-in % [:synsem :cat])))
+                       (not (= :none (get-in % [:synsem :infl] :none)))))))

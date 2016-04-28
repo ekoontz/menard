@@ -864,7 +864,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                        (list val))))
              vals))))
 
-(defn constrain-vals [lexicon if-fn then-fn]
+(defn constrain-vals-if [lexicon if-fn then-fn]
   (into {}
         (map (fn [k]
                [k
@@ -878,6 +878,16 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                              (unify val (then-fn val)))
                            true
                            val)))
+                 (get lexicon k))])
+             (keys lexicon))))
+
+(defn filter-vals [lexicon filter-fn]
+  (into {}
+        (map (fn [k]
+               [k
+                (filter
+                 (fn [val]
+                   (filter-fn val))
                  (get lexicon k))])
              (keys lexicon))))
 

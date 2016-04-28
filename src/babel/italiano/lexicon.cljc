@@ -2168,6 +2168,14 @@
                               phonize
                               ;; TODO: rewrite italian-specific-rules as (constrain-vals-if)(one or more)
                               italian-specific-rules)
+
+
+                 (constrain-vals-if
+                  (fn [val]
+                    :top)
+                  (fn [val]
+                    (unify val {:synsem {:sem {:blah 99}}})))
+
                  (constrain-vals-if
                   (fn [val]
                     (if (get universals (get-in val [:synsem :sem :pred]))

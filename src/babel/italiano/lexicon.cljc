@@ -21,6 +21,8 @@
                                transitive transitivize verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge]]))
 
+(def analyze-lexemes false)
+
 (def lexicon-source
   {"Luisa"
    {:synsem {:sem {:pred :luisa
@@ -2235,16 +2237,22 @@
                   #(or (not (= :verb (get-in % [:synsem :cat])))
                        (not (= :none (get-in % [:synsem :infl] :none)))))
 
-                 ;; TODO: use italiano.morphology/preposition-plus-article regexp pairs.
-                 ;; rather than hard-wired rules here.
                  (rewrite-keys 
                   (fn [k]
                     (cond
+                      (= false analyze-lexemes)
+                      k
+                      
+                      ;; TODO: only an example provided here:
+                      ;; if analyze-lexemes is true, replace this example with use of
+                      ;; italiano.morphology/preposition-plus-article regexp pairs
                       (= k "alla prossima")
                       "a la prossima"
-                      true k)))
-                 
-                 ))
+
+                      true k)))))
+
+
+
 
 
   

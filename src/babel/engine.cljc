@@ -119,10 +119,12 @@
                                       (:index language-model)
                                       (:morph language-model))]
       (if (not (empty? result))
-        (log/info (str "successfully generated with:"
+        (log/info (str "successfully generated:"
+                       "'" ((:morph language-model) (first result)) "'"
+                       "with:"
                        {:language (:language language-model)
                         :model (:name language-model)
-                        :spec spec} " => '" ((:morph language-model) (first result)) "'"))
+                        :spec spec}))
         (log/warn (str "generate-all: failed to generate with: "
                        {:language (:language language-model)
                         :model (:name language-model)

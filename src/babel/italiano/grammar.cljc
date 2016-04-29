@@ -205,6 +205,10 @@
                            {:rule "prepositional-phrase"
                             :synsem {:cat :prep}})
 
+                   (unifyc h21
+                           {:rule "adjunct-prepositional-phrase"
+                            :synsem {:cat :prep}})
+                   
                    (unifyc c10
                            root-is-head-root
                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.

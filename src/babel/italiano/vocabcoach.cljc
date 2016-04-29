@@ -6,15 +6,16 @@
    #?(:cljs [babel.logjs :as log]) 
    [babel.engine :as engine]
    [babel.italiano.grammar :refer [medium]]
-   [babel.italiano.lexicon :refer [lexicon]]
+   [babel.italiano.lexicon :as main-lexicon]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.italiano.workbook :refer [analyze parse]]
    [babel.lexiconfn :refer [filter-keys filter-vals]]
+   [babel.over :refer [over]]
    [babel.ug :refer [head-principle]]
    [dag_unify.core :refer [fail? get-in merge strip-refs unifyc unify]]))
 
-(def vc-lex
-  (-> lexicon
+(def lexicon
+  (-> main-lexicon/lexicon
       (filter-keys
        #(or
          (= % "a")
@@ -25,26 +26,25 @@
          (= % "mezzogiorno")
          (= % "sono")))))
 
-(def vc-model
+(def model
   (merge (into {}
                (map (fn [k]
                       [k (get medium k)])
                     (filter #(and (not (= % :lexicon))
                                   (not (= % :index)))
                             (keys medium))))
-         {:lexicon vc-lex}
-         {:index (create-index (:grammar medium)
-                               (flatten (vals vc-lex))
+         {:lexicon lexicon
+          :index (create-index (:grammar medium)
+                               (flatten (vals lexicon))
                                head-principle)}))
-
 (defn generate
   ([]
-   (let [result (engine/generate :top vc-model)]
+   (let [result (engine/generate :top model)]
      (if result
        (conj {:surface (fo result)}
              result))))
   ([spec]
-   (let [result (engine/generate spec vc-model)]
+   (let [result (engine/generate spec model)]
      (if result
        (conj {:surface (fo result)}
              result)))))

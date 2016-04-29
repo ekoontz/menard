@@ -45,6 +45,7 @@
                       :obj location
                       :comparative false}
                 :subcat {:1 {:cat :noun
+                             :case :acc
                              :subcat '()
                              :sem location}
                          :2 '()}}})

@@ -1585,6 +1585,11 @@
     {:synsem {:cat :verb
               :sem {:pred :lie}}}
 
+   "mezzogiorno"
+   {:synsem {:cat :noun
+             :sem {:pred :noon
+                   :time true}}}
+   
     "mi"
     [{:synsem {:cat :noun
                :pronoun true

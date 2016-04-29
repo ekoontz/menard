@@ -883,6 +883,13 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                  (get lexicon k))])
              (keys lexicon))))
 
+
+(defn filter-keys [lexicon filter-fn]
+  (into {}
+        (map (fn [k]
+               [k (get lexicon k)])
+             (filter filter-fn (keys lexicon)))))
+
 (defn filter-vals [lexicon filter-fn]
   (into {}
         (map (fn [k]

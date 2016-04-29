@@ -60,10 +60,10 @@
     ;; "a mezzogiorno"
     {:synsem {:cat :prep
               :sem {:pred :a}
-              :subcat {:1 {:cat :noun
-                           :sem {:time true}}
-                       :2 {:cat :verb
-                           :subcat '()}}}}
+              :subcat {:1 {:cat :verb
+                           :subcat '()}
+                       :2 {:cat :noun
+                           :sem {:time true}}}}}
     
     ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
 ;    (let [complement-semantics (atom {:pred :a

@@ -270,15 +270,29 @@ of this function with complements."
             (if (empty? return-val)
 
               ;; else, no complements could be added to this bolt: Throw an exception
-              (let [message
+              (let [log-limit 10
+                    message
                     (str " add-complement to " (get-in bolt [:rule]) " at path: " path " took " run-time " msec, but found no lexical complements for "
                          "'" (morph from-bolt) "'"
                          ". Desired complement [:synsem :sem :pred] was: " (strip-refs (get-in bolt (concat path [:synsem :sem :pred])))
-                         ". Complements tried were:"
-                         (str " " (string/join "," (map morph (take 5 complement-candidate-lexemes)))
-                              (if (< 0 (- (count complement-candidate-lexemes) 5))
+                         ". " (count complement-candidate-lexemes) " complement(s) tried were:"
+                         (str " "
+                              (string/join "," (map morph (take log-limit complement-candidate-lexemes)))
+
+                              "; with preds:"
+                              (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
+
+                              "; fail-paths:"
+                              (string/join "," (map #(if (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
+                                                                                      (get-in bolt (concat path [:synsem :sem :pred]))))))
+                                                       (str "'" (morph %) "':"
+                                                            (fail-path-between (strip-refs %)
+                                                                               (strip-refs (get-in bolt path)))))
+                                                    (take log-limit complement-candidate-lexemes)))
+                              
+                              (if (< 0 (- (count complement-candidate-lexemes) log-limit))
                                 (str ".. and "
-                                     (- (count complement-candidate-lexemes) 5) " more."))))]
+                                     (- (count complement-candidate-lexemes) log-limit) " more."))))]
                 (log/warn message)
 
                 ;; set to true to work on optimizing generation, since this situation of failing to add any

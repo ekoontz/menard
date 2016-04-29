@@ -95,6 +95,8 @@
 (def ^:dynamic *check-infl* true)
 
 (defn head-pre-checks [parent child]
+  (log/debug (str "head-pre-checks PH: " (strip-refs (get-in parent [:head]))))
+  (log/debug (str "head-pre-checks H: " (dissoc (strip-refs child) :serialized)))
   (or
    (fail? (unifyc (get-in parent [:head :synsem :infl] :top)
                   (get-in child [:synsem :infl] :top)))
@@ -135,13 +137,15 @@
                   (get-in child [:synsem :subcat] :top)))))
 
 (defn moreover-head [parent child lexfn-sem-impl morph]
-  (let [morph (if morph morph (fn [x] x))]
-    (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
-    (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
+  (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
+    (log/debug (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
+    (log/debug (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [head-pre-checks (head-pre-checks parent child)
           result
           (if head-pre-checks
-            :fail
+            (do
+              (log/debug (str "head failed prechecks."))
+              :fail)
             (unify
              (copy parent)
              (unify {:head (copy child)
@@ -204,8 +208,8 @@
 (def ^:dynamic *throw-exception-if-failed-to-add-complement* false)
 
 (defn moreover-comp [parent child lexfn-sem-impl]
-  (log/trace (str "moreover-comp type parent: " (type parent)))
-  (log/trace (str "moreover-comp type comp:" (type child)))
+  (log/debug (str "moreover-comp type parent: " (type parent)))
+  (log/debug (str "moreover-comp type comp:" (type child)))
   (log/debug (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
   (log/debug (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
@@ -242,11 +246,14 @@
         (log/trace (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
         :fail))))
 
-(defn overh [parent head morph]
+(defn overh
   "add given head as the head child of the phrase: parent."
-  (when (map? parent)
+  [parent head morph]
+  (when (and (map? parent)
+             (map? head))
     (do
-      (log/trace (str "overh: parent: " (strip-refs parent)))))
+      (log/debug (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
+      (log/debug (str "overh: head: " (strip-refs (dissoc head :serialized))))))
 
   (cond
 
@@ -280,9 +287,10 @@
    (let [result (moreover-head parent head sem-impl morph)
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
-     (log/trace (str "overh result result: " (strip-refs result)))
      (if (not is-fail?)
-       (list result)))))
+       (do
+         (log/debug (str "overh successful result: " (strip-refs (dissoc result :serialized))))
+         (list result))))))
 
 ;; Haskell-looking signature:
 ;; (parent:map) X (child:{set,seq,fs}) => list:map
@@ -291,13 +299,13 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
-  (log/trace (str "set? parent:" (set? parent)))
-  (log/trace (str "seq? parent:" (seq? parent)))
-  (log/trace (str "seq? comp:" (seq? comp)))
+  (log/debug (str "set? parent:" (set? parent)))
+  (log/debug (str "seq? parent:" (seq? parent)))
+  (log/debug (str "seq? comp:" (seq? comp)))
 
-  (log/trace (str "type of parent: " (type parent)))
-  (log/trace (str "type of comp  : " (type comp)))
-  (log/trace (str "nil? comp  : " (nil? comp)))
+  (log/debug (str "type of parent: " (type parent)))
+  (log/debug (str "type of comp  : " (type comp)))
+  (log/debug (str "nil? comp  : " (nil? comp)))
 
   (cond
    (nil? comp) nil
@@ -342,38 +350,60 @@
 (defn over [parents child1 & [child2]]
   (cond (vector? child1)
         (over parents (seq child1) child2)
+
         (vector? child2)
         (over parents child1 (seq child2))
+
+        (map? parents)
+        (do
+          (log/debug (str "parents is a map: converting to a list and re-calling."))
+          (over (list parents) child1 child2))
+
+        (nil? child2)
+        (over parents child1 :top)        
+
+        (empty? parents)
+        nil
+
+        (and (map? parents)
+             (not (nil? (:serialized parents))))
+        ;; In this case, supposed 'parent' is really a lexical item: for now, definition of 'lexical item' is,
+        ;; it has a non-nil value for :serialized - just return nil, nothing else to do.
+        (throw (exception (str "Don't know what to do with this parent: " parents)))
+
+        ;; if parent is a symbol, evaluate it; should evaluate to a list of expansions (which might also be symbols, etc).
+        #?(:clj (symbol? parents))
+        #?(:clj (over (eval parents) child1 child2))
+
         true
-  (if (nil? child2) (over parents child1 :top)
-      (if (map? parents)
-        (over (list parents) child1 child2)
-        (if (not (empty? parents))
-          (let [parent (first parents)]
-            (log/trace (str "over: parent: " (get-in parent [:rule])))
-            (concat
-             (cond (and (map? parent)
-                        (not (nil? (:serialized parent))))
-                   ;; In this case, supposed 'parent' is really a lexical item: for now, definition of 'lexical item' is,
-                   ;; it has a non-nil value for :serialized - just return nil, nothing else to do.
+        (let [parent (first parents)]
+          (cond
+            (nil? (get-in parent [:schema-symbol] nil))
+            (throw (exception (str "no schema symbol for parent: " (:rule parent))))
 
-                   (throw (exception (str "Don't know what to do with this parent: " parent)))
+            true
+            (do
+              (log/debug (str "over: parent: " (get-in parent [:rule]) " with schema symbol: " (get-in parent [:schema-symbol])))
+              (if (= (:first parent) :head)
+                ;; else, head is left child.
+                (do (log/debug "over: left child (head):" child1)
+                    (log/debug "over: right child (comp):" child2))
+                ;; else, head is right child.
+                (do (log/debug "over: left child (comp):" child1)
+                    (log/debug "over: right child (head):" child2)))
 
-                   ;; if parent is a symbol, evaluate it; should evaluate to a list of expansions (which might also be symbols, etc).
-                   #?(:clj (symbol? parent))
-                   #?(:clj (over (eval parent) child1 child2))
+              (concat
+               ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
+               ;; and figure out head-comp ordering from :first attribute.
+               (filter (fn [each]
+                         (not (fail? each)))
+                       (overhc parent
+                               (if (= (:first parent) :head)
+                                 child1 child2)
+                               (if (= (:first parent) :head)
+                                 child2 child1)))
+               (over (rest parents) child1 child2)))))))
 
-                   ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
-                   ;; and figure out head-comp ordering from :first attribute.
-                   (and (map? parent)
-                        (not (nil? (:schema-symbol parent))))
-                   (filter (fn [each]
-                             (not (fail? each)))
-                           (overhc parent
-                                   (if (= (:first parent) :head)
-                                     child1 child2)
-                                   (if (= (:first parent) :head)
-                                     child2 child1)))
-                   true
-                   (throw (exception (str "Don't know what to do with parent: " parent))))
-             (over (rest parents) child1 child2))))))))
+
+
+

@@ -4,10 +4,11 @@
    #?(:clj [clojure.tools.logging :as log])
    [babel.cache :refer [create-index]]
    #?(:cljs [babel.logjs :as log]) 
+   [babel.engine :as engine]
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [fo]]
-   [babel.italiano.workbook :refer [analyze generate lightning-bolt parse]]
+   [babel.italiano.workbook :refer [analyze parse]]
    [babel.lexiconfn :refer [filter-keys filter-vals]]
    [babel.ug :refer [head-principle]]
    [dag_unify.core :refer [fail? get-in merge strip-refs unifyc unify]]))
@@ -21,14 +22,30 @@
          (= % "casa")
          (= % "essere")
          (= % "io")
+         (= % "mezzogiorno")
          (= % "sono")))))
 
 (def vc-model
-  (merge medium
+  (merge (into {}
+               (map (fn [k]
+                      [k (get medium k)])
+                    (filter #(and (not (= % :lexicon))
+                                  (not (= % :index)))
+                            (keys medium))))
          {:lexicon vc-lex}
          {:index (create-index (:grammar medium)
                                (flatten (vals vc-lex))
                                head-principle)}))
 
-  
+(defn generate
+  ([]
+   (let [result (engine/generate :top vc-model)]
+     (if result
+       (conj {:surface (fo result)}
+             result))))
+  ([spec]
+   (let [result (engine/generate spec vc-model)]
+     (if result
+       (conj {:surface (fo result)}
+             result)))))
 

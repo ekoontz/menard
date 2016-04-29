@@ -119,8 +119,8 @@
 
 (defn comp-pre-checks [parent child]
   (or
-   (fail? (unifyc (get-in parent [:comp :synsem :cat])
-                  (get-in child [:synsem :cat])))
+   (fail? (unifyc (get-in parent [:comp :synsem :cat] :top)
+                  (get-in child [:synsem :cat] :top)))
    (fail? (unifyc (get-in parent [:comp :synsem :agr] :top)
                   (get-in child [:synsem :agr] :top)))
    (fail? (unifyc (get-in parent [:comp :synsem :case] :top)

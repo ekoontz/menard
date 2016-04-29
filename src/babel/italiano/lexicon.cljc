@@ -19,7 +19,7 @@
                                masculine-noun non-comparative-adjective
                                pronoun-acc pronoun-reflexive sentential-adverb
                                transitive transitivize verb-aux verb-subjective]]
-   [dag_unify.core :refer [fail? get-in merge]]))
+   [dag_unify.core :refer [fail? get-in merge strip-refs]]))
 
 (def analyze-lexemes false)
 

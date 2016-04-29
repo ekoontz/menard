@@ -299,6 +299,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                   :part-of-human-body false
                   :drinkable false
                   :speakable false
+                  :city false
                   :place false})
          inanimate (if (= (get-in input '(:animate))
                            false)

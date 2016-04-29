@@ -2169,24 +2169,15 @@
                               ;; TODO: rewrite italian-specific-rules as (constrain-vals-if)(one or more)
                               italian-specific-rules)
 
-
                  (constrain-vals-if
                   (fn [val]
-                    :top)
-                  (fn [val]
-                    (unify val {:synsem {:sem {:blah 99}}})))
-
-                 (constrain-vals-if
-                  (fn [val]
-                    (if (get universals (get-in val [:synsem :sem :pred]))
-                      :top
-                      :fail))
+                    (not (nil? (get universals (get-in val [:synsem :sem :pred])))))
                   (fn [val]
                     (get universals (get-in val [:synsem :sem :pred]))))
 
                  ;; TODO: refactor this; it's very monolithic currently:
                  intransitivize
-                         
+
                  ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                  ;; TODO: refactor this; it's very monolithic currently:
                  transitivize
@@ -2206,7 +2197,13 @@
                                        :case case}
                               :italiano {:cat cat
                                          :case case}}))))
-                         
+                 (constrain-vals-if
+                  (fn [val]
+                    (= (get-in val [:synsem :cat])
+                       :verb))
+                  (fn [val]
+                    (unify val {:stage1 :ok})))
+                 
                  ;; If a verb is not specifically marked as reflexive, it
                  ;; is {:reflexive false}, to prevent generation of reflexive
                  ;; sentences using nonreflexive verbs.
@@ -2223,7 +2220,7 @@
                          (= :none (get-in val [:synsem :sem :reflexive] :none))))
                   (fn [val]
                     (unify val {:synsem {:sem {:reflexive false}}})))
-
+                 
                  ;; if object is not specified, then set to :unspec.
                  ;; this prevents translations that may have actual objects - e.g. would allow translations like:
                  ;; "io mangio" => "I eat the bread" whereas a better translation is simply "I eat".

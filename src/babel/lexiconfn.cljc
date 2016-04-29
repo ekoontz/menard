@@ -363,6 +363,22 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                   :edible false
                   :legible false}{})
 
+         place-false (if (= (get-in input '(:place))
+                            false)
+                       {:city false})
+         
+         time (if (= (get-in input [:time])
+                      true)
+                 {:activity false
+                  :animate false
+                  :city false
+                  :speakable false
+                  :physical-object true
+                  :drinkable false
+                  :edible false
+                  :legible false
+                  :place false})
+         
          ]
      (let [merged
            (cond (= input :fail) :fail
@@ -378,6 +394,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                         edible furniture human inanimate
                         legible material-false non-places
                         not-legible-if-not-artifact part-of-human-body pets place
+                        place-false time
                         ))]
        (log/trace (str "sem-impl so far: " merged))
        (if (not (= merged input)) ;; TODO: make this check more efficient: count how many rules were hit

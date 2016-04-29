@@ -54,7 +54,8 @@
     {:synsem {:cat :prep
               :sem {:pred :in}
               :subcat {:1 {:cat :noun
-                           :sem {:city true}}}}}
+                           :sem {:city true}}
+                       :2 '()}}}
 
     ;; "a mezzogiorno"
     {:synsem {:cat :prep

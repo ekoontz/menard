@@ -31,8 +31,8 @@
                                                          :synsem {:cat :verb}}))]
                                (println (str "generated: " (fo expr)))
                                (println (str "starting parsing.."))
-                               (let [parsed (time (take 1 (parse (fo expr))))
-                                     parses (reduce concat (map :parses parsed))]
+                               ;; take the first parse in order to force evaluation of parsing so that (time ..)'s return value is meaningful.
+                               (let [parses (time (take 1 (reduce concat (map :parses (parse (fo expr))))))]
                                  (if (empty? parses)
                                    (throw (exception (str "could not parse: " (fo expr) " with semantics:"
                                                           (strip-refs (get-in expr [:synsem :sem]))))))

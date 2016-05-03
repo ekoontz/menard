@@ -205,9 +205,9 @@
                            {:rule "prepositional-phrase"
                             :synsem {:cat :prep}})
 
-                   (unifyc h21
-                           {:rule "adjunct-prepositional-phrase"
-                            :synsem {:cat :prep}})
+;                   (unifyc h21
+;                           {:rule "adjunct-prepositional-phrase"
+;                            :synsem {:cat :prep}})
                    
                    (unifyc c10
                            root-is-head-root

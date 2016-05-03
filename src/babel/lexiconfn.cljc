@@ -402,7 +402,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
          (sem-impl merged) ;; we've added some new information: more implications possible from that.
          merged))))) ;; no more implications: return
 
-(defn listify [m]
+(defn listify
+  "for every value in the given map, if the value is not a sequence or a vector, wrap it in a vector."
+  [m]
   (into {}
         (for [[k v] m]
           [k (cond (map? v)

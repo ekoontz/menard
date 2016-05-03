@@ -22,6 +22,16 @@
     (is (or (= "yo dormiría" (fo result))
             (= "dormiría" (fo result))))))
 
+(deftest zar-preterito
+  (let [result (engine/generate 
+                {:root {:espanol {:espanol "abrazar"}}
+                 :synsem {:sem {:subj {:pred :I}}
+                          :infl :preterito}}
+                esg/small
+                :enrich true)]
+    (is (or (= "yo abracé" (fo result))
+            (= "abracé" (fo result))))))
+                
 (deftest llamarse
   (let [result (engine/expression esg/small {:synsem {:sem {:pred :be-called}}})]
     (is (not (empty? (fo result))))))

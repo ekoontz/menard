@@ -515,11 +515,15 @@
                                vosotros :vosotros
                                ustedes :ustedes}]
   (let [infinitive (reflexive-to-infinitive (get-in word '(:espanol)))
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
         ar-type (try (re-find #"ar$" infinitive)
                      (catch Exception e
                        (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
+
+        zar-type (re-find #"zar$" infinitive)
         
         ;; default stem: will be used except under certain conditions, as described in next check.
         stem (string/replace infinitive #"[iae]r$" "")
@@ -527,14 +531,18 @@
         stem (if (get-in word [:preterito-stem])
                (get-in word [:preterito-stem])
                stem)
+
+        stem (if (and zar-type ;; z->c for -zar verbs with 1st person singular.
+                      (= person :1st)
+                      (= number :sing))
+               (string/replace infinitive #"zar$" "c")
+               stem)
         
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
         vosotros (if vosotros vosotros true)
-        ustedes (if ustedes ustedes false)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
+        ustedes (if ustedes ustedes false)]
     
     (cond
      (and (= person :1st) (= number :sing) ar-type)

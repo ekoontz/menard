@@ -293,7 +293,7 @@
      expr)))
 
 (defn stem-per-passato-prossimo [infinitive]
-  "_infinitive_ should be a string (italian verb infinitive form)"
+  "_infinitive_ should be a string (verb infinitive form)"
   (string/replace infinitive #"^(.*)([aei])(re)$" (fn [[_ prefix vowel suffix]] (str prefix))))
 
 (defn passato-prossimo [infinitive]

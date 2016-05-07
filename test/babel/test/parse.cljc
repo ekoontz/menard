@@ -6,7 +6,6 @@
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze fo replace-patterns]]
-            [babel.francais.workbook :as workbook]
             [babel.over :as over]
             [babel.parse :refer [parse tokenizer]]
             [clojure.string :as string]

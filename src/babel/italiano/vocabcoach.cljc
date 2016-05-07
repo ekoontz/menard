@@ -5,10 +5,10 @@
    [babel.cache :refer [create-index]]
    #?(:cljs [babel.logjs :as log]) 
    [babel.engine :as engine]
+   [babel.italiano :refer [analyze parse]]
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.lexicon :as main-lexicon]
    [babel.italiano.morphology :as morph :refer [fo]]
-   [babel.italiano.workbook :refer [analyze parse]]
    [babel.lexiconfn :refer [filter-keys filter-vals]]
    [babel.over :refer [over]]
    [babel.ug :refer [head-principle]]

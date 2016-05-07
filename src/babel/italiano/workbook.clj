@@ -10,11 +10,11 @@
    [babel.pos :as pos]
    [babel.reader :as reader]
    [clojail.core :refer [sandbox]]
+   [clojail.testers :refer :all]
    [clojure.repl :refer [doc]]
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
-   [babel.logjs :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :refer [fail? fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))

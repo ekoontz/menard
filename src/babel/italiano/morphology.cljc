@@ -79,7 +79,7 @@
 (defn apply-one-rule [string from-to-pair]
   (let [from (second from-to-pair)
         to (first from-to-pair)]
-    (let [from-pattern (java.util.regex.Pattern/compile
+    (let [from-pattern (re-pattern
                         (str "\\b" from "\\b"))]
       (string/replace string from-pattern to))))
 
@@ -1289,14 +1289,14 @@
 
 (def ppa-tokens-to-surface
   (map (fn [pair]
-         [(java.util.regex.Pattern/compile
+         [(re-pattern
            (str "\\b" (first pair) "\\b"))
           (second pair)])
        preposition-plus-article))
 
 (def ppa-surface-to-tokens
   (map (fn [pair]
-         [(java.util.regex.Pattern/compile
+         [(re-pattern
            (str "\\b" (second pair) "\\b"))
           (first pair)])
        preposition-plus-article))

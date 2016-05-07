@@ -3,6 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :refer [lightning-bolt]]
+   [babel.francais :refer [analyze generate lookup parse]]
    [babel.francais.grammar :refer [small medium]]
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
@@ -24,41 +25,10 @@
    [dag_unify.core :refer [fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
-(defn parse
-  ([string]
-   (parse/parse string medium))
-  ([string model]
-   (parse/parse string model)))
-
-(defn analyze
-  ([surface-form]
-   (morph/analyze surface-form (:lexicon medium)))
-  ([surface-form model]
-   (morph/analyze surface-form (:lexicon model))))
-
-(defn generate
-  ([spec]
-   (let [result (first (take 1 (engine/generate-all spec medium)))]
-     (conj {:surface (fo result)}
-           result)))
-  ([spec model]
-   (let [result (first (take 1 (engine/generate-all spec model)))]
-     (conj {:surface (fo result)}
-           result))))
-
 (defn expr [id]
   (reader/id2expression (Integer. id)))
 
 (def rules (:grammar-map medium))
-
-;; TODO: do morphological analysis
-;; do find non-infinitives (e.g. find 'parler' given 'parle')
-;; and then apply conjugated parts to lexeme
-;; i.e. if input is 'parle', return
-;; list of lexemes; for each, [:synsem :agr :person] will be
-;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup [lexeme]
-  ((:lookup medium) lexeme))
 
 (defn over
   ([arg1]

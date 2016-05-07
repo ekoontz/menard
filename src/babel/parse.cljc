@@ -12,6 +12,8 @@
 (def tokenizer #"[ ']")
 (declare over)
 
+(def map-fn #?(:clj pmap) #?(:cljs map))
+
 (defn over [grammar left right]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
@@ -20,10 +22,10 @@
 (defn square-cross-product [x]
   (mapcat (fn [each-x]
             (filter #(not (nil? %))
-                    (pmap (fn [each-y]
-                            (if (= (second each-x) (first each-y))
-                              [each-x each-y]))
-                          x)))
+                    (map-fn (fn [each-y]
+                              (if (= (second each-x) (first each-y))
+                                [each-x each-y]))
+                            x)))
           x))
 
 (defn span-map [n]
@@ -44,28 +46,28 @@
         ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
         spanpairs (fn [n]
                     (mapcat (fn [x]
-                              (pmap (fn [y]
-                                      [x y])
-                                    (range (+ x 1) (+ n 1))))
+                              (map-fn (fn [y]
+                                        [x y])
+                                      (range (+ x 1) (+ n 1))))
                             (range 0 n)))
 
         spans (square-cross-product (spanpairs n))]
     (merge
-     {1 (pmap
+     {1 (map-fn
          (fn [i]
            [i (+ 1 i)])
          (range 0 n))}
      (reduce (fn [resultant-map this-submap]
                (merge-with union ;; TODO: this could get expensive - consider alternatives.
                            resultant-map this-submap))
-             (pmap (fn [span-pair]
-                     (let [left-span (first span-pair)
-                           left-boundary (first left-span)
-                           right-span (second span-pair)
-                           right-boundary (second right-span)]
-                       {(- right-boundary left-boundary)
-                        (list span-pair)}))
-                   spans)))))
+             (map-fn (fn [span-pair]
+                       (let [left-span (first span-pair)
+                             left-boundary (first left-span)
+                             right-span (second span-pair)
+                             right-boundary (second right-span)]
+                         {(- right-boundary left-boundary)
+                          (list span-pair)}))
+                     spans)))))
 
 (defn parses [input n model span-map]
   (cond
@@ -75,41 +77,39 @@
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
-                     (pmap (fn [span-pair]
+                     (map-fn (fn [span-pair]
+                               
+                               ;; create a new key/value pair: [i,j] => parses,
+                               ;; where each parse in parses matches the tokens from [i,j] in the input.
+                               {
 
-                             ;; create a new key/value pair: [i,j] => parses,
-                             ;; where each parse in parses matches the tokens from [i,j] in the input.
-                             {
+                                ;; <key: [i,j]>
+                                [(first (first span-pair))
+                                 (second (second span-pair))]
+                                ;; </key>
 
-                              ;; <key: [i,j]>
-                              [(first (first span-pair))
-                               (second (second span-pair))]
-                              ;; </key>
-
-                              ;; <value: parses for strings indexed at [i,j]>
-                              (let [left (get minus-1 (first span-pair))
-                                    right (get minus-1 (second span-pair))
-                                    left-strings (filter string? left)
-                                    right-strings (filter string? right)
-                                    left-lexemes (mapcat (:lookup model)
-                                                         left-strings)
-                                    right-lexemes (mapcat (:lookup model)
-                                                          right-strings)
-                                    left-signs (lazy-cat left-lexemes (filter map? left))
-                                    right-signs (lazy-cat right-lexemes (filter map? right))]
-                                (lazy-cat
-                                 (if (and (not (empty? left-signs))
-                                          (not (empty? right-signs)))
-                                   (over (:grammar model) left-signs right-signs))
-                                 
+                                ;; <value: parses for strings indexed at [i,j]>
+                                (let [left (get minus-1 (first span-pair))
+                                      right (get minus-1 (second span-pair))
+                                      left-strings (filter string? left)
+                                      right-strings (filter string? right)
+                                      left-lexemes (mapcat (:lookup model)
+                                                           left-strings)
+                                      right-lexemes (mapcat (:lookup model)
+                                                            right-strings)
+                                      left-signs (lazy-cat left-lexemes (filter map? left))
+                                      right-signs (lazy-cat right-lexemes (filter map? right))]
+                                  (lazy-cat
+                                   (if (and (not (empty? left-signs))
+                                            (not (empty? right-signs)))
+                                     (over (:grammar model) left-signs right-signs))
+                                   
                                  ;; TODO: explain why we can use (first) here for the left- and right-strings.
-                                 ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
-                                 [(string/join " " [(first left-strings) (first right-strings)])]))
-                              ;; </value>
-                              })
-
-                           (get span-map n)))))))
-
+                                   ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
+                                   [(string/join " " [(first left-strings) (first right-strings)])]))
+                                ;; </value>
+                                })
+                             (get span-map n)))))))
 (defn parse
   "return a list of all possible parse trees for a string or a sequence of tokens.
    In the latter case, the tokens will be produced by splitting a string in 
@@ -146,6 +146,4 @@
 
          true
          (throw (Exception. "Don't know how to parse input of type: " (type input))))))
-
-
   

@@ -84,6 +84,8 @@
 (deftest forbid-mispelling
  (is (empty? (:parses (parse (fo "la donna difficila") np-grammar)))))
 
+(def map-fn #?(:clj pmap) #?(:cljs map))
+
 ;; <roundtrip parsing tests>
 ;; these tests will not pass if you
 ;; don't have enough linguistic material
@@ -100,15 +102,15 @@
                                                                :pred :top}}}
                                                np-grammar))]
     (is (= do-this-many
-           (count (pmap (fn [expr] 
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses
-                                                           (parse fo np-grammar)))]
-                            (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
-                            (is (not (empty? parsed)))))
-                        expressions))))))
+           (count (map-fn (fn [expr] 
+                            (let [fo (fo expr)
+                                  parsed (reduce concat (map :parses
+                                                             (parse fo np-grammar)))]
+                              (if (not (empty? parsed))
+                                (log/info (str "parse OK:" fo))
+                                (log/error (str "parse failed: " fo)))
+                              (is (not (empty? parsed)))))
+                          expressions))))))
 
 (deftest roundtrip-present
   (let [do-this-many 20
@@ -119,14 +121,14 @@
                                                 :subcat '()}}
                                       small)))]
     (is (= do-this-many
-           (count (pmap (fn [expr] 
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses (parse fo)))]
-                            (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
-                            (is (not (empty? parsed)))))
-                        expressions))))))
+           (count (map-fn (fn [expr] 
+                            (let [fo (fo expr)
+                                  parsed (reduce concat (map :parses (parse fo)))]
+                              (if (not (empty? parsed))
+                                (log/info (str "parse OK:" fo))
+                                (log/error (str "parse failed: " fo)))
+                              (is (not (empty? parsed)))))
+                          expressions))))))
 
 (deftest roundtrip-imperfect
   (let [do-this-many 20
@@ -139,14 +141,14 @@
                                                 :subcat '()}}
                                       small)))]
     (is (= do-this-many
-           (count (pmap (fn [expr]
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses (parse fo)))]
-                            (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
-                            (is (not (empty? parsed)))))
-                        expressions))))))
+           (count (map-fn (fn [expr]
+                            (let [fo (fo expr)
+                                  parsed (reduce concat (map :parses (parse fo)))]
+                              (if (not (empty? parsed))
+                                (log/info (str "parse OK:" fo))
+                                (log/error (str "parse failed: " fo)))
+                              (is (not (empty? parsed)))))
+                          expressions))))))
 
 (deftest roundtrip-past
   (let [do-this-many 20
@@ -159,7 +161,7 @@
                                                 :subcat '()}}
                                       small)))]
     (is (= do-this-many
-           (count (pmap (fn [expr]
+           (count (map-fn (fn [expr]
                           (let [fo (fo expr)
                                 parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
@@ -177,7 +179,7 @@
                                                 :subcat '()}}
                                       small)))]
     (is (= do-this-many
-           (count (pmap (fn [expr]
+           (count (map-fn (fn [expr]
                           (let [fo (fo expr)
                                 parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))
@@ -195,7 +197,7 @@
                                                 :subcat '()}}
                                       small)))]
     (is (= do-this-many
-           (count (pmap (fn [expr]
+           (count (map-fn (fn [expr]
                           (let [fo (fo expr)
                                 parsed (reduce concat (map :parses (parse fo)))]
                             (if (not (empty? parsed))

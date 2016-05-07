@@ -1335,11 +1335,12 @@
                      (throw (Exception. (str "Can't string/replace on: "
                                              "surface-form: " surface-form "; from: " from "; to:" to)))))]
              (filter (fn [result] (not (= :fail result)))
-                     (pmap (fn [lexical-entry]
-                             (let [result (unifyc unify-with lexical-entry)]
-                               (log/debug (str "unifyc result:" result))
-                               result))
-                           (get lexicon potential-lexical-form))))))))
+                     (let [map-fn #?(:clj pmap) #?(:cljs map)]
+                       (map-fn (fn [lexical-entry]
+                                 (let [result (unifyc unify-with lexical-entry)]
+                                   (log/debug (str "unifyc result:" result))
+                                   result))
+                             (get lexicon potential-lexical-form)))))))))
    replace-patterns))
 
 (defn analyze [surface-form lexicon]

@@ -1,88 +1,26 @@
 (ns babel.italiano.workbook
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
-   [babel.engine :as engine]
-   [babel.forest :as forest]
+   [babel.italiano :refer [analyze generate parse]]
    [babel.italiano.grammar :refer [small medium np-grammar]]
-   [babel.italiano.lexicon :refer :all]
+   [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [fo]]
-   [babel.italiano.writer :refer [expression]]
    [babel.html :as html]
-   [babel.korma :as korma]
    [babel.over :as over]
-   [babel.parse :as parse]
    [babel.pos :as pos]
    [babel.reader :as reader]
-   [babel.writer :as writer :refer [reload]]
    [clojail.core :refer [sandbox]]
-   [clojail.testers :refer :all]
-   [clojure.core :exclude [get-in]]
-   [clojure.core :as core] ;; This allows us to use core's get-in by doing "(core/get-in ..)"
    [clojure.repl :refer [doc]]
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
+   [babel.logjs :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :refer [fail? fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
-(defn analyze
-  ([surface-form]
-   (analyze surface-form (:lexicon medium)))
-  ([surface-form lexicon]
-   (morph/analyze surface-form lexicon)))
-
-(defn generate
-  ([]
-   (let [result (engine/generate :top medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec]
-   (let [result (engine/generate spec medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec model]
-   (let [result (engine/generate spec model)]
-     (if result
-       (conj {:surface (fo result)}
-             result)))))
-
-(defn lightning-bolt [spec]
-  (forest/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
-
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))
-
-(def tokenizer #"[ ']")
-
-(defn analyze-tokens
-  "given a string, generate a list of tokenization hypotheses."
-  [string]
-  (map #(string/split % tokenizer)
-       (if true
-         (morph/replace-over [string])
-         [string])))
-
-(defn parse
-  "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
-
-  ([input]
-   (parse input medium))
-
-  ([input model]
-   (cond (string? input)
-         (map (fn [tokenization]
-                {:tokens tokenization
-                 :parses (parse tokenization model)})
-              (analyze-tokens input))
-
-         (or (seq? input) (vector? input))
-         (parse/parse input model)
-        
-         true
-         (str "don't know how to parse input: " (type input)))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

@@ -1383,7 +1383,8 @@
                                                                 (merge
                                                                  lexeme
                                                                  (unifyc (merge-fn lexeme)
-                                                                         {:italiano {:exception true}}))})))))
+                                                                         {:italiano {:infinitive (get-in lexeme [:italiano :italiano])
+                                                                                     :exception true}}))})))))
                                                lexemes)))
                                    [
                                     ;; 1. past-tense exceptions

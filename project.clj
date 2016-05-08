@@ -1,4 +1,4 @@
-(defproject babel "1.2.0"
+(defproject babel "1.2.1-SNAPSHOT"
   :description "A Clojure library for generation of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
@@ -25,6 +25,8 @@
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
   :repositories {"hiro-tan" "http://hiro-tan.org/mvn/repository"
+
+                 ;; do: lein deploy s3
                  "s3" {:url "s3p://ekoontz-repo/releases/"
                        :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
                        :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY

@@ -12,7 +12,7 @@
    (GET "/" request
         (let [to (:to (:params request))
               expr (:expr (:params request))
-              response "ciao.."]
+              response (str "ciao; tu hai detto: '" expr "'")]
           (log/info (str "client is talking to: " to))
           (log/info (str " and saying: " expr))
           (log/info (str "response: " response))

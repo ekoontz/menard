@@ -7,7 +7,6 @@
    [babel.italiano.workbook :as it]
    [babel.reader :as reader]
    [babel.say :as say]
-   [babel.workbook :as workbook]
    ;; https://github.com/clojure-emacs/cider#installation
    ;; commented out because it's not clear how to use below.
    ;;   [clojure.tools.nrepl.server :as nrepl-server]
@@ -21,7 +20,7 @@
 
 (defroutes main-routes
   (GET "/" request
-       (resp/redirect "/workbook"))
+       (resp/redirect "/workbook/it"))
   (context "/say" []
            say/routes)
   (context "/workbook/en" []
@@ -32,8 +31,6 @@
            fr/routes)
   (context "/workbook/it" []
            it/routes)
-  (context "/workbook" []
-           workbook/routes)
   (GET "/expr/:expr" request
        (let [expr (:expr (:route-params request))]
          (log/info (str "expr(1):" expr))

@@ -618,18 +618,23 @@
    ;; TODO: add :3 to this verb (see French)
    "chiamarsi" (let [subject-semantics (atom {:animate true})
                    subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :be-called
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}})
+                 {:synsem {:cat :verb
+                           :essere true
+                           :sem {:pred :be-called
+                                 :reflexive true
+                                 :subj subject-semantics
+                                 :obj subject-semantics}
+                           :subcat {:1 {:agr subject-agr
+                                        :sem subject-semantics}
+                                    :2 {:agr subject-agr
+                                        :pronoun true
+                                        :reflexive true
+                                        :sem subject-semantics}
+                                    :3 {:agr subject-agr
+                                        :propernoun true
+                                        :sem subject-semantics
+                                        :cat :noun
+                                        :subcat '()}}}})
      
      "chiedere" {:synsem {:cat :verb
                           :sem {:subj {:human true}

@@ -173,6 +173,9 @@
        (if search-query
          (workbookq search-query))]])))
 
+;; not sure why this is necessary: investigate why english/workbook.clj doesn't need it.
+(def foo (count (morph/analyze-regular "parlo" lexicon)))
+
 (def routes
   (compojure/routes
 
@@ -191,10 +194,4 @@
                           (get (get request :query-params) "attrs"))
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
-
-;; not sure why this is necessary: investigate why english/workbook.clj doesn't need it.
-(def foo (count (take 1 (parse "io dormo"))))
-(def foo2 (count (take 1 (generate {:synsem {:sem {:pred :sleep
-                                                   :tense :present
-                                                   :subj {:pred :I}}}}))))
 

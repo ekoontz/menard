@@ -187,6 +187,8 @@
          :headers {"Content-Type" "text/html;charset=utf-8"}})
   ))
 
+;; TODO: decrease launch time by making this initialization smaller:
+;; see babel.italiano.workbook
 (def initialize
   (take 1 (generate
            ;; assemble a structure and (generate) from..
@@ -198,6 +200,8 @@
                          strip-refs
                          ;; and then extracting its semantics.
                          :synsem :sem)}})))
+
+
 
 
 

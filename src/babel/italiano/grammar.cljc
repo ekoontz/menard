@@ -379,6 +379,18 @@
                             :rule "vp-pronoun-nonphrasal"
                             :synsem {:cat :verb
                                      :infl {:not :past}}})
+
+                   ;; e.g. used as: "io mi chiamo Luisa" -
+                   ;; [s-present-phrasal 'io' [vp-pronoun-phrasal 'mi' [vp-32 'chiamo' 'Luisa']]]
+                   (unifyc h32
+                           root-is-head
+                           {:rule "vp-32"
+                            :head {:phrasal false}
+                            :synsem {:aux false
+                                     :infl {:not :past}
+                                     :cat :verb}})
+
+
                    (unifyc h10
                            root-is-comp
                            {:head {:phrasal false

@@ -3,6 +3,7 @@
    [babel.engine :as engine]
    [babel.forest :as forest]
    [babel.italiano.grammar :refer [medium]]
+   [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
    [clojure.string :as string]))

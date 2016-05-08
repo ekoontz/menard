@@ -36,19 +36,22 @@
 
 (defn over
   ([arg1]
-   (cond (string? arg1)
-         (over (lookup arg1))
-         true
-         (over/over (vals (:grammar-map medium)) arg1)))
+   (over (vals (:rule-map medium))
+         arg1 :top))
   ([arg1 arg2]
-   (cond (string? arg1)
-         (over (lookup arg1)
-               arg2)
-         (string? arg2)
-         (over arg1 (lookup arg2))
+   (over (vals (:rule-map medium))
+         arg1 arg2))
+  ([rule child1 child2]
+   (cond (string? child1)
+         (over rule
+               (analyze child1)
+               child2)
+         (string? child2)
+         (over rule child1
+               (analyze child2))
          true
-         (over/over (vals (:grammar-map medium))
-                    arg1 arg2))))
+         (over/over rule
+                    child1 child2))))
 
 (def workbook-sandbox-it
   (sandbox

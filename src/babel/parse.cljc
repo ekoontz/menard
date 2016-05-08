@@ -40,34 +40,38 @@
   ;;  3 ([[0 2] [2 3]] [[1 2] [2 3]] ... ) ;; each pair has a combined size of 3
   ;;  4 ([[0 3] [3 4]] [[1 2] [2 4]] ..
   ;;  5 ([[0 4] [4 5]] [[1 3] [3 5]] ... ) } ;; each pair has a combined size of 5.
-  (let [
-        ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
-        ;; e.g. (spanpairs 5) =>
-        ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
-        spanpairs (fn [n]
-                    (mapcat (fn [x]
-                              (map-fn (fn [y]
-                                        [x y])
-                                      (range (+ x 1) (+ n 1))))
-                            (range 0 n)))
+  (cond
+    (< n 2)
+    nil
 
-        spans (square-cross-product (spanpairs n))]
-    (merge
-     {1 (map-fn
-         (fn [i]
-           [i (+ 1 i)])
-         (range 0 n))}
-     (reduce (fn [resultant-map this-submap]
-               (merge-with union ;; TODO: this could get expensive - consider alternatives.
-                           resultant-map this-submap))
-             (map-fn (fn [span-pair]
-                       (let [left-span (first span-pair)
-                             left-boundary (first left-span)
-                             right-span (second span-pair)
-                             right-boundary (second right-span)]
-                         {(- right-boundary left-boundary)
-                          (list span-pair)}))
-                     spans)))))
+    true
+    (let [
+          ;; TODO: rather than this function, make a static lookup table, at least for n < (e.g.) 5.
+          ;; e.g. (spanpairs 5) =>
+          ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
+          spanpairs (fn [n]
+                      (mapcat (fn [x]
+                                (map-fn (fn [y]
+                                          [x y])
+                                        (range (+ x 1) (+ n 1))))
+                              (range 0 n)))
+          spans (square-cross-product (spanpairs n))]
+      (merge
+       {1 (map-fn
+           (fn [i]
+             [i (+ 1 i)])
+           (range 0 n))}
+       (reduce (fn [resultant-map this-submap]
+                 (merge-with union ;; TODO: this could get expensive - consider alternatives.
+                             resultant-map this-submap))
+               (map-fn (fn [span-pair]
+                         (let [left-span (first span-pair)
+                               left-boundary (first left-span)
+                               right-span (second span-pair)
+                               right-boundary (second right-span)]
+                           {(- right-boundary left-boundary)
+                            (list span-pair)}))
+                       spans))))))
 
 (defn parses [input n model span-map]
   (cond

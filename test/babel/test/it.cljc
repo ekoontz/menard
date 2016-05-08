@@ -298,4 +298,18 @@
 (deftest alla-prossima
   (let [alla-prossima "alla prossima"]))
 
-    
+(deftest chiamarsi-1
+  (let [result (parse "io mi chiamo Luisa")]
+    (not (empty? (mapcat :parses result)))))
+
+(deftest chiamarsi-2
+  (let [result (parse "tu ti chiami Luisa")]
+    (not (empty? (mapcat :parses result)))))
+
+(deftest chiamarsi-3
+  (let [result (parse "lei si chiama Luisa")]
+    (not (empty? (mapcat :parses result)))))
+
+
+
+

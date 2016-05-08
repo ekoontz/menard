@@ -615,27 +615,34 @@
      "chiacchierare" {:synsem {:cat :verb
                                :sem {:pred :chat}}}
       
-   ;; TODO: add :3 to this verb (see French)
    "chiamarsi" (let [subject-semantics (atom {:animate true})
-                   subject-agr (atom :top)]
+                     called-semantics (atom :top)
+                     subject-gender (atom :top)
+                     subject-person (atom :top)
+                     subject-number (atom :top)
+                     subject-agr (atom :top)]
                  {:synsem {:cat :verb
                            :essere true
                            :sem {:pred :be-called
                                  :reflexive true
                                  :subj subject-semantics
-                                 :obj subject-semantics}
-                           :subcat {:1 {:agr subject-agr
+                                 :obj called-semantics}
+                           :subcat {:1 {:agr {:number subject-number
+                                              :person subject-person
+                                              :gender subject-gender}
                                         :sem subject-semantics}
-                                    :2 {:agr subject-agr
+                                    :2 {:agr {:number subject-number
+                                              :person subject-person
+                                              :gender subject-gender}
                                         :pronoun true
-                                        :reflexive true
-                                        :sem subject-semantics}
-                                    :3 {:agr subject-agr
+                                        :reflexive true}
+                                    ;; note that person is not shared.
+                                    :3 {:agr {:number subject-number
+                                              :gender subject-gender}
                                         :propernoun true
-                                        :sem subject-semantics
+                                        :sem called-semantics
                                         :cat :noun
                                         :subcat '()}}}})
-     
      "chiedere" {:synsem {:cat :verb
                           :sem {:subj {:human true}
                                 :pred :chiedere}}

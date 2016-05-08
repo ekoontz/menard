@@ -1613,8 +1613,7 @@
                :agr {:gender :fem
                      :person :1st
                      :number :sing}
-               :sem {:human true
-                     :pred :I}
+               :sem {:human true}
                :subcat '()}}
 
      {:synsem {:cat :noun
@@ -1998,8 +1997,7 @@
              :case pronoun-acc
              :agr {:person :2nd
                    :number :sing}
-             :sem {:human true
-                   :pred :tu}
+             :sem {:human true}
              :subcat '()}
     :italiano {:initial true
                :cat :noun

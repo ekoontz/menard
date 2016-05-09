@@ -576,6 +576,7 @@
     ;; in the sense of "a casa": no article needed.
     {:synsem {:case :acc
               :cat :noun
+              :propernoun false
               :sem {:city false
                     :spec {:def :none} ;; "a casa", not "a mia casa", etc
                     :place true

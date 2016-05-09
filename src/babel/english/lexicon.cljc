@@ -123,8 +123,9 @@
                             :sem {:pred :be}}})
 
 
-           ;; be + propernoun, e.g. "I am John"
-           (let [subj-agr (atom :top)
+           ;; be + propernoun, e.g. "My name is John"
+           (let [gender (atom :top)
+                 number (atom :top)
                  infl (atom :top)
                  the-real-subj (atom :top)
                  the-obj (atom :top)]

@@ -131,8 +131,7 @@
 
 
            ;; be + propernoun, e.g. "My name is John"
-           (let [gender (atom :top)
-                 number (atom :top)
+           (let [subj-agr (atom {:person :3rd})
                  infl (atom :top)
                  the-real-subj (atom :top)
                  the-obj (atom :top)]
@@ -154,8 +153,7 @@
                                                  :subj the-real-subj}
                                            }
                                        :2 {:cat :noun
-                                           :agr {:gender gender
-                                                 :number number}
+                                           :agr subj-agr
                                            :sem the-obj
                                            :pronoun false
                                            :propernoun true ;; "John" in "My name is John"

@@ -3,16 +3,17 @@
    [babel.engine :as engine]
    [babel.forest :as forest]
    [babel.english.grammar :refer [medium]]
+   [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
-   [clojure.string :as string]))
+   [clojure.string :as string]
+   [dag_unify.core :refer [strip-refs]]))
 
 (defn analyze
   ([surface-form]
    (analyze surface-form (:lexicon medium)))
   ([surface-form lexicon]
    (morph/analyze surface-form lexicon)))
-
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')

@@ -217,10 +217,7 @@ of this function with complements."
                          nil))
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
-                                           (if cached cached (flatten (vals lexicon)))
-                                           (do
-                                             (log/error (str "BOLT WANTS PHRASAL: IGNORING LEXICON."))
-                                             nil))]
+                                           (if false cached (flatten (vals lexicon))))]
         (let [semantics (get-in spec [:synsem :sem])]
           (if (not (nil? semantics))
             (if (not (nil? semantics)) (log/debug (str "  with semantics:" (strip-refs semantics))))))
@@ -294,7 +291,7 @@ of this function with complements."
                                ". Desired complement [:synsem] was: " (strip-refs (get-in bolt (concat path [:synsem])))
                                ". " (count complement-candidate-lexemes) " complement(s) tried were:"
                                (str " "
-                                    (string/join "," (map morph (take log-limit complement-candidate-lexemes)))
+                                    (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
 
                                     (if (< 0 (- (count complement-candidate-lexemes) log-limit))
                                       (str ",.. and "
@@ -304,8 +301,11 @@ of this function with complements."
                                     (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
 
                                     ";     fail-paths:   "
-                                    (string/join "," (map #(if (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
-                                                                                            (get-in bolt (concat path [:synsem :sem :pred]))))))
+                                    (string/join ","
+                                                 (map #(if
+                                                           (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
+                                                                                        (get-in bolt (concat path
+                                                                                                             [:synsem :sem :pred]))))))
                                                              (str "'" (morph %) "':"
                                                                   (fail-path-between (strip-refs %)
                                                                                      (strip-refs (get-in bolt path)))))

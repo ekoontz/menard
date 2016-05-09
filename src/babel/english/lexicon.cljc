@@ -142,14 +142,13 @@
                                            :case :nom ;; TODO: this should be a general lexical post-processing step -
                                            ;; call it subject-is-nominative or similar.
                                            :agr subj-agr
-                                           :sem {:pred :name
+                                           :sem {:pred :name  ;; "My name" in "My name is John"
                                                  :subj the-real-subj}
-
                                            }
                                        :2 {:cat :noun
                                            :agr subj-agr
                                            :sem the-obj
-                                           :propernoun true ;; "I am John"
+                                           :propernoun true ;; "John" in "My name is John"
                                            }
                                        } ;; subcat {
                               } ;; synsem {

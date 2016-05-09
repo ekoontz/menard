@@ -39,6 +39,13 @@
              :agr {:number :sing
                    :person :3rd
                    :gender :fem}}}
+   "Antonia and Luisa"
+   {:synsem {:sem {:pred :antonia-and-luisa
+                   :human true}
+             :propernoun true
+             :agr {:number :plur
+                   :person :3rd
+                   :gender :fem}}}
    "Antonio"
    {:synsem {:propernoun true
              :agr {:number :sing
@@ -147,7 +154,8 @@
                                                  :subj the-real-subj}
                                            }
                                        :2 {:cat :noun
-                                           :agr subj-agr
+                                           :agr {:gender gender
+                                                 :number number}
                                            :sem the-obj
                                            :pronoun false
                                            :propernoun true ;; "John" in "My name is John"

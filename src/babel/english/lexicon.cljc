@@ -139,7 +139,8 @@
                                     :subj the-real-subj
                                     :obj the-obj}
                               :subcat {:1 {:cat :noun
-                                           :case :nom
+                                           :case :nom ;; TODO: this should be a general lexical post-processing step -
+                                           ;; call it subject-is-nominative or similar.
                                            :agr subj-agr
                                            :sem {:pred :name
                                                  :subj the-real-subj}

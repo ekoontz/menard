@@ -190,7 +190,7 @@
                    10
                    (repeatedly #(let [foo (generate {:synsem {:sem {:pred :be-called}}})]
                                   (is (not (= "" (fo foo))))
-                                  (log/error (str "fo: " (fo foo)))
+                                  (log/info (str "fo: " (fo foo)))
                                   (fo foo)))))))))
 
 

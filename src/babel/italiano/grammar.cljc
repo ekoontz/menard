@@ -170,35 +170,44 @@
                               :synsem head-synsem}))
 
                    (unifyc h11-comp-subcat-1
-                           (let [head-synsem {:cat :noun
-                                              :modified true}]
+                           (let [is-propernoun? (atom :top)
+                                 head-synsem {:cat :noun
+                                              :modified true
+                                              :propernoun is-propernoun?}]
                              {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
                                      :synsem {:cat :adjective
                                               :mod head-synsem}}
                               :head {:phrasal false
-                                     :synsem {:modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                     :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                              :propernoun is-propernoun?}}
                               :rule "nbar"
                               :synsem head-synsem}))
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (atom :top)]
+                           (let [number-agreement (atom :top)
+                                 is-propernoun? (atom :top)]
                              {:rule "noun-phrase1"
                               :aliases (list "np1")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
+                                       :propernoun is-propernoun?
                                        :sem {:number number-agreement
                                              :mod '()}}
-                              :head {:phrasal false}
+                              :head {:phrasal false
+                                     :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
                    (unifyc c10
                            comp-specs-head
-                           (let [number-agreement (atom :top)]
+                           (let [number-agreement (atom :top)
+                                 is-propernoun? (atom :top)]
                              {:rule "noun-phrase2"
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
-                                       :sem {:number number-agreement}}
-                              :head {:phrasal true}
+                                       :sem {:number number-agreement}
+                                       :propernoun is-propernoun?}
+                              :head {:phrasal true
+                                     :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (unifyc h10

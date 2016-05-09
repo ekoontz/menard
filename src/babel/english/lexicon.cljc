@@ -139,6 +139,7 @@
                                     :subj the-real-subj
                                     :obj the-obj}
                               :subcat {:1 {:cat :noun
+                                           :case :nom
                                            :agr subj-agr
                                            :sem {:pred :name
                                                  :subj the-real-subj}

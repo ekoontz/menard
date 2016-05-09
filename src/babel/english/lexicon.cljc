@@ -148,6 +148,7 @@
                                        :2 {:cat :noun
                                            :agr subj-agr
                                            :sem the-obj
+                                           :pronoun false
                                            :propernoun true ;; "John" in "My name is John"
                                            }
                                        } ;; subcat {

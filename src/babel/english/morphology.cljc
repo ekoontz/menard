@@ -4,7 +4,7 @@
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [copy fail? get-in merge ref? unifyc]]))
+            [dag_unify.core :refer [copy fail? get-in merge ref? strip-refs unifyc]]))
 
 (declare get-string)
 (declare plural-en)
@@ -828,12 +828,21 @@
                                                             (= lexeme :top)
                                                             :top
                                                             true
-                                                            (dissoc (copy lexeme) :serialized))]
-                                           (if (string? (get-in lexeme path :none))
+                                                            (dissoc (copy lexeme) :serialized))
+                                               debug (if (string? (get-in lexeme path :none))
+                                                       (do (log/trace (str "lexeme:" (strip-refs lexeme)))
+                                                           (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))
+                                               synsem-check
+                                               (if (string? (get-in lexeme path :none))
+                                                 (unifyc (get-in lexeme [:synsem])
+                                                         (get-in (merge-fn lexeme) [:synsem] :top)))]
+                                           (if (and (string? (get-in lexeme path :none))
+                                                    (not (fail? synsem-check)))
                                              (list {(get-in lexeme path)
                                                     (merge
                                                      lexeme
                                                      (unifyc (merge-fn lexeme)
+                                                             {:synsem synsem-check}
                                                              {:english {:exception true}}))}))))
                                        lexemes)))
                            [

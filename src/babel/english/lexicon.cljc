@@ -653,16 +653,32 @@
                    :human true}
              :propernoun true}}
 
-      "Giovanni and I"
-      [{:synsem {:cat :noun
-                 :pronoun true
-                 :case :nom
-                 :agr {:gender :masc
-                       :person :1st
-                       :number :plur}
-                 :sem {:human true
-                       :pred :giovanni-and-i}
-                 :subcat '()}}]
+   "Gianluca and Giovanni"
+   {:synsem {:agr {:number :plur
+                   :person :3rd
+                   :gender :masc}
+             :sem {:pred :gianluca-e-giovanni
+                   :human true}
+             :propernoun true}}
+
+   "Gianluca and Luisa"
+   {:synsem {:agr {:number :plur
+                   :person :3rd
+                   :gender :masc}
+             :sem {:pred :gianluca-e-luisa
+                   :human true}
+             :propernoun true}}
+
+   "Giovanni and I"
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:gender :masc
+                    :person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :giovanni-and-i}
+              :subcat '()}}]
 
       ;; TODO: account for "give" being ditransitive.
    "give" {:synsem {:cat :verb

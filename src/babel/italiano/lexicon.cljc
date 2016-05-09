@@ -619,7 +619,8 @@
    "chiamarsi" (let [subject-semantics (atom {:animate true})
                      called-semantics (atom :top)
                      subject-gender (atom :top)
-                     subject-person (atom :top)
+                     subject-person (atom :top) ;; TODO: probably don't want this because it would not allow:
+                     ;; "noi ci chiamiamo Gianluca e Gianni" (subject is 1st person, object is 3rd person)
                      subject-number (atom :top)
                      subject-agr (atom :top)]
                  {:synsem {:cat :verb

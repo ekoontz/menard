@@ -1,8 +1,8 @@
 (ns babel.francais.qa
   (:refer-clojure :exclude [get-in])
   (:require
+   [babel.francais :refer [analyze generate parse]]
    [babel.francais.grammar :refer [small medium]]
-   [babel.francais.workbook :refer [analyze generate parse]]
    [babel.engine :as engine]
    [babel.korma :as korma]
    [babel.francais.morphology :refer [fo]]

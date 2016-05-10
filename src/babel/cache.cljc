@@ -41,6 +41,11 @@
 
 (declare spec-to-phrases)
 
+;; TODO: diagnostic function that is too specific currently (e.g. refers to ':english').
+(defn check-index [index]
+  (if (not (= :top (get-in (first (:head (get index "nbar"))) [:english :agr :number])))
+    (throw (exception (str "CHECK INDEX FAILED! " (get index "nbar"))))))
+  
 (defn build-lex-sch-cache [phrases lexicon all-phrases]
   "Build a mapping of phrases onto subsets of the lexicon. The two values (subsets of the lexicon) to be
    generated for each key (phrase) are: 

@@ -146,13 +146,16 @@
                               :synsem head-synsem}))
 
                    (unifyc c11-comp-subcat-1
-                           (let [head-synsem {:cat :noun
+                           (let [propernoun (atom :top)
+                                 head-synsem {:cat :noun
+                                              :propernoun propernoun
                                               :modified true}]
                              {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
                                      :synsem {:cat :adjective
                                               :mod head-synsem}}
                               :head {:phrasal false
-                                     :synsem {:modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                     :synsem {:propernoun propernoun
+                                              :modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
                               :rule "nbar"
                               :synsem head-synsem}))
 
@@ -181,7 +184,7 @@
                                        :cat :noun
                                        :propernoun propernoun
                                        :sem {:number number-agreement}}
-                             :head {:phrasal true
+                              :head {:phrasal true
                                      :synsem {:propernoun propernoun}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
                    (unifyc h10

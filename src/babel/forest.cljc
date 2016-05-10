@@ -146,7 +146,7 @@ of this function with complements."
             (mapcat (fn [parent]
                       (if (= false (get-in parent [:head :phrasal] false))
                         (let [candidate-lexemes (get-lex parent :head index spec)]
-                          (log/error (str "candidate lexemes for: " (get-in parent [:rule]) ":" (count candidate-lexemes)))
+                          (log/debug (str "candidate lexemes for: " (get-in parent [:rule]) ":" (count candidate-lexemes)))
                           (if (some fail? candidate-lexemes)
                             (throw (exception (str "some candidate lexeme was fail?=true!"))))
                           (log/debug
@@ -158,8 +158,8 @@ of this function with complements."
                                                   candidate-lexemes))))
                           (let [result
                                 (if (empty? candidate-lexemes)
-                                  (log/warn (str "no head lexemes found for parent: " (:rule parent) " and spec: "
-                                                 (strip-refs spec)))
+                                  (if (= false (get-in parent [:head :phrasal] true))
+                                    (log/warn (str "no head lexemes found for parent: " (:rule parent))))
                                   (over/overh parent
                                               (map copy (lazy-shuffle candidate-lexemes))
                                               morph))]
@@ -169,7 +169,10 @@ of this function with complements."
                                                            (map #(morph %1)
                                                                 result))))
                               (if (not (empty? candidate-lexemes))
-                                (log/warn (str "all candidate lexemes failed!"))))
+                                (log/warn (str "all " (count candidate-lexemes) " candidate lexeme(s):"
+                                               (string/join ","
+                                                            (map morph candidate-lexemes))
+                                               " failed for parent: " (get-in parent [:rule]) " with spec: " (strip-refs spec)))))
                             result))))
                     candidate-heads)
 
@@ -298,7 +301,7 @@ of this function with complements."
 
               ;; else, no complements could be added to this bolt: Throw an exception
               (let [log-limit 1000
-                    log-fn (fn [message] (log/error message))
+                    log-fn (fn [message] (log/warn message))
                     throw-exception-if-no-complements-found true
                     message
                     (str " add-complement to " (get-in bolt [:rule]) " at path: " path

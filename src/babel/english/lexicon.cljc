@@ -959,7 +959,10 @@
    "it (♂)"
    {:synsem {:cat :noun
               :pronoun true
-              :case :nom
+             :case :top ;; we could just omit this kv, but we explicitly
+             ;; set it to :top to show how it's different than other
+             ;; pronouns: like 'you' the nominative and accusative
+             ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
               :agr {:person :3rd
                     :number :sing}
               :sem {:pred :lui
@@ -970,7 +973,7 @@
    "it (♀)"
     {:synsem {:cat :noun
               :pronoun true
-              :case :nom
+              :case :top ;; see above comment
               :agr {:person :3rd
                     :number :sing}
               :sem {:pred :lei
@@ -1782,7 +1785,7 @@
     :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
     :synsem {:cat :noun
              :pronoun true
-             :case :nom
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :masc
                    :number :sing}
@@ -1795,7 +1798,7 @@
     :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
     :synsem {:cat :noun
              :pronoun true
-             :case :nom
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :fem
                    :number :sing}
@@ -1807,7 +1810,7 @@
    {:target :es ;; ..but Spanish does not.
     :synsem {:cat :noun
              :pronoun true
-             :case :nom
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :fem
                    :number :sing}
@@ -1818,7 +1821,7 @@
    "you all (♂)"
    {:synsem {:cat :noun
              :pronoun true
-             :case :nom
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :masc
                    :number :plur}
@@ -1829,14 +1832,13 @@
    "you all (♀)"
    {:synsem {:cat :noun
              :pronoun true
-             :case :nom
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :fem
                    :number :plur}
              :sem {:human true
                    :pred :voi}
              :subcat '()}}
-
    "your"
    (map #(unify %
                 {:synsem {:cat :det

@@ -159,14 +159,18 @@ of this function with complements."
                                 (if (= true head-is-phrasal)
                                   (log/debug (str "no head lexemes possible because spec requires a phrasal head."))
                                   (log/warn (str "no head lexemes found for parent: " (:rule parent) " and spec: "
-                                                 (strip-refs spec))))
-                                (over/overh parent (lazy-shuffle candidate-lexemes) morph))]
-                          (if (not (empty? result))
-                            (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
-                                            (string/join ","
-                                                         (map #(morph %1)
-                                                              result)))))
-                          result)))
+                                                 (strip-refs spec)))
+                                  (over/overh parent
+                                              (map copy (lazy-shuffle candidate-lexemes))
+                                              morph))]
+                            (if (not (empty? result))
+                              (log/debug (str "successful results of attaching head lexemes to: " (get-in parent [:rule]) ":"
+                                              (string/join ","
+                                                           (map #(morph %1)
+                                                                result))))
+                              (if (not (empty? candidate-lexemes))
+                                (log/warn (str "all candidate lexemes failed!"))))
+                            result))))
                     candidate-heads)
 
             ;; TODO: throw exception if (get-in parent [:head]) is null.

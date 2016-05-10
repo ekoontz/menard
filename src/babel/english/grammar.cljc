@@ -181,10 +181,9 @@
                                        :cat :noun
                                        :propernoun propernoun
                                        :sem {:number number-agreement}}
-                              :head {:phrasal true
+                             :head {:phrasal true
                                      :synsem {:propernoun propernoun}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
-
                    (unifyc h10
                            {:rule "prepositional-phrase"
                             :synsem {:cat :prep}})

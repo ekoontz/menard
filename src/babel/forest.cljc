@@ -300,7 +300,7 @@ of this function with complements."
               ;; else, no complements could be added to this bolt: Throw an exception
               (let [log-limit 1000
                     log-fn (fn [message] (log/warn message))
-                    throw-exception-if-no-complements-found true
+                    throw-exception-if-no-complements-found false
                     message
                     (str " add-complement to " (get-in bolt [:rule]) " at path: " path
                          " took " run-time " msec, but found neither phrasal nor lexical complements for "

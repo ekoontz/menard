@@ -122,13 +122,13 @@ of this function with complements."
                                              (unifyc spec rule)))
                                        (if parent
                                          (let [hp (get-head-phrases-of parent index)]
-                                           (log/debug (str "GETTING HEAD PHRASES: hp"))
+                                           (log/debug (str "getting head-phrases: hp count:" (count hp)))
                                            hp)
                                          (do
-                                           (log/debug (str "NOT GETTING HEAD PHRASES: using grammar"))
+                                           (log/debug (str "not getting head phrases: using grammar"))
                                            grammar))))
 
-        debug (log/debug (str "done looking for candidate heads: "
+        debug (log/debug (str "done looking for candidate head phrases: "
                               (if (empty? candidate-heads)
                                 "no candidate heads found."
                                 (str "one or more candidate heads found; first: " (:rule (first candidate-heads))))))
@@ -136,7 +136,7 @@ of this function with complements."
         debug (if (not (empty? candidate-heads))
                 (log/debug (str "candidate-heads: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-heads))))
-                (log/debug (str "no candidate-heads for spec: " (strip-refs spec))))]
+                (log/debug (str "no candidate head phrases for spec: " (strip-refs spec))))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
       (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
@@ -192,6 +192,8 @@ of this function with complements."
                           )
                         )
                        candidate-heads))]
+        (log/debug (str "lightning-bolt: #LEXICAL: parent=" (get-in parent [:rule]) ":" (count lexical)))
+        (log/debug (str "lightning-bolt: #PHRASAL: parent=" (get-in parent [:rule]) ":" (count phrasal)))
         (if (lexemes-before-phrases)
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))
@@ -213,7 +215,7 @@ of this function with complements."
             cached (if (and true cache)
                      (do
                        (let [result (get-lex immediate-parent :comp cache spec)]
-                         (log/debug (str "GET-LEX: " (string/join " " (map morph result))))
+                         (log/debug (str "lexical-complement candidates: " (string/join ", " (map morph result))))
                          (if (not (nil? result))
                            (log/debug (str " cached lexical subset ratio: " 
                                            (string/replace (str (/ (* 1.0 (/ (count lexicon) (count result)))))
@@ -234,10 +236,10 @@ of this function with complements."
                                        (and (not (fail?
                                                   (unifyc (get-in child [:synsem] :top)
                                                           (get-in child-in-bolt [:synsem] :top)))))))
+              debug (log/debug (str "add-complement pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
-              debug (log/debug (str "add-complement pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
               debug (log/debug (str "add-complement post-filtered lexeme size: " (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               
@@ -275,8 +277,10 @@ of this function with complements."
                                (if (> (count phrasal-complements) 0)
                                  (log/debug (str "phrasal complements given spec: " spec ":"
                                                  (string/join "," (map morph phrasal-complements))))
-                                 (log/debug (str "phrasal complements of spec: " spec ":"
-                                                 "were empty.")))
+                                 ;; phrasal complements were empty.
+                                 (if (= true (get-in spec [:phrasal] false))
+                                   (log/warn (str "no phrasal complements of spec: " (strip-refs spec)
+                                                  " could be generated."))))
                                                
                                (if (lexemes-before-phrases)
                                  (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)

@@ -111,10 +111,10 @@ of this function with complements."
         debug (log/debug (str "looking for candidate head phrases with parent: " (:rule parent) " and spec: " (strip-refs spec)))
         candidate-heads (filter #(not (fail? %))
                                   (map (fn [rule]
-                                         (do (log/debug (str "testing rule: " (:rule rule)))
-                                             (log/debug (str "RULE:" (strip-refs rule)))
+                                         (do (log/debug (str "testing rule: " (:rule rule)
+                                                             ":" (strip-refs rule)))
                                              (if (fail? rule)
-                                               (throw (exception (str "THE RULE IS FAIL: " (strip-refs rule)))))
+                                               (throw (exception (str "rule has a fail: " (strip-refs rule)))))
                                              (log/debug (str " result: " (strip-refs (unifyc spec rule))))
                                              (log/debug (if (fail? (unifyc spec rule))
                                                           (str "fail path: " (fail-path-between spec rule))

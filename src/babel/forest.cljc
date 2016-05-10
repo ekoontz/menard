@@ -1,8 +1,7 @@
 (ns babel.forest
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.cache :refer (build-lex-sch-cache get-comp-phrases-of get-head-phrases-of get-lex
-                                            get-parent-phrases-for-spec)]
+   [babel.cache :refer [check-index get-head-phrases-of get-lex]]
    [babel.over :as over]
    [babel.stringutils :refer [show-as-tree]]
    #?(:clj [clojure.tools.logging :as log])

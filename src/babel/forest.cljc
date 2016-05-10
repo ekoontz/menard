@@ -110,38 +110,46 @@ of this function with complements."
 
         depth (if depth depth 0)        
         ;; TODO: unifyc is expensive: factor out into a let.
-        debug (log/debug (str "looking for candidate parents with parent: " (:rule parent) " and spec: " (strip-refs spec)))
-        candidate-parents (filter #(not (fail? %))
+        debug (log/debug (str "looking for candidate head phrases with parent: " (:rule parent) " and spec: " (strip-refs spec)))
+        candidate-heads (filter #(not (fail? %))
                                   (map (fn [rule]
-                                         (do (log/debug (str "testing rule::: " (:rule rule)))
-                                             (log/debug (str " result: " (unifyc spec rule)))
+                                         (do (log/debug (str "testing rule: " (:rule rule)))
+                                             (log/debug (str "RULE:" (strip-refs rule)))
+                                             (if (fail? rule)
+                                               (throw (exception (str "THE RULE IS FAIL: " (strip-refs rule)))))
+                                             (log/debug (str " result: " (strip-refs (unifyc spec rule))))
                                              (log/debug (if (fail? (unifyc spec rule))
                                                           (str "fail path: " (fail-path-between spec rule))
                                                           (str "rule: " (:rule rule) " successfully unified with spec: " (strip-refs spec))))
                                              (unifyc spec rule)))
-                                       (if parent (get-head-phrases-of parent index)
-                                           grammar)))
+                                       (if parent
+                                         (let [hp (get-head-phrases-of parent index)]
+                                           (log/debug (str "GETTING HEAD PHRASES: hp"))
+                                           hp)
+                                         (do
+                                           (log/debug (str "NOT GETTING HEAD PHRASES: using grammar"))
+                                           grammar))))
 
-        debug (log/debug (str "done looking for candidate parents: "
-                              (if (empty? candidate-parents)
-                                "no candidate parents found."
-                                (str "one or more candidate parents found; first: " (:rule (first candidate-parents))))))
+        debug (log/debug (str "done looking for candidate heads: "
+                              (if (empty? candidate-heads)
+                                "no candidate heads found."
+                                (str "one or more candidate heads found; first: " (:rule (first candidate-heads))))))
         
-        debug (if (not (empty? candidate-parents))
-                (log/debug (str "candidate-parents: " (string/join "," (map #(get-in % [:rule])
-                                                                            candidate-parents))))
-                (log/debug (str "no candidate-parents for spec: " (strip-refs spec))))]
+        debug (if (not (empty? candidate-heads))
+                (log/debug (str "candidate-heads: " (string/join "," (map #(get-in % [:rule])
+                                                                            candidate-heads))))
+                (log/debug (str "no candidate-heads for spec: " (strip-refs spec))))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
       (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
 
-    (if (seq candidate-parents)
+    (if (seq candidate-heads)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
                       (let [head-is-phrasal (get-in parent [:head :phrasal] false)
                             candidate-lexemes (if (not (= true head-is-phrasal))
                                                 (get-lex parent :head index spec))]
-                        (log/trace
+                        (log/debug
                          (str "candidate head lexemes for parent phrase "
                               (get-in parent [:rule]) ": "
                               (string/join ","
@@ -161,7 +169,7 @@ of this function with complements."
                                                          (map #(morph %1)
                                                               result)))))
                           result)))
-                    candidate-parents)
+                    candidate-heads)
 
             ;; TODO: throw exception if (get-in parent [:head]) is null.
             phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
@@ -175,7 +183,7 @@ of this function with complements."
                                               (+ 1 depth)
                                               index parent morph)]
                           (if (empty? phrasal-children)
-                            (let [message (str "no phrasal children for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ")" )]
+                            (let [message (str "no phrasal children for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ") and spec: " (strip-refs spec))]
                               (log/debug message))
                             ;; else; there are phrasal-children, so attach them below parent:
                             (do
@@ -185,7 +193,7 @@ of this function with complements."
                               (over/overh parent phrasal-children morph)))
                           )
                         )
-                       candidate-parents))]
+                       candidate-heads))]
         (if (lexemes-before-phrases)
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))
@@ -207,6 +215,7 @@ of this function with complements."
             cached (if (and true cache)
                      (do
                        (let [result (get-lex immediate-parent :comp cache spec)]
+                         (log/debug (str "GET-LEX: " (string/join " " (map morph result))))
                          (if (not (nil? result))
                            (log/debug (str " cached lexical subset ratio: " 
                                            (string/replace (str (/ (* 1.0 (/ (count lexicon) (count result)))))
@@ -217,7 +226,7 @@ of this function with complements."
                          nil))
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
-                                           (if false cached (flatten (vals lexicon))))]
+                                           (if cached cached (flatten (vals lexicon))))]
         (let [semantics (get-in spec [:synsem :sem])]
           (if (not (nil? semantics))
             (if (not (nil? semantics)) (log/debug (str "  with semantics:" (strip-refs semantics))))))
@@ -236,7 +245,9 @@ of this function with complements."
               
               return-val
               (filter (fn [result]
-                        (not (fail? result)))
+                        (do
+                          (log/debug (str "LOOKING AT RESULT:  " result))
+                          (not (fail? result))))
                       (map (fn [complement]
                              (let [debug (log/debug (str "adding complement to: ["
                                                          (get-in bolt [:rule]) " "
@@ -259,8 +270,16 @@ of this function with complements."
                      
                            ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
                            (do
-                             (log/debug (str "generating lexical complements with spec: " (strip-refs spec)))
+                             (log/debug (str "generating phrasal complements with spec: " (strip-refs spec)))
                              (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
+                               (log/debug (str "number of phrasal components given spec: " spec ":"
+                                               (count phrasal-complements)))
+                               (if (> (count phrasal-complements) 0)
+                                 (log/debug (str "phrasal complements given spec: " spec ":"
+                                                 (string/join "," (map morph phrasal-complements))))
+                                 (log/debug (str "phrasal complements of spec: " spec ":"
+                                                 "were empty.")))
+                                               
                                (if (lexemes-before-phrases)
                                  (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                  (do
@@ -272,48 +291,43 @@ of this function with complements."
             (if (empty? return-val)
 
               ;; else, no complements could be added to this bolt: Throw an exception
-              (let [log-limit 100
-                    log-fn (if (= (get-in bolt (concat path [:phrasal]))
-                                  false)
-                             (fn [message] (log/debug message));; since complement must be phrasal, less logging
-
-                             ;; else: should have found a lexical complement: log all problems: provide logging for diagnostics.
-                             (fn [message] (log/error message)))
+              (let [log-limit 1000
+                    log-fn (fn [message] (log/error message))
                     throw-exception-if-no-complements-found true
                     message
-                    (cond (= (get-in bolt (concat path [:phrasal]))
-                             true)
-                          (str "skipping logging about lexical complements since bolt wants a phrasal complement.")
-                          true
-                          (str " add-complement to " (get-in bolt [:rule]) " at path: " path " took " run-time " msec, but found no lexical complements for "
-                               "'" (morph from-bolt) "'"
-                               ". Bolt wants phrasal-wise: " (get-in bolt (concat path [:phrasal]))
-                               ". Desired complement [:synsem] was: " (strip-refs (get-in bolt (concat path [:synsem])))
-                               ". " (count complement-candidate-lexemes) " complement(s) tried were:"
-                               (str " "
-                                    (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
-
-                                    (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                                      (str ",.. and "
-                                           (- (count complement-candidate-lexemes) log-limit) " more."))
-                                    
-                                    ";     with preds:   "
-                                    (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
-
-                                    ";     fail-paths:   "
-                                    (string/join ","
-                                                 (map #(if
-                                                           (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
-                                                                                        (get-in bolt (concat path
-                                                                                                             [:synsem :sem :pred]))))))
-                                                             (str "'" (morph %) "':"
-                                                                  (fail-path-between (strip-refs %)
-                                                                                     (strip-refs (get-in bolt path)))))
-                                                          (take log-limit complement-candidate-lexemes)))
-                                    
-                                    (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                                      (str ",.. and "
-                                           (- (count complement-candidate-lexemes) log-limit) " more.")))))]
+                    (str " add-complement to " (get-in bolt [:rule]) " at path: " path
+                         " took " run-time " msec, but found neither phrasal nor lexical complements for "
+                         "'" (morph from-bolt) "'"
+                         ". Bolt wants phrasal-wise: " (get-in bolt (concat path [:phrasal]))
+                         ". Desired complement [:synsem] was: "
+                         (strip-refs (get-in bolt (concat path [:synsem]))) ". "
+                         (if (= false (get-in bolt (concat path [:phrasal]) false))
+                           (str
+                            (count complement-candidate-lexemes) " lexical complement(s) tried were:"
+                            " "
+                            (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
+                            
+                            (if (< 0 (- (count complement-candidate-lexemes) log-limit))
+                              (str ",.. and "
+                                   (- (count complement-candidate-lexemes) log-limit) " more."))
+                            
+                            ";     with preds:   "
+                            (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
+                            
+                            ";     fail-paths:   "
+                            (string/join ","
+                                         (map #(if
+                                                   (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
+                                                                                (get-in bolt (concat path
+                                                                                                     [:synsem :sem :pred]))))))
+                                                 (str "'" (morph %) "':"
+                                                      (fail-path-between (strip-refs %)
+                                                                         (strip-refs (get-in bolt path)))))
+                                              (take log-limit complement-candidate-lexemes)))
+                            
+                            (if (< 0 (- (count complement-candidate-lexemes) log-limit))
+                              (str ",.. and "
+                                   (- (count complement-candidate-lexemes) log-limit) " more.")))))]
                 (log-fn message)
 
                 ;; set to true to work on optimizing generation, since this situation of failing to add any

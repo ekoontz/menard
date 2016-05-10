@@ -7,7 +7,7 @@
    [babel.english.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
    [clojure.string :as string]
-   [dag_unify.core :refer [strip-refs]]))
+   [dag_unify.core :refer [fail? get-in strip-refs]]))
 
 (defn analyze
   ([surface-form]

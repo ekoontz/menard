@@ -229,8 +229,8 @@ of this function with complements."
                                                            #"\.(..).*"
                                                            (fn [[_ two-digits]] (str "." two-digits))))))
                          result))
-                     (do (log/debug (str "no cache: will go through entire lexicon."))
-                         nil))
+                     (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
+                         (reduce concat (vals lexicon))))
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
                                            (if cached cached (flatten (vals lexicon))))]

@@ -157,7 +157,7 @@
               debug
               (let [p-sc (get-in parent [:head :synsem :subcat :1 :cat] :top)
                     c-sc (get-in child [:synsem :subcat :1 :cat] :top)]
-                (if (fail? (unify p-sc c-sc))
+                (if (fail? (unifyc p-sc c-sc))
                   (do
                     (log/debug (str "moreover-head: pass: parent sc:" (get-in parent [:head :synsem :subcat :1 :cat] :none)))
                     (log/debug (str "moreover-head: pass: head sc:  " (get-in child [:synsem :subcat :1 :cat] :none))))))

@@ -144,20 +144,20 @@ of this function with complements."
     (if (seq candidate-heads)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
-                      (let [head-is-phrasal (get-in parent [:head :phrasal] false)
-                            candidate-lexemes (if (not (= true head-is-phrasal))
-                                                (get-lex parent :head index spec))]
-                        (log/debug
-                         (str "candidate head lexemes for parent phrase "
-                              (get-in parent [:rule]) ": "
-                              (string/join ","
-                                           (map (fn [lexeme]
-                                                  (morph lexeme))
-                                                candidate-lexemes))))
-                        (let [result
-                              (if (empty? candidate-lexemes)
-                                (if (= true head-is-phrasal)
-                                  (log/debug (str "no head lexemes possible because spec requires a phrasal head."))
+                      (if (= false (get-in parent [:head :phrasal] false))
+                        (let [candidate-lexemes (get-lex parent :head index spec)]
+                          (log/error (str "candidate lexemes for: " (get-in parent [:rule]) ":" (count candidate-lexemes)))
+                          (if (some fail? candidate-lexemes)
+                            (throw (exception (str "some candidate lexeme was fail?=true!"))))
+                          (log/debug
+                           (str "candidate head lexemes for parent phrase "
+                                (get-in parent [:rule]) ": "
+                                (string/join ","
+                                             (map (fn [lexeme]
+                                                    (morph lexeme))
+                                                  candidate-lexemes))))
+                          (let [result
+                                (if (empty? candidate-lexemes)
                                   (log/warn (str "no head lexemes found for parent: " (:rule parent) " and spec: "
                                                  (strip-refs spec)))
                                   (over/overh parent

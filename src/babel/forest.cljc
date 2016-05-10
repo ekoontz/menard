@@ -91,7 +91,6 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-
   (if (empty? grammar)
     (do
       (log/error (str "grammar is empty."))

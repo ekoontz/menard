@@ -104,10 +104,11 @@
 ;; TODO: spec is not used yet; add support for it.
 (defn get-lex [schema head-or-comp cache spec]
   "return the subset of the whole lexicon that can be added either as a head (head-or-comp=:head) or as a comp (head-or-comp=:comp)."
+  (log/debug (str "get-lex:" schema))
   (if (nil? schema)
     #{}
     (do
-      (log/debug (str "get-lex: " (get-in schema [:rule]) " ; " head-or-comp))
+      (log/debug (str "get-lex: " (get-in schema [:rule]) " ; head-or-comp:" head-or-comp))
       (if (not (map? schema))
         (throw (exception (str "first arguments should have been a map, but instead was of type: " (type schema) "; schema: " schema))))
       (log/trace (str "get-lex schema: " (get-in schema [:rule]) " for: " head-or-comp))
@@ -160,7 +161,7 @@
         result (if (nil? result) (list) result)
         label (label-of parent)]
     (if (empty? result)
-      (log/trace (str "headed-phrases of parent: " label " is empty.")))
+      (log/warn (str "headed-phrases of parent: " label " is empty.")))
     (lazy-shuffle result)))
 
 (defn get-comp-phrases-of [parent cache]

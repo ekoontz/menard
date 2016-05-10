@@ -1,4 +1,5 @@
 (ns babel.english
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
    [babel.forest :as forest]

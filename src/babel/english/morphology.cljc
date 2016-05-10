@@ -777,16 +777,20 @@
                        :infl infl}}))
 
    (and (= (get-in lexical-entry [:synsem :cat]) :noun)
-        (= (get-in lexical-entry [:synsem :pronoun]) true))
+        (or (= (get-in lexical-entry [:synsem :pronoun]) true)
+            (= (get-in lexical-entry [:synsem :propernoun]) true)))
    (let [agr (atom :top)
          cat (atom :top)
-         pronoun (atom :top)]
+         pronoun (atom :top)
+         propernoun (atom :top)]
      (unifyc lexical-entry
              {:english {:agr agr
                         :cat cat
+                        :propernoun propernoun
                         :pronoun pronoun}
               :synsem {:agr agr
                        :cat cat
+                       :propernoun propernoun
                        :pronoun pronoun}}
              pronoun-semantic-gender-agreement))
 
@@ -801,7 +805,8 @@
               :synsem {:agr agr
                        :cat cat
                        :pronoun pronoun}}))
-
+   ;; note that we don't unifyc with pronoun-semantic-gender-agreement in this second case.
+   
    true
    lexical-entry))
 

@@ -252,9 +252,7 @@ of this function with complements."
               
               return-val
               (filter (fn [result]
-                        (do
-                          (log/debug (str "LOOKING AT RESULT:  " result))
-                          (not (fail? result))))
+                        (not (fail? result)))
                       (map (fn [complement]
                              (let [debug (log/debug (str "adding complement to: ["
                                                          (get-in bolt [:rule]) " "

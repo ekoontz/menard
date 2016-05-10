@@ -1496,7 +1496,22 @@
    {:synsem {:cat :verb
              :sem {:pred :talk
                    :subj {:human true}}}}
-   
+
+   "tall"
+   [;; non-comparative:
+    (let [subject-sem (atom {:human true}) ;; only humans can be tall.
+          subject-agr (atom :top)] 
+      (unify adjective
+             {:synsem {:cat :adjective
+                       :sem {:pred :alto
+                             :comparative false
+                             :arg1 subject-sem
+                             :human true}
+                       :subcat {:1 {:cat :det
+                                    :agr subject-agr
+                                    :sem subject-sem}
+                                :2 '()}}}))]
+      
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}
                             :english {:past "taught"}}

@@ -1202,8 +1202,12 @@
                    :pred :I}
              :subcat '()}}
    "name"
-   (let [of (atom :top)
-         agr (atom :top)]
+   (let [gender (atom :top)
+         number (atom :top)
+         agr (atom {:gender gender
+                    :number number})
+         of (atom {:gender gender
+                   :number number})]
      (unify agreement-noun
             common-noun
             countable-noun

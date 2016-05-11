@@ -92,7 +92,6 @@
      subcat-1-1-principle-comp-subcat-1
      hc-agreement
      head-principle
-     comp-modifies-head
      head-last
      {:schema-symbol 'c11-comp-subcat-1
       :first :comp
@@ -149,19 +148,16 @@
 
                    (unifyc c11-comp-subcat-1
                            (let [propernoun (atom :top)
-                                 head-sem (atom :top)
-                                 head-synsem {:cat :noun
-                                              :sem head-sem
+                                 head-sem (atom :top)]
+                             {:synsem {:modified true
+                                       :propernoun propernoun}
+                              :comp {:synsem {:cat :adjective
+                                              :sem head-sem}}
+                              :head {:synsem {:cat :noun
                                               :propernoun propernoun
-                                              :modified true}]
-                             {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
-                                     :synsem {:cat :adjective
-                                              :mod head-synsem}}
-                              :head {:phrasal false
-                                     :synsem {:propernoun propernoun
-                                              :modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove): clue: probably (was intended|is needed for) for rathole prevention.
-                              :rule "nbar"
-                              :synsem head-synsem}))
+                                              :modified false
+                                              :sem head-sem}}
+                              :rule "nbar"}))
 
                    (unifyc c10
                            comp-specs-head

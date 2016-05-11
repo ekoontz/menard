@@ -397,6 +397,10 @@
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
 
+   "creep" {:synsem {:cat :noun
+                     :sem {:it-came-from-outerspace true
+                           :pred :creep}}}
+
    "cry" {:synsem {:cat :verb
                     :sem {:pred :cry}}}
 
@@ -1152,10 +1156,8 @@
             :english {:past "met"}}
 
    "monster" {:synsem {:cat :noun
-                       :sem {:it-came-from-outerspace true}}}
-   "creep" {:synsem {:cat :noun
-                     :sem {:it-came-from-outerspace true}}}
-
+                       :sem {:pred :monster
+                             :it-came-from-outerspace true}}}
    "mother"
    (unify agreement-noun
           common-noun
@@ -1374,7 +1376,8 @@
                    :sem {:pred :say}}}
 
    "scary" {:synsem {:cat :adjective
-                     :sem {:it-came-from-outerspace true}}}
+                     :sem {:it-came-from-outerspace true
+                           :mod {:pred :scary}}}}
    
    "scold" {:synsem {:cat :verb
                 :sem {:pred :scold}}}
@@ -1486,6 +1489,10 @@
 
    "supply" {:synsem {:cat :verb
                 :sem {:pred :supply}}}
+
+   "super" {:synsem {:cat :adjective
+                     :sem {:it-came-from-outerspace true
+                           :mod {:pred :super}}}}
 
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}

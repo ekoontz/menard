@@ -159,7 +159,7 @@
                                               :mod head-synsem}}
                               :head {:phrasal false
                                      :synsem {:propernoun propernoun
-                                              :modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                              :modified false}} ;; TODO: document what purpose :modified serves (if any: if none, remove): clue: probably (was intended|is needed for) for rathole prevention.
                               :rule "nbar"
                               :synsem head-synsem}))
 

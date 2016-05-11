@@ -14,9 +14,10 @@
 
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
-(defn over [grammar left right]
+(defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
+  (log/debug (str "parse/over: left: " (morph left) "; right: " (morph right)))
   (over/over grammar left right))
 
 (defn square-cross-product [x]
@@ -106,7 +107,7 @@
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
-                                     (over (:grammar model) left-signs right-signs))
+                                     (over (:grammar model) left-signs right-signs (:morph model)))
                                    
                                  ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                    ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))

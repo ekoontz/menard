@@ -4,16 +4,19 @@
    [babel.engine :as engine]
    [babel.forest :as forest]
    [babel.english.grammar :refer [medium]]
-   [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
    [clojure.string :as string]
    [dag_unify.core :refer [fail? get-in strip-refs]]))
 
+(def lexicon (:lexicon medium))
+(def grammar (:grammar-map medium))
+
 (defn analyze
   ([surface-form]
-   (analyze surface-form (:lexicon medium)))
-  ([surface-form lexicon]
+   (analyze surface-form lexicon)) ;; use (:lexicon medium)
+
+  ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))
 
 ;; TODO: do morphological analysis
@@ -53,3 +56,4 @@
 
   ([input model]
    (parse/parse input model)))
+

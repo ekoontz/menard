@@ -49,7 +49,7 @@
   (forest/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
 
 (defn parse
-  "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
+  "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
    (parse input medium))

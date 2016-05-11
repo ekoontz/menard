@@ -131,10 +131,15 @@
 
 
            ;; be + propernoun, e.g. "My name is John"
-           (let [subj-agr (atom {:person :3rd})
+           (let [gender (atom :top)
+                 number (atom :top)
+                 subj-agr (atom {:person :3rd
+                                 :gender gender
+                                 :number number})
                  infl (atom :top)
                  the-real-subj (atom :top)
-                 the-obj (atom :top)]
+                 the-obj (atom {:number number
+                                :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
                     subject-verb-agreement
                     {:intransitivize false
@@ -796,7 +801,9 @@
                    :obj {:human true}}}}
    "her"
    [{:synsem {:cat :det
-              :sem {:pred :lei}
+              :sem {:pred :lei
+                    :gender :fem
+                    :number :sing}
               :def :possessive}}
 
     {:synsem {:cat :noun
@@ -844,7 +851,7 @@
    "his" {:synsem {:cat :det
                    :sem {:pred :lui
                          :gender :masc
-                         :person :sing}
+                         :number :sing}
                    :def :possessive}}
                  
    "hit" {:english {:past "hit"}
@@ -1186,7 +1193,8 @@
    "my"
    (map #(unify %
                 {:synsem {:cat :det
-                          :sem {:pred :I}
+                          :sem {:pred :I
+                                :number :sing}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
@@ -1236,7 +1244,8 @@
    (map #(unify %
                 {:synsem {:cat :det
                           :agr {:gender :masc}
-                          :sem {:pred :noi}
+                          :sem {:pred :noi
+                                :number :plur}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
@@ -1557,7 +1566,8 @@
    "their"
    (map #(unify %
                 {:synsem {:cat :det
-                          :sem {:pred :loro}
+                          :sem {:pred :loro
+                                :number :plur}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])

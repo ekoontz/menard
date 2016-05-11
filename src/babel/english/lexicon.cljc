@@ -273,7 +273,7 @@
    "black"
    (unify adjective
           {:synsem {:cat :adjective
-                    :sem {:pred :nero
+                    :sem {:mod {:pred :black}
                           :comparative false
                           :physical-object true
                           :human false}}})
@@ -1327,7 +1327,7 @@
    "red"
    (unify adjective
           {:synsem {:cat :adjective
-                    :sem {:pred :rosso
+                    :sem {:mod {:pred :rosso}
                           :comparative false
                           :physical-object true
                           :human false}}})
@@ -1523,7 +1523,7 @@
           subject-agr (atom :top)] 
       (unify adjective
              {:synsem {:cat :adjective
-                       :sem {:pred :alto
+                       :sem {:mod {:pred :alto}
                              :comparative false
                              :arg1 subject-sem
                              :human true}

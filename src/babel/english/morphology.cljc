@@ -753,14 +753,18 @@
                             looked-up))))
                  (keys replace-pairs)))]
 
-    (concat
-     analyzed
+    ;; rethink how we retrieve lexical entries here: should we
+    ;; do additional analysis via analyzed-via-identity, or just look up directly
+    ;; with (get lexicon surface-form)? also, (set) is expensive due to need
+    ;; to check for duplicates.
+    (set
+     (concat
+      (or analyzed analyzed-via-identity)
 
      ;; also lookup the surface form itself, which
      ;; might be either the canonical form of a word, or an irregular conjugation of a word.
-     (if (not (empty? analyzed-via-identity))
-       analyzed-via-identity
-       (get lexicon surface-form)))))
+     (get lexicon surface-form)
+     ))))
 
 (def pronoun-semantic-gender-agreement
   (let [gender (atom :top)]

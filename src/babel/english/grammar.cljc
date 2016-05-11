@@ -575,6 +575,12 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
     {:name "medium"
+
+     ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
+     :grammar-map (zipmap
+                   (map #(keyword (get-in % [:rule])) grammar)
+                   grammar)
+
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree

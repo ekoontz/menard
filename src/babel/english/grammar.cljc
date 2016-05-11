@@ -82,6 +82,8 @@
     :first :head
     :comment "c11"}))
 
+;; TODO: names like "c11-comp-subcat-1" have no human-discernible meaning:
+;; sound like construction droid names or something..
 (def c11-comp-subcat-1
   (let [subcat (atom :top)]
     (unifyc

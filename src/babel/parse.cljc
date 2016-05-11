@@ -17,7 +17,9 @@
 (defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
-  (log/debug (str "parse/over: left: " (morph left) "; right: " (morph right)))
+  (log/debug (str "parse/over: "
+                  "left: " (vec (set (map morph left)))
+                  "; right: " (vec (set (map morph right)))))
   (over/over grammar left right))
 
 (defn square-cross-product [x]

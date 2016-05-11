@@ -26,6 +26,8 @@
    [dag_unify.core :refer [fail? fail-path-between get-in remove-false strip-refs unify]]
    [hiccup.core :refer [html]]))
 
+(def grammar (:grammar-map medium))
+
 (defn analyze
   ([surface-form]
    (analyze surface-form (:lexicon medium)))

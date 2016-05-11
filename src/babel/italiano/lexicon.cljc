@@ -1615,25 +1615,14 @@
              :sem {:pred :noon
                    :time true}}}
    
-    "mi"
-    [{:synsem {:cat :noun
+   "mi"
+   {:synsem {:cat :noun
                :pronoun true
                :case :acc
-               :agr {:gender :fem
-                     :person :1st
+               :agr {:person :1st
                      :number :sing}
                :sem {:human true}
                :subcat '()}}
-
-     {:synsem {:cat :noun
-               :pronoun true
-               :case :acc
-               :agr {:gender :masc
-                     :person :1st
-                     :number :sing}
-               :sem {:human true
-                     :pred :I}
-               :subcat '()}}]
 
     "migliorare" {:synsem {:cat :verb
                            :sem {:pred :improve}}} ;; c.f. english: "ameliorate"

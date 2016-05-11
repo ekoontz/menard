@@ -842,7 +842,9 @@
              :subcat '()}}
 
    "his" {:synsem {:cat :det
-                   :sem {:pred :lui}
+                   :sem {:pred :lui
+                         :gender :masc
+                         :person :sing}
                    :def :possessive}}
                  
    "hit" {:english {:past "hit"}

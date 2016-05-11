@@ -147,7 +147,9 @@
 
                    (unifyc c11-comp-subcat-1
                            (let [propernoun (atom :top)
+                                 outerspace-ness (atom :top)
                                  head-synsem {:cat :noun
+                                              :sem {:it-came-from-outerspace outerspace-ness}
                                               :propernoun propernoun
                                               :modified true}]
                              {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.

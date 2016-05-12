@@ -44,13 +44,8 @@
               (write-str {:source (get-in gcacs [:source])
                           :target_spec target_spec
                           ;; TODO: eventually add :source-v2
-                          :gcacs gcacs
                           :targets (get-in gcacs [:targets])
-                          :targets-v2
-                          (map (fn [surface]
-                                 {:surface surface
-                                  :roots ["foo","bar"]})
-                               (get-in gcacs [:targets]))}))})
+                          :targets-v2 (get-in gcacs [:targets-v2])}))})
       (GET "/:expr" request
            (let [expr (:expr (:route-params request))]
              (log/debug (str "expr(1):" expr))
@@ -152,7 +147,8 @@
             (let [results
                   (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,
-                                             source.structure AS structure
+                                             source.structure AS structure,
+                                             target.structure::text AS target_structure
                                         FROM (SELECT surface, source.structure->'synsem'->'sem' 
                                                      AS sem,
                                                      source.structure AS structure, source.id
@@ -161,7 +157,7 @@
                                                  AND source.structure->'synsem'->'sem' @> '"
                                      json-semantics "' LIMIT 1) AS source
                                   INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
-                                                              root
+                                                              root,structure
                                                          FROM expression_with_root AS target
                                                         WHERE target.language=?
                                                           AND target.structure->'synsem'->'sem' = '" json-semantics "') AS target 
@@ -182,11 +178,27 @@
                            (get-in (strip-refs (deserialize
                                                 (read-string (:target target-expression))))
                                               [:synsem :sem])))))
-            (let [debug (log/debug (str "source-structure:"
-                                        (first (map :structure results))))]
-              {:source (first (map :source results))
-               :source-id (first (map :source_id results))
-               :target-roots (map :target_root results)
+            (let [debug (log/trace (str "source-structure:"
+                                        (first (map :structure results))))
+                  debug (log/debug (str "read from target_structure:"
+                                        (first (map :target_structure results))))
+                  debug (log/debug (str "hello:" 
+                                        (read-str (first (map :target_structure results)))))
+                  debug (log/debug (str "hello2:" 
+                                        (json-read-str (first (map :target_structure results)))))]
+              {:source-id (first (map :source_id results))
+               :source (first (map :source results))
+               :targets-v2 (map (fn [result]
+                                 {:surface (get result :target)
+                                  :root (:target_root result)
+                                  :lexemes
+                                  (let [structure (json-read-str (:target_structure result))]
+                                    (remove nil?
+                                            [(get-in structure [:comp :italiano :italiano])
+                                             (get-in structure [:root :italiano :infinitive])
+                                             (get-in structure [:root :italiano :infinitive])
+                                             (get-in structure [:root :italiano :italiano])]))})
+                               results)
                :targets (map :target results)})))))))))
 
 (defn get-lexeme [canonical language & [ spec ]]

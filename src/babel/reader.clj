@@ -2,7 +2,7 @@
   [:refer-clojure :exclude [get-in resolve]]
   [:require
    [babel.korma :as korma]
-   [clojure.data.json :as json :refer [write-str]]
+   [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :as unify :refer [deserialize get-in ref? strip-refs unify]]
@@ -14,22 +14,52 @@
 ;; TODO: calling functions in here 'generate-X' is misleading
 ;; since they are querying a table to find sentences, not generating sentences from scratch.
 (declare generate)
-
+(declare generate-question-and-correct-set)
 (declare id2expression)
 
 ;; web service that translates babel.reader's API and an HTTP client.
 (def routes
   (compojure/routes
       (GET "/" request
-        {:status 200
-         :body (write-str {:foo 42
-                           :bar 44})})
-   (GET "/:expr" request
-        (let [expr (:expr (:route-params request))]
-          (log/info (str "expr(1):" expr))
-          (log/info (str "expr(2):" (Integer. expr)))
-          {:status 200
-           :body (write-str (id2expression (Integer. expr)))}))))
+           {:status 200
+            :headers {"Content-Type" "application/json;charset=utf-8"}
+            :body
+            (let [source "en"
+                  source-locale "US"
+                  target "it"
+                  target-locale "IT"
+                  target-spec
+                  (read-str (if-let [target-spec (get (:query-params request) "target-spec")]
+                              target-spec ""))
+                  game-spec
+                  {:target_spec {:root {:italiano {:italiano "decidere"}}
+                                 :synsem {:sem {:tense :past
+                                                :aspect :perfect}}}
+                   :source_spec :top}
+                  ]
+              (write-str {:source "some english stuff..."
+                          :target-spec target-spec
+                          :g-q-a-c-s
+                          (try
+                            (generate-question-and-correct-set
+                             (:target_spec game-spec)
+                             source source-locale
+                             target target-locale)
+                            (catch Exception e
+                              {:exception (str e)}))
+                          ;; TODO: eventually add :source-v2
+                          :targets ["some italian stuff one",
+                                    "some italian stuff two"]
+                          :targets-v2 [{:surface "some italian stuff one"
+                                        :roots ["italian","stuff"]}]}))})
+      
+      (GET "/:expr" request
+           (let [expr (:expr (:route-params request))]
+             (log/info (str "expr(1):" expr))
+             (log/info (str "expr(2):" (Integer. expr)))
+             {:status 200
+              :headers {"Content-Type" "application/json;charset=utf-8"}
+              :body (write-str (id2expression (Integer. expr)))}))))
 
 (defn generate-using-db [spec source-language target-language]
   (let [spec (unify spec

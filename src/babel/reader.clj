@@ -20,6 +20,7 @@
 (declare json-read-str)
 
 ;; web service that translates babel.reader's API and an HTTP client.
+;; http://localhost:3001/reader?target_spec={%22root%22:{%22italiano%22:{%22italiano%22:%22scrivere%22}}%20%22synsem%22:%20{%22sem%22:%20{%22tense%22:%22past%22,%20%22aspect%22:%22perfect%22}}}
 (def routes
   (compojure/routes
       (GET "/" request
@@ -30,23 +31,20 @@
                   source-locale "US"
                   target "it"
                   target-locale "IT"
-                  target_spec
-                  (json-read-str (if-let [target_spec (get (:query-params request) "target_spec")]
-                              target_spec "{}"))
-                  ]
-              (write-str {:source "some english stuff..."
+                  target_spec (json-read-str
+                               (if-let [target_spec (get (:query-params request) "target_spec")]
+                                 target_spec "{}"))
+                  gcacs (try
+                          (generate-question-and-correct-set
+                           target_spec
+                           source source-locale
+                           target target-locale)
+                          (catch Exception e
+                            {:exception (str e)}))]
+              (write-str {:source (get-in gcacs [:source])
                           :target_spec target_spec
-                          :g-q-a-c-s
-                          (try
-                            (generate-question-and-correct-set
-                             target_spec
-                             source source-locale
-                             target target-locale)
-                            (catch Exception e
-                              {:exception (str e)}))
                           ;; TODO: eventually add :source-v2
-                          :targets ["some italian stuff one",
-                                    "some italian stuff two"]
+                          :targets (get-in gcacs [:targets])
                           :targets-v2 [{:surface "some italian stuff one"
                                         :roots ["italian","stuff"]}]}))})
       

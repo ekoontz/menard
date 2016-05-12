@@ -2,6 +2,7 @@
   [:refer-clojure :exclude [get-in resolve]]
   [:require
    [babel.korma :as korma]
+   [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
@@ -16,6 +17,7 @@
 (declare generate)
 (declare generate-question-and-correct-set)
 (declare id2expression)
+(declare json-read-str)
 
 ;; web service that translates babel.reader's API and an HTTP client.
 (def routes
@@ -28,21 +30,16 @@
                   source-locale "US"
                   target "it"
                   target-locale "IT"
-                  target-spec
-                  (read-str (if-let [target-spec (get (:query-params request) "target-spec")]
-                              target-spec ""))
-                  game-spec
-                  {:target_spec {:root {:italiano {:italiano "decidere"}}
-                                 :synsem {:sem {:tense :past
-                                                :aspect :perfect}}}
-                   :source_spec :top}
+                  target_spec
+                  (json-read-str (if-let [target_spec (get (:query-params request) "target_spec")]
+                              target_spec "{}"))
                   ]
               (write-str {:source "some english stuff..."
-                          :target-spec target-spec
+                          :target_spec target_spec
                           :g-q-a-c-s
                           (try
                             (generate-question-and-correct-set
-                             (:target_spec game-spec)
+                             target_spec
                              source source-locale
                              target target-locale)
                             (catch Exception e
@@ -55,8 +52,8 @@
       
       (GET "/:expr" request
            (let [expr (:expr (:route-params request))]
-             (log/info (str "expr(1):" expr))
-             (log/info (str "expr(2):" (Integer. expr)))
+             (log/debug (str "expr(1):" expr))
+             (log/debug (str "expr(2):" (Integer. expr)))
              {:status 200
               :headers {"Content-Type" "application/json;charset=utf-8"}
               :body (write-str (id2expression (Integer. expr)))}))))
@@ -344,5 +341,25 @@
              :structure (deserialize (read-string (:serialized x)))})
           results))))
 
+;; TODO: document why we need this
+;; TODO: verbcoach should use this, not config/json-read-str
+;; TODO: move this to babel/globals.cljc or something similar
+(defn json-read-str [json]
+  (json/read-str json
+                 :key-fn keyword
+                 :value-fn (fn [k v]
+                             (cond
+                              (and (or (= k :english)
+                                       (= k :espanol)
+                                       (= k :français)
+                                       (= k :italiano))
+                                   (not (map? v)))
+                              (str v)
 
+                              (and (string? v)
+                                   (= (nth v 0) \:))
+                              (keyword (string/replace-first v ":" ""))
 
+                              (string? v)
+                              (keyword v)
+                              :else v))))

@@ -27,8 +27,8 @@
            {:status 200
             :headers {"Content-Type" "application/json;charset=utf-8"}
             :body
-            (let [source "en"
-                  source-locale "US"
+            (let [source (get (:query-params request) "source" "en")
+                  source-locale (get (:query-params request) "source_locale" "US")
                   target "it"
                   target-locale "IT"
                   target_spec (json-read-str
@@ -41,11 +41,12 @@
                            target target-locale)
                           (catch Exception e
                             {:exception (str e)}))]
-              (write-str {:source (get-in gcacs [:source])
-                          :target_spec target_spec
-                          ;; TODO: eventually add :source-v2
-                          :targets (get-in gcacs [:targets])
-                          :targets-v2 (get-in gcacs [:targets-v2])}))})
+              (write-str gcacs))})
+;                          :target_spec target_spec
+;                          ;; TODO: eventually add :source-v2
+;                          :targets (get-in gcacs [:targets])
+;                          :targets-v2 (get-in gcacs [:targets-v2])}))})
+
       (GET "/:expr" request
            (let [expr (:expr (:route-params request))]
              (log/debug (str "expr(1):" expr))
@@ -120,7 +121,7 @@
               debug (log/debug (str "index of target result:" index-of-result))
               target-expression (nth results index-of-result)
               debug (log/debug (str "target-expression is nil?" (nil? target-expression)))
-              debug (log/debug (str "target-expression is: " target-expression))
+              debug (log/trace (str "target-expression is: " target-expression))
               ]
 
           ;; Now get all the target expressions that are semantically
@@ -142,8 +143,7 @@
                 ;; useful for modeling anaphora and binding.
                 json-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
             (log/debug (str "semantics:" (strip-refs (get-in result [:synsem :sem]))))
-            (log/debug (str "json-semantics:" json-semantics))
-
+            (log/trace (str "json-semantics:" json-semantics))
             (let [results
                   (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,
@@ -180,24 +180,29 @@
                                               [:synsem :sem])))))
             (let [debug (log/trace (str "source-structure:"
                                         (first (map :structure results))))
-                  debug (log/debug (str "read from target_structure:"
+                  debug (log/trace (str "read from target_structure:"
                                         (first (map :target_structure results))))
-                  debug (log/debug (str "hello:" 
+                  debug (log/trace (str "target structures: (via read-str)" 
                                         (read-str (first (map :target_structure results)))))
-                  debug (log/debug (str "hello2:" 
+                  debug (log/trace (str "target-structures (via json-read-str):" 
                                         (json-read-str (first (map :target_structure results)))))]
               {:source-id (first (map :source_id results))
                :source (first (map :source results))
+               :source-v2 {:language source-language
+                           :locale source-locale}
+               :target-spec target-spec
                :targets-v2 (map (fn [result]
-                                 {:surface (get result :target)
-                                  :root (:target_root result)
-                                  :lexemes
-                                  (let [structure (json-read-str (:target_structure result))]
-                                    (remove nil?
-                                            [(get-in structure [:comp :italiano :italiano])
-                                             (get-in structure [:root :italiano :infinitive])
-                                             (get-in structure [:root :italiano :infinitive])
-                                             (get-in structure [:root :italiano :italiano])]))})
+                                  {:surface (get result :target)
+                                   :language target-language
+                                   :locale target-locale
+                                   :root (:target_root result)
+                                   :lexemes
+                                   (let [structure (json-read-str (:target_structure result))]
+                                     (remove nil?
+                                             [(get-in structure [:comp :italiano :italiano])
+                                              (get-in structure [:root :italiano :infinitive])
+                                              (get-in structure [:root :italiano :infinitive])
+                                              (get-in structure [:root :italiano :italiano])]))})
                                results)
                :targets (map :target results)})))))))))
 

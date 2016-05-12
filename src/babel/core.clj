@@ -2,6 +2,7 @@
   (:require
    [babel.english.workbook :as en]
    [babel.espanol.workbook :as es]
+   [babel.expr :as expr]
    [babel.francais.workbook :as fr]
    [babel.html :as html]
    [babel.italiano.workbook :as it]
@@ -37,6 +38,9 @@
          (log/info (str "expr(2):" (Integer. expr)))
          {:status 200
           :body (html/page "Expr" (html/tablize (reader/id2expression (Integer. expr))))}))
+  (context "/expr" []
+           expr/routes)
+
   (route/resources "/"))
 
 (def app

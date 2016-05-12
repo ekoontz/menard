@@ -189,6 +189,7 @@
               {:source-id (first (map :source_id results))
                :source (first (map :source results))
                :source-v2 {:language source-language
+                           :surface (first (map :source results))
                            :locale source-locale}
                :target-spec target-spec
                :targets-v2 (map (fn [result]

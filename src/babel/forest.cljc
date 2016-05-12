@@ -171,7 +171,7 @@ of this function with complements."
                               (if (not (empty? candidate-lexemes))
                                 (log/warn (str "all " (count candidate-lexemes) " candidate lexeme(s):"
                                                (string/join ","
-                                                            (map morph candidate-lexemes))
+                                                            (sort (map morph candidate-lexemes)))
                                                " failed for parent: " (get-in parent [:rule]) " with spec: " (strip-refs spec)))))
                             result))))
                     candidate-heads)

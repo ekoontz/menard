@@ -2,8 +2,9 @@
   [:refer-clojure :exclude [get-in resolve]]
   [:require
    [babel.korma :as korma]
-   [clojure.data.json :as json]
+   [clojure.data.json :as json :refer [write-str]]
    [clojure.tools.logging :as log]
+   [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :as unify :refer [deserialize get-in ref? strip-refs unify]]
    [korma.core :as db]])
 
@@ -13,6 +14,22 @@
 ;; TODO: calling functions in here 'generate-X' is misleading
 ;; since they are querying a table to find sentences, not generating sentences from scratch.
 (declare generate)
+
+(declare id2expression)
+
+;; web service that translates babel.reader's API and an HTTP client.
+(def routes
+  (compojure/routes
+      (GET "/" request
+        {:status 200
+         :body (write-str {:foo 42
+                           :bar 44})})
+   (GET "/:expr" request
+        (let [expr (:expr (:route-params request))]
+          (log/info (str "expr(1):" expr))
+          (log/info (str "expr(2):" (Integer. expr)))
+          {:status 200
+           :body (write-str (id2expression (Integer. expr)))}))))
 
 (defn generate-using-db [spec source-language target-language]
   (let [spec (unify spec
@@ -106,7 +123,7 @@
 
             (let [results
                   (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
-                                             target.surface AS target,
+                                             target.surface AS target,target.root AS target_root,
                                              source.structure AS structure
                                         FROM (SELECT surface, source.structure->'synsem'->'sem' 
                                                      AS sem,
@@ -115,8 +132,9 @@
                                                WHERE source.language=?
                                                  AND source.structure->'synsem'->'sem' @> '"
                                      json-semantics "' LIMIT 1) AS source
-                                  INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem
-                                                         FROM expression AS target
+                                  INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
+                                                              root
+                                                         FROM expression_with_root AS target
                                                         WHERE target.language=?
                                                           AND target.structure->'synsem'->'sem' = '" json-semantics "') AS target 
                                                            ON (source.surface IS NOT NULL) 
@@ -140,6 +158,7 @@
                                         (first (map :structure results))))]
               {:source (first (map :source results))
                :source-id (first (map :source_id results))
+               :target-roots (map :target_root results)
                :targets (map :target results)})))))))))
 
 (defn get-lexeme [canonical language & [ spec ]]

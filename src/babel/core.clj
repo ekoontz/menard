@@ -2,7 +2,6 @@
   (:require
    [babel.english.workbook :as en]
    [babel.espanol.workbook :as es]
-   [babel.expr :as expr]
    [babel.francais.workbook :as fr]
    [babel.html :as html]
    [babel.italiano.workbook :as it]
@@ -22,6 +21,8 @@
 (defroutes main-routes
   (GET "/" request
        (resp/redirect "/workbook/it"))
+  (context "/reader" []
+           reader/routes)
   (context "/say" []
            say/routes)
   (context "/workbook/en" []
@@ -32,14 +33,13 @@
            fr/routes)
   (context "/workbook/it" []
            it/routes)
+  ;; TODO: move to /reader/:expr.
   (GET "/expr/:expr" request
        (let [expr (:expr (:route-params request))]
          (log/info (str "expr(1):" expr))
          (log/info (str "expr(2):" (Integer. expr)))
          {:status 200
           :body (html/page "Expr" (html/tablize (reader/id2expression (Integer. expr))))}))
-  (context "/expr" []
-           expr/routes)
 
   (route/resources "/"))
 

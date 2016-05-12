@@ -44,10 +44,13 @@
               (write-str {:source (get-in gcacs [:source])
                           :target_spec target_spec
                           ;; TODO: eventually add :source-v2
+                          :gcacs gcacs
                           :targets (get-in gcacs [:targets])
-                          :targets-v2 [{:surface "some italian stuff one"
-                                        :roots ["italian","stuff"]}]}))})
-      
+                          :targets-v2
+                          (map (fn [surface]
+                                 {:surface surface
+                                  :roots ["foo","bar"]})
+                               (get-in gcacs [:targets]))}))})
       (GET "/:expr" request
            (let [expr (:expr (:route-params request))]
              (log/debug (str "expr(1):" expr))

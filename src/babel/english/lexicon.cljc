@@ -1284,6 +1284,7 @@
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").
    "play" [{:comment "We are talking about playing games or sports."
+            :english {:note "⚽"}
             :synsem {:cat :verb
                      :sem {:pred :giocare
                            :subj {:human true}
@@ -1291,6 +1292,7 @@
                                  :games true}}}}
 
            {:comment "We are talking about playing music or sounds."
+            :english {:note "🎼"}
             :synsem {:cat :verb
                      :sem {:pred :suonare
                            :subj {:human true}

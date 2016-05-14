@@ -109,6 +109,31 @@
                             (throw e)))))))))))
       source-expressions))))
 
+(defn write-one [spec]
+  (log/debug (str "generating from spec: " spec))
+  (try
+    (process [{:fill-one-language
+               {:count 1
+                :spec spec
+                :model small
+                }}]
+             "it")
+    (catch Exception e
+      (cond
+        
+        ;; TODO: make this conditional on
+        ;; there being a legitimate reason for the exception -
+        ;; e.g. the verb is "works (nonhuman)" (which takes a non-human
+        ;; subject), but we're trying to generate with
+        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+        ;; are human.
+        true
+        
+        (log/warn (str "ignoring exception: " e))
+        false
+        (throw e))))
+  )
+
 (defn all [ & [count]]
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
@@ -151,29 +176,7 @@
                                                           (map (fn [number]
                                                                  (let [spec (unify spec
                                                                                    {:comp {:synsem {:agr {:number number}}}})]
-                                                                   (log/debug (str "generating from spec: " spec))
-                                                                   (try
-                                                                     (process [{:fill-one-language
-                                                                                {:count 1
-                                                                                 :spec spec
-                                                                                 :model small
-                                                                                 }}]
-                                                                              "it")
-                                                                     (catch Exception e
-                                                                       (cond
-                                                                        
-                                                                        ;; TODO: make this conditional on
-                                                                        ;; there being a legitimate reason for the exception -
-                                                                        ;; e.g. the verb is "works (nonhuman)" (which takes a non-human
-                                                                        ;; subject), but we're trying to generate with
-                                                                        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                                        ;; are human.
-                                                                        true
-                                                                        
-                                                                        (log/warn (str "ignoring exception: " e))
-                                                                        false
-                                                                        (throw e))))
-                                                                   ))
+                                                                   (write-one spec)))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
                                            (cond (= tense

@@ -104,7 +104,8 @@
                                        WHERE target.language=?
                                          AND target.structure IS NOT NULL
                                          AND target.surface != ''
-                                         AND target.structure @> '" target-json-spec "'")
+                                         AND target.structure @> '" target-json-spec "'
+                                         AND target.active=true")
                                 [target-language]]
                                :results)]
       (if (empty? results)
@@ -154,12 +155,14 @@
                                                      source.structure AS structure, source.id
                                                 FROM expression AS source
                                                WHERE source.language=?
+                                                 AND source.active=true
                                                  AND source.structure->'synsem'->'sem' @> '"
                                      json-semantics "' LIMIT 1) AS source
                                   INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
                                                               root,structure
                                                          FROM expression_with_root AS target
                                                         WHERE target.language=?
+                                                          AND target.active=true
                                                           AND target.structure->'synsem'->'sem' = '" json-semantics "') AS target 
                                                            ON (source.surface IS NOT NULL) 
                                                           AND (target.surface IS NOT NULL) 
@@ -240,7 +243,9 @@
 
     (let [results (db/exec-raw [(str "SELECT serialized::text 
                                         FROM expression 
-                                       WHERE language=? AND structure @> "
+                                       WHERE language=? 
+                                         AND active=true
+                                         AND structure @> "
                                      "'" json-spec "'")
                                 [language]]
                                :results)]
@@ -262,7 +267,9 @@
     (log/debug (str "looking for expressions in language: " language " with spec: " spec))
     (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
                                         FROM expression 
-                                       WHERE language=? AND structure @> "
+                                       WHERE active=true 
+                                         AND language=? 
+                                         AND structure @> "
                                      "'" json-spec "' ORDER BY SURFACE ASC")
                                 [language]]
                                :results)]
@@ -309,8 +316,8 @@
                                                 FROM expression AS italiano
                                           INNER JOIN expression AS english                                 
                                                   ON english.structure @> '" json-spec "'
-                                                 AND italiano.language = 'it'
-                                                 AND english.language  = 'en'
+                                                 AND italiano.language = 'it' AND italiano.active=true
+                                                 AND english.language  = 'en' AND english.active=true
                                                  AND (italiano.structure->'synsem'->'sem') @> 
                                                      (english.structure->'synsem'->'sem')) AS pairs 
                                     ORDER BY pairs.en")

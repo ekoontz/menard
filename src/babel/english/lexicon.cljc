@@ -301,6 +301,18 @@
    "break" {:synsem {:cat :verb
                      :sem {:pred :break }}
             :english {:past "broke"}}
+   "bread"
+   ;; inherently singular.
+   (unify agreement-noun
+          common-noun
+          masculine-noun
+          {:synsem {:sem {:pred :pane
+                          :edible true
+                          :artifact true}
+                    :subcat {:1 {:cat :det
+                                 :number :sing
+                                 :def :def}}}})
+
 
    "bring" {:synsem {:cat :verb
                    :sem {:pred :bring
@@ -1126,6 +1138,15 @@
    "make" {:synsem {:cat :verb
                     :sem {:pred :make}}
            :english {:past "made"}}
+   "man"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          masculine-noun
+          {:english {:plur "men"}
+           :synsem {:sem {:human true
+                          :pred :man
+                          :child false}}})
 
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
@@ -1379,6 +1400,11 @@
                     :past-participle "run"}
           :synsem {:cat :verb
                    :sem {:pred :run}}}
+
+   "s" {:synsem {:cat :det
+                 :def :genitive
+                 :subcat {:1 {:cat :noun
+                              :subcat '()}}}}
 
    "say" {:english {:past "said"}
           :synsem {:cat :verb

@@ -199,6 +199,10 @@
          (fo (generate {:synsem {:cat :verb :sem {:pred :be-called
                                                   :subj {:pred :lei}
                                                   :obj {:pred :luisa}}}})))))
-
+(deftest the-mans-dog
+  (is (= "the man's dog"
+         (fo (generate {:synsem {:cat :verb :sem {:pred :be-called
+                                                  :subj {:pred :lei}
+                                                  :obj {:pred :luisa}}}})))))
 
 

@@ -171,8 +171,7 @@
                                        :sem {:number number-agreement
                                              :mod '()}}
                               :head {:phrasal false
-                                     :synsem {:propernoun propernoun}}
-                              :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+                                     :synsem {:propernoun propernoun}}}))
 
                    (unifyc c10
                            comp-specs-head
@@ -185,8 +184,7 @@
                                        :propernoun propernoun
                                        :sem {:number number-agreement}}
                               :head {:phrasal true
-                                     :synsem {:propernoun propernoun}}
-                              :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+                                     :synsem {:propernoun propernoun}}}))
                    (unifyc h10
                            {:rule "prepositional-phrase"
                             :synsem {:cat :prep}})

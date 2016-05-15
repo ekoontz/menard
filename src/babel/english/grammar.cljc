@@ -146,6 +146,10 @@
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
+                   (unifyc c10
+                           {:rule "determiner-phrase"
+                            :synsem {:cat :det}})
+
                    (unifyc c11-comp-subcat-1
                            (let [propernoun (atom :top)
                                  head-sem (atom :top)]

@@ -279,7 +279,7 @@ of this function with complements."
                              (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
                                (log/debug (str "number of phrasal components given spec: " spec ":"
                                                (count phrasal-complements)))
-                               (if (> (count phrasal-complements) 0)
+                               (if (not (empty? phrasal-complements))
                                  (log/debug (str "phrasal complements given spec: " spec ":"
                                                  (string/join "," (map morph phrasal-complements))))
                                  ;; phrasal complements were empty.

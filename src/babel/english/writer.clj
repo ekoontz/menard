@@ -117,7 +117,7 @@
                 :spec spec
                 :model small
                 }}]
-             "it")
+             "en")
     (catch Exception e
       (cond
         

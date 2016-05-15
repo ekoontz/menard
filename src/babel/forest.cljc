@@ -199,8 +199,8 @@ of this function with complements."
                           )
                         )
                        candidate-heads))]
-        (log/debug (str "lightning-bolt: #LEXICAL: parent=" (get-in parent [:rule]) ":" (count lexical)))
-        (log/debug (str "lightning-bolt: #PHRASAL: parent=" (get-in parent [:rule]) ":" (count phrasal)))
+        (log/debug (str "lightning-bolt: #lexical children of " (get-in parent [:rule]) ":" (count lexical)))
+        (log/debug (str "lightning-bolt: #phrasal children of " (get-in parent [:rule]) ":" (count phrasal)))
         (if (lexemes-before-phrases)
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))

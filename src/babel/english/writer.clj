@@ -88,7 +88,7 @@
                         ;; of what the (process) command did.
                         (log/debug (str "process result:" result)))
                       (catch Exception e
-                        (let [catch-and-log-error false]
+                        (let [catch-and-log-error true]
                           (log/error (str "Could not translate source expression: "
                                           "'" (get source-expression :surface) "'"
                                           " from language: '" source-language-short-name 

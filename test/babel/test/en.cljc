@@ -194,7 +194,7 @@
                                   (fo foo)))))))))
 
 
-(def her-name-is-luisa
+(deftest her-name-is-luisa
   (is (= "her name is Luisa"
          (fo (generate {:synsem {:cat :verb :sem {:pred :be-called
                                                   :subj {:pred :lei}

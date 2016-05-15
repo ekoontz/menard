@@ -99,26 +99,21 @@ of this function with complements."
   (if (and (not (= :fail spec))
            (not (= :top spec))
            (not (empty? (strip-refs spec))))
-    (log/debug (str "lighting-bolt@" depth " spec: " (strip-refs spec) "; parent: " (if parent
-                                                                                      (:rule parent)))))
+    (do
+      (log/debug (str "lightning-bolt@" depth))
+      (log/trace (str "lighting-bolt spec: " (strip-refs spec) "; parent: " (if parent
+                                                                              (:rule parent))))))
   (if (not parent)
     (log/debug (str "no parent for lightning-bolt@" depth " with spec: " (strip-refs spec))))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
-        debug (log/debug (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
-
+        debug (log/trace (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
         depth (if depth depth 0)        
-        ;; TODO: unifyc is expensive: factor out into a let.
-        debug (log/debug (str "looking for candidate head phrases with parent: " (:rule parent) " and spec: " (strip-refs spec)))
+        debug (log/debug (str "looking for candidate head phrases with parent: " (:rule parent)))
+
         candidate-heads (filter #(not (fail? %))
                                   (map (fn [rule]
-                                         (do (log/debug (str "testing rule: " (:rule rule)
-                                                             ":" (strip-refs rule)))
-                                             (if (fail? rule)
-                                               (throw (exception (str "rule has a fail: " (strip-refs rule)))))
-                                             (log/debug (str " result: " (strip-refs (unifyc spec rule))))
-                                             (log/debug (if (fail? (unifyc spec rule))
-                                                          (str "fail path: " (fail-path-between spec rule))
-                                                          (str "rule: " (:rule rule) " successfully unified with spec: " (strip-refs spec))))
+                                         (do (log/trace (str "testing rule: " (:rule rule)
+                                                             "with cat:" (get-in rule [:synsem :cat])))
                                              (unifyc spec rule)))
                                        (if parent
                                          (let [hp (get-head-phrases-of parent index)]
@@ -128,7 +123,7 @@ of this function with complements."
                                            (log/debug (str "not getting head phrases: using grammar"))
                                            grammar))))
 
-        debug (log/debug (str "done looking for candidate head phrases: "
+        debug (log/trace (str "done looking for candidate head phrases: "
                               (if (empty? candidate-heads)
                                 "no candidate heads found."
                                 (str "one or more candidate heads found; first: " (:rule (first candidate-heads))))))
@@ -136,10 +131,10 @@ of this function with complements."
         debug (if (not (empty? candidate-heads))
                 (log/debug (str "candidate-heads: " (string/join "," (map #(get-in % [:rule])
                                                                             candidate-heads))))
-                (log/debug (str "no candidate head phrases for spec: " (strip-refs spec))))]
+                (log/trace (str "no candidate head phrases for spec: " (strip-refs spec))))]
     ;; TODO: remove or parameterize this hard-coded value.
     (if (> depth 5)
-      (throw (exception (str "DEPTH IS GREATER THAN 5; HOW DID YOU END UP IN THIS TERRIBLE SITUATION? LOOK AT THE STACK. I'M OUTTA HERE."))))
+      (throw (exception (str "depth is greater than 5: should never happen."))))
 
     (if (seq candidate-heads)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
@@ -219,12 +214,12 @@ of this function with complements."
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
-            cached (if (and true cache)
+            cached (if cache
                      (do
                        (let [result (get-lex immediate-parent :comp cache spec)]
-                         (log/debug (str "lexical-complement candidates: " (string/join ", " (map morph result))))
+                         (log/trace (str "lexical-complement candidates: " (string/join ", " (map morph result))))
                          (if (not (nil? result))
-                           (log/debug (str " cached lexical subset ratio: " 
+                           (log/trace (str " cached lexical subset ratio: " 
                                            (string/replace (str (/ (* 1.0 (/ (count lexicon) (count result)))))
                                                            #"\.(..).*"
                                                            (fn [[_ two-digits]] (str "." two-digits))))))
@@ -234,9 +229,6 @@ of this function with complements."
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
                                            (if cached cached (flatten (vals lexicon))))]
-        (let [semantics (get-in spec [:synsem :sem])]
-          (if (not (nil? semantics))
-            (if (not (nil? semantics)) (log/debug (str "  with semantics:" (strip-refs semantics))))))
         (log/debug (str " immediate parent:" (get-in immediate-parent [:rule])))
         (let [complement-pre-check (fn [child parent path-to-child]
                                      (let [child-in-bolt (get-in bolt path-to-child)]
@@ -277,11 +269,9 @@ of this function with complements."
                            (do
                              (log/debug (str "generating phrasal complements with spec: " (strip-refs spec)))
                              (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
-                               (log/debug (str "number of phrasal components given spec: " spec ":"
-                                               (count phrasal-complements)))
                                (if (not (empty? phrasal-complements))
-                                 (log/debug (str "phrasal complements given spec: " spec ":"
-                                                 (string/join "," (map morph phrasal-complements))))
+                                 (log/debug (str "phrasal complements were not empty; first: "
+                                                 (get-in (first phrasal-complements) [:rule])))
                                  ;; phrasal complements were empty.
                                  (if (= true (get-in spec [:phrasal] false))
                                    (log/warn (str "no phrasal complements of spec: " (strip-refs spec)
@@ -354,8 +344,8 @@ of this function with complements."
         (list bolt)))))
 
 (defn add-complements-to-bolts [bolts path spec grammar lexicon cache morph]
-  (if (seq bolts)
-    (lazy-cat (if (not (fail? (first bolts)))
+  (if (not (empty? bolts))
+    (lazy-cat (if (or true (not (fail? (first bolts)))) ;; experimenting with using (or true ..) to disable this fail? check.
                 (add-complement (first bolts) path spec grammar lexicon cache morph))
               (add-complements-to-bolts (rest bolts) path spec grammar lexicon cache morph))))
 

@@ -402,10 +402,6 @@
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
 
-   "creep" {:synsem {:cat :noun
-                     :sem {:it-came-from-outerspace true
-                           :pred :creep}}}
-
    "cry" {:synsem {:cat :verb
                     :sem {:pred :cry}}}
 
@@ -1163,10 +1159,6 @@
    "meet"  {:synsem {:cat :verb
                      :sem {:pred :incontrare}}
             :english {:past "met"}}
-
-   "monster" {:synsem {:cat :noun
-                       :sem {:pred :monster
-                             :it-came-from-outerspace true}}}
    "mother"
    (unify agreement-noun
           common-noun
@@ -1392,10 +1384,6 @@
           :synsem {:cat :verb
                    :sem {:pred :say}}}
 
-   "scary" {:synsem {:cat :adjective
-                     :sem {:it-came-from-outerspace true
-                           :mod {:pred :scary}}}}
-   
    "scold" {:synsem {:cat :verb
                 :sem {:pred :scold}}}
 

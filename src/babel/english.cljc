@@ -1,14 +1,16 @@
 (ns babel.english
   (:refer-clojure :exclude [get-in])
   (:require
+   [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
    [babel.forest :as forest]
    [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
+   [babel.over :refer [over]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
-   [dag_unify.core :refer [fail? get-in strip-refs]]))
+   [dag_unify.core :refer [fail? fail-path get-in strip-refs]]))
 
 (def lexicon (:lexicon medium))
 (def grammar (:grammar-map medium))

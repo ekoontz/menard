@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.forest :as forest]
-   [babel.english.grammar :refer [medium]]
+   [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
    [clojure.string :as string]

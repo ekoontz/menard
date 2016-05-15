@@ -6,6 +6,7 @@
    [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.parse :as parse]
+   [clojure.repl :refer [doc]]
    [clojure.string :as string]
    [dag_unify.core :refer [fail? get-in strip-refs]]))
 

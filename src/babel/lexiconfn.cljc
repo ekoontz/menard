@@ -607,8 +607,11 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
         lexical-entry))
 
 (defn category-to-subcat [lexical-entry]
-  (cond (or (= (get-in lexical-entry '(:synsem :cat)) :det)
-            (= (get-in lexical-entry '(:synsem :cat)) :adverb))
+  (cond (and (or (= :det (get-in lexical-entry [:synsem :cat]))
+                 (= :adverb (get-in lexical-entry [:synsem :cat])))
+
+             ;; if subcat is defined, then go with that rather than trying to unify with subcat0
+             (= :none (get-in lexical-entry [:synsem :subcat] :none)))
         (unifyc
          subcat0
          lexical-entry)

@@ -167,7 +167,8 @@
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (do
           (if (not (= true head-pre-checks))
-            (log/warn (str "moreover-head: pre-checked missed: fail-path-between:"
+            (log/warn (str "moreover-head: pre-checked missed: fail-path-between "
+                           "parent:'" (get-in parent [:rule]) "' and child '" (morph child) "' :"
                            (fail-path-between parent {:head child}))))
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]

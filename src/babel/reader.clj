@@ -58,7 +58,7 @@
 (defn generate-using-db [spec source-language target-language]
   (let [spec (unify spec
                     {:synsem {:subcat '()}})]
-    (log/debug (str "spec pre-borges/generate:" spec))
+    (log/debug (str "(generate-using-db): spec:" spec))
     (generate spec source-language target-language)))
 
 (defn id2expression [id]

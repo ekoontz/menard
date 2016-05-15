@@ -1696,7 +1696,6 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
-
    "parlare"
    (let [common1
          {:synsem {:essere false

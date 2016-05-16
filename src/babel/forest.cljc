@@ -142,7 +142,7 @@ of this function with complements."
                                     (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               
-              return-val
+              complements
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
@@ -184,7 +184,7 @@ of this function with complements."
                                      (log/debug (str "no phrasal complements for: " (get-in bolt [:rule]) ".")))
                                    (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))]
           (let [run-time (- (current-time) start-time)]
-            (if (empty? return-val)
+            (if (empty? complements)
               ;; else, no complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
               ;; in which circumstances.
               (let [log-limit 1000
@@ -232,8 +232,8 @@ of this function with complements."
                          (not (= true (get-in bolt (concat path [:phrasal])))))
                   (exception message)))
 
-              ;; else, return-val was not empty.
-              return-val))))
+              ;; else, complements was not empty.
+              complements))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
       (list bolt))))

@@ -63,7 +63,7 @@
                           (generate-all (rest spec) grammar lexicon index morph))
                 true
                 (do
-                  (log/debug (str "generate-all: (spec= " (strip-refs spec) ")"))
+                  (log/debug (str "generate-all: (cat= " (get-in spec [:synsem :cat])))
                   (log/trace (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
                   (log/trace (str "generate-all(details): " (show-spec spec)))
                   (let [lb (lightning-bolt (lazy-shuffle grammar)

@@ -71,7 +71,6 @@
                   (add-complements-to-bolts [:head :comp])
                   (add-complements-to-bolts [:comp]))))))
 
-;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
 (defn lightning-bolt [grammar lexicon spec depth index morph]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the

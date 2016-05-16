@@ -13,8 +13,6 @@
 (def concurrent false)
 (declare path-to-map)
 (declare add-complement)
-(declare add-all-complements-to-bolts)
-(declare add-complements-to-bolts)
 
 (declare lightning-bolt)
 (declare generate-all)
@@ -71,13 +69,17 @@
                   (log/debug (str "generate-all(details): " (show-spec spec)))
                   (let [lb (lightning-bolt (lazy-shuffle grammar)
                                            lexicon
-                                           spec 0 index nil morph)]
+                                           spec 0 index nil morph)
+                        add-complements-to-bolts
+                        (fn [bolts path]
+                          (mapcat #(add-complement % path :top grammar lexicon index morph)
+                                  bolts))]
                     (-> lb
                         ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-                        (add-complements-to-bolts [:head :head :head :comp] :top grammar lexicon index morph)
-                        (add-complements-to-bolts [:head :head :comp]       :top grammar lexicon index morph)
-                        (add-complements-to-bolts [:head :comp]             :top grammar lexicon index morph)
-                        (add-complements-to-bolts [:comp]                   :top grammar lexicon index morph)))))))
+                        (add-complements-to-bolts [:head :head :head :comp])
+                        (add-complements-to-bolts [:head :head :comp])
+                        (add-complements-to-bolts [:head :comp])
+                        (add-complements-to-bolts [:comp])))))))
 
 (defn lexemes-before-phrases []
   ;; TODO: take depth as an argument; make phrases decreasingly likely as depth increases.
@@ -108,7 +110,7 @@ of this function with complements."
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         debug (log/trace (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
         depth (if depth depth 0)        
-        debug (log/debug (str "looking for candidate head phrases with parent: " (:rule parent)))
+        debug (if parent (log/debug (str "looking for candidate head phrases with parent: " (:rule parent))))
 
         candidate-heads (filter #(not (fail? %))
                                   (map (fn [rule]
@@ -200,10 +202,11 @@ of this function with complements."
           (lazy-cat lexical phrasal)
           (lazy-cat phrasal lexical))))))
 
-(defn add-complement [bolt path spec grammar lexicon cache morph]
+(defn add-complement [bolt path spec grammar lexicon cache morph & [depth]]
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
+        depth (if depth depth 0)
         spec (unifyc spec bolt-spec)]
     (log/debug (str "add-complement at path: " path " to bolt with bolt:["
                     (if (map? bolt) (get-in bolt [:rule]))
@@ -247,10 +250,9 @@ of this function with complements."
                         (not (fail? result)))
                       (map (fn [complement]
                              (let [debug (log/debug (str "adding complement to: ["
-                                                         (get-in bolt [:rule]) " "
-                                                         (morph bolt) "]: trying lexical complement:" (morph complement)))
-                                   debug (if (= "" (morph complement))
-                                           (log/error (str "WHY IS IT EMPTY: " complement)))
+                                                         (get-in bolt [:rule]) " '"
+                                                         (morph bolt) "']: "
+                                                         "trying lexical complement:'" (morph complement) "'"))
                                    result
                                    (unify (copy bolt)
                                           (path-to-map path
@@ -335,19 +337,13 @@ of this function with complements."
                 )
 
               ;; else, return-val was not empty.
-              (do (log/debug (str "add-complement after adding complement: "
-                                  (morph (first return-val)) ",.."))
+              (do (log/debug (str "first add-complement after adding complement: "
+                                  (morph (first return-val))))
                   return-val)))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
       (do
         (list bolt)))))
-
-(defn add-complements-to-bolts [bolts path spec grammar lexicon cache morph]
-  (if (not (empty? bolts))
-    (lazy-cat (if (or true (not (fail? (first bolts)))) ;; experimenting with using (or true ..) to disable this fail? check.
-                (add-complement (first bolts) path spec grammar lexicon cache morph))
-              (add-complements-to-bolts (rest bolts) path spec grammar lexicon cache morph))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

@@ -92,7 +92,7 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolt@" depth " with spec: " (strip-refs spec)))
+  (log/debug (str "lightning-bolt@" depth " with cat: " (get-in spec [:synsem :cat])))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
         debug (log/trace (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
@@ -120,7 +120,8 @@ of this function with complements."
                           (log/debug (str "candidate lexemes for: " (get-in parent [:rule]) " empty?:" (empty? candidate-lexemes)))
                           (if (some fail? candidate-lexemes)
                             (throw (exception (str "some candidate lexeme was fail?=true!"))))
-                          (log/debug
+                          (log/trace
+                           (str "candidate head lexemes for:"
                                 (get-in parent [:rule]) ": '"
                                 (string/join "','"
                                              (map (fn [lexeme]
@@ -141,7 +142,7 @@ of this function with complements."
                                 (log/warn (str "all " (count candidate-lexemes) " candidate lexeme(s):"
                                                (string/join ","
                                                             (sort (map morph candidate-lexemes)))
-                                               " failed for parent: " (get-in parent [:rule]) " with spec: " (strip-refs spec)))))
+                                               " failed for parent: " (get-in parent [:rule])))))
                             result))))
                     (remove nil? candidate-heads))
 
@@ -156,12 +157,12 @@ of this function with complements."
                                               (get-in parent [:head])
                                               (+ 1 depth)
                           (if (empty? phrasal-children)
-                            (let [message (str "no phrasal children for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ") and spec: " (strip-refs spec))]
+                            (let [message (str "no phrasal children for parent: '" (morph parent) "' with rule: " (get-in parent [:rule]) ") and cat: " (get-in spec [:synsem :cat]))]
                               (log/debug message))
                             ;; else; there are phrasal-children, so attach them below parent:
                             (do
                               (log/debug (str "phrasal-children:" (string/join "," (map morph phrasal-children))))
-                              (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]" "'" (morph parent) "'"
+                              (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]:" "'" (morph parent) "'"
                                               " and " (count phrasal-children) " phrasal children."))
                               (over/overh parent phrasal-children morph)))
                           )
@@ -181,8 +182,6 @@ of this function with complements."
                     (if (map? bolt) (get-in bolt [:rule]))
                     " '" (morph bolt) "'"
                     "]"))
-    (log/debug (str "add-complement to bolt with path:" path))
-
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
@@ -238,14 +237,14 @@ of this function with complements."
                      
                            ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
                            (do
-                             (log/debug (str "generating phrasal complements with spec: " (strip-refs spec)))
+                             (log/debug (str "generating phrasal complements with cat: " (get-in spec [:synsem :cat])))
                              (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
                                (if (not (empty? phrasal-complements))
                                  (log/debug (str "phrasal complements were not empty; first: "
                                                  (get-in (first phrasal-complements) [:rule])))
                                  ;; phrasal complements were empty.
                                  (if (= true (get-in spec [:phrasal] false))
-                                   (log/warn (str "no phrasal complements of spec: " (strip-refs spec)
+                                   (log/warn (str "no phrasal complements of: " (:cat spec)
                                                   " could be generated."))))
                                                
                                (if (lexemes-before-phrases)

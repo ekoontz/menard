@@ -559,6 +559,10 @@
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 
+   "first" (unify adjective
+                  {:sem {:mod {:pred :first}
+                         :comparative false}})
+
    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
    

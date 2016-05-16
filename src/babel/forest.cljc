@@ -141,7 +141,7 @@ of this function with complements."
                     (if (fail? complement)
                       true
                       (do
-                        (log/debug (str "add-complement:(depth= " depth ":):" (morph complement)))
+                        (log/debug (str "add-complement(depth=" depth ",cat=" (get-in complement [:synsem :cat] :none) "):" (morph complement)))
                         false)))
                   (map (fn [complement]
                          (unify (copy bolt)

@@ -152,16 +152,14 @@ of this function with complements."
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
 
-(defn add-complement [bolt path spec grammar lexicon cache morph & [depth]]
+(defn add-complement [bolt path spec grammar lexicon cache morph depth]
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         bolt-spec (get-in bolt path :no-path)
         depth (if depth depth 0)
         spec (unifyc spec bolt-spec)]
-    (log/debug (str "add-complement at path: " path " to bolt with bolt:["
-                    (if (map? bolt) (get-in bolt [:rule]))
-                    " '" (morph bolt) "'"
-                    "]"))
+    (log/debug (str "add-complement(depth=" depth ", path=" path ", bolt: ["
+                    (if (map? bolt) (get-in bolt [:rule])) ": '" (morph bolt) "']"))
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
@@ -180,7 +178,7 @@ of this function with complements."
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
                                            (if cached cached (flatten (vals lexicon))))]
-        (log/debug (str " immediate parent:" (get-in immediate-parent [:rule])))
+        (log/debug (str "add-complement(depth=" depth "): immediate parent:" (get-in immediate-parent [:rule])))
         (let [complement-pre-check (fn [child parent path-to-child]
                                      (let [child-in-bolt (get-in bolt path-to-child)]
                                        (and (not (fail?

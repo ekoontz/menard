@@ -13,10 +13,12 @@
 (def concurrent false)
 
 (declare add-complement)
+(declare lexemes-before-phrases)
 (declare lightning-bolt)
 (declare generate-all)
 (declare in-case-of-no-phrasal-complements)
 (declare path-to-map)
+(declare show-bolt)
 
 (defn exception [error-string]
   #?(:clj
@@ -56,7 +58,9 @@
             (log/debug (str "generate-all: cat: " (get-in spec [:synsem :cat])))
             (let [add-complements-to-bolts
                   (fn [bolts path]
-                    (mapcat #(add-complement % path :top grammar lexicon index morph 0)
+                    (mapcat #(if (not (= :none (get-in % path :none)))
+                               (add-complement % path :top grammar lexicon index morph 0)
+                               [%])
                             bolts))]
               (-> (lightning-bolt (lazy-shuffle grammar)
                                      lexicon
@@ -67,19 +71,13 @@
                   (add-complements-to-bolts [:head :comp])
                   (add-complements-to-bolts [:comp]))))))
 
-(defn lexemes-before-phrases [depth]
-  ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
-  (let [result (> (rand-int (+ 1 depth)) 0)]
-    (log/trace (str "lexemes-before-phrases: depth=" depth " => " result))
-    result))
-
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
 (defn lightning-bolt [grammar lexicon spec depth index morph]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolt(depth=" depth ",cat=" (get-in spec [:synsem :cat]) ")"))
+  (log/debug (str "lightning-bolt(depth=" depth "):" (strip-refs spec)))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
         depth (if depth depth 0)        
@@ -110,46 +108,41 @@ of this function with complements."
 (defn add-complement [bolt path spec grammar lexicon cache morph depth]
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
-        bolt-spec (get-in bolt path :no-path)
         depth (if depth depth 0)
         spec (unifyc spec bolt-spec)]
-    (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
-      (let [immediate-parent (get-in bolt (butlast path))
-            start-time (current-time)
-            cached (if cache
-                     (get-lex immediate-parent :comp cache spec)
-                     (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
-                         (reduce concat (vals lexicon))))
-            complement-candidate-lexemes (if (not (= true
-                                                     (get-in bolt (concat path [:phrasal]))))
-                                           (if cached cached (flatten (vals lexicon))))]
-        (let [complement-pre-check (fn [child parent path-to-child]
-                                     (let [child-in-bolt (get-in bolt path-to-child)]
-                                       (and (not (fail?
-                                                  (unifyc (get-in child [:synsem] :top)
-                                                          (get-in child-in-bolt [:synsem] :top)))))))
-              filtered-lexical-complements (filter (fn [lexeme]
-                                                     (complement-pre-check lexeme bolt path))
-                                                   complement-candidate-lexemes)
-              shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)]
-          (filter (fn [complement]
-                    (if (fail? complement)
-                      true
-                      (do
-                        (log/debug (str "add-complement(depth=" depth ",path=" path ")=>"
-                                        (get-in complement [:synsem :cat] :none) "):" (morph complement)))
-                        false)))
-                  (map (fn [complement]
-                         (unify (copy bolt)
-                                (path-to-map path
-                                             (copy complement))))
-                       (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
-                         (if (lexemes-before-phrases depth)
-                           (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                           (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
-
-      ;; path doesn't exist in bolt: simply return the bolt unmodified.
-      (list bolt))))
+    (let [immediate-parent (get-in bolt (butlast path))
+          start-time (current-time)
+          cached (if cache
+                   (get-lex immediate-parent :comp cache spec)
+                   (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
+                       (reduce concat (vals lexicon))))
+          complement-candidate-lexemes (if (not (= true
+                                                   (get-in bolt (concat path [:phrasal]))))
+                                         (if cached cached (flatten (vals lexicon))))
+          complement-pre-check (fn [child parent path-to-child]
+                                 (let [child-in-bolt (get-in bolt path-to-child)]
+                                   (and (not (fail?
+                                              (unifyc (get-in child [:synsem] :top)
+                                                      (get-in child-in-bolt [:synsem] :top)))))))
+          filtered-lexical-complements (filter (fn [lexeme]
+                                                 (complement-pre-check lexeme bolt path))
+                                               complement-candidate-lexemes)
+          shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)]
+      (filter (fn [complement]
+                (if (fail? complement)
+                  true
+                  (do
+                    (log/debug (str "add-complement(depth=" depth ",path=" path ",bolt=(" (show-bolt bolt path) ")=>"
+                                    "'" (morph complement) "'"))
+                    false)))
+              (map (fn [complement]
+                     (unify (copy bolt)
+                            (path-to-map path
+                                         (copy complement))))
+                   (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
+                     (if (lexemes-before-phrases depth)
+                       (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
+                       (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]
@@ -204,3 +197,16 @@ of this function with complements."
     (if (and throw-exception-if-no-complements-found
              (not (= true (get-in bolt (concat path [:phrasal])))))
       (exception message))))
+
+(defn lexemes-before-phrases [depth]
+  ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
+  (let [result (> (rand-int (+ 1 depth)) 0)]
+    (log/trace (str "lexemes-before-phrases: depth=" depth " => " result))
+    result))
+
+(defn show-bolt [bolt path]
+  (if (not (empty? path))
+    (str (get-in bolt [:rule])
+         (let [rest-str (show-bolt (get-in bolt [:head]) (rest path))]
+           (if (not (nil? rest-str))
+             (str " -> " rest-str)))))) 

@@ -184,18 +184,20 @@ of this function with complements."
                                        (and (not (fail?
                                                   (unifyc (get-in child [:synsem] :top)
                                                           (get-in child-in-bolt [:synsem] :top)))))))
-              debug (log/debug (str "add-complement pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
+              debug (log/debug (str "add-complement: pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
-              debug (log/debug (str "add-complement post-filtered lexeme size: " (count filtered-lexical-complements)))
+              debug (log/debug (str "add-complement: pre/post-filtered lexeme size: "
+                                    (count complement-candidate-lexemes)
+                                    (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               
               return-val
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "adding complement to: ["
+                             (let [debug (log/debug (str "adding complement: ["
                                                          (get-in bolt [:rule]) " '"
                                                          (morph bolt) "']: "
                                                          "trying lexical complement:'" (morph complement) "'"))
@@ -205,11 +207,11 @@ of this function with complements."
                                                         (copy complement)))
                                    is-fail? (fail? result)]
                                (if is-fail?
-                                 (log/debug (str "fail-path-between(bolt=val1/comp=val2):"
+                                 (log/debug (str "add-complement: fail-path-between(bolt=val1/comp=val2):"
                                                  (fail-path-between (strip-refs (get-in bolt path))
                                                                     (strip-refs complement))))
                                                                                 
-                                 (log/debug (str "success:" (:rule result) " returning: '" (morph result) "'")))
+                                 (log/debug (str "add-complement: success:" (:rule result) " returning: '" (morph result) "'")))
                                  
                                (if is-fail? :fail result)))
                      
@@ -218,14 +220,14 @@ of this function with complements."
                              (log/debug (str "generating phrasal complements with cat: " (get-in spec [:synsem :cat])))
                              (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
                                (if (not (empty? phrasal-complements))
-                                 (log/debug (str "phrasal complements were not empty; first: "
+                                 (log/debug (str "add-complement: phrasal complements were not empty; first: "
                                                  (get-in (first phrasal-complements) [:rule])))
                                  ;; phrasal complements were empty.
                                  (if (= true (get-in spec [:phrasal] false))
-                                   (log/warn (str "no phrasal complements of: " (:cat spec)
+                                   (log/warn (str "add-complement: no phrasal complements of: " (:cat spec)
                                                   " could be generated."))))
                                                
-                               (if (lexemes-before-phrases)
+                               (if (lexemes-before-phrases depth)
                                  (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                                  (do
                                    (if (not (empty? phrasal-complements))
@@ -234,8 +236,8 @@ of this function with complements."
                                    (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))]
           (let [run-time (- (current-time) start-time)]
             (if (empty? return-val)
-
-              ;; else, no complements could be added to this bolt: Throw an exception
+              ;; else, no complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
+              ;; in which circumstances.
               (let [log-limit 1000
                     log-fn (fn [message] (log/warn message))
                     throw-exception-if-no-complements-found false

@@ -63,7 +63,7 @@
                           (generate-all (rest spec) grammar lexicon index morph))
                 true
                 (do
-                  (log/debug (str "generate-all: (cat= " (get-in spec [:synsem :cat])))
+                  (log/debug (str "generate-all: cat: " (get-in spec [:synsem :cat])))
                   (log/trace (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
                   (log/trace (str "generate-all(details): " (show-spec spec)))
                   (let [lb (lightning-bolt (lazy-shuffle grammar)
@@ -109,15 +109,15 @@ of this function with complements."
                                 "no candidate heads found."
                                 (str "one or more candidate heads found; first: " (:rule (first candidate-heads))))))
         debug (if (not (empty? candidate-heads))
-                (log/debug (str "candidate-heads: " (string/join "," (map #(get-in % [:rule])
-                                                                          candidate-heads))))
+                (log/debug (str "lightning-bolt: candidate-heads: " (string/join "," (map #(get-in % [:rule])
+                                                                                          candidate-heads))))
                 (log/trace (str "no candidate head phrases for spec: " (strip-refs spec))))]
     (if (seq candidate-heads)
       (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
             (mapcat (fn [parent]
                       (if (= false (get-in parent [:head :phrasal] false))
                         (let [candidate-lexemes (get-lex parent :head index spec)]
-                          (log/debug (str "candidate lexemes for: " (get-in parent [:rule]) " empty?:" (empty? candidate-lexemes)))
+                          (log/debug (str "lightning-bolt: candidate lexemes for: " (get-in parent [:rule]) " empty?:" (empty? candidate-lexemes)))
                           (if (some fail? candidate-lexemes)
                             (throw (exception (str "some candidate lexeme was fail?=true!"))))
                           (log/trace
@@ -157,17 +157,10 @@ of this function with complements."
                                               (get-in parent [:head])
                                               (+ 1 depth)
                                               index morph)]
-                          (if (empty? phrasal-children)
-                            (let [message (str "no phrasal children for parent: '" (morph parent) "' with rule: " (get-in parent [:rule]) ") and cat: " (get-in spec [:synsem :cat]))]
-                              (log/debug message))
-                            ;; else; there are phrasal-children, so attach them below parent:
-                            (do
-                              (log/debug (str "phrasal-children:" (string/join "," (map morph phrasal-children))))
-                              (log/debug (str "calling overh with parent: [" (get-in parent [:rule]) "]:" "'" (morph parent) "'"
-                                              " and " (count phrasal-children) " phrasal children."))
-                              (over/overh parent phrasal-children morph)))
-                          )
-                        )
+                          (log/debug (str "phrasal-children:" (string/join "," (map morph phrasal-children))))
+                          (log/debug (str "calling overh with parent: " (get-in parent [:rule])
+                                          " and phrasal children."))
+                          (over/overh parent phrasal-children morph)))
                        (remove nil? candidate-heads)))]
         (if (lexemes-before-phrases)
           (lazy-cat lexical phrasal)

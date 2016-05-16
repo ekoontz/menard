@@ -78,62 +78,33 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolt: depth=" depth " with cat=" (get-in spec [:synsem :cat])))
+  (log/debug (str "lightning-bolt(depth=" depth ",cat=" (get-in spec [:synsem :cat]) ")"))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
-        debug (log/trace (str "lightning-bolt: depth=" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
         depth (if depth depth 0)        
-        candidate-heads (filter #(not (fail? %))
-                                (map (fn [rule]
-                                       (do (log/trace (str "testing rule: " (:rule rule)
-                                                           "whose [:synsem :cat] is:" (get-in rule [:synsem :cat])
-                                                           "for candidate as a phrasal head."))
-                                           (unifyc spec rule)))
-                                     grammar))
-        debug (log/trace (str "done looking for candidate head phrases: "
-                              (if (empty? candidate-heads)
-                                "no candidate heads found."
-                                (str "one or more candidate heads found; first: " (:rule (first candidate-heads))))))
-        debug (if (not (empty? candidate-heads))
-                (log/debug (str "lightning-bolt: candidate-heads: " (string/join "," (map #(get-in % [:rule])
-                                                                                          candidate-heads))))
-                (log/trace (str "no candidate head phrases for spec: " (strip-refs spec))))]
+        parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (mapcat (fn [parent]
                     (if (= false (get-in parent [:head :phrasal] false))
                       (let [candidate-lexemes (get-lex parent :head index spec)]
-                        (log/debug (str "lightning-bolt: candidate lexemes for: " (get-in parent [:rule]) " empty?:" (empty? candidate-lexemes)))
                         (if (some fail? candidate-lexemes)
-                          (throw (exception (str "some candidate lexeme was fail?=true!"))))
-                        (let [result
-                              (if (empty? candidate-lexemes)
-                                (if (= false (get-in parent [:head :phrasal] true))
-                                  (log/warn (str "no head lexemes found for parent: " (:rule parent))))
-                                (over/overh parent
-                                            (map copy (lazy-shuffle candidate-lexemes))
-                                            morph))]
-                          (if (not (empty? result))
-                            (log/debug (str "lightning-bolt: first successful result of attaching head lexemes to: " (get-in parent [:rule]) ":"
-                                            (morph (first result))))
-                            (if (not (empty? candidate-lexemes))
-                              (log/warn (str "lightning-bolt: all " (count candidate-lexemes) " candidate lexeme(s):"
-                                             (string/join ","
-                                                          (sort (map morph candidate-lexemes)))
-                                             " failed for parent: " (get-in parent [:rule])))))
-                          result))))
-                  (remove nil? candidate-heads))
-
-          ;; TODO: throw exception if (get-in parent [:head]) is null.
+                          (exception (str "some candidate lexeme was fail?=true!")))
+                        (log/debug (str "lightning-bolt: depth=" depth "; getting lexical heads for rule: " (get-in parent [:rule])))
+                        (over/overh parent
+                                    (map copy (lazy-shuffle candidate-lexemes))
+                                    morph))))
+                  parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          ;; recursively call lightning-bolt with (+ 1 depth).
           (if (< depth maxdepth)
             (mapcat (fn [parent]
-                      (log/debug (str "lightning-bolt: depth=" depth "; recursively calling with: cat(head)="
-                                      (get-in parent [:head :synsem :cat])))
+                      (if (nil? (get-in parent [:head] nil))
+                        (exception "get-in(parent,:head) was nil before looking for phrasal heads."))
+                      (log/debug (str "lightning-bolt: depth=" depth "; getting phrasal heads for rule: " (get-in parent [:rule])
+                                      " with cat: " (get-in parent [:head :synsem :cat])))
                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                          (+ 1 depth) index morph)
                                   morph))
-                    (remove nil? candidate-heads)))]
+                    parents))]
       (if (lexemes-before-phrases depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
@@ -150,15 +121,7 @@ of this function with complements."
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
             cached (if cache
-                     (do
-                       (let [result (get-lex immediate-parent :comp cache spec)]
-                         (log/trace (str "lexical-complement candidates: " (string/join ", " (map morph result))))
-                         (if (not (nil? result))
-                           (log/trace (str " cached lexical subset ratio: " 
-                                           (string/replace (str (/ (* 1.0 (/ (count lexicon) (count result)))))
-                                                           #"\.(..).*"
-                                                           (fn [[_ two-digits]] (str "." two-digits))))))
-                         result))
+                     (get-lex immediate-parent :comp cache spec)
                      (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
                          (reduce concat (vals lexicon))))
             complement-candidate-lexemes (if (not (= true
@@ -266,17 +229,13 @@ of this function with complements."
                 ;; complements is expensive.
                 (if (and throw-exception-if-no-complements-found
                          (not (= true (get-in bolt (concat path [:phrasal])))))
-                  (exception message))
-                )
+                  (exception message)))
 
               ;; else, return-val was not empty.
-              (do (log/debug (str "first add-complement after adding complement: "
-                                  (morph (first return-val))))
-                  return-val)))))
+              return-val))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
-      (do
-        (list bolt)))))
+      (list bolt))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

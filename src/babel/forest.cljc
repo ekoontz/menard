@@ -170,12 +170,11 @@ of this function with complements."
                                        (and (not (fail?
                                                   (unifyc (get-in child [:synsem] :top)
                                                           (get-in child-in-bolt [:synsem] :top)))))))
-              debug (log/debug (str "add-complement: pre-filtered lexeme size:  " (count complement-candidate-lexemes)))
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
               debug (log/debug (str "add-complement: pre/post-filtered lexeme size: "
-                                    (count complement-candidate-lexemes)
+                                    (count complement-candidate-lexemes) "/"
                                     (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
               

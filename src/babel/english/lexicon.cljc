@@ -1521,10 +1521,6 @@
    "supply" {:synsem {:cat :verb
                 :sem {:pred :supply}}}
 
-   "super" {:synsem {:cat :adjective
-                     :sem {:it-came-from-outerspace true
-                           :mod {:pred :super}}}}
-
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 

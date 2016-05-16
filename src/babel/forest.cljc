@@ -156,6 +156,7 @@ of this function with complements."
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
+                                              index morph)]
                           (if (empty? phrasal-children)
                             (let [message (str "no phrasal children for parent: '" (morph parent) "' with rule: " (get-in parent [:rule]) ") and cat: " (get-in spec [:synsem :cat]))]
                               (log/debug message))

@@ -70,7 +70,7 @@
 (defn lexemes-before-phrases [depth]
   ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
   (let [result (> (rand-int (+ 1 depth)) 0)]
-    (log/debug (str "lexemes-before-phrases: depth=" depth " => " result))
+    (log/trace (str "lexemes-before-phrases: depth=" depth " => " result))
     result))
 
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
@@ -90,7 +90,6 @@ of this function with complements."
                       (let [candidate-lexemes (get-lex parent :head index spec)]
                         (if (some fail? candidate-lexemes)
                           (exception (str "some candidate lexeme was fail?=true!")))
-                        (log/debug (str "lightning-bolt: depth=" depth "; getting lexical heads for rule: " (get-in parent [:rule])))
                         (over/overh parent
                                     (map copy (lazy-shuffle candidate-lexemes))
                                     morph))))
@@ -100,7 +99,6 @@ of this function with complements."
             (mapcat (fn [parent]
                       (if (nil? (get-in parent [:head] nil))
                         (exception "get-in(parent,:head) was nil before looking for phrasal heads."))
-                      (log/debug (str "lightning-bolt: depth=" depth "; getting phrasal heads for rule: " (get-in parent [:rule])))
                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                          (+ 1 depth) index morph)
                                   morph))
@@ -115,8 +113,6 @@ of this function with complements."
         bolt-spec (get-in bolt path :no-path)
         depth (if depth depth 0)
         spec (unifyc spec bolt-spec)]
-    (log/debug (str "add-complement(depth=" depth ", path=" path ", bolt: ["
-                    (if (map? bolt) (get-in bolt [:rule])) ": '" (morph bolt) "']"))
     (if (not (= bolt-spec :no-path)) ;; check if this bolt has this path in it.
       (let [immediate-parent (get-in bolt (butlast path))
             start-time (current-time)
@@ -127,7 +123,6 @@ of this function with complements."
             complement-candidate-lexemes (if (not (= true
                                                      (get-in bolt (concat path [:phrasal]))))
                                            (if cached cached (flatten (vals lexicon))))]
-        (log/debug (str "add-complement(depth=" depth "): immediate parent:" (get-in immediate-parent [:rule])))
         (let [complement-pre-check (fn [child parent path-to-child]
                                      (let [child-in-bolt (get-in bolt path-to-child)]
                                        (and (not (fail?
@@ -141,7 +136,8 @@ of this function with complements."
                     (if (fail? complement)
                       true
                       (do
-                        (log/debug (str "add-complement(depth=" depth ",cat=" (get-in complement [:synsem :cat] :none) "):" (morph complement)))
+                        (log/debug (str "add-complement(depth=" depth ",path=" path ")=>"
+                                        (get-in complement [:synsem :cat] :none) "):" (morph complement)))
                         false)))
                   (map (fn [complement]
                          (unify (copy bolt)

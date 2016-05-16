@@ -114,6 +114,8 @@
                   (get-in child [:synsem :cat] :top)))
    (fail? (unifyc (get-in parent [:head :synsem :pronoun] :top)
                   (get-in child [:synsem :pronoun] :top)))
+   (fail? (unifyc (get-in parent [:head :synsem :propernoun] :top)
+                  (get-in child [:synsem :propernoun] :top)))
    (fail? (unifyc (get-in parent [:head :synsem :subcat :1] :top)
                   (get-in child [:synsem :subcat :1] :top)))
    (fail? (unifyc (get-in parent [:head :synsem :subcat :2] :top)

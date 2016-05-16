@@ -11,11 +11,12 @@
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
 (def concurrent false)
-(declare path-to-map)
-(declare add-complement)
 
+(declare add-complement)
 (declare lightning-bolt)
 (declare generate-all)
+(declare in-case-of-no-phrasal-complements)
+(declare path-to-map)
 
 (defn exception [error-string]
   #?(:clj
@@ -242,3 +243,51 @@ of this function with complements."
     (if feat
       {feat (path-to-map (rest path) val)}
       val)))
+
+(defn in-case-of-no-phrasal-complements [bolt path run-time from-bolt complement-candidate-lexemes morph]
+  ;; No complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
+  ;; in which circumstances.
+  (let [log-limit 1000
+        log-fn (fn [message] (log/warn message))
+        throw-exception-if-no-complements-found false
+        message
+        (str " add-complement to " (get-in bolt [:rule]) " at path: " path
+             " took " run-time " msec, but found neither phrasal nor lexical complements for "
+             "'" (morph from-bolt) "'"
+             ". Bolt wants phrasal-wise: " (get-in bolt (concat path [:phrasal]))
+             ". Desired complement [:synsem] was: "
+             (strip-refs (get-in bolt (concat path [:synsem]))) ". "
+             (if (= false (get-in bolt (concat path [:phrasal]) false))
+               (str
+                (count complement-candidate-lexemes) " lexical complement(s) tried were:"
+                " "
+                (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
+                
+                (if (< 0 (- (count complement-candidate-lexemes) log-limit))
+                  (str ",.. and "
+                       (- (count complement-candidate-lexemes) log-limit) " more."))
+                
+                ";     with preds:   "
+                (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
+                
+                ";     fail-paths:   "
+                (string/join ","
+                             (map #(if
+                                       (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
+                                                                    (get-in bolt (concat path
+                                                                                         [:synsem :sem :pred]))))))
+                                     (str "'" (morph %) "':"
+                                          (fail-path-between (strip-refs %)
+                                                             (strip-refs (get-in bolt path)))))
+                                  (take log-limit complement-candidate-lexemes)))
+                
+                (if (< 0 (- (count complement-candidate-lexemes) log-limit))
+                  (str ",.. and "
+                       (- (count complement-candidate-lexemes) log-limit) " more.")))))]
+    (log-fn message)
+    
+    ;; set to true to work on optimizing generation, since this situation of failing to add any
+    ;; complements is expensive.
+    (if (and throw-exception-if-no-complements-found
+             (not (= true (get-in bolt (concat path [:phrasal])))))
+      (exception message))))

@@ -137,11 +137,7 @@ of this function with complements."
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
-              debug (log/debug (str "add-complement: pre/post-filtered lexeme size: "
-                                    (count complement-candidate-lexemes) "/"
-                                    (count filtered-lexical-complements)))
               shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
-              
               complements
               (filter (fn [result]
                         (not (fail? result)))
@@ -152,60 +148,12 @@ of this function with complements."
                            (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
                              (if (lexemes-before-phrases depth)
                                (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                               (do
-                                 (if (not (empty? phrasal-complements))
-                                   (log/debug (str "first phrasal complement for: " (get-in bolt [:rule]) ":" (morph (first phrasal-complements))))
-                                   (log/debug (str "no phrasal complements for: " (get-in bolt [:rule]) ".")))
-                                 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))]
+                               (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
           (let [run-time (- (current-time) start-time)]
             (if (empty? complements)
               ;; else, no complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
               ;; in which circumstances.
-              (let [log-limit 1000
-                    log-fn (fn [message] (log/warn message))
-                    throw-exception-if-no-complements-found false
-                    message
-                    (str " add-complement to " (get-in bolt [:rule]) " at path: " path
-                         " took " run-time " msec, but found neither phrasal nor lexical complements for "
-                         "'" (morph from-bolt) "'"
-                         ". Bolt wants phrasal-wise: " (get-in bolt (concat path [:phrasal]))
-                         ". Desired complement [:synsem] was: "
-                         (strip-refs (get-in bolt (concat path [:synsem]))) ". "
-                         (if (= false (get-in bolt (concat path [:phrasal]) false))
-                           (str
-                            (count complement-candidate-lexemes) " lexical complement(s) tried were:"
-                            " "
-                            (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
-                            
-                            (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                              (str ",.. and "
-                                   (- (count complement-candidate-lexemes) log-limit) " more."))
-                            
-                            ";     with preds:   "
-                            (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
-                            
-                            ";     fail-paths:   "
-                            (string/join ","
-                                         (map #(if
-                                                   (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
-                                                                                (get-in bolt (concat path
-                                                                                                     [:synsem :sem :pred]))))))
-                                                 (str "'" (morph %) "':"
-                                                      (fail-path-between (strip-refs %)
-                                                                         (strip-refs (get-in bolt path)))))
-                                              (take log-limit complement-candidate-lexemes)))
-                            
-                            (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                              (str ",.. and "
-                                   (- (count complement-candidate-lexemes) log-limit) " more.")))))]
-                (log-fn message)
-
-                ;; set to true to work on optimizing generation, since this situation of failing to add any
-                ;; complements is expensive.
-                (if (and throw-exception-if-no-complements-found
-                         (not (= true (get-in bolt (concat path [:phrasal])))))
-                  (exception message)))
-
+              (exception "empty complements.")
               ;; else, complements was not empty.
               complements))))
 

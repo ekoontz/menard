@@ -156,6 +156,10 @@
                              {:synsem {:modified true
                                        :propernoun propernoun}
                               :comp {:synsem {:cat :adjective
+                                              :subcat '() ;; TODO: this seems to be necessary: if not present, non-saturated complements will
+                                              ;; be generated. the need for this should be understood better.
+                                              ;; Has to do with this rule ('nbar')'s being unusual in that we specify the :comp here rather than
+                                              ;; having the head be responsible for it.
                                               :sem head-sem}}
                               :head {:synsem {:cat :noun
                                               :propernoun propernoun
@@ -176,7 +180,6 @@
                                              :mod '()}}
                               :head {:phrasal false
                                      :synsem {:propernoun propernoun}}}))
-
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)

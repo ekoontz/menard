@@ -108,7 +108,7 @@ of this function with complements."
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         depth (if depth depth 0)
-        spec (unifyc spec bolt-spec)]
+        spec (unifyc spec (get-in bolt path))]
     (let [immediate-parent (get-in bolt (butlast path))
           start-time (current-time)
           cached (if cache

@@ -80,10 +80,10 @@
                         (add-complements-to-bolts [:head :comp])
                         (add-complements-to-bolts [:comp])))))))
 
-(defn lexemes-before-phrases []
-  ;; TODO: take depth as an argument; make phrases decreasingly likely as depth increases.
-  (let [result (= (rand-int 3) 0)]
-    (log/debug (str "lexemes-before-phrases => " result))
+(defn lexemes-before-phrases [depth]
+  ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
+  (let [result (> (rand-int (+ 1 depth)) 0)]
+    (log/debug (str "lexemes-before-phrases: depth=" depth " => " result))
     result))
 
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)

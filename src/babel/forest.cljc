@@ -100,8 +100,7 @@ of this function with complements."
             (mapcat (fn [parent]
                       (if (nil? (get-in parent [:head] nil))
                         (exception "get-in(parent,:head) was nil before looking for phrasal heads."))
-                      (log/debug (str "lightning-bolt: depth=" depth "; getting phrasal heads for rule: " (get-in parent [:rule])
-                                      " with cat: " (get-in parent [:head :synsem :cat])))
+                      (log/debug (str "lightning-bolt: depth=" depth "; getting phrasal heads for rule: " (get-in parent [:rule])))
                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                          (+ 1 depth) index morph)
                                   morph))
@@ -137,25 +136,21 @@ of this function with complements."
               filtered-lexical-complements (filter (fn [lexeme]
                                                      (complement-pre-check lexeme bolt path))
                                                    complement-candidate-lexemes)
-              shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)
-              complements
-              (filter (fn [result]
-                        (not (fail? result)))
-                      (map (fn [complement]
-                             (unify (copy bolt)
-                                    (path-to-map path
-                                                 (copy complement))))
-                           (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
-                             (if (lexemes-before-phrases depth)
-                               (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                               (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))]
-          (let [run-time (- (current-time) start-time)]
-            (if (empty? complements)
-              ;; else, no complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
-              ;; in which circumstances.
-              (exception "empty complements.")
-              ;; else, complements was not empty.
-              complements))))
+              shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)]
+          (filter (fn [complement]
+                    (if (fail? complement)
+                      true
+                      (do
+                        (log/debug (str "add-complement:(depth= " depth ":):" (morph complement)))
+                        false)))
+                  (map (fn [complement]
+                         (unify (copy bolt)
+                                (path-to-map path
+                                             (copy complement))))
+                       (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
+                         (if (lexemes-before-phrases depth)
+                           (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
+                           (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
 
       ;; path doesn't exist in bolt: simply return the bolt unmodified.
       (list bolt))))

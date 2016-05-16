@@ -87,7 +87,7 @@
     result))
 
 ;; TODO: add usage of rule-to-lexicon cache (rather than using lexicon directly)
-(defn lightning-bolt [grammar lexicon spec & [ depth index morph]]
+(defn lightning-bolt [grammar lexicon spec depth index morph]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
@@ -121,7 +121,6 @@ of this function with complements."
                           (if (some fail? candidate-lexemes)
                             (throw (exception (str "some candidate lexeme was fail?=true!"))))
                           (log/debug
-                           (str "candidate head lexemes for parent phrase "
                                 (get-in parent [:rule]) ": '"
                                 (string/join "','"
                                              (map (fn [lexeme]
@@ -156,7 +155,6 @@ of this function with complements."
                               (lightning-bolt grammar lexicon
                                               (get-in parent [:head])
                                               (+ 1 depth)
-                                              index parent morph)]
                           (if (empty? phrasal-children)
                             (let [message (str "no phrasal children for parent: " (morph parent) "(rule=" (get-in parent [:rule]) ") and spec: " (strip-refs spec))]
                               (log/debug message))

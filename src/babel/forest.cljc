@@ -50,35 +50,21 @@
                 morph))))
 
 (defn generate-all [spec grammar lexicon index morph]
-  (if (empty? grammar)
-    (do
-      (log/error (str "grammar is empty."))
-      (exception (str "grammar is empty."))))
-
   (filter #(not (fail? %))
-          (cond (and (or (seq? spec)
-                         (vector? spec))
-                     (not (empty? spec)))
-                (lazy-cat (generate-all (first spec) grammar lexicon index morph)
-                          (generate-all (rest spec) grammar lexicon index morph))
-                true
-                (do
-                  (log/debug (str "generate-all: cat: " (get-in spec [:synsem :cat])))
-                  (log/trace (str "generate-all with pred: " (show-spec (remove-false (get-in spec [:synsem :sem :pred])))))
-                  (log/trace (str "generate-all(details): " (show-spec spec)))
-                  (let [lb (lightning-bolt (lazy-shuffle grammar)
-                                           lexicon
-                                           spec 0 index morph)
-                        add-complements-to-bolts
-                        (fn [bolts path]
-                          (mapcat #(add-complement % path :top grammar lexicon index morph 0)
-                                  bolts))]
-                    (-> lb
-                        ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-                        (add-complements-to-bolts [:head :head :head :comp])
-                        (add-complements-to-bolts [:head :head :comp])
-                        (add-complements-to-bolts [:head :comp])
-                        (add-complements-to-bolts [:comp])))))))
+          (do
+            (log/debug (str "generate-all: cat: " (get-in spec [:synsem :cat])))
+            (let [add-complements-to-bolts
+                  (fn [bolts path]
+                    (mapcat #(add-complement % path :top grammar lexicon index morph 0)
+                            bolts))]
+              (-> (lightning-bolt (lazy-shuffle grammar)
+                                     lexicon
+                                     spec 0 index morph)
+                  ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
+                  (add-complements-to-bolts [:head :head :head :comp])
+                  (add-complements-to-bolts [:head :head :comp])
+                  (add-complements-to-bolts [:head :comp])
+                  (add-complements-to-bolts [:comp]))))))
 
 (defn lexemes-before-phrases [depth]
   ;; takes depth as an argument; make phrases decreasingly likely as depth increases.

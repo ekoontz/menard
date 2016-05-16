@@ -146,43 +146,17 @@ of this function with complements."
               (filter (fn [result]
                         (not (fail? result)))
                       (map (fn [complement]
-                             (let [debug (log/debug (str "adding complement: ["
-                                                         (get-in bolt [:rule]) " '"
-                                                         (morph bolt) "']: "
-                                                         "trying lexical complement:'" (morph complement) "'"))
-                                   result
-                                   (unify (copy bolt)
-                                          (path-to-map path
-                                                        (copy complement)))
-                                   is-fail? (fail? result)]
-                               (if is-fail?
-                                 (log/debug (str "add-complement: fail-path-between(bolt=val1/comp=val2):"
-                                                 (fail-path-between (strip-refs (get-in bolt path))
-                                                                    (strip-refs complement))))
-                                                                                
-                                 (log/debug (str "add-complement: success:" (:rule result) " returning: '" (morph result) "'")))
-                                 
-                               (if is-fail? :fail result)))
-                     
-                           ;; lazy-sequence of phrasal complements to pass one-by-one to the above (map)'s function.
-                           (do
-                             (log/debug (str "generating phrasal complements with cat: " (get-in spec [:synsem :cat])))
-                             (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
-                               (if (not (empty? phrasal-complements))
-                                 (log/debug (str "add-complement: phrasal complements were not empty; first: "
-                                                 (get-in (first phrasal-complements) [:rule])))
-                                 ;; phrasal complements were empty.
-                                 (if (= true (get-in spec [:phrasal] false))
-                                   (log/warn (str "add-complement: no phrasal complements of: " (:cat spec)
-                                                  " could be generated."))))
-                                               
-                               (if (lexemes-before-phrases depth)
-                                 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                                 (do
-                                   (if (not (empty? phrasal-complements))
-                                     (log/debug (str "first phrasal complement for: " (get-in bolt [:rule]) ":" (morph (first phrasal-complements))))
-                                     (log/debug (str "no phrasal complements for: " (get-in bolt [:rule]) ".")))
-                                   (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))]
+                             (unify (copy bolt)
+                                    (path-to-map path
+                                                 (copy complement))))
+                           (let [phrasal-complements (generate-all spec grammar lexicon cache morph)]
+                             (if (lexemes-before-phrases depth)
+                               (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
+                               (do
+                                 (if (not (empty? phrasal-complements))
+                                   (log/debug (str "first phrasal complement for: " (get-in bolt [:rule]) ":" (morph (first phrasal-complements))))
+                                   (log/debug (str "no phrasal complements for: " (get-in bolt [:rule]) ".")))
+                                 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))]
           (let [run-time (- (current-time) start-time)]
             (if (empty? complements)
               ;; else, no complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do

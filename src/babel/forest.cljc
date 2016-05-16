@@ -98,8 +98,6 @@ of this function with complements."
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (< depth maxdepth)
             (mapcat (fn [parent]
-                      (if (nil? (get-in parent [:head] nil))
-                        (exception "get-in(parent,:head) was nil before looking for phrasal heads."))
                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                          (+ 1 depth) index morph (+ 1 total-depth))
                                   morph))
@@ -137,12 +135,12 @@ of this function with complements."
                                     ",path=" path ",bolt=(" (show-bolt bolt path morph) ") FAILED:"
                                     "'" (morph complement) "'"))
                     
-                    true)
+                    false)
                   (do
                     (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
                                     ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                     "'" (morph complement) "'"))
-                    false)))
+                    true)))
               (map (fn [complement]
                      (unify (copy bolt)
                             (path-to-map path

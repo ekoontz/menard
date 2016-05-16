@@ -71,7 +71,7 @@
                                            spec 0 index morph)
                         add-complements-to-bolts
                         (fn [bolts path]
-                          (mapcat #(add-complement % path :top grammar lexicon index morph)
+                          (mapcat #(add-complement % path :top grammar lexicon index morph 0)
                                   bolts))]
                     (-> lb
                         ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
@@ -92,10 +92,10 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolt@" depth " with cat: " (get-in spec [:synsem :cat])))
+  (log/debug (str "lightning-bolt: depth=" depth " with cat=" (get-in spec [:synsem :cat])))
   (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
         morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
-        debug (log/trace (str "lightning-bolt@" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
+        debug (log/trace (str "lightning-bolt: depth=" depth " grammar:" (string/join ", " (map #(get-in % [:rule]) grammar))))
         depth (if depth depth 0)        
         candidate-heads (filter #(not (fail? %))
                                 (map (fn [rule]
@@ -145,26 +145,20 @@ of this function with complements."
                                                " failed for parent: " (get-in parent [:rule])))))
                             result))))
                     (remove nil? candidate-heads))
+                                            (morph (first result))))
+                            (if (not (empty? candidate-lexemes))
+                              (log/warn (str "lightning-bolt: all " (count candidate-lexemes) " candidate lexeme(s):"
+                                             (string/join ","
+                                                          (sort (map morph candidate-lexemes)))
+                                             " failed for parent: " (get-in parent [:rule])))))
+                          result))))
+                  (remove nil? candidate-heads))
 
-            ;; TODO: throw exception if (get-in parent [:head]) is null.
-            phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-            ;; recursively call lightning-bolt with (+ 1 depth).
-            (if (< depth maxdepth)
-              (mapcat (fn [parent]
-                        (log/debug (str "calling over/overh with parent: " (get-in parent [:rule])))
-                        (let [phrasal-children
-                              (lightning-bolt grammar lexicon
-                                              (get-in parent [:head])
-                                              (+ 1 depth)
-                                              index morph)]
-                          (log/debug (str "phrasal-children:" (string/join "," (map morph phrasal-children))))
-                          (log/debug (str "calling overh with parent: " (get-in parent [:rule])
-                                          " and phrasal children."))
-                          (over/overh parent phrasal-children morph)))
-                       (remove nil? candidate-heads)))]
-        (if (lexemes-before-phrases)
-          (lazy-cat lexical phrasal)
-          (lazy-cat phrasal lexical))))))
+          ;; TODO: throw exception if (get-in parent [:head]) is null.
+          phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
+          ;; recursively call lightning-bolt with (+ 1 depth).
+          (if (< depth maxdepth)
+            (mapcat (fn [parent]
 
 (defn add-complement [bolt path spec grammar lexicon cache morph & [depth]]
   (let [input-spec spec

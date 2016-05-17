@@ -581,7 +581,7 @@
                     :spec {:def :none} ;; "a casa", not "a mia casa", etc
                     :place true
                     :animate false
-                    :pred :casa}
+                    :pred :house}
               :subcat '()}}
     ]
 

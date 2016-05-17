@@ -80,7 +80,7 @@ of this function with complements."
                            (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
                          spec))
     (do
-      (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
+      (log/trace (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
@@ -103,6 +103,7 @@ of this function with complements."
             (lazy-cat phrasal lexical)))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
+  (log/info (str "add-complement: " (show-bolt bolt path morph)))
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         spec (unifyc spec (get-in bolt path))
@@ -127,13 +128,13 @@ of this function with complements."
     (filter (fn [complement]
               (if (fail? complement)
                 (do
-                  (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
+                  (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ") FAILED:"
                                   "'" (morph complement) "'"))
                   
                   false)
                 (do
-                  (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
+                  (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
@@ -141,7 +142,7 @@ of this function with complements."
                    (unify (copy bolt)
                           (path-to-map path
                                        (copy complement))))
-                 (let [debug (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
+                 (let [debug (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
                                              ",path=" path ",bolt=(" (show-bolt bolt path morph)
                                              "): calling generate-all(" (strip-refs spec) ");"
                                              "input-spec: " input-spec))

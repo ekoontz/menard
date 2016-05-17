@@ -74,33 +74,34 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
-  (if (not (= :none (get-in spec [:synsem :sem :synsem] :none)))
-    (exception (str "SHOULD NOT GET HERE.")))
-  (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
-        morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
-        depth (if depth depth 0)        
-        parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
-    (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-          (mapcat (fn [parent]
-                    (if (= false (get-in parent [:head :phrasal] false))
-                      (let [candidate-lexemes (get-lex parent :head index spec)]
-                        (if (some fail? candidate-lexemes)
-                          (exception (str "some candidate lexeme was fail?=true!")))
-                        (over/overh parent
-                                    (map copy (lazy-shuffle candidate-lexemes))
-                                    morph))))
-                  parents)
-          phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          (if (< depth maxdepth)
-            (mapcat (fn [parent]
-                      (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
-                                                         (+ 1 depth) index morph (+ 1 total-depth))
-                                  morph))
-                    parents))]
-      (if (lexemes-before-phrases depth)
-        (lazy-cat lexical phrasal)
-        (lazy-cat phrasal lexical)))))
+  (if (or (vector? spec) (seq? spec))
+    (reduce concat (map (fn [each-spec]
+                          (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
+                        spec))
+    (do
+      (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
+      (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
+            morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
+            depth (if depth depth 0)        
+            parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
+        (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
+              (mapcat (fn [parent]
+                        (if (= false (get-in parent [:head :phrasal] false))
+                          (let [candidate-lexemes (get-lex parent :head index spec)]
+                            (if (some fail? candidate-lexemes)
+                              (exception (str "some candidate lexeme was fail?=true!")))
+                            (over/overh parent
+                                        (map copy (lazy-shuffle candidate-lexemes))))))
+                      parents)
+              phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
+              (if (< depth maxdepth)
+                (mapcat (fn [parent]
+                          (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
+                                                             (+ 1 depth) index morph (+ 1 total-depth))))
+                        parents))]
+          (if (lexemes-before-phrases depth)
+            (lazy-cat lexical phrasal)
+            (lazy-cat phrasal lexical)))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
   (let [input-spec spec

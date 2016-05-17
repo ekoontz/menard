@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [get-in merge resolve find parents])
   (:require
    [babel.engine :as engine]
-   [babel.forest :refer [lightning-bolt]]
    [babel.francais :refer [analyze generate lookup parse]]
    [babel.francais.grammar :refer [small medium]]
    [babel.francais.lexicon :refer [lexicon]]

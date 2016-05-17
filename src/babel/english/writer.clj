@@ -6,7 +6,7 @@
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
-(require '[babel.forest :refer [lightning-bolt]])
+(require '[babel.generate :refer [lightning-bolt]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions

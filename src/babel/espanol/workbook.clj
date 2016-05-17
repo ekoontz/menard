@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
 
-   [babel.forest :refer [lightning-bolt]]
+   [babel.generate :refer [lightning-bolt]]
    [babel.espanol.grammar :refer [small medium]]
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph :refer [fo]]

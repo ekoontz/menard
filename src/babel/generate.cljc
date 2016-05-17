@@ -11,7 +11,7 @@
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
-(def ^:const max-total-depth 2)
+(def ^:const max-total-depth 4)
 
 (declare add-complement)
 (declare lexemes-before-phrases)

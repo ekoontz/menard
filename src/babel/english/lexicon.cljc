@@ -882,7 +882,7 @@
    "house" (unify agreement-noun
                   common-noun
                   countable-noun
-                  {:synsem {:sem (unify animal {:pred :casa
+                  {:synsem {:sem (unify animal {:pred :house
                                                 :buyable true
                                                 :artifact true
                                                 :place true})}})

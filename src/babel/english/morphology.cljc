@@ -19,21 +19,6 @@
    input
 
    (and (map? input)
-        (get-in input [:english :a :english])
-        (get-in input [:english :b :english])
-        (or (map? (get-in input [:english :a :english]))
-            (map? (get-in input [:english :b :english]))))
-   (string/join " "
-                (list (fo (get-in input [:english :a :english]))
-                      (fo (get-in input [:english :b :english]))))
-   (and (map? input)
-        (get-in input [:english :a])
-        (get-in input [:english :b]))
-   (string/join " "
-                (list (fo (get-in input [:english :a]))
-                      (fo (get-in input [:english :b]))))
-
-   (and (map? input)
         (map? (get-in input [:english])))
    (get-string (get-in input [:english]))
 
@@ -41,13 +26,6 @@
    (and (map? input)
         (get-in input [:english]))
    (get-string input)
-
-   (and (map? input)
-        (get-in input [:a])
-        (get-in input [:b]))
-   (str (string/join " " 
-                     (list (fo (get-in input [:a]))
-                           (fo (get-in input [:b])))))
 
    (or (seq? input)
        (vector? input))
@@ -160,19 +138,10 @@
                       :b (get-in word '(:b :b))}})
    (and
     (get-in word '(:a))
-    (get-in word '(:b))
-    (string? (get-in word '(:a)))
-    (string? (get-in word '(:b))))
-   (join " "
-         (list (get-in word '(:a))
-               (get-in word '(:b))))
-
-   (and
-    (get-in word '(:a))
     (get-in word '(:b)))
    (join " "
-         (list (fo (get-in word '(:a)))
-               (fo (get-in word '(:b)))))
+         (list (get-string (get-in word '(:a)))
+               (get-string (get-in word '(:b)))))
 
    ;; TODO: this seems wrong: how could :infl == :english?
    (and (= :english (get-in word '(:infl)))
@@ -180,13 +149,15 @@
    (get-in word '(:english))
 
    (= true (get-in word '(:hidden)))
-;;   "Ø"
+   ;;   "Ø"
    ""
+
    (and
     (= true (get-in word '(:a :hidden)))
     (= true (get-in word '(:b :hidden))))
-;;   "Ø"
+   ;;   "Ø"
    ""
+
    (= true (get-in word '(:a :hidden)))
    (get-string (get-in word '(:b)))
 

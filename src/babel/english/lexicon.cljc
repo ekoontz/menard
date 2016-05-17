@@ -1412,11 +1412,11 @@
           :synsem {:cat :verb
                    :sem {:pred :run}}}
 
-;   "s" {:synsem {:cat :det
-;                 :def :genitive
-;                 :subcat {:1 {:cat :noun
-;                              :pronoun false
-;                              :subcat '()}}}}
+   "s" {:synsem {:cat :det
+                 :def :genitive
+                 :subcat {:1 {:cat :noun
+                              :pronoun false
+                              :subcat '()}}}}
 
    "say" {:english {:past "said"}
           :synsem {:cat :verb

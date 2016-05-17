@@ -1,4 +1,5 @@
-(ns babel.test.writer
+(ns ^{:doc "babel.writer testing code"}
+    babel.test.writer
   (:refer-clojure :exclude [test])
   (:require [babel.writer :as writer]
             [clojure.string :as string]

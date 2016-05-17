@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
-   [babel.forest :as forest]
+   [babel.generate :as generate]
    [babel.italiano :refer [analyze generate lightning-bolt parse]]
    [babel.italiano.grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer [lexicon]]

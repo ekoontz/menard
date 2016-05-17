@@ -3,7 +3,7 @@
   (:require
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
-   [babel.forest :as forest]
+   [babel.generate :as generate]
    [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over]]
@@ -49,7 +49,7 @@
              result)))))
 
 (defn lightning-bolt [spec]
-  (forest/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
+  (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium) 0))
 
 (defn parse
   "parse a string in English into zero or more (hopefully more) phrase structure trees"

@@ -192,8 +192,6 @@
                                   (is (not (= "" (fo foo))))
                                   (log/info (str "fo: " (fo foo)))
                                   (fo foo)))))))))
-
-
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
          (fo (generate {:synsem {:cat :verb :sem {:pred :be-called

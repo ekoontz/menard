@@ -1,9 +1,9 @@
 (ns babel.francais
   (:require
    [babel.engine :as engine]
-   [babel.forest :as forest]
    [babel.francais.grammar :refer [medium]]
    [babel.francais.morphology :as morph :refer [fo]]
+   [babel.generate :as generate]
    [babel.parse :as parse]
    [clojure.string :as string]))
 
@@ -41,7 +41,7 @@
              result)))))
 
 (defn lightning-bolt [spec]
-  (forest/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
+  (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"

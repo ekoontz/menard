@@ -1,4 +1,4 @@
-(ns babel.forest
+(ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
    [babel.cache :refer [check-index get-head-phrases-of get-lex]]

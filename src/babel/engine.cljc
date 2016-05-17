@@ -1,4 +1,5 @@
-(ns babel.engine
+;; TODO: consider moving this code into babel.generate itself.
+(ns babel.engine ^{:doc "API wrapper around babel.generate"}
   (:refer-clojure :exclude [get-in merge])
   (:require
    #?(:clj [clojure.data.json :as json])
@@ -6,7 +7,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    #?(:clj [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]])
-   [babel.forest :as forest]
+   [babel.generate :as generate]
    #?(:clj [babel.html :refer [tablize]])
    [babel.ug :refer (head-principle)]
    [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]
@@ -34,6 +35,7 @@
 
 ;; TODO: use a option map/destructuring thing.
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
+;; TODO: this should just call (take 1 (generate-all ..))
 (defn generate [spec language-model & [{add-subcat :add-subcat
                                         do-enrich :do-enrich}]]
   (let [grammar (:grammar language-model)]
@@ -77,7 +79,7 @@
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))
         ]
-    (let [result (forest/generate spec 
+    (let [result (generate/generate spec 
                                   (:grammar language-model)
                                   (:lexicon language-model)
                                   (:index language-model)
@@ -113,7 +115,7 @@
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))
         ]
-    (let [result (forest/generate-all spec 
+    (let [result (generate/generate-all spec 
                                       (:grammar language-model)
                                       (:lexicon language-model)
                                       (:index language-model)

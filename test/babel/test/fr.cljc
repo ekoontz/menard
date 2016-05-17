@@ -1,8 +1,8 @@
-(ns ^{:doc "French Testing Code"}
+(ns ^{:doc "French testing code"}
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.forest :as forest]
+            [babel.generate :as generate]
             [babel.francais :refer [generate lookup parse]]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
@@ -167,7 +167,7 @@
 
 (deftest generate-passe-compose-1
   (let [result
-        (forest/generate (unifyc
+        (generate/generate (unifyc
                           {:synsem {:subcat '()}}
                           {:synsem {:sem {:subj {:pred :noi
                                                  :gender :fem}

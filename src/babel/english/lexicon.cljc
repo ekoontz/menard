@@ -879,6 +879,13 @@
    {:synsem {:cat :verb
              :sem {:pred :hope}}}
    
+   "house" (unify agreement-noun
+                  common-noun
+                  countable-noun
+                  {:synsem {:sem (unify animal {:pred :casa
+                                                :buyable true
+                                                :artifact true
+                                                :place true})}})
    "hug"
    {:synsem {:cat :verb
              :sem {:pred :hug

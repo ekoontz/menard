@@ -85,16 +85,15 @@ of this function with complements."
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-              (mapcat (fn [parent]
-                        (if (= false (get-in parent [:head :phrasal] false))
-                          (let [candidate-lexemes (get-lex parent :head index spec)]
-                            (if (some fail? candidate-lexemes)
-                              (exception (str "some candidate lexeme was fail?=true!")))
-                            (over/overh parent
-                                        (map copy (lazy-shuffle candidate-lexemes))))))
-                      parents)
+              (reduce concat
+                      (map (fn [parent]
+                             (if (= false (get-in parent [:head :phrasal] false))
+                               (let [candidate-lexemes (get-lex parent :head index spec)]
+                                 (over/overh parent
+                                             (map copy (lazy-shuffle candidate-lexemes))))))
+                           parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-              (if (< depth maxdepth)
+              (if (< depth max-total-depth)
                 (mapcat (fn [parent]
                           (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                              (+ 1 depth) index morph (+ 1 total-depth))))
@@ -138,7 +137,7 @@ of this function with complements."
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
-            (map (fn [complement]
+            (pmap (fn [complement]
                    (unify (copy bolt)
                           (path-to-map path
                                        (copy complement))))

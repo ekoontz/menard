@@ -10,7 +10,6 @@
    [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path-between lazy-shuffle
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
-(def concurrent false)
 
 (declare add-complement)
 (declare lexemes-before-phrases)

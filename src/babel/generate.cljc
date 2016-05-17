@@ -57,10 +57,10 @@
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
-          (mapcat #(if (not (= :none (get-in % path :none)))
-                     (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
-                     [%])
-                  bolts))]
+          (reduce concat (pmap #(if (not (= :none (get-in % path :none)))
+                                  (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
+                                  [%])
+                               bolts)))]
     (-> (lightning-bolt (lazy-shuffle grammar)
                         lexicon
                         spec 0 index morph total-depth)
@@ -76,9 +76,9 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (if (or (vector? spec) (seq? spec))
-    (reduce concat (map (fn [each-spec]
-                          (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
-                        spec))
+    (reduce concat (pmap (fn [each-spec]
+                           (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
+                         spec))
     (do
       (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
@@ -86,18 +86,18 @@ of this function with complements."
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (reduce concat
-                      (map (fn [parent]
-                             (if (= false (get-in parent [:head :phrasal] false))
-                               (let [candidate-lexemes (get-lex parent :head index spec)]
-                                 (over/overh parent
-                                             (map copy (lazy-shuffle candidate-lexemes))))))
-                           parents))
+                      (pmap (fn [parent]
+                              (if (= false (get-in parent [:head :phrasal] false))
+                                (let [candidate-lexemes (get-lex parent :head index spec)]
+                                  (over/overh parent
+                                              (map copy (lazy-shuffle candidate-lexemes))))))
+                            parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
-                (mapcat (fn [parent]
-                          (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
-                                                             (+ 1 depth) index morph (+ 1 total-depth))))
-                        parents))]
+                (reduce concat (pmap (fn [parent]
+                                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
+                                                                          (+ 1 depth) index morph (+ 1 total-depth))))
+                                     parents)))]
           (if (lexemes-before-phrases total-depth)
             (lazy-cat lexical phrasal)
             (lazy-cat phrasal lexical)))))))

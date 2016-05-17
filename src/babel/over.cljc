@@ -66,14 +66,14 @@
       (log/trace (str "over-each-parent-comp: done. returning nil"))
       nil)))
 
-(defn over-each-head-child [parent children morph]
+(defn over-each-head-child [parent children]
   (log/trace (str "over-each-head-child: parent type: " (type parent)))
   (log/trace (str "over-each-head-child: head children type: " (type children)))
   (if (not (empty? children))
     (let [each-child (first children)]
       (lazy-cat
-       (overh parent each-child morph)
-       (over-each-head-child parent (rest children) morph)))
+       (overh parent each-child)
+       (over-each-head-child parent (rest children))))
     (do
       (log/trace (str "over-each-head-child: done. returning nil."))
       nil)))
@@ -138,7 +138,7 @@
    (fail? (unifyc (get-in parent [:comp :synsem :subcat] :top)
                   (get-in child [:synsem :subcat] :top)))))
 
-(defn moreover-head [parent child lexfn-sem-impl morph]
+(defn moreover-head [parent child lexfn-sem-impl & [morph]]
   (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
     (log/debug (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/debug (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
@@ -251,7 +251,7 @@
 
 (defn overh
   "add given head as the head child of the phrase: parent."
-  [parent head morph]
+  [parent head]
   (when (and (map? parent)
              (map? head))
     (do
@@ -275,19 +275,19 @@
    (or (set? head)
        (vector? head))
    (do (log/trace "head is a set: converting to a seq.")
-       (overh parent (lazy-seq head) morph))
+       (overh parent (lazy-seq head)))
 
    (seq? head)
    (let [head-children head]
      (log/trace (str "head is a seq - actual type is " (type head)))
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-head-child parent head-children morph)))
+             (over-each-head-child parent head-children)))
 
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.
-   (let [result (moreover-head parent head sem-impl morph)
+   (let [result (moreover-head parent head sem-impl)
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
@@ -343,8 +343,8 @@
      (if (not is-fail?)
        (list result)))))
 
-(defn overhc [parent head comp & [morph]]
-  (overc (overh parent head morph) comp))
+(defn overhc [parent head comp]
+  (overc (overh parent head) comp))
 
 ;; TODO: distinguish between when:
 ;; 1) called with only a child1 (no child2),

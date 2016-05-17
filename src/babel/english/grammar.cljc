@@ -45,19 +45,23 @@
             :synsem {:agr agr}}}))
 
 (def head-first
-  (let [head-english (atom :top)
+  (let [agr (atom :top)
+        head-english (atom {:agr agr})
         comp-english (atom :top)]
     {:head {:english head-english}
      :comp {:english comp-english}
      :english {:a head-english
+               :agr agr
                :b comp-english}}))
-
 (def head-last
-  (let [head-english (atom :top)
+  (let [agr (atom :top)
+        head-english (atom {:agr agr})
         comp-english (atom :top)]
+
     {:head {:english head-english}
      :comp {:english comp-english}
      :english {:a comp-english
+               :agr agr
                :b head-english}}))
 
 ;; -- BEGIN SCHEMA DEFINITIONS

@@ -10,6 +10,8 @@
    [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path-between lazy-shuffle
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
+;; during generation, will not search deeper than this:
+(def ^:const max-total-depth 2)
 
 (declare add-complement)
 (declare lexemes-before-phrases)
@@ -79,8 +81,7 @@ of this function with complements."
                         spec))
     (do
       (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
-      (let [maxdepth 3 ;; maximum depth of a lightning bolt: H1 -> H2 -> H3 where H3 must be a lexeme, not a phrase.
-            morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
+      (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
@@ -98,7 +99,7 @@ of this function with complements."
                           (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                              (+ 1 depth) index morph (+ 1 total-depth))))
                         parents))]
-          (if (lexemes-before-phrases depth)
+          (if (lexemes-before-phrases total-depth)
             (lazy-cat lexical phrasal)
             (lazy-cat phrasal lexical)))))))
 
@@ -145,9 +146,9 @@ of this function with complements."
                                              ",path=" path ",bolt=(" (show-bolt bolt path morph)
                                              "): calling generate-all(" (strip-refs spec) ");"
                                              "input-spec: " input-spec))
-                       phrasal-complements (if (> 6 total-depth)
+                       phrasal-complements (if (> max-total-depth total-depth)
                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
-                   (if (lexemes-before-phrases depth)
+                   (if (lexemes-before-phrases total-depth)
                      (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
                      (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
 

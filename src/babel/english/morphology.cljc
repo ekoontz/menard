@@ -38,7 +38,7 @@
    ""))
 
 (defn get-string [word]
-  (log/debug (str "get-string: " word))
+  (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
   (cond
    (ref? word)
    (get-string @word)
@@ -137,11 +137,35 @@
                   :b {:a (get-in word '(:b :a :past))
                       :b (get-in word '(:b :b))}})
    (and
-    (get-in word '(:a))
-    (get-in word '(:b)))
-   (join " "
-         (list (get-string (get-in word '(:a)))
-               (get-string (get-in word '(:b)))))
+    (get-in word [:a])
+    (get-in word [:b]))
+   (let [string-a (get-string (get-in word [:a]))
+         string-b (get-string (get-in word [:b]))]
+     (log/debug (str "A AGR1: " (strip-refs (get-in word [:a]))))
+     (log/debug (str "A AGR2: " (strip-refs (get-in word [:a :agr]))))
+     (log/debug (str "A AGR3: " (strip-refs (get-in word [:a :agr :number]))))
+     (log/debug (str "A STRING-A: " string-a))
+     (log/debug (str "B STRING-B: " string-b))
+     (cond
+
+       (and (= string-b "s")
+            (nil? (re-find #"s$" string-a)) ;; plural noun phrase does *not* end with 's' (e.g. "the women"
+            (= :plur (get-in word [:a :agr :number]))
+            (= false (get-in word [:a :propernoun] false)))
+       (str string-a "s'") ;; "the women" + "s" => "the womens'"
+
+       (and (= string-b "s")  ;; plural noun phrase *does* end with 's' (e.g. "the women"
+            (= :plur (get-in word [:a :agr :number]))
+            (= false (get-in word [:a :propernoun] false)))
+       (str string-a "'") ;; "the dogs" + "s" => "the dogs'"
+
+       (= string-b "s")
+       (str string-a "'" string-b)  ;; "the dog" + "s" => "the dog's"
+
+       true
+       (join " "
+             [(get-string (get-in word '(:a)))
+              (get-string (get-in word '(:b)))])))
 
    ;; TODO: this seems wrong: how could :infl == :english?
    (and (= :english (get-in word '(:infl)))
@@ -799,7 +823,7 @@
                                    merge-fn (:merge-fn path-and-merge-fn)]
                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                ;; and the value is a list of lexemes for that string.
-                               (log/debug (str (first lexeme-kv) "looking at path: " path))
+                               (log/debug (str "'" (first lexeme-kv) "' looking at path: " path))
                                (mapcat (fn [lexeme]
                                          ;; this is where a unify/dissoc that supported
                                          ;; non-maps like :top and :fail, would be useful:

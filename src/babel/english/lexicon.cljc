@@ -813,11 +813,17 @@
                    :obj {:human true}}}}
    "her"
    [{:synsem {:cat :det
+              :agr {:number :sing}
               :sem {:pred :lei
                     :gender :fem
                     :number :sing}
               :def :possessive}}
-
+    {:synsem {:cat :det
+              :agr {:number :plur}
+              :sem {:pred :lei
+                    :gender :fem
+                    :number :sing}
+              :def :possessive}}
     {:synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -860,11 +866,18 @@
              :sem {:human true}
              :subcat '()}}
 
-   "his" {:synsem {:cat :det
-                   :sem {:pred :lui
-                         :gender :masc
-                         :number :sing}
-                   :def :possessive}}
+   "his" [{:synsem {:cat :det
+                    :agr {:number :sing}
+                    :sem {:pred :lui
+                          :gender :masc
+                          :number :sing}
+                    :def :possessive}}
+          {:synsem {:cat :det
+                    :agr {:number :plur}
+                    :sem {:pred :lui
+                          :gender :masc
+                          :number :sing}
+                    :def :possessive}}]
                  
    "hit" {:english {:past "hit"}
              :synsem {:cat :verb

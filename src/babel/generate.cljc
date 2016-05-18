@@ -90,7 +90,7 @@ of this function with complements."
                               (if (= false (get-in parent [:head :phrasal] false))
                                 (let [candidate-lexemes (get-lex parent :head index spec)]
                                   (over/overh parent
-                                              (map copy (take 1 (lazy-shuffle candidate-lexemes)))))))
+                                              (map copy (lazy-shuffle candidate-lexemes))))))
                             parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)

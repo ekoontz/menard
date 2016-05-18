@@ -31,6 +31,16 @@
   #?(:clj (System/currentTimeMillis))
   #?(:cljs (.getTime (js/Date.))))
 
+(defn try-hard-to [function]
+  "try 100 times to do (function), where function presumable has some randomness that causes it to return nil. Ignore such nils and keep trying."
+  (first
+   (take
+    1
+    (filter
+     #(not (nil? %))
+     (take 100
+           (repeatedly function))))))
+
 (defn generate [spec grammar lexicon index morph]
   (if (empty? grammar)
     (do

@@ -51,12 +51,19 @@
 (defn lightning-bolt [spec]
   (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium) 0))
 
+;; e.g.
+;; babel.english> (preprocess "the womens' hats and the cats' pyjamas")
+;; "the women 's  hats and the cats 's pyjamas"
+;;
+(defn preprocess [input]
+  (string/replace (string/replace input #"(men)s'(\s*)" "$1 's $2") #"(\S)s'" "$1s 's"))
+
 (defn parse
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse input medium))
+   (parse (preprocess input) medium))
 
   ([input model]
-   (parse/parse input model)))
+   (parse/parse (preprocess input) model)))
 

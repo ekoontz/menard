@@ -124,9 +124,10 @@
    language-independent tokenizer to turn the string into a sequence of tokens."
   ([input model & [original-input]]
    (let [original-input (if original-input original-input input)]
-     (log/info (str "parsing input: '" input "'"))
      (cond (string? input)
-           (parse (filter #(not (empty? %)) (string/split input tokenizer)) model original-input)
+           (do
+             (log/info (str "parsing input: '" input "'"))
+             (parse (filter #(not (empty? %)) (string/split input tokenizer)) model original-input))
          
            (or (seq? input) (vector? input))
            ;; assume input is a list of tokens.

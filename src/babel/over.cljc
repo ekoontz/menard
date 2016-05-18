@@ -156,7 +156,7 @@
                    (do
                      (log/debug (str "comp precheck success for pair: " pair))
                      :top))))
-             comp-precheck-pairs)))
+             (lazy-seq comp-precheck-pairs))))
 
 (defn comp-pre-checks [parent child]
   (or

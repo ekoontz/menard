@@ -3,8 +3,9 @@
   (:require
    [babel.engine :as engine]
    [babel.generate :refer [lightning-bolt]]
+   [babel.english :refer [parse]]
    [babel.english.grammar :refer [small small-plus-plus-np medium np-grammar]]
-   [babel.english.lexicon :refer :all]
+   [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.english.writer :refer [expression]]
    [babel.html :as html]
@@ -50,12 +51,6 @@
 
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))
-
-(defn parse
-  ([string]
-   (parse/parse string medium))
-  ([string model]
-   (parse/parse string model)))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

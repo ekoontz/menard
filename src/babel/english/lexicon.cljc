@@ -1425,7 +1425,7 @@
           :synsem {:cat :verb
                    :sem {:pred :run}}}
 
-   "s" [(let [of (atom :ref)]
+   "s" [(let [of (atom :top)]
           {:synsem {:agr {:number :sing}
                     :cat :det
                     :def :genitive
@@ -1435,7 +1435,7 @@
                                  :subcat '()}}
                     :sem {:pred :of
                           :of of}}})
-        (let [of (atom :ref)]
+        (let [of (atom :top)]
           {:synsem {:agr {:number :plur}
                     :cat :det
                     :def :genitive

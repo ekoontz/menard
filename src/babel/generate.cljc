@@ -148,7 +148,7 @@ of this function with complements."
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
-            (take 1 (map (fn [complement]
+            (map (fn [complement]
                    (unify (copy bolt)
                           (path-to-map path
                                        (copy complement))))
@@ -160,7 +160,7 @@ of this function with complements."
                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
                    (if (lexemes-before-phrases total-depth)
                      (take 1 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements))
-                     (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))))
+                     (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

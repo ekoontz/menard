@@ -1452,7 +1452,11 @@
                      :sem {:pred :scrub}}
             :english {:participle "scrubbing"
                       :past "scrubbed"}}
-   
+
+   "second" (unify adjective
+                  {:sem {:mod {:pred :first}
+                         :comparative false}})
+
    "see"  {:synsem {:cat :verb
                     :sem {:pred :see}}
            :english {:past "saw"
@@ -1508,6 +1512,16 @@
                            :discrete false
                            :pred :sleep}}
             :english {:past "slept"}}
+
+
+   "small"
+   (unify adjective
+          {:synsem {:cat :adjective
+                    :sem {:mod {:pred :small}
+                          :comparative false}
+                    :subcat {:1 {:cat :det}
+                             :2 '()}}})
+  
 
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}}

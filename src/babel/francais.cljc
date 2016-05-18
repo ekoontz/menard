@@ -51,3 +51,17 @@
 
   ([input model]
    (parse/parse input model)))
+
+(defn try-hard-to [function]
+  (take
+   1
+   (repeatedly
+    #(println
+      (fo
+       (first
+        (take
+         1
+         (filter
+          (fn [expr] (not (nil? expr)))
+          (take 100
+                (repeatedly function))))))))))

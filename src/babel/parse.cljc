@@ -125,7 +125,7 @@
   ([input model]
    (log/info (str "parsing input: '" input "'"))
    (cond (string? input)
-         (parse (string/split input tokenizer) model)
+         (parse (filter #(not (empty? %)) (string/split input tokenizer)) model)
          
          (or (seq? input) (vector? input))
          ;; assume input is a list of tokens.

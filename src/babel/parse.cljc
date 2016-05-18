@@ -105,7 +105,13 @@
                                       right-lexemes (mapcat (:lookup model)
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
-                                      right-signs (lazy-cat right-lexemes (filter map? right))]
+                                      right-signs (lazy-cat right-lexemes (filter map? right))
+                                      debug (log/debug (str "# lexemes found for left:" (string/join "," left-strings) ":"
+                                                            (count left-lexemes)))
+                                      debug (log/debug (str "# lexemes found for right:" (string/join "," right-strings) ":"
+                                                            (count right-lexemes)))
+
+                                      ]
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))

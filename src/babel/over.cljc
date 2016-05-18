@@ -153,7 +153,7 @@
                  (if (fail? result)
                    (do
                      (log/debug (str "comp precheck failed  for pair: " pair))
-                     (log/debug (str "comp precheck failed: parent wanted:" (strip-refs parent-value) ";"
+                     (log/debug (str "comp precheck failed: parent wanted: " (strip-refs parent-value) ";"
                                      "child has: " (strip-refs child-value)))
                      (log/trace (str " child is: " (strip-refs child)))
                      :fail)
@@ -254,8 +254,8 @@
 (defn moreover-comp [parent child lexfn-sem-impl]
   (log/trace (str "moreover-comp type parent: " (type parent)))
   (log/trace (str "moreover-comp type comp:" (type child)))
-  (log/debug (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
-  (log/debug (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
+  (log/trace (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
+  (log/trace (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
   (let [pre-check2 (comp-pre-checks2 parent child)
         pre-check (comp-pre-checks parent child)
@@ -299,7 +299,7 @@
              (map? head))
     (do
       (log/trace (str "overh: parent: " (get-in parent [:rule])))
-      (log/debug (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
+      (log/trace (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
       (log/trace (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
       (log/trace (str "overh: head: " (strip-refs (dissoc head :serialized))))))
 

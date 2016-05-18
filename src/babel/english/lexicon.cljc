@@ -1884,6 +1884,7 @@
     :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
     :synsem {:cat :noun
              :pronoun true
+             :reflexive false
              :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :masc
@@ -1898,6 +1899,7 @@
     :synsem {:cat :noun
              :pronoun true
              :case :top ;; see comment in "it" about :case.
+             :reflexive false
              :agr {:person :2nd
                    :gender :fem
                    :number :sing}
@@ -1910,6 +1912,7 @@
     :synsem {:cat :noun
              :pronoun true
              :case :top ;; see comment in "it" about :case.
+             :reflexive false
              :agr {:person :2nd
                    :gender :fem
                    :number :sing}
@@ -1920,22 +1923,26 @@
    "you all (♂)"
    {:synsem {:cat :noun
              :pronoun true
+             :reflexive false
              :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :masc
                    :number :plur}
              :sem {:human true
+                   :reflexive false
                    :pred :voi}
              :subcat '()}}
 
    "you all (♀)"
    {:synsem {:cat :noun
              :pronoun true
+             :reflexive false
              :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :fem
                    :number :plur}
              :sem {:human true
+                   :reflexive false
                    :pred :voi}
              :subcat '()}}
    "your"

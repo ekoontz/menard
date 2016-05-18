@@ -432,8 +432,16 @@
             (throw (exception (str "no schema symbol for parent: " (:rule parent))))
 
             true
-            (do
-              (log/debug (str "over: parent: " (get-in parent [:rule]) " with schema symbol: " (get-in parent [:schema-symbol])))
+            (let [[head comp] (if (= (:first parent) :head)
+                                [child1 child2]
+                                [child2 child1])]
+              (log/debug (str "over: parent: " (get-in parent [:rule]) " (" (get-in parent [:schema-symbol]) "); heads:["
+                              (string/join ","
+                                           (map (fn [h]
+                                                  (get-in h [:rule]
+                                                          (str (get-in h [:synsem :sem :pred]))))
+                                                head))
+                              "]"))
               (if (= (:first parent) :head)
                 ;; else, head is left child.
                 (do (log/trace "over: left child (head):" (strip-refs child1))

@@ -4,7 +4,7 @@
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [fo]]
-   [babel.generate :as generate]
+   [babel.generate :as generate :refer [try-hard-to]]
    [babel.parse :as parse]
    [clojure.string :as string]))
 

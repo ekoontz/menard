@@ -3,7 +3,7 @@
    [babel.engine :as engine]
    [babel.francais.grammar :refer [medium]]
    [babel.francais.morphology :as morph :refer [fo]]
-   [babel.generate :as generate]
+   [babel.generate :as generate :refer [try-hard-to]]
    [babel.parse :as parse]
    [clojure.string :as string]))
 

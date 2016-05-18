@@ -100,7 +100,7 @@ of this function with complements."
                               (if (= false (get-in parent [:head :phrasal] false))
                                 (let [candidate-lexemes (get-lex parent :head index spec)]
                                   (over/overh parent
-                                              (map copy (lazy-shuffle candidate-lexemes))))))
+                                              (pmap copy (lazy-shuffle candidate-lexemes))))))
                             parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
@@ -148,19 +148,19 @@ of this function with complements."
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
-            (map (fn [complement]
-                   (unify (copy bolt)
-                          (path-to-map path
-                                       (copy complement))))
-                 (let [debug (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
-                                             ",path=" path ",bolt=(" (show-bolt bolt path morph)
-                                             "): calling generate-all(" (strip-refs spec) ");"
-                                             "input-spec: " input-spec))
-                       phrasal-complements (if (> max-total-depth total-depth)
-                                             (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
-                   (if (lexemes-before-phrases total-depth)
-                     (take 1 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements))
-                     (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))))
+            (pmap (fn [complement]
+                    (unify (copy bolt)
+                           (path-to-map path
+                                        (copy complement))))
+                  (let [debug (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
+                                              ",path=" path ",bolt=(" (show-bolt bolt path morph)
+                                              "): calling generate-all(" (strip-refs spec) ");"
+                                              "input-spec: " input-spec))
+                        phrasal-complements (if (> max-total-depth total-depth)
+                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
+                    (if (lexemes-before-phrases total-depth)
+                      (take 1 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements))
+                      (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

@@ -146,12 +146,16 @@
 (defn comp-pre-checks2 [parent child]
   (some #(= :fail %)
         (map (fn [pair]
-               (let [result 
-                     (unifyc (get-in parent (:parent pair))
-                             (get-in child (:childc pair)))]
+               (let [parent-value (get-in parent (:parent pair) :top)
+                     child-value (get-in parent (:childc pair) :top)
+                     result 
+                     (unifyc parent-value child-value)]
                  (if (fail? result)
                    (do
                      (log/debug (str "comp precheck failed  for pair: " pair))
+                     (log/debug (str "comp precheck failed: parent wanted:" (strip-refs parent-value) ";"
+                                     "child has: " (strip-refs child-value)))
+                     (log/debug (str " child is: " (strip-refs child)))
                      :fail)
                    (do
                      (log/debug (str "comp precheck success for pair: " pair))

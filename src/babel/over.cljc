@@ -143,6 +143,21 @@
    {:parent [:comp :synsem :subcat]
     :childc [:synsem :subcat]}])
 
+(defn comp-pre-checks2 [parent child]
+  (some #(= :fail %)
+        (map (fn [pair]
+               (let [result 
+                     (unifyc (get-in parent (:parent pair))
+                             (get-in child (:childc pair)))]
+                 (if (fail? result)
+                   (do
+                     (log/debug (str "comp precheck failed  for pair: " pair))
+                     :fail)
+                   (do
+                     (log/debug (str "comp precheck success for pair: " pair))
+                     :top))))
+             comp-precheck-pairs)))
+
 (defn comp-pre-checks [parent child]
   (or
    (fail? (unifyc (get-in parent [:comp :synsem :cat] :top)
@@ -238,7 +253,9 @@
   (log/debug (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
   (log/debug (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
-  (let [pre-check (comp-pre-checks parent child)
+  (let [pre-check2 (comp-pre-checks2 parent child)
+        pre-check (comp-pre-checks parent child)
+        
         result
         (if pre-check
           (do

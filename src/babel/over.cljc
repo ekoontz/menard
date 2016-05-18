@@ -121,6 +121,28 @@
    (fail? (unifyc (get-in parent [:head :synsem :subcat :2] :top)
                   (get-in child [:synsem :subcat :2] :top)))))
 
+(def comp-precheck-pairs
+  [{:parent [:comp :synsem :cat]
+    :childc [:synsem :cat]}
+
+   {:parent [:comp :synsem :agr]
+    :childc [:synsem :agr]}
+
+   {:parent [:comp :synsem :case]
+    :childc [:synsem :case]}
+
+   {:parent [:comp :synsem :sem]
+    :childc [:synsem :sem]}
+   
+   {:parent [:comp :synsem :reflexive]
+    :childc [:synsem :reflexive]}
+
+   {:parent [:comp :synsem :pronoun]
+    :childc [:synsem :pronoun]}
+
+   {:parent [:comp :synsem :subcat]
+    :childc [:synsem :subcat]}])
+
 (defn comp-pre-checks [parent child]
   (or
    (fail? (unifyc (get-in parent [:comp :synsem :cat] :top)
@@ -146,7 +168,7 @@
           result
           (if head-pre-checks
             (do
-              (log/debug (str "head failed prechecks."))
+              (log/debug (str "moreover-head: head failed prechecks for parent: " (get-in parent [:rule])))
               :fail)
             (unify
              (copy parent)
@@ -211,8 +233,8 @@
 (def ^:dynamic *throw-exception-if-failed-to-add-complement* false)
 
 (defn moreover-comp [parent child lexfn-sem-impl]
-  (log/debug (str "moreover-comp type parent: " (type parent)))
-  (log/debug (str "moreover-comp type comp:" (type child)))
+  (log/trace (str "moreover-comp type parent: " (type parent)))
+  (log/trace (str "moreover-comp type comp:" (type child)))
   (log/debug (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
   (log/debug (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
@@ -220,7 +242,7 @@
         result
         (if pre-check
           (do
-            (log/debug (str "child failed pre-check."))
+            (log/debug (str "moreover-comp: child failed pre-check for parent: " (get-in parent [:rule])))
             :fail)
           (unifyc parent
                   {:comp child}
@@ -302,13 +324,13 @@
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
 
-  (log/debug (str "set? parent:" (set? parent)))
-  (log/debug (str "seq? parent:" (seq? parent)))
-  (log/debug (str "seq? comp:" (seq? comp)))
+  (log/trace (str "set? parent:" (set? parent)))
+  (log/trace (str "seq? parent:" (seq? parent)))
+  (log/trace (str "seq? comp:" (seq? comp)))
 
-  (log/debug (str "type of parent: " (type parent)))
-  (log/debug (str "type of comp  : " (type comp)))
-  (log/debug (str "nil? comp  : " (nil? comp)))
+  (log/trace (str "type of parent: " (type parent)))
+  (log/trace (str "type of comp  : " (type comp)))
+  (log/trace (str "nil? comp  : " (nil? comp)))
 
   (cond
    (nil? comp) nil
@@ -351,6 +373,7 @@
 ;; 2) called with both a child1 and a child2, but child2's supplied value is nil:
 ;;    should be treated the same as empty list.
 (defn over [parents child1 & [child2]]
+  (log/trace (str "over:" (count parents)))
   (cond (vector? child1)
         (over parents (seq child1) child2)
 
@@ -359,7 +382,7 @@
 
         (map? parents)
         (do
-          (log/debug (str "parents is a map: converting to a list and re-calling."))
+          (log/trace (str "parents is a map: converting to a list and re-calling."))
           (over (list parents) child1 child2))
 
         (nil? child2)
@@ -389,11 +412,11 @@
               (log/debug (str "over: parent: " (get-in parent [:rule]) " with schema symbol: " (get-in parent [:schema-symbol])))
               (if (= (:first parent) :head)
                 ;; else, head is left child.
-                (do (log/debug "over: left child (head):" child1)
-                    (log/debug "over: right child (comp):" child2))
+                (do (log/debug "over: left child (head):" (strip-refs child1))
+                    (log/debug "over: right child (comp):" (strip-refs child2)))
                 ;; else, head is right child.
-                (do (log/debug "over: left child (comp):" child1)
-                    (log/debug "over: right child (head):" child2)))
+                (do (log/debug "over: left child (comp):" (strip-refs child1))
+                    (log/debug "over: right child (head):" (strip-refs child2))))
 
               (concat
                ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
@@ -406,7 +429,3 @@
                                (if (= (:first parent) :head)
                                  child2 child1)))
                (over (rest parents) child1 child2)))))))
-
-
-
-

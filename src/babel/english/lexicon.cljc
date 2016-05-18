@@ -1425,18 +1425,26 @@
           :synsem {:cat :verb
                    :sem {:pred :run}}}
 
-   "s" [{:synsem {:agr {:number :sing}
-                  :cat :det
-                  :def :genitive
-                  :subcat {:1 {:cat :noun
-                               :pronoun false
-                               :subcat '()}}}}
-         {:synsem {:agr {:number :plur}
-                   :cat :det
-                   :def :genitive
-                   :subcat {:1 {:cat :noun
-                                :pronoun false
-                                :subcat '()}}}}]
+   "s" [(let [of (atom :ref)]
+          {:synsem {:agr {:number :sing}
+                    :cat :det
+                    :def :genitive
+                    :subcat {:1 {:cat :noun
+                                 :pronoun false
+                                 :sem of
+                                 :subcat '()}}
+                    :sem {:pred :of
+                          :of of}}})
+        (let [of (atom :ref)]
+          {:synsem {:agr {:number :plur}
+                    :cat :det
+                    :def :genitive
+                    :sem {:pred :of
+                          :of of}
+                    :subcat {:1 {:cat :noun
+                                 :pronoun false
+                                 :sem of
+                                 :subcat '()}}}})]
          
    "say" {:english {:past "said"}
           :synsem {:cat :verb

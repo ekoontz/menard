@@ -86,7 +86,7 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (if (or (vector? spec) (seq? spec))
-    (reduce concat (map (fn [each-spec]
+    (reduce concat (pmap (fn [each-spec]
                            (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
                          spec))
     (do
@@ -96,7 +96,7 @@ of this function with complements."
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (reduce concat
-                      (map (fn [parent]
+                      (pmap (fn [parent]
                               (if (= false (get-in parent [:head :phrasal] false))
                                 (let [candidate-lexemes (get-lex parent :head index spec)]
                                   (over/overh parent
@@ -104,7 +104,7 @@ of this function with complements."
                             parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
-                (reduce concat (map (fn [parent]
+                (reduce concat (pmap (fn [parent]
                                        (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                                           (+ 1 depth) index morph (+ 1 total-depth))))
                                      parents)))]

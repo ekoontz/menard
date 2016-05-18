@@ -208,7 +208,7 @@ of this function with complements."
 
 (defn lexemes-before-phrases [depth]
   ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
-  (let [result (> (rand-int (+ 1 depth)) 0)]
+  (let [result (> (rand-int (- 1 depth)) 0)]
     (log/trace (str "lexemes-before-phrases: depth=" depth " => " result))
     result))
 

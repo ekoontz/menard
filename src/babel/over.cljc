@@ -155,10 +155,10 @@
                      (log/debug (str "comp precheck failed  for pair: " pair))
                      (log/debug (str "comp precheck failed: parent wanted:" (strip-refs parent-value) ";"
                                      "child has: " (strip-refs child-value)))
-                     (log/debug (str " child is: " (strip-refs child)))
+                     (log/trace (str " child is: " (strip-refs child)))
                      :fail)
                    (do
-                     (log/debug (str "comp precheck success for pair: " pair))
+                     (log/trace (str "comp precheck success for pair: " pair))
                      :top))))
              (lazy-seq comp-precheck-pairs))))
 
@@ -181,8 +181,8 @@
 
 (defn moreover-head [parent child lexfn-sem-impl & [morph]]
   (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
-    (log/debug (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
-    (log/debug (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
+    (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
+    (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [head-pre-checks (head-pre-checks parent child)
           result
           (if head-pre-checks
@@ -298,8 +298,10 @@
   (when (and (map? parent)
              (map? head))
     (do
-      (log/debug (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
-      (log/debug (str "overh: head: " (strip-refs (dissoc head :serialized))))))
+      (log/trace (str "overh: parent: " (get-in parent [:rule])))
+      (log/debug (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
+      (log/trace (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
+      (log/trace (str "overh: head: " (strip-refs (dissoc head :serialized))))))
 
   (cond
 
@@ -335,7 +337,8 @@
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
        (do
-         (log/debug (str "overh successful result: " (strip-refs (dissoc result :serialized))))
+         (log/debug (str "overh successful result: " (get-in parent [:rule])))
+         (log/trace (str "overh successful result: " (strip-refs (dissoc result :serialized))))
          (list result))))))
 
 ;; Haskell-looking signature:
@@ -433,11 +436,11 @@
               (log/debug (str "over: parent: " (get-in parent [:rule]) " with schema symbol: " (get-in parent [:schema-symbol])))
               (if (= (:first parent) :head)
                 ;; else, head is left child.
-                (do (log/debug "over: left child (head):" (strip-refs child1))
-                    (log/debug "over: right child (comp):" (strip-refs child2)))
+                (do (log/trace "over: left child (head):" (strip-refs child1))
+                    (log/trace "over: right child (comp):" (strip-refs child2)))
                 ;; else, head is right child.
-                (do (log/debug "over: left child (comp):" (strip-refs child1))
-                    (log/debug "over: right child (head):" (strip-refs child2))))
+                (do (log/trace "over: left child (comp):" (strip-refs child1))
+                    (log/trace "over: right child (head):" (strip-refs child2))))
 
               (concat
                ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,

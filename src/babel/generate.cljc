@@ -46,7 +46,7 @@
     (log/info (str "using grammar of size: " (count grammar)))
     (log/info (str "using index of size: " (count index)))
     (if (seq? spec)
-      #?(:clj (pmap generate-all spec grammar lexicon index morph))
+      #?(:clj (map generate-all spec grammar lexicon index morph))
       #?(:cljs (map generate-all spec grammar lexicon index morph))
       (generate spec grammar
                 (flatten (vals lexicon))
@@ -57,7 +57,7 @@
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
-          (reduce concat (pmap #(if (not (= :none (get-in % path :none)))
+          (reduce concat (map #(if (not (= :none (get-in % path :none)))
                                   (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
                                   [%])
                                bolts)))]
@@ -76,7 +76,7 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (if (or (vector? spec) (seq? spec))
-    (reduce concat (pmap (fn [each-spec]
+    (reduce concat (map (fn [each-spec]
                            (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
                          spec))
     (do
@@ -86,21 +86,21 @@ of this function with complements."
             parents (filter #(not (fail? %)) (map (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (reduce concat
-                      (pmap (fn [parent]
+                      (map (fn [parent]
                               (if (= false (get-in parent [:head :phrasal] false))
                                 (let [candidate-lexemes (get-lex parent :head index spec)]
                                   (over/overh parent
-                                              (map copy (lazy-shuffle candidate-lexemes))))))
+                                              (map copy (take 1 (lazy-shuffle candidate-lexemes)))))))
                             parents))
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
-                (reduce concat (pmap (fn [parent]
+                (reduce concat (map (fn [parent]
                                        (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
                                                                           (+ 1 depth) index morph (+ 1 total-depth))))
                                      parents)))]
           (if (lexemes-before-phrases total-depth)
-            (lazy-cat lexical phrasal)
-            (lazy-cat phrasal lexical)))))))
+            (take 1 (lazy-cat lexical phrasal))
+            (take 1 (lazy-cat phrasal lexical))))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
   (log/info (str "add-complement: " (show-bolt bolt path morph)))
@@ -138,7 +138,7 @@ of this function with complements."
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
-            (pmap (fn [complement]
+            (take 1 (map (fn [complement]
                    (unify (copy bolt)
                           (path-to-map path
                                        (copy complement))))
@@ -149,8 +149,8 @@ of this function with complements."
                        phrasal-complements (if (> max-total-depth total-depth)
                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
                    (if (lexemes-before-phrases total-depth)
-                     (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                     (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
+                     (take 1 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements))
+                     (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

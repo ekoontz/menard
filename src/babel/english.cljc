@@ -3,7 +3,7 @@
   (:require
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
-   [babel.generate :as generate]
+   [babel.generate :as generate :refer [try-hard-to]]
    [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over]]

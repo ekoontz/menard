@@ -1590,6 +1590,14 @@
                                     :agr subject-agr
                                     :sem subject-sem}
                                 :2 '()}}}))]
+   "short"
+   [;; non-comparative:
+    (unify adjective
+           {:synsem {:cat :adjective
+                     :sem {:mod {:pred :short}
+                           :comparative false}
+                     :subcat {:1 {:cat :det}
+                              :2 '()}}})]
       
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}

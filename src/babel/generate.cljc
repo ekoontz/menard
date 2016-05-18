@@ -67,7 +67,7 @@
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
-          (reduce concat (map #(if (not (= :none (get-in % path :none)))
+          (reduce concat (pmap #(if (not (= :none (get-in % path :none)))
                                   (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
                                   [%])
                                bolts)))]

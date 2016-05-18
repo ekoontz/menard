@@ -95,8 +95,8 @@
 (def ^:dynamic *check-infl* true)
 
 (defn head-pre-checks [parent child]
-  (log/debug (str "head-pre-checks PH: " (strip-refs (get-in parent [:head]))))
-  (log/debug (str "head-pre-checks H: " (dissoc (strip-refs child) :serialized)))
+  (log/trace (str "head-pre-checks PH: " (strip-refs (get-in parent [:head]))))
+  (log/trace (str "head-pre-checks H: " (dissoc (strip-refs child) :serialized)))
   (or
    (fail? (unifyc (get-in parent [:head :synsem :infl] :top)
                   (get-in child [:synsem :infl] :top)))

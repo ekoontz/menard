@@ -2,7 +2,7 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.generate :as generate]
+            [babel.generate :as generate :refer [try-hard-to]]
             [babel.francais :refer [generate lookup parse]]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
@@ -381,3 +381,13 @@
                             (unifyc unify-with entry))
                           (lookup lex)))
                   replace-patterns)))
+(deftest foo
+  (let [the-foo (try-hard-to
+                 #(generate
+                   {:synsem {:sem {:subj {:pred :lui}
+                                   :pred :have-fun
+                                   :tense :present}}}))]
+    (is (not (empty? the-foo)))))
+
+
+(deftest generate-vp-present-reflexive

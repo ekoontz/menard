@@ -131,6 +131,9 @@
                                                   :subj {:pred :lei}
                                                   :obj {:pred :luisa}}}})))))
 
+(deftest jean-s
+  (is (not (empty? (parse "Jean's")))))
+
 (deftest the-dog-s-house
   (is (not (empty? (parse "the dog's house")))))
 

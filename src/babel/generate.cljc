@@ -12,6 +12,7 @@
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
 (def ^:const max-total-depth 5)
+(def ^:const mapfn pmap)
 
 (declare add-complement)
 (declare lexemes-before-phrases)
@@ -94,7 +95,7 @@ of this function with complements."
       (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
-            parents (filter #(not (fail? %)) (pmap (fn [rule] (unifyc spec rule)) grammar))]
+            parents (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
@@ -148,7 +149,7 @@ of this function with complements."
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
                                   "'" (morph complement) "'"))
                   true)))
-            (pmap (fn [complement]
+            (mapfn (fn [complement]
                     (unify (copy bolt)
                            (path-to-map path
                                         (copy complement))))

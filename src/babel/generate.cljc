@@ -43,17 +43,37 @@
            (repeatedly function))))))
 
 (defn generate [spec grammar lexicon index morph]
-  (if (or (vector? spec)
-          (seq? spec))
-    (first (take 1
-                 (mapcat (fn [each-spec]
-                           (generate-all each-spec grammar lexicon index morph))
-                         spec)))
-    (if (empty? grammar)
-      (do
-        (log/error (str "grammar is empty."))
-        (exception (str "grammar is empty.")))
-      (first (take 1 (generate-all spec grammar lexicon index morph))))))
+  (cond (or (vector? spec)
+            (seq? spec))
+        (first (take 1
+                     (map (fn [each-spec]
+                            (log/info (str "generate: generating from spec: "
+                                           (strip-refs each-spec)))
+                            (let [expression
+                                  (generate each-spec grammar lexicon index morph)]
+                              (log/info (str "generate: expression generated for spec:"
+                                             (strip-refs each-spec) ":"
+                                             "'" (morph expression) "'"))
+                              expression))
+                          spec)))
+
+        (empty? grammar)
+        (do
+          (log/error (str "grammar is empty."))
+          (exception (str "grammar is empty.")))
+
+        true
+        (do
+          (log/info (str "generate: generating from spec: "
+                         (strip-refs spec)))
+          (let [expression
+                (first (take 1 (generate-all spec grammar lexicon index morph)))]
+            (if expression
+              (log/info (str "generate: generated "
+                             "'" (morph expression) "'"
+                             " for spec:" (strip-refs spec)))
+              (log/info (str "generate: no expression could be generated for spec:" (strip-refs spec))))
+            expression))))
 
 (defn generate-all-with-model [spec {grammar :grammar
                                      index :index

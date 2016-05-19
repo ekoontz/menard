@@ -110,8 +110,8 @@ of this function with complements."
                                                              (+ 1 depth) index morph (+ 1 total-depth))))
                         parents))]
           (if (lexemes-before-phrases total-depth)
-            (lazy-cat lexical phrasal)
-            (lazy-cat phrasal lexical)))))))
+            (concat lexical phrasal)
+            (concat phrasal lexical)))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
   (log/info (str "add-complement: " (show-bolt bolt path morph)))
@@ -134,8 +134,7 @@ of this function with complements."
                                                     (get-in child-in-bolt [:synsem] :top)))))))
         filtered-lexical-complements (filter (fn [lexeme]
                                                (complement-pre-check lexeme bolt path))
-                                             complement-candidate-lexemes)
-        shuffled-candidate-lexical-complements (lazy-shuffle filtered-lexical-complements)]
+                                             complement-candidate-lexemes)]
     (filter (fn [complement]
               (if (fail? complement)
                 (do
@@ -158,7 +157,7 @@ of this function with complements."
                                               "): calling generate-all(" (strip-refs spec) ");"
                                               "input-spec: " input-spec))
                         phrasal-complements (if (> max-total-depth total-depth)
-                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
+                                              (lazy-seq (generate-all spec grammar lexicon cache morph (+ depth total-depth))))]
                     (if (lexemes-before-phrases total-depth)
                       (lazy-cat filtered-lexical-complements phrasal-complements)
                       (lazy-cat phrasal-complements filtered-lexical-complements)))))))

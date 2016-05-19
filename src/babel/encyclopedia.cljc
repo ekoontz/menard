@@ -11,3 +11,7 @@
    {:pet true} {:animate true
                 :buyable true
                 :edible false}})
+
+(def animal {:animate true
+             :artifact false
+             :living true})

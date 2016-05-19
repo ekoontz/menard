@@ -11,7 +11,6 @@
    [dag_unify.core :as unify :refer (dissoc-paths get-in serialize unifyc)]))
 
 (def adjective pos/adjective)
-(def animal pos/common-noun)
 (def common-noun pos/common-noun)
 (def countable-noun pos/common-noun)
 

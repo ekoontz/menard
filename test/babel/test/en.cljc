@@ -130,7 +130,6 @@
          (fo (generate {:synsem {:cat :verb :sem {:pred :be-called
                                                   :subj {:pred :lei}
                                                   :obj {:pred :luisa}}}})))))
-
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
 

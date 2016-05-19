@@ -11,7 +11,7 @@
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
-(def ^:const max-total-depth 5)
+(def ^:const max-total-depth 6)
 (def ^:const mapfn pmap)
 
 (declare add-complement)
@@ -116,7 +116,7 @@
            bolts))
 
         expressions
-        (-> (lightning-bolt (lazy-shuffle grammar)
+        (-> (lightning-bolt grammar
                             lexicon
                             spec 0 index morph total-depth)
             ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
@@ -149,7 +149,7 @@ of this function with complements."
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
                           (let [candidate-lexemes (get-lex parent :head index spec)
-                                results (over/overh parent (mapfn copy (lazy-shuffle candidate-lexemes)))]
+                                results (over/overh parent (mapfn copy candidate-lexemes))]
                             (log/debug (str "lightning-bolt: " (get-in parent [:rule]) ": candidate head lexemes:'"
                                             (string/join "','" (map morph candidate-lexemes)) "'"))
                             results)))

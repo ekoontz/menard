@@ -396,11 +396,16 @@
                             (unifyc unify-with entry))
                           (lookup lex)))
                   replace-patterns)))
-(deftest foo
-  (let [the-foo (try-hard-to
-                 #(generate
-                   {:synsem {:sem {:subj {:pred :lui}
-                                   :pred :have-fun
-                                   :tense :present}}}))]
-    (is (not (empty? the-foo)))))
+(deftest have-fun
+  (let [have-fun-expression
+        (generate
+         {:synsem {:sem {:subj {:pred :lui}
+                         :pred :have-fun
+                         :tense :present}}})]
+    (is (not (empty? have-fun-expression)))
+    (is (= (fo have-fun-expression)
+           "il l'amuse"))))
+
+
+
 

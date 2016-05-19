@@ -110,8 +110,8 @@ of this function with complements."
                                                                           (+ 1 depth) index morph (+ 1 total-depth))))
                                      parents)))]
           (if (lexemes-before-phrases total-depth)
-            (take 1 (lazy-cat lexical phrasal))
-            (take 1 (lazy-cat phrasal lexical))))))))
+            (lazy-cat lexical phrasal)
+            (lazy-cat phrasal lexical)))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
   (log/info (str "add-complement: " (show-bolt bolt path morph)))
@@ -160,8 +160,8 @@ of this function with complements."
                         phrasal-complements (if (> max-total-depth total-depth)
                                               (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
                     (if (lexemes-before-phrases total-depth)
-                      (take 1 (lazy-cat shuffled-candidate-lexical-complements phrasal-complements))
-                      (take 1 (lazy-cat phrasal-complements shuffled-candidate-lexical-complements))))))))
+                      (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
+                      (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

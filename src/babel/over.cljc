@@ -387,7 +387,12 @@
    (let [result (moreover-comp parent comp sem-impl)
          is-fail? (fail? result)]
      (if (not is-fail?)
-       (list result)))))
+       (do
+         (log/debug (str "overc: " (get-in parent [:rule]) "=>" (get-in comp [:rule]
+                                                                        (get-in comp [:synsem :sem :pred]
+                                                                                "(no pred for comp)"))))
+         ;; TODO: why are we returning a list here rather than just the result?
+         (list result))))))
 
 (defn overhc [parent head comp]
   (overc (overh parent head) comp))
@@ -435,7 +440,7 @@
             (let [[head comp] (if (= (:first parent) :head)
                                 [child1 child2]
                                 [child2 child1])]
-              (log/debug (str "over: parent: " (get-in parent [:rule]) " (" (get-in parent [:schema-symbol]) "); heads:["
+              (log/trace (str "over: parent: " (get-in parent [:rule]) " (" (get-in parent [:schema-symbol]) "); heads:["
                               (string/join ","
                                            (map (fn [h]
                                                   (get-in h [:rule]

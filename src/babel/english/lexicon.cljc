@@ -564,8 +564,8 @@
                       :sem {:pred :finish}}}
 
    "first" (unify adjective
-                  {:sem {:mod {:pred :first}
-                         :comparative false}})
+                  {:synsem {:sem {:mod {:pred :first}
+                                  :comparative false}}})
 
    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
@@ -899,10 +899,10 @@
    "house" (unify agreement-noun
                   common-noun
                   countable-noun
-                  {:synsem {:sem (unify animal {:pred :house
-                                                :buyable true
-                                                :artifact true
-                                                :place true})}})
+                  {:synsem {:sem {:pred :house
+                                  :buyable true
+                                  :artifact true
+                                  :place true}}})
    "hug"
    {:synsem {:cat :verb
              :sem {:pred :hug
@@ -1471,8 +1471,8 @@
                       :past "scrubbed"}}
 
    "second" (unify adjective
-                  {:sem {:mod {:pred :first}
-                         :comparative false}})
+                   {:synsem {:sem {:mod {:pred :first}
+                                   :comparative false}}})
 
    "see"  {:synsem {:cat :verb
                     :sem {:pred :see}}

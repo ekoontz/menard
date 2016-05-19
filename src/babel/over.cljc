@@ -390,9 +390,9 @@
          is-fail? (fail? result)]
      (if (not is-fail?)
        (do
-         (log/debug (str "overc: " (get-in parent [:rule]) "=>" (get-in comp [:rule]
-                                                                        (get-in comp [:synsem :sem :pred]
-                                                                                "(no pred for comp)"))))
+         (log/debug (str "overc: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
+                                                                          (get-in comp [:synsem :sem :pred]
+                                                                                  "(no pred for comp)"))))
          ;; TODO: why are we returning a list here rather than just the result?
          (list result))))))
 

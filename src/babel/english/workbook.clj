@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.generate :refer [lightning-bolt]]
-   [babel.english :refer [parse]]
+   [babel.english :refer [generate parse]]
    [babel.english.grammar :refer [small small-plus-plus-np medium np-grammar]]
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :as morph :refer [fo]]
@@ -34,20 +34,6 @@
    (analyze surface-form (:lexicon medium)))
   ([surface-form lexicon]
    (morph/analyze surface-form lexicon)))
-
-(defn generate
-  ([]
-   (let [result (engine/generate :top medium)]
-     (conj {:surface (fo result)}
-            result)))
-  ([spec]
-   (let [result (engine/generate spec medium)]
-     (conj {:surface (fo result)}
-            result)))
-  ([spec model]
-   (let [result (engine/generate spec model)]
-     (conj {:surface (fo result)}
-           result))))
 
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))

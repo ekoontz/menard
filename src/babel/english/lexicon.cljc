@@ -1336,6 +1336,7 @@
                            :obj {:human false
                                  :music true}}}}]
 
+   ;; TODO: all reflexive verbs should have this subject-object agreement like this one does:
    "prepare" (let [subject-semantics (atom {:human true})
                    subject-agreement (atom :top)]
                {:synsem {:cat :verb

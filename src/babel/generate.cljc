@@ -246,8 +246,10 @@ of this function with complements."
 
 (defn lexemes-before-phrases [depth]
   ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
-  (let [prob (- 1.0 (/ (- max-total-depth depth) max-total-depth))]
-    (> (* 10 prob) (rand-int 10))))
+  (if (> max-total-depth 0)
+    (let [prob (- 1.0 (/ (- max-total-depth depth) max-total-depth))]
+      (> (* 10 prob) (rand-int 10))))
+  1)
 
 (defn show-bolt [bolt path morph]
   (if (not (empty? path))

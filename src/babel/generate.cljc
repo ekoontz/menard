@@ -159,8 +159,8 @@ of this function with complements."
                         phrasal-complements (if (> max-total-depth total-depth)
                                               (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
                     (if (lexemes-before-phrases total-depth)
-                      (lazy-cat shuffled-candidate-lexical-complements phrasal-complements)
-                      (lazy-cat phrasal-complements shuffled-candidate-lexical-complements)))))))
+                      (lazy-cat filtered-lexical-complements phrasal-complements)
+                      (lazy-cat phrasal-complements filtered-lexical-complements)))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

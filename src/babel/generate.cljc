@@ -45,17 +45,24 @@
 (defn generate [spec grammar lexicon index morph]
   (cond (or (vector? spec)
             (seq? spec))
-        (first (take 1
-                     (map (fn [each-spec]
-                            (log/info (str "generate: generating from spec: "
-                                           (strip-refs each-spec)))
-                            (let [expression
-                                  (generate each-spec grammar lexicon index morph)]
-                              (log/info (str "generate: expression generated for spec:"
-                                             (strip-refs each-spec) ":"
-                                             "'" (morph expression) "'"))
-                              expression))
-                          spec)))
+        (do
+          (log/debug (str "generating from " (count spec) " spec(s)"))
+          (let [expression
+                (first (take 1
+                             (mapcat (fn [each-spec]
+                                       (log/info (str "generate: generating from spec: "
+                                                      each-spec))
+                                       (let [expressions
+                                             (generate-all each-spec grammar lexicon index morph)]
+                                         expressions))
+                                     spec)))]
+            (if expression
+              (log/info (str "generate: generated "
+                             "'" (morph expression) "'"
+                             " from " (count spec) " spec(s)"))
+              (log/info (str "generate: no expression could be generated for any of the "
+                             " from " (count spec) " spec(s)")))
+            expression))
 
         (empty? grammar)
         (do

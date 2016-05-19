@@ -31,7 +31,10 @@
 ;          feminine-noun
 ;          countable-noun
 ;          {:synsem {:sem {:pred :blank}}})
-
+;   "_"
+;   ;(unify agreement-noun common-noun
+;          {:synsem {:sem e/animal}})
+   
    "Antonia"
    {:synsem {:sem {:pred :antonia
                    :human true}

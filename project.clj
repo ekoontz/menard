@@ -1,11 +1,11 @@
-(defproject babel "1.4.0"
+(defproject babel "1.4.1-SNAPSHOT"
   :description "A Clojure library for generation of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "1.1.2-SNAPSHOT"]
+                 [dag_unify "1.1.2"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]

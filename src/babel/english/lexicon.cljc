@@ -1336,14 +1336,18 @@
                            :obj {:human false
                                  :music true}}}}]
 
-   "prepare" (let [subject-semantics (atom {:human true})]
+   "prepare" (let [subject-semantics (atom {:human true})
+                   subject-agreement (atom :top)]
                {:synsem {:cat :verb
                          :sem {:pred :get-ready
                                :subj subject-semantics
                                :obj subject-semantics}
-                         :subcat {:1 {:sem subject-semantics}
+                         :subcat {:1 {:sem subject-semantics
+                                      :agr subject-agreement
+                                      }
                                   :2 {:pronoun true
                                       :reflexive true
+                                      :agr subject-agreement
                                       :sem subject-semantics}}}})
    "preserve" {:synsem {:cat :verb
                         :sem {:pred :preserve}}}

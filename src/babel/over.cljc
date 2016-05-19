@@ -337,7 +337,7 @@
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
        (do
-         (log/debug (str "overh: " (get-in parent [:rule]) "=>" (get-in head [:rule]
+         (log/debug (str "overh: " (get-in parent [:rule]) " -> " (get-in head [:rule]
                                                                         (get-in head [:synsem :sem :pred]
                                                                                 "(no pred for head)"))))
          (log/trace (str "overh successful result: " (strip-refs (dissoc result :serialized))))

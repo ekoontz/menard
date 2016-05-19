@@ -43,11 +43,17 @@
            (repeatedly function))))))
 
 (defn generate [spec grammar lexicon index morph]
-  (if (empty? grammar)
-    (do
-      (log/error (str "grammar is empty."))
-      (exception (str "grammar is empty."))))
-  (first (take 1 (generate-all spec grammar lexicon index morph))))
+  (if (or (vector? spec)
+          (seq? spec))
+    (first (take 1
+                 (mapcat (fn [each-spec]
+                           (generate-all each-spec grammar lexicon index morph))
+                         spec)))
+    (if (empty? grammar)
+      (do
+        (log/error (str "grammar is empty."))
+        (exception (str "grammar is empty.")))
+      (first (take 1 (generate-all spec grammar lexicon index morph))))))
 
 (defn generate-all-with-model [spec {grammar :grammar
                                      index :index

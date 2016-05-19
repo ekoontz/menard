@@ -285,12 +285,20 @@
                 (map :surface
                      result)))))
 
+(deftest a-casa-generate
+  (let [result (generate 
+                {:synsem {:cat :prep
+                          :sem {:pred :a
+                                :obj {:pred :house
+                                      :spec {:def :none}}}}})] ;; "a casa", not "a tua casa", "a della casa", etc
+    (is (= (fo result) "a casa"))))
+
 (deftest casa-generate
   (let [result (generate 
                 {:synsem {:cat :verb 
                           :sem {:tense :present 
                                 :pred :a 
-                                :obj {:pred :casa
+                                :obj {:pred :house
                                       :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
                                 :subj {:pred :I}}}})]
     (is (= (fo result) "io sono a casa"))))
@@ -309,7 +317,3 @@
 (deftest chiamarsi-3
   (let [result (parse "lei si chiama Luisa")]
     (not (empty? (mapcat :parses result)))))
-
-
-
-

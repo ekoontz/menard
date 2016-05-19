@@ -1691,9 +1691,9 @@
               :subcat '()}}
     ]
    
-   ;; TODO: move gender symbol to :notes for all "they" variants.
-   "they (♂)"
-   [{:synsem {:cat :noun
+   "they"
+   [{:note "♂"
+     :synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd
@@ -1703,7 +1703,8 @@
                     :human true
                     :pred :loro}
               :subcat '()}}
-    {:synsem {:cat :noun
+    {:note "♂"
+     :synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd
@@ -1712,9 +1713,9 @@
               :sem {:gender :masc
                     :human false
                     :pred :loro}
-              :subcat '()}}]
-   "they (♀)"
-   [{:synsem {:cat :noun
+              :subcat '()}}
+    {:note "♀"
+     :synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd
@@ -1724,7 +1725,8 @@
                     :human true
                    :pred :loro}
               :subcat '()}}
-    {:synsem {:cat :noun
+    {:note "♀"
+     :synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd
@@ -1735,7 +1737,7 @@
                     :pred :loro}
               :subcat '()}}]
             
-    "think" {:synsem {:cat :verb
+   "think" {:synsem {:cat :verb
                      :sem {:pred :think }}
             :english {:past "thought"}}        
             

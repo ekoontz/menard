@@ -87,28 +87,27 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (if (or (vector? spec) (seq? spec))
-    (reduce concat (pmap (fn [each-spec]
-                           (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
-                         spec))
+    (mapcat (fn [each-spec]
+              (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
+            spec)
     (do
       (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (pmap (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-              (reduce concat
-                      (pmap (fn [parent]
-                              (if (= false (get-in parent [:head :phrasal] false))
-                                (let [candidate-lexemes (get-lex parent :head index spec)]
-                                  (over/overh parent
-                                              (pmap copy (lazy-shuffle candidate-lexemes))))))
-                            parents))
+              (mapcat (fn [parent]
+                        (if (= false (get-in parent [:head :phrasal] false))
+                          (let [candidate-lexemes (get-lex parent :head index spec)]
+                            (over/overh parent
+                                        (mapfn copy (lazy-shuffle candidate-lexemes))))))
+                            parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
-                (reduce concat (pmap (fn [parent]
-                                       (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
-                                                                          (+ 1 depth) index morph (+ 1 total-depth))))
-                                     parents)))]
+                (mapcat (fn [parent]
+                          (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
+                                                             (+ 1 depth) index morph (+ 1 total-depth))))
+                        parents))]
           (if (lexemes-before-phrases total-depth)
             (lazy-cat lexical phrasal)
             (lazy-cat phrasal lexical)))))))

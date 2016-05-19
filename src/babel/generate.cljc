@@ -92,7 +92,7 @@ of this function with complements."
               (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
             spec)
     (do
-      (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "): sem:" (strip-refs (get-in spec [:synsem :sem]))))
+      (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) ")"))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar))]

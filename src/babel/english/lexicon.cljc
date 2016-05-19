@@ -1,12 +1,12 @@
 (ns babel.english.lexicon
   (:refer-clojure :exclude [get-in merge])
   (:require
+   [babel.encyclopedia :as e]
    [babel.lexiconfn :refer (compile-lex if-then
                                         map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
                               agreement-noun
-                              animal
                               common-noun
                               countable-noun
                               feminine-noun
@@ -352,8 +352,8 @@
    (unify agreement-noun
           common-noun
           countable-noun
-          {:synsem {:sem (unify animal {:pred :gatto
-                                        :pet true})}})
+          {:synsem {:sem (unify e/animal {:pred :gatto
+                                          :pet true})}})
 
    "change" {:synsem {:cat :verb
                       :sem {:pred :change}}} ;; TODO: add reflexive sense
@@ -479,8 +479,9 @@
    (unify agreement-noun
           common-noun
           countable-noun
-          {:synsem {:sem (unify animal {:pred :cane
-                                        :pet true})}})
+          {:synsem {:sem (unify e/animal {:pred :cane
+                                          :pet true})}})
+
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
                            :subj {:human true}}}}

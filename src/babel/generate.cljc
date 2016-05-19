@@ -7,7 +7,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path-between lazy-shuffle
+   [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path lazy-shuffle
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:

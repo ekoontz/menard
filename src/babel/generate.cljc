@@ -67,10 +67,11 @@
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
-          (reduce concat (pmap #(if (not (= :none (get-in % path :none)))
-                                  (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
-                                  [%])
-                               bolts)))]
+          (mapcat
+           #(if (not (= :none (get-in % path :none)))
+              (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
+              [%])
+           bolts))]
     (-> (lightning-bolt (lazy-shuffle grammar)
                         lexicon
                         spec 0 index morph total-depth)

@@ -74,19 +74,33 @@
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
+          (log/debug (str "generate-all: "
+                          "add-complements-to-bolts@" path ":#bolts(" (count bolts) "):"
+                          (string/join ","
+                                       (map (fn [bolt]
+                                              (show-bolt bolt path morph))
+                                            bolts))))
           (mapcat
            #(if (not (= :none (get-in % path :none)))
               (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
               [%])
-           bolts))]
-    (-> (lightning-bolt (lazy-shuffle grammar)
-                        lexicon
-                        spec 0 index morph total-depth)
-        ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-        (add-complements-to-bolts [:head :head :head :comp] )
-        (add-complements-to-bolts [:head :head :comp])
-        (add-complements-to-bolts [:head :comp])
-        (add-complements-to-bolts [:comp]))))
+           bolts))
+
+        expressions
+        (-> (lightning-bolt (lazy-shuffle grammar)
+                            lexicon
+                            spec 0 index morph total-depth)
+            ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
+            (add-complements-to-bolts [:head :head :head :comp] )
+            (add-complements-to-bolts [:head :head :comp])
+            (add-complements-to-bolts [:head :comp])
+            (add-complements-to-bolts [:comp]))]
+
+    (if (not (empty? expressions))
+      (log/info (str "generate-all: first expression generated for spec:" (strip-refs spec) " ):"
+                     "'" (morph (first expressions)) "'"))
+      (log/debug (str "generate-all: no expressions could be generated for spec:" (strip-refs expressions))))
+    expressions))
 
 (defn lightning-bolt [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where
@@ -98,17 +112,19 @@ of this function with complements."
               (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
             spec)
     (do
-      (log/debug (str "lightning-bolt(depth=" depth ", total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) ")"))
+      (log/debug (str "lightning-bolt(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) ")"))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
-                          (let [candidate-lexemes (get-lex parent :head index spec)]
-                            (over/overh parent
-                                        (mapfn copy (lazy-shuffle candidate-lexemes))))))
-                            parents)
+                          (let [candidate-lexemes (get-lex parent :head index spec)
+                                results (over/overh parent (mapfn copy (lazy-shuffle candidate-lexemes)))]
+                            (log/debug (str "lightning-bolt: " (get-in parent [:rule]) ": candidate head lexemes:'"
+                                            (string/join "','" (map morph candidate-lexemes)) "'"))
+                            results)))
+                      parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
                 (mapcat (fn [parent]
@@ -120,7 +136,7 @@ of this function with complements."
             (concat phrasal lexical)))))))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
-  (log/info (str "add-complement: " (show-bolt bolt path morph)))
+  (log/debug (str "add-complement: " (show-bolt bolt path morph)))
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         spec (unifyc spec (get-in bolt path))
@@ -134,13 +150,19 @@ of this function with complements."
                                                  (get-in bolt (concat path [:phrasal]))))
                                        (if cached cached (flatten (vals lexicon))))
         complement-pre-check (fn [child parent path-to-child]
-                               (let [child-in-bolt (get-in bolt path-to-child)]
-                                 (and (not (fail?
-                                            (unifyc (get-in child [:synsem] :top)
-                                                    (get-in child-in-bolt [:synsem] :top)))))))
+                               (let [child-in-bolt (get-in bolt path-to-child)
+                                     result (not (fail?
+                                                  (unifyc (get-in child [:synsem] :top)
+                                                          (get-in child-in-bolt [:synsem] :top))))]
+                                 (log/trace (str "add-complement: checking child: " (morph child) "success?:" result))
+                                 result))
         filtered-lexical-complements (filter (fn [lexeme]
                                                (complement-pre-check lexeme bolt path))
-                                             complement-candidate-lexemes)]
+                                             complement-candidate-lexemes)
+        debug (log/debug
+               (if (not (empty? filtered-lexical-complements))
+                 (str "add-complement: " (show-bolt bolt path morph) ":candidate complement-lexemes:'"
+                      (string/join "','" (sort (map morph filtered-lexical-complements))) "'")))]
     (filter (fn [complement]
               (if (fail? complement)
                 (do
@@ -207,8 +229,8 @@ of this function with complements."
                                                                     (get-in bolt (concat path
                                                                                          [:synsem :sem :pred]))))))
                                      (str "'" (morph %) "':"
-                                          (fail-path-between (strip-refs %)
-                                                             (strip-refs (get-in bolt path)))))
+                                          (fail-path (strip-refs %)
+                                                     (strip-refs (get-in bolt path)))))
                                   (take log-limit complement-candidate-lexemes)))
                 
                 (if (< 0 (- (count complement-candidate-lexemes) log-limit))

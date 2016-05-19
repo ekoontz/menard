@@ -152,8 +152,8 @@
                      (unifyc parent-value child-value)]
                  (if (fail? result)
                    (do
-                     (log/debug (str "comp precheck failed  for pair: " pair))
-                     (log/debug (str "comp precheck failed: parent wanted: " (strip-refs parent-value) ";"
+                     (log/trace (str "comp precheck failed  for pair: " pair))
+                     (log/trace (str "comp precheck failed: parent wanted: " (strip-refs parent-value) ";"
                                      "child has: " (strip-refs child-value)))
                      (log/trace (str " child is: " (strip-refs child)))
                      :fail)
@@ -187,7 +187,7 @@
           result
           (if head-pre-checks
             (do
-              (log/debug (str "moreover-head: head failed prechecks for parent: " (get-in parent [:rule])))
+              (log/trace (str "moreover-head: head failed prechecks for parent: " (get-in parent [:rule])))
               :fail)
             (unify
              (copy parent)
@@ -211,8 +211,8 @@
         (do
           (if (not (= true head-pre-checks))
             (log/warn (str "moreover-head: pre-checked missed: fail-path-between "
-                           "parent:'" (get-in parent [:rule]) "' and child '" (morph child) "' :"
-                           (fail-path-between parent {:head child}))))
+                           "parent:'" (get-in parent [:rule]) "' and child:"
+                           (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) ".")))
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]
               (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
@@ -269,7 +269,7 @@
                   {:comp child}
                   {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
     (if (not (fail? result))
-      (do (log/debug "unification was successful.")
+      (do (log/trace "unification was successful.")
           (merge {:comp-filled true}
                  result))
       ;; else: fail:
@@ -278,7 +278,7 @@
         (if (= false pre-check)
           (log/warn (str "moreover-comp: pre-checked missed: fail-path-between:"
                          (fail-path-between parent {:comp child}))))
-        (log/trace (str "moreover-comp: fail: child: " (strip-refs child)))
+        (log/trace (str "moreover-comp: fail: child: " (get-in child [:rule] (get-in child [:synsem :sem :pred] :no-pred))))
         (if (and
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
@@ -337,7 +337,9 @@
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
        (do
-         (log/debug (str "overh successful result: " (get-in parent [:rule])))
+         (log/debug (str "overh: " (get-in parent [:rule]) "=>" (get-in head [:rule]
+                                                                        (get-in head [:synsem :sem :pred]
+                                                                                "(no pred for head)"))))
          (log/trace (str "overh successful result: " (strip-refs (dissoc result :serialized))))
          (list result))))))
 

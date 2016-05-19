@@ -121,6 +121,42 @@
    (fail? (unifyc (get-in parent [:head :synsem :subcat :2] :top)
                   (get-in child [:synsem :subcat :2] :top)))))
 
+(def head-precheck-pairs
+  [[[:head :synsem :infl]       [:synsem :infl]]
+   [[:head :synsem :subcat]     [:synsem :subcat]]
+   [[:head :synsem :agr]        [:synsem :agr]]
+   [[:head :phrasal]            [:phrasal]]
+   [[:head :synsem :sem]        [:synsem :sem]]
+   [[:head :synsem :aux]        [:synsem :aux]]
+   [[:head :synsem :cat]        [:synsem :cat]]
+   [[:head :synsem :pronoun]    [:synsem :pronoun]]
+   [[:head :synsem :propernoun] [:synsem :propernoun]]
+   [[:head :synsem :subcat :1]  [:synsem :subcat :1]]
+   [[:head :synsem :subcat :2]  [:synsem :subcat :2]]])
+
+(defn head-pre-checks2 [parent child]
+  (not (nil?
+        (some #(= :fail %)
+              (map (fn [pair]
+                     (log/trace (str "head-pre-checks2: looking at pair: " pair))
+                     (let [parent-value (get-in parent (first pair) :top)
+                           child-value (get-in child (second pair) :top)
+                           result 
+                           (unifyc parent-value child-value)]
+                       (log/trace (str "head-pre-checks2: result: " result))
+                       (if (fail? result)
+                         (do
+                           (log/trace (str "head precheck failed  for pair: " pair))
+                           (log/trace (str "head precheck failed: parent wanted: " (strip-refs parent-value) ";"
+                                           "child has: " (strip-refs child-value)))
+                           (log/trace (str " parent is: " (strip-refs parent)))
+                           (log/trace (str " child is: " (strip-refs child)))
+                           :fail)
+                         (do
+                           (log/trace (str "head precheck success for pair: " pair))
+                           :top))))
+                   (lazy-seq head-precheck-pairs))))))
+
 (def comp-precheck-pairs
   [{:parent [:comp :synsem :cat]
     :childc [:synsem :cat]}
@@ -150,6 +186,7 @@
                      child-value (get-in parent (:childc pair) :top)
                      result 
                      (unifyc parent-value child-value)]
+                 (log/debug (str "comp-pre-checks2: result: " result))
                  (if (fail? result)
                    (do
                      (log/trace (str "comp precheck failed  for pair: " pair))
@@ -184,6 +221,8 @@
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [head-pre-checks (head-pre-checks parent child)
+          ;; TODO: replace head-pre-checks with head-pre-checks2
+          ;;head-pre-checks2 (head-pre-checks2 parent child)
           result
           (if head-pre-checks
             (do
@@ -257,7 +296,7 @@
   (log/trace (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
   (log/trace (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
-  (let [pre-check2 (comp-pre-checks2 parent child)
+  (let [;pre-check2 (comp-pre-checks2 parent child) ;; TODO: not working yet: fix
         pre-check (comp-pre-checks parent child)
         
         result

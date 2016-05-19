@@ -42,6 +42,15 @@
          true
          (over/over grammar arg1 arg2))))
 
+(deftest generate-present
+  (let [result (engine/generate {:synsem {:subcat '()
+                                          :sem {:pred :sleep
+                                                :subj {:pred :I}
+                                                :tense :present
+                                                :aspect :progressive}}}
+                                small)]
+    (is (= "je dors" (fo result)))))
+
 (deftest generate-conditional
   (let [result (engine/generate {:synsem {:subcat '()
                                           :sem {:pred :sleep

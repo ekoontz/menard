@@ -71,6 +71,8 @@
                 morph))))
 
 (defn generate-all [spec grammar lexicon index morph & [total-depth]]
+  (log/debug (str "generate-all: generating from spec: "
+                 (strip-refs spec)))
   (let [total-depth (if total-depth total-depth 0)
         add-complements-to-bolts
         (fn [bolts path]
@@ -97,7 +99,7 @@
             (add-complements-to-bolts [:comp]))]
 
     (if (not (empty? expressions))
-      (log/info (str "generate-all: first expression generated for spec:" (strip-refs spec) " ):"
+      (log/debug (str "generate-all: first expression generated for spec:" (strip-refs spec) " ):"
                      "'" (morph (first expressions)) "'"))
       (log/debug (str "generate-all: no expressions could be generated for spec:" (strip-refs expressions))))
     expressions))

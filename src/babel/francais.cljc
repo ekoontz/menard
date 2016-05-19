@@ -1,7 +1,7 @@
 (ns babel.francais
   (:require
    [babel.engine :as engine]
-   [babel.francais.grammar :refer [medium]]
+   [babel.francais.grammar :refer [medium small]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.parse :as parse]

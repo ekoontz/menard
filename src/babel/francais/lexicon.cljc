@@ -245,7 +245,14 @@
                       :sem {:pred :give}}}
    
    "dormir" {:synsem {:cat :verb
-                      :sem {:pred :sleep}}}
+                      :sem {:pred :sleep}}
+             :français {:past-participle "dit"
+                        :present {:1sing "dors"
+                                  :2sing "dors"
+                                  :3sing "dort"
+                                  :1plur "dormons"
+                                  :2plur "dormez"
+                                  :3plur "dorment"}}}
 
    "echapper" {:synsem {:cat :verb
                         :sem {:pred :escape}}}

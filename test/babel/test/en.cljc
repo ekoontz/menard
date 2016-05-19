@@ -138,3 +138,25 @@
 
 (deftest the-dogs-house
   (is (not (empty? (parse "the dogs' house")))))
+
+(deftest generate-with-possessive-1
+  (let [result
+        (generate {:synsem {:cat :noun
+                            :sem {:number :sing
+                                  :spec {:pred :of
+                                         :of {:pred :Juana}}
+                                  :pred :cane}}})]
+    (is (not (nil? result)))
+    (is (= "Juana's dog" (fo result)))))
+
+(deftest generate-with-possessive-2
+  (let [result
+        (generate {:synsem {:cat :noun
+                            :sem {:mod {:pred :rosso}
+                                  :number :sing
+                                  :spec {:pred :of
+                                         :of {:pred :Juana}}
+                                  :pred :cane}}})]
+    (is (not (nil? result)))
+    (is (= "Juana's red dog" (fo result)))))
+

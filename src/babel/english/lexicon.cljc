@@ -108,6 +108,7 @@
    "bag" {:synsem {:cat :noun
                    :sem {:pred :bag
                          :animate false
+                         :edible false
                          :place false}}}
 
    "base" {:synsem {:cat :verb
@@ -346,6 +347,7 @@
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
                          :animate false
+                         :edible false
                          :place false}}}
 
    "carry" {:synsem {:cat :verb
@@ -1067,6 +1069,7 @@
    "key" {:synsem {:cat :noun
                    :sem {:pred :key
                          :animate false
+                         :edible false
                          :place false}}}
 
    "kill" {:synsem {:cat :verb

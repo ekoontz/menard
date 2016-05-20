@@ -56,6 +56,7 @@
                                              (generate-all each-spec grammar lexicon index morph)]
                                          expressions))
                                      spec)))]
+            ;; TODO: show time information
             (if expression
               (log/info (str "generate: generated "
                              "'" (morph expression) "'"

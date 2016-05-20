@@ -12,7 +12,7 @@
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
 (def ^:const max-total-depth 6)
-(def ^:const mapfn pmap)
+(def ^:const mapfn map)
 
 (declare add-complement)
 (declare lexemes-before-phrases)

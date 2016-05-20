@@ -61,7 +61,7 @@
               (log/info (str "generate: generated "
                              "'" (morph expression) "'"
                              " from " (count spec) " spec(s)"))
-              (log/info (str "generate: no expression could be generated for any of the "
+              (log/warn (str "generate: no expression could be generated for any of the "
                              " from " (count spec) " spec(s)")))
             expression))
 

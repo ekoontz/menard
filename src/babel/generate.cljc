@@ -278,8 +278,8 @@ of this function with complements."
   ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
   (if (> max-total-depth 0)
     (let [prob (- 1.0 (/ (- max-total-depth depth) max-total-depth))]
-      (> (* 10 prob) (rand-int 10))))
-  1)
+      (> (* 10 prob) (rand-int 10)))
+    false))
 
 (defn show-bolt [bolt path morph]
   (if (not (empty? path))

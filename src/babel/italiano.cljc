@@ -1,11 +1,15 @@
 (ns babel.italiano
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.parse :as parse]
-   [clojure.string :as string]))
+   [clojure.repl :refer [doc]]
+   [clojure.string :as string]
+   [dag_unify.core :refer (get-in strip-refs)]))
+
 (def lexicon (:lexicon medium))
 
 (defn analyze

@@ -11,6 +11,24 @@
    [dag_unify.core :refer (get-in strip-refs)]))
 
 (def lexicon (:lexicon medium))
+(def infinitives
+  (filter (fn [k] 
+            (let [vals (get lexicon k)]
+              (some (fn [val]
+                      (and (= (get-in val [:synsem :cat]) :verb)
+                           (= (get-in val [:synsem :infl]) :top)))
+                    vals)))
+          (keys lexicon)))
+
+(def nominative-pronouns
+  (filter (fn [k] 
+            (let [vals (get lexicon k)]
+              (some (fn [val]
+                      (and (= (get-in val [:synsem :cat]) :noun)
+                           (= (get-in val [:synsem :pronoun]) true)
+                           (= (get-in val [:synsem :case]) :nom)))
+                    vals)))
+          (keys lexicon)))
 
 (defn analyze
   ([surface-form]

@@ -1,4 +1,4 @@
-(defproject babel "1.4.2-SNAPSHOT"
+(defproject babel "1.4.2"
   :description "A Clojure library for generation of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}

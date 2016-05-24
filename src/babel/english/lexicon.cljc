@@ -853,7 +853,8 @@
               :agr {:person :3rd
                     :gender :fem
                     :number :sing}
-              :sem {:human true}
+              :sem {:pred :lei
+                    :human true}
               :subcat '()}}]
    
    "herself"

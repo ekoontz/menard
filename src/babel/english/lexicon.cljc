@@ -928,8 +928,10 @@
             
    "hurt" (let [common {:english {:past "hurt"}
                         :synsem {:cat :verb}}]
+            ;; 1. reflexive sense of "hurt"
             [(let [subject-semantics (atom {:human true})
                    subject-agr (atom :top)]
+
                (merge common
                       {:synsem {:sem {:pred :hurt-oneself
                                       :subj subject-semantics
@@ -940,6 +942,8 @@
                                              :pronoun true
                                              :reflexive true
                                              :sem subject-semantics}}}}))
+
+             ;; 2. transitive sense of "hurt"
              (merge common
                     {:synsem {:sem {:pred :hurt
                                     ;; TODO: consider making lexicon post-processing rule:

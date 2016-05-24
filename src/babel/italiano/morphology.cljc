@@ -1347,7 +1347,14 @@
   "return an array of the maps, each of which represents the lexical information about a surface form."
   (concat
    (analyze-regular surface-form lexicon)
-   (get lexicon surface-form)))
+   (map (fn [lexeme]
+          (cond (and (= :verb (get-in lexeme [:synsem :cat]))
+                     (= :top (get-in lexeme [:synsem :infl])))
+                (unifyc lexeme
+                        {:synsem {:infl :infinitive}})
+                true
+                lexeme))
+        (get lexicon surface-form))))
 
 (defn exception-generator [lexicon]
   (reduce

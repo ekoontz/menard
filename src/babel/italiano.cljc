@@ -71,9 +71,7 @@
   "given a string, generate a list of tokenization hypotheses."
   [string]
   (map #(string/split % tokenizer)
-       (if true
-         (morph/replace-over [string])
-         [string])))
+       (morph/replace-over [string])))
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"

@@ -1347,11 +1347,21 @@
   "return an array of the maps, each of which represents the lexical information about a surface form."
   (concat
    (analyze-regular surface-form lexicon)
+
+   ;; make canonical input forms fully inflected:
    (map (fn [lexeme]
           (cond (and (= :verb (get-in lexeme [:synsem :cat]))
                      (= :top (get-in lexeme [:synsem :infl])))
+                ;; if a verb has no infl, it's :infinitive.
                 (unifyc lexeme
                         {:synsem {:infl :infinitive}})
+
+                (and (= :noun (get-in lexeme [:synsem :cat]))
+                     (= :top (get-in lexeme [:synsem :agr :number])))
+                ;; if a noun has no number, it's :sing(gular)
+                (unifyc lexeme
+                        {:synsem {:agr {:number :sing}}})
+                
                 true
                 lexeme))
         (get lexicon surface-form))))

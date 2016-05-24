@@ -143,12 +143,12 @@
   (let [result
         (generate {:synsem {:cat :noun
                             :sem {:number :sing
+                                  :mod '()
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
                                   :pred :cane}}})]
     (is (not (nil? result)))
-    (is (= :cane
-           (get-in result [:synsem :sem :pred])))))
+    (is (= "Juana's dog" (fo result)))))
 
 (deftest generate-with-possessive-2
   (let [result

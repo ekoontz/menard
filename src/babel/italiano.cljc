@@ -86,7 +86,7 @@
          (map (fn [tokenization]
                 {:tokens tokenization
                  :parses (parse tokenization model)})
-              (analyze-tokens input))
+              (analyze-tokens (string/trim input)))
 
          (or (seq? input) (vector? input))
          (parse/parse input model)

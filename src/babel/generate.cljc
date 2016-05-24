@@ -45,7 +45,7 @@
 (defn generate [spec grammar lexicon index morph]
   (cond (or (vector? spec)
             (seq? spec))
-        (do
+        (let [spec (vec (set spec))]
           (log/debug (str "generating from " (count spec) " spec(s)"))
           (let [expression
                 (first (take 1

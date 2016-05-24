@@ -147,7 +147,8 @@
                                          :of {:pred :Juana}}
                                   :pred :cane}}})]
     (is (not (nil? result)))
-    (is (= "Juana's dog" (fo result)))))
+    (is (= :cane
+           (get-in result [:synsem :sem :pred])))))
 
 (deftest generate-with-possessive-2
   (let [result

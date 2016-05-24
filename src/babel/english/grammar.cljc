@@ -86,6 +86,24 @@
     :first :comp
     :comp {:synsem {:subcat '()}}}))
 
+(def c00
+  (unify-check
+   head-last
+   {:comment "c00"
+    :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
+    :first :comp
+    :comp {:synsem {:subcat '()}}
+    :head {:synsem {:subcat '()}}}))
+
+(def h00
+  (unify-check
+   head-first
+   {:comment "h00"
+    :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
+    :first :head
+    :comp {:synsem {:subcat '()}}
+    :head {:synsem {:subcat '()}}}))
+
 (def c11
   (unify-check
    subcat-1-1-principle
@@ -204,10 +222,56 @@
                                        :sem {:number number-agreement}}
                               :head {:phrasal true
                                      :synsem {:propernoun propernoun}}}))
-                   (unify-check h10
-                           {:rule "prepositional-phrase"
-                            :synsem {:cat :prep}})
+;                   (unify-check h10
+;                                {:rule "prepositional-phrase-argument"
+;                                 :synsem {:cat :prep}})
 
+                   (unify-check
+                    subcat-1-principle
+                    head-first
+                    {:comment "h10"
+                     :schema-symbol 'h10
+                     :first :head}
+                    (let [obj-sem (atom :top)
+                          mod (atom {:obj obj-sem})]
+                      {:rule "prepositional-phrase-adjunct"
+                       :synsem {:cat :prep
+                                :sem {:mod mod}}
+                       :head {:synsem {:sem mod
+                                       :cat :prep
+                                       :subcat {:1 {:sem obj-sem}}}}
+                       :comp {:synsem {:sem obj-sem}}}))
+
+                   (unify-check c00
+                                (let [head-sem (atom :top)]
+                                  {:synsem {:subcat '()
+                                            :modified true
+                                            :sem head-sem
+                                            :cat :verb}
+                                   :comp {:synsem {:cat :prep
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :head {:synsem {:cat :verb
+                                                   :modified false
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :rule "s-modified-with-adjunct-adjunct-first"}))
+
+                   (unify-check h00
+                                (let [head-sem (atom :top)]
+                                  {:synsem {:subcat '()
+                                            :modified true
+                                            :sem head-sem
+                                            :cat :verb}
+                                   :comp {:synsem {:cat :prep
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :head {:synsem {:cat :verb
+                                                   :modified false
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :rule "s-modified-with-adjunct-head-first"}))
+                    
                    (unify-check c10
                            root-is-head-root
                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.

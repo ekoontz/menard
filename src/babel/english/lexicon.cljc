@@ -99,6 +99,12 @@
    "assure" {:synsem {:cat :verb
                       :sem {:pred :assure}}}
 
+   "at" (let [obj (atom {:location true})]
+          {:synsem {:cat :prep
+                    :subcat {:1 {:sem obj}}
+                    :sem {:obj obj
+                          :pred :at}}})
+
    "attend" {:synsem {:cat :verb
                       :sem {:pred :attend}}}
 
@@ -263,6 +269,12 @@
                                   :3plur "were missing"}}
                  :synsem {:cat :verb
                           :sem {:pred :to-be-missing}}}
+
+   "beach" {:synsem {:cat :noun
+                     :sem {:place true
+                           :pred :beach
+                           :buyable false
+                           :artifact false}}}
 
    "become" {:synsem {:cat :verb
                     :sem {:pred :become}}

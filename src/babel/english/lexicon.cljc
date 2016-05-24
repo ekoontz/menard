@@ -1286,6 +1286,7 @@
             {:synsem {:agr agr
                       :sem {:animate false
                             :pred :name
+                            :place false
                             :physical-object false
                             :subj of}
                       :subcat {:1 {:agr agr

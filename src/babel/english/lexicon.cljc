@@ -865,7 +865,8 @@
              :agr {:person :3rd
                    :gender :fem
                    :number :sing}
-             :sem {:human true}
+             :sem {:human true
+                   :reflexive true}
              :subcat '()}}
     "him"
     {:synsem {:cat :noun
@@ -875,10 +876,11 @@
               :agr {:person :3rd
                     :gender :masc
                     :number :sing}
-              :sem {:human true}
+              :sem {:human true
+                    :pred :lui}
               :subcat '()}}
 
-    "himself"
+   "himself"
    {:synsem {:cat :noun
              :pronoun true
              :case :acc
@@ -886,7 +888,8 @@
              :agr {:person :3rd
                    :gender :masc
                    :number :sing}
-             :sem {:human true}
+             :sem {:human true
+                   :reflexive true}
              :subcat '()}}
 
    "his" [{:synsem {:cat :det
@@ -1254,6 +1257,7 @@
              :cat :noun
              :sem {:pred :music
                    :animate false
+                   :place false
                    :mass true}}}
    "my"
    (map #(unify %
@@ -1692,7 +1696,8 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:human true}
+              :sem {:human true
+                    :reflexive true}
               :subcat '()}}
     
     {:note "♂" 
@@ -1703,9 +1708,10 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :masc}
-              :sem {:human true}
+              :sem {:human true
+                    :reflexive true}
               :subcat '()}}
-{:note "♀" 
+    {:note "♀" 
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1713,7 +1719,8 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:human false}
+              :sem {:human false
+                    :reflexive true}
               :subcat '()}}
     
     {:note "♂" 
@@ -1724,7 +1731,8 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :masc}
-              :sem {:human false}
+              :sem {:human false
+                    :reflexive true}
               :subcat '()}}
     ]
    

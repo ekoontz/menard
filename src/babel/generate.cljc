@@ -145,7 +145,7 @@ of this function with complements."
       (log/debug (str "lightning-bolt(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) ")"))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
-            parents (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar))]
+            parents (shuffle (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar)))]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))

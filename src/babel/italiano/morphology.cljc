@@ -1343,7 +1343,20 @@
                              (get lexicon potential-lexical-form)))))))))
    replace-patterns))
 
+(declare analyze-capitalization-variant)
+
 (defn analyze [surface-form lexicon]
+  (mapcat (fn [each-variant]
+            (analyze-capitalization-variant each-variant lexicon))
+          (set
+           (list
+            surface-form
+            (string/capitalize surface-form)
+            (string/capitalize (string/lower-case surface-form))
+            (string/upper-case surface-form)
+            (string/lower-case surface-form)))))
+
+(defn analyze-capitalization-variant [surface-form lexicon]
   "return an array of the maps, each of which represents the lexical information about a surface form."
   (concat
    (analyze-regular surface-form lexicon)

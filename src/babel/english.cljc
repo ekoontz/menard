@@ -67,3 +67,15 @@
   ([input model]
    (parse/parse (preprocess input) model)))
 
+(defn demo [ & [n spec]]
+  "print out _n_ generated sentences to stdout."
+  (let [n (if n (Integer. n)
+              100)
+        spec (if spec (read-string spec)
+                 :top)]
+    (count (filter #(not (nil? %)) 
+                   (take n (repeatedly
+                            #(println 
+                              (let [result
+                                    (generate spec)]
+                                (fo result)))))))))

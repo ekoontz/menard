@@ -121,15 +121,19 @@
           (filter #(not (= % ""))
                   (take
                    10
-                   (repeatedly #(let [foo (generate {:synsem {:sem {:pred :be-called}}})]
+                   (repeatedly #(let [foo (generate {:synsem {:cat :verb
+                                                              :modified false
+                                                              :sem {:pred :be-called}}})]
                                   (is (not (= "" (fo foo))))
                                   (log/info (str "fo: " (fo foo)))
                                   (fo foo)))))))))
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
-         (fo (generate {:synsem {:cat :verb :sem {:pred :be-called
-                                                  :subj {:pred :lei}
-                                                  :obj {:pred :luisa}}}})))))
+         (fo (generate {:modified false
+                        :synsem {:cat :verb
+                                 :sem {:pred :be-called
+                                       :subj {:pred :lei}
+                                       :obj {:pred :luisa}}}})))))
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
 
@@ -160,4 +164,3 @@
                                   :pred :cane}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
-

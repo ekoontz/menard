@@ -170,13 +170,15 @@
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS
 
+(def modified {:modified true})
+(def unmodified {:modified false})
+
 (def grammar (list (unify-check h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
                    
                    (unify-check h21
-                           (let [head-synsem {:cat :intensifier
-                                              :modified true}] ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                           (let [head-synsem {:cat :intensifier}]
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
@@ -243,90 +245,96 @@
                        :comp {:synsem {:sem obj-sem}}}))
 
                    (unify-check c00
+                                modified
                                 (let [head-sem (atom :top)]
-                                  {:synsem {:subcat '()
-                                            :modified true
+                                  {:modified true
+                                   :synsem {:subcat '()
                                             :sem head-sem
                                             :cat :verb}
                                    :comp {:synsem {:cat :prep
                                                    :subcat '()
                                                    :sem head-sem}}
-                                   :head {:synsem {:cat :verb
-                                                   :modified false
+                                   :head {:modified false
+                                          :synsem {:cat :verb
                                                    :subcat '()
                                                    :sem head-sem}}
                                    :rule "s-modified-with-adjunct-adjunct-first"}))
 
                    (unify-check h00
+                                modified
                                 (let [head-sem (atom :top)]
                                   {:synsem {:subcat '()
-                                            :modified true
                                             :sem head-sem
                                             :cat :verb}
                                    :comp {:synsem {:cat :prep
                                                    :subcat '()
                                                    :sem head-sem}}
-                                   :head {:synsem {:cat :verb
-                                                   :modified false
+                                   :head {:modified false
+                                          :synsem {:cat :verb
                                                    :subcat '()
                                                    :sem head-sem}}
                                    :rule "s-modified-with-adjunct-head-first"}))
                     
                    (unify-check c10
-                           root-is-head-root
-                           {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
-                                   :synsem {:aux true}}
-                            :rule "s-aux"
-                            :synsem {:infl :present
-                                     :cat :verb
-                                     :sem {:aspect :perfect
-                                           :tense :past}}})
+                                root-is-head-root
+                                unmodified
+                                {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
+                                        :synsem {:aux true}}
+                                 :rule "s-aux"
+                                 :synsem {:infl :present
+                                          :cat :verb
+                                          :sem {:aspect :perfect
+                                                :tense :past}}})
+                   (unify-check c10
+                                root-is-head
+                                unmodified
+                                {:head {:phrasal false ;; non-auxiliary past: e.g. "he slept"
+                                        :synsem {:aux false}}
+                                 :rule "s-past-nonphrasal-head"
+                                 :synsem {:infl :past
+                                          :cat :verb
+                                          :sem {:aspect :perfect
+                                                :tense :past}}})
+                   (unify-check c10
+                                unmodified
+                                root-is-head
+                                {:head {:phrasal true ;; reflexive past: e.g. "he washed himself"
+                                        :synsem {:aux false}}
+                                 :rule "s-past-phrasal-head"
+                                 :synsem {:infl :past
+                                          :cat :verb
+                                          :sem {:aspect :perfect
+                                                :tense :past}}})
+                   (unify-check c10
+                                root-is-head-root
+                                unmodified
+                                {:rule "s-conditional-phrasal-head"
+                                 :head {:phrasal true}
+                                 :synsem {:aux false
+                                          :infl :conditional
+                                          :cat :verb
+                                          :sem {:tense :conditional}}})
+                   (unify-check c10
+                                root-is-head
+                                unmodified
+                                {:rule "s-conditional-nonphrasal-head"
+                                 :head {:phrasal false}
+                                 :synsem {:aux false
+                                          :infl :conditional
+                                          :cat :verb
+                                          :sem {:tense :conditional}}})
+                   (unify-check c10
+                                root-is-head-root
+                                unmodified
+                                {:rule "s-future-phrasal-head"
+                                 :head {:phrasal true}
+                                 :synsem {:aux false
+                                          :infl :future
+                                          :cat :verb
+                                          :sem {:tense :future}}})
                    (unify-check c10
                            root-is-head
-                           {:head {:phrasal false ;; non-auxiliary past: e.g. "he slept"
-                                   :synsem {:aux false}}
-                            :rule "s-past-nonphrasal-head"
-                            :synsem {:infl :past
-                                     :cat :verb
-                                     :sem {:aspect :perfect
-                                           :tense :past}}})
-
-                   (unify-check c10
-                           root-is-head
-                           {:head {:phrasal true ;; reflexive past: e.g. "he washed himself"
-                                   :synsem {:aux false}}
-                            :rule "s-past-phrasal-head"
-                            :synsem {:infl :past
-                                     :cat :verb
-                                     :sem {:aspect :perfect
-                                           :tense :past}}})
-                   
-                   (unify-check c10
-                           root-is-head-root
-                           {:rule "s-conditional-phrasal-head"
-                            :head {:phrasal true}
-                            :synsem {:aux false
-                                     :infl :conditional
-                                     :cat :verb
-                                     :sem {:tense :conditional}}})
-                   (unify-check c10
-                           root-is-head
-                           {:rule "s-conditional-nonphrasal-head"
-                            :head {:phrasal false}
-                            :synsem {:aux false
-                                     :infl :conditional
-                                     :cat :verb
-                                     :sem {:tense :conditional}}})
-                   (unify-check c10
-                           root-is-head-root
-                           {:rule "s-future-phrasal-head"
-                            :head {:phrasal true}
-                            :synsem {:aux false
-                                     :infl :future
-                                     :cat :verb
-                                     :sem {:tense :future}}})
-                   (unify-check c10
-                           root-is-head
+                           unmodified
                            {:rule "s-future-nonphrasal-head"
                             :head {:phrasal false}
                             :synsem {:aux false
@@ -334,33 +342,36 @@
                                      :cat :verb
                                      :sem {:tense :future}}})
                    (unify-check c10
-                           root-is-head-root
-                           {:rule "s-imperfect-phrasal-head"
-                            :head {:phrasal true}
-                            :synsem {:aux false
-                                     :infl :imperfect
-                                     :cat :verb
-                                     :sem {:aspect :progressive
-                                           :tense :past}}})
+                                root-is-head-root
+                                unmodified
+                                {:rule "s-imperfect-phrasal-head"
+                                 :head {:phrasal true}
+                                 :synsem {:aux false
+                                          :infl :imperfect
+                                          :cat :verb
+                                          :sem {:aspect :progressive
+                                                :tense :past}}})
                    (unify-check c10
-                           root-is-head
-                           {:rule "s-imperfect-nonphrasal-head"
-                            :head {:phrasal false}
-                            :synsem {:aux false
-                                     :infl :imperfect
-                                     :cat :verb
-                                     :sem {:aspect :progressive
-                                           :tense :past}}})
+                                root-is-head
+                                unmodified
+                                {:rule "s-imperfect-nonphrasal-head"
+                                 :head {:phrasal false}
+                                 :synsem {:aux false
+                                          :infl :imperfect
+                                          :cat :verb
+                                          :sem {:aspect :progressive
+                                                :tense :past}}})
 
                    (unify-check c10
-                           root-is-head-root
-                           {:rule "s-present-phrasal-head"
-                            :head {:phrasal true}
-                            :synsem {:aux false
-                                     :infl :present
-                                     :cat :verb
-                                     :sem {:aspect :progressive
-                                           :tense :present}}})
+                                root-is-head-root
+                                unmodified
+                                {:rule "s-present-phrasal-head"
+                                 :head {:phrasal true}
+                                 :synsem {:aux false
+                                          :infl :present
+                                          :cat :verb
+                                          :sem {:aspect :progressive
+                                                :tense :present}}})
                    (unify-check c10
                            root-is-head
                            {:rule "s-present-nonphrasal-head"

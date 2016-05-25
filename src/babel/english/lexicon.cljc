@@ -281,6 +281,7 @@
 
    "beach" {:synsem {:cat :noun
                      :sem {:place true
+                           :event false
                            :pred :beach
                            :buyable false
                            :artifact false}}}
@@ -929,6 +930,7 @@
                   countable-noun
                   {:synsem {:sem {:pred :house
                                   :buyable true
+                                  :event false
                                   :artifact true
                                   :place true}}})
    "hug"

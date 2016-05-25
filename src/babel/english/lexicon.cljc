@@ -103,6 +103,7 @@
                          :reflexive false})]
           {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun
+                                 :pronoun false
                                  :subcat '()
                                  :sem obj}}
                     :sem {:obj obj

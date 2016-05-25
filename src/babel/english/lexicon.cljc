@@ -110,7 +110,12 @@
                           :pred :at}}})
 
    "attend" {:synsem {:cat :verb
-                      :sem {:pred :attend}}}
+                      :subcat {:1 {:cat :noun
+                                   :sem {:human true}}
+                               :2 {:cat :noun
+                                   :pronoun false
+                                   :sem {:event true
+                                         :human false}}}}}
 
    "avoid" {:synsem {:cat :verb
                      :sem {:pred :avoid}}}

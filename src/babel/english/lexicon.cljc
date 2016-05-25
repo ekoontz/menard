@@ -1241,6 +1241,10 @@
    "meet"  {:synsem {:cat :verb
                      :sem {:pred :incontrare}}
             :english {:past "met"}}
+
+   "meeting" {:synsem {:cat :noun
+                       :sem {:pred :meeting
+                             :event true}}}
    "mother"
    (unify agreement-noun
           common-noun
@@ -1356,6 +1360,11 @@
 
    "participate"  {:synsem {:cat :verb
                             :sem {:pred :participate}}}
+
+   "party" {:synsem {:cat :noun
+                     :sem {:pred :party
+                           :place true
+                           :event true}}}
    
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").

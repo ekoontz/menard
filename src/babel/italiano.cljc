@@ -20,6 +20,22 @@
                     vals)))
           (keys lexicon)))
 
+(def articles
+  (filter (fn [k] 
+            (let [vals (get lexicon k)]
+              (some (fn [val]
+                      (= (get-in val [:synsem :cat]) :det))
+                    vals)))
+          (keys lexicon)))
+
+(def nouns
+  (filter (fn [k] 
+            (let [vals (get lexicon k)]
+              (some (fn [val]
+                      (= (get-in val [:synsem :cat]) :noun))
+                    vals)))
+          (keys lexicon)))
+
 (def nominative-pronouns
   (filter (fn [k] 
             (let [vals (get lexicon k)]

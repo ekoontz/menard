@@ -3,12 +3,15 @@
   (:require
    [babel.engine :as engine]
    [babel.italiano.grammar :refer [medium]]
-   [babel.italiano.morphology :as morph :refer [fo]]
+   [babel.italiano.morphology :as morph]
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
    [dag_unify.core :refer (get-in strip-refs)]))
+
+(defn fo [expression]
+  (morph/fo expression))
 
 (def lexicon (:lexicon medium))
 (def infinitives

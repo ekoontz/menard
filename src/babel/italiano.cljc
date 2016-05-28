@@ -84,7 +84,7 @@
 (defn lightning-bolt [spec]
   (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
 
-(def tokenizer #"[ ']")
+(def tokenizer #"[ '\n,’».]")
 
 (defn analyze-tokens
   "given a string, generate a list of tokenization hypotheses."

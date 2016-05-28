@@ -93,6 +93,19 @@
     :first :head
     :comment "h11"}))
 
+(def c11-comp-subcat-1
+  (let [subcat (atom :top)]
+    (unifyc
+     {:head {:synsem {:subcat {:1 subcat}}}
+      :comp {:synsem {:subcat {:1 subcat}}}}
+     subcat-1-1-principle-comp-subcat-1
+     hc-agreement
+     head-principle
+     comp-modifies-head
+     head-last
+     {:schema-symbol 'c11-comp-subcat-1
+      :first :head
+      :comment "c11-comp-subcat-1"})))
 
 (def h11-comp-subcat-1
   (let [subcat (atom :top)]
@@ -105,7 +118,7 @@
      comp-modifies-head
      head-first
      {:schema-symbol 'h11-comp-subcat-1
-      :first :head
+      :first :comp
       :comment "h11-comp-subcat-1"})))
 
 (def h10
@@ -169,6 +182,7 @@
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
+                   ;; nbar where noun is first ('h' in h11)
                    (unifyc h11-comp-subcat-1
                            (let [is-propernoun? (atom :top)
                                  head-synsem {:cat :noun
@@ -180,8 +194,24 @@
                               :head {:phrasal false
                                      :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
                                               :propernoun is-propernoun?}}
-                              :rule "nbar"
+                              :rule "nbar1"
                               :synsem head-synsem}))
+
+                   ;; nbar where adjective is first ('c' in c11)
+                   (unifyc c11-comp-subcat-1
+                           (let [is-propernoun? (atom :top)
+                                 head-synsem {:cat :noun
+                                              :modified true
+                                              :propernoun is-propernoun?}]
+                             {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
+                                     :synsem {:cat :adjective
+                                              :mod head-synsem}}
+                              :head {:phrasal false
+                                     :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                              :propernoun is-propernoun?}}
+                              :rule "nbar2"
+                              :synsem head-synsem}))
+
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)

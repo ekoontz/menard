@@ -270,6 +270,9 @@
 ;              :note "andare-pp"}))))
 
 
+   "anno"  {:synsem {:cat :noun
+                     :sem {:pred :year}}}
+
    "annunciare"  {:synsem {:cat :verb
                            :sem {:pred :announce}}}
 
@@ -330,7 +333,9 @@
                                             :1plur "abbiamo"
                                             :2plur "avete"
                                             :3plur "hanno"}}}]
-     [(unify ;; 1. "avere": to possess something buyable
+
+     ;; 1. "avere": to possess something buyable
+     [(unify
        transitive
        avere-common
        {:note "avere (possess)"
@@ -340,8 +345,18 @@
                        :subj {:human true}
                        :obj {:buyable true}}}})
 
+      ;; 2. "avere": to be in a relation with: e.g. "I have two children"
+      (unify
+       transitive
+       avere-common
+       {:note "avere (relation)"
+        :synsem {:sem {:pred :have
+                       :activity false
+                       :discrete false
+                       :subj {:human :top}
+                       :obj {:human :top}}}})
 
-      ;; 2. avere: unspecified object
+      ;; 3. avere: unspecified object
       (unify
        avere-common
        verb-subjective
@@ -352,7 +367,7 @@
                        :discrete false
                        :subj {:human true}}}})
 
-      ;; 3. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
+      ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
       (let [agr-of-obj-of-main-verb (atom :top)]
         (unify
          verb-aux
@@ -366,7 +381,7 @@
                                             :pronoun true}}
                                :essere false}}}}))
 
-      ;; 4. "avere" that takes an intransitive verb or a transitive verb within a VP
+      ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
       ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
       ;; "avere": auxiliary-verb: takes 2 args:
       ;; 1. subject that is the same as the subject of 2.
@@ -694,27 +709,30 @@
                                 :discrete false
                                 :pred :cercare
                                 :subj {:animate true}}}}
-      "città"
-      (unify agreement-noun
-             common-noun
-             countable-noun
-             feminine-noun
-             {:synsem {:sem {:artifact true
-                             :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
-                             :city true
-                             :place true
-                             :pred :città
-                             }
-                       :subcat {:1 {:cat :det
-                                    :def :def}}}})
-      
-      "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
-                  [(merge common
-                          {:synsem {:cat :verb
-                                    :sem {:pred :hit}}})
-                   (merge common
-                          {:synsem {:cat :verb
-                                    :sem {:pred :strike}}})])
+   "città"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          feminine-noun
+          {:synsem {:sem {:artifact true
+                          :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
+                          :city true
+                          :place true
+                          :pred :città
+                          }
+                    :subcat {:1 {:cat :det
+                                 :def :def}}}})
+   
+   "cittadino" {:synsem {:cat :adjective
+                         :sem {:pred :local}}}
+
+   "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
+               [(merge common
+                       {:synsem {:cat :verb
+                                 :sem {:pred :hit}}})
+                (merge common
+                       {:synsem {:cat :verb
+                                 :sem {:pred :strike}}})])
    "cominciare"
    [{:synsem {:cat :verb
               :essere false
@@ -985,6 +1003,12 @@
               {:synsem {:sem {:human true
                               :pred :donna
                               :child false}}})
+      "dopo"
+      (unify sentential-adverb
+              {:synsem {:cat :sent-modifier
+                        :sem {:pred :after}
+                        :subcat {:1 {:cat :verb
+                                     :subcat '()}}}})
       "dopodomani"
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
@@ -1571,9 +1595,9 @@
     {:synsem {:cat :noun
               :pronoun true
               :case :nom
-             :agr {:gender :masc
-                   :person :1st
-                   :number :plur}
+              :agr {:gender :masc
+                    :person :1st
+                    :number :plur}
               :sem {:human true
                     :pred :luisa-and-i}
               :subcat '()}}]
@@ -1643,6 +1667,12 @@
                       :essere true
                       :sem {:pred :be-born}}
              :italiano {:passato "nato"}}
+
+   "neonato" {:synsem {:cat :noun
+                       :agr {:gender :masc}
+                       :sem {:pred :newborn
+                             :human true
+                             :adult false}}}
    
    ;; non-comparative
    ;; TODO: add comparative
@@ -1676,6 +1706,11 @@
 
    "osservare" {:synsem {:cat :verb
                          :sem {:pred :observe}}}
+
+   "ostana" {:synsem {:cat :noun
+                      :propernoun true
+                      :sem {:pred :ostana
+                            :city true}}}
 
    "ottenere" {:synsem {:cat :verb
                         :sem {:pred :obtain}}
@@ -2088,6 +2123,8 @@
                                   :3plur "vengono"}
                         :future-stem "verr"}}
 
+   "ventotto" {:synsem {:cat :det}}
+   
    "vestirsi" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb

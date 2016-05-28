@@ -2123,7 +2123,8 @@
                                   :3plur "vengono"}
                         :future-stem "verr"}}
 
-   "ventotto" {:synsem {:cat :det}}
+   "ventotto" {:synsem {:cat :det
+                        :agr {:number :plur}}}
    
    "vestirsi" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]

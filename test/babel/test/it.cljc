@@ -212,9 +212,11 @@
     (is (not (empty? result)))
     ;; formatting the first of the resultant parse trees:
     ;; output should be the same as the input to the parser:
-    (is (= "il gatto rosso si è alzato"
-           (fo (first result))))))
-
+    (is (or (= "il gatto rosso si è alzato"
+               (fo (first result)))
+            (= "il rosso gatto si è alzato"
+               (fo (first result)))))))
+            
 ;; tricky tokenization of 'la sua' and 'la loro' as lexemes.
 (deftest parsing
   (count

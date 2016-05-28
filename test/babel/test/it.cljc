@@ -77,7 +77,8 @@
                                        :number :sing
                                        :pred :donna}}} 
                        np-grammar)]
-    (is (= (fo expr) "la donna difficile"))
+    (is (or (= (fo expr) "la donna difficile")
+            (= (fo expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
                                      :parses (parse (fo expr) np-grammar))))))))
 

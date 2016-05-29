@@ -566,6 +566,8 @@
                                              (not (= (get-in % [:synsem :propernoun] false) true))
                                              (not (= (get-in % [:synsem :pronoun] false) true)))))
                               v)
+                      ;; TODO: remove this removal:
+                      ;; don't remove this semantic info.
                       remove-semantic-features
                       (map (fn [lexeme]
                              (remove-matching-keys lexeme

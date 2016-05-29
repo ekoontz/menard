@@ -555,6 +555,7 @@
         (filter #(or (= (:rule %) "noun-phrase2")
                      (= (:rule %) "nbar"))
                 grammar)
+        rules (map #(keyword (get-in % [:rule])) grammar)
         lexicon
         (into {}
               (for [[k v] lexicon]
@@ -595,6 +596,8 @@
      :enrich enrich
      :grammar grammar
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :rules rules
+     :rule-map (zipmap rules grammar)}))
 
 (log/info "Italiano grammars defined (small, medium).")

@@ -103,10 +103,10 @@
                         (println log-message)
                         (println)
                         (let [expressions (run-demo-with n spec)]
-                          (count (map (fn [expression]
-                                        (do
-                                          (println (fo expression))))
-                                      expressions))))))
+                          (count (pmap (fn [expression]
+                                         (do
+                                           (println (fo expression))))
+                                       expressions))))))
                 demo-specs))))
 
 (defn run-demo-with [ & [n spec]]

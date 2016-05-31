@@ -139,7 +139,9 @@
    some language-dependent way."
   ([input model & [original-input]]
    (let [original-input (if original-input original-input input)]
-     (cond (string? input)
+     (cond (= (type input) java.io.BufferedReader)
+           (parse-from-file input model)
+           (string? input)
            (do
              (log/info (str "parsing input: '" input "'"))
              (parse (filter #(not (empty? %)) (string/split input tokenizer)) model original-input))

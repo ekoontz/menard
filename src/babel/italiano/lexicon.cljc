@@ -495,7 +495,8 @@
            common-noun
            countable-noun
            masculine-noun
-           {:synsem {:sem {:pred :calzoni
+           {:synsem {:agr {:number :plur}
+                     :sem {:pred :calzoni
                            :artifact true
                            :speakable false
                            :legible false

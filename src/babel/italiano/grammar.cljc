@@ -471,6 +471,14 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
+(defn lexicon-for-generation [lexicon]
+  (into {}
+        (for [[k v] lexicon]
+          (let [filtered-v
+                (filter #(not (= false (get-in % [:generate-with] true))) v)]
+            (if (not (empty? filtered-v))
+              [k filtered-v])))))
+
 (def small
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-phrasal")
@@ -498,7 +506,8 @@
                                     (= (get-in % [:synsem :pronoun]) true)))
                               v)]
                   (if (not (empty? filtered-v))
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        lexicon-for-generation (lexicon-for-generation lexicon)]
     {:name "small"
      :morph-walk-tree (fn [tree]
                         (do
@@ -510,6 +519,7 @@
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
+     :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
@@ -534,6 +544,7 @@
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
+        lexicon-for-generation (lexicon-for-generation lexicon)
         rules (map #(keyword (get-in % [:rule])) grammar)]
     {:name "medium"
      :language "it"
@@ -542,6 +553,7 @@
      :lookup (fn [arg]
                (analyze arg parse-lexicon))
      :enrich enrich
+     :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :rules rules
      :rule-map (zipmap rules
@@ -571,7 +583,8 @@
                                              (not (= (get-in % [:synsem :pronoun] false) true)))))
                               v)
                       ;; TODO: remove this removal:
-                      ;; don't remove this semantic info.
+                      ;; don't remove this semantic info. It's an interesting example of how to
+                      ;; process a lexicon, though, so perhaps find a reason to use it in some way.
                       remove-semantic-features
                       (map (fn [lexeme]
                              (remove-matching-keys lexeme
@@ -585,7 +598,8 @@
                                                      (= % :physical-object) (= % :place)    (= % :speakable))))
                            filtered-v)]
                   (if (not (empty? remove-semantic-features))
-                    [k remove-semantic-features]))))]
+                    [k remove-semantic-features]))))
+        lexicon-for-generation (lexicon-for-generation lexicon)]
     {:name "np-grammar"
      :morph-walk-tree (fn [tree]
                         (do
@@ -597,9 +611,10 @@
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
+     :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :rules rules
      :rule-map (zipmap rules grammar)}))
 

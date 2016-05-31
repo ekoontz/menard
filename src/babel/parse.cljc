@@ -124,6 +124,14 @@
                                 ;; </value>
                                 })
                              (get span-map n)))))))
+
+(declare parse)
+
+(defn parse-from-file [reader]
+  "parse linefeed-separated file line-by-line."
+  (map parse
+       (line-seq reader)))
+
 (defn parse
   "return a list of all possible parse trees for a string or a sequence of tokens.
    If the input is a string, then use a language-independent tokenizer to turn the string into a sequence of tokens.

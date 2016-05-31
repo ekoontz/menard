@@ -56,10 +56,15 @@
 
         debug (log/debug (str "pre-enrich spec: " spec))
 
+        ;; if a generate-only lexicon is supplied by the language model, use that.
+        lexicon (if (get-in language-model [:generate :lexicon])
+                  (get-in language-model [:generate :lexicon])
+                  (get-in language-model [:lexicon]))
+        
         post-enrich-spec (if (and do-enrich (:enrich language-model))
                            ((:enrich language-model)
                             spec
-                            (:lexicon language-model))
+                            lexicon)
                            spec)
 
         spec (if (not (empty? post-enrich-spec))
@@ -81,7 +86,7 @@
         ]
     (let [result (generate/generate spec 
                                   (:grammar language-model)
-                                  (:lexicon language-model)
+                                  lexicon
                                   (:index language-model)
                                   (:morph language-model))]
       result)))

@@ -102,6 +102,7 @@
    (cond (string? input)
          (map (fn [tokenization]
                 {:tokens tokenization
+                 :input input
                  :parses (parse tokenization model input)})
               (analyze-tokens (string/trim input)))
 

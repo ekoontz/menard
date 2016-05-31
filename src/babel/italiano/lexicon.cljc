@@ -1611,10 +1611,13 @@
               :sem {:pred :lie}}}
 
    "mezzogiorno"
-   {:synsem {:cat :noun
-             :sem {:pred :noon
-                   :time true}}}
-   
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          masculine-noun
+          {:synsem {:cat :noun
+                    :sem {:pred :noon
+                          :time true}}})
    "mi"
    {:synsem {:cat :noun
                :pronoun true

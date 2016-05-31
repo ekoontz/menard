@@ -144,7 +144,13 @@
            (string? input)
            (do
              (log/info (str "parsing input: '" input "'"))
-             (parse (filter #(not (empty? %)) (string/split input tokenizer)) model original-input))
+             ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
+             (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
+                   result (parse tokenizations model original-input)]
+               (if (empty? result)
+                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: " (string/join ";" tokenizations)))
+                 (log/info (str "parsed input:    \"" input "\"")))
+               result))
          
            (or (seq? input) (vector? input))
            ;; assume input is a list of tokens.
@@ -165,9 +171,6 @@
                     (filter map? (get all-parses
                                       [0 token-count]))
                     :all-parses all-parses}]
-               (if (empty? (:complete-parses result))
-                 (log/warn (str "could not parse: '" original-input "'"))
-                 (log/info (str "successfully parsed input: '" original-input "'")))
                (:complete-parses result)))
 
            true

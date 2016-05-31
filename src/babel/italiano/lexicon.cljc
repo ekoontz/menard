@@ -1786,11 +1786,15 @@
 
    "recuperare" {:synsem {:cat :verb
                           :sem {:pred :recover}}}
-
-   "ragazza" {:synsem {:cat :noun
-                       :agr {:gender :fem}
-                       :sem {:pred :girl
-                             :human true}}}
+   "ragazza"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          feminine-noun
+          {:synsem {:cat :noun
+                    :agr {:gender :fem}
+                    :sem {:pred :girl
+                          :human true}}})
               
    "restare" {:synsem {:essere true 
                             :cat :verb

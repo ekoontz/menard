@@ -126,9 +126,9 @@
                              (get span-map n)))))))
 (defn parse
   "return a list of all possible parse trees for a string or a sequence of tokens.
-   In the latter case, the tokens will be produced by splitting a string in 
-   some language-dependent. If the input is a string, then use a 
-   language-independent tokenizer to turn the string into a sequence of tokens."
+   If the input is a string, then use a language-independent tokenizer to turn the string into a sequence of tokens.
+   In the latter case, the tokens are assumed to be produced by splitting a string in 
+   some language-dependent way."
   ([input model & [original-input]]
    (let [original-input (if original-input original-input input)]
      (cond (string? input)

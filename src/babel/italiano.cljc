@@ -102,11 +102,28 @@
    (cond (string? input)
          (map (fn [tokenization]
                 {:tokens tokenization
-                 :parses (parse tokenization model)})
+                 :input input
+                 :parses (parse tokenization model input)})
               (analyze-tokens (string/trim input)))
 
          (or (seq? input) (vector? input))
          (parse/parse input model)
         
          true
+         (str "don't know how to parse input: " (type input))))
+
+  ([input model original-input]
+   (cond (string? input)
+         (map (fn [tokenization]
+                {:tokens tokenization
+                 :parses (parse tokenization model input)})
+              (analyze-tokens (string/trim input)))
+
+         (or (seq? input) (vector? input))
+         (parse/parse input model original-input)
+        
+         true
          (str "don't know how to parse input: " (type input)))))
+
+
+    

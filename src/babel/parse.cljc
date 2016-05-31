@@ -124,17 +124,33 @@
                                 ;; </value>
                                 })
                              (get span-map n)))))))
+
+(declare parse)
+
+(defn parse-from-file [reader]
+  "parse linefeed-separated file line-by-line."
+  (map parse
+       (line-seq reader)))
+
 (defn parse
   "return a list of all possible parse trees for a string or a sequence of tokens.
-   In the latter case, the tokens will be produced by splitting a string in 
-   some language-dependent. If the input is a string, then use a 
-   language-independent tokenizer to turn the string into a sequence of tokens."
+   If the input is a string, then use a language-independent tokenizer to turn the string into a sequence of tokens.
+   In the latter case, the tokens are assumed to be produced by splitting a string in 
+   some language-dependent way."
   ([input model & [original-input]]
    (let [original-input (if original-input original-input input)]
-     (cond (string? input)
+     (cond (= (type input) java.io.BufferedReader)
+           (parse-from-file input model)
+           (string? input)
            (do
              (log/info (str "parsing input: '" input "'"))
-             (parse (filter #(not (empty? %)) (string/split input tokenizer)) model original-input))
+             ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
+             (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
+                   result (parse tokenizations model original-input)]
+               (if (empty? result)
+                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: " (string/join ";" tokenizations)))
+                 (log/info (str "parsed input:    \"" input "\"")))
+               result))
          
            (or (seq? input) (vector? input))
            ;; assume input is a list of tokens.
@@ -155,9 +171,6 @@
                     (filter map? (get all-parses
                                       [0 token-count]))
                     :all-parses all-parses}]
-               (if (empty? (:complete-parses result))
-                 (log/warn (str "could not parse: '" original-input "'"))
-                 (log/info (str "successfully parsed input: '" original-input "'")))
                (:complete-parses result)))
 
            true

@@ -19,9 +19,9 @@
               person (atom :top)
               pronoun (atom :top)
               agr (atom {:number number
-                        :pronoun pronoun
-                        :gender gender
-                        :person person})
+                         :pronoun pronoun
+                         :gender gender
+                         :person person})
               cat (atom :top)]
           {:synsem {:cat cat
                     :pronoun pronoun

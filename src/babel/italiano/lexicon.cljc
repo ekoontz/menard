@@ -510,7 +510,8 @@
            common-noun
            countable-noun
            masculine-noun
-           {:synsem {:sem {:pred :calzoni
+           {:synsem {:agr {:number :plur}
+                     :sem {:pred :calzoni
                            :artifact true
                            :speakable false
                            :legible false
@@ -1635,10 +1636,13 @@
               :sem {:pred :lie}}}
 
    "mezzogiorno"
-   {:synsem {:cat :noun
-             :sem {:pred :noon
-                   :time true}}}
-   
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          masculine-noun
+          {:synsem {:cat :noun
+                    :sem {:pred :noon
+                          :time true}}})
    "mi"
    {:synsem {:cat :noun
                :pronoun true
@@ -1817,11 +1821,15 @@
 
    "recuperare" {:synsem {:cat :verb
                           :sem {:pred :recover}}}
-
-   "ragazza" {:synsem {:cat :noun
-                       :agr {:gender :fem}
-                       :sem {:pred :girl
-                             :human true}}}
+   "ragazza"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          feminine-noun
+          {:synsem {:cat :noun
+                    :agr {:gender :fem}
+                    :sem {:pred :girl
+                          :human true}}})
               
    "restare" {:synsem {:essere true 
                             :cat :verb
@@ -2069,12 +2077,18 @@
               :sem {:pred :tu
                     :human true}
               :subcat '()}}]
-   "un"
-       {:synsem {:cat :det
-                 :def :indef
-                 :mass false
-                 :agr {:gender :masc
-                       :number :sing}}}
+   "un" [{:synsem {:cat :det
+                   :def :indef
+                   :mass false
+                   :agr {:gender :masc
+                         :number :sing}}}
+         {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
+          :synsem {:cat :det
+                   :def :indef
+                   :mass false
+                   :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
+                         ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
+                         :number :sing}}}]
    "una"
     {:synsem {:cat :det
               :def :indef

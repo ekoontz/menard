@@ -4,17 +4,17 @@
    [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.italiano :refer [analyze generate lightning-bolt parse]]
-   [babel.italiano.grammar :refer [small medium np-grammar]]
+   [babel.italiano.grammar :as grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.verbs :as verbs]
+   #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
    [babel.parse :as parse]
    #?(:clj [clojure.test :refer [deftest is]])
    #?(:cljs [cljs.test :refer-macros [deftest is]])
    #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]

@@ -2043,7 +2043,8 @@
                    :mass false
                    :agr {:gender :masc
                          :number :sing}}}
-         {:synsem {:cat :det
+         {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
+          :synsem {:cat :det
                    :def :indef
                    :mass false
                    :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")

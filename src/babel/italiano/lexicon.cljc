@@ -2038,12 +2038,18 @@
               :sem {:pred :tu
                     :human true}
               :subcat '()}}]
-   "un"
-       {:synsem {:cat :det
-                 :def :indef
-                 :mass false
-                 :agr {:gender :masc
-                       :number :sing}}}
+   "un" [{:synsem {:cat :det
+                   :def :indef
+                   :mass false
+                   :agr {:gender :masc
+                         :number :sing}}}
+         {:synsem {:cat :det
+                   :def :indef
+                   :mass false
+                   :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
+                         ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
+                         :number :sing}}}]
+         
    "una"
     {:synsem {:cat :det
               :def :indef

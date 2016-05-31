@@ -2054,7 +2054,6 @@
                    :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
                          ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
                          :number :sing}}}]
-         
    "una"
     {:synsem {:cat :det
               :def :indef

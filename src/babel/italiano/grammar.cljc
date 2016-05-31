@@ -182,7 +182,7 @@
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
-                   ;; nbar where noun is first ('h' in h11)
+                   ;; nbar where head (noun) is first ('h' in h11)
                    (unifyc h11-comp-subcat-1
                            (let [is-propernoun? (atom :top)
                                  head-synsem {:cat :noun
@@ -197,7 +197,7 @@
                               :rule "nbar1"
                               :synsem head-synsem}))
 
-                   ;; nbar where adjective is first ('c' in c11)
+                   ;; nbar where complement (adjective) is first ('c' in c11)
                    (unifyc c11-comp-subcat-1
                            (let [is-propernoun? (atom :top)
                                  head-synsem {:cat :noun
@@ -207,7 +207,7 @@
                                      :synsem {:cat :adjective
                                               :mod head-synsem}}
                               :head {:phrasal false
-                                     :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                                     :synsem {:modified false ;; rathole prevention: as above, try to remove if possible
                                               :propernoun is-propernoun?}}
                               :rule "nbar2"
                               :synsem head-synsem}))

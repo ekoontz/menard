@@ -5,6 +5,7 @@
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.morphology :as morph]
    [babel.generate :as generate :refer [try-hard-to]]
+   [babel.over :as over]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
@@ -94,6 +95,11 @@
   [string]
   (map #(string/split % tokenizer)
        (morph/replace-over [string])))
+
+(defn over
+  "given a parent and 2 children, try to arrange them with the first child on the left and the second child on the right."
+  [parent child1 child2]
+  (over/over parent child1 child2))
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"

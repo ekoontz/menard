@@ -1676,11 +1676,16 @@
                       :sem {:pred :be-born}}
              :italiano {:passato "nato"}}
 
-   "neonato" {:synsem {:cat :noun
-                       :agr {:gender :masc}
-                       :sem {:pred :newborn
-                             :human true
-                             :adult false}}}
+   "neonato"
+   (unify agreement-noun
+          common-noun
+          countable-noun
+          masculine-noun
+          {:synsem {:cat :noun
+                    :agr {:gender :masc}
+                    :sem {:pred :newborn
+                          :human true
+                          :adult false}}})
    
    ;; non-comparative
    ;; TODO: add comparative

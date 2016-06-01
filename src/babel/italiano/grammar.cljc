@@ -178,6 +178,24 @@
     :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
+(def c00
+  (unify-check
+   head-last
+   {:comment "c00"
+    :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
+    :first :comp
+    :comp {:synsem {:subcat '()}}
+    :head {:synsem {:subcat '()}}}))
+
+(def h00
+  (unify-check
+   head-first
+   {:comment "h00"
+    :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
+    :first :head
+    :comp {:synsem {:subcat '()}}
+    :head {:synsem {:subcat '()}}}))
+
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS
 
@@ -446,7 +464,39 @@
                            root-is-comp
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}
-                            :rule "s-modifier"})))
+                            :rule "s-modifier"})
+
+;                   (unify-check c00
+;                                modified
+;                                (let [head-sem (atom :top)]
+;                                  {:modified true
+;                                   :synsem {:subcat '()
+;                                            :sem head-sem
+;                                            :cat :verb}
+;                                   :comp {:synsem {:cat :prep
+ ;                                                  :subcat '()
+ ;                                                  :sem head-sem}}
+ ;                                  :head {:modified false
+ ;;                                         :synsem {:cat :verb
+ ;                                                  :subcat '()
+ ;                                                  :sem head-sem}}
+ ;                                  :rule "s-modified-with-adjunct-first"}))
+
+                   (unify-check h00
+                                modified
+                                (let [head-sem (atom :top)]
+                                 {:synsem {:subcat '()
+                                           :sem head-sem
+                                           :cat :verb}
+                                  :comp {:synsem {:cat :prep
+                                                  :subcat '()
+                                                  :sem head-sem}}
+                                  :head {:modified false
+                                         :synsem {:cat :verb
+                                                  :subcat '()
+                                                  :sem head-sem}}
+                                  :rule "s-modified-with-adjunct-last"}))
+                   ))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

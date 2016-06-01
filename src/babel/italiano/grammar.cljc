@@ -18,6 +18,18 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
+(defn unify-check [ & vals]
+  (let [result (apply unifyc vals)]
+    (if (fail? result)
+      (exception (str "failed to unify grammar rule with values: " vals))
+      result)))
+
 (def hc-agreement
   (let [agr (atom :top)]
     {:synsem {:agr agr}

@@ -202,6 +202,9 @@
 (def vp-non-pronoun
   {:comp {:synsem {:pronoun false}}})
 
+(def modified {:modified true})
+(def unmodified {:modified false})
+
 (def grammar (list (unifyc h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
@@ -256,6 +259,7 @@
                               :head {:phrasal false
                                      :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)

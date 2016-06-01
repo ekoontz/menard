@@ -467,36 +467,34 @@
                             :rule "s-modifier"})
 
                    (unify-check c00
+                                comp-modifies-head
                                 modified
-                                (let [head-sem (atom :top)]
-                                  {:modified true
-                                   :synsem {:subcat '()
-                                            :sem head-sem
-                                            :cat :verb}
+                                (let [sem (atom :top)]
+                                  {:synsem {:subcat '()
+                                            :cat :verb
+                                            :sem sem}
                                    :comp {:synsem {:cat :prep
-                                                   :subcat '()
-                                                   :sem head-sem}}
+                                                   :subcat '()}}
                                    :head {:modified false
                                           :synsem {:cat :verb
-                                                   :subcat '()
-                                                   :sem head-sem}}
+                                                   :sem sem
+                                                   :subcat '()}}
                                    :rule "s-modified-with-adjunct-first"}))
 
                    (unify-check h00
+                                comp-modifies-head
                                 modified
-                                (let [head-sem (atom :top)]
-                                 {:synsem {:subcat '()
-                                           :sem head-sem
-                                           :cat :verb}
-                                  :comp {:synsem {:cat :prep
-                                                  :subcat '()
-                                                  :sem head-sem}}
-                                  :head {:modified false
-                                         :synsem {:cat :verb
-                                                  :subcat '()
-                                                  :sem head-sem}}
-                                  :rule "s-modified-with-adjunct-last"}))
-                   ))
+                                (let [sem (atom :top)]
+                                  {:synsem {:subcat '()
+                                            :cat :verb
+                                            :sem sem}
+                                   :comp {:synsem {:cat :prep
+                                                   :subcat '()}}
+                                   :head {:modified false
+                                          :synsem {:cat :verb
+                                                   :sem sem
+                                                   :subcat '()}}
+                                   :rule "s-modified-with-adjunct-last"}))))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

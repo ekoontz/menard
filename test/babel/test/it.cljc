@@ -324,3 +324,8 @@
 (deftest chiamarsi-3
   (let [result (parse "lei si chiama Luisa")]
     (is (not (empty? (mapcat :parses result))))))
+
+;; sentential modifiers: S -> S PP
+(deftest io-dormo-a-casa
+  (let [result (parse "io dormo a casa")]
+    (is (not (empty? (mapcat :parses result))))))

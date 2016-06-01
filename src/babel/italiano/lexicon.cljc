@@ -1677,10 +1677,10 @@
              :italiano {:passato "nato"}}
 
    "neonato"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
+   (unify ;agreement-noun
+          ;common-noun
+          ;countable-noun
+          ;masculine-noun
           {:synsem {:cat :noun
                     :agr {:gender :masc}
                     :sem {:pred :newborn

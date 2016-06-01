@@ -298,7 +298,8 @@
 
 (deftest casa-generate
   (let [result (generate 
-                {:synsem {:cat :verb 
+                {:modified false
+                 :synsem {:cat :verb 
                           :sem {:tense :present 
                                 :pred :a 
                                 :obj {:pred :house

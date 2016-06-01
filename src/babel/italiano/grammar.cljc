@@ -217,33 +217,29 @@
 
                    ;; nbar where head (noun) is first ('h' in h11)
                    (unifyc h11-comp-subcat-1
-                           (let [is-propernoun? (atom :top)
-                                 head-synsem {:cat :noun
-                                              :modified true
-                                              :propernoun is-propernoun?}]
+                           (let [is-propernoun? (atom :top)]
                              {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
-                                     :synsem {:cat :adjective
-                                              :mod head-synsem}}
+                                     :synsem {:cat :adjective}}
                               :head {:phrasal false
                                      :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
                                               :propernoun is-propernoun?}}
                               :rule "nbar1"
-                              :synsem head-synsem}))
+                              :synsem {:cat :noun
+                                       :modified true
+                                       :propernoun is-propernoun?}}))
 
                    ;; nbar where complement (adjective) is first ('c' in c11)
                    (unifyc c11-comp-subcat-1
-                           (let [is-propernoun? (atom :top)
-                                 head-synsem {:cat :noun
-                                              :modified true
-                                              :propernoun is-propernoun?}]
+                           (let [is-propernoun? (atom :top)]
                              {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
-                                     :synsem {:cat :adjective
-                                              :mod head-synsem}}
+                                     :synsem {:cat :adjective}}
                               :head {:phrasal false
                                      :synsem {:modified false ;; rathole prevention: as above, try to remove if possible
                                               :propernoun is-propernoun?}}
                               :rule "nbar2"
-                              :synsem head-synsem}))
+                              :synsem {:cat :noun
+                                       :modified true
+                                       :propernoun is-propernoun?}}))
 
                    (unifyc c10
                            comp-specs-head

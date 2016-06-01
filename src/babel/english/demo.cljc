@@ -9,7 +9,14 @@
 
 (defn demo [ & [n]]
   (let [demo-specs
-        [{:demo-name "Sentences about dogs eating"
+        [{:demo-name "Dog noun phrases"
+          :synsem {:cat :noun
+                   :sem {:pred :cane}}}
+
+         {:demo-name "Noun Phrases"
+          :synsem {:cat :noun}}
+         
+         {:demo-name "Sentences about dogs eating"
           :synsem {:cat :verb
                    :sem {:subj {:pred :cane}
                          :pred :mangiare}}}
@@ -20,13 +27,6 @@
 
          {:synsem {:cat :verb}
           :demo-name "Sentences"}
-
-         {:demo-name "Noun Phrases"
-          :synsem {:cat :noun}}
-         
-         {:demo-name "Dog noun phrases"
-          :synsem {:cat :noun
-                   :sem {:pred :cane}}}
 
          {:synsem :top
           :demo-name "Totally random expressions"}]]

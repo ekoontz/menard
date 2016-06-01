@@ -609,19 +609,19 @@
         lexicon-for-generation (lexicon-for-generation lexicon)
         rules (map #(keyword (get-in % [:rule])) grammar)]
     {:name "medium"
-     :language "it"
-     :language-keyword :italiano
-     :morph fo
-     :lookup (fn [arg]
-               (analyze arg parse-lexicon))
      :enrich enrich
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :language "it"
+     :language-keyword :italiano
+     :lexicon lexicon
+     :lookup (fn [arg]
+               (analyze arg parse-lexicon))
+     :morph fo
      :rules rules
      :rule-map (zipmap rules
                        grammar)
-     :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
      }))
 
 (def np-grammar

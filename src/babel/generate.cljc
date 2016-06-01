@@ -105,11 +105,8 @@
         add-complements-to-bolts
         (fn [bolts path]
           (log/debug (str "generate-all: "
-                          "add-complements-to-bolts@" path ":#bolts(" (count bolts) "):"
-                          (string/join ","
-                                       (map (fn [bolt]
-                                              (show-bolt bolt path morph))
-                                            bolts))))
+                          "add-complements-to-bolts@" path ": first bolt:" 
+                          (show-bolt (first bolts) path morph)))
           (mapcat
            #(if (not (= :none (get-in % path :none)))
               (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
@@ -151,8 +148,8 @@ of this function with complements."
                         (if (= false (get-in parent [:head :phrasal] false))
                           (let [candidate-lexemes (get-lex parent :head index spec)
                                 results (over/overh parent (mapfn copy candidate-lexemes))]
-                            (log/debug (str "lightning-bolt: " (get-in parent [:rule]) ": candidate head lexemes:'"
-                                            (string/join "','" (map morph candidate-lexemes)) "'"))
+                            (log/debug (str "lightning-bolt: " (get-in parent [:rule]) ": first candidate head lexeme:'"
+                                            (morph (first candidate-lexemes)) "'"))
                             results)))
                       parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
@@ -191,8 +188,8 @@ of this function with complements."
                                              complement-candidate-lexemes)
         debug (log/debug
                (if (not (empty? filtered-lexical-complements))
-                 (str "add-complement: " (show-bolt bolt path morph) ":candidate complement-lexemes:'"
-                      (string/join "','" (sort (map morph filtered-lexical-complements))) "'")))]
+                 (str "add-complement: " (show-bolt bolt path morph) ":candidate first complement-lexemes:'"
+                      (morph (first filtered-lexical-complements))) "'"))]
     (filter (fn [complement]
               (if (fail? complement)
                 (do

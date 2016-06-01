@@ -98,12 +98,11 @@
                             :sem {:pred :accompany}}}
 
    "acqua"
-   (unify (:agreement noun)
-          (:drinkable noun)
-          (:feminine noun)
-          {:synsem {:sem {:artifact false
-                          :animate false
-                          :pred :acqua}}})
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:artifact false
+                   :animate false
+                   :pred :acqua}}}
 
    "addormentarsi" (let [subject-semantics (atom {:animate true})
                          subject-agr (atom :top)]
@@ -207,14 +206,19 @@
                     :activity false
                     :discrete false
                     :subj {:human true}}}}
+   "amica"
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:pred :amico
+                   :human true
+                   :child false}}}
    "amico"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:sem {:pred :amico
-                          :human true
-                          :child false}}})
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :amico
+                   :human true
+                   :child false}}}
+   
    "ammirare" {:synsem {:cat :verb
                         :sem {:pred :admire}}}
    "andare"
@@ -269,8 +273,8 @@
 ;                                    :cat :prep}}}
 ;              :note "andare-pp"}))))
 
-
-   "anno" {:synsem {:cat :noun
+   "anno" {:synsem {:agr {:gender :noun}
+                    :cat :noun
                     :sem {:pred :year
                           :time true}}}
 
@@ -305,8 +309,8 @@
                                       :sem subject-semantics}}}})
    
    "arrivare" {:synsem {:essere true 
-                            :cat :verb
-                            :sem {:pred :arrive}}}
+                        :cat :verb
+                        :sem {:pred :arrive}}}
    
    "ascoltare"  {:synsem {:cat :verb
                           :sem {:pred :listen-to}}}
@@ -463,24 +467,23 @@
                       :fem {:plur "bianche"}
                       :cat :adjective}})
    "birra"
-   (unify agreement-noun
-           drinkable-noun
-           feminine-noun
-           {:synsem {:sem {:pred :birra
-                           :artifact true}}})
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:pred :birra
+                   :artifact true
+                   :drinkable true}}}
    "braccio"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:sem {:pred :braccio
-                          :part-of-human-body true}}
-           ;; adding "bracci" as irregular because
-           ;; current morphology.clj would otherwise return
-           ;; "braccii".
-           ;; TODO: might not be an exception so much
-           ;; as a ortho-pholological rule "io" -plur-> "ia"
-           :italiano {:plur "bracci"}})
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :braccio
+                   :part-of-human-body true}}
+
+    ;; adding "bracci" as irregular because
+    ;; current morphology.clj would otherwise return
+    ;; "braccii".
+    ;; TODO: might not be an exception so much
+    ;; as a ortho-pholological rule "io" -plur-> "ia"
+    :italiano {:plur "bracci"}}
 
    "brutto"
    ;; non-comparative
@@ -507,17 +510,11 @@
 
    "calzoni"
    ;; inherently plural
-   (unify agreement-noun
-           common-noun
-           countable-noun
-           masculine-noun
-           {:synsem {:agr {:number :plur}
-                     :sem {:pred :calzoni
-                           :artifact true
-                           :speakable false
-                           :legible false
-                           :consumable false
-                           :clothing true}}})
+   {:synsem {:cat :noun
+             :agr {:gender :masc
+                   :number :plur}
+             :sem {:pred :calzoni
+                   :clothing true}}}
 
    "cambiare" {:synsem {:cat :verb
                         :sem {:pred :change}}}
@@ -543,33 +540,23 @@
    "cantare" {:synsem {:cat :verb
                        :sem {:pred :sing
                              :subj {:human true}}}}
-   "camicia"
-    (unify agreement-noun
-           common-noun
-           countable-noun
-           feminine-noun
-           {:synsem {:sem {:pred :camicia
-                           :artifact true
-                           :speakable false
-                           ;; (although an exception would be tshirts with writing on them):
-                           :legible false
-                           :consumable false
-                           :clothing true}}})
-
+  "camicia"
+  {:synsem {:agr {:gender :fem}
+            :cat :noun
+            :sem {:pred :camicia
+                  ;; (although an exception would be tshirts with writing on them):
+                  :legible false
+                  :clothing true}}}
+  
     "camminare"
     {:synsem {:sem {:pred :walk}
               :cat :verb}}
 
    "cane"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:sem {:animal true
-                          :human false
-                          :pet true
-                          :pred :cane}}})
-
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pet true
+                   :pred :cane}}}
 
    "capire" {:italiano {:boot-stem1 "capisc"}
              :synsem {:cat :verb
@@ -579,26 +566,19 @@
                :synsem {:cat :verb
                         :sem {:pred :caricare}}}
    "casa"
-   [(unify agreement-noun
-           common-noun
-           countable-noun
-           feminine-noun
-           {:synsem {:sem {:pred :casa
-                           :city false
-                           :activity false ;; should not need this probably: should be inferrable from  :place==true or perhaps :artifact==true.
-                           :buyable true
-                           :artifact true
-                           :place true}}})
-
+   [{:synsem {:agr {:gender :fem}
+              :cat :noun
+              :sem {:pred :casa
+                    :city false
+                    :place true}}}
+   
     ;; in the sense of "a casa": no article needed.
     {:synsem {:case :acc
               :cat :noun
               :propernoun false
               :sem {:city false
                     :spec {:def :none} ;; "a casa", not "a mia casa", etc
-                    :place true
-                    :animate false
-                    :pred :house}
+                    :place true}
               :subcat '()}}
     ]
 
@@ -612,19 +592,16 @@
              :italiano {:cat :adjective}})
 
       ;; working on: "mi sono comprato un nuovo cellulare"
-     "cellulare"
-     (unify agreement-noun
-             masculine-noun
-             common-noun
-             countable-noun
-             {:synsem {:cat :noun
-                       :sem {:pred :cellulare
-                             :artifact true
-                             :consumable false
-                             :writable false
-                             :place false
-                             :speakable false}}})
-
+   "cellulare"
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :cellulare
+                   :artifact true
+                   :consumable false
+                   :writable false
+                   :place false
+                   :speakable false}}}
+  
      "cenare" {:synsem {:cat :verb
                       :essere false
                       :sem {:subj {:human true}
@@ -696,14 +673,13 @@
                   :cat :noun
                   :case pronoun-acc}}
 
-      "cipolla"
-      (unify agreement-noun
-             common-noun
-             feminine-noun
-             {:synsem {:sem {:pred :cipolla
-                             :edible true
-                             :animate false
-                             :artifact false}}})
+  "cipolla"
+  {:synsem {:agr {:gender :fem}
+            :cat :noun
+            :sem {:pred :cipolla
+                  :edible true
+                  :animate false
+                  :artifact false}}}
       
       "cercare" {:synsem {:cat :verb
                           :essere false
@@ -711,20 +687,17 @@
                                 :discrete false
                                 :pred :cercare
                                 :subj {:animate true}}}}
-   "città"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:synsem {:sem {:artifact true
-                          :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
-                          :city true
-                          :place true
-                          :pred :città
-                          }
-                    :subcat {:1 {:cat :det
-                                 :def :def}}}})
-   
+  "città"
+  {:synsem {:agr {:gender :fem}
+            :cat :noun
+            :sem {:artifact true
+                  :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
+                  :city true
+                  :place true
+                  :pred :città}
+            :subcat {:1 {:cat :det
+                         :def :def}}}} ;; TODO: why must :def be specifically :def here?
+
    "cittadino" {:synsem {:cat :adjective
                          :sem {:pred :local}}}
 
@@ -749,16 +722,14 @@
                     :pred :start
                     :subj {:animate true}}}}]
 
-      "compito"
-      (unify agreement-noun
-             common-noun
-             countable-noun
-             masculine-noun
-             {:synsem {:sem {:pred :compito
-                             :legible true
-                             :speakable false
-                             :buyable false
-                             :artifact true}}})
+   "compito"
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :compito
+                   :legible true
+                   :speakable false
+                   :buyable false
+                   :artifact true}}}
 
       "commentare"  {:synsem {:cat :verb
                               :sem {:pred :comment}}}
@@ -997,15 +968,13 @@
                                     :subcat '()}}}
               :italiano "domani"})
 
-      "donna"
-      (unify agreement-noun
-              common-noun
-              countable-noun
-              feminine-noun
-              {:synsem {:sem {:human true
-                              :pred :donna
-                              :child false}}})
-   "dopo"
+   "donna"
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:human true
+                   :pred :donna
+                   :child false}}}
+  "dopo"
    (let [time (atom {:time true})]
      {:synsem {:cat :prep
                :sem {:pred :after
@@ -1259,15 +1228,11 @@
                              :sem {:pred :work-nonhuman
                                    :subj {:human false}}}}
 
-      "gatto"
-      (unify agreement-noun
-             common-noun
-             countable-noun
-             masculine-noun
-             {:synsem {:sem {:animate true
-                             :human false
-                             :pred :gatto
-                             :pet true}}})
+   "gatto"
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :gatto
+                   :pet true}}}
 
       "gestire" {:italiano {:boot-stem1 "gestisc"
                             :boot-stem2 "gest"}
@@ -1494,17 +1459,13 @@
                    :subj {:human true}
                    :obj {:legible true}}}}
    "libro"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:sem {:pred :libro
-                          :legible true
-                          :speakable false
-                          :mass false
-                          :buyable true
-                          :consumable false
-                          :artifact true}}})
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:artifact true
+                   :pred :libro
+                   :legible true
+                   :speakable false
+                   :consumable false}}}
 
    ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
    "lo"
@@ -1610,13 +1571,11 @@
    "macchiare" {:synsem {:cat :verb
                          :sem {:pred :stain}}}
    "madre"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:synsem {:sem {:human true
-                          :pred :madre
-                          :child false}}})
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:human true
+                   :pred :madre
+                   :child false}}}
 
     "male" {:synsem {:cat :adverb
                      :sem {:pred :bad}}}
@@ -1677,15 +1636,11 @@
              :italiano {:passato "nato"}}
 
    "neonato"
-   (unify ;agreement-noun
-          ;common-noun
-          ;countable-noun
-          ;masculine-noun
-          {:synsem {:cat :noun
-                    :agr {:gender :masc}
-                    :sem {:pred :newborn
-                          :human true
-                          :adult false}}})
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :newborn
+                   :human true
+                   :adult false}}}
    
    ;; non-comparative
    ;; TODO: add comparative
@@ -1735,15 +1690,14 @@
                          :future-stem "otterr"}}
    "pane"
    ;; inherently singular.
-   (unify agreement-noun
-          common-noun
-          masculine-noun
-          {:synsem {:sem {:pred :pane
-                          :edible true
-                          :artifact true}
-                    :subcat {:1 {:cat :det
-                                 :number :sing
-                                 :def :def}}}})
+   {:synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:pred :pane
+                   :edible true
+                   :artifact true}
+             :subcat {:1 {:cat :det
+                          :number :sing
+                          :def :def}}}}
    "parlare"
    (let [common1
          {:synsem {:essere false
@@ -1831,14 +1785,10 @@
    "recuperare" {:synsem {:cat :verb
                           :sem {:pred :recover}}}
    "ragazza"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:synsem {:cat :noun
-                    :agr {:gender :fem}
-                    :sem {:pred :girl
-                          :human true}}})
+   {:synsem {:cat :noun
+             :agr {:gender :fem}
+             :sem {:pred :girl
+                   :human true}}}
               
    "restare" {:synsem {:essere true 
                             :cat :verb
@@ -2066,7 +2016,6 @@
     :italiano {:boot-stem1 "trasferisc"
                :boot-stem2 "trasfer"}}
 
-
    "tu"
    [{:synsem {:cat :noun
               :pronoun true
@@ -2105,14 +2054,12 @@
               :agr {:gender :fem
                     :number :sing}}}
    "uomo"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:italiano {:plur "uomini"}}
-          {:synsem {:sem {:human true
-                          :pred :man
-                          :child false}}})
+   {:italiano {:plur "uomini"}
+    :synsem {:agr {:gender :masc}
+             :cat :noun
+             :sem {:human true
+                   :pred :man
+                   :child false}}}
    
    "usare"  {:synsem {:cat :verb
                       :sem {:pred :usare}}}
@@ -2276,6 +2223,20 @@
                                        :case case}
                               :italiano {:cat cat
                                          :case case}}))))
+                 (constrain-vals-if
+                  (fn [val]
+                    (and (= (get-in val [:synsem :cat]) :noun)
+                         (or (= (get-in val [:synsem :agr :gender]) :masc)
+                             (= (get-in val [:synsem :agr :gender]) :fem))
+                         (= false (get-in val [:synsem :propernoun] false))
+                         (= false (get-in val [:synsem :pronoun] false))
+                         (not (= '() (get-in val [:synsem :subcat] :top))))) ;; some
+                  ;; some nouns e.g. "casa" may have a sense that requires no determiner (subcat = '())
+                  ;; in such cases, don't apply agreement-noun.
+                         
+                  (fn [val]
+                    (unify val agreement-noun)))
+
                  (constrain-vals-if
                   (fn [val]
                     (= (get-in val [:synsem :cat])

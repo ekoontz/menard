@@ -86,6 +86,9 @@
 
 (def tokenizer #"[ '\n,’».]")
 
+(defn tokenize [input]
+  (string/split input tokenizer))
+
 (defn analyze-tokens
   "given a string, generate a list of tokenization hypotheses."
   [string]

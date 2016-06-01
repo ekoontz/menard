@@ -470,21 +470,21 @@
                                    :synsem {:cat :sent-modifier}}
                             :rule "s-modifier"})
 
-;                   (unify-check c00
-;                                modified
-;                                (let [head-sem (atom :top)]
-;                                  {:modified true
-;                                   :synsem {:subcat '()
-;                                            :sem head-sem
-;                                            :cat :verb}
-;                                   :comp {:synsem {:cat :prep
- ;                                                  :subcat '()
- ;                                                  :sem head-sem}}
- ;                                  :head {:modified false
- ;;                                         :synsem {:cat :verb
- ;                                                  :subcat '()
- ;                                                  :sem head-sem}}
- ;                                  :rule "s-modified-with-adjunct-first"}))
+                   (unify-check c00
+                                modified
+                                (let [head-sem (atom :top)]
+                                  {:modified true
+                                   :synsem {:subcat '()
+                                            :sem head-sem
+                                            :cat :verb}
+                                   :comp {:synsem {:cat :prep
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :head {:modified false
+                                          :synsem {:cat :verb
+                                                   :subcat '()
+                                                   :sem head-sem}}
+                                   :rule "s-modified-with-adjunct-first"}))
 
                    (unify-check h00
                                 modified

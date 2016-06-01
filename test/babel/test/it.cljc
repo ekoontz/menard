@@ -282,7 +282,10 @@
 
 (deftest gestiscono
   (let [result
-        (take 5 (repeatedly #(generate {:synsem {:sem {:subj {:pred :loro} :pred :manage  :tense :present}}})))]
+        (take 5 (repeatedly #(generate {:modified false
+                                        :synsem {:sem {:subj {:pred :loro}
+                                                       :pred :manage
+                                                       :tense :present}}})))]
     (count (map (fn [each]
                   (is (= "loro gestiscono" (fo each))))
                 (map :surface

@@ -97,10 +97,14 @@
 (deftest roundtrip-np-grammar
   (let [do-this-many 100
         expressions (take do-this-many
-                          (engine/generate-all {:synsem {:sem {:spec {:def :top}
-                                                               :mod {:pred :top}
+                          (engine/generate-all {:synsem {:sem {:mod {:pred :top}
                                                                :number :top
-                                                               :pred :top}}}
+                                                               :pred :top
+                                                               :spec {:def :top}}}}
+                                               ;; change the above 
+                                               ;; generic spec to something more specific
+                                               ;; if this test fails and you want to investigate
+                                               ;; why.
                                                np-grammar))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 

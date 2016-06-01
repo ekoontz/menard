@@ -329,3 +329,24 @@
 (deftest io-dormo-a-casa
   (let [result (parse "io dormo a casa")]
     (is (not (empty? (mapcat :parses result))))))
+
+(deftest parse-long-sentence
+  (let [result (parse "dopo ventotto anni ostana ha un cittadino neonato")]
+    (is (not (empty? (mapcat :parses result))))
+    (is (not (nil?
+              (some
+               #(and (= :have (get-in % [:pred]))
+                     (= :newborn (get-in % [:obj :pred]))
+                     (= :ostana (get-in % [:subj :pred]))
+                     (= :after (get-in % [:mod :pred]))
+                     (= :year (get-in % [:mod :obj :pred]))
+                     (= :twentyeight (get-in % [:mod :obj :spec :def])))
+               (map (fn [parse]
+                      (get-in parse [:synsem :sem]))
+                    (mapcat :parses result))))))))
+
+
+               
+         
+
+

@@ -39,7 +39,7 @@
                    :human true}
              :propernoun true}}
    "a"
-   ;; "a casa"
+   ;; "a" as in "a casa"
    [(let [location (atom {:place true})]
       {:synsem {:cat :prep
                 :sem {:pred :a
@@ -50,7 +50,7 @@
                              :subcat '()
                              :sem location}
                          :2 '()}}})
-    ;; "a Roma"
+    ;; "a" as in "a Roma"
     {:synsem {:cat :prep
               :sem {:pred :in}
               :subcat {:1 {:cat :noun
@@ -270,8 +270,9 @@
 ;              :note "andare-pp"}))))
 
 
-   "anno"  {:synsem {:cat :noun
-                     :sem {:pred :year}}}
+   "anno" {:synsem {:cat :noun
+                    :sem {:pred :year
+                          :time true}}}
 
    "annunciare"  {:synsem {:cat :verb
                            :sem {:pred :announce}}}
@@ -1004,12 +1005,15 @@
               {:synsem {:sem {:human true
                               :pred :donna
                               :child false}}})
-      "dopo"
-      (unify sentential-adverb
-              {:synsem {:cat :sent-modifier
-                        :sem {:pred :after}
-                        :subcat {:1 {:cat :verb
-                                     :subcat '()}}}})
+   "dopo"
+   (let [time (atom {:time true})]
+     {:synsem {:cat :prep
+               :sem {:pred :after
+                     :obj time}
+               :subcat {:1 {:cat :noun
+                            :subcat '()
+                            :sem time}
+                        :2 '()}}})
       "dopodomani"
       (unify sentential-adverb
               {:synsem {:cat :sent-modifier
@@ -2138,6 +2142,7 @@
                         :future-stem "verr"}}
 
    "ventotto" {:synsem {:cat :det
+                        :def :twentyeight
                         :agr {:number :plur}}}
    
    "vestirsi" (let [subject-semantics (atom {:human true})

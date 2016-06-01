@@ -9,7 +9,7 @@
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
-   [dag_unify.core :refer (get-in strip-refs)]))
+   [dag_unify.core :refer (fail-path-between get-in strip-refs unifyc)]))
 
 (defn fo [expression]
   (morph/fo expression))

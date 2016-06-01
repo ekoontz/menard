@@ -9,27 +9,27 @@
 
 (defn demo [ & [n]]
   (let [demo-specs
-        [{:synsem :top
-          :demo-name "Totally random expressions"}
-
-         {:synsem {:cat :verb}
-          :demo-name "Sentences"}
+        [{:demo-name "Sentences about dogs eating"
+          :synsem {:cat :verb
+                   :sem {:subj {:pred :cane}
+                         :pred :mangiare}}}
 
          {:demo-name "Sentences about Eating"
           :synsem {:cat :verb
                    :sem {:pred :mangiare}}}
 
+         {:synsem {:cat :verb}
+          :demo-name "Sentences"}
+
          {:demo-name "Noun Phrases"
           :synsem {:cat :noun}}
          
-         {:demo-name "A variety of dogs"
+         {:demo-name "Dog noun phrases"
           :synsem {:cat :noun
                    :sem {:pred :cane}}}
 
-         {:demo-name "Sentences about dogs eating"
-          :synsem {:cat :verb
-                   :sem {:subj {:pred :cane}
-                         :pred :mangiare}}}]]
+         {:synsem :top
+          :demo-name "Totally random expressions"}]]
          
     (count (map (fn [spec]
                   (let [log-message 

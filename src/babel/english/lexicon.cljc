@@ -313,16 +313,14 @@
    "boil" {:synsem {:cat :verb
                 :sem {:pred :boil}}}
    "book"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          {:synsem {:sem {:artifact true
-                          :pred :libro
-                          :legible true
-                          :speakable false
-                          :mass false
-                          :place false
-                          :consumable false}}})
+   {:synsem {:cat :noun
+             :sem {:artifact true
+                   :pred :libro
+                   :legible true
+                   :speakable false
+                   :mass false
+                   :place false
+                   :consumable false}}}
 
    "break" {:synsem {:cat :verb
                      :sem {:pred :break }}

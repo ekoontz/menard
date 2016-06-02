@@ -248,6 +248,7 @@
                                 modified
                                 (let [head-sem (atom :top)]
                                   {:modified true
+                                   :english {:punctuation {:middle ","}}
                                    :synsem {:subcat '()
                                             :sem head-sem
                                             :cat :verb}

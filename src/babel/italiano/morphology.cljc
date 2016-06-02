@@ -1198,6 +1198,7 @@
         (get-in input [:b]))
    (str (string/join " " 
                      (list (fo (get-in input [:a]))
+                           (get-in input [:punctuation :middle])
                            (fo (get-in input [:b])))))
                      
    (or (seq? input)

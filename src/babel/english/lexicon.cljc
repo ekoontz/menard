@@ -300,6 +300,7 @@
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
                              :artifact true
+                             :consumable false
                              :place false}}}
    "black"
    (unify adjective

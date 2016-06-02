@@ -401,6 +401,10 @@
    "check" {:synsem {:cat :verb
                      :sem {:pred :check}}}
                    
+   "city" {:synsem {:cat :noun
+                    :sem {:pred :city
+                          :city true}}}
+   
    "close" {:synsem {:cat :verb
                      :sem {:pred :close}}}                
 

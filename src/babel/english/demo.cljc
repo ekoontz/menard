@@ -13,23 +13,23 @@
           :synsem {:cat :noun
                    :sem {:pred :cane}}}
 
-;         {:demo-name "Noun Phrases"
-;          :synsem {:cat :noun}}
+         {:demo-name "Noun Phrases"
+          :synsem {:cat :noun}}
          
-;         {:demo-name "Sentences about dogs eating"
-;          :synsem {:cat :verb
-;                   :sem {:subj {:pred :cane}
-;                         :pred :mangiare}}}
+         {:demo-name "Sentences about dogs eating"
+          :synsem {:cat :verb
+                   :sem {:subj {:pred :cane}
+                         :pred :mangiare}}}
 
-;         {:demo-name "Sentences about Eating"
-;          :synsem {:cat :verb
-;                   :sem {:pred :mangiare}}}
+         {:demo-name "Sentences about Eating"
+          :synsem {:cat :verb
+                   :sem {:pred :mangiare}}}
 
-;         {:synsem {:cat :verb}
-;          :demo-name "Sentences"}
+         {:synsem {:cat :verb}
+          :demo-name "Sentences"}
 
-;         {:synsem :top
-;          :demo-name "Totally random expressions"}
+         {:synsem :top
+          :demo-name "Totally random expressions"}
          ]]
          
     (count (map (fn [spec]

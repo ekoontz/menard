@@ -1860,7 +1860,8 @@
                      :participle "winning"}}
    
    "woman" {:english {:plur "women"}
-            :synsem {:sem {:human true
+            :synsem {:cat :noun
+                     :sem {:human true
                            :pred :donna
                            :child false}}}
 

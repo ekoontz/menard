@@ -1193,6 +1193,7 @@
                     :conditional "be able to"}
           :synsem {:cat :verb
                    :sem {:pred :may}}}
+
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :case :acc

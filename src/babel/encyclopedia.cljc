@@ -27,6 +27,7 @@ as a map of implications"}
 
    {:artifact true} {:animate false
                      :activity false
+                     :living false
                      :physical-object true}
 
    {:buyable true} {:human false
@@ -71,7 +72,7 @@ as a map of implications"}
                   :consumable false
                   :legible false
                   :pet false
-                  :part-of-human-body true
+                  :part-of-human-body false
                   :physical-object true
                   :place false}
 
@@ -110,24 +111,10 @@ as a map of implications"}
   (get encyc {k (get-in input [k])} {}))
 
 (defn impl-list [input]
-  [
-   (get-encyc input :activity)
-   (get-encyc input :animate)
-   (get-encyc input :artifact)
-   (get-encyc input :buyable)
-   (get-encyc input :city)
-   (get-encyc input :clothing)
-   (get-encyc input :consumable)
-   (get-encyc input :drinkable)
-   (get-encyc input :edible)
-   (get-encyc input :furniture)
-   (get-encyc input :human)
-   (get-encyc input
-              :part-of-human-body)
-   (get-encyc input :pet)
-   (get-encyc input :place)
-   (get-encyc input :time)
-   ])
+  (map (fn [kv]
+         (let [k (first (first kv))]
+           (get encyc {k (get-in input [k] :top)} {})))
+       (keys encyc)))
 
 (defn sem-impl [input & [original-input]]
   "expand input feature structures with semantic (really cultural) implicatures, e.g., if human, then not buyable or edible"

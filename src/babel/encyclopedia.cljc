@@ -130,6 +130,7 @@ as a map of implications"}
                              (log/debug (str "original call of sem-impl: (" (get-in input [:pred]) ")" (strip-refs input)))
                              input))]
     (cond
+      (empty? input) {}
       (= input :top) input
       (= input :fail) :fail
       true

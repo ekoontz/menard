@@ -327,15 +327,13 @@
             :english {:past "broke"}}
    "bread"
    ;; inherently singular.
-   (unify agreement-noun
-          common-noun
-          masculine-noun
-          {:synsem {:sem {:pred :pane
-                          :edible true
-                          :artifact true}
-                    :subcat {:1 {:cat :det
-                                 :number :sing
-                                 :def :def}}}})
+   {:synsem {:agr {:number :sing}
+             :cat :noun
+             :sem {:pred :pane
+                   :edible true
+                   :artifact true}
+             :subcat {:1 {:cat :det
+                          :def :def}}}}
 
    "bring" {:synsem {:cat :verb
                    :sem {:pred :bring

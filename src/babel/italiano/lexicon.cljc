@@ -504,7 +504,7 @@
                    :edible false
                    :legible false
                    :mass false
-                   :pred :bucato
+                   :pred :laundry
                    :speakable false}
              :subcat {:1 {:def :def}}}}
 

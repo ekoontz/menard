@@ -604,6 +604,7 @@
    "game" {:synsem {:cat :noun
                     :sem {:pred :game
                           :animate false
+                          :event true
                           :games true}}}
    "get angry"
    (let [subject-semantics (atom {:animate true})]

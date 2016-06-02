@@ -114,8 +114,7 @@ as a map of implications"}
   (get encyc {k (get-in input [k])} {}))
 
 (defn impl-list [input]
-  [input
-   (get-encyc input :activity)
+  [(get-encyc input :activity)
    (get-encyc input :animate)
    (get-encyc input :artifact)
    (get-encyc input :buyable)
@@ -163,9 +162,9 @@ as a map of implications"}
 
                     true
                     (merge input
-                           activity animate artifact buyable city clothing consumable drinkable
-                           edible furniture human
-                           pet place time))]
+                           (reduce merge [activity animate artifact buyable city clothing consumable drinkable
+                                          edible furniture human
+                                          pet place time])))]
           (log/trace (str "sem-impl so far: " merged))
           (if (not (= merged input)) ;; TODO: make this check more efficient: count how many rules were hit
             ;; rather than equality-check to see if merged has changed.

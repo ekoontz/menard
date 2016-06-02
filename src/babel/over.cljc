@@ -1,12 +1,12 @@
 (ns babel.over
   (:refer-clojure :exclude [get get-in merge resolve find parents])
   (:require
+   [babel.encyclopedia :refer [null-sem-impl sem-impl]]
    [babel.exception :refer [exception]]
+   [babel.lexiconfn :refer [get-fail-path]]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]
-   [babel.lexiconfn :refer [get-fail-path sem-impl]]))
    [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.
@@ -367,7 +367,7 @@
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.
-   (let [result (moreover-head parent head sem-impl)
+   (let [result (moreover-head parent head null-sem-impl)
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
@@ -421,7 +421,7 @@
              (over-each-comp-child parent comp-children)))
 
    true
-   (let [result (moreover-comp parent comp sem-impl)
+   (let [result (moreover-comp parent comp null-sem-impl)
          is-fail? (fail? result)]
      (if (not is-fail?)
        (do

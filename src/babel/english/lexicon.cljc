@@ -504,7 +504,8 @@
                         :sem {:pred :scaricare}}}
    "dog" {:synsem {:cat :noun
                    :sem {:pred :cane
-                         :pet true}}}
+                         :pet true
+                         :spec {:of {:human true}}}}}
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn

@@ -502,10 +502,10 @@
 
    "download" {:synsem {:cat :verb
                         :sem {:pred :scaricare}}}
+
    "dog" {:synsem {:cat :noun
                    :sem {:pred :cane
-                         :pet true
-                         :spec {:of {:human true}}}}}
+                         :pet true}}}
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn

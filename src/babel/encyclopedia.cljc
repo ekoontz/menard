@@ -52,14 +52,18 @@ as a map of implications"}
                        :part-of-human-body false
                        :pet false
                        :physical-object true
+                       :place false
                        :speakable false}
 
    {:consumable false} {:drinkable false
                         :edible false}
 
-   {:drinkable true}   {:mass true}
+   {:drinkable true}   {:consumable true
+                        :edible false
+                        :mass true}
 
-   {:edible true}      {:consumable true}
+   {:edible true}      {:consumable true
+                        :drinkable false}
 
    {:event true}       {:physical-object false}
    
@@ -85,7 +89,9 @@ as a map of implications"}
    {:living false} {:animate false
                     :human false}
    
-   {:living true} {:artifact false}
+   {:living true} {:artifact false
+                   :place false}
+                   
 
    {:part-of-human-body true} {:consumable false
                                :human false
@@ -97,7 +103,8 @@ as a map of implications"}
                 :human false
                 :spec {:of {:human true}}}
 
-   {:physical-object false} {:animate false}
+   {:physical-object false} {:animate false
+                             :consumable false}
 
    {:place true} {:activity false
                   :consumable false

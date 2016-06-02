@@ -10,11 +10,31 @@ as a map of implications"}
 
 (def encyc
   {
-   {:pred :house} {:artifact true
-                   :buyable true
-                   :place true}
+   {:activity true} {:animate false
+                     :artifact false
+                     :consumable false
+                     :part-of-human-body false}
 
-   {:animate true} {:living true}
+   {:animate true} {:activity false
+                    :artifact false
+                    :mass false
+                    :furniture false
+                    :physical-object true
+                    :part-of-human-body false
+                    :drinkable false
+                    :speakable false
+                    :place false}
+
+   {:artifact true} {:animate false
+                     :activity false
+                     :physical-object true}
+
+   {:buyable true} {:human false
+                    :part-of-human-body false}
+
+   {:city true} {:artifact true
+                 :legible false
+                 :place true}
 
    {:human true} {:animate true}
 
@@ -24,6 +44,11 @@ as a map of implications"}
                 :buyable true
                 :edible false
                 :human false}
+
+   {:pred :house} {:artifact true
+                   :buyable true
+                   :place true}
+   
    }
   )
 
@@ -35,7 +60,10 @@ as a map of implications"}
   "null sem-impl: simply return input."
   (log/trace (str "null-sem-impl:" (strip-refs input)))
   input)
-  
+
+(defn get-encyc [input k]
+  (get encyc {k (get-in input [k])} {}))
+
 (defn sem-impl [input & [original-input]]
   "expand input feature structures with semantic (really cultural) implicatures, e.g., if human, then not buyable or edible"
   (let [original-input (if original-input original-input
@@ -45,40 +73,11 @@ as a map of implications"}
     (cond
       (= input :top) input
       true
-      (let [activity (if (= (get-in input '(:activity))
-                            true)
-                       {:animate false
-                        :artifact false
-                        :consumable false
-                        :part-of-human-body false})
-            animate (if (= (get-in input '(:animate))
-                           true)
-                      {:activity false
-                       :artifact false
-                       :mass false
-                       :furniture false
-                       :physical-object true
-                       :part-of-human-body false
-                       :drinkable false
-                       :speakable false
-                       :place false}{})
-            artifact (if (= (get-in input '(:artifact))
-                            true)
-                       {:animate false
-                        :activity false
-                        :physical-object true}{})
-
-            buyable (if (= (get-in input '(:buyable))
-                           true)
-                      {:human false
-                       :part-of-human-body false})
-
-            city (if (= (get-in input '(:city))
-                        true)
-                   {:place true
-                    :human false
-                    :animate false
-                    :legible false})
+      (let [activity (get-encyc input :activity)
+            animate  (get-encyc input :animate)
+            artifact (get-encyc input :artifact)
+            buyable  (get-encyc input :buyable)
+            city     (get-encyc input :city)
 
             clothing (if (= (get-in input '(:clothing))
                             true)
@@ -235,7 +234,8 @@ as a map of implications"}
               (cond (= input :fail) :fail
 
                     true
-                    (merge input animate artifact buyable city clothing consumable consumable-false drinkable
+                    (merge input
+                           activity animate artifact buyable city clothing consumable consumable-false drinkable
                            drinkable-xor-edible-1 drinkable-xor-edible-2
                            edible furniture human inanimate
                            legible material-false non-places

@@ -1240,6 +1240,7 @@
                      :cat :noun
                      :sem {:pred :music
                            :animate false
+                           :physical-object false
                            :place false
                            :mass true}}}
    "my"

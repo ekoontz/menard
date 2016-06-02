@@ -887,12 +887,14 @@
    "his" [{:synsem {:cat :det
                     :agr {:number :sing}
                     :sem {:pred :lui
+                          :human true
                           :gender :masc
                           :number :sing}
                     :def :possessive}}
           {:synsem {:cat :det
                     :agr {:number :plur}
                     :sem {:pred :lui
+                          :human true
                           :gender :masc
                           :number :sing}
                     :def :possessive}}]
@@ -1243,6 +1245,7 @@
    (map #(unify %
                 {:synsem {:cat :det
                           :sem {:pred :I
+                                :human true
                                 :number :sing}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}

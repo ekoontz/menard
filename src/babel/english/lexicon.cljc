@@ -282,9 +282,7 @@
 
    "beach" {:synsem {:cat :noun
                      :sem {:place true
-                           :event false
                            :pred :beach
-                           :buyable false
                            :artifact false}}}
 
    "become" {:synsem {:cat :verb
@@ -301,7 +299,7 @@
    
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
-                             :animate false
+                             :artifact true
                              :place false}}}
    "black"
    (unify adjective
@@ -317,14 +315,13 @@
    (unify agreement-noun
           common-noun
           countable-noun
-          {:synsem {:sem {:pred :libro
+          {:synsem {:sem {:artifact true
+                          :pred :libro
                           :legible true
                           :speakable false
                           :mass false
-                          :buyable true
                           :place false
-                          :consumable false
-                          :artifact true}}})
+                          :consumable false}}})
 
    "break" {:synsem {:cat :verb
                      :sem {:pred :break }}
@@ -340,7 +337,6 @@
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})
-
 
    "bring" {:synsem {:cat :verb
                    :sem {:pred :bring
@@ -370,6 +366,7 @@
    "car" {:synsem {:cat :noun
                    :sem {:pred :car
                          :animate false
+                         :artifact true
                          :edible false
                          :place false}}}
 
@@ -377,12 +374,10 @@
                      :sem {:human true
                            :pred :carry}}
             :english {:past "carried"}}
-   "cat"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          {:synsem {:sem (unify e/animal {:pred :gatto
-                                          :pet true})}})
+
+   "cat" {:synsem {:cat :noun
+                   :sem {:pred :gatto
+                         :pet true}}}
 
    "change" {:synsem {:cat :verb
                       :sem {:pred :change}}} ;; TODO: add reflexive sense
@@ -394,7 +389,7 @@
                      :english {:present {:3sing "changes clothes"}
                                :participle "changing clothes"
                                :past "changed clothes"}}
-   
+
    "chat" {:synsem {:cat :verb
                     :sem {:pred :chat}}
            :english {:participle "chatting"
@@ -503,23 +498,18 @@
 
    "download" {:synsem {:cat :verb
                         :sem {:pred :scaricare}}}
-
-   "dog"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          {:synsem {:sem (unify e/animal {:pred :cane
-                                          :pet true})}})
+   "dog" {:synsem {:cat :noun
+                   :sem {:pred :cane
+                         :pet true}}}
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
                            :subj {:human true}}}}
-   "eat"
-   {:english {:past "ate"}
-    :synsem {:cat :verb
-             :sem {:pred :mangiare
-                   :subj {:animate true}
-                   :obj {:edible true}}}}
+   "eat" {:english {:past "ate"}
+          :synsem {:cat :verb
+                   :sem {:pred :mangiare
+                         :subj {:animate true}
+                         :obj {:edible true}}}}
 
    "eat dinner" {:synsem {:cat :verb
                           :sem {:pred :cenare
@@ -528,11 +518,10 @@
                            :participle "eating dinner"
                            :past "ate dinner"}}
 
-   "embrace"
-   {:synsem {:cat :verb
-             :sem {:pred :abbracciare}
-             :subj {:human true}
-             :obj {:human true}}}
+   "embrace" {:synsem {:cat :verb
+                       :sem {:pred :abbracciare}
+                       :subj {:human true}
+                       :obj {:human true}}}
 
    "endure" {:synsem {:cat :verb
                 :sem {:pred :endure}}}
@@ -577,14 +566,10 @@
                 :present {:3sing "falls asleep"}
                 :past "fell asleep"}})
 
-   "father"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:sem {:human true
-                          :pred :father
-                          :child false}}})
+   "father" {:synsem {:cat :noun
+                      :sem {:human true
+                            :pred :father
+                            :child false}}}
    
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
@@ -790,10 +775,10 @@
                      :past "had"}}
 
    "have dinner" {:synsem {:cat :verb
-                            :sem {:pred :have-dinner}}
-                   :english {:present {:3sing "has dinner"}
-                             :past "had dinner"
-                             :participle "having dinner"}}
+                           :sem {:pred :have-dinner}}
+                  :english {:present {:3sing "has dinner"}
+                            :past "had dinner"
+                            :participle "having dinner"}}
    "have fun"
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
@@ -823,18 +808,15 @@
                         :future "have to"
                         :participle "having to"
                         :past "had to"}}
-
-   "he"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :3rd
-                   :gender :masc
-                   :number :sing}
-             :sem {:human true
-                   :pred :lui}
-             :subcat '()}}
-
+   "he" {:synsem {:cat :noun
+                  :pronoun true
+                  :case :nom
+                  :agr {:person :3rd
+                        :gender :masc
+                        :number :sing}
+                  :sem {:human true
+                        :pred :lui}
+                  :subcat '()}}
    "help"
    {:synsem {:cat :verb
              :essere false
@@ -864,41 +846,38 @@
               :sem {:pred :lei
                     :human true}
               :subcat '()}}]
-   
-   "herself"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :acc
-             :reflexive true
-             :agr {:person :3rd
-                   :gender :fem
-                   :number :sing}
-             :sem {:human true
-                   :reflexive true}
-             :subcat '()}}
-    "him"
-    {:synsem {:cat :noun
-              :pronoun true
-              :case :acc
-              :reflexive false
-              :agr {:person :3rd
-                    :gender :masc
-                    :number :sing}
-              :sem {:human true
-                    :pred :lui}
-              :subcat '()}}
 
-   "himself"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :acc
-             :reflexive true
-             :agr {:person :3rd
-                   :gender :masc
+   "herself" {:synsem {:cat :noun
+                       :pronoun true
+                       :case :acc
+                       :reflexive true
+                       :agr {:person :3rd
+                             :gender :fem
                    :number :sing}
-             :sem {:human true
-                   :reflexive true}
-             :subcat '()}}
+                       :sem {:human true
+                             :reflexive true}
+                       :subcat '()}}
+    "him" {:synsem {:cat :noun
+                    :pronoun true
+                    :case :acc
+                    :reflexive false
+                    :agr {:person :3rd
+                          :gender :masc
+                          :number :sing}
+                    :sem {:human true
+                          :pred :lui}
+                    :subcat '()}}
+   
+   "himself" {:synsem {:cat :noun
+                       :pronoun true
+                       :case :acc
+                       :reflexive true
+                       :agr {:person :3rd
+                             :gender :masc
+                   :number :sing}
+                       :sem {:human true
+                             :reflexive true}
+                       :subcat '()}}
 
    "his" [{:synsem {:cat :det
                     :agr {:number :sing}
@@ -916,7 +895,6 @@
    "hit" {:english {:past "hit"}
              :synsem {:cat :verb
                       :sem {:pred :hit}}}
-   
    "hold"
    {:synsem {:cat :verb
              :sem {:pred :hold}}
@@ -926,14 +904,10 @@
    {:synsem {:cat :verb
              :sem {:pred :hope}}}
    
-   "house" (unify agreement-noun
-                  common-noun
-                  countable-noun
-                  {:synsem {:sem {:pred :house
-                                  :buyable true
-                                  :event false
-                                  :artifact true
-                                  :place true}}})
+   "house" {:synsem {:cat :noun
+                     :sem {:pred :house
+                           :artifact true
+                           :place true}}}
    "hug"
    {:synsem {:cat :verb
              :sem {:pred :hug
@@ -1110,22 +1084,18 @@
    "learn" {:synsem {:cat :verb
                      :sem {:pred :learn}}}
 
-   "leave" [
-            
-            {:english {:past "left"}
+   "leave" [{:english {:past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave-behind
                             :obj {:place false}}}}
-        
+            
             {:english {:note "on a trip"
                        :past "left"}
              :synsem {:cat :verb
-                      :sem {:pred :leave}}}
-                                                     
-                         ]
+                      :sem {:pred :leave}}}]
 
    "lie" {:synsem {:cat :verb
-                :sem {:pred :lie}}}
+                   :sem {:pred :lie}}}
    
    "lift" {:synsem {:cat :verb
                     :sem {:pred :lift}}}
@@ -1202,44 +1172,37 @@
    "make" {:synsem {:cat :verb
                     :sem {:pred :make}}
            :english {:past "made"}}
-   "man"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:english {:plur "men"}
-           :synsem {:sem {:human true
-                          :pred :man
-                          :child false}}})
+   "man" {:english {:plur "men"}
+          :synsem {:sem {:human true
+                         :pred :man
+                         :child false}}}
 
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
-   "may" 
-   {:english {:past "might"
-              :participle "able to"
-              :present {:1sing "may"
-                        :2sing "may"
-                        :3sing "may"
-                        :1plur "may"
-                        :2plur "may"
-                        :3plur "may"}
-              :future "be able to"
-              :conditional "be able to"}
-    :synsem {:cat :verb
-             :sem {:pred :may}}}
-   "me" 
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :acc
-             :reflexive false
-             :agr {:person :1st
+   "may" {:english {:past "might"
+                    :participle "able to"
+                    :present {:1sing "may"
+                              :2sing "may"
+                              :3sing "may"
+                              :1plur "may"
+                              :2plur "may"
+                              :3plur "may"}
+                    :future "be able to"
+                    :conditional "be able to"}
+          :synsem {:cat :verb
+                   :sem {:pred :may}}}
+   "me" {:synsem {:cat :noun
+                  :pronoun true
+                  :case :acc
+                  :reflexive false
+                  :agr {:person :1st
                    :number :sing}
-             :sem {:human true
-                   :pred :I}
-             :subcat '()}}
+                  :sem {:human true
+                        :pred :I}
+                  :subcat '()}}
 
    "measure" {:synsem {:cat :verb
-                :sem {:pred :measure}}}
+                       :sem {:pred :measure}}}
 
    "meet"  {:synsem {:cat :verb
                      :sem {:pred :incontrare}}
@@ -1248,30 +1211,26 @@
    "meeting" {:synsem {:cat :noun
                        :sem {:pred :meeting
                              :event true}}}
-   "mother"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:synsem {:sem {:human true
-                          :pred :madre
-                          :child false}}})
+
+   "mother" {:synsem {:cat :noun
+                      :sem {:human true
+                            :pred :madre
+                            :child false}}}
 
    "move" {:synsem {:cat :verb
                     :sem {:pred :move}}}
 
    "multiply" {:synsem {:cat :verb
-                :sem {:pred :multiply}}}
+                        :sem {:pred :multiply}}}
 
    ;; TODO: should not need to provide an irregular plural form
    ;; [:sem :mass]=true should be sufficient.
-   "music" 
-   {:synsem {:agr {:number :sing}
-             :cat :noun
-             :sem {:pred :music
-                   :animate false
-                   :place false
-                   :mass true}}}
+   "music" {:synsem {:agr {:number :sing}
+                     :cat :noun
+                     :sem {:pred :music
+                           :animate false
+                           :place false
+                           :mass true}}}
    "my"
    (map #(unify %
                 {:synsem {:cat :det
@@ -1298,19 +1257,18 @@
                     :number number})
          of (atom {:gender gender
                    :number number})]
-     (unify agreement-noun
-            common-noun
-            countable-noun
-            {:synsem {:agr agr
-                      :sem {:animate false
-                            :pred :name
-                            :place false
-                            :physical-object false
-                            :subj of}
-                      :subcat {:1 {:agr agr
-                                   :cat :det
-                                   :def :possessive
-                                   :sem of}}}}))
+     {:synsem {:agr agr
+               :cat :noun
+               :sem {:animate false
+                     :pred :name
+                     :place false
+                     :physical-object false
+                     :subj of}
+               :subcat {:1 {:agr agr
+                            :cat :det
+                            :def :possessive
+                            :sem of}}}})
+
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}
 
@@ -1333,7 +1291,7 @@
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
 
-    "ourselves"
+   "ourselves"
    [{:note "♀" 
      :synsem {:cat :noun
               :pronoun true
@@ -1442,18 +1400,17 @@
                           :physical-object true
                           :human false}}})
 
- "remain" [{:synsem {:cat :verb
-                      :sem {:pred :remain}}} ;; for other than italian
+   "remain" [{:synsem {:cat :verb
+                       :sem {:pred :remain}}} ;; for other than italian
                     
-          ;; these two below are for Italian.          
-           
-           {:english {:note {:it "ri"}}
-            :synsem {:cat :verb
-                      :sem {:pred :remain1}}}
-          {:english {:note {:it "re"}}
-            :synsem {:cat :verb
-                      :sem {:pred :remain2}}}
-]
+             ;; these two below are for Italian.          
+             
+             {:english {:note {:it "ri"}}
+              :synsem {:cat :verb
+                       :sem {:pred :remain1}}}
+             {:english {:note {:it "re"}}
+              :synsem {:cat :verb
+                       :sem {:pred :remain2}}}]
 
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}
@@ -1514,8 +1471,8 @@
 
    "scrub"  {:synsem {:cat :verb
                      :sem {:pred :scrub}}
-            :english {:participle "scrubbing"
-                      :past "scrubbed"}}
+             :english {:participle "scrubbing"
+                       :past "scrubbed"}}
 
    "second" (unify adjective
                    {:synsem {:sem {:mod {:pred :first}
@@ -1922,15 +1879,10 @@
            :english {:past "won"
                      :participle "winning"}}
    
-   "woman"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          feminine-noun
-          {:english {:plur "women"}
-           :synsem {:sem {:human true
-                          :pred :donna
-                          :child false}}})
+   "woman" {:english {:plur "women"}
+            :synsem {:sem {:human true
+                           :pred :donna
+                           :child false}}}
 
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human
@@ -1950,7 +1902,7 @@
                       :sem {:pred :scrivere}}}
 
    "yell" {:synsem {:cat :verb
-                :sem {:pred :yell}}}
+                    :sem {:pred :yell}}}
    
    "you (♂)"
    {:note "♂"

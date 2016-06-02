@@ -1172,8 +1172,10 @@
    "make" {:synsem {:cat :verb
                     :sem {:pred :make}}
            :english {:past "made"}}
+   
    "man" {:english {:plur "men"}
-          :synsem {:sem {:human true
+          :synsem {:cat :noun
+                   :sem {:human true
                          :pred :man
                          :child false}}}
 

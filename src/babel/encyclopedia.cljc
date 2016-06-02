@@ -44,25 +44,59 @@ as a map of implications"}
                        :buyable true
                        :furniture false
                        :legible false
+                       :human false
+                       :part-of-human-body false
                        :pet false
                        :physical-object true
                        :speakable false}
 
    {:consumable false} {:drinkable false
                         :edible false}
-    
-   {:human true} {:animate true}
 
+   {:drinkable true}   {:mass true}
+
+   {:edible true}      {:consumable true}
+                      
+   {:furniture true}   {:artifact true
+                        :animate false
+                        :buyable true
+                        :consumable false
+                        :legible false
+                        :edible false
+                        :place false
+                        :speakable false}
+   
+   {:human true} {:animate true
+                  :buyable false
+                  :consumable false
+                  :legible false
+                  :pet false
+                  :part-of-human-body true
+                  :physical-object true
+                  :place false}
+
+   {:living false} {:animate false
+                    :human false}
+   
    {:living true} {:artifact false}
 
+   {:part-of-human-body true} {:consumable false
+                               :human false
+                               :physical-object true}
+   
    {:pet true} {:animate true
                 :buyable true
                 :edible false
                 :human false}
 
-   {:pred :house} {:artifact true
-                   :buyable true
-                   :place true}
+   {:place true} {:activity false
+                  :consumable false
+                  :living false
+                  :physical-object true}
+
+   {:time true} {:activity false
+                 :living false
+                 :place false}
    
    }
   )
@@ -95,138 +129,15 @@ as a map of implications"}
             city       (get-encyc input :city)
             clothing   (get-encyc input :clothing)
             consumable (get-encyc input :consumable)
-
-            drinkable
-            ;; drinkables are always mass nouns.
-            (if (= (get-in input '(:drinkable)) true)
-              {:mass true})
-
-            drinkable-xor-edible-1
-            ;; things are either drinkable or edible, but not both (except for weird foods
-            ;; like pudding or soup). (part 1: edible)
-            (if (and (= (get-in input '(:edible)) true)
-                     (= (get-in input '(:drinkable) :notfound) :notfound))
-              {:drinkable false}{})
-
-            drinkable-xor-edible-2
-            ;; things are either drinkable or edible, but not both (except for weird foods
-            ;; like pudding or soup). (part 2: drinkable)
-            (if (and (= (get-in input '(:drinkable)) true)
-                     (= (get-in input '(:edible) :notfound) :notfound))
-              {:edible false})
-
-            ;; qualities of foods and drinks.
-            edible (if (or (= (get-in input '(:edible)) true)
-                           (= (get-in input '(:drinkable)) true))
-                     {:consumable true
-                      :human false
-                      :pet false
-                      :place false
-                      :speakable false
-                      :legible false
-                      :furniture false
-                      :part-of-human-body false}{})
-
-            furniture (if (= (get-in input '(:furniture))
-                             true)
-                        {:artifact true
-                         :animate false
-                         :buyable true
-                         :drinkable false
-                         :legible false
-                         :edible false
-                         :place false
-                         :speakable false})
-
-            human (if (= (get-in input '(:human))
-                         true)
-                    {:activity false
-                     :buyable false
-                     :physical-object true
-                     :edible false
-                     :animate true
-                     :part-of-human-body false
-                     :drinkable false
-                     :speakable false
-                     :city false
-                     :place false})
-            inanimate (if (= (get-in input '(:animate))
-                             false)
-                        {:human false})
-
-            ;; legible(x) => artifact(x),drinkable(x,false),edible(x,false),human(x,false)
-            legible
-            (if (= (get-in input '(:legible)) true)
-              {:artifact true
-               :drinkable false
-               :human false
-               :furniture false
-               :part-of-human-body false
-               :edible false})
-
-            material-false
-            (if (= (get-in input '(:material)) :false)
-              {:edible false
-               :animate false
-               :drinkable false
-               :buyable false ; money can't buy me love..
-               :visible false})
-
-            non-places (if (or
-                            (= (get-in input '(:legible)) true)
-                            (= (get-in input '(:part-of-human-body)) true)
-                            (= (get-in input '(:pred)) :fiore)
-                            (= (get-in input '(:pred)) :scala))
-                         {:place false})
-
-            ;; artifact(x,false) => legible(x,false)
-            not-legible-if-not-artifact
-            (if (= (get-in input '(:artifact)) false)
-              {:legible false})
-
-            part-of-human-body
-            (if (= (get-in input '(:part-of-human-body)) true)
-              {:speakable false
-               :buyable false
-               :animate false
-               :edible false
-               :drinkable false
-               :legible false
-               :artifact false})
-
-            ;; we don't eat pets (unless things get so desperate that they aren't pets anymore)
-            pets (if (= (get-in input '(:pet))
-                        true)
-                   {:edible false
-                    :buyable true
-                    :physical-object true
-                    })
-
-            place (if (= (get-in input '(:place))
-                         true)
-                    {:activity false
-                     :animate false
-                     :speakable false
-                     :physical-object true
-                     :drinkable false
-                     :edible false
-                     :legible false}{})
-
-            place-false (if (= (get-in input '(:place))
-                               false)
-                          {:city false})
-         
-            time (if (= (get-in input [:time])
-                        true)
-                   {:activity false
-                    :animate false
-                    :city false
-                    :speakable false
-                    :physical-object true
-                    :drinkable false
-                    :edible false
-                    :legible false
-                    :place false})
+            drinkable  (get-encyc input :drinkable)
+            edible     (get-encyc input :edible)
+            furniture  (get-encyc input :furniture)
+            human      (get-encyc input :human)
+            part-of-human-body (get-encyc input
+                                          :part-of-human-body)
+            pet        (get-encyc input :pet)
+            place      (get-encyc input :place)
+            time       (get-encyc input :time)
             ]
         (let [merged
               (cond (= input :fail) :fail
@@ -234,12 +145,8 @@ as a map of implications"}
                     true
                     (merge input
                            activity animate artifact buyable city clothing consumable drinkable
-                           drinkable-xor-edible-1 drinkable-xor-edible-2
-                           edible furniture human inanimate
-                           legible material-false non-places
-                           not-legible-if-not-artifact part-of-human-body pets place
-                           place-false time
-                           ))]
+                           edible furniture human
+                           pet place time))]
           (log/trace (str "sem-impl so far: " merged))
           (if (not (= merged input)) ;; TODO: make this check more efficient: count how many rules were hit
             ;; rather than equality-check to see if merged has changed.

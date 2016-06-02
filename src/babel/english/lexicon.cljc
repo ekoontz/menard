@@ -99,7 +99,7 @@
    "assure" {:synsem {:cat :verb
                       :sem {:pred :assure}}}
 
-   "at" (let [obj (atom {:location true
+   "at" (let [obj (atom {:place true
                          :reflexive false})]
           {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun

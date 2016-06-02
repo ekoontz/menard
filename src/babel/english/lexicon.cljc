@@ -1689,29 +1689,6 @@
               :sem {:human true
                     :reflexive true}
               :subcat '()}}
-    {:note "♀" 
-     :synsem {:cat :noun
-              :pronoun true
-              :case :acc
-              :reflexive true
-              :agr {:person :3rd
-                    :number :plur
-                    :gender :fem}
-              :sem {:human false
-                    :reflexive true}
-              :subcat '()}}
-    
-    {:note "♂" 
-     :synsem {:cat :noun
-              :pronoun true
-              :case :acc
-              :reflexive true
-              :agr {:person :3rd
-                    :number :plur
-                    :gender :masc}
-              :sem {:human false
-                    :reflexive true}
-              :subcat '()}}
     ]
    
    "they"

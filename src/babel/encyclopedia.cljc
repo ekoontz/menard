@@ -91,7 +91,6 @@ as a map of implications"}
    
    {:living true} {:artifact false
                    :place false}
-                   
 
    {:part-of-human-body true} {:consumable false
                                :human false

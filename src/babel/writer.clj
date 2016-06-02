@@ -1,7 +1,7 @@
 (ns babel.writer
   (:refer-clojure :exclude [get-in merge])
   (:require
-    [babel.lexiconfn :refer [sem-impl]]
+    [babel.encyclopedia :refer [sem-impl]]
     [babel.engine :as engine]
     [babel.korma :as korma]
     [babel.log :refer [log4j!]]

@@ -36,6 +36,21 @@ as a map of implications"}
                  :legible false
                  :place true}
 
+   {:clothing true} {:animate false
+                     :place false
+                     :physical-object true}
+
+   {:consumable true} {:activity false
+                       :buyable true
+                       :furniture false
+                       :legible false
+                       :pet false
+                       :physical-object true
+                       :speakable false}
+
+   {:consumable false} {:drinkable false
+                        :edible false}
+    
    {:human true} {:animate true}
 
    {:living true} {:artifact false}
@@ -73,30 +88,13 @@ as a map of implications"}
     (cond
       (= input :top) input
       true
-      (let [activity (get-encyc input :activity)
-            animate  (get-encyc input :animate)
-            artifact (get-encyc input :artifact)
-            buyable  (get-encyc input :buyable)
-            city     (get-encyc input :city)
-
-            clothing (if (= (get-in input '(:clothing))
-                            true)
-                       {:animate false
-                        :place false
-                        :physical-object true}{})
-
-            consumable (if (= (get-in input '(:consumable)) true)
-                         {:activity false
-                          :buyable true
-                          :furniture false
-                          :legible false
-                          :pet false
-                          :physical-object true
-                          :speakable false})
-            
-            consumable-false (if (= (get-in input '(:consumable)) false)
-                               {:drinkable false
-                                :edible false} {})
+      (let [activity   (get-encyc input :activity)
+            animate    (get-encyc input :animate)
+            artifact   (get-encyc input :artifact)
+            buyable    (get-encyc input :buyable)
+            city       (get-encyc input :city)
+            clothing   (get-encyc input :clothing)
+            consumable (get-encyc input :consumable)
 
             drinkable
             ;; drinkables are always mass nouns.
@@ -235,7 +233,7 @@ as a map of implications"}
 
                     true
                     (merge input
-                           activity animate artifact buyable city clothing consumable consumable-false drinkable
+                           activity animate artifact buyable city clothing consumable drinkable
                            drinkable-xor-edible-1 drinkable-xor-edible-2
                            edible furniture human inanimate
                            legible material-false non-places

@@ -164,7 +164,8 @@
 
        true
        (join " "
-             [(get-string (get-in word '(:a)))
+             [(str (get-string (get-in word '(:a)))
+                   (get-in word [:punctuation :middle]))
               (get-string (get-in word '(:b)))])))
 
    ;; TODO: this seems wrong: how could :infl == :english?

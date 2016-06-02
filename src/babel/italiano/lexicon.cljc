@@ -688,11 +688,8 @@
    "città"
    {:synsem {:agr {:gender :fem}
              :cat :noun
-             :sem {:artifact true
-                   :buyable false  ;; can't buy a city (unless you're a billionaire like Mike Bloomberg)
-                   :city true
-                   :place true
-                   :pred :città}
+             :sem {:city true
+                   :pred :city}
              :subcat {:1 {:cat :det
                           :def :def}}}} ;; TODO: why must :def be specifically :def here?
 

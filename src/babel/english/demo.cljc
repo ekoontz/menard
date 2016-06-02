@@ -7,7 +7,7 @@
 
 (declare run-demo-with)
 
-(defn demo [ & [n]]
+(defn demo [ & [n spec]]
   (let [demo-specs
         [{:demo-name "Dog noun phrases"
           :synsem {:cat :noun
@@ -44,7 +44,11 @@
                                          (do
                                            (println (fo expression))))
                                        expressions))))))
-                demo-specs))))
+                (if spec
+                  (filter #(= (:demo-name %)
+                              spec)
+                          demo-specs)
+                  demo-specs)))))
 
 (defn run-demo-with [ & [n spec]]
   "print out _n_ generated sentences to stdout."

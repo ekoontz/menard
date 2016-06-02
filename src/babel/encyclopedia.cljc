@@ -94,7 +94,8 @@ as a map of implications"}
                 :buyable true
                 :edible false
                 :human false
-                :spec {:of {:human true}}}
+                :spec {:of {:human true}}
+                }
 
    {:physical-object false} {:animate false}
 

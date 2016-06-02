@@ -1333,10 +1333,12 @@
    "participate"  {:synsem {:cat :verb
                             :sem {:pred :participate}}}
 
-   "party" {:synsem {:cat :noun
-                     :sem {:pred :party
-                           :place true
-                           :event true}}}
+   "party" [{:synsem {:cat :noun
+                      :sem {:pred :party
+                            :place true}}}
+            {:synsem {:cat :noun
+                      :sem {:pred :party
+                           :event true}}}]
    
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").

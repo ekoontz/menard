@@ -5,6 +5,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
+   [babel.exception :refer [exception]]
    [babel.pos :refer [agreement-noun common-noun determiner
                       intransitive modal noun
                       subcat0 subcat1
@@ -12,12 +13,6 @@
                       verb-subjective]]
    [dag_unify.core :as unify :refer [dissoc-paths exists? fail-path fail? get-in isomorphic?
                                      merge serialize strip-refs unifyc]]))
-
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. error-string)))
-  #?(:cljs
-     (throw (js/Error. error-string))))
 
 (declare listify)
 (declare map-function-on-map-vals)

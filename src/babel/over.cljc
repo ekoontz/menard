@@ -1,17 +1,13 @@
 (ns babel.over
   (:refer-clojure :exclude [get get-in merge resolve find parents])
   (:require
+   [babel.exception :refer [exception]]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]
    [babel.lexiconfn :refer [get-fail-path sem-impl]]))
-
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. error-string)))
-  #?(:cljs
-     (throw (js/Error. error-string))))
+   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.
 ;; using (get-fail-path) is one example.

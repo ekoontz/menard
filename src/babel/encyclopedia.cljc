@@ -79,7 +79,8 @@ as a map of implications"}
                   :pet false
                   :part-of-human-body false
                   :physical-object true
-                  :place false}
+                  :place false
+                  :spec {:of {:human true}}}
 
    {:living false} {:animate false
                     :human false}
@@ -94,8 +95,7 @@ as a map of implications"}
                 :buyable true
                 :edible false
                 :human false
-                :spec {:of {:human true}}
-                }
+                :spec {:of {:human true}}}
 
    {:physical-object false} {:animate false}
 

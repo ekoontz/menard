@@ -15,6 +15,9 @@ as a map of implications"}
                      :consumable false
                      :part-of-human-body false}
 
+   {:animate false} {:human false
+                     :pet false}
+   
    {:animate true} {:activity false
                     :artifact false
                     :mass false
@@ -57,7 +60,9 @@ as a map of implications"}
    {:drinkable true}   {:mass true}
 
    {:edible true}      {:consumable true}
-                      
+
+   {:event true}       {:physical-object false}
+   
    {:furniture true}   {:artifact true
                         :animate false
                         :buyable true
@@ -89,6 +94,8 @@ as a map of implications"}
                 :buyable true
                 :edible false
                 :human false}
+
+   {:physical-object false} {:animate false}
 
    {:place true} {:activity false
                   :consumable false

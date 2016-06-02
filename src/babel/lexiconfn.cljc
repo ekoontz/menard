@@ -377,7 +377,12 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
         lexical-entry))
 
 (defn semantic-implicature [lexical-entry]
-  {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}})
+  (if (= (get-in lexical-entry [:synsem :cat]) :noun)
+    ;; this rule is only necessary with nouns: other parts of speech can select nouns based on their
+    ;; semantics derived via the nouns' use of this rule.
+    {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}}
+
+    lexical-entry))
 
 (defn put-a-bird-on-it [lexical-entry]
   "example lexical entry transformer."
@@ -538,6 +543,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
             (if (fail? result) 
               (do
                 (log/error (str "lexical entry cannot be added: " (strip-refs result) ";fail-path: " (fail-path result)))
+                ;; TODO: throw exception here
                 :fail)
               (if (isomorphic? result lexical-entry)
                 ;; done: one final step is to add serialization to the entry.

@@ -9,7 +9,8 @@
 (declare get-string)
 (declare plural-en)
 
-(defn fo [input & {show-notes :show-notes}]
+(defn fo [input & {:keys [show-notes]
+                          :or {show-notes true}}]
   (cond 
 
    (= input :fail)
@@ -20,12 +21,8 @@
 
    (and (map? input)
         (map? (get-in input [:english])))
-   (get-string (get-in input [:english]))
-
-   ;; TODO: this is the tricky part about combining fo and get-string.
-   (and (map? input)
-        (get-in input [:english]))
-   (get-string input)
+   (get-string (get-in input [:english])
+               :show-notes show-notes)
 
    (or (seq? input)
        (vector? input))
@@ -37,11 +34,13 @@
    true
    ""))
 
-(defn get-string [word & {show-notes :show-notes}]
+(defn get-string [word & {:keys [show-notes]
+                          :or {show-notes true}}]
   (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
   (cond
+
    (ref? word)
-   (get-string @word)
+   (get-string @word :show-notes show-notes)
 
    (= word :top)
    ".."
@@ -58,24 +57,31 @@
         (= (get-in word '(:infl)) :past)
         (string? (get-in word '(:a :past))))
    (str (get-in word '(:a :past)) " "
-        (get-string (get-in word '(:b))))
+        (get-string (get-in word '(:b))
+                    :show-notes show-notes))
 
    ;; :note is used for little annotations that are significant in italian but not in english
    ;; e.g. gender signs (♂,♀) on nouns like "professore" and "professoressa".
    (and (string? (get-in word '(:english)))
         (string? (get-in word '(:note))))
-   (str (trim (get-string (dissoc word :note))) " (" (trim (get-in word '(:note))) ")")
+   (str (trim (get-string (dissoc word :note)
+                          :show-notes show-notes))
+        (if (not (= false show-notes))
+          (str " (" (trim (get-in word '(:note))) ")")))
 
    (= (get-in word '(:a)) :top)
    (str
-    ".." " " (get-string (get-in word '(:b))))
+    ".." " " (get-string (get-in word '(:b))
+                         :show-notes show-notes))
 
    ;; show elipsis (..) if :b is not specified.
    (and
     (= (get-in word '(:b)) :top)
-    (string? (get-string (get-in word '(:a)))))
+    (string? (get-string (get-in word '(:a))
+                         :show-notes show-notes)))
    (str
-    (get-string (get-in word '(:a)))
+    (get-string (get-in word '(:a))
+                :show-notes show-notes)
     " " "..")
 
    ;; show elipsis (..) if :a is not specified.
@@ -83,7 +89,8 @@
     (= (get-in word '(:b)) :top)
     (string? (get-in word '(:a :english))))
    (str
-    (get-string (get-in word '(:a :english)))
+    (get-string (get-in word '(:a :english))
+                :show-notes show-notes)
     " " "..")
 
    (string? word)
@@ -109,7 +116,7 @@
     (string? (get-in word '(:b :past)))
     (= (get-in word '(:a :infl)) :past))
    (join " " (list (get-in word '(:a :past))
-                          (get-in word '(:b :past))))
+                   (get-in word '(:b :past))))
 
    ;; (could have) + (do X) => "could have done X"
    (and
@@ -122,7 +129,8 @@
    ;; recursive call after inflecting '(:b :a) to past.
    (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past-participle))
-                      :b (get-in word '(:b :b))}})
+                      :b (get-in word '(:b :b))}}
+               :show-notes show-notes)
 
    ;; (could have) + (make X) => "could have made X"
    (and
@@ -135,12 +143,13 @@
    ;; recursive call after inflecting '(:b :a) to past.
    (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past))
-                      :b (get-in word '(:b :b))}})
+                      :b (get-in word '(:b :b))}}
+               :show-notes show-notes)
    (and
     (get-in word [:a])
     (get-in word [:b]))
-   (let [string-a (get-string (get-in word [:a]))
-         string-b (get-string (get-in word [:b]))]
+   (let [string-a (get-string (get-in word [:a]) :show-notes show-notes)
+         string-b (get-string (get-in word [:b]) :show-notes show-notes)]
      (log/debug (str "A AGR1: " (strip-refs (get-in word [:a]))))
      (log/debug (str "A AGR2: " (strip-refs (get-in word [:a :agr]))))
      (log/debug (str "A AGR3: " (strip-refs (get-in word [:a :agr :number]))))
@@ -164,9 +173,9 @@
 
        true
        (join " "
-             [(str (get-string (get-in word '(:a)))
+             [(str (get-string (get-in word '(:a)) :show-notes show-notes)
                    (get-in word [:punctuation :middle]))
-              (get-string (get-in word '(:b)))])))
+              (get-string (get-in word '(:b)) :show-notes show-notes)])))
 
    ;; TODO: this seems wrong: how could :infl == :english?
    (and (= :english (get-in word '(:infl)))
@@ -184,10 +193,10 @@
    ""
 
    (= true (get-in word '(:a :hidden)))
-   (get-string (get-in word '(:b)))
+   (get-string (get-in word '(:b)) :show-notes show-notes)
 
    (= true (get-in word '(:b :hidden)))
-   (get-string (get-in word '(:a)))
+   (get-string (get-in word '(:a) :show-notes show-notes))
 
    (and (= (get-in word '(:infl)) :conditional)
         (get-in word '(:english))
@@ -318,7 +327,7 @@
            (and (= person :2nd) (= number :sing)
                 (string? (get-in word [:past :2sing])))
            (get-in word '[:past :2sing])
-
+           
            (and (= person :3rd) (= number :sing)
                 (string? (get-in word [:past :3sing])))
            (get-in word '(:past :3sing))
@@ -337,9 +346,11 @@
 
            ;; default
            (string? (get-in word [:past :english]))
-           (get-in word [:past :english])
-
-
+           (str (get-in word [:past :english])
+                (if (and (not (= false show-notes))
+                         (string? (get-in word [:past :note])))
+                  (str " (" (trim (get-in word '(:past :note))) ")")))
+           
            true word)) ;; not enough agreement specified to conjugate.
 
    ;; regular past
@@ -363,6 +374,7 @@
 
            true
            (str stem "ed"))) ;; "play"->"played"
+
    (and
     (= :present (get-in word '(:infl)))
     (string? (get-in word '(:english))))
@@ -470,9 +482,9 @@
     (= (get-in word '(:cat) :noun))
     (string? (get-in word '(:english))))
    (trim (str (get-in word '(:english)) " "
-              (if (get-in word '(:note))
-                (get-in word '(:note))
-                "")))
+              (if (and (get-in word '(:note))
+                       (not (= false show-notes)))
+                (get-in word '(:note)))))
 
    ;; TODO: remove support for deprecated :root - use :sing instead.
    (and
@@ -552,7 +564,8 @@
 
 (declare fo-ps-en)
 
-(defn fo-ps-en [expr]
+(defn fo-ps-en [expr & {:keys [show-notes]
+                        :or {show-notes true}}]
   "show the phrase-structure of a phrase structure tree, e.g [hh21 'mangiare (to eat)' [cc10 'il (the)' 'pane(bread)']]"
   ;; [:first = {:head,:comp}] will not yet be found in expr, so this head-first? will always be false.
   (let [head-first? (= :head (get-in expr [:first]))]
@@ -627,8 +640,8 @@
      (and
       (map? expr)
       (:english expr))
-     (str (get-string (get-in expr '(:english))))
-
+     (str (get-string (get-in expr '(:english))
+                      :show-notes show-notes))
      true
      expr)))
 

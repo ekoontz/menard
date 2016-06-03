@@ -136,8 +136,8 @@
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
   (filter #(not (fail? %))
           (mapfn (fn [rule]
-                   (if (unifyc (get-in rule [:synsem :cat] :top)
-                               (get-in spec [:synsem :cat] :top))
+                   (if (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
+                                           (get-in spec [:synsem :cat] :top))))
                      (unifyc spec rule)
                      :fail))
                  (shuffle rules))))

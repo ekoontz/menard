@@ -111,6 +111,9 @@ as a map of implications"}
                   :physical-object true}
 
    ;; <preds>
+   {:pred :bag} {:artifact true
+                 :consuable false}
+   
    {:pred :bicycle} {:artifact true
                      :consumable false}
    

@@ -1181,7 +1181,8 @@
            :english {:past "made"}}
    
    "man" {:english {:plur "men"}
-          :synsem {:cat :noun
+          :synsem {:agr {:gender :masc}
+                   :cat :noun
                    :sem {:human true
                          :pred :man
                          :child false}}}
@@ -1874,7 +1875,8 @@
                      :participle "winning"}}
    
    "woman" {:english {:plur "women"}
-            :synsem {:cat :noun
+            :synsem {:agr {:gender :fem}
+                     :cat :noun
                      :sem {:human true
                            :pred :donna
                            :child false}}}

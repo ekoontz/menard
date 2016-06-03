@@ -122,10 +122,7 @@
                      :sem {:pred :avoid}}}
 
    "bag" {:synsem {:cat :noun
-                   :sem {:pred :bag
-                         :animate false
-                         :edible false
-                         :place false}}}
+                   :sem {:pred :bag}}}
 
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}

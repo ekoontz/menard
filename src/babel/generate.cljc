@@ -12,6 +12,8 @@
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
 (def ^:const max-total-depth 6)
+
+;; use map or pmap.
 (def ^:const mapfn map)
 
 (declare add-complement)
@@ -131,8 +133,13 @@
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"
+  (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
   (filter #(not (fail? %))
-          (mapfn (fn [rule] (unifyc spec rule))
+          (mapfn (fn [rule]
+                   (if (unifyc (get-in rule [:synsem :cat] :top)
+                               (get-in spec [:synsem :cat] :top))
+                     (unifyc spec rule)
+                     :fail))
                  (shuffle rules))))
 
 (defn lightning-bolt [grammar lexicon spec depth index morph total-depth]

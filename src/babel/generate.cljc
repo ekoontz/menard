@@ -129,6 +129,11 @@
       (log/debug (str "generate-all: no expressions could be generated for spec:" (strip-refs expressions))))
     expressions))
 
+(defn candidate-parents [rules spec]
+  "find subset of _rules_ for which each member unifies successfully with _spec_"
+  (filter #(not (fail? (unifyc % spec)))
+          rules))
+
 (defn lightning-bolt [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the

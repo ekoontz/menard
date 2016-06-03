@@ -3,6 +3,7 @@
    [babel.italiano :refer [generate]]
    [babel.italiano.morphology :refer [fo]]
    #?(:cljs [babel.logjs :as log])
+   [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])))
 
 (declare run-demo-with)
@@ -40,8 +41,11 @@
                         (println)
                         (let [expressions (run-demo-with n spec)]
                           (count (pmap (fn [expression]
-                                         (do
-                                           (println (fo expression))))
+                                         (let [formatted (fo expression)]
+                                           (println
+                                            (str (string/capitalize (subs formatted 0 1))
+                                                 (subs formatted 1 (count formatted))
+                                                 "."))))
                                        expressions))))))
                 demo-specs))))
 

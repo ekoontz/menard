@@ -7,7 +7,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path lazy-shuffle
+   [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc)]))
 ;; during generation, will not search deeper than this:
@@ -131,8 +131,9 @@
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"
-  (filter #(not (fail? (unifyc % spec)))
-          rules))
+  (filter #(not (fail? %))
+          (mapfn (fn [rule] (unifyc spec rule))
+                 (shuffle rules))))
 
 (defn lightning-bolt [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where
@@ -147,7 +148,7 @@ of this function with complements."
       (log/debug (str "lightning-bolt(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) "; spec=" (strip-refs spec) ")"))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
-            parents (lazy-shuffle (filter #(not (fail? %)) (mapfn (fn [rule] (unifyc spec rule)) grammar)))]
+            parents (candidate-parents grammar spec)]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))

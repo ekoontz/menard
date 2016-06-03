@@ -117,10 +117,14 @@ as a map of implications"}
    {:pred :bicycle} {:artifact true
                      :consumable false}
    
+   {:pred :bread} {:artifact true
+                   :edible true}
+
    {:pred :key} {:animate false
                  :consumable false
                  :event false
                  :place false}
+
    ;; </preds>
    
    {:time true} {:activity false

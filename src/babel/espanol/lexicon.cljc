@@ -693,9 +693,7 @@
    (unify agreement-noun
           common-noun
           masculine-noun
-          {:synsem {:sem {:pred :pane
-                          :edible true
-                          :artifact true}
+          {:synsem {:sem {:pred :bread}
                     :subcat {:1 {:cat :det
                                  :number :sing
                                  :def :def}}}})

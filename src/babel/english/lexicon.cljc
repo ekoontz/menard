@@ -329,7 +329,7 @@
    ;; inherently singular.
    {:synsem {:agr {:number :sing}
              :cat :noun
-             :sem {:pred :pane
+             :sem {:pred :bread
                    :edible true
                    :artifact true}
              :subcat {:1 {:cat :det

@@ -1685,9 +1685,7 @@
    ;; inherently singular.
    {:synsem {:agr {:gender :masc}
              :cat :noun
-             :sem {:pred :pane
-                   :edible true
-                   :artifact true}
+             :sem {:pred :bread}
              :subcat {:1 {:cat :det
                           :number :sing
                           :def :def}}}}

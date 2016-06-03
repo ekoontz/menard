@@ -9,7 +9,7 @@
 (declare get-string)
 (declare plural-en)
 
-(defn fo [input]
+(defn fo [input & {show-notes :show-notes}]
   (cond 
 
    (= input :fail)
@@ -37,7 +37,7 @@
    true
    ""))
 
-(defn get-string [word]
+(defn get-string [word & {show-notes :show-notes}]
   (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
   (cond
    (ref? word)

@@ -769,6 +769,7 @@
    "guess" {:synsem {:cat :verb
                      :sem {:pred :guess}}}
    
+   ;; TODO: add auxiliary sense of "have"
    "have" {:synsem {:cat :verb
                     :sem {:activity false
                           :discrete false
@@ -2040,6 +2041,11 @@
                  (if-then {:synsem {:cat :verb
                                     :sem {:reflexive false}}}
                           {:synsem {:sem {:reflexive false}}})
+
+                 ;; if not(aux), then aux=false
+                 (if-then {:synsem {:cat :verb
+                                    :aux false}}
+                          {:synsem {:aux false}})
                  
                  ;; subject-and-reflexive-pronoun agreement
                  (if-then {:synsem {:sem {:reflexive true}
@@ -2050,5 +2056,3 @@
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
                                                :2 {:agr subject-agr}}}}))))
-                                
-

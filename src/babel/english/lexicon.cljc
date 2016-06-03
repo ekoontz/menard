@@ -1092,12 +1092,14 @@
    "leave" [{:english {:past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave-behind
+                            :subj {:animate true}
                             :obj {:place false}}}}
             
             {:english {:note "on a trip"
                        :past "left"}
              :synsem {:cat :verb
-                      :sem {:pred :leave}}}]
+                      :sem {:pred :leave
+                            :subj {:animate true}}}}]
 
    "lie" {:synsem {:cat :verb
                    :sem {:pred :lie}}}

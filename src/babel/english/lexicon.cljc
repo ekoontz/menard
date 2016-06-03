@@ -569,6 +569,7 @@
                 :past "fell asleep"}})
 
    "father" {:synsem {:cat :noun
+                      :agr {:gender :masc}
                       :sem {:human true
                             :pred :father
                             :child false}}}
@@ -1218,7 +1219,8 @@
                        :sem {:pred :meeting
                              :event true}}}
 
-   "mother" {:synsem {:cat :noun
+   "mother" {:synsem {:agr {:gender :fem}
+                      :cat :noun
                       :sem {:human true
                             :pred :madre
                             :child false}}}

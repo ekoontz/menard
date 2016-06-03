@@ -112,7 +112,9 @@ as a map of implications"}
 
    ;; <preds>
    {:pred :bag} {:artifact true
-                 :consuable false}
+                 :consumable false
+                 :event false
+                 :place false}
    
    {:pred :bicycle} {:artifact true
                      :consumable false}

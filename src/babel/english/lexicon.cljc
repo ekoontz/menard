@@ -1019,13 +1019,14 @@
 
    "interrupt" {:synsem {:cat :verb
                 :sem {:pred :interrupt}}}
-   "it (♂)"
-   {:synsem {:cat :noun
+   "it"
+   [{:english {:note "♂"}
+     :synsem {:cat :noun
               :pronoun true
-             :case :top ;; we could just omit this kv, but we explicitly
-             ;; set it to :top to show how it's different than other
-             ;; pronouns: like 'you' the nominative and accusative
-             ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
+              :case :top ;; we could just omit this kv, but we explicitly
+              ;; set it to :top to show how it's different than other
+              ;; pronouns: like 'you' the nominative and accusative
+              ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
               :agr {:person :3rd
                     :number :sing}
               :sem {:pred :lui
@@ -1033,8 +1034,8 @@
                     :human false}
               :subcat '()}}
 
-   "it (♀)"
-    {:synsem {:cat :noun
+    {:english {:note "♀"}
+     :synsem {:cat :noun
               :pronoun true
               :case :top ;; see above comment
               :agr {:person :3rd
@@ -1042,10 +1043,10 @@
               :sem {:pred :lei
                     :gender :fem
                     :human false}
-              :subcat '()}}
+              :subcat '()}}]
 
    "itself"
-   [{:note "♂"
+   [{:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1056,7 +1057,7 @@
               :sem {:human false
                     :pred :lui}
               :subcat '()}}
-    {:note "♀"
+    {:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1302,7 +1303,7 @@
          {:synsem {:agr {:number :plur}}}])
 
    "ourselves"
-   [{:note "♀" 
+   [{:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1314,7 +1315,7 @@
                     :pred :noi}
               :subcat '()}}
     
-    {:note "♂" 
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1383,7 +1384,8 @@
                    :sem {:pred :put}}}
    
    "read" ;; if this was a phonetic dictionary, there would be two entries for each pronounciation (i.e. both "reed" or "red" pronounciations)
-   {:english {:past "read (past)"}
+   {:english {:past {:english "read"
+                     :note "past tense"}}
     :synsem {:cat :verb
              :sem {:pred :leggere
                    :discrete false
@@ -1675,7 +1677,7 @@
          {:synsem {:agr {:number :plur}}}])
     
    "themselves"
-   [{:note "♀" 
+   [{:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1687,7 +1689,7 @@
                     :reflexive true}
               :subcat '()}}
     
-    {:note "♂" 
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1701,7 +1703,7 @@
     ]
    
    "they"
-   [{:note "♂"
+   [{:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -1712,7 +1714,7 @@
                     :human true
                     :pred :loro}
               :subcat '()}}
-    {:note "♂"
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -1723,7 +1725,7 @@
                     :human false
                     :pred :loro}
               :subcat '()}}
-    {:note "♀"
+    {:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -1734,7 +1736,7 @@
                     :human true
                    :pred :loro}
               :subcat '()}}
-    {:note "♀"
+    {:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -1834,19 +1836,20 @@
 
    "watch" {:synsem {:cat :verb
                     :sem {:pred :watch}}}
-   "we (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:person :1st
-                   :gender :fem
-                   :number :plur}
-             :sem {:human true
-                   :gender :fem
-                   :pred :noi}
-             :subcat '()}}
-   "we (♂)"
-   {:synsem {:cat :noun
+   "we"
+   [{:english {:note "♀"}
+     :synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :1st
+                    :gender :fem
+                    :number :plur}
+              :sem {:human true
+                    :gender :fem
+                    :pred :noi}
+              :subcat '()}}
+    {:english {:note "♂"}
+     :synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :1st
@@ -1855,7 +1858,7 @@
              :sem {:human true
                    :gender :masc
                    :pred :noi}
-             :subcat '()}}
+             :subcat '()}}]
 
    "wear"  {:english {:past "wore"}
             :synsem {:cat :verb
@@ -1894,72 +1897,70 @@
    "yell" {:synsem {:cat :verb
                     :sem {:pred :yell}}}
    
-   "you (♂)"
-   {:note "♂"
-    :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
-    :synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :masc
-                   :number :sing}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
-
-   "you (♀)"
-   {:note "♀"
-    :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
-    :synsem {:cat :noun
-             :pronoun true
-             :case :top ;; see comment in "it" about :case.
-             :reflexive false
-             :agr {:person :2nd
-                   :gender :fem
-                   :number :sing}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
-
    "you"
-   {:target :es ;; ..but Spanish does not.
-    :synsem {:cat :noun
+   [{:english {:note "♂"}
+     :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
+     :synsem {:cat :noun
+              :pronoun true
+              :reflexive false
+              :case :top ;; see comment in "it" about :case.
+              :agr {:person :2nd
+                    :gender :masc
+                    :number :sing}
+              :sem {:human true
+                    :pred :tu}
+              :subcat '()}}
+    {:english {:note "♀"}
+     :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
+     :synsem {:cat :noun
+              :pronoun true
+              :case :top ;; see comment in "it" about :case.
+              :reflexive false
+              :agr {:person :2nd
+                    :gender :fem
+                    :number :sing}
+              :sem {:human true
+                    :pred :tu}
+              :subcat '()}}
+
+    {:english {:note "♀"}
+     :target :es ;; ..but Spanish does not.
+     :synsem {:cat :noun
+              :pronoun true
+              :case :top ;; see comment in "it" about :case.
+              :reflexive false
+              :agr {:person :2nd
+                    :gender :fem
+                    :number :sing}
+              :sem {:human true
+                    :pred :tu}
+              :subcat '()}}]
+
+   "you all"
+   [{:english {:note "♂"}
+     :synsem {:cat :noun
+              :pronoun true
+              :reflexive false
+              :case :top ;; see comment in "it" about :case.
+              :agr {:person :2nd
+                    :gender :masc
+                    :number :plur}
+              :sem {:human true
+                    :reflexive false
+                    :pred :voi}
+              :subcat '()}}
+    {:english {:note "♀"}
+     :synsem {:cat :noun
              :pronoun true
-             :case :top ;; see comment in "it" about :case.
              :reflexive false
+             :case :top ;; see comment in "it" about :case.
              :agr {:person :2nd
                    :gender :fem
-                   :number :sing}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
-
-   "you all (♂)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :masc
                    :number :plur}
              :sem {:human true
                    :reflexive false
                    :pred :voi}
-             :subcat '()}}
-
-   "you all (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :fem
-                   :number :plur}
-             :sem {:human true
-                   :reflexive false
-                   :pred :voi}
-             :subcat '()}}
+             :subcat '()}}]
    "your"
    (map #(unify %
                 {:synsem {:cat :det
@@ -1969,7 +1970,7 @@
          {:synsem {:agr {:number :plur}}}])
    
    "yourself"
-   [{:note "♀"
+   [{:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1981,7 +1982,7 @@
                    :pred :tu}
               :subcat '()}}
     
-    {:note "♂"
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1994,7 +1995,7 @@
               :subcat '()}}]
 
    "yourselves"
-   [{:note "♀" 
+   [{:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -2006,7 +2007,7 @@
                     :pred :voi}
               :subcat '()}}
     
-    {:note "♂" 
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :acc

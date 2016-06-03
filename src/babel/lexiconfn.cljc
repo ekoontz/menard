@@ -376,8 +376,13 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
         true
         lexical-entry))
 
+(def do-semantic-implicature? true)
+
 (defn semantic-implicature [lexical-entry]
-  (if (= (get-in lexical-entry [:synsem :cat]) :noun)
+  (if (and
+       do-semantic-implicature?
+       (= (get-in lexical-entry [:synsem :cat]) :noun))
+           
     ;; this rule is only necessary with nouns: other parts of speech can select nouns based on their
     ;; semantics derived via the nouns' use of this rule.
     {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}}

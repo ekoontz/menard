@@ -1079,10 +1079,7 @@
                :past "kept"}}]
 
    "key" {:synsem {:cat :noun
-                   :sem {:pred :key
-                         :animate false
-                         :edible false
-                         :place false}}}
+                   :sem {:pred :key}}}
 
    "kill" {:synsem {:cat :verb
                     :sem {:pred :kill}}}

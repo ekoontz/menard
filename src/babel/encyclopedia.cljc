@@ -110,6 +110,16 @@ as a map of implications"}
                   :living false
                   :physical-object true}
 
+   ;; <preds>
+   {:pred :bicycle} {:artifact true
+                     :consumable false}
+   
+   {:pred :key} {:animate false
+                 :consumable false
+                 :event false
+                 :place false}
+   ;; </preds>
+   
    {:time true} {:activity false
                  :living false
                  :place false}

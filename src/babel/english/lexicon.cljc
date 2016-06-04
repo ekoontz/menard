@@ -288,8 +288,9 @@
                            :artifact false}}}
 
    "become" {:synsem {:cat :verb
-                    :sem {:pred :become}}
-           :english {:past "became"}}
+                      :sem {:pred :become}
+                      :subcat {:2 {:cat :adjective}}}
+             :english {:past "became"}}
    
    "begin" {:synsem {:cat :verb
                      :sem {:pred :begin}}

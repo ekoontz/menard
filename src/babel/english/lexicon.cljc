@@ -827,7 +827,6 @@
                   :subcat '()}}
    "help"
    {:synsem {:cat :verb
-             :essere false
              :sem {:pred :aiutare
                    :activity true
                    :obj {:human true}}

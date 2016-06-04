@@ -70,7 +70,12 @@
                        :sem {:pred :accept}}}
    
    "accompany" {:synsem {:cat :verb
-                         :sem {:pred :accompany}}
+                         :sem {:pred :accompany}
+                         :subcat {:1 {:cat :noun
+                                      :sem {:animate true}}
+                                  :2 {:cat :noun
+                                      :sem {:human true}}
+                                  :3 '()}}
                 :english {:past "accompanied"}}
    
    "add" {:synsem {:cat :verb

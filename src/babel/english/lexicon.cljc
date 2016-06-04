@@ -1772,10 +1772,19 @@
                     :pred :loro}
               :subcat '()}}]
             
-   "think" {:synsem {:cat :verb
-                     :sem {:pred :think }}
-            :english {:past "thought"}}        
-            
+   "think" (let [common {:synsem {:cat :verb
+                                  :subcat {:1 {:cat :noun
+                                               :sem {:human true}}}}
+                         :english {:past "thought"}}]
+             [(unify common
+                     {:synsem {:sem {:pred :think}
+                               :subcat {:2 '()}}}) ;; intransitive
+
+              (unify common
+                     {:synsem {:sem {:pred :think}
+                               :subcat {:2 {:cat :comp ;; "that"
+                                            :subcat '()}
+                                        :3 '()}}})])
    "throw" {:english {:past "threw"}
             :synsem {:cat :verb
                      :sem {:pred :throw}}}

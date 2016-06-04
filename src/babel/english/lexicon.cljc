@@ -830,7 +830,11 @@
              :essere false
              :sem {:pred :aiutare
                    :activity true
-                   :obj {:human true}}}}
+                   :obj {:human true}}
+             :subcat {:1 {:cat :noun}
+                      :2 {:cat :noun
+                          :sem {:human true}}}}}
+                          
    "her"
    [{:synsem {:cat :det
               :agr {:number :sing}

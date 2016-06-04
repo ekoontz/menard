@@ -178,10 +178,17 @@
                             :synsem {:cat :adjective}})
                    
                    (unify-check h21
-                           (let [head-synsem {:cat :intensifier}]
-                             {:rule "intensifier-phrase"
-                              :synsem head-synsem}))
-
+                                (let [head-synsem {:cat :intensifier}]
+                                  {:rule "intensifier-phrase"
+                                   :synsem head-synsem}))
+                   
+                   (unify-check h10
+                                (let [semantics (atom :top)]
+                                  {:rule "complementizer-phrase"
+                                   :synsem {:cat :comp
+                                            :sem semantics}
+                                   :head {:synsem {:sem semantics}}}))
+                   
                    (unify-check c10
                            {:rule "determiner-phrase"
                             :synsem {:cat :det}})

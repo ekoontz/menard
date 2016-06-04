@@ -1660,6 +1660,17 @@
    "tell" {:english {:past "told"}
            :synsem {:cat :verb
                     :sem {:pred :tell}}}
+
+   "that" [;; "that" as in "she thinks that .."
+           {:synsem {:cat :comp
+                     :subcat {:1 {:cat :verb
+                                  :subcat '()}
+                              :2 '()}}}
+           ;; "that" as in "that woman"
+           {:synsem {:cat :det
+                     :sem {:pred :demonstrative}
+                     :def :def}}]
+
    "the" (map #(unify % 
                       {:synsem {:cat :det
                                 :sem {:pred :definite}

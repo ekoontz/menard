@@ -174,8 +174,8 @@
 (def unmodified {:modified false})
 
 (def grammar (list (unify-check h21
-                           {:rule "adjective-phrase"
-                            :synsem {:cat :adjective}})
+                                {:rule "adjective-phrase"
+                                 :synsem {:cat :adjective}})
                    
                    (unify-check h21
                                 (let [head-synsem {:cat :intensifier}]

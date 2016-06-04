@@ -1131,7 +1131,10 @@
                     :sem {:pred :look}}}
 
    "look for" {:synsem {:cat :verb
-                        :sem {:pred :cercare}}
+                        :sem {:pred :cercare}
+                        :subcat {:1 {:cat :noun
+                                     :sem {:animate true}}
+                                 :2 {:cat :noun}}}
                :english {:participle "looking for"
                          :past "looked for"
                          :present {:3sing "looks for"}}}

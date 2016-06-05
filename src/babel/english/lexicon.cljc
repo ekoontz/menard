@@ -2089,6 +2089,13 @@
                                     :subcat {:2 {:reflexive false}}}}
                           {:synsem {:subcat {:2 {:reflexive false}}}})
 
+                 ;; if a verb has an object,
+                 ;; and the object is {:cat :noun},
+                 ;; then the object is {:synsem {:case :acc}}.
+                 (if-then {:synsem {:cat :verb
+                                    :subcat {:2 {:cat :noun}}}}
+                          {:synsem {:subcat {:2 {:case :acc}}}})
+
                  ;; if not(reflexive), then reflexive = false.
                  (if-then {:synsem {:cat :verb
                                     :sem {:reflexive false}}}

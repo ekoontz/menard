@@ -140,48 +140,52 @@
 (defn generate-all [spec grammar lexicon index morph & [total-depth]]
   (log/debug (str "generate-all: generating from spec: "
                  (strip-refs spec)))
-  (let [total-depth (if total-depth total-depth 0)
-        add-complements-to-bolts
-        (fn [bolts path]
-          (log/debug (str "generate-all: "
-                          "add-complements-to-bolts@" path ": first bolt:" 
-                          (show-bolt (first bolts) path morph)))
-          (mapcat
-           #(if (not (= :none (get-in % path :none)))
-              (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path)))
-              [%])
-           bolts))
+  (if (= false (get-in spec [:phrasal] true))
+    nil
+    ;; else, phrasal:
+    (let [total-depth (if total-depth total-depth 0)
+          add-complements-to-bolts
+          (fn [bolts path]
+            (log/debug (str "generate-all: "
+                            "add-complements-to-bolts@" path ": first bolt:" 
+                            (show-bolt (first bolts) path morph)))
+            (mapcat
+             #(if (not (= :none (get-in % path :none)))
+                (lazy-seq (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path))))
+                [%])
+             bolts))
 
-        expressions
-        (-> (lightning-bolt grammar
-                            lexicon
-                            spec 0 index morph total-depth)
-            ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-            (add-complements-to-bolts [:head :head :head :comp] )
-            (add-complements-to-bolts [:head :head :comp])
-            (add-complements-to-bolts [:head :comp])
-            (add-complements-to-bolts [:comp]))]
+          expressions
+          (lazy-seq
+           (-> (lightning-bolt grammar
+                               lexicon
+                               spec 0 index morph total-depth)
+               ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
+               (add-complements-to-bolts [:head :head :head :comp] )
+               (add-complements-to-bolts [:head :head :comp])
+               (add-complements-to-bolts [:head :comp])
+               (add-complements-to-bolts [:comp])))]
 
-    (if (not (empty? expressions))
-      (log/debug
-       (str "generate-all: first expression generated for spec:"
-            (strip-refs (if (seq? spec)
-                          (first spec)
-                          spec))
-            ":"
-            "'" (morph (first expressions)) "'"))
-
-      ;; no expression could be generated.
-      (let [error-message
-            (str "generate-all: no expressions could be generated for spec:"
-                 (strip-refs (if (seq? spec)
-                               (first spec)
-                               spec)))]
-        (log/error error-message)
-        (exception error-message)))
-    (map (fn [expr]
-           (truncate expr [[:head][:comp]]))
-         expressions)))
+      (if (not (empty? expressions))
+        (log/debug
+         (str "generate-all: first expression generated for spec:"
+              (strip-refs (if (seq? spec)
+                            (first spec)
+                            spec))
+              ":"
+              "'" (morph (first expressions)) "'"))
+        
+        ;; no expression could be generated.
+        (let [error-message
+              (str "generate-all: no expressions could be generated for spec:"
+                   (strip-refs (if (seq? spec)
+                                 (first spec)
+                                 spec)))]
+          (log/error error-message)
+          (exception error-message)))
+      (map (fn [expr]
+             (truncate expr [[:head][:comp]]))
+           expressions))))
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"
@@ -198,7 +202,7 @@
                                                 (get-in spec [:synsem :modified] :top)))))
                      (unifyc spec rule)
                      :fail))
-                 (shuffle rules))))
+                 (lazy-seq (shuffle rules)))))
 
 (defn lightning-bolt [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where
@@ -217,10 +221,18 @@ of this function with complements."
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
-                          (let [candidate-lexemes (get-lex parent :head index spec)
-                                results (over/overh parent (mapfn copy candidate-lexemes))]
-                            (log/debug (str "lightning-bolt: " (get-in parent [:rule]) ": first candidate head lexeme:'"
-                                            (morph (first candidate-lexemes)) "'"))
+                          (let [candidate-lexemes (lazy-seq (get-lex parent :head index spec))
+                                results (filter #(not (nil? %))
+                                                (over/overh parent (mapfn copy candidate-lexemes)))]
+                            (log/debug (str "lightning-bolt: " (get-in parent [:rule])
+                                            ": first candidate head lexeme:'"
+                                            (let [fo (morph (first candidate-lexemes))]
+                                              (if (or (nil? fo)
+                                                      (= '' (trim fo)))
+                                                (str "NOTHING: '" (get-in (first candidate-lexemes)
+                                                                          [:english :english]) "'")
+                                                (str fo)))
+                                            "'"))
                             results)))
                       parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
@@ -241,13 +253,13 @@ of this function with complements."
         spec (unifyc spec (get-in bolt path))
         immediate-parent (get-in bolt (butlast path))
         start-time (current-time)
-        cached (if cache
-                 (get-lex immediate-parent :comp cache spec)
-                 (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
-                     (reduce concat (vals lexicon))))
         complement-candidate-lexemes (if (not (= true
                                                  (get-in bolt (concat path [:phrasal]))))
-                                       (if cached cached (flatten (vals lexicon))))
+                                       (let [cached (if cache
+                                                      (lazy-seq (get-lex immediate-parent :comp cache spec))
+                                                      (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
+                                                          nil))]
+                                         (if cached cached (flatten (vals lexicon)))))
         complement-pre-check (fn [child parent path-to-child]
                                (let [child-in-bolt (get-in bolt path-to-child)
                                      result (not (fail?
@@ -261,7 +273,7 @@ of this function with complements."
         debug (log/debug
                (if (not (empty? filtered-lexical-complements))
                  (str "add-complement: " (show-bolt bolt path morph) ":candidate first complement-lexemes:'"
-                      (morph (first filtered-lexical-complements))) "'"))]
+                      (morph (first filtered-lexical-complements)) "'")))]
     (filter (fn [complement]
               (if (fail? complement)
                 (do

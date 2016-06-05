@@ -1700,6 +1700,7 @@
                               :2 '()}}}
            ;; "that" as in "that woman"
            {:synsem {:cat :det
+                     :agr {:number :sing}
                      :sem {:pred :demonstrative}
                      :def :def}}]
 
@@ -1804,6 +1805,12 @@
                                :subcat {:2 {:cat :comp ;; "that"
                                             :subcat '()}
                                         :3 '()}}})])
+
+   "those" {:synsem {:cat :det
+                     :agr {:number :plur}
+                     :sem {:pred :demonstrative}
+                     :def :def}}
+
    "throw" {:english {:past "threw"}
             :synsem {:cat :verb
                      :sem {:pred :throw}}}

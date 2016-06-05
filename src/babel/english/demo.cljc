@@ -22,9 +22,9 @@
                    :sem {:subj {:pred :cane}
                          :pred :mangiare}}}
 
-         {:demo-name "Sentences about Eating"
+         {:demo-name "Sentences about thinking"
           :synsem {:cat :verb
-                   :sem {:pred :mangiare}}}
+                   :sem {:pred :think}}}
 
          {:synsem {:cat :verb}
           :demo-name "Sentences"}

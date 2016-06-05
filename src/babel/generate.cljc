@@ -9,7 +9,12 @@
    [clojure.string :as string]
    [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path
                                         ref? remove-false remove-top-values-log
-                                        strip-refs show-spec unify unifyc)]))
+                                        strip-refs show-spec unify unifyc
+
+                                        ;; temporary
+                                        deserialize serialize
+                                        )]))
+                                        
 ;; during generation, will not search deeper than this:
 (def ^:const max-total-depth 6)
 
@@ -43,6 +48,37 @@
      #(not (nil? %))
      (take 100
            (repeatedly function))))))
+
+
+(defn subpath? [path1 path2]
+  "return true if path1 is subpath of path2."
+  (if (empty? path1)
+    true
+    (if (= (first path1) (first path2))
+      (subpath? (rest path1)
+                (rest path2))
+      false)))
+
+(defn truncate [input truncate-paths]
+  (let [serialized (serialize input)
+        paths-and-vals (rest serialized)
+        path-sets (map first paths-and-vals)
+        path-vals (map second paths-and-vals)
+        truncated-path-sets (map 
+                             (fn [path-set] 
+                               (filter (fn [path] 
+                                         (not (some (fn [truncate-path]
+                                                      (subpath? truncate-path path))
+                                                    truncate-paths)))
+                                       path-set))
+                             path-sets)
+        skeleton (first serialized)
+        truncated-skeleton (dissoc-paths skeleton truncate-paths)
+        truncated-serialized
+        (cons truncated-skeleton
+              (zipmap truncated-path-sets
+                      path-vals))]
+    (deserialize truncated-serialized)))
 
 (defn generate [spec grammar lexicon index morph]
   (cond (or (vector? spec)

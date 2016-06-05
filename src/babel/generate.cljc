@@ -163,9 +163,22 @@
             (add-complements-to-bolts [:comp]))]
 
     (if (not (empty? expressions))
-      (log/debug (str "generate-all: first expression generated for spec:" (strip-refs spec) " ):"
-                     "'" (morph (first expressions)) "'"))
-      (log/debug (str "generate-all: no expressions could be generated for spec:" (strip-refs expressions))))
+      (log/debug
+       (str "generate-all: first expression generated for spec:"
+            (strip-refs (if (seq? spec)
+                          (first spec)
+                          spec))
+            ":"
+            "'" (morph (first expressions)) "'"))
+
+      ;; no expression could be generated.
+      (let [error-message
+            (str "generate-all: no expressions could be generated for spec:"
+                 (strip-refs (if (seq? spec)
+                               (first spec)
+                               spec)))]
+        (log/error error-message)
+        (exception error-message)))
     (map (fn [expr]
            (truncate expr [[:head][:comp]]))
          expressions)))

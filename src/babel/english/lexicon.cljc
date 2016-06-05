@@ -300,8 +300,18 @@
             :english {:past "began"
                       :participle "beginning"}}
 
-   "believe" {:synsem {:cat :verb
-                       :sem {:pred :believe}}}
+   "believe" (let [common {:synsem {:cat :verb
+                                    :subcat {:1 {:cat :noun
+                                                 :sem {:human true}}}}}]
+               [(unify common
+                       {:synsem {:sem {:pred :believe}
+                                 :subcat {:2 '()}}}) ;; intransitive
+                
+                (unify common
+                       {:synsem {:sem {:pred :believe}
+                                 :subcat {:2 {:cat :comp ;; "that"
+                                              :subcat '()}
+                                          :3 '()}}})])
    
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle

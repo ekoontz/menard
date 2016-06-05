@@ -377,11 +377,7 @@
              :sem {:pred :can}}}
 
    "car" {:synsem {:cat :noun
-                   :sem {:pred :car
-                         :animate false
-                         :artifact true
-                         :edible false
-                         :place false}}}
+                   :sem {:pred :car}}}
 
    "carry" {:synsem {:cat :verb
                      :sem {:human true

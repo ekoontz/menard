@@ -212,8 +212,9 @@ of this function with complements."
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
                 (mapcat (fn [parent]
-                          (over/overh parent (lightning-bolt grammar lexicon (get-in parent [:head])
-                                                             (+ 1 depth) index morph (+ 1 total-depth))))
+                          (over/overh parent
+                                      (lightning-bolt grammar lexicon (get-in parent [:head])
+                                                      (+ 1 depth) index morph (+ 1 total-depth))))
                         parents))]
           (if (lexemes-before-phrases total-depth)
             (concat lexical phrasal)

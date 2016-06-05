@@ -63,6 +63,6 @@
     (filter #(not (nil? %)) 
             (take n (repeatedly
                      #(let [result
-                            (generate spec)]
+                            (time (generate spec))]
                         result))))))
 

@@ -60,11 +60,13 @@
       false)))
 
 (defn truncate [input truncate-paths]
-  (let [serialized (serialize input)
+  (let [serialized (if (:serialized input)
+                     (:serialized input)
+                     (serialize input))
         paths-and-vals (rest serialized)
-        path-sets (map first paths-and-vals)
-        path-vals (map second paths-and-vals)
-        truncated-path-sets (map 
+        path-sets (mapfn first paths-and-vals)
+        path-vals (mapfn second paths-and-vals)
+        truncated-path-sets (mapfn
                              (fn [path-set] 
                                (filter (fn [path] 
                                          (not (some (fn [truncate-path]

@@ -165,7 +165,9 @@
       (log/debug (str "generate-all: first expression generated for spec:" (strip-refs spec) " ):"
                      "'" (morph (first expressions)) "'"))
       (log/debug (str "generate-all: no expressions could be generated for spec:" (strip-refs expressions))))
-    expressions))
+    (map (fn [expr]
+           (truncate expr [[:head][:comp]]))
+         expressions)))
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"

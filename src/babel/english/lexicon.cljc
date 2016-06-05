@@ -382,7 +382,7 @@
    "carry" {:synsem {:cat :verb
                      :sem {:subj {:human true}
                            :pred :carry
-                           :obj {:physical-object}}}
+                           :obj {:physical-object true}}}
             :english {:past "carried"}}
 
    "cat" {:synsem {:cat :noun

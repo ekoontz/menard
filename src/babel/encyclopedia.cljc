@@ -122,6 +122,9 @@ as a map of implications"}
    {:pred :bread} {:artifact true
                    :edible true}
 
+   {:pred :car} {:artifact true
+                 :consumable false}
+
    {:pred :key} {:animate false
                  :consumable false
                  :event false

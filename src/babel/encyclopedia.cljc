@@ -123,7 +123,8 @@ as a map of implications"}
                    :edible true}
 
    {:pred :car} {:artifact true
-                 :consumable false}
+                 :consumable false
+                 :place false}
 
    {:pred :key} {:animate false
                  :consumable false

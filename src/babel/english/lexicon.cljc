@@ -124,7 +124,10 @@
                                          :human false}}}}}
 
    "avoid" {:synsem {:cat :verb
-                     :sem {:pred :avoid}}}
+                     :sem {:pred :avoid}
+                     :subcat {:1 {:cat :noun
+                                  :sem {:animate true}}
+                              :2 {:cat :noun}}}}
 
    "bag" {:synsem {:cat :noun
                    :sem {:pred :bag}}}

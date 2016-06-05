@@ -49,7 +49,6 @@
      (take 100
            (repeatedly function))))))
 
-
 (defn subpath? [path1 path2]
   "return true if path1 is subpath of path2."
   (if (empty? path1)

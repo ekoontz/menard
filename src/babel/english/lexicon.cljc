@@ -380,8 +380,9 @@
                    :sem {:pred :car}}}
 
    "carry" {:synsem {:cat :verb
-                     :sem {:human true
-                           :pred :carry}}
+                     :sem {:subj {:human true}
+                           :pred :carry
+                           :obj {:physical-object}}}
             :english {:past "carried"}}
 
    "cat" {:synsem {:cat :noun

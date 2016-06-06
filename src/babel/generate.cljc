@@ -138,17 +138,18 @@
                 morph))))
 
 (defn generate-all [spec grammar lexicon index morph & [total-depth]]
-  (log/debug (str "generate-all: generating from spec: "
-                 (strip-refs spec)))
+  (log/debug (str "generate-all: generating from spec with cat "
+                  (get-in spec [:synsem :cat])))
   (if (= false (get-in spec [:phrasal] true))
-    nil
+    (exception (str "do not call generate-all with spec:[phrasal=true]"))
     ;; else, phrasal:
     (let [total-depth (if total-depth total-depth 0)
           add-complements-to-bolts
           (fn [bolts path]
             (log/debug (str "generate-all: "
-                            "add-complements-to-bolts@" path ": first bolt:" 
-                            (show-bolt (first bolts) path morph)))
+                            "add-complements-to-bolts: "
+                            (show-bolt (first bolts) path morph)
+                            "@" path))
             (mapcat
              #(if (not (= :none (get-in % path :none)))
                 (lazy-seq (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path))))
@@ -161,7 +162,7 @@
                                lexicon
                                spec 0 index morph total-depth)
                ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-               (add-complements-to-bolts [:head :head :head :comp] )
+               (add-complements-to-bolts [:head :head :head :comp])
                (add-complements-to-bolts [:head :head :comp])
                (add-complements-to-bolts [:head :comp])
                (add-complements-to-bolts [:comp])))]
@@ -182,7 +183,7 @@
                                  (first spec)
                                  spec)))]
           (log/error error-message)
-          (exception error-message)))
+          (if false (exception error-message))))
       (map (fn [expr]
              (truncate expr [[:head][:comp]]))
            expressions))))
@@ -210,11 +211,9 @@ there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
   (if (or (vector? spec) (seq? spec))
-    (mapcat (fn [each-spec]
-              (lightning-bolt grammar lexicon each-spec depth index morph total-depth))
-            spec)
+    (exception (str "don't call (lightning-bolt) with a vector of specs."))
     (do
-      (log/debug (str "lightning-bolt(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) "; spec=" (strip-refs spec) ")"))
+      (log/trace (str "lightning-bolt(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) "; spec=" (strip-refs spec) ")"))
       (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
             depth (if depth depth 0)        
             parents (candidate-parents grammar spec)]
@@ -225,14 +224,16 @@ of this function with complements."
                                 results (filter #(not (nil? %))
                                                 (over/overh parent (mapfn copy candidate-lexemes)))]
                             (log/debug (str "lightning-bolt: " (get-in parent [:rule])
-                                            ": first candidate head lexeme:'"
+                                            ": first candidate head lexeme:"
                                             (let [fo (morph (first candidate-lexemes))]
                                               (if (or (nil? fo)
                                                       (= '' (trim fo)))
-                                                (str "NOTHING: '" (get-in (first candidate-lexemes)
-                                                                          [:english :english]) "'")
-                                                (str fo)))
-                                            "'"))
+                                                (str
+                                                 "'"
+                                                 (get-in (first candidate-lexemes)
+                                                         [:english :english])
+                                                 "'")
+                                                (str fo)))))
                             results)))
                       parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
@@ -245,6 +246,29 @@ of this function with complements."
           (if (lexemes-before-phrases total-depth)
             (concat lexical phrasal)
             (concat phrasal lexical)))))))
+
+(defn morph-with-recovery [morph-fn input]
+  (if (nil? input)
+    (exception (str "don't call morph-with-recovery with input=nil.")))
+  (let [result (morph-fn input)
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:english :english] "")
+                 (str "r1: " result))
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:english] "")
+                 (str "r2: " result))
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:rule] "")
+                 (str "r3: " result))
+        result (if (or (nil? result)
+                       (= "" result))
+                 (exception
+                  (str "r5: " input "/" (nil? input)))
+                 result)]
+    result))
 
 (defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
   (log/debug (str "add-complement: " (show-bolt bolt path morph)))
@@ -272,20 +296,20 @@ of this function with complements."
                                              complement-candidate-lexemes)
         debug (log/debug
                (if (not (empty? filtered-lexical-complements))
-                 (str "add-complement: " (show-bolt bolt path morph) ":candidate first complement-lexemes:'"
+                 (str "add-complement: candidate first complement-lexemes:'"
                       (morph (first filtered-lexical-complements)) "'")))]
     (filter (fn [complement]
               (if (fail? complement)
                 (do
-                  (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
+                  (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ") FAILED:"
-                                  "'" (morph complement) "'"))
+                                  "'" (morph-with-recovery morph complement) "'"))
                   
                   false)
                 (do
-                  (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
+                  (log/debug (str "add-complement(depth=" depth ",total-depth=" total-depth
                                   ",path=" path ",bolt=(" (show-bolt bolt path morph) ")=>"
-                                  "'" (morph complement) "'"))
+                                  "'" (morph-with-recovery morph complement) "'"))
                   true)))
             (mapfn (fn [complement]
                     (unify (copy bolt)
@@ -363,9 +387,11 @@ of this function with complements."
     false))
 
 (defn show-bolt [bolt path morph]
-  (if (not (empty? path))
-    (str (get-in bolt [:rule])
-         " '" (morph bolt) "' "
-         (let [rest-str (show-bolt (get-in bolt [:head]) (rest path) morph)]
-           (if (not (nil? rest-str))
-             (str " -> " rest-str)))))) 
+  (if (nil? bolt)
+    (exception (str "don't call show-bolt with bolt=null."))
+    (if (not (empty? path))
+      (str "[" (get-in bolt [:rule])
+           " '" (morph-with-recovery morph bolt) "' "
+           (let [rest-str (show-bolt (get-in bolt [:head]) (rest path) morph)]
+             (if (not (nil? rest-str))
+               (str " -> " rest-str  "]")))))) )

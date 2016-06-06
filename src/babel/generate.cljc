@@ -118,7 +118,11 @@
             (if expression
               (log/info (str "generate: generated "
                              "'" (morph expression) "'"
-                             " for spec:" (strip-refs spec)))
+                             " for spec:" (strip-refs spec) ";"
+                             " expr spec: "
+                             (unifyc
+                              spec
+                              {:synsem {:sem (strip-refs (get-in expression [:synsem :sem]))}})))
               (log/info (str "generate: no expression could be generated for spec:" (strip-refs spec))))
             expression))))
 

@@ -185,7 +185,7 @@
                                                 (get-in spec [:synsem :modified] :top)))))
                      (unifyc spec rule)
                      :fail))
-                 (lazy-seq (shuffle rules)))))
+                 (lazy-seq rules))))
 
 (declare morph-with-recovery)
 

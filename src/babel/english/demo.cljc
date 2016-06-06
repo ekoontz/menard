@@ -26,6 +26,14 @@
           :synsem {:cat :verb
                    :sem {:pred :think}}}
 
+         {:demo-name "Sentences about believing"
+          :synsem {:cat :verb
+                   :sem {:pred :believe}}}
+
+         {:demo-name "Sentences about assuming"
+          :synsem {:cat :verb
+                   :sem {:pred :assume}}}
+        
          {:synsem {:cat :verb}
           :demo-name "Sentences"}
 

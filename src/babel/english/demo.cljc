@@ -1,6 +1,7 @@
 (ns babel.english.demo
   (:require
    [babel.english :refer [generate]]
+   [babel.english.grammar :refer [few-rules medium small-lexicon]]
    [babel.english.morphology :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [clojure.string :as string]
@@ -13,6 +14,32 @@
         [{:demo-name "Dog noun phrases"
           :synsem {:cat :noun
                    :sem {:pred :cane}}}
+
+         {:demo-name "Very specific noun phrases: few-rules"
+          :lm few-rules
+          :synsem {:cat :noun
+                   :sem {:pred :cane
+                         :number :plur
+                         :mod {:pred :first}
+                         :spec {:def :genitive
+                                :of {:pred :luisa}}}}}
+
+         {:demo-name "Very specific noun phrases: small-lexicon"
+          :lm small-lexicon
+          :synsem {:cat :noun
+                   :sem {:pred :cane
+                         :number :plur
+                         :mod {:pred :first}
+                         :spec {:def :genitive
+                                :of {:pred :luisa}}}}}
+        
+         {:demo-name "Very specific noun phrases"
+          :synsem {:cat :noun
+                   :sem {:pred :cane
+                         :number :plur
+                         :mod {:pred :first}
+                         :spec {:def :genitive
+                                :of {:pred :luisa}}}}}
 
          {:demo-name "Noun Phrases"
           :synsem {:cat :noun}}
@@ -48,7 +75,9 @@
                         (println)
                         (println log-message)
                         (println)
-                        (let [expressions (run-demo-with n spec)]
+                        (let [language-model (if (:lm spec) (:lm spec)
+                                                 medium)
+                              expressions (run-demo-with n (dissoc spec :lm) language-model)]
                           (count (pmap (fn [expression]
                                          (let [formatted (fo expression :show-notes false)]
                                            (println
@@ -62,7 +91,7 @@
                           demo-specs)
                   demo-specs)))))
 
-(defn run-demo-with [ & [n spec]]
+(defn run-demo-with [ & [n spec grammar]]
   "print out _n_ generated sentences to stdout."
   (let [n (if n (Integer. n)
               100)
@@ -71,6 +100,9 @@
     (filter #(not (nil? %)) 
             (take n (repeatedly
                      #(let [result
-                            (time (generate spec))]
+                            (time
+                             (if grammar
+                               (generate spec grammar)
+                               (generate spec)))]
                         result))))))
 

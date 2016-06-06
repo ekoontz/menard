@@ -4,7 +4,7 @@
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
    [babel.generate :as generate :refer [try-hard-to truncate]]
-   [babel.english.grammar :refer [medium small-plus-vp-pronoun small-plus-plus-np]]
+   [babel.english.grammar :refer [medium small-lexicon small-plus-vp-pronoun small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [babel.over :refer [over]]

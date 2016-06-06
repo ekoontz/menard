@@ -700,7 +700,7 @@
         lexicon
         (into {}
               (for [[k v] lexicon]
-                (let [filtered-v
+                 (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :adjective)
                                    (= (get-in % [:synsem :cat]) :det)
                                    (and (= (get-in % [:synsem :cat]) :noun)
@@ -733,5 +733,51 @@
      :grammar grammar
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+
+(def few-rules
+  (let [grammar
+        (filter #(or (= (:rule %) "determiner-phrase")
+                     (= (:rule %) "noun-phrase2")
+                     (= (:rule %) "nbar"))
+                grammar)
+        lexicon lexicon]
+    {:name "few-rules"
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "en"
+     :language-keyword :english
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon}))
+
+(def small-lexicon
+  (let [grammar grammar
+        lexicon (into {}
+                      (for [[k v] lexicon]
+                        (if (or (= k "dog")
+                                (= k "Luisa")
+                                (= k "second")
+                                (= k "s"))
+                          [k v])))]
+    {:name "few-rules"
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "en"
+     :language-keyword :english
+     :morph fo
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :grammar grammar
+     :lexicon lexicon}))
 
 (log/info "English grammar defined (small,small-plus-vp-pronoun,medium).")

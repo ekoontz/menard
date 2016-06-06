@@ -244,13 +244,13 @@ of this function with complements."
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
         spec (unifyc spec (get-in bolt path))
         immediate-parent (get-in bolt (butlast path))
-        complement-candidate-lexemes (if (not (= true
-                                                 (get-in bolt (concat path [:phrasal]))))
-                                       (let [cached (if cache
-                                                      (lazy-seq (get-lex immediate-parent :comp cache spec))
-                                                      (do (log/warn (str "no cache: will go through entire lexicon to find candidate complements."))
-                                                          nil))]
-                                         (if cached cached (flatten (vals lexicon)))))
+        complement-candidate-lexemes
+        (if (not (= true
+                    (get-in bolt (concat path [:phrasal]))))
+          (let [cached (if cache
+                         (get-lex immediate-parent :comp cache spec))]
+            (if cached cached (lazy-seq (flatten (vals lexicon))))))
+        
         complement-pre-check (fn [child parent path-to-child]
                                (let [child-in-bolt (get-in bolt path-to-child)
                                      result (not (fail?

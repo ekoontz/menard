@@ -1805,7 +1805,6 @@
                                :subcat {:2 {:cat :comp ;; "that"
                                             :subcat '()}
                                         :3 '()}}})])
-
    "those" {:synsem {:cat :det
                      :agr {:number :plur}
                      :sem {:pred :demonstrative}

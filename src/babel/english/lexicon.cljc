@@ -422,7 +422,8 @@
                      :sem {:pred :close}}}                
 
    "come" {:synsem {:cat :verb
-                    :sem {:pred :come}}
+                    :sem {:pred :come
+                          :subj {:animate true}}}
            :english {:past "came"}}
 
    "comment" {:synsem {:cat :verb

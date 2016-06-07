@@ -336,11 +336,12 @@ of this function with complements."
       (exception message))))
 
 (defn lexemes-before-phrases [depth]
-  ;; takes depth as an argument; make phrases decreasingly likely as depth increases.
+  "returns true or false: true means generate by adding lexemes first; otherwise, by adding phrases first. Takes depth as an argument, which makes returning true (i.e. lexemes first) increasingly likely as depth increases."
+  (if true false
   (if (> max-total-depth 0)
     (let [prob (- 1.0 (/ (- max-total-depth depth) max-total-depth))]
       (> (* 10 prob) (rand-int 10)))
-    false))
+    false)))
 
 (defn show-bolt [bolt path morph]
   (if (nil? bolt)

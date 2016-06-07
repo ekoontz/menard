@@ -1536,7 +1536,7 @@
    "sell" {:synsem {:cat :verb
                     :sem {:pred :vendere
                           :subj {:human true}
-                          :obj {:human false}}}
+                          :obj {:buyable true}}}
            :english {:past "sold"}}
 
    "send" {:synsem {:cat :verb

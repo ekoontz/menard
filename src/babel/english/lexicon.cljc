@@ -1527,7 +1527,6 @@
    "second" (unify adjective
                    {:synsem {:sem {:mod {:pred :first}
                                    :comparative false}}})
-
    "see"  {:synsem {:cat :verb
                     :sem {:pred :see}
                     :subcat {:1 {:cat :noun

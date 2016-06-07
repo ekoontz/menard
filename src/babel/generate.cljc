@@ -15,8 +15,8 @@
                                         deserialize serialize
                                         )]))
                                         
-;; during generation, will not search deeper than this:
-(def ^:const max-total-depth 6)
+;; during generation, will not decend deeper than this when creating a tree:
+(def ^:const max-total-depth 2)
 
 ;; use map or pmap.
 (def ^:const mapfn map)

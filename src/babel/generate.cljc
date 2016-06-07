@@ -189,7 +189,7 @@ of this function with complements."
   (log/trace (str "lightning-bolts(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) "; spec=" (strip-refs spec) ")"))
   (let [morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
         depth (if depth depth 0)        
-        parents (candidate-parents grammar spec)]
+        parents (shuffle (candidate-parents grammar spec))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (lazy-mapcat (fn [parent]
                          (if (= false (get-in parent [:head :phrasal] false))

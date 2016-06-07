@@ -81,6 +81,14 @@
                       path-vals))]
     (deserialize truncated-serialized)))
 
+;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
+(defn lazy-mapcat  [f coll]
+  (lazy-seq
+   (if (not-empty coll)
+     (concat
+      (f (first coll))
+      (lazy-mapcat f (rest coll))))))
+
 (defn generate [spec grammar lexicon index morph]
   (cond (or (vector? spec)
             (seq? spec))
@@ -88,12 +96,12 @@
           (log/debug (str "generating from " (count spec) " spec(s)"))
           (let [expression
                 (first (take 1
-                             (mapcat (fn [each-spec]
-                                       (log/info (str "generate: generating from spec: "
-                                                      each-spec))
-                                       (let [expressions
-                                             (generate-all each-spec grammar lexicon index morph)]
-                                         expressions))
+                             (lazy-mapcat (fn [each-spec]
+                                           (log/info (str "generate: generating from spec: "
+                                                          each-spec))
+                                           (let [expressions
+                                                 (generate-all each-spec grammar lexicon index morph)]
+                                             expressions))
                                      spec)))]
             ;; TODO: show time information
             (if expression
@@ -145,7 +153,7 @@
              (add-complements-to-bolts [:comp] grammar lexicon index morph total-depth)))))
 
 (defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth]
-  (mapcat
+  (lazy-mapcat
    #(if (not (= :none (get-in % path :none)))
       (do
         (log/debug (str "add-complements-to-bolts@" path))
@@ -185,18 +193,18 @@ of this function with complements."
             depth (if depth depth 0)        
             parents (candidate-parents grammar spec)]
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-              (mapcat (fn [parent]
+              (lazy-mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
-                          (let [candidate-lexemes (filter #(not (nil? %)) (lazy-seq (get-lex parent :head index spec)))]
+                          (let [candidate-lexemes (filter #(not (nil? %)) (get-lex parent :head index spec))]
                             (filter #(not (nil? %))
                                     (over/overh parent (mapfn copy candidate-lexemes))))))
                       parents)
               phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
               (if (< depth max-total-depth)
-                (mapcat (fn [parent]
-                          (over/overh parent
-                                      (lightning-bolts grammar lexicon (get-in parent [:head])
-                                                       (+ 1 depth) index morph (+ 1 total-depth))))
+                (lazy-mapcat (fn [parent]
+                              (over/overh parent
+                                          (lightning-bolts grammar lexicon (get-in parent [:head])
+                                                           (+ 1 depth) index morph (+ 1 total-depth))))
                         parents))]
           (if (lexemes-before-phrases total-depth)
             (concat lexical phrasal)

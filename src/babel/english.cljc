@@ -53,9 +53,6 @@
        (conj {:surface (fo result)}
              result)))))
 
-(defn lightning-bolt [spec]
-  (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium) 0))
-
 ;; e.g.
 ;; babel.english> (preprocess "the womens' hats and the cats' pyjamas")
 ;; "the women 's  hats and the cats 's pyjamas"

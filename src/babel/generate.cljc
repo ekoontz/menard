@@ -23,7 +23,7 @@
 
 (declare add-complement)
 (declare lexemes-before-phrases)
-(declare lightning-bolt)
+(declare lightning-bolts)
 (declare generate-all)
 (declare in-case-of-no-phrasal-complements)
 (declare path-to-map)

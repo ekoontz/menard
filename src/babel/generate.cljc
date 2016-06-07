@@ -16,7 +16,7 @@
                                         )]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
-(def ^:const max-total-depth 3)
+(def ^:const max-total-depth 8)
 
 ;; use map or pmap.
 (def ^:const mapfn map)

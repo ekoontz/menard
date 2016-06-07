@@ -123,8 +123,7 @@
         (do
           (log/info (str "generate: generating from spec: "
                          (strip-refs spec)))
-          (let [expression
-                (first (take 1 (generate-all spec grammar lexicon index morph)))]
+          (let [expression (first (take 1 (generate-all spec grammar lexicon index morph)))]
             (if expression
               (do
                 (log/info (str "generate: generated "

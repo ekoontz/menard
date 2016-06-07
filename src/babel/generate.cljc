@@ -181,6 +181,9 @@
 
 (declare morph-with-recovery)
 
+(defn lazy-shuffle [seq]
+  seq)
+
 (defn lightning-bolts [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the
@@ -268,8 +271,8 @@ of this function with complements."
                                                      (= true (get-in spec [:phrasal] true)))
                                               (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
                     (if (lexemes-before-phrases total-depth)
-                      (lazy-cat filtered-lexical-complements phrasal-complements)
-                      (lazy-cat phrasal-complements filtered-lexical-complements)))))))
+                      (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
+                      (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]

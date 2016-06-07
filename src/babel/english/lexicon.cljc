@@ -1529,7 +1529,11 @@
                                    :comparative false}}})
 
    "see"  {:synsem {:cat :verb
-                    :sem {:pred :see}}
+                    :sem {:pred :see}
+                    :subcat {:1 {:cat :noun
+                                 :sem {:animate true}}
+                             :2 {:cat :noun
+                                 :sem {:physical-object true}}}}
            :english {:past "saw"
                      :past-participle "seen"}}
 

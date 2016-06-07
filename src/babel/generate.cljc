@@ -1,7 +1,7 @@
 (ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.cache :refer [check-index get-head-phrases-of get-lex]]
+   [babel.cache :refer [get-lex]]
    [babel.over :as over]
    [babel.stringutils :refer [show-as-tree]]
    #?(:clj [clojure.tools.logging :as log])
@@ -16,7 +16,7 @@
                                         )]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
-(def ^:const max-total-depth 2)
+(def ^:const max-total-depth 3)
 
 ;; use map or pmap.
 (def ^:const mapfn map)
@@ -187,7 +187,7 @@ of this function with complements."
         (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
               (mapcat (fn [parent]
                         (if (= false (get-in parent [:head :phrasal] false))
-                          (let [candidate-lexemes (filter #(not (nil? %)) (get-lex parent :head index spec))]
+                          (let [candidate-lexemes (filter #(not (nil? %)) (lazy-seq (get-lex parent :head index spec)))]
                             (filter #(not (nil? %))
                                     (over/overh parent (mapfn copy candidate-lexemes))))))
                       parents)
@@ -236,15 +236,15 @@ of this function with complements."
                     (get-in bolt (concat path [:phrasal]))))
           (let [cached (if cache
                          (get-lex immediate-parent :comp cache spec))]
-            (if cached cached (lazy-seq (flatten (vals lexicon))))))
+            (if cached cached
+                (flatten (vals lexicon)))))
         
         complement-pre-check (fn [child parent path-to-child]
-                               (let [child-in-bolt (get-in bolt path-to-child)
-                                     result (not (fail?
-                                                  (unifyc (get-in child [:synsem] :top)
-                                                          (get-in child-in-bolt [:synsem] :top))))]
-                                 (log/trace (str "add-complement: checking child: " (morph child) "success?:" result))
-                                 result))
+                               (let [child-in-bolt (get-in bolt path-to-child)]
+                                 (not (fail?
+                                       (unifyc (get-in child [:synsem] :top)
+                                               (get-in child-in-bolt [:synsem] :top))))))
+
         filtered-lexical-complements (filter (fn [lexeme]
                                                (complement-pre-check lexeme bolt path))
                                              complement-candidate-lexemes)]

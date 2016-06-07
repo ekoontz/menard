@@ -8,7 +8,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    ;; TODO: be more specific in :refer than :all.
-   [dag_unify.core :refer [fail? get-in label-of lazy-shuffle show-spec unifyc]]
+   [dag_unify.core :refer [fail? get-in label-of show-spec unifyc]]
 
    [babel.over :as over]))
 
@@ -146,7 +146,7 @@
                                 (= spec-val (get-in each [:synsem :sem :pred])))))
                         result)
                 result)]
-          (lazy-shuffle result))))))
+          result)))))
   
 (defn get-parent-phrases-for-spec [cache spec]
   (log/trace (str "Looking up spec: " (show-spec spec)))
@@ -154,7 +154,7 @@
         result (if (nil? result) (list) result)]
     (if (empty? result)
       (log/trace (str "parent-phrases for spec: " (show-spec spec) " is empty.")))
-    (lazy-shuffle result)))
+    result))
 
 (defn get-head-phrases-of [parent cache]
   (if (= true (get-in parent [:head :phrasal] :true))
@@ -163,14 +163,14 @@
           label (label-of parent)]
       (if (empty? result)
         (log/warn (str "headed-phrases of parent: " label " is empty: " (get-in parent [:head]))))
-      (lazy-shuffle result))))
+      result)))
 
 (defn get-comp-phrases-of [parent cache]
   (let [result (:comp-phrases (get cache (get-in parent [:rule])))
         result (if (nil? result) (list) result)]
     (if (empty? result)
       (log/trace (str "comp-phrases of parent: " (label-of parent) " is empty.")))
-    (lazy-shuffle result)))
+    result))
 
 (defn overc-with-cache-1 [parent lex]
   (if (not (empty? lex))

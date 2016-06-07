@@ -1545,7 +1545,8 @@
 
    "set" {:synsem {:cat :verb
                    :sem {:pred :set}}
-          :english {:past "set (past)"}}
+          :english {:past {:english "set"
+                           :note "past tense"}}}
 
    "share" {:synsem {:cat :verb
                      :sem {:pred :share}}}

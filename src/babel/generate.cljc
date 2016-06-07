@@ -198,7 +198,8 @@ of this function with complements."
                                      (over/overh parent (mapfn copy (shuffle candidate-lexemes)))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          (if (< depth max-total-depth)
+          (if (and (< depth max-total-depth)
+                   (= true (get-in spec [:head :phrasal] true)))
             (lazy-mapcat (fn [parent]
                            (over/overh parent
                                        (lightning-bolts grammar lexicon (get-in parent [:head])

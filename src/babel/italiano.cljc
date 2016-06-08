@@ -82,8 +82,8 @@
        (conj {:surface (fo result)}
              result)))))
 
-(defn lightning-bolt [spec]
-  (generate/lightning-bolt (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
+(defn lightning-bolts [spec]
+  (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
 
 (def tokenizer #"[ '\n,’».]")
 

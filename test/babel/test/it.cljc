@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.italiano :refer [analyze generate lightning-bolt parse]]
+   [babel.italiano :refer [analyze generate lightning-bolts parse]]
    [babel.italiano.grammar :as grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]

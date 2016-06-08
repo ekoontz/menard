@@ -182,7 +182,7 @@
 (declare morph-with-recovery)
 
 (defn lazy-shuffle [seq]
-  seq)
+  (lazy-seq (shuffle seq)))
 
 (defn lightning-bolts [grammar lexicon spec depth index morph total-depth]
   "Returns a lazy-sequence of all possible trees given a spec, where

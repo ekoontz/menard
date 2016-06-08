@@ -43,18 +43,14 @@
   ((:lookup medium) lexeme))
 
 (defn generate
-  ([]
-   (let [result (engine/generate :top medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec]
-   (let [result (engine/generate spec medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec model]
-   (let [result (engine/generate spec model)]
+  ([spec
+    & {:keys [max-total-depth model truncate-children]
+       :or {max-total-depth generate/max-total-depth
+            model medium
+            truncate-children true}}]
+   (let [result (engine/generate spec model
+                                 :max-total-depth max-total-depth
+                                 :truncate-children truncate-children)]
      (if result
        (conj {:surface (fo result)}
              result)))))

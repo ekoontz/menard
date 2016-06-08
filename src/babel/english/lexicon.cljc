@@ -1704,11 +1704,18 @@
                     :subcat {:1 {:cat :det}
                              :2 '()}}})
    "short"
-   [;; non-comparative:
+   [(unify adjective
+           {:synsem {:cat :adjective
+                     :sem {:mod {:pred :short}
+                           :comparative false
+                           :physical-object true}
+                     :subcat {:1 {:cat :det}
+                              :2 '()}}})
     (unify adjective
            {:synsem {:cat :adjective
                      :sem {:mod {:pred :short}
-                           :comparative false}
+                           :comparative false
+                           :event true}
                      :subcat {:1 {:cat :det}
                               :2 '()}}})]
       

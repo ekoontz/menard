@@ -1999,6 +1999,13 @@
                            :pred :donna
                            :child false}}}
 
+   "wonder" {:synsem {:cat :verb
+                      :sem {:pred :wonder}
+                      :subcat {:1 {:cat :noun
+                                   :sem {:human true}}
+                               :2 {:cat :comp
+                                   :comp-type :if
+                                   :subcat '()}}}}
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human
                            :subj {:human true}}}

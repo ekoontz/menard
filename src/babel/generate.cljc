@@ -262,9 +262,9 @@ of this function with complements."
         complement-candidate-lexemes
         (if (not (= true
                     (get-in bolt (concat path [:phrasal]))))
-          (let [cached (if cache
-                         (get-lex immediate-parent :comp cache spec))]
-            (if cached cached
+          (let [indexed (if index
+                         (get-lex immediate-parent :comp index spec))]
+            (if indexed indexed
                 (flatten (vals lexicon)))))
         
         complement-pre-check (fn [child parent path-to-child]
@@ -287,7 +287,7 @@ of this function with complements."
                                               "input-spec: " input-spec))
                         phrasal-complements (if (and (> max-total-depth total-depth)
                                                      (= true (get-in spec [:phrasal] true)))
-                                              (generate-all spec grammar lexicon cache morph (+ depth total-depth)))]
+                                              (generate-all spec grammar lexicon index morph (+ depth total-depth)))]
                     (if (lexemes-before-phrases total-depth)
                       (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
                       (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))

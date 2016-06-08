@@ -1221,11 +1221,10 @@
                           :sem {:pred :work-nonhuman
                                 :subj {:human false}}}}
 
-   "gatto"
-   {:synsem {:agr {:gender :masc}
-             :cat :noun
-             :sem {:pred :cat
-                   :pet true}}}
+   "gatto"  {:synsem {:agr {:gender :masc}
+                      :cat :noun
+                      :sem {:pred :cat
+                            :pet true}}}
 
    "gestire" {:italiano {:boot-stem1 "gestisc"
                          :boot-stem2 "gest"}

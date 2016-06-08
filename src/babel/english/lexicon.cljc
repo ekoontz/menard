@@ -1334,10 +1334,7 @@
                    :number number})]
      {:synsem {:agr agr
                :cat :noun
-               :sem {:animate false
-                     :pred :name
-                     :place false
-                     :physical-object false
+               :sem {:pred :name
                      :subj of}
                :subcat {:1 {:agr agr
                             :cat :det
@@ -1674,7 +1671,11 @@
                 :sem {:pred :stain}}}
 
    "steal" {:synsem {:cat :verb
-                     :sem {:pred :steal}}
+                     :sem {:pred :steal}
+                     :subcat {:2 {:cat :noun
+                                  :sem {:physical-object true
+                                        :human false
+                                        :place false}}}}
             :english {:past "stole"}}
 
    "strike" {:english {:past "struck"}
@@ -1870,7 +1871,7 @@
               (unify common
                      {:synsem {:sem {:pred :think}
                                :subcat {:2 {:cat :comp
-                                            :comp-type :comp
+                                            :comp-type :that
                                             :subcat '()}
                                         :3 '()}}})])
    "those" {:synsem {:cat :det
@@ -2003,6 +2004,12 @@
                           :obj {:human false}}}
            :english {:past "won"
                      :participle "winning"}}
+
+   "with" {:synsem {:cat :prep
+                    :subcat {:1 {:cat :noun
+                                 :pronoun false
+                                 :subcat '()}}
+                    :sem {:pred :with}}}
    
    "woman" {:english {:plur "women"}
             :synsem {:agr {:gender :fem}

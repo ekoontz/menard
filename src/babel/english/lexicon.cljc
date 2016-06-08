@@ -1697,19 +1697,13 @@
                    :subj {:human true}}}}
 
    "tall"
-   [;; non-comparative:
-    (let [subject-sem (atom {:human true}) ;; only humans can be tall.
-          subject-agr (atom :top)] 
-      (unify adjective
-             {:synsem {:cat :adjective
-                       :sem {:mod {:pred :alto}
-                             :comparative false
-                             :arg1 subject-sem
-                             :human true}
-                       :subcat {:1 {:cat :det
-                                    :agr subject-agr
-                                    :sem subject-sem}
-                                :2 '()}}}))]
+   (unify adjective
+          {:synsem {:cat :adjective
+                    :sem {:mod {:pred :tall}
+                          :human true
+                          :comparative false}
+                    :subcat {:1 {:cat :det}
+                             :2 '()}}})
    "short"
    [;; non-comparative:
     (unify adjective

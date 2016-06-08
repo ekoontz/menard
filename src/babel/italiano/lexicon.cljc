@@ -1224,7 +1224,7 @@
    "gatto"
    {:synsem {:agr {:gender :masc}
              :cat :noun
-             :sem {:pred :gatto
+             :sem {:pred :cat
                    :pet true}}}
 
    "gestire" {:italiano {:boot-stem1 "gestisc"

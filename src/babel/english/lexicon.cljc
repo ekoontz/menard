@@ -389,7 +389,7 @@
             :english {:past "carried"}}
 
    "cat" {:synsem {:cat :noun
-                   :sem {:pred :gatto
+                   :sem {:pred :cat
                          :pet true}}}
 
    "change" {:synsem {:cat :verb

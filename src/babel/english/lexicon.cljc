@@ -303,6 +303,14 @@
             :english {:past "began"
                       :participle "beginning"}}
 
+   "assume" {:synsem {:cat :verb
+                      :sem {:pred :assume}
+                      :subcat {:1 {:cat :noun
+                                   :sem {:human true}}
+                               :2 {:cat :comp
+                                   :comp-type :that
+                                   :subcat '()}}}}
+
    "believe" (let [common {:synsem {:cat :verb
                                     :subcat {:1 {:cat :noun
                                                  :sem {:human true}}}}}]

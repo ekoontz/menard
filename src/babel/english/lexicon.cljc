@@ -1039,6 +1039,13 @@
                     :pred :I}
               :subcat '()}}]
 
+   "if"   {:synsem {:cat :comp
+                    :sem {:pred :that}
+                    :subcat {:1 {:cat :verb
+                                 :comp-type :if
+                                 :subcat '()}
+                             :2 '()}}}
+
    "imagine" {:synsem {:cat :verb
                        :sem {:pred :imagine
                              :subj {:human true}}}}
@@ -1970,7 +1977,14 @@
    "wear"  {:english {:past "wore"}
             :synsem {:cat :verb
                      :sem {:pred :wear}}}
-   
+   "whether"
+   {:synsem {:cat :comp
+             :sem {:pred :that}
+             :subcat {:1 {:cat :verb
+                          :comp-type :if
+                          :subcat '()}
+                      :2 '()}}}
+
    "win"  {:synsem {:cat :verb
                     :sem {:pred :win
                           :subj {:human true}

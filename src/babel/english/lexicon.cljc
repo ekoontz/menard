@@ -411,11 +411,16 @@
                                :participle "changing clothes"
                                :past "changed clothes"}}
 
-   "chat" {:synsem {:cat :verb
-                    :sem {:pred :chat}}
-           :english {:participle "chatting"
-                     :past "chatted"}}
-
+   "chat" (let [common {:synsem {:cat :verb
+                                 :sem {:pred :chat
+                                       :subj {:human true}}}
+                        :english {:participle "chatting"
+                                  :past "chatted"}}]
+            common ;; intransitive
+            (unify common ;; transitive "chatted with <human>"
+                   {:synsem {:subcat {:2 {:cat :prep
+                                          :sem {:obj {:human true}
+                                                :pred :with}}}}}))
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 

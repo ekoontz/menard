@@ -96,7 +96,7 @@
                        :or {max-total-depth max-total-depth
                             truncate-children true}}]
   (log/trace (str "generate-all: generating from spec with cat " (get-in spec [:synsem :cat])))
-  (log/debug (str "generate-all: generating from spec with spec " (strip-refs spec)))
+  (log/debug (str "generate-all: generating from spec with spec " (strip-refs spec) "; max total depth: " max-total-depth))
   
   (let [total-depth (if total-depth total-depth 0)]
     (map (fn [expr]
@@ -104,21 +104,28 @@
              (truncate expr [[:head][:comp]])
              ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp)
              expr))
-         (-> (lightning-bolts grammar lexicon spec 0 index morph total-depth)
+         (-> (lightning-bolts grammar lexicon spec 0 index morph total-depth :max-total-depth max-total-depth)
              ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-             (add-complements-to-bolts [:head :head :head :comp] grammar lexicon index morph total-depth)
-             (add-complements-to-bolts [:head :head :comp] grammar lexicon index morph total-depth)
-             (add-complements-to-bolts [:head :comp] grammar lexicon index morph total-depth)
-             (add-complements-to-bolts [:comp] grammar lexicon index morph total-depth)))))
+             (add-complements-to-bolts [:head :head :head :comp] grammar lexicon index morph total-depth
+                                       :max-total-depth max-total-depth)
+             (add-complements-to-bolts [:head :head :comp] grammar lexicon index morph total-depth
+                                       :max-total-depth max-total-depth)
+             (add-complements-to-bolts [:head :comp] grammar lexicon index morph total-depth
+                                       :max-total-depth max-total-depth)
+             (add-complements-to-bolts [:comp] grammar lexicon index morph total-depth
+                                       :max-total-depth max-total-depth)))))
 
-(defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth]
+(defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth
+                                & {:keys [max-total-depth]
+                                   :or {max-total-depth max-total-depth}}]
   (lazy-mapcat
    (fn [bolt]
      (if (not (= :none (get-in bolt path :none)))
       (do
         (log/debug (str "add-complements-to-bolts@" path))
         (let [add-complement add-complement]
-          (add-complement bolt path :top grammar lexicon index morph 0 (+ total-depth (count path)))))
+          (add-complement bolt path :top grammar lexicon index morph 0 (+ total-depth (count path))
+                          :max-total-depth max-total-depth)))
       [bolt]))
    bolts))
 
@@ -144,7 +151,9 @@
 (defn lazy-shuffle [seq]
   (lazy-seq (shuffle seq)))
 
-(defn lightning-bolts [grammar lexicon spec depth index morph total-depth]
+(defn lightning-bolts [grammar lexicon spec depth index morph total-depth
+                       & {:keys [max-total-depth]
+                          :or {max-total-depth max-total-depth}}]
   "Returns a lazy-sequence of all possible trees given a spec, where
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
@@ -166,7 +175,8 @@ of this function with complements."
             (lazy-mapcat (fn [parent]
                            (over/overh parent
                                        (lightning-bolts grammar lexicon (get-in parent [:head])
-                                                        (+ 1 depth) index morph (+ 1 total-depth))))
+                                                        (+ 1 depth) index morph (+ 1 total-depth)
+                                                        :max-total-depth max-total-depth)))
                          parents))]
       (if (lexemes-before-phrases total-depth)
         (lazy-cat lexical phrasal)
@@ -256,7 +266,9 @@ of this function with complements."
                  result)]
     result))
 
-(defn add-complement [bolt path spec grammar lexicon index morph depth total-depth]
+(defn add-complement [bolt path spec grammar lexicon index morph depth total-depth
+                      & {:keys [max-total-depth]
+                         :or {max-total-depth max-total-depth}}]
   (log/debug (str "add-complement: start: " (show-bolt bolt path morph) "@" path))
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
@@ -290,7 +302,8 @@ of this function with complements."
                                               "input-spec: " input-spec))
                         phrasal-complements (if (and (> max-total-depth total-depth)
                                                      (= true (get-in spec [:phrasal] true)))
-                                              (generate-all spec grammar lexicon index morph (+ depth total-depth)))]
+                                              (generate-all spec grammar lexicon index morph (+ depth total-depth)
+                                                            :max-total-depth max-total-depth))]
                     (if (lexemes-before-phrases total-depth)
                       (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
                       (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))

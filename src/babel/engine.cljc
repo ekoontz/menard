@@ -36,9 +36,10 @@
 ;; TODO: use a option map/destructuring thing.
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 ;; TODO: this should just call (take 1 (generate-all ..))
-(defn generate [spec language-model & {:keys [add-subcat do-enrich truncate-children]
+(defn generate [spec language-model & {:keys [add-subcat do-enrich max-total-depth truncate-children]
                                        :or {add-subcat true
                                             do-enrich true
+                                            max-total-depth generate/max-total-depth
                                             truncate-children true}}]
   (let [grammar (:grammar language-model)]
     (if (empty? grammar)
@@ -86,13 +87,13 @@
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))
         ]
-    (let [result (generate/generate spec 
-                                  (:grammar language-model)
-                                  lexicon
-                                  (:index language-model)
-                                  (:morph language-model)
-                                  :truncate-children truncate-children)]
-      result)))
+    (generate/generate spec 
+                       (:grammar language-model)
+                       lexicon
+                       (:index language-model)
+                       (:morph language-model)
+                       :truncate-children truncate-children
+                       :max-total-depth max-total-depth)))
 
 ;; TODO: use a option map/destructuring thing.
 (defn generate-all [spec language-model & [{add-subcat :add-subcat

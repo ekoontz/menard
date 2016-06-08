@@ -1040,9 +1040,9 @@
               :subcat '()}}]
 
    "if"   {:synsem {:cat :comp
+                    :comp-type :if
                     :sem {:pred :that}
                     :subcat {:1 {:cat :verb
-                                 :comp-type :if
                                  :subcat '()}
                              :2 '()}}}
 
@@ -1748,9 +1748,9 @@
 
    "that" [;; "that" as in "she thinks that .."
            {:synsem {:cat :comp
+                     :comp-type :that
                      :sem {:pred :that}
                      :subcat {:1 {:cat :verb
-                                  :comp-type :that
                                   :subcat '()}
                               :2 '()}}}
            ;; "that" as in "that woman"
@@ -1979,9 +1979,9 @@
                      :sem {:pred :wear}}}
    "whether"
    {:synsem {:cat :comp
+             :comp-type :if
              :sem {:pred :that}
              :subcat {:1 {:cat :verb
-                          :comp-type :if
                           :subcat '()}
                       :2 '()}}}
 

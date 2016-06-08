@@ -58,12 +58,12 @@
      (if result
        (conj {:surface (fo result)}
              result)))))
-
-;; e.g.
-;; babel.english> (preprocess "the womens' hats and the cats' pyjamas")
-;; "the women 's  hats and the cats 's pyjamas"
-;;
 (defn preprocess [input]
+  "arbitrary regexp replacements to convert English orthography into a parsable whitespace-delimited expression"
+  ;; e.g.
+  ;; (preprocess "the womens' hats and the cats' pyjamas")
+  ;;  => "the women 's  hats and the cats 's pyjamas"
+  ;;
   (string/replace (string/replace input #"(men)s'(\s*)" "$1 's $2") #"(\S)s'" "$1s 's"))
 
 (defn parse

@@ -81,7 +81,8 @@
                                           :infl :imperfect
                                           :sem {:pred :have
                                                 :subj {:pred :I}}}}
-                                small)]
+                                small
+                                :truncate-children false)]
     (is (not (nil? result)))
     (is (= "av" (get-in result [:head :français :imperfect-stem])))
     (is (= "j'avais" (fo result)))))

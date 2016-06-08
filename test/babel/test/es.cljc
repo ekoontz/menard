@@ -16,7 +16,8 @@
                                                 :subj {:pred :I}
                                                 :tense :conditional}}}
                                 esg/small
-                                :enrich true)]
+                                :do-enrich true
+                                :truncate-children false)]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
     (is (or (= "yo dormiría" (fo result))
@@ -28,7 +29,7 @@
                  :synsem {:sem {:subj {:pred :I}}
                           :infl :preterito}}
                 esg/small
-                :enrich true)]
+                :truncate-children false)]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 

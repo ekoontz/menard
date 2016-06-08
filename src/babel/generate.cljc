@@ -73,6 +73,7 @@
           (log/info (str "generate: generating from spec: "
                          (strip-refs spec)))
           (let [expression (first (take 1 (generate-all spec grammar lexicon index morph 0
+                                                        :max-total-depth max-total-depth
                                                         :truncate-children truncate-children)))]
             (if expression
               (do

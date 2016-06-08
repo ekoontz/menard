@@ -113,11 +113,13 @@
 
 (defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth]
   (lazy-mapcat
-   #(if (not (= :none (get-in % path :none)))
+   (fn [bolt]
+     (if (not (= :none (get-in bolt path :none)))
       (do
         (log/debug (str "add-complements-to-bolts@" path))
-        (add-complement % path :top grammar lexicon index morph 0 (+ total-depth (count path))))
-      [%])
+        (let [add-complement add-complement]
+          (add-complement bolt path :top grammar lexicon index morph 0 (+ total-depth (count path)))))
+      [bolt]))
    bolts))
 
 (defn candidate-parents [rules spec]

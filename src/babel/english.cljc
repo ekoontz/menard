@@ -22,10 +22,16 @@
 
 (defn analyze
   ([surface-form]
-   (analyze surface-form lexicon)) ;; use (:lexicon medium)
+   (map
+    (fn [each-analysis]
+      (dissoc each-analysis :serialized))
+    (analyze surface-form lexicon))) ;; use (:lexicon medium) per above (def).
 
   ([surface-form lexicon] ;; use user-provided lexicon
-   (morph/analyze surface-form lexicon)))
+   (map
+    (fn [each-analysis]
+      (dissoc each-analysis :serialized))
+    (morph/analyze surface-form lexicon))))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')

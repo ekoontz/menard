@@ -1052,6 +1052,7 @@
    "intelligent" (unify adjective
                         {:synsem {:cat :adjective
                                   :sem {:mod {:pred :intelligent}
+                                        :human true
                                         :comparative false}
                                   :subcat {:1 {:cat :det}
                                            :2 '()}}})
@@ -1664,6 +1665,7 @@
    "stupid" (unify adjective
                    {:synsem {:cat :adjective
                              :sem {:mod {:pred :stupid}
+                                   :human true
                                    :comparative false}
                              :subcat {:1 {:cat :det}
                                       :2 '()}}})

@@ -117,7 +117,8 @@ as a map of implications"}
    {:place true}     {:activity false
                       :consumable false
                       :living false
-                      :physical-object true}
+                      :physical-object true
+                      :speakable false}
 
    ;; <preds>
    {:pred :bag}      {:artifact true

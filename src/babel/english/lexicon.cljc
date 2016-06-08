@@ -1605,8 +1605,6 @@
                            :discrete false
                            :pred :sleep}}
             :english {:past "slept"}}
-
-
    "small"
    (unify adjective
           {:synsem {:cat :adjective
@@ -1615,7 +1613,6 @@
                     :subcat {:1 {:cat :det}
                              :2 '()}}})
   
-
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}}
            :english {:past "snapped"

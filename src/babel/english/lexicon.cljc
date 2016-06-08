@@ -1420,6 +1420,18 @@
    "print"  {:synsem {:cat :verb
                       :sem {:pred :stampare}}}
 
+   "professor" {:synsem {:agr :top
+                         :cat :noun
+                         :sem {:human true
+                               :pred :professor}}}
+
+   "pupil" {:synsem {:agr :top
+                     :cat :noun
+                     :sem {:human true
+                           ;; example of a synonym, where we use the convention of making the
+                           ;; :pred (i.e. :student) the more common case (c.f. "student")
+                           :pred :student}}}
+   
    "put" {:english {:past "put"
                     :participle "putting"}
           :synsem {:cat :verb
@@ -1642,6 +1654,11 @@
    "strike" {:english {:past "struck"}
              :synsem {:cat :verb
                       :sem {:pred :strike}}}
+
+   "student" {:synsem {:agr :top
+                       :cat :noun
+                       :sem {:human true
+                             :pred :student}}}
 
    "study"  {:synsem {:cat :verb
                       :sem {:pred :study}}

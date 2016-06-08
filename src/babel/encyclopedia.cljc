@@ -67,7 +67,8 @@ as a map of implications"}
    {:edible true}    {:consumable true
                       :drinkable false}
 
-   {:event true}     {:physical-object false}
+   {:event true}     {:physical-object false
+                      :speakable false}
    
    {:furniture true} {:artifact true
                       :animate false

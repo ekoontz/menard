@@ -515,8 +515,9 @@
             :english {:past "drove"}}
 
    "disappoint" {:synsem {:cat :verb
-                          :sem {:pred :deludere}}}
-
+                          :sem {:pred :deludere}
+                          :subcat {:2 {:cat :noun
+                                       :sem {:human true}}}}}
    "do" {:synsem {:cat :verb
                   :sem {:pred :do}}
          :english {:past "did"

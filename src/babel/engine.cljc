@@ -124,10 +124,11 @@
                 (log/debug (str "post-enrich spec: " spec)))
         ]
     (let [result (generate/generate-all spec 
-                                      (:grammar language-model)
-                                      (:lexicon language-model)
-                                      (:index language-model)
-                                      (:morph language-model))]
+                                        (:grammar language-model)
+                                        (:lexicon language-model)
+                                        (:index language-model)
+                                        (:morph language-model)
+                                        0)]
       (if (not (empty? result))
         (log/info (str "successfully generated:"
                        "'" ((:morph language-model) (first result)) "'"

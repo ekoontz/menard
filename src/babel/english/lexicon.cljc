@@ -1049,6 +1049,12 @@
    "insure" {:synsem {:cat :verb
                       :sem {:pred :insure}}}
 
+   "intelligent" (unify adjective
+                        {:synsem {:cat :adjective
+                                  :sem {:mod {:pred :intelligent}
+                                        :comparative false}
+                                  :subcat {:1 {:cat :det}
+                                           :2 '()}}})
    "interrupt" {:synsem {:cat :verb
                 :sem {:pred :interrupt}}}
    "it"
@@ -1574,7 +1580,7 @@
    "sing" {:synsem {:cat :verb
                     :sem {:pred :sing}}
            :english {:past "sang"}}
-
+   
    "sit down" {:english {:past "sat down"
                          :participle "sitting down"
                          :past-participle "sat down"
@@ -1641,6 +1647,12 @@
                       :sem {:pred :study}}
              :english {:past "studied"}}
 
+   "stupid" (unify adjective
+                   {:synsem {:cat :adjective
+                             :sem {:mod {:pred :stupid}
+                                   :comparative false}
+                             :subcat {:1 {:cat :det}
+                                      :2 '()}}})
    "supply" {:synsem {:cat :verb
                 :sem {:pred :supply}}}
 

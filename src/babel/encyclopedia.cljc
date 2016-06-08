@@ -86,6 +86,9 @@ as a map of implications"}
                   :place false
                   :spec {:of {:human true}}}
 
+   {:intelligent true} {:animate true}
+   {:stupid true} {:animate true}
+   
    {:living false} {:animate false
                     :human false}
    

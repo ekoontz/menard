@@ -254,7 +254,7 @@ of this function with complements."
                  result)]
     result))
 
-(defn add-complement [bolt path spec grammar lexicon cache morph depth total-depth]
+(defn add-complement [bolt path spec grammar lexicon index morph depth total-depth]
   (log/debug (str "add-complement: start: " (show-bolt bolt path morph) "@" path))
   (let [input-spec spec
         from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.

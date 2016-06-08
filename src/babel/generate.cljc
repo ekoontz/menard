@@ -35,8 +35,10 @@
 (declare show-bolt)
 (declare truncate)
 
-(defn generate [spec grammar lexicon index morph & {:keys [truncate-children]
-                                                    :or {truncate-children true}}]
+(defn generate [spec grammar lexicon index morph
+                & {:keys [max-total-depth truncate-children]
+                   :or {max-total-depth max-total-depth
+                        truncate-children true}}]
   (cond (or (vector? spec)
             (seq? spec))
         (let [spec (vec (set spec))]
@@ -48,6 +50,7 @@
                                                           each-spec))
                                            (let [expressions
                                                  (generate-all each-spec grammar lexicon index morph 0
+                                                               :max-total-depth max-total-depth
                                                                :truncate-children truncate-children)]
                                              expressions))
                                      spec)))]
@@ -88,8 +91,9 @@
 (declare add-complements-to-bolts)
 
 (defn generate-all [spec grammar lexicon index morph total-depth
-                    & {:keys [truncate-children]
-                       :or {truncate-children true}}]
+                    & {:keys [max-total-depth truncate-children]
+                       :or {max-total-depth max-total-depth
+                            truncate-children true}}]
   (log/trace (str "generate-all: generating from spec with cat " (get-in spec [:synsem :cat])))
   (log/debug (str "generate-all: generating from spec with spec " (strip-refs spec)))
   

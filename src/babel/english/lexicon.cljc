@@ -104,6 +104,13 @@
                    :sem {:pred :chiedere
                          :subj {:human true}}}}
 
+   "assume" {:synsem {:cat :verb
+                      :sem {:pred :assume}
+                      :subcat {:1 {:cat :noun
+                                   :sem {:human true}}
+                               :2 {:cat :comp
+                                   :comp-type :that
+                                   :subcat '()}}}}
    "assure" {:synsem {:cat :verb
                       :sem {:pred :assure}}}
 
@@ -303,14 +310,6 @@
             :english {:past "began"
                       :participle "beginning"}}
 
-   "assume" {:synsem {:cat :verb
-                      :sem {:pred :assume}
-                      :subcat {:1 {:cat :noun
-                                   :sem {:human true}}
-                               :2 {:cat :comp
-                                   :comp-type :that
-                                   :subcat '()}}}}
-
    "believe" (let [common {:synsem {:cat :verb
                                     :subcat {:1 {:cat :noun
                                                  :sem {:human true}}}}}]
@@ -320,7 +319,8 @@
                 
                 (unify common
                        {:synsem {:sem {:pred :believe}
-                                 :subcat {:2 {:cat :comp ;; "that"
+                                 :subcat {:2 {:cat :comp
+                                              :comp-type :that
                                               :subcat '()}
                                           :3 '()}}})])
    
@@ -1740,7 +1740,9 @@
 
    "that" [;; "that" as in "she thinks that .."
            {:synsem {:cat :comp
+                     :sem {:pred :that}
                      :subcat {:1 {:cat :verb
+                                  :comp-type :that
                                   :subcat '()}
                               :2 '()}}}
            ;; "that" as in "that woman"
@@ -1847,7 +1849,8 @@
 
               (unify common
                      {:synsem {:sem {:pred :think}
-                               :subcat {:2 {:cat :comp ;; "that"
+                               :subcat {:2 {:cat :comp
+                                            :comp-type :comp
                                             :subcat '()}
                                         :3 '()}}})])
    "those" {:synsem {:cat :det

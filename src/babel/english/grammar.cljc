@@ -183,12 +183,14 @@
                                    :synsem head-synsem}))
                    
                    (unify-check h10
-                                (let [semantics (atom :top)]
+                                (let [semantics (atom :top)
+                                      comp-type (atom :top)]
                                   {:rule "complementizer-phrase"
                                    :synsem {:cat :comp
+                                            :comp comp-type
                                             :sem semantics}
-                                   :head {:synsem {:sem semantics}}}))
-                   
+                                   :head {:synsem {:comp comp-type
+                                                   :sem semantics}}}))
                    (unify-check c10
                            {:rule "determiner-phrase"
                             :synsem {:cat :det}})

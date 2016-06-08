@@ -1339,6 +1339,10 @@
                             :def :possessive
                             :sem of}}}})
 
+   "new" {:synsem {:cat :adjective
+                   :sem {:mod {:pred :new}
+                         :physical-object true}}}
+
    "note" {:synsem {:cat :verb
                     :sem {:pred :note}}}
 
@@ -1347,6 +1351,10 @@
 
    "obtain" {:synsem {:cat :verb
                 :sem {:pred :obtain}}}
+
+   "old" {:synsem {:cat :adjective
+                   :sem {:mod {:pred :old}
+                         :physical-object true}}}
 
    "organize" {:synsem {:cat :verb
                 :sem {:pred :organize}}}

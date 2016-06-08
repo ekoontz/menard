@@ -111,6 +111,8 @@ as a map of implications"}
    {:physical-object
     false}           {:animate false
                       :consumable false}
+   {:physical-object
+    true}            {:speakable false}
 
    {:place true}     {:activity false
                       :consumable false

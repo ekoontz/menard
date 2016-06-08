@@ -25,74 +25,18 @@
 (def ^:const randomize-lexemes-before-phrases true)
 
 (declare add-complement)
+(declare exception)
+(declare lazy-mapcat)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare generate-all)
 (declare in-case-of-no-phrasal-complements)
 (declare path-to-map)
 (declare show-bolt)
+(declare truncate)
 
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. (str ": " error-string))))
-  #?(:cljs
-     (throw (js/Error. error-string))))
-
-(defn current-time []
-  #?(:clj (System/currentTimeMillis))
-  #?(:cljs (.getTime (js/Date.))))
-
-(defn try-hard-to [function]
-  "try 100 times to do (function), where function presumable has some randomness that causes it to return nil. Ignore such nils and keep trying."
-  (first
-   (take
-    1
-    (filter
-     #(not (nil? %))
-     (take 100
-           (repeatedly function))))))
-
-(defn subpath? [path1 path2]
-  "return true if path1 is subpath of path2."
-  (if (empty? path1)
-    true
-    (if (= (first path1) (first path2))
-      (subpath? (rest path1)
-                (rest path2))
-      false)))
-
-(defn truncate [input truncate-paths]
-  (let [serialized (if (:serialized input)
-                     (:serialized input)
-                     (serialize input))
-        paths-and-vals (rest serialized)
-        path-sets (mapfn first paths-and-vals)
-        path-vals (mapfn second paths-and-vals)
-        truncated-path-sets (mapfn
-                             (fn [path-set] 
-                               (filter (fn [path] 
-                                         (not (some (fn [truncate-path]
-                                                      (subpath? truncate-path path))
-                                                    truncate-paths)))
-                                       path-set))
-                             path-sets)
-        skeleton (first serialized)
-        truncated-skeleton (dissoc-paths skeleton truncate-paths)
-        truncated-serialized
-        (cons truncated-skeleton
-              (zipmap truncated-path-sets
-                      path-vals))]
-    (deserialize truncated-serialized)))
-
-;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
-(defn lazy-mapcat  [f coll]
-  (lazy-seq
-   (if (not-empty coll)
-     (concat
-      (f (first coll))
-      (lazy-mapcat f (rest coll))))))
-
-(defn generate [spec grammar lexicon index morph]
+(defn generate [spec grammar lexicon index morph & {:keys [truncate-children]
+                                                    :or {truncate-children true}}]
   (cond (or (vector? spec)
             (seq? spec))
         (let [spec (vec (set spec))]
@@ -103,7 +47,8 @@
                                            (log/info (str "generate: generating from spec: "
                                                           each-spec))
                                            (let [expressions
-                                                 (generate-all each-spec grammar lexicon index morph)]
+                                                 (generate-all each-spec grammar lexicon index morph 0
+                                                               :truncate-children truncate-children)]
                                              expressions))
                                      spec)))]
             ;; TODO: show time information
@@ -124,7 +69,8 @@
         (do
           (log/info (str "generate: generating from spec: "
                          (strip-refs spec)))
-          (let [expression (first (take 1 (generate-all spec grammar lexicon index morph)))]
+          (let [expression (first (take 1 (generate-all spec grammar lexicon index morph 0
+                                                        :truncate-children truncate-children)))]
             (if expression
               (do
                 (log/info (str "generate: generated "
@@ -141,12 +87,18 @@
 
 (declare add-complements-to-bolts)
 
-(defn generate-all [spec grammar lexicon index morph & [total-depth]]
-  (log/debug (str "generate-all: generating from spec with cat " (get-in spec [:synsem :cat])))
+(defn generate-all [spec grammar lexicon index morph total-depth
+                    & {:keys [truncate-children]
+                       :or {truncate-children true}}]
+  (log/trace (str "generate-all: generating from spec with cat " (get-in spec [:synsem :cat])))
   (log/debug (str "generate-all: generating from spec with spec " (strip-refs spec)))
+  
   (let [total-depth (if total-depth total-depth 0)]
     (map (fn [expr]
-           (truncate expr [[:head][:comp]]))
+           (if truncate-children
+             (truncate expr [[:head][:comp]])
+             ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp)
+             expr))
          (-> (lightning-bolts grammar lexicon spec 0 index morph total-depth)
              ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
              (add-complements-to-bolts [:head :head :head :comp] grammar lexicon index morph total-depth)
@@ -212,6 +164,67 @@ of this function with complements."
       (if (lexemes-before-phrases total-depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
+
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
+(defn current-time []
+  #?(:clj (System/currentTimeMillis))
+  #?(:cljs (.getTime (js/Date.))))
+
+(defn try-hard-to [function]
+  "try 100 times to do (function), where function presumable has some randomness that causes it to return nil. Ignore such nils and keep trying."
+  (first
+   (take
+    1
+    (filter
+     #(not (nil? %))
+     (take 100
+           (repeatedly function))))))
+
+(defn subpath? [path1 path2]
+  "return true if path1 is subpath of path2."
+  (if (empty? path1)
+    true
+    (if (= (first path1) (first path2))
+      (subpath? (rest path1)
+                (rest path2))
+      false)))
+
+(defn truncate [input truncate-paths]
+  (let [serialized (if (:serialized input)
+                     (:serialized input)
+                     (serialize input))
+        paths-and-vals (rest serialized)
+        path-sets (mapfn first paths-and-vals)
+        path-vals (mapfn second paths-and-vals)
+        truncated-path-sets (mapfn
+                             (fn [path-set] 
+                               (filter (fn [path] 
+                                         (not (some (fn [truncate-path]
+                                                      (subpath? truncate-path path))
+                                                    truncate-paths)))
+                                       path-set))
+                             path-sets)
+        skeleton (first serialized)
+        truncated-skeleton (dissoc-paths skeleton truncate-paths)
+        truncated-serialized
+        (cons truncated-skeleton
+              (zipmap truncated-path-sets
+                      path-vals))]
+    (deserialize truncated-serialized)))
+
+;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
+(defn lazy-mapcat  [f coll]
+  (lazy-seq
+   (if (not-empty coll)
+     (concat
+      (f (first coll))
+      (lazy-mapcat f (rest coll))))))
+
 
 (defn morph-with-recovery [morph-fn input]
   (if (nil? input)

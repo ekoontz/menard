@@ -36,8 +36,10 @@
 ;; TODO: use a option map/destructuring thing.
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 ;; TODO: this should just call (take 1 (generate-all ..))
-(defn generate [spec language-model & [{add-subcat :add-subcat
-                                        do-enrich :do-enrich}]]
+(defn generate [spec language-model & {:keys [add-subcat do-enrich truncate-children]
+                                       :or {add-subcat true
+                                            do-enrich true
+                                            truncate-children true}}]
   (let [grammar (:grammar language-model)]
     (if (empty? grammar)
       (do
@@ -88,7 +90,8 @@
                                   (:grammar language-model)
                                   lexicon
                                   (:index language-model)
-                                  (:morph language-model))]
+                                  (:morph language-model)
+                                  :truncate-children truncate-children)]
       result)))
 
 ;; TODO: use a option map/destructuring thing.

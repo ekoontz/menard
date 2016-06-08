@@ -85,7 +85,7 @@
                                                  (subs formatted 1 (count formatted))
                                                  "."))))
                                        expressions))))))
-                (if spec
+                (if (and spec (not (empty? (string/trim spec))))
                   (filter #(= (:demo-name %)
                               spec)
                           demo-specs)

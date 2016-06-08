@@ -1358,7 +1358,6 @@
 
    "organize" {:synsem {:cat :verb
                 :sem {:pred :organize}}}
-
    "our"
    (map #(unify %
                 {:synsem {:cat :det

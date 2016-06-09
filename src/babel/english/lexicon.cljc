@@ -1938,8 +1938,16 @@
    "walk" {:synsem {:cat :verb
                 :sem {:pred :walk}}}
               
-   "want" {:synsem {:cat :verb
-                    :sem {:pred :want}}}        
+   "want" (let [modal-subject (atom {:cat :noun
+                                     :sem {:animate true}})]
+            {:synsem {:cat :verb
+                      :sem {:pred :want}
+                      :subcat {:1 modal-subject
+                               :2 {:cat :verb
+                                   :infl :infinitive
+                                   :subcat {:1 modal-subject
+                                            :2 '()}}
+                               :3 '()}}})
 
    "warm" {:synsem {:cat :verb
                 :sem {:pred :warm}}}

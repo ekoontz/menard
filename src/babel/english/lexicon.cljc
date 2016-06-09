@@ -1895,10 +1895,6 @@
                :synsem {:cat :verb
                         :sem {:pred :transfer}}}
 
-   "try" {:synsem {:cat :verb
-                   :sem {:pred :try}}
-          :english {:past "tried"}}
-            
    "understand" {:english {:past "understood"}
                  :synsem {:cat :verb
                           :sem {:pred :understand}}}
@@ -1938,6 +1934,17 @@
    "walk" {:synsem {:cat :verb
                 :sem {:pred :walk}}}
               
+   "try" (let [modal-subject (atom {:cat :noun
+                                    :sem {:animate true}})]
+            {:synsem {:cat :verb
+                      :sem {:pred :try}
+                      :subcat {:1 modal-subject
+                               :2 {:cat :verb
+                                   :infl :infinitive
+                                   :subcat {:1 modal-subject
+                                            :2 '()}}
+                               :3 '()}}})
+
    "want" (let [modal-subject (atom {:cat :noun
                                      :sem {:animate true}})]
             {:synsem {:cat :verb

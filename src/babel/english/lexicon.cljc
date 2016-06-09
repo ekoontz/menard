@@ -1672,7 +1672,8 @@
 
    "steal" {:synsem {:cat :verb
                      :sem {:pred :steal}
-                     :subcat {:2 {:cat :noun
+                     :subcat {:1 {:sem {:animate true}}
+                              :2 {:cat :noun
                                   :sem {:physical-object true
                                         :human false
                                         :place false}}}}

@@ -187,9 +187,9 @@
                                       comp-type (atom :top)]
                                   {:rule "complementizer-phrase"
                                    :synsem {:cat :comp
-                                            :comp comp-type
+                                            :comp-type comp-type
                                             :sem semantics}
-                                   :head {:synsem {:comp comp-type
+                                   :head {:synsem {:comp-type comp-type
                                                    :sem semantics}}}))
                    (unify-check c10
                            {:rule "determiner-phrase"

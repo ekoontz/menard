@@ -1135,7 +1135,7 @@
      :english {:past "kept"}}
     {:synsem {:cat :verb
               :sem {:pred :keep-safe}}
-     :english {:note "(something safe)"
+     :english {:note "something safe"
                :past "kept"}}]
 
    "key" {:synsem {:cat :noun

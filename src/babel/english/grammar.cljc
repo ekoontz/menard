@@ -272,8 +272,10 @@
 
                    (unify-check h00
                                 modified
-                                (let [head-sem (atom :top)]
+                                (let [head-sem (atom :top)
+                                      head-infl (atom :top)]
                                   {:synsem {:subcat '()
+                                            :infl head-infl
                                             :sem head-sem
                                             :cat :verb}
                                    :comp {:synsem {:cat :prep
@@ -281,6 +283,7 @@
                                                    :sem head-sem}}
                                    :head {:modified false
                                           :synsem {:cat :verb
+                                                   :infl head-infl
                                                    :subcat '()
                                                    :sem head-sem}}
                                    :rule "s-modified-with-adjunct-head-first"}))

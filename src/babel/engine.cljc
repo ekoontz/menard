@@ -41,6 +41,7 @@
                                             do-enrich true
                                             max-total-depth generate/max-total-depth
                                             truncate-children true}}]
+  (log/debug (str "engine/generate with spec " (strip-refs spec) " and max-total-depth: " max-total-depth))
   (let [grammar (:grammar language-model)]
     (if (empty? grammar)
       (do
@@ -95,6 +96,7 @@
                        :truncate-children truncate-children
                        :max-total-depth max-total-depth)))
 
+;; TODO: consider removing this function; not commonly used.
 ;; TODO: use a option map/destructuring thing.
 (defn generate-all [spec language-model & [{add-subcat :add-subcat
                                             do-enrich :do-enrich}]]

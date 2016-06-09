@@ -112,7 +112,8 @@ as a map of implications"}
     false}           {:consumable false
                       :living false}
    {:physical-object
-    true}            {:speakable false}
+    true}            {:event false
+                      :speakable false}
 
    {:place true}     {:activity false
                       :consumable false

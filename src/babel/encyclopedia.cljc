@@ -109,8 +109,8 @@ as a map of implications"}
                       :spec {:of {:human true}}}
 
    {:physical-object
-    false}           {:animate false
-                      :consumable false}
+    false}           {:consumable false
+                      :living false}
    {:physical-object
     true}            {:speakable false}
 

@@ -1763,7 +1763,6 @@
    "that" [;; "that" as in "she thinks that .."
            {:synsem {:cat :comp
                      :comp-type :that
-                     :sem {:pred :that}
                      :subcat {:1 {:cat :verb
                                   :subcat '()}
                               :2 '()}}}

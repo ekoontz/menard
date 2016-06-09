@@ -106,7 +106,7 @@
                      #(let [result
                             (time
                              (if grammar
-                               (generate spec grammar)
-                               (generate spec medium)))]
+                               (generate spec grammar {:max-total-depth max-total-depth})
+                               (generate spec medium {:max-total-depth max-total-depth})))]
                         result))))))
 

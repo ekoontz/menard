@@ -420,7 +420,8 @@
             (unify common ;; transitive "chatted with <human>"
                    {:synsem {:subcat {:2 {:cat :prep
                                           :sem {:obj {:human true}
-                                                :pred :with}}}}}))
+                                                :pred :with}
+                                          :subcat '()}}}}))
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 

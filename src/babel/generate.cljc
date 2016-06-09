@@ -30,7 +30,6 @@
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare generate-all)
-(declare in-case-of-no-phrasal-complements)
 (declare path-to-map)
 (declare show-bolt)
 (declare truncate)
@@ -47,7 +46,7 @@
                 (first (take 1
                              (lazy-mapcat (fn [each-spec]
                                            (log/info (str "generate: generating from spec: "
-                                                          each-spec))
+                                                          (strip-refs each-spec) " with max-total-depth: " max-total-depth))
                                            (let [expressions
                                                  (generate-all each-spec grammar lexicon index morph 0
                                                                :max-total-depth max-total-depth
@@ -71,7 +70,7 @@
         true
         (do
           (log/info (str "generate: generating from spec: "
-                         (strip-refs spec)))
+                         (strip-refs spec) " with max-total-depth: " max-total-depth))
           (let [expression (first (take 1 (generate-all spec grammar lexicon index morph 0
                                                         :max-total-depth max-total-depth
                                                         :truncate-children truncate-children)))]
@@ -86,17 +85,22 @@
                                 (unifyc
                                  spec
                                  {:synsem {:sem (strip-refs (get-in expression [:synsem :sem]))}}))))
-              (log/info (str "generate: no expression could be generated for spec:" (strip-refs spec))))
+              (log/warn (str "generate: no expression could be generated for spec:" (strip-refs spec))))
             expression))))
 
 (declare add-complements-to-bolts)
+(declare add-all-comps)
+(declare candidate-parents)
+(declare lazy-shuffle)
 
 (defn generate-all [spec grammar lexicon index morph total-depth
                     & {:keys [max-total-depth truncate-children]
                        :or {max-total-depth max-total-depth
                             truncate-children true}}]
-  (log/trace (str "generate-all: generating from spec with cat " (get-in spec [:synsem :cat])))
-  (log/debug (str "generate-all: generating from spec with spec " (strip-refs spec) "; max total depth: " max-total-depth))
+  (log/trace (str "generate-all: generating from spec with cat "
+                  (get-in spec [:synsem :cat])))
+  (log/debug (str "generate-all: generating from spec with spec "
+                  (strip-refs spec) "; max total depth: " max-total-depth))
   
   (let [total-depth (if total-depth total-depth 0)]
     (map (fn [expr]
@@ -104,52 +108,10 @@
              (truncate expr [[:head][:comp]])
              ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp)
              expr))
-         (-> (lightning-bolts grammar lexicon spec 0 index morph total-depth :max-total-depth max-total-depth)
-             ;; TODO: allow more than a fixed maximum depth of generation (here, 4 levels from top of tree).
-             (add-complements-to-bolts [:head :head :head :comp] grammar lexicon index morph total-depth
-                                       :max-total-depth max-total-depth)
-             (add-complements-to-bolts [:head :head :comp] grammar lexicon index morph total-depth
-                                       :max-total-depth max-total-depth)
-             (add-complements-to-bolts [:head :comp] grammar lexicon index morph total-depth
-                                       :max-total-depth max-total-depth)
-             (add-complements-to-bolts [:comp] grammar lexicon index morph total-depth
-                                       :max-total-depth max-total-depth)))))
-
-(defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth
-                                & {:keys [max-total-depth]
-                                   :or {max-total-depth max-total-depth}}]
-  (lazy-mapcat
-   (fn [bolt]
-     (if (not (= :none (get-in bolt path :none)))
-      (do
-        (log/debug (str "add-complements-to-bolts@" path))
-        (let [add-complement add-complement]
-          (add-complement bolt path :top grammar lexicon index morph 0 (+ total-depth (count path))
-                          :max-total-depth max-total-depth)))
-      [bolt]))
-   bolts))
-
-(defn candidate-parents [rules spec]
-  "find subset of _rules_ for which each member unifies successfully with _spec_"
-  (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
-  (filter #(not (fail? %))
-          (mapfn (fn [rule]
-                   (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
-                                                (get-in spec [:synsem :cat] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
-                                                (get-in spec [:synsem :infl] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
-                                                (get-in spec [:synsem :sem :tense] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
-                                                (get-in spec [:synsem :modified] :top)))))
-                     (unifyc spec rule)
-                     :fail))
-                 rules)))
-
-(declare morph-with-recovery)
-
-(defn lazy-shuffle [seq]
-  (lazy-seq (shuffle seq)))
+         (->
+          (lightning-bolts grammar lexicon spec 0 index morph total-depth :max-total-depth max-total-depth)
+          (add-all-comps (take max-total-depth (repeatedly (fn [] :head)))
+                         grammar lexicon index morph total-depth)))))
 
 (defn lightning-bolts [grammar lexicon spec depth index morph total-depth
                        & {:keys [max-total-depth]
@@ -177,10 +139,100 @@ of this function with complements."
                                        (lightning-bolts grammar lexicon (get-in parent [:head])
                                                         (+ 1 depth) index morph (+ 1 total-depth)
                                                         :max-total-depth max-total-depth)))
-                         parents))]
+                         parents)
+            (do
+              (log/info (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
+              nil))]
       (if (lexemes-before-phrases total-depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
+
+(defn add-all-comps [bolts path grammar lexicon index morph total-depth]
+  (if (not (empty? path))
+    (add-all-comps 
+     (add-complements-to-bolts bolts (concat path [:comp])
+                               grammar lexicon index morph total-depth
+                               :max-total-depth max-total-depth)
+     (rest path) grammar lexicon index morph total-depth)
+    (add-complements-to-bolts bolts [:comp]
+                              grammar lexicon index morph total-depth)))
+
+(defn add-complements-to-bolts [bolts path grammar lexicon index morph total-depth
+                                & {:keys [max-total-depth]
+                                   :or {max-total-depth max-total-depth}}]
+  (lazy-mapcat
+   (fn [bolt]
+     (if (not (= :none (get-in bolt path :none)))
+       (add-complement bolt path :top grammar lexicon index morph 0 (+ total-depth (count path))
+                       :max-total-depth max-total-depth)
+       (do
+         (log/warn (str "bolt has no path: " (string/join " " path)))
+         [bolt])))
+   bolts))
+
+(defn add-complement [bolt path spec grammar lexicon index morph depth total-depth
+                      & {:keys [max-total-depth]
+                         :or {max-total-depth max-total-depth}}]
+  (log/debug (str "add-complement: start: " (show-bolt bolt path morph) "@" path))
+  (let [input-spec spec
+        from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
+        spec (unifyc spec (get-in bolt path))
+        immediate-parent (get-in bolt (butlast path))
+        complement-candidate-lexemes
+        (if (not (= true
+                    (get-in bolt (concat path [:phrasal]))))
+          (let [indexed (if index
+                         (get-lex immediate-parent :comp index spec))]
+            (if indexed indexed
+                (flatten (vals lexicon)))))
+        
+        complement-pre-check (fn [child parent path-to-child]
+                               (let [child-in-bolt (get-in bolt path-to-child)]
+                                 (not (fail?
+                                       (unifyc (get-in child [:synsem] :top)
+                                               (get-in child-in-bolt [:synsem] :top))))))
+
+        filtered-lexical-complements (filter (fn [lexeme]
+                                               (complement-pre-check lexeme bolt path))
+                                             complement-candidate-lexemes)]
+    (filter #(not (fail? %))
+            (mapfn (fn [complement]
+                    (unify (copy bolt)
+                           (path-to-map path
+                                        (copy complement))))
+                  (let [debug (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
+                                              ",path=" path ",bolt=(" (show-bolt bolt path morph)
+                                              "): calling generate-all(" (strip-refs spec) ");"
+                                              "input-spec: " input-spec))
+                        phrasal-complements (if (and (> max-total-depth total-depth)
+                                                     (= true (get-in spec [:phrasal] true)))
+                                              (generate-all spec grammar lexicon index morph (+ depth total-depth)
+                                                            :max-total-depth max-total-depth))]
+                    (if (lexemes-before-phrases total-depth)
+                      (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
+                      (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
+
+(defn candidate-parents [rules spec]
+  "find subset of _rules_ for which each member unifies successfully with _spec_"
+  (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
+  (filter #(not (fail? %))
+          (mapfn (fn [rule]
+                   (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
+                                                (get-in spec [:synsem :cat] :top))))
+                            (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
+                                                (get-in spec [:synsem :infl] :top))))
+                            (not (fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
+                                                (get-in spec [:synsem :sem :tense] :top))))
+                            (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
+                                                (get-in spec [:synsem :modified] :top)))))
+                     (unifyc spec rule)
+                     :fail))
+                 rules)))
+
+(declare morph-with-recovery)
+
+(defn lazy-shuffle [seq]
+  (lazy-seq (shuffle seq)))
 
 (defn exception [error-string]
   #?(:clj
@@ -266,101 +318,12 @@ of this function with complements."
                  result)]
     result))
 
-(defn add-complement [bolt path spec grammar lexicon index morph depth total-depth
-                      & {:keys [max-total-depth]
-                         :or {max-total-depth max-total-depth}}]
-  (log/debug (str "add-complement: start: " (show-bolt bolt path morph) "@" path))
-  (let [input-spec spec
-        from-bolt bolt ;; so we can show what (add-complement) did to the input bolt, for logging.
-        spec (unifyc spec (get-in bolt path))
-        immediate-parent (get-in bolt (butlast path))
-        complement-candidate-lexemes
-        (if (not (= true
-                    (get-in bolt (concat path [:phrasal]))))
-          (let [indexed (if index
-                         (get-lex immediate-parent :comp index spec))]
-            (if indexed indexed
-                (flatten (vals lexicon)))))
-        
-        complement-pre-check (fn [child parent path-to-child]
-                               (let [child-in-bolt (get-in bolt path-to-child)]
-                                 (not (fail?
-                                       (unifyc (get-in child [:synsem] :top)
-                                               (get-in child-in-bolt [:synsem] :top))))))
-
-        filtered-lexical-complements (filter (fn [lexeme]
-                                               (complement-pre-check lexeme bolt path))
-                                             complement-candidate-lexemes)]
-    (filter #(not (fail? %))
-            (mapfn (fn [complement]
-                    (unify (copy bolt)
-                           (path-to-map path
-                                        (copy complement))))
-                  (let [debug (log/trace (str "add-complement(depth=" depth ",total-depth=" total-depth
-                                              ",path=" path ",bolt=(" (show-bolt bolt path morph)
-                                              "): calling generate-all(" (strip-refs spec) ");"
-                                              "input-spec: " input-spec))
-                        phrasal-complements (if (and (> max-total-depth total-depth)
-                                                     (= true (get-in spec [:phrasal] true)))
-                                              (generate-all spec grammar lexicon index morph (+ depth total-depth)
-                                                            :max-total-depth max-total-depth))]
-                    (if (lexemes-before-phrases total-depth)
-                      (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
-                      (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
 
 (defn path-to-map [path val]
   (let [feat (first path)]
     (if feat
       {feat (path-to-map (rest path) val)}
       val)))
-
-(defn in-case-of-no-phrasal-complements [bolt path run-time from-bolt complement-candidate-lexemes morph]
-  ;; No complements could be added to this bolt: Throw an exception or log/warn. debateable about which to do
-  ;; in which circumstances.
-  (let [log-limit 1000
-        log-fn (fn [message] (log/warn message))
-        throw-exception-if-no-complements-found false
-        message
-        (str " add-complement to " (get-in bolt [:rule]) " at path: " path
-             " took " run-time " msec, but found neither phrasal nor lexical complements for "
-             "'" (morph from-bolt) "'"
-             ". Bolt wants phrasal-wise: " (get-in bolt (concat path [:phrasal]))
-             ". Desired complement [:synsem] was: "
-             (strip-refs (get-in bolt (concat path [:synsem]))) ". "
-             (if (= false (get-in bolt (concat path [:phrasal]) false))
-               (str
-                (count complement-candidate-lexemes) " lexical complement(s) tried were:"
-                " "
-                (string/join "," (sort (map morph (take log-limit complement-candidate-lexemes))))
-                
-                (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                  (str ",.. and "
-                       (- (count complement-candidate-lexemes) log-limit) " more."))
-                
-                ";     with preds:   "
-                (string/join "," (map #(get-in % [:synsem :sem :pred]) (take log-limit complement-candidate-lexemes)))
-                
-                ";     fail-paths:   "
-                (string/join ","
-                             (map #(if
-                                       (or true (not (fail? (unifyc (get-in % [:synsem :sem :pred])
-                                                                    (get-in bolt (concat path
-                                                                                         [:synsem :sem :pred]))))))
-                                     (str "'" (morph %) "':"
-                                          (fail-path (strip-refs %)
-                                                     (strip-refs (get-in bolt path)))))
-                                  (take log-limit complement-candidate-lexemes)))
-                
-                (if (< 0 (- (count complement-candidate-lexemes) log-limit))
-                  (str ",.. and "
-                       (- (count complement-candidate-lexemes) log-limit) " more.")))))]
-    (log-fn message)
-    
-    ;; set to true to work on optimizing generation, since this situation of failing to add any
-    ;; complements is expensive.
-    (if (and throw-exception-if-no-complements-found
-             (not (= true (get-in bolt (concat path [:phrasal])))))
-      (exception message))))
 
 (defn lexemes-before-phrases [depth]
   "returns true or false: true means generate by adding lexemes first; otherwise, by adding phrases first. Takes depth as an argument, which makes returning true (i.e. lexemes first) increasingly likely as depth increases."

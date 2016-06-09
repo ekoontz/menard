@@ -34,11 +34,17 @@
    true
    ""))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
 (defn get-string [word & {:keys [show-notes]
                           :or {show-notes true}}]
   (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
   (cond
-
+    
    (ref? word)
    (get-string @word :show-notes show-notes)
 
@@ -51,6 +57,11 @@
         (nil? (:english word))
         (nil? (:english word)))
    ".."
+
+    (= (get-in word '(:infl)) :infinitive)
+    (if (string? (get-in word '(:english)))
+      (str "to " (get-in word '(:english)))
+      (exception (str "don't know how to find infinitive for word: " word)))
 
    ;; "to do [past]" + "well" => "did well"
    (and (= (get-in word '(:cat)) :verb)

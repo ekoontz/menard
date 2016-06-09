@@ -1047,7 +1047,6 @@
 
    "if"   {:synsem {:cat :comp
                     :comp-type :if
-                    :sem {:pred :that}
                     :subcat {:1 {:cat :verb
                                  :subcat '()}
                              :2 '()}}}

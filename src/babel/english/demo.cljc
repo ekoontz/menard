@@ -103,6 +103,6 @@
                             (time
                              (if grammar
                                (generate spec grammar)
-                               (generate spec)))]
+                               (generate spec medium)))]
                         result))))))
 

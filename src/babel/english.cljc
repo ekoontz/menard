@@ -43,17 +43,18 @@
   ((:lookup medium) lexeme))
 
 (defn generate
-  ([spec
-    & {:keys [max-total-depth model truncate-children]
-       :or {max-total-depth generate/max-total-depth
-            model medium
-            truncate-children true}}]
-   (let [result (engine/generate spec model
-                                 :max-total-depth max-total-depth
-                                 :truncate-children truncate-children)]
-     (if result
-       (conj {:surface (fo result)}
-             result)))))
+  [spec model
+   & {:keys [max-total-depth model truncate-children]
+      :or {max-total-depth generate/max-total-depth
+           truncate-children true}}]
+  (let [model (if model model medium)]
+    (let [result (engine/generate spec model
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate-children)]
+      (if result
+        (conj {:surface (fo result)}
+              result)))))
+
 (defn preprocess [input]
   "arbitrary regexp replacements to convert English orthography into a parsable whitespace-delimited expression"
   ;; e.g.

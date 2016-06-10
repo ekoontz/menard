@@ -86,13 +86,8 @@
                 (count
                  (map #(log/debug (str "post-enrich spec: " %))
                       spec))
-                (log/debug (str "post-enrich spec: " spec)))
-        ]
-    (generate/generate spec 
-                       (:grammar language-model)
-                       lexicon
-                       (:index language-model)
-                       (:morph language-model)
+                (log/debug (str "post-enrich spec: " spec)))]
+    (generate/generate spec language-model
                        :truncate-children truncate-children
                        :max-total-depth max-total-depth)))
 

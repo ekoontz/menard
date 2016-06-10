@@ -2015,7 +2015,7 @@
    "win"  {:synsem {:cat :verb
                     :sem {:pred :win
                           :subj {:human true}
-                          :obj {:human false}}}
+                          :obj {:buyable true}}}
            :english {:past "won"
                      :participle "winning"}}
 

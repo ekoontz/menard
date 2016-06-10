@@ -178,16 +178,13 @@
 (deftest generate-passe-compose-1
   (let [result
         (generate/generate (unifyc
-                          {:synsem {:subcat '()}}
-                          {:synsem {:sem {:subj {:pred :noi
-                                                 :gender :fem}
-                                          :pred :go
-                                          :aspect :perfect
-                                          :tense :past}}})
-         (:grammar small)
-         (:lexicon small)
-         (:index small)
-         (:morph small))]
+                            {:synsem {:subcat '()}}
+                            {:synsem {:sem {:subj {:pred :noi
+                                                   :gender :fem}
+                                            :pred :go
+                                            :aspect :perfect
+                                            :tense :past}}})
+                           small)]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 

@@ -97,16 +97,18 @@
   (log/debug (str "generate-all: generating from spec with spec "
                   (strip-refs spec) "; max total depth: " max-total-depth))
   
-  (let [total-depth (if total-depth total-depth 0)]
+  (let [total-depth (if total-depth total-depth 0)
+        expressions
+        (->
+         (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
+         (add-all-comps (take max-total-depth (repeatedly (fn [] :head)))
+                        language-model total-depth))]
     (map (fn [expr]
            (if truncate-children
              (truncate expr [[:head][:comp]])
-             ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp)
+             ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp).
              expr))
-         (->
-          (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-          (add-all-comps (take max-total-depth (repeatedly (fn [] :head)))
-                         language-model total-depth)))))
+         expressions)))
 
 (defn add-all-comps [bolts path language-model total-depth]
   (if (not (empty? path))
@@ -134,7 +136,8 @@
 (defn add-complement-to-bolt [bolt path spec language-model depth total-depth
                       & {:keys [max-total-depth]
                          :or {max-total-depth max-total-depth}}]
-  (log/debug (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@" path))
+  (log/debug (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@"
+                  (string/join " " path)))
   (let [index (:index language-model)
         lexicon (:lexicon language-model)
         input-spec spec

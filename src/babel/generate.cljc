@@ -164,19 +164,19 @@
                     (cond (and lexemes-before-phrases
                                (empty? filtered-lexical-complements)
                                (= false (get-in spec [:phrasal] true)))
-                          (exception (str "failed to generate any lexical complements with spec: "
-                                          (strip-refs spec)))
+                          (log/warn (str "failed to generate any lexical complements with spec: "
+                                         (strip-refs spec)))
 
                           (and lexemes-before-phrases
                                (= true (get-in spec [:phrasal] false))
                                (empty? phrasal-complements))
-                          (exception (str "failed to generate any phrasal complements with spec: "
-                                          (strip-refs spec)))
+                          (log/warn (str "failed to generate any phrasal complements with spec: "
+                                         (strip-refs spec)))
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (exception (str "failed to generate either phrasal or lexical complements with spec: "
-                                          (strip-refs spec)))
+                          (log/warn (str "failed to generate both phrasal or lexical complements with spec: "
+                                         (strip-refs spec)))
 
                           lexemes-before-phrases
                           (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)

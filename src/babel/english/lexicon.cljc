@@ -379,13 +379,21 @@
                      :sem {:pred :call}}}
 
    "can" 
-   {:english {:participle "being able to"
-              :past "could"
-              :present {:3sing "can"}
-              :future "be able to"
-              :conditional "be able to"}
-    :synsem {:cat :verb
-             :sem {:pred :can}}}
+    (let [modal-subject (atom {:cat :noun
+                                    :sem {:animate true}})]
+      {:english {:participle "being able to"
+                 :past "could"
+                 :present {:3sing "can"}
+                 :future "be able to"
+                 :conditional "be able to"}
+       :synsem {:cat :verb
+                :sem {:pred :can}
+                :subcat {:1 modal-subject
+                         :2 {:cat :verb
+                             :infl :infinitive
+                             :subcat {:1 modal-subject
+                                      :2 '()}}
+                         :3 '()}}})
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car}}}

@@ -60,7 +60,8 @@
    {:synsem {:cat :det
              :def :indef
              :mass false
-             :sem {:pred :a-generic-instance-of}
+             :sem {:pred :a-generic-instance-of
+                   :of :none}
              :agr {:number :sing}}}
 
    "abandon" {:synsem {:cat :verb
@@ -874,15 +875,11 @@
    "her"
    [{:synsem {:cat :det
               :agr {:number :sing}
-              :sem {:pred :lei
-                    :gender :fem
-                    :number :sing}
+              :sem {:of {:pred :lei}}
               :def :possessive}}
     {:synsem {:cat :det
               :agr {:number :plur}
-              :sem {:pred :lei
-                    :gender :fem
-                    :number :sing}
+              :sem {:of {:pred :lei}}
               :def :possessive}}
     {:synsem {:cat :noun
               :pronoun true
@@ -929,17 +926,11 @@
 
    "his" [{:synsem {:cat :det
                     :agr {:number :sing}
-                    :sem {:pred :lui
-                          :human true
-                          :gender :masc
-                          :number :sing}
+                    :sem {:of {:pred :lui}}
                     :def :possessive}}
           {:synsem {:cat :det
                     :agr {:number :plur}
-                    :sem {:pred :lui
-                          :human true
-                          :gender :masc
-                          :number :sing}
+                    :sem {:of {:pred :lui}}
                     :def :possessive}}]
                  
    "hit" {:english {:past "hit"}
@@ -1122,8 +1113,7 @@
               :agr {:person :3rd
                     :gender :masc
                     :number :sing}
-              :sem {:human false
-                    :pred :lui}
+              :sem {:human false}
               :subcat '()}}
     {:english {:note "♀"}
      :synsem {:cat :noun
@@ -1133,8 +1123,7 @@
               :agr {:person :3rd
                     :gender :fem
                     :number :sing}
-              :sem {:human false
-                    :pred :lei}
+              :sem {:human false}
               :subcat '()}}]
 
    "keep"
@@ -1319,9 +1308,7 @@
    "my"
    (map #(unify %
                 {:synsem {:cat :det
-                          :sem {:pred :I
-                                :human true
-                                :number :sing}
+                          :sem {:of {:pred :I}}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
@@ -1375,8 +1362,7 @@
    (map #(unify %
                 {:synsem {:cat :det
                           :agr {:gender :masc}
-                          :sem {:pred :noi
-                                :number :plur}
+                          :sem {:of {:pred :noi}}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
@@ -1656,11 +1642,13 @@
    "some"
    [{:synsem {:cat :det
               :def :partitivo
-              :sem {:pred :some-of}
+              :sem {:pred :some-of
+                    :of :none}
               :agr {:number :plur}}}
     {:synsem {:cat :det
               :def :indef
-              :sem {:pred :some-one-of}
+              :sem {:pred :some-one-of
+                    :of :none}
               :agr {:number :sing}}}]
    "speak"
    {:english {:past "spoke"
@@ -1778,12 +1766,14 @@
            ;; "that" as in "that woman"
            {:synsem {:cat :det
                      :agr {:number :sing}
-                     :sem {:pred :demonstrative}
+                     :sem {:pred :demonstrative
+                           :of :none}
                      :def :def}}]
 
    "the" (map #(unify % 
                       {:synsem {:cat :det
-                                :sem {:pred :definite}
+                                :sem {:pred :definite
+                                      :of :none}
                                 :def :def}})
               [{:synsem {:agr {:number :sing}}}
                {:synsem {:agr {:number :plur}}}])
@@ -1791,8 +1781,7 @@
    "their"
    (map #(unify %
                 {:synsem {:cat :det
-                          :sem {:pred :loro
-                                :number :plur}
+                          :sem {:of {:pred :loro}}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
@@ -1883,7 +1872,8 @@
                                         :3 '()}}})])
    "those" {:synsem {:cat :det
                      :agr {:number :plur}
-                     :sem {:pred :demonstrative}
+                     :sem {:pred :demonstrative
+                           :of :none}
                      :def :def}}
 
    "throw" {:english {:past "threw"}
@@ -2133,7 +2123,7 @@
    "your"
    (map #(unify %
                 {:synsem {:cat :det
-                          :sem {:pred :tu}
+                          :sem {:of {:pred :tu}}
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])

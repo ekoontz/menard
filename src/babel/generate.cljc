@@ -11,7 +11,7 @@
                                         ref? remove-false remove-top-values-log
                                         strip-refs show-spec unify unifyc
 
-                                        ;; temporary
+                                        ;; temporary: until we move (truncate) from here to dag_unify.
                                         deserialize serialize
                                         )]))
                                         
@@ -59,13 +59,13 @@
         (log/warn (str "generate: no expression could be generated for spec:" (strip-refs spec))))
       expression)))
 
-(declare add-complements-to-bolts)
+(declare add-complements)
 (declare add-all-comps)
 (declare candidate-parents)
 (declare lazy-shuffle)
 (declare find-comp-paths-in)
-(declare add-all-comps-to-bolts)
-(declare add-all-comps-to-bolts-with-paths)
+(declare add-all-comps)
+(declare add-all-comps-with-paths)
 
 (defn generate-all [spec language-model total-depth
                     & {:keys [max-total-depth truncate-children]
@@ -73,28 +73,23 @@
                             truncate-children true}}]
   (log/trace (str "generate-all: generating from spec with cat "
                   (get-in spec [:synsem :cat])))
-  (log/debug (str "generate-all: generating from spec with spec "
-                  (strip-refs spec) "; max total depth: " max-total-depth))
+  (log/debug (str "generate-all:"
+                  (strip-refs spec) "^" total-depth))
   
   (let [total-depth (if total-depth total-depth 0)]
     (->
      (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-     (add-all-comps-to-bolts spec language-model total-depth)
+     (add-all-comps language-model total-depth)
      (truncate-expressions [[:head][:comp]])
      )))
 
-(defn add-all-comps-to-bolts [bolts spec language-model total-depth]
-  (log/debug (str "add-all-comps-to-bolts with (empty? bolts): " (empty? bolts)
-                  "; spec: " (strip-refs spec)))
-  (cond
-    (= spec :fail)
-    nil
-    true
-    (lazy-mapcat
-     (fn [bolt]
-       (add-all-comps-to-bolts-with-paths [bolt] spec language-model total-depth
-                                          (find-comp-paths-in bolt [:head])))
-     bolts)))
+(defn add-all-comps [bolts language-model total-depth]
+  (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
+  (lazy-mapcat
+   (fn [bolt]
+     (add-all-comps-with-paths [bolt] language-model total-depth
+                               (find-comp-paths-in bolt [:head])))
+   bolts))
 
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths]
   (log/trace (str "add-all-comps-with-paths with (empty? bolts): "
@@ -121,16 +116,15 @@
     (cons (vec (concat (butlast path) [:comp]))
           (find-comp-paths-in bolt (concat path [:head])))))
 
-(defn add-complement-to-bolt [bolt path spec language-model depth total-depth
+(defn add-complement-to-bolt [bolt path language-model depth total-depth
                               & {:keys [max-total-depth]
                                  :or {max-total-depth max-total-depth}}]
-  (log/trace (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@"
-                  (string/join " " path)))
+  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model) "@"
+                  "[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
         lexicon (:lexicon language-model)
-        input-spec spec
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
-        spec (unifyc spec (get-in bolt path))
+        spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))
         complement-candidate-lexemes
         (if (not (= true
@@ -157,7 +151,7 @@
                   (let [debug (log/trace (str "add-complement-to-bolt(depth=" depth ",total-depth=" total-depth
                                               ",path=" path ",bolt=(" (show-bolt bolt path language-model)
                                               "): calling generate-all(" (strip-refs spec) ");"
-                                              "input-spec: " input-spec))
+                                              "spec: " spec))
                         phrasal-complements (if (and (> max-total-depth total-depth)
                                                      (= true (get-in spec [:phrasal] true)))
                                               (generate-all spec language-model (+ depth total-depth)

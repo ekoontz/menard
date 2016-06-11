@@ -1797,8 +1797,7 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:human true
-                    :reflexive true}
+              :sem {:reflexive true}
               :subcat '()}}
     
     {:english {:note "♂"}
@@ -1809,8 +1808,7 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :masc}
-              :sem {:human true
-                    :reflexive true}
+              :sem {:reflexive true}
               :subcat '()}}
     ]
    

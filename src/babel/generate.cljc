@@ -40,49 +40,24 @@
                    :or {max-total-depth max-total-depth
                         truncate-children true}}]
   (let [morph (:morph language-model)]
-    (cond (or (vector? spec)
-              (seq? spec))
-          (let [spec (vec (set spec))]
-            (log/debug (str "generating from " (count spec) " spec(s)"))
-            (let [expression
-                  (first (take 1
-                               (lazy-mapcat (fn [each-spec]
-                                              (log/info (str "generate: generating from spec: "
-                                                             (strip-refs each-spec) " with max-total-depth: " max-total-depth))
-                                              (let [expressions
-                                                    (generate-all each-spec language-model 0
-                                                                  :max-total-depth max-total-depth
-                                                                  :truncate-children truncate-children)]
-                                                expressions))
-                                            spec)))]
-              ;; TODO: show time information
-              (if expression
-                (log/info (str "generate: generated "
-                               "'" (morph expression) "'"
-                               " from " (count spec) " spec(s)"))
-                (log/warn (str "generate: no expression could be generated for any of the "
-                               " from " (count spec) " spec(s)")))
-              expression))
-          true
-          (do
-            (log/info (str "generate: generating from spec: "
-                           (strip-refs spec) " with max-total-depth: " max-total-depth))
-            (let [expression (first (take 1 (generate-all spec language-model 0
-                                                          :max-total-depth max-total-depth
-                                                          :truncate-children truncate-children)))]
-              (if expression
-                (do
-                  (log/info (str "generate: generated "
-                                 "'" (morph expression) "'"
-                                 " for spec:" (strip-refs spec)))
-                  (log/trace (str "generate: generated "
-                                  "'" (morph expression) "';"
-                                  " expr spec: "
-                                  (unifyc
-                                   spec
-                                   {:synsem {:sem (strip-refs (get-in expression [:synsem :sem]))}}))))
-                (log/warn (str "generate: no expression could be generated for spec:" (strip-refs spec))))
-              expression)))))
+    (log/info (str "generate: generating from spec: "
+                   (strip-refs spec) " with max-total-depth: " max-total-depth))
+    (let [expression (first (take 1 (generate-all spec language-model 0
+                                                  :max-total-depth max-total-depth
+                                                  :truncate-children truncate-children)))]
+      (if expression
+        (do
+          (log/info (str "generate: generated "
+                         "'" (morph expression) "'"
+                         " for spec:" (strip-refs spec)))
+          (log/trace (str "generate: generated "
+                          "'" (morph expression) "';"
+                          " expr spec: "
+                          (unifyc
+                           spec
+                           {:synsem {:sem (strip-refs (get-in expression [:synsem :sem]))}}))))
+        (log/warn (str "generate: no expression could be generated for spec:" (strip-refs spec))))
+      expression)))
 
 (declare add-complements-to-bolts)
 (declare add-all-comps)

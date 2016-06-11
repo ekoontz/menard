@@ -101,41 +101,52 @@
         expressions
         (->
          (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-         (add-all-comps (take max-total-depth (repeatedly (fn [] :head)))
-                        language-model total-depth))]
+         (add-all-comps-to-bolts spec language-model total-depth))]
     (map (fn [expr]
-           (if truncate-children
-             (truncate expr [[:head][:comp]])
-             ;; else, don't truncate for efficiency (i.e. don't remove :head and :comp).
+           (if (and false truncate-children)
+             (truncate expr [[:head][:comp]]) ;; remove :head and :comp for efficiency
+             ;; else, don't remove.
              expr))
          expressions)))
 
-(defn add-all-comps [bolts path language-model total-depth]
-  (if (not (empty? path))
-    (add-all-comps 
-     (add-complements-to-bolts bolts (concat path [:comp])
-                               language-model total-depth
-                               :max-total-depth max-total-depth)
-     (rest path) language-model total-depth)
-    (add-complements-to-bolts bolts [:comp]
-                              language-model total-depth)))
+(declare find-comp-paths-in)
+(declare add-all-comps-to-bolts-with-paths)
 
-(defn add-complements-to-bolts [bolts path language-model total-depth
-                                & {:keys [max-total-depth]
-                                   :or {max-total-depth max-total-depth}}]
+(defn add-all-comps-to-bolts [bolts spec language-model total-depth]
+  (log/debug (str "add-all-comps-to-bolts with (empty? bolts): " (empty? bolts)
+                  "; spec: " (strip-refs spec)))
   (lazy-mapcat
    (fn [bolt]
-     (if (not (= :none (get-in bolt path :none)))
-       (add-complement-to-bolt bolt path :top language-model 0 (+ total-depth (count path))
-                       :max-total-depth max-total-depth)
-       (do
-         (log/warn (str "bolt has no path: " (string/join " " path)))
-         [bolt])))
+     (add-all-comps-to-bolts-with-paths [bolt] spec language-model total-depth
+                                        (find-comp-paths-in bolt [:head])))
    bolts))
 
+(defn add-all-comps-to-bolts-with-paths [bolts spec language-model total-depth comp-paths]
+  (log/debug (str "add-all-comps-to-bolts-with-paths with (empty? bolts): " (empty? bolts) "; spec: " spec))
+  (if (not (empty? comp-paths))
+    (let [path (first comp-paths)]
+      (add-all-comps-to-bolts-with-paths
+       (lazy-mapcat
+        (fn [bolt]
+          (log/debug (str "adding path: " (string/join " " path) " to bolt: " ((:morph language-model) bolt)))
+          (add-complement-to-bolt bolt path spec
+                                  language-model 0 total-depth
+                                  :max-total-depth max-total-depth))
+        bolts)
+       spec
+       language-model
+       total-depth
+       (rest comp-paths)))
+    bolts))
+
+(defn find-comp-paths-in [bolt path]
+  (if (not (= (get-in bolt path :none) :none))
+    (cons (vec (concat (butlast path) [:comp]))
+          (find-comp-paths-in bolt (concat path [:head])))))
+
 (defn add-complement-to-bolt [bolt path spec language-model depth total-depth
-                      & {:keys [max-total-depth]
-                         :or {max-total-depth max-total-depth}}]
+                              & {:keys [max-total-depth]
+                                 :or {max-total-depth max-total-depth}}]
   (log/debug (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@"
                   (string/join " " path)))
   (let [index (:index language-model)
@@ -301,6 +312,8 @@ of this function with complements."
 (defn morph-with-recovery [morph-fn input]
   (if (nil? input)
     (exception (str "don't call morph-with-recovery with input=nil.")))
+  (if (nil? morph-fn)
+    (exception (str "don't call morph-with-recovery with morph-fn=nil.")))
   (let [result (morph-fn input)
         result (if (or (nil? result)
                        (= "" result))
@@ -338,15 +351,18 @@ of this function with complements."
       false)))
 
 (defn show-bolt [bolt path language-model]
-  (let [morph (:morph language-model)]
-    (if (nil? bolt)
-      (exception (str "don't call show-bolt with bolt=null."))
-      (if (not (empty? path))
-        (str "[" (get-in bolt [:rule])
-             " '" (morph-with-recovery morph bolt) "'"
-             (let [head-bolt (get-in bolt [:head])]
-               (if (not (nil? head-bolt))
-                 (let [rest-str (show-bolt (get-in bolt [:head]) (rest path) language-model)]
-                 (if (not (nil? rest-str))
-                   (str " -> " rest-str)))))
-             "]")))))
+  (if (nil? bolt)
+    (exception (str "don't call show-bolt with bolt=null."))
+    (let [morph (:morph language-model)]
+      (if (nil? morph)
+        (exception (str "don't call show-bolt with morph=null."))
+        (if (not (empty? path))
+          (str "[" (get-in bolt [:rule])
+               " '" (morph-with-recovery morph bolt) "'"
+               (let [head-bolt (get-in bolt [:head])]
+                 (if (not (nil? head-bolt))
+                   (let [rest-str (show-bolt (get-in bolt [:head]) (rest path) language-model)]
+                     (if (not (nil? rest-str))
+                       (str " -> " rest-str)))))
+               "]"))))))
+

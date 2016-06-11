@@ -33,6 +33,7 @@
 (declare path-to-map)
 (declare show-bolt)
 (declare truncate)
+(declare truncate-expressions)
 
 (defn generate [spec language-model
                 & {:keys [max-total-depth truncate-children]
@@ -299,6 +300,10 @@ of this function with complements."
               (zipmap truncated-path-sets
                       path-vals))]
     (deserialize truncated-serialized)))
+
+(defn truncate-expressions [expressions truncate-paths]
+  (map #(truncate % truncate-paths)
+       expressions))
 
 ;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
 (defn lazy-mapcat  [f coll]

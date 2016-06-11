@@ -61,7 +61,7 @@
              :def :indef
              :mass false
              :sem {:pred :a-generic-instance-of
-                   :of :none}
+                   :of {:pred nil}}
              :agr {:number :sing}}}
 
    "abandon" {:synsem {:cat :verb
@@ -1643,12 +1643,12 @@
    [{:synsem {:cat :det
               :def :partitivo
               :sem {:pred :some-of
-                    :of :none}
+                    :of {:pred nil}}
               :agr {:number :plur}}}
     {:synsem {:cat :det
               :def :indef
               :sem {:pred :some-one-of
-                    :of :none}
+                    :of {:pred nil}}
               :agr {:number :sing}}}]
    "speak"
    {:english {:past "spoke"
@@ -1773,7 +1773,7 @@
    "the" (map #(unify % 
                       {:synsem {:cat :det
                                 :sem {:pred :definite
-                                      :of :none}
+                                      :of {:pred nil}}
                                 :def :def}})
               [{:synsem {:agr {:number :sing}}}
                {:synsem {:agr {:number :plur}}}])

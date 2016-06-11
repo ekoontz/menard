@@ -63,6 +63,9 @@
 (declare add-all-comps)
 (declare candidate-parents)
 (declare lazy-shuffle)
+(declare find-comp-paths-in)
+(declare add-all-comps-to-bolts)
+(declare add-all-comps-to-bolts-with-paths)
 
 (defn generate-all [spec language-model total-depth
                     & {:keys [max-total-depth truncate-children]
@@ -73,47 +76,47 @@
   (log/debug (str "generate-all: generating from spec with spec "
                   (strip-refs spec) "; max total depth: " max-total-depth))
   
-  (let [total-depth (if total-depth total-depth 0)
-        expressions
-        (->
-         (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-         (add-all-comps-to-bolts spec language-model total-depth))]
-    (map (fn [expr]
-           (if (and false truncate-children)
-             (truncate expr [[:head][:comp]]) ;; remove :head and :comp for efficiency
-             ;; else, don't remove.
-             expr))
-         expressions)))
-
-(declare find-comp-paths-in)
-(declare add-all-comps-to-bolts-with-paths)
+  (let [total-depth (if total-depth total-depth 0)]
+    (->
+     (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
+     (add-all-comps-to-bolts spec language-model total-depth)
+     (truncate-expressions [[:head][:comp]])
+     )))
 
 (defn add-all-comps-to-bolts [bolts spec language-model total-depth]
   (log/debug (str "add-all-comps-to-bolts with (empty? bolts): " (empty? bolts)
                   "; spec: " (strip-refs spec)))
-  (lazy-mapcat
-   (fn [bolt]
-     (add-all-comps-to-bolts-with-paths [bolt] spec language-model total-depth
-                                        (find-comp-paths-in bolt [:head])))
-   bolts))
+  (cond
+    (= spec :fail)
+    nil
+    true
+    (lazy-mapcat
+     (fn [bolt]
+       (add-all-comps-to-bolts-with-paths [bolt] spec language-model total-depth
+                                          (find-comp-paths-in bolt [:head])))
+     bolts)))
 
 (defn add-all-comps-to-bolts-with-paths [bolts spec language-model total-depth comp-paths]
-  (log/debug (str "add-all-comps-to-bolts-with-paths with (empty? bolts): " (empty? bolts) "; spec: " spec))
-  (if (not (empty? comp-paths))
-    (let [path (first comp-paths)]
-      (add-all-comps-to-bolts-with-paths
-       (lazy-mapcat
-        (fn [bolt]
-          (log/debug (str "adding path: " (string/join " " path) " to bolt: " ((:morph language-model) bolt)))
-          (add-complement-to-bolt bolt path spec
-                                  language-model 0 total-depth
-                                  :max-total-depth max-total-depth))
-        bolts)
-       spec
-       language-model
-       total-depth
-       (rest comp-paths)))
-    bolts))
+  (log/trace (str "add-all-comps-to-bolts-with-paths with (empty? bolts): "
+                  (empty? bolts) "; spec: " (strip-refs spec)))
+  (cond (= spec :fail)
+        nil
+        true
+        (if (not (empty? comp-paths))
+          (let [path (first comp-paths)]
+            (add-all-comps-to-bolts-with-paths
+             (lazy-mapcat
+              (fn [bolt]
+                (log/debug (str "+comps: " ((:morph language-model) bolt) "@" "[" (string/join " " path) "]"))
+                (add-complement-to-bolt bolt path spec
+                                        language-model 0 total-depth
+                                        :max-total-depth max-total-depth))
+              bolts)
+             spec
+             language-model
+             total-depth
+             (rest comp-paths)))
+          bolts)))
 
 (defn find-comp-paths-in [bolt path]
   (if (not (= (get-in bolt path :none) :none))
@@ -123,7 +126,7 @@
 (defn add-complement-to-bolt [bolt path spec language-model depth total-depth
                               & {:keys [max-total-depth]
                                  :or {max-total-depth max-total-depth}}]
-  (log/debug (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@"
+  (log/trace (str "add-complement-to-bolt: start: " (show-bolt bolt path language-model) "@"
                   (string/join " " path)))
   (let [index (:index language-model)
         lexicon (:lexicon language-model)

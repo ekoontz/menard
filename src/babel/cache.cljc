@@ -7,8 +7,9 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   ;; TODO: be more specific in :refer than :all.
-   [dag_unify.core :refer [fail? get-in label-of show-spec unifyc]]
+   [dag_unify.core :refer [fail? dissoc-paths get-in label-of
+                           remove-top-values-log
+                           unifyc]]
 
    [babel.over :as over]))
 
@@ -23,6 +24,7 @@
 
 (def head-cache {})
 (def comp-cache {})
+(declare show-spec)
 
 (defn specs-to-subsets [lexicon-of-heads lexicon]
   (if (not (empty? lexicon-of-heads))
@@ -210,5 +212,20 @@
                   {:synsem {:cat :verb, :aux false}, :head {:synsem {:cat :verb, :infl :infinitive, :subcat {:2 {}, :1 {}}}, :phrasal false}, :phrasal true}
                   )
             grammar)})))
+
+
+(defn show-spec [spec]
+  (cond (seq? spec)
+        (map show-spec spec)
+        true
+        (remove-top-values-log (dissoc-paths spec '((:english :initial)
+                                                    (:italiano :initial)
+                                                    (:synsem :essere)
+                                                    (:synsem :agr)
+                                                    (:synsem :pronoun)
+                                                    (:synsem :sem :tense)
+                                                    (:synsem :sem :obj :tense)
+                                                    (:synsem :sem :mod)
+                                                    (:synsem :infl))))))
 
 

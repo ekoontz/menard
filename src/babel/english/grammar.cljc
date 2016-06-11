@@ -208,6 +208,8 @@
                                               :sem head-sem}}
                               :rule "nbar"}))
 
+                   ;; TODO: do we need noun-phrase1? its only distinction is its' [:sem :mod] = '()
+                   ;; and I'm not sure why this distinction is necessary.
                    (unify-check c10
                            comp-specs-head
                            (let [number-agreement (atom :top)

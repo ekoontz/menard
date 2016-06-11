@@ -96,27 +96,25 @@
                                           (find-comp-paths-in bolt [:head])))
      bolts)))
 
-(defn add-all-comps-to-bolts-with-paths [bolts spec language-model total-depth comp-paths]
-  (log/trace (str "add-all-comps-to-bolts-with-paths with (empty? bolts): "
-                  (empty? bolts) "; spec: " (strip-refs spec)))
-  (cond (= spec :fail)
-        nil
-        true
-        (if (not (empty? comp-paths))
-          (let [path (first comp-paths)]
-            (add-all-comps-to-bolts-with-paths
-             (lazy-mapcat
-              (fn [bolt]
-                (log/debug (str "+comps: " ((:morph language-model) bolt) "@" "[" (string/join " " path) "]"))
-                (add-complement-to-bolt bolt path spec
-                                        language-model 0 total-depth
-                                        :max-total-depth max-total-depth))
-              bolts)
-             spec
-             language-model
-             total-depth
-             (rest comp-paths)))
-          bolts)))
+(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths]
+  (log/trace (str "add-all-comps-with-paths with (empty? bolts): "
+                  (empty? bolts)))
+  (if (not (empty? comp-paths))
+    (let [path (first comp-paths)]
+      (add-all-comps-with-paths
+       (lazy-mapcat
+        (fn [bolt]
+          (log/debug (str "+comps: '" ((:morph language-model) bolt) "'@"
+                          "[" (string/join " " path) "]"
+                          "^" total-depth))
+          (add-complement-to-bolt bolt path
+                                  language-model 0 (+ total-depth (count path))
+                                  :max-total-depth max-total-depth))
+        bolts)
+       language-model
+       total-depth
+       (rest comp-paths)))
+    bolts))
 
 (defn find-comp-paths-in [bolt path]
   (if (not (= (get-in bolt path :none) :none))

@@ -9,7 +9,7 @@
    [clojure.string :as string]
    [dag_unify.core :refer (copy dissoc-paths get-in fail? fail-path
                                         ref? remove-false remove-top-values-log
-                                        strip-refs show-spec unify unifyc
+                                        strip-refs unify unifyc
 
                                         ;; temporary: until we move (truncate) from here to dag_unify.
                                         deserialize serialize

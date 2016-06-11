@@ -1147,7 +1147,10 @@
                :past "kept"}}]
 
    "key" {:synsem {:cat :noun
-                   :sem {:pred :key}}}
+                   :sem {:pred :key
+                         :artifact true
+                         :legible false
+                         :speakable false}}}
 
    "kill" {:synsem {:cat :verb
                     :sem {:pred :kill}}}

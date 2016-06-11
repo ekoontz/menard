@@ -35,6 +35,10 @@
 (declare truncate)
 (declare truncate-expressions)
 
+;; {:synsem {:cat :noun,
+;;           :pronoun true,
+;;           :sem {:pred :cat}}
+
 (defn generate [spec language-model
                 & {:keys [max-total-depth truncate-children]
                    :or {max-total-depth max-total-depth
@@ -155,10 +159,30 @@
                         phrasal-complements (if (and (> max-total-depth total-depth)
                                                      (= true (get-in spec [:phrasal] true)))
                                               (generate-all spec language-model (+ depth total-depth)
-                                                            :max-total-depth max-total-depth))]
-                    (if (lexemes-before-phrases total-depth)
-                      (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
-                      (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
+                                                            :max-total-depth max-total-depth))
+                        lexemes-before-phrases (lexemes-before-phrases total-depth)]
+                    (cond (and lexemes-before-phrases
+                               (empty? filtered-lexical-complements)
+                               (= false (get-in spec [:phrasal] true)))
+                          (exception (str "failed to generate any lexical complements with spec: "
+                                          (strip-refs spec)))
+
+                          (and lexemes-before-phrases
+                               (= true (get-in spec [:phrasal] false))
+                               (empty? phrasal-complements))
+                          (exception (str "failed to generate any phrasal complements with spec: "
+                                          (strip-refs spec)))
+
+                          (and (empty? filtered-lexical-complements)
+                               (empty? phrasal-complements))
+                          (exception (str "failed to generate either phrasal or lexical complements with spec: "
+                                          (strip-refs spec)))
+
+                          lexemes-before-phrases
+                          (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
+
+                          true
+                          (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
 
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]

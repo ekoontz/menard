@@ -107,7 +107,7 @@
                           "[" (string/join " " path) "]"
                           "^" total-depth))
           (add-complement-to-bolt bolt path
-                                  language-model 0 (+ total-depth (count path))
+                                  language-model (+ total-depth (count path))
                                   :max-total-depth max-total-depth))
         bolts)
        language-model
@@ -120,7 +120,7 @@
     (cons (vec (concat (butlast path) [:comp]))
           (find-comp-paths-in bolt (concat path [:head])))))
 
-(defn add-complement-to-bolt [bolt path language-model depth total-depth
+(defn add-complement-to-bolt [bolt path language-model total-depth
                               & {:keys [max-total-depth]
                                  :or {max-total-depth max-total-depth}}]
   (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model) "@"
@@ -152,13 +152,13 @@
                     (unify (copy bolt)
                            (path-to-map path
                                         (copy complement))))
-                  (let [debug (log/trace (str "add-complement-to-bolt(depth=" depth ",total-depth=" total-depth
+                  (let [debug (log/trace (str "add-complement-to-bolt(total-depth=" total-depth
                                               ",path=" path ",bolt=(" (show-bolt bolt path language-model)
                                               "): calling generate-all(" (strip-refs spec) ");"
                                               "spec: " spec))
                         phrasal-complements (if (and (> max-total-depth total-depth)
                                                      (= true (get-in spec [:phrasal] true)))
-                                              (generate-all spec language-model (+ depth total-depth)
+                                              (generate-all spec language-model (+ (count path) total-depth)
                                                             :max-total-depth max-total-depth))
                         lexemes-before-phrases (lexemes-before-phrases total-depth)]
                     (cond (and lexemes-before-phrases

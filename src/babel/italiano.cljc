@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
-   [babel.italiano.grammar :refer [medium]]
+   [babel.italiano.grammar :refer [small medium np-grammar]]
    [babel.italiano.morphology :as morph]
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.over :as over]

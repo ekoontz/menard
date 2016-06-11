@@ -1390,8 +1390,7 @@
               :agr {:person :1st
                     :number :plur
                     :gender :fem}
-              :sem {:human true
-                    :pred :noi}
+              :sem {:human true}
               :subcat '()}}
     
     {:english {:note "♂"}
@@ -1402,8 +1401,7 @@
               :agr {:person :1st
                     :number :plur
                     :gender :masc}
-              :sem {:human true
-                    :pred :noi}
+              :sem {:human true}
               :subcat '()}}]
    
    "paint"  {:synsem {:cat :verb

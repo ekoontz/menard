@@ -1564,7 +1564,7 @@
                        :past "scrubbed"}}
 
    "second" (unify adjective
-                   {:synsem {:sem {:mod {:pred :first}
+                   {:synsem {:sem {:mod {:pred :second}
                                    :comparative false}}})
    "see"  {:synsem {:cat :verb
                     :sem {:pred :see}

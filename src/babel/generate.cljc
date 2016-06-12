@@ -45,7 +45,7 @@
                         truncate-children true}}]
   (let [morph (:morph language-model)]
     (log/info (str "generate: generating from spec: "
-                   (strip-refs spec) " with max-total-depth: " max-total-depth))
+                   (strip-refs spec) " with max-total-depth: " max-total-depth ";truncate: " truncate-children))
     (let [expression (first (take 1 (generate-all spec language-model 0
                                                   :max-total-depth max-total-depth
                                                   :truncate-children truncate-children)))]
@@ -81,11 +81,14 @@
                   (strip-refs (get-in spec [:synsem :cat])) "^" total-depth))
   
   (let [total-depth (if total-depth total-depth 0)]
-    (->
-     (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-     (add-all-comps language-model total-depth)
-     (truncate-expressions [[:head][:comp]])
-     )))
+    (if truncate-children
+      (->
+       (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
+       (add-all-comps language-model total-depth)
+       (truncate-expressions [[:head][:comp]]))
+      (->
+       (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
+       (add-all-comps language-model total-depth)))))
 
 (defn add-all-comps [bolts language-model total-depth]
   (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))

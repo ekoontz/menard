@@ -84,21 +84,22 @@
     (if truncate-children
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth)
-       (truncate-expressions [[:head][:comp]]))
+       (add-all-comps language-model total-depth true)
+       (truncate-expressions [[:head]]))
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth)))))
+       (add-all-comps language-model total-depth false)))))
 
-(defn add-all-comps [bolts language-model total-depth]
+(defn add-all-comps [bolts language-model total-depth truncate-children]
   (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
   (lazy-mapcat
    (fn [bolt]
      (add-all-comps-with-paths [bolt] language-model total-depth
-                               (find-comp-paths-in bolt [:head])))
+                               (find-comp-paths-in bolt [:head])
+                               truncate-children))
    bolts))
 
-(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths]
+(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children]
   (log/trace (str "add-all-comps-with-paths with (empty? bolts): "
                   (empty? bolts)))
   (if (not (empty? comp-paths))
@@ -110,11 +111,13 @@
                           "@[" (string/join " " path) "]" "^" total-depth))
           (add-complement-to-bolt bolt path
                                   language-model (+ total-depth (count path))
-                                  :max-total-depth max-total-depth))
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate-children))
         bolts)
        language-model
        total-depth
-       (rest comp-paths)))
+       (rest comp-paths)
+       truncate-children))
     bolts))
 
 (defn find-comp-paths-in [bolt path]
@@ -123,8 +126,9 @@
           (find-comp-paths-in bolt (concat path [:head])))))
 
 (defn add-complement-to-bolt [bolt path language-model total-depth
-                              & {:keys [max-total-depth]
-                                 :or {max-total-depth max-total-depth}}]
+                              & {:keys [max-total-depth truncate-children]
+                                 :or {max-total-depth max-total-depth
+                                      truncate-children true}}]
   (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
@@ -151,9 +155,13 @@
                                              complement-candidate-lexemes)]
     (filter #(not (fail? %))
             (mapfn (fn [complement]
-                    (unify (copy bolt)
-                           (path-to-map path
-                                        (copy complement))))
+                     (let [unified
+                           (unify (copy bolt)
+                                  (path-to-map path
+                                               (copy complement)))]
+                       (if truncate-children
+                         (truncate unified [path])
+                         unified)))
                   (let [debug (log/trace (str "add-complement-to-bolt(total-depth=" total-depth
                                               ",path=" path ",bolt=(" (show-bolt bolt path language-model)
                                               "): calling generate-all(" (strip-refs spec) ");"

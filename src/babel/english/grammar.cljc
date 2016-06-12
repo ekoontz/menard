@@ -232,7 +232,8 @@
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
                                        :propernoun propernoun
-                                       :sem {:number number-agreement}}
+                                       :sem {:mod {:pred :top}
+                                             :number number-agreement}}
                               :head {:phrasal true
                                      :synsem {:propernoun propernoun}}}))
 ;                   (unify-check h10

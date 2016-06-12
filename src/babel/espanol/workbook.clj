@@ -3,12 +3,13 @@
   (:require
    [babel.engine :as engine]
 
-   [babel.generate :refer [lightning-bolt]]
+   [babel.espanol :refer [generate parse]]
    [babel.espanol.grammar :refer [small medium]]
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph :refer [fo]]
    [babel.espanol.writer :refer [expression]]
 
+   [babel.generate :refer [lightning-bolts]]
    [babel.html :as html]
    [babel.korma :as korma]
    [babel.over :as over]
@@ -28,26 +29,8 @@
    [hiccup.core :refer [html]]
 ))
 
-(defn generate
-  ([spec]
-   (engine/generate spec medium))
-  ([spec model]
-   (engine/generate spec model)))
-
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))
-
-(defn parse
-  ([string]
-   (parse/parse string
-                (:lexicon medium)
-                (:lookup medium)
-                (:grammar medium)))
-  ([string model]
-   (parse/parse string
-                (:lexicon model)
-                (:lookup model)
-                (:grammar model))))
 
 (defn expr [id]
   (reader/id2expression (Integer. id)))

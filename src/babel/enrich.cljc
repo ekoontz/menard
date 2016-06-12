@@ -10,7 +10,6 @@
 (declare matching-comp-lexemes)
 (declare matching-head-lexemes)
 
-;; TODO: these rules are language-specific, so move all of this to italiano/writer (similar to what we did with French).
 (defn enrich [spec lexicon]
   (let [pred (get-in spec [:synsem :sem :pred] :top)]
     (log/debug (str "against-pred with spec: " spec " and pred: " pred))

@@ -127,6 +127,14 @@
                                   (is (not (= "" (fo foo))))
                                   (log/info (str "fo: " (fo foo)))
                                   (fo foo)))))))))
+
+(deftest mod-is-empty-list
+  (let [result (generate {:synsem {:sem {:pred :name
+                                         :mod '()}}})]
+    (is (= (get-in result [:synsem :sem :mod]
+                   :undefined-should-not-return-this)
+           '()))))
+
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
          (fo (generate {:modified false

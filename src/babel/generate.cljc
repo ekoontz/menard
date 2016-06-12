@@ -78,7 +78,7 @@
   (log/trace (str "generate-all: generating from spec with cat "
                   (get-in spec [:synsem :cat])))
   (log/debug (str "generate-all:"
-                  (strip-refs spec) "^" total-depth))
+                  (strip-refs (get-in spec [:synsem :cat])) "^" total-depth))
   
   (let [total-depth (if total-depth total-depth 0)]
     (->
@@ -103,9 +103,8 @@
       (add-all-comps-with-paths
        (lazy-mapcat
         (fn [bolt]
-          (log/debug (str "+comps: '" ((:morph language-model) bolt) "'@"
-                          "[" (string/join " " path) "]"
-                          "^" total-depth))
+          (log/debug (str "add-all-comps-with-paths: " (show-bolt bolt path language-model)
+                          "@[" (string/join " " path) "]" "^" total-depth))
           (add-complement-to-bolt bolt path
                                   language-model (+ total-depth (count path))
                                   :max-total-depth max-total-depth))
@@ -123,8 +122,8 @@
 (defn add-complement-to-bolt [bolt path language-model total-depth
                               & {:keys [max-total-depth]
                                  :or {max-total-depth max-total-depth}}]
-  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model) "@"
-                  "[" (string/join " " path) "]" "^" total-depth))
+  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model)
+                  "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
         lexicon (:lexicon language-model)
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.

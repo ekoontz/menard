@@ -131,9 +131,11 @@
   (is (= "her name is Luisa"
          (fo (generate {:modified false
                         :synsem {:cat :verb
-                                 :sem {:pred :be-called
-                                       :subj {:pred :lei}
-                                       :obj {:pred :luisa}}}})))))
+                                 :sem {:mod '()
+                                       :obj {:pred :luisa}
+                                       :pred :be-called
+                                       :subj {:pred :lei}}}})))))
+                                       
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
 

@@ -1333,11 +1333,12 @@
      {:synsem {:agr agr
                :cat :noun
                :sem {:pred :name
+                     :mod '()
                      :subj of}
                :subcat {:1 {:agr agr
                             :cat :det
                             :def :possessive
-                            :sem of}}}})
+                            :sem {:of of}}}}})
 
    "new" {:synsem {:cat :adjective
                    :sem {:mod {:pred :new}

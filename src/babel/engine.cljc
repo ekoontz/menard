@@ -81,15 +81,18 @@
         check-for-empty-spec (if (empty? spec)
                                (do (log/error (str "post-enrich spec is empty!"))
                                    (exception (str "post-enrich spec is empty!"))))
-
         debug (if (seq? spec)
                 (count
                  (map #(log/debug (str "post-enrich spec: " %))
                       spec))
                 (log/debug (str "post-enrich spec: " spec)))]
-    (generate/generate spec language-model
-                       :truncate-children truncate-children
-                       :max-total-depth max-total-depth)))
+    (first (map (fn [each-spec]
+                  (generate/generate each-spec language-model
+                                     :truncate-children truncate-children
+                                     :max-total-depth max-total-depth))
+                (if (or (seq? spec) (vector? spec))
+                  spec
+                  [spec])))))
 
 #?(:clj
 (defn generate-from-request [request]

@@ -187,11 +187,17 @@
                                (empty? phrasal-complements))
                           (let [cat (get-in spec [:synsem :cat] :top)
                                 pred (get-in spec [:synsem :sem :pred] :top)
-                                subcat1-cat (get-in spec [:synsem :subcat :1 :cat] :none)
-                                subcat1-pred (get-in spec [:synsem :subcat :1 :sem :pred] :none)]
-                            (log/warn (str "failed to generate both phrasal or lexical complements for rule: "
+                                subcat1-cat
+                                (if (empty? (get-in spec [:synsem :subcat]))
+                                  "(empty)"
+                                  (get-in spec [:synsem :subcat :1 :cat] :no-cat))
+                                subcat1-pred
+                                (if (empty? (get-in spec [:synsem :subcat]))
+                                  "(empty)"
+                                  (get-in spec [:synsem :subcat :1 :sem :pred] :no-pred))]
+                            (log/warn (str "could generate neither phrasal nor lexical complements for parent: "
                                            (get-in bolt (concat (butlast path) [:rule]) :norule-wtf) " "
-                                           "with "
+                                           "with complement having: "
                                            "cat: " cat "; " 
                                            "pred: " pred "; " 
                                            "subcat1 cat: " subcat1-cat "; " 

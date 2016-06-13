@@ -85,6 +85,14 @@
 (deftest forbid-mispelling
  (is (empty? (:parses (parse (fo "la donna difficila") np-grammar)))))
 
+(deftest generate-and-parse-noun-phrase-with-specifier
+  ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
+  ;; might be anything.
+  (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}} np-grammar)]
+    (is (not (= "" (fo result))))
+    (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
+    (is (not (empty? (parse (fo result)))))))
+
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
 ;; <roundtrip parsing tests>

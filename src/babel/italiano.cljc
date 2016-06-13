@@ -105,38 +105,59 @@
   [parent child1 child2]
   (over/over parent child1 child2))
 
+(defn preprocess [input]
+  "arbitrary regexp replacements to convert Italian orthography into a parsable whitespace-delimited expression"
+  (let [processed
+        (string/join
+         " "
+         (map string/lower-case
+              (->
+               input
+               (string/replace #","   "")
+               (string/replace #"\."   "")
+               (string/replace #"\s+" " ")
+               (string/split #" "))))]
+    (log/debug (str "preprocess: " input " -> " processed))
+    processed))
+
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse input medium))
+   (let [input (preprocess input)]
+     (parse input medium)))
 
   ([input model]
-   (cond (string? input)
-         (map (fn [tokenization]
-                {:tokens tokenization
-                 :input input
-                 :parses (parse tokenization model input)})
-              (analyze-tokens (string/trim input)))
+   (let [input (preprocess input)]
+     (cond (string? input)
+           (map (fn [tokenization]
+                  {:tokens tokenization
+                   :input input
+                   :parses (parse tokenization model input)})
+                (analyze-tokens (string/trim input)))
 
-         (or (seq? input) (vector? input))
-         (parse/parse input model)
+           (or (seq? input) (vector? input))
+           (parse/parse input model)
         
-         true
-         (str "don't know how to parse input: " (type input))))
+           true
+           (str "don't know how to parse input: " (type input)))))
 
   ([input model original-input]
-   (cond (string? input)
-         (map (fn [tokenization]
-                {:tokens tokenization
-                 :parses (parse tokenization model input)})
-              (analyze-tokens (string/trim input)))
+   (let [input (if (string? input)
+                 (preprocess input)
+                 input)]
+     (cond (string? input)
+           (map (fn [tokenization]
+                  {:tokens tokenization
+                   :parses (parse tokenization model input)})
+                (analyze-tokens (string/trim input)))
 
-         (or (seq? input) (vector? input))
-         (parse/parse input model original-input)
+           (or (seq? input) (vector? input))
+           (parse/parse input model original-input)
         
-         true
-         (str "don't know how to parse input: " (type input)))))
+           true
+           (str "don't know how to parse input: " (type input))))))
+
 
 
     

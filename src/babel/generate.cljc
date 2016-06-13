@@ -185,8 +185,17 @@
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (log/warn (str "failed to generate both phrasal or lexical complements with spec: "
-                                         (strip-refs spec)))
+                          (let [cat (get-in spec [:synsem :cat] :top)
+                                pred (get-in spec [:synsem :sem :pred] :top)
+                                subcat1-cat (get-in spec [:synsem :subcat :1 :cat] :none)
+                                subcat1-pred (get-in spec [:synsem :subcat :1 :sem :pred] :none)]
+                            (log/warn (str "failed to generate both phrasal or lexical complements for rule: "
+                                           (get-in bolt (concat (butlast path) [:rule]) :norule-wtf) " "
+                                           "with "
+                                           "cat: " cat "; " 
+                                           "pred: " pred "; " 
+                                           "subcat1 cat: " subcat1-cat "; " 
+                                           "subcat1 pred: " subcat1-pred)))
 
                           lexemes-before-phrases
                           (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)

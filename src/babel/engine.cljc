@@ -41,15 +41,14 @@
                                             do-enrich true
                                             max-total-depth generate/max-total-depth
                                             truncate-children true}}]
-  (log/debug (str "engine/generate with spec " (strip-refs spec) " and max-total-depth: " max-total-depth))
+  (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; enrich: " do-enrich))
   (let [grammar (:grammar language-model)]
     (if (empty? grammar)
       (do
         (log/error (str "grammar is empty."))
         (exception (str "grammar is empty.")))))
 
-  (let [do-enrich (if do-enrich do-enrich true)
-        spec (if (or (= false add-subcat)
+  (let [spec (if (or (= false add-subcat)
                      (fail? (unify spec {:synsem {:subcat '()}}))
                      (not (= :none (get-in spec [:synsem :subcat] :none))))
                spec
@@ -64,7 +63,7 @@
         lexicon (if (get-in language-model [:generate :lexicon])
                   (get-in language-model [:generate :lexicon])
                   (get-in language-model [:lexicon]))
-        
+
         post-enrich-spec (if (and do-enrich (:enrich language-model))
                            ((:enrich language-model)
                             spec
@@ -85,7 +84,8 @@
                 (count
                  (map #(log/debug (str "post-enrich spec: " %))
                       spec))
-                (log/debug (str "post-enrich spec: " spec)))]
+                (log/debug (str "post-enrich spec: " spec)))
+        ]
     (first (map (fn [each-spec]
                   (generate/generate each-spec language-model
                                      :truncate-children truncate-children

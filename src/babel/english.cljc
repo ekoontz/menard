@@ -8,11 +8,11 @@
                                   small-lexicon small-plus-vp-pronoun
                                   small-plus-plus-np]]
    [babel.english.morphology :as morph :refer [fo]]
-   #?(:cljs [babel.logjs :as log])
    [babel.over :refer [over]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
+   #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs

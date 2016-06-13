@@ -344,7 +344,7 @@
     (is (not (empty? (mapcat :parses result))))))
 
 (deftest parse-long-sentence
-  (let [result (parse "dopo ventotto anni ostana ha un cittadino neonato")]
+  (let [result (parse "Dopo ventotto anni, Ostana ha un cittadino neonato.")]
     (is (not (empty? (mapcat :parses result))))
     (is (not (nil?
               (some

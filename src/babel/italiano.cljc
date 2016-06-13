@@ -7,6 +7,8 @@
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.over :as over]
    [babel.parse :as parse]
+   #?(:clj [clojure.tools.logging :as log])
+   #?(:cljs [babel.logjs :as log])
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
    [dag_unify.core :refer (fail-path-between get-in strip-refs unifyc)]))
@@ -77,7 +79,9 @@
        (conj {:surface (fo result)}
              result))))
   ([spec model]
-   (let [result (engine/generate spec model)]
+   (let [result (engine/generate spec model
+                                 ;; TODO: why is this needed: remove (if possible) this override of :do-enrich.
+                                 :do-enrich false)] 
      (if result
        (conj {:surface (fo result)}
              result)))))

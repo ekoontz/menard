@@ -273,7 +273,7 @@
 ;                                    :cat :prep}}}
 ;              :note "andare-pp"}))))
 
-   "anno" {:synsem {:agr {:gender :noun}
+   "anno" {:synsem {:agr {:gender :masc}
                     :cat :noun
                     :sem {:pred :year
                           :time true}}}

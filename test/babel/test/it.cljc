@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.italiano :refer [analyze generate lightning-bolts parse]]
+   [babel.italiano :refer [analyze generate lightning-bolts parse preprocess]]
    [babel.italiano.grammar :as grammar :refer [small medium np-grammar]]
    [babel.italiano.lexicon :refer [lexicon]]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
@@ -343,6 +343,11 @@
   (let [result (parse "io dormo a casa")]
     (is (not (empty? (mapcat :parses result))))))
 
+
+(deftest preprocess-test
+  (is (= (preprocess "Dopo ventotto anni, Ostana ha un cittadino neonato.")
+         (preprocess "dopo ventotto anni ostana ha un cittadino neonato")
+         "dopo ventotto anni ostana ha un cittadino neonato")))
 
 (deftest parse-long-sentence
   (let [result (parse "dopo ventotto anni ostana ha un cittadino neonato")]

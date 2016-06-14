@@ -192,7 +192,7 @@
                                                      (= true (get-in spec [:phrasal] true)))
                                               (generate-all spec language-model (+ (count path) total-depth)
                                                             :max-total-depth max-total-depth))
-                        lexemes-before-phrases (lexemes-before-phrases total-depth)]
+                        lexemes-before-phrases (lexemes-before-phrases total-depth max-total-depth)]
                     (cond (and lexemes-before-phrases
                                (empty? filtered-lexical-complements)
                                (= false (get-in spec [:phrasal] true)))
@@ -269,7 +269,7 @@ of this function with complements."
             (do
               (log/debug (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
               nil))]
-      (if (lexemes-before-phrases total-depth)
+      (if (lexemes-before-phrases total-depth max-total-depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
 
@@ -393,12 +393,14 @@ of this function with complements."
       {feat (path-to-map (rest path) val)}
       val)))
 
-(defn lexemes-before-phrases [depth]
+(defn lexemes-before-phrases [depth max-total-depth]
   "returns true or false: true means generate by adding lexemes first; otherwise, by adding phrases first. Takes depth as an argument, which makes returning true (i.e. lexemes first) increasingly likely as depth increases."
   (if (not randomize-lexemes-before-phrases)
     false
     (if (> max-total-depth 0)
-      (let [prob (- 1.0 (/ (- max-total-depth depth) max-total-depth))]
+      (let [prob (- 1.0 (/ (- max-total-depth depth)
+                           max-total-depth))]
+        (log/trace (str "P(c," depth ") = " prob " (c: probablity of choosing lexemes rather than phrases given a depth)."))
         (> (* 10 prob) (rand-int 10)))
       false)))
 

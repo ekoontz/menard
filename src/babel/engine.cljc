@@ -33,7 +33,6 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-;; TODO: use a option map/destructuring thing.
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 ;; TODO: this should just call (take 1 (generate-all ..))
 (defn generate [spec language-model & {:keys [add-subcat do-enrich max-total-depth truncate-children]

@@ -69,6 +69,7 @@
 (declare candidate-parents)
 (declare lazy-shuffle)
 (declare find-comp-paths-in)
+(declare bolt-depth)
 (declare add-all-comps)
 (declare add-all-comps-with-paths)
 
@@ -95,8 +96,9 @@
   (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
   (lazy-mapcat
    (fn [bolt]
+     (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
      (add-all-comps-with-paths [bolt] language-model total-depth
-                               (find-comp-paths-in bolt [:head])
+                               (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
    bolts))
 
@@ -127,11 +129,30 @@
     (cons (vec (concat (butlast path) [:comp]))
           (find-comp-paths-in bolt (concat path [:head])))))
 
+(defn bolt-depth [bolt]
+  (if-let [head (get-in bolt [:head] nil)]
+    (+ 1 (bolt-depth head))
+    0))
+
+(defn find-comp-paths-in [depth]
+  (cond
+    ;; most-frequent cases done statically:
+    (= 0 depth) nil
+    (= 1 depth) [[:comp]]
+    (= 2 depth) [[:head :comp][:comp]]
+    (= 3 depth) [[:head :head :comp][:head :comp][:comp]]
+    (= 4 depth) [[:head :head :head :comp][:head :head :comp][:head :comp][:comp]]
+
+    ;; 
+    true
+    (cons (vec (concat (take (- depth 1) (repeatedly (fn [] :head))) [:comp]))
+          (find-comp-paths-in (- depth 1)))))
+
 (defn add-complement-to-bolt [bolt path language-model total-depth
                               & {:keys [max-total-depth truncate-children]
                                  :or {max-total-depth max-total-depth
                                       truncate-children true}}]
-  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model)
+  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
         lexicon (if (-> :generate :lexicon language-model)
@@ -167,7 +188,7 @@
                          (truncate unified [path])
                          unified)))
                   (let [debug (log/trace (str "add-complement-to-bolt(total-depth=" total-depth
-                                              ",path=" path ",bolt=(" (show-bolt bolt path language-model)
+                                              ",path=" path ",bolt=(" (show-bolt bolt language-model)
                                               "): calling generate-all(" (strip-refs spec) ");"
                                               "spec: " spec))
                         phrasal-complements (if (and (> max-total-depth total-depth)
@@ -189,7 +210,7 @@
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for parent: "
+                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for bolt:" (show-bolt bolt language-model) "; immediate parent: "
                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
                                           "while trying to create a complement: " (spec-info spec)))
 
@@ -220,7 +241,7 @@ of this function with complements."
   (log/info (str "lightning-bolts(depth=" depth
                  "; total-depth=" total-depth
                  "; max-total-depth=" max-total-depth
-                 "; spec info:" (spec-info spec)))
+                 "; spec info:" (spec-info spec) ")"))
   (let [morph (:morph language-model)
         grammar (:grammar language-model)
         index (:index language-model)
@@ -381,19 +402,18 @@ of this function with complements."
         (> (* 10 prob) (rand-int 10)))
       false)))
 
-(defn show-bolt [bolt path language-model]
+(defn show-bolt [bolt language-model]
   (if (nil? bolt)
     (exception (str "don't call show-bolt with bolt=null."))
     (let [morph (:morph language-model)]
       (if (nil? morph)
         (exception (str "don't call show-bolt with morph=null."))
-        (if (not (empty? path))
-          (str "[" (get-in bolt [:rule])
-               " '" (morph-with-recovery morph bolt) "'"
-               (let [head-bolt (get-in bolt [:head])]
-                 (if (not (nil? head-bolt))
-                   (let [rest-str (show-bolt (get-in bolt [:head]) (rest path) language-model)]
-                     (if (not (nil? rest-str))
-                       (str " -> " rest-str)))))
-               "]"))))))
+        (str "[" (get-in bolt [:rule])
+             " '" (morph-with-recovery morph bolt) "'"
+             (let [head-bolt (get-in bolt [:head])]
+               (if (not (nil? head-bolt))
+                 (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
+                   (if (not (nil? rest-str))
+                     (str " -> " rest-str)))))
+             "]")))))
 

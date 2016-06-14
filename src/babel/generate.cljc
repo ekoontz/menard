@@ -108,13 +108,13 @@
       (add-all-comps-with-paths
        (lazy-mapcat
         (fn [bolt]
-          (log/debug (str "add-all-comps-with-paths: " (show-bolt bolt path language-model)
+          (log/info (str "add-all-comps-with-paths: " (show-bolt bolt path language-model)
                           "@[" (string/join " " path) "]" "^" total-depth))
           (add-complement-to-bolt bolt path
                                   language-model (+ total-depth (count path))
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children))
-        bolts)
+        (take 1 bolts))
        language-model
        total-depth
        (rest comp-paths)

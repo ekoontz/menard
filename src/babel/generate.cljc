@@ -325,7 +325,7 @@ of this function with complements."
       false)))
 
 (defn truncate [input truncate-paths language-model]
-  (log/info (str "truncating " (show-bolt input language-model) " with paths: " truncate-paths))
+  (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
   (let [serialized (if (:serialized input)
                      (:serialized input)
                      (serialize input))

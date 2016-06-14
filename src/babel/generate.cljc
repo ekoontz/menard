@@ -32,6 +32,7 @@
 (declare generate-all)
 (declare path-to-map)
 (declare show-bolt)
+(declare spec-info)
 (declare truncate)
 (declare truncate-expressions)
 

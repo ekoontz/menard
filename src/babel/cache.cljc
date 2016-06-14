@@ -104,34 +104,34 @@
     {}))
 
 ;; TODO: spec is not used yet; add support for it.
-(defn get-lex [schema head-or-comp cache spec]
-  "return the subset of the whole lexicon that can be added either as a head (head-or-comp=:head) or as a comp (head-or-comp=:comp)."
-  (log/debug (str "get-lex:" schema))
-  (if (nil? schema)
+(defn get-lex [parent head-or-comp cache spec]
+  "return the subset of the whole lexicon that can be added to _parent_ either as a head (head-or-comp=:head) or as a comp (head-or-comp=:comp)."
+  (log/debug (str "get-lex:" parent))
+  (if (nil? parent)
     #{}
     (do
-      (log/debug (str "get-lex: " (get-in schema [:rule]) " ; head-or-comp:" head-or-comp))
-      (if (not (map? schema))
-        (throw (exception (str "first arguments should have been a map, but instead was of type: " (type schema) "; schema: " schema))))
-      (log/trace (str "get-lex schema: " (get-in schema [:rule]) " for: " head-or-comp))
-      (if (nil? (get-in schema [:rule]))
-        (throw (exception (str "no schema for: " schema))))
+      (log/debug (str "get-lex: " (get-in parent [:rule]) " ; head-or-comp:" head-or-comp))
+      (if (not (map? parent))
+        (throw (exception (str "first arguments should have been a map, but instead was of type: " (type parent) "; parent: " parent))))
+      (log/trace (str "get-lex parent: " (get-in parent [:rule]) " for: " head-or-comp))
+      (if (nil? (get-in parent [:rule]))
+        (throw (exception (str "no parent for: " parent))))
       (let [result (cond (= :head head-or-comp)
                          (if (and (= :head head-or-comp)
-                                  (not (nil? (:head (get cache (get-in schema [:rule]))))))
+                                  (not (nil? (:head (get cache (get-in parent [:rule]))))))
                            (do
-                             (log/trace (str "get-lex hit: head for schema: " (get-in schema [:rule])))
-                             (:head (get cache (get-in schema [:rule]))))
+                             (log/trace (str "get-lex hit: head for parent: " (get-in parent [:rule])))
+                             (:head (get cache (get-in parent [:rule]))))
 
-                           (do (log/warn (str "CACHE MISS 1 for rule: " (get-in schema [:rule]) " h/c: " head-or-comp " :: cache:" (type cache)))
+                           (do (log/warn (str "CACHE MISS 1 for rule: " (get-in parent [:rule]) " h/c: " head-or-comp " :: cache:" (type cache)))
                                #{}))
 
                          (= :comp head-or-comp)
                          (if (and (= :comp head-or-comp)
-                                  (not (nil? (:comp (get cache (get-in schema [:rule]))))))
+                                  (not (nil? (:comp (get cache (get-in parent [:rule]))))))
                            (do
-                             (log/trace (str "get-lex hit: comp for schema: " (get-in schema [:rule])))
-                             (:comp (get cache (get-in schema [:rule]))))
+                             (log/trace (str "get-lex hit: comp for parent: " (get-in parent [:rule])))
+                             (:comp (get cache (get-in parent [:rule]))))
                            (do
                              (log/warn (str "CACHE MISS 2"))
                              nil))

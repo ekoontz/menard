@@ -35,6 +35,7 @@
 
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 ;; TODO: this should just call (take 1 (generate-all ..))
+;;(fo (generate :top medium {:max-total-depth 2}))
 (defn generate [spec language-model & {:keys [add-subcat do-enrich max-total-depth truncate-children]
                                        :or {add-subcat true
                                             do-enrich true

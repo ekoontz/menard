@@ -259,7 +259,8 @@
          last-stem-char (re-find #".$" stem)
          last-stem-char-is-e (re-find #"e$" stem)]
      ;; remove final "e", if any, before adding "e": e.g. "write" => "writing"
-     (let [stem (if (and last-stem-char-is-e
+     (let [root stem ;; save this since we don't remove final 'e' for "used to" form.
+           stem (if (and last-stem-char-is-e
                          (> (.length stem) 2) ;; don't apply this to "be".
                          (not penultimate-stem-char-is-vowel))
                   stem-minus-one
@@ -267,7 +268,7 @@
 
 
            ;; unless overridden by :participle or :participle-suffix below,
-           ;; ing-form will be used.
+           ;; ing-form or used-to-form (chosen randomly) will be used.
            ing-form 
            (cond
 
@@ -277,7 +278,15 @@
             true
             (str stem "ing"))
 
+           used-to-form
+           (str "used to " root)
+           
            ]
+
+       (cond (= 0 (rand-int 2))
+             used-to-form
+
+             true
        (cond
 
         ;; TODO: add support for per-agreement (by number or person) irregular participle;
@@ -310,7 +319,7 @@
         (str "was " ing-form (if to-final to-final ""))
 
         true
-        (str "were " ing-form (if to-final to-final "")))))
+        (str "were " ing-form (if to-final to-final ""))))))
 
    ;; irregular past (1): a single inflection for all persons/numbers.
    (and (= :past (get-in word '(:infl)))

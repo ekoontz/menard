@@ -109,8 +109,10 @@
                    :agr {:person :2nd, :gender
                          :fem, :number
                          :plur}}}}]
-    (is (= (fo form)
-           "you all were going downstairs"))))
+    (is (or (= (fo form)
+               "you all were going downstairs")
+            (= (fo form)
+               "you all used to go downstairs")))))
 
 (deftest simple-parse
   (is (not (empty? (parse "she sleeps")))))

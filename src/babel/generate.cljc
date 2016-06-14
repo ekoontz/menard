@@ -116,7 +116,7 @@
                                   language-model (+ total-depth (count path))
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children))
-        (take 1 bolts))
+        bolts)
        language-model
        total-depth
        (rest comp-paths)

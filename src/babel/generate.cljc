@@ -233,7 +233,7 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/info (str "lightning-bolts(depth=" depth
+  (log/debug (str "lightning-bolts(depth=" depth
                  "; total-depth=" total-depth
                  "; max-total-depth=" max-total-depth
                  "; spec info:" (spec-info spec) ")"))
@@ -263,7 +263,7 @@ of this function with complements."
                                                         :max-total-depth max-total-depth)))
                          parents)
             (do
-              (log/info (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
+              (log/debug (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
               nil))]
       (if (lexemes-before-phrases total-depth)
         (lazy-cat lexical phrasal)

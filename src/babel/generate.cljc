@@ -18,6 +18,7 @@
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; should also be possible to override per-language.
 (def ^:const max-total-depth 20)
+(def ^:const max-generated-complements 100)
 
 ;; use map or pmap.
 (def ^:const mapfn map)
@@ -170,9 +171,10 @@
                                        (unifyc (get-in child [:synsem] :top)
                                                (get-in child-in-bolt [:synsem] :top))))))
 
-        filtered-lexical-complements (filter (fn [lexeme]
-                                               (complement-pre-check lexeme bolt path))
-                                             complement-candidate-lexemes)]
+        filtered-lexical-complements (lazy-shuffle
+                                      (filter (fn [lexeme]
+                                                (complement-pre-check lexeme bolt path))
+                                              complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]
                      (let [unified
@@ -205,15 +207,17 @@
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for bolt:" (show-bolt bolt language-model) "; immediate parent: "
+                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal "
+                                         "nor lexical complements for "
+                                         "bolt:" (show-bolt bolt language-model) "; immediate parent: "
                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
                                           "while trying to create a complement: " (spec-info spec)))
 
                           lexemes-before-phrases
-                          (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)
-
+                          (take max-generated-complements
+                                (lazy-cat filtered-lexical-complements phrasal-complements))
                           true
-                          (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
+                          (take max-generated-complements (lazy-cat phrasal-complements filtered-lexical-complements))))))))
 
 (defn spec-info [spec]
   "give a human-readable summary of _spec_."

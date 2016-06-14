@@ -196,9 +196,9 @@
                                 (if (empty? (get-in spec [:synsem :subcat]))
                                   "(empty)"
                                   (get-in spec [:synsem :subcat :1 :sem :pred] :no-pred))]
-                            (log/warn (str "could generate neither phrasal nor lexical complements for parent: "
-                                           (get-in bolt (concat (butlast path) [:rule]) :norule-wtf) " "
-                                           "with complement having: "
+                            (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for parent: "
+                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
+                                           "while trying to create a complement with:"
                                            "cat: " cat "; " 
                                            "pred: " pred "; " 
                                            "subcat1 cat: " subcat1-cat "; " 
@@ -210,6 +210,17 @@
                           true
                           (lazy-cat phrasal-complements (lazy-shuffle filtered-lexical-complements))))))))
 
+(defn spec-info [spec]
+  "give a human-readable summary of _spec_."
+  (merge
+   (if-let [cat (get-in spec [:synsem :cat] :top)]
+     {:cat cat})
+   (if-let [pred (get-in spec [:synsem :sem :pred] :top)]
+     {:pred pred})
+   (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
+                      (get-in spec [:synsem :subcat :1 :cat]))]
+     {:subcat1 subcat1})))
+
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
@@ -217,12 +228,18 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/trace (str "lightning-bolts(depth=" depth "; total-depth=" total-depth "; cat=" (get-in spec [:synsem :cat]) "; spec=" (strip-refs spec) ")"))
+  (log/info (str "lightning-bolts(depth=" depth
+                 "; total-depth=" total-depth
+                 "; max-total-depth=" max-total-depth
+                 "; spec info:" (spec-info spec)))
   (let [morph (:morph language-model)
         grammar (:grammar language-model)
         index (:index language-model)
         morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
-        depth (if depth depth 0)        
+        depth (if depth depth 0)
+        ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
+        ;; total-depth, on the other hand, is the depth all the way to the top of the entire
+        ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (lazy-mapcat (fn [parent]

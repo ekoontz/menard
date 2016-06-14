@@ -582,7 +582,7 @@
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
 
 (def medium
   ;; TODO: remove parse-lexicon.
@@ -610,7 +610,7 @@
      :enrich enrich
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :language "it"
      :language-keyword :italiano
      :lexicon lexicon

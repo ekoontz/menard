@@ -124,11 +124,6 @@
        max-total-depth))
     bolts))
 
-(defn find-comp-paths-in [bolt path]
-  (if (not (= (get-in bolt path :none) :none))
-    (cons (vec (concat (butlast path) [:comp]))
-          (find-comp-paths-in bolt (concat path [:head])))))
-
 (defn bolt-depth [bolt]
   (if-let [head (get-in bolt [:head] nil)]
     (+ 1 (bolt-depth head))

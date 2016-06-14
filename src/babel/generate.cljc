@@ -187,23 +187,9 @@
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (let [cat (get-in spec [:synsem :cat] :top)
-                                pred (get-in spec [:synsem :sem :pred] :top)
-                                subcat1-cat
-                                (if (empty? (get-in spec [:synsem :subcat]))
-                                  "(empty)"
-                                  (get-in spec [:synsem :subcat :1 :cat] :no-cat))
-                                subcat1-pred
-                                (if (empty? (get-in spec [:synsem :subcat]))
-                                  "(empty)"
-                                  (get-in spec [:synsem :subcat :1 :sem :pred] :no-pred))]
-                            (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for parent: "
-                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
-                                           "while trying to create a complement with:"
-                                           "cat: " cat "; " 
-                                           "pred: " pred "; " 
-                                           "subcat1 cat: " subcat1-cat "; " 
-                                           "subcat1 pred: " subcat1-pred)))
+                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal nor lexical complements for parent: "
+                                          (get-in bolt (concat (butlast path) [:rule]) :norule) " "
+                                          "while trying to create a complement: " (spec-info spec)))
 
                           lexemes-before-phrases
                           (lazy-cat (lazy-shuffle filtered-lexical-complements) phrasal-complements)

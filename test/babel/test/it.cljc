@@ -40,7 +40,8 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         small)]
+                         small
+                         {:do-enrich false})]
     (is (= "io sono" (fo result)))))
 
 (deftest passato-prossimo

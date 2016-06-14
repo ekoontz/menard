@@ -378,9 +378,3 @@
                (map (fn [parse]
                       (get-in parse [:synsem :sem]))
                     (mapcat :parses result))))))))
-
-
-               
-         
-
-

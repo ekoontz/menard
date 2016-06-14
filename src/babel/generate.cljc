@@ -87,7 +87,7 @@
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth true max-total-depth)
-       (truncate-expressions [[:head]]))
+       (truncate-expressions [[:head]] language-model))
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
@@ -180,7 +180,7 @@
                                   (path-to-map path
                                                (copy complement)))]
                        (if truncate-children
-                         (truncate unified [path])
+                         (truncate unified [path] language-model)
                          unified)))
                   (let [debug (log/trace (str "add-complement-to-bolt(total-depth=" total-depth
                                               ",path=" path ",bolt=(" (show-bolt bolt language-model)
@@ -320,7 +320,8 @@ of this function with complements."
                 (rest path2))
       false)))
 
-(defn truncate [input truncate-paths]
+(defn truncate [input truncate-paths language-model]
+  (log/info (str "truncating " (show-bolt input language-model) " with paths: " truncate-paths))
   (let [serialized (if (:serialized input)
                      (:serialized input)
                      (serialize input))
@@ -343,8 +344,8 @@ of this function with complements."
                       path-vals))]
     (deserialize truncated-serialized)))
 
-(defn truncate-expressions [expressions truncate-paths]
-  (map #(truncate % truncate-paths)
+(defn truncate-expressions [expressions truncate-paths language-model]
+  (map #(truncate % truncate-paths language-model)
        expressions))
 
 ;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html

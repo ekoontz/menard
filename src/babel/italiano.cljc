@@ -69,12 +69,14 @@
 
 (defn generate
   [spec & [model
-           {:keys [max-total-depth truncate-children]
-            :or {max-total-depth generate/max-total-depth
+           {:keys [do-enrich max-total-depth truncate-children]
+            :or {do-enrich true
+                 max-total-depth generate/max-total-depth
                  truncate-children true}}]]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [model (if model model medium)]
     (let [result (engine/generate spec model
+                                  :do-enrich do-enrich
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children)]
       (if result

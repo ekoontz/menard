@@ -68,23 +68,18 @@
    (morph/analyze surface-form lexicon)))
 
 (defn generate
-  ([]
-   (let [result (engine/generate :top medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec]
-   (let [result (engine/generate spec medium)]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec model]
-   (let [result (engine/generate spec model
-                                 ;; TODO: why is this needed: remove (if possible) this override of :do-enrich.
-                                 :do-enrich false)] 
-     (if result
-       (conj {:surface (fo result)}
-             result)))))
+  [spec & [model
+           {:keys [max-total-depth model truncate-children]
+            :or {max-total-depth generate/max-total-depth
+                 truncate-children true}}]]
+  (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
+  (let [model (if model model medium)]
+    (let [result (engine/generate spec model
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate-children)]
+      (if result
+        (conj {:surface (fo result)}
+              result)))))
 
 (defn lightning-bolts [spec]
   (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))

@@ -84,22 +84,22 @@
     (if truncate-children
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth true)
+       (add-all-comps language-model total-depth true max-total-depth)
        (truncate-expressions [[:head]]))
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth false)))))
+       (add-all-comps language-model total-depth false max-total-depth)))))
 
-(defn add-all-comps [bolts language-model total-depth truncate-children]
+(defn add-all-comps [bolts language-model total-depth truncate-children max-total-depth]
   (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
   (lazy-mapcat
    (fn [bolt]
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in bolt [:head])
-                               truncate-children))
+                               truncate-children max-total-depth))
    bolts))
 
-(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children]
+(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
   (log/trace (str "add-all-comps-with-paths with (empty? bolts): "
                   (empty? bolts)))
   (if (not (empty? comp-paths))
@@ -117,7 +117,8 @@
        language-model
        total-depth
        (rest comp-paths)
-       truncate-children))
+       truncate-children
+       max-total-depth))
     bolts))
 
 (defn find-comp-paths-in [bolt path]
@@ -231,7 +232,7 @@ of this function with complements."
                                      (over/overh parent (mapfn copy (shuffle candidate-lexemes)))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          (if (and (< depth max-total-depth)
+          (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
             (lazy-mapcat (fn [parent]
                            (over/overh parent

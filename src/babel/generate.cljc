@@ -134,7 +134,9 @@
   (log/debug (str "add-complement-to-bolt: " (show-bolt bolt path language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
-        lexicon (:lexicon language-model)
+        lexicon (if (-> :generate :lexicon language-model)
+                  (-> :generate :lexicon language-model)
+                  (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
         spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))

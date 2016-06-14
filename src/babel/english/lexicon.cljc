@@ -1893,21 +1893,22 @@
                :synsem {:cat :verb
                         :sem {:pred :transfer}}}
 
-   "understand" {:english {:past "understood"}
-                 :synsem {:cat :verb
-                          :sem {:pred :understand}}}
-                        
-   "understand (deeply)" {:synsem {:cat :verb
-                                   :sem {:pred :understand-deeply}}
-                          :english {:present {:3sing "understands (deeply)"}
-                                    :past "understood (deeply)"
-                                    :participle "understanding (deeply)"}}                    
-                        
-   "understand (simply)" {:synsem {:cat :verb
-                                   :sem {:pred :understand-simply}}
-                          :english {:present {:3sing "understands (simply)"}
-                                    :past "understood (simply)"
-                                    :participle "understanding (simply)"}}
+   "understand" (let [common {:english {:past "understood"}}]
+                  (unify
+                   common
+                   {:synsem {:cat :verb
+                             :sem {:pred :understand}}})
+                  (unify
+                   common
+                   {:synsem {:cat :verb
+                             :sem {:pred :understand-deeply}}
+                    :english {:note "deeply"}})
+
+                  (unify
+                   common
+                   {:synsem {:cat :verb
+                             :sem {:pred :understand-simply}}
+                    :english {:note "simply"}}))
                            
    "upload"  {:synsem {:cat :verb
                        :sem {:pred :caricare}}}

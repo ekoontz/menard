@@ -11,7 +11,7 @@
 
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; should also be possible to override per-language.
-(def ^:const max-total-depth 15)
+(def ^:const max-total-depth 25)
 
 (defn demo [ & [n spec]]
   (let [demo-specs

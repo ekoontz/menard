@@ -48,7 +48,6 @@
             :or {max-total-depth generate/max-total-depth
                  truncate-children true}}]]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (log/error (str "ESTRUNCO:" truncate-children))
   (let [model (if model model medium)]
     (let [result (engine/generate spec model
                                   :max-total-depth max-total-depth

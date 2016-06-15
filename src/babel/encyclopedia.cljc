@@ -139,6 +139,7 @@ as a map of implications"}
 
    {:pred :car}      {:artifact true
                       :consumable false
+                      :legible false
                       :place false}
 
    {:pred :house}    {:artifact true

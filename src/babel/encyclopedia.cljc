@@ -130,7 +130,9 @@ as a map of implications"}
                       :place false}
    
    {:pred :bicycle}  {:artifact true
-                      :consumable false}
+                      :consumable false
+                      :legible false
+                      :place false}
    
    {:pred :bread}    {:artifact true
                       :edible true}

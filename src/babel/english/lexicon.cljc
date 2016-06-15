@@ -391,7 +391,7 @@
                 :sem {:pred :can}
                 :subcat {:1 modal-subject
                          :2 {:cat :verb
-                             :infl :infinitive
+                             :infl :root ;; note: not :infinitive
                              :subcat {:1 modal-subject
                                       :2 '()}}
                          :3 '()}}})
@@ -941,10 +941,18 @@
              :sem {:pred :hold}}
     :english {:past "held"}}
 
-   "hope"
-   {:synsem {:cat :verb
-             :sem {:pred :hope}}}
-   
+   "hope" (let [common {:synsem {:cat :verb
+                                 :subcat {:1 {:cat :noun
+                                              :sem {:human true}}}}}]
+            [(unify common
+                    {:synsem {:sem {:pred :hope}
+                              :subcat {:2 '()}}}) ;; intransitive
+             (unify common
+                    {:synsem {:sem {:pred :hope}
+                              :subcat {:2 {:cat :comp
+                                           :comp-type :that
+                                           :subcat '()}
+                                       :3 '()}}})])
    "house" {:synsem {:cat :noun
                      :sem {:pred :house}}}
    "hug"

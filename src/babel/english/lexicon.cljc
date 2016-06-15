@@ -1011,6 +1011,7 @@
               :sem {:human true
                     :pred :Juan-and-i}
               :subcat '()}}]        
+
    "Juan and me"
    [{:synsem {:cat :noun
               :pronoun true

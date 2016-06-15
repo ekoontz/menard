@@ -221,14 +221,17 @@
 
 (defn spec-info [spec]
   "give a human-readable summary of _spec_."
-  (merge
-   (if-let [cat (get-in spec [:synsem :cat] :top)]
-     {:cat cat})
-   (if-let [pred (get-in spec [:synsem :sem :pred] :top)]
-     {:pred pred})
-   (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
+  (strip-refs
+   (merge
+    (if-let [cat (get-in spec [:synsem :cat])]
+      {:cat cat})
+    (if-let [pred (get-in spec [:synsem :sem :pred])]
+      {:pred pred})
+    (if-let [agr (get-in spec [:synsem :agr])]
+      {:agr agr})
+    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
                       (get-in spec [:synsem :subcat :1 :cat]))]
-     {:subcat1 subcat1})))
+     {:subcat1 subcat1}))))
 
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]

@@ -55,7 +55,6 @@ as a map of implications"}
                       :physical-object true
                       :place false
                       :speakable false}
-   
    {:consumable
     false}           {:drinkable false
                       :edible false}

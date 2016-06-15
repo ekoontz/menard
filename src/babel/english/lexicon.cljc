@@ -1218,21 +1218,21 @@
   "Luisa and I"
    [{:english {:note "♂"}
      :synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:gender :masc
-                   :person :1st
-                   :number :plur}
-             :sem {:human true
-                   :pred :luisa-and-i}
+              :pronoun true
+              :case :nom
+              :agr {:gender :masc
+                    :person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :luisa-and-i}
              :subcat '()}}
     {:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
-             :agr {:gender :fem
-                   :person :1st
-                   :number :plur}
+              :agr {:gender :fem
+                    :person :1st
+                    :number :plur}
               :sem {:human true
                     :pred :luisa-and-i}
               :subcat '()}}]

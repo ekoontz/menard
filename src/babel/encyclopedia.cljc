@@ -120,18 +120,23 @@ as a map of implications"}
                       :living false
                       :physical-object true
                       :speakable false
-                      :spec {:of {:human true}}}
+                      :spec {:of {:animate true}}}
+   ;; some places could place additional
+   ;; restrictions on owners (e.g. {:human true}).
+
    ;; <preds>
    {:pred :bag}      {:artifact true
                       :consumable false
                       :event false
                       :legible false
-                      :place false}
+                      :place false
+                      :spec {:of {:human true}}}
    
    {:pred :bicycle}  {:artifact true
                       :consumable false
                       :legible false
-                      :place false}
+                      :place false
+                      :spec {:of {:human true}}}
    
    {:pred :bread}    {:artifact true
                       :edible true}

@@ -934,8 +934,8 @@
                     :def :possessive}}]
                  
    "hit" {:english {:past "hit"}
-             :synsem {:cat :verb
-                      :sem {:pred :hit}}}
+          :synsem {:cat :verb
+                   :sem {:pred :hit}}}
    "hold"
    {:synsem {:cat :verb
              :sem {:pred :hold}}

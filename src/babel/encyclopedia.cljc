@@ -151,6 +151,7 @@ as a map of implications"}
                       :consumable false
                       :event false
                       :place false}
+
    {:pred :name}     {:physical-object false
                       :event false}
    

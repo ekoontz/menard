@@ -1015,6 +1015,7 @@
    [{:synsem {:cat :noun
               :pronoun true
               :case :acc
+              :reflexive false
               :agr {:gender :masc
                     :person :1st
                     :number :plur}

@@ -120,8 +120,8 @@ as a map of implications"}
                       :consumable false
                       :living false
                       :physical-object true
-                      :speakable false}
-
+                      :speakable false
+                      :spec {:of {:human true}}}
    ;; <preds>
    {:pred :bag}      {:artifact true
                       :consumable false

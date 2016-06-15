@@ -139,6 +139,11 @@ as a map of implications"}
                       :consumable false
                       :place false}
 
+   {:pred :house}    {:artifact true
+                      :consumable false
+                      :place true
+                      :legible false}
+
    {:pred :key}      {:animate false
                       :consumable false
                       :event false

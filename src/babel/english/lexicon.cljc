@@ -946,9 +946,7 @@
              :sem {:pred :hope}}}
    
    "house" {:synsem {:cat :noun
-                     :sem {:pred :house
-                           :artifact true
-                           :place true}}}
+                     :sem {:pred :house}}}
    "hug"
    {:synsem {:cat :verb
              :sem {:pred :hug

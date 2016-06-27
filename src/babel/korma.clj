@@ -2,6 +2,8 @@
 ;; use a clojure wrapper around JDBC.
 ;; TODO: rename this file - misleading name 'korma.clj'.
 ;; It uses korma, but it is not itself part of korma.
+;; TODO: clean up and remove verbcoach-specific stuff 
+;; (e.g. classes,students,etc).
 (ns babel.korma
   (:refer-clojure :exclude [test update])
   (:require [clj-time.coerce :as c]

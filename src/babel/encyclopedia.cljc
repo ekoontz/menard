@@ -8,6 +8,9 @@ as a map of implications"}
    #?(:clj [clojure.tools.logging :as log])
    [dag_unify.core :refer [strip-refs unify]]))
 
+;; TODO: use clojure.core/isa? and clojure.core/derive where possible
+;; in here, e.g.: (derive ::human ::animal)
+
 (def encyc
   {
    {:activity true}  {:animate false

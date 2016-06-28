@@ -23,6 +23,7 @@ as a map of implications"}
    
    {:animate true}   {:activity false
                       :artifact false
+                      :living true
                       :mass false
                       :furniture false
                       :physical-object true

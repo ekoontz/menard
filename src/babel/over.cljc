@@ -7,10 +7,16 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc]]))
+   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc
+                           ;; temporary: until we move (truncate) from here to dag_unify.
+                           deserialize dissoc-paths serialize
+]]))
 
 ;; TODO: need better debugging throughout this file to diagnose generation failures.
 ;; using (get-fail-path) is one example.
+
+;; use map or pmap.
+(def ^:const mapfn map)
 
 ;; tree-building functions: useful for developing grammars.
 (defn into-list-of-maps [arg]
@@ -505,3 +511,80 @@
                                (if (= (:first parent) :head)
                                  child2 child1)))
                (over (rest parents) child1 child2)))))))
+
+(defn morph-with-recovery [morph-fn input]
+  (if (nil? input)
+    (exception (str "don't call morph-with-recovery with input=nil.")))
+  (if (nil? morph-fn)
+    (exception (str "don't call morph-with-recovery with morph-fn=nil.")))
+  (let [result (morph-fn input)
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:english :english] "")
+                 result)
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:english] "")
+                 result)
+        result (if (or (nil? result)
+                       (= "" result))
+                 (get-in input [:rule] "")
+                 result)
+        result (if (or (nil? result)
+                       (= "" result))
+                 (exception
+                  (str "r5: " input "/" (nil? input)))
+                 result)]
+    result))
+
+(defn show-bolt [bolt language-model]
+  (if (nil? bolt)
+    (exception (str "don't call show-bolt with bolt=null."))
+    (let [morph (:morph language-model)]
+      (if (nil? morph)
+        (exception (str "don't call show-bolt with morph=null."))
+        (str "[" (get-in bolt [:rule])
+             " '" (morph-with-recovery morph bolt) "'"
+             (let [head-bolt (get-in bolt [:head])]
+               (if (not (nil? head-bolt))
+                 (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
+                   (if (not (nil? rest-str))
+                     (str " -> " rest-str)))))
+             "]")))))
+
+(defn subpath? [path1 path2]
+  "return true if path1 is subpath of path2."
+  (if (empty? path1)
+    true
+    (if (= (first path1) (first path2))
+      (subpath? (rest path1)
+                (rest path2))
+      false)))
+
+(defn truncate [input truncate-paths language-model]
+  (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
+  (let [serialized (if (:serialized input)
+                     (:serialized input)
+                     (serialize input))
+        paths-and-vals (rest serialized)
+        path-sets (mapfn first paths-and-vals)
+        path-vals (mapfn second paths-and-vals)
+        truncated-path-sets (mapfn
+                             (fn [path-set] 
+                               (filter (fn [path] 
+                                         (not (some (fn [truncate-path]
+                                                      (subpath? truncate-path path))
+                                                    truncate-paths)))
+                                       path-set))
+                             path-sets)
+        skeleton (first serialized)
+        truncated-skeleton (dissoc-paths skeleton truncate-paths)
+        truncated-serialized
+        (cons truncated-skeleton
+              (zipmap truncated-path-sets
+                      path-vals))]
+    (deserialize truncated-serialized)))
+
+(defn truncate-expressions [expressions truncate-paths language-model]
+  (map #(truncate % truncate-paths language-model)
+       expressions))

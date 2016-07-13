@@ -3,11 +3,11 @@
   (:require
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
-   [babel.generate :as generate :refer [try-hard-to truncate]]
+   [babel.generate :as generate :refer [try-hard-to]]
    [babel.espanol.grammar :refer [small medium]]
    [babel.espanol.morphology :as morph :refer [fo]]
    #?(:cljs [babel.logjs :as log])
-   [babel.over :refer [over]]
+   [babel.over :refer [over truncate]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]

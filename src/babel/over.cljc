@@ -432,7 +432,9 @@
          (list result))))))
 
 (defn overhc [parent head comp]
-  (overc (overh parent head) comp))
+  (-> parent
+      (overh head)
+      (overc comp)))
 
 ;; TODO: distinguish between when:
 ;; 1) called with only a child1 (no child2),

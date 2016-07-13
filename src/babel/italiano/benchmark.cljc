@@ -1,7 +1,6 @@
 (ns babel.italiano.benchmark
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :refer [generate-all]]
-            [babel.italiano :refer [analyze generate parse]]
+  (:require [babel.italiano :refer [analyze generate parse]]
             [babel.italiano.grammar :refer [small medium np-grammar]]
             [babel.italiano.lexicon :refer [lexicon]]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]

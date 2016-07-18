@@ -458,8 +458,6 @@
                             :synsem {:aux false
                                      :infl {:not :past}
                                      :cat :verb}})
-
-
                    (unifyc h10
                            root-is-comp
                            {:head {:phrasal false

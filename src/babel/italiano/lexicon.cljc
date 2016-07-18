@@ -341,7 +341,10 @@
 
      ;; 1. "avere": to possess something buyable
      [(unify
-       transitive
+
+       ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
+       transitive       
+       {:synsem {:subcat {:3 '()}}}
        avere-common
        {:note "avere (possess)"
         :synsem {:sem {:pred :have
@@ -352,7 +355,9 @@
 
       ;; 2. "avere": to be in a relation with: e.g. "I have two children"
       (unify
+       ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
        transitive
+       {:synsem {:subcat {:3 '()}}}
        avere-common
        {:note "avere (relation)"
         :synsem {:sem {:pred :have
@@ -2258,8 +2263,7 @@
                            :synsem {:cat :verb
                                     :aux false
                                     :sem {:obj :unspec
-                                          :reflexive false
-                                          }}}
+                                          :reflexive false}}}
                           {:synsem {:sem {:obj :unspec}}})
 
                  ;; subject of verbs must have nominative case: prevents wrong things like article-less noun "casa" being the subject of a sentence.

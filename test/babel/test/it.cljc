@@ -54,6 +54,17 @@
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
+;; this should succeed to parse...
+(deftest passato-prossimo-parsing-positive
+  (let [result (:parses (first (parse "lei è andata")))]
+    (is (not (empty? result)))
+    (is (= "lei è andata") (fo (first (:parses (first result)))))))
+
+;; ..whereas this should fail:
+(deftest passato-prossimo-parsing-negative
+  (let [result (:parses (first (parse "lei è andato")))]
+    (is (empty? result))))
+
 (deftest passato-prossimo-reflexive
   (let [result (generate {:head {:synsem {:agr {:gender :fem}}}
                           :synsem {:subcat '()

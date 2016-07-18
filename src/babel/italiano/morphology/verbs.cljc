@@ -322,7 +322,7 @@
           #"(.*)uti" "$1ire"
           ]}
      
-     {:agr :top
+     {:agr {:synsem {:essere false}}
       :p [
           #"(.*)ato" "$1are"
           #"(.*)ato" "$1arsi"
@@ -331,6 +331,19 @@
           #"(.*)uto" "$1ere"
           #"(.*)uto" "$1ersi"
           ]}
+
+     {:agr {:synsem {:essere true
+                     :subcat {:1 {:agr {:number :sing
+                                        :gender :masc}}}}}
+      :p [
+          #"(.*)ato" "$1are"
+          #"(.*)ato" "$1arsi"
+          #"(.*)ito" "$1ire"
+          #"(.*)ito" "$1irsi"
+          #"(.*)uto" "$1ere"
+          #"(.*)uto" "$1ersi"
+          ]}
+     
      ])))
 
 (def replace-patterns-present-tense

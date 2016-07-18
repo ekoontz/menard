@@ -1178,6 +1178,8 @@
            {:a (if (nil? a) :top a)
             :b (if (nil? b) :top b)}))))
 
+(declare fo)
+
 (defn fo-ps1 [expr]
   (let [head-first? (get-in expr [:first] :none)]
     (cond
@@ -1256,7 +1258,7 @@
 
      (and (map? expr)
           (:italiano expr))
-     (fo-ps-it (:italiano expr))
+     (fo-ps (:italiano expr))
 
      (and (map? expr)
           (:rule expr)

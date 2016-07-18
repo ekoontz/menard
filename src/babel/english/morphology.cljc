@@ -582,8 +582,6 @@
       ;; default case.
       (str english "s"))))
 
-(declare fo-ps-en)
-
 (defn fo-ps-en [expr & {:keys [show-notes]
                         :or {show-notes true}}]
   "show the phrase-structure of a phrase structure tree, e.g [hh21 'mangiare (to eat)' [cc10 'il (the)' 'pane(bread)']]"
@@ -608,7 +606,6 @@
      (map (fn [each]
             (fo-ps-en each))
           expr)
-
 
      (and (map? expr)
           (:italiano expr)

@@ -16,6 +16,9 @@
 (defn fo [expression]
   (morph/fo expression))
 
+(defn fo-ps [expression]
+  (morph/fo-ps1 expression))
+
 (def lexicon (:lexicon medium))
 (def infinitives
   (filter (fn [k] 

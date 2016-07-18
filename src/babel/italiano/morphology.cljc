@@ -1178,7 +1178,25 @@
            {:a (if (nil? a) :top a)
             :b (if (nil? b) :top b)}))))
 
-(declare fo-ps-it)
+(defn fo-ps1 [expr]
+  (let [head-first? (get-in expr [:first] :none)]
+    (cond
+      (= head-first? :none)
+      (str "'" (fo expr) "'")
+
+      (= head-first? :comp)
+      (str "[" (get-in expr [:rule]) " "
+           (fo-ps1 (get-in expr [:comp])) " "
+           (fo-ps1 (get-in expr [:head]))
+           "]")
+
+      (= head-first? :head)
+      (str "[" (get-in expr [:rule]) " "
+           (fo-ps1 (get-in expr [:head])) " "
+           (fo-ps1 (get-in expr [:comp]))
+           "]")
+
+      true "")))
 
 (defn fo [input]
   (cond 

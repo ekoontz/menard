@@ -1375,7 +1375,6 @@
                 ;; if a noun has no number, it's :sing(gular)
                 (unifyc lexeme
                         {:synsem {:agr {:number :sing}}})
-                
                 true
                 lexeme))
         (get lexicon surface-form))))

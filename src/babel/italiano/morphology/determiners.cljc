@@ -11,14 +11,14 @@
   [
 
    {:p [#"^dell$" "del"]
-    :unify-with {:cat :det
-                 :agr {:number :sing
-                       :gender :masc}}}
+    :u {:cat :det
+        :agr {:number :sing
+              :gender :masc}}}
 
    {:p [#"^dell$" "della"]
-    :unify-with {:cat :det
-                 :agr {:number :sing
-                       :gender :fem}}}
+    :u {:cat :det
+        :agr {:number :sing
+              :gender :fem}}}
 
    {:p [#"^gli$" "i"] ;; "gli" -> "i"
     :u {:synsem {:cat :det

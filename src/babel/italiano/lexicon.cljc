@@ -1938,6 +1938,10 @@
    "studiare"  {:synsem {:cat :verb 
                       :sem {:pred :study}}}
 
+   "studente"  {:synsem {:agr {:gender :masc}
+                         :cat :noun
+                         :sem {:pred :student}}}
+
    "suonare"  {:synsem {:cat :verb 
                       :sem {:subj {:human true}
                             :pred :suonare}}}

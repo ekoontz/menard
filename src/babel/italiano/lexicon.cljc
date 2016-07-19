@@ -2,6 +2,7 @@
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in merge])
   (:require
+   [babel.encyclopedia :refer [sem-impl]]
    [babel.lexicon :refer [universals]]
    [babel.lexiconfn :refer [compile-lex if-then constrain-vals-if
                             filter-vals
@@ -118,12 +119,12 @@
                                             :pronoun true
                                             :reflexive true
                                             :sem subject-semantics}}}})
-   
    "affolato"
    [;; comparative
-    (let [is-place (atom {:place true}) ;; only places can be crowded.
+    (let [is-place1 {:place true} ;; only places can be crowded.
+          is-place (atom is-place1)
           than-this (atom {:pred :di
-                          :mod is-place})]
+                           :mod is-place})]
       (unify adjective
               comparative
               {:synsem {:sem {:pred :affolato
@@ -132,14 +133,15 @@
                         :subcat {:1 {:cat :noun
                                      :sem is-place}
                                  :2 {:cat :prep
-                                     :sem than-this}}}}))
-    ;; non-comparative
-    (unify adjective
-            {:synsem {:cat :adjective
-                      :sem {:pred :affolato
-                            :comparative false
-                            :place true}}})
-
+                                     :sem than-this}}}})
+      ;; non-comparative
+      (unify adjective
+             {:synsem {:cat :adjective
+                       :sem {:pred :affolato
+                             :comparative false}}}
+             ;; TODO: make this sem-impl process happen generally with _adjective_.
+             {:synsem {:sem (sem-impl is-place1)}}))
+      
     ] ;; only places can be crowded.
 
    "aggiungere" {:synsem {:cat :verb

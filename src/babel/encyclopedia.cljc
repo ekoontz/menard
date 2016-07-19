@@ -125,7 +125,7 @@ as a map of implications"}
                       :speakable false
                       :spec {:of {:animate true}}}
    ;; some places could place additional
-   ;; restrictions on owners (e.g. {:human true}).
+   ;; restrictions on owners (e.g. {:of {:human true}}).
 
    ;; <preds>
    {:pred :bag}      {:artifact true
@@ -161,6 +161,7 @@ as a map of implications"}
 
    {:pred :name}     {:physical-object false
                       :event false}
+   {:pred :student}  {:human true}
    
    ;; </preds>
 

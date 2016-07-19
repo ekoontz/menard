@@ -34,6 +34,4 @@
     :u {:synsem {:cat :det
                  :agr {:number :sing
                        :gender :masc}}}}
-
-
    ])

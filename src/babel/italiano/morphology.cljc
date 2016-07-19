@@ -7,7 +7,6 @@
     :refer (plural-to-singular-adj-masc
             plural-to-singular-adj-fem-sing
             plural-to-singular-adj-fem-plur)]
-   [babel.italiano.morphology.articles :as articles]
    [babel.italiano.morphology.determiners :as determiners]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.nouns

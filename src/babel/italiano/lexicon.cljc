@@ -1491,8 +1491,11 @@
        :italiano {:initial true  ;; TODO: verify that 'lo' above and this below are being unified correctly.
                   :pronoun true
                   :cat :noun
-                  :case pronoun-acc}}]
-
+                  :case pronoun-acc}}
+    {:synsem {:cat :det
+              :def :def
+              :agr {:gender :masc
+                    :number :sing}}}]
    "loro"
    [{:synsem {:cat :noun
               :pronoun true

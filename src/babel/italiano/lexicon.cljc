@@ -1314,6 +1314,10 @@
                     :def :def
                     :agr {:gender :masc
                           :number :plur}}})
+
+   "idea" {:synsem {:agr {:gender :fem}
+                :cat :noun
+                :sem {:pred :idea}}}
    "il"
    (unify determiner
           {:synsem {:cat :det

@@ -119,6 +119,11 @@
                                             :pronoun true
                                             :reflexive true
                                             :sem subject-semantics}}}})
+   "aereo" {:synsem {:agr {:gender :masc}
+                     :cat :noun
+                     :sem {:physical-object true
+                           :pred :airplane
+                           :place true}}}
    "affolato"
    [;; comparative
     (let [is-place1 {:place true} ;; only places can be crowded.
@@ -325,6 +330,14 @@
                   {:synsem {:cat :verb
                             :sem {:pred :insure}}}]
 
+   "attoro" {:synsem {:agr {:gender :masc}
+                      :cat :noun
+                      :sem {:pred :actor}}}
+
+   "aula" {:synsem {:agr {:gender :fem}
+                    :cat :noun
+                    :sem {:pred :classroom}}}
+   
    "aumentare"   {:synsem {:cat :verb
                            :sem {:pred :increase}}}
    "avere"
@@ -515,6 +528,9 @@
                    :speakable false}
              :subcat {:1 {:def :def}}}}
 
+   "caffè" {:synsem {:agr {:gender :masc}
+                     :cat :noun
+                     :sem {:pred :lesson}}}
    "calzoni"
    ;; inherently plural
    {:synsem {:cat :noun
@@ -644,6 +660,13 @@
                                         :sem called-semantics
                                         :cat :noun
                                         :subcat '()}}}})
+
+   "chiave" {:synsem {:agr {:gender :masc}
+                      :cat :noun
+                      :sem {:physical-object true
+                            :pred :key
+                            :place false}}}
+   
    "chiedere" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :chiedere}}
@@ -959,6 +982,10 @@
                                          :pronoun true
                                          :reflexive true
                                          :sem subject-semantics}}}})
+
+   "domanda" {:synsem {:agr {:gender :fem}
+                :cat :noun
+                :sem {:pred :question}}}
    "domani"
    (unify sentential-adverb
           {:synsem {:cat :sent-modifier
@@ -1016,6 +1043,10 @@
                         :essere true
                         :sem {:pred :exist}}
                :italiano {:passato "esistito"}}
+
+   "espresso" {:synsem {:agr {:gender :masc}
+                :cat :noun
+                :sem {:pred :espresso}}}
 
    "esprimere" {:italiano {:passato "espresso"}
                 :synsem {:cat :verb
@@ -1208,6 +1239,10 @@
                                   :3 {:cat :adverb
                                       :sem {:pred :bad}}}}}))])
    
+   "finestre" {:synsem {:agr {:gender :fem}
+                        :cat :noun
+                        :sem {:pred :window}}}
+   
    "finire"  {:italiano {:boot-stem1 "finisc"
                          :boot-stem2 "fin"}
               :synsem {:cat :verb
@@ -1237,6 +1272,13 @@
                          :boot-stem2 "gest"}
               :synsem {:sem {:pred :manage}
                        :cat :verb}}
+   "giallo"
+   (unify adjective
+          {:synsem {:cat :adjective
+                    :sem {:pred :yellow
+                          :comparative false
+                          :physical-object true
+                          :human false}}})
 
    "giocare"  {:synsem {:cat :verb
                         :sem {;:obj {:games true}
@@ -1830,6 +1872,12 @@
                           :essere false
                           :sem {:pred :answer}}
                  :italiano {:passato "risposto"}}
+   "ristorante"
+   {:synsem {:agr {:gender :fem}
+             :cat :noun
+             :sem {:pred :restaurant
+                   :city false
+                   :place true}}}
       
    "ritornare" {:synsem {:cat :verb
                          :sem {:pred :ritornare}
@@ -2189,6 +2237,11 @@
                                    :1plur "vogliamo"
                                    :2plur "volete"
                                    :3plur "vogliono"}}}
+
+   "ziano" {:synsem {:agr {:gender :masc}
+                     :cat :noun
+                     :sem {:pred :shoe}}}
+   
    ":top" {:synsem :top
            :top true}
    ":top-noun" {:synsem {:cat :noun}

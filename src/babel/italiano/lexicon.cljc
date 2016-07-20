@@ -2124,6 +2124,12 @@
               :mass false
               :agr {:gender :fem
                     :number :sing}}}
+   "uno"
+    {:synsem {:cat :det
+              :def :indef
+              :mass false
+              :agr {:gender :masc
+                    :number :sing}}}
    "uomo"
    {:italiano {:plur "uomini"}
     :synsem {:agr {:gender :masc}

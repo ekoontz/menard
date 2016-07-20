@@ -958,7 +958,7 @@
    
    "dire" (let [shared-part-of-dire
                 {:synsem {:cat :verb}
-                 :italiano {:infinitive "dicere"
+                 :italiano {:infinitive-for-conjugation "dicere"
                             :drop-e false
                             :passato "detto"
                             :future-stem "dir"

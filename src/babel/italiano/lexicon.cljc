@@ -1499,14 +1499,14 @@
                    :pred :read
                    :subj {:human true}
                    :obj {:legible true}}}}
-   "libro"
-   {:synsem {:agr {:gender :masc}
-             :cat :noun
-             :sem {:artifact true
-                   :pred :libro
-                   :legible true
-                   :speakable false
-                   :consumable false}}}
+
+   "lezione" {:synsem {:agr {:gender :fem}
+                       :cat :noun
+                       :sem {:pred :lesson}}}
+   
+   "libro" {:synsem {:agr {:gender :masc}
+                     :cat :noun
+                     :sem {:pred :libro}}}
 
    ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
    "lo"

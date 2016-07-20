@@ -1,18 +1,20 @@
 (ns babel.parse
  (:refer-clojure :exclude [get-in resolve find])
  (:require
-  [babel.over :as over]
+  [babel.over :as over :refer [truncate]]
   [clojure.set :refer [union]]
   [clojure.string :as string]
   #?(:clj [clojure.tools.logging :as log])
   #?(:cljs [babel.logjs :as log])
   [dag_unify.core :refer (get-in strip-refs)]))
 
+(def ^:const parse-with-truncate true)
+
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-(declare over)
-
 (def map-fn #?(:clj pmap) #?(:cljs map))
+
+(declare over)
 
 (defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
@@ -76,6 +78,20 @@
                             (list span-pair)}))
                        spans))))))
 
+(declare leaves)
+
+(defn summarize [sign model]
+  (conj
+   {:synsem {:cat (get-in sign [:synsem :cat])}}
+   (if-let [language-keyword (:language-keyword model)]
+     {language-keyword ((:morph model) sign)})
+   (if-let [rule (get-in sign [:rule])]
+     {:rule rule})
+   (if-let [head (get-in sign [:head])]
+     {:head (summarize head model)})
+   (if-let [comp (get-in sign [:comp])]
+     {:comp (summarize comp model)})))
+
 (defn parses [input n model span-map]
   (cond
     (= n 1) input
@@ -116,8 +132,36 @@
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
-                                     (over (:grammar model) left-signs right-signs (:morph model)))
-                                   
+                                     (let [morph-ps (if (:morph-ps model)
+                                                      (:morph-ps model)
+                                                      (:morph model))
+                                           ;; fallback to (:morph model) if
+                                           ;; (:morph-ps is not available)
+                                                      
+                                           parents
+                                           (over (:grammar model) left-signs right-signs morph-ps)
+                                           truncated-parents
+                                           (if parse-with-truncate
+                                             (pmap (fn [parent]
+                                                     (conj
+                                                      {:head (summarize (get-in parent [:head]) model)
+                                                       :comp (summarize (get-in parent [:comp]) model)}
+                                                      (truncate parent [[:comp]
+                                                                        [:head]]
+                                                                model)))
+                                                  parents))]
+                                       (if (not (empty? parents))
+                                         (log/info (str "parse/parses: parents: "
+                                                        (string/join ","
+                                                                     (map #(morph-ps %) parents)))))
+                                       (log/info (str " left: "
+                                                      (string/join ","
+                                                                   (map #(morph-ps %) left-signs))))
+                                       (log/info (str " right: "
+                                                      (string/join ","
+                                                                   (map #(morph-ps %) right-signs))))
+                                       (if parse-with-truncate truncated-parents parents)))
+                                     
                                  ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                    ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))

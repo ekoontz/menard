@@ -4,7 +4,7 @@
    [babel.cache :refer [create-index]]
    [babel.enrich :refer [enrich]]
    [babel.italiano.lexicon :refer [lexicon]]
-   [babel.italiano.morphology :refer [analyze fo]]
+   [babel.italiano.morphology :refer [analyze fo fo-ps1]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
@@ -47,7 +47,6 @@
       :comp {:italiano comp-italian}
       :italiano {:a head-italian
                  :b comp-italian}})))
-
 (def head-last
   (let [head-italian (atom :top)
         comp-italian (atom :top)]
@@ -615,6 +614,7 @@
      :lookup (fn [arg]
                (analyze arg parse-lexicon))
      :morph fo
+     :morph-ps (fn [arg] (fo-ps1 arg))
      :rules rules
      :rule-map (zipmap rules
                        grammar)

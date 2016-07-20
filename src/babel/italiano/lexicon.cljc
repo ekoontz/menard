@@ -1374,6 +1374,10 @@
               :sem {:pred :I
                     :human true}
               :subcat '()}}]
+
+   "isola" {:synsem {:agr {:gender :top}
+                :cat :noun
+                :sem {:pred :island}}}
    "la"
    ;; as with "lo", do we need both of these "lo" entries? try to get by with just one.
    ;; TODO: refactor commonalities 

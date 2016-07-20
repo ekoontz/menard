@@ -1380,7 +1380,7 @@
                     :human true}
               :subcat '()}}]
 
-   "isola" {:synsem {:agr {:gender :top}
+   "isola" {:synsem {:agr {:gender :fem}
                 :cat :noun
                 :sem {:pred :island}}}
    "la"

@@ -15,10 +15,10 @@
    [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
    [babel.italiano.pos :refer [adjective agreement-noun cat-of-pronoun
                                common-noun comparative countable-noun determiner
-                               drinkable-noun feminine-noun noun intransitive intransitivize
+                               drinkable-noun feminine-noun intransitive intransitivize
                                intransitive-unspecified-obj
                                masculine-noun non-comparative-adjective
-                               pronoun-acc pronoun-reflexive sentential-adverb
+                               noun pronoun-acc pronoun-reflexive sentential-adverb
                                transitive transitivize verb-aux verb-subjective]]
    [dag_unify.core :refer [fail? get-in merge strip-refs]]))
 

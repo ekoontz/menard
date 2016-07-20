@@ -528,9 +528,14 @@
                    :speakable false}
              :subcat {:1 {:def :def}}}}
 
-   "caffè" {:synsem {:agr {:gender :masc}
-                     :cat :noun
-                     :sem {:pred :lesson}}}
+   "caffè" [{:synsem {:agr {:gender :masc
+                            :number :sing}
+                      :cat :noun
+                      :sem {:pred :coffee}}}
+            {:synsem {:agr {:gender :masc
+                            :number :plur}
+                      :cat :noun
+                      :sem {:pred :coffee}}}]
    "calzoni"
    ;; inherently plural
    {:synsem {:cat :noun

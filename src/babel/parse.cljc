@@ -175,5 +175,23 @@
 
            true
            (throw (Exception. "Don't know how to parse input of type: " (type input)))))))
-
   
+(defn leaves [parse-tree]
+  "return terminal nodes (leaves) for this tree."
+  (let [head (get-in parse-tree [:head] :none)
+        comp (get-in parse-tree [:comp] :none)]
+  (cond
+    (and (= :none head)
+         (= :none comp))
+    [parse-tree]
+
+    (= :none head)
+    (leaves comp)
+
+    (= :none comp)
+    (leaves head)
+    
+    true
+    (concat
+     (leaves head)
+     (leaves comp)))))

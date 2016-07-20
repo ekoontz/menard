@@ -1789,6 +1789,11 @@
              :agr {:gender :fem}
              :sem {:pred :girl
                    :human true}}}
+   "ragazzo"
+   {:synsem {:cat :noun
+             :agr {:gender :masc}
+             :sem {:pred :boy
+                   :human true}}}
               
    "restare" {:synsem {:essere true 
                             :cat :verb

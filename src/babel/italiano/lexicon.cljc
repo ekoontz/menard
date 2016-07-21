@@ -2207,9 +2207,7 @@
    "vino" {:synsem {:agr {:gender :masc}
                     :cat :noun
                     :pred :vino
-                    :sem {:artifact true
-                          :drinkable true
-                          :pred :vino}}}
+                    :sem {:pred :vino}}}
    "vivere" 
    ;; FIXME: this is simply a duplicate apparently?
    [{:synsem {:cat :verb

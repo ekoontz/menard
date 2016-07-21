@@ -149,6 +149,12 @@ as a map of implications"}
                       :legible false
                       :place false}
 
+   {:pred :coffee}   {:artifact true
+                      :drinkable true}
+
+   {:pred :espresso} {:artifact true
+                      :drinkable true}
+
    {:pred :house}    {:artifact true
                       :consumable false
                       :place true
@@ -162,7 +168,10 @@ as a map of implications"}
    {:pred :name}     {:physical-object false
                       :event false}
    {:pred :student}  {:human true}
-   
+
+   {:pred :vino}     {:artifact true
+                      :drinkable true}
+
    ;; </preds>
 
    {:stupid true}    {:animate true}

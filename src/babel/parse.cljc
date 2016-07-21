@@ -152,13 +152,13 @@
                                            parents (over (:grammar model) left-signs right-signs morph-ps)
                                            truncated-parents
                                            (if parse-with-truncate
-                                             (pmap (fn [parent]
-                                                     (conj
-                                                      {:head (summarize (get-in parent [:head]) model)
-                                                       :comp (summarize (get-in parent [:comp]) model)}
-                                                      (truncate parent [[:comp]
-                                                                        [:head]]
-                                                                model)))
+                                             (map-fn (fn [parent]
+                                                       (conj
+                                                        {:head (summarize (get-in parent [:head]) model)
+                                                         :comp (summarize (get-in parent [:comp]) model)}
+                                                        (truncate parent [[:comp]
+                                                                          [:head]]
+                                                                  model)))
                                                   parents))]
                                        (if (not (empty? parents))
                                          (log/debug (str "parse/parses: parents: "

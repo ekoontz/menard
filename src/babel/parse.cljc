@@ -151,15 +151,15 @@
                                                                 model)))
                                                   parents))]
                                        (if (not (empty? parents))
-                                         (log/info (str "parse/parses: parents: "
-                                                        (string/join ","
-                                                                     (map #(morph-ps %) parents)))))
-                                       (log/info (str " left: "
-                                                      (string/join ","
-                                                                   (map #(morph-ps %) left-signs))))
-                                       (log/info (str " right: "
-                                                      (string/join ","
-                                                                   (map #(morph-ps %) right-signs))))
+                                         (log/debug (str "parse/parses: parents: "
+                                                         (string/join ","
+                                                                      (map #(morph-ps %) parents)))))
+                                       (log/debug (str " left: "
+                                                       (string/join ","
+                                                                    (map #(morph-ps %) left-signs))))
+                                       (log/debug (str " right: "
+                                                       (string/join ","
+                                                                    (map #(morph-ps %) right-signs))))
                                        (if parse-with-truncate truncated-parents parents)))
                                      
                                  ;; TODO: explain why we can use (first) here for the left- and right-strings.

@@ -77,21 +77,33 @@
                            {(- right-boundary left-boundary)
                             (list span-pair)}))
                        spans))))))
-
 (declare leaves)
 
 (defn summarize [sign model]
-  (conj
-   {:synsem {:cat (get-in sign [:synsem :cat])}}
-   (if-let [language-keyword (:language-keyword model)]
-     {language-keyword ((:morph model) sign)})
-   (if-let [rule (get-in sign [:rule])]
-     {:rule rule})
-   (if-let [head (get-in sign [:head])]
-     {:head (summarize head model)})
-   (if-let [comp (get-in sign [:comp])]
-     {:comp (summarize comp model)})))
-
+  "useful for providing an abbreviated form of a sign's comps and heads. called as part of truncation to improve parsing performance by avoiding copying unnecessary material."
+  (let [language-keyword (:language-keyword model)
+        root-form (or
+                   (get-in sign [language-keyword :infinitive])
+                   (get-in sign [language-keyword :root])
+                   (get-in sign [language-keyword language-keyword]))
+        stringified ((:morph model) sign)]
+    (conj (if (and root-form
+                   (= :none (get-in sign [:comp] :none))
+                   (= :none (get-in sign [:head] :none))
+                   (not (= root-form stringified)))
+            {language-keyword {language-keyword stringified
+                               :root root-form}}
+            {language-keyword stringified})
+          (if-let [rule (get-in sign [:rule])]
+            {:rule rule})
+          (if-let [cat (or (get-in sign [:cat])
+                           (get-in sign [:synsem :cat]))]
+            {:cat cat})
+          (if-let [head (get-in sign [:head])]
+            {:head (summarize head model)})
+          (if-let [comp (get-in sign [:comp])]
+            {:comp (summarize comp model)}))))
+  
 (defn parses [input n model span-map]
   (cond
     (= n 1) input

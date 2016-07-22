@@ -6,7 +6,6 @@
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
-(require '[babel.generate :refer [lightning-bolt]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions
@@ -21,15 +20,6 @@
 (defn expression [spec]
   (let [spec (if spec spec :top)]
     (engine/expression small-plus-plus-np spec)))
-
-(defn bolt [spec]
-  (lightning-bolt (:grammar small-plus-plus-np)
-                  (:lexicon small-plus-plus-np)
-                  spec
-                  0
-                  (:index  small-plus-plus-np)
-                  nil
-                  (:morph  small-plus-plus-np)))
 
 (defn translate [source-language-short-name & [root]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.

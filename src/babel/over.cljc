@@ -248,17 +248,10 @@
   (log/trace (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
   (log/trace (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
   
-  (let [;pre-check2 (comp-pre-checks2 parent child) ;; TODO: not working yet: fix
-        pre-check (comp-pre-checks parent child)
-        
-        result
-        (if pre-check
-          (do
-            (log/debug (str "moreover-comp: child failed pre-check for parent: " (get-in parent [:rule])))
-            :fail)
-          (unifyc parent
-                  {:comp child}
-                  {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}}))]
+  (let [result
+        (unifyc parent
+                {:comp child}
+                {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}})]
     (if (not (fail? result))
       (do (log/trace "unification was successful.")
           (merge {:comp-filled true}
@@ -382,7 +375,9 @@
                        (overc parent child))
                      comp-children)))
    true
-   (let [result (moreover-comp parent comp null-sem-impl)
+   (let [check-result (comp-pre-checks parent comp)
+         result (if check-result :fail
+                    (moreover-comp parent comp null-sem-impl))
          is-fail? (fail? result)]
      (if (not is-fail?)
        (do

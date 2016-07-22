@@ -68,7 +68,6 @@
 (defn head-pre-checks [parent child]
   (or
    (check-vals parent child [:head :synsem :infl]       [:synsem :infl])
-   (check-vals parent child [:head :synsem :subcat]     [:synsem :subcat])
    (check-vals parent child [:head :phrasal]            [:phrasal])
    (check-vals parent child [:head :synsem :agr]        [:synsem :agr])
    (check-vals parent child [:head :synsem :sem]        [:synsem :sem])
@@ -76,8 +75,7 @@
    (check-vals parent child [:head :synsem :cat]        [:synsem :cat])
    (check-vals parent child [:head :synsem :pronoun]    [:synsem :pronoun])
    (check-vals parent child [:head :synsem :propernoun] [:synsem :propernoun])
-   (check-vals parent child [:head :synsem :subcat :1]  [:synsem :subcat :1])
-   (check-vals parent child [:head :synsem :subcat :2]  [:synsem :subcat :2])))
+   (check-vals parent child [:head :synsem :subcat]     [:synsem :subcat])))
 
 (defn comp-pre-checks [parent child]
   (or

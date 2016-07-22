@@ -42,20 +42,6 @@
 (declare overh)
 (declare overc)
 
-(defn over-each-parent-comp [parents comp]
-  (log/trace (str "over-each-parent-comp: parents type: " (type parents)))
-  (log/trace (str "over-each-parent-comp: comp type: " (type comp)))
-  (if (not (empty? parents))
-    (let [each-parent (first parents)]
-      (log/trace (str "over-each-parent-comp: each-parent type:" (type (first parents))))
-      (log/trace (str "over-each-parent-comp: comp type:" (type comp)))
-      (lazy-cat
-       (overc each-parent comp)
-       (over-each-parent-comp (rest parents) comp)))
-    (do
-      (log/trace (str "over-each-parent-comp: done. returning nil"))
-      nil)))
-
 (def ^:dynamic *extra-diagnostics* false)
 (def ^:dynamic *check-parent-and-head-child-cat-equal* true)
 (def ^:dynamic *check-infl* true)
@@ -375,7 +361,9 @@
    (let [parents (lazy-seq parent)]
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-parent-comp parents comp)))
+             (mapcat (fn [parent]
+                       (overc parent comp))
+                     parents)))
 
    #?(:clj (future? comp))
    #?(:clj (overc parent (deref comp)))

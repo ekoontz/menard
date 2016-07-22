@@ -1,7 +1,6 @@
 (ns babel.over
   (:refer-clojure :exclude [get get-in merge resolve find parents])
   (:require
-   [babel.encyclopedia :refer [null-sem-impl sem-impl]]
    [babel.exception :refer [exception]]
    [babel.lexiconfn :refer [get-fail-path]]
    [clojure.string :as string]
@@ -168,7 +167,7 @@
    (fail? (unifyc (get-in parent [:comp :synsem :subcat] :top)
                   (get-in child [:synsem :subcat] :top)))))
 
-(defn moreover-head [parent child lexfn-sem-impl & [morph]]
+(defn moreover-head [parent child & [morph]]
   (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
@@ -182,9 +181,7 @@
               :fail)
             (unify
              (copy parent)
-             (unify {:head (copy child)
-                     :head-filled true}
-                    {:head {:synsem {:sem (lexfn-sem-impl (copy (get-in child '(:synsem :sem) :top)))}}})))]
+             {:head (copy child)}))]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
@@ -210,12 +207,6 @@
               (log/trace (str "parent " (get-in parent [:rule])
                               " wanted head with: "
                               (strip-refs (get-in parent [:head :synsem]))))
-              (log/trace (str "candidate child has synsem: "
-                              (strip-refs
-                               (get-in
-                                (unifyc child
-                                        {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}})
-                                [:synsem]))))
               (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
                                                            child)))
               (log/trace (str "  parent@" fail-path "="
@@ -279,7 +270,7 @@
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.
-   (let [result (moreover-head parent head null-sem-impl)
+   (let [result (moreover-head parent head)
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
@@ -339,8 +330,7 @@
    (let [check-result (comp-pre-checks parent comp)
          result (if check-result :fail
                       (unifyc parent
-                              {:comp comp}
-                              {:comp {:synsem {:sem (null-sem-impl (get-in comp '(:synsem :sem) :top))}}}))
+                              {:comp comp}))
          is-fail? (fail? result)]
      (if (not is-fail?)
        (do

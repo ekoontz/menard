@@ -80,18 +80,6 @@
       (log/trace (str "over-each-head-child: done. returning nil."))
       nil)))
 
-(defn over-each-comp-child [parent children]
-  (log/trace (str "over-each-comp-child: parent type: " (type parent)))
-  (log/trace (str "over-each-comp-child: comp children type: " (type children)))
-  (if (not (empty? children))
-    (let [each-child (first children)]
-      (lazy-cat
-       (overc parent each-child)
-       (over-each-comp-child parent (rest children))))
-    (do
-      (log/trace (str "over-each-comp-child: done. returning nil."))
-      nil)))
-
 (def ^:dynamic *extra-diagnostics* false)
 (def ^:dynamic *check-parent-and-head-child-cat-equal* true)
 (def ^:dynamic *check-infl* true)
@@ -424,8 +412,9 @@
      (log/trace (str "comp is a seq - actual type is " (type comp)))
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-comp-child parent comp-children)))
-
+             (mapcat (fn [child]
+                       (overc parent child))
+                     comp-children)))
    true
    (let [result (moreover-comp parent comp null-sem-impl)
          is-fail? (fail? result)]

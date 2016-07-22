@@ -36,10 +36,9 @@
                             x)))
           x))
 
-(defn span-map [n]
-  "take a 'square span array' and return a map of size -> _spans_,
-   where _size_ is an integer, and _spans_ are all the [left,right] pairs whose combined
-   size is equal to _size_."
+(defn span-map [max]
+  "return a map of size -> _spans_, where _size_ is an integer, and _spans_ are all
+   the [left,right] pairs whose combined size is equal to _size_., and _size_ ranges from 1 to _max_."
   ;; for example:
   ;; (span-map 5) =>
   ;; 
@@ -49,7 +48,7 @@
   ;;  4 ([[0 3] [3 4]] [[1 2] [2 4]] ..
   ;;  5 ([[0 4] [4 5]] [[1 3] [3 5]] ... ) } ;; each pair has a combined size of 5.
   (cond
-    (< n 2)
+    (< max 2)
     nil
 
     true
@@ -63,12 +62,12 @@
                                           [x y])
                                         (range (+ x 1) (+ n 1))))
                               (range 0 n)))
-          spans (square-cross-product (spanpairs n))]
+          spans (square-cross-product (spanpairs max))]
       (merge
        {1 (map-fn
            (fn [i]
              [i (+ 1 i)])
-           (range 0 n))}
+           (range 0 max))}
        (reduce (fn [resultant-map this-submap]
                  (merge-with union ;; TODO: this could get expensive - consider alternatives.
                              resultant-map this-submap))

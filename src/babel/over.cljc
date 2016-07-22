@@ -62,7 +62,7 @@
               true
               (not (= v1 v2)))]
     (if (= result true)
-      (log/debug (str "CAUGHT ONE: p1=" p1 "; p2=" p2)))
+      (log/debug (str "check-vals caught a fail: p1=" p1 "; p2=" p2 "; fail-path:" (fail-path m1 m2))))
     result))
 
 (defn head-pre-checks [parent child]

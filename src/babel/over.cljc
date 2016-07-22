@@ -16,7 +16,7 @@
 ;; using (get-fail-path) is one example.
 
 ;; use map or pmap.
-(def ^:const mapfn map)
+(def ^:const mapfn pmap)
 
 ;; tree-building functions: useful for developing grammars.
 (defn into-list-of-maps [arg]

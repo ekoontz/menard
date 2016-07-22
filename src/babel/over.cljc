@@ -45,49 +45,51 @@
 (def ^:dynamic *check-parent-and-head-child-cat-equal* true)
 (def ^:dynamic *check-infl* true)
 
+(defn check-vals [m1 m2 p1 p2]
+  (let [v1 (get-in m1 p1 :top)
+        v2 (get-in m2 p2 :top)
+        result
+        (cond (= :top v1)
+              false
+              (= :top v2)
+              false
+              (= :fail v1)
+              true
+              (= :top v2)
+              true
+              (and (map? m1)
+                   (map? m2))
+              (fail? (unifyc v1 v2))
+
+              true
+              (not (= v1 v2)))]
+    (if (= result true)
+      (log/debug (str "CAUGHT ONE: p1=" p1 "; p2=" p2)))
+    result))
+
 (defn head-pre-checks [parent child]
-  (log/trace (str "head-pre-checks PH: " (strip-refs (get-in parent [:head]))))
-  (log/trace (str "head-pre-checks H: " (dissoc (strip-refs child) :serialized)))
   (or
-   (fail? (unifyc (get-in parent [:head :synsem :infl] :top)
-                  (get-in child [:synsem :infl] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :subcat] :top)
-                  (get-in child [:synsem :subcat] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :agr] :top)
-                  (get-in child [:synsem :agr] :top)))
-   (fail? (unifyc (get-in parent [:head :phrasal] :top)
-                  (get-in child [:phrasal] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :sem] :top)
-                  (get-in child [:synsem :sem] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :aux] :top)
-                  (get-in child [:synsem :aux] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :cat] :top)
-                  (get-in child [:synsem :cat] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :pronoun] :top)
-                  (get-in child [:synsem :pronoun] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :propernoun] :top)
-                  (get-in child [:synsem :propernoun] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :subcat :1] :top)
-                  (get-in child [:synsem :subcat :1] :top)))
-   (fail? (unifyc (get-in parent [:head :synsem :subcat :2] :top)
-                  (get-in child [:synsem :subcat :2] :top)))))
+   (check-vals parent child [:head :synsem :infl]       [:synsem :infl])
+   (check-vals parent child [:head :synsem :subcat]     [:synsem :subcat])
+   (check-vals parent child [:head :phrasal]            [:phrasal])
+   (check-vals parent child [:head :synsem :agr]        [:synsem :agr])
+   (check-vals parent child [:head :synsem :sem]        [:synsem :sem])
+   (check-vals parent child [:head :synsem :aux]        [:synsem :aux])
+   (check-vals parent child [:head :synsem :cat]        [:synsem :cat])
+   (check-vals parent child [:head :synsem :pronoun]    [:synsem :pronoun])
+   (check-vals parent child [:head :synsem :propernoun] [:synsem :propernoun])
+   (check-vals parent child [:head :synsem :subcat :1]  [:synsem :subcat :1])
+   (check-vals parent child [:head :synsem :subcat :2]  [:synsem :subcat :2])))
 
 (defn comp-pre-checks [parent child]
   (or
-   (fail? (unifyc (get-in parent [:comp :synsem :cat] :top)
-                  (get-in child [:synsem :cat] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :agr] :top)
-                  (get-in child [:synsem :agr] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :case] :top)
-                  (get-in child [:synsem :case] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :sem] :top)
-                  (get-in child [:synsem :sem] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :reflexive] :top)
-                  (get-in child [:synsem :reflexive] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :pronoun] :top)
-                  (get-in child [:synsem :pronoun] :top)))
-   (fail? (unifyc (get-in parent [:comp :synsem :subcat] :top)
-                  (get-in child [:synsem :subcat] :top)))))
+   (check-vals parent child [:comp :synsem :cat]       [:synsem :cat])
+   (check-vals parent child [:comp :synsem :agr]       [:synsem :agr])
+   (check-vals parent child [:comp :synsem :case]      [:synsem :case])
+   (check-vals parent child [:comp :synsem :sem]       [:synsem :sem])
+   (check-vals parent child [:comp :synsem :reflexive] [:synsem :reflexive])
+   (check-vals parent child [:comp :synsem :pronoun]   [:synsem :pronoun])
+   (check-vals parent child [:comp :synsem :subcat]    [:synsem :subcat])))
 
 (defn moreover-head [parent child & [morph]]
   (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
@@ -118,7 +120,7 @@
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
         (do
           (if (not (= true head-pre-checks))
-            (log/warn (str "moreover-head: pre-checked missed: fail-path-between "
+            (log/warn (str "moreover-head: pre-check missed: fail-path-between "
                            "parent:'" (get-in parent [:rule]) "' and child:"
                            (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) ".")))
           (if (= *extra-diagnostics* true)

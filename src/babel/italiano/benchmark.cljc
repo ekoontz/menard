@@ -10,6 +10,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log])
+            [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [dag_unify.core :refer [get-in strip-refs]]))
 
@@ -41,5 +42,9 @@
 (defn -main [times]
   (run-benchmark times))
 
-
-
+;; lein run -m babel.italiano.benchmark/parse-mark 20 "i gatti neri hanno bevuto il vino rosso"
+(defn parsemark [times expr]
+  (count (take (Integer. times)
+               (repeatedly
+                #(println (with-out-str
+                            (time (mapcat :parses (parse expr)))))))))

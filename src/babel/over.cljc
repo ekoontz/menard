@@ -127,25 +127,25 @@
 (defn head-pre-checks2 [parent child]
   (not (nil?
         (some #(= :fail %)
-              (map (fn [pair]
-                     (log/trace (str "head-pre-checks2: looking at pair: " pair))
-                     (let [parent-value (get-in parent (first pair) :top)
-                           child-value (get-in child (second pair) :top)
-                           result 
-                           (unifyc parent-value child-value)]
-                       (log/trace (str "head-pre-checks2: result: " result))
-                       (if (fail? result)
-                         (do
-                           (log/trace (str "head precheck failed  for pair: " pair))
-                           (log/trace (str "head precheck failed: parent wanted: " (strip-refs parent-value) ";"
-                                           "child has: " (strip-refs child-value)))
-                           (log/trace (str " parent is: " (strip-refs parent)))
+              (mapfn (fn [pair]
+                       (log/trace (str "head-pre-checks2: looking at pair: " pair))
+                       (let [parent-value (get-in parent (first pair) :top)
+                             child-value (get-in child (second pair) :top)
+                             result 
+                             (unifyc parent-value child-value)]
+                         (log/trace (str "head-pre-checks2: result: " result))
+                         (if (fail? result)
+                           (do
+                             (log/trace (str "head precheck failed  for pair: " pair))
+                             (log/trace (str "head precheck failed: parent wanted: " (strip-refs parent-value) ";"
+                                             "child has: " (strip-refs child-value)))
+                             (log/trace (str " parent is: " (strip-refs parent)))
                            (log/trace (str " child is: " (strip-refs child)))
                            :fail)
-                         (do
-                           (log/trace (str "head precheck success for pair: " pair))
-                           :top))))
-                   (lazy-seq head-precheck-pairs))))))
+                           (do
+                             (log/trace (str "head precheck success for pair: " pair))
+                             :top))))
+                     (lazy-seq head-precheck-pairs))))))
 
 (def comp-precheck-pairs
   [{:parent [:comp :synsem :cat]
@@ -171,23 +171,23 @@
 
 (defn comp-pre-checks2 [parent child]
   (some #(= :fail %)
-        (map (fn [pair]
-               (let [parent-value (get-in parent (:parent pair) :top)
-                     child-value (get-in parent (:childc pair) :top)
-                     result 
-                     (unifyc parent-value child-value)]
-                 (log/debug (str "comp-pre-checks2: result: " result))
-                 (if (fail? result)
-                   (do
-                     (log/trace (str "comp precheck failed  for pair: " pair))
-                     (log/trace (str "comp precheck failed: parent wanted: " (strip-refs parent-value) ";"
-                                     "child has: " (strip-refs child-value)))
-                     (log/trace (str " child is: " (strip-refs child)))
-                     :fail)
-                   (do
-                     (log/trace (str "comp precheck success for pair: " pair))
-                     :top))))
-             (lazy-seq comp-precheck-pairs))))
+        (mapfn (fn [pair]
+                 (let [parent-value (get-in parent (:parent pair) :top)
+                       child-value (get-in parent (:childc pair) :top)
+                       result 
+                       (unifyc parent-value child-value)]
+                   (log/debug (str "comp-pre-checks2: result: " result))
+                   (if (fail? result)
+                     (do
+                       (log/trace (str "comp precheck failed  for pair: " pair))
+                       (log/trace (str "comp precheck failed: parent wanted: " (strip-refs parent-value) ";"
+                                       "child has: " (strip-refs child-value)))
+                       (log/trace (str " child is: " (strip-refs child)))
+                       :fail)
+                     (do
+                       (log/trace (str "comp precheck success for pair: " pair))
+                       :top))))
+               (lazy-seq comp-precheck-pairs))))
 
 (defn comp-pre-checks [parent child]
   (or

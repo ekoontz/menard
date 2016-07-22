@@ -67,15 +67,18 @@
 
 (defn head-pre-checks [parent child]
   (or
-   (check-vals parent child [:head :synsem :infl]       [:synsem :infl])
-   (check-vals parent child [:head :phrasal]            [:phrasal])
-   (check-vals parent child [:head :synsem :agr]        [:synsem :agr])
-   (check-vals parent child [:head :synsem :sem]        [:synsem :sem])
-   (check-vals parent child [:head :synsem :aux]        [:synsem :aux])
-   (check-vals parent child [:head :synsem :cat]        [:synsem :cat])
-   (check-vals parent child [:head :synsem :pronoun]    [:synsem :pronoun])
-   (check-vals parent child [:head :synsem :propernoun] [:synsem :propernoun])
-   (check-vals parent child [:head :synsem :subcat]     [:synsem :subcat])))
+   (check-vals parent child [:head :synsem :cat]            [:synsem :cat])
+   (check-vals parent child [:head :synsem :subcat :1 :cat] [:synsem :subcat :1 :cat])
+   (check-vals parent child [:head :synsem :subcat :2 :cat] [:synsem :subcat :2 :cat])
+   (check-vals parent child [:head :synsem :infl]           [:synsem :infl])
+   (check-vals parent child [:head :phrasal]                [:phrasal])
+   (check-vals parent child [:head :synsem :agr]            [:synsem :agr])
+   (check-vals parent child [:head :synsem :sem]            [:synsem :sem])
+   (check-vals parent child [:head :synsem :aux]            [:synsem :aux])
+   (check-vals parent child [:head :synsem :pronoun]        [:synsem :pronoun])
+   (check-vals parent child [:head :synsem :propernoun]     [:synsem :propernoun])
+   (check-vals parent child [:head :synsem :subcat]         [:synsem :subcat]))
+  )
 
 (defn comp-pre-checks [parent child]
   (or
@@ -85,7 +88,9 @@
    (check-vals parent child [:comp :synsem :sem]       [:synsem :sem])
    (check-vals parent child [:comp :synsem :reflexive] [:synsem :reflexive])
    (check-vals parent child [:comp :synsem :pronoun]   [:synsem :pronoun])
-   (check-vals parent child [:comp :synsem :subcat]    [:synsem :subcat])))
+   (check-vals parent child [:comp :synsem :subcat]    [:synsem :subcat])
+
+   ))
 
 (defn moreover-head [parent child & [morph]]
   (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]

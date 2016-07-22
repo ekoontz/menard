@@ -236,45 +236,6 @@
                                 (fail-path-between parent {:head child}))))))
           :fail)))))
 
-;; Might be useful to set the following variable to true,
-;; if doing grammar development and it would be unexpected
-;; to have a failing result from calling (moreover-comp)
-;; with certain arguments.
-(def ^:dynamic *throw-exception-if-failed-to-add-complement* false)
-
-(defn moreover-comp [parent child lexfn-sem-impl]
-  (log/trace (str "moreover-comp type parent: " (type parent)))
-  (log/trace (str "moreover-comp type comp:" (type child)))
-  (log/trace (str "moreover-comp: child cat: " (get-in child [:synsem :cat])))
-  (log/trace (str "moreover-comp: parent comp cat: " (get-in parent [:comp :synsem :cat])))
-  
-  (let [result
-        (unifyc parent
-                {:comp child}
-                {:comp {:synsem {:sem (lexfn-sem-impl (get-in child '(:synsem :sem) :top))}}})]
-    (if (not (fail? result))
-      (do (log/trace "unification was successful.")
-          (merge {:comp-filled true}
-                 result))
-      ;; else: fail:
-      (do
-        (log/trace (str "moreover-comp: fail: " result))
-        (if (= false pre-check)
-          (log/warn (str "moreover-comp: pre-checked missed: fail-path-between:"
-                         (fail-path-between parent {:comp child}))))
-        (log/trace (str "moreover-comp: fail: child: " (get-in child [:rule] (get-in child [:synsem :sem :pred] :no-pred))))
-        (if (and
-             *throw-exception-if-failed-to-add-complement*
-             (get-in child '(:head)))
-          (throw
-           (exception
-            (let [fail-path (fail-path parent {:comp child})]
-              (str "failed to add complement: " (:rule child) "  to: phrase: " (:rule parent)
-                   ". Failed path was: " fail-path)))))
-        (log/trace (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
-        (log/trace (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
-        :fail))))
-
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -331,7 +292,7 @@
 
 ;; Haskell-looking signature:
 ;; (parent:map) X (child:{set,seq,fs}) => list:map
-;; TODO: verify that the above commentn about the signature
+;; TODO: verify that the above comment about the signature
 ;; is still true.
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
@@ -377,7 +338,9 @@
    true
    (let [check-result (comp-pre-checks parent comp)
          result (if check-result :fail
-                    (moreover-comp parent comp null-sem-impl))
+                      (unifyc parent
+                              {:comp comp}
+                              {:comp {:synsem {:sem (null-sem-impl (get-in comp '(:synsem :sem) :top))}}}))
          is-fail? (fail? result)]
      (if (not is-fail?)
        (do

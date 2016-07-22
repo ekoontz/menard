@@ -22,6 +22,9 @@
   (log/debug (str "parse/over: "
                   "left: " (vec (set (map morph left)))
                   "; right: " (vec (set (map morph right)))))
+
+  (log/debug (str "over: rules: " (string/join ","
+                                               (map :rule grammar))))
   (over/over grammar left right))
 
 (defn square-cross-product [x]

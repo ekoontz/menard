@@ -42,18 +42,6 @@
 (declare overh)
 (declare overc)
 
-(defn over-each-parent-head [parents head]
-  (if (not (empty? parents))
-    (let [each-parent (first parents)]
-      (log/debug (str "over-each-parent-head: each-parent type:" (type (first parents))))
-      (log/debug (str "over-each-parent-head: head type:" (type head)))
-      (lazy-cat
-       (overh each-parent head)
-       (over-each-parent-head (rest parents) head)))
-    (do
-      (log/debug (str "over-each-parent-head: done. returning nil"))
-      nil)))
-
 (defn over-each-parent-comp [parents comp]
   (log/trace (str "over-each-parent-comp: parents type: " (type parents)))
   (log/trace (str "over-each-parent-comp: comp type: " (type comp)))
@@ -66,18 +54,6 @@
        (over-each-parent-comp (rest parents) comp)))
     (do
       (log/trace (str "over-each-parent-comp: done. returning nil"))
-      nil)))
-
-(defn over-each-head-child [parent children]
-  (log/trace (str "over-each-head-child: parent type: " (type parent)))
-  (log/trace (str "over-each-head-child: head children type: " (type children)))
-  (if (not (empty? children))
-    (let [each-child (first children)]
-      (lazy-cat
-       (overh parent each-child)
-       (over-each-head-child parent (rest children))))
-    (do
-      (log/trace (str "over-each-head-child: done. returning nil."))
       nil)))
 
 (def ^:dynamic *extra-diagnostics* false)
@@ -343,7 +319,9 @@
    (let [parents (lazy-seq parent)]
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-parent-head parents head)))
+             (mapcat (fn [each-parent]
+                       (overh each-parent head))
+                     parents)))
 
    (or (set? head)
        (vector? head))
@@ -355,8 +333,9 @@
      (log/trace (str "head is a seq - actual type is " (type head)))
      (filter (fn [result]
                (not (fail? result)))
-             (over-each-head-child parent head-children)))
-
+             (mapcat (fn [child]
+                       (overh parent child))
+                     head-children)))
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.

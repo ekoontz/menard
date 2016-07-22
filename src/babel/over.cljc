@@ -311,12 +311,11 @@
         (if (and
              *throw-exception-if-failed-to-add-complement*
              (get-in child '(:head)))
-          (throw (exception (str "failed to add complement: " child "  to: phrase: " parent
-                                 ". Failed path was: " (fail-path result)
-                                 ". Value of parent at path is: "
-                                 (get-in parent (fail-path result))
-                                 "; Synsem of child is: "
-                                 (get-in child '(:synsem) :top)))))
+          (throw
+           (exception
+            (let [fail-path (fail-path parent {:comp child})]
+              (str "failed to add complement: " (:rule child) "  to: phrase: " (:rule parent)
+                   ". Failed path was: " fail-path)))))
         (log/trace (str "moreover-comp: complement synsem: " (strip-refs (get-in child '(:synsem) :top))))
         (log/trace (str "moreover-comp:  parent value: " (strip-refs (get-in parent (fail-path result)))))
         :fail))))

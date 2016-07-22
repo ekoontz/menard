@@ -42,8 +42,6 @@
 (declare overc)
 
 (def ^:dynamic *extra-diagnostics* false)
-(def ^:dynamic *check-parent-and-head-child-cat-equal* true)
-(def ^:dynamic *check-infl* true)
 
 (defn check-vals [m1 m2 p1 p2]
   (let [v1 (get-in m1 p1 :top)

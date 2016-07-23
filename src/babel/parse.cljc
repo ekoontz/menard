@@ -2,6 +2,7 @@
  (:refer-clojure :exclude [get-in resolve find])
  (:require
   [babel.over :as over :refer [truncate]]
+  [clojure.core.cache :as cache]
   [clojure.set :refer [union]]
   [clojure.string :as string]
   #?(:clj [clojure.tools.logging :as log])
@@ -15,6 +16,26 @@
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
 (declare over)
+
+(def C (atom (cache/fifo-cache-factory {} :threshold 1024)))
+
+;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
+(defn deal-with-cache [k if-miss-do]
+  (if (cache/has? @C k)
+    (do
+      (log/info (str "cache hit for " k))
+      (swap! C #(cache/hit % k)))
+    (swap! C #(cache/miss % k (if-miss-do k)))))
+
+(defn lookup [lookup-fn k]
+  (let [lookup-fn (fn [k]
+                    (do (log/info (str "cache miss for " k))
+                        (let [looked-up (lookup-fn k)]
+                          (if (not (empty? looked-up)) looked-up :none))))]
+    (deal-with-cache k lookup-fn)
+    (let [cache-value (get @C k)]
+      (if (= cache-value :none) nil
+          cache-value))))
 
 (defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
@@ -130,9 +151,11 @@
                                       right (get minus-1 (second span-pair))
                                       left-strings (filter string? left)
                                       right-strings (filter string? right)
-                                      left-lexemes (mapcat (:lookup model)
+                                      left-lexemes (mapcat (fn [string]
+                                                             (lookup (:lookup model) string)) ;; TODO: cache return value of (lookup left-string)
                                                            left-strings)
-                                      right-lexemes (mapcat (:lookup model)
+                                      right-lexemes (mapcat (fn [string]
+                                                              (lookup (:lookup model) string)) ;; TODO: cache return value of (lookup right-string)
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))

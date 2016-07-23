@@ -17,23 +17,24 @@
 
 (declare over)
 
-(def C (atom (cache/fifo-cache-factory {} :threshold 1024)))
+;; TODO: move this to a particular language model or lexicon; not global.
+(def lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024)))
 
 ;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
 (defn deal-with-cache [k if-miss-do]
-  (if (cache/has? @C k)
+  (if (cache/has? @lexical-cache k)
     (do
-      (log/info (str "cache hit for " k))
-      (swap! C #(cache/hit % k)))
-    (swap! C #(cache/miss % k (if-miss-do k)))))
+      (log/trace (str "cache hit for " k))
+      (swap! lexical-cache #(cache/hit % k)))
+    (swap! lexical-cache #(cache/miss % k (if-miss-do k)))))
 
 (defn lookup [lookup-fn k]
   (let [lookup-fn (fn [k]
-                    (do (log/info (str "cache miss for " k))
+                    (do (log/debug (str "cache miss for " k))
                         (let [looked-up (lookup-fn k)]
                           (if (not (empty? looked-up)) looked-up :none))))]
     (deal-with-cache k lookup-fn)
-    (let [cache-value (get @C k)]
+    (let [cache-value (get @lexical-cache k)]
       (if (= cache-value :none) nil
           cache-value))))
 

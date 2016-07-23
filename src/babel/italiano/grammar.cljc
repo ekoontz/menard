@@ -16,6 +16,7 @@
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
+   [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
 (defn exception [error-string]
@@ -579,6 +580,7 @@
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
 
 (def medium
@@ -610,6 +612,7 @@
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :language "it"
      :language-keyword :italiano
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :lookup (fn [arg]
                (analyze arg parse-lexicon))
@@ -671,6 +674,7 @@
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :rules rules
      :rule-map (zipmap rules grammar)}))

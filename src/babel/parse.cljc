@@ -9,34 +9,33 @@
   #?(:cljs [babel.logjs :as log])
   [dag_unify.core :refer (get-in strip-refs)]))
 
+(def ^:const parse-with-lexical-caching true)
 (def ^:const parse-with-truncate true)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
-(declare over)
-
-;; TODO: move this to a particular language model or lexicon; not global.
-(def lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024)))
-
 ;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
-(defn deal-with-cache [k if-miss-do]
+(defn deal-with-cache [k if-miss-do lexical-cache]
   (if (cache/has? @lexical-cache k)
     (do
       (log/trace (str "cache hit for " k))
       (swap! lexical-cache #(cache/hit % k)))
     (swap! lexical-cache #(cache/miss % k (if-miss-do k)))))
 
-(defn lookup [lookup-fn k]
-  (let [lookup-fn (fn [k]
-                    (do (log/debug (str "cache miss for " k))
-                        (let [looked-up (lookup-fn k)]
-                          (if (not (empty? looked-up)) looked-up :none))))]
-    (deal-with-cache k lookup-fn)
-    (let [cache-value (get @lexical-cache k)]
-      (if (= cache-value :none) nil
-          cache-value))))
+(defn lookup [{lookup :lookup lexical-cache :lexical-cache} k]
+  (if (or (= false parse-with-lexical-caching)
+          (nil? lexical-cache))
+    (lookup k)
+    (let [lookup-fn (fn [k]
+                      (do (log/debug (str "cache miss for " k))
+                          (let [looked-up (lookup k)]
+                            (if (not (empty? looked-up)) looked-up :none))))]
+      (deal-with-cache k lookup-fn lexical-cache)
+      (let [cache-value (get @lexical-cache k)]
+        (if (= cache-value :none) nil
+            cache-value)))))
 
 (defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
@@ -153,10 +152,10 @@
                                       left-strings (filter string? left)
                                       right-strings (filter string? right)
                                       left-lexemes (mapcat (fn [string]
-                                                             (lookup (:lookup model) string)) ;; TODO: cache return value of (lookup left-string)
+                                                             (lookup model string))
                                                            left-strings)
                                       right-lexemes (mapcat (fn [string]
-                                                              (lookup (:lookup model) string)) ;; TODO: cache return value of (lookup right-string)
+                                                              (lookup model string))
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))

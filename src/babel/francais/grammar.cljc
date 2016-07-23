@@ -13,6 +13,7 @@
                      subcat-1-principle subcat-1-1-principle
                      subcat-1-1-principle-comp-subcat-1 subcat-2-principle
                      subcat-2-2-principle subcat-5-principle]]
+   [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
 (declare against-pred)
 (declare matching-head-lexemes)
@@ -486,6 +487,7 @@
                    (map #(keyword (get-in % [:rule]))
                         grammar)
                    grammar)
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :morph fo
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
@@ -519,7 +521,7 @@
                    (map #(keyword (get-in % [:rule]))
                         grammar)
                    grammar)
-
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]

@@ -19,6 +19,7 @@
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
+   [clojure.core.cache :as cache]
    [dag_unify.core :refer (get-in merge unifyc)]))
 
 (def head-first
@@ -97,7 +98,6 @@
     :schema-symbol 'h11 ;; used by over-each-parent to know where to put children.
     :first :head
     :comment "h11"}))
-
 
 (def h11-comp-subcat-1
   (let [subcat (atom :top)]
@@ -451,6 +451,7 @@
      
      :grammar grammar
      :lexicon lexicon
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :morph fo
      :morph-walk-tree (fn [tree]
                         (do
@@ -476,6 +477,7 @@
                           (merge tree
                                  (morph-walk-tree tree))))
      :grammar grammar
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      }))

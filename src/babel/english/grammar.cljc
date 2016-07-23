@@ -21,6 +21,7 @@
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
+   [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
 
 (declare cache)
@@ -653,6 +654,7 @@
                    (map #(keyword (get-in % [:rule])) grammar)
                    grammar)
 
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :for {:es ;; a lexicon specific to when we want to use Español as a target.
            (into {}
@@ -697,6 +699,7 @@
                (analyze arg lexicon))
      :grammar grammar
      :morph fo
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
@@ -739,6 +742,7 @@
                (analyze arg lexicon))
      :enrich enrich
      :grammar grammar
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
@@ -762,6 +766,7 @@
                (analyze arg lexicon))
      :enrich enrich
      :grammar grammar
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))
 
 (def small-lexicon
@@ -786,6 +791,7 @@
                (analyze arg lexicon))
      :enrich enrich
      :grammar grammar
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))
 
 (log/info "English grammar defined (small,small-plus-vp-pronoun,medium).")

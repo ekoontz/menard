@@ -43,8 +43,8 @@
   (run-benchmark times))
 
 ;; lein run -m babel.italiano.benchmark/parse-mark 20 "i gatti neri hanno bevuto il vino rosso"
-;; (parsemark 100 "gli uomini alti hanno bevuto il vino rosso alla casa rossa")
-(defn parsemark [times expr]
+;; lein run -m babel.italiano.benchmark/parse-mark 20 "gli uomini alti hanno bevuto il vino rosso alla casa rossa"
+(defn parse-mark [times expr]
   (count (take (Integer. times)
                (repeatedly
                 #(println (with-out-str

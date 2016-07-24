@@ -17,30 +17,6 @@
 ;; use map or pmap.
 (def ^:const mapfn pmap)
 
-;; tree-building functions: useful for developing grammars.
-(defn into-list-of-maps [arg]
-  (cond
-
-   (seq? arg)
-   arg
-
-   (set? arg)
-   (seq arg)
-
-   (map? arg)
-   (list arg)
-
-   (nil? arg)
-   (list :top)
-
-   (keyword? arg)
-   (list arg)
-
-   true (throw (exception (str "into-map: don't know what to do with a " (type arg) ".")))))
-
-(declare overh)
-(declare overc)
-
 (def ^:dynamic *extra-diagnostics* false)
 
 (defn check-vals [m1 m2 p1 p2]
@@ -139,11 +115,11 @@
                               (get-in child fail-path)))
               (if (and (not (= (get-in parent [:synsem :cat])
                                (get-in child [:synsem :cat]))))
-                (log/warn (str "moreover-head: CHILD CAT DIFFERS FROM HEAD CAT!")))
+                (log/warn (str "moreover-head: parent's :cat != head child's cat.")))
               (if (fail? (unify (get-in parent [:head :synsem :subcat :1 :cat])
                                 (get-in child [:synsem :subcat :1 :cat])))
-                (log/trace (str "moreover-head: SUBCAT parent head subcat 1:" (get-in parent [:head :synsem :subcat :1 :cat]) ";"
-                                "moreover-head: SUBCAT        head subcat 1:" (get-in child [:synsem :subcat :1 :cat]))))
+                (log/trace (str "moreover-head: parent specifies: [:head :synsem :subcat :1]: " (get-in parent [:head :synsem :subcat :1 :cat]) ";"
+                                "moreover-head: head child specifies: [:synsem subcat :1]   : " (get-in child [:synsem :subcat :1 :cat]))))
               (if (and false ;; TODO (if no-pre-checks-have-caught-this ..)
                        (get-in parent [:head :synsem :infl])
                        (get-in comp [:synsem :infl]))
@@ -161,7 +137,8 @@
       (log/trace (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
       (log/trace (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
       (log/trace (str "overh: head: " (strip-refs (dissoc head :serialized))))))
-
+  ;; TODO: get rid of all this type-checking and use
+  ;; whatever the smart people use for Clojure argument type-checking.
   (cond
 
    (nil? head)

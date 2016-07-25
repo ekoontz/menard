@@ -41,7 +41,8 @@
              :propernoun true}}
    "a"
    ;; "a" as in "a casa"
-   [(let [location (atom {:place true})]
+   [
+    (let [location (atom {:place true})]
       {:synsem {:cat :prep
                 :sem {:pred :a
                       :obj location
@@ -51,20 +52,24 @@
                              :subcat '()
                              :sem location}
                          :2 '()}}})
-    ;; "a" as in "a Roma"
-    {:synsem {:cat :prep
-              :sem {:pred :in}
-              :subcat {:1 {:cat :noun
-                           :sem {:city true}}
-                       :2 '()}}}
-    
-    ;; "a mezzogiorno"
-    {:synsem {:cat :prep
-              :sem {:pred :a}
-              :subcat {:1 {:cat :verb
-                           :subcat '()}
-                       :2 {:cat :noun
-                           :sem {:time true}}}}}
+     ;; "a" as in "a Roma"
+    (let [location (atom {:city true})]
+      {:synsem {:cat :prep
+                :sem {:pred :in
+                      :obj location}
+                :subcat {:1 {:cat :noun
+                             :sem location}
+                         :2 '()}}})
+
+    ;; "a" as in "a mezzogiorno"
+    (let [time (atom {:time true})]
+      {:synsem {:cat :prep
+                :sem {:pred :a
+                      :obj time}
+                :subcat {:1 {:cat :verb
+                             :subcat '()}
+                         :2 {:cat :noun
+                             :sem time}}}})
     
     ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
 ;    (let [complement-semantics (atom {:pred :a
@@ -2264,6 +2269,8 @@
                 :top true}
 
    })
+
+  
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
 (def lexicon (-> (compile-lex lexicon-source

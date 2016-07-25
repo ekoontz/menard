@@ -15,6 +15,8 @@
 
 (require '[environ.core :refer [env]])
 
+;; TODO: babel itself should not define the database connection: let caller
+;; handle that.
 (defdb korma-db 
   (let [default "postgres://postgres@localhost:5432/babel"
         database-url (cond
@@ -31,7 +33,7 @@
     (postgres
      ;; thanks to Jeroen van Dijk via http://stackoverflow.com/a/14625874
      (let [[_ user password host port db]
-           (re-matches #"postgres://(?:([^:]+):?(.*)@)?([^:]+)(?::(\d+))?/(.+)"
+           (re-matches #"postgres://(?:([^:]+):?(.*)@)?([^:]+)(?::(\d+))?/(\S+).*"
                        database-url)
            
            redacted-database-url

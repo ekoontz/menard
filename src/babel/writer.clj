@@ -175,7 +175,8 @@
                           VALUES (?,"
                     "$$" (json/write-str (strip-refs lexeme)) "$$"
                     ",?,?)")
-               [canonical (str (serialize lexeme))
+               [canonical (str "[" (string/join " " (serialize lexeme))
+                               "]")
                 language]])))
 
 (defn populate-with-language [num model spec]

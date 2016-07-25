@@ -1,31 +1,48 @@
 ;; TODO: nouns do not need {:essere false}
 (ns babel.italiano.lexicon
-  (:refer-clojure :exclude [get-in merge])
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :refer [sem-impl]]
    [babel.lexicon :refer [universals]]
+
+   ;; TODO: use dag_unify/unifyc instead:
+   ;; deprecate lexiconfn/unify.
    [babel.lexiconfn :refer [compile-lex if-then constrain-vals-if
                             filter-vals
                             map-function-on-map-vals
-                            rewrite-keys unify]] ;; TODO: use dag_unify/unifyc instead:
-   ;; deprecate lexiconfn/unify.
+                            rewrite-keys unify]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
-   [babel.italiano.pos :refer [adjective agreement-noun cat-of-pronoun
-                               common-noun comparative countable-noun determiner
-                               drinkable-noun feminine-noun intransitive intransitivize
-                               intransitive-unspecified-obj
-                               masculine-noun non-comparative-adjective
-                               noun pronoun-acc pronoun-reflexive sentential-adverb
-                               transitive transitivize verb-aux verb-subjective]]
-   [dag_unify.core :refer [fail? get-in merge strip-refs]]))
+   [babel.italiano.pos :as ipos]
+   [dag_unify.core :refer [fail? get-in strip-refs]]))
 
 (def analyze-lexemes false)
 
 (def lexicon-source
-  {"Luisa"
+  (let [adjective ipos/adjective
+        agreement-noun ipos/agreement-noun 
+        cat-of-pronoun ipos/cat-of-pronoun
+        common-noun ipos/common-noun
+        comparative ipos/comparative
+        countable-noun ipos/countable-noun
+        determiner ipos/determiner
+        intransitive ipos/intransitive
+        intransitive-unspecified-obj ipos/intransitive-unspecified-obj
+        masculine-noun ipos/masculine-noun
+        non-comparative-adjective ipos/non-comparative-adjective
+        preposition (let [shared (atom :top)]
+                      {:synsem {:sem {:obj shared}
+                                :subcat {:1 {:sem shared}}}})
+        pronoun-acc ipos/pronoun-acc
+        pronoun-reflexive ipos/pronoun-reflexive
+        sentential-adverb ipos/sentential-adverb
+        transitive ipos/transitive
+        verb-aux ipos/verb-aux
+        verb-subjective ipos/verb-subjective]
+    
+    {"Luisa"
    {:synsem {:sem {:pred :luisa
                    :human true}
              :agr {:number :sing
@@ -42,34 +59,31 @@
    "a"
    ;; "a" as in "a casa"
    [
-    (let [location (atom {:place true})]
-      {:synsem {:cat :prep
-                :sem {:pred :a
-                      :obj location
-                      :comparative false}
-                :subcat {:1 {:cat :noun
-                             :case :acc
-                             :subcat '()
-                             :sem location}
-                         :2 '()}}})
+    {:unify [preposition]
+     :synsem {:cat :prep
+              :sem {:pred :a
+                    :obj {:place true}
+                    :comparative false}
+              :subcat {:1 {:cat :noun
+                           :case :acc
+                           :subcat '()}
+                       :2 '()}}}
      ;; "a" as in "a Roma"
-    (let [location (atom {:city true})]
-      {:synsem {:cat :prep
-                :sem {:pred :in
-                      :obj location}
-                :subcat {:1 {:cat :noun
-                             :sem location}
-                         :2 '()}}})
+    {:unify [preposition]
+     :synsem {:cat :prep
+              :sem {:pred :in
+                    :obj {:city true}}
+              :subcat {:1 {:cat :noun}
+                       :2 '()}}}
 
     ;; "a" as in "a mezzogiorno"
-    (let [time (atom {:time true})]
-      {:synsem {:cat :prep
-                :sem {:pred :a
-                      :obj time}
-                :subcat {:1 {:cat :verb
-                             :subcat '()}
-                         :2 {:cat :noun
-                             :sem time}}}})
+    {:unify [preposition]
+     :synsem {:cat :prep
+              :sem {:pred :a
+                    :obj {:time true}}
+              :subcat {:1 {:cat :noun
+                           :subcat '()}
+                       :2 '()}}}
     
     ;; e.g. "a ridere": tu hai fatto bene a ridere (you did well to laugh)"
 ;    (let [complement-semantics (atom {:pred :a
@@ -131,28 +145,22 @@
                            :place true}}}
    "affolato"
    [;; comparative
-    (let [is-place1 {:place true} ;; only places can be crowded.
-          is-place (atom is-place1)
+    (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
           than-this (atom {:pred :di
                            :mod is-place})]
-      (unify adjective
-              comparative
-              {:synsem {:sem {:pred :affolato
-                              :arg1 is-place
-                              :arg2 is-place}
-                        :subcat {:1 {:cat :noun
-                                     :sem is-place}
-                                 :2 {:cat :prep
-                                     :sem than-this}}}})
+      {:unify [adjective comparative is-place]
+       :synsem {:sem {:pred :affolato
+                      :arg1 is-place
+                      :arg2 is-place}
+                :subcat {:1 {:cat :noun
+                             :sem is-place}
+                         :2 {:cat :prep
+                             :sem than-this}}}}
       ;; non-comparative
-      (unify adjective
-             {:synsem {:cat :adjective
-                       :sem {:pred :affolato
-                             :comparative false}}}
-             ;; TODO: make this sem-impl process happen generally with _adjective_.
-             {:synsem {:sem (sem-impl is-place1)}}))
-      
-    ] ;; only places can be crowded.
+      {:unify [adjective is-place]
+       :synsem {:cat :adjective
+                :sem {:pred :affolato
+                      :comparative false}}})]
 
    "aggiungere" {:synsem {:cat :verb
                           :sem {:pred :add}}}
@@ -171,31 +179,29 @@
    [;; non-comparative:
     (let [subject-sem (atom {:human true}) ;; only humans can be tall.
           subject-agr (atom :top)] 
-      (unify adjective
-             non-comparative-adjective
-             {:synsem {:cat :adjective
-                       :sem {:pred :alto
-                             :comparative false
-                             :arg1 subject-sem
-                             :human true}
-                       :subcat {:1 {:cat :det
-                                    :agr subject-agr
-                                    :sem subject-sem}
-                                :2 '()}}}))
+      {:unify [adjective non-comparative-adjective]
+       :synsem {:cat :adjective
+                :sem {:pred :alto
+                      :comparative false
+                      :arg1 subject-sem
+                      :human true}
+                :subcat {:1 {:cat :det
+                             :agr subject-agr
+                             :sem subject-sem}
+                         :2 '()}}})
     ;; comparative:
     (let [complement-complement-sem (atom {:human true}) ;; only humans can be tall.
           complement-sem (atom {:pred :di
                                :mod complement-complement-sem})
           subject-sem (atom {:human true})] ;; only humans can be tall.
-      (unify adjective
-             comparative
-             {:synsem {:sem {:pred :alto
-                             :arg1 subject-sem
-                             :arg2 complement-complement-sem}
-                       :subcat {:1 {:cat :noun
-                                    :sem subject-sem}
-                                :2 {:cat :prep
-                                    :sem complement-sem}}}}))]
+      {:unify [adjective comparative]
+       :synsem {:sem {:pred :alto
+                      :arg1 subject-sem
+                      :arg2 complement-complement-sem}
+                :subcat {:1 {:cat :noun
+                             :sem subject-sem}
+                         :2 {:cat :prep
+                             :sem complement-sem}}}})]
 
    "alzarsi" (let [subject-semantics (atom {:animate true})
                    subject-agr (atom :top)]
@@ -360,56 +366,49 @@
                                             :3plur "hanno"}}}]
 
      ;; 1. "avere": to possess something buyable
-     [(unify
-
-       ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
-       transitive       
-       {:synsem {:subcat {:3 '()}}}
-       avere-common
-       {:note "avere (possess)"
-        :synsem {:sem {:pred :have
-                       :activity false
-                       :discrete false
-                       :subj {:human true}
-                       :obj {:buyable true}}}})
+     [{:unify [
+               ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
+               transitive       
+               {:synsem {:subcat {:3 '()}}}
+               avere-common]
+       :note "avere (possess)"
+       :synsem {:sem {:pred :have
+                      :activity false
+                      :discrete false
+                      :subj {:human true}
+                      :obj {:buyable true}}}}
 
       ;; 2. "avere": to be in a relation with: e.g. "I have two children"
-      (unify
-       ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
-       transitive
-       {:synsem {:subcat {:3 '()}}}
-       avere-common
-       {:note "avere (relation)"
-        :synsem {:sem {:pred :have
-                       :activity false
-                       :discrete false
-                       :subj {:human :top}
-                       :obj {:human :top}}}})
+      {:unify [
+               ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
+               transitive
+               {:synsem {:subcat {:3 '()}}}
+               avere-common]
+       :note "avere (relation)"
+       :synsem {:sem {:pred :have
+                      :activity false
+                      :discrete false
+                      :subj {:human :top}
+                      :obj {:human :top}}}}
 
       ;; 3. avere: unspecified object
-      (unify
-       avere-common
-       verb-subjective
-       intransitive-unspecified-obj
-       {:note "avere (possess): unspecified object"
-        :synsem {:sem {:pred :have
-                       :activity false
-                       :discrete false
-                       :subj {:human true}}}})
+      {:unify [avere-common verb-subjective intransitive-unspecified-obj]
+       :note "avere (possess): unspecified object"
+       :synsem {:sem {:pred :have
+                      :activity false
+                      :discrete false
+                      :subj {:human true}}}}
 
       ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
       (let [agr-of-obj-of-main-verb (atom :top)]
-        (unify
-         verb-aux
-         verb-subjective
-         avere-common
-        {:note "avere(aux): takes trans"
+        {:unify [verb-aux verb-subjective avere-common]
+         :note "avere(aux): takes trans"
          :synsem {:infl :present
                   :subcat {:2 {:agr agr-of-obj-of-main-verb
                                :reflexive false
                                :subcat {:2 {:agr agr-of-obj-of-main-verb
                                             :pronoun true}}
-                               :essere false}}}}))
+                               :essere false}}}})
 
       ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
       ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
@@ -417,45 +416,39 @@
       ;; 1. subject that is the same as the subject of 2.
       ;; 2. an intransitive verb.
       (let [agr-of-subj-of-main-verb (atom :top)]
-        (unify
-         verb-aux
-         verb-subjective
-         avere-common
-         {:note "avere(aux): takes intrans"
-          :synsem {:infl :present
-                   :subcat {:1 {:agr agr-of-subj-of-main-verb}
-                            :2 {:essere false
-                                :reflexive false ;; in Italian, reflexive verbs are always essere=false.
-                                ;; this additional qualification here (:reflexive false) is not necessary
-                                ;; but is expected to reduce fails during generation.
-                                :agr agr-of-subj-of-main-verb
-                                :subcat {:1 {:agr agr-of-subj-of-main-verb}
-                                         :2 '()}}}}}))])
-   
+        {:unify [verb-aux verb-subjective avere-common]
+         :note "avere(aux): takes intrans"
+         :synsem {:infl :present
+                  :subcat {:1 {:agr agr-of-subj-of-main-verb}
+                           :2 {:essere false
+                               :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                               ;; this additional qualification here (:reflexive false) is not necessary
+                               ;; but is expected to reduce fails during generation.
+                               :agr agr-of-subj-of-main-verb
+                               :subcat {:1 {:agr agr-of-subj-of-main-verb}
+                                        :2 '()}}}}})])
    "ballare" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
    "bello"
    [;; non-comparative
-    (unify adjective
-           {:synsem {:sem {:pred :bello
-                           :comparative false
-                           }}}) ;; for now, no restrictions on what can be beautiful.
+    {:unify [adjective]
+     :synsem {:sem {:pred :bello
+                    :comparative false
+                    }}} ;; for now, no restrictions on what can be beautiful.
     
     ;; comparative
     (let [complement-complement-sem (atom :top) ;; for now no restrictions
           complement-sem (atom {:pred :di
                                :mod complement-complement-sem})
           subject-sem (atom :top)] ;; subject can be anything.
-      (unify adjective
-             comparative
-             {:synsem {:sem {:pred :bello
-                             :arg1 subject-sem
-                             :arg2 complement-complement-sem}
-                       :subcat {:1 {:cat :noun
-                                    :sem subject-sem}
-                                :2 {:cat :prep
-                                    :sem complement-sem}}}}))]
-
+      {:unify [adjective comparative]
+       :synsem {:sem {:pred :bello
+                      :arg1 subject-sem
+                      :arg2 complement-complement-sem}
+                :subcat {:1 {:cat :noun
+                             :sem subject-sem}
+                         :2 {:cat :prep
+                             :sem complement-sem}}}})]
    "bene"
    {:synsem {:cat :adverb
              :sem {:pred :bene}}}
@@ -482,15 +475,15 @@
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
    "bianco"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :bianco
-                          :comparative false
-                          :physical-object true
-                          :human false}}
-           :italiano {:masc {:plur "bianchi"}
-                      :fem {:plur "bianche"}
-                      :cat :adjective}})
+     {:unify [adjective]
+      :synsem {:cat :adjective
+               :sem {:pred :bianco
+                     :comparative false
+                     :physical-object true
+                     :human false}}
+      :italiano {:masc {:plur "bianchi"}
+                 :fem {:plur "bianche"}
+                 :cat :adjective}}
    "birra"
    {:synsem {:agr {:gender :fem}
              :cat :noun
@@ -513,13 +506,13 @@
    "brutto"
    ;; non-comparative
    ;; TODO: add comparative
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :brutto
-                          :comparative false
-                          }} ;; for now, no restrictions on what can be ugly.
-           :italiano {:cat :adjective}})
-
+     {:unify [adjective]
+      :synsem {:cat :adjective
+               :sem {:pred :brutto
+                     :comparative false
+                     }} ;; for now, no restrictions on what can be ugly.
+      :italiano {:cat :adjective}}
+    
    "bucato"
    {:synsem {:cat :noun
              :agr {:gender :masc
@@ -614,13 +607,13 @@
     ]
 
    "cattivo"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :cattivo
-                          :comparative false
-                          :human true;; TODO:should not need this because child => human.
-                          :child true}}
-           :italiano {:cat :adjective}})
+     {:unify [adjective]
+      :synsem {:cat :adjective
+               :sem {:pred :cattivo
+                     :comparative false
+                     :human true;; TODO:should not need this because child => human.
+                     :child true}}
+      :italiano {:cat :adjective}}
 
    ;; working on: "mi sono comprato un nuovo cellulare"
    "cellulare"
@@ -736,13 +729,13 @@
    "cittadino" {:synsem {:cat :adjective
                          :sem {:pred :local}}}
 
-   "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
-               [(merge common
-                       {:synsem {:cat :verb
-                                 :sem {:pred :hit}}})
-                (merge common
-                       {:synsem {:cat :verb
-                                 :sem {:pred :strike}}})])
+     "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
+                 [{:unify [common]
+                   :synsem {:cat :verb
+                            :sem {:pred :hit}}}
+                  {:unify [common]
+                   :synsem {:cat :verb
+                            :sem {:pred :strike}}}])
    "cominciare"
    [{:synsem {:cat :verb
               :essere false
@@ -794,23 +787,22 @@
           complement-sem (atom {:pred :di
                                 :mod complement-complement-sem})
           subject-sem (atom {:place true})]
-      (unify adjective
-             comparative
-             {:synsem {:sem {:pred :contento
-                             :arg1 subject-sem
-                             :arg2 complement-complement-sem}
-                       :subcat {:1 {:cat :noun
-                                    :sem subject-sem}
-                                :2 {:cat :prep
-                                    :sem complement-sem}}}})
-
+      {:unify [adjective comparative]
+       :synsem {:sem {:pred :contento
+                      :arg1 subject-sem
+                      :arg2 complement-complement-sem}
+                :subcat {:1 {:cat :noun
+                             :sem subject-sem}
+                         :2 {:cat :prep
+                             :sem complement-sem}}}}
+    
       ;; non-comparative
-      (unify adjective
-             {:synsem {:cat :adjective
-                       :sem {:pred :contento
-                             :comparative false
-                             :human true}}}))]
-
+      {:unify [adjective]
+       :synsem {:cat :adjective
+                :sem {:pred :contento
+                      :comparative false
+                      :human true}}})]
+    
    "contraccambiare" {:synsem {:sem {:pred :reciprocate}
                                :cat :verb}}
    
@@ -826,22 +818,21 @@
           complement-sem (atom {:pred :di
                                 :mod complement-complement-sem})
           subject-sem (atom {:human true})] ;; only humans can be short.
-      (unify adjective
-             comparative
-             {:synsem {:sem {:pred :corto
-                             :arg1 subject-sem
-                             :arg2 complement-complement-sem}
-                       :subcat {:1 {:cat :noun
-                                    :sem subject-sem}
-                                :2 {:cat :prep
-                                    :sem complement-sem}}}}))
+      {:unify [adjective comparative]
+       :synsem {:sem {:pred :corto
+                      :arg1 subject-sem
+                      :arg2 complement-complement-sem}
+                :subcat {:1 {:cat :noun
+                             :sem subject-sem}
+                         :2 {:cat :prep
+                             :sem complement-sem}}}})
     ;; non-comparative
-    (unify adjective
-           {:synsem {:cat :adjective
-                     :sem {:pred :corto
-                           :comparative false
-                           :human true}}
-            :italiano {:cat :adjective}})]
+    {:unify [adjective]
+     :synsem {:cat :adjective
+              :sem {:pred :corto
+                    :comparative false
+                    :human true}}
+     :italiano {:cat :adjective}}]
 
    "creare"  {:synsem {:cat :verb
                        :sem {:pred :create}}}
@@ -940,22 +931,22 @@
    "difficile"
    ;; non-comparative
    ;; TODO: add comparative
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :difficile
-                          :comparative false
-                          ;; "difficile" has a very specific list of things it can modify:
-                          :drinkable false
-                          :human false
-                          :animate false
-                          :buyable false
-                          :legible true
+     {:unify [adjective]
+      :synsem {:cat :adjective
+               :sem {:pred :difficile
+                     :comparative false
+                     ;; "difficile" has a very specific list of things it can modify:
+                     :drinkable false
+                     :human false
+                     :animate false
+                     :buyable false
+                     :legible true
                                         ;                             :activity true ;; TODO: cannot declare this as an activity because of some semantic implicature..
-                          :artifact true
-                          :physical-object true
-                          :edible false}}
-           :italiano {:cat :adjective
-                      :fem {:sing "difficile"}}})
+                     :artifact true
+                     :physical-object true
+                     :edible false}}
+      :italiano {:cat :adjective
+                 :fem {:sing "difficile"}}}
 
    "dipingere" {:synsem {:cat :verb
                          :sem {:pred :paint}}
@@ -967,11 +958,10 @@
                             :passato "detto"
                             :future-stem "dir"
                             :present {:2plur "dite"}}}]
-            [(unify shared-part-of-dire
-                    {:synsem {:sem {:pred :say}}})
-             (unify shared-part-of-dire
-                    {:synsem {:sem {:pred :tell}}})])
-      
+            [{:unify [shared-part-of-dire]
+              :synsem {:sem {:pred :say}}}
+             {:unify [shared-part-of-dire]
+              :synsem {:sem {:pred :tell}}}])
       
    "diventare" {:synsem {:essere true 
                          :cat :verb
@@ -996,13 +986,13 @@
                 :cat :noun
                 :sem {:pred :question}}}
    "domani"
-   (unify sentential-adverb
-          {:synsem {:cat :sent-modifier
-                    :sem {:pred :domani}
-                    :subcat {:1 {:infl :future
-                                 :sem {:tense :future}
-                                 :subcat '()}}}
-           :italiano "domani"})
+     {:unify [sentential-adverb]
+      :synsem {:cat :sent-modifier
+               :sem {:pred :domani}
+               :subcat {:1 {:infl :future
+                            :sem {:tense :future}
+                            :subcat '()}}}
+      :italiano "domani"}
 
    "donna"
    {:synsem {:agr {:gender :fem}
@@ -1020,12 +1010,12 @@
                             :sem time}
                         :2 '()}}})
    "dopodomani"
-   (unify sentential-adverb
-          {:synsem {:cat :sent-modifier
-                    :sem {:pred :dopodomani}
-                    :subcat {:1 {:infl :future
-                                 :sem {:tense :future}
-                                 :subcat '()}}}})
+     {:unify [sentential-adverb]
+      :synsem {:cat :sent-modifier
+               :sem {:pred :dopodomani}
+               :subcat {:1 {:infl :future
+                            :sem {:tense :future}
+                            :subcat '()}}}}
    "dormire"
    {:synsem {:cat :verb
              :essere false
@@ -1099,28 +1089,27 @@
                                      :3sing "sarebbe"
                                      :1plur "saremmo"
                                      :2plur "sareste"
-                                     :3plur "sarebbero"}}})]                          
+                                     :3plur "sarebbero"}}})]
      [;; essere: adjective
       ;; TODO: unify essere-adjective, essere-prepositional-phrase
       ;; and essere-intensifier into one lexical entry.
       (let [gender (atom :top)
             number (atom :top)]
-        (unify
-         essere-common
-         {:notes "essere-adjective"
-          :synsem {:cat :verb
-                   :sem {:pred :be
-                         :subj :top
-                         :obj :top}
-                   :subcat {:1 {:cat :noun
-                                :agr {:gender gender
-                                      :number number}}
-                            :2 {:cat :adjective
-                                :sem {:comparative false}
-                                :subcat {:1 :top
-                                         :2 '()}
-                                :agr {:gender gender
-                                      :number number}}}}}))
+        {:unify [essere-common]
+         :notes "essere-adjective"
+         :synsem {:cat :verb
+                  :sem {:pred :be
+                        :subj :top
+                        :obj :top}
+                  :subcat {:1 {:cat :noun
+                               :agr {:gender gender
+                                     :number number}}
+                           :2 {:cat :adjective
+                               :sem {:comparative false}
+                               :subcat {:1 :top
+                                        :2 '()}
+                               :agr {:gender gender
+                                     :number number}}}}})
 
       ;; essere: prepositional phrase
       (let [gender (atom :top)
@@ -1128,50 +1117,48 @@
             obj (atom {:pred :top
                        :place true})
             pred (atom :top)]
-        (unify
-         essere-common
-         {:notes "essere-prepositional-phrase"
-          :synsem {:cat :verb
-                   :aux false
-                   :sem {:pred pred
-                         :obj obj}
-                   ;; TODO: should not need agreement: should be covered by
-                   ;; essere-common.
-                   :subcat {:1 {:cat :noun
-                                :agr {:gender gender
-                                      :number number}}
-                            :2 {:cat :prep
-                                :subcat '()
-                                :sem {:pred pred
-                                      :obj obj}}
-                            :3 '()}}}))
+        {:unify [essere-common]
+         :notes "essere-prepositional-phrase"
+         :synsem {:cat :verb
+                  :aux false
+                  :sem {:pred pred
+                        :obj obj}
+                  ;; TODO: should not need agreement: should be covered by
+                  ;; essere-common.
+                  :subcat {:1 {:cat :noun
+                               :agr {:gender gender
+                                     :number number}}
+                           :2 {:cat :prep
+                               :subcat '()
+                               :sem {:pred pred
+                                     :obj obj}}
+                           :3 '()}}})
          
       ;; TODO: do we need this? maybe remove?
-      (unify essere-common {:notes "be"
-                            :synsem {:sem {:pred :be}}})
+      {:unify [essere-common]
+       :notes "be"
+       :synsem {:sem {:pred :be}}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
       (let [gender (atom :top)
             number (atom :top)
             human (atom :top)]
-        (unify
-         transitive
-         essere-common
-         {:notes "copula" ;; significant only for debugging.
-          :synsem {:cat :verb
-                   :subcat {:1 {:cat :noun
-                                :agr {:gender gender
-                                      :number number}}
-                            :2 {:cat :noun
-                                :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
-                                :def {:not :demonstrativo}
-                                :agr {:gender gender
-                                      :number number}}}
-                   :sem {:pred :be
-                         :activity false
-                         :discrete false
-                         :subj {:human human}
-                         :obj {:human human}}}}))
+        {:unify [transitive essere-common]
+         :notes "copula" ;; significant only for debugging.
+         :synsem {:cat :verb
+                  :subcat {:1 {:cat :noun
+                               :agr {:gender gender
+                                     :number number}}
+                           :2 {:cat :noun
+                               :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
+                               :def {:not :demonstrativo}
+                               :agr {:gender gender
+                                     :number number}}}
+                  :sem {:pred :be
+                        :activity false
+                        :discrete false
+                        :subj {:human human}
+                        :obj {:human human}}}})
 
       ;; essere: intensifier
       ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"
@@ -1199,11 +1186,9 @@
 ;                              :intensified true
 ;                              :obj comp-sem}}}))
 
-      (unify essere-common
-             verb-aux
-             verb-subjective
-             {:notes "essere-aux"
-              :italiano {:notes "essere-aux"}})])
+      {:unify [essere-common verb-aux verb-subjective]
+       :notes "essere-aux"
+       :italiano {:notes "essere-aux"}}])
       
    "evitare"  {:synsem {:cat :verb
                         :sem {:pred :avoid}}}
@@ -1226,28 +1211,28 @@
                                :1plur "facciamo"
                                :2plur "fate"
                                :3plur "fanno"}}}]
-     [(merge shared-part-of-fare
-             {:synsem {:sem {:pred :do}}})
-      (merge shared-part-of-fare
-             {:synsem {:sem {:pred :make}}})
-      (merge shared-part-of-fare
-             (let [subject-semantics (atom {:human true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :hurt-oneself
+     [{:unify [shared-part-of-fare]
+       :synsem {:sem {:pred :do}}}
+      {:unify [shared-part-of-fare]
+       :synsem {:sem {:pred :make}}}
+      (let [subject-semantics (atom {:human true})
+            subject-agr (atom :top)]
+        {:unify [shared-part-of-fare]
+         :synsem {:cat :verb
+                  :essere true
+                  :sem {:pred :hurt-oneself
+                        :reflexive true
+                        :subj subject-semantics
+                        :obj subject-semantics}
+                  :subcat {:1 {:agr subject-agr
+                               :sem subject-semantics}
+                           :2 {:agr subject-agr
+                               :pronoun true
                                :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}
-                                  :3 {:cat :adverb
-                                      :sem {:pred :bad}}}}}))])
-   
+                               :sem subject-semantics}
+                           :3 {:cat :adverb
+                               :sem {:pred :bad}}}}})])
+    
    "finestre" {:synsem {:agr {:gender :fem}
                         :cat :noun
                         :sem {:pred :window}}}
@@ -1282,12 +1267,12 @@
               :synsem {:sem {:pred :manage}
                        :cat :verb}}
    "giallo"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :yellow
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
+   {:unify [adjective]
+    :synsem {:cat :adjective
+             :sem {:pred :yellow
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
 
    "giocare"  {:synsem {:cat :verb
                         :sem {;:obj {:games true}
@@ -1318,21 +1303,21 @@
    "guidare"  {:synsem {:cat :verb
                         :sem {:pred :guidare}}}
    "i"
-   (unify determiner
-          {:synsem {:cat :det
-                    :def :def
-                    :agr {:gender :masc
-                          :number :plur}}})
+   {:unify [determiner]
+    :synsem {:cat :det
+             :def :def
+             :agr {:gender :masc
+                   :number :plur}}}
 
    "idea" {:synsem {:agr {:gender :fem}
                 :cat :noun
                 :sem {:pred :idea}}}
    "il"
-   (unify determiner
-          {:synsem {:cat :det
-                    :def :def
-                    :agr {:gender :masc
-                          :number :sing}}})
+   {:unify [determiner]
+    :synsem {:cat :det
+             :def :def
+             :agr {:gender :masc
+                   :number :sing}}}
 
    "imparare"  {:synsem {:cat :verb
                          :sem {:pred :learn}}}
@@ -1504,10 +1489,11 @@
                                 :number :sing}
                           :sem {:pred :lei} ;; note: we don't specify human=true (english "it").
                           :subcat '()}}]
-     [(unify common
-             {:synsem {:sem {:human false}}})
-      (unify common
-             {:synsem {:sem {:human true}}})])
+     [{:unify [common]
+       :synsem {:sem {:human false}}}
+      {:unify [common]
+       :synsem {:sem {:human true}}}])
+     
    "leggere"
    {:italiano {:passato "letto"}
     :synsem {:cat :verb
@@ -1604,10 +1590,10 @@
                                       :number :sing}
                                 :sem {:pred :lui} ;; note: we don't specify human=true (english "it").
                                 :subcat '()}}]
-           [(unify common
-                   {:synsem {:sem {:human false}}})
-            (unify common
-                   {:synsem {:sem {:human true}}})])
+           [{:unify [common]
+             :synsem {:sem {:human false}}}
+            {:unify [common]
+             :synsem {:sem {:human true}}}])
 
    "Luisa e io"
    [{:synsem {:cat :noun
@@ -1660,13 +1646,10 @@
               :sem {:pred :lie}}}
 
    "mezzogiorno"
-   (unify agreement-noun
-          common-noun
-          countable-noun
-          masculine-noun
-          {:synsem {:cat :noun
-                    :sem {:pred :noon
-                          :time true}}})
+   {:unify [agreement-noun common-noun countable-noun masculine-noun]
+    :synsem {:cat :noun
+             :sem {:pred :noon
+                   :time true}}}
    "mi"
    {:synsem {:cat :noun
                :pronoun true
@@ -1706,12 +1689,12 @@
    ;; non-comparative
    ;; TODO: add comparative
    "nero"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :nero
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
+   {:unify [adjective]
+    :synsem {:cat :adjective
+             :sem {:pred :nero
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
 
    "noi"
    [{:synsem {:cat :noun
@@ -1767,11 +1750,11 @@
                    :sem {:pred :talk
                          :subj {:human true}}}}]
      (list
-      (unify common1 transitive
-             {:synsem {:sem {:obj {:speakable true}}}})
-      (unify common1 intransitive intransitive-unspecified-obj)
+      {:unify [common1 transitive]
+       :synsem {:sem {:obj {:speakable true}}}}
+      {:unify [common1 intransitive intransitive-unspecified-obj]}
       
-      (unify common2 intransitive intransitive-unspecified-obj)))
+      {:unify [common2 intransitive intransitive-unspecified-obj]}))
    
    "partire" {:synsem {:essere true 
                        :cat :verb
@@ -1806,12 +1789,12 @@
                                :1plur "possiamo"
                                :2plur "potete"
                                :3plur "possono"}}}]
-     [(merge shared-part-of-potere
-             {:synsem {:sem {:pred :can}}})
-      (merge shared-part-of-potere
-             {:synsem {:sem {:pred :may}}})
-      (merge shared-part-of-potere
-             {:synsem {:sem {:pred :be-able-to}}})])
+     [{:unify [shared-part-of-potere]
+       :synsem {:sem {:pred :can}}}
+      {:unify [shared-part-of-potere]
+       :synsem {:sem {:pred :may}}}
+      {:unify [shared-part-of-potere]
+       :synsem {:sem {:pred :be-able-to}}}])
                                       
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
@@ -1910,12 +1893,12 @@
    ;; non-comparative
    ;; TODO: add comparative
    "rosso"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:pred :rosso
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
+   {:unify [adjective]
+    :synsem {:cat :adjective
+             :sem {:pred :rosso
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
    
    "salire" (let [common {:synsem {:cat :verb}
                                    :essere true
@@ -1923,9 +1906,10 @@
                           :italiano {:italiano "salire"
                                      :present {:1sing "salgo"
                                                :3plur "salgono"}}}]
-             [(merge common {:synsem {:sem {:pred :get-on}}})
-              (merge common {:synsem {:sem {:pred :go-upstairs}}})])
-                                 
+              [{:unify [common]
+                :synsem {:sem {:pred :get-on}}}
+               {:unify [common]
+                :synsem {:sem {:pred :go-upstairs}}}])
    
    "scappare"  {:synsem {:cat :verb 
                          :sem {:pred :escape}}}
@@ -1972,18 +1956,23 @@
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
-   "si" (map #(merge % pronoun-reflexive)
+     "si" [{:unify [pronoun-reflexive]
+
              ;; feminine singular
-             [{:synsem {:agr {:person :3rd
-                              :gender :fem
-                              :number :sing}}}
-              ;; masculine singular
-              {:synsem {:agr {:person :3rd
-                              :gender :masc
-                              :number :sing}}}
-              ;; plural: unspecified gender
-              {:synsem {:agr {:person :3rd
-                              :number :plur}}}])
+            :synsem {:agr {:person :3rd
+                           :gender :fem
+                           :number :sing}}}
+
+           {:unify [pronoun-reflexive]
+            ;; masculine singular
+            :synsem {:agr {:person :3rd
+                           :gender :masc
+                           :number :sing}}}
+
+           ;; plural: unspecified gender
+           {:unify [pronoun-reflexive]
+            :synsem {:agr {:person :3rd
+                           :number :plur}}}]
    
    "sistemare" {:synsem {:cat :verb
                          :sem {:pred :organize}}}
@@ -2151,8 +2140,10 @@
                           :italiano {:italiano "uscire"
                                      :boot-stem1 "esc"
                                      :boot-stem2 "usc"}}]
-              [(merge common {:synsem {:sem {:pred :go-out}}})
-               (merge common {:synsem {:sem {:pred :exit}}})])
+              [{:unify [common]
+                :synsem {:sem {:pred :go-out}}}
+               {:unify [common]
+                :synsem {:sem {:pred :exit}}}])
    "vedere" 
    {:synsem {:cat :verb
              :sem {:pred :see}}
@@ -2268,12 +2259,33 @@
    ":top-noun" {:synsem {:cat :noun}
                 :top true}
 
-   })
 
-  
+     }))
+
+(def lexicon-source-unify
+  (zipmap
+   (sort (keys lexicon-source))
+   (map (fn [k]
+          (let [vals (get lexicon-source k)
+                vals (cond (seq? vals)
+                           vals
+                           (vector? vals)
+                           vals
+                           true [vals])]
+            (map (fn [v]
+                   (reduce unify
+                           (cons
+                            (dissoc v :unify)
+                            (map (fn [each-unify-arg]
+                                   (cond (fn? each-unify-arg)
+                                         (each-unify-arg)
+                                         true each-unify-arg))
+                                 (:unify v)))))
+                 vals)))
+        (sort (keys lexicon-source)))))
 
 ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a argument-position-sensitive function.
-(def lexicon (-> (compile-lex lexicon-source
+(def lexicon (-> (compile-lex lexicon-source-unify
                               exception-generator 
                               ;; TODO: rewrite phonize as (constrain-val-if)(one or more)
                               phonize
@@ -2287,11 +2299,11 @@
                     (get universals (get-in val [:synsem :sem :pred]))))
 
                  ;; TODO: refactor this; it's very monolithic currently:
-                 intransitivize
+                 ipos/intransitivize
 
                  ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                  ;; TODO: refactor this; it's very monolithic currently:
-                 transitivize
+                 ipos/transitivize
 
                  (constrain-vals-if
                   (fn [val]
@@ -2320,7 +2332,7 @@
                   ;; in such cases, don't apply agreement-noun.
                          
                   (fn [val]
-                    (unify val agreement-noun)))
+                    (unify val ipos/agreement-noun)))
 
                  (constrain-vals-if
                   (fn [val]

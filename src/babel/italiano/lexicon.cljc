@@ -41,6 +41,7 @@
         intransitive-unspecified-obj it-pos/intransitive-unspecified-obj
         masculine-noun it-pos/masculine-noun
         non-comparative-adjective it-pos/non-comparative-adjective
+                                       
         preposition (let [shared (atom :top)]
                       {:synsem {:sem {:obj shared}
                                 :subcat {:1 {:sem shared}}}})
@@ -60,6 +61,12 @@
                                            :reflexive true
                                            :sem subject-semantics}}}})
 
+        reflexive-obj-is-subcat3
+        (let [subject-semantics (atom :top)]
+          (unify reflexive
+                 {:synsem {:sem {:subj subject-semantics}
+                           :subcat {:3 {:sem {:obj subject-semantics}}}}}))
+        
         sentential-adverb it-pos/sentential-adverb
         transitive it-pos/transitive
         verb-aux it-pos/verb-aux
@@ -582,35 +589,10 @@
    "chiacchierare" {:synsem {:cat :verb
                              :sem {:pred :chat}}}
       
-   "chiamarsi" (let [subject-semantics (atom {:animate true})
-                     called-semantics (atom :top)
-                     subject-gender (atom :top)
-                     subject-person (atom :top) ;; TODO: probably don't want this because it would not allow:
-                     ;; "noi ci chiamiamo Gianluca e Gianni" (subject is 1st person, object is 3rd person)
-                     subject-number (atom :top)
-                     subject-agr (atom :top)]
-                 {:synsem {:cat :verb
-                           :essere true
-                           :sem {:pred :be-called
-                                 :reflexive true
-                                 :subj subject-semantics
-                                 :obj called-semantics}
-                           :subcat {:1 {:agr {:number subject-number
-                                              :person subject-person
-                                              :gender subject-gender}
-                                        :sem subject-semantics}
-                                    :2 {:agr {:number subject-number
-                                              :person subject-person
-                                              :gender subject-gender}
-                                        :pronoun true
-                                        :reflexive true}
-                                    ;; note that person is not shared.
-                                    :3 {:agr {:number subject-number
-                                              :gender subject-gender}
-                                        :propernoun true
-                                        :sem called-semantics
-                                        :cat :noun
-                                        :subcat '()}}}})
+   "chiamarsi" {:unify [reflexive-obj-is-subcat3]
+                :synsem {:sem {:pred :be-called}
+                         :reflexive true
+                         :subcat {:3 {:cat :noun}}}}
 
    "chiave" {:synsem {:agr {:gender :masc}
                       :cat :noun

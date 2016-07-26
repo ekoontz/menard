@@ -2208,11 +2208,11 @@
                     (get universals (get-in val [:synsem :sem :pred]))))
 
                  ;; TODO: refactor this; it's very monolithic currently:
-                 ipos/intransitivize
+                 it-pos/intransitivize
 
                  ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                  ;; TODO: refactor this; it's very monolithic currently:
-                 ipos/transitivize
+                 it-pos/transitivize
 
                  (constrain-vals-if
                   (fn [val]
@@ -2241,7 +2241,7 @@
                   ;; in such cases, don't apply agreement-noun.
                          
                   (fn [val]
-                    (unify val ipos/agreement-noun)))
+                    (unify val it-pos/agreement-noun)))
 
                  (constrain-vals-if
                   (fn [val]

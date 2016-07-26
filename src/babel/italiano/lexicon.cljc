@@ -48,7 +48,12 @@
         intransitive-unspecified-obj it-pos/intransitive-unspecified-obj
         masculine-noun it-pos/masculine-noun
         non-comparative-adjective it-pos/non-comparative-adjective
-                                       
+        pred-is-obj-pred (let [obj (atom :top)
+                               pred (atom :top)]
+                           {:synsem {:sem {:obj obj
+                                           :pred pred}
+                                     :subcat {:2 {:sem {:obj obj
+                                                        :pred pred}}}}})
         preposition (let [shared (atom :top)]
                       {:synsem {:cat :prep
                                 :sem {:obj shared}
@@ -76,6 +81,10 @@
                            :subcat {:3 {:sem {:obj subject-semantics}}}}}))
         
         sentential-adverb it-pos/sentential-adverb
+        subj-obj-humanness
+        (let [human (atom :top)]
+          {:synsem {:sem {:subj {:human human}
+                          :obj {:human human}}}})
         transitive it-pos/transitive
         verb-aux it-pos/verb-aux
         verb-subjective it-pos/verb-subjective]
@@ -997,23 +1006,16 @@
                                       :2 '()}}}}}
 
       ;; essere: prepositional phrase
-      (let [obj (atom {:pred :top
-                       :place true})
-            pred (atom :top)]
-        {:unify [essere-common]
-         :notes "essere-prepositional-phrase"
-         :synsem {:cat :verb
-                  :aux false
-                  :sem {:pred pred
-                        :obj obj}
-                  ;; TODO: should not need agreement: should be covered by
-                  ;; essere-common.
-                  :subcat {:1 {:cat :noun}
-                           :2 {:cat :prep
-                               :subcat '()
-                               :sem {:pred pred
-                                     :obj obj}}
-                           :3 '()}}})
+      {:unify [essere-common pred-is-obj-pred]
+       :notes "essere-prepositional-phrase"
+       :synsem {:cat :verb
+                :aux false
+                :sem {:obj {:place true}}
+                ;; TODO: should not need agreement: should be covered by
+                ;; essere-common.
+                :subcat {:1 {:cat :noun}
+                         :2 {:cat :prep}
+                         :3 '()}}}
          
       ;; TODO: do we need this? maybe remove?
       {:unify [essere-common]
@@ -1021,25 +1023,16 @@
        :synsem {:sem {:pred :be}}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-      (let [gender (atom :top)
-            number (atom :top)
-            human (atom :top)]
-        {:unify [transitive essere-common]
-         :notes "copula" ;; significant only for debugging.
-         :synsem {:cat :verb
-                  :subcat {:1 {:cat :noun
-                               :agr {:gender gender
-                                     :number number}}
-                           :2 {:cat :noun
-                               :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
-                               :def {:not :demonstrativo}
-                               :agr {:gender gender
-                                     :number number}}}
-                  :sem {:pred :be
-                        :activity false
-                        :discrete false
-                        :subj {:human human}
-                        :obj {:human human}}}})
+      {:unify [transitive essere-common gender-and-number-agreement-1 subj-obj-humanness]
+       :notes "copula" ;; significant only for debugging.
+       :synsem {:cat :verb
+                :subcat {:1 {:cat :noun}
+                         :2 {:cat :noun
+                             :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
+                             :def {:not :demonstrativo}}}
+                :sem {:pred :be
+                      :activity false
+                      :discrete false}}}
 
       ;; essere: intensifier
       ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"

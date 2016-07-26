@@ -104,4 +104,67 @@
             :case :acc
             :reflexive true}})
 
-            
+(def agreement-of-obj-of-main-verb
+  (let [agr (atom :top)]
+    {:synsem {:subcat {:2 {:agr agr
+                           :subcat {:2 {:agr agr}}}}}}))
+
+(def agreement-of-subj-of-main-verb
+  (let [agr (atom :top)]
+    {:synsem {:subcat {:1 {:agr agr}
+                       :2 {:agr agr
+                           :subcat {:1 {:agr agr}}}}}}))
+
+(def essere-aux-subject-agreement
+  (let [subject-agreement (atom :top)]
+    {:synsem {:subcat {:1 {:agr subject-agreement}
+                       :2 {:subcat {:1 {:agr subject-agreement}}}}}}))
+
+(def gender-and-number-agreement-1
+  (let [gender (atom :top)
+        number (atom :top)]
+    {:synsem {:subcat {:1 {:agr {:gender gender
+                                 :number number}}
+                       :2 {:agr {:gender gender
+                                 :number number}}}}}))
+
+(def pred-is-obj-pred
+  (let [obj (atom :top)
+        pred (atom :top)]
+    {:synsem {:sem {:obj obj
+                    :pred pred}
+              :subcat {:2 {:sem {:obj obj
+                                 :pred pred}}}}}))
+
+(def preposition
+  (let [shared (atom :top)]
+    {:synsem {:cat :prep
+              :sem {:obj shared}
+              :subcat {:1 {:sem shared}}}}))
+  
+(def reflexive
+  (let [subject-semantics (atom {:animate true})
+        subject-agr (atom :top)]
+    {:synsem {:cat :verb
+              :essere true
+              :sem {:subj subject-semantics
+                    :obj subject-semantics
+                    :reflexive true}
+              :subcat {:1 {:agr subject-agr
+                           :sem subject-semantics}
+                       :2 {:agr subject-agr
+                           :pronoun true
+                           :reflexive true
+                           :sem subject-semantics}}}}))
+
+(def reflexive-obj-is-subcat3
+  (let [subject-semantics (atom :top)]
+    (unifyc reflexive
+            {:synsem {:sem {:subj subject-semantics}
+                      :subcat {:3 {:sem {:obj subject-semantics}}}}})))
+        
+(def subj-obj-humanness
+  (let [human (atom :top)]
+    {:synsem {:sem {:subj {:human human}
+                    :obj {:human human}}}}))
+

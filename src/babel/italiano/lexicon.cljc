@@ -43,8 +43,10 @@
         non-comparative-adjective it-pos/non-comparative-adjective
                                        
         preposition (let [shared (atom :top)]
-                      {:synsem {:sem {:obj shared}
+                      {:synsem {:cat :prep
+                                :sem {:obj shared}
                                 :subcat {:1 {:sem shared}}}})
+        
         pronoun-acc it-pos/pronoun-acc
         pronoun-reflexive it-pos/pronoun-reflexive
         reflexive (let [subject-semantics (atom {:animate true})
@@ -60,7 +62,6 @@
                                            :pronoun true
                                            :reflexive true
                                            :sem subject-semantics}}}})
-
         reflexive-obj-is-subcat3
         (let [subject-semantics (atom :top)]
           (unify reflexive
@@ -898,14 +899,9 @@
                    :pred :donna
                    :child false}}}
    "dopo"
-   (let [time (atom {:time true})]
-     {:synsem {:cat :prep
-               :sem {:pred :after
-                     :obj time}
-               :subcat {:1 {:cat :noun
-                            :subcat '()
-                            :sem time}
-                        :2 '()}}})
+     {:unify [preposition]
+      :synsem {:sem {:pred :after
+                     :obj {:time true}}}}
    "dopodomani"
      {:unify [sentential-adverb]
       :synsem {:cat :sent-modifier
@@ -947,7 +943,6 @@
    "esprimere" {:italiano {:passato "espresso"}
                 :synsem {:cat :verb
                          :sem {:pred :express}}}
-
    "essere"
    (let [essere-common 
          (let [infl (atom :top)

@@ -151,8 +151,8 @@
    "affolato"
    [;; comparative
     (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
-          than-this (atom {:pred :di
-                           :mod is-place})]
+          than-this {:pred :di
+                     :mod is-place}]
       {:unify [adjective comparative is-place]
        :synsem {:sem {:pred :affolato
                       :arg1 is-place

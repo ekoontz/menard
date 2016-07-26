@@ -66,7 +66,7 @@
     (is (empty? result))))
 
 (deftest passato-prossimo-reflexive
-  (let [result (generate {:head {:synsem {:agr {:gender :fem}}}
+  (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
                           :synsem {:subcat '()
                                    :infl :present
                                    :sem {:pred :get-up

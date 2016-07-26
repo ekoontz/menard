@@ -945,43 +945,35 @@
                          :sem {:pred :express}}}
    "essere"
    (let [essere-common 
-         (let [infl (atom :top)
-               agr (atom :top)]
-           {:synsem {:agr agr
-                     :cat :verb
-                     :essere true
-                     :infl infl
-                     :subcat {:1 {:agr agr}}}
-            :italiano {:agr agr
-                       :future-stem "sar"
-                       :infinitive "essere"
-                       :infl infl
-                       :present {:1sing "sono"
-                                 :2sing "sei"
-                                 :3sing "è"
-                                 :1plur "siamo"
-                                 :2plur "siete"
-                                 :3plur "sono"}
-                       :passato "stato"
-                       :imperfect {:1sing "ero"
-                                   :2sing "eri"
-                                   :3sing "era"
-                                   :1plur "eravamo"
-                                   :2plur "eravate"
-                                   :3plur "erano"}
-                       :future {:1sing "sarò"
-                                :2sing "sarai"
-                                :3sing "sarà"
-                                :1plur "saremo"
-                                :2plur "sarete"
-                                :3plur "saranno"}
-
-                       :conditional {:1sing "sarei"
-                                     :2sing "saresti"
-                                     :3sing "sarebbe"
-                                     :1plur "saremmo"
-                                     :2plur "sareste"
-                                     :3plur "sarebbero"}}})]
+         {:synsem {:cat :verb
+                   :essere true}
+          :italiano {:future-stem "sar"
+                     :infinitive "essere"
+                     :present {:1sing "sono"
+                               :2sing "sei"
+                               :3sing "è"
+                               :1plur "siamo"
+                               :2plur "siete"
+                               :3plur "sono"}
+                     :passato "stato"
+                     :imperfect {:1sing "ero"
+                                 :2sing "eri"
+                                 :3sing "era"
+                                 :1plur "eravamo"
+                                 :2plur "eravate"
+                                 :3plur "erano"}
+                     :future {:1sing "sarò"
+                              :2sing "sarai"
+                              :3sing "sarà"
+                              :1plur "saremo"
+                              :2plur "sarete"
+                              :3plur "saranno"}
+                     :conditional {:1sing "sarei"
+                                   :2sing "saresti"
+                                   :3sing "sarebbe"
+                                   :1plur "saremmo"
+                                   :2plur "sareste"
+                                   :3plur "sarebbero"}}}]
      [;; essere: adjective
       ;; TODO: unify essere-adjective, essere-prepositional-phrase
       ;; and essere-intensifier into one lexical entry.

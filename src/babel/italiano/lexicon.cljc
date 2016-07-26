@@ -37,6 +37,18 @@
                                 :subcat {:1 {:sem shared}}}})
         pronoun-acc ipos/pronoun-acc
         pronoun-reflexive ipos/pronoun-reflexive
+        reflexive (let [subject-semantics (atom {:animate true})
+                        subject-agr (atom :top)]
+                    {:synsem {:sem {:subj subject-semantics
+                                    :obj subject-semantics
+                                    :reflexive true}
+                              :subcat {:1 {:agr subject-agr
+                                           :sem subject-semantics}
+                                       :2 {:agr subject-agr
+                                           :pronoun true
+                                           :reflexive true
+                                           :sem subject-semantics}}}})
+
         sentential-adverb ipos/sentential-adverb
         transitive ipos/transitive
         verb-aux ipos/verb-aux
@@ -124,21 +136,13 @@
                    :animate false
                    :pred :acqua}}}
 
-   "addormentarsi" (let [subject-semantics (atom {:animate true})
-                         subject-agr (atom :top)]
-                     {:synsem {:cat :verb
-                               :essere true
-                               :sem {:pred :fall-asleep
-                                     :reflexive true
-                                     :subj subject-semantics
-                                     :obj subject-semantics}
-                               :subcat {:1 {:agr subject-agr
-                                            :sem subject-semantics}
-                                        :2 {:agr subject-agr
-                                            :pronoun true
-                                            :reflexive true
-                                            :sem subject-semantics}}}})
-   "aereo" {:synsem {:agr {:gender :masc}
+     "addormentarsi"
+     {:unify [reflexive]
+      :synsem {:cat :verb
+               :essere true
+               :sem {:pred :fall-asleep}}}
+
+     "aereo" {:synsem {:agr {:gender :masc}
                      :cat :noun
                      :sem {:physical-object true
                            :pred :airplane

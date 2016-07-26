@@ -27,6 +27,11 @@
         (let [agr (atom :top)]
           {:synsem {:subcat {:2 {:agr agr
                                  :subcat {:2 {:agr agr}}}}}})
+        agreement-of-subj-of-main-verb
+        (let [agr (atom :top)]
+          {:synsem {:subcat {:1 {:agr agr}
+                             :2 {:agr agr
+                                 :subcat {:1 {:agr agr}}}}}})
         cat-of-pronoun it-pos/cat-of-pronoun
         common-noun it-pos/common-noun
         comparative it-pos/comparative
@@ -385,18 +390,15 @@
       ;; "avere": auxiliary-verb: takes 2 args:
       ;; 1. subject that is the same as the subject of 2.
       ;; 2. an intransitive verb.
-      (let [agr-of-subj-of-main-verb (atom :top)]
-        {:unify [verb-aux verb-subjective avere-common]
-         :note "avere(aux): takes intrans"
-         :synsem {:infl :present
-                  :subcat {:1 {:agr agr-of-subj-of-main-verb}
-                           :2 {:essere false
-                               :reflexive false ;; in Italian, reflexive verbs are always essere=false.
-                               ;; this additional qualification here (:reflexive false) is not necessary
-                               ;; but is expected to reduce fails during generation.
-                               :agr agr-of-subj-of-main-verb
-                               :subcat {:1 {:agr agr-of-subj-of-main-verb}
-                                        :2 '()}}}}})])
+      {:unify [verb-aux verb-subjective avere-common agreement-of-subj-of-main-verb]
+       :note "avere(aux): takes intrans"
+       :synsem {:infl :present
+                :subcat {:2 {:essere false
+                             :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                             ;; this additional qualification here (:reflexive false) is not necessary
+                             ;; but is expected to reduce fails during generation.
+                             :subcat {:2 '()}}}}}])
+     
    "ballare" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
    "bello"

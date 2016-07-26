@@ -986,6 +986,9 @@
    "impegnare" {:synsem {:cat :verb
                          :sem {:pred :engage}}}
 
+ "in" {:synsem {:cat :prep
+                :sem {:obj {:place true}}}}
+ 
    "incontrare"  {:synsem {:cat :verb
                            :sem {:pred :incontrare}}}
 

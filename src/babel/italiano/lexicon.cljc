@@ -160,6 +160,10 @@
                  ;; subject of verbs must have nominative case: prevents wrong things like article-less noun "casa" being the subject of a sentence.
                  (if-then {:synsem {:cat :verb}}
                           {:synsem {:subcat {:1 {:case :nom}}}})
+
+                 (if-then {:synsem {:cat :prep}}
+                          preposition)
+
                  
                  ;; filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                  ;; rather than not having any inflection.

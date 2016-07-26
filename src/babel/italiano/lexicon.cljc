@@ -39,7 +39,9 @@
         pronoun-reflexive ipos/pronoun-reflexive
         reflexive (let [subject-semantics (atom {:animate true})
                         subject-agr (atom :top)]
-                    {:synsem {:sem {:subj subject-semantics
+                    {:synsem {:cat :verb
+                              :essere true
+                              :sem {:subj subject-semantics
                                     :obj subject-semantics
                                     :reflexive true}
                               :subcat {:1 {:agr subject-agr
@@ -138,9 +140,8 @@
 
      "addormentarsi"
      {:unify [reflexive]
-      :synsem {:cat :verb
-               :essere true
-               :sem {:pred :fall-asleep}}}
+      :synsem {:sem {:pred :fall-asleep
+                     :subj {:animate true}}}}
 
      "aereo" {:synsem {:agr {:gender :masc}
                      :cat :noun
@@ -207,20 +208,9 @@
                          :2 {:cat :prep
                              :sem complement-sem}}}})]
 
-   "alzarsi" (let [subject-semantics (atom {:animate true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :get-up
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}})
+     "alzarsi" {:unify [reflexive]
+                :synsem {:sem {:pred :get-up
+                               :subj {:animate true}}}}
    "amare"
     {:synsem {:cat :verb
               :essere false
@@ -315,20 +305,9 @@
    "approvare" {:synsem {:cat :verb
                          :sem {:pred :approve}}}
 
-   "arrabbiarsi" (let [subject-semantics (atom {:animate true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :get-angry
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}})
+     "arrabbiarsi" {:unify [reflexive]
+                    :synsem {:sem {:pred :get-angry
+                                   :subj {:animate true}}}}
    
    "arrivare" {:synsem {:essere true 
                         :cat :verb
@@ -549,20 +528,9 @@
    "cambiare" {:synsem {:cat :verb
                         :sem {:pred :change}}}
    
-   "cambiarsi" (let [subject-semantics (atom {:human true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :change-clothes
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}})
+     "cambiarsi" {:unify [reflexive]
+                  :synsem {:sem {:pred :change-clothes
+                                 :subj {:human true}}}}
    
    "cancellare" {:synsem {:cat :verb
                           :sem {:pred :erase}}}
@@ -971,20 +939,9 @@
                          :cat :verb
                          :sem {:pred :become}}}
       
-   "divertirsi" (let [subject-semantics (atom {:human true})
-                      subject-agr (atom :top)]
-                  {:synsem {:cat :verb
-                            :essere true
-                            :sem {:pred :have-fun
-                                  :reflexive true
-                                  :subj subject-semantics
-                                  :obj subject-semantics}
-                            :subcat {:1 {:agr subject-agr
-                                         :sem subject-semantics}
-                                     :2 {:agr subject-agr
-                                         :pronoun true
-                                         :reflexive true
-                                         :sem subject-semantics}}}})
+     "divertirsi" {:unify [reflexive]
+                   :synsem {:sem {:pred :have-fun
+                                  :subj {:human true}}}}
 
    "domanda" {:synsem {:agr {:gender :fem}
                 :cat :noun
@@ -1461,22 +1418,11 @@
                 :sem {:number :plur
                       :person :2nd}}}]
 
-   "lavarsi" (let [subject-semantics (atom :top)
-                   subject-agr (atom :top)]
-              {:synsem {:cat :verb
-                        :essere true
-                        :sem {:pred :wash
-                              :reflexive true
-                              :subj subject-semantics
-                              :obj subject-semantics}
-                        :subcat {:1 {:agr subject-agr
-                                     :sem subject-semantics}
-                                 :2 {:agr subject-agr
-                                     :pronoun true
-                                     :reflexive true
-                                     :sem subject-semantics}}}})
+     "lavarsi" {:unify [reflexive]
+                :synsem {:sem {:pred :wash
+                               :subj {:human true}}}}
 
-   "lavorare"  {:synsem {:cat :verb
+     "lavorare"  {:synsem {:cat :verb
                          :sem {:subj {:human true}
                                :pred :work-human}}}
    "le"
@@ -1803,21 +1749,11 @@
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
 
-   "prepararsi" (let [subject-semantics (atom {:human true})
-                      subject-agr (atom :top)]
-                  {:synsem {:cat :verb
-                            :essere true
-                            :sem {:pred :get-ready
-                                  :reflexive true
-                                  :subj subject-semantics
-                                  :obj subject-semantics}
-                            :subcat {:1 {:agr subject-agr
-                                         :sem subject-semantics}
-                                     :2 {:agr subject-agr
-                                         :pronoun true
-                                         :reflexive true
-                                         :sem subject-semantics}}}})
-   "prenotare" {:synsem {:cat :verb
+     "prepararsi" {:unify [reflexive]
+                   :synsem {:sem {:pred :get-ready
+                                  :subj {:human true}}}}
+
+     "prenotare" {:synsem {:cat :verb
                          :sem {:pred :reserve}}}
    "qualche"
    {:synsem {:cat :det
@@ -1937,26 +1873,16 @@
                          :sem {:pred :scrivere}}
                 :italiano {:passato "scritto"}}
 
-   "sedersi" (let [subject-semantics (atom {:animate true})
-                   subject-agr (atom :top)]
-               {:synsem {:cat :verb
-                         :essere true
-                         :sem {:pred :sit-down
-                               :reflexive true
-                               :subj subject-semantics
-                               :obj subject-semantics}
-                         :subcat {:1 {:agr subject-agr
-                                      :sem subject-semantics}
-                                  :2 {:agr subject-agr
-                                      :pronoun true
-                                      :reflexive true
-                                      :sem subject-semantics}}}
+     "sedersi" {:unify [reflexive]
+                :synsem {:sem {:pred :sit-down
+                               :subj {:human true}}}
                 :italiano {:present {:1sing "siedo"
                                      :2sing "siedi"
                                      :3sing "siede"
                                      :1plur "sediamo"
                                      :2plur "sedete"
-                                     :3plur "siedono"}}})
+                                     :3plur "siedono"}}}
+     
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
@@ -2015,20 +1941,10 @@
                             :pred :suonare}}}
 ;                                            :obj {:music true}}}})
 
-   "svegliarsi" (let [subject-semantics (atom {:animate true})
-                      subject-agr (atom :top)]
-                  {:synsem {:cat :verb
-                            :essere true
-                            :sem {:pred :wake-up
-                                  :reflexive true
-                                  :subj subject-semantics
-                                  :obj subject-semantics}
-                            :subcat {:1 {:agr subject-agr
-                                         :sem subject-semantics}
-                                     :2 {:agr subject-agr
-                                         :pronoun true
-                                         :reflexive true
-                                         :sem subject-semantics}}}})
+   "svegliarsi" {:unify [reflexive]
+                 :synsem {:sem {:pred :wake-up
+                                :subj {:animate true}}}}
+
    "svenire" {:synsem {:cat :verb
                       :essere true
                       :sem {:pred :faint}}
@@ -2173,20 +2089,9 @@
                         :def :twentyeight
                         :agr {:number :plur}}}
    
-   "vestirsi" (let [subject-semantics (atom {:human true})
-                    subject-agr (atom :top)]
-                {:synsem {:cat :verb
-                          :essere true
-                          :sem {:pred :get-dressed
-                                :reflexive true
-                                :subj subject-semantics
-                                :obj subject-semantics}
-                          :subcat {:1 {:agr subject-agr
-                                       :sem subject-semantics}
-                                   :2 {:agr subject-agr
-                                      :pronoun true
-                                       :reflexive true
-                                       :sem subject-semantics}}}})
+     "vestirsi" {:unify [reflexive]
+                 :synsem {:sem {:pred :get-dressed
+                                :subj {:human true}}}}
    "vi"
    {:synsem {:cat :noun
              :pronoun true

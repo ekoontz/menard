@@ -23,6 +23,10 @@
 (def lexicon-source
   (let [adjective it-pos/adjective
         agreement-noun it-pos/agreement-noun 
+        agreement-of-obj-of-main-verb
+        (let [agr (atom :top)]
+          {:synsem {:subcat {:2 {:agr agr
+                                 :subcat {:2 {:agr agr}}}}}})
         cat-of-pronoun it-pos/cat-of-pronoun
         common-noun it-pos/common-noun
         comparative it-pos/comparative
@@ -369,15 +373,12 @@
                       :subj {:human true}}}}
 
       ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-      (let [agr-of-obj-of-main-verb (atom :top)]
-        {:unify [verb-aux verb-subjective avere-common]
-         :note "avere(aux): takes trans"
-         :synsem {:infl :present
-                  :subcat {:2 {:agr agr-of-obj-of-main-verb
-                               :reflexive false
-                               :subcat {:2 {:agr agr-of-obj-of-main-verb
-                                            :pronoun true}}
-                               :essere false}}}})
+      {:unify [verb-aux verb-subjective avere-common agreement-of-obj-of-main-verb]
+       :note "avere(aux): takes trans"
+       :synsem {:infl :present
+                :subcat {:2 {:reflexive false
+                             :subcat {:2 {:pronoun true}}
+                             :essere false}}}}
 
       ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
       ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"

@@ -37,6 +37,9 @@
         comparative it-pos/comparative
         countable-noun it-pos/countable-noun
         determiner it-pos/determiner
+        essere-aux-subject-agreement (let [subject-agreement (atom :top)]
+                                       {:synsem {:subcat {:1 {:agr subject-agreement}
+                                                          :2 {:subcat {:1 {:agr subject-agreement}}}}}})
         gender-and-number-agreement-1
         (let [gender (atom :top)
               number (atom :top)]
@@ -1014,7 +1017,8 @@
                 ;; TODO: should not need agreement: should be covered by
                 ;; essere-common.
                 :subcat {:1 {:cat :noun}
-                         :2 {:cat :prep}
+                         :2 {:cat :prep
+                             :subcat '()}
                          :3 '()}}}
          
       ;; TODO: do we need this? maybe remove?
@@ -1060,7 +1064,8 @@
 ;                              :intensified true
 ;                              :obj comp-sem}}}))
 
-      {:unify [essere-common verb-aux verb-subjective]
+      {:unify [essere-common verb-aux verb-subjective essere-aux-subject-agreement
+       ]
        :notes "essere-aux"
        :italiano {:notes "essere-aux"}}])
       

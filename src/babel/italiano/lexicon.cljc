@@ -1107,23 +1107,11 @@
        :synsem {:sem {:pred :do}}}
       {:unify [shared-part-of-fare]
        :synsem {:sem {:pred :make}}}
-      (let [subject-semantics (atom {:human true})
-            subject-agr (atom :top)]
-        {:unify [shared-part-of-fare]
-         :synsem {:cat :verb
-                  :essere true
-                  :sem {:pred :hurt-oneself
-                        :reflexive true
-                        :subj subject-semantics
-                        :obj subject-semantics}
-                  :subcat {:1 {:agr subject-agr
-                               :sem subject-semantics}
-                           :2 {:agr subject-agr
-                               :pronoun true
-                               :reflexive true
-                               :sem subject-semantics}
-                           :3 {:cat :adverb
-                               :sem {:pred :bad}}}}})])
+      {:unify [shared-part-of-fare reflexive]
+       :synsem {:cat :verb
+                :sem {:pred :hurt-oneself}
+                :subcat {:3 {:cat :adverb
+                             :sem {:pred :bad}}}}}])
     
    "finestre" {:synsem {:agr {:gender :fem}
                         :cat :noun

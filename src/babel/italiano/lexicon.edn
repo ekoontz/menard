@@ -1,23 +1,20 @@
 {
  "a"
  [;; "a" as in "a casa"
-  {:unify [preposition]
-   :synsem {:sem {:pred :a
+  {:synsem {:sem {:pred :a
                   :obj {:place true}}
             :subcat {:1 {:cat :noun
                          :case :acc
                          :subcat '()}
                      :2 '()}}}
   ;; "a" as in "a Roma"
-  {:unify [preposition]
-   :synsem {:sem {:pred :in
+  {:synsem {:sem {:pred :in
                   :obj {:city true}}
             :subcat {:1 {:cat :noun}
                      :2 '()}}}
   
   ;; "a" as in "a mezzogiorno"
-  {:unify [preposition]
-   :synsem {:sem {:pred :a
+  {:synsem {:sem {:pred :a
                   :obj {:time true}}
             :subcat {:1 {:cat :noun
                          :subcat '()}
@@ -740,8 +737,8 @@
                    :pred :donna
                    :child false}}}
    "dopo"
-     {:unify [preposition]
-      :synsem {:sem {:pred :after
+     {:synsem {:cat :prep
+               :sem {:pred :after
                      :obj {:time true}}}}
    "dopodomani"
      {:unify [sentential-adverb]

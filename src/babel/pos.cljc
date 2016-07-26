@@ -161,11 +161,19 @@
 
 ;; "Y is Xer than Z".
 (def comparative
-  {:synsem {:sem {:comparative true}
-            :cat :adjective
-            :subcat {:1 {:cat :noun}
-                     :2 {:cat :prep
-                         :subcat '()}}}})
+  (let [complement-sem (atom :top)
+        subject-sem (atom :top)]
+    {:synsem {:sem {:comparative true
+                    :arg1 subject-sem
+                    :arg2 complement-sem}
+              :cat :adjective
+              :subcat {:1 {:cat :noun
+                           :sem subject-sem}
+                       :2 {:cat :prep
+                           :sem {:pred :di ;; Italian name for pred, for now: TODO: change to English :than.
+                                 :obj complement-sem}
+                           :subcat {:1 {:sem complement-sem}
+                                    :2 '()}}}}}))
 
 (def pronoun-acc (atom :acc))
 
@@ -173,9 +181,12 @@
                                 :2 '()}}})
 
 ;; "Y is X."
-;; TODO: put semantics here.
 (def non-comparative-adjective
-  subcat1)
+  (let [subject (atom :top)]
+    (unifyc
+     subcat1
+     {:synsem {:sem {:arg1 subject}
+               :subcat {:1 {:sem subject}}}})))
 
 (def comp-sem (atom {:activity false
                     :discrete false}))

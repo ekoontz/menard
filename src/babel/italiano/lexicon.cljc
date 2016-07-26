@@ -15,28 +15,28 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :refer [exception-generator italian-specific-rules phonize]]
-   [babel.italiano.pos :as ipos]
+   [babel.italiano.pos :as it-pos]
    [dag_unify.core :refer [fail? get-in strip-refs]]))
 
 (def analyze-lexemes false)
 
 (def lexicon-source
-  (let [adjective ipos/adjective
-        agreement-noun ipos/agreement-noun 
-        cat-of-pronoun ipos/cat-of-pronoun
-        common-noun ipos/common-noun
-        comparative ipos/comparative
-        countable-noun ipos/countable-noun
-        determiner ipos/determiner
-        intransitive ipos/intransitive
-        intransitive-unspecified-obj ipos/intransitive-unspecified-obj
-        masculine-noun ipos/masculine-noun
-        non-comparative-adjective ipos/non-comparative-adjective
+  (let [adjective it-pos/adjective
+        agreement-noun it-pos/agreement-noun 
+        cat-of-pronoun it-pos/cat-of-pronoun
+        common-noun it-pos/common-noun
+        comparative it-pos/comparative
+        countable-noun it-pos/countable-noun
+        determiner it-pos/determiner
+        intransitive it-pos/intransitive
+        intransitive-unspecified-obj it-pos/intransitive-unspecified-obj
+        masculine-noun it-pos/masculine-noun
+        non-comparative-adjective it-pos/non-comparative-adjective
         preposition (let [shared (atom :top)]
                       {:synsem {:sem {:obj shared}
                                 :subcat {:1 {:sem shared}}}})
-        pronoun-acc ipos/pronoun-acc
-        pronoun-reflexive ipos/pronoun-reflexive
+        pronoun-acc it-pos/pronoun-acc
+        pronoun-reflexive it-pos/pronoun-reflexive
         reflexive (let [subject-semantics (atom {:animate true})
                         subject-agr (atom :top)]
                     {:synsem {:cat :verb
@@ -51,10 +51,10 @@
                                            :reflexive true
                                            :sem subject-semantics}}}})
 
-        sentential-adverb ipos/sentential-adverb
-        transitive ipos/transitive
-        verb-aux ipos/verb-aux
-        verb-subjective ipos/verb-subjective]
+        sentential-adverb it-pos/sentential-adverb
+        transitive it-pos/transitive
+        verb-aux it-pos/verb-aux
+        verb-subjective it-pos/verb-subjective]
     
     {"Luisa"
    {:synsem {:sem {:pred :luisa

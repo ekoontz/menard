@@ -37,6 +37,13 @@
         comparative it-pos/comparative
         countable-noun it-pos/countable-noun
         determiner it-pos/determiner
+        gender-and-number-agreement-1
+        (let [gender (atom :top)
+              number (atom :top)]
+          {:synsem {:subcat {:1 {:agr {:gender gender
+                                       :number number}}
+                             :2 {:agr {:gender gender
+                                       :number number}}}}})
         intransitive it-pos/intransitive
         intransitive-unspecified-obj it-pos/intransitive-unspecified-obj
         masculine-noun it-pos/masculine-noun
@@ -977,28 +984,20 @@
      [;; essere: adjective
       ;; TODO: unify essere-adjective, essere-prepositional-phrase
       ;; and essere-intensifier into one lexical entry.
-      (let [gender (atom :top)
-            number (atom :top)]
-        {:unify [essere-common]
-         :notes "essere-adjective"
-         :synsem {:cat :verb
-                  :sem {:pred :be
-                        :subj :top
-                        :obj :top}
-                  :subcat {:1 {:cat :noun
-                               :agr {:gender gender
-                                     :number number}}
-                           :2 {:cat :adjective
-                               :sem {:comparative false}
-                               :subcat {:1 :top
-                                        :2 '()}
-                               :agr {:gender gender
-                                     :number number}}}}})
+      {:unify [essere-common gender-and-number-agreement-1]
+       :notes "essere-adjective"
+       :synsem {:cat :verb
+                :sem {:pred :be
+                      :subj :top
+                      :obj :top}
+                :subcat {:1 {:cat :noun}
+                         :2 {:cat :adjective
+                             :sem {:comparative false}
+                             :subcat {:1 :top
+                                      :2 '()}}}}}
 
       ;; essere: prepositional phrase
-      (let [gender (atom :top)
-            number (atom :top)
-            obj (atom {:pred :top
+      (let [obj (atom {:pred :top
                        :place true})
             pred (atom :top)]
         {:unify [essere-common]
@@ -1009,9 +1008,7 @@
                         :obj obj}
                   ;; TODO: should not need agreement: should be covered by
                   ;; essere-common.
-                  :subcat {:1 {:cat :noun
-                               :agr {:gender gender
-                                     :number number}}
+                  :subcat {:1 {:cat :noun}
                            :2 {:cat :prep
                                :subcat '()
                                :sem {:pred pred

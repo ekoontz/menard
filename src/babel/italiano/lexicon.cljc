@@ -270,42 +270,6 @@
               :essere true
               :sem {:subj {:animate true}
                     :pred :go}}}
-    
-;   (map (fn [each]
-;          (unify
-;           each
-;           ;; common part of all andare lexemes:
-;           {:italiano {:italiano "andare"
-;                       :essere true
-;                       :drop-e true
-;                       :present {:1sing "vado"
-;                                 :2sing "vai"
-;                                 :3sing "va"
-;                                 :1plur "andiamo"
-;                                 :2plur "andate"
-;                                 :3plur "vanno"}}
-;            :synsem {:essere true
-;                     :sem {:subj {:animate true}
-;                           :activity false ;; because "I was going when (something happened) .." sounds weird.
-;                           :pred :andare
-;                           :discrete false
-;                           :motion false}}}))
-;        (list
-;          ;; "andare"-intransitive
-;          
-
-;           {:synsem {:sem {:location '()}}})))
-
-;          (unify
-;           transitive
-;           ;; "andare" that takes a prepositional phrase
-;           (let [place-sem (atom {:place true
-;                                 :pred :a})]
-;             {:synsem {:sem {:location place-sem}
-;                       :subcat {:2 {:sem place-sem
-;                                    :subcat '()
-;                                    :cat :prep}}}
-;              :note "andare-pp"}))))
 
    "anno" {:synsem {:agr {:gender :masc}
                     :cat :noun
@@ -630,17 +594,6 @@
                               :pred :close}}
                :italiano {:passato "chiuso"}}
 
-;     "chiunque"
-;     {:synsem {:cat :fail ; :noun ;; disabling until more constraints are put on usage of it (TODO).
-;               :pronoun true
-;               :case :nom
-;               :agr {:person :3rd
-;                     :number :sing}
-;               :sem {:human true
-;                      :pred :chiunque
-;                     :elective-existential true}
-;               :subcat '()}}
-
    "ci"
    {:synsem {:cat :noun
              :pronoun true
@@ -775,14 +728,6 @@
             :italiano {:present {:2sing "dai"
                                  :3plur "danno"}
                        :future-stem "dar"}}
-
-;; TODO: something wrong here with respect to passato: probably the :essere=false is causing a problem.
-;        :synsem {:cat :verb
-;                 :essere false
-;                 :sem {:pred :dare
-;                       :subj {:human true}
-;                      :iobj {:animate true}
-;                       :obj {:buyable true}}}})
       
    "decidere"  {:synsem {:cat :verb
                          :essere false
@@ -1037,35 +982,7 @@
                 :sem {:pred :be
                       :activity false
                       :discrete false}}}
-
-      ;; essere: intensifier
-      ;; this is for e.g "essere più alto di quelle donne belle (to be taller than those beautiful women)"
-;           (let [gender (atom :top)
-;                 number (atom :top)
-;                 subject (atom {:agr {:gender gender
-;                                     :number number}
-;                               :cat :noun})
-;                 comp-pred (atom :top)
-;                 comp-sem (atom
-;                           {:activity false
-;                            :pred comp-pred
-;                            :discrete false})]
-;             (unify
-;              verb-subjective
-;              essere-common
-;              {:notes "essere-intensifer"
-;               :synsem {:cat :verb
-;                        :subcat {:1 subject
-;                                 :2 {:cat :intensifier
-;                                     :sem comp-sem
-;                                     :subcat {:1 subject
-;                                              :2 '()}}}
-;                        :sem {:pred comp-pred
-;                              :intensified true
-;                              :obj comp-sem}}}))
-
-      {:unify [essere-common verb-aux verb-subjective essere-aux-subject-agreement
-       ]
+      {:unify [essere-common verb-aux verb-subjective essere-aux-subject-agreement]
        :notes "essere-aux"
        :italiano {:notes "essere-aux"}}])
       
@@ -1114,10 +1031,6 @@
 
    "fornire"  {:synsem {:cat :verb
                         :sem {:pred :furnish}}}
-      
-;; commenting out: no english equivalent      
-;      "frequentare"  {:synsem {:cat :verb
-;                               :sem {:pred :frequentare}}}
 
    "funzionare" {:synsem {:cat :verb
                           :essere false
@@ -1204,17 +1117,6 @@
    "interrompere" {:italiano {:passato "interrotto"}
                    :synsem {:cat :verb
                             :sem {:pred :interrupt}}} 
-      
-;; commenting out until discussed with Franco
-;;      "" ;; empty pronominal subject e.g. "mangio" = "io mangio".
-;;      [{:synsem {:agr {:person :1st
-;;                       :number :sing}
-;;                 :cat :noun
-;;                 :case :nom
-;;                 :pronoun true
-;;                 :sem {:human true}
-;;                 :subcat '()}}]
-
    "io"
    [{:synsem {:cat :noun
               :pronoun true
@@ -1391,10 +1293,10 @@
                     :place false
                     :pred :lui}
               :subcat '()}
-       :italiano {:initial true  ;; TODO: verify that 'lo' above and this below are being unified correctly.
-                  :pronoun true
-                  :cat :noun
-                  :case pronoun-acc}}
+     :italiano {:initial true  ;; TODO: verify that 'lo' above and this below are being unified correctly.
+                :pronoun true
+                :cat :noun
+                :case pronoun-acc}}
     {:synsem {:cat :det
               :def :def
               :agr {:gender :masc

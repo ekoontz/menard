@@ -71,20 +71,19 @@
    (morph/analyze surface-form lexicon)))
 
 (defn generate
-  [spec & [model
-           {:keys [do-enrich max-total-depth truncate-children]
-            :or {do-enrich true
-                 max-total-depth generate/max-total-depth
-                 truncate-children true}}]]
+  [spec & {:keys [do-enrich max-total-depth model truncate-children]
+           :or {do-enrich true
+                max-total-depth generate/max-total-depth
+                model medium
+                truncate-children true}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (let [model (if model model medium)]
-    (let [result (engine/generate spec model
-                                  :do-enrich do-enrich
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)]
-      (if result
-        (conj {:surface (fo result)}
-              result)))))
+  (let [result (engine/generate spec model
+                                :do-enrich do-enrich
+                                :max-total-depth max-total-depth
+                                :truncate-children truncate-children)]
+    (if result
+      (conj {:surface (fo result)}
+            result))))
 
 (defn lightning-bolts [spec]
   (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))

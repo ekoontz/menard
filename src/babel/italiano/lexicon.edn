@@ -1585,285 +1585,278 @@
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
-     "si" [{:unify [pronoun-reflexive]
-
-             ;; feminine singular
-            :synsem {:agr {:person :3rd
-                           :gender :fem
-                           :number :sing}}}
-
-           {:unify [pronoun-reflexive]
-            ;; masculine singular
-            :synsem {:agr {:person :3rd
-                           :gender :masc
-                           :number :sing}}}
-
-           ;; plural: unspecified gender
-           {:unify [pronoun-reflexive]
-            :synsem {:agr {:person :3rd
-                           :number :plur}}}]
-   
-   "sistemare" {:synsem {:cat :verb
-                         :sem {:pred :organize}}}
-
-   "sopportare" {:synsem {:cat :verb
-                          :sem {:pred :endure}}}
-
-   "sospirare" {:synsem {:cat :verb
-                         :sem {:pred :sigh}}}
-
-   "spostare" {:synsem {:cat :verb
-                        :sem {:pred :displace}}}
-
-   "sprecare" {:synsem {:cat :verb
-                        :sem {:pred :waste}}}
-
-   "stampare"  {:synsem {:cat :verb 
-                         :sem {:pred :stampare}}}
-                       
-   "stare"  {:synsem {:cat :verb
-                      :essere true
-                        :sem {:pred :stay}}
-               :italiano {:present {:2sing "stai"
-                                    :3plur "stanno"}
-                          :future-stem "star"}}                    
-
-   "studiare"  {:synsem {:cat :verb 
-                      :sem {:pred :study}}}
-
-   "studente"  {:synsem {:agr {:gender :masc}
-                         :cat :noun
-                         :sem {:pred :student}}}
-
-   "suonare"  {:synsem {:cat :verb 
+ "si" [{:unify [pronoun-reflexive]
+        
+        ;; feminine singular
+        :synsem {:agr {:person :3rd
+                       :gender :fem
+                       :number :sing}}}
+       
+       {:unify [pronoun-reflexive]
+        ;; masculine singular
+        :synsem {:agr {:person :3rd
+                       :gender :masc
+                       :number :sing}}}
+       
+       ;; plural: unspecified gender
+       {:unify [pronoun-reflexive]
+        :synsem {:agr {:person :3rd
+                       :number :plur}}}]
+ 
+ "sistemare" {:synsem {:cat :verb
+                       :sem {:pred :organize}}}
+ 
+ "sopportare" {:synsem {:cat :verb
+                        :sem {:pred :endure}}}
+ 
+ "sospirare" {:synsem {:cat :verb
+                       :sem {:pred :sigh}}}
+ 
+ "spostare" {:synsem {:cat :verb
+                      :sem {:pred :displace}}}
+ 
+ "sprecare" {:synsem {:cat :verb
+                      :sem {:pred :waste}}}
+ 
+ "stampare"  {:synsem {:cat :verb 
+                       :sem {:pred :stampare}}}
+ 
+ "stare"  {:synsem {:cat :verb
+                    :essere true
+                    :sem {:pred :stay}}
+           :italiano {:present {:2sing "stai"
+                                :3plur "stanno"}
+                      :future-stem "star"}}                    
+ 
+ "studiare"  {:synsem {:cat :verb 
+                       :sem {:pred :study}}}
+ 
+ "studente"  {:synsem {:agr {:gender :masc}
+                       :cat :noun
+                       :sem {:pred :student}}}
+ 
+ "suonare"  {:synsem {:cat :verb 
                       :sem {:subj {:human true}
                             :pred :suonare}}}
-;                                            :obj {:music true}}}})
 
-   "svegliarsi" {:unify [reflexive]
-                 :synsem {:sem {:pred :wake-up
-                                :subj {:animate true}}}}
-
-   "svenire" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :faint}}
-             :italiano {:passato "svenuto"
-                        :present {:1sing "svengo"
-                                  :2sing "svieni"
-                                  :3sing "sviene"
-                                  :3plur "svengono"}
-                        :future-stem "sverr"}}
-
-   "sviluppare"  {:synsem {:cat :verb 
-                      :sem {:pred :develop}}}
-
-   "tagliare"  {:synsem {:cat :verb
-                         :sem {:pred :cut}}}
-
-   "telefonare"  {:synsem {:cat :verb 
-                      :essere false
-                           :sem {:pred :telefonare}}}
-
-   "tenere"  {:synsem {:cat :verb 
-                      :sem {:pred :hold}}
-              :italiano {:passato "tenuto"
-                         :present {:1sing "tengo"
-                                   :2sing "tieni"
-                                   :3sing "tiene"
-                                   :3plur "tengono"}
-                         :future-stem "terr"}}
-   "ti"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case pronoun-acc
-             :agr {:person :2nd
-                   :number :sing}
-             :sem {:human true}
-             :subcat '()}
-    :italiano {:initial true
-               :cat :noun
-               :case pronoun-acc}}
-   "tirare" 
-   {:synsem {:cat :verb 
-             :sem {:pred :throw}}}
-
-   "tornare" 
-   {:synsem {:cat :verb 
-             :sem {:pred :tornare}
-             :essere true}}
-   
-   "trasferire"
-   {:synsem {:cat :verb
-             :sem {:pred :transfer}}
-    :italiano {:boot-stem1 "trasferisc"
-               :boot-stem2 "trasfer"}}
-
-   "tu"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :2nd
-                    :gender :fem
-                    :number :sing}
-              :sem {:pred :tu
-                    :human true}
-              :subcat '()}}
-    {:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :2nd
-                    :gender :masc
-                    :number :sing}
-              :sem {:pred :tu
-                    :human true}
-              :subcat '()}}]
-
-   "un" [{:synsem {:cat :det
-                   :def :indef
-                   :mass false
-                   :agr {:gender :masc
-                         :number :sing}}}
-         {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
-          :synsem {:cat :det
-                   :def :indef
-                   :mass false
-                   :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
-                         ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
-                         :number :sing}}}]
-   "una"
-    {:synsem {:cat :det
-              :def :indef
-              :mass false
-              :agr {:gender :fem
-                    :number :sing}}}
-   "uno"
-    {:synsem {:cat :det
-              :def :indef
-              :mass false
-              :agr {:gender :masc
-                    :number :sing}}}
-   "uomo"
-   {:italiano {:plur "uomini"}
-    :synsem {:agr {:gender :masc}
+ "svegliarsi" {:unify [reflexive]
+               :synsem {:sem {:pred :wake-up
+                              :subj {:animate true}}}}
+ 
+ "svenire" {:synsem {:cat :verb
+                     :essere true
+                     :sem {:pred :faint}}
+            :italiano {:passato "svenuto"
+                       :present {:1sing "svengo"
+                                 :2sing "svieni"
+                                 :3sing "sviene"
+                                 :3plur "svengono"}
+                       :future-stem "sverr"}}
+ 
+ "sviluppare"  {:synsem {:cat :verb 
+                         :sem {:pred :develop}}}
+ 
+ "tagliare"  {:synsem {:cat :verb
+                       :sem {:pred :cut}}}
+ 
+ "telefonare"  {:synsem {:cat :verb 
+                         :essere false
+                         :sem {:pred :telefonare}}}
+ 
+ "tenere"  {:synsem {:cat :verb 
+                     :sem {:pred :hold}}
+            :italiano {:passato "tenuto"
+                       :present {:1sing "tengo"
+                                 :2sing "tieni"
+                                 :3sing "tiene"
+                                 :3plur "tengono"}
+                       :future-stem "terr"}}
+ "ti"
+ {:synsem {:cat :noun
+           :pronoun true
+           :case pronoun-acc
+           :agr {:person :2nd
+                 :number :sing}
+           :sem {:human true}
+           :subcat '()}
+  :italiano {:initial true
              :cat :noun
-             :sem {:human true
-                   :pred :man
-                   :child false}}}
-   
-   "usare"  {:synsem {:cat :verb
-                      :sem {:pred :usare}}}
-
-   "uscire" (let [common {:synsem {:cat :verb
-                                   :essere true
-                                   :sem {:subj {:animate true}}}
-                          :italiano {:italiano "uscire"
-                                     :boot-stem1 "esc"
-                                     :boot-stem2 "usc"}}]
-              [{:unify [common]
-                :synsem {:sem {:pred :go-out}}}
-               {:unify [common]
-                :synsem {:sem {:pred :exit}}}])
-   "vedere" 
-   {:synsem {:cat :verb
-             :sem {:pred :see}}
-    :italiano {:passato "visto"
-               :future-stem "vedr"}}
-   
-   "vendere"  {:synsem {:cat :verb 
-                        :sem {:pred :vendere
-                              :subj {:human true}
-                              :obj {:human false}}}}
-   
-   "venire" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :come}}
-             :italiano {:passato "venuto"
-                        :present {:1sing "vengo"
-                                  :2sing "vieni"
-                                  :3sing "viene"
-                                  :3plur "vengono"}
-                        :future-stem "verr"}}
-
-   "ventotto" {:synsem {:cat :det
-                        :def :twentyeight
-                        :agr {:number :plur}}}
-   
-     "vestirsi" {:unify [reflexive]
-                 :synsem {:sem {:pred :get-dressed
-                                :subj {:human true}}}}
-   "vi"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case pronoun-acc
-             :agr {:person :2nd
-                   :number :plur}
-             :sem {:human true
-                   :pred :voi}
-             :subcat '()}
-    :italiano {:initial true
-               :cat :noun
-               :case pronoun-acc}}
-   
-   "vincere"  {:synsem {:cat :verb
-                        :sem {:pred :win
-                              :subj {:human true}
-                              :obj {:human false}}}}
-   "vino" {:synsem {:agr {:gender :masc}
-                    :cat :noun
-                    :pred :vino
-                    :sem {:pred :vino}}}
-   "vivere" 
-   ;; FIXME: this is simply a duplicate apparently?
-   [{:synsem {:cat :verb
-              :sem {:subj {:animate true}
-                    :pred :live}
-              :essere true}
-     :italiano {:passato "vissuto"
-                :future-stem "vivr"}}
-
-    {:synsem {:cat :verb
-              :sem {:pred :live}
-              :essere true}
-     :italiano {:passato "vissuto"
-                :future-stem "vivr"}}]
-   "voi"
-   [{:synsem {:cat cat-of-pronoun
-              :pronoun true
-              :case :nom
-              :agr {:person :2nd
-                    :gender :fem
-                    :number :plur}
-              :sem {:pred :voi
-                    :human true}
-              :subcat '()}}
-
-    {:synsem {:cat cat-of-pronoun
-              :pronoun true
-              :case :nom
-              :agr {:person :2nd
-                    :gender :masc
-                    :number :plur}
-              :sem {:pred :voi
-                    :human true}
-              :subcat '()}}]
-            
-    "volere" {:synsem {:cat :verb
-                       :sem {:pred :want}}
-              :italiano {:future-stem "vorr"
-                         :drop-e true
-                         :present {:1sing "voglio"
-                                   :2sing "vuoi"
-                                   :3sing "vuole"
-                                   :1plur "vogliamo"
-                                   :2plur "volete"
-                                   :3plur "vogliono"}}}
-
-   "ziano" {:synsem {:agr {:gender :masc}
-                     :cat :noun
-                     :sem {:pred :shoe}}}
-   
-   ":top" {:synsem :top
-           :top true}
-   ":top-noun" {:synsem {:cat :noun}
-                :top true}
-   }
+             :case pronoun-acc}}
+ "tirare" 
+ {:synsem {:cat :verb 
+           :sem {:pred :throw}}}
+ 
+ "tornare" 
+ {:synsem {:cat :verb 
+           :sem {:pred :tornare}
+           :essere true}}
+ 
+ "trasferire"
+ {:synsem {:cat :verb
+           :sem {:pred :transfer}}
+  :italiano {:boot-stem1 "trasferisc"
+             :boot-stem2 "trasfer"}}
+ 
+ "tu"
+ [{:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :2nd
+                  :gender :fem
+                  :number :sing}
+            :sem {:pred :tu
+                  :human true}
+            :subcat '()}}
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :2nd
+                  :gender :masc
+                  :number :sing}
+            :sem {:pred :tu
+                  :human true}
+            :subcat '()}}]
+ 
+ "un" [{:synsem {:cat :det
+                 :def :indef
+                 :mass false
+                 :agr {:gender :masc
+                       :number :sing}}}
+       {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
+        :synsem {:cat :det
+                 :def :indef
+                 :mass false
+                 :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
+                       ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
+                       :number :sing}}}]
+ "una"
+ {:synsem {:cat :det
+           :def :indef
+           :mass false
+           :agr {:gender :fem
+                 :number :sing}}}
+ "uno"
+ {:synsem {:cat :det
+           :def :indef
+           :mass false
+           :agr {:gender :masc
+                 :number :sing}}}
+ "uomo"
+ {:italiano {:plur "uomini"}
+  :synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:human true
+                 :pred :man
+                 :child false}}}
+ 
+ "usare"  {:synsem {:cat :verb
+                    :sem {:pred :usare}}}
+ 
+ "uscire" (let [common {:synsem {:cat :verb
+                                 :essere true
+                                 :sem {:subj {:animate true}}}
+                        :italiano {:italiano "uscire"
+                                   :boot-stem1 "esc"
+                                   :boot-stem2 "usc"}}]
+            [{:unify [common]
+              :synsem {:sem {:pred :go-out}}}
+             {:unify [common]
+              :synsem {:sem {:pred :exit}}}])
+ "vedere" 
+ {:synsem {:cat :verb
+           :sem {:pred :see}}
+  :italiano {:passato "visto"
+             :future-stem "vedr"}}
+ 
+ "vendere"  {:synsem {:cat :verb 
+                      :sem {:pred :vendere
+                            :subj {:human true}
+                            :obj {:human false}}}}
+ 
+ "venire" {:synsem {:cat :verb
+                    :essere true
+                    :sem {:pred :come}}
+           :italiano {:passato "venuto"
+                      :present {:1sing "vengo"
+                                :2sing "vieni"
+                                :3sing "viene"
+                                :3plur "vengono"}
+                      :future-stem "verr"}}
+ 
+ "ventotto" {:synsem {:cat :det
+                      :def :twentyeight
+                      :agr {:number :plur}}}
+ 
+ "vestirsi" {:unify [reflexive]
+             :synsem {:sem {:pred :get-dressed
+                            :subj {:human true}}}}
+ "vi"
+ {:synsem {:cat :noun
+           :pronoun true
+           :case pronoun-acc
+           :agr {:person :2nd
+                 :number :plur}
+           :sem {:human true
+                 :pred :voi}
+           :subcat '()}
+  :italiano {:initial true
+             :cat :noun
+             :case pronoun-acc}}
+ 
+ "vincere"  {:synsem {:cat :verb
+                      :sem {:pred :win
+                            :subj {:human true}
+                            :obj {:human false}}}}
+ "vino" {:synsem {:agr {:gender :masc}
+                  :cat :noun
+                  :pred :vino
+                  :sem {:pred :vino}}}
+ "vivere" 
+ [{:synsem {:cat :verb
+            :sem {:subj {:living true}
+                  :pred :live}
+            :essere true}
+   :italiano {:passato "vissuto"
+              :future-stem "vivr"}}]
+ 
+ "voi"
+ [{:synsem {:cat cat-of-pronoun
+            :pronoun true
+            :case :nom
+            :agr {:person :2nd
+                  :gender :fem
+                  :number :plur}
+            :sem {:pred :voi
+                  :human true}
+            :subcat '()}}
+  
+  {:synsem {:cat cat-of-pronoun
+            :pronoun true
+            :case :nom
+            :agr {:person :2nd
+                  :gender :masc
+                  :number :plur}
+            :sem {:pred :voi
+                  :human true}
+            :subcat '()}}]
+ 
+ "volere" {:synsem {:cat :verb
+                    :sem {:pred :want}}
+           :italiano {:future-stem "vorr"
+                      :drop-e true
+                      :present {:1sing "voglio"
+                                :2sing "vuoi"
+                                :3sing "vuole"
+                                :1plur "vogliamo"
+                                :2plur "volete"
+                                :3plur "vogliono"}}}
+ 
+ "ziano" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:pred :shoe}}}
+ 
+ ":top" {:synsem :top
+         :top true}
+ ":top-noun" {:synsem {:cat :noun}
+              :top true}
+ }

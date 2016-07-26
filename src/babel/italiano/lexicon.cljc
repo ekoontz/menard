@@ -402,25 +402,12 @@
    "ballare" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
    "bello"
-   [;; non-comparative
-    {:unify [adjective]
-     :synsem {:sem {:pred :bello
-                    :comparative false
-                    }}} ;; for now, no restrictions on what can be beautiful.
+   [{:unify [adjective non-comparative-adjective]
+     :synsem {:sem {:pred :bello}}}
     
-    ;; comparative
-    (let [complement-complement-sem (atom :top) ;; for now no restrictions
-          complement-sem (atom {:pred :di
-                               :mod complement-complement-sem})
-          subject-sem (atom :top)] ;; subject can be anything.
-      {:unify [adjective comparative]
-       :synsem {:sem {:pred :bello
-                      :arg1 subject-sem
-                      :arg2 complement-complement-sem}
-                :subcat {:1 {:cat :noun
-                             :sem subject-sem}
-                         :2 {:cat :prep
-                             :sem complement-sem}}}})]
+    {:unify [adjective comparative]
+     :synsem {:sem {:pred :bello}}}]
+    
    "bene"
    {:synsem {:cat :adverb
              :sem {:pred :bene}}}
@@ -744,25 +731,14 @@
                        :cat :verb}}
       
    "contento"
-   [(let [complement-complement-sem (atom {:human true})
-          complement-sem (atom {:pred :di
-                                :mod complement-complement-sem})
-          subject-sem (atom {:place true})]
-      {:unify [adjective comparative]
-       :synsem {:sem {:pred :contento
-                      :arg1 subject-sem
-                      :arg2 complement-complement-sem}
-                :subcat {:1 {:cat :noun
-                             :sem subject-sem}
-                         :2 {:cat :prep
-                             :sem complement-sem}}}}
+   [{:unify [adjective non-comparative-adjective]
+     :synsem {:sem {:pred :contento
+                    :subj {:human true}}}}
     
-      ;; non-comparative
-      {:unify [adjective]
-       :synsem {:cat :adjective
-                :sem {:pred :contento
-                      :comparative false
-                      :human true}}})]
+    {:unify [adjective comparative]
+     :synsem {:sem {:pred :contento
+                    :subj {:human true}
+                    :obj {:human true}}}}]
     
    "contraccambiare" {:synsem {:sem {:pred :reciprocate}
                                :cat :verb}}
@@ -775,25 +751,14 @@
                               :sem {:pred :correspond}}}
 
    "corto"
-   [(let [complement-complement-sem (atom {:human true}) ;; only humans can be short.
-          complement-sem (atom {:pred :di
-                                :mod complement-complement-sem})
-          subject-sem (atom {:human true})] ;; only humans can be short.
-      {:unify [adjective comparative]
-       :synsem {:sem {:pred :corto
-                      :arg1 subject-sem
-                      :arg2 complement-complement-sem}
-                :subcat {:1 {:cat :noun
-                             :sem subject-sem}
-                         :2 {:cat :prep
-                             :sem complement-sem}}}})
-    ;; non-comparative
-    {:unify [adjective]
-     :synsem {:cat :adjective
-              :sem {:pred :corto
-                    :comparative false
-                    :human true}}
-     :italiano {:cat :adjective}}]
+   [{:unify [adjective non-comparative-adjective]
+     :synsem {:sem {:pred :contento
+                    :subj {:human true}}}}
+    
+    {:unify [adjective comparative]
+     :synsem {:sem {:pred :contento
+                    :subj {:human true}
+                    :obj {:human true}}}}]
 
    "creare"  {:synsem {:cat :verb
                        :sem {:pred :create}}}

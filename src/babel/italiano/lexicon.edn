@@ -51,16 +51,18 @@
                    :animate false
                    :pred :acqua}}}
 
-     "addormentarsi"
-     {:unify [reflexive]
-      :synsem {:sem {:pred :fall-asleep
-                     :subj {:animate true}}}}
+ "addormentarsi"
+ {:unify [reflexive]
+  :synsem {:cat :verb
+           :sem {:pred :fall-asleep
+                 :reflexive true
+                 :subj {:animate true}}}}
 
-     "aereo" {:synsem {:agr {:gender :masc}
-                     :cat :noun
-                     :sem {:physical-object true
-                           :pred :airplane
-                           :place true}}}
+ "aereo" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:physical-object true
+                         :pred :airplane
+                         :place true}}}
    "affolato"
    [;; comparative
     (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
@@ -107,9 +109,10 @@
                       :arg1 {:human true}
                       :arg2 {:human true}}}}]
 
-     "alzarsi" {:unify [reflexive]
-                :synsem {:sem {:pred :get-up
-                               :subj {:animate true}}}}
+ "alzarsi" {:unify [reflexive]
+            :synsem {:cat :verb
+                     :sem {:pred :get-up
+                           :subj {:animate true}}}}
    "amare"
     {:synsem {:cat :verb
               :essere false

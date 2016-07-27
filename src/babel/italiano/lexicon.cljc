@@ -63,6 +63,8 @@
                                  evaluated
                                  true [evaluated])]
                   (map (fn [v]
+                         (if (not (map? v))
+                           (throw (Exception. (str "Lexeme: " v " is not a map."))))
                          (reduce unify
                                  (cons
                                   (dissoc v :unify)

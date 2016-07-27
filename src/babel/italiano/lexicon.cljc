@@ -50,6 +50,8 @@
 
 (def analyze-lexemes false)
 
+;; TODO: promote to babel.lexicon or babel.lexiconfn
+;; also rename babel.lexiconfn to babel.lexicon.
 (defn edn2lexicon [filename]
   (let [lexicon-hash-from-edn (read-string (slurp filename))
         lexicon-source 
@@ -190,6 +192,4 @@
              "a la prossima"
              
              true k))))))
-
-(def lexicon (edn2lexicon "/Users/ekoontz/babel/src/babel/italiano/lexicon.edn"))
 

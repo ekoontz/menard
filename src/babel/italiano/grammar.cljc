@@ -3,8 +3,36 @@
   (:require
    [babel.cache :refer [create-index]]
    [babel.enrich :refer [enrich]]
-   [babel.italiano.lexicon :refer [lexicon]]
+   [babel.italiano.lexicon :refer [edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
+   [babel.italiano.pos :refer [adjective
+                               agreement-noun
+                               agreement-of-obj-of-main-verb
+                               agreement-of-subj-of-main-verb
+                               cat-of-pronoun
+                               common-noun
+                               comparative
+                               countable-noun
+                               determiner
+                               essere-aux-subject-agreement
+                               gender-and-number-agreement-1
+                               intransitive
+                               intransitive-unspecified-obj
+                               intransitivize
+                               masculine-noun
+                               non-comparative-adjective
+                               pred-is-obj-pred
+                               preposition
+                               pronoun-acc
+                               pronoun-reflexive
+                               reflexive
+                               reflexive-obj-is-subcat3
+                               sentential-adverb
+                               subj-obj-humanness
+                               transitive
+                               transitivize
+                               verb-aux
+                               verb-subjective]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
@@ -18,6 +46,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
+
+(def lexicon (edn2lexicon "/Users/ekoontz/babel/src/babel/italiano/lexicon.edn"))
 
 (defn exception [error-string]
   #?(:clj

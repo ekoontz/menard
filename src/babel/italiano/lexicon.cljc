@@ -81,6 +81,14 @@
                               ;; TODO: rewrite italian-specific-rules as (constrain-vals-if)(one or more)
                               italian-specific-rules)
 
+                 ;; filter out entries with no :cat.
+                 (filter-vals
+                  #(or (and (not (= :none (get-in % [:synsem :cat] :none)))
+                            (or (log/info (str "lexical entry has a cat - good : " (strip-refs %)))
+                                true))
+                       (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
+                            false)))
+
                  (constrain-vals-if
                   (fn [val]
                     (not (nil? (get universals (get-in val [:synsem :sem :pred])))))
@@ -164,7 +172,6 @@
                  (if-then {:synsem {:cat :prep}}
                           preposition)
 
-                 
                  ;; filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
                  ;; rather than not having any inflection.
                  (filter-vals

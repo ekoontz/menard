@@ -1299,11 +1299,11 @@
     {:synsem {:cat :verb
               :sem {:pred :lie}}}
 
-   "mezzogiorno"
-   {:unify [agreement-noun common-noun countable-noun masculine-noun]
-    :synsem {:cat :noun
-             :sem {:pred :noon
-                   :time true}}}
+ "mezzogiorno"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :noon
+                 :time true}}}
    "mi"
    {:synsem {:cat :noun
                :pronoun true

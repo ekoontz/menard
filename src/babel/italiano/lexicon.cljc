@@ -84,7 +84,7 @@
                  ;; filter out entries with no :cat.
                  (filter-vals
                   #(or (and (not (= :none (get-in % [:synsem :cat] :none)))
-                            (or (log/info (str "lexical entry has a cat - good : " (strip-refs %)))
+                            (or (log/debug (str "lexical entry has a cat - good : " (strip-refs %)))
                                 true))
                        (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
                             false)))

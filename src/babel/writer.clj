@@ -289,6 +289,8 @@
       (if (> current-target-count 0)
         (log/debug (str "There are already " current-target-count " expressions for: " spec)))
       (if (> count 0)
+
+        ;; TODO: use (recur) or (loop) or (pmap) rather than this recursion.
         (do
           (log/debug (str "Generating "
                          count

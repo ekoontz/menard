@@ -19,7 +19,7 @@
 (defn fo-ps [expression]
   (morph/fo-ps1 expression))
 
-(def lexicon (:lexicon medium))
+(def lexicon (:lexicon @medium))
 (def infinitives
   (filter (fn [k] 
             (let [vals (get lexicon k)]
@@ -66,7 +66,7 @@
 
 (defn analyze
   ([surface-form]
-   (analyze surface-form (:lexicon medium)))
+   (analyze surface-form (:lexicon @medium)))
   ([surface-form lexicon]
    (morph/analyze surface-form lexicon)))
 
@@ -86,7 +86,8 @@
             result))))
 
 (defn lightning-bolts [spec]
-  (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium)))
+  (let [medium @medium]
+    (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium))))
 
 (def tokenizer #"[ '\n,’».]")
 
@@ -127,7 +128,8 @@
      (parse input medium)))
 
   ([input model]
-   (let [input (preprocess input)]
+   (let [model (if (future? model) @model model)
+         input (preprocess input)]
      (cond (string? input)
            (map (fn [tokenization]
                   {:tokens tokenization

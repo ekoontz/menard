@@ -203,9 +203,8 @@ as a map of implications"}
                              (log/debug (str "original call of sem-impl: (" (get-in input [:pred]) ")" (strip-refs input)))
                              input))]
     (cond
+      (keyword? input) input
       (empty? input) {}
-      (= input :top) input
-      (= input :fail) :fail
       true
       (let [merged
             (unify input

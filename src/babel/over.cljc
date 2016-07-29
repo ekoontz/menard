@@ -97,9 +97,14 @@
         (do
           (if (not (= true head-pre-checks))
             (log/warn (str "moreover-head: pre-check missed: fail-path-between "
-                           "parent:'" (get-in parent [:rule]) "' and child:"
+                           "parent:'" (get-in parent [:rule]) "' and child with pred:"
                            (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) ":"
-                           (fail-path parent child))))
+                           (let [{path :path
+                                  parent-value :arg1
+                                  head-value :arg2} (fail-path parent {:head child})]
+                             (str "parent[" path        "]= " parent-value ";"
+                                  "child[" (rest path) "]= " head-value ".")))))
+                             
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]
               (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))

@@ -216,7 +216,8 @@
    In the latter case, the tokens are assumed to be produced by splitting a string in 
    some language-dependent way."
   ([input model & [original-input]]
-   (let [original-input (if original-input original-input input)]
+   (let [original-input (if original-input original-input input)
+         model (if (future? model) @model model)]
      (cond (= (type input) java.io.BufferedReader)
            (parse-from-file input model)
            (string? input)

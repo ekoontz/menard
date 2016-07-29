@@ -42,7 +42,10 @@
                                             max-total-depth generate/max-total-depth
                                             truncate-children true}}]
   (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; enrich: " do-enrich "; truncate-children: " truncate-children))
-  (let [grammar (:grammar language-model)]
+  (let [language-model (if (future? language-model)
+                         @language-model
+                         language-model)
+        grammar (:grammar language-model)]
     (if (empty? grammar)
       (do
         (log/error (str "grammar is empty."))

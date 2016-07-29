@@ -39,7 +39,8 @@
                 & {:keys [max-total-depth truncate-children]
                    :or {max-total-depth max-total-depth
                         truncate-children true}}]
-  (let [morph (:morph language-model)]
+  (let [language-model (if (future? language-model) @language-model language-model)
+        morph (:morph language-model)]
     (log/info (str "generate: generating from spec: "
                    (strip-refs spec) " with max-total-depth: " max-total-depth ";truncate: " truncate-children))
     (let [expression (first (take 1 (generate-all spec language-model 0
@@ -77,7 +78,8 @@
   (log/debug (str "generate-all:"
                   (strip-refs (get-in spec [:synsem :cat])) "^" total-depth))
   
-  (let [total-depth (if total-depth total-depth 0)]
+  (let [language-model (if (future? language-model) @language-model language-model)
+        total-depth (if total-depth total-depth 0)]
     (if truncate-children
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)

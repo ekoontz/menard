@@ -51,8 +51,13 @@
 
         ;; 1. generate sentence in target language.
         ;; resolve future
-        target-language-sentence (engine/generate spec target-language-model :enrich true)
-        
+        target-language-sentence (engine/generate spec target-language-model
+                                                  :enrich true
+                                                  :truncate-children false)
+        ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
+        ;; so that we can search for them with specifications that might include :comp and :head search keys.
+        ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
+        ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
         target-language-sentence (if (:morph-walk-tree target-language-model)
                                    (merge ((:morph-walk-tree target-language-model) target-language-sentence)
                                           target-language-sentence)
@@ -99,11 +104,16 @@
                       ;;  {:synsem {:subcat '()}} that makes us try to generate
                       ;; an entire sentence.
                       (throw (Exception. message))))))
+        ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
+        ;; so that we can search for them with specifications that might include :comp and :head search keys.
+        ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
+        ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
+        ;;
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
         source-language-sentence (engine/generate {:synsem {:sem semantics}}
-                                                  source-language-model :enrich true)
+                                                  source-language-model :truncate-children false)
 
         source-language-sentence (if (:morph-walk-tree source-language-model)
                                    (merge ((:morph-walk-tree source-language-model) source-language-sentence)
@@ -185,7 +195,11 @@
         language (:language model)
         debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
     (dotimes [n num]
-      (let [sentence (engine/expression model spec)
+      (let [sentence (engine/expression model spec :truncate-children false)
+            ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
+            ;; so that we can search for them with specifications that might include :comp and :head search keys.
+            ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
+            ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
             fo (:morph model)
             surface (fo sentence)]
         (if (empty? surface)
@@ -312,10 +326,13 @@
         json-spec (json/write-str spec)
         current-count
         (:count
+         ;; TODO: move this block to babel.reader/checking-for-existing-expressions
+         ;; and then call that.
          (first
           (exec-raw ["SELECT count(*) FROM expression 
-                         WHERE structure @> ?::jsonb
-                           AND language=?"
+                       WHERE structure @> ?::jsonb
+                         AND active=true
+                         AND language=?"
                        [(json/write-str spec) language]]
                       :results)))]
     (log/debug (str "current-count for spec: " spec "=" current-count))
@@ -415,9 +432,9 @@
   (let []
     (log/debug (str "Units: " (.size units)))
     (.size (map (fn [unit]
-                  (log/trace (str "TYPE OF UNIT: " (type unit)))
-                  (log/trace (str "KEYS OF UNIT: " (keys unit)))
-                  (let [member-of-unit unit]
+                  (log/trace (str "processing unit's type: " (type unit)))
+                  (log/trace (str "processing unit's keys: " (keys unit)))
+                  (let [member-of-unit unit] ;; TODO: s/member-of-unit/unit/
                     (log/debug (str "keys of member-of-unit:" (keys member-of-unit)))
                     (if (:sql member-of-unit)
                       (do
@@ -458,10 +475,11 @@
     
     ))
 
-;; (process accompany care fornire indossare moltiplicare recuperare riconoscere riscaldare)
 (defn generate-from-spec [model spec tenses genders persons numbers & [count]]
-  (log/debug (str "generate-from-spec: " spec))
-  (let [count (if count (Integer. count) 10)]
+  (log/debug (str "generate-from-spec: input: " spec))
+  ;; TODO: count is not being used: remove or support it.
+  (let [input-spec spec
+        count (if count (Integer. count) 10)]
     (.size (pmap (fn [tense]
                    (let [spec (unify spec
                                      tense)]
@@ -479,7 +497,7 @@
                                            (map (fn [number]
                                                   (let [spec (unify spec
                                                                     {:comp {:synsem {:agr {:number number}}}})]
-                                                    (log/debug (str "generating from spec: " spec))
+                                                    (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
                                                     (try
                                                       (process [{:fill-one-language
                                                                  {:count 1

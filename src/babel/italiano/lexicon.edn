@@ -1546,9 +1546,9 @@
                    :physical-object true
                    :human false}}}
    
-   "salire" (let [common {:synsem {:cat :verb}
+   "salire" (let [common {:synsem {:cat :verb
                                    :essere true
-                                   :sem {:subj {:animate true}}
+                                   :sem {:subj {:animate true}}}
                           :italiano {:italiano "salire"
                                      :present {:1sing "salgo"
                                                :3plur "salgono"}}}]

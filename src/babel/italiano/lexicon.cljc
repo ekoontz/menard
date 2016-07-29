@@ -2,7 +2,6 @@
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.encyclopedia :refer [sem-impl]]
    [babel.lexicon :refer [universals]]
 
    ;; TODO: use dag_unify/unifyc instead:

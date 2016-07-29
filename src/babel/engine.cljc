@@ -41,7 +41,7 @@
                                             do-enrich true
                                             max-total-depth generate/max-total-depth
                                             truncate-children true}}]
-  (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; enrich: " do-enrich))
+  (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; enrich: " do-enrich "; truncate-children: " truncate-children))
   (let [grammar (:grammar language-model)]
     (if (empty? grammar)
       (do
@@ -323,11 +323,12 @@
               :sem (get-in input-map [:synsem :sem] :top)
               :subcat (get-in input-map [:synsem :subcat] :top)}}))
 
-(defn expression [model spec]
+(defn expression [model spec & {:keys [truncate-children]
+                                :or {truncate-children true}}]
   (let [no-language (if (nil? model)
                              (throw (Exception. "No target language model was supplied.")))
 
-        sentence (generate spec model :enrich true)
+        sentence (generate spec model :truncate-children truncate-children)
 
         check (if (nil? sentence)
                 (let [message (str "Could not generate a sentence for spec: " spec " for language: " (:language model)

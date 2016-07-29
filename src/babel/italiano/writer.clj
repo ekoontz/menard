@@ -10,13 +10,13 @@
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn expression [spec]
-  (engine/expression small spec))
+  (engine/expression @small spec))
 
 (defn fo [spec]
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (let [lexicon (:lexicon small)]
+  (let [lexicon (:lexicon @small)]
     (write-lexicon "it" lexicon)))
 
 (declare generate-one-verb)
@@ -25,7 +25,7 @@
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-        lexicon (:lexicon small)
+        lexicon (:lexicon @small)
         lexemes (if lexeme (list (get lexicon lexeme))
                     (vals lexicon))
         root-verbs 
@@ -63,7 +63,7 @@
 (defn generate-one-verb [spec & [count]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
   (writer/generate-from-spec
-   small
+   @small
    (strip-refs spec)
 
    [{:synsem {:sem {:tense :conditional}}}

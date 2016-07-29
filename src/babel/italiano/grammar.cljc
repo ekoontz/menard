@@ -47,7 +47,7 @@
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
-(def lexicon (edn2lexicon (str (-> (java.io.File. ".") .getAbsolutePath) "/src/babel/italiano/lexicon.edn")))
+(def lexicon (future (edn2lexicon (str (-> (java.io.File. ".") .getAbsolutePath) "/src/babel/italiano/lexicon.edn"))))
 
 (defn exception [error-string]
   #?(:clj
@@ -568,145 +568,151 @@
               [k filtered-v])))))
 
 (def small
-  (let [grammar
-        (filter #(or (= (:rule %) "s-conditional-phrasal")
-                     (= (:rule %) "s-conditional-nonphrasal")
-                     (= (:rule %) "s-present-phrasal")
-                     (= (:rule %) "s-present-nonphrasal")
-                     (= (:rule %) "s-future-phrasal")
-                     (= (:rule %) "s-future-nonphrasal")
-                     (= (:rule %) "s-imperfect-phrasal")
-                     (= (:rule %) "s-imperfect-nonphrasal")
-                     (= (:rule %) "s-aux")
-                     (= (:rule %) "vp-aux")
-                     (= (:rule %) "vp-aux-22")
-                     (= (:rule %) "vp-pronoun-nonphrasal")
-                     (= (:rule %) "vp-pronoun-phrasal"))
-                grammar)
-        lexicon
-        (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
-                      (filter #(and
-                                (not (= true (get-in % [:top])))
-                                (or (= (get-in % [:synsem :cat]) :verb)
-                                    (= (get-in % [:synsem :propernoun]) true)
-                                    (= (get-in % [:synsem :pronoun]) true)))
-                              v)]
+  (future
+    (let [lexicon @lexicon
+          grammar
+          (filter #(or (= (:rule %) "s-conditional-phrasal")
+                       (= (:rule %) "s-conditional-nonphrasal")
+                       (= (:rule %) "s-present-phrasal")
+                       (= (:rule %) "s-present-nonphrasal")
+                       (= (:rule %) "s-future-phrasal")
+                       (= (:rule %) "s-future-nonphrasal")
+                       (= (:rule %) "s-imperfect-phrasal")
+                       (= (:rule %) "s-imperfect-nonphrasal")
+                       (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-aux")
+                       (= (:rule %) "vp-aux-22")
+                       (= (:rule %) "vp-pronoun-nonphrasal")
+                       (= (:rule %) "vp-pronoun-phrasal"))
+                  grammar)
+          lexicon
+          (into {}
+                (for [[k v] lexicon]
+                  (let [filtered-v
+                        (filter #(and
+                                  (not (= true (get-in % [:top])))
+                                  (or (= (get-in % [:synsem :cat]) :verb)
+                                      (= (get-in % [:synsem :propernoun]) true)
+                                      (= (get-in % [:synsem :pronoun]) true)))
+                                v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)]
-    {:name "small"
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
-     :language "it"
-     :language-keyword :italiano
-     :morph fo
-     :lookup (fn [arg]
-               (analyze arg lexicon))
-     :enrich enrich
-     :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
-     :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
+          lexicon-for-generation (lexicon-for-generation lexicon)]
+      {:name "small"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
+       :language "it"
+       :language-keyword :italiano
+       :morph fo
+       :lookup (fn [arg]
+                 (analyze arg lexicon))
+       :enrich enrich
+       :generate {:lexicon lexicon-for-generation}
+       :grammar grammar
+       :lexicon lexicon
+       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)})))
 
 (def medium
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
   ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
-  (let [parse-lexicon
-        (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v 
-                      (filter (fn [x] true)
-                              v)]
+  (future
+    (let [lexicon @lexicon
+          parse-lexicon
+          (into {}
+                (for [[k v] lexicon]
+                  (let [filtered-v 
+                        (filter (fn [x] true)
+                                v)]
+                    (if (not (empty? filtered-v))
+                      [k filtered-v]))))
+          lexicon
+          (into {}
+                (for [[k v] lexicon]
+                  (let [filtered-v
+                        (filter #(not (= true (get-in % [:top])))
+                                v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon
-        (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
-                      (filter #(not (= true (get-in % [:top])))
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)
-        rules (map #(keyword (get-in % [:rule])) grammar)]
-    {:name "medium"
-     :enrich enrich
-     :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
-     :language "it"
-     :language-keyword :italiano
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :lookup (fn [arg]
-               (analyze arg parse-lexicon))
-     :morph fo
-     :morph-ps (fn [arg] (fo-ps1 arg))
-     :rules rules
-     :rule-map (zipmap rules
-                       grammar)
-     }))
+          lexicon-for-generation (lexicon-for-generation lexicon)
+          rules (map #(keyword (get-in % [:rule])) grammar)]
+      {:name "medium"
+       :enrich enrich
+       :generate {:lexicon lexicon-for-generation}
+       :grammar grammar
+       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
+       :language "it"
+       :language-keyword :italiano
+       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+       :lexicon lexicon
+       :lookup (fn [arg]
+                 (analyze arg parse-lexicon))
+       :morph fo
+       :morph-ps (fn [arg] (fo-ps1 arg))
+       :rules rules
+       :rule-map (zipmap rules
+                         grammar)
+       })))
 
 (def np-grammar
-  (let [grammar
-        (filter #(or (= (:rule %) "noun-phrase1")
-                     (= (:rule %) "noun-phrase2")
-                     (= (:rule %) "nbar1")
-                     (= (:rule %) "nbar2"))
-                grammar)
-        rules (map #(keyword (get-in % [:rule])) grammar)
-        lexicon
-        (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
-                      (filter #(and (not (= true (get-in % [:top])))
-                                    (or (= (get-in % [:synsem :cat] :adjective) :adjective)
-                                        (= (get-in % [:synsem :cat] :det) :det)
-                                        (and (= (get-in % [:synsem :cat] :noun) :noun)
-                                             (not (= (get-in % [:synsem :propernoun] false) true))
-                                             (not (= (get-in % [:synsem :pronoun] false) true)))))
-                              v)
-                      ;; TODO: remove this removal:
-                      ;; don't remove this semantic info. It's an interesting example of how to
-                      ;; process a lexicon, though, so perhaps find a reason to use it in some way.
+  (future
+    (let [lexicon @lexicon
+          grammar
+          (filter #(or (= (:rule %) "noun-phrase1")
+                       (= (:rule %) "noun-phrase2")
+                       (= (:rule %) "nbar1")
+                       (= (:rule %) "nbar2"))
+                  grammar)
+          rules (map #(keyword (get-in % [:rule])) grammar)
+          lexicon
+          (into {}
+                (for [[k v] lexicon]
+                  (let [filtered-v
+                        (filter #(and (not (= true (get-in % [:top])))
+                                      (or (= (get-in % [:synsem :cat] :adjective) :adjective)
+                                          (= (get-in % [:synsem :cat] :det) :det)
+                                          (and (= (get-in % [:synsem :cat] :noun) :noun)
+                                               (not (= (get-in % [:synsem :propernoun] false) true))
+                                               (not (= (get-in % [:synsem :pronoun] false) true)))))
+                                v)
+                        ;; TODO: remove this removal:
+                        ;; don't remove this semantic info. It's an interesting example of how to
+                        ;; process a lexicon, though, so perhaps find a reason to use it in some way.
                       remove-semantic-features
-                      (map (fn [lexeme]
-                             (remove-matching-keys lexeme
-                                                   #(or
-                                                     (= % :activity)        (= % :animate)  (= % :artifact)
-                                                     (= % :buyable)         (= % :child)    (= % :clothing)
-                                                     (= % :consumable)
-                                                     (= % :drinkable)       (= % :edible)   (= % :furniture)
-                                                     (= % :human)           (= % :legible)  (= % :part-of-human-body)
-                                                     (= % :pet)
-                                                     (= % :physical-object) (= % :place)    (= % :speakable))))
-                           filtered-v)]
-                  (if (not (empty? remove-semantic-features))
-                    [k remove-semantic-features]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)]
-    {:name "np-grammar"
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
-     :language "it"
-     :language-keyword :italiano
-     :morph fo
-     :lookup (fn [arg]
-               (analyze arg lexicon))
-     :enrich enrich
-     :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
-     :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
-     :rules rules
-     :rule-map (zipmap rules grammar)}))
+                        (map (fn [lexeme]
+                               (remove-matching-keys lexeme
+                                                     #(or
+                                                       (= % :activity)        (= % :animate)  (= % :artifact)
+                                                       (= % :buyable)         (= % :child)    (= % :clothing)
+                                                       (= % :consumable)
+                                                       (= % :drinkable)       (= % :edible)   (= % :furniture)
+                                                       (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                       (= % :pet)
+                                                       (= % :physical-object) (= % :place)    (= % :speakable))))
+                             filtered-v)]
+                    (if (not (empty? remove-semantic-features))
+                      [k remove-semantic-features]))))
+          lexicon-for-generation (lexicon-for-generation lexicon)]
+      {:name "np-grammar"
+       :morph-walk-tree (fn [tree]
+                          (do
+                            (merge tree
+                                   (morph-walk-tree tree))))
+       :language "it"
+       :language-keyword :italiano
+       :morph fo
+       :lookup (fn [arg]
+                 (analyze arg lexicon))
+       :enrich enrich
+       :generate {:lexicon lexicon-for-generation}
+       :grammar grammar
+       :lexicon lexicon
+       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
+       :rules rules
+       :rule-map (zipmap rules grammar)})))
 
 (log/info "Italiano grammars defined (small, medium).")

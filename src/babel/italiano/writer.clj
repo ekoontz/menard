@@ -3,7 +3,6 @@
 
 (require '[babel.engine :as engine])
 (require '[babel.italiano.grammar :refer [small]])
-(require '[babel.italiano.lexicon :refer [lexicon]])
 (require '[babel.italiano.morphology :as morph])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :refer [join]])
@@ -17,7 +16,8 @@
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (write-lexicon "it" lexicon))
+  (let [lexicon (:lexicon small)]
+    (write-lexicon "it" lexicon)))
 
 (declare generate-one-verb)
 
@@ -25,6 +25,7 @@
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
+        lexicon (:lexicon small)
         lexemes (if lexeme (list (get lexicon lexeme))
                     (vals lexicon))
         root-verbs 

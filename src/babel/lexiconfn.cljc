@@ -379,13 +379,25 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (def do-semantic-implicature? true)
 
 (defn semantic-implicature [lexical-entry]
-  (if (and
-       do-semantic-implicature?
-       (= (get-in lexical-entry [:synsem :cat]) :noun))
-           
-    ;; this rule is only necessary with nouns: other parts of speech can select nouns based on their
-    ;; semantics derived via the nouns' use of this rule.
-    {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}}
+  (if do-semantic-implicature?
+    (cond
+       (= (get-in lexical-entry [:synsem :cat]) :noun)
+       {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}}
+
+       (and true (= (get-in lexical-entry [:synsem :cat]) :verb))
+       {:synsem {:sem (reduce unifyc
+                              (filter #(not (= :does-not-apply %))
+                                      [:top ;; necessary to prevent cases where neither :subj nor :obj exists.
+                                       (if (not (= :none (get-in lexical-entry [:synsem :sem :subj] :none)))
+                                         {:subj (sem-impl (get-in lexical-entry [:synsem :sem :subj]))}
+                                         :does-not-apply)
+                                       (if (not (= :none (get-in lexical-entry [:synsem :sem :obj] :none)))
+                                         {:obj (sem-impl (get-in lexical-entry [:synsem :sem :obj]))}
+                                         :does-not-apply)]))}}
+
+       ;; TODO: prepositions
+       true
+       lexical-entry)
 
     lexical-entry))
 

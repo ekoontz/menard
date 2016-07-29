@@ -47,12 +47,13 @@
                        (get root-verbs key))
                      (sort (keys root-verbs))))]
 
+    ;; TODO: lexicon-writing should be moved out of (defn tutti []).
     (write-lexicon "it" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size tutti)))
     (.size (pmap (fn [verb]
-                   (log/debug (str "verb: " (strip-refs verb)))
+                   (log/debug (str "tutti: verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
                      (generate-one-verb (unify
                                          {:synsem {:sem

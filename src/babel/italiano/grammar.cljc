@@ -47,7 +47,7 @@
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
-(def lexicon (edn2lexicon "/Users/ekoontz/babel/src/babel/italiano/lexicon.edn"))
+(def lexicon (edn2lexicon (str (-> (java.io.File. ".") .getAbsolutePath) "/src/babel/italiano/lexicon.edn")))
 
 (defn exception [error-string]
   #?(:clj

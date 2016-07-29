@@ -152,9 +152,10 @@
 
   (try
     (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
-                    "$$" (json/write-str (strip-refs expression)) "$$"
+                    ;; TODO: dissoc the spec per immediately below TODO
+                    "$$" (json/write-str (strip-refs expression)) "$$" ;; TODO: store the :spec in a new column 'spec' within the given table.
                     ","
-                    "$$" (str (serialize expression)) "$$"
+                    "$$[" (string/join "" (serialize expression)) "]$$" ;; TODO: check for presence of "$$" within (serialize expression).
                     ","
                     "?,?)")
                [surface
@@ -175,7 +176,7 @@
                           VALUES (?,"
                     "$$" (json/write-str (strip-refs lexeme)) "$$"
                     ",?,?)")
-               [canonical (str "[" (string/join " " (serialize lexeme))
+               [canonical (str "[" (string/join " " (serialize lexeme)) ;; TODO: remove unneeded whitespace: string/join "" should work fine.
                                "]")
                 language]])))
 

@@ -404,7 +404,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 (defn put-a-bird-on-it [lexical-entry]
   "example lexical entry transformer."
   (cond (map? lexical-entry)
-        (conj {:bird 42}
+        (conj {:bird :thrush}
               lexical-entry)
         true
         lexical-entry))

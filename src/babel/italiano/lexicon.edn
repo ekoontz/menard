@@ -237,7 +237,6 @@
        :synsem {:sem {:pred :have
                       :activity false
                       :discrete false
-                      :subj {:human true}
                       :obj {:human true}}}}
 
       ;; 3. avere: unspecified object

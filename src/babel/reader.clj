@@ -101,7 +101,8 @@
     ;; ORDER BY the value of the hash function on each row.
     (let [results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                         FROM expression AS target
-                                       WHERE target.language=?
+                                       WHERE target.active=true
+                                         AND target.language=?
                                          AND target.structure IS NOT NULL
                                          AND target.surface != ''
                                          AND target.structure @> '" target-json-spec "'

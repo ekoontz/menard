@@ -496,10 +496,11 @@
                                                           ;; subject), but we're trying to generate with
                                                           ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
                                                           ;; are human.
-                                                          true
                                                           
+                                                          (= true mask-populate-errors)
                                                           (log/warn (str "ignoring exception: " e))
-                                                          false
+                                                          
+                                                          true
                                                           (throw e))))
                                                     ))
                                                 numbers

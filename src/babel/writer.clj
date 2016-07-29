@@ -279,9 +279,10 @@
         current-target-count
         (:count
          (first
-          (exec-raw ["SELECT count(*) FROM expression 
-                         WHERE structure @> ?::jsonb
-                           AND language=?"
+          (exec-raw [(str
+                      "SELECT count(*) FROM " table " 
+                        WHERE structure @> ?::jsonb
+                          AND language=?")
                        [(json/write-str spec) target-language]]
                       :results)))]
     (log/debug (str "current-target-count for spec: " spec "=" current-target-count))

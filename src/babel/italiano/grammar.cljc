@@ -597,7 +597,9 @@
                                   
                                   (or (and
                                        (= (get-in % [:synsem :cat]) :verb)
-                                       (= (get-in % [:synsem :sem :obj] :unspec) :unspec)) ;; exclude transitive verbs.
+
+                                       (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
+                                           (= (get-in % [:synsem :sem :reflexive] false) true))) ;; ..unless they are reflexive.
                                       
                                       (and (= (get-in % [:synsem :propernoun]) true)
                                            (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.

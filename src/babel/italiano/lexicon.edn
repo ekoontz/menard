@@ -237,8 +237,8 @@
        :synsem {:sem {:pred :have
                       :activity false
                       :discrete false
-                      :subj {:human :top}
-                      :obj {:human :top}}}}
+                      :subj {:human true}
+                      :obj {:human true}}}}
 
       ;; 3. avere: unspecified object
       {:unify [avere-common verb-subjective intransitive-unspecified-obj]

@@ -585,15 +585,23 @@
                        (= (:rule %) "vp-pronoun-nonphrasal")
                        (= (:rule %) "vp-pronoun-phrasal"))
                   grammar)
-          lexicon
+
+          lexicon  ;; create a subset of the lexicon tailored to this small grammar.
           (into {}
                 (for [[k v] lexicon]
                   (let [filtered-v
                         (filter #(and
-                                  (not (= true (get-in % [:top])))
-                                  (or (= (get-in % [:synsem :cat]) :verb)
+                                  (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
+                                  ;; babel.italiano.lexicon/edn2lexicon already excludes the wildcard lexeme,
+                                  ;; so this filtering rule will not find anything to exclude.
+                                  
+                                  (or (and
+                                       (= (get-in % [:synsem :cat]) :verb)
+                                       (= (get-in % [:synsem :sem :obj] :unspec) :unspec)) ;; exclude transitive verbs.
+                                      
                                       (and (= (get-in % [:synsem :propernoun]) true)
                                            (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.
+          
                                       (= (get-in % [:synsem :pronoun]) true)))
                                 v)]
                   (if (not (empty? filtered-v))

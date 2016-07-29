@@ -592,7 +592,8 @@
                         (filter #(and
                                   (not (= true (get-in % [:top])))
                                   (or (= (get-in % [:synsem :cat]) :verb)
-                                      (= (get-in % [:synsem :propernoun]) true)
+                                      (and (= (get-in % [:synsem :propernoun]) true)
+                                           (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.
                                       (= (get-in % [:synsem :pronoun]) true)))
                                 v)]
                   (if (not (empty? filtered-v))

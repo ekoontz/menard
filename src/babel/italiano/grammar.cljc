@@ -602,7 +602,7 @@
 
                                            (and
                                             (= (get-in % [:synsem :sem :reflexive] false) true)  ;; ..but allow reflexive verbs,
-                                            (= :none (get-in % [:synsem :subcat :3] :none)) ;; but not reflexive verbs with
+                                            (= '() (get-in % [:synsem :subcat :3] '())) ;; but not reflexive verbs with
                                             ;; 3 args (e.g. "chiamarsi", because the small grammar can't generate for it.
                                             ))
                                        )

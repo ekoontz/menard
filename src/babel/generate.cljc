@@ -157,7 +157,7 @@
         (if (not (= true
                     (get-in bolt (concat path [:phrasal]))))
           (let [indexed (if index
-                         (get-lex immediate-parent :comp index spec))]
+                         (get-lex immediate-parent :comp index))]
             (if indexed indexed
                 (flatten (vals lexicon)))))
         
@@ -252,11 +252,18 @@ of this function with complements."
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (lazy-mapcat (fn [parent]
                          (if (= false (get-in parent [:head :phrasal] false))
-                           (let [candidate-lexemes (get-lex parent :head index spec)]
+                           (let [candidate-lexemes (get-lex parent :head index)
+                                 filter-on-spec {:synsem {:cat (get-in spec [:cat] :top)
+                                                          :sem (get-in spec [:synsem :sem] :top)}}
+                                 subset (filter #(not (fail? (unifyc filter-on-spec %)))
+                                                candidate-lexemes)]
                              (filter #(not (nil? %))
                                      (do (log/debug (str "trying over parent:" (:rule parent)))
-                                         (log/debug (str " with lexemes:" (string/join ";" (sort (map morph candidate-lexemes)))))
-                                         (over/overh parent (shuffle candidate-lexemes)))))))
+                                         (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
+                                         (log/debug (str " with spec:" (spec-info spec)))
+                                         (if (not (empty? subset))
+                                           (over/overh parent (shuffle subset))
+                                           []))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

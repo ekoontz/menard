@@ -80,7 +80,12 @@
                            :tense :past}}}])
    [{:gender :masc}
     {:gender :fem}]
-   [:1st :2nd :3rd]
+
+   (cond (= (get-in spec [:root :italiano :italiano])
+            "funzionare")
+         [:3rd]
+         true
+         [:1st :2nd :3rd])
 
    (cond (= (get-in spec [:root :italiano :italiano])
             "chiamarsi")

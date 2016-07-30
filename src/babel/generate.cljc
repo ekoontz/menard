@@ -254,7 +254,9 @@ of this function with complements."
                          (if (= false (get-in parent [:head :phrasal] false))
                            (let [candidate-lexemes (get-lex parent :head index spec)]
                              (filter #(not (nil? %))
-                                     (over/overh parent (shuffle candidate-lexemes))))))
+                                     (do (log/debug (str "trying over parent:" (:rule parent)))
+                                         (log/debug (str " with lexemes:" (string/join ";" (sort (map morph candidate-lexemes)))))
+                                         (over/overh parent (shuffle candidate-lexemes)))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

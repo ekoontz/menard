@@ -317,10 +317,10 @@
 
 (deftest a-casa-generate
   (let [result (generate 
-                {:synsem {:cat :prep
+                {:comp {:synsem {:reflexive false}}
+                 :synsem {:cat :prep
                           :sem {:pred :a
                                 :obj {:pred :house
-                                      :reflexive false
                                       :spec {:def :none}}}}})] ;; "a casa", not "a tua casa", "a della casa", etc
     (is (= (fo result) "a casa"))))
 

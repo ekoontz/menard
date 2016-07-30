@@ -67,18 +67,27 @@
   (writer/generate-from-spec
    @small
    (strip-refs spec)
-
-   [{:synsem {:sem {:tense :conditional}}}
-    {:synsem {:sem {:tense :future}}}
-    {:synsem {:sem {:tense :present}}}
-    {:synsem {:sem {:aspect :progressive
-                    :tense :past}}}
-    {:synsem {:sem {:aspect :perfect
-                    :tense :past}}}]
+   (cond
+     (= (get-in spec [:root :italiano :italiano])
+        "chiamarsi")
+     [{:synsem {:sem {:tense :present}}}]
+     true [{:synsem {:sem {:tense :conditional}}}
+           {:synsem {:sem {:tense :future}}}
+           {:synsem {:sem {:tense :present}}}
+           {:synsem {:sem {:aspect :progressive
+                           :tense :past}}}
+           {:synsem {:sem {:aspect :perfect
+                           :tense :past}}}])
    [{:gender :masc}
     {:gender :fem}]
    [:1st :2nd :3rd]
-   [:sing :plur]
+
+   (cond (= (get-in spec [:root :italiano :italiano])
+            "chiamarsi")
+         [:sing]
+         true
+         [:sing :plur])
+   
    count))
 
 

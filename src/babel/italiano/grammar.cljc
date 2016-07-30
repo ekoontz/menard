@@ -623,6 +623,7 @@
        :language "it"
        :language-keyword :italiano
        :morph fo
+       :morph-ps (fn [arg] (fo-ps1 arg))
        :lookup (fn [arg]
                  (analyze arg lexicon))
        :enrich enrich
@@ -720,6 +721,7 @@
                                    (morph-walk-tree tree))))
        :language "it"
        :language-keyword :italiano
+       :morph-ps (fn [arg] (fo-ps1 arg))
        :morph fo
        :lookup (fn [arg]
                  (analyze arg lexicon))

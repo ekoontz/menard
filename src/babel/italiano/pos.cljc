@@ -157,11 +157,16 @@
                            :reflexive true
                            :sem subject-semantics}}}}))
 
-(def reflexive-obj-is-subcat3
-  (let [subject-semantics (atom :top)]
+(def reflexive-indirect-obj-is-subcat3
+  (let [subject (atom :top)
+        indirect-object (atom :top)]
     (unifyc reflexive
-            {:synsem {:sem {:subj subject-semantics}
-                      :subcat {:3 {:sem {:obj subject-semantics}}}}})))
+            {:synsem {:sem {:subj subject
+                            :obj subject
+                            :iobj indirect-object}
+                      :subcat {:1 {:sem subject}
+                               :2 {:sem subject}
+                               :3 {:sem indirect-object}}}})))
         
 (def subj-obj-humanness
   (let [human (atom :top)]

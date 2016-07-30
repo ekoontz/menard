@@ -335,7 +335,7 @@
                          AND language=?"
                        [json-spec language]]
                       :results)))]
-    (log/info (str "current-count for json-spec: " json-spec "=" current-count))
+    (log/debug (str "current-count for json-spec: " json-spec "=" current-count))
     (let [count (- count current-count)]
       (if (> current-count 0)
         (log/debug (str "There are already " current-count " expressions for: " spec)))

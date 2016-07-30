@@ -1306,14 +1306,15 @@
            :cat :noun
            :sem {:pred :noon
                  :time true}}}
-   "mi"
-   {:synsem {:cat :noun
-               :pronoun true
-               :case :acc
-               :agr {:person :1st
-                     :number :sing}
-               :sem {:human true}
-               :subcat '()}}
+ "mi"
+ {:unify [pronoun-reflexive]
+  :synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :agr {:person :1st
+                 :number :sing}
+           :sem {:human true}
+           :subcat '()}}
 
    "migliorare" {:synsem {:cat :verb
                           :sem {:pred :improve}}} ;; c.f. english: "ameliorate"

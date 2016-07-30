@@ -9,7 +9,7 @@
     [clojure.string :as string]
     [clojure.tools.logging :as log]
     [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-    [dag_unify.core :refer [fail? get-in merge strip-refs serialize unify ref?]]
+    [dag_unify.core :refer [fail? get-in merge remove-top-values strip-refs serialize unify ref?]]
     [korma.core :refer [exec-raw]]))
 
 ;; TODO: more fine-grained approach to dealing with exceptions:
@@ -300,7 +300,7 @@
                           AND language=?")
                        [(json/write-str spec) target-language]]
                       :results)))]
-    (log/debug (str "current-target-count for spec: " spec "=" current-target-count))
+    (log/info (str "current-target-count for spec: " spec "=" current-target-count))
     (let [count (- count current-target-count)]
       (if (> current-target-count 0)
         (log/debug (str "There are already " current-target-count " expressions for: " spec)))
@@ -323,7 +323,7 @@
   (let [language (:language model)
         debug (log/debug (str "fill-language-by-spec: language: " language))
         debug (log/debug (str "fill-language-by-spec: spec: " spec))
-        json-spec (json/write-str spec)
+        json-spec (json/write-str (remove-top-values spec))
         current-count
         (:count
          ;; TODO: move this block to babel.reader/checking-for-existing-expressions
@@ -333,9 +333,9 @@
                        WHERE structure @> ?::jsonb
                          AND active=true
                          AND language=?"
-                       [(json/write-str spec) language]]
+                       [json-spec language]]
                       :results)))]
-    (log/debug (str "current-count for spec: " spec "=" current-count))
+    (log/info (str "current-count for json-spec: " json-spec "=" current-count))
     (let [count (- count current-count)]
       (if (> current-count 0)
         (log/debug (str "There are already " current-count " expressions for: " spec)))

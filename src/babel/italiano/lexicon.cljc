@@ -35,7 +35,7 @@
                                pronoun-acc
                                pronoun-reflexive
                                reflexive
-                               reflexive-obj-is-subcat3
+                               reflexive-indirect-obj-is-subcat3
                                sentential-adverb
                                subj-obj-humanness
                                transitive

@@ -452,7 +452,7 @@
    "chiacchierare" {:synsem {:cat :verb
                              :sem {:pred :chat}}}
       
-   "chiamarsi" {:unify [reflexive-obj-is-subcat3]
+   "chiamarsi" {:unify [reflexive-indirect-obj-is-subcat3]
                 :synsem {:sem {:pred :be-called}
                          :reflexive true
                          :subcat {:3 {:cat :noun

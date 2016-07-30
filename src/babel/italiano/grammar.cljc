@@ -600,8 +600,11 @@
                                        (= (get-in % [:synsem :cat]) :verb)
 
                                        (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
-                                           (= (get-in % [:synsem :sem :reflexive] false) true)))  ;; ..but allow reflexive verbs.
-                                      
+                                           (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
+                                       
+                                       ;; exclude verbs that take an adverb as the third argument.
+                                       (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 
+                                       
                                       (and (= (get-in % [:synsem :propernoun]) true)
                                            (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.
           

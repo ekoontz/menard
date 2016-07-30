@@ -76,6 +76,16 @@
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
+(deftest passato-prossimo-ditransitive
+  (let [result (generate {:synsem {:subcat '()
+                                   :infl :present
+                                   :sem {:pred :be-called
+                                         :subj {:pred :I}
+                                         :iobj {:pred :luisa}}}}
+                         :model small)]
+    (is (not (nil? result)))
+    (is (= "io mi chiamo Luisa" (fo result)))))
+
 (deftest parse-io-parlo
   (let [result (:parses (first (parse "io parlo")))]
     (is (not (empty? result)))

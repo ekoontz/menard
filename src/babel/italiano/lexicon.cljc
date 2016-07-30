@@ -173,6 +173,11 @@
         
         (if-then {:synsem {:cat :prep}}
                  preposition)
+
+        (if-then {:synsem {:cat :verb
+                           :subcat {:2 :top
+                                    :3 :none}}}
+                 {:synsem {:subcat {:3 '()}}})
         
         ;; filters out any verbs without an inflection: infinitive verbs should have inflection ':top', 
         ;; rather than not having any inflection.

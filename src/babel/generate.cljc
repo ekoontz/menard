@@ -247,9 +247,10 @@ of this function with complements."
           (lazy-mapcat (fn [parent]
                          (if (= false (get-in parent [:head :phrasal] false))
                            (let [candidate-lexemes (get-lex parent :head index)
-                                 filter-on-spec {:synsem {:cat (get-in spec [:cat] :top)
-                                                          :sem (get-in spec [:synsem :sem] :top)}}
-                                 subset (filter #(or true (not (fail? (unifyc filter-on-spec %))))
+                                 filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
+                                                          :essere (get-in parent [:head :essere] :top)
+                                                          :sem (get-in parent [:head :synsem :sem] :top)}}
+                                 subset (filter #(not (fail? (unifyc filter-on-spec %)))
                                                 candidate-lexemes)]
                              (filter #(not (nil? %))
                                      (do (log/debug (str "trying over parent:" (:rule parent)))

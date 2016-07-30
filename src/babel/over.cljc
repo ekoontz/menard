@@ -98,7 +98,7 @@
           (if (not (= true head-pre-checks))
             (log/warn (str "moreover-head: pre-check missed: fail-path-between "
                            "parent:'" (get-in parent [:rule]) "' and child with pred:"
-                           (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) ":"
+                           (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) " ; "
                            (let [{path :fail-path
                                   parent-value :val1
                                   head-value :val2} (fail-path parent {:head child})]

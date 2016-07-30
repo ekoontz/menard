@@ -90,14 +90,12 @@
   (lazy-mapcat
    (fn [bolt]
      (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
-     (add-all-comps-with-paths [bolt] language-model total-depth
+     (add-all-comps-with-paths bolt language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
    bolts))
 
-(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
-  (log/trace (str "add-all-comps-with-paths with (empty? bolts): "
-                  (empty? bolts)))
+(defn add-all-comps-with-paths [bolt language-model total-depth comp-paths truncate-children max-total-depth]
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)]
       (add-all-comps-with-paths
@@ -109,13 +107,13 @@
                                   language-model (+ total-depth (count path))
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children))
-        bolts)
+        [bolt])
        language-model
        total-depth
        (rest comp-paths)
        truncate-children
        max-total-depth))
-    bolts))
+    bolt))
 
 (defn bolt-depth [bolt]
   (if-let [head (get-in bolt [:head] nil)]
@@ -251,7 +249,7 @@ of this function with complements."
                            (let [candidate-lexemes (get-lex parent :head index)
                                  filter-on-spec {:synsem {:cat (get-in spec [:cat] :top)
                                                           :sem (get-in spec [:synsem :sem] :top)}}
-                                 subset (filter #(not (fail? (unifyc filter-on-spec %)))
+                                 subset (filter #(or true (not (fail? (unifyc filter-on-spec %))))
                                                 candidate-lexemes)]
                              (filter #(not (nil? %))
                                      (do (log/debug (str "trying over parent:" (:rule parent)))

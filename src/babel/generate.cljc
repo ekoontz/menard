@@ -90,30 +90,30 @@
   (lazy-mapcat
    (fn [bolt]
      (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
-     (add-all-comps-with-paths bolt language-model total-depth
+     (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
    bolts))
 
-(defn add-all-comps-with-paths [bolt language-model total-depth comp-paths truncate-children max-total-depth]
+(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
   (if (not (empty? comp-paths))
-    (let [path (first comp-paths)]
+    (let [path (first comp-paths)
+          result
+             (lazy-mapcat
+              (fn [bolt]
+                (add-complement-to-bolt bolt path
+                                        language-model (+ total-depth (count path))
+                                        :max-total-depth max-total-depth
+                                        :truncate-children truncate-children))
+              bolts)]
       (add-all-comps-with-paths
-       (lazy-mapcat
-        (fn [bolt]
-          (log/trace (str "add-all-comps-with-paths: " (show-bolt bolt language-model)
-                          "@[" (string/join " " path) "]" "^" total-depth))
-          (add-complement-to-bolt bolt path
-                                  language-model (+ total-depth (count path))
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children))
-        [bolt])
+       result
        language-model
        total-depth
        (rest comp-paths)
        truncate-children
        max-total-depth))
-    bolt))
+    bolts))
 
 (defn bolt-depth [bolt]
   (if-let [head (get-in bolt [:head] nil)]

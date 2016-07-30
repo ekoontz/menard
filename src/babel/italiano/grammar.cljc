@@ -580,6 +580,7 @@
                        (= (:rule %) "s-imperfect-phrasal")
                        (= (:rule %) "s-imperfect-nonphrasal")
                        (= (:rule %) "s-aux")
+                       (= (:rule %) "vp-32")
                        (= (:rule %) "vp-aux")
                        (= (:rule %) "vp-aux-22")
                        (= (:rule %) "vp-pronoun-nonphrasal")
@@ -599,13 +600,7 @@
                                        (= (get-in % [:synsem :cat]) :verb)
 
                                        (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
-
-                                           (and
-                                            (= (get-in % [:synsem :sem :reflexive] false) true)  ;; ..but allow reflexive verbs,
-                                            (= '() (get-in % [:synsem :subcat :3] '())) ;; but not reflexive verbs with
-                                            ;; 3 args (e.g. "chiamarsi", because the small grammar can't generate for it.
-                                            ))
-                                       )
+                                           (= (get-in % [:synsem :sem :reflexive] false) true)))  ;; ..but allow reflexive verbs.
                                       
                                       (and (= (get-in % [:synsem :propernoun]) true)
                                            (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.

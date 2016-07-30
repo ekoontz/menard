@@ -44,6 +44,7 @@
 (defn head-pre-checks [parent child]
   (or
    (check-vals parent child [:head :synsem :cat]            [:synsem :cat])
+   (check-vals parent child [:head :synsem :essere]         [:synsem :essere])
    (check-vals parent child [:head :synsem :subcat :1 :cat] [:synsem :subcat :1 :cat])
    (check-vals parent child [:head :synsem :subcat :2 :cat] [:synsem :subcat :2 :cat])
    (check-vals parent child [:head :synsem :infl]           [:synsem :infl])

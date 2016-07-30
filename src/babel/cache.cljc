@@ -139,16 +139,7 @@
                          true
                          (do (log/warn (str "CACHE MISS 3: head-or-comp:" head-or-comp))
                              nil))]
-        (let [filtering false ;; no quantitative evidence that this helps, so turning off.
-              result
-              (if filtering
-                (filter (fn [each]
-                          (let [spec-val (get-in spec [:synsem :sem :pred] :none)]
-                            (or (= :none spec-val)
-                                (= spec-val (get-in each [:synsem :sem :pred])))))
-                        result)
-                result)]
-          result)))))
+        result))))
   
 (defn get-parent-phrases-for-spec [cache spec]
   (log/trace (str "Looking up spec: " (show-spec spec)))

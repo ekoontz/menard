@@ -31,10 +31,6 @@
 (declare path-to-map)
 (declare spec-info)
 
-;; {:synsem {:cat :noun,
-;;           :pronoun true,
-;;           :sem {:pred :cat}}
-
 (defn generate [spec language-model
                 & {:keys [max-total-depth truncate-children]
                    :or {max-total-depth max-total-depth

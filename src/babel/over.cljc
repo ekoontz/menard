@@ -103,7 +103,7 @@
                                   parent-value :val1
                                   head-value :val2} (fail-path parent {:head child})]
                              (str "parent[" path        "]= " parent-value ";"
-                                  "child[" (rest path) "]= " head-value ".")))))
+                                  "child[" (string/replace path #"^:head" "") "]= " head-value ".")))))
                              
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]

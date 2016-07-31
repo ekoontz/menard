@@ -599,6 +599,9 @@
                                   (or (and
                                        (= (get-in % [:synsem :cat]) :verb)
 
+                                       (or true (= (get-in % [:italiano :italiano]) "sedersi")
+                                           (= (get-in % [:synsem :aux]) true))
+                                       
                                        (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
                                            (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
                                        

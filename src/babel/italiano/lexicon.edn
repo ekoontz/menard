@@ -1581,7 +1581,9 @@
                 :italiano {:passato "scritto"}}
 
      "sedersi" {:unify [reflexive]
-                :synsem {:sem {:pred :sit-down
+                :synsem {:cat :verb
+                         :sem {:pred :sit-down
+                               :reflexive true
                                :subj {:human true}}}
                 :italiano {:present {:1sing "siedo"
                                      :2sing "siedi"

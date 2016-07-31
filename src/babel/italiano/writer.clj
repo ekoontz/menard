@@ -64,8 +64,12 @@
 
 (defn generate-one-verb [spec & [count]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
+  (log/info (str "creating custom model from spec: " spec))
   (writer/generate-from-spec
-   (create-model-for-spec spec)
+   (let [model
+         (create-model-for-spec spec)]
+     (log/info (str "created custom model from spec: " spec "; new model: " (keys model)))
+     model)
    (strip-refs spec)
    (cond
      (= (get-in spec [:root :italiano :italiano])

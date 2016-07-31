@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.engine :as engine])
-(require '[babel.italiano.grammar :refer [small]])
+(require '[babel.italiano.grammar :refer [small create-model-for-spec]])
 (require '[babel.italiano.morphology :as morph])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :refer [join]])
@@ -65,7 +65,7 @@
 (defn generate-one-verb [spec & [count]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
   (writer/generate-from-spec
-   @small
+   (create-model-for-spec spec)
    (strip-refs spec)
    (cond
      (= (get-in spec [:root :italiano :italiano])

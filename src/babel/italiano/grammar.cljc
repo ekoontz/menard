@@ -637,6 +637,11 @@
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
        :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)})))
 
+(defn create-model-for-spec [spec]
+  ;; TODO: fill in stub
+  (merge @small
+         {:micro-lexicon {"foo" 42}}))
+
 (def medium
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
@@ -739,3 +744,5 @@
        :rule-map (zipmap rules grammar)})))
 
 (log/info "Italiano grammars defined (small, medium).")
+
+

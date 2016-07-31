@@ -1,10 +1,10 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.enrich :refer [enrich]]
+   [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head

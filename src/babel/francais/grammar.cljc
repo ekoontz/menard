@@ -4,9 +4,9 @@
    [clojure.set :refer [union]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
+   [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head

@@ -1,11 +1,11 @@
 (ns babel.espanol.grammar
   (:refer-clojure :exclude [get-in merge resolve])
   (:require 
-   [babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)]
    [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
+   [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
    [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]

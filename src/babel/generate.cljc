@@ -1,7 +1,7 @@
 (ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.cache :refer [get-lex]]
+   [babel.index :refer [get-lex]]
    [babel.over :as over :refer [morph-with-recovery show-bolt truncate truncate-expressions]]
    [babel.stringutils :refer [show-as-tree]]
    #?(:clj [clojure.tools.logging :as log])

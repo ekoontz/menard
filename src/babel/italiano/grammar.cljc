@@ -1,8 +1,8 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in merge resolve])
   (:require
-   [babel.cache :refer [create-index]]
    [babel.enrich :refer [enrich]]
+   [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
    [babel.italiano.pos :refer [adjective
@@ -610,8 +610,9 @@
                                        ;; exclude verbs that take an adverb as the third argument.
                                        (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 
                                        
+                                      ;; exclude cities from the small grammar.
                                       (and (= (get-in % [:synsem :propernoun]) true)
-                                           (= (get-in % [:synsem :sem :city] false) false)) ;; exclude cities from the small grammar.
+                                           (= (get-in % [:synsem :sem :city] false) false)) 
           
                                       (= (get-in % [:synsem :pronoun]) true)))
                                 v)]

@@ -51,8 +51,8 @@
 
 ;; TODO: promote to babel.lexicon or babel.lexiconfn
 ;; also rename babel.lexiconfn to babel.lexicon.
-(defn edn2lexicon [filename]
-  (let [lexicon-hash-from-edn (read-string (slurp filename))
+(defn edn2lexicon [resource]
+  (let [lexicon-hash-from-edn (read-string (slurp resource))
         lexicon-source 
         (zipmap
          (sort (keys lexicon-hash-from-edn))

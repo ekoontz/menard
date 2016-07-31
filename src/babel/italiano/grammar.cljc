@@ -45,9 +45,11 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
+   [clojure.java.io :as io]
    [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
 
-(def lexicon (future (edn2lexicon (str (-> (java.io.File. ".") .getAbsolutePath) "/src/babel/italiano/lexicon.edn"))))
+(def lexicon (future (edn2lexicon
+                      (io/resource "babel/italiano/lexicon.edn"))))
 
 (defn exception [error-string]
   #?(:clj

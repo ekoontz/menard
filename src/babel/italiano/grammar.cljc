@@ -568,7 +568,6 @@
                 (filter #(not (= false (get-in % [:generate-with] true))) v)]
             (if (not (empty? filtered-v))
               [k filtered-v])))))
-
 (def small
   (future
     (let [lexicon @lexicon
@@ -639,8 +638,43 @@
 
 (defn create-model-for-spec [spec]
   ;; TODO: fill in stub
-  (merge @small
-         {:micro-lexicon {"foo" 42}}))
+  (let [root (get-in spec [:root :italiano :italiano] :none)
+        micro-lexicon
+        (into {}
+              (for [[k v] (:lexicon @small)]
+                (let [filtered-v
+                      (filter #(and
+                                (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
+                                ;; babel.italiano.lexicon/edn2lexicon already excludes the wildcard lexeme,
+                                ;; so this filtering rule will not find anything to exclude.
+                                  
+                                (or (and
+                                     (= (get-in % [:synsem :cat]) :verb)
+
+                                     (or (= root :none)
+                                         (= (get-in % [:italiano :italiano]) root)
+                                         (= (get-in % [:synsem :aux]) true))
+                                       
+                                     (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
+                                         (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
+                                       
+                                     ;; exclude verbs that take an adverb as the third argument.
+                                     (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 
+                                       
+                                    ;; exclude cities from the small grammar.
+                                    (and (= (get-in % [:synsem :propernoun]) true)
+                                         (= (get-in % [:synsem :sem :city] false) false)) 
+
+                                    (= (get-in % [:synsem :pronoun]) true)))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))]
+    (log/info (str "micro lexicon size:" (count (keys micro-lexicon))))
+    (clojure.core/merge @small
+                        {:lexicon micro-lexicon
+                         :index (create-index (:grammar @small)
+                                              (flatten (vals micro-lexicon)) head-principle)})))
+
 
 (def medium
   ;; TODO: remove parse-lexicon.

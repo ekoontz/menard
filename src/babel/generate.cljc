@@ -32,10 +32,12 @@
 (declare spec-info)
 
 (defn generate [spec language-model
-                & {:keys [max-total-depth truncate-children]
+                & {:keys [max-total-depth truncate-children lexicon]
                    :or {max-total-depth max-total-depth
+                        lexicon nil
                         truncate-children true}}]
   (let [language-model (if (future? language-model) @language-model language-model)
+        lexicon (if lexicon lexicon (:lexicon language-model))
         morph (:morph language-model)]
     (log/info (str "generate: generating from spec: "
                    (strip-refs spec) " with max-total-depth: " max-total-depth ";truncate: " truncate-children))
@@ -215,6 +217,8 @@
    (merge
     (if-let [cat (get-in spec [:synsem :cat])]
       {:cat cat})
+    (if-let [essere (get-in spec [:synsem :essere])]
+      {:essere essere})
     (if-let [pred (get-in spec [:synsem :sem :pred])]
       {:pred pred})
     (if-let [agr (get-in spec [:synsem :agr])]
@@ -257,7 +261,7 @@ of this function with complements."
                                          (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
                                          (log/debug (str " with spec:" (spec-info spec)))
                                          (if (not (empty? subset))
-                                           (over/overh parent (shuffle subset))
+                                           (over/overh parent (map copy (shuffle subset)))
                                            []))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.

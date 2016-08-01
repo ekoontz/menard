@@ -172,7 +172,6 @@
                                      :2 '()}
                             :sem {:pred :be}}})
 
-
            ;; be + propernoun, e.g. "My name is John"
            (let [gender (atom :top)
                  number (atom :top)
@@ -238,26 +237,27 @@
                           :sem {:pred :be-able-to}}}
    
    "be born" {:synsem {:cat :verb
-                         :sem {:pred :be-born}}
-                :english {:future "be born"
-                          :participle "being born"
-                          :conditional "be born"
-                          :imperfect {:1sing "was being born"
-                                      :2sing "were being born"
-                                      :3sing "was being born"
-                                      :1plur "were being born"
-                                      :2plur "were being born"
-                                      :3plur "were being born"}
-                          :past {:english "was born"
-                                 :2sing "were born"
-                                 :2plur "were born"
-                                 :3plur "were born"}
-                          :present {:1sing "am born"
-                                    :2sing "are born"
-                                    :3sing "is born"
-                                    :1plur "are born"
-                                    :2plur "are born"
-                                    :3plur "are born"}}}
+                       :sem {:pred :be-born}}
+              :english {:future "be born"
+                        :participle "being born"
+                        :conditional "be born"
+                        :imperfect {:1sing "was being born"
+                                    :2sing "were being born"
+                                    :3sing "was being born"
+                                    :1plur "were being born"
+                                    :2plur "were being born"
+                                    :3plur "were being born"}
+                        :past {:english "was born"
+                               :2sing "were born"
+                               :2plur "were born"
+                               :3plur "were born"}
+                        :present {:1sing "am born"
+                                  :2sing "are born"
+                                  :3sing "is born"
+                                  :1plur "are born"
+                                  :2plur "are born"
+                                  :3plur "are born"}}}
+
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}}
                 :english {:future "be missed"
@@ -327,14 +327,12 @@
                [(unify common
                        {:synsem {:sem {:pred :believe}
                                  :subcat {:2 '()}}}) ;; intransitive
-                
                 (unify common
                        {:synsem {:sem {:pred :believe}
                                  :subcat {:2 {:cat :comp
                                               :comp-type :that
                                               :subcat '()}
                                           :3 '()}}})])
-   
    "bicycle" {:synsem {:cat :noun
                        :sem {:pred :bicycle
                              :artifact true
@@ -387,8 +385,7 @@
                     :present {:3sing "buys"}}}
 
    "call" {:synsem {:cat :verb
-                     :sem {:pred :call}}}
-
+                    :sem {:pred :call}}}
    "can" 
     (let [modal-subject (atom {:cat :noun
                                :sem {:animate true}})
@@ -560,6 +557,7 @@
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn
                            :subj {:human true}}}}
+
    "eat" {:english {:past "ate"}
           :synsem {:cat :verb
                    :sem {:pred :mangiare
@@ -737,7 +735,6 @@
       :english {:participle "getting up"
                 :present {:3sing "gets up"}
                 :past "got up"}})
-
    "Gianluca"
    {:synsem {:agr {:number :sing
                    :person :3rd
@@ -773,11 +770,10 @@
                     :pred :giovanni-and-i}
               :subcat '()}}]
 
-      ;; TODO: account for "give" being ditransitive.
+   ;; TODO: account for "give" being ditransitive.
    "give" {:synsem {:cat :verb
                     :sem {:pred :give}}
            :english {:past "gave"}}
-
    "go"
    {:synsem {:cat :verb
               :sem {:activity true
@@ -886,7 +882,6 @@
              :subcat {:1 {:cat :noun}
                       :2 {:cat :noun
                           :sem {:human true}}}}}
-                          
    "her"
    [{:synsem {:cat :det
               :agr {:number :sing}
@@ -1148,7 +1143,6 @@
                     :number :sing}
               :sem {:human false}
               :subcat '()}}]
-
    "keep"
    [{:synsem {:cat :verb
               :sem {:pred :tenere}}

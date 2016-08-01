@@ -189,9 +189,11 @@
                      :synsem {:agr subj-agr
                               :sem {:aspect :progressive
                                     :pred :be-called
+                                    :reflexive true
                                     :tense :present
                                     :subj the-real-subj
-                                    :obj the-obj}
+                                    :obj the-real-subj
+                                    :iobj the-obj}
                               :subcat {:1 {:cat :noun
                                            :case :nom ;; TODO: this should be a general lexical post-processing step -
                                            ;; call it subject-is-nominative or similar.
@@ -205,6 +207,7 @@
                                            :pronoun false
                                            :propernoun true ;; "John" in "My name is John"
                                            }
+                                       :3 '()
                                        } ;; subcat {
                               } ;; synsem {
                      } ;; end of map

@@ -143,7 +143,7 @@
          (fo (generate {:modified false
                         :synsem {:cat :verb
                                  :sem {:mod '()
-                                       :obj {:pred :luisa}
+                                       :iobj {:pred :luisa}
                                        :pred :be-called
                                        :subj {:pred :lei}}}})))))
                                        

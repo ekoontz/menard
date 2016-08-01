@@ -37,8 +37,7 @@
         debug (log/debug (str "using root:" root))
         debug (log/debug (str "using spec:" (strip-refs spec)))
         
-        ;;        use-map-fn pmap
-        use-map-fn map
+        use-map-fn pmap
         source-expressions (read-all spec
                                      source-language-short-name)]
     (count

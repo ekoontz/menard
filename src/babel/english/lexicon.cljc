@@ -1902,7 +1902,7 @@
                         :sem {:pred :transfer}}}
 
    "understand" (let [common {:english {:past "understood"}}]
-                  (unify
+                  [(unify
                    common
                    {:synsem {:cat :verb
                              :sem {:pred :understand}}})
@@ -1916,7 +1916,7 @@
                    common
                    {:synsem {:cat :verb
                              :sem {:pred :understand-simply}}
-                    :english {:note "simply"}}))
+                    :english {:note "simply"}})])
                            
    "upload"  {:synsem {:cat :verb
                        :sem {:pred :caricare}}}

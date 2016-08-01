@@ -294,7 +294,9 @@
     (log/debug (str "looking for expressions in language: " language " with spec: " spec))
     (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
                                         FROM expression 
-                                       WHERE language=? AND structure @> "
+                                       WHERE language=? 
+                                         AND active=true
+                                         AND structure @> "
                                      "'" json-spec "' LIMIT 1")
                                 [language]]
                                :results)]

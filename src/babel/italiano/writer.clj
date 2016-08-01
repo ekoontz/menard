@@ -68,7 +68,7 @@
   (writer/generate-from-spec
    (let [model
          (create-model-for-spec spec)]
-     (log/info (str "created custom model from spec: " spec "; new model: " (keys model)))
+     (log/debug (str "created custom model from spec: " spec "; new model: " (keys model)))
      model)
    (strip-refs spec)
    (cond

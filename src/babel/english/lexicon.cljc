@@ -307,10 +307,14 @@
                            :pred :beach
                            :artifact false}}}
 
-   "become" {:synsem {:cat :verb
-                      :sem {:pred :become}
-                      :subcat {:2 {:cat :adjective}}}
-             :english {:past "became"}}
+   "become" [{:synsem {:cat :verb
+                       :sem {:pred :become}
+                       :subcat {:2 {:cat :adjective}}}
+              :english {:past "became"}}
+             {:synsem {:cat :verb
+                       :sem {:pred :become}
+                       :subcat {:2 '()}}
+              :english {:past "became"}}]
    
    "begin" {:synsem {:cat :verb
                      :sem {:pred :begin}}

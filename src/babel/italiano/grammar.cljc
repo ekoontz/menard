@@ -636,36 +636,39 @@
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
        :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)})))
 
+;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
-  ;; TODO: fill in stub
-  (let [root (get-in spec [:root :italiano :italiano] :none)
+  (let [root (get-in spec [:root :italiano :italiano])
+        pred (get-in spec [:synsem :sem :pred])
         micro-lexicon
         (into {}
               (for [[k v] (:lexicon @small)]
                 (let [filtered-v
                       (filter #(and
                                 (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
-                                ;; babel.italiano.lexicon/edn2lexicon already excludes the wildcard lexeme,
+                                ;; some languages (e.g. Italian in babel.italiano.lexicon/edn2lexicon)
+                                ;; may already exclude the wildcard lexeme,
                                 ;; so this filtering rule will not find anything to exclude.
                                   
-                                (or (and
-                                     (= (get-in % [:synsem :cat]) :verb)
+                                ;; include all aux verbs:
+                                (or (not (= (get-in % [:synsem :cat]) :verb))
+                                    (= (get-in % [:synsem :aux]) true)
+                                    (= (get-in % [:italiano :italiano]) root) ;; TODO: support other languages besides Italian.
+                                    (= (get-in % [:synsem :sem :pred]) pred))
 
-                                     (or (= root :none)
-                                         (= (get-in % [:italiano :italiano]) root)
-                                         (= (get-in % [:synsem :aux]) true))
-                                       
-                                     (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
-                                         (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
-                                       
-                                     ;; exclude verbs that take an adverb as the third argument.
-                                     (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 
-                                       
-                                    ;; exclude cities from the small grammar.
-                                    (and (= (get-in % [:synsem :propernoun]) true)
-                                         (= (get-in % [:synsem :sem :city] false) false)) 
+                                ;; only allow intransitive and reflexive verbs:
+                                (or (not (= (get-in % [:synsem :cat]) :verb))
+                                    (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs (intransitive verbs will have :obj=:unspec)
+                                    (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
 
-                                    (= (get-in % [:synsem :pronoun]) true)))
+                                ;; exclude verbs that take an adverb as the third argument.
+                                (or (not (= (get-in % [:synsem :cat]) :verb))
+                                    (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb)))
+                                       
+                                ;; exclude cities from the small grammar.
+                                (or (not (= (get-in % [:synsem :propernoun]) true))
+                                    (= (get-in % [:synsem :sem :city] false) false)))
+                              
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]

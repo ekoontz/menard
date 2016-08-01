@@ -1471,7 +1471,7 @@
    {:english {:past {:english "read"
                      :note "past tense"}}
     :synsem {:cat :verb
-             :sem {:pred :leggere
+             :sem {:pred :read
                    :discrete false
                    :subj {:human true}
                    :obj {:legible true}}}}

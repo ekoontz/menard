@@ -427,12 +427,12 @@
                                        :subj {:human true}}}
                         :english {:participle "chatting"
                                   :past "chatted"}}]
-            common ;; intransitive
-            (unify common ;; transitive "chatted with <human>"
-                   {:synsem {:subcat {:2 {:cat :prep
-                                          :sem {:obj {:human true}
-                                                :pred :with}
-                                          :subcat '()}}}}))
+            [common ;; intransitive
+             (unify common ;; transitive "chatted with <human>"
+                    {:synsem {:subcat {:2 {:cat :prep
+                                           :sem {:obj {:human true}
+                                                 :pred :with}
+                                           :subcat '()}}}})])
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 

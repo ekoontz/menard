@@ -2206,6 +2206,12 @@
 (def lexicon (-> (compile-lex lexicon-source 
                               morph/exception-generator 
                               morph/phonize morph/english-specific-rules)
+
+                 ;; add :sem :obj if necessary, so that intransitivize is triggered.
+                 (if-then {:synsem {:cat :verb
+                                    :subcat {:2 {:cat :noun}}}}
+                          {:synsem {:sem {:obj {:pred :top}}}})
+
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.
                  intransitivize

@@ -64,12 +64,18 @@
                    :of {:pred nil}}
              :agr {:number :sing}}}
 
-   "abandon" {:synsem {:cat :verb
-                       :sem {:pred :abandon}
-                       :subcat {:1 {:cat :noun
-                                    :sem {:human true}}
-                                :2 {:cat :noun
-                                    :sem {:physical-object true}}}}}
+   "abandon" [{:synsem {:cat :verb
+                        :sem {:pred :abandon}
+                        :subcat {:1 {:cat :noun
+                                     :sem {:human true}}
+                                 :2 {:cat :noun
+                                     :sem {:physical-object true}}}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :abandon}
+                        :subcat {:1 {:cat :noun
+                                     :sem {:human true}}
+                                 :2 '()}}}]
+
    "accept"  {:synsem {:cat :verb
                        :sem {:pred :accept}}}
    

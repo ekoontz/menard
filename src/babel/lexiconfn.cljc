@@ -232,9 +232,11 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
           (check-one key val)))
      (keys lexicon))))
 
+;; TODO: move this and other functions here to (if-then) statements.
 (defn ditransitive-verb-rule [lexical-entry]
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
-             (not (nil? (get-in lexical-entry '(:synsem :sem :iobj)))))
+             (not (nil? (get-in lexical-entry '(:synsem :sem :iobj))))
+             (not (= '() (get-in lexical-entry [:synsem :subcat :3]))))
         (unifyc
          lexical-entry
          (let [ref (atom :top)]

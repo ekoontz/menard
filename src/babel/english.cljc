@@ -6,7 +6,8 @@
    [babel.generate :as generate :refer [try-hard-to]]
    [babel.english.grammar :refer [medium np-grammar
                                   small-lexicon small-plus-vp-pronoun
-                                  small-plus-plus-np]]
+                                  small-plus-plus-np
+                                  verbcoach]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]

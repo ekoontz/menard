@@ -613,6 +613,7 @@
    (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :fall-asleep
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
@@ -684,6 +685,7 @@
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :get-dressed
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
@@ -841,6 +843,7 @@
    (let [subject-semantics (atom {:human true})]
      {:synsem {:cat :verb
                :sem {:pred :have-fun
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}
@@ -1640,7 +1643,8 @@
                          :past-participle "sat down"
                          :present {:3sing "sits down"}}
                :synsem {:cat :verb
-                        :sem {:pred :sit-down}}}
+                        :sem {:pred :sit-down
+                              :reflexive true}}}
 
    "sleep" {:synsem {:cat :verb
                      :sem {:subj {:animate true}
@@ -1942,6 +1946,7 @@
    (let [subject-semantics (atom {:animate true})]
      {:synsem {:cat :verb
                :sem {:pred :wake-up
+                     :reflexive true
                      :subj subject-semantics
                      :obj subject-semantics}
                :subcat {:1 {:sem subject-semantics}

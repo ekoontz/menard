@@ -64,13 +64,13 @@
 
 (defn generate-one-verb [spec & [count]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
-  (log/info (str "creating custom model from spec: " spec))
   (writer/generate-from-spec
    (let [model
          (create-model-for-spec spec)]
      (log/debug (str "created custom model from spec: " spec "; new model: " (keys model)))
      model)
    (strip-refs spec)
+
    (cond
      (= (get-in spec [:root :italiano :italiano])
         "chiamarsi")
@@ -82,6 +82,7 @@
                            :tense :past}}}
            {:synsem {:sem {:aspect :perfect
                            :tense :past}}}])
+
    [{:gender :masc}
     {:gender :fem}]
 

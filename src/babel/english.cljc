@@ -46,10 +46,10 @@
   ((:lookup medium) lexeme))
 
 (defn generate
-  [spec & [model
-           {:keys [max-total-depth model truncate-children]
-            :or {max-total-depth generate/max-total-depth
-                 truncate-children true}}]]
+  [spec & {:keys [max-total-depth model truncate-children]
+           :or {max-total-depth generate/max-total-depth
+                truncate-children true
+                model medium}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [model (if model model medium)]
     (let [result (engine/generate spec model

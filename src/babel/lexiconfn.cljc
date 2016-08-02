@@ -1,5 +1,5 @@
 (ns babel.lexiconfn
-  (:refer-clojure :exclude [exists? get-in merge resolve find])
+  (:refer-clojure :exclude [exists? get-in resolve find])
   (:require
    [babel.encyclopedia :refer [sem-impl]]
    [babel.exception :refer [exception]]
@@ -13,7 +13,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
    [dag_unify.core :as unify :refer [dissoc-paths exists? fail-path fail? get-in isomorphic?
-                                     merge serialize strip-refs unifyc]]))
+                                     serialize strip-refs unifyc]]))
 
 (declare listify)
 (declare map-function-on-map-vals)
@@ -275,17 +275,17 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 ;; to add new language like Espanol.
 (defn embed-phon [lexical-entry]
   (cond (string? (get-in lexical-entry '(:english)))
-        (merge {:english {:english (get-in lexical-entry '(:english))}}
-               (embed-phon (dissoc lexical-entry ':english)))
+        (unifyc {:english {:english (get-in lexical-entry '(:english))}}
+                (embed-phon (dissoc lexical-entry ':english)))
 
         (and (string? (get-in lexical-entry '(:italiano)))
              (= :verb (get-in lexical-entry '(:synsem :cat))))
-        (merge {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
-               (embed-phon (dissoc lexical-entry ':italiano)))
+        (unifyc {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
+                (embed-phon (dissoc lexical-entry ':italiano)))
 
         (string? (get-in lexical-entry '(:italiano)))
-        (merge {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
-               (embed-phon (dissoc lexical-entry ':italiano)))
+        (unifyc {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
+                (embed-phon (dissoc lexical-entry ':italiano)))
         true
         lexical-entry))
 
@@ -457,8 +457,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
     ;; MUSTDO: regenerate :serialized.
 
     (cache-serialization
-     (merge (dissoc-paths lexical-entry (list [:synsem :subcat :2]
-                                              [:serialized]))
+     (dag_unify.core/merge (dissoc-paths lexical-entry (list [:synsem :subcat :2]
+                                                             [:serialized]))
             {:synsem {:subcat {:2 '()}}
              :canary :tweet43})) ;; if the canary tweets, then the runtime is getting updated correctly.
 
@@ -550,7 +550,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                         result))))
                                 rules))
                 result (if (not (fail? result))
-                         (reduce merge (map (fn [rule]
+                         (reduce unifyc (map (fn [rule]
                                               (let [result (rule result)]
                                                 (if (fail? result)
                                                   (do (log/error (str "merge-type lexical rule: " rule " caused lexical-entry: " lexical-entry 
@@ -567,8 +567,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
               (if (isomorphic? result lexical-entry)
                 ;; done: one final step is to add serialization to the entry.
                 (cache-serialization
-                 (merge {:phrasal false}
-                        result))
+                 (unifyc {:phrasal false}
+                         result))
 
                 ;; not done yet: continue.
                 (transform result rules)))))))
@@ -621,8 +621,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                (log/debug (str "without object: " without-object))
                                (log/debug (str "is fail? (without object): " (fail? without-object)))
                                (let [result
-                                     (merge without-object
-                                            {:serialized (serialize without-object)})]
+                                     (merge
+                                      without-object
+                                      {:serialized (serialize without-object)})]
                                  (log/debug (str "is fail (w/o object; merged):" (fail? result)))
                                  result))))
                      

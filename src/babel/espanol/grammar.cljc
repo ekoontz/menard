@@ -1,5 +1,5 @@
 (ns babel.espanol.grammar
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require 
    [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
@@ -20,7 +20,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer (get-in merge unifyc)]))
+   [dag_unify.core :refer (get-in unifyc)]))
 
 (def head-first
   (let [head-espanol (atom :top)

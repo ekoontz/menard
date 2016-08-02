@@ -1,5 +1,5 @@
 (ns babel.italiano.vocabcoach
-  (:refer-clojure :exclude [get-in merge])
+  (:refer-clojure :exclude [get-in])
   (:require
    #?(:clj [clojure.tools.logging :as log])
    [babel.cache :refer [create-index]]
@@ -12,7 +12,7 @@
    [babel.lexiconfn :refer [filter-keys filter-vals]]
    [babel.over :refer [over]]
    [babel.ug :refer [head-principle]]
-   [dag_unify.core :refer [fail? get-in merge strip-refs unifyc unify]]))
+   [dag_unify.core :refer [fail? get-in strip-refs unifyc unify]]))
 
 (def lexicon
   (-> main-lexicon/lexicon

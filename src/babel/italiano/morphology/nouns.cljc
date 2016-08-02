@@ -1,12 +1,12 @@
 (ns babel.italiano.morphology.nouns
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require
    [clojure.string :as string]
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    [babel.italiano.pos :refer [pronoun-acc]]
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
 (def replace-patterns
   [

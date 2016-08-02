@@ -1,5 +1,5 @@
 (ns babel.francais.workbook
-  (:refer-clojure :exclude [get-in merge resolve find parents])
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    [babel.engine :as engine]
    [babel.francais :refer [analyze generate lookup parse]]

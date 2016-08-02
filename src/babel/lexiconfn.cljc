@@ -457,10 +457,10 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
     ;; MUSTDO: regenerate :serialized.
 
     (cache-serialization
-     (dag_unify.core/merge (dissoc-paths lexical-entry (list [:synsem :subcat :2]
-                                                             [:serialized]))
-            {:synsem {:subcat {:2 '()}}
-             :canary :tweet43})) ;; if the canary tweets, then the runtime is getting updated correctly.
+     (unifyc (dissoc-paths lexical-entry (list [:synsem :subcat :2]
+                                               [:serialized]))
+             {:synsem {:subcat {:2 '()}}
+              :canary :tweet43})) ;; if the canary tweets, then the runtime is getting updated correctly.
 
     lexical-entry) ;; the original transitive lexeme.
 

@@ -1,10 +1,10 @@
 (ns babel.english.morphology
-  (:refer-clojure :exclude [get-in merge resolve replace reverse])
+  (:refer-clojure :exclude [get-in resolve replace reverse])
   (:require [babel.pos :refer (noun)]
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [copy fail? get-in merge ref? strip-refs unifyc]]))
+            [dag_unify.core :refer [copy fail? get-in ref? strip-refs unifyc]]))
 
 (declare get-string)
 (declare plural-en)
@@ -876,11 +876,15 @@
                                            (if (and (string? (get-in lexeme path :none))
                                                     (not (fail? synsem-check)))
                                              (list {(get-in lexeme path)
-                                                    (merge
+                                                    (dag_unify.core/merge
                                                      lexeme
-                                                     (unifyc (merge-fn lexeme)
-                                                             {:synsem synsem-check}
-                                                             {:english {:exception true}}))}))))
+                                                     (unifyc
+                                                      (merge-fn lexeme)
+                                                      {:synsem synsem-check}
+                                                      {:english {:exception true}}
+                                                      )
+                                                     )})
+                                             )))
                                        lexemes)))
                            [
                             ;; 1. plural exceptions: e.g. "men","women":

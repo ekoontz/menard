@@ -1,5 +1,5 @@
 (ns babel.italiano.workbook
-  (:refer-clojure :exclude [get-in merge resolve find parents])
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    [babel.italiano :refer [analyze generate parse]]
    [babel.italiano.grammar :refer [small medium np-grammar]]

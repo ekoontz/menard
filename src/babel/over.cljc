@@ -1,12 +1,12 @@
 (ns babel.over
-  (:refer-clojure :exclude [get get-in merge resolve find parents])
+  (:refer-clojure :exclude [get get-in resolve find parents])
   (:require
    [babel.exception :refer [exception]]
    [babel.lexiconfn :refer [get-fail-path]]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in merge strip-refs unify unifyc
+   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in strip-refs unify unifyc
                            ;; temporary: until we move (truncate) from here to dag_unify.
                            deserialize dissoc-paths serialize
 ]]))

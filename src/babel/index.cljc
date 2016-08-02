@@ -1,5 +1,5 @@
 (ns babel.index
-  (:refer-clojure :exclude [get-in merge resolve find parents])
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    ;; TODO: comment is misleading in that we never call core/get-in from this file.
    ;; TODO: alphabetize

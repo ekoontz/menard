@@ -1,5 +1,5 @@
 (ns babel.italiano.morphology
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.pos :refer (noun)]
    [babel.italiano.morphology.adjectives :as adjectives]
@@ -20,7 +20,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? unifyc)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? unifyc)]))
 
 ;; TODO: convert all morphology rules to this format used for prepositions:
 (def preposition-plus-article
@@ -637,8 +637,8 @@
         (str infinitive )
 
         :else
-        (merge word
-               {:error 1})))
+        (clojure.core/merge word
+                            {:error 1})))
 
      (and
       (get-in word '(:a))
@@ -1429,7 +1429,7 @@
                                                    (if (not (= :none (get-in lexeme path :none)))
                                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
                                                          (list {(surface-form-fn lexeme)
-                                                                (merge
+                                                                (dag_unify.core/merge
                                                                  lexeme
                                                                  (unifyc (merge-fn lexeme)
                                                                          {:italiano {:infinitive (get-in lexeme [:italiano :italiano])

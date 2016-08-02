@@ -1,5 +1,5 @@
 (ns babel.writer
-  (:refer-clojure :exclude [get-in merge])
+  (:refer-clojure :exclude [get-in])
   (:require
     [babel.encyclopedia :refer [sem-impl]]
     [babel.engine :as engine]
@@ -9,7 +9,7 @@
     [clojure.string :as string]
     [clojure.tools.logging :as log]
     [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-    [dag_unify.core :refer [fail? get-in merge remove-top-values strip-refs serialize unify ref?]]
+    [dag_unify.core :refer [fail? get-in remove-top-values strip-refs serialize unify ref?]]
     [korma.core :refer [exec-raw]]))
 
 ;; TODO: more fine-grained approach to dealing with exceptions:
@@ -59,7 +59,7 @@
         ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
         ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
         target-language-sentence (if (:morph-walk-tree target-language-model)
-                                   (merge ((:morph-walk-tree target-language-model) target-language-sentence)
+                                   (clojure.core/merge ((:morph-walk-tree target-language-model) target-language-sentence)
                                           target-language-sentence)
                                    (do (log/warn (str "there is no morph-walk-tree function for the model:"
                                                       (:name target-language-model) " of language: "
@@ -116,7 +116,7 @@
                                                   source-language-model :truncate-children false)
 
         source-language-sentence (if (:morph-walk-tree source-language-model)
-                                   (merge ((:morph-walk-tree source-language-model) source-language-sentence)
+                                   (clojure.core/merge ((:morph-walk-tree source-language-model) source-language-sentence)
                                           source-language-sentence)
                                    (do (log/warn (str "there is no morph-walk-tree function for the model:"
                                                       (:name source-language-model) " of language: "

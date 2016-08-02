@@ -1,5 +1,5 @@
 (ns babel.say
-  (:refer-clojure :exclude [get-in merge resolve find parents])
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    [clojure.data.json :refer [write-str]]
    [clojure.tools.logging :as log]

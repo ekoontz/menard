@@ -1,11 +1,11 @@
 (ns babel.espanol.morphology.verbs
-  (:refer-clojure :exclude [future get-in merge resolve])
+  (:refer-clojure :exclude [future get-in resolve])
   (:require [babel.espanol.morphology.nouns :as nouns]
             [clojure.string :as string]
             [clojure.string :refer (trim)]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log])
-            [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
+            [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
 (defn exception [error-string]
   #?(:clj

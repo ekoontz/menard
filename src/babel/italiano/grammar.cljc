@@ -1,5 +1,5 @@
 (ns babel.italiano.grammar
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index]]
@@ -46,7 +46,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [clojure.java.io :as io]
-   [dag_unify.core :refer (fail? get-in merge remove-matching-keys unifyc)]))
+   [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
 
 (def lexicon (future (edn2lexicon
                       (io/resource "babel/italiano/lexicon.edn"))))

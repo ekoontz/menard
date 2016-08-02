@@ -1,7 +1,7 @@
 (ns babel.ug
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require [clojure.string :as string]
-            [dag_unify.core :refer (fail? get-in merge unifyc)]))
+            [dag_unify.core :refer (fail? get-in unifyc)]))
 
 (def phrasal {:phrasal true})
 
@@ -218,7 +218,7 @@
                                   {:synsem {:infl :present}})))))]
        (let [merged
              (if (= input :fail) :fail
-                 (merge input finitize))]
+                 (unifyc input finitize))]
          (do
            merged)))))) ;; for now, no recursive call.
 

@@ -1,5 +1,5 @@
 (ns babel.english.lexicon
-  (:refer-clojure :exclude [get-in merge])
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as e]
    [babel.lexiconfn :refer (compile-lex if-then
@@ -14,7 +14,7 @@
                               masculine-noun
                               subject-verb-agreement
                               transitivize]]
-   [dag_unify.core :refer [fail? get-in merge strip-refs]]))
+   [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
 #?(:cljs
    (defn- future [expr]
@@ -982,24 +982,24 @@
             [(let [subject-semantics (atom {:human true})
                    subject-agr (atom :top)]
 
-               (merge common
-                      {:synsem {:sem {:pred :hurt-oneself
-                                      :subj subject-semantics
-                                      :obj subject-semantics}
-                                :subcat {:1 {:agr subject-agr
-                                             :sem subject-semantics}
+               (unifyc common
+                       {:synsem {:sem {:pred :hurt-oneself
+                                       :subj subject-semantics
+                                       :obj subject-semantics}
+                                 :subcat {:1 {:agr subject-agr
+                                              :sem subject-semantics}
                                          :2 {:agr subject-agr
                                              :pronoun true
                                              :reflexive true
                                              :sem subject-semantics}}}}))
 
              ;; 2. transitive sense of "hurt"
-             (merge common
-                    {:synsem {:sem {:pred :hurt
-                                    ;; TODO: consider making lexicon post-processing rule:
-                                    ;; if not(reflexive=true) => reflexive=false
-                                    :reflexive false
-                                    :obj {:animate true}}}})])
+             (unifyc common
+                     {:synsem {:sem {:pred :hurt
+                                     ;; TODO: consider making lexicon post-processing rule:
+                                     ;; if not(reflexive=true) => reflexive=false
+                                     :reflexive false
+                                     :obj {:animate true}}}})])
 
    "Jean" {:synsem {:sem {:pred :Jean
                           :human true}

@@ -1,5 +1,5 @@
 (ns babel.francais.grammar
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require 
    [clojure.set :refer [union]]
    #?(:clj [clojure.tools.logging :as log])
@@ -14,7 +14,7 @@
                      subcat-1-1-principle-comp-subcat-1 subcat-2-principle
                      subcat-2-2-principle subcat-5-principle]]
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer (fail? get-in merge strip-refs unify unifyc)]))
+   [dag_unify.core :refer (fail? get-in strip-refs unify unifyc)]))
 (declare against-pred)
 (declare matching-head-lexemes)
 

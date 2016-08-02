@@ -1,5 +1,5 @@
 (ns babel.francais.morphology
-  (:refer-clojure :exclude [get-in merge resolve])
+  (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.francais.morphology.nouns :as nouns]
    [babel.francais.morphology.verbs :as verbs]
@@ -7,7 +7,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in merge ref? strip-refs unifyc)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
 (def replace-patterns
   (concat
@@ -393,7 +393,7 @@
                                                             (dissoc (copy lexeme) :serialized))]
                                            (if (not (= :none (get-in lexeme path :none)))
                                              (list {(get-in lexeme path :none)
-                                                    (merge
+                                                    (dag_unify.core/merge
                                                      lexeme
                                                      (unifyc (apply merge-fn (list lexeme))
                                                              {:français {:exception true}}))}))))

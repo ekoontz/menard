@@ -1,5 +1,5 @@
 (ns babel.english.workbook
-  (:refer-clojure :exclude [get-in merge resolve find parents])
+  (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    [babel.engine :as engine]
    [babel.english :refer [generate parse]]

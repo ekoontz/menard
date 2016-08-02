@@ -1,6 +1,6 @@
 ;; TODO: consider moving this code into babel.generate itself.
 (ns babel.engine ^{:doc "API wrapper around babel.generate"}
-  (:refer-clojure :exclude [get-in merge])
+  (:refer-clojure :exclude [get-in])
   (:require
    #?(:clj [clojure.data.json :as json])
    [clojure.string :as string]
@@ -10,7 +10,7 @@
    [babel.generate :as generate]
    #?(:clj [babel.html :refer [tablize]])
    [babel.ug :refer (head-principle)]
-   [dag_unify.core :refer [fail? get-in merge strip-refs unify unifyc]]
+   [dag_unify.core :refer [fail? get-in strip-refs unify unifyc]]
    #?(:clj [hiccup.page :refer [include-css]])
    #?(:clj [hiccup.core :refer [html]])))
 

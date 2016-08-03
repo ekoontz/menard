@@ -514,7 +514,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
    applications of all of the rules."
   (cond (= lexical-entry :fail) :fail
         (fail? lexical-entry)
-        (do (log/warn (str "lexical-entry " lexical-entry " was fail before applying any rules; fail path was: " (fail-path lexical-entry)))
+        (do (log/warn (str "lexical-entry " lexical-entry " was fail before applying any rules."))
             :fail)
 
         true

@@ -1425,7 +1425,11 @@
                             :place true}}}
             {:synsem {:cat :noun
                       :sem {:pred :party
-                           :event true}}}]
+                            :event true}}}]
+
+   "pizza"
+   {:synsem {:cat :noun
+             :sem {:pred :pizza}}}
    
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").

@@ -55,6 +55,8 @@
    (check-vals parent child [:head :synsem :pronoun]        [:synsem :pronoun])
    (check-vals parent child [:head :synsem :propernoun]     [:synsem :propernoun])
    (check-vals parent child [:head :synsem :subcat]         [:synsem :subcat])
+   ;; TODO: language-specific rules should be supplied from their respective namespaces.
+   (check-vals parent child [:head :italiano :italiano]     [:italiano :italiano])
   ))
 
 (defn comp-pre-checks [parent child]
@@ -95,6 +97,8 @@
           result)
 
         ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
+        ;; Ideally the attempt would always succeed, because calling (moreover-head) is expensive
+        ;; because of the need to copy structures.
         (do
           (if (not (= true head-pre-checks))
             (log/warn (str "moreover-head: pre-check missed: fail-path-between "

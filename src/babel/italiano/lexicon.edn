@@ -1566,6 +1566,10 @@
    "scappare"  {:synsem {:cat :verb 
                          :sem {:pred :escape}}}
 
+ "scarpa" {:synsem {:agr {:gender :fem}
+                    :cat :noun
+                    :sem {:pred :shoe}}}
+
    "scattare" {:synsem {:cat :verb
                         :sem {:pred :snap-pictures}}}
 

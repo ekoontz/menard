@@ -494,35 +494,35 @@
                                                           {:comp {:synsem {:agr {:person person}}}})]
                                           (log/trace (str "generating from person: " person))
                                           (.size
-                                           (map (fn [number]
-                                                  (let [spec (unify spec
-                                                                    {:comp {:synsem {:agr {:number number}}}})]
-                                                    (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
-                                                    (try
-                                                      (process [{:fill-one-language
-                                                                 {:count 1
-                                                                  :spec spec
-                                                                  :model model
-                                                                  }}]
-                                                               "it")
-                                                      (catch Exception e
-                                                        (cond
-                                                          
-                                                          ;; TODO: make this conditional on
-                                                          ;; there being a legitimate reason for the exception -
-                                                          ;; e.g. the verb is "funzionare" (which takes a non-human
-                                                          ;; subject), but we're trying to generate with
-                                                          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-                                                          ;; are human.
-                                                          
-                                                          (= true mask-populate-errors)
-                                                          (log/warn (str "ignoring exception: " e))
-                                                          
-                                                          true
-                                                          (throw e))))
-                                                    ))
-                                                numbers
-                                                ))))
+                                           (pmap (fn [number]
+                                                   (let [spec (unify spec
+                                                                     {:comp {:synsem {:agr {:number number}}}})]
+                                                     (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
+                                                     (try
+                                                       (process [{:fill-one-language
+                                                                  {:count 1
+                                                                   :spec spec
+                                                                   :model model
+                                                                   }}]
+                                                                "it")
+                                                       (catch Exception e
+                                                         (cond
+                                                           
+                                                           ;; TODO: make this conditional on
+                                                           ;; there being a legitimate reason for the exception -
+                                                           ;; e.g. the verb is "funzionare" (which takes a non-human
+                                                           ;; subject), but we're trying to generate with
+                                                           ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+                                                           ;; are human.
+                                                           
+                                                           (= true mask-populate-errors)
+                                                           (log/warn (str "ignoring exception: " e))
+                                                           
+                                                           true
+                                                           (throw e))))
+                                                     ))
+                                                 numbers
+                                                 ))))
                                       persons
                                       ))))
                             genders))))

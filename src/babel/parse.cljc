@@ -108,7 +108,9 @@
         root-form (or
                    (get-in sign [language-keyword :infinitive])
                    (get-in sign [language-keyword :root])
-                   (get-in sign [language-keyword language-keyword]))
+                   (get-in sign [language-keyword language-keyword])
+                   (if (string? (get-in sign [language-keyword]))
+                     (get-in sign [language-keyword])))
         stringified ((:morph model) sign)]
     (conj (if (and root-form
                    (= :none (get-in sign [:comp] :none))

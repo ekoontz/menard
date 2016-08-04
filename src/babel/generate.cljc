@@ -261,7 +261,7 @@ of this function with complements."
                                          (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
                                          (log/debug (str " with spec:" (spec-info spec)))
                                          (if (not (empty? subset))
-                                           (over/overh parent (map copy (shuffle subset)))
+                                           (over/overh (copy parent) (map copy (shuffle subset)))
                                            []))))))
                        parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.

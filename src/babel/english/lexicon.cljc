@@ -146,6 +146,9 @@
                                   :sem {:animate true}}
                               :2 {:cat :noun}}}}
 
+   "backpack" {:synsem {:cat :noun
+                        :sem {:pred :backpack}}}
+
    "bag" {:synsem {:cat :noun
                    :sem {:pred :bag}}}
 
@@ -1624,6 +1627,9 @@
                    :pred :lei}
              :subcat '()}}
 
+   "shoe" {:synsem {:cat :noun
+                    :sem {:pred :shoe}}}
+   
    "show" {:synsem {:cat :verb
                     :sem {:pred :show
                           :past-participle "shown"}}}

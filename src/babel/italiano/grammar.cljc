@@ -672,7 +672,7 @@
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
-    (log/info (str "micro lexicon size:" (count (keys micro-lexicon))))
+    (log/debug (str "micro lexicon size:" (count (keys micro-lexicon))))
     (clojure.core/merge @small
                         {:lexicon micro-lexicon
                          :index (create-index (:grammar @small)

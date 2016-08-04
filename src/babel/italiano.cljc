@@ -11,7 +11,7 @@
    #?(:cljs [babel.logjs :as log])
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
-   [dag_unify.core :refer (fail-path-between get-in strip-refs unifyc)]))
+   [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
 (defn fo [expression]
   (morph/fo expression))

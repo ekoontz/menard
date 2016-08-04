@@ -1,11 +1,11 @@
-(defproject babel "1.8.0-SNAPSHOT"
+(defproject babel "1.8.0"
   :description "A library for generation and parsing of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "1.2.7"]
+                 [dag_unify "1.2.9"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]

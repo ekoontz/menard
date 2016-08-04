@@ -892,11 +892,15 @@
        :synsem {:sem {:pred :do}}}
       {:unify [shared-part-of-fare]
        :synsem {:sem {:pred :make}}}
-      {:unify [shared-part-of-fare reflexive]
-       :synsem {:cat :verb
-                :sem {:pred :hurt-oneself}
-                :subcat {:3 {:cat :adverb
-                             :sem {:pred :bad}}}}}])
+
+      ;; this verb is not working as intended.
+                                        ;      {:unify [shared-part-of-fare reflexive]
+                                        ;       :synsem {:cat :verb
+                                        ;                :sem {:pred :hurt-oneself}
+                                        ;                :subcat {:3 {:cat :adverb
+                                        ;                             :sem {:pred :bad}}}}}
+      ])
+      
     
    "finestre" {:synsem {:agr {:gender :fem}
                         :cat :noun

@@ -762,6 +762,8 @@
                    (map #(keyword (get-in % [:rule])) grammar)
                    grammar)
 
+     :language-keyword :english
+
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree

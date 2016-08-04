@@ -45,6 +45,7 @@ as a map of implications"}
                       :place true}
 
    {:clothing true}  {:animate false
+                      :edible false
                       :place false
                       :physical-object true}
    {:consumable

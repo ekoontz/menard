@@ -1865,11 +1865,11 @@
                                 :1plur "vogliamo"
                                 :2plur "volete"
                                 :3plur "vogliono"}}}
- 
- "ziano" {:synsem {:agr {:gender :masc}
+
+ "zaino" {:synsem {:agr {:gender :masc}
                    :cat :noun
-                   :sem {:pred :shoe}}}
- 
+                   :sem {:pred :backpack}}}
+
  ":top" {:synsem :top
          :top true}
  ":top-noun" {:synsem {:cat :noun}

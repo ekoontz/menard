@@ -8,7 +8,7 @@
                                   small-lexicon small-plus-vp-pronoun
                                   small-plus-plus-np
                                   verbcoach]]
-   [babel.english.morphology :as morph :refer [fo]]
+   [babel.english.morphology :as morph]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
@@ -44,6 +44,11 @@
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
   ((:lookup medium) lexeme))
+
+(defn fo [expression
+          & {:keys [show-notes]
+             :or {show-notes true}}]
+  (morph/fo expression :show-notes show-notes))
 
 (defn generate
   [spec & {:keys [max-total-depth model truncate-children]

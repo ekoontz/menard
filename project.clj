@@ -1,10 +1,10 @@
 ;; TODO: split into:
 ;; 
-;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes
-;; babel.db: SQL support (mainly Postgres/JSONB specific)
+;; babel.core: generation, parsing, lexical compilation, encyclopedia and anything else not covered below
 ;; babel.format: translation to/from json and html
+;; babel.db: SQL support (mainly Postgres/JSONB specific)
+;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes
 ;; babel.<2 letter language code> babel.es, babel.en, etc.
-;; babel.core: generation and parsing and anything else not covered above.
 ;;
 (defproject babel "1.8.4-SNAPSHOT"
   :description "A library for generation and parsing of expressions from grammars and lexicons."

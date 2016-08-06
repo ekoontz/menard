@@ -700,7 +700,8 @@
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v
-                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
+                      (filter #(or (and (= (get-in % [:synsem :cat]) :verb)
+                                        (not (= :verb (get-in % [:synsem :subcat :2 :cat])))) ;; exclude modal verbs e.g. "I want to .."
                                    (= (get-in % [:synsem :sem :propernoun]) true)
                                    (= (get-in % [:synsem :cat]) :noun)
                                    (= (get-in % [:synsem :pronoun]) true)

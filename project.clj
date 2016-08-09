@@ -3,7 +3,7 @@
 ;; babel.core: generation, parsing, lexical compilation, encyclopedia and anything else not covered below
 ;; babel.format: translation to/from json and html
 ;; babel.db: SQL support (mainly Postgres/JSONB specific)
-;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes
+;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
 ;; babel.<2 letter language code> babel.es, babel.en, etc.
 ;;
 (defproject babel "1.8.4-SNAPSHOT"

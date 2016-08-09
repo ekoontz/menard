@@ -553,7 +553,8 @@
                               :obj {:buyable true}}}}
    
    "condividere"  {:synsem {:cat :verb
-                            :sem {:pred :share}}}
+                            :sem {:pred :share}}
+                   :italiano {:passato "condiviso"}}                           
 
    "conservare" [{:synsem {:cat :verb
                            :sem {:pred :conserve}}}

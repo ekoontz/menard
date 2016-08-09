@@ -1436,7 +1436,7 @@
    "piegare" {:synsem {:cat :verb
                        :sem {:pred :fold}}}
 
- "pizza" {:synsem {:agr {:gender :masc}
+ "pizza" {:synsem {:agr {:gender :fem}
                    :cat :noun
                    :sem {:pred :pizza}}}
 

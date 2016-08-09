@@ -117,6 +117,8 @@
                                   " that matches spec: " target-spec))))
 
         ;; choose a random expression from the results of the above.
+        ;; TODO: should choose a random one using SQL rather than taking them
+        ;; all and choosing a random one
         (let [size-of-results (.size results)
               index-of-result (rand-int (.size results))
               debug (log/debug (str "number of target results:" size-of-results))
@@ -192,23 +194,7 @@
                                         (json-read-str (first (map :target_structure results)))))]
               {:source-id (first (map :source_id results))
                :source (first (map :source results))
-               :source-v2 {:language source-language
-                           :surface (first (map :source results))
-                           :locale source-locale}
                :target-spec target-spec
-               :targets-v2 (map (fn [result]
-                                  {:surface (get result :target)
-                                   :language target-language
-                                   :locale target-locale
-                                   :root (:target_root result)
-                                   :lexemes
-                                   (let [structure (json-read-str (:target_structure result))]
-                                     (remove nil?
-                                             [(get-in structure [:comp :italiano :italiano])
-                                              (get-in structure [:root :italiano :infinitive])
-                                              (get-in structure [:root :italiano :infinitive])
-                                              (get-in structure [:root :italiano :italiano])]))})
-                               results)
                :targets (map :target results)})))))))))
 
 (defn get-lexeme [canonical language & [ spec ]]

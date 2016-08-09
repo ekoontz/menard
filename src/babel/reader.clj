@@ -1,6 +1,7 @@
 (ns babel.reader
   [:refer-clojure :exclude [get-in resolve]]
   [:require
+   [babel.engine :as engine]
    [babel.korma :as korma]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
@@ -69,6 +70,17 @@
                              :results)]
     (if (not (empty? results))
       (deserialize (read-string (:structure (first results)))))))
+
+(defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
+                                                 target-language target-local
+                                                 source-model target-model]
+  (let [target-expression (engine/generate target-spec :model target-model)
+        source-expression (engine/generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}
+                                           :model source-model)]
+        {:source ((:fo source-model) source-expression)
+         :targets [(:fo target-model) target-expression]
+         :target-spec target-spec
+         :target-semantics {:synsem {:sem (get-in target-expression [:synsem :sem])}}}))
 
 (defn generate-question-and-correct-set [target-spec source-language source-locale
                                          target-language target-locale]

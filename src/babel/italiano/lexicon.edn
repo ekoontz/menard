@@ -1436,6 +1436,10 @@
    "piegare" {:synsem {:cat :verb
                        :sem {:pred :fold}}}
 
+ "pizza" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:pred :pizza}}}
+
    "portare"  [{:synsem {:cat :verb
                          :sem {:pred :carry}}}
                {:synsem {:cat :verb

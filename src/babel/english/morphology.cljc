@@ -10,7 +10,7 @@
 (declare plural-en)
 
 (defn fo [input & {:keys [show-notes]
-                          :or {show-notes true}}]
+                   :or {show-notes true}}]
   (cond 
 
    (= input :fail)
@@ -28,7 +28,8 @@
        (vector? input))
    (str "(" (string/join " , " 
                          (remove #(= % "")
-                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
+                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f "")))
+                                      input)))
         ")")
 
    true

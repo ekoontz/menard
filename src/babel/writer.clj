@@ -201,7 +201,10 @@
             ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
             ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
             fo (:morph model)
-            surface (fo sentence)]
+
+            ;; TODO: hard-wired from-language to "it" for now: :from-language
+            ;; should be passed down the caller chain.
+            surface (fo sentence :from-language "it")]
         (if (empty? surface)
           (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
             (log/warn (str "sentence: " sentence))

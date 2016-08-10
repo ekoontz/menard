@@ -102,6 +102,8 @@
    "añadir" {:synsem {:cat :verb
                         :sem {:pred :add}}}
    
+   "apagar"
+   
    "apoyar" {:synsem {:cat :verb
                       :sem {:pred :support}}}
 
@@ -138,6 +140,11 @@
    "beber" {:synsem {:cat :verb
                      :sem {:pred :drink}}}
    
+   buscar
+   caber
+   caerse
+   
+   
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :change}}}
    
@@ -155,6 +162,13 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
+   
+   
+   caminar
+   cancelar
+   cantar
+   casarse
+   
    
    "cenar" {:synsem {:cat :verb
                        :sem {:pred :have-dinner}}}
@@ -194,6 +208,9 @@
    "confesar" {:espanol {:boot-stem "confies"}
              :synsem {:cat :verb
                       :sem {:pred :confess}}}
+   
+   conducir
+   conocer
    
    "consentir" {:espanol {:boot-stem "consient"}
                 :synsem {:cat :verb
@@ -238,6 +255,8 @@
    "creer" {:synsem {:cat :verb
                           :sem {:pred :believe}}}
    
+   
+   dañar
    "dar" {:espanol  {:present {:1sing "doy"
                                :2plur "dais"}
                      :preterito {:1sing "di"
@@ -276,11 +295,18 @@
    "dejar" {:synsem {:cat :verb
                      :sem {:pred :leave-behind}}}
    
+   
+   deletrear
+   
    "desarrollar" {:synsem {:cat :verb
                            :sem {:pred :develop}}}
    
    "desear" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
+   
+   despertarse
+   dibujar
+   
    "divertirse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
@@ -385,6 +411,9 @@
    "encender" {:espanol {:boot-stem "enciend"}
              :synsem {:cat :verb
                       :sem {:pred :light}}}
+   
+   encontrar
+   
    "enojarse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
@@ -412,9 +441,13 @@
    "entrar" {:synsem {:cat :verb
                       :sem {:pred :enter}}}
    
+   enviar
+   
    "escapar" {:synsem {:cat :verb
                        :sem {:pred :escape}}}
    
+   escribir
+  
    "escuchar" {:synsem {:cat :verb
                         :sem {:pred :listen-to}}}
    
@@ -432,6 +465,8 @@
    "existir" {:synsem {:cat :verb
                        :sem {:pred :exist}}}
    
+   explicar
+   
    "expresar" {:synsem {:cat :verb
                         :sem {:pred :express}}}
    
@@ -439,12 +474,16 @@
 ;   "faltar" {:synsem {:cat :verb
 ;                      :sem {:pred :to-be-missing}}}
    
+   firmar
+   
    "formar" {:synsem {:cat :verb
                       :sem {:pred :form}}}
    
    "fregar" {:espanol {:boot-stem "frieg"}
              :synsem {:cat :verb
                       :sem {:pred :scrub}}}
+   
+   fumar
    
    "funcionar" {:synsem {:cat :verb
                          :sem {:subj {:human false}
@@ -462,6 +501,8 @@
    ;; TODO: handle syntax/semantics mismatch between Italian/Espanol and English.
                                         ;                     "gustar" {:synsem {:cat :verb
                                         ;                                         :sem {:pred :??}}}
+   
+   gastar
    
    "hablar" [{:synsem {:cat :verb
                        :sem {:pred :speak
@@ -488,9 +529,13 @@
       (unify common
              {:synsem {:sem {:pred :make}}})])
    
+   herir
+   
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb
                       :sem {:pred :boil}}}
+   
+   intentar
    
    "ir" {:espanol {:futuro-stem "ir"
                    :present {:1sing "voy"
@@ -543,6 +588,9 @@
               :sem {:human true
                     :pred :Juan-and-i}
               :subcat '()}}]                       
+  
+   jugar
+  
    "la"
    (unify determiner
           {:synsem {:cat :det
@@ -563,6 +611,9 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
+   
+   leer
+   
    "levantarse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
@@ -577,6 +628,9 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
+   
+   limpiar
+   
    "llamarse"
    (let [subject-semantics (atom :top)
          called-semantics (atom :top)
@@ -609,6 +663,8 @@
    "llegar" {:synsem {:cat :verb
                       :sem {:pred :arrive}}}
    
+   llenar
+   
    "llevar" (let [shared-part-of-llevar
                   {:synsem {:cat :verb}}]
               [(unify shared-part-of-llevar
@@ -627,6 +683,9 @@
    "mentir" {:espanol {:boot-stem "mient"}
              :synsem {:cat :verb
                       :sem {:pred :lie}}}
+   
+   mirar
+   
    "mujer"
    (unify agreement-noun
           common-noun
@@ -641,6 +700,9 @@
             :synsem {:cat :verb
                       :sem {:pred :be-born}}}
    
+   
+   nadar
+   necesitar
    
    "negar" {:espanol {:boot-stem "nieg"}
                 :synsem {:cat :verb
@@ -679,6 +741,16 @@
              :subcat '()}}   
 
    ;; 2nd person plural informal 'vosotros/as' (ES-only)
+   
+   oir
+   olvidar
+   organizar
+   pagar
+   parar
+   pedir
+   peinarse
+   
+   
    "os"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -733,6 +805,11 @@
                      :sem {:subj {:animate true}
                            :pred :put}}}
    
+   ponerse de pie
+   preguntar
+   preocuparse
+   prestar
+   
    "quedarse" (let [subject-semantics (atom {:animate true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -747,6 +824,8 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
                                      
+   quejarse
+   
    "querer" (let [shared-part-of-querer
                   {:synsem {:cat :verb}
                    :espanol {:boot-stem "quier"
@@ -757,6 +836,13 @@
                (unify shared-part-of-querer
                       {:synsem {:sem {:pred :love}}})])
                                      
+   
+   reparar
+   responder
+   romper
+   
+   saber
+   
    "salir" {:espanol  {:present {:1sing "salgo"}}
             :synsem {:cat :verb
                       :sem {:pred :go-out}}}
@@ -779,6 +865,11 @@
                     :number :plur}
               :subcat '()}}]
 
+   
+   sentarse
+   
+  sentir
+   
    "te" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
@@ -816,10 +907,22 @@
                      :sem {:subj {:animate true}
                            :pred :have}}}
    
+   
+   terminar
+   
+   
    "tirar" [{:synsem {:cat :verb
                       :sem {:pred :throw-out}}}
             {:synsem {:cat :verb
                       :sem {:pred :throw}}}]
+   
+   tocar
+   tomar
+   toser
+   trabajar
+   traducir
+   traer
+   
    
    "tú" {:synsem {:cat :noun
                   :pronoun true
@@ -829,6 +932,9 @@
                   :sem {:human true
                         :pred :tu}
                   :subcat '()}}
+   
+   usar
+   
    "ustedes"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -838,6 +944,8 @@
              :sem {:human true
                    :pred :voi}
              :subcat '()}}
+   
+   vender
    
    "venir" {:espanol {:futuro-stem "vendr"
                       :present {:1sing "vengo"
@@ -855,6 +963,10 @@
                                  :3sing "vio"}}
           :synsem {:cat :verb
                    :sem {:pred :see}}}
+   
+   viajar
+   vivir
+   volar
    
    "vosotras"
    {:synsem {:cat cat-of-pronoun

@@ -12,8 +12,8 @@
 (defn fo [input & {:keys [from-language show-notes]
                    :or {from-language nil
                         show-notes true}}]
-  (let [input (if (or (not (= "it" from-language))
-                      (not (= "fr" from-language))
+  (let [input (if (or (and (not (= "it" from-language))
+                           (not (= "fr" from-language)))
                       (not (= :past (get-in input [:synsem :sem :tense])))
                       (not (= :perfect (get-in input [:synsem :sem :aspect]))))
                 (dissoc-paths input [[:comp :english :note]

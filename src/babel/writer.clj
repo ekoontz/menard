@@ -196,9 +196,14 @@
         debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
     (dotimes [n num]
       (let [sentence (engine/expression model spec :truncate-children false)
-            ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
-            ;; so that we can search for them with specifications that might include :comp and :head search keys.
-            ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
+            ;; In the (engine/expression) call above, we don't want to
+            ;; truncate because we want to store the entire tree in
+            ;; the _structure_ and _serialized_ columns of the
+            ;; database, so that we can search for them with
+            ;; specifications that
+            ;; might include :comp and :head search keys.
+            ;; for example, (defn fill-language-by-spec) is passed a
+            ;; _spec_ param which, depending on the language's
             ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
             fo (:morph model)
 

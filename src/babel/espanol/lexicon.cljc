@@ -96,6 +96,8 @@
                :synsem {:cat :verb
                         :sem {:pred :have-lunch}}}
    
+   andar
+   
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
 
@@ -257,6 +259,7 @@
    
    
    dañar
+   
    "dar" {:espanol  {:present {:1sing "doy"
                                :2plur "dais"}
                      :preterito {:1sing "di"
@@ -612,6 +615,7 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    
+   lavar
    leer
    
    "levantarse"
@@ -672,6 +676,9 @@
                (unify shared-part-of-llevar
                       {:synsem {:sem {:pred :bring}}})])
    
+   llorar
+   manejar
+   
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
@@ -685,6 +692,7 @@
                       :sem {:pred :lie}}}
    
    mirar
+   mostrar
    
    "mujer"
    (unify agreement-noun
@@ -842,6 +850,7 @@
    romper
    
    saber
+   sacar
    
    "salir" {:espanol  {:present {:1sing "salgo"}}
             :synsem {:cat :verb
@@ -865,10 +874,12 @@
                     :number :plur}
               :subcat '()}}]
 
-   
-   sentarse
+  seguir 
+  sentarse
    
   sentir
+  sentirse
+  soñar
    
    "te" {:synsem {:cat :noun
                   :pronoun true
@@ -945,6 +956,8 @@
                    :pred :voi}
              :subcat '()}}
    
+   
+   valer
    vender
    
    "venir" {:espanol {:futuro-stem "vendr"
@@ -964,9 +977,11 @@
           :synsem {:cat :verb
                    :sem {:pred :see}}}
    
+   vestirse
    viajar
    vivir
    volar
+   volver
    
    "vosotras"
    {:synsem {:cat cat-of-pronoun

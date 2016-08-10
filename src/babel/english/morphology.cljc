@@ -4,36 +4,34 @@
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [copy fail? get-in ref? strip-refs unifyc]]))
+            [dag_unify.core :refer [copy dissoc-paths fail? get-in ref? strip-refs unifyc]]))
 
 (declare get-string)
 (declare plural-en)
 
-(defn fo [input & {:keys [show-notes]
-                   :or {show-notes true}}]
-  (cond 
+(defn fo [input & {:keys [from-language show-notes]
+                   :or {from-language nil
+                        show-notes true}}]
+  (let [input (if (or (not (= "it" from-language))
+                      (not (= "fr" from-language))
+                      (not (= :past (get-in input [:synsem :sem :tense])))
+                      (not (= :perfect (get-in input [:synsem :sem :aspect]))))
+                (dissoc-paths input [[:comp :english :note]
+                                     [:english :a :note]])
+                input)]
+    (cond 
+      (= input :fail)
+      (str input)
 
-   (= input :fail)
-   (str input)
+      (string? input)
+      input
 
-   (string? input)
-   input
-
-   (and (map? input)
-        (map? (get-in input [:english])))
-   (get-string (get-in input [:english])
-               :show-notes show-notes)
-
-   (or (seq? input)
-       (vector? input))
-   (str "(" (string/join " , " 
-                         (remove #(= % "")
-                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f "")))
-                                      input)))
-        ")")
-
-   true
-   ""))
+      (and (map? input)
+           (map? (get-in input [:english])))
+      (get-string (get-in input [:english])
+                  :show-notes show-notes)
+      true
+      "")))
 
 (defn exception [error-string]
   #?(:clj

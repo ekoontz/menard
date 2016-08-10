@@ -949,10 +949,12 @@
                     :sem {:of {:pred :lui}}
                     :def :possessive}}]
                  
-   "hit"{:english {:past {:english "hit"
-                     :note "past tense"}}
+   "hit" {:english {:past {:english "hit"
+                          :note "past tense"}
+                   :participle "hitting"}
           :synsem {:cat :verb
                    :sem {:pred :hit}}}
+   
    "hold"
    {:synsem {:cat :verb
              :sem {:pred :hold}}

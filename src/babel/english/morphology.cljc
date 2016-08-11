@@ -14,8 +14,14 @@
                         show-notes true}}]
   (let [input (if (or (and (not (= "it" from-language))
                            (not (= "fr" from-language)))
-                      (not (= :past (get-in input [:synsem :sem :tense])))
-                      (not (= :perfect (get-in input [:synsem :sem :aspect]))))
+                      (and (not (= :past (get-in input [:synsem :sem :tense])))
+                           (not (= :perfect (get-in input [:synsem :sem :aspect])))
+                           (not (= :lui (get-in input [:synsem :sem :subj :pred])))
+                           (not (= :lei (get-in input [:synsem :sem :subj :pred])))))
+                ;; TODO: we are (dissoc)ing two paths, but probably only need
+                ;; to do the second [:english :a :note]. It's harmless to do both
+                ;; but confusing to try to understand since the first is
+                ;; probably not significant.
                 (dissoc-paths input [[:comp :english :note]
                                      [:english :a :note]])
                 input)]

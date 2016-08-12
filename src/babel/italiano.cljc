@@ -19,6 +19,10 @@
 (defn fo-ps [expression]
   (morph/fo-ps1 expression))
 
+(defn morph-ps [tree]
+  "print a concise one-line representation of the tree"
+  ((:morph-ps @medium) tree))
+
 (def lexicon (:lexicon @medium))
 (def infinitives
   (filter (fn [k] 

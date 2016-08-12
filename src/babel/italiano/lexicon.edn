@@ -611,7 +611,11 @@
                                  :3plur "danno"}
                        :future-stem "dar"}}
       
-   "decidere"  {:synsem {:cat :verb
+
+ "davanti" {:synsem {:cat :prep
+                     :sem {:pred :in-front-of}}}
+
+ "decidere"  {:synsem {:cat :verb
                          :essere false
                          :sem {:pred :decide}}
                 :italiano {:passato "deciso"}}
@@ -1682,6 +1686,13 @@
  
  "tagliare"  {:synsem {:cat :verb
                        :sem {:pred :cut}}}
+
+ "tavolino" {:synsem {:cat :noun
+                      :sem {:pred :small-table}}}
+
+ "tavolo" {:synsem {:agr {:gender :masc}
+                    :cat :noun
+                    :sem {:pred :table}}}
  
  "telefonare"  {:synsem {:cat :verb 
                          :essere false

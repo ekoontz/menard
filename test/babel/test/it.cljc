@@ -400,3 +400,29 @@
                (map (fn [parse]
                       (get-in parse [:synsem :sem]))
                     (mapcat :parses result))))))))
+
+(deftest davanti-il-tavolo
+  (let [parse-result (mapcat :parses (parse "davanti il tavolo"))
+        gen-result (generate {:synsem {:cat :prep 
+                                       :sem {:pred :in-front-of
+                                             :obj {:pred :table
+                                                   :number :sing
+                                                   :mod '()
+                                                   :spec {:def :def}}}}
+                              :comp {:synsem {:cat :noun}}})]
+    (is (not (empty? parse-result)))
+    (is (= "davanti il tavolo"
+           (fo gen-result)))))
+
+(deftest davanti-lo-studente
+  (let [parse-result (mapcat :parses (parse "davanti lo studente"))
+        gen-result (generate {:synsem {:cat :prep 
+                                       :sem {:pred :in-front-of
+                                             :obj {:pred :student
+                                                   :number :sing
+                                                   :mod '()
+                                                   :spec {:def :def}}}}
+                              :comp {:synsem {:cat :noun}}})]
+    (is (not (empty? parse-result)))
+    (is (= "davanti lo studente"
+           (fo gen-result)))))

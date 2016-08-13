@@ -973,11 +973,30 @@
               ]
           (cond
 
+           (and (= a "gli")
+                (string? (get-in b '(:italiano)))
+                (not (or (re-find #"^[aeiou]" (get-in b '(:italiano)))
+                         (re-find #"^s[t]" (get-in b '(:italiano))))))
+           (trim (str "i " b))
+
            (and (= a "i")
                 (string? (get-in b '(:italiano)))
-                (re-find #"^[aeiou]" (get-in b '(:italiano))))
+                (or (re-find #"^[aeiou]" (get-in b '(:italiano)))
+                    (re-find #"^s[t]" (get-in b '(:italiano)))))
            (trim (str "gli " b))
 
+           (and (= a "il")
+                (string? b)
+                (or (re-find #"^[aeiou]" b)
+                    (re-find #"^s[t]" b)))
+           (trim (str "lo " b))
+
+           (and (= a "lo")
+                (string? b)
+                (not (or (re-find #"^[aeiou]" b)
+                         (re-find #"^s[t]" b))))
+           (trim (str "il " b))
+           
            ;; TODO: cleanup & remove.
            (and false ;; going to throw out this logic: will use :initial and rule schemata instead.
                 (= :verb (get-in a '(:cat)))

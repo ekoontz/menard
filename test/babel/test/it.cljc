@@ -409,7 +409,9 @@
                                                    :number :sing
                                                    :mod '()
                                                    :spec {:def :def}}}}
-                              :comp {:synsem {:cat :noun}}})]
+                              :comp {:synsem {:cat :noun
+                                              :pronoun false
+                                              :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti il tavolo"
            (fo gen-result)))))
@@ -422,7 +424,9 @@
                                                    :number :sing
                                                    :mod '()
                                                    :spec {:def :def}}}}
-                              :comp {:synsem {:cat :noun}}})]
+                              :comp {:synsem {:cat :noun
+                                              :pronoun false
+                                              :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
            (fo gen-result)))))

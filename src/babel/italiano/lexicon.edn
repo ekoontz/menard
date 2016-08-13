@@ -1445,7 +1445,11 @@
                    :cat :noun
                    :sem {:pred :pizza}}}
 
-   "portare"  [{:synsem {:cat :verb
+ "poltrona" {:synsem {:cat :noun
+                      :sem {:pred :easy-chair}
+                      :agr {:gender :fem}}}
+
+ "portare"  [{:synsem {:cat :verb
                          :sem {:pred :carry}}}
                {:synsem {:cat :verb
                          :sem {:pred :wear}}}]

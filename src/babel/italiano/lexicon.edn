@@ -410,18 +410,14 @@
    "casa"
    [{:synsem {:agr {:gender :fem}
               :cat :noun
-              :sem {:pred :casa
-                    :city false
-                    :place true}}}
+              :sem {:pred :house}}}
    
     ;; in the sense of "a casa": no article needed.
     {:synsem {:case :acc
               :cat :noun
               :propernoun false
-              :sem {:city false
-                    :pred :casa
-                    :spec {:def :none} ;; "a casa", not "a mia casa", etc
-                    :place true}
+              :sem {:pred :house
+                    :spec {:def :none}} ;; "a casa", not "a mia casa", etc
               :subcat '()}}
     ]
 

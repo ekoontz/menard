@@ -159,6 +159,7 @@ as a map of implications"}
                       :drinkable true}
 
    {:pred :house}    {:artifact true
+                      :city false
                       :consumable false
                       :place true
                       :legible false}

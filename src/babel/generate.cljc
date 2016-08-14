@@ -31,6 +31,8 @@
 (declare path-to-map)
 (declare spec-info)
 
+;; FIXME: truncate-children=false (the non-default option) is not propagated through all calls,
+;; causing trees to be unexpectedly truncated.
 (defn generate [spec language-model
                 & {:keys [max-total-depth truncate-children lexicon]
                    :or {max-total-depth max-total-depth
@@ -199,11 +201,17 @@
 
                           (and (empty? filtered-lexical-complements)
                                (empty? phrasal-complements))
-                          (log/warn (str "add-complement-to-bolt: could generate neither phrasal "
+
+                          (let [message (str "add-complement-to-bolt: could generate neither phrasal "
                                          "nor lexical complements for "
                                          "bolt:" (show-bolt bolt language-model) "; immediate parent: "
                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
-                                          "while trying to create a complement: " (spec-info spec)))
+                                          "while trying to create a complement: " (spec-info spec))]
+                            (log/warn message)
+                            ;; TODO: add optional exception-throwing if
+                            ;; "could generate neither phrasal nor lexical complements for bolt.." is
+                            ;; reached.
+                            (if false (exception message)))
 
                           lexemes-before-phrases
                           (take max-generated-complements

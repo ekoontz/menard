@@ -124,7 +124,7 @@
 ;; The 'do-this-many' is controlled by each
 ;; deftest's 'do-this-many' below.
 (deftest roundtrip-np-grammar
-  (let [do-this-many 100
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly #(generate
                                         {:synsem {:sem {:mod {:pred :top}
@@ -148,7 +148,7 @@
                           expressions))))))
 
 (deftest roundtrip-present
-  (let [do-this-many 20
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -166,7 +166,7 @@
                           expressions))))))
 
 (deftest roundtrip-imperfect
-  (let [do-this-many 20
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -186,7 +186,7 @@
                           expressions))))))
 
 (deftest roundtrip-past
-  (let [do-this-many 20
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -206,7 +206,7 @@
                         expressions))))))
 
 (deftest roundtrip-future
-  (let [do-this-many 20
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -224,7 +224,7 @@
                         expressions))))))
 
 (deftest roundtrip-conditional
-  (let [do-this-many 100
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -316,7 +316,7 @@
 
 (deftest gestiscono
   (let [result
-        (take 5 (repeatedly #(generate {:modified false
+        (take 10 (repeatedly #(generate {:modified false
                                         :synsem {:sem {:subj {:pred :loro}
                                                        :pred :manage
                                                        :tense :present}}})))]

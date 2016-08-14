@@ -419,6 +419,7 @@
               :cat :noun
               :propernoun false
               :sem {:city false
+                    :pred :casa
                     :spec {:def :none} ;; "a casa", not "a mia casa", etc
                     :place true}
               :subcat '()}}

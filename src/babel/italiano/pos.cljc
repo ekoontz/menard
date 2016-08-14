@@ -140,7 +140,9 @@
   (let [shared (atom :top)]
     {:synsem {:cat :prep
               :sem {:obj shared}
-              :subcat {:1 {:sem shared}}}}))
+              :subcat {:1 {:cat :noun
+                           :subcat '()
+                           :sem shared}}}}))
   
 (def reflexive
   (let [subject-semantics (atom {:animate true})

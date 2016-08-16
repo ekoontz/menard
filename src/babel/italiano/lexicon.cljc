@@ -83,6 +83,17 @@
                      ;; TODO: rewrite italian-specific-rules as (constrain-vals-if)(one or more)
                      italian-specific-rules)
         
+        ;; TODO: throw error or warning in certain cases:
+        ;; (= true (fail? value))
+        ;; 
+
+        ;; TODO: throw error rather than just throw out entry.
+        (filter-vals
+         #(or (and (= :noun (get-in % [:synsem :cat]))
+                   (= :none (get-in % [:synsem :agr :gender] :none)))
+              (and (log/warn (str "ignoring lexical entry with :cat=:noun but no gender specified."))
+                   false)))
+        
         ;; filter out entries with no :cat.
         (filter-vals
          #(or (and (not (= :none (get-in % [:synsem :cat] :none)))

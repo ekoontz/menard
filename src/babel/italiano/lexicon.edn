@@ -416,6 +416,7 @@
     {:synsem {:case :acc
               :cat :noun
               :propernoun false
+              :agr {:gender :fem}
               :sem {:pred :house
                     :spec {:def :none}} ;; "a casa", not "a mia casa", etc
               :subcat '()}}

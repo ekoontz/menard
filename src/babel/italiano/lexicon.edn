@@ -1689,6 +1689,7 @@
                        :sem {:pred :cut}}}
 
  "tavolino" {:synsem {:cat :noun
+                      :agr {:gender :masc}
                       :sem {:pred :small-table}}}
 
  "tavolo" {:synsem {:agr {:gender :masc}

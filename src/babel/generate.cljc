@@ -89,6 +89,7 @@
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
 
+;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
 (defn add-all-comps [bolts language-model total-depth truncate-children max-total-depth]
   (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
   (lazy-mapcat
@@ -99,6 +100,7 @@
                                truncate-children max-total-depth))
    bolts))
 
+;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)

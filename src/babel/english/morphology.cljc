@@ -12,12 +12,12 @@
 (defn fo [input & {:keys [from-language show-notes]
                    :or {from-language nil
                         show-notes true}}]
-  (let [input (if (or (and (not (= "it" from-language))
-                           (not (= "fr" from-language)))
-                      (and (not (= :past (get-in input [:synsem :sem :tense])))
-                           (not (= :perfect (get-in input [:synsem :sem :aspect])))
-                           (not (= :lui (get-in input [:synsem :sem :subj :pred])))
-                           (not (= :lei (get-in input [:synsem :sem :subj :pred])))))
+  (let [input (if (and (or (= "it" from-language)
+                           (= "fr" from-language))
+                       (not (and (= :past (get-in input [:synsem :sem :tense]))
+                                 (= :perfect (get-in input [:synsem :sem :aspect]))))
+                       (not (= :lui (get-in input [:synsem :sem :subj :pred])))
+                       (not (= :lei (get-in input [:synsem :sem :subj :pred]))))
                 ;; TODO: we are (dissoc)ing two paths, but probably only need
                 ;; to do the second [:english :a :note]. It's harmless to do both
                 ;; but confusing to try to understand since the first is

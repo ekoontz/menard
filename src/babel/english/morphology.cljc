@@ -18,12 +18,8 @@
                                  (= :perfect (get-in input [:synsem :sem :aspect]))))
                        (not (= :lui (get-in input [:synsem :sem :subj :pred])))
                        (not (= :lei (get-in input [:synsem :sem :subj :pred]))))
-                ;; TODO: we are (dissoc)ing two paths, but probably only need
-                ;; to do the second [:english :a :note]. It's harmless to do both
-                ;; but confusing to try to understand since the first is
-                ;; probably not significant.
-                (dissoc-paths input [[:comp :english :note]
-                                     [:english :a :note]])
+                (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
+                                     [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
                 input)]
     (cond 
       (= input :fail)

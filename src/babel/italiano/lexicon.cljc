@@ -87,12 +87,14 @@
         ;; (= true (fail? value))
         ;; 
 
-        ;; TODO: throw error rather than just throw out entry.
+        ;; common nouns need a gender (but propernouns do not need one).
+        ;; TODO: throw error rather than just throwing out entry.
         (filter-vals
-         #(or (and (= :noun (get-in % [:synsem :cat]))
-                   (= :none (get-in % [:synsem :agr :gender] :none)))
-              (and (log/warn (str "ignoring lexical entry with :cat=:noun but no gender specified."))
-                   false)))
+         #(or (not (and (= :noun (get-in % [:synsem :cat]))
+                        (= :none (get-in % [:synsem :agr :gender] :none))
+                        (= false (get-in % [:synsem :propernoun] false))))
+              (and (log/warn (str "ignoring lexical entry with :cat=:noun but no gender specified: " %))
+                  false)))
         
         ;; filter out entries with no :cat.
         (filter-vals

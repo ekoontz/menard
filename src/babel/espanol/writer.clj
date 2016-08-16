@@ -1,7 +1,6 @@
 (ns babel.espanol.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.cache :refer (build-lex-sch-cache create-index spec-to-phrases)])
 (require '[babel.engine :as engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol.grammar :refer [small parse]])

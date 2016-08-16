@@ -325,16 +325,50 @@
                 (map :surface
                      result)))))
 
+(deftest casa-generate
+  (let [result (generate {:synsem {:cat :noun
+                                   :agr {:number :sing}
+                                   :sem {:pred :house
+                                         :mod '()
+                                         :spec {:def :def}}}})]
+    (is (= (fo result) "la casa"))
+    (is (= (get-in result [:synsem :sem :mod]) '()))))
+
+(deftest case-generate
+  (let [result (generate {:synsem {:cat :noun
+                                   :agr {:number :plur}
+                                   :sem {:pred :house
+                                         :mod '()
+                                         :spec {:def :def}}}})]
+    (is (= (fo result) "le case"))
+    (is (= (get-in result [:synsem :sem :mod]) '()))))
+
+(deftest alla-casa-generate
+  (let [result (generate 
+                {:synsem {:cat :prep
+                          :sem {:pred :a
+                                :obj {:pred :house
+                                      :spec {:def :def}
+                                      :mod '()}}}})]
+    (is (= (fo result) "alla casa"))))
+
 (deftest a-casa-generate
   (let [result (generate 
                 {:comp {:synsem {:reflexive false}}
+                 ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
+                 ;; eliminate this need.
                  :synsem {:cat :prep
                           :sem {:pred :a
                                 :obj {:pred :house
+                                      ;; :mod '() ;; this is commented out:
+                                      ;; if *not* commented out, test will run faster since there will
+                                      ;; be less futile bolts checked (less bolts where no complement can
+                                      ;; be found.
                                       :spec {:def :none}}}}})] ;; "a casa", not "a tua casa", "a della casa", etc
     (is (= (fo result) "a casa"))))
 
-(deftest casa-generate
+;; TODO: what is this test doing that the preceding test is not doing?
+(deftest a-casa-generate-2
   (let [result (generate 
                 {:modified false
                  :synsem {:cat :verb 

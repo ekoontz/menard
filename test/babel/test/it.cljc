@@ -345,7 +345,11 @@
 
 (deftest alla-casa-generate
   (let [result (generate 
-                {:synsem {:cat :prep
+                {:comp {:synsem {:agr {:number :sing}
+                                 :reflexive false}}
+                                 ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
+                                 ;; eliminate this need.
+                 :synsem {:cat :prep
                           :sem {:pred :a
                                 :obj {:pred :house
                                       :spec {:def :def}

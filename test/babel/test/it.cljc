@@ -364,10 +364,11 @@
                  :synsem {:cat :prep
                           :sem {:pred :a
                                 :obj {:pred :house
-                                      ;; :mod '() ;; this is commented out:
-                                      ;; if *not* commented out, test will run faster since there will
-                                      ;; be less futile bolts checked (less bolts where no complement can
-                                      ;; be found.
+                                      :mod '() ;; if :mod '() is specified:
+                                      ;; test will run faster since there will
+                                      ;; be less futile bolts checked
+                                      ;; (less bolts where no complement can
+                                      ;; be found).
                                       :spec {:def :none}}}}})] ;; "a casa", not "a tua casa", "a della casa", etc
     (is (= (fo result) "a casa"))))
 

@@ -103,8 +103,17 @@
 (defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
   (let [bolt-groups
         (filter #(not (empty? %))
-                bolt-groups)]
+                bolt-groups)
+        bolts (reduce concat bolt-groups)]
     (when (not (empty? bolt-groups))
+      (log/debug (str "bolt group count: " (count bolt-groups)))
+      (log/debug (str "total bolt count: " (count bolts)))
+      (log/debug (str "counts by group: [ "
+                      (string/join ","
+                                   (map (fn [group]
+                                          (count group))
+                                        bolt-groups))
+                      " ]"))
       (lazy-mapcat
        (fn [bolt]
          (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
@@ -112,10 +121,15 @@
                                    (find-comp-paths-in (bolt-depth bolt))
                                    truncate-children max-total-depth))
        (do
-         (log/debug (str (string/join ","
-                                      (map (fn [bolt-group]
-                                             (str "count of bolt-group: " (count bolt-group)))
-                                           bolt-groups))))
+         (count
+          (map (fn [bolt-group]
+                 (log/debug
+                  (str "bolt-group:"))
+                 (count
+                  (map (fn [bolt]
+                         (log/debug (str " " (show-bolt bolt language-model))))
+                       bolt-group)))
+               bolt-groups))
          (reduce concat bolt-groups))))))
 
 ;; TODO: make this non-recursive by using mapcat.
@@ -237,7 +251,13 @@
                           (take max-generated-complements
                                 (lazy-cat filtered-lexical-complements phrasal-complements))
                           true
-                          (take max-generated-complements (lazy-cat phrasal-complements filtered-lexical-complements))))))))
+                          (do
+                            (log/debug (str "successfully generated some complements for bolt:"
+                                            (show-bolt bolt language-model)
+                                            " matching spec:"
+                                            (spec-info spec)))
+
+                            (take max-generated-complements (lazy-cat phrasal-complements filtered-lexical-complements)))))))))
 
 (defn spec-info [spec]
   "give a human-readable summary of _spec_."
@@ -253,7 +273,8 @@
       {:agr agr})
     (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
                       (get-in spec [:synsem :subcat :1 :cat]))]
-     {:subcat1 subcat1}))))
+      {:subcat/:1/:cat subcat1
+       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
 
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]
@@ -285,7 +306,7 @@ of this function with complements."
                                  subset (filter #(not (fail? (unifyc filter-on-spec %)))
                                                 candidate-lexemes)]
                              (filter #(not (nil? %))
-                                     (do (log/debug (str "trying over parent:" (:rule parent)))
+                                     (do (log/debug (str "adding lexical heads to parent:" (:rule parent)))
                                          (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
                                          (log/debug (str " with spec:" (spec-info spec)))
                                          (if (not (empty? subset))

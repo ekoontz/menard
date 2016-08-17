@@ -45,7 +45,8 @@ as a map of implications"}
                       :place true}
 
    {:clothing true}  {:animate false
-                      :edible false
+                      :artifact true
+                      :consumable false
                       :place false
                       :physical-object true}
    {:consumable
@@ -129,8 +130,8 @@ as a map of implications"}
    ;; restrictions on owners (e.g. {:of {:human true}}).
 
    ;; <preds>
-   {:pred :backpack} {:artifact true
-                      :clothing true}
+   {:pred :backpack} {:clothing true}
+
    {:pred :bag}      {:artifact true
                       :consumable false
                       :event false
@@ -175,8 +176,10 @@ as a map of implications"}
    {:pred :pizza}    {:artifact true
                       :edible true}
 
-   {:pred :shoe}     {:artifact true
-                      :clothing true}
+   {:pred :salad}    {:artifact true
+                      :edible true}
+
+   {:pred :shoe}     {:clothing true}
 
    {:pred :student}  {:human true}
 

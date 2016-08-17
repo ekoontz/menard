@@ -21,6 +21,7 @@
 (def ^:const mapfn map)
 
 (def ^:const randomize-lexemes-before-phrases true)
+(def ^:const error-if-no-complements false)
 
 (declare add-complement-to-bolt)
 (declare exception)
@@ -245,7 +246,7 @@
                             ;; TODO: add optional exception-throwing if
                             ;; "could generate neither phrasal nor lexical complements for bolt.." is
                             ;; reached.
-                            (if false (exception message)))
+                            (if error-if-no-complements (exception message)))
 
                           lexemes-before-phrases
                           (take max-generated-complements

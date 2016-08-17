@@ -89,16 +89,34 @@
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
 
-;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
-(defn add-all-comps [bolts language-model total-depth truncate-children max-total-depth]
-  (log/trace (str "add-all-comps with (empty? bolts): " (empty? bolts)))
-  (lazy-mapcat
+(defn add-all-comps-from-group [bolt-group language-model total-depth
+                                truncate-children max-total-depth]
+  (mapfn
    (fn [bolt]
      (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
-   (reduce concat bolts)))
+   bolt-group))
+            
+;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
+(defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
+  (let [bolt-groups
+        (filter #(not (empty? %))
+                bolt-groups)]
+    (when (not (empty? bolt-groups))
+      (lazy-mapcat
+       (fn [bolt]
+         (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
+         (add-all-comps-with-paths [bolt] language-model total-depth
+                                   (find-comp-paths-in (bolt-depth bolt))
+                                   truncate-children max-total-depth))
+       (do
+         (log/debug (str (string/join ","
+                                      (map (fn [bolt-group]
+                                             (str "count of bolt-group: " (count bolt-group)))
+                                           bolt-groups))))
+         (reduce concat bolt-groups))))))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]

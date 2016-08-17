@@ -59,7 +59,9 @@
    ;; TODO: language-specific rules should be supplied from their respective namespaces.
    (check-vals parent child [:head :espanol :espanol]       [:espanol :espanol])
    (check-vals parent child [:head :italiano :italiano]     [:italiano :italiano])
-  ))
+   (check-vals parent child [:head :synsem :comp-type]      [:synsem :comp-type])
+
+   ))
 
 (defn comp-pre-checks [parent child]
   (or

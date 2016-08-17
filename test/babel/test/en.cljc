@@ -177,3 +177,23 @@
                                   :pred :cane}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
+
+(deftest no-failed-bolts
+  (let [result
+        (->>
+         (repeatedly #(println 
+                       (let [generated
+                             (generate 
+                              {:comp {:synsem {:pronoun true}}
+                               :modified false
+                               :synsem {:sem {:pred :wash
+                                              :mod nil
+                                              :reflexive true}}}
+                              :model medium)]
+                         {:f (fo generated :from-language "it")
+                          :sem (get-in generated [:synsem :sem :mod])})))
+         (take 5))]
+    (= (count result) 5)))
+
+
+                                        

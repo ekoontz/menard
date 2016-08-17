@@ -272,7 +272,7 @@
                                           :synsem {:cat :verb
                                                    :subcat '()
                                                    :sem head-sem}}
-                                   :rule "s-modified-with-adjunct-adjunct-first"}))
+                                   :rule "s-modified-modifier-first"}))
 
                    (unify-check h00
                                 modified
@@ -290,7 +290,7 @@
                                                    :infl head-infl
                                                    :subcat '()
                                                    :sem head-sem}}
-                                   :rule "s-modified-with-adjunct-head-first"}))
+                                   :rule "s-modified-modifier-last"}))
                     
                    (unify-check c10
                                 root-is-head-root

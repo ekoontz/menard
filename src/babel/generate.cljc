@@ -102,14 +102,15 @@
 
 (defn log-bolt-groups [bolt-groups language-model]
   (log/debug
-   (string/join "\n"
-                (map (fn [bolt-group]
-                       (str "bolt-group:"
-                            (string/join ","
-                                         (map (fn [bolt]
-                                                (log/debug (str " " (show-bolt bolt language-model))))
-                                              (first bolt-groups)))))
-                     bolt-groups))))
+   (str "bolt-groups:\n"
+        (string/join "\n"
+                     (map (fn [bolt-group]
+                            (str "bolt-group:\n"
+                                 (string/join "\n"
+                                              (map (fn [bolt]
+                                                     (str " " (show-bolt bolt language-model)))
+                                                   bolt-group))))
+                          bolt-groups)))))
 
 ;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
 (defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]

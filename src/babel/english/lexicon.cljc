@@ -459,6 +459,9 @@
    "close" {:synsem {:cat :verb
                      :sem {:pred :close}}}                
 
+   "coffee" {:synsem {:cat :noun
+                      :sem {:pred :coffee}}}
+   
    "come" {:synsem {:cat :verb
                     :sem {:pred :come
                           :subj {:animate true}}}
@@ -1577,6 +1580,9 @@
                                  :sem of
                                  :subcat '()}}}})]
          
+   "salad" {:synsem {:cat :noun
+                     :sem {:pred :salad}}}
+            
    "say" {:english {:past "said"}
           :synsem {:cat :verb
                    :sem {:pred :say}}}

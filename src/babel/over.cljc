@@ -55,6 +55,7 @@
    (check-vals parent child [:head :synsem :pronoun]        [:synsem :pronoun])
    (check-vals parent child [:head :synsem :propernoun]     [:synsem :propernoun])
    (check-vals parent child [:head :synsem :subcat]         [:synsem :subcat])
+   (check-vals parent child [:head :modified]               [:modified])
    ;; TODO: language-specific rules should be supplied from their respective namespaces.
    (check-vals parent child [:head :italiano :italiano]     [:italiano :italiano])
   ))

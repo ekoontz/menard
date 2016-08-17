@@ -98,7 +98,7 @@
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
-   bolts))
+   (reduce concat bolts)))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
@@ -258,7 +258,7 @@ of this function with complements."
         ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-          (lazy-mapcat (fn [parent]
+          (mapfn (fn [parent]
                          (if (= false (get-in parent [:head :phrasal] false))
                            (let [candidate-lexemes (get-lex parent :head index)
                                  filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
@@ -277,12 +277,12 @@ of this function with complements."
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
-            (lazy-mapcat (fn [parent]
-                           (over/overh parent
-                                       (lightning-bolts language-model (get-in parent [:head])
-                                                        (+ 1 depth) (+ 1 total-depth)
-                                                        :max-total-depth max-total-depth)))
-                         parents)
+            (mapfn (fn [parent]
+                     (over/overh parent
+                                 (lightning-bolts language-model (get-in parent [:head])
+                                                  (+ 1 depth) (+ 1 total-depth)
+                                                  :max-total-depth max-total-depth)))
+                   parents)
             (do
               (log/debug (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
               nil))]

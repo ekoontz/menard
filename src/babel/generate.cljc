@@ -320,16 +320,6 @@ of this function with complements."
   #?(:clj (System/currentTimeMillis))
   #?(:cljs (.getTime (js/Date.))))
 
-(defn try-hard-to [function]
-  "try 100 times to do (function), where function presumable has some randomness that causes it to return nil. Ignore such nils and keep trying."
-  (first
-   (take
-    1
-    (filter
-     #(not (nil? %))
-     (take 100
-           (repeatedly function))))))
-
 ;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
 (defn lazy-mapcat  [f coll]
   (lazy-seq

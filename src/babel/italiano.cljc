@@ -4,7 +4,7 @@
    [babel.engine :as engine]
    [babel.italiano.grammar :refer [small medium np-grammar]]
    [babel.italiano.morphology :as morph]
-   [babel.generate :as generate :refer [try-hard-to]]
+   [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
    #?(:clj [clojure.tools.logging :as log])

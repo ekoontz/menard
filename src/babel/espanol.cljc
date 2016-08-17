@@ -3,7 +3,7 @@
   (:require
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
-   [babel.generate :as generate :refer [try-hard-to]]
+   [babel.generate :as generate]
    [babel.espanol.grammar :refer [small medium]]
    [babel.espanol.morphology :as morph :refer [fo]]
    #?(:cljs [babel.logjs :as log])

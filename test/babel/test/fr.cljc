@@ -2,7 +2,7 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.generate :as generate :refer [try-hard-to]]
+            [babel.generate :as generate]
             [babel.francais :refer [generate lookup parse]]
             [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
@@ -189,11 +189,11 @@
          (is (= (fo result) "nous sommes allées")))))
 
 (deftest generate-passe-compose
-  (let [result (try-hard-to #(generate {:synsem {:sem {:pred :go
-                                                       :subj {:pred :noi
-                                                              :gender :fem}
-                                                       :aspect :perfect
-                                                       :tense :past}}}))]
+  (let [result (generate {:synsem {:sem {:pred :go
+                                         :subj {:pred :noi
+                                                :gender :fem}
+                                         :aspect :perfect
+                                         :tense :past}}})]
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
 
@@ -213,30 +213,30 @@
            "je m'amuse"))))
 
 (deftest generate-have-fun-sentence
-  (let [result (try-hard-to #(generate
-                              {:synsem {:sem {:pred :have-fun}}}))]
+  (let [result (generate
+                {:synsem {:sem {:pred :have-fun}}})]
     (is (= (get-in result [:synsem :sem :pred]) :have-fun))))
 
 (deftest generate-vp-aux-reflexive
   (let [result
-        (try-hard-to #(generate
-                       {:synsem {:subcat '() :sem {:subj {:pred :lei}
-                                                   :pred :have-fun :tense :past}}}))]
+        (generate
+         {:synsem {:subcat '() :sem {:subj {:pred :lei}
+                                     :pred :have-fun :tense :past}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
 (deftest generate-vp-present-reflexive
   (let [result
-        (try-hard-to #(generate
-                       {:synsem {:subcat '() :sem {:subj {:pred :lei}
-                                                   :pred :have-fun :tense :present}}}))]
-    (is (= (fo result) "elle l'amuse"))))
+        (generate
+         {:synsem {:subcat '() :sem {:subj {:pred :lei}
+                                     :pred :have-fun :tense :present}}})]
+  (is (= (fo result) "elle l'amuse"))))
 
 (deftest generate-named-sentence
   (let [result
-        (try-hard-to #(generate
-                       {:synsem {:sem {:pred :be-called
-                                       :subj {:pred :lui}
-                                       :obj {:pred :Jean}}}}))]
+        (generate
+         {:synsem {:sem {:pred :be-called
+                         :subj {:pred :lui}
+                         :obj {:pred :Jean}}}})]
     (is (= (fo result) "il l'appele Jean"))))
 
 (deftest parse-reflexive

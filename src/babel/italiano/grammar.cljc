@@ -509,7 +509,7 @@
                                           :synsem {:cat :verb
                                                    :sem sem
                                                    :subcat '()}}
-                                   :rule "s-modified-with-adjunct-first"}))
+                                   :rule "s-modified-modifier-first"}))
 
                    (unify-check h00
                                 comp-modifies-head
@@ -524,7 +524,7 @@
                                           :synsem {:cat :verb
                                                    :sem sem
                                                    :subcat '()}}
-                                   :rule "s-modified-with-adjunct-last"}))))
+                                   :rule "s-modified-modifier-last"}))))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

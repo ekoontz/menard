@@ -775,7 +775,10 @@
                                   :2plur "dovete"
                                   :3plur "devono"}}}
 
-   "entrare" {:synsem {:cat :verb
+ "ensalata" {:synsem {:sem {:pred :salad}
+                      :cat :noun}}
+ 
+ "entrare" {:synsem {:cat :verb
                        :essere true
                        :sem {:pred :enter}}}
 

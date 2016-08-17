@@ -57,6 +57,7 @@
    (check-vals parent child [:head :synsem :subcat]         [:synsem :subcat])
    (check-vals parent child [:head :modified]               [:modified])
    ;; TODO: language-specific rules should be supplied from their respective namespaces.
+   (check-vals parent child [:head :espanol :espanol]       [:espanol :espanol])
    (check-vals parent child [:head :italiano :italiano]     [:italiano :italiano])
   ))
 

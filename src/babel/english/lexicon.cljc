@@ -1115,6 +1115,7 @@
               ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
               :agr {:person :3rd
                     :number :sing}
+              :reflexive false
               :sem {:pred :lui
                     :gender :masc
                     :human false}
@@ -1126,6 +1127,7 @@
               :case :top ;; see above comment
               :agr {:person :3rd
                     :number :sing}
+              :reflexive false
               :sem {:pred :lei
                     :gender :fem
                     :human false}

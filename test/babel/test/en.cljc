@@ -181,7 +181,9 @@
 (deftest no-failed-bolts
   (let [result
         (->>
-         (repeatedly #(println 
+         (repeatedly #((fn [x]
+                         (if false (println x)
+                             x))
                        (let [generated
                              (generate 
                               {:comp {:synsem {:pronoun true}}

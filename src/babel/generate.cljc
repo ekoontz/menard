@@ -306,9 +306,11 @@ of this function with complements."
                                  subset (filter #(not (fail? (unifyc filter-on-spec %)))
                                                 candidate-lexemes)]
                              (filter #(not (nil? %))
-                                     (do (log/debug (str "adding lexical heads to parent:" (:rule parent)))
-                                         (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
-                                         (log/debug (str " with spec:" (spec-info spec)))
+                                     (do (when (not (empty? subset))
+                                           (log/debug (str "adding lexical heads to parent:" (:rule parent)))
+                                           
+                                           (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
+                                           (log/debug (str " with spec:" (spec-info spec))))
                                          (if (not (empty? subset))
                                            (over/overh (copy parent) (map copy (shuffle subset)))
                                            []))))))

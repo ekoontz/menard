@@ -1132,8 +1132,7 @@
               :subcat '()}}]
 
    "itself"
-   [{:english {:note "♂"}
-     :synsem {:cat :noun
+   [{:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -1142,8 +1141,7 @@
                     :number :sing}
               :sem {:human false}
               :subcat '()}}
-    {:english {:note "♀"}
-     :synsem {:cat :noun
+    {:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -1395,8 +1393,7 @@
          {:synsem {:agr {:number :plur}}}])
 
    "ourselves"
-   [{:english {:note "♀"}
-     :synsem {:cat :noun
+   [{:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -1406,8 +1403,7 @@
               :sem {:human true}
               :subcat '()}}
     
-    {:english {:note "♂"}
-     :synsem {:cat :noun
+    {:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -1822,8 +1818,7 @@
          {:synsem {:agr {:number :plur}}}])
     
    "themselves"
-   [{:english {:note "♀"}
-     :synsem {:cat :noun
+   [{:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -1833,8 +1828,7 @@
               :sem {:reflexive true}
               :subcat '()}}
     
-    {:english {:note "♂"}
-     :synsem {:cat :noun
+    {:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -2169,8 +2163,7 @@
          {:synsem {:agr {:number :plur}}}])
    
    "yourself"
-   [{:english {:note "♀"}
-     :synsem {:cat :noun
+   [{:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -2181,8 +2174,7 @@
                    :pred :tu}
               :subcat '()}}
     
-    {:english {:note "♂"}
-     :synsem {:cat :noun
+    {:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -2194,8 +2186,7 @@
               :subcat '()}}]
 
    "yourselves"
-   [{:english {:note "♀"}
-     :synsem {:cat :noun
+   [{:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true
@@ -2206,8 +2197,7 @@
                     :pred :voi}
               :subcat '()}}
     
-    {:english {:note "♂"}
-     :synsem {:cat :noun
+    {:synsem {:cat :noun
               :pronoun true
               :case :acc
               :reflexive true

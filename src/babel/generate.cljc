@@ -99,7 +99,18 @@
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
    bolt-group))
-            
+
+(defn log-bolt-groups [bolt-groups language-model]
+  (log/debug
+   (string/join "\n"
+                (map (fn [bolt-group]
+                       (str "bolt-group:"
+                            (string/join ","
+                                         (map (fn [bolt]
+                                                (log/debug (str " " (show-bolt bolt language-model))))
+                                              (first bolt-groups)))))
+                     bolt-groups))))
+
 ;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
 (defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
   (let [bolt-groups
@@ -121,17 +132,10 @@
          (add-all-comps-with-paths [bolt] language-model total-depth
                                    (find-comp-paths-in (bolt-depth bolt))
                                    truncate-children max-total-depth))
-       (do
-         (count
-          (map (fn [bolt-group]
-                 (log/debug
-                  (str "bolt-group:"))
-                 (count
-                  (map (fn [bolt]
-                         (log/debug (str " " (show-bolt bolt language-model))))
-                       bolt-group)))
-               bolt-groups))
-         (reduce concat bolt-groups))))))
+       (do (log-bolt-groups bolt-groups language-model)
+           (reduce concat bolt-groups))))))
+
+
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
@@ -241,7 +245,9 @@
                                          "nor lexical complements for "
                                          "bolt:" (show-bolt bolt language-model) "; immediate parent: "
                                           (get-in bolt (concat (butlast path) [:rule]) :norule) " "
-                                          "while trying to create a complement: " (spec-info spec))]
+                                          "while trying to create a complement: "
+                                          (spec-info spec)
+                                          )]
                             (log/warn message)
                             ;; TODO: add optional exception-throwing if
                             ;; "could generate neither phrasal nor lexical complements for bolt.." is

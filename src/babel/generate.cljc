@@ -271,6 +271,14 @@
       {:pred pred})
     (if-let [agr (get-in spec [:synsem :agr])]
       {:agr agr})
+    (if-let [pronoun (get-in spec [:synsem :pronoun])]
+      {:pronoun pronoun})
+    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
+    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
+      (if (not (= :not-found-by-spec-info mod))
+        {:mod mod}))
+    (if-let [modified (get-in spec [:modified])]
+      {:modified modified})
     (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
                       (get-in spec [:synsem :subcat :1 :cat]))]
       {:subcat/:1/:cat subcat1

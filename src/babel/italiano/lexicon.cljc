@@ -139,6 +139,35 @@
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
+     (constrain-vals-if
+      (fn [val]
+        (and (= :noun (get-in val [:synsem :cat]))
+             (= true (get-in val [:synsem :reflexive]))
+             (= true (get-in val [:synsem :pronoun]))))
+      (fn [val]
+        (unify (let [case (atom :acc)
+                     cat (atom :noun)]
+                 {:synsem {:cat cat
+                           :pronoun true
+                           :subcat '()
+                           :reflexive true
+                           :case case}
+                  :italiano {:cat cat
+                             :case case}}))))
+     (constrain-vals-if
+      (fn [val]
+        (and (= (get-in val [:synsem :cat]) :noun)
+             (or (= (get-in val [:synsem :agr :gender]) :masc)
+                 (= (get-in val [:synsem :agr :gender]) :fem))
+             (= false (get-in val [:synsem :propernoun] false))
+             (= false (get-in val [:synsem :pronoun] false))
+             (not (= '() (get-in val [:synsem :subcat] :top)))))
+      ;; some nouns e.g. "casa" may have a sense that requires no determiner (subcat = '())
+      ;; in such cases, don't apply agreement-noun.
+      (fn [val]
+        (unify val agreement-noun)))
+
+
       
       agreement2 ;; apply Italian agreement rules (e.g. subject and verb).
 

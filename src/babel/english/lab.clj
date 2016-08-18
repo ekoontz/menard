@@ -21,20 +21,29 @@
                                    }}} :model verbcoach)
          :from-language "it"))))
 
-(defn run2 [n]
-  (take (Integer. n)
-        (repeatedly
-         #(println
-           (fo
-            (generate {:synsem {:cat :verb
-                                :sem {:pred :top
-                                      :subj {:mod '()}
-                                      :obj {:pred :top
-                                            :mod '()}}}
-                     :modified false
-                       :head {:comp {:synsem {:pronoun false}}}})
-            :for "it")))))
+;; lein run -m babel.english.lab/run2 20 5
+(defn run2 [batches at-a-time]
+  (count
+   (take (Integer. batches)
+         (repeatedly
+          #(println
+            (clojure.string/join
+             "\n"
+             (pmap
+              (fn [x]
+                (fo
+                 (generate {:synsem {:cat :verb
+                                     :sem {:pred :top
+                                           :subj {:mod '()}
+                                           :obj {:pred :top
+                                                 :mod '()}}}
+                            :modified false
+                            :head {:comp {:synsem {:pronoun false}}}})
+                 :from-language "it"))
+              (range 0 (Integer. at-a-time)))))))))
 
 
+
+        
 
 

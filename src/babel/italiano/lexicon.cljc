@@ -6,7 +6,7 @@
 
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
-   [babel.lexiconfn :refer [compile-lex if-then constrain-vals-if
+   [babel.lexiconfn :refer [compile-lex if-has if-then constrain-vals-if
                             filter-vals listify
                             map-function-on-map-vals
                             rewrite-keys unify]]
@@ -90,16 +90,46 @@
                 (map essere-default)
                 (map aux-verb-rule))])))
 
-;; TODO: promote to babel.lexiconfn
+(defn infer-cat [lexicon]
+  (-> lexicon
+      (if-has
+       [:synsem :propernoun] true
+       {:synsem {:cat :noun}})
+      (if-has
+       [:synsem :propernoun] true
+       {:synsem {:cat :noun}})))
+
+(defn infer-subcat [lexicon]
+  (-> lexicon
+      (if-has
+       [:synsem :pronoun] true
+       {:synsem {:subcat '()}})
+      (if-has
+       [:synsem :propernoun] true
+       {:synsem {:subcat '()}})))
+
+;; TODO: factor out Italian-specific parts and promote to babel.lexiconfn.
+;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
   (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
       evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
       listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
+      ;; end language-independent operations.
+
+      ;; begin language-dependent operations.
+      apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values)).
+      ;; the values of :unify may be symbols that refer to language-dependent values.
+
       exception-generator2 ;; add new keys to the map for all exceptions found.
-      apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values))
+
+      infer-cat ;; infer [:synsem :cat] for words for which it is not supplied in the source lexicon.
+      infer-subcat ;; infer [:synsem :subcat :1]
+      
       agreement2 ;; apply Italian agreement rules (e.g. subject and verb).
 
-      phonize2
+      phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set
+      ;; e.g. by exception-generator2.
+
       
       ;; TODO: throw error or warning in certain cases:
       ;; (= true (fail? value))

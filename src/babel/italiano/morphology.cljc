@@ -1750,11 +1750,13 @@
                   {:italiano a-string}
                   common))))
 
+;; TODO: remove this; dead code
 (def pronoun-semantic-gender-agreement
   (let [gender (atom :top)]
     {:synsem {:sem {:gender gender}
               :agr {:gender gender}}}))
 
+;; TODO: remove this; dead code
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
@@ -1794,6 +1796,7 @@
    true
    lexical-entry))
 
+;; TODO: remove: dead code
 (defn essere-default [lexical-entry]
   "if :essere is not set, then it's false."
   (cond
@@ -1803,6 +1806,7 @@
             {:synsem {:essere false}})
     true lexical-entry))
 
+;; TODO: remove: dead code
 (defn aux-verb-rule [lexical-entry]
   "If a word's :synsem :aux is set to true, then auxify it (add all the
   things that are consequent on its being an aux verb.

@@ -926,8 +926,7 @@
                         :cat :noun
                         :sem {:pred :window}}}
    
-   "finire"  {:italiano {:boot-stem1 "finisc"
-                         :boot-stem2 "fin"}
+   "finire"  {:italiano {:boot-stem1 "finisc"}
               :synsem {:cat :verb
                        :sem {:pred :finish}}}
 
@@ -947,8 +946,7 @@
                       :sem {:pred :cat
                             :pet true}}}
 
-   "gestire" {:italiano {:boot-stem1 "gestisc"
-                         :boot-stem2 "gest"}
+   "gestire" {:italiano {:boot-stem1 "gestisc"}
               :synsem {:sem {:pred :manage}
                        :cat :verb}}
    "giallo"
@@ -1521,8 +1519,7 @@
                             :cat :verb
                             :sem {:pred :remain2}}}
    
-   "restituire" {:italiano {:boot-stem1 "restituisc"
-                            :boot-stem2 "restitu"}
+   "restituire" {:italiano {:boot-stem1 "restituisc"}
                  :synsem {:cat :verb
                           :sem {:pred :giveback-return}}}
 
@@ -1749,8 +1746,7 @@
  "trasferire"
  {:synsem {:cat :verb
            :sem {:pred :transfer}}
-  :italiano {:boot-stem1 "trasferisc"
-             :boot-stem2 "trasfer"}}
+  :italiano {:boot-stem1 "trasferisc"}}
  
  "tu"
  [{:synsem {:cat :noun
@@ -1811,8 +1807,7 @@
                                  :essere true
                                  :sem {:subj {:animate true}}}
                         :italiano {:italiano "uscire"
-                                   :boot-stem1 "esc"
-                                   :boot-stem2 "usc"}}]
+                                   :boot-stem1 "esc"}}]
             [{:unify [common]
               :synsem {:sem {:pred :go-out}}}
              {:unify [common]

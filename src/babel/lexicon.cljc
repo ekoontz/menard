@@ -6,9 +6,12 @@
 ;; TODO: consider simplifying this by stipulating that the
 ;; constraint applies only to {:sem ...},
 ;; not {:synsem { .. :sem .. }}.
+;; TODO: move to babel.encyclopedia
 (def universals
   {:say {:synsem {:sem {:subj {:human true}
                         :obj {:speakable true}}}}
+   :sleep {:synsem {:sem {:subj {:animate true}
+                          :discrete false}}}
    :tell {:synsem {:sem {:subj {:human true}
                          :obj {:human true}}}}})
 

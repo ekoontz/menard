@@ -765,10 +765,7 @@
                             :subcat '()}}}}
    "dormire"
    {:synsem {:cat :verb
-             :essere false
-             :sem {:subj {:animate true}
-                   :discrete false
-                   :pred :sleep}}}
+             :sem {:pred :sleep}}}
 
    "dovere" {:synsem {:cat :verb
                       :sem {:pred :have-to}}

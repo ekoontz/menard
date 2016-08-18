@@ -101,6 +101,7 @@
 
    "boire" {:français {:past-participle "bu"
                        :boot-stem1 "boiv"
+                       ;; TODO: boot-stem2 is currently unsupported by babel.francais.morphology:
                        :boot-stem2 "buv"
                        :present {:1sing "bois"
                                  :2sing "boit"
@@ -566,6 +567,7 @@
                          :sem {:pred :participate}}}
 
    "peindre" {:français {:boot-stem1 "pein"
+                         ;; TODO: boot-stem2 is currently unsupported by babel.francais.morphology:
                          :boot-stem2 "peign"
                          :passé "peint"
                          :future-stem "paindr"

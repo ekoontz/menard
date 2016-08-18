@@ -132,6 +132,11 @@
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
 
+      (default ;; a verb's second argument's case is accusative.
+       {:synsem {:cat :verb
+                 :subcat {:2 {:cat :noun
+                              :case :acc}}}})
+
       (default ;;  a verb's first argument is the semantic subject of the verb.
        (let [subject-semantics (atom :top)]
          {:synsem {:cat :verb

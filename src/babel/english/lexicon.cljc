@@ -1090,6 +1090,9 @@
    "improve" {:synsem {:cat :verb
                 :sem {:pred :improve}}}
 
+   "in front of" {:synsem {:cat :prep
+                           :sem {:pred :in-front-of}}}
+   
    "increase" {:synsem {:cat :verb
                         :sem {:pred :increase}}}
 

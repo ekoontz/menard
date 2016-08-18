@@ -7,8 +7,8 @@
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
    [babel.lexiconfn :refer [compile-lex if-has if-then
-                            constrain
                             constrain-vals-if
+                            default
                             filter-vals listify
                             map-function-on-map-vals
                             rewrite-keys unify]]
@@ -49,9 +49,11 @@
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]
-   [dag_unify.core :refer [fail? get-in strip-refs]]))
+   [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
-(def analyze-lexemes false)
+(declare edn2lexicon)
+
+(def lexicon (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn")))
 
 ;; TODO: promote to babel.lexiconfn
 ;; also consider renaming babel.lexiconfn to babel.lexicon.
@@ -83,42 +85,6 @@
                 (exception-generator lexicon))]
     (merge-with concat lexicon exceptions)))
 
-(defn agreement2 [lexicon]
-  (into {}
-        (for [[k vals] lexicon]
-          [k
-           (->> vals
-                (map agreement)
-                (map essere-default)
-                (map aux-verb-rule))])))
-
-(defn infer-cat [lexicon]
-  (-> lexicon
-      (if-has
-       [:synsem :pronoun] true
-       {:synsem {:cat :noun
-                 :propernoun false}})
-      (if-has
-       [:synsem :propernoun] true
-       {:synsem {:cat :noun
-                 :pronoun false}})))
-
-(defn infer-subcat [lexicon]
-  (-> lexicon
-      (if-has
-       [:synsem :pronoun] true
-       {:synsem {:subcat '()}})
-      (if-has
-       [:synsem :propernoun] true
-       {:synsem {:subcat '()}})
-      (if-has
-       [:synsem :cat] :noun
-       {:synsem {:subcat {:1 {:cat :det}}}})
-      (if-has
-       [:synsem :cat] :verb
-       {:synsem {:subcat {:1 {:cat :noun}
-                          :2 '()}}})))
-
 ;; TODO: factor out Italian-specific parts and promote to babel.lexiconfn.
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
@@ -129,18 +95,71 @@
 
       ;; begin language-dependent operations.
       apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values)).
+      ;; the operation of apply-unify-key is language-independent, but
       ;; the values of :unify may be symbols that refer to language-dependent values.
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 
-      infer-cat ;; infer [:synsem :cat] for words for which it is not supplied in the source lexicon.
-      infer-subcat ;; infer [:synsem :subcat :1]
+      (default ;; a common noun takes a determiner as its only argument.
+       {:synsem {:cat :noun
+                 :pronoun false
+                 :propernoun false
+                 :subcat {:1 {:cat :det}
+                          :2 '()}}})
+                              
+      (default;; a pronoun takes no args.
+       {:synsem {:cat :noun
+                 :pronoun true
+                 :propernoun false
+                 :subcat '()}})
+      (default ;; a propernoun takes no args.
+       {:synsem {:cat :noun
+                 :pronoun false
+                 :propernoun true
+                 :subcat '()}})
 
-      (constrain
+      (default ;; a verb is intransitive if not otherwise set.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}}})
+
+      (default ;; a verb's first argument's case is nominative.
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
 
+      (default ;;  a verb's first argument is the semantic subject of the verb.
+       (let [subject-semantics (atom :top)]
+         {:synsem {:cat :verb
+                   :subcat {:1 {:sem subject-semantics}}
+                   :sem {:subj subject-semantics}}}))
+
+      (default ;; a verb agrees with its first argument
+       (let [subject-agreement (atom :top)]
+         {:synsem {:cat :verb
+                   :subcat {:1 {:agr subject-agreement}}
+                   :agr subject-agreement}}))
+
+      (default ;; morphology looks in :italiano, so share relevant grammatical pieces of info there so it can see them.
+       (let [agr (atom :top)
+             cat (atom :verb)
+             infl (atom :top)]
+         {:italiano {:agr agr
+                     :cat cat
+                     :infl infl}
+          :synsem {:agr agr
+                   :cat cat
+                   :infl infl}}))
+
+      (default ;; essere defaults to false.
+       {:synsem {:cat :verb
+                 :essere false}})
+
+      (default ;; aux defaults to false.
+       {:synsem {:cat :verb
+                 :aux false}})
+      
+      ;; TODO: replace with (default)
       (constrain-vals-if
       (fn [val]
         (and (= :noun (get-in val [:synsem :cat]))
@@ -156,7 +175,9 @@
                            :case case}
                   :italiano {:cat cat
                              :case case}}))))
-     (constrain-vals-if
+
+      ;; TODO: replace with (default)
+      (constrain-vals-if
       (fn [val]
         (and (= (get-in val [:synsem :cat]) :noun)
              (or (= (get-in val [:synsem :agr :gender]) :masc)
@@ -169,14 +190,9 @@
       (fn [val]
         (unify val agreement-noun)))
 
-
-      
-      agreement2 ;; apply Italian agreement rules (e.g. subject and verb).
-
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set
       ;; e.g. by exception-generator2.
 
-      
       ;; TODO: throw error or warning in certain cases:
       ;; (= true (fail? value))
       ;;
@@ -209,11 +225,3 @@
 
      ;; TODO: consider doing encyclopedia constraints
      ))
-
-
-
-     
-
-
-
-

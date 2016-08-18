@@ -678,7 +678,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                               v)]
                 k)))
 
-(defn constrain [lexicon unify-with]
+(defn default [lexicon unify-with]
   (map-function-on-map-vals
    lexicon
    (fn [k vals]

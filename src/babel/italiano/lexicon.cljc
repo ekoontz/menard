@@ -53,8 +53,6 @@
 
 (declare edn2lexicon)
 
-(def lexicon (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn")))
-
 ;; TODO: promote to babel.lexiconfn
 ;; also consider renaming babel.lexiconfn to babel.lexicon.
 (defn apply-unify-key [lexicon]
@@ -225,3 +223,5 @@
 
      ;; TODO: consider doing encyclopedia constraints
      ))
+
+(def lexicon (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn")))

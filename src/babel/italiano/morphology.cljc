@@ -1201,8 +1201,15 @@
 (defn fo-ps1 [expr]
   (let [head-first? (get-in expr [:first] :none)]
     (cond
+      (and (= ::none (get-in expr [:head] ::none))
+           (= ::none (get-in expr [:comp] ::none))
+           (not (= ::none (get-in expr [:surface] ::none)))
+           (not (= ::none (get-in expr [:rule] ::none))))
+      (str "[" (get-in expr [:rule]) " "
+           "'" (get-in expr [:surface]) "']")
+
       (= head-first? :none)
-      (str "'" (fo expr) "'")
+      (str "'" (fo expr) "'/" (get-in expr [:synsem :cat] ""))
 
       (= head-first? :comp)
       (str "[" (get-in expr [:rule]) " "
@@ -1216,7 +1223,7 @@
            (fo-ps1 (get-in expr [:comp]))
            "]")
 
-      true "")))
+      true "??")))
 
 (defn fo [input]
   (cond 

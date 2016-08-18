@@ -4,7 +4,7 @@
             [babel.english :refer [analyze generate parse]]
             [babel.english.grammar :refer [small small-plus-plus-np small-plus-vp-pronoun medium]]
             [babel.english.lexicon :refer [lexicon]]
-            [babel.english.morphology :refer [fo get-string]]
+            [babel.english.morphology :refer [fo fo-ps-en get-string]]
 
             ;; TODO: add parsing tests
             [babel.parse :as parse]

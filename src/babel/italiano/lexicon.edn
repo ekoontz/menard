@@ -1278,14 +1278,14 @@
 
    "Luisa e io"
    [{:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:gender :fem
-                   :person :1st
-                   :number :plur}
-             :sem {:human true
-                   :pred :luisa-and-i}
-             :subcat '()}}
+              :pronoun true
+              :case :nom
+              :agr {:gender :fem
+                    :person :1st
+                    :number :plur}
+              :sem {:human true
+                    :pred :luisa-and-i}
+              :subcat '()}}
     {:synsem {:cat :noun
               :pronoun true
               :case :nom

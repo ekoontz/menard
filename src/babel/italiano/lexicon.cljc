@@ -133,6 +133,12 @@
 
       infer-cat ;; infer [:synsem :cat] for words for which it is not supplied in the source lexicon.
       infer-subcat ;; infer [:synsem :subcat :1]
+
+      (if-has
+       [] :top
+       {:synsem {:cat :verb
+                 :subcat {:1 {:cat :noun
+                              :case :nom}}}})
       
       agreement2 ;; apply Italian agreement rules (e.g. subject and verb).
 

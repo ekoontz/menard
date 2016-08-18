@@ -431,6 +431,12 @@
                      :child true}}
       :italiano {:cat :adjective}}
 
+ "c" ;; "c'è un tavolo.." ;; TODO: add same for "ci" (but :number :plur)
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :existential
+           :agr {:number :sing}}}
+ 
    ;; working on: "mi sono comprato un nuovo cellulare"
    "cellulare"
    {:synsem {:agr {:gender :masc}
@@ -853,10 +859,18 @@
                              :subcat '()}
                          :3 '()}}}
          
-      ;; TODO: do we need this? maybe remove?
       {:unify [essere-common]
        :notes "be"
-       :synsem {:sem {:pred :be}}}
+       :intransitivize false
+       :synsem {:sem {:pred :be}
+                :subcat {:1 {
+                            :cat :noun
+                             :pronoun true
+                             :case :existential
+                             }
+;                         :2 {:cat :noun
+;                             :pronoun false}
+                         }}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
       {:unify [transitive essere-common gender-and-number-agreement-1 subj-obj-humanness]

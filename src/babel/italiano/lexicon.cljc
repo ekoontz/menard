@@ -144,11 +144,11 @@
                    :sem {:subj subject-semantics}}}))
 
       ;; commenting out: getting stack overflow.
-;      (default ;;  a verb's second argument is the semantic object of the verb.
-;       (let [object-semantics (atom :top)]
-;         {:synsem {:cat :verb
-;                   :subcat {:2 {:sem object-semantics}}
-;                   :sem {:obj object-semantics}}}))
+      (default ;;  a verb's second argument is the semantic object of the verb.
+       (let [object-semantics (atom :top)]
+         {:synsem {:cat :verb
+                   :subcat {:2 {:sem object-semantics}}
+                   :sem {:obj object-semantics}}}))
 
       (default ;; a verb agrees with its first argument
        (let [subject-agreement (atom :top)]

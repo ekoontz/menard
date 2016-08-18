@@ -1421,7 +1421,8 @@
   (reduce
    concat
    (map (fn [lexeme-kv]
-          (let [lexemes (second lexeme-kv)]
+          (let [k (first lexeme-kv)
+                lexemes (second lexeme-kv)]
             (if lexeme-kv
               (let [result (mapcat (fn [path-and-merge-fn]
                                      (let [path (:path path-and-merge-fn)
@@ -1448,11 +1449,12 @@
                                                    (if (not (= :none (get-in lexeme path :none)))
                                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
                                                          (list {(surface-form-fn lexeme)
-                                                                (dag_unify.core/merge
-                                                                 lexeme
-                                                                 (unifyc (merge-fn lexeme)
-                                                                         {:italiano {:infinitive (get-in lexeme [:italiano :italiano])
-                                                                                     :exception true}}))})))))
+                                                                [(dag_unify.core/merge ;; TODO: why are we using merge here? use unify instead if possible.
+                                                                  
+                                                                  lexeme
+                                                                  (unifyc (merge-fn lexeme)
+                                                                          {:italiano {:infinitive k
+                                                                                      :exception true}}))]})))))
                                                lexemes)))
                                    [
                                     ;; 1. past-tense exceptions
@@ -1713,6 +1715,16 @@
                 result))))
         lexicon)))
 
+(defn phonize2 [lexicon]
+  (into {}
+        (for [[k vals] lexicon]
+          [k 
+           (map (fn [v]
+                  (unifyc v
+                          {:italiano {:italiano k}}))
+                vals)])))
+
+;; TODO: remove: using phonize2 now instead.
 (defn phonize [a-map a-string]
   (let [common {:phrasal false}]
     (cond (or (vector? a-map) (seq? a-map))
@@ -1739,12 +1751,15 @@
 (defn agreement [lexical-entry]
   (cond
    (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (atom :top)
+   (let [agr (atom :top)
+         cat (atom :top)
          infl (atom :top)]
      (unifyc lexical-entry
-             {:italiano {:cat cat
+             {:italiano {:agr agr
+                         :cat cat
                          :infl infl}
-              :synsem {:cat cat
+              :synsem {:agr agr
+                       :cat cat
                        :infl infl}}))
 
    (and (= (get-in lexical-entry [:synsem :cat]) :noun)
@@ -1796,6 +1811,7 @@
         true
         lexical-entry))
 
+;; TODO: remove: dead code
 (def italian-specific-rules
   (list agreement 
         essere-default

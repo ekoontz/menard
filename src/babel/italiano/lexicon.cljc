@@ -93,11 +93,13 @@
 (defn infer-cat [lexicon]
   (-> lexicon
       (if-has
-       [:synsem :propernoun] true
-       {:synsem {:cat :noun}})
+       [:synsem :pronoun] true
+       {:synsem {:cat :noun
+                 :propernoun false}})
       (if-has
        [:synsem :propernoun] true
-       {:synsem {:cat :noun}})))
+       {:synsem {:cat :noun
+                 :pronoun false}})))
 
 (defn infer-subcat [lexicon]
   (-> lexicon

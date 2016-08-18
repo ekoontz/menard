@@ -678,6 +678,19 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                               v)]
                 k)))
 
+(defn constrain [lexicon unify-with]
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     ;; TODO: consider using pmap.
+     (map (fn [original-val]
+            (let [result
+                  (unifyc original-val unify-with)]
+              (if (not (fail? result))
+                result
+                original-val)))
+          vals))))
+
 (defn if-has [lexicon path value-at-path unify-with]
   (map-function-on-map-vals
    lexicon

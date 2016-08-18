@@ -6,7 +6,9 @@
 
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
-   [babel.lexiconfn :refer [compile-lex if-has if-then constrain-vals-if
+   [babel.lexiconfn :refer [compile-lex if-has if-then
+                            constrain
+                            constrain-vals-if
                             filter-vals listify
                             map-function-on-map-vals
                             rewrite-keys unify]]
@@ -134,12 +136,12 @@
       infer-cat ;; infer [:synsem :cat] for words for which it is not supplied in the source lexicon.
       infer-subcat ;; infer [:synsem :subcat :1]
 
-      (if-has
-       [] :top
+      (constrain
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
-     (constrain-vals-if
+
+      (constrain-vals-if
       (fn [val]
         (and (= :noun (get-in val [:synsem :cat]))
              (= true (get-in val [:synsem :reflexive]))

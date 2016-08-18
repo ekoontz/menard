@@ -121,6 +121,12 @@
                  :subcat {:1 {:top :top}
                           :2 '()}}})
 
+      (default ;; a verb is transitive if not otherwise set (e.g. by previous rule).
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 {:top :top}
+                          :3 '()}}})
+      
       (default ;; a verb's first argument's case is nominative.
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun

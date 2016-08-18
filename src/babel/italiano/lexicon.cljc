@@ -108,7 +108,14 @@
        {:synsem {:subcat '()}})
       (if-has
        [:synsem :propernoun] true
-       {:synsem {:subcat '()}})))
+       {:synsem {:subcat '()}})
+      (if-has
+       [:synsem :cat] :noun
+       {:synsem {:subcat {:1 {:cat :det}}}})
+      (if-has
+       [:synsem :cat] :verb
+       {:synsem {:subcat {:1 {:cat :noun}
+                          :2 '()}}})))
 
 ;; TODO: factor out Italian-specific parts and promote to babel.lexiconfn.
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
@@ -136,10 +143,10 @@
       ;; TODO: throw error or warning in certain cases:
       ;; (= true (fail? value))
       ;;
-
-     ;; common nouns need a gender (but propernouns do not need one).
-     ;; TODO: throw error rather than just throwing out entry.
-     (filter-vals
+      
+      ;; common nouns need a gender (but propernouns do not need one).
+      ;; TODO: throw error rather than just throwing out entry.
+      (filter-vals
       #(or (not (and (= :noun (get-in % [:synsem :cat]))
                      (= :none (get-in % [:synsem :agr :gender] :none))
                      (= false (get-in % [:synsem :propernoun] false))))
@@ -154,47 +161,16 @@
            (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
                 false)))
 
+     ;; end of language-specific grammar rules
+
+     ;; begin world-knowledge constraints
      (constrain-vals-if
       (fn [val]
         (not (nil? (get universals (get-in val [:synsem :sem :pred])))))
       (fn [val]
         (get universals (get-in val [:synsem :sem :pred]))))
 
-     ;; TODO: refactor this; it's very monolithic currently:
-     intransitivize
-
-     ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-     ;; TODO: refactor this; it's very monolithic currently:
-     transitivize
-
-     (constrain-vals-if
-      (fn [val]
-        (and (= :noun (get-in val [:synsem :cat]))
-             (= true (get-in val [:synsem :reflexive]))
-             (= true (get-in val [:synsem :pronoun]))))
-      (fn [val]
-        (unify (let [case (atom :acc)
-                     cat (atom :noun)]
-                 {:synsem {:cat cat
-                           :pronoun true
-                           :subcat '()
-                           :reflexive true
-                           :case case}
-                  :italiano {:cat cat
-                             :case case}}))))
-     (constrain-vals-if
-      (fn [val]
-        (and (= (get-in val [:synsem :cat]) :noun)
-             (or (= (get-in val [:synsem :agr :gender]) :masc)
-                 (= (get-in val [:synsem :agr :gender]) :fem))
-             (= false (get-in val [:synsem :propernoun] false))
-             (= false (get-in val [:synsem :pronoun] false))
-             (not (= '() (get-in val [:synsem :subcat] :top)))))
-      ;; some nouns e.g. "casa" may have a sense that requires no determiner (subcat = '())
-      ;; in such cases, don't apply agreement-noun.
-      (fn [val]
-        (unify val agreement-noun)))
-
+     ;; TODO: consider doing encyclopedia constraints
      ))
 
 

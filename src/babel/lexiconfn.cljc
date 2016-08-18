@@ -12,7 +12,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :as unify :refer [dissoc-paths exists? fail-path fail? get-in isomorphic?
+   [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists? fail-path fail? get-in isomorphic?
                                      serialize strip-refs unifyc]]))
 
 (declare listify)
@@ -678,13 +678,28 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                               v)]
                 k)))
 
+(defn if-has [lexicon path value-at-path unify-with]
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     ;; TODO: consider using pmap.
+     (map (fn [original-val]
+            (let [unify-against
+                  (create-path-in path (unifyc (get-in original-val path :fail)
+                                               value-at-path))
+                  result (unifyc original-val unify-against unify-with)]
+              (if (not (fail? result))
+                result
+                original-val)))
+          vals))))
+
 ;; TODO: s/unifyc/unify/ for performance
 (defn if-then [lexicon if-has unify-with]
   (map-function-on-map-vals
    lexicon
    (fn [k vals]
+     ;; TODO: use (map .. x) rather than (mapcat ... (list x))
      (mapcat (fn [val]
-
                (let [result (unifyc val if-has)]
                  (cond (not (fail? result))
                        (do

@@ -218,7 +218,8 @@
       (filter-vals
       #(or (not (and (= :noun (get-in % [:synsem :cat]))
                      (= :none (get-in % [:synsem :agr :gender] :none))
-                     (= false (get-in % [:synsem :propernoun] false))))
+                     (= false (get-in % [:synsem :propernoun] false))
+                     (= false (get-in % [:synsem :pronoun] false))))
            (and (log/warn (str "ignoring lexical entry with :cat=:noun but no gender specified: " %))
                 false)))
      

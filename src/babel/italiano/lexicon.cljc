@@ -221,7 +221,7 @@
                             :cat cat}
                  :synsem {:cat cat
                           :agr agr
-                          :subcat {:agr agr}}})))
+                          :subcat {:1 {:agr agr}}}})))
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set
       ;; e.g. by exception-generator2.

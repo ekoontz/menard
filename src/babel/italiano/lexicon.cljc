@@ -72,11 +72,15 @@
                     true v))
                 vals)])))
 
+;; TODO: dangerous to (eval) code that we don't directly control:
+;; replace with a DSL that accomplishes the same thing without
+;; security problems.
 (defn evaluate [lexicon]
   (into {}
         (for [[k v] lexicon]
           [k (eval v)])))
 
+;; TODO rename without confusing "2"
 (defn exception-generator2 [lexicon]
   (let [exception-maps (exception-generator lexicon)]
     (if (not (empty? exception-maps))
@@ -120,12 +124,12 @@
                  :propernoun true
                  :subcat '()}})
 
-      (default ;; a verb is intransitive if not otherwise set.
+      (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
                           :2 '()}}})
 
-      (default ;; a verb is transitive if not otherwise set (e.g. by previous rule).
+      (default ;; a verb defaults to transitive if not intransitive.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
                           :2 {:top :top}
@@ -141,14 +145,13 @@
                  :subcat {:2 {:cat :noun
                               :case :acc}}}})
 
-      (default ;;  a verb's first argument is the semantic subject of the verb.
+      (default ;;  a verb's first argument defaults to the semantic subject of the verb.
        (let [subject-semantics (atom :top)]
          {:synsem {:cat :verb
                    :subcat {:1 {:sem subject-semantics}}
                    :sem {:subj subject-semantics}}}))
 
-      ;; commenting out: getting stack overflow.
-      (default ;;  a verb's second argument is the semantic object of the verb.
+      (default ;;  a verb's second argument defaults to the semantic object of the verb.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :verb
                    :subcat {:2 {:sem object-semantics}}

@@ -78,10 +78,14 @@
           [k (eval v)])))
 
 (defn exception-generator2 [lexicon]
-  (let [exceptions 
-        (reduce #(merge-with concat %1 %2)
-                (exception-generator lexicon))]
-    (merge-with concat lexicon exceptions)))
+  (let [exception-maps (exception-generator lexicon)]
+    (if (not (empty? exception-maps))
+      (merge-with concat
+                  lexicon
+                  (reduce (fn [m1 m2]
+                            (merge-with concat m1 m2))
+                          (exception-generator lexicon)))
+      lexicon)))
 
 ;; TODO: factor out Italian-specific parts and promote to babel.lexiconfn.
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)

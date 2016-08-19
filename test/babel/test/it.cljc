@@ -412,34 +412,34 @@
          "dopo ventotto anni ostana ha un cittadino neonato")))
 
 (deftest parse-long-sentence
-  (let [result (parse "dopo ventotto anni ostana ha un cittadino neonato")]
-    (is (not (empty? (mapcat :parses result))))
-    (is (not (nil?
-              (some
-               #(and (= :have (get-in % [:pred]))
-                     (= :newborn (get-in % [:obj :pred]))
-                     (= :ostana (get-in % [:subj :pred]))
-                     (= :after (get-in % [:mod :pred]))
-                     (= :year (get-in % [:mod :obj :pred]))
-                     (= :twentyeight (get-in % [:mod :obj :spec :def])))
-               (map (fn [parse]
-                      (get-in parse [:synsem :sem]))
-                    (mapcat :parses result))))))))
+  (let [result (parse "dopo ventotto anni ostana ha un cittadino neonato")
+        parses (mapcat :parses result)
+        semantics
+        (map (fn [parse]
+               (get-in parse [:synsem :sem]))
+             parses)]
+    (is (not (empty? parses)))
+    (is (not (nil? (some #(= :have (get-in % [:pred])) semantics))))
+    (is (not (nil? (some #(= :newborn (get-in % [:obj :pred])) semantics))))
+    (is (not (nil? (some #(= :ostana (get-in % [:subj :pred])) semantics))))
+    (is (not (nil? (some #(= :after (get-in % [:mod :pred])) semantics))))
+    (is (not (nil? (some #(= :year (get-in % [:mod :obj :pred])) semantics))))
+    (is (not (nil? (some #(= :twentyeight (get-in % [:mod :obj :spec :def])) semantics))))))
 
 (deftest parse-long-sentence-with-punctuation
-  (let [result (parse "Dopo ventotto anni, Ostana ha un cittadino neonato.")]
-    (is (not (empty? (mapcat :parses result))))
-    (is (not (nil?
-              (some
-               #(and (= :have (get-in % [:pred]))
-                     (= :newborn (get-in % [:obj :pred]))
-                     (= :ostana (get-in % [:subj :pred]))
-                     (= :after (get-in % [:mod :pred]))
-                     (= :year (get-in % [:mod :obj :pred]))
-                     (= :twentyeight (get-in % [:mod :obj :spec :def])))
-               (map (fn [parse]
-                      (get-in parse [:synsem :sem]))
-                    (mapcat :parses result))))))))
+  (let [result (parse "Dopo ventotto anni, Ostana ha un cittadino neonato.")
+        parses (mapcat :parses result)
+        semantics
+        (map (fn [parse]
+               (get-in parse [:synsem :sem]))
+             parses)]
+    (is (not (empty? parses)))
+    (is (not (nil? (some #(= :have (get-in % [:pred])) semantics))))
+    (is (not (nil? (some #(= :newborn (get-in % [:obj :pred])) semantics))))
+    (is (not (nil? (some #(= :ostana (get-in % [:subj :pred])) semantics))))
+    (is (not (nil? (some #(= :after (get-in % [:mod :pred])) semantics))))
+    (is (not (nil? (some #(= :year (get-in % [:mod :obj :pred])) semantics))))
+    (is (not (nil? (some #(= :twentyeight (get-in % [:mod :obj :spec :def])) semantics))))))
 
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))

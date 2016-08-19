@@ -112,18 +112,39 @@
                  :propernoun false
                  :subcat {:1 {:cat :det}
                           :2 '()}}})
-                              
+
+      (default ;; how a determiner modifies its head noun's semantics.
+       (let [def (atom :top)]
+         {:synsem {:cat :noun
+                   :pronoun false
+                   :propernoun false
+                   :sem {:spec {:def def}}
+                   :subcat {:1 {:def def}}}}))
+      
       (default;; a pronoun takes no args.
        {:synsem {:cat :noun
                  :pronoun true
                  :propernoun false
                  :subcat '()}})
+
       (default ;; a propernoun takes no args.
        {:synsem {:cat :noun
                  :pronoun false
                  :propernoun true
                  :subcat '()}})
 
+      ;; reflexive pronouns: set sharing within :italiano so that morphology can work as expected.
+      (default
+       (let [cat (atom :noun)
+             case (atom :acc)]
+         {:synsem {:cat cat
+                   :pronoun true
+                   :reflexive true
+                   :subcat '()
+                   :case case}
+          :italiano {:cat cat
+                     :case case}}))
+      
       (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
@@ -157,6 +178,12 @@
                    :subcat {:2 {:sem object-semantics}}
                    :sem {:obj object-semantics}}}))
 
+      (default ;;  a preposition's first argument defaults to the semantic object of preposition.
+       (let [object-semantics (atom :top)]
+         {:synsem {:cat :prep
+                   :subcat {:1 {:sem object-semantics}}
+                   :sem {:obj object-semantics}}}))
+      
       (default ;; a verb agrees with its first argument
        (let [subject-agreement (atom :top)]
          {:synsem {:cat :verb
@@ -181,37 +208,20 @@
       (default ;; aux defaults to false.
        {:synsem {:cat :verb
                  :aux false}})
-      
-      ;; TODO: replace with (default)
-      (constrain-vals-if
-      (fn [val]
-        (and (= :noun (get-in val [:synsem :cat]))
-             (= true (get-in val [:synsem :reflexive]))
-             (= true (get-in val [:synsem :pronoun]))))
-      (fn [val]
-        (unify (let [case (atom :acc)
-                     cat (atom :noun)]
-                 {:synsem {:cat cat
-                           :pronoun true
-                           :subcat '()
-                           :reflexive true
-                           :case case}
-                  :italiano {:cat cat
-                             :case case}}))))
 
-      ;; TODO: replace with (default)
-      (constrain-vals-if
-      (fn [val]
-        (and (= (get-in val [:synsem :cat]) :noun)
-             (or (= (get-in val [:synsem :agr :gender]) :masc)
-                 (= (get-in val [:synsem :agr :gender]) :fem))
-             (= false (get-in val [:synsem :propernoun] false))
-             (= false (get-in val [:synsem :pronoun] false))
-             (not (= '() (get-in val [:synsem :subcat] :top)))))
-      ;; some nouns e.g. "casa" may have a sense that requires no determiner (subcat = '())
-      ;; in such cases, don't apply agreement-noun.
-      (fn [val]
-        (unify val agreement-noun)))
+      (default ;; noun agreement
+       (unify {:synsem {:cat :noun
+                        :pronoun false
+                        :propernoun false
+                        :subcat {:1 {:cat :det}
+                                 :2 '()}}}
+              (let [agr (atom :top)
+                    cat (atom :top)]
+                {:italiano {:agr agr
+                            :cat cat}
+                 :synsem {:cat cat
+                          :agr agr
+                          :subcat {:agr agr}}})))
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set
       ;; e.g. by exception-generator2.

@@ -435,6 +435,7 @@
  {:synsem {:cat :noun
            :pronoun true
            :case :existential
+           :sem {:pred :existential}
            :agr {:number :sing
                  :person :3rd}}}
  
@@ -860,17 +861,11 @@
                          :3 '()}}}
          
       {:unify [essere-common]
-       :notes "be"
-       :intransitivize false
-       :synsem {:sem {:pred :be}
-                :subcat {:1 {
-                            :cat :noun
+       :notes "existential"
+       :synsem {:sem {:pred :exist}
+                :subcat {:1 {:cat :noun
                              :pronoun true
-                             :case :existential
-                             }
-;                         :2 {:cat :noun
-;                             :pronoun false}
-                         }}}
+                             :case :existential}}}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
       {:unify [transitive essere-common gender-and-number-agreement-1 subj-obj-humanness]

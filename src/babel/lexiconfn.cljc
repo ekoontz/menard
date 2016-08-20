@@ -691,6 +691,18 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                 original-val)))
           vals))))
 
+(defn new-entries [lexicon unify-with
+                   modify-with]
+  "similar to (default), but add new entries"
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     (concat
+      vals
+      (remove fail? 
+              (map #(modify-with %)
+                   vals))))))
+
 (defn if-has [lexicon path value-at-path unify-with]
   (map-function-on-map-vals
    lexicon

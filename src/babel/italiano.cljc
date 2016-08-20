@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.italiano.grammar :refer [small medium np-grammar]]
-   [babel.italiano.morphology :as morph]
+   [babel.italiano.morphology :as morph :refer [fo-ps1]]
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]

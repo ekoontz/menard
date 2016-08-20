@@ -11,7 +11,7 @@
                             default
                             filter-vals listify
                             map-function-on-map-vals
-                            rewrite-keys unify]]
+                            new-entries rewrite-keys unify]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -161,16 +161,26 @@
                    :subcat {:1 {:sem subject-semantics}}
                    :sem {:subj subject-semantics}}}))
 
+      (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
+       {:synsem {:cat :verb
+                 :aux false
+                 :sem {:obj {:top :top}}
+                 :subcat {:2 {:top :top}
+                          :3 '()}}}
+       (fn [lexeme]
+         (dissoc-paths lexeme [[:synsem :sem :obj]
+                               [:synsem :subcat :2]])))
+      
+      (default ;; a verb defaults to intransitive.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}}})
+
       (default ;;  a verb's second argument defaults to the semantic object of the verb.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :verb
                    :subcat {:2 {:sem object-semantics}}
                    :sem {:obj object-semantics}}}))
-
-      (default ;; a verb defaults to intransitive.
-       {:synsem {:cat :verb
-                 :subcat {:1 {:top :top}
-                          :2 '()}}})
 
       (default ;; a verb defaults to transitive if not intransitive.
        {:synsem {:cat :verb

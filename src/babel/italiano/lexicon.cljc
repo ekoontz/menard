@@ -164,8 +164,8 @@
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:synsem {:cat :verb
                  :aux false
-                 :reflexive false
-                 :sem {:obj {:top :top}}
+                 :sem {:obj {:top :top}
+                       :reflexive false}
                  :subcat {:2 {:cat :noun}
                           :3 '()}}}
        (fn [lexeme]
@@ -217,9 +217,9 @@
        {:synsem {:cat :verb
                  :essere false}})
 
-      (default ;; aux defaults to false.
+      (default ;; reflexive defaults to false.
        {:synsem {:cat :verb
-                 :aux false}})
+                 :sem {:reflexive false}}})
 
       (default ;; noun agreement
        (unify {:synsem {:cat :noun

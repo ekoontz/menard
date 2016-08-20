@@ -110,7 +110,7 @@
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 
-      (default;; a noun by default is neither a pronoun nor a propernoun.
+      (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun
                  :pronoun false
                  :propernoun false}})
@@ -130,7 +130,7 @@
                    :sem {:spec {:def def}}
                    :subcat {:1 {:def def}}}}))
       
-      (default;; a pronoun takes no args.
+      (default ;; a pronoun takes no args.
        {:synsem {:cat :noun
                  :pronoun true
                  :propernoun false
@@ -142,8 +142,7 @@
                  :propernoun true
                  :subcat '()}})
 
-      ;; reflexive pronouns: set sharing within :italiano so that morphology can work as expected.
-      (default
+      (default  ;; reflexive pronouns: set sharing within :italiano so that morphology can work as expected.
        (let [cat (atom :noun)
              case (atom :acc)]
          {:synsem {:cat cat
@@ -211,27 +210,25 @@
                    :subcat {:1 {:agr subject-agreement}}
                    :agr subject-agreement}}))
 
-      (default ;; morphology looks in :italiano, so share relevant grammatical pieces of info there so it can see them.
+      (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
+       ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
        (let [agr (atom :top)
              cat (atom :verb)
+             essere (atom :top)
              infl (atom :top)]
          {:italiano {:agr agr
                      :cat cat
+                     :essere essere
                      :infl infl}
           :synsem {:agr agr
                    :cat cat
+                   :essere essere
                    :infl infl}}))
 
 
       (default ;; aux defaults to false.
        {:synsem {:cat :verb
                  :aux false}})
-
-      (default ;; essere must be shared within :italiano, because that is all morphology can see.
-       (let [essere (atom :top)]
-         {:synsem {:cat :verb
-                   :essere essere}
-          :italiano {:essere essere}}))
       
       (default ;; essere defaults to false.
        {:synsem {:cat :verb

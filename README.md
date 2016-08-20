@@ -5,13 +5,38 @@
 
 A Clojure library for generation and parsing of natural language expressions.
 
+# Getting Started
+
+```lein test```
+
+I hope the tests will be useful for demonstrating the library's abilities.
+
 # HPSG (Head Driven Phrase Structure Grammar)
+
+Babel is based on a linguistic theory called HPSG. For more details please see:
+
+(wikipedia)
+(hpsg.stanford.edu)
+..etc
+
+This is a brief introduction to the key ideas of HPSG.
 
 ## Linguistic expressions are DAGs (Directed Acyclic Graphs)
 
+## Heads and complements
+
+All words in a language are either heads or complements. A _head_ word
+is a function with a certain number of arguments (one might say it
+valence). A _complement_ word, on the other hand takes no arguments
+(its valence is 0). An argument of _head_ word might be a complement,
+or it might be another _head_.
+
 ## Complex lexical representation
 
-## Phrase structure rules
+The bulk of linguistic knowledge is encoded in lexical entries. A
+lexical head, a verb for example, encodes for its arguments.
+
+## Expressions derived via unification.
 
 # Lexicon
 

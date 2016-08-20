@@ -177,7 +177,10 @@
    
    "arrivare" {:synsem {:essere true 
                         :cat :verb
-                        :sem {:pred :arrive}}}
+                        :sem {:pred :arrive}
+                        :subcat {:2 '()}}}
+                              
+;; TODO: add                 :subcat {:2 {:cat :prep}}}}
    
    "ascoltare"  {:synsem {:cat :verb
                           :sem {:pred :listen-to}}}

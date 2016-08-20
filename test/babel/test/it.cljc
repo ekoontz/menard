@@ -356,7 +356,7 @@
 
 (deftest a-casa-generate
   (let [result (generate 
-                {:comp {:synsem {:reflexive false}}
+                {:comp {:synsem {:pronoun false}}
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
                  ;; eliminate this need.
                  :synsem {:cat :prep

@@ -251,7 +251,7 @@
       {:unify [verb-aux verb-subjective avere-common agreement-of-obj-of-main-verb]
        :note "avere(aux): takes trans"
        :synsem {:infl :present
-                :subcat {:2 {:reflexive false
+                :subcat {:2 {:sem {:reflexive false}
                              :subcat {:2 {:pronoun true}}
                              :essere false}}}}
 
@@ -263,7 +263,8 @@
       {:unify [verb-aux verb-subjective avere-common agreement-of-subj-of-main-verb]
        :note "avere(aux): takes intrans"
        :synsem {:infl :present
-                :subcat {:2 {:essere false
+                :subcat {:2 {:sem {:reflexive false}
+                             :essere false
                              :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                              ;; this additional qualification here (:reflexive false) is not necessary
                              ;; but is expected to reduce fails during generation.
@@ -300,7 +301,6 @@
      :synsem {:cat :verb
               :essere false
               :sem {:pred :drink
-                    :reflexive false
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
    "bianco"
@@ -458,9 +458,8 @@
    "chiacchierare" {:synsem {:cat :verb
                              :sem {:pred :chat}}}
       
-   "chiamarsi" {:unify [reflexive-indirect-obj-is-subcat3]
+   "chiamarsi" {:unify [reflexive reflexive-indirect-obj-is-subcat3]
                 :synsem {:sem {:pred :be-called}
-                         :reflexive true
                          :subcat {:1 {:propernoun false} ;; avoid things like "Luisa si chiama Luisa".
                                   :3 {:cat :noun
                                       :propernoun true}}}}

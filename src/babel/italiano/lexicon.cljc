@@ -19,11 +19,9 @@
                                       italian-specific-rules phonize2]]
    ;; These symbols from b.i.p. are all needed by the "eval" step in the lexical compilation pipeline
    [babel.italiano.pos :refer [adjective
-                               agreement-noun
                                agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb
                                cat-of-pronoun
-                               common-noun
                                comparative
                                countable-noun
                                determiner
@@ -31,11 +29,8 @@
                                gender-and-number-agreement-1
                                intransitive
                                intransitive-unspecified-obj
-                               intransitivize
-                               masculine-noun
                                non-comparative-adjective
                                pred-is-obj-pred
-                               preposition
                                pronoun-acc
                                pronoun-reflexive
                                reflexive
@@ -43,7 +38,6 @@
                                sentential-adverb
                                subj-obj-humanness
                                transitive
-                               transitivize
                                verb-aux
                                verb-subjective]]
    [clojure.edn :as edn]

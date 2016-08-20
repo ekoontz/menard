@@ -6,23 +6,17 @@
    [babel.italiano.lexicon :refer [edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
    [babel.italiano.pos :refer [adjective
-                               agreement-noun
                                agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb
                                cat-of-pronoun
-                               common-noun
                                comparative
-                               countable-noun
                                determiner
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
                                intransitive
                                intransitive-unspecified-obj
-                               intransitivize
-                               masculine-noun
                                non-comparative-adjective
                                pred-is-obj-pred
-                               preposition
                                pronoun-acc
                                pronoun-reflexive
                                reflexive
@@ -30,7 +24,6 @@
                                sentential-adverb
                                subj-obj-humanness
                                transitive
-                               transitivize
                                verb-aux
                                verb-subjective]]
    [babel.parse :as parse]

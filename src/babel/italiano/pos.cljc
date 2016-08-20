@@ -5,7 +5,6 @@
    [dag_unify.core :refer (unifyc)]))
 
 (def cat-of-pronoun pos/cat-of-pronoun)
-(def common-noun pos/common-noun)
 (def comparative pos/comparative)
 (def countable-noun pos/countable-noun)
 (def determiner pos/determiner)
@@ -43,13 +42,6 @@
      :synsem {:cat cat
               :agr agr}}))
 
-(def agreement-noun (unifyc noun-agreement pos/agreement-noun))
-
-(def feminine-noun (unifyc
-                    pos/agreement-noun (:feminine pos/noun)))
-
-(def masculine-noun (unifyc
-                     pos/agreement-noun (:masculine pos/noun)))
 (def adjective
   (unifyc pos/adjective
           (let [agr (atom :top)
@@ -88,12 +80,6 @@
    {:synsem {:reflexive false}}
    (unifyc verb-subjective
            pos/intransitive)))
-
-(defn intransitivize [lexicon]
-  (lexiconfn/intransitivize lexicon intransitive transitive intransitive-unspecified-obj))
-
-(defn transitivize [lexicon]
-  (lexiconfn/transitivize lexicon transitive verb-subjective))
 
 ;; TODO: move place/city to if/then rules.
 (def pronoun-reflexive
@@ -135,15 +121,6 @@
                     :pred pred}
               :subcat {:2 {:sem {:obj obj
                                  :pred pred}}}}}))
-
-(def preposition
-  (let [shared (atom :top)]
-    {:synsem {:cat :prep
-              :sem {:obj shared}
-              :subcat {:1 {:cat :noun
-                           :subcat '()
-                           :sem shared}}}}))
-  
 (def reflexive
   (let [subject-semantics (atom {:animate true})
         subject-agr (atom :top)]

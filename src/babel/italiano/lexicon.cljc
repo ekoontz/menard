@@ -164,6 +164,7 @@
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:synsem {:cat :verb
                  :aux false
+                 :reflexive false
                  :sem {:obj {:top :top}}
                  :subcat {:2 {:cat :noun}
                           :3 '()}}}

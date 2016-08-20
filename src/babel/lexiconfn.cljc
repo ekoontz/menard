@@ -700,7 +700,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
      (concat
       vals
       (remove fail? 
-              (map #(modify-with %)
+              (map #(modify-with (unifyc unify-with %))
                    vals))))))
 
 (defn if-has [lexicon path value-at-path unify-with]

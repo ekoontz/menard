@@ -165,7 +165,7 @@
        {:synsem {:cat :verb
                  :aux false
                  :sem {:obj {:top :top}}
-                 :subcat {:2 {:top :top}
+                 :subcat {:2 {:cat :noun}
                           :3 '()}}}
        (fn [lexeme]
          (dissoc-paths lexeme [[:synsem :sem :obj]

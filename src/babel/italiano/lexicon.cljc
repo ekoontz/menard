@@ -49,7 +49,7 @@
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]
-   [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
 
 (declare edn2lexicon)
 

@@ -144,18 +144,7 @@
                    :case case}
           :italiano {:cat cat
                      :case case}}))
-      
-      (default ;; a verb defaults to intransitive.
-       {:synsem {:cat :verb
-                 :subcat {:1 {:top :top}
-                          :2 '()}}})
-
-      (default ;; a verb defaults to transitive if not intransitive.
-       {:synsem {:cat :verb
-                 :subcat {:1 {:top :top}
-                          :2 {:top :top}
-                          :3 '()}}})
-      
+            
       (default ;; a verb's first argument's case is nominative.
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun
@@ -178,6 +167,17 @@
                    :subcat {:2 {:sem object-semantics}}
                    :sem {:obj object-semantics}}}))
 
+      (default ;; a verb defaults to intransitive.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}}})
+
+      (default ;; a verb defaults to transitive if not intransitive.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 {:top :top}
+                          :3 '()}}})
+      
       (default ;;  a preposition's first argument defaults to the semantic object of preposition.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :prep

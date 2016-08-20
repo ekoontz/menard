@@ -192,7 +192,8 @@
       (default ;;  a preposition's first argument defaults to the semantic object of preposition.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :prep
-                   :subcat {:1 {:sem object-semantics}}
+                   :subcat {:1 {:cat :noun
+                                :sem object-semantics}}
                    :sem {:obj object-semantics}}}))
       
       (default ;; a verb agrees with its first argument

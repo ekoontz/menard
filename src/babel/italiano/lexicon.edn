@@ -435,7 +435,8 @@
  {:synsem {:cat :noun
            :pronoun true
            :case :existential
-           :agr {:number :sing}}}
+           :agr {:number :sing
+                 :person :3rd}}}
  
    ;; working on: "mi sono comprato un nuovo cellulare"
    "cellulare"

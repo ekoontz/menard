@@ -849,7 +849,8 @@
        :notes "essere-prepositional-phrase"
        :synsem {:cat :verb
                 :aux false
-                :sem {:obj {:place true}}
+                :sem {:pred :be
+                      :obj {:place true}}
                 ;; TODO: should not need agreement: should be covered by
                 ;; essere-common.
                 :subcat {:1 {:cat :noun}

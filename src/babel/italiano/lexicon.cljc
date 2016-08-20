@@ -218,6 +218,12 @@
        {:synsem {:cat :verb
                  :aux false}})
 
+      (default ;; essere must be shared within :italiano, because that is all morphology can see.
+       (let [essere (atom :top)]
+         {:synsem {:cat :verb
+                   :essere essere}
+          :italiano {:essere essere}}))
+      
       (default ;; essere defaults to false.
        {:synsem {:cat :verb
                  :essere false}})

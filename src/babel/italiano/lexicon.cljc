@@ -97,6 +97,10 @@
   (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
       evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
       listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
+
+      (default ;; all lexemes are phrasal=false by default.
+       {:phrasal false})
+
       ;; end language-independent operations.
 
       ;; begin language-dependent operations.
@@ -274,6 +278,7 @@
      ;; end of language-specific grammar rules
 
      ;; begin world-knowledge constraints
+     ;; TODO rewrite as (defaults)
      (constrain-vals-if
       (fn [val]
         (not (nil? (get universals (get-in val [:synsem :sem :pred])))))

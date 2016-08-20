@@ -213,6 +213,11 @@
                    :cat cat
                    :infl infl}}))
 
+
+      (default ;; aux defaults to false.
+       {:synsem {:cat :verb
+                 :aux false}})
+
       (default ;; essere defaults to false.
        {:synsem {:cat :verb
                  :essere false}})

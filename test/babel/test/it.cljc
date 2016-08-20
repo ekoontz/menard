@@ -317,14 +317,11 @@
 
 (deftest gestiscono
   (let [result
-        (take 10 (repeatedly #(generate {:modified false
-                                         :synsem {:sem {:subj {:pred :loro}
-                                                        :pred :manage
-                                                        :tense :present}}})))]
-    (count (map (fn [each]
-                  (is (= "loro gestiscono" (fo each))))
-                (map :surface
-                     result)))))
+        (generate {:synsem {:sem {:subj {:pred :loro}
+                                  :pred :manage
+                                  :tense :present}}}
+                  :model small)]
+    (is (= "loro gestiscono" (fo result)))))
 
 (deftest casa-generate
   (let [result (generate {:synsem {:cat :noun

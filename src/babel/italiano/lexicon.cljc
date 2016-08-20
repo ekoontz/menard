@@ -104,6 +104,7 @@
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 
+      ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun
                  :pronoun false
@@ -146,7 +147,23 @@
                    :case case}
           :italiano {:cat cat
                      :case case}}))
-            
+
+      (default ;; determiner-noun agreement
+       (unify {:synsem {:cat :noun
+                        :pronoun false
+                        :propernoun false
+                        :subcat {:1 {:cat :det}
+                                 :2 '()}}}
+              (let [agr (atom :top)
+                    cat (atom :top)]
+                {:italiano {:agr agr
+                            :cat cat}
+                 :synsem {:cat cat
+                          :agr agr
+                          :subcat {:1 {:agr agr}}}})))
+      ;; </noun default rules>            
+
+      ;; <verb default rules>
       (default ;; a verb's first argument's case is nominative.
        {:synsem {:cat :verb
                  :subcat {:1 {:cat :noun
@@ -156,7 +173,7 @@
        {:synsem {:cat :verb
                  :subcat {:2 {:cat :noun
                               :case :acc}}}})
-
+      
       (default ;;  a verb's first argument defaults to the semantic subject of the verb.
        (let [subject-semantics (atom :top)]
          {:synsem {:cat :verb
@@ -190,20 +207,38 @@
                  :subcat {:1 {:top :top}
                           :2 {:top :top}
                           :3 '()}}})
-      
-      (default ;;  a preposition's first argument defaults to the semantic object of preposition.
-       (let [object-semantics (atom :top)]
-         {:synsem {:cat :prep
-                   :subcat {:1 {:cat :noun
-                                :sem object-semantics}}
-                   :sem {:obj object-semantics}}}))
-      
+            
       (default ;; a verb agrees with its first argument
        (let [subject-agreement (atom :top)]
          {:synsem {:cat :verb
                    :subcat {:1 {:agr subject-agreement}}
                    :agr subject-agreement}}))
 
+      (default ;; aux defaults to false.
+       {:synsem {:cat :verb
+                 :aux false}})
+
+      (default ;; essere defaults to false.
+       {:synsem {:cat :verb
+                 :essere false}})
+
+      (default ;; reflexive defaults to false.
+       {:synsem {:cat :verb
+                 :aux false
+                 :sem {:reflexive false}}})
+
+      ;; </verb default rules>
+
+      ;; <preposition default rules>
+      (default ;;  a preposition's semantic object defaults to its first argument.
+       (let [object-semantics (atom :top)]
+         {:synsem {:cat :prep
+                   :subcat {:1 {:cat :noun
+                                :sem object-semantics}}
+                   :sem {:obj object-semantics}}}))
+      ;; </preposition default rules>
+
+      ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
        (let [agr (atom :top)
@@ -218,34 +253,7 @@
                    :cat cat
                    :essere essere
                    :infl infl}}))
-
-
-      (default ;; aux defaults to false.
-       {:synsem {:cat :verb
-                 :aux false}})
-      
-      (default ;; essere defaults to false.
-       {:synsem {:cat :verb
-                 :essere false}})
-
-      (default ;; reflexive defaults to false.
-       {:synsem {:cat :verb
-                 :aux false
-                 :sem {:reflexive false}}})
-
-      (default ;; noun agreement
-       (unify {:synsem {:cat :noun
-                        :pronoun false
-                        :propernoun false
-                        :subcat {:1 {:cat :det}
-                                 :2 '()}}}
-              (let [agr (atom :top)
-                    cat (atom :top)]
-                {:italiano {:agr agr
-                            :cat cat}
-                 :synsem {:cat cat
-                          :agr agr
-                          :subcat {:1 {:agr agr}}}})))
+      ;; </category-independent>
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set
       ;; e.g. by exception-generator2.
@@ -261,7 +269,7 @@
                      (= :none (get-in % [:synsem :agr :gender] :none))
                      (= false (get-in % [:synsem :propernoun] false))
                      (= false (get-in % [:synsem :pronoun] false))))
-           (and (log/warn (str "ignoring lexical entry with :cat=:noun but no gender specified: " %))
+           (and (log/warn (str "ignoring common noun with no gender specified: " %))
                 false)))
      
      ;; filter out entries with no :cat.

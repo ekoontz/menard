@@ -853,7 +853,7 @@
        :notes "essere-prepositional-phrase"
        :synsem {:cat :verb
                 :aux false
-                :sem {:pred :be
+                :sem {:pred :a ;; semantics are shared with [:subcat :2], the prepositional phrase.
                       :obj {:place true}}
                 ;; TODO: should not need agreement: should be covered by
                 ;; essere-common.

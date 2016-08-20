@@ -3,54 +3,43 @@
 
 # babel
 
-A Clojure library for generation of expressions from grammars and
-lexicons.
+A Clojure library for generation and parsing of natural language expressions.
 
-## Prerequisites
+# HPSG (Head Driven Phrase Structure Grammar)
 
-- Postgres
-- A recent `pgdbc` jar with: https://github.com/pgjdbc/pgjdbc/commit/d313138ee1291220feccccb686d00643ea2e794f
-(see https://jdbc.postgresql.org/download.html for downloads).
+## Linguistic expressions are DAGs (Directed Acyclic Graphs)
 
-## Create babel database
+## Complex lexical representation
 
-```
-createuser babel
-createdb -U babel babel
-psql -U babel babel < src/sql/babel.sql
-```
+## Phrase structure rules
 
-## Set environment so that babel can find your database
+# Lexicon
 
-```
-export DATABASE_URL="postgres://verbcoach@localhost/verbcoach"
-```
+## Default rules
 
-## Generate sentences
+# Grammar
 
-One thing you can do is generate pairs of sentences. Each pair is an
-English sentence and a sentence in either French, Italian, or Spanish.
+# Generation
 
-`lein run -m babel.italiano.writer/tutti`
+Generation is a function that takes a specification, a lexicon, and a
+grammar and returns an expression.
 
-will generate 10 sentences pairs per Italian tense (past, present,
-etc). Each pair will be the Italian sentence and its English
-translation. Each will be added to the `expression` table. You can then
-see them from sql with:
+# Parsing
 
-```
-psql -U babel babel
-SELECT surface,language FROM expression LIMIT 10;
-verbcoach=> SELECT id,language,surface FROM expression LIMIT 5;
-  id   | language |        surface
--------+----------+-----------------------
- 70266 | en       | Antonio erased
- 70265 | it       | Antonio ha cancellato
- 70264 | en       | he erased
- 70263 | it       | lui ha cancellato
- 70262 | en       | you erased
-```
+Parsing is a function that takes an expression, a lexicon, and a
+grammar and returns a grammatical representation of the expression.
 
-## License
+# Translation
+
+A translation of a source expression into a target expression is a
+two-step process: first we determine the semantics of the source
+expression, and second, we generate a target expression that has this
+identical semantic representation.
+
+## Parsing of the source expression
+
+## Generation of the target expression
+
+# License
 
 Copyright © 2015 Eugene Koontz

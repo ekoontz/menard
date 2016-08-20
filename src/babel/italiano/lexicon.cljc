@@ -234,6 +234,7 @@
 
       (default ;; reflexive defaults to false.
        {:synsem {:cat :verb
+                 :aux false
                  :sem {:reflexive false}}})
 
       (default ;; noun agreement

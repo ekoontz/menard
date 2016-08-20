@@ -110,6 +110,11 @@
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 
+      (default;; a noun by default is neither a pronoun nor a propernoun.
+       {:synsem {:cat :noun
+                 :pronoun false
+                 :propernoun false}})
+
       (default ;; a common noun takes a determiner as its only argument.
        {:synsem {:cat :noun
                  :pronoun false

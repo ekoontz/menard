@@ -74,10 +74,7 @@
                     & {:keys [max-total-depth truncate-children]
                        :or {max-total-depth max-total-depth
                             truncate-children true}}]
-  (log/trace (str "generate-all: generating from spec with cat "
-                  (get-in spec [:synsem :cat])))
-  (log/debug (str "generate-all:"
-                  (strip-refs (get-in spec [:synsem :cat])) "^" total-depth))
+  (log/debug (str "generate-all: spec:" (strip-refs spec)))
   
   (let [language-model (if (future? language-model) @language-model language-model)
         total-depth (if total-depth total-depth 0)]
@@ -314,6 +311,8 @@ of this function with complements."
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
+    (log/debug (str "lightning-bolt: candidate-parents:" (string/join "," (map :rule parents))))
+    (log/debug (str "lightning-bolt:  for spec: " (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (mapfn (fn [parent]
                          (if (= false (get-in parent [:head :phrasal] false))
@@ -354,6 +353,7 @@ of this function with complements."
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
   (filter #(not (fail? %))
           (mapfn (fn [rule]
+                   (log/debug (str "candidate-parents: rule: " (:rule rule)))
                    (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
                                                 (get-in spec [:synsem :cat] :top))))
                             (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
@@ -362,8 +362,18 @@ of this function with complements."
                                                 (get-in spec [:synsem :sem :tense] :top))))
                             (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
                                                 (get-in spec [:synsem :modified] :top)))))
-                     (unifyc spec rule)
-                     :fail))
+                     (let [result
+                           (unifyc spec rule)]
+                       (if (fail? result)
+                         (do
+                           (log/debug (str " rule: " (:rule rule) " failed (2)"))
+                           :fail)
+                         (do
+                           (log/debug (str " rule: " (:rule rule) " did not fail."))
+                           result)))
+                     (do
+                       (log/debug (str " rule: " (:rule rule) " failed (1)"))
+                       :fail)))
                  rules)))
 
 (defn lazy-shuffle [seq]

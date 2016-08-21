@@ -461,11 +461,14 @@
    "chiacchierare" {:synsem {:cat :verb
                              :sem {:pred :chat}}}
       
-   "chiamarsi" {:unify [reflexive reflexive-indirect-obj-is-subcat3]
+ "chiamarsi" (let [human (atom :top)]
+               {:unify [reflexive reflexive-indirect-obj-is-subcat3]
                 :synsem {:sem {:pred :be-called}
-                         :subcat {:1 {:propernoun false} ;; avoid things like "Luisa si chiama Luisa".
+                         :subcat {:1 {:sem {:human human}
+                                      :propernoun false} ;; avoid things like "Luisa si chiama Luisa".
                                   :3 {:cat :noun
-                                      :propernoun true}}}}
+                                      :sem {:human human}
+                                      :propernoun true}}}})
 
    "chiave" {:synsem {:agr {:gender :masc}
                       :cat :noun
@@ -954,9 +957,7 @@
                    :physical-object true
                    :human false}}}
    "Gianluca"
-   {:synsem {:agr {:number :sing
-                   :person :3rd
-                   :gender :masc}
+   {:synsem {:agr {:gender :masc}
              :sem {:pred :gianluca
                    :human true}
              :propernoun true}}
@@ -1267,9 +1268,7 @@
    "Luisa"
    {:synsem {:sem {:pred :luisa
                    :human true}
-             :agr {:number :sing
-                   :person :3rd
-                   :gender :fem}
+             :agr {:gender :fem}
              :propernoun true}}
 
    "Luisa e io"
@@ -1317,6 +1316,11 @@
               :sem {:pred :mangiare
                     :subj {:animate true}
                     :obj {:edible true}}}}
+   "Matteo"
+   {:synsem {:sem {:pred :matteo
+                   :human true}
+             :agr {:gender :masc}
+             :propernoun true}}
 
     "mentire"
     {:synsem {:cat :verb

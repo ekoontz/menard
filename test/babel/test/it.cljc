@@ -77,7 +77,7 @@
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
-(deftest passato-prossimo-ditransitive
+(deftest present-ditransitive
   (let [result (generate {:synsem {:subcat '()
                                    :infl :present
                                    :sem {:pred :be-called

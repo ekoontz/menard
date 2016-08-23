@@ -7,7 +7,6 @@
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
    [babel.lexiconfn :refer [compile-lex if-has if-then
-                            constrain-vals-if
                             default
                             filter-vals listify
                             map-function-on-map-vals
@@ -287,16 +286,6 @@
                 false)))
 
      ;; end of language-specific grammar rules
-
-     ;; begin world-knowledge constraints
-     ;; TODO rewrite as (defaults)
-     (constrain-vals-if
-      (fn [val]
-        (not (nil? (get universals (get-in val [:synsem :sem :pred])))))
-      (fn [val]
-        (get universals (get-in val [:synsem :sem :pred]))))
-
-     ;; TODO: consider doing encyclopedia constraints
-     ))
+))
 
 (def lexicon (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn")))

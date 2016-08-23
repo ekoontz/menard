@@ -1282,6 +1282,14 @@
 
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
+   "Matteo"
+   {:synsem {:agr {:number :sing
+                   :person :3rd
+                   :gender :masc}
+             :sem {:pred :matteo
+                   :human true}
+             :propernoun true}}
+
    "may" {:english {:past "might"
                     :participle "able to"
                     :present {:1sing "may"

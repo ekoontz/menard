@@ -1421,21 +1421,15 @@
              :subcat {:1 {:cat :det
                           :number :sing
                           :def :def}}}}
-   "parlare"
-   (let [common1
-         {:synsem {:essere false
-                   :sem {:pred :speak
-                         :subj {:human true}}}}
-         common2
-         {:synsem {:essere false
-                   :sem {:pred :talk
-                         :subj {:human true}}}}]
-     (list
-      {:unify [common1 transitive]
-       :synsem {:sem {:obj {:speakable true}}}}
-      {:unify [common1 intransitive intransitive-unspecified-obj]}
-      
-      {:unify [common2 intransitive intransitive-unspecified-obj]}))
+ "parlare"
+ [{:synsem {:cat :verb
+            :sem {:pred :speak
+                  :subj {:human true}
+                  :obj {:speakable true}}}}
+  {:synsem {:cat :verb
+            :sem {:pred :talk
+                  :subj {:human true}
+                  :obj {:speakable true}}}}]
    
    "partire" {:synsem {:essere true 
                        :cat :verb

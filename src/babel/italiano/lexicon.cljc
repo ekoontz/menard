@@ -196,6 +196,12 @@
                  :subcat {:1 {:top :top}
                           :2 '()}}})
 
+      (default ;; intransitive verbs' :obj is :unspec.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}
+                 :sem {:obj :unspec}}})
+
       (default ;;  a verb's second argument defaults to the semantic object of the verb.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :verb

@@ -23,51 +23,6 @@
   "print a concise one-line representation of the tree"
   ((:morph-ps @medium) tree))
 
-(def lexicon (:lexicon @medium))
-(def infinitives
-  (filter (fn [k] 
-            (let [vals (get lexicon k)]
-              (some (fn [val]
-                      (and (= (get-in val [:synsem :cat]) :verb)
-                           (= (get-in val [:synsem :infl]) :top)))
-                    vals)))
-          (keys lexicon)))
-
-(def articles
-  (filter (fn [k] 
-            (let [vals (get lexicon k)]
-              (some (fn [val]
-                      (= (get-in val [:synsem :cat]) :det))
-                    vals)))
-          (keys lexicon)))
-
-(def nouns
-  (filter (fn [k] 
-            (let [vals (get lexicon k)]
-              (some (fn [val]
-                      (= (get-in val [:synsem :cat]) :noun))
-                    vals)))
-          (keys lexicon)))
-
-(def nominative-pronouns
-  (filter (fn [k] 
-            (let [vals (get lexicon k)]
-              (some (fn [val]
-                      (and (= (get-in val [:synsem :cat]) :noun)
-                           (= (get-in val [:synsem :pronoun]) true)
-                           (= (get-in val [:synsem :case]) :nom)))
-                    vals)))
-          (keys lexicon)))
-
-(def propernouns
-  (filter (fn [k] 
-            (let [vals (get lexicon k)]
-              (some (fn [val]
-                      (and (= (get-in val [:synsem :cat]) :noun)
-                           (= (get-in val [:synsem :propernoun]) true)))
-                    vals)))
-          (keys lexicon)))
-
 (defn analyze
   ([surface-form]
    (analyze surface-form (:lexicon @medium)))

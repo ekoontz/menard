@@ -170,15 +170,6 @@
       (lazy-cat (over/overc parent (first lex))
                 (overc-with-index-1 parent (rest lex))))))
 
-(defn get-subset-from-index [index use-spec]
-  (let [debug (log/debug (str "looking for use-spec 1: " use-spec))
-        use-spec (get-in use-spec '(:synsem :cat))
-        debug (log/debug (str "looking for use-spec 2: " use-spec))
-        ls-part (get index :lexical-subsets :notfound)]
-    (if (= :notfound ls-part)
-      :notfound
-      (get ls-part (show-spec use-spec) :notfound))))
-
 ;; TODO: document how this works and especially what 'phrase-constraint' means.
 (defn create-index [grammar lexicon phrase-constraint]
   (let [lexicon (if (map? lexicon)

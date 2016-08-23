@@ -56,13 +56,17 @@
         (->>
          (take do-this-many
                (repeatedly 
-                #(with-out-str (time (fo (generate {:synsem {:subcat '()
-                                                             :essere true
-                                                             :sem {:pred :be-called
-                                                                   :tense :present
-                                                                   :subj :top
-                                                                   :iobj :top}}}
-                                                   :model small))))))
+                #(with-out-str (time (fo
+                                      (let [generated
+                                            (generate {:synsem {:subcat '()
+                                                                :essere true
+                                                                :sem {:pred :be-called
+                                                                      :tense :present
+                                                                      :subj :top
+                                                                      :iobj :top}}}
+                                                      :model small)
+                                            output (log/info (fo generated))]
+                                        generated))))))
          (map #(string/replace % #".*time:\s*([0-9.]+).*" "$1"))
          (map string/trim)
          (map #(Double. %))

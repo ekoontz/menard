@@ -288,4 +288,5 @@
      ;; end of language-specific grammar rules
 ))
 
-(def lexicon (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn")))
+(def lexicon (future (edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
+

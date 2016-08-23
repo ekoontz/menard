@@ -6,35 +6,13 @@
                                         map-function-on-map-vals unify)]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
-                              agreement-noun
-                              common-noun
-                              countable-noun
-                              feminine-noun
                               intransitivize
-                              masculine-noun
                               subject-verb-agreement
                               transitivize]]
    [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
-#?(:cljs
-   (defn- future [expr]
-     expr))
-
 (def lexicon-source
   {
-
-   ;; useful meta-lexeme for debugging generation or parsing -
-   ;;    modify its constraints as you prefer for what you are trying to debug.
-;   "_"
-;   (unify agreement-noun
-;          common-noun
-;          feminine-noun
-;          countable-noun
-;          {:synsem {:sem {:pred :blank}}})
-;   "_"
-;   ;(unify agreement-noun common-noun
-;          {:synsem {:sem e/animal}})
-   
    "Antonia"
    {:synsem {:sem {:pred :antonia
                    :human true}

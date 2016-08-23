@@ -26,21 +26,6 @@
 (def comp-index {})
 (declare show-spec)
 
-(defn specs-to-subsets [lexicon-of-heads lexicon]
-  (if (not (empty? lexicon-of-heads))
-    (let [lexeme (first lexicon-of-heads)]
-      (if (keyword? (show-spec (get-in lexeme '(:synsem :subcat :1 :cat))))
-        (conj {(show-spec (get-in lexeme '(:synsem :subcat :1 :cat)))
-               (filter (fn [each-lex]
-                         (not (fail? (unifyc (get-in each-lex '(:synsem :cat))
-                                             (get-in lexeme '(:synsem :subcat :1 :cat))))))
-                       lexicon)}
-              (specs-to-subsets (rest lexicon-of-heads)
-                                lexicon))
-        (specs-to-subsets (rest lexicon-of-heads)
-                          lexicon)))
-    {}))
-
 (declare spec-to-phrases)
 
 ;; TODO: diagnostic function that is too specific currently (e.g. refers to ':english').
@@ -85,8 +70,7 @@
                  (not (fail? (unifyc (first phrases)
                                      {:head lex}))))
                lexicon)}}
-     (build-lex-sch-index (rest phrases) lexicon all-phrases))
-    {:lexical-subsets (specs-to-subsets lexicon lexicon)}))
+     (build-lex-sch-index (rest phrases) lexicon all-phrases))))
 
 (defn spec-to-phrases [specs all-phrases]
   (if (not (empty? specs))

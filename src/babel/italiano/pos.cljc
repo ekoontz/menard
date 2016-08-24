@@ -54,10 +54,6 @@
                       :essere essere-type
                       :subcat {:1 {:agr agr}}}})))
 
-(def transitive
-  (unifyc verb-subjective
-          pos/transitive))
-
 (def intransitive-unspecified-obj
   (unifyc
    {:synsem {:sem {:reflexive false}}}

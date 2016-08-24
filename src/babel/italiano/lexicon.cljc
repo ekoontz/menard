@@ -31,7 +31,6 @@
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness
-                               transitive
                                verb-aux
                                verb-subjective]]
    [clojure.edn :as edn]

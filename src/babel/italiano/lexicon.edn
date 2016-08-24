@@ -865,7 +865,7 @@
                              :case :existential}}}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-      {:unify [transitive essere-common gender-and-number-agreement-1 subj-obj-humanness]
+      {:unify [essere-common gender-and-number-agreement-1 subj-obj-humanness]
        :notes "copula" ;; significant only for debugging.
        :synsem {:cat :verb
                 :subcat {:1 {:cat :noun}

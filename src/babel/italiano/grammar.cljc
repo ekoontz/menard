@@ -18,7 +18,6 @@
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness
-                               transitive
                                verb-aux
                                verb-subjective]]
    [babel.parse :as parse]

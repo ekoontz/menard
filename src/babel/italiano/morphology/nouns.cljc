@@ -4,7 +4,6 @@
    [clojure.string :as string]
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
-   [babel.italiano.pos :refer [pronoun-acc]]
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
@@ -14,13 +13,13 @@
    {:p [#"^l$" "la"] ;; "l'" -> "la"
     :u {:synsem {:cat :noun
                  :pronoun true
-                 :case pronoun-acc
+                 :case :acc
                  :agr {:number :sing
                        :gender :fem}}}}
    {:p [#"^l$" "lo"] ;; "l'" -> "lo"
     :u {:synsem {:cat :noun
                  :pronoun true
-                 :case pronoun-acc
+                 :case :acc
                  :agr {:number :sing
                        :gender :masc}}}}
 

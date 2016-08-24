@@ -14,7 +14,6 @@
             plural-to-singular-noun-masc-1
             plural-to-singular-noun-masc-2)]
    [babel.italiano.morphology.verbs :as verbs]
-   [babel.italiano.pos :refer (pronoun-acc)]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
    [clojure.string :refer (trim)]

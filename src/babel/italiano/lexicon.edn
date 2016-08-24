@@ -1010,8 +1010,7 @@
    "guidare"  {:synsem {:cat :verb
                         :sem {:pred :guidare}}}
    "i"
-   {:unify [determiner]
-    :synsem {:cat :det
+   {:synsem {:cat :det
              :def :def
              :agr {:gender :masc
                    :number :plur}}}
@@ -1020,8 +1019,7 @@
                 :cat :noun
                 :sem {:pred :idea}}}
    "il"
-   {:unify [determiner]
-    :synsem {:cat :det
+   {:synsem {:cat :det
              :def :def
              :agr {:gender :masc
                    :number :sing}}}

@@ -5,7 +5,6 @@
    [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
-   [babel.italiano.pos :refer [determiner]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp

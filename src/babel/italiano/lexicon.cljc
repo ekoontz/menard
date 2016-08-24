@@ -16,8 +16,6 @@
    #?(:cljs [babel.logjs :as log]) 
    [babel.italiano.morphology :refer [agreement essere-default exception-generator
                                       phonize2]]
-   ;; These symbols from b.i.p. are all needed by the "eval" step in the lexical compilation pipeline
-   [babel.italiano.pos :refer [determiner]]
 
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
@@ -121,6 +119,7 @@
                  :cat :noun
                  :pronoun true
                  :reflexive true}})
+                 
       (default
        ;; pronoun case and subcat: set sharing within :italiano so
        ;; that morphology can work as expected.
@@ -305,6 +304,13 @@
                    :subcat {:1 {:sem sentential-sem}}}}))
       ;; </adverb default rules>
 
+      ;; <determiner default rules>
+      (default
+       (let [def (atom :top)]
+         {:synsem {:cat :det
+                   :def def
+                   :sem {:def def}}}))
+                   
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.

@@ -12,7 +12,6 @@
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
                                pred-is-obj-pred
-                               pronoun-acc
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness]]

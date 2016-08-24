@@ -25,7 +25,6 @@
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
                                pred-is-obj-pred
-                               pronoun-acc
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness]]
@@ -126,17 +125,23 @@
                  :propernoun true
                  :subcat '()}})
 
-      (default  ;; reflexive pronouns: set sharing within :italiano so that morphology can work as expected.
+      (default  ;; reflexive pronouns are case=acc
+       {:synsem {:case :acc
+                 :cat :noun
+                 :pronoun true
+                 :reflexive true}})
+      (default
+       ;; pronoun case and subcat: set sharing within :italiano so
+       ;; that morphology can work as expected.
        (let [cat (atom :noun)
-             case (atom :acc)]
-         {:synsem {:cat cat
+             case (atom :top)]
+         {:synsem {:case case
+                   :cat cat
                    :pronoun true
-                   :reflexive true
-                   :subcat '()
-                   :case case}
+                   :subcat '()}
           :italiano {:cat cat
                      :case case}}))
-
+      
       (default ;; determiner-noun agreement
        (unify {:synsem {:cat :noun
                         :pronoun false

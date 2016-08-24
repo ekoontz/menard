@@ -121,20 +121,6 @@
                     :pred pred}
               :subcat {:2 {:sem {:obj obj
                                  :pred pred}}}}}))
-(def reflexive
-  (let [subject-semantics (atom {:animate true})
-        subject-agr (atom :top)]
-    {:synsem {:cat :verb
-              :essere true
-              :sem {:subj subject-semantics
-                    :obj subject-semantics
-                    :reflexive true}
-              :subcat {:1 {:agr subject-agr
-                           :sem subject-semantics}
-                       :2 {:agr subject-agr
-                           :pronoun true
-                           :reflexive true
-                           :sem subject-semantics}}}}))
 
 (def reflexive-indirect-obj-is-subcat3
   (let [subject (atom :top)

@@ -52,8 +52,7 @@
                    :pred :acqua}}}
 
  "addormentarsi"
- {:unify [reflexive]
-  :synsem {:cat :verb
+ {:synsem {:cat :verb
            :sem {:pred :fall-asleep
                  :reflexive true
                  :subj {:animate true}}}}
@@ -109,9 +108,9 @@
                       :arg1 {:human true}
                       :arg2 {:human true}}}}]
 
- "alzarsi" {:unify [reflexive]
-            :synsem {:cat :verb
+ "alzarsi" {:synsem {:cat :verb
                      :sem {:pred :get-up
+                           :reflexive true
                            :subj {:animate true}}}}
    "amare"
     {:synsem {:cat :verb
@@ -171,9 +170,10 @@
    "approvare" {:synsem {:cat :verb
                          :sem {:pred :approve}}}
 
-     "arrabbiarsi" {:unify [reflexive]
-                    :synsem {:sem {:pred :get-angry
-                                   :subj {:animate true}}}}
+ "arrabbiarsi" {:synsem {:cat :verb
+                         :sem {:pred :get-angry
+                               :reflexive true
+                               :subj {:animate true}}}}
    
    "arrivare" {:synsem {:essere true 
                         :cat :verb
@@ -374,13 +374,14 @@
              :sem {:pred :calzoni
                    :clothing true}}}
 
-   "cambiare" {:synsem {:cat :verb
-                        :sem {:pred :change}}}
-   
-     "cambiarsi" {:unify [reflexive]
-                  :synsem {:sem {:pred :change-clothes
-                                 :subj {:human true}}}}
-   
+ "cambiare" {:synsem {:cat :verb
+                      :sem {:pred :change}}}
+ 
+ "cambiarsi" {:synsem {:cat :verb
+                       :sem {:pred :change-clothes
+                             :reflexive true
+                             :subj {:human true}}}}
+ 
    "cancellare" {:synsem {:cat :verb
                           :sem {:pred :erase}}}
 
@@ -462,8 +463,10 @@
                              :sem {:pred :chat}}}
       
  "chiamarsi" (let [human (atom :top)]
-               {:unify [reflexive reflexive-indirect-obj-is-subcat3]
-                :synsem {:sem {:pred :be-called}
+               {:unify [reflexive-indirect-obj-is-subcat3]
+                :synsem {:cat :verb
+                         :sem {:pred :be-called
+                               :reflexive true}
                          :subcat {:1 {:sem {:human human}
                                       :propernoun false} ;; avoid things like "Luisa si chiama Luisa".
                                   :3 {:cat :noun
@@ -737,9 +740,10 @@
                          :cat :verb
                          :sem {:pred :become}}}
       
-     "divertirsi" {:unify [reflexive]
-                   :synsem {:sem {:pred :have-fun
-                                  :subj {:human true}}}}
+ "divertirsi" {:synsem {:cat :verb
+                        :sem {:pred :have-fun
+                              :reflexive true
+                              :subj {:human true}}}}
 
    "domanda" {:synsem {:agr {:gender :fem}
                 :cat :noun
@@ -1138,9 +1142,10 @@
                 :sem {:number :plur
                       :person :2nd}}}]
 
-     "lavarsi" {:unify [reflexive]
-                :synsem {:sem {:pred :wash
-                               :subj {:human true}}}}
+ "lavarsi" {:synsem {:cat :verb
+                     :sem {:pred :wash
+                           :reflexive true
+                           :subj {:human true}}}}
 
      "lavorare"  {:synsem {:cat :verb
                          :sem {:subj {:human true}
@@ -1482,12 +1487,13 @@
    "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
                :italiano {:passato "preso"}}
 
-     "prepararsi" {:unify [reflexive]
-                   :synsem {:sem {:pred :get-ready
-                                  :subj {:human true}}}}
-
-     "prenotare" {:synsem {:cat :verb
-                         :sem {:pred :reserve}}}
+ "prepararsi" {:synsem {:cat :verb
+                        :sem {:pred :get-ready
+                              :reflexive true
+                              :subj {:human true}}}}
+ 
+ "prenotare" {:synsem {:cat :verb
+                       :sem {:pred :reserve}}}
    "qualche"
    {:synsem {:cat :det
              :def :indef
@@ -1609,18 +1615,17 @@
                          :sem {:pred :scrivere}}
                 :italiano {:passato "scritto"}}
 
-     "sedersi" {:unify [reflexive]
-                :synsem {:cat :verb
-                         :sem {:pred :sit-down
-                               :reflexive true
-                               :subj {:human true}}}
-                :italiano {:present {:1sing "siedo"
-                                     :2sing "siedi"
-                                     :3sing "siede"
-                                     :1plur "sediamo"
-                                     :2plur "sedete"
-                                     :3plur "siedono"}}}
-     
+ "sedersi" {:synsem {:cat :verb
+                     :sem {:pred :sit-down
+                           :reflexive true
+                           :subj {:human true}}}
+            :italiano {:present {:1sing "siedo"
+                                 :2sing "siedi"
+                                 :3sing "siede"
+                                 :1plur "sediamo"
+                                 :2plur "sedete"
+                                 :3plur "siedono"}}}
+ 
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
@@ -1678,8 +1683,9 @@
                       :sem {:subj {:human true}
                             :pred :suonare}}}
 
- "svegliarsi" {:unify [reflexive]
-               :synsem {:sem {:pred :wake-up
+ "svegliarsi" {:synsem {:cat :verb
+                        :sem {:pred :wake-up
+                              :reflexive true
                               :subj {:animate true}}}}
  
  "svenire" {:synsem {:cat :verb
@@ -1832,8 +1838,9 @@
                       :def :twentyeight
                       :agr {:number :plur}}}
  
- "vestirsi" {:unify [reflexive]
-             :synsem {:sem {:pred :get-dressed
+ "vestirsi" {:synsem {:cat :verb
+                      :sem {:pred :get-dressed
+                            :reflexive true
                             :subj {:human true}}}}
  "vi"
  {:synsem {:cat :noun

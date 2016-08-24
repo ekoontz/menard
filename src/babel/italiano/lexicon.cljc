@@ -32,7 +32,6 @@
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive
-                               reflexive
                                reflexive-indirect-obj-is-subcat3
                                sentential-adverb
                                subj-obj-humanness
@@ -189,6 +188,26 @@
        (fn [lexeme]
          (dissoc-paths lexeme [[:synsem :sem :obj]
                                [:synsem :subcat :2]])))
+
+      (default ;; reflexive defaults to false..
+       {:synsem {:cat :verb
+                 :aux false
+                 :sem {:reflexive false}}})
+
+      (default ;; ..but if a verb *is* reflexive:
+       (let [subject-semantics (atom {:animate true})
+             subject-agr (atom :top)]
+         {:synsem {:cat :verb
+                   :essere true
+                   :sem {:subj subject-semantics
+                         :obj subject-semantics
+                         :reflexive true}
+                   :subcat {:1 {:agr subject-agr
+                                :sem subject-semantics}
+                            :2 {:agr subject-agr
+                                :pronoun true
+                                :reflexive true
+                                :sem subject-semantics}}}}))
       
       (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb
@@ -226,11 +245,6 @@
       (default ;; essere defaults to false.
        {:synsem {:cat :verb
                  :essere false}})
-
-      (default ;; reflexive defaults to false.
-       {:synsem {:cat :verb
-                 :aux false
-                 :sem {:reflexive false}}})
 
       ;; </verb default rules>
 

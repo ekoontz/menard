@@ -261,7 +261,7 @@
       ;; "avere": auxiliary-verb: takes 2 args:
       ;; 1. subject that is the same as the subject of 2.
       ;; 2. an intransitive verb.
-      {:unify [avere-common agreement-of-subj-of-main-verb]
+      {:unify [avere-common]
        :note "avere(aux): takes intrans"
        :synsem {:aux true
                 :infl :present

@@ -43,12 +43,6 @@
             :case :acc
             :reflexive true}})
 
-(def agreement-of-subj-of-main-verb
-  (let [agr (atom :top)]
-    {:synsem {:subcat {:1 {:agr agr}
-                       :2 {:agr agr
-                           :subcat {:1 {:agr agr}}}}}}))
-
 (def essere-aux-subject-agreement
   (let [subject-agreement (atom :top)]
     {:synsem {:subcat {:1 {:agr subject-agreement}

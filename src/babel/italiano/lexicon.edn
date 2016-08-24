@@ -237,7 +237,7 @@
                       :obj {:human true}}}}
 
       ;; 3. avere: unspecified object
-      {:unify [avere-common intransitive-unspecified-obj]
+      {:unify [avere-common]
        :note "avere (possess): unspecified object"
        :synsem {:sem {:pred :have
                       :activity false

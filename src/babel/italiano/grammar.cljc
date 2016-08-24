@@ -11,7 +11,6 @@
                                determiner
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
-                               intransitive-unspecified-obj
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive

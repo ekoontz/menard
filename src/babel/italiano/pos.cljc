@@ -54,12 +54,6 @@
                       :essere essere-type
                       :subcat {:1 {:agr agr}}}})))
 
-(def intransitive-unspecified-obj
-  (unifyc
-   {:synsem {:sem {:reflexive false}}}
-   (unifyc verb-subjective
-           pos/intransitive-unspecified-obj)))
-
 ;; TODO: move place/city to if/then rules.
 (def pronoun-reflexive
   {:synsem {:cat :noun

@@ -8,8 +8,6 @@
    [babel.italiano.pos :refer [cat-of-pronoun
                                determiner
                                essere-aux-subject-agreement
-                               gender-and-number-agreement-1
-                               pred-is-obj-pred
                                pronoun-reflexive
                                subj-obj-humanness]]
    [babel.parse :as parse]

@@ -826,11 +826,25 @@
                                    :3sing "sarebbe"
                                    :1plur "saremmo"
                                    :2plur "sareste"
-                                   :3plur "sarebbero"}}}]
+                                   :3plur "sarebbero"}}}
+         gender-and-number-agreement
+         (let [gender (atom :top)
+               number (atom :top)]
+           {:synsem {:subcat {:1 {:agr {:gender gender
+                                        :number number}}
+                              :2 {:agr {:gender gender
+                                        :number number}}}}})
+         pred-is-obj-pred
+         (let [obj (atom :top)
+               pred (atom :top)]
+           {:synsem {:sem {:obj obj
+                           :pred pred}
+                     :subcat {:2 {:sem {:obj obj
+                                        :pred pred}}}}})]
      [;; essere: adjective
       ;; TODO: unify essere-adjective, essere-prepositional-phrase
       ;; and essere-intensifier into one lexical entry.
-      {:unify [essere-common gender-and-number-agreement-1]
+      {:unify [essere-common gender-and-number-agreement]
        :notes "essere-adjective"
        :synsem {:cat :verb
                 :sem {:pred :be
@@ -864,7 +878,7 @@
                              :case :existential}}}}
 
       ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-      {:unify [essere-common gender-and-number-agreement-1 subj-obj-humanness]
+      {:unify [essere-common gender-and-number-agreement subj-obj-humanness]
        :notes "copula" ;; significant only for debugging.
        :synsem {:cat :verb
                 :subcat {:1 {:cat :noun}

@@ -47,21 +47,6 @@
     {:synsem {:subcat {:1 {:agr subject-agreement}
                        :2 {:subcat {:1 {:agr subject-agreement}}}}}}))
 
-(def gender-and-number-agreement-1
-  (let [gender (atom :top)
-        number (atom :top)]
-    {:synsem {:subcat {:1 {:agr {:gender gender
-                                 :number number}}
-                       :2 {:agr {:gender gender
-                                 :number number}}}}}))
-
-(def pred-is-obj-pred
-  (let [obj (atom :top)
-        pred (atom :top)]
-    {:synsem {:sem {:obj obj
-                    :pred pred}
-              :subcat {:2 {:sem {:obj obj
-                                 :pred pred}}}}}))
 (def subj-obj-humanness
   (let [human (atom :top)]
     {:synsem {:sem {:subj {:human human}

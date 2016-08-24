@@ -21,8 +21,6 @@
                                countable-noun
                                determiner
                                essere-aux-subject-agreement
-                               gender-and-number-agreement-1
-                               pred-is-obj-pred
                                pronoun-reflexive
                                subj-obj-humanness]]
    [clojure.edn :as edn]
@@ -311,7 +309,6 @@
                    :subcat {:1 {:sem sentential-sem}}}}))
       ;; </adverb default rules>
 
-      
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.

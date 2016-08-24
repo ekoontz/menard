@@ -737,14 +737,13 @@
    "domanda" {:synsem {:agr {:gender :fem}
                 :cat :noun
                 :sem {:pred :question}}}
-   "domani"
-     {:unify [sentential-adverb]
-      :synsem {:cat :sent-modifier
-               :sem {:pred :domani}
-               :subcat {:1 {:infl :future
-                            :sem {:tense :future}
-                            :subcat '()}}}
-      :italiano "domani"}
+ "domani"
+ {:synsem {:cat :sent-modifier
+           :sem {:pred :domani}
+           :subcat {:1 {:infl :future
+                        :sem {:tense :future}
+                        :subcat '()}}}
+  :italiano "domani"}
 
    "donna"
    {:synsem {:agr {:gender :fem}
@@ -756,13 +755,12 @@
      {:synsem {:cat :prep
                :sem {:pred :after
                      :obj {:time true}}}}
-   "dopodomani"
-     {:unify [sentential-adverb]
-      :synsem {:cat :sent-modifier
-               :sem {:pred :dopodomani}
-               :subcat {:1 {:infl :future
-                            :sem {:tense :future}
-                            :subcat '()}}}}
+ "dopodomani"
+ {:synsem {:cat :sent-modifier
+           :sem {:pred :dopodomani}
+           :subcat {:1 {:infl :future
+                        :sem {:tense :future}
+                        :subcat '()}}}}
    "dormire"
    {:synsem {:cat :verb
              :sem {:pred :sleep}}}

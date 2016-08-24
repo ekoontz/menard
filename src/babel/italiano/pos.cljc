@@ -10,7 +10,6 @@
 (def drinkable-noun pos/drinkable-noun)
 (def noun pos/noun)
 (def pronoun-acc pos/pronoun-acc)
-(def sentential-adverb pos/sentential-adverb)
 
 (def noun-agreement
   (let [agr (atom :top)

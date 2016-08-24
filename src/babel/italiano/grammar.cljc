@@ -11,7 +11,6 @@
                                gender-and-number-agreement-1
                                pred-is-obj-pred
                                pronoun-reflexive
-                               sentential-adverb
                                subj-obj-humanness]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head

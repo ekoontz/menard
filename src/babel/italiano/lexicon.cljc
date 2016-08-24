@@ -24,7 +24,6 @@
                                gender-and-number-agreement-1
                                pred-is-obj-pred
                                pronoun-reflexive
-                               sentential-adverb
                                subj-obj-humanness]]
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
@@ -304,6 +303,15 @@
                                          :2 '()}}}}}))
       ;; </adjective default rules>
 
+      ;; <adverb default rules>
+      (default
+       (let [sentential-sem (atom :top)]
+         {:synsem {:cat :sent-modifier
+                   :sem {:subj sentential-sem}
+                   :subcat {:1 {:sem sentential-sem}}}}))
+      ;; </adverb default rules>
+
+      
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.

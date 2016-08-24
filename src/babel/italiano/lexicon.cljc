@@ -24,15 +24,13 @@
                                determiner
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
-                               intransitive
                                intransitive-unspecified-obj
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness
-                               verb-aux
-                               verb-subjective]]
+                               verb-aux]]
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]

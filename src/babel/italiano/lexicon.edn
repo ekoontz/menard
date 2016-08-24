@@ -237,7 +237,7 @@
                       :obj {:human true}}}}
 
       ;; 3. avere: unspecified object
-      {:unify [avere-common verb-subjective intransitive-unspecified-obj]
+      {:unify [avere-common intransitive-unspecified-obj]
        :note "avere (possess): unspecified object"
        :synsem {:sem {:pred :have
                       :activity false
@@ -245,7 +245,7 @@
                       :subj {:human true}}}}
 
       ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-      {:unify [verb-aux verb-subjective avere-common agreement-of-obj-of-main-verb]
+      {:unify [verb-aux avere-common agreement-of-obj-of-main-verb]
        :note "avere(aux): takes trans"
        :synsem {:infl :present
                 :subcat {:2 {:sem {:reflexive false}
@@ -257,7 +257,7 @@
       ;; "avere": auxiliary-verb: takes 2 args:
       ;; 1. subject that is the same as the subject of 2.
       ;; 2. an intransitive verb.
-      {:unify [verb-aux verb-subjective avere-common agreement-of-subj-of-main-verb]
+      {:unify [verb-aux avere-common agreement-of-subj-of-main-verb]
        :note "avere(aux): takes intrans"
        :synsem {:infl :present
                 :subcat {:2 {:sem {:reflexive false}
@@ -875,7 +875,7 @@
                 :sem {:pred :be
                       :activity false
                       :discrete false}}}
-      {:unify [essere-common verb-aux verb-subjective essere-aux-subject-agreement]
+      {:unify [essere-common verb-aux essere-aux-subject-agreement]
        :notes "essere-aux"
        :italiano {:notes "essere-aux"}}])
       

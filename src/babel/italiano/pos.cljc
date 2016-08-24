@@ -60,12 +60,6 @@
    (unifyc verb-subjective
            pos/intransitive-unspecified-obj)))
 
-(def intransitive
-  (unifyc
-   {:synsem {:reflexive false}}
-   (unifyc verb-subjective
-           pos/intransitive)))
-
 ;; TODO: move place/city to if/then rules.
 (def pronoun-reflexive
   {:synsem {:cat :noun

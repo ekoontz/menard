@@ -11,15 +11,13 @@
                                determiner
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1
-                               intransitive
                                intransitive-unspecified-obj
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive
                                sentential-adverb
                                subj-obj-humanness
-                               verb-aux
-                               verb-subjective]]
+                               verb-aux]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp

@@ -5,7 +5,6 @@
    [dag_unify.core :refer (unifyc)]))
 
 (def cat-of-pronoun pos/cat-of-pronoun)
-(def comparative pos/comparative)
 (def countable-noun pos/countable-noun)
 (def determiner pos/determiner)
 (def drinkable-noun pos/drinkable-noun)

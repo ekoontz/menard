@@ -8,7 +8,6 @@
    [babel.italiano.pos :refer [agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb
                                cat-of-pronoun
-                               comparative
                                determiner
                                essere-aux-subject-agreement
                                gender-and-number-agreement-1

@@ -20,7 +20,6 @@
    [babel.italiano.pos :refer [agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb
                                cat-of-pronoun
-                               comparative
                                countable-noun
                                determiner
                                essere-aux-subject-agreement
@@ -263,6 +262,31 @@
                    :sem {:obj object-semantics}}}))
       ;; </preposition default rules>
       
+      ;; <adjective default rules>
+      (default ;; an adjective is comparative=false by default..
+       (let [subject (atom :top)]
+         {:synsem {:cat :adjective
+                   :sem {:arg1 subject
+                             :comparative false}
+                   :subcat {:1 {:sem subject}
+                            :2 '()}}}))
+      ;; ..but, if comparative:
+      (default
+       (let [complement-sem (atom :top)
+             subject-sem (atom :top)]
+         {:synsem {:sem {:comparative true
+                         :arg1 subject-sem
+                         :arg2 complement-sem}
+                   :cat :adjective
+                   :subcat {:1 {:cat :noun
+                                :sem subject-sem}
+                            :2 {:cat :prep
+                                :sem {:pred :di ;; Italian name for pred, for now: TODO: change to English :than.
+                                      :obj complement-sem}
+                                :subcat {:1 {:sem complement-sem}
+                                         :2 '()}}}}}))
+      ;; </adjective default rules>
+
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.

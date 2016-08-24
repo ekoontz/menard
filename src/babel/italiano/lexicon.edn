@@ -67,11 +67,12 @@
   (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
         than-this {:pred :di
                    :mod is-place}]
-    {:unify [comparative is-place]
+    {:unify [is-place]
      :synsem {:cat :adjective
               :sem {:pred :affolato
                     :arg1 is-place
-                    :arg2 is-place}
+                    :arg2 is-place
+                    :comparative true}
               :subcat {:1 {:cat :noun
                            :sem is-place}
                        :2 {:cat :prep
@@ -104,9 +105,9 @@
                   :human true}}} ;; only humans can be tall.
   
   ;; comparative:
-  {:unify [comparative]
-   :synsem {:cat :adjective
-            :sem {:pred :alto
+  {:synsem {:cat :adjective
+            :sem {:comparative true
+                  :pred :alto
                   :arg1 {:human true}
                   :arg2 {:human true}}}}]
 
@@ -282,9 +283,9 @@
    :synsem {:cat :adjective
             :sem {:pred :bello}}}
   
-  {:unify [comparative]
-   :synsem {:cat :adjective
-            :sem {:pred :bello}}}]    
+  {:synsem {:cat :adjective
+            :sem {:comparative true
+                  :pred :bello}}}]    
 
  "bene"
  {:synsem {:cat :adverb
@@ -585,9 +586,9 @@
               :sem {:pred :contento
                     :subj {:human true}}}}
     
-    {:unify [comparative]
-     :synsem {:cat :adjective
-              :sem {:pred :contento
+    {:synsem {:cat :adjective
+              :sem {:comparative true
+                    :pred :contento
                     :subj {:human true}
                     :obj {:human true}}}}]
     
@@ -607,9 +608,9 @@
               :sem {:pred :contento
                     :subj {:human true}}}}
     
-    {:unify [comparative]
-     :synsem {:cat :adjective
-              :sem {:pred :contento
+    {:synsem {:cat :adjective
+              :sem {:comparative true
+                    :pred :contento
                     :subj {:human true}
                     :obj {:human true}}}}]
 
@@ -618,7 +619,6 @@
 
    "controllare" {:synsem {:sem {:pred :check}
                            :cat :verb}}
-                                    
 
    ;; TODO: account for "dare" being ditransitive.
    "dare"  {:synsem {:cat :verb

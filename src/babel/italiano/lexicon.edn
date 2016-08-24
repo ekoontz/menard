@@ -245,13 +245,16 @@
                       :subj {:human true}}}}
 
       ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-      {:unify [avere-common agreement-of-obj-of-main-verb]
-       :note "avere(aux): takes trans"
-       :synsem {:aux true
-                :infl :present
-                :subcat {:2 {:sem {:reflexive false}
-                             :subcat {:2 {:pronoun true}}
-                             :essere false}}}}
+      (let [agr (atom :top)]
+        {:unify [avere-common]
+         :note "avere(aux): takes trans"
+         :synsem {:aux true
+                  :infl :present
+                  :subcat {:2 {:agr agr
+                               :sem {:reflexive false}
+                               :subcat {:2 {:agr agr
+                                            :pronoun true}}
+                               :essere false}}}})
 
       ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
       ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"

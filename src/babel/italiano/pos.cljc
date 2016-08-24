@@ -43,11 +43,6 @@
             :case :acc
             :reflexive true}})
 
-(def agreement-of-obj-of-main-verb
-  (let [agr (atom :top)]
-    {:synsem {:subcat {:2 {:agr agr
-                           :subcat {:2 {:agr agr}}}}}}))
-
 (def agreement-of-subj-of-main-verb
   (let [agr (atom :top)]
     {:synsem {:subcat {:1 {:agr agr}

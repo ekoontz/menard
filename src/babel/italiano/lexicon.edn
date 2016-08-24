@@ -1874,7 +1874,7 @@
               :future-stem "vivr"}}]
  
  "voi"
- [{:synsem {:cat cat-of-pronoun
+ [{:synsem {:cat :noun
             :pronoun true
             :case :nom
             :agr {:person :2nd
@@ -1884,7 +1884,7 @@
                   :human true}
             :subcat '()}}
   
-  {:synsem {:cat cat-of-pronoun
+  {:synsem {:cat :noun
             :pronoun true
             :case :nom
             :agr {:person :2nd

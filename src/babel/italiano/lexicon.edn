@@ -98,8 +98,7 @@
 
  "alto"
  [;; non-comparative:
-  {:unify [non-comparative-adjective]
-   :synsem {:cat :adjective
+  {:synsem {:cat :adjective
             :sem {:pred :alto
                   :comparative false
                   :human true}}} ;; only humans can be tall.
@@ -221,11 +220,7 @@
                                             :3plur "hanno"}}}]
 
      ;; 1. "avere": to possess something buyable
-     [{:unify [
-               ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
-               transitive       
-               {:synsem {:subcat {:3 '()}}}
-               avere-common]
+     [{:unify [avere-common]
        :note "avere (possess)"
        :synsem {:sem {:pred :have
                       :activity false
@@ -234,11 +229,7 @@
                       :obj {:buyable true}}}}
 
       ;; 2. "avere": to be in a relation with: e.g. "I have two children"
-      {:unify [
-               ;; TODO: transitive should have: {:synsem {:subcat {:3 '()}}}
-               transitive
-               {:synsem {:subcat {:3 '()}}}
-               avere-common]
+      {:unify [avere-common]
        :note "avere (relation)"
        :synsem {:sem {:pred :have
                       :activity false
@@ -279,8 +270,7 @@
    "ballare" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
  "bello"
- [{:unify [non-comparative-adjective]
-   :synsem {:cat :adjective
+ [{:synsem {:cat :adjective
             :sem {:pred :bello}}}
   
   {:synsem {:cat :adjective
@@ -581,8 +571,7 @@
                        :cat :verb}}
       
    "contento"
-   [{:unify [non-comparative-adjective]
-     :synsem {:cat :adjective
+   [{:synsem {:cat :adjective
               :sem {:pred :contento
                     :subj {:human true}}}}
     
@@ -603,8 +592,7 @@
                               :sem {:pred :correspond}}}
 
    "corto"
-   [{:unify [non-comparative-adjective]
-     :synsem {:cat :adjective
+   [{:synsem {:cat :adjective
               :sem {:pred :contento
                     :subj {:human true}}}}
     

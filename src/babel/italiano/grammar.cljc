@@ -13,7 +13,6 @@
                                gender-and-number-agreement-1
                                intransitive
                                intransitive-unspecified-obj
-                               non-comparative-adjective
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive

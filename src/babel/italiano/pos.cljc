@@ -8,7 +8,6 @@
 (def countable-noun pos/countable-noun)
 (def determiner pos/determiner)
 (def drinkable-noun pos/drinkable-noun)
-(def non-comparative-adjective pos/non-comparative-adjective)
 (def noun pos/noun)
 (def pronoun-acc pos/pronoun-acc)
 (def sentential-adverb pos/sentential-adverb)

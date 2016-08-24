@@ -6,13 +6,15 @@
                   :obj {:place true}}
             :subcat {:1 {:cat :noun
                          :case :acc
+                         :reflexive false
                          :subcat '()}
                      :2 '()}}}
   ;; "a" as in "a Roma"
   {:synsem {:cat :prep
             :sem {:pred :in
                   :obj {:city true}}
-            :subcat {:1 {:cat :noun}
+            :subcat {:1 {:cat :noun
+                         :reflexive false}
                      :2 '()}}}
   
   ;; "a" as in "a mezzogiorno"
@@ -20,6 +22,7 @@
             :sem {:pred :a
                   :obj {:time true}}
             :subcat {:1 {:cat :noun
+                         :reflexive false
                          :subcat '()}
                        :2 '()}}}
   ]

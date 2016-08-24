@@ -19,8 +19,6 @@
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive
-                               reflexive
-                               reflexive-indirect-obj-is-subcat3
                                sentential-adverb
                                subj-obj-humanness
                                transitive

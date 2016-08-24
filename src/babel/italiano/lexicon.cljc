@@ -32,7 +32,6 @@
                                pred-is-obj-pred
                                pronoun-acc
                                pronoun-reflexive
-                               reflexive-indirect-obj-is-subcat3
                                sentential-adverb
                                subj-obj-humanness
                                transitive
@@ -220,17 +219,25 @@
                           :2 '()}
                  :sem {:obj :unspec}}})
 
-      (default ;;  a verb's second argument defaults to the semantic object of the verb.
+      (default ;;  a verb's second argument (if there is one)
+       ;; defaults to the semantic object of the verb.
        (let [object-semantics (atom :top)]
          {:synsem {:cat :verb
                    :subcat {:2 {:sem object-semantics}}
                    :sem {:obj object-semantics}}}))
 
-      (default ;; a verb defaults to transitive if not intransitive.
+      (default ;; a verb defaults to transitive if not intransitive..
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
                           :2 {:top :top}
                           :3 '()}}})
+
+      (default ;;  but if there *is* a third argument, it defaults
+       ;; to the semantic indirect object of the verb.
+       (let [indirect-object-semantics (atom :top)]
+         {:synsem {:cat :verb
+                   :subcat {:3 {:sem indirect-object-semantics}}
+                   :sem {:iobj indirect-object-semantics}}}))
             
       (default ;; a verb agrees with its first argument
        (let [subject-agreement (atom :top)]

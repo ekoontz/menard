@@ -463,8 +463,7 @@
                              :sem {:pred :chat}}}
       
  "chiamarsi" (let [human (atom :top)]
-               {:unify [reflexive-indirect-obj-is-subcat3]
-                :synsem {:cat :verb
+               {:synsem {:cat :verb
                          :sem {:pred :be-called
                                :reflexive true}
                          :subcat {:1 {:sem {:human human}

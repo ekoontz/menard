@@ -121,20 +121,7 @@
                     :pred pred}
               :subcat {:2 {:sem {:obj obj
                                  :pred pred}}}}}))
-
-(def reflexive-indirect-obj-is-subcat3
-  (let [subject (atom :top)
-        indirect-object (atom :top)]
-    (unifyc reflexive
-            {:synsem {:sem {:subj subject
-                            :obj subject
-                            :iobj indirect-object}
-                      :subcat {:1 {:sem subject}
-                               :2 {:sem subject}
-                               :3 {:sem indirect-object}}}})))
-        
 (def subj-obj-humanness
   (let [human (atom :top)]
     {:synsem {:sem {:subj {:human human}
                     :obj {:human human}}}}))
-

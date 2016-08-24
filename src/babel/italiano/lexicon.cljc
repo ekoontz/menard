@@ -20,9 +20,7 @@
    [babel.italiano.pos :refer [cat-of-pronoun
                                countable-noun
                                determiner
-                               essere-aux-subject-agreement
-                               pronoun-reflexive
-                               subj-obj-humanness]]
+                               pronoun-reflexive]]
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]

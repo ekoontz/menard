@@ -827,6 +827,12 @@
                                    :1plur "saremmo"
                                    :2plur "sareste"
                                    :3plur "sarebbero"}}}
+
+         essere-aux-subject-agreement
+         (let [subject-agreement (atom :top)]
+           {:synsem {:subcat {:1 {:agr subject-agreement}
+                              :2 {:subcat {:1 {:agr subject-agreement}}}}}})
+
          gender-and-number-agreement
          (let [gender (atom :top)
                number (atom :top)]
@@ -840,7 +846,12 @@
            {:synsem {:sem {:obj obj
                            :pred pred}
                      :subcat {:2 {:sem {:obj obj
-                                        :pred pred}}}}})]
+                                        :pred pred}}}}})
+         subj-obj-humanness
+         (let [human (atom :top)]
+           {:synsem {:sem {:subj {:human human}
+                           :obj {:human human}}}})
+         ]
      [;; essere: adjective
       ;; TODO: unify essere-adjective, essere-prepositional-phrase
       ;; and essere-intensifier into one lexical entry.

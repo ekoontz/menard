@@ -28,8 +28,7 @@
                                pronoun-acc
                                pronoun-reflexive
                                sentential-adverb
-                               subj-obj-humanness
-                               verb-aux]]
+                               subj-obj-humanness]]
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]
@@ -238,9 +237,29 @@
                    :subcat {:1 {:agr subject-agreement}}
                    :agr subject-agreement}}))
 
-      (default ;; aux defaults to false.
+      (default ;; aux defaults to false..
        {:synsem {:cat :verb
                  :aux false}})
+
+      (default ;; ..but if aux is true:
+       (let [;; whether a verb has essere or avere as its
+             ;; auxiliary to form its past form:
+             essere-binary-categorization (atom :top)
+             pred (atom :top)
+             sem (atom {:tense :past
+                        :pred pred})
+             subject (atom :top)]
+         {:synsem {:aux true
+                   :cat :verb
+                   :essere essere-binary-categorization
+                   :sem sem
+                   :subcat {:1 subject
+                            :2 {:cat :verb
+                                :essere essere-binary-categorization
+                                :aux false
+                                :infl :past
+                                :subcat {:1 subject}
+                                :sem sem}}}}))
 
       (default ;; essere defaults to false.
        {:synsem {:cat :verb

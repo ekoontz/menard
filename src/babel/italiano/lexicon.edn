@@ -245,9 +245,10 @@
                       :subj {:human true}}}}
 
       ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-      {:unify [verb-aux avere-common agreement-of-obj-of-main-verb]
+      {:unify [avere-common agreement-of-obj-of-main-verb]
        :note "avere(aux): takes trans"
-       :synsem {:infl :present
+       :synsem {:aux true
+                :infl :present
                 :subcat {:2 {:sem {:reflexive false}
                              :subcat {:2 {:pronoun true}}
                              :essere false}}}}

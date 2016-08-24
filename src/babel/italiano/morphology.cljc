@@ -14,7 +14,7 @@
             plural-to-singular-noun-masc-1
             plural-to-singular-noun-masc-2)]
    [babel.italiano.morphology.verbs :as verbs]
-   [babel.italiano.pos :refer (pronoun-acc verb-aux)]
+   [babel.italiano.pos :refer (pronoun-acc)]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
    [clojure.string :refer (trim)]
@@ -1805,26 +1805,4 @@
     (unifyc lexical-entry
             {:synsem {:essere false}})
     true lexical-entry))
-
-;; TODO: remove: dead code
-(defn aux-verb-rule [lexical-entry]
-  "If a word's :synsem :aux is set to true, then auxify it (add all the
-  things that are consequent on its being an aux verb.
-   If, however, it is a verb and its :synsem :aux is not set,
-  then set its aux explicitly to false."
-  (cond (= (get-in lexical-entry '(:synsem :aux)) true)
-        (unifyc lexical-entry
-                verb-aux)
-        (and (= (get-in lexical-entry '(:synsem :cat)) :verb)
-             (= :none (get-in lexical-entry '(:synsem :aux) :none)))
-        (unifyc lexical-entry
-                {:synsem {:aux false}})
-        true
-        lexical-entry))
-
-;; TODO: remove: dead code
-(def italian-specific-rules
-  (list agreement 
-        essere-default
-        aux-verb-rule))
 

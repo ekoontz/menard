@@ -877,8 +877,9 @@
                 :sem {:pred :be
                       :activity false
                       :discrete false}}}
-      {:unify [essere-common verb-aux essere-aux-subject-agreement]
+      {:unify [essere-common essere-aux-subject-agreement]
        :notes "essere-aux"
+       :synsem {:aux true}
        :italiano {:notes "essere-aux"}}])
       
    "evitare"  {:synsem {:cat :verb

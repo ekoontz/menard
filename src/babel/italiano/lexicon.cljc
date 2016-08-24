@@ -14,8 +14,8 @@
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.italiano.morphology :refer [agreement aux-verb-rule essere-default exception-generator
-                                      italian-specific-rules phonize2]]
+   [babel.italiano.morphology :refer [agreement essere-default exception-generator
+                                      phonize2]]
    ;; These symbols from b.i.p. are all needed by the "eval" step in the lexical compilation pipeline
    [babel.italiano.pos :refer [agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb

@@ -42,15 +42,6 @@
      :synsem {:cat cat
               :agr agr}}))
 
-(def adjective
-  (unifyc pos/adjective
-          (let [agr (atom :top)
-                cat (atom :top)]
-            {:italiano {:agr agr
-                        :cat cat}
-             :synsem {:agr agr
-                      :cat cat}})))
-
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
 (def verb-subjective

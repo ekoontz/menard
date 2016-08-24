@@ -62,25 +62,26 @@
                    :sem {:physical-object true
                          :pred :airplane
                          :place true}}}
-   "affolato"
-   [;; comparative
-    (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
-          than-this {:pred :di
-                     :mod is-place}]
-      {:unify [adjective comparative is-place]
-       :synsem {:sem {:pred :affolato
-                      :arg1 is-place
-                      :arg2 is-place}
-                :subcat {:1 {:cat :noun
-                             :sem is-place}
-                         :2 {:cat :prep
-                             :sem than-this}}}}
-      ;; non-comparative
-      {:unify [adjective is-place]
-       :synsem {:cat :adjective
-                :sem {:pred :affolato
-                      :comparative false}}})]
-
+ "affolato"
+ [;; comparative
+  (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
+        than-this {:pred :di
+                   :mod is-place}]
+    {:unify [comparative is-place]
+     :synsem {:cat :adjective
+              :sem {:pred :affolato
+                    :arg1 is-place
+                    :arg2 is-place}
+              :subcat {:1 {:cat :noun
+                           :sem is-place}
+                       :2 {:cat :prep
+                           :sem than-this}}}}
+    ;; non-comparative
+    {:unify [is-place]
+     :synsem {:cat :adjective
+              :sem {:pred :affolato
+                    :comparative false}}})]
+ 
    "aggiungere" {:synsem {:cat :verb
                           :sem {:pred :add}}}
    "aiutare"
@@ -94,19 +95,20 @@
    {:synsem {:cat :exclamation
              :sem {:pred :bye}}}
 
-   "alto"
-   [;; non-comparative:
-    {:unify [adjective non-comparative-adjective]
-     :synsem {:cat :adjective
-              :sem {:pred :alto
-                    :comparative false
-                    :human true}}} ;; only humans can be tall.
-
-    ;; comparative:
-    {:unify [adjective comparative]
-       :synsem {:sem {:pred :alto
-                      :arg1 {:human true}
-                      :arg2 {:human true}}}}]
+ "alto"
+ [;; non-comparative:
+  {:unify [non-comparative-adjective]
+   :synsem {:cat :adjective
+            :sem {:pred :alto
+                  :comparative false
+                  :human true}}} ;; only humans can be tall.
+  
+  ;; comparative:
+  {:unify [comparative]
+   :synsem {:cat :adjective
+            :sem {:pred :alto
+                  :arg1 {:human true}
+                  :arg2 {:human true}}}}]
 
  "alzarsi" {:synsem {:cat :verb
                      :sem {:pred :get-up
@@ -275,16 +277,18 @@
      
    "ballare" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
-   "bello"
-   [{:unify [adjective non-comparative-adjective]
-     :synsem {:sem {:pred :bello}}}
-    
-    {:unify [adjective comparative]
-     :synsem {:sem {:pred :bello}}}]
-    
-   "bene"
-   {:synsem {:cat :adverb
-             :sem {:pred :bene}}}
+ "bello"
+ [{:unify [non-comparative-adjective]
+   :synsem {:cat :adjective
+            :sem {:pred :bello}}}
+  
+  {:unify [comparative]
+   :synsem {:cat :adjective
+            :sem {:pred :bello}}}]    
+
+ "bene"
+ {:synsem {:cat :adverb
+           :sem {:pred :bene}}}
 
    "bere"
     {:italiano {:passato "bevuto"
@@ -307,15 +311,13 @@
                     :subj {:animate true}
                     :obj {:drinkable true}}}}
    "bianco"
-     {:unify [adjective]
-      :synsem {:cat :adjective
+     {:synsem {:cat :adjective
                :sem {:pred :bianco
                      :comparative false
                      :physical-object true
                      :human false}}
       :italiano {:masc {:plur "bianchi"}
-                 :fem {:plur "bianche"}
-                 :cat :adjective}}
+                 :fem {:plur "bianche"}}}
    "birra"
    {:synsem {:agr {:gender :fem}
              :cat :noun
@@ -335,16 +337,14 @@
     ;; as a ortho-pholological rule "io" -plur-> "ia"
     :italiano {:plur "bracci"}}
 
-   "brutto"
-   ;; non-comparative
-   ;; TODO: add comparative
-     {:unify [adjective]
-      :synsem {:cat :adjective
-               :sem {:pred :brutto
-                     :comparative false
-                     }} ;; for now, no restrictions on what can be ugly.
-      :italiano {:cat :adjective}}
-    
+ "brutto"
+ ;; non-comparative
+ ;; TODO: add comparative
+ {:synsem {:cat :adjective
+           :sem {:pred :brutto
+                 :comparative false ;; for now, no restrictions on what can be ugly.
+                 }}}
+  
    "bucato"
    {:synsem {:cat :noun
              :agr {:gender :masc
@@ -427,8 +427,7 @@
     ]
 
    "cattivo"
-     {:unify [adjective]
-      :synsem {:cat :adjective
+     {:synsem {:cat :adjective
                :sem {:pred :cattivo
                      :comparative false
                      :human true;; TODO:should not need this because child => human.
@@ -581,12 +580,14 @@
                        :cat :verb}}
       
    "contento"
-   [{:unify [adjective non-comparative-adjective]
-     :synsem {:sem {:pred :contento
+   [{:unify [non-comparative-adjective]
+     :synsem {:cat :adjective
+              :sem {:pred :contento
                     :subj {:human true}}}}
     
-    {:unify [adjective comparative]
-     :synsem {:sem {:pred :contento
+    {:unify [comparative]
+     :synsem {:cat :adjective
+              :sem {:pred :contento
                     :subj {:human true}
                     :obj {:human true}}}}]
     
@@ -601,12 +602,14 @@
                               :sem {:pred :correspond}}}
 
    "corto"
-   [{:unify [adjective non-comparative-adjective]
-     :synsem {:sem {:pred :contento
+   [{:unify [non-comparative-adjective]
+     :synsem {:cat :adjective
+              :sem {:pred :contento
                     :subj {:human true}}}}
     
-    {:unify [adjective comparative]
-     :synsem {:sem {:pred :contento
+    {:unify [comparative]
+     :synsem {:cat :adjective
+              :sem {:pred :contento
                     :subj {:human true}
                     :obj {:human true}}}}]
 
@@ -703,8 +706,7 @@
    "difficile"
    ;; non-comparative
    ;; TODO: add comparative
-     {:unify [adjective]
-      :synsem {:cat :adjective
+     {:synsem {:cat :adjective
                :sem {:pred :difficile
                      :comparative false
                      ;; "difficile" has a very specific list of things it can modify:
@@ -717,8 +719,7 @@
                      :artifact true
                      :physical-object true
                      :edible false}}
-      :italiano {:cat :adjective
-                 :fem {:sing "difficile"}}}
+      :italiano {:fem {:sing "difficile"}}}
 
    "dipingere" {:synsem {:cat :verb
                          :sem {:pred :paint}}
@@ -953,8 +954,7 @@
               :synsem {:sem {:pred :manage}
                        :cat :verb}}
    "giallo"
-   {:unify [adjective]
-    :synsem {:cat :adjective
+   {:synsem {:cat :adjective
              :sem {:pred :yellow
                    :comparative false
                    :physical-object true
@@ -1375,8 +1375,7 @@
    ;; non-comparative
    ;; TODO: add comparative
    "nero"
-   {:unify [adjective]
-    :synsem {:cat :adjective
+   {:synsem {:cat :adjective
              :sem {:pred :nero
                    :comparative false
                    :physical-object true
@@ -1570,8 +1569,7 @@
    ;; non-comparative
    ;; TODO: add comparative
    "rosso"
-   {:unify [adjective]
-    :synsem {:cat :adjective
+   {:synsem {:cat :adjective
              :sem {:pred :rosso
                    :comparative false
                    :physical-object true

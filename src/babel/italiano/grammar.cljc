@@ -5,8 +5,7 @@
    [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
-   [babel.italiano.pos :refer [adjective
-                               agreement-of-obj-of-main-verb
+   [babel.italiano.pos :refer [agreement-of-obj-of-main-verb
                                agreement-of-subj-of-main-verb
                                cat-of-pronoun
                                comparative

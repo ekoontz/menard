@@ -1343,12 +1343,12 @@
            :sem {:pred :noon
                  :time true}}}
  "mi"
- {:unify [pronoun-reflexive]
-  :synsem {:cat :noun
+ {:synsem {:cat :noun
            :pronoun true
            :case :acc
            :agr {:person :1st
                  :number :sing}
+           :reflexive true
            :sem {:human true}
            :subcat '()}}
 
@@ -1633,23 +1633,28 @@
    "sgridare" {:synsem {:cat :verb
                         :sem {:subj {:human true}
                               :pred :scold}}}
- "si" [{:unify [pronoun-reflexive]
-        
-        ;; feminine singular
+ "si" [{;; feminine singular
         :synsem {:agr {:person :3rd
                        :gender :fem
-                       :number :sing}}}
+                       :number :sing}
+                 :cat :noun
+                 :pronoun true
+                 :reflexive true}}
        
-       {:unify [pronoun-reflexive]
-        ;; masculine singular
+       {;; masculine singular
         :synsem {:agr {:person :3rd
                        :gender :masc
-                       :number :sing}}}
+                       :number :sing}
+                 :cat :noun
+                 :pronoun true
+                 :reflexive true}}
        
        ;; plural: unspecified gender
-       {:unify [pronoun-reflexive]
-        :synsem {:agr {:person :3rd
-                       :number :plur}}}]
+       {:synsem {:agr {:person :3rd
+                       :number :plur}
+                 :cat :noun
+                 :pronoun true
+                 :reflexive true}}]
  
  "sistemare" {:synsem {:cat :verb
                        :sem {:pred :organize}}}
@@ -1734,6 +1739,7 @@
            :case :acc
            :agr {:person :2nd
                  :number :sing}
+           :reflexive true
            :sem {:human true}
            :subcat '()}
   :italiano {:initial true}}

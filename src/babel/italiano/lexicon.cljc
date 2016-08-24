@@ -17,9 +17,8 @@
    [babel.italiano.morphology :refer [agreement essere-default exception-generator
                                       phonize2]]
    ;; These symbols from b.i.p. are all needed by the "eval" step in the lexical compilation pipeline
-   [babel.italiano.pos :refer [countable-noun
-                               determiner
-                               pronoun-reflexive]]
+   [babel.italiano.pos :refer [determiner]]
+
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader]]
    [clojure.repl :refer [doc]]

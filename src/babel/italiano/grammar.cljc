@@ -540,6 +540,30 @@
                 (filter #(not (= false (get-in % [:generate-with] true))) v)]
             (if (not (empty? filtered-v))
               [k filtered-v])))))
+
+(defn model [lexicon-filter-fn grammar-filter-fn]
+  "create a model using a lexicon derived from the supplied filtering function."
+  (let [lexicon
+        (into {}
+              (for [[k v] @lexicon]
+                (let [filtered-v
+                      (filter lexicon-filter-fn v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))
+        grammar (filter grammar-filter-fn grammar)]
+    {:language "it"
+     :language-keyword :italiano
+     :morph fo
+     :morph-ps (fn [arg] (fo-ps1 arg))
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :generate {:lexicon lexicon}
+     :grammar grammar
+     :lexicon lexicon
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+
 (def small
   (future
     (let [lexicon @lexicon

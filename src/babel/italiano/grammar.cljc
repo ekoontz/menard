@@ -471,13 +471,16 @@
                    (unify-check c00
                                 comp-modifies-head
                                 modified
-                                (let [sem (atom :top)]
+                                (let [sem (atom :top)
+                                      essere (atom :top)] ;; TODO: use (default) to set this for all {:cat :verb} rules.
                                   {:synsem {:subcat '()
+                                            :essere essere
                                             :cat :verb
                                             :sem sem}
                                    :comp {:synsem {:cat :prep
                                                    :subcat '()}}
                                    :head {:modified false
+                                          :essere essere
                                           :synsem {:cat :verb
                                                    :sem sem
                                                    :subcat '()}}
@@ -486,14 +489,17 @@
                    (unify-check h00
                                 comp-modifies-head
                                 modified
-                                (let [sem (atom :top)]
+                                (let [sem (atom :top)
+                                      essere (atom :top)]  ;; TODO: use (default) to set this for all {:cat :verb} rules.
                                   {:synsem {:subcat '()
                                             :cat :verb
+                                            :essere essere 
                                             :sem sem}
                                    :comp {:synsem {:cat :prep
                                                    :subcat '()}}
                                    :head {:modified false
                                           :synsem {:cat :verb
+                                                   :essere essere
                                                    :sem sem
                                                    :subcat '()}}
                                    :rule "s-modified-modifier-last"}))))

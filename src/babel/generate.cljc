@@ -358,7 +358,7 @@ of this function with complements."
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
-  (filter #(not (fail? %))
+  (filter #(not (= :fail %))
           (mapfn (fn [rule]
                    (log/trace (str "candidate-parents: rule: " (:rule rule)))
                    (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
@@ -372,16 +372,9 @@ of this function with complements."
                      (let [result
                            (unifyc spec rule)]
                        (if (fail? result)
-                         (do
-                           (log/trace (str " rule: " (:rule rule) " failed (2)"))
-                           :fail)
-                         (do
-                           (log/trace (str " rule: " (:rule rule) " did not fail."))
-                           (log/info (str "returning parent with synsem: " (strip-refs (get-in result [:synsem]))))
-                           result)))
-                     (do
-                       (log/trace (str " rule: " (:rule rule) " failed (1)"))
-                       :fail)))
+                         :fail
+                         result))
+                     :fail))
                  rules)))
 
 (defn lazy-shuffle [seq]

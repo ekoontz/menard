@@ -99,5 +99,14 @@
                small
                do-this-many)))
 
+(defn gen-mark3 [do-this-many]
+  (let [do-this-many (Integer. do-this-many)]
+    (benchmark {:synsem {:subcat '()
+                         :essere true
+                         :sem {:tense :past
+                               :aspect :perfect}}
+                :root {:italiano {:italiano "andare"}}}
+               small
+               do-this-many)))
 
   

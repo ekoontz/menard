@@ -195,18 +195,16 @@
                          (get-lex immediate-parent :comp index))]
             (if indexed indexed
                 (flatten (vals lexicon)))))
-        
-        complement-pre-check (fn [child child-in-bolt]
-                               (log/trace (str "child-in-bolt: " (strip-refs child-in-bolt)))
-                               (log/trace (str "child: " (strip-refs child)))
-                               (not (fail?
-                                     (unify child
-                                            child-in-bolt))))
 
+        bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
+        bolt-child-italiano (strip-refs (get-in bolt (concat path [:italiano]) :top))
+        
         filtered-lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
-                                                (complement-pre-check (strip-refs (get-in lexeme [:synsem] :top))
-                                                                      (strip-refs (get-in bolt (concat path [:synsem]) :top))))
+                                                (and (not (fail? (unifyc (strip-refs (get-in lexeme [:synsem] :top))
+                                                                         (strip-refs bolt-child-synsem))))
+                                                     (not (fail? (unifyc (strip-refs (get-in lexeme [:italiano] :top))
+                                                                         (strip-refs bolt-child-italiano))))))
                                               complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]

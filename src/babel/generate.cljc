@@ -325,7 +325,6 @@ of this function with complements."
                                                     ;; in a language-specific way.
                                                     :essere (get-in parent [:head :essere] :top)
                                                     :sem (get-in parent [:head :synsem :sem] :top)}}
-                           filter-on-spec2 (get-in parent [:head])
                            subset (filter #(not (fail? (unifyc filter-on-spec %)))
                                           candidate-lexemes)]
                        (filter #(not (nil? %))

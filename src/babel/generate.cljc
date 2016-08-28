@@ -203,6 +203,9 @@
                                       (filter (fn [lexeme]
                                                 (and (not (fail? (unifyc (strip-refs (get-in lexeme [:synsem] :top))
                                                                          (strip-refs bolt-child-synsem))))
+                                                     ;; TODO: language-specific: allow
+                                                     ;; some way to have this optimization be expressed
+                                                     ;; in a language-specific way.
                                                      (not (fail? (unifyc (strip-refs (get-in lexeme [:italiano] :top))
                                                                          (strip-refs bolt-child-italiano))))))
                                               complement-candidate-lexemes))]

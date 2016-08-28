@@ -114,6 +114,13 @@
                  :propernoun true
                  :subcat '()}})
 
+      (default ;; a propernoun is agr=3rd singular
+       {:synsem {:cat :noun
+                 :pronoun false
+                 :propernoun true
+                 :agr {:number :sing
+                       :person :3rd}}})
+
       (default  ;; reflexive pronouns are case=acc
        {:synsem {:case :acc
                  :cat :noun

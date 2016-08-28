@@ -74,7 +74,7 @@
                     & {:keys [max-total-depth truncate-children]
                        :or {max-total-depth max-total-depth
                             truncate-children true}}]
-  (log/debug (str "generate-all: spec:" (strip-refs spec)))
+  (log/trace (str "generate-all: spec:" (strip-refs spec)))
   
   (let [language-model (if (future? language-model) @language-model language-model)
         total-depth (if total-depth total-depth 0)]
@@ -91,14 +91,14 @@
                                 truncate-children max-total-depth]
   (mapfn
    (fn [bolt]
-     (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
+     (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
    bolt-group))
 
 (defn log-bolt-groups [bolt-groups language-model]
-  (log/debug
+  (log/trace
    (str "bolt-groups:\n"
         (string/join "\n"
                      (map (fn [bolt-group]
@@ -116,9 +116,9 @@
                 bolt-groups)
         bolts (reduce concat bolt-groups)]
     (when (not (empty? bolt-groups))
-      (log/debug (str "bolt group count: " (count bolt-groups)))
-      (log/debug (str "total bolt count: " (count bolts)))
-      (log/debug (str "counts by group: [ "
+      (log/trace (str "bolt group count: " (count bolt-groups)))
+      (log/trace (str "total bolt count: " (count bolts)))
+      (log/trace (str "counts by group: [ "
                       (string/join ","
                                    (map (fn [group]
                                           (count group))
@@ -126,7 +126,7 @@
                       " ]"))
       (lazy-mapcat
        (fn [bolt]
-         (log/debug (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
+         (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
          (add-all-comps-with-paths [bolt] language-model total-depth
                                    (find-comp-paths-in (bolt-depth bolt))
                                    truncate-children max-total-depth))
@@ -179,7 +179,7 @@
                               & {:keys [max-total-depth truncate-children]
                                  :or {max-total-depth max-total-depth
                                       truncate-children true}}]
-  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt language-model)
+  (log/trace (str "add-complement-to-bolt: " (show-bolt bolt language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
         lexicon (if (-> :generate :lexicon language-model)
@@ -257,7 +257,7 @@
                                 (lazy-cat filtered-lexical-complements phrasal-complements))
                           true
                           (do
-                            (log/debug (str "successfully generated some complements for bolt:"
+                            (log/trace (str "successfully generated some complements for bolt:"
                                             (show-bolt bolt language-model)
                                             " matching spec:"
                                             (spec-info spec)))
@@ -298,7 +298,7 @@
 there is only one child for each parent, and that single child is the
 head of its parent. generate (above) 'decorates' each returned lightning bolt
 of this function with complements."
-  (log/debug (str "lightning-bolts(depth=" depth
+  (log/trace (str "lightning-bolts(depth=" depth
                  "; total-depth=" total-depth
                  "; max-total-depth=" max-total-depth
                  "; spec info:" (spec-info spec) ")"))
@@ -311,11 +311,10 @@ of this function with complements."
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
-    (log/debug (str "lightning-bolt: candidate-parents:" (string/join "," (map :rule parents))))
-    (log/debug (str "lightning-bolt:  for spec: " (strip-refs spec)))
+    (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (mapfn (fn [parent]
-                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
+                   (log/trace (str "looking for lexical heads of parent: " (:rule parent)))
                    (if (= false (get-in parent [:head :phrasal] false))
                      (let [candidate-lexemes (get-lex parent :head index)
                            filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
@@ -329,9 +328,9 @@ of this function with complements."
                                           candidate-lexemes)]
                        (filter #(not (nil? %))
                                (do (when (not (empty? subset))
-                                     (log/trace (str "adding lexical heads to parent:" (:rule parent)))
+                                     (log/debug (str "adding lexical heads to parent:" (:rule parent)))
                                      
-                                     (log/trace (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
+                                     (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
                                      (log/trace (str " with spec:" (spec-info spec))))
                                    (if (not (empty? subset))
                                      (over/overh parent (shuffle subset))
@@ -341,13 +340,14 @@ of this function with complements."
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
             (mapfn (fn [parent]
+                     (log/debug (str "looking for phrasal heads of parent: " (:rule parent)))
                      (over/overh parent
                                  (lightning-bolts language-model (get-in parent [:head])
                                                   (+ 1 depth) (+ 1 total-depth)
                                                   :max-total-depth max-total-depth)))
                    parents)
             (do
-              (log/debug (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
+              (log/trace (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
               nil))]
       (if (lexemes-before-phrases total-depth max-total-depth)
         (lazy-cat lexical phrasal)
@@ -358,7 +358,7 @@ of this function with complements."
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
   (filter #(not (fail? %))
           (mapfn (fn [rule]
-                   (log/debug (str "candidate-parents: rule: " (:rule rule)))
+                   (log/trace (str "candidate-parents: rule: " (:rule rule)))
                    (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
                                                 (get-in spec [:synsem :cat] :top))))
                             (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
@@ -371,13 +371,14 @@ of this function with complements."
                            (unifyc spec rule)]
                        (if (fail? result)
                          (do
-                           (log/debug (str " rule: " (:rule rule) " failed (2)"))
+                           (log/trace (str " rule: " (:rule rule) " failed (2)"))
                            :fail)
                          (do
-                           (log/debug (str " rule: " (:rule rule) " did not fail."))
+                           (log/trace (str " rule: " (:rule rule) " did not fail."))
+                           (log/info (str "returning parent with synsem: " (strip-refs (get-in result [:synsem]))))
                            result)))
                      (do
-                       (log/debug (str " rule: " (:rule rule) " failed (1)"))
+                       (log/trace (str " rule: " (:rule rule) " failed (1)"))
                        :fail)))
                  rules)))
 

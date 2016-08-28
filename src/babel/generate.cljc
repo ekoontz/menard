@@ -315,23 +315,28 @@ of this function with complements."
     (log/debug (str "lightning-bolt:  for spec: " (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (mapfn (fn [parent]
-                         (if (= false (get-in parent [:head :phrasal] false))
-                           (let [candidate-lexemes (get-lex parent :head index)
-                                 filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
-                                                          :essere (get-in parent [:head :essere] :top)
-                                                          :sem (get-in parent [:head :synsem :sem] :top)}}
-                                 subset (filter #(not (fail? (unifyc filter-on-spec %)))
-                                                candidate-lexemes)]
-                             (filter #(not (nil? %))
-                                     (do (when (not (empty? subset))
-                                           (log/debug (str "adding lexical heads to parent:" (:rule parent)))
-                                           
-                                           (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
-                                           (log/debug (str " with spec:" (spec-info spec))))
-                                         (if (not (empty? subset))
-                                           (over/overh (copy parent) (map copy (shuffle subset)))
-                                           []))))))
-                       parents)
+                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
+                   (if (= false (get-in parent [:head :phrasal] false))
+                     (let [candidate-lexemes (get-lex parent :head index)
+                           filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
+                                                    ;; TODO: :essere is language-specific: allow
+                                                    ;; some way to have this constraint be expressed
+                                                    ;; in a language-specific way.
+                                                    :essere (get-in parent [:head :essere] :top)
+                                                    :sem (get-in parent [:head :synsem :sem] :top)}}
+                           filter-on-spec2 (get-in parent [:head])
+                           subset (filter #(not (fail? (unifyc filter-on-spec %)))
+                                          candidate-lexemes)]
+                       (filter #(not (nil? %))
+                               (do (when (not (empty? subset))
+                                     (log/trace (str "adding lexical heads to parent:" (:rule parent)))
+                                     
+                                     (log/trace (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
+                                     (log/trace (str " with spec:" (spec-info spec))))
+                                   (if (not (empty? subset))
+                                     (over/overh parent (shuffle subset))
+                                     []))))))
+                 parents)
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))

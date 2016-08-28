@@ -197,14 +197,16 @@
                 (flatten (vals lexicon)))))
         
         complement-pre-check (fn [child child-in-bolt]
+                               (log/trace (str "child-in-bolt: " (strip-refs child-in-bolt)))
+                               (log/trace (str "child: " (strip-refs child)))
                                (not (fail?
-                                     (unifyc child
-                                             child-in-bolt))))
+                                     (unify child
+                                            child-in-bolt))))
 
         filtered-lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
-                                                (complement-pre-check (get-in lexeme [:synsem] :top)
-                                                                      (get-in bolt (concat path [:synsem]) :top)))
+                                                (complement-pre-check (strip-refs (get-in lexeme [:synsem] :top))
+                                                                      (strip-refs (get-in bolt (concat path [:synsem]) :top))))
                                               complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]

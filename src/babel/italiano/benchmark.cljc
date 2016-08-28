@@ -49,8 +49,7 @@
                 #(println (with-out-str
                             (time (mapcat :parses (parse expr)))))))))
 
-;; lein run -m babel.italiano.benchmark/gen-mark 10
-(defn gen-mark [do-this-many]
+(defn benchmark [spec model do-this-many]
   (let [do-this-many (Integer. do-this-many)
         timings
         (->>
@@ -58,13 +57,8 @@
                (repeatedly 
                 #(with-out-str (time (fo
                                       (let [generated
-                                            (generate {:synsem {:subcat '()
-                                                                :essere true
-                                                                :sem {:pred :be-called
-                                                                      :tense :present
-                                                                      :subj :top
-                                                                      :iobj :top}}}
-                                                      :model small)
+                                            (generate spec
+                                                      :model model)
                                             output (log/info (fo generated))]
                                         generated))))))
          (map #(string/replace % #".*time:\s*([0-9.]+).*" "$1"))
@@ -84,6 +78,26 @@
       (println result)
       result)))
 
+;; lein run -m babel.italiano.benchmark/gen-mark 10
+(defn gen-mark [do-this-many]
+  (let [do-this-many (Integer. do-this-many)]
+    (benchmark {:synsem {:subcat '()
+                         :sem {:pred :be-called
+                               :tense :present
+                               :subj :top
+                               :iobj :top}}}
+               small
+               do-this-many)))
+
+(defn gen-mark2 [do-this-many]
+  (let [do-this-many (Integer. do-this-many)]
+    (benchmark {:synsem {:subcat '()
+                         :essere false
+                         :sem {:pred :do
+                               :tense :past
+                               :aspect :perfect}}}
+               small
+               do-this-many)))
 
 
   

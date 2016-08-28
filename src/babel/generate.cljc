@@ -359,23 +359,23 @@ of this function with complements."
   "find subset of _rules_ for which each member unifies successfully with _spec_"
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
   (filter #(not (= :fail %))
-          (mapfn (fn [rule]
-                   (log/trace (str "candidate-parents: rule: " (:rule rule)))
-                   (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
-                                                (get-in spec [:synsem :cat] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
-                                                (get-in spec [:synsem :infl] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
-                                                (get-in spec [:synsem :sem :tense] :top))))
-                            (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
-                                                (get-in spec [:synsem :modified] :top)))))
-                     (let [result
+          (pmap (fn [rule]
+                  (log/trace (str "candidate-parents: rule: " (:rule rule)))
+                  (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
+                                               (get-in spec [:synsem :cat] :top))))
+                           (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
+                                               (get-in spec [:synsem :infl] :top))))
+                           (not (fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
+                                               (get-in spec [:synsem :sem :tense] :top))))
+                           (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
+                                               (get-in spec [:synsem :modified] :top)))))
+                    (let [result
                            (unifyc spec rule)]
-                       (if (fail? result)
-                         :fail
-                         result))
-                     :fail))
-                 rules)))
+                      (if (fail? result)
+                        :fail
+                        result))
+                    :fail))
+                rules)))
 
 (defn lazy-shuffle [seq]
   (lazy-seq (shuffle seq)))

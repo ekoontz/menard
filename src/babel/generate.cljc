@@ -196,15 +196,15 @@
             (if indexed indexed
                 (flatten (vals lexicon)))))
         
-        complement-pre-check (fn [child parent path-to-child]
-                               (let [child-in-bolt (get-in bolt path-to-child)]
-                                 (not (fail?
-                                       (unifyc (get-in child [:synsem] :top)
-                                               (get-in child-in-bolt [:synsem] :top))))))
+        complement-pre-check (fn [child child-in-bolt]
+                               (not (fail?
+                                     (unifyc child
+                                             child-in-bolt))))
 
         filtered-lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
-                                                (complement-pre-check lexeme bolt path))
+                                                (complement-pre-check (get-in lexeme [:synsem] :top)
+                                                                      (get-in bolt (concat path [:synsem]) :top)))
                                               complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]

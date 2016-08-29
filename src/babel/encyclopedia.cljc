@@ -221,8 +221,23 @@ as a map of implications"}
                    :obj {:animate true}}}}
    {:synsem {:aux false
              :cat :verb
+             :sem {:activity true
+                   :obj {:human true}
+                   :pred :aiutare}}}
+   {:synsem {:aux false
+             :cat :verb
+             :sem {:activity false
+                   :discrete false
+                   :pred :amare
+                   :subj {:human true}}}}
+   {:synsem {:aux false
+             :cat :verb
              :sem {:pred :chat
                    :subj {:human true}}}}
+   {:synsem {:aux false
+             :cat :verb
+             :sem {:pred :get-up
+                   :subj {:animate true}}}}
    {:synsem {:aux false
              :cat :verb
              :sem {:pred :study

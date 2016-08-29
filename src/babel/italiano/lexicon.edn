@@ -84,9 +84,7 @@
    "aiutare"
    {:synsem {:essere false
              :cat :verb
-             :sem {:pred :aiutare
-                   :activity true
-                   :obj {:human true}}}}
+             :sem {:pred :aiutare}}}
 
    "alla prossima"
    {:synsem {:cat :exclamation
@@ -108,27 +106,23 @@
 
  "alzarsi" {:synsem {:cat :verb
                      :sem {:pred :get-up
-                           :reflexive true
-                           :subj {:animate true}}}}
-   "amare"
-    {:synsem {:cat :verb
-              :essere false
-              :sem {:pred :amare
-                    :activity false
-                    :discrete false
-                    :subj {:human true}}}}
-   "amica"
-   {:synsem {:agr {:gender :fem}
-             :cat :noun
-             :sem {:pred :amico
-                   :human true
-                   :child false}}}
-   "amico"
-   {:synsem {:agr {:gender :masc}
-             :cat :noun
-             :sem {:pred :amico
-                   :human true
-                   :child false}}}
+                           :reflexive true}}}
+ "amare"
+ {:synsem {:cat :verb
+           :essere false
+           :sem {:pred :amare}}}
+ "amica"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :amico
+                 :human true
+                 :child false}}}
+ "amico"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :amico
+                 :human true
+                 :child false}}}
    
    "ammirare" {:synsem {:cat :verb
                         :sem {:pred :admire}}}

@@ -211,38 +211,35 @@ as a map of implications"}
 
 ;; {:aux false}: needed to prevent matching aux verbs because
 ;; they lack a {:pred} value.
-(def subj-pred-defaults
-  [{:synsem {:aux false
-             :cat :verb
-             :sem {:pred :abbracciare
-                   :active false
-                   :discrete false
-                   :subj {:human true}
-                   :obj {:animate true}}}}
-   {:synsem {:aux false
-             :cat :verb
-             :sem {:activity true
-                   :obj {:human true}
-                   :pred :aiutare}}}
-   {:synsem {:aux false
-             :cat :verb
-             :sem {:activity false
-                   :discrete false
-                   :pred :amare
-                   :subj {:human true}}}}
-   {:synsem {:aux false
-             :cat :verb
-             :sem {:pred :chat
-                   :subj {:human true}}}}
-   {:synsem {:aux false
-             :cat :verb
-             :sem {:pred :get-up
-                   :subj {:animate true}}}}
-   {:synsem {:aux false
-             :cat :verb
-             :sem {:pred :study
-                   :subj {:human true}
-                   :obj {:legible true}}}}])
+(def verb-pred-defaults
+  (map #(unify {:synsem {:aux false
+                         :cat :verb}}
+               {:synsem {:sem %}})
+         
+       [{:pred :abbracciare
+         :active false
+         :discrete false
+         :subj {:human true}
+         :obj {:animate true}}
+
+        {:activity true
+         :obj {:human true}
+         :pred :aiutare}
+        
+        {:activity false
+         :discrete false
+         :pred :amare
+         :subj {:human true}}
+        
+        {:pred :chat
+         :subj {:human true}}
+        
+        {:pred :get-up
+         :subj {:animate true}}
+        
+        {:pred :study
+         :subj {:human true}
+         :obj {:legible true}}]))
 
 (defn null-sem-impl [input]
   "null sem-impl: simply return input."

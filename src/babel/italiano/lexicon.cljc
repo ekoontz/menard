@@ -6,8 +6,10 @@
 
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
+   [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [compile-lex if-has if-then
                             default
+                            do-subj-pred-defaults
                             filter-vals listify
                             map-function-on-map-vals
                             new-entries rewrite-keys unify]]
@@ -267,6 +269,8 @@
        {:synsem {:cat :verb
                  :essere false}})
 
+      (do-subj-pred-defaults encyc/subj-pred-defaults)
+      
       ;; </verb default rules>
 
       ;; <preposition default rules>
@@ -367,7 +371,3 @@
   (->
    (clojure.java.io/resource "babel/italiano/lexicon.edn")
    edn2lexicon))
-
-
-
-

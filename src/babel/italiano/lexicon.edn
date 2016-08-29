@@ -32,28 +32,21 @@
 
  "abbassare" {:synsem {:cat :verb
                        :sem {:pred :lower}}}
- "abbracciare"
- {:synsem {:cat :verb
-           :essere false
-           :sem {:pred :abbracciare
-                 :activity false
-                 :discrete false
-                 :subj {:human true}
-                 :obj {:animate true}}}}
+ "abbracciare" {:synsem {:cat :verb
+                         :essere false
+                         :sem {:pred :abbracciare}}}
  
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
-   "accompagnare" {:synsem {:cat :verb
-                            :sem {:pred :accompany}}}
-
-   "acqua"
-   {:synsem {:agr {:gender :fem}
-             :cat :noun
-             :sem {:artifact false
-                   :animate false
-                   :pred :acqua}}}
-
+ "accompagnare" {:synsem {:cat :verb
+                          :sem {:pred :accompany}}}
+ "acqua"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:artifact false
+                 :animate false
+                 :pred :acqua}}}
  "addormentarsi"
  {:synsem {:cat :verb
            :sem {:pred :fall-asleep
@@ -457,8 +450,8 @@
                       :sem {:subj {:human true}
                             :pred :have-dinner}}}
      
-   "chiacchierare" {:synsem {:cat :verb
-                             :sem {:pred :chat}}}
+ "chiacchierare" {:synsem {:cat :verb
+                           :sem {:pred :chat}}}
       
  "chiamarsi" (let [human (atom :top)]
                {:synsem {:cat :verb

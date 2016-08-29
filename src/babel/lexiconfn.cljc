@@ -12,7 +12,8 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists? fail-path fail? get-in isomorphic?
+   [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists?
+                                     fail-path fail? get-in isomorphic?
                                      serialize strip-refs unifyc]]))
 
 (declare listify)
@@ -801,3 +802,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
   (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] :true)))
                                    (get lexicon k))])
                 (keys lexicon))))
+
+(defn do-subj-pred-defaults [lexicon subj-pred-defaults]
+  (if (not (empty? subj-pred-defaults))
+    (do-subj-pred-defaults (default lexicon (first subj-pred-defaults))
+                           (rest subj-pred-defaults))
+    lexicon))

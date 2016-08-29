@@ -209,6 +209,26 @@ as a map of implications"}
    }
   )
 
+;; {:aux false}: needed to prevent matching aux verbs because
+;; they lack a {:pred} value.
+(def subj-pred-defaults
+  [{:synsem {:aux false
+             :cat :verb
+             :sem {:pred :abbracciare
+                   :active false
+                   :discrete false
+                   :subj {:human true}
+                   :obj {:animate true}}}}
+   {:synsem {:aux false
+             :cat :verb
+             :sem {:pred :chat
+                   :subj {:human true}}}}
+   {:synsem {:aux false
+             :cat :verb
+             :sem {:pred :study
+                   :subj {:human true}
+                   :obj {:legible true}}}}])
+
 (defn null-sem-impl [input]
   "null sem-impl: simply return input."
   (log/trace (str "null-sem-impl:" (strip-refs input)))

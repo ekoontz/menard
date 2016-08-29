@@ -803,8 +803,8 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                                    (get lexicon k))])
                 (keys lexicon))))
 
-(defn do-subj-pred-defaults [lexicon subj-pred-defaults]
-  (if (not (empty? subj-pred-defaults))
-    (do-subj-pred-defaults (default lexicon (first subj-pred-defaults))
-                           (rest subj-pred-defaults))
+(defn verb-pred-defaults [lexicon verb-pred-default-list]
+  (if (not (empty? verb-pred-default-list))
+    (verb-pred-defaults (default lexicon (first verb-pred-default-list))
+                        (rest verb-pred-default-list))
     lexicon))

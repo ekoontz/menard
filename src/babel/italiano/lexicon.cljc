@@ -7,12 +7,10 @@
    ;; TODO: use dag_unify/unifyc instead:
    ;; deprecate lexiconfn/unify.
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer [compile-lex if-has if-then
-                            default
-                            do-subj-pred-defaults
-                            filter-vals listify
-                            map-function-on-map-vals
-                            new-entries rewrite-keys unify]]
+   [babel.lexiconfn :refer [compile-lex if-has if-then default
+                            filter-vals listify map-function-on-map-vals
+                            new-entries rewrite-keys verb-pred-defaults
+                            unify]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -269,7 +267,7 @@
        {:synsem {:cat :verb
                  :essere false}})
 
-      (do-subj-pred-defaults encyc/subj-pred-defaults)
+      (verb-pred-defaults encyc/verb-pred-defaults)
       
       ;; </verb default rules>
 

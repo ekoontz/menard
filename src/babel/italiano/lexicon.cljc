@@ -4,7 +4,7 @@
   (:require
    [babel.lexicon :refer [universals]]
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer [compile-lex if-has if-then default
+   [babel.lexiconfn :refer [default
                             filter-vals listify map-function-on-map-vals
                             new-entries rewrite-keys verb-pred-defaults
                             ;; TODO: use dag_unify/unifyc instead:

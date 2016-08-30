@@ -45,25 +45,16 @@
 
    "abandon" [{:synsem {:cat :verb
                         :sem {:pred :abandon}
-                        :subcat {:1 {:cat :noun
-                                     :sem {:human true}}
-                                 :2 {:cat :noun
-                                     :sem {:physical-object true}}}}}
-              {:synsem {:cat :verb
-                        :sem {:pred :abandon}
-                        :subcat {:1 {:cat :noun
-                                     :sem {:human true}}
-                                 :2 '()}}}]
+                        :subcat {:1 {:cat :noun}
+                                 :2 {:cat :noun}}}}]
 
    "accept"  {:synsem {:cat :verb
                        :sem {:pred :accept}}}
    
    "accompany" {:synsem {:cat :verb
                          :sem {:pred :accompany}
-                         :subcat {:1 {:cat :noun
-                                      :sem {:animate true}}
-                                  :2 {:cat :noun
-                                      :sem {:human true}}
+                         :subcat {:1 {:cat :noun}
+                                  :2 {:cat :noun}
                                   :3 '()}}
                 :english {:past "accompanied"}}
    
@@ -77,8 +68,7 @@
                         :sem {:pred :announce}}}
 
    "answer" {:synsem {:cat :verb
-                      :sem {:pred :answer
-                            :subj {:human true}}}}
+                      :sem {:pred :answer}}}
 
    "approve" {:synsem {:cat :verb
                 :sem {:pred :approve}}}
@@ -87,13 +77,11 @@
                       :sem {:pred :arrive}}}
    
    "ask" {:synsem {:cat :verb
-                   :sem {:pred :chiedere
-                         :subj {:human true}}}}
+                   :sem {:pred :chiedere}}}
 
    "assume" {:synsem {:cat :verb
                       :sem {:pred :assume}
-                      :subcat {:1 {:cat :noun
-                                   :sem {:human true}}
+                      :subcat {:1 {:cat :noun}
                                :2 {:cat :comp
                                    :comp-type :that
                                    :subcat '()}}}}
@@ -112,17 +100,12 @@
 
    "attend" {:synsem {:cat :verb
                       :sem {:pred :attend}
-                      :subcat {:1 {:cat :noun
-                                   :sem {:human true}}
-                               :2 {:cat :noun
-                                   :pronoun false
-                                   :sem {:event true
-                                         :human false}}}}}
+                      :subcat {:1 {:cat :noun}
+                               :2 {:cat :noun}}}}
 
    "avoid" {:synsem {:cat :verb
                      :sem {:pred :avoid}
-                     :subcat {:1 {:cat :noun
-                                  :sem {:animate true}}
+                     :subcat {:1 {:cat :noun}
                               :2 {:cat :noun}}}}
 
    "backpack" {:synsem {:cat :noun

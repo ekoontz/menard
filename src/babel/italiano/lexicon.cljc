@@ -3,13 +3,12 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.lexicon :refer [universals]]
-
-   ;; TODO: use dag_unify/unifyc instead:
-   ;; deprecate lexiconfn/unify.
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [compile-lex if-has if-then default
                             filter-vals listify map-function-on-map-vals
                             new-entries rewrite-keys verb-pred-defaults
+                            ;; TODO: use dag_unify/unifyc instead:
+                            ;; deprecate lexiconfn/unify.
                             unify]]
 
    #?(:clj [clojure.tools.logging :as log])

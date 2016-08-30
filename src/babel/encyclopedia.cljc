@@ -230,10 +230,41 @@ as a map of implications"}
          :discrete false
          :pred :amare
          :subj {:human true}}
+
+        {:pred :bring
+         :subj {:human true}
+         :obj {:buyable true}}
+
+        {:pred :carry
+         :subj {:human true}
+         :obj {:physical-object true}}
         
+        {:pred :cenare
+         :subj {:human true}}
+
+        {:pred :cercare
+         :subj {:animate true}}
+        
+        {:pred :change-clothes
+         :subj {:human true}}
+
         {:pred :chat
          :subj {:human true}}
 
+        {:pred :come
+         :subj {:animate true}}
+
+        {:pred :comprare
+         :subj {:human true}
+         :obj {:buyable true}}
+        
+        {:pred :deludere
+         :obj {:human true}}
+        
+        {:pred :drink
+         :subj {:animate true}
+         :obj {:drinkable true}}
+        
         {:pred :earn
          :subj {:human true}
          :obj {:human false}}
@@ -241,8 +272,20 @@ as a map of implications"}
         {:pred :exit
          :subj {:animate true}}
         
+        {:pred :fall-asleep
+         :subj {:animate true}}
+
+        {:pred :get-angry
+         :subj {:animate true}}
+
+        {:pred :get-bored
+         :subj {:animate true}}
+
         {:pred :get-dressed
          :subj {:human true}}
+
+        {:pred :get-off
+         :subj {:animate true}}
 
         {:pred :get-on
          :subj {:animate true}}
@@ -257,12 +300,42 @@ as a map of implications"}
          :subj {:human true}
          :obj {:game true}}
 
+        {:pred :go
+         :subj {:animate true}}
+
+        {:pred :go-downstairs
+         :subj {:animate true}}
+
         {:pred :go-out
          :subj {:animate true}}
 
         {:pred :go-upstairs
          :subj {:animate true}}
 
+        {:pred :have-fun
+         :reflexive true
+         :subj {:human true}}
+
+        {:pred :hug
+         :subj {:human true}
+         :obj {:animate true}}
+
+        {:pred :imagine
+         :subj {:human true}}
+
+        {:pred :leave
+         :subj {:animate true}}
+
+        {:pred :leave-behind
+         :subj {:animate true}}
+
+        {:pred :live
+         :subj {:animate true}}
+        
+        {:pred :mangiare
+         :subj {:animate true}
+         :obj {:edible true}}
+        
         {:pred :read
          :subj {:human true}
          :obj {:legible true}}
@@ -270,34 +343,57 @@ as a map of implications"}
         {:pred :scold
          :subj {:human true}}
         
+        {:pred :sleep
+         :subj {:animate true}}
+
         {:pred :speak
          :subj {:human true}
          :obj {:speakable true}}
 
+        {:pred :steal
+         :subj {:animate true}
+         :obj {:physical-object true
+               :human false
+               :place false}}
+        
         {:pred :study
          :subj {:human true}
          :obj {:legible true}}
 
+        {:pred :suonare
+         :subj {:human true}
+         :obj {:human false}} ;; TODO: split suonare into two preds: 1. play + song; 2. play + instrument.
+        
         {:pred :talk
          :subj {:human true}
          :obj {:speakable true}}
 
         {:pred :think
          :subj {:human true}}
+
+        {:pred :try
+         :subj {:animate true}}
         
         {:pred :vendere
          :subj {:human true}
          :obj {:human false}}
 
         {:pred :wake-up
+         :reflexive true
          :subj {:animate true}}
         
+        {:pred :want
+         :subj {:animate true}}
+
         {:pred :wash
          :subj {:human true}}
 
         {:pred :win
          :subj {:human true}
          :obj {:human false}}
+
+        {:pred :wonder
+         :subj {:human true}}
 
         {:pred :work-human
          :subj {:human true}}
@@ -338,13 +434,11 @@ as a map of implications"}
         (log/debug (str "sem-impl so far: " merged))
         (if (not (= merged input)) ;; TODO: make this check more efficient: count how many rules were hit
           ;; rather than equality-check to see if merged has changed.
-          (sem-impl merged original-input) ;; we've added some new information: more implications possible from that.
+          ;; we've added some new information: more implications
+          ;; may be possible from that, so call (sem-impl) again.
+          (sem-impl merged original-input)
 
           ;; else, no more implications: done.
           (do
             (log/debug (str "sem-impl:" (strip-refs original-input) " -> " (strip-refs merged)))
             merged))))))
-
-
-
-

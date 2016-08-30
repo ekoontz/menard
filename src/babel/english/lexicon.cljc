@@ -2121,11 +2121,16 @@
                               morph/exception-generator 
                               morph/phonize morph/english-specific-rules)
                  
+                 ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
+                 (default
+                  {:synsem {:cat :verb
+                            :subcat {:2 {:cat :top}}}})
+
                  ;; add :sem :obj if necessary, so that intransitivize is triggered.
                  (if-then {:synsem {:cat :verb
                                     :subcat {:2 {:cat :noun}}}}
                           {:synsem {:sem {:obj {:pred :top}}}})
-
+                 
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.
                  intransitivize

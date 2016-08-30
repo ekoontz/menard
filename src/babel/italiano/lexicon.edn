@@ -211,27 +211,17 @@
    ;; 1. "avere": to possess something buyable
    [{:unify [avere-common]
      :note "avere (possess)"
-     :synsem {:sem {:pred :have
-                    :activity false
-                    :discrete false
-                    :subj {:human true}
-                    :obj {:buyable true}}}}
+     :synsem {:sem {:pred :have}}}
 
     ;; 2. "avere": to be in a relation with: e.g. "I have two children"
     {:unify [avere-common]
      :note "avere (relation)"
-     :synsem {:sem {:pred :have
-                    :activity false
-                    :discrete false
-                    :obj {:human true}}}}
+     :synsem {:sem {:pred :have}}}
 
     ;; 3. avere: unspecified object
     {:unify [avere-common]
      :note "avere (possess): unspecified object"
-     :synsem {:sem {:pred :have
-                    :activity false
-                    :discrete false
-                    :subj {:human true}}}}
+     :synsem {:sem {:pred :have}}}
 
     ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
     (let [agr (atom :top)]
@@ -364,15 +354,14 @@
  
  "cambiarsi" {:synsem {:cat :verb
                        :sem {:pred :change-clothes
-                             :reflexive true
-                             :subj {:human true}}}}
+                             :reflexive true}}}
  
  "cancellare" {:synsem {:cat :verb
                         :sem {:pred :erase}}}
 
  "cantare" {:synsem {:cat :verb
-                     :sem {:pred :sing
-                           :subj {:human true}}}}
+                     :sem {:pred :sing}}}
+
  "camicia"
  {:synsem {:agr {:gender :fem}
            :cat :noun
@@ -440,8 +429,7 @@
   
  "cenare" {:synsem {:cat :verb
                     :essere false
-                    :sem {:subj {:human true}
-                          :pred :have-dinner}}}
+                    :sem {:pred :have-dinner}}}
      
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}
@@ -468,8 +456,7 @@
              :italiano {:passato "chiesto"}}
 
  "chiudere" {:synsem {:cat :verb
-                      :sem {:subj {:human true}
-                            :pred :close}}
+                      :sem {:pred :close}}
              :italiano {:passato "chiuso"}}
 
  "ci"
@@ -491,10 +478,8 @@
       
  "cercare" {:synsem {:cat :verb
                      :essere false
-                     :sem {:activity true
-                           :discrete false
-                           :pred :cercare
-                           :subj {:animate true}}}}
+                     :sem {:pred :cercare}}}
+
  "città"
  {:synsem {:agr {:gender :fem}
            :cat :noun
@@ -516,16 +501,10 @@
  "cominciare"
  [{:synsem {:cat :verb
             :essere false
-            :sem {:activity true
-                  :discrete false
-                  :pred :begin
-                  :subj {:animate true}}}}
+            :sem {:pred :begin}}}
   {:synsem {:cat :verb
             :essere false
-            :sem {:activity true
-                  :discrete false
-                  :pred :start
-                  :subj {:animate true}}}}]
+            :sem {:pred :start}}}]
  "compito"
  {:synsem {:agr {:gender :masc}
            :cat :noun
@@ -540,9 +519,7 @@
  
  "comprare" {:synsem {:cat :verb
                       :essere false
-                      :sem {:pred :comprare
-                            :subj {:human true}
-                            :obj {:buyable true}}}}
+                      :sem {:pred :comprare}}}
    
  "condividere"  {:synsem {:cat :verb
                           :sem {:pred :share}}
@@ -634,21 +611,14 @@
                  :gender :fem}}}
  "deludere"
  {:italiano {:passato "deluso"}
-  :synsem {:cat :Verb
-           :essere false
-           :sem {:deliberate false
-                 :discrete true
-                 :activity false
-                   :pred :deludere
-                 :subj {:human true}
-                 :obj {:human true}}}}
+  :synsem {:cat :verb
+           :sem {:pred :deludere}}}
 
  "desiderare"  {:synsem {:cat :verb
                          :sem {:pred :desire}}}
 
  "dettare" {:synsem {:cat :verb
                      :sem {:pred :dictate}}}
-   
  "di"
  {:synsem {:cat :prep
            :sem {:pred :di
@@ -718,8 +688,7 @@
  
  "divertirsi" {:synsem {:cat :verb
                         :sem {:pred :have-fun
-                              :reflexive true
-                              :subj {:human true}}}}
+                              :reflexive true}}}
 
  "domanda" {:synsem {:agr {:gender :fem}
                      :cat :noun
@@ -940,8 +909,7 @@
 
  "funzionare" {:synsem {:cat :verb
                         :essere false
-                        :sem {:pred :work-nonhuman
-                              :subj {:human false}}}}
+                        :sem {:pred :work-nonhuman}}}
 
  "gatto"  {:synsem {:agr {:gender :masc}
                     :cat :noun
@@ -964,9 +932,7 @@
            :propernoun true}}
 
  "giocare"  {:synsem {:cat :verb
-                      :sem {;:obj {:games true}
-                            :subj {:human true}
-                            :pred :giocare}}
+                      :sem {:pred :giocare}}
              :italiano {:future-stem "giocher"}}
 
  "Giovanni e io"
@@ -981,13 +947,10 @@
             :subcat '()}}]
 
  "gridare" {:synsem {:cat :verb
-                     :sem {:subj {:human true}
-                           :pred :yell}}}
+                     :sem {:pred :yell}}}
 
  "guadagnare"  {:synsem {:cat :verb
-                         :sem {:pred :earn
-                               :subj {:human true}
-                               :obj {:human false}}}}
+                         :sem {:pred :earn}}}
 
  "guidare"  {:synsem {:cat :verb
                       :sem {:pred :guidare}}}
@@ -1136,12 +1099,10 @@
 
  "lavarsi" {:synsem {:cat :verb
                      :sem {:pred :wash
-                           :reflexive true
-                           :subj {:human true}}}}
+                           :reflexive true}}}
 
  "lavorare"  {:synsem {:cat :verb
-                       :sem {:subj {:human true}
-                             :pred :work-human}}}
+                       :sem {:pred :work-human}}}
  "le"
  {:synsem {:cat :det
            :def :def
@@ -1166,9 +1127,7 @@
   :synsem {:cat :verb
            :essere false
            :sem {:discrete false
-                 :pred :read
-                 :subj {:human true}
-                 :obj {:legible true}}}}
+                 :pred :read}}}
  
  "lezione" {:synsem {:agr {:gender :fem}
                      :cat :noun
@@ -1416,13 +1375,9 @@
                         :def :def}}}}
  "parlare"
  [{:synsem {:cat :verb
-            :sem {:pred :speak
-                  :subj {:human true}
-                  :obj {:speakable true}}}}
+            :sem {:pred :speak}}}
   {:synsem {:cat :verb
-            :sem {:pred :talk
-                  :subj {:human true}
-                  :obj {:speakable true}}}}]
+            :sem {:pred :talk}}}]
    
  "partire" {:synsem {:essere true 
                      :cat :verb
@@ -1430,10 +1385,7 @@
  "pensare"
  {:synsem {:cat :verb
            :essere false
-           :sem {:pred :think
-                 :activity false
-                 :discrete false
-                 :subj {:human true}}}}
+           :sem {:pred :think}}}
  
  "piangere" {:italiano {:passato "pianto"}
              :synsem {:cat :verb
@@ -1477,8 +1429,7 @@
  
  "prepararsi" {:synsem {:cat :verb
                         :sem {:pred :get-ready
-                              :reflexive true
-                              :subj {:human true}}}}
+                              :reflexive true}}}
  
  "prenotare" {:synsem {:cat :verb
                        :sem {:pred :reserve}}}
@@ -1566,8 +1517,7 @@
                  :human false}}}
  
  "salire" (let [common {:synsem {:cat :verb
-                                 :essere true
-                                 :sem {:subj {:animate true}}}
+                                 :essere true}
                         :italiano {:italiano "salire"
                                    :present {:1sing "salgo"
                                              :3plur "salgono"}}}]
@@ -1614,8 +1564,8 @@
                                  :3plur "siedono"}}}
  
  "sgridare" {:synsem {:cat :verb
-                      :sem {:subj {:human true}
-                            :pred :scold}}}
+                      :sem {:pred :scold}}}
+
  "si" [{;; feminine singular
         :synsem {:agr {:person :3rd
                        :gender :fem
@@ -1677,8 +1627,7 @@
 
  "svegliarsi" {:synsem {:cat :verb
                         :sem {:pred :wake-up
-                              :reflexive true
-                              :subj {:animate true}}}}
+                              :reflexive true}}}
  
  "svenire" {:synsem {:cat :verb
                      :essere true
@@ -1797,8 +1746,7 @@
                     :sem {:pred :usare}}}
  
  "uscire" (let [common {:synsem {:cat :verb
-                                 :essere true
-                                 :sem {:subj {:animate true}}}
+                                 :essere true}
                         :italiano {:italiano "uscire"
                                    :boot-stem1 "esc"}}]
             [{:unify [common]
@@ -1812,9 +1760,7 @@
              :future-stem "vedr"}}
  
  "vendere"  {:synsem {:cat :verb 
-                      :sem {:pred :vendere
-                            :subj {:human true}
-                            :obj {:human false}}}}
+                      :sem {:pred :vendere}}}
  
  "venire" {:synsem {:cat :verb
                     :essere true
@@ -1832,8 +1778,7 @@
  
  "vestirsi" {:synsem {:cat :verb
                       :sem {:pred :get-dressed
-                            :reflexive true
-                            :subj {:human true}}}}
+                            :reflexive true}}}
  "vi"
  {:synsem {:cat :noun
            :pronoun true
@@ -1846,9 +1791,7 @@
   :italiano {:initial true}}
  
  "vincere"  {:synsem {:cat :verb
-                      :sem {:pred :win
-                            :subj {:human true}
-                            :obj {:human false}}}}
+                      :sem {:pred :win}}}
 
  "vino" {:synsem {:agr {:gender :masc}
                   :cat :noun

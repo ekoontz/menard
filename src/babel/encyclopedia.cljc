@@ -219,8 +219,8 @@ as a map of implications"}
        [{:pred :abbracciare
          :active false
          :discrete false
-         :subj {:human true}
-         :obj {:animate true}}
+         :obj {:animate true}
+         :subj {:human true}}
 
         {:activity true
          :obj {:human true}
@@ -233,13 +233,80 @@ as a map of implications"}
         
         {:pred :chat
          :subj {:human true}}
-        
-        {:pred :get-up
+
+        {:pred :earn
+         :subj {:human true}
+         :obj {:human false}}
+
+        {:pred :exit
          :subj {:animate true}}
         
-        {:pred :study
+        {:pred :get-dressed
+         :subj {:human true}}
+
+        {:pred :get-on
+         :subj {:animate true}}
+
+        {:pred :get-ready
+         :subj {:human true}}
+
+        {:pred :get-up
+         :subj {:animate true}}
+
+        {:pred :giocare
          :subj {:human true}
-         :obj {:legible true}}]))
+         :obj {:game true}}
+
+        {:pred :go-out
+         :subj {:animate true}}
+
+        {:pred :go-upstairs
+         :subj {:animate true}}
+
+        {:pred :read
+         :subj {:human true}
+         :obj {:legible true}}
+
+        {:pred :scold
+         :subj {:human true}}
+        
+        {:pred :speak
+         :subj {:human true}
+         :obj {:speakable true}}
+
+        {:pred :study
+         :obj {:legible true}
+         :subj {:human true}}
+
+        {:pred :talk
+         :subj {:human true}
+         :obj {:speakable true}}
+
+        {:pred :think
+         :subj {:human true}}
+        
+        {:pred :vendere
+         :subj {:human true}
+         :obj {:human false}}
+
+        {:pred :wake-up
+         :subj {:animate true}}
+        
+        {:pred :wash
+         :subj {:human true}}
+
+        {:pred :win
+         :subj {:human true}
+         :obj {:human false}}
+
+        {:pred :work-human
+         :subj {:human true}}
+
+        {:pred :work-nonhuman
+         :subj {:human false}}
+
+        {:pred :yell
+         :subj {:human true}}]))
 
 (defn null-sem-impl [input]
   "null sem-impl: simply return input."

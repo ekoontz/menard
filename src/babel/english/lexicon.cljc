@@ -2,9 +2,10 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer (compile-lex if-then
-                                        map-function-on-map-vals unify
-                                        verb-pred-defaults)]
+   [babel.lexiconfn :refer [compile-lex default
+                            if-then
+                            map-function-on-map-vals unify
+                            verb-pred-defaults]]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
                               intransitivize

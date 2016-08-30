@@ -1,9 +1,10 @@
 (ns babel.english.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.encyclopedia :as e]
+   [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer (compile-lex if-then
-                                        map-function-on-map-vals unify)]
+                                        map-function-on-map-vals unify
+                                        verb-pred-defaults)]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
                               intransitivize
@@ -2254,4 +2255,8 @@
                                           
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
-                                               :2 {:agr subject-agr}}}}))))
+                                               :2 {:agr subject-agr}}}}))
+
+                 (verb-pred-defaults encyc/verb-pred-defaults)))
+
+

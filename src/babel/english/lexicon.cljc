@@ -2119,8 +2119,6 @@
 (def lexicon (-> (compile-lex lexicon-source 
                               morph/exception-generator 
                               morph/phonize morph/english-specific-rules)
-
-                 (verb-pred-defaults encyc/verb-pred-defaults)
                  
                  ;; add :sem :obj if necessary, so that intransitivize is triggered.
                  (if-then {:synsem {:cat :verb
@@ -2133,7 +2131,9 @@
 
                  ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
                  transitivize
-                         
+
+                 (verb-pred-defaults encyc/verb-pred-defaults)
+                 
                  ;; if a verb has an object,
                  ;; and the object is not {:reflexive true}
                  ;; then the object is {:reflexive false}

@@ -487,7 +487,6 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                  determiner-stuff
                  ditransitive-verb-rule
                  intensifier-agreement
-                 intransitive-verb-rule
                  modality-rule
                  noun-arguments-must-be-empty-subcat
                  pronoun-and-propernouns

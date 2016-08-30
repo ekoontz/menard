@@ -1582,10 +1582,12 @@
                          :present {:3sing "sits down"}}
                :synsem {:cat :verb
                         :sem {:pred :sit-down
-                              :reflexive true}}}
+                              :reflexive true}
+                        :subcat {:2 '()}}}
 
    "sleep" {:synsem {:cat :verb
-                     :sem {:pred :sleep}}
+                     :sem {:pred :sleep}
+                     :subcat {:2 '()}}
             :english {:past "slept"}}
    "small"
    (unify adjective
@@ -1870,7 +1872,8 @@
    "wake up"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
-               :sem {:pred :wake-up}}
+               :sem {:pred :wake-up}
+               :subcat {:2 '()}}
       :english {:participle "waking up"
                 :present {:3sing "wakes up"}
                 :past "woke up"}})
@@ -2173,6 +2176,3 @@
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
                                                :2 {:agr subject-agr}}}}))))
-
-
-

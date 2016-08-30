@@ -2196,6 +2196,8 @@
                               morph/exception-generator 
                               morph/phonize morph/english-specific-rules)
 
+                 (verb-pred-defaults encyc/verb-pred-defaults)
+                 
                  ;; add :sem :obj if necessary, so that intransitivize is triggered.
                  (if-then {:synsem {:cat :verb
                                     :subcat {:2 {:cat :noun}}}}
@@ -2240,8 +2242,7 @@
                                           
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
-                                               :2 {:agr subject-agr}}}}))
+                                               :2 {:agr subject-agr}}}}))))
 
-                 (verb-pred-defaults encyc/verb-pred-defaults)))
 
 

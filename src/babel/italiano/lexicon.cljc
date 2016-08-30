@@ -194,6 +194,8 @@
                    :subcat {:1 {:sem subject-semantics}}
                    :sem {:subj subject-semantics}}}))
 
+      (verb-pred-defaults encyc/verb-pred-defaults)
+
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:synsem {:cat :verb
                  :aux false
@@ -229,7 +231,7 @@
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
                           :2 '()}}})
-
+      
       (default ;; intransitive verbs' :obj is :unspec.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
@@ -265,8 +267,6 @@
       (default ;; essere defaults to false.
        {:synsem {:cat :verb
                  :essere false}})
-
-      (verb-pred-defaults encyc/verb-pred-defaults)
       
       ;; </verb default rules>
 

@@ -275,8 +275,8 @@ as a map of implications"}
          :obj {:speakable true}}
 
         {:pred :study
-         :obj {:legible true}
-         :subj {:human true}}
+         :subj {:human true}
+         :obj {:legible true}}
 
         {:pred :talk
          :subj {:human true}

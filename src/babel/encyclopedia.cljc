@@ -222,6 +222,9 @@ as a map of implications"}
          :obj {:animate true}
          :subj {:human true}}
 
+        {:subj {:human true}
+         :pred :admire}
+
         {:activity true
          :obj {:human true}
          :pred :aiutare}

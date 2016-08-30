@@ -519,7 +519,7 @@
                    :sem {:pred :mangiare}}}
 
    "eat dinner" {:synsem {:cat :verb
-                          :sem {:pred :cenare}}
+                          :sem {:pred :have-dinner}}
                  :transitivize false
                  :english {:present {:3sing "eats dinner"}
                            :participle "eating dinner"
@@ -776,7 +776,7 @@
                      :past "had"}}
 
    "have dinner" {:synsem {:cat :verb
-                           :sem {:pred :cenare}}
+                           :sem {:pred :have-dinner}}
                   :english {:present {:3sing "has dinner"}
                             :past "had dinner"
                             :participle "having dinner"}}

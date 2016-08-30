@@ -1698,7 +1698,9 @@
                              :pred :student}}}
 
    "study"  {:synsem {:cat :verb
-                      :sem {:pred :study}}
+                      :sem {:pred :study
+                            :obj {:legible true}}} ;; TODO: needed temporarily until
+             ;; English lexical compilation is made consistent with as used in Italian.
              :english {:past "studied"}}
 
    "stupid" (unify adjective

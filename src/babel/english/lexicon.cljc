@@ -385,7 +385,8 @@
 
    "change clothes" {:synsem {:cat :verb
                               :sem {:pred :change-clothes
-                                    :reflexive true}}
+                                    :reflexive true}
+                              :subcat {:2 '()}}
                      :english {:present {:3sing "changes clothes"}
                                :participle "changing clothes"
                                :past "changed clothes"}}

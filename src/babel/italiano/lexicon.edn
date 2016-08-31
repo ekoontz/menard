@@ -434,13 +434,19 @@
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}
       
- "chiamarsi" (let [human (atom :top)]
+ "chiamarsi" (let [gender (atom :top)
+                   human (atom :top)
+                   number (atom :top)]
                {:synsem {:cat :verb
                          :sem {:pred :be-called
                                :reflexive true}
-                         :subcat {:1 {:sem {:human human}
+                         :subcat {:1 {:agr {:gender gender
+                                            :number number}
+                                      :sem {:human human}
                                       :propernoun false} ;; avoid things like "Luisa si chiama Luisa".
-                                  :3 {:cat :noun
+                                  :3 {:agr {:gender gender
+                                            :number number}
+                                      :cat :noun
                                       :sem {:human human}
                                       :propernoun true}}}})
 

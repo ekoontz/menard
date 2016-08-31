@@ -417,7 +417,8 @@
                       :sem {:pred :coffee}}}
    
    "come" {:synsem {:cat :verb
-                    :sem {:pred :come}}
+                    :sem {:pred :come}
+                    :subcat {:2 '()}}
            :english {:past "came"}}
 
    "comment" {:synsem {:cat :verb
@@ -548,7 +549,8 @@
                       :sem {:pred :escape}}}
 
    "exist" {:synsem {:cat :verb
-                     :sem {:pred :exist}}}
+                     :sem {:pred :exist}
+                     :subcat {:2 '()}}}
    
    "exit" {:synsem {:cat :verb
                      :sem {:pred :exit}}}
@@ -792,10 +794,11 @@
                 :past "had fun"}})
    
    "have lunch" {:synsem {:cat :verb
-                            :sem {:pred :have-lunch}}
-                   :english {:present {:3sing "has lunch"}
-                             :past "had lunch"
-                             :participle "having lunch"}}
+                          :sem {:pred :have-lunch}
+                          :subcat {:2 '()}}
+                 :english {:present {:3sing "has lunch"}
+                           :past "had lunch"
+                           :participle "having lunch"}}
    
    "have to" {:synsem {:cat :verb
                        :sem {:pred :have-to}}

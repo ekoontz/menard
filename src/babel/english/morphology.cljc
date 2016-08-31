@@ -846,6 +846,7 @@
 (def english-specific-rules
   (list agreement))
 
+;; TODO: rewrite with recur or map or similar, rather than recursively.
 (defn exception-generator [lexicon]
   (if (not (empty? lexicon))
     (let [lexeme-kv (first lexicon)

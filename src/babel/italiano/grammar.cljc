@@ -20,8 +20,9 @@
    [clojure.java.io :as io]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
 
-(def lexicon (future (edn2lexicon
-                      (io/resource "babel/italiano/lexicon.edn"))))
+(defn make-lexicon []
+  (future (edn2lexicon
+           (io/resource "babel/italiano/lexicon.edn"))))
 
 (defn exception [error-string]
   #?(:clj
@@ -541,7 +542,7 @@
 
 (defn lexicon-for-generation [lexicon]
   (into {}
-        (for [[k v] lexicon]
+        (for [[k v] (make-lexicon)]
           (let [filtered-v
                 (filter #(not (= false (get-in % [:generate-with] true))) v)]
             (if (not (empty? filtered-v))
@@ -551,7 +552,7 @@
   "create a model using a lexicon derived from the supplied filtering function."
   (let [lexicon
         (into {}
-              (for [[k v] @lexicon]
+              (for [[k v] (make-lexicon)]
                 (let [filtered-v
                       (filter lexicon-filter-fn v)]
                   (if (not (empty? filtered-v))

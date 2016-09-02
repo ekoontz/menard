@@ -3,7 +3,7 @@
   (:require
    [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index]]
-   [babel.italiano.lexicon :refer [edn2lexicon]]
+   [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo fo-ps1]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
@@ -17,12 +17,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [clojure.java.io :as io]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
-
-(defn make-lexicon []
-  (future (edn2lexicon
-           (io/resource "babel/italiano/lexicon.edn"))))
 
 (defn exception [error-string]
   #?(:clj
@@ -542,7 +537,7 @@
 
 (defn lexicon-for-generation [lexicon]
   (into {}
-        (for [[k v] (make-lexicon)]
+        (for [[k v] lexicon]
           (let [filtered-v
                 (filter #(not (= false (get-in % [:generate-with] true))) v)]
             (if (not (empty? filtered-v))
@@ -550,9 +545,11 @@
 
 (defn model [lexicon-filter-fn grammar-filter-fn]
   "create a model using a lexicon derived from the supplied filtering function."
-  (let [lexicon
+  (deliver-lexicon)
+  (let [lexicon @lexicon
+        lexicon
         (into {}
-              (for [[k v] (make-lexicon)]
+              (for [[k v] lexicon]
                 (let [filtered-v
                       (filter lexicon-filter-fn v)]
                   (if (not (empty? filtered-v))
@@ -571,25 +568,25 @@
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def small
-  (future
-    (let [lexicon @lexicon
-          grammar
-          (filter #(or (= (:rule %) "s-conditional-phrasal")
-                       (= (:rule %) "s-conditional-nonphrasal")
-                       (= (:rule %) "s-present-phrasal")
-                       (= (:rule %) "s-present-nonphrasal")
-                       (= (:rule %) "s-future-phrasal")
-                       (= (:rule %) "s-future-nonphrasal")
-                       (= (:rule %) "s-imperfect-phrasal")
-                       (= (:rule %) "s-imperfect-nonphrasal")
-                       (= (:rule %) "s-aux")
-                       (= (:rule %) "vp-32")
-                       (= (:rule %) "vp-aux")
-                       (= (:rule %) "vp-aux-22")
-                       (= (:rule %) "vp-pronoun-nonphrasal")
-                       (= (:rule %) "vp-pronoun-phrasal"))
-                  grammar)
+(defn small []
+  (deliver-lexicon)
+  (let [lexicon @lexicon
+        grammar
+        (filter #(or (= (:rule %) "s-conditional-phrasal")
+                     (= (:rule %) "s-conditional-nonphrasal")
+                     (= (:rule %) "s-present-phrasal")
+                     (= (:rule %) "s-present-nonphrasal")
+                     (= (:rule %) "s-future-phrasal")
+                     (= (:rule %) "s-future-nonphrasal")
+                     (= (:rule %) "s-imperfect-phrasal")
+                     (= (:rule %) "s-imperfect-nonphrasal")
+                     (= (:rule %) "s-aux")
+                     (= (:rule %) "vp-32")
+                     (= (:rule %) "vp-aux")
+                     (= (:rule %) "vp-aux-22")
+                     (= (:rule %) "vp-pronoun-nonphrasal")
+                     (= (:rule %) "vp-pronoun-phrasal"))
+                grammar)
 
           lexicon  ;; create a subset of the lexicon tailored to this small grammar.
           (into {}
@@ -620,24 +617,24 @@
                                 v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-          lexicon-for-generation (lexicon-for-generation lexicon)]
-      {:name "small"
-       :morph-walk-tree (fn [tree]
-                          (do
-                            (merge tree
-                                   (morph-walk-tree tree))))
-       :language "it"
-       :language-keyword :italiano
-       :morph fo
-       :morph-ps (fn [arg] (fo-ps1 arg))
-       :lookup (fn [arg]
-                 (analyze arg lexicon))
-       :enrich enrich
-       :generate {:lexicon lexicon-for-generation}
-       :grammar grammar
-       :lexicon lexicon
-       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)})))
+        lexicon-for-generation (lexicon-for-generation lexicon)]
+    {:name "small"
+     :morph-walk-tree (fn [tree]
+                        (do
+                          (merge tree
+                                 (morph-walk-tree tree))))
+     :language "it"
+     :language-keyword :italiano
+     :morph fo
+     :morph-ps (fn [arg] (fo-ps1 arg))
+     :lookup (fn [arg]
+               (analyze arg lexicon))
+     :enrich enrich
+     :generate {:lexicon lexicon-for-generation}
+     :grammar grammar
+     :lexicon lexicon
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
 
 ;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
@@ -681,52 +678,51 @@
                          :index (create-index (:grammar @small)
                                               (flatten (vals micro-lexicon)) head-principle)})))
 
-
-(def medium
+(defn medium []
+  (deliver-lexicon)
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
   ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
-  (future
-    (let [lexicon @lexicon
-          parse-lexicon
-          (into {}
-                (for [[k v] lexicon]
-                  (let [filtered-v 
-                        (filter (fn [x] true)
-                                v)]
-                    (if (not (empty? filtered-v))
-                      [k filtered-v]))))
-          lexicon
-          (into {}
-                (for [[k v] lexicon]
-                  (let [filtered-v
-                        (filter #(not (= true (get-in % [:top])))
-                                v)]
+  (let [lexicon @lexicon
+        parse-lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v 
+                      (filter (fn [x] true)
+                              v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-          lexicon-for-generation (lexicon-for-generation lexicon)
-          rules (map #(keyword (get-in % [:rule])) grammar)]
-      {:name "medium"
-       :enrich enrich
-       :generate {:lexicon lexicon-for-generation}
-       :grammar grammar
-       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
-       :language "it"
-       :language-keyword :italiano
-       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-       :lexicon lexicon
-       :lookup (fn [arg]
-                 (analyze arg parse-lexicon))
-       :morph fo
-       :morph-ps (fn [arg] (fo-ps1 arg))
-       :rules rules
-       :rule-map (zipmap rules
-                         grammar)
-       })))
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(not (= true (get-in % [:top])))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))
+        lexicon-for-generation (lexicon-for-generation lexicon)
+        rules (map #(keyword (get-in % [:rule])) grammar)]
+    {:name "medium"
+     :enrich enrich
+     :generate {:lexicon lexicon-for-generation}
+     :grammar grammar
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
+     :language "it"
+     :language-keyword :italiano
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+     :lexicon lexicon
+     :lookup (fn [arg]
+               (analyze arg parse-lexicon))
+     :morph fo
+     :morph-ps (fn [arg] (fo-ps1 arg))
+     :rules rules
+     :rule-map (zipmap rules
+                       grammar)
+     }))
 
-(def np-grammar
-  (future
-    (let [lexicon @lexicon
+(defn np-grammar []
+  (deliver-lexicon)
+  (let [lexicon @lexicon
           grammar
           (filter #(or (= (:rule %) "noun-phrase1")
                        (= (:rule %) "noun-phrase2")
@@ -781,6 +777,4 @@
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
        :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
        :rules rules
-       :rule-map (zipmap rules grammar)})))
-
-(log/info "Italiano grammars defined (small, medium).")
+       :rule-map (zipmap rules grammar)}))

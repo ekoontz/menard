@@ -4,7 +4,7 @@
    [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.italiano :refer [analyze generate lightning-bolts parse preprocess]]
-   [babel.italiano.grammar :as grammar :refer [lexicon medium np-grammar small]]
+   [babel.italiano.grammar :as grammar]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo fo-ps1
                                                 replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
@@ -19,6 +19,10 @@
    [clojure.string :as string]
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs]]))
+
+(def medium (future (grammar/medium)))
+(def np-grammar (future (grammar/np-grammar)))
+(def small (future (grammar/small)))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -40,7 +44,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         :model small
+                         :model @small
                          :do-enrich false)]
     (is (= "io sono" (fo result)))))
 

@@ -317,9 +317,10 @@ of this function with complements."
     (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (mapfn (fn [parent]
-                   (log/trace (str "looking for lexical heads of parent: " (:rule parent)))
+                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
                    (if (= false (get-in parent [:head :phrasal] false))
                      (let [candidate-lexemes (get-lex parent :head index)
+                           debug (log/debug (str "candidate lexical heads: " (count candidate-lexemes)))
                            filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
                                                     ;; TODO: :essere is language-specific: allow
                                                     ;; some way to have this constraint be expressed
@@ -327,7 +328,8 @@ of this function with complements."
                                                     :essere (get-in parent [:head :essere] :top)
                                                     :sem (get-in parent [:head :synsem :sem] :top)}}
                            subset (filter #(not (fail? (unifyc filter-on-spec %)))
-                                          candidate-lexemes)]
+                                          candidate-lexemes)
+                           debug (log/debug (str "post-filter subset: " (count candidate-lexemes)))]
                        (filter #(not (nil? %))
                                (do (when (not (empty? subset))
                                      (log/debug (str "adding lexical heads to parent:" (:rule parent)))

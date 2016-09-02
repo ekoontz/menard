@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
-   [babel.italiano.grammar :refer [small medium np-grammar]]
+   [babel.italiano.grammar :as grammar :refer [small medium]]
+   [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [fo-ps1]]
    [babel.generate :as generate]
    [babel.over :as over]
@@ -21,11 +22,11 @@
 
 (defn morph-ps [tree]
   "print a concise one-line representation of the tree"
-  ((:morph-ps @medium) tree))
+  ((:morph-ps medium) tree))
 
 (defn analyze
   ([surface-form]
-   (analyze surface-form (:lexicon @medium)))
+   (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon]
    (morph/analyze surface-form lexicon)))
 
@@ -33,7 +34,7 @@
   [spec & {:keys [do-enrich max-total-depth model truncate]
            :or {do-enrich true
                 max-total-depth generate/max-total-depth
-                model medium
+                model (medium)
                 truncate true}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [result (engine/generate spec model
@@ -45,7 +46,7 @@
             result))))
 
 (defn lightning-bolts [spec]
-  (let [medium @medium]
+  (let [medium medium]
     (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium))))
 
 (def tokenizer #"[ '\n,’».]")
@@ -84,7 +85,7 @@
 
   ([input]
    (let [input (preprocess input)]
-     (parse input medium)))
+     (parse input (medium))))
 
   ([input model]
    (let [model (if (future? model) @model model)

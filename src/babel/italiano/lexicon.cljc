@@ -17,11 +17,16 @@
                                       phonize2]]
 
    [clojure.edn :as edn]
-   [clojure.java.io :refer [reader]]
+   [clojure.java.io :refer [reader resource]]
    [clojure.repl :refer [doc]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
 
 (declare edn2lexicon)
+
+(def lexicon (promise))
+(defn deliver-lexicon []
+  (if (not (realized? lexicon))
+    (deliver lexicon (edn2lexicon (resource "babel/italiano/lexicon.edn")))))
 
 ;; TODO: promote to babel.lexiconfn
 ;; also consider renaming babel.lexiconfn to babel.lexicon.
@@ -353,8 +358,8 @@
            (and (log/warn (str "ignoring common noun with no gender specified: " %))
                 false)))
      
-     ;; filter out entries with no :cat.
-     (filter-vals
+      ;; filter out entries with no :cat.
+      (filter-vals
       #(or (and (not (= :none (get-in % [:synsem :cat] :none)))
                 (or (log/debug (str "lexical entry has a cat - good : " (strip-refs %)))
                     true))
@@ -364,7 +369,4 @@
      ;; end of language-specific grammar rules
 ))
 
-(defn lexicon []
-  (->
-   (clojure.java.io/resource "babel/italiano/lexicon.edn")
-   edn2lexicon))
+

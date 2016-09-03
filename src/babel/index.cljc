@@ -3,7 +3,6 @@
   (:require
    ;; TODO: comment is misleading in that we never call core/get-in from this file.
    ;; TODO: alphabetize
-;;   [clojure.set :refer :all]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 

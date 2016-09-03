@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.english :refer [analyze generate parse]]
-            [babel.english.grammar :refer [small small-plus-plus-np small-plus-vp-pronoun medium]]
+            [babel.english.grammar :as grammar]
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo fo-ps-en get-string]]
 
@@ -15,6 +15,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in strip-refs]]))
+
+(def medium (grammar/medium))
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,
@@ -116,7 +118,7 @@
                  "you all used to go downstairs"))))))
 
 (deftest simple-parse
-  (is (not (empty? (parse "she sleeps")))))
+  (is (not (empty? (parse "she sleeps" medium)))))
 
 (deftest be-called
   (is (= 10
@@ -126,7 +128,8 @@
                    10
                    (repeatedly #(let [foo (generate {:synsem {:cat :verb
                                                               :modified false
-                                                              :sem {:pred :be-called}}})]
+                                                              :sem {:pred :be-called}}}
+                                                    :model medium)]
                                   (is (not (= "" (fo foo))))
                                   (log/info (str "fo: " (fo foo)))
                                   (fo foo)))))))))
@@ -145,7 +148,8 @@
                                  :sem {:mod '()
                                        :iobj {:pred :luisa}
                                        :pred :be-called
-                                       :subj {:pred :lei}}}})))))
+                                       :subj {:pred :lei}}}}
+                       :model medium)))))
                                        
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
@@ -163,7 +167,8 @@
                                   :mod '()
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}})]
+                                  :pred :cane}}}
+                  :model medium)]
     (is (not (nil? result)))
     (is (= "Juana's dog" (fo result)))))
 
@@ -174,28 +179,23 @@
                                   :number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}})]
+                                  :pred :cane}}}
+                  :model medium)]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
 
 (deftest no-failed-bolts
   (let [result
         (->>
-         (repeatedly #((fn [x]
-                         (if false (println x)
-                             x))
-                       (let [generated
-                             (generate 
-                              {:comp {:synsem {:pronoun true}}
-                               :modified false
-                               :synsem {:sem {:pred :wash
-                                              :mod nil
-                                              :reflexive true}}}
-                              :model medium)]
-                         {:f (fo generated :from-language "it")
-                          :sem (get-in generated [:synsem :sem :mod])})))
+         (repeatedly #(let [generated
+                            (generate 
+                             {:comp {:synsem {:pronoun true}}
+                              :modified false
+                              :synsem {:sem {:pred :wash
+                                             :mod nil
+                                             :reflexive true}}}
+                             :model medium)]
+                        {:f (fo generated :from-language "it")
+                         :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
-
-
-                                        

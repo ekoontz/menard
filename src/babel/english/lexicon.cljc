@@ -13,6 +13,8 @@
                               transitivize]]
    [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
+(declare edn2lexicon)
+
 (def lexicon-source
   {
    "Antonia"
@@ -2124,7 +2126,11 @@
               :subcat '()}}]
    })
 
-(def lexicon (-> (compile-lex lexicon-source 
+(def lexicon (promise))
+(defn deliver-lexicon []
+  (if (not (realized? lexicon))
+    (deliver lexicon
+             (-> (compile-lex lexicon-source 
                               morph/exception-generator 
                               morph/phonize morph/english-specific-rules)
                  
@@ -2179,4 +2185,4 @@
                                           
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
-                                               :2 {:agr subject-agr}}}}))))
+                                               :2 {:agr subject-agr}}}}))))))

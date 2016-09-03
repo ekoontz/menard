@@ -50,15 +50,14 @@
   [spec & {:keys [max-total-depth model truncate-children]
            :or {max-total-depth generate/max-total-depth
                 truncate-children true
-                model medium}}]
+                model (medium)}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (let [model (if model model medium)]
-    (let [result (engine/generate spec model
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)]
-      (if result
-        (conj {:surface (fo result)}
-              result)))))
+  (let [result (engine/generate spec model
+                                :max-total-depth max-total-depth
+                                :truncate-children truncate-children)]
+    (if result
+      (conj {:surface (fo result)}
+            result))))
 
 (defn preprocess [input]
   "arbitrary regexp replacements to convert English orthography into a parsable whitespace-delimited expression"
@@ -72,7 +71,7 @@
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse (preprocess input) medium))
+   (parse (preprocess input) (medium)))
 
   ([input model]
    (parse/parse (preprocess input) model)))

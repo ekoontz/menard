@@ -1,7 +1,7 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.english.lexicon :refer [lexicon]]
+   [babel.english.lexicon :refer [deliver-lexicon lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.enrich :refer [enrich]]
    [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
@@ -493,7 +493,8 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(def small
+(defn small []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-present-nonphrasal-head")
@@ -505,7 +506,7 @@
 
         lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :verb)
                                    (= (get-in % [:synsem :propernoun]) true)
@@ -546,7 +547,8 @@
                        [k filtered-v]))))}
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def small-plus-vp-pronoun
+(defn small-plus-vp-pronoun []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -562,10 +564,9 @@
                      (= (:rule %) "vp-past")
                      (= (:rule %) "vp-pronoun"))
                 grammar)
-
         lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :verb)
                                    (= (get-in % [:synsem :propernoun]) true)
@@ -606,7 +607,8 @@
                        [k filtered-v]))))}
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def small-plus-plus-np
+(defn small-plus-plus-np []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -627,7 +629,7 @@
 
         lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :verb)
                                    (= (get-in % [:synsem :sem :propernoun]) true)
@@ -677,7 +679,8 @@
                        [k filtered-v]))))}
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def verbcoach
+(defn verbcoach []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -698,7 +701,7 @@
 
         lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v
                       (filter #(or (and (= (get-in % [:synsem :cat]) :verb)
                                         (not (= :verb (get-in % [:synsem :subcat :2 :cat])))) ;; exclude modal verbs e.g. "I want to .."
@@ -749,10 +752,11 @@
                        [k filtered-v]))))}
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def medium
+(defn medium []
+  (deliver-lexicon)
   (let [lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
@@ -777,14 +781,15 @@
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def np-grammar
+(defn np-grammar []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "noun-phrase2")
                      (= (:rule %) "nbar"))
                 grammar)
         lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                  (let [filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :adjective)
                                    (= (get-in % [:synsem :cat]) :det)
@@ -820,13 +825,14 @@
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(def few-rules
+(defn few-rules []
+  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "determiner-phrase")
                      (= (:rule %) "noun-phrase2")
                      (= (:rule %) "nbar"))
                 grammar)
-        lexicon lexicon]
+        lexicon @lexicon]
     {:name "few-rules"
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]
@@ -843,10 +849,11 @@
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))
 
-(def small-lexicon
+(defn small-lexicon []
+  (deliver-lexicon)
   (let [grammar grammar
         lexicon (into {}
-                      (for [[k v] lexicon]
+                      (for [[k v] @lexicon]
                         (if (or (= k "dog")
                                 (= k "Luisa")
                                 (= k "second")
@@ -867,5 +874,3 @@
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))
-
-(log/info "English grammar defined (small,small-plus-vp-pronoun,medium).")

@@ -1,7 +1,7 @@
 (ns babel.italiano.benchmark
   (:refer-clojure :exclude [get-in])
   (:require [babel.italiano :refer [analyze generate parse]]
-            [babel.italiano.grammar :refer [small lexicon medium np-grammar]]
+            [babel.italiano.grammar :as grammar]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
             [babel.italiano.morphology.verbs :as verbs]
@@ -80,7 +80,8 @@
 
 ;; lein run -m babel.italiano.benchmark/gen-mark 10
 (defn gen-mark [do-this-many]
-  (let [do-this-many (Integer. do-this-many)]
+  (let [do-this-many (Integer. do-this-many)
+        small (grammar/small)]
     (benchmark {:synsem {:subcat '()
                          :sem {:pred :be-called
                                :tense :present
@@ -90,7 +91,8 @@
                do-this-many)))
 
 (defn gen-mark2 [do-this-many]
-  (let [do-this-many (Integer. do-this-many)]
+  (let [do-this-many (Integer. do-this-many)
+        small (grammar/small)]
     (benchmark {:synsem {:subcat '()
                          :essere false
                          :sem {:pred :do
@@ -100,7 +102,8 @@
                do-this-many)))
 
 (defn gen-mark3 [do-this-many]
-  (let [do-this-many (Integer. do-this-many)]
+  (let [do-this-many (Integer. do-this-many)
+        small (grammar/small)]
     (benchmark {:synsem {:subcat '()
                          :essere true
                          :sem {:tense :past

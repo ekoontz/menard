@@ -201,7 +201,7 @@
          word)
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-    (log/trace "get-string-1: input word: " word)]
+    (log/trace "get-string-1: input word: " word)
 
     (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
     (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))

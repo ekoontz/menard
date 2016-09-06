@@ -12,12 +12,14 @@
 (defn fo [input & {:keys [from-language show-notes]
                    :or {from-language nil
                         show-notes true}}]
-  (let [input (if (and (or (= "it" from-language)
+  (let [input (if
+                  (and (or (= "it" from-language)
                            (= "fr" from-language))
                        (not (and (= :past (get-in input [:synsem :sem :tense]))
                                  (= :perfect (get-in input [:synsem :sem :aspect]))))
                        (not (= :lui (get-in input [:synsem :sem :subj :pred])))
                        (not (= :lei (get-in input [:synsem :sem :subj :pred]))))
+                ;; remove :notes in these circumstances.
                 (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
                                      [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
                 input)]

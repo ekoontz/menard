@@ -21,3 +21,4 @@ doo-index.html
 figwheel_server.log
 *.gz
 compiled/
+.DS_Store

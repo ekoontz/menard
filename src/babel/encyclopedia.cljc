@@ -315,6 +315,9 @@ as a map of implications"}
         {:pred :go-upstairs
          :subj {:animate true}}
 
+        {:pred :have-dinner
+         :subj {:human true}}
+
         {:pred :have-fun
          :reflexive true
          :subj {:human true}}

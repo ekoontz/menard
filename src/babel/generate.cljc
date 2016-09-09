@@ -9,8 +9,7 @@
    [clojure.string :as string]
    [dag_unify.core :refer (copy get-in fail? fail-path
                                 ref? remove-false remove-top-values-log
-                                strip-refs unify unifyc
-                                        )]))
+                                strip-refs unify unifyc)]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; should also be possible to override per-language.

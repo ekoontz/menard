@@ -1455,12 +1455,11 @@
                                                    (if (not (= :none (get-in lexeme path :none)))
                                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
                                                          (list {(surface-form-fn lexeme)
-                                                                [(dag_unify.core/merge ;; TODO: why are we using merge here? use unify instead if possible.
-                                                                  
-                                                                  lexeme
-                                                                  (unifyc (merge-fn lexeme)
-                                                                          {:italiano {:infinitive k
-                                                                                      :exception true}}))]})))))
+                                                                [(unifyc
+                                                                  (dissoc-paths lexeme [[:italiano :italiano]])
+                                                                  (merge-fn lexeme)
+                                                                  {:italiano {:infinitive k
+                                                                              :exception true}})]})))))
                                                lexemes)))
                                    [
                                     ;; 1. past-tense exceptions

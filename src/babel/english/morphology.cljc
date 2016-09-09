@@ -881,16 +881,12 @@
                                            (if (and (string? (get-in lexeme path :none))
                                                     (not (fail? synsem-check)))
                                              (list {(get-in lexeme path)
-                                                    (dag_unify.core/unifyc
+                                                    (unifyc
                                                      (dissoc-paths lexeme [path
                                                                            [:english :english]])
-                                                     (unifyc
-                                                      (merge-fn lexeme)
-                                                      {:synsem synsem-check}
-                                                      {:english {:exception true}}
-                                                      )
-                                                     )})
-                                             )))
+                                                     (merge-fn lexeme)
+                                                     {:synsem synsem-check}
+                                                     {:english {:exception true}})}))))
                                        lexemes)))
                            [
                             ;; 1. plural exceptions: e.g. "men","women":

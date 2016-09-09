@@ -863,7 +863,8 @@
                                          ;; this is where a unify/dissoc that supported
                                          ;; non-maps like :top and :fail, would be useful:
                                          ;; would not need the (if (not (fail? lexeme)..)) check
-                                         ;; to avoid a difficult-to-understand "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
+                                         ;; to avoid a difficult-to-understand error:
+                                         ;; "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap"
                                          (let [lexeme (cond (= lexeme :fail)
                                                             :fail
                                                             (= lexeme :top)

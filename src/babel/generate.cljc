@@ -23,11 +23,19 @@
 (def ^:const randomize-lexemes-before-phrases true)
 (def ^:const error-if-no-complements false)
 
+(declare add-all-comps)
+(declare add-all-comps-with-paths)
+(declare add-complements)
 (declare add-complement-to-bolt)
+(declare bolt-depth)
+(declare candidate-parents)
 (declare exception)
+(declare find-comp-paths-in)
 (declare lazy-mapcat)
+(declare lazy-shuffle)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
+(declare log-bolt-groups)
 (declare generate-all)
 (declare path-to-map)
 (declare spec-info)
@@ -61,15 +69,6 @@
         (log/warn (str "generate: no expression could be generated for spec:" (strip-refs spec))))
       expression)))
 
-(declare add-complements)
-(declare add-all-comps)
-(declare candidate-parents)
-(declare lazy-shuffle)
-(declare find-comp-paths-in)
-(declare bolt-depth)
-(declare add-all-comps)
-(declare add-all-comps-with-paths)
-
 (defn generate-all [spec language-model total-depth
                     & {:keys [max-total-depth truncate-children]
                        :or {max-total-depth max-total-depth
@@ -87,27 +86,68 @@
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
 
-(defn add-all-comps-from-group [bolt-group language-model total-depth
-                                truncate-children max-total-depth]
-  (mapfn
-   (fn [bolt]
-     (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
-     (add-all-comps-with-paths [bolt] language-model total-depth
-                               (find-comp-paths-in (bolt-depth bolt))
-                               truncate-children max-total-depth))
-   bolt-group))
-
-(defn log-bolt-groups [bolt-groups language-model]
-  (log/trace
-   (str "bolt-groups:\n"
-        (string/join "\n"
-                     (map (fn [bolt-group]
-                            (str "bolt-group:\n"
-                                 (string/join "\n"
-                                              (map (fn [bolt]
-                                                     (str " " (show-bolt bolt language-model)))
-                                                   bolt-group))))
-                          bolt-groups)))))
+(defn lightning-bolts [language-model spec depth total-depth
+                       & {:keys [max-total-depth]
+                          :or {max-total-depth max-total-depth}}]
+  "Returns a lazy-sequence of all possible trees given a spec, where
+there is only one child for each parent, and that single child is the
+head of its parent. generate (above) 'decorates' each returned lightning bolt
+of this function with complements."
+  (log/trace (str "lightning-bolts(depth=" depth
+                 "; total-depth=" total-depth
+                 "; max-total-depth=" max-total-depth
+                 "; spec info:" (spec-info spec) ")"))
+  (let [morph (:morph language-model)
+        grammar (:grammar language-model)
+        index (:index language-model)
+        morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
+        depth (if depth depth 0)
+        ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
+        ;; total-depth, on the other hand, is the depth all the way to the top of the entire
+        ;; expression, which might involve several parent lightning bolts.
+        parents (shuffle (candidate-parents grammar spec))]
+    (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
+    (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
+          (mapfn (fn [parent]
+                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
+                   (if (= false (get-in parent [:head :phrasal] false))
+                     (let [candidate-lexemes (get-lex parent :head index)
+                           debug (log/debug (str "candidate lexical heads: " (count candidate-lexemes)))
+                           filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
+                                                    ;; TODO: :essere is language-specific: allow
+                                                    ;; some way to have this constraint be expressed
+                                                    ;; in a language-specific way.
+                                                    :essere (get-in parent [:head :essere] :top)
+                                                    :sem (get-in parent [:head :synsem :sem] :top)}}
+                           subset (filter #(not (fail? (unifyc filter-on-spec %)))
+                                          candidate-lexemes)
+                           debug (log/debug (str "post-filter subset: " (count candidate-lexemes)))]
+                       (filter #(not (nil? %))
+                               (do (when (not (empty? subset))
+                                     (log/debug (str "adding lexical heads to parent:" (:rule parent)))
+                                     
+                                     (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
+                                     (log/trace (str " with spec:" (spec-info spec))))
+                                   (if (not (empty? subset))
+                                     (over/overh parent (shuffle subset))
+                                     []))))))
+                 parents)
+          phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
+          (if (and (< total-depth max-total-depth)
+                   (= true (get-in spec [:head :phrasal] true)))
+            (mapfn (fn [parent]
+                     (log/debug (str "looking for phrasal heads of parent: " (:rule parent)))
+                     (over/overh parent
+                                 (lightning-bolts language-model (get-in parent [:head])
+                                                  (+ 1 depth) (+ 1 total-depth)
+                                                  :max-total-depth max-total-depth)))
+                   parents)
+            (do
+              (log/trace (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
+              nil))]
+      (if (lexemes-before-phrases total-depth max-total-depth)
+        (lazy-cat lexical phrasal)
+        (lazy-cat phrasal lexical)))))
 
 ;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
 (defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
@@ -133,7 +173,27 @@
        (do (log-bolt-groups bolt-groups language-model)
            (reduce concat bolt-groups))))))
 
+(defn add-all-comps-from-group [bolt-group language-model total-depth
+                                truncate-children max-total-depth]
+  (mapfn
+   (fn [bolt]
+     (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
+     (add-all-comps-with-paths [bolt] language-model total-depth
+                               (find-comp-paths-in (bolt-depth bolt))
+                               truncate-children max-total-depth))
+   bolt-group))
 
+(defn log-bolt-groups [bolt-groups language-model]
+  (log/trace
+   (str "bolt-groups:\n"
+        (string/join "\n"
+                     (map (fn [bolt-group]
+                            (str "bolt-group:\n"
+                                 (string/join "\n"
+                                              (map (fn [bolt]
+                                                     (str " " (show-bolt bolt language-model)))
+                                                   bolt-group))))
+                          bolt-groups)))))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
@@ -293,69 +353,6 @@
                       (get-in spec [:synsem :subcat :1 :cat]))]
       {:subcat/:1/:cat subcat1
        :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
-
-(defn lightning-bolts [language-model spec depth total-depth
-                       & {:keys [max-total-depth]
-                          :or {max-total-depth max-total-depth}}]
-  "Returns a lazy-sequence of all possible trees given a spec, where
-there is only one child for each parent, and that single child is the
-head of its parent. generate (above) 'decorates' each returned lightning bolt
-of this function with complements."
-  (log/trace (str "lightning-bolts(depth=" depth
-                 "; total-depth=" total-depth
-                 "; max-total-depth=" max-total-depth
-                 "; spec info:" (spec-info spec) ")"))
-  (let [morph (:morph language-model)
-        grammar (:grammar language-model)
-        index (:index language-model)
-        morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
-        depth (if depth depth 0)
-        ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
-        ;; total-depth, on the other hand, is the depth all the way to the top of the entire
-        ;; expression, which might involve several parent lightning bolts.
-        parents (shuffle (candidate-parents grammar spec))]
-    (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
-    (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-          (mapfn (fn [parent]
-                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
-                   (if (= false (get-in parent [:head :phrasal] false))
-                     (let [candidate-lexemes (get-lex parent :head index)
-                           debug (log/debug (str "candidate lexical heads: " (count candidate-lexemes)))
-                           filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
-                                                    ;; TODO: :essere is language-specific: allow
-                                                    ;; some way to have this constraint be expressed
-                                                    ;; in a language-specific way.
-                                                    :essere (get-in parent [:head :essere] :top)
-                                                    :sem (get-in parent [:head :synsem :sem] :top)}}
-                           subset (filter #(not (fail? (unifyc filter-on-spec %)))
-                                          candidate-lexemes)
-                           debug (log/debug (str "post-filter subset: " (count candidate-lexemes)))]
-                       (filter #(not (nil? %))
-                               (do (when (not (empty? subset))
-                                     (log/debug (str "adding lexical heads to parent:" (:rule parent)))
-                                     
-                                     (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
-                                     (log/trace (str " with spec:" (spec-info spec))))
-                                   (if (not (empty? subset))
-                                     (over/overh parent (shuffle subset))
-                                     []))))))
-                 parents)
-          phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          (if (and (< total-depth max-total-depth)
-                   (= true (get-in spec [:head :phrasal] true)))
-            (mapfn (fn [parent]
-                     (log/debug (str "looking for phrasal heads of parent: " (:rule parent)))
-                     (over/overh parent
-                                 (lightning-bolts language-model (get-in parent [:head])
-                                                  (+ 1 depth) (+ 1 total-depth)
-                                                  :max-total-depth max-total-depth)))
-                   parents)
-            (do
-              (log/trace (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
-              nil))]
-      (if (lexemes-before-phrases total-depth max-total-depth)
-        (lazy-cat lexical phrasal)
-        (lazy-cat phrasal lexical)))))
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"

@@ -413,11 +413,14 @@
          stem (replace root #"^to " "")
          last-stem-char-is-e (re-find #"e$" stem)
          penultimate-stem-char-is-vowel (re-find #"[aeiou].$" stem)
-         last-stem-char-is-vowel (re-find #"[aeiou]$" stem)]
+         last-stem-char-is-vowel (re-find #"[aeiou]$" stem)
+         exception? (get-in word [:exception] false)]
      (log/debug "+else")
      (log/debug (str "(english):word: " word))
      (cond
 
+       exception? stem
+       
       (and (= person :1st) (= number :sing)
            (string? (get-in word '(:present :1sing))))
       (get-in word '(:present :1sing))

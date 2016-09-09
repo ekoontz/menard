@@ -881,8 +881,9 @@
                                            (if (and (string? (get-in lexeme path :none))
                                                     (not (fail? synsem-check)))
                                              (list {(get-in lexeme path)
-                                                    (dag_unify.core/merge
-                                                     lexeme
+                                                    (dag_unify.core/unifyc
+                                                     (dissoc-paths lexeme [path
+                                                                           [:english :english]])
                                                      (unifyc
                                                       (merge-fn lexeme)
                                                       {:synsem synsem-check}

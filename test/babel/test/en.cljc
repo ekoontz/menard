@@ -6,15 +6,18 @@
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo fo-ps-en get-string]]
 
+            [babel.over :refer [overh]]
+            
             ;; TODO: add parsing tests
             [babel.parse :as parse]
 
+            [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [get-in strip-refs]]))
+            [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unifyc]]))
 
 (def medium (grammar/medium))
 
@@ -199,3 +202,9 @@
                          :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
+
+(deftest in-front-of
+  (let [medium (grammar/medium)
+        pp (get (get medium :grammar-map) :prepositional-phrase-adjunct)
+        ifo (first (get (get medium :lexicon) "in front of"))]
+    (not (fail? (overh pp ifo)))))

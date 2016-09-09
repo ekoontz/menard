@@ -241,21 +241,17 @@
 ;                                {:rule "prepositional-phrase-argument"
 ;                                 :synsem {:cat :prep}})
 
-                   (unify-check
-                    subcat-1-principle
-                    head-first
-                    {:comment "h10"
-                     :schema-symbol 'h10
-                     :first :head}
-                    (let [obj-sem (atom :top)
-                          mod (atom {:obj obj-sem})]
-                      {:rule "prepositional-phrase-adjunct"
+                   (let [sem (atom :top)]
+                     (unify-check
+                      subcat-1-principle
+                      head-first
+                      {:comment "h10"
+                       :schema-symbol 'h10
+                       :first :head
+                       :rule "prepositional-phrase-adjunct"
                        :synsem {:cat :prep
-                                :sem {:mod mod}}
-                       :head {:synsem {:sem mod
-                                       :cat :prep
-                                       :subcat {:1 {:sem obj-sem}}}}
-                       :comp {:synsem {:sem obj-sem}}}))
+                                :sem sem}
+                       :head {:synsem {:sem sem}}}))
 
                    (unify-check c00
                                 modified

@@ -1029,7 +1029,7 @@
 
    "in front of" {:synsem {:cat :prep
                            :sem {:pred :in-front-of}}}
-   
+
    "increase" {:synsem {:cat :verb
                         :sem {:pred :increase}}}
 
@@ -2185,4 +2185,14 @@
                                           
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
-                                               :2 {:agr subject-agr}}}}))))))
+                                               :2 {:agr subject-agr}}}}))
+
+                 (default
+                  (let [obj-sem (atom :top)]
+                    {:synsem {:cat :prep
+                              :subcat {:1 {:cat :noun
+                                           :sem obj-sem}
+                                       :2 '()}
+                              :sem {:obj obj-sem}}}))))))
+
+

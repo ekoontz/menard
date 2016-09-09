@@ -393,8 +393,9 @@
                                                             (dissoc (copy lexeme) :serialized))]
                                            (if (not (= :none (get-in lexeme path :none)))
                                              (list {(get-in lexeme path :none)
-                                                    (dag_unify.core/merge
-                                                     lexeme
+                                                    (unifyc
+                                                     (dissoc-paths lexeme [path
+                                                                           [:français :français]])
                                                      (unifyc (apply merge-fn (list lexeme))
                                                              {:français {:exception true}}))}))))
                                        lexemes)))

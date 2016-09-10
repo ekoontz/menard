@@ -1,12 +1,12 @@
 (ns babel.test.en
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.english :refer [analyze generate parse]]
+            [babel.english :refer [analyze fo-ps generate parse]]
             [babel.english.grammar :as grammar]
             [babel.english.lexicon :refer [lexicon]]
-            [babel.english.morphology :refer [fo fo-ps-en get-string]]
+            [babel.english.morphology :refer [fo get-string]]
 
-            [babel.over :refer [overh]]
+            [babel.over :refer [overc overh]]
             
             ;; TODO: add parsing tests
             [babel.parse :as parse]
@@ -204,7 +204,13 @@
     (= (count result) 5)))
 
 (deftest in-front-of
-  (let [medium (grammar/medium)
-        pp (get (get medium :grammar-map) :prepositional-phrase-adjunct)
-        ifo (first (get (get medium :lexicon) "in front of"))]
-    (not (fail? (overh pp ifo)))))
+  (let [expr (generate {:synsem {:cat :prep
+                                 :sem {:pred :in-front-of
+                                       :obj {:pred :table
+                                             :mod '()
+                                             :number :sing
+                                             :spec {:def :def
+                                                    :pred :definite}}}}})]
+    (is (= (fo expr)
+           "in front of the table"))))
+

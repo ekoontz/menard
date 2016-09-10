@@ -5,13 +5,13 @@
    [babel.generate :as generate]
    [babel.italiano :refer [analyze generate lightning-bolts parse preprocess]]
    [babel.italiano.grammar :as grammar]
-   [babel.italiano.morphology :as morph :refer [analyze-regular fo fo-ps
+   [babel.italiano.morphology :as morph :refer [analyze-regular fo
                                                 replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
-   [babel.parse :as parse]
+   [babel.parse :as parse :refer [fo-ps]]
    #?(:clj [clojure.test :refer [deftest is]])
    #?(:cljs [cljs.test :refer-macros [deftest is]])
    #?(:clj [clojure.tools.logging :as log])

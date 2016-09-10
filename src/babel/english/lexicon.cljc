@@ -179,11 +179,12 @@
                                        } ;; subcat {
                               } ;; synsem {
                      } ;; end of map
-                    )
+                    ))
 
-             (unify common
-                    {:synsem {:sem {:pred :be}
-                              :subcat {:2 {:cat :prep}}}}))])
+           (unify common
+                  {:synsem {:sem {:pred :be}
+                            :subcat {:2 {:cat :prep}}}})])
+             
 
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"

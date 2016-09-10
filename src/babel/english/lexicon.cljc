@@ -179,7 +179,11 @@
                                        } ;; subcat {
                               } ;; synsem {
                      } ;; end of map
-                    ))])
+                    )
+
+             (unify common
+                    {:synsem {:sem {:pred :be}
+                              :subcat {:2 {:cat :prep}}}}))])
 
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -1028,7 +1032,8 @@
                        :sem {:pred :improve}}}
 
    "in front of" {:synsem {:cat :prep
-                           :sem {:pred :in-front-of}}}
+                           :sem {:pred :in-front-of
+                                 :obj {:furniture true}}}}
 
    "increase" {:synsem {:cat :verb
                         :sem {:pred :increase}}}
@@ -1664,6 +1669,10 @@
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
+   "table" {:synsem {:agr {:gender :masc}
+                     :cat :noun
+                     :sem {:pred :table}}}
+
    "take" (let [common {:synsem {:cat :verb}
                         :english {:past "took"
                                   :past-participle "taken"}}]
@@ -2191,8 +2200,23 @@
                   (let [obj-sem (atom :top)]
                     {:synsem {:cat :prep
                               :subcat {:1 {:cat :noun
+                                           :case :acc
+                                           :subcat '()
                                            :sem obj-sem}
                                        :2 '()}
-                              :sem {:obj obj-sem}}}))))))
+                              :sem {:obj obj-sem}}}))
+
+                 (default
+                  (let [location (atom :top)]
+                    {:synsem {:cat :verb
+                              :subcat {:2 {:subcat '()}}}}))
+                 (default
+                  (let [location (atom :top)]
+                    {:synsem {:cat :verb
+                              :sem {:location location}
+                              :subcat {:2 {:cat :prep
+                                           :sem location}}}}))
+                                         
+                 ))))
 
 

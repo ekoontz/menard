@@ -53,7 +53,7 @@
 
    (= word :top)
    ".."
-
+   
    (and (map? word)
         (nil? (:a word))
         (nil? (:b word))
@@ -61,7 +61,13 @@
         (nil? (:english word)))
    ".."
 
-    (= (get-in word '(:infl)) :infinitive)
+   (and (= true (get-in word [:exception] false))
+        ;; for exceptions, lexical compilation sets [:exception] to true
+        ;; and the :english is the inflected irregular form which does not need further conjugation/inflection.
+        (string? (get-in word [:english])))
+   (get-in word [:english])
+
+   (= (get-in word '(:infl)) :infinitive)
     (if (string? (get-in word '(:english)))
       (str "to " (get-in word '(:english)))
       (exception (str "don't know how to find infinitive for word: " word)))
@@ -396,8 +402,7 @@
            (str stem-minus-one "ied")  ;; "try"->"tried"
 
            true
-           (str stem "ed"))) ;; "play"->"played"
-
+           (str stem "ed"))) ;; "play"->"played"   
    (and
     (= :present (get-in word '(:infl)))
     (string? (get-in word '(:english))))
@@ -413,14 +418,10 @@
          stem (replace root #"^to " "")
          last-stem-char-is-e (re-find #"e$" stem)
          penultimate-stem-char-is-vowel (re-find #"[aeiou].$" stem)
-         last-stem-char-is-vowel (re-find #"[aeiou]$" stem)
-         exception? (get-in word [:exception] false)]
+         last-stem-char-is-vowel (re-find #"[aeiou]$" stem)]
      (log/debug "+else")
      (log/debug (str "(english):word: " word))
      (cond
-
-       exception? stem
-       
       (and (= person :1st) (= number :sing)
            (string? (get-in word '(:present :1sing))))
       (get-in word '(:present :1sing))

@@ -4,7 +4,7 @@
    [babel.engine :as engine]
    [babel.italiano.grammar :as grammar :refer [small medium]]
    [babel.italiano.lexicon :as lex]
-   [babel.italiano.morphology :as morph :refer [fo-ps]]
+   [babel.italiano.morphology :as morph :refer [fo]]
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
@@ -14,8 +14,8 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(defn fo [expression]
-  (morph/fo expression))
+(defn fo-ps [expr]
+  (parse/fo-ps expr fo))
 
 (defn analyze
   ([surface-form]

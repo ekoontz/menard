@@ -276,3 +276,33 @@
     (concat
      (leaves head)
      (leaves comp)))))
+
+(defn fo-ps [tree fo]
+  "return a human-readable string of a phrase structure tree. leaves of the tree are printed
+   by calling the supplied _fo_ function"
+  (let [head-first? (get-in tree [:first] :none)]
+    (cond
+      (and (= ::none (get-in tree [:head] ::none))
+           (= ::none (get-in tree [:comp] ::none))
+           (not (= ::none (get-in tree [:surface] ::none)))
+           (not (= ::none (get-in tree [:rule] ::none))))
+      (str "[" (get-in tree [:rule]) " "
+           "'" (get-in tree [:surface]) "']")
+
+      (= head-first? :none)
+      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat] ""))
+
+      (= head-first? :comp)
+      (str "[" (get-in tree [:rule]) " "
+           (fo-ps (get-in tree [:comp])) " "
+           (fo-ps (get-in tree [:head]))
+           "]")
+
+      (= head-first? :head)
+      (str "[" (get-in tree [:rule]) " "
+           (fo-ps (get-in tree [:head])) " "
+           (fo-ps (get-in tree [:comp]))
+           "]")
+
+      true "??")))
+

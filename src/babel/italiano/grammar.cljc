@@ -4,8 +4,8 @@
    [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
-   [babel.italiano.morphology :refer [analyze fo fo-ps]]
-   [babel.parse :as parse]
+   [babel.italiano.morphology :refer [analyze fo]]
+   [babel.parse :as parse :refer [fo-ps]]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
                      root-is-head root-is-head-root subcat-1-principle

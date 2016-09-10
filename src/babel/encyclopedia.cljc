@@ -82,6 +82,7 @@ as a map of implications"}
                       :legible false
                       :edible false
                       :place false
+                      :physical-object true
                       :speakable false}
    
    {:human true}     {:animate true
@@ -196,6 +197,9 @@ as a map of implications"}
    ;; .. the next rule which applies to nouns only.
    {:pred :study   
     :cat :noun}  {:place true}
+
+
+   {:pred :table} {:furniture true}
 
    {:pred :vino}     {:artifact true
                       :drinkable true}

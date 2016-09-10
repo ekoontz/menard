@@ -237,18 +237,15 @@
                                              :number number-agreement}}
                               :head {:phrasal true
                                      :synsem {:propernoun propernoun}}}))
-;                   (unify-check h10
-;                                {:rule "prepositional-phrase-argument"
-;                                 :synsem {:cat :prep}})
 
                    (let [sem (atom :top)]
-                     (unify-check
+                     (unify-check h10
                       subcat-1-principle
                       head-first
                       {:comment "h10"
                        :schema-symbol 'h10
                        :first :head
-                       :rule "prepositional-phrase-adjunct"
+                       :rule "prepositional-phrase"
                        :synsem {:cat :prep
                                 :sem sem}
                        :head {:synsem {:sem sem}}}))

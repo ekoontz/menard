@@ -4,7 +4,7 @@
    [babel.engine :as engine]
    [babel.italiano.grammar :as grammar :refer [small medium]]
    [babel.italiano.lexicon :as lex]
-   [babel.italiano.morphology :as morph :refer [fo-ps1]]
+   [babel.italiano.morphology :as morph :refer [fo-ps]]
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
@@ -16,13 +16,6 @@
 
 (defn fo [expression]
   (morph/fo expression))
-
-(defn fo-ps [expression]
-  (morph/fo-ps1 expression))
-
-(defn morph-ps [tree]
-  "print a concise one-line representation of the tree"
-  ((:morph-ps medium) tree))
 
 (defn analyze
   ([surface-form]

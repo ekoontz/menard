@@ -4,7 +4,7 @@
    [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
-   [babel.italiano.morphology :refer [analyze fo fo-ps1]]
+   [babel.italiano.morphology :refer [analyze fo fo-ps]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
@@ -558,7 +558,7 @@
     {:language "it"
      :language-keyword :italiano
      :morph fo
-     :morph-ps (fn [arg] (fo-ps1 arg))
+     :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
@@ -626,7 +626,7 @@
      :language "it"
      :language-keyword :italiano
      :morph fo
-     :morph-ps (fn [arg] (fo-ps1 arg))
+     :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
@@ -714,7 +714,7 @@
      :lookup (fn [arg]
                (analyze arg parse-lexicon))
      :morph fo
-     :morph-ps (fn [arg] (fo-ps1 arg))
+     :morph-ps fo-ps
      :rules rules
      :rule-map (zipmap rules
                        grammar)
@@ -766,7 +766,7 @@
                                    (morph-walk-tree tree))))
        :language "it"
        :language-keyword :italiano
-       :morph-ps (fn [arg] (fo-ps1 arg))
+       :morph-ps fo-ps
        :morph fo
        :lookup (fn [arg]
                  (analyze arg lexicon))

@@ -32,11 +32,11 @@
    (fn [rule] true)))
 
 (defn bar []
-  (map fo-ps1 (filter #(not (dag_unify.core/fail? %))
-                      (mapcat (fn [lexeme]
-                                (babel.over/overc (first (:grammar foo))
-                                                  lexeme))
-                              (vals (:lexicon foo))))))
+  (map fo-ps (filter #(not (dag_unify.core/fail? %))
+                     (mapcat (fn [lexeme]
+                               (babel.over/overc (first (:grammar foo))
+                                                 lexeme))
+                             (vals (:lexicon foo))))))
 
 (def stats-for-rules
   (map (fn [rule] 

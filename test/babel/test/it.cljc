@@ -5,7 +5,7 @@
    [babel.generate :as generate]
    [babel.italiano :refer [analyze generate lightning-bolts parse preprocess]]
    [babel.italiano.grammar :as grammar]
-   [babel.italiano.morphology :as morph :refer [analyze-regular fo fo-ps1
+   [babel.italiano.morphology :as morph :refer [analyze-regular fo fo-ps
                                                 replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.verbs :as verbs]

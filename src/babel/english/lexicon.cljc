@@ -870,20 +870,19 @@
                        :reflexive true
                        :agr {:person :3rd
                              :gender :fem
-                   :number :sing}
-                       :sem {:human true
-                             :reflexive true}
+                             :number :sing}
+                       :sem {:human true}
                        :subcat '()}}
-    "him" {:synsem {:cat :noun
-                    :pronoun true
-                    :case :acc
-                    :reflexive false
-                    :agr {:person :3rd
-                          :gender :masc
-                          :number :sing}
-                    :sem {:human true
-                          :pred :lui}
-                    :subcat '()}}
+   "him" {:synsem {:cat :noun
+                   :pronoun true
+                   :case :acc
+                   :reflexive false
+                   :agr {:person :3rd
+                         :gender :masc
+                         :number :sing}
+                   :sem {:human true
+                         :pred :lui}
+                   :subcat '()}}
    
    "himself" {:synsem {:cat :noun
                        :pronoun true
@@ -891,9 +890,8 @@
                        :reflexive true
                        :agr {:person :3rd
                              :gender :masc
-                   :number :sing}
-                       :sem {:human true
-                             :reflexive true}
+                             :number :sing}
+                       :sem {:human true}
                        :subcat '()}}
 
    "his" [{:synsem {:cat :det
@@ -941,7 +939,6 @@
             ;; 1. reflexive sense of "hurt"
             [(let [subject-semantics (atom :top)
                    subject-agr (atom :top)]
-
                (unifyc common
                        {:synsem {:sem {:pred :hurt-oneself
                                        :subj subject-semantics
@@ -1771,7 +1768,6 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :fem}
-              :sem {:reflexive true}
               :subcat '()}}
     
     {:synsem {:cat :noun
@@ -1781,7 +1777,6 @@
               :agr {:person :3rd
                     :number :plur
                     :gender :masc}
-              :sem {:reflexive true}
               :subcat '()}}
     ]
    

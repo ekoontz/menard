@@ -184,10 +184,29 @@
              (unify common
                     {:synsem {:cat :verb
                               :sem {:obj obj
+                                    :reflexive false
                                     :pred pred
                                     :shared-with-obj true}
                               :subcat {:1 {:cat :noun}
                                        :2 {:cat :prep
+                                           :reflexive false
+                                           :sem {:obj obj
+                                                 :pred pred}}}}}))
+           (let [pred (atom :top)
+                 obj (atom :top)
+                 agr (atom :top)]
+             (unify common
+                    {:synsem {:cat :verb
+                              :sem {:subj obj ;; reflexive: subj=obj
+                                    :obj obj
+                                    :reflexive true
+                                    :pred pred
+                                    :shared-with-obj true}
+                              :subcat {:1 {:cat :noun
+                                           :agr agr}
+                                       :2 {:cat :prep
+                                           :reflexive true
+                                           :agr agr
                                            :sem {:obj obj
                                                  :pred pred}}}}}))])
 
@@ -1544,14 +1563,32 @@
    "second" (unify adjective
                    {:synsem {:sem {:mod {:pred :second}
                                    :comparative false}}})
-   "see"  {:synsem {:cat :verb
-                    :sem {:pred :see}
-                    :subcat {:1 {:cat :noun
-                                 :sem {:animate true}}
-                             :2 {:cat :noun
-                                 :sem {:physical-object true}}}}
-           :english {:past "saw"
-                     :past-participle "seen"}}
+   "see"  [{:synsem {:cat :verb
+                     :sem {:pred :see
+                           :reflexive false}
+                     :subcat {:1 {:cat :noun
+                                  :sem {:animate true}}
+                              :2 {:cat :noun
+                                  :reflexive false
+                                  :sem {:physical-object true}}}}
+            :english {:past "saw"
+                      :past-participle "seen"}}
+           (let [obj (atom {:animate true
+                            :physical-object true})
+                 agr (atom :top)]
+             {:synsem {:cat :verb
+                       :sem {:pred :see
+                             :reflexive true}
+                       :subcat {:1 {:cat :noun
+                                    :agr agr
+                                    :sem obj}
+                                :2 {:cat :noun
+                                    :pronoun true
+                                    :agr agr
+                                    :sem obj
+                                    :reflexive true}}}
+              :english {:past "saw"
+                        :past-participle "seen"}})]
 
    "sell" {:synsem {:cat :verb
                     :sem {:pred :vendere}}

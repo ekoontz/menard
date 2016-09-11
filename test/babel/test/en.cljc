@@ -214,3 +214,23 @@
     (is (= (fo expr)
            "in front of the table"))))
 
+(deftest furniture-sentence
+  (let [expr (generate {:modified false
+                        :comp {:synsem {:agr {:person :3rd}}}
+                        :synsem {:cat :verb
+                                 :sem {:aspect :progressive
+                                       :pred :in-front-of
+                                       :subj {:pred :chair
+                                              :mod '()
+                                              :number :sing
+                                              :spec {:def :def
+                                                     :pred :definite}}
+                                       :obj {:pred :table
+                                             :mod '()
+                                             :number :sing
+                                             :spec {:def :def
+                                                    :pred :definite}}
+                                       :tense :present}}}
+                       :model medium)]
+    (is (= (fo expr)
+           "the chair is in front of the table"))))

@@ -386,6 +386,9 @@
                    :sem {:pred :cat
                          :pet true}}}
 
+   "chair" {:synsem {:cat :noun
+                     :sem {:pred :chair}}}
+
    "change" {:synsem {:cat :verb
                       :sem {:pred :change}}} ;; TODO: add reflexive sense
 

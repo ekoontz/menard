@@ -26,6 +26,9 @@
 
 (declare cache)
 
+(defn fo-ps [expr]
+  (parse/fo-ps expr fo))
+
 (defn exception [error-string]
   #?(:clj
      (throw (Exception. (str ": " error-string))))
@@ -515,6 +518,7 @@
                                  (morph-walk-tree tree))))
      :language "en"
      :morph fo
+     :morph-ps fo-ps
      :grammar grammar
      :lookup (fn [arg]
                (analyze arg lexicon))
@@ -577,6 +581,7 @@
      :lookup (fn [arg]
                (analyze arg lexicon))
      :morph fo
+     :morph-ps fo-ps
      :grammar grammar
      :lexicon lexicon
      :for {:es ;; a lexicon specific to when we want to use Español as a target.
@@ -640,6 +645,7 @@
                                  (morph-walk-tree tree))))
      :language "en"
      :morph fo
+     :morph-ps fo-ps
      :grammar grammar
      :lookup (fn [arg]
                (analyze arg lexicon))
@@ -713,6 +719,7 @@
                                  (morph-walk-tree tree))))
      :language "en"
      :morph fo
+     :morph-ps fo-ps
      :grammar grammar
      :lookup (fn [arg]
                (analyze arg lexicon))
@@ -770,6 +777,7 @@
                (analyze arg lexicon))
      :grammar grammar
      :morph fo
+     :morph-ps fo-ps
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
@@ -810,6 +818,7 @@
      :language "en"
      :language-keyword :english
      :morph fo
+     :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
@@ -835,6 +844,7 @@
      :language "en"
      :language-keyword :english
      :morph fo
+     :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich
@@ -861,6 +871,7 @@
      :language "en"
      :language-keyword :english
      :morph fo
+     :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
      :enrich enrich

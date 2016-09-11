@@ -22,6 +22,9 @@
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (get-in unifyc)]))
 
+(defn fo-ps [expr]
+  (parse/fo-ps expr fo))
+
 (def head-first
   (let [head-espanol (atom :top)
         comp-espanol (atom :top)
@@ -453,6 +456,7 @@
      :lexicon lexicon
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :morph fo
+     :morph-ps fo-ps
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -472,6 +476,7 @@
      :lookup (fn [arg]
                (morph/analyze arg lexicon-for-analysis))
      :morph fo
+     :morph-ps fo-ps
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree

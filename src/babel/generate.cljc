@@ -48,7 +48,8 @@
                         truncate-children true}}]
   (let [language-model (if (future? language-model) @language-model language-model)
         lexicon (if lexicon lexicon (:lexicon language-model))
-        morph (:morph language-model)]
+        morph (:morph language-model)
+        morph-ps (:morph-ps language-model)]
     (log/debug (str "generate: generating from spec: "
                     (strip-refs spec) " with max-total-depth: " max-total-depth ";truncate: " truncate-children))
     (let [expression (first (take 1 (generate-all spec language-model 0
@@ -57,7 +58,7 @@
       (if expression
         (do
           (log/info (str "generate: generated "
-                         "'" (morph expression) "'"
+                         (morph-ps expression)
                          " for spec:" (strip-refs spec)))
           (log/trace (str "generate: generated "
                           "'" (morph expression) "';"

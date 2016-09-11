@@ -18,6 +18,9 @@
 (declare against-pred)
 (declare matching-head-lexemes)
 
+(defn fo-ps [expr]
+  (parse/fo-ps expr fo))
+
 (defn enrich [spec lexicon]
   (against-pred spec lexicon))
 
@@ -480,6 +483,7 @@
      :language-keyword :français
      :lookup (fn [arg]
                (morph/analyze arg lexicon))
+     :morph-ps fo-ps
      :enrich enrich
      :grammar grammar
      ;; Will throw exception if more than 1 rule has the same :rule value:
@@ -528,6 +532,7 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
+     :morph-ps fo-ps
      :language "fr"
      :language-keyword :français
      :lookup (fn [arg]

@@ -5,7 +5,7 @@
    [babel.index :refer [create-index]]
    [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
-   [babel.parse :as parse :refer [fo-ps]]
+   [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
                      root-is-head root-is-head-root subcat-1-principle
@@ -18,6 +18,9 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
+
+(defn fo-ps [expr]
+  (parse/fo-ps expr fo))
 
 (defn exception [error-string]
   #?(:clj

@@ -911,7 +911,8 @@
                       :sem {:pred :form}}}
 
  "fornire"  {:synsem {:cat :verb
-                      :sem {:pred :furnish}}}
+                      :sem {:pred :furnish}}
+             :italiano {:boot-stem1 "fornisc"}}
 
  "funzionare" {:synsem {:cat :verb
                         :essere false

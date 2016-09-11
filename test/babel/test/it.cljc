@@ -3,7 +3,7 @@
   (:require
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.italiano :refer [analyze generate lightning-bolts parse preprocess]]
+   [babel.italiano :refer [analyze fo-ps generate lightning-bolts parse preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo
                                                 replace-patterns]]
@@ -11,7 +11,6 @@
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
-   [babel.parse :as parse :refer [fo-ps]]
    #?(:clj [clojure.test :refer [deftest is]])
    #?(:cljs [cljs.test :refer-macros [deftest is]])
    #?(:clj [clojure.tools.logging :as log])
@@ -471,3 +470,16 @@
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
            (fo gen-result)))))
+
+(deftest davanti-il-tavolo
+  (let [expr (generate {:synsem {:cat :prep
+                                 :sem {:pred :in-front-of
+                                       :reflexive false
+                                       :obj {:pred :table
+                                             :mod '()
+                                             :number :sing
+                                             :spec {:def :def
+                                                    :pred :definite}}}}})]
+    (is (= (fo expr)
+           "davanti il tavolo"))))
+

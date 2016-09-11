@@ -181,9 +181,17 @@
                      } ;; end of map
                     ))
 
-           (unify common
-                  {:synsem {:sem {:pred :be}
-                            :subcat {:2 {:cat :prep}}}})])
+           (let [pred (atom :top)
+                 obj (atom :top)]
+             (unify common
+                    {:synsem {:cat :verb
+                              :sem {:obj obj
+                                    :pred pred}
+                              :subcat {:1 {:cat :noun}
+                                       :2 {:cat :prep
+                                           :sem {:obj obj
+                                                 :pred pred}
+                                           }}}}))])
 
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -2212,13 +2220,6 @@
                   {:synsem {:cat :verb
                             :subcat {:2 {:subcat '()}}}})
                  
-                 (default
-                  (let [location (atom :top)]
-                    {:synsem {:cat :verb
-                              :sem {:location location}
-                              :subcat {:2 {:cat :prep
-                                           :sem location}}}}))
-                                         
                  ))))
 
 

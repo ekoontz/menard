@@ -1569,6 +1569,10 @@
                                  :1plur "sediamo"
                                  :2plur "sedete"
                                  :3plur "siedono"}}}
+
+ "sedia" {:synsem {:cat :noun
+                   :agr {:gender :fem}
+                   :sem {:pred :chair}}}
  
  "sgridare" {:synsem {:cat :verb
                       :sem {:pred :scold}}}

@@ -205,6 +205,7 @@
 
 (deftest in-front-of
   (let [expr (generate {:synsem {:cat :prep
+                                 :reflexive false
                                  :sem {:pred :in-front-of
                                        :obj {:pred :table
                                              :mod '()

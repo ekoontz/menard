@@ -184,7 +184,6 @@
            (unify common
                   {:synsem {:sem {:pred :be}
                             :subcat {:2 {:cat :prep}}}})])
-             
 
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -2208,9 +2207,9 @@
                               :sem {:obj obj-sem}}}))
 
                  (default
-                  (let [location (atom :top)]
-                    {:synsem {:cat :verb
-                              :subcat {:2 {:subcat '()}}}}))
+                  {:synsem {:cat :verb
+                            :subcat {:2 {:subcat '()}}}})
+                 
                  (default
                   (let [location (atom :top)]
                     {:synsem {:cat :verb

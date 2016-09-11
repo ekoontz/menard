@@ -203,6 +203,7 @@
                            (let [propernoun (atom :top)
                                  head-sem (atom :top)]
                              {:synsem {:modified true
+                                       :reflexive false
                                        :propernoun propernoun}
                               :comp {:synsem {:cat :adjective
                                               :sem head-sem}}
@@ -221,6 +222,7 @@
                              {:rule "noun-phrase1"
                               :aliases (list "np1")
                               :synsem {:agr {:number number-agreement}
+                                       :reflexive false
                                        :cat :noun
                                        :propernoun propernoun
                                        :sem {:number number-agreement
@@ -235,6 +237,7 @@
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
+                                       :reflexive false
                                        :propernoun propernoun
                                        :sem {:mod {:pred :top}
                                              :number number-agreement}}

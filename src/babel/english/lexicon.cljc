@@ -91,11 +91,9 @@
    "assure" {:synsem {:cat :verb
                       :sem {:pred :assure}}}
 
-   "at" (let [obj (atom {:place true
-                         :reflexive false})]
+   "at" (let [obj (atom {:place true})]
           {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun
-                                 :pronoun false
                                  :subcat '()
                                  :sem obj}}
                     :sem {:obj obj

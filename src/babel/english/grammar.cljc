@@ -241,7 +241,9 @@
                               :head {:phrasal true
                                      :synsem {:propernoun propernoun}}}))
 
-                   (let [sem (atom :top)]
+                   (let [sem (atom :top)
+                         agr (atom :top)
+                         reflexive (atom :top)]
                      (unify-check h10
                       subcat-1-principle
                       head-first
@@ -249,10 +251,13 @@
                        :schema-symbol 'h10
                        :first :head
                        :rule "prepositional-phrase"
-                       :synsem {:cat :prep
+                       :synsem {:agr agr
+                                :cat :prep
+                                :reflexive reflexive
                                 :sem sem}
-                       :head {:synsem {:sem sem}}}))
-
+                       :head {:synsem {:sem sem
+                                       :subcat {:1 {:agr agr
+                                                    :reflexive reflexive}}}}}))
                    (unify-check c00
                                 modified
                                 (let [head-sem (atom :top)]

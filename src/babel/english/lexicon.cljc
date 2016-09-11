@@ -1672,8 +1672,7 @@
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
-   "table" {:synsem {:agr {:gender :masc}
-                     :cat :noun
+   "table" {:synsem {:cat :noun
                      :sem {:pred :table}}}
 
    "take" (let [common {:synsem {:cat :verb}

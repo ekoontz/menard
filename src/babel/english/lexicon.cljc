@@ -2217,7 +2217,10 @@
                  (default
                   {:synsem {:cat :verb
                             :subcat {:2 {:subcat '()}}}})
-                 
-                 ))))
 
-
+                 ;; A pronoun is either reflexive or not reflexive, but
+                 ;; a non-pronoun is never reflexive.
+                 (default
+                  {:synsem {:cat :noun
+                            :pronoun false
+                            :reflexive false}})))))

@@ -129,8 +129,8 @@
           (filter #(not (= % ""))
                   (take
                    10
-                   (repeatedly #(let [foo (generate {:synsem {:cat :verb
-                                                              :modified false
+                   (repeatedly #(let [foo (generate {:modified false
+                                                     :synsem {:cat :verb
                                                               :sem {:pred :be-called}}}
                                                     :model medium)]
                                   (is (not (= "" (fo foo))))

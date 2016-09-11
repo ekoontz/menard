@@ -186,12 +186,12 @@
              (unify common
                     {:synsem {:cat :verb
                               :sem {:obj obj
-                                    :pred pred}
+                                    :pred pred
+                                    :shared-with-obj true}
                               :subcat {:1 {:cat :noun}
                                        :2 {:cat :prep
                                            :sem {:obj obj
-                                                 :pred pred}
-                                           }}}}))])
+                                                 :pred pred}}}}}))])
 
    "be able to" {:english {:imperfect {:1sing "was able to"
                                        :2sing "were able to"
@@ -2205,7 +2205,6 @@
                           (let [subject-agr (atom :top)]
                             {:synsem {:subcat {:1 {:agr subject-agr}
                                                :2 {:agr subject-agr}}}}))
-
                  (default
                   (let [obj-sem (atom :top)]
                     {:synsem {:cat :prep
@@ -2215,7 +2214,6 @@
                                            :sem obj-sem}
                                        :2 '()}
                               :sem {:obj obj-sem}}}))
-
                  (default
                   {:synsem {:cat :verb
                             :subcat {:2 {:subcat '()}}}})

@@ -217,6 +217,7 @@ as a map of implications"}
 ;; they lack a {:pred} value.
 (def verb-pred-defaults
   (map #(unify {:synsem {:aux false
+                         :sem {:shared-with-obj false}
                          :cat :verb}}
                {:synsem {:sem %}})
          

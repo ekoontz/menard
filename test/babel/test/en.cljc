@@ -205,8 +205,8 @@
 
 (deftest in-front-of
   (let [expr (generate {:synsem {:cat :prep
-                                 :reflexive false
                                  :sem {:pred :in-front-of
+                                       :reflexive false
                                        :obj {:pred :table
                                              :mod '()
                                              :number :sing
@@ -235,3 +235,20 @@
                        :model medium)]
     (is (= (fo expr)
            "the chair is in front of the table"))))
+
+(deftest reflexive-furniture-sentence
+  (let [expr (generate {:modified false
+                        :comp {:synsem {:agr {:person :3rd}}}
+                        :synsem {:cat :verb
+                                 :sem {:aspect :progressive
+                                       :pred :in-front-of
+                                       :reflexive true
+                                       :subj {:pred :chair
+                                              :mod '()
+                                              :number :sing
+                                              :spec {:def :def
+                                                     :pred :definite}}
+                                       :tense :present}}}
+                       :model medium)]
+    (is (= (fo expr)
+           "the chair is in front of itself"))))

@@ -337,6 +337,9 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
              ;; do not apply rule if (:subcat :2) is explicitly empty.
              (not (= '() (get-in lexical-entry [:synsem :subcat :2])))
 
+             ;; do not apply rule if (:subcat :2) is not noun.
+             (= :noun (get-in lexical-entry [:synsem :subcat :2 :cat] :noun))
+
              ;; do not apply rule if there is :3.
              (= :none (get-in lexical-entry [:synsem :subcat :3] :none)))
 

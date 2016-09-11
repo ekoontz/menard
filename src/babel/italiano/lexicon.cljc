@@ -280,7 +280,9 @@
        (let [object-semantics (atom :top)]
          {:synsem {:cat :prep
                    :subcat {:1 {:cat :noun
-                                :sem object-semantics}}
+                                :subcat '()
+                                :sem object-semantics}
+                            :2 '()}
                    :sem {:obj object-semantics}}}))
       ;; </preposition default rules>
       

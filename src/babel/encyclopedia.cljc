@@ -154,6 +154,8 @@ as a map of implications"}
                       :legible false
                       :place false}
 
+   {:pred :chair}    {:furniture true}
+   
    {:pred :coffee}   {:artifact true
                       :drinkable true}
 
@@ -190,16 +192,16 @@ as a map of implications"}
    ;; Note the use of {:cat :verb} to distinguish this
    ;; from ..
    {:pred :study   
-    :cat :verb}  {:activity true
-                  :subj {:human true}
-                  :obj {:legible true}}
+    :cat :verb}      {:activity true
+                      :subj {:human true}
+                      :obj {:legible true}}
 
    ;; .. the next rule which applies to nouns only.
    {:pred :study   
-    :cat :noun}  {:place true}
+    :cat :noun}      {:place true}
 
 
-   {:pred :table} {:furniture true}
+   {:pred :table}    {:furniture true}
 
    {:pred :vino}     {:artifact true
                       :drinkable true}

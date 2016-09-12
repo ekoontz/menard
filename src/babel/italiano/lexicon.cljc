@@ -285,6 +285,12 @@
                                 :sem object-semantics}
                             :2 '()}
                    :sem {:obj object-semantics}}}))
+
+      ;; a preposition's object cannot be a reflexive pronoun.
+      (default
+       {:synsem {:cat :prep
+                 :subcat {:1 {:reflexive false}}}})
+
       ;; </preposition default rules>
       
       ;; <adjective default rules>

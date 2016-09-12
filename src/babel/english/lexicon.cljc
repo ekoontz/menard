@@ -766,7 +766,8 @@
    {:synsem {:cat :verb
               :sem {:activity true
                     :discrete false
-                    :pred :go}}
+                    :pred :go}
+             :subcat {:2 {:cat :prep}}}
     :english {:past "went"}}
 
    "go downstairs"

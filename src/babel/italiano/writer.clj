@@ -2,21 +2,23 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.engine :as engine])
-(require '[babel.italiano.grammar :refer [small create-model-for-spec]])
+(require '[babel.italiano.grammar :as grammar :refer [create-model-for-spec]])
 (require '[babel.italiano.morphology :as morph])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :refer [join]])
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
+(def small (grammar/small))
+
 (defn expression [spec]
-  (engine/expression @small spec))
+  (engine/expression small spec))
 
 (defn fo [spec]
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (let [lexicon (:lexicon @small)]
+  (let [lexicon (:lexicon small)]
     (write-lexicon "it" lexicon)))
 
 (declare generate-one-verb)
@@ -25,7 +27,7 @@
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-        lexicon (:lexicon @small)
+        lexicon (:lexicon small)
         lexemes (if lexeme (list (get lexicon lexeme))
                     (vals lexicon))
         root-verbs 

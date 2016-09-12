@@ -650,9 +650,10 @@
 (defn create-model-for-spec [spec]
   (let [root (get-in spec [:root :italiano :italiano])
         pred (get-in spec [:synsem :sem :pred])
+        small (small)
         micro-lexicon
         (into {}
-              (for [[k v] (:lexicon @small)]
+              (for [[k v] (:lexicon small)]
                 (let [filtered-v
                       (filter #(and
                                 (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
@@ -683,9 +684,9 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
     (log/debug (str "micro lexicon size:" (count (keys micro-lexicon))))
-    (clojure.core/merge @small
+    (clojure.core/merge small
                         {:lexicon micro-lexicon
-                         :index (create-index (:grammar @small)
+                         :index (create-index (:grammar small)
                                               (flatten (vals micro-lexicon)) head-principle)})))
 
 (defn medium []

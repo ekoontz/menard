@@ -2046,6 +2046,9 @@
                                :2 {:cat :comp
                                    :comp-type :if
                                    :subcat '()}}}}
+   "word" {:synsem {:cat :noun
+                    :sem {:pred :word}}}
+
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human}}
             :english {:note "human"}}

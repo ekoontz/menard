@@ -139,7 +139,8 @@
 
 (deftest mod-is-empty-list
   (let [result (generate {:modified false
-                          :synsem {:sem {:pred :name
+                          :synsem {:cat :verb
+                                   :sem {:pred :name
                                          :mod '()}}})]
     (is (= (get-in result [:synsem :sem :mod]
                    :undefined-should-not-return-this)

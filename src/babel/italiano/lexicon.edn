@@ -829,18 +829,23 @@
                                     :2 '()}}}}}
 
     ;; essere: prepositional phrase
-    {:unify [essere-common pred-is-obj-pred]
-     :notes "essere-prepositional-phrase"
-     :synsem {:cat :verb
-              :aux false
-              :sem {:pred :a ;; semantics are shared with [:subcat :2], the prepositional phrase.
-                    :obj {:place true}}
-              ;; TODO: should not need agreement: should be covered by
-              ;; essere-common.
-              :subcat {:1 {:cat :noun}
-                       :2 {:cat :prep
-                           :subcat '()}
-                       :3 '()}}}
+    (let [pred (atom :top)
+          obj (atom :top)]
+      {:unify [essere-common]
+       :notes "essere-prepositional-phrase"
+       :synsem {:cat :verb
+                :aux false
+                :sem {:pred pred ;; semantics are shared with [:subcat :2], the prepositional phrase.
+                      :obj obj
+                      :reflexive false
+                      :shared-with-obj true}
+                :subcat {:1 {:cat :noun}
+                         :2 {:cat :prep
+                             :reflexive false
+                             :sem {:obj obj
+                                   :pred pred}
+                             :subcat '()}
+                         :3 '()}}})
 
     {:unify [essere-common]
      :notes "existential"

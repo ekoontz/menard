@@ -584,7 +584,7 @@
 (defn plural-en [english]
   (if (re-find #"[t][y]$" english) ;; city => cities
     (replace english #"[y]$" "ies")
-    (if (re-find #"[hsx]$" english) ;; brush => brushes
+    (if (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
       (str english "es")
       ;; default case.
       (str english "s"))))

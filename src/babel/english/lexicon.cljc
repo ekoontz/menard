@@ -237,7 +237,8 @@
                           :sem {:pred :be-able-to}}}
    
    "be born" {:synsem {:cat :verb
-                       :sem {:pred :be-born}}
+                       :sem {:pred :be-born}
+                       :subcat {:2 '()}}
               :english {:future "be born"
                         :participle "being born"
                         :conditional "be born"

@@ -248,6 +248,9 @@ as a map of implications"}
          :pred :amare
          :subj {:human true}}
 
+        {:pred :answer
+         :subj {:human true}}
+
         {:pred :bring
          :subj {:human true}
          :obj {:buyable true}}
@@ -372,6 +375,9 @@ as a map of implications"}
         {:pred :speak
          :subj {:human true}
          :obj {:speakable true}}
+
+        {:pred :stampare
+         :obj {:legible true}}
 
         {:pred :steal
          :subj {:animate true}

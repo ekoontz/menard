@@ -555,8 +555,8 @@
                    :sem {:pred :mangiare}}}
 
    "eat dinner" {:synsem {:cat :verb
-                          :sem {:pred :have-dinner}}
-                 :transitivize false
+                          :sem {:pred :have-dinner}
+                          :subcat {:2 '()}}
                  :english {:present {:3sing "eats dinner"}
                            :participle "eating dinner"
                            :past "ate dinner"}}

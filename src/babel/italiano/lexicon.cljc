@@ -88,6 +88,7 @@
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun
+                 :agr {:person :3rd}
                  :pronoun false
                  :propernoun false}})
 

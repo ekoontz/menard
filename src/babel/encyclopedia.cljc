@@ -208,6 +208,10 @@ as a map of implications"}
 
    {:pred :vino}     {:artifact true
                       :drinkable true}
+
+   {:pred :word}     {:legible true
+                      :speakable true}
+
    ;; </preds>
 
    {:stupid true}    {:animate true}

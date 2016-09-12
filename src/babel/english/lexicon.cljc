@@ -1683,7 +1683,9 @@
                      :sem {:pred :start}}}
    
    "stay" {:synsem {:cat :verb
-                    :sem {:pred :stay}}}
+                    :sem {:pred :stay}
+                    :subcat {:2 {:cat :prep
+                                 :sem {:pred :at}}}}}
 
    "stain" {:synsem {:cat :verb
                      :sem {:pred :stain}}}

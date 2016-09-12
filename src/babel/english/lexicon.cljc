@@ -1623,8 +1623,11 @@
                     :sem {:pred :show
                           :past-participle "shown"}}}
 
-   "sigh" {:synsem {:cat :verb
-                :sem {:pred :sigh}}}
+   "sigh" [{:synsem {:cat :verb
+                     :sem {:pred :sigh}
+                     :subcat {:2 {:sem {:pred :sigh}}}}}
+           {:synsem {:cat :noun
+                     :sem {:pred :sigh}}}]
 
    "sing" {:synsem {:cat :verb
                     :sem {:pred :sing}}

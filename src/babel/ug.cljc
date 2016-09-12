@@ -251,3 +251,15 @@
     {:root root
      :comp root}))
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
+
+(defn unify-check [ & vals]
+  (let [result (apply unifyc vals)]
+    (if (fail? result)
+      (exception (str "failed to unify grammar rule with values: " vals))
+      result)))

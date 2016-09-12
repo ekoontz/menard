@@ -18,6 +18,7 @@
                      subcat-2-principle
                      subcat-2-2-principle
                      subcat-5-principle
+                     unify-check
                      ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -28,18 +29,6 @@
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
-
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. (str ": " error-string))))
-  #?(:cljs
-     (throw (js/Error. error-string))))
-
-(defn unify-check [ & vals]
-  (let [result (apply unifyc vals)]
-    (if (fail? result)
-      (exception (str "failed to unify grammar rule with values: " vals))
-      result)))
 
 (def hc-agreement
   (let [agr (atom :top)]

@@ -1,7 +1,7 @@
 (ns babel.test.en
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
-            [babel.english :refer [analyze fo-ps generate parse]]
+            [babel.english :refer [analyze fo-ps generate parse sentences]]
             [babel.english.grammar :as grammar]
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
@@ -254,3 +254,19 @@
                        :model medium)]
     (is (= (fo expr)
            "the chair is in front of itself"))))
+
+(deftest infinitive-vp
+  (let [medium (grammar/medium)
+        vp-infinitive (:vp-infinitive (:grammar-map medium))
+        expr (-> vp-infinitive
+                 (overh (get (:lexicon medium) "speak"))
+                 (overc (generate {:synsem {:sem {:pred :word
+                                                  :mod '()
+                                                  :spec {:def :def
+                                                         :pred :definite}}
+                                            :cat :noun}})))]
+    (is true)))
+
+
+    
+        

@@ -182,6 +182,9 @@ as a map of implications"}
    {:pred :salad}    {:artifact true
                       :edible true}
 
+   {:pred :sigh}     {:physical-object false
+                      :event true}
+   
    {:pred :shoe}     {:clothing true}
 
    {:pred :student}  {:human true}
@@ -355,6 +358,9 @@ as a map of implications"}
 
         {:pred :scold
          :subj {:human true}}
+
+        {:pred :sigh
+         :subj {:human true}}
         
         {:pred :sleep
          :subj {:animate true}}
@@ -386,6 +392,12 @@ as a map of implications"}
 
         {:pred :try
          :subj {:animate true}}
+
+        {:pred :understand
+         :subj {:human true}}
+
+        {:pred :understand-deeply
+         :subj {:human true}}
         
         {:pred :vendere
          :subj {:human true}

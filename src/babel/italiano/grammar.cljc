@@ -273,12 +273,16 @@
                                      :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
-                   (let [reflexive (atom :top)]
-                     (unifyc h10
-                             {:rule "prepositional-phrase"
-                              :synsem {:cat :prep
-                                       :reflexive reflexive}
-                              :head {:synsem {:subcat {:1 {:reflexive reflexive}}}}}))
+                   (let [reflexive (atom :top)
+                         sem (atom :top)]
+                     (unify-check h10
+                                  subcat-1-principle
+                                  {:rule "prepositional-phrase"
+                                   :synsem {:cat :prep
+                                            :reflexive reflexive
+                                            :sem sem}
+                                   :head {:synsem {:sem sem
+                                                   :subcat {:1 {:reflexive reflexive}}}}}))
 
 ;                   (unifyc h21
 ;                           {:rule "adjunct-prepositional-phrase"

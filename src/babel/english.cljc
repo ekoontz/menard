@@ -80,3 +80,14 @@
    (parse/parse (preprocess input) model)))
 
 
+(defn sentences []
+  (let [model (medium)]
+    (repeatedly #(println (str (let [expr (generate {:modified false
+                                                     :synsem {:cat :verb}}
+                                                    :model model)
+                                     fo (fo expr :show-notes false)]
+                                 (str (string/capitalize (nth fo 0))
+                                      (string/join "" (rest (vec fo)))
+                                      ".")))))))
+
+

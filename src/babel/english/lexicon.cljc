@@ -1520,10 +1520,12 @@
                           :physical-object true
                           :human false}}})
 
+   ;; TODO: add PP[with] "remain with .."
    "remain" [{:synsem {:cat :verb
                        :sem {:pred :remain}}} ;; for other than italian
                     
              ;; these two below are for Italian.          
+
              
              {:english {:note {:it "ri"}}
               :synsem {:cat :verb
@@ -1543,7 +1545,6 @@
                         :sem {:pred :answer}
                         :subcat {:2 {:cat :prep
                                      :sem {:pred :to}}}}}
-
    "rest" {:synsem {:cat :verb
                 :sem {:pred :rest}}}
 

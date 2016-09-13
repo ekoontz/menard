@@ -451,13 +451,18 @@
                         :english {:participle "chatting"
                                   :past "chatted"}}]
             [(unify common ;; intransitive
-                    {:synsem {:subcat {:2 '()}}})
-             (unify common ;; transitive "chatted with <human>"
-                    {:synsem {:subcat {:2 {:cat :prep
-                                           :sem {:obj {:human true}
-                                                 :pred :with}
-                                           :subcat '()}}}})])
+                    {:synsem {:subcat {:2 '()}
+                              :sem {:obj :unspec}}})
+            (unify common
+                   {:synsem {:subcat {:2 {:cat :prep}}
+                             :sem {:got-here :yes}}})
              
+   ;          (unify common ;; transitive "chatted with <human>"
+;                    {:share-sem :obj
+;                     :synsem {:subcat {:2 {:cat :prep
+;                                           :sem {:pred :with}}}}})
+             ])
+   
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 
@@ -2233,6 +2238,7 @@
                   {:synsem {:cat :verb
                             :subcat {:2 {:cat :top}}}})
 
+                 ;; prevent :modal-with :infinitive matching unless it's already set
                  (default
                   {:modal-with false
                    :synsem {:cat :verb}})

@@ -1966,19 +1966,12 @@
                                             :2 '()}}
                                :3 '()}}})
 
-   "want" (let [modal-subject (atom {:cat :noun
-                                     :sem :top})]
-            [{:synsem {:cat :verb
-                       :sem {:pred :want}
-                       :subcat {:1 modal-subject
-                                :2 {:cat :verb
-                                    :infl :infinitive
-                                    :subcat {:1 modal-subject
-                                             :2 '()}}
-                                :3 '()}}}
-             {:synsem {:cat :verb
-                       :sem {:pred :want}
-                       :subcat {:1 modal-subject}}}])
+   "want" [{:modal-with :infinitive
+            :synsem {:cat :verb
+                     :sem {:pred :want}}}
+
+           {:synsem {:cat :verb
+                     :sem {:pred :want}}}]
 
    "warm" {:synsem {:cat :verb
                 :sem {:pred :warm}}}

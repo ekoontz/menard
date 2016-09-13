@@ -148,6 +148,9 @@ as a map of implications"}
 
    {:pred :bird}     {:animate true
                       :human false}
+
+   {:pred :book}     {:artifact true
+                      :legible true}
    
    {:pred :bread}    {:artifact true
                       :edible true}

@@ -80,8 +80,8 @@
    (parse/parse (preprocess input) model)))
 
 
-(defn sentences [ & [spec]]
-  (let [model (medium)
+(defn sentences [ & [spec model]]
+  (let [model (if model model (medium))
         spec (if spec
                (unifyc spec {:modified false})
                {:modified false

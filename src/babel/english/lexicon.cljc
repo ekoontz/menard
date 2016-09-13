@@ -79,7 +79,11 @@
    "arrive" [{:synsem {:cat :verb
                        :sem {:pred :arrive
                              :subcat {:2 {:cat :prep
-                                          :sem {:pred :at}}}}}}]
+                                          :sem {:pred :at}}}}}}
+             {:synsem {:cat :verb
+                       :sem {:pred :arrive
+                             :subcat {:2 '()}}}}]
+   
    "ask" {:synsem {:cat :verb
                    :sem {:pred :chiedere}}}
 

@@ -99,7 +99,6 @@
    "at" (let [obj (atom {:place true})]
           {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun
-                                 :subcat '()
                                  :sem obj}}
                     :sem {:obj obj
                           :pred :at}}})

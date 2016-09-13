@@ -210,32 +210,39 @@
                                            :sem {:obj obj
                                                  :pred pred}}}}}))])
 
-   "be able to" {:english {:imperfect {:1sing "was able to"
-                                       :2sing "were able to"
-                                       :3sing "was able to"
-                                       :1plur "were able to"
-                                       :2plur "were able to"
-                                       :3plur "were able to"}
+   "be able" (let [common {:english {:imperfect {:1sing "was able"
+                                                    :2sing "were able"
+                                                    :3sing "was able"
+                                                    :1plur "were able"
+                                                    :2plur "were able"
+                                                    :3plur "were able"}
+                                        
+                                        ;; TODO: improve this. Currently sounds pretty awkward:
+                                        ;; "he was being able"
+                                        :participle "being able"
 
-                           ;; TODO: improve this. Currently sounds pretty awkward:
-                           ;; "he was being able to"
-                           :participle "being able to"
+                                        :present {:1sing "am able"
+                                                  :2sing "are able"
+                                                  :3sing "is able"
+                                                  :1plur "are able"
+                                                  :2plur "are able"
+                                                  :3plur "are able"}
+                                        :past {:1sing "was able"
+                                               :2sing "were able"
+                                               :3sing "was able"
+                                               :1plur "were able"
+                                               :2plur "were able"
+                                               :3plur "were able"}}}]
+               [(unify common
+                       {:modal-with :infinitive
+                        :synsem {:cat :verb
+                                 :sem {:pred :be-able-to}}})
+                (unify common
+                       {:synsem {:cat :verb
+                                 :sem {:pred :be-able-to}
+                                 :subcat {:1 {:cat :top}
+                                          :2 '()}}})])
 
-                           :present {:1sing "am able to"
-                                     :2sing "are able to"
-                                     :3sing "is able to"
-                                     :1plur "are able to"
-                                     :2plur "are able to"
-                                     :3plur "are able to"}
-                           :past {:1sing "was able to"
-                                  :2sing "were able to"
-                                  :3sing "was able to"
-                                  :1plur "were able to"
-                                  :2plur "were able to"
-                                  :3plur "were able to"}}
-                 :synsem {:cat :verb
-                          :sem {:pred :be-able-to}}}
-   
    "be born" {:synsem {:cat :verb
                        :sem {:pred :be-born}
                        :subcat {:2 '()}}
@@ -2203,8 +2210,23 @@
                   {:synsem {:cat :verb
                             :subcat {:2 {:cat :top}}}})
 
+                 (default
+                  {:modal-with false
+                   :synsem {:cat :verb}})
+
+                 (default
+                  (let [modal-subject (atom {:cat :noun})]
+                    {:modal-with :infinitive
+                     :synsem {:cat :verb
+                              :subcat {:1 modal-subject
+                                       :2 {:cat :verb
+                                           :infl :infinitive
+                                           :subcat {:1 modal-subject
+                                                    :2 '()}}}}}))
+
                  ;; add :sem :obj if necessary, so that intransitivize is triggered.
-                 (if-then {:synsem {:cat :verb
+                 (if-then {:modal-with false
+                           :synsem {:cat :verb
                                     :subcat {:2 {:cat :noun}}}}
                           {:synsem {:sem {:obj {:pred :top}}}})
                  

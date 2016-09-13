@@ -1189,7 +1189,9 @@
                       :sem {:pred :leave}}}]
 
    "lie" {:synsem {:cat :verb
-                   :sem {:pred :lie}}}
+                   :sem {:pred :lie}
+                   :subcat {:2 {:cat :prep
+                                :sem {:pred :to}}}}}
    
    "lift" {:synsem {:cat :verb
                     :sem {:pred :lift}}}

@@ -839,12 +839,21 @@
                      :sem {:pred :guess}}}
    
    ;; TODO: add auxiliary sense of "have"
-   "have" {:synsem {:cat :verb
-                    :sem {:activity false
-                          :discrete false
-                          :pred :have}}
-           :english {:present {:3sing "has"}
-                     :past "had"}}
+   "have" [;; possessive
+           {:synsem {:cat :verb
+                     :subcat {:2 {:cat :noun}}
+                     :sem {:activity false
+                           :discrete false
+                           :pred :have}}
+            :english {:present {:3sing "has"}
+                      :past "had"}}
+
+           ;; modal: "have to + VP"
+           {:synsem {:cat :verb
+                     :sem {:pred :have-to}}
+            :english {:present {:3sing "has"}
+                      :past "had"}
+            :modal-with :infinitive}]
 
    "have dinner" {:synsem {:cat :verb
                            :sem {:pred :have-dinner}
@@ -870,17 +879,6 @@
                            :past "had lunch"
                            :participle "having lunch"}}
    
-   "have to" {:synsem {:cat :verb
-                       :sem {:pred :have-to}}
-              :english {:present {:1sing "have to"
-                                  :2sing "have to"
-                                  :3sing "has to"
-                                  :1plur "have to"
-                                  :2plur "have to"
-                                  :3plur "have to"}
-                        :future "have to"
-                        :participle "having to"
-                        :past "had to"}}
    "he" {:synsem {:cat :noun
                   :pronoun true
                   :case :nom

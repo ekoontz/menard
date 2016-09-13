@@ -256,8 +256,9 @@ as a map of implications"}
          :subj {:human true}}
 
         {:pred :answer
-         :subj {:human true}}
-
+         :subj {:human true}
+         :obj {:human true}}
+        
         {:pred :bring
          :subj {:human true}
          :obj {:buyable true}}

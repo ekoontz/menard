@@ -2247,6 +2247,20 @@
                                            :subcat {:1 modal-subject
                                                     :2 '()}}}}}))
 
+
+                 ;; prevent :shared-semantics :obj unless it's already set
+                 (default
+                  {:share-sem false
+                   :synsem {:cat :verb}})
+
+                 ;; semantic object of lexical verb is the same as the object of verb's prepositional phrase.
+                 (default
+                  (let [obj (atom :top)]
+                    {:share-sem :obj
+                     :synsem {:sem {:obj obj}
+                              :subcat {:2 {:cat :prep
+                                           :sem {:obj obj}}}}}))
+
                  ;; add :sem :obj if necessary, so that intransitivize is triggered.
                  (if-then {:modal-with false
                            :synsem {:cat :verb

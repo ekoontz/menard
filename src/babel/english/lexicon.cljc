@@ -450,19 +450,15 @@
                                  :sem {:pred :chat}}
                         :english {:participle "chatting"
                                   :past "chatted"}}]
-            [(unify common ;; intransitive
-                    {:synsem {:subcat {:2 '()}
-                              :sem {:obj :unspec}}})
-            (unify common
-                   {:synsem {:subcat {:2 {:cat :prep}}
-                             :sem {:got-here :yes}}})
+            [(unify common ;; intransitive TODO: remove: intransitivization should happen automatically in lexical compilation.
+                    {:synsem {:subcat {:2 '()}}})
+             (unify common ;; transitive "chatted with <human>"
+                    {:share-sem :obj
+                     :synsem {:subcat {:2 {:cat :prep
+                                           :sem {:obj {:human true}
+                                                 :pred :with}
+                                           :subcat '()}}}})])
              
-   ;          (unify common ;; transitive "chatted with <human>"
-;                    {:share-sem :obj
-;                     :synsem {:subcat {:2 {:cat :prep
-;                                           :sem {:pred :with}}}}})
-             ])
-   
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 
@@ -505,14 +501,11 @@
    "convert" {:synsem {:cat :verb
                        :sem {:pred :convert}}}
 
-   "correspond" (let [obj (atom {:human true})]
-                  {:synsem {:cat :verb
-                            :sem {:pred :correspond
-                                  :subj {:human true}
-                                  :obj obj}
-                            :subcat {:2 {:cat :prep
-                                         :sem {:pred :with
-                                               :obj obj}}}}})
+   "correspond" {:share-sem :obj
+                 :synsem {:cat :verb
+                          :sem {:pred :correspond}
+                          :subcat {:2 {:cat :prep
+                                       :sem {:pred :with}}}}}
    "count" {:synsem {:cat :verb
                       :sem {:pred :count}}}
    
@@ -1545,8 +1538,11 @@
    "reserve" {:synsem {:cat :verb
                 :sem {:pred :reserve}}}
 
-   "respond"  {:synsem {:cat :verb
-                        :sem {:pred :answer}}}
+   "respond"  {:share-sem :obj
+               :synsem {:cat :verb
+                        :sem {:pred :answer}
+                        :subcat {:2 {:cat :prep
+                                     :sem {:pred :to}}}}}
 
    "rest" {:synsem {:cat :verb
                 :sem {:pred :rest}}}

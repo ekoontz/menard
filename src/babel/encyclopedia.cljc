@@ -277,7 +277,8 @@ as a map of implications"}
          :subj {:human true}}
 
         {:pred :chat
-         :subj {:human true}}
+         :subj {:human true}
+         :obj {:human true}}
 
         {:pred :come
          :subj {:animate true}}

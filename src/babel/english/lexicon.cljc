@@ -329,10 +329,16 @@
                        :subcat {:2 '()}}
               :english {:past "became"}}]
    
-   "begin" {:synsem {:cat :verb
-                     :sem {:pred :begin}}
-            :english {:past "began"
-                      :participle "beginning"}}
+   "begin" [{:synsem {:cat :verb
+                      :sem {:pred :begin}
+                      :subcat {:2 '()}}
+             :english {:past "began"
+                       :participle "beginning"}}
+            {:modal-with :infinitive
+             :synsem {:cat :verb
+                      :sem {:pred :begin}}
+             :english {:past "began"
+                       :participle "beginning"}}]
 
    "believe" (let [common {:synsem {:cat :verb
                                     :subcat {:1 {:cat :noun
@@ -789,18 +795,20 @@
 
    "go downstairs"
    {:synsem {:cat :verb
-              :sem {:activity true
-                    :discrete false
-                    :pred :go-downstairs}}
+             :sem {:activity true
+                   :discrete false
+                   :pred :go-downstairs}
+             :subcat {:2 '()}}
     :english {:past "went downstairs"
               :participle "going downstairs"
               :present {:3sing "goes downstairs"}}}
    
    "go out"
    {:synsem {:cat :verb
-              :sem {:activity true
-                    :discrete false
-                    :pred :go-out}}
+             :sem {:activity true
+                   :discrete false
+                   :pred :go-out}
+             :subcat {:2 '()}}
     :english {:past "went out"
               :participle "going out"
               :present {:3sing "goes out"}}}
@@ -809,7 +817,8 @@
    {:synsem {:cat :verb
              :sem {:activity true
                    :discrete false
-                   :pred :go-upstairs}}
+                   :pred :go-upstairs}
+             :subcat {:2 '()}}
     :english {:past "went upstairs"
               :participle "going upstairs"
               :present {:3sing "goes upstairs"}}}
@@ -1620,6 +1629,7 @@
    "set" {:synsem {:cat :verb
                    :sem {:pred :set}}
           :english {:past {:english "set"
+                           :participle "setting"
                            :note "past tense"}}}
 
    "share" {:synsem {:cat :verb
@@ -1922,6 +1932,13 @@
                          :participle "transferring"}
                :synsem {:cat :verb
                         :sem {:pred :transfer}}}
+              
+   "try" [{:modal-with :infinitive
+           :synsem {:cat :verb
+                    :sem {:pred :try}}}
+          {:synsem {:cat :verb
+                    :sem {:pred :try}
+                    :subcat {:2 '()}}}]
 
    "understand" (let [common {:english {:past "understood"}}]
                   [(unify
@@ -1959,16 +1976,6 @@
 
    "walk" {:synsem {:cat :verb
                 :sem {:pred :walk}}}
-              
-   "try" (let [modal-subject (atom {:cat :noun})]
-            {:synsem {:cat :verb
-                      :sem {:pred :try}
-                      :subcat {:1 modal-subject
-                               :2 {:cat :verb
-                                   :infl :infinitive
-                                   :subcat {:1 modal-subject
-                                            :2 '()}}
-                               :3 '()}}})
 
    "want" [{:modal-with :infinitive
             :synsem {:cat :verb

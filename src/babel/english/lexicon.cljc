@@ -212,28 +212,28 @@
                                                  :pred pred}}}}}))])
 
    "be able" (let [common {:english {:imperfect {:1sing "was able"
-                                                    :2sing "were able"
-                                                    :3sing "was able"
-                                                    :1plur "were able"
-                                                    :2plur "were able"
-                                                    :3plur "were able"}
-                                        
-                                        ;; TODO: improve this. Currently sounds pretty awkward:
-                                        ;; "he was being able"
-                                        :participle "being able"
-
-                                        :present {:1sing "am able"
-                                                  :2sing "are able"
-                                                  :3sing "is able"
-                                                  :1plur "are able"
-                                                  :2plur "are able"
-                                                  :3plur "are able"}
-                                        :past {:1sing "was able"
-                                               :2sing "were able"
-                                               :3sing "was able"
-                                               :1plur "were able"
-                                               :2plur "were able"
-                                               :3plur "were able"}}}]
+                                                 :2sing "were able"
+                                                 :3sing "was able"
+                                                 :1plur "were able"
+                                                 :2plur "were able"
+                                                 :3plur "were able"}
+                                     
+                                     ;; TODO: improve this. Currently sounds pretty awkward:
+                                     ;; "he was being able"
+                                     :participle "being able"
+                                     
+                                     :present {:1sing "am able"
+                                               :2sing "are able"
+                                               :3sing "is able"
+                                               :1plur "are able"
+                                               :2plur "are able"
+                                               :3plur "are able"}
+                                     :past {:1sing "was able"
+                                            :2sing "were able"
+                                            :3sing "was able"
+                                            :1plur "were able"
+                                            :2plur "were able"
+                                            :3plur "were able"}}}]
                [(unify common
                        {:modal-with :infinitive
                         :synsem {:cat :verb

@@ -2070,8 +2070,9 @@
                       :sem {:pred :scrivere}}}
 
    "yell" {:synsem {:cat :verb
-                    :sem {:pred :yell}}}
-   
+                    :sem {:pred :yell}
+                    :subcat {:2 {:cat :prep
+                                 :sem {:pred :at}}}}}
    "you"
    [{:english {:note "♂"}
      :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..

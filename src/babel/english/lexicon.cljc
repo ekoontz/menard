@@ -1788,7 +1788,9 @@
                                  :sem {:pred :take-advantage-of}}}
    "talk"
    {:synsem {:cat :verb
-             :sem {:pred :talk}}}
+             :sem {:pred :talk}
+             :subcat {:2 {:cat :prep
+                          :sem {:pred :to}}}}}
    "tall"
    (unify adjective
           {:synsem {:cat :adjective

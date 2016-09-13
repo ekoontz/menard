@@ -145,6 +145,8 @@ as a map of implications"}
                       :legible false
                       :place false
                       :spec {:of {:human true}}}
+
+   {:pred :bird}     {:animate true}
    
    {:pred :bread}    {:artifact true
                       :edible true}

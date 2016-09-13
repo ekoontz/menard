@@ -339,6 +339,9 @@
                              :artifact true
                              :consumable false
                              :place false}}}
+
+   "bird" {:synsem {:cat :noun
+                    :sem {:pred :bird}}}
    "black"
    (unify adjective
           {:synsem {:cat :adjective

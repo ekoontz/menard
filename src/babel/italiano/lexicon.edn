@@ -1718,6 +1718,11 @@
             :sem {:pred :tu
                   :human true}
             :subcat '()}}]
+
+ "uccello"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :bird}}}
  
  "un" [{:synsem {:cat :det
                  :def :indef

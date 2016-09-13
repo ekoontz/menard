@@ -491,7 +491,8 @@
                       :sem {:pred :create}}}
 
    "cry" {:synsem {:cat :verb
-                    :sem {:pred :cry}}}
+                   :sem {:pred :cry}
+                   :subcat {:2 '()}}}
 
    "cut" {:english {:past "cut"
                     :participle "cutting"}

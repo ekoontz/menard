@@ -348,6 +348,10 @@ as a map of implications"}
         {:pred :imagine
          :subj {:human true}}
 
+        {:pred :learn
+         :subj {:human true}
+         :obj {:legible true}} ;; not quite right, but a rough start.
+
         {:pred :leave
          :subj {:animate true}}
 

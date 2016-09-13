@@ -500,9 +500,14 @@
    "convert" {:synsem {:cat :verb
                        :sem {:pred :convert}}}
 
-   "correspond" {:synsem {:cat :verb
-                          :sem {:pred :correspond}}}
-
+   "correspond" (let [obj (atom {:human true})]
+                  {:synsem {:cat :verb
+                            :sem {:pred :correspond
+                                  :subj {:human true}
+                                  :obj obj}
+                            :subcat {:2 {:cat :prep
+                                         :sem {:pred :with
+                                               :obj obj}}}}})
    "count" {:synsem {:cat :verb
                       :sem {:pred :count}}}
    

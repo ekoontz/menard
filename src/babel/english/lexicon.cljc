@@ -2263,7 +2263,8 @@
                  (default
                   (let [obj (atom :top)]
                     {:share-sem :obj
-                     :synsem {:sem {:obj obj}
+                     :synsem {:cat :verb
+                             :sem {:obj obj}
                               :subcat {:2 {:cat :prep
                                            :sem {:obj obj}}}}}))
 

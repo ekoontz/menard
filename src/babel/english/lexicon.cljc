@@ -1654,7 +1654,22 @@
 
    "shoe" {:synsem {:cat :noun
                     :sem {:pred :shoe}}}
-   
+   "short"
+   [(unify adjective
+           {:synsem {:cat :adjective
+                     :sem {:mod {:pred :short}
+                           :comparative false
+                           :physical-object true}
+                     :subcat {:1 {:cat :det}
+                              :2 '()}}})
+    (unify adjective
+           {:synsem {:cat :adjective
+                     :sem {:mod {:pred :short}
+                           :comparative false
+                           :event true}
+                     :subcat {:1 {:cat :det}
+                              :2 '()}}})]
+
    "show" {:synsem {:cat :verb
                     :sem {:pred :show
                           :past-participle "shown"}}}
@@ -1782,22 +1797,7 @@
                           :comparative false}
                     :subcat {:1 {:cat :det}
                              :2 '()}}})
-   "short"
-   [(unify adjective
-           {:synsem {:cat :adjective
-                     :sem {:mod {:pred :short}
-                           :comparative false
-                           :physical-object true}
-                     :subcat {:1 {:cat :det}
-                              :2 '()}}})
-    (unify adjective
-           {:synsem {:cat :adjective
-                     :sem {:mod {:pred :short}
-                           :comparative false
-                           :event true}
-                     :subcat {:1 {:cat :det}
-                              :2 '()}}})]
-      
+
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}
                             :english {:past "taught"}}

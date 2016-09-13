@@ -89,8 +89,12 @@
     (repeatedly #(println (str (let [expr (generate spec
                                                     :model model)
                                      fo (fo expr :show-notes false)]
-                                 (str (string/capitalize (nth fo 0))
-                                      (string/join "" (rest (vec fo)))
-                                      ".")))))))
+                                 (cond
+                                   (empty? fo) (str "(failed)")
+                                   true
+                                   (str (string/capitalize (nth fo 0))
+                                        (string/join "" (rest (vec fo)))
+                                        "."))))))))
+
 
 

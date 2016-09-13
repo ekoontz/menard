@@ -349,6 +349,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
         true
         lexical-entry))
 
+  ;; TODO: for here and other rules, allow compiler to emit error message if rule fails like "subject must look like: <verb-subjective>"
 (defn verb-rule [lexical-entry]
   "every verb has at least a subject."
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)

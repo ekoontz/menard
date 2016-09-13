@@ -653,6 +653,10 @@
    "follow" {:synsem {:cat :verb
                       :sem {:pred :follow}}}
    
+   "for" {:synsem {:cat :prep
+                   :subcat {:1 {:cat :noun}}
+                   :sem {:pred :for}}}
+
    "forget" {:synsem {:cat :verb
                       :sem {:pred :forget}}
              :english {:past "forgot"}}

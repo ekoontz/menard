@@ -285,6 +285,10 @@ as a map of implications"}
         {:pred :comprare
          :subj {:human true}
          :obj {:buyable true}}
+
+        {:pred :correspond
+         :subj {:human true}
+         :obj {:human true}}
         
         {:pred :deludere
          :obj {:human true}}

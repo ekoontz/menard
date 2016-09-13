@@ -146,7 +146,8 @@ as a map of implications"}
                       :place false
                       :spec {:of {:human true}}}
 
-   {:pred :bird}     {:animate true}
+   {:pred :bird}     {:animate true
+                      :human false}
    
    {:pred :bread}    {:artifact true
                       :edible true}
@@ -212,6 +213,7 @@ as a map of implications"}
                       :drinkable true}
 
    {:pred :word}     {:legible true
+                      :living false
                       :speakable true}
 
    ;; </preds>

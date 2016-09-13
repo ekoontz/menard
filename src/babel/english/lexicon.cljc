@@ -1977,7 +1977,9 @@
                     :sem {:pred :usare}}}
 
    "wait"  {:synsem {:cat :verb
-                     :sem {:pred :wait-for}}}
+                     :sem {:pred :wait-for}
+                     :subcat {:2 {:sem {:pred :for}}}}}
+                           
    "wake up"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb

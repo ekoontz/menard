@@ -2046,9 +2046,7 @@
                      :participle "winning"}}
 
    "with" {:synsem {:cat :prep
-                    :subcat {:1 {:cat :noun
-                                 :pronoun false
-                                 :subcat '()}}
+                    :subcat {:1 {:cat :noun}}
                     :sem {:pred :with}}}
    
    "woman" {:english {:plur "women"}

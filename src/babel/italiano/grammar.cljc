@@ -610,6 +610,7 @@
                                   (or (and
                                        (= (get-in % [:synsem :cat]) :verb)
 
+                                       ;; disabled with (or true) but shows how to filter by infinitive.
                                        (or true (= (get-in % [:italiano :italiano]) "sedersi")
                                            (= (get-in % [:synsem :aux]) true))
                                        

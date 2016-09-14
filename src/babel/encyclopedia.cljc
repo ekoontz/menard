@@ -296,6 +296,9 @@ as a map of implications"}
          :subj {:human true}
          :obj {:human true}}
         
+        {:pred :dance
+         :subj {:human true}}
+        
         {:pred :deludere
          :obj {:human true}}
         
@@ -307,9 +310,16 @@ as a map of implications"}
          :subj {:human true}
          :obj {:human false}}
 
+        {:pred :enter
+         :subj {:animate true}
+         :obj {:place true}}
+
         {:pred :exit
          :subj {:animate true}}
         
+        {:pred :faint
+         :subj {:animate true}}
+
         {:pred :fall-asleep
          :subj {:animate true}}
 
@@ -384,6 +394,10 @@ as a map of implications"}
         {:pred :read
          :subj {:human true}
          :obj {:legible true}}
+
+        {:pred :say
+         :subj {:human true}
+         :obj {:speakable true}}
 
         {:pred :scold
          :subj {:human true}}

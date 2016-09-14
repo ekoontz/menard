@@ -723,6 +723,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
           vals))))
 
 ;; TODO: s/unifyc/unify/ for performance
+;; TODO: use (default) rather than this; it's simpler to understand and faster.
 (defn if-then [lexicon if-has unify-with]
   (map-function-on-map-vals
    lexicon

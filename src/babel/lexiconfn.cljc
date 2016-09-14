@@ -111,40 +111,6 @@
         (do (log/error message)
             (throw (exception message)))))))
 
-(defn cache-serialization [entry]
-  "Copying ((unify/copy)ing) lexical entries during generation or parsing is done by serializing and then deserializing. 
-storing a deserialized form of each lexical entry avoids the need to serialize every time."
-  (if (fail? entry)
-    ;; TODO: better diagnostics: entry is just :fail, which isn't very helpful.
-    (log/warn (str "Ignoring this lexeme because (fail?=true): " entry))
-    ;; else, not fail, so add to lexicon.
-    (do
-      ;; TODO: should not make reference to particular languages here
-      (let [italian (get-in entry '(:italiano) :none)
-            english (get-in entry '(:english) :none)
-            entry
-            (conj
-             (if (= italian :none)
-               (if (= english :none)
-                 {}
-                 {:english (if (string? english)
-                             {:english english}
-                             english)})
-               {:italiano (if (string? italian)
-                            {:italiano italian}
-                            italian)})
-             (dissoc
-              (dissoc
-               (if (not (= :none (get entry :serialized :none)))
-                 (conj {:serialized (serialize entry)}
-                       entry)
-                 (conj {:serialized (serialize (dissoc entry :serialized))}
-                       entry))
-               :italiano)
-              :english))]
-        (log/trace (str "successfully serialized: " entry))
-        entry))))
-
 (defn encode-where-query [& where]
   "encode a query as a set of index queries."
   where)
@@ -459,13 +425,10 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
 
    ;; create an intransitive version of this transitive verb by removing the second arg (:synsem :subcat :2), and replacing with nil.
    (list
-    ;; MUSTDO: regenerate :serialized.
-
-    (cache-serialization
-     (unifyc (dissoc-paths lexical-entry (list [:synsem :subcat :2]
-                                               [:serialized]))
-             {:synsem {:subcat {:2 '()}}
-              :canary :tweet43})) ;; if the canary tweets, then the runtime is getting updated correctly.
+    (unifyc (dissoc-paths lexical-entry (list [:synsem :subcat :2]
+                                              [:serialized]))
+            {:synsem {:subcat {:2 '()}}
+             :canary :tweet43}) ;; if the canary tweets, then the runtime is getting updated correctly.
 
     lexical-entry) ;; the original transitive lexeme.
 
@@ -569,10 +532,7 @@ storing a deserialized form of each lexical entry avoids the need to serialize e
                 ;; TODO: throw exception here
                 :fail)
               (if (isomorphic? result lexical-entry)
-                ;; done: one final step is to add serialization to the entry.
-                (cache-serialization
-                 (unifyc {:phrasal false}
-                         result))
+                result ;; done
 
                 ;; not done yet: continue.
                 (transform result rules)))))))

@@ -259,6 +259,11 @@ as a map of implications"}
          :subj {:human true}
          :obj {:human true}}
         
+        {:pred :boil
+         :subj {:human true}
+         :obj {:liquid true
+               :consumable true}}
+
         {:pred :bring
          :subj {:human true}
          :obj {:buyable true}}

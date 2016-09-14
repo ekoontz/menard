@@ -271,7 +271,8 @@
                                   :3plur "are born"}}}
 
    "be missed" {:synsem {:cat :verb
-                         :sem {:pred :mancare}}
+                         :sem {:pred :mancare}
+                         :subcat {:2 '()}}
                 :english {:future "be missed"
                           :participle "being missed"
                           :conditional "be missed"
@@ -482,11 +483,13 @@
                        :sem {:pred :comment}}}
 
    "confess" {:synsem {:cat :verb
-                       :sem {:pred :confess}}}
-
+                       :sem {:pred :confess}
+                       :subcat {:2 {:cat :prep
+                                    :sem {:pred :to}}}}}
    "consent" {:synsem {:cat :verb
-                        :sem {:pred :consent}}}
-   
+                       :sem {:pred :consent}
+                       :subcat {:2 {:cat :prep
+                                    :sem {:pred :to}}}}}
    "conserve" {:synsem {:cat :verb
                         :sem {:pred :conserve}}}
 
@@ -519,8 +522,13 @@
           :synsem {:cat :verb
                    :sem {:pred :cut}}}
 
-   "dance" {:synsem {:cat :verb
-                      :sem {:pred :dance}}}
+   "dance" [{:synsem {:cat :verb
+                      :sem {:pred :dance}
+                      :subcat {:2 {:cat :prep
+                                   :sem {:pred :with}}}}}
+            {:synsem {:cat :verb
+                      :sem {:pred :dance
+                            :subcat {:2 '()}}}}]
    
    "decide" {:synsem {:cat :verb
                       :sem {:pred :decide}}}
@@ -541,7 +549,8 @@
                       :sem {:pred :dictate}}}
    
    "dine" {:synsem {:cat :verb
-                    :sem {:pred :cenare}}}
+                    :sem {:pred :cenare}
+                    :subcat {:2 '()}}}
 
    "displace" {:synsem {:cat :verb
                 :sem {:pred :displace}}}
@@ -619,8 +628,8 @@
                        :sem {:pred :express}}}
 
    "faint" {:synsem {:cat :verb
-                     :sem {:pred :faint}}}
-
+                     :sem {:pred :faint}
+                     :subcat {:2 '()}}}
    "fall asleep"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -1206,11 +1215,16 @@
                           :present {:3sing "listens to"}}}
 
    "live" {:synsem {:cat :verb
-                    :sem {:pred :live}}}
+                    :sem {:pred :live}
+                    :subcat {:2 '()}}}
 
-   "look" {:synsem {:cat :verb
-                    :sem {:pred :look}}}
+   "look" {:share-sem :obj
+           :synsem {:cat :verb
+                    :sem {:pred :look
+                          :subcat {:2 {:cat :prep
+                                       :sem {:pred :at}}}}}}
 
+   ;; TODO: combine all "look X" into "look" with different subcategorizations
    "look for" {:synsem {:cat :verb
                         :sem {:pred :cercare}}
                :english {:participle "looking for"
@@ -1428,7 +1442,8 @@
                       :sem {:pred :paint}}}
 
    "participate"  {:synsem {:cat :verb
-                            :sem {:pred :participate}}}
+                            :sem {:pred :participate}
+                            :subcat {:2 '()}}}
 
    "party" [{:synsem {:cat :noun
                       :sem {:pred :party
@@ -1712,7 +1727,8 @@
                              :2 '()}}})
   
    "snap" {:synsem {:cat :verb
-                    :sem {:pred :snap-pictures}}
+                    :sem {:pred :snap-pictures}
+                    :subcat {:2 {:sem {:pred :picture}}}}
            :english {:past "snapped"
                      :participle "snapping"
                      :note "pictures"}}

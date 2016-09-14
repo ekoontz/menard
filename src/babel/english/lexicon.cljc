@@ -2239,6 +2239,8 @@
    })
 
 (def lexicon (promise))
+
+;; TODO: allow a filter of lexemes
 (defn deliver-lexicon []
   (if (not (realized? lexicon))
     (deliver lexicon

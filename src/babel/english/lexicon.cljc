@@ -404,22 +404,20 @@
    "call" {:synsem {:cat :verb
                     :sem {:pred :call}}}
    "can" 
-    (let [modal-subject (atom {:cat :noun})
-          common {:english {:participle "being able to"
-                            :past "could"
-                            :present {:3sing "can"}
-                            :future "be able to"
-                            :conditional "be able to"}
-                  :synsem {:cat :verb
-                           :sem {:pred :can}
-                           :subcat {:1 modal-subject}}}]
-      [(unify common)
-       (unify common
-              {:synsem {:2 {:cat :verb
-                            :infl :root ;; note: not :infinitive
-                            :subcat {:1 modal-subject
-                                     :2 '()}}
-                        :3 '()}})])
+   {:english {:participle "being able to"
+              :past "could"
+              :imperfect {:1sing "used to be able to"
+                          :2sing "used to be able to"
+                          :3sing "used to be able to"
+                          :1plur "used to be able to"
+                          :2plur "used to be able to"
+                          :3plur "used to be able to"}
+              :present {:3sing "can"}
+              :future "be able to"
+              :conditional "be able to"}
+    :modal-with :root
+    :synsem {:cat :verb
+             :sem {:pred :be-able-to}}}
 
    "car" {:synsem {:cat :noun
                    :sem {:pred :car}}}
@@ -1296,6 +1294,7 @@
                               :3plur "may"}
                     :future "be able to"
                     :conditional "be able to"}
+          :modal-with :root
           :synsem {:cat :verb
                    :sem {:pred :may}}}
 

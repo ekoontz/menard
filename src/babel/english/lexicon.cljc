@@ -1560,7 +1560,8 @@
                     :participle "running"
                     :past-participle "run"}
           :synsem {:cat :verb
-                   :sem {:pred :run}}}
+                   :sem {:pred :run}
+                   :subcat {:2 '()}}}
 
    "s" [(let [of (atom :top)]
           {:synsem {:agr {:number :sing}

@@ -32,6 +32,7 @@
 
  "abbassare" {:synsem {:cat :verb
                        :sem {:pred :lower}}}
+
  "abbracciare" {:synsem {:cat :verb
                          :essere false
                          :sem {:pred :abbracciare}}}

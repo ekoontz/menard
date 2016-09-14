@@ -2250,7 +2250,15 @@
                                            :infl :infinitive
                                            :subcat {:1 modal-subject
                                                     :2 '()}}}}}))
-
+                 (default
+                  (let [modal-subject (atom {:cat :noun})]
+                    {:modal-with :root
+                     :synsem {:cat :verb
+                              :subcat {:1 modal-subject
+                                       :2 {:cat :verb
+                                           :infl :root
+                                           :subcat {:1 modal-subject
+                                                    :2 '()}}}}}))
 
                  ;; prevent :shared-semantics :obj unless it's already set
                  (default

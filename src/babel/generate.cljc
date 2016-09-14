@@ -2,17 +2,14 @@
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
    [babel.index :refer [get-lex]]
-   [babel.over :as over :refer [morph-with-recovery show-bolt truncate truncate-expressions]]
-   [babel.stringutils :refer [show-as-tree]]
+   [babel.over :as over :refer [show-bolt truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer (copy get-in fail? fail-path
-                                ref? remove-false remove-top-values-log
-                                strip-refs unify unifyc)]))
+   [dag_unify.core :refer [copy get-in fail? strip-refs unify unifyc]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
-;; should also be possible to override per-language.
+;; TODO: should also be possible to override per-language.
 (def ^:const max-total-depth 20)
 (def ^:const max-generated-complements 200)
 
@@ -173,16 +170,6 @@ of this function with complements."
        (do (log-bolt-groups bolt-groups language-model)
            (reduce concat bolt-groups))))))
 
-(defn add-all-comps-from-group [bolt-group language-model total-depth
-                                truncate-children max-total-depth]
-  (mapfn
-   (fn [bolt]
-     (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
-     (add-all-comps-with-paths [bolt] language-model total-depth
-                               (find-comp-paths-in (bolt-depth bolt))
-                               truncate-children max-total-depth))
-   bolt-group))
-
 (defn log-bolt-groups [bolt-groups language-model]
   (log/trace
    (str "bolt-groups:\n"
@@ -242,9 +229,8 @@ of this function with complements."
   (log/trace (str "add-complement-to-bolt: " (show-bolt bolt language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
   (let [index (:index language-model)
-        lexicon (if (-> :generate :lexicon language-model)
-                  (-> :generate :lexicon language-model)
-                  (:lexicon language-model))
+        lexicon (or (-> :generate :lexicon language-model)
+                    (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
         spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))

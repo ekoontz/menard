@@ -2317,6 +2317,7 @@
                             :subcat {:1 {:top :top}
                                      :2 '()}
                             :sem {:reflexive false
+                                  :shared-with-obj false
                                   :obj :unspec}}})
 
                  ;; make an intransitive version of every verb which has an

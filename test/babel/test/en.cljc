@@ -20,6 +20,7 @@
             [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unifyc]]))
 
 (def medium (grammar/medium))
+(def small (grammar/small))
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,

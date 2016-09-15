@@ -8,7 +8,6 @@
                             verb-pred-defaults]]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
-                              intransitivize
                               subject-verb-agreement
                               transitivize]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
@@ -2320,11 +2319,9 @@
                                   :shared-with-obj false
                                   :obj :unspec}}})
 
-                 ;; make an intransitive version of every verb which has an
-                 ;; [:sem :obj] path.
-                 intransitivize
-
-                 ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
+                 ;; If verb does specify a [:sem :obj], then fill
+                 ;; it in with subcat info.
+                 ;; TODO: remove use of this opaque function: 'transitivize'
                  transitivize
 
                  (verb-pred-defaults encyc/verb-pred-defaults)

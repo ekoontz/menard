@@ -2309,6 +2309,7 @@
                   {:synsem {:cat :verb
                             :aux false
                             :sem {:obj {:top :top}
+                                  :shared-with-obj false
                                   :reflexive false}
                             ;; likely to be :noun or :prep but could be others
                             :subcat {:2 {:cat :top}

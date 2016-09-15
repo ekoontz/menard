@@ -2318,12 +2318,12 @@
                     (unifyc
                      (dissoc-paths lexeme [[:synsem :sem :obj]
                                            [:synsem :subcat :2]])
-                     {:applied {:rule 1}
+                     {:applied {:1 true}
                       :synsem {:subcat {:2 '()}}})))
                  
                  (default ;; intransitive verbs' :obj is :unspec.
                   {:modal-with false
-                   :applied {:rule 2}
+                   :applied {:2 true}
                    :synsem {:cat :verb
                             :subcat {:1 {:top :top}
                                      :2 '()}

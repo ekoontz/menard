@@ -137,7 +137,8 @@
                                        :3plur "were"}}}]
           [;; intransitive
            (unify common
-                  {:synsem {:subcat {:1 {:cat :noun}
+                  {:sense 1
+                   :synsem {:subcat {:1 {:cat :noun}
                                      :2 '()}
                             :sem {:pred :be}}})
 
@@ -153,7 +154,11 @@
                                 :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
                     subject-verb-agreement
-                    {:intransitivize false
+                    {:sense 2
+                     ;; TODO: remove (in)transtivize (false|true): should not
+                     ;; need these explicit compiler directives; compilation
+                     ;; should be able to manage on its own
+                     :intransitivize false
                      :transitivize false
                      :synsem {:agr subj-agr
                               :sem {:aspect :progressive
@@ -185,7 +190,8 @@
            (let [pred (atom :top)
                  obj (atom :top)]
              (unify common
-                    {:synsem {:cat :verb
+                    {:sense 3
+                     :synsem {:cat :verb
                               :sem {:obj obj
                                     :reflexive false
                                     :pred pred
@@ -199,7 +205,8 @@
                  obj (atom :top)
                  agr (atom :top)]
              (unify common
-                    {:synsem {:cat :verb
+                    {:sense 4
+                     :synsem {:cat :verb
                               :sem {:subj obj ;; reflexive: subj=obj
                                     :obj obj
                                     :reflexive true
@@ -2314,6 +2321,7 @@
 
                  (default ;; intransitive verbs' :obj is :unspec.
                   {:modal-with false
+                   :applied {:rule 1}
                    :synsem {:cat :verb
                             :subcat {:1 {:top :top}
                                      :2 '()}

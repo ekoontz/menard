@@ -87,14 +87,13 @@
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  "Returns a lazy-sequence of all possible trees given a spec, where
-there is only one child for each parent, and that single child is the
-head of its parent. generate (above) 'decorates' each returned lightning bolt
-of this function with complements."
+  "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
+such that only the head children are generated. This sequence is used by (generate (above))
+to generate expressions by adding complements using (add-all-comps)."
   (log/trace (str "lightning-bolts(depth=" depth
-                 "; total-depth=" total-depth
-                 "; max-total-depth=" max-total-depth
-                 "; spec info:" (spec-info spec) ")"))
+                  "; total-depth=" total-depth
+                  "; max-total-depth=" max-total-depth
+                  "; spec info:" (spec-info spec) ")"))
   (let [morph (:morph language-model)
         grammar (:grammar language-model)
         index (:index language-model)
@@ -141,6 +140,11 @@ of this function with complements."
 
 ;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
 (defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
+  "At each point in each bolt in the list of list of bolts,
+_bolt-groups_, add all possible complements at all open nodes in the
+bolt, from deepest and working upward to the top. Return a lazy
+sequence of having added all possible complements at each node in the
+bolt."
   (let [bolt-groups
         (filter #(not (empty? %))
                 bolt-groups)

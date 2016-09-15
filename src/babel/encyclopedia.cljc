@@ -64,7 +64,8 @@ as a map of implications"}
     false}           {:drinkable false
                       :edible false}
 
-   {:drinkable true} {:consumable true
+   {:drinkable true} {:animate false
+                      :consumable true
                       :edible false
                       :mass true}
    
@@ -215,7 +216,8 @@ as a map of implications"}
    {:pred :vino}     {:artifact true
                       :drinkable true}
 
-   {:pred :word}     {:legible true
+   {:pred :word}     {:consumable false
+                      :legible true
                       :living false
                       :speakable true}
 

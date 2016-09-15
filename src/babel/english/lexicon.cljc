@@ -623,6 +623,9 @@
    "escape" {:synsem {:cat :verb
                       :sem {:pred :escape}}}
 
+   "espresso" {:synsem {:cat :noun
+                        :sem {:pred :espresso}}}
+
    "exist" {:synsem {:cat :verb
                      :sem {:pred :exist}
                      :subcat {:2 '()}}}
@@ -2049,7 +2052,10 @@
                 :sem {:pred :waste}}}
 
    "watch" {:synsem {:cat :verb
-                    :sem {:pred :watch}}}
+                     :sem {:pred :watch}}}
+
+   "water" {:synsem {:cat :noun
+                     :sem {:pred :acqua}}}
    "we"
    [{:english {:note "♀"}
      :synsem {:cat :noun
@@ -2088,6 +2094,9 @@
                     :sem {:pred :win}}
            :english {:past "won"
                      :participle "winning"}}
+
+   "wine" {:synsem {:cat :noun
+                    :sem {:pred :vino}}}
 
    "with" {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun}}

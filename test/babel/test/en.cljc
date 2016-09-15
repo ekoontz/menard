@@ -267,7 +267,3 @@
                                                          :pred :definite}}
                                             :cat :noun}})))]
     (is true)))
-
-
-    
-        

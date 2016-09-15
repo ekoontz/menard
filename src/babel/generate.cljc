@@ -239,13 +239,13 @@ of this function with complements."
         
         filtered-lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
-                                                (and (not (fail? (unifyc (strip-refs (get-in lexeme [:synsem] :top))
-                                                                         (strip-refs bolt-child-synsem))))
+                                                (and (not (= :fail (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                                                          bolt-child-synsem)))
                                                      ;; TODO: language-specific: allow
                                                      ;; some way to have this optimization be expressed
                                                      ;; in a language-specific way.
-                                                     (not (fail? (unifyc (strip-refs (get-in lexeme [:italiano] :top))
-                                                                         (strip-refs bolt-child-italiano))))))
+                                                     (not (= :fail (unify (strip-refs (get-in lexeme [:italiano] :top))
+                                                                          (strip-refs bolt-child-italiano))))))
                                               complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]

@@ -110,15 +110,7 @@ of this function with complements."
                    (if (= false (get-in parent [:head :phrasal] false))
                      (let [candidate-lexemes (get-lex parent :head index)
                            debug (log/debug (str "candidate lexical heads: " (count candidate-lexemes)))
-                           filter-on-spec {:synsem {:cat (get-in parent [:head :cat] :top)
-                                                    ;; TODO: :essere is language-specific: allow
-                                                    ;; some way to have this constraint be expressed
-                                                    ;; in a language-specific way.
-                                                    :essere (get-in parent [:head :essere] :top)
-                                                    :sem (get-in parent [:head :synsem :sem] :top)}}
-                           subset (filter #(not (fail? (unifyc filter-on-spec %)))
-                                          candidate-lexemes)
-                           debug (log/debug (str "post-filter subset: " (count candidate-lexemes)))]
+                           subset candidate-lexemes]
                        (filter #(not (nil? %))
                                (do (when (not (empty? subset))
                                      (log/debug (str "adding lexical heads to parent:" (:rule parent)))

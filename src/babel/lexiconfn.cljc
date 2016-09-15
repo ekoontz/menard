@@ -544,6 +544,8 @@
        lexical-val))
 
 ;; TODO: remove intransitive-unspecified-obj: too much of a burden to require this per-language - at least make it optional.
+;; TODO: in fact remove this altogether: see babel.italiano.lexicon for
+;; how to handle lexical compilation without special-purpose functions like this.
 (defn intransitivize [lexicon intransitive transitive intransitive-unspecified-obj]
   (map-function-on-map-vals
    lexicon

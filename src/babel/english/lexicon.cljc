@@ -2307,8 +2307,10 @@
                             :subcat {:2 {:cat :top}
                                      :3 '()}}}
                   (fn [lexeme]
-                    (dissoc-paths lexeme [[:synsem :sem :obj]
-                                          [:synsem :subcat :2]])))
+                    (unifyc
+                     (dissoc-paths lexeme [[:synsem :sem :obj]
+                                           [:synsem :subcat :2]])
+                     {:synsem {:subcat {:2 '()}}})))
 
                  (default ;; intransitive verbs' :obj is :unspec.
                   {:modal-with false

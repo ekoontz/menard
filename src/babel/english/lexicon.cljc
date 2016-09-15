@@ -3,7 +3,7 @@
   (:require
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [compile-lex default
-                            if-then
+                            if-then new-entries
                             map-function-on-map-vals unify
                             verb-pred-defaults]]
    [babel.english.morphology :as morph]
@@ -11,7 +11,7 @@
                               intransitivize
                               subject-verb-agreement
                               transitivize]]
-   [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
 
 (declare edn2lexicon)
 
@@ -2005,7 +2005,8 @@
    "wake up"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
-               :sem {:pred :wake-up}
+               :sem {:pred :wake-up
+                     :reflexive true}
                :subcat {:2 '()}}
       :english {:participle "waking up"
                 :present {:3sing "wakes up"}
@@ -2298,11 +2299,25 @@
                           {:synsem {:sem {:obj {:pred :top}}}})
                  
 
-                 (default ;; intransitive verbs' :obj is :unspec.
+                 (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
                   {:synsem {:cat :verb
+                            :aux false
+                            :sem {:obj {:top :top}
+                                  :reflexive false}
+                            ;; likely to be :noun or :prep but could be others
+                            :subcat {:2 {:cat :top}
+                                     :3 '()}}}
+                  (fn [lexeme]
+                    (dissoc-paths lexeme [[:synsem :sem :obj]
+                                          [:synsem :subcat :2]])))
+
+                 (default ;; intransitive verbs' :obj is :unspec.
+                  {:modal-with false
+                   :synsem {:cat :verb
                             :subcat {:1 {:top :top}
                                      :2 '()}
-                            :sem {:obj :unspec}}})
+                            :sem {:reflexive false
+                                  :obj :unspec}}})
 
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.

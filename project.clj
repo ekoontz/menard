@@ -6,7 +6,7 @@
 ;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
 ;; babel.<2 letter language code> babel.es, babel.en, etc.
 ;;
-(defproject babel "1.9.9-SNAPSHOT"
+(defproject babel "1.9.9"
   :description "A library for generation and parsing of expressions from grammars and lexicons."
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}

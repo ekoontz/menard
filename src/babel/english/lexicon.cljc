@@ -2297,6 +2297,13 @@
                                     :subcat {:2 {:cat :noun}}}}
                           {:synsem {:sem {:obj {:pred :top}}}})
                  
+
+                 (default ;; intransitive verbs' :obj is :unspec.
+                  {:synsem {:cat :verb
+                            :subcat {:1 {:top :top}
+                                     :2 '()}
+                            :sem {:obj :unspec}}})
+
                  ;; make an intransitive version of every verb which has an
                  ;; [:sem :obj] path.
                  intransitivize

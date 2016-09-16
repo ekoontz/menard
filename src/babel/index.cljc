@@ -193,3 +193,28 @@
                                                     (:synsem :infl))))))
 
 
+
+(defn map-subset-by-pred [preds
+                          lexemes]
+  (if (and true (not (empty? preds)))
+    (let [pred (first preds)]
+      (merge {pred
+              (filter (fn [lexeme]
+                        (or (= :top (get-in lexeme [:synsem :sem :pred]))
+                            (= pred
+                               (get-in lexeme [:synsem :sem :pred]))))
+                      lexemes)}
+             (map-subset-by-pred (rest preds)
+                                 lexemes)))))
+
+(defn map-subset-by-cat [cats lexemes]
+  (if (and true (not (empty? cats)))
+    (let [cat (first cats)]
+      (merge {cat
+              (filter (fn [lexeme]
+                        (or (= :top (get-in lexeme [:synsem :cat]))
+                            (= cat
+                               (get-in lexeme [:synsem :cat]))))
+                      lexemes)}
+             (map-subset-by-cat (rest cats)
+                                lexemes)))))

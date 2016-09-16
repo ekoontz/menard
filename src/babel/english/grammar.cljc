@@ -4,7 +4,7 @@
    [babel.english.lexicon :refer [deliver-lexicon lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.enrich :refer [enrich]]
-   [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
+   [babel.index :refer (build-lex-sch-index create-index map-subset-by-cat map-subset-by-pred spec-to-phrases)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head
@@ -777,7 +777,23 @@
      :morph-ps fo-ps
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :index (create-index grammar (flatten (vals lexicon)) head-principle)
+
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-pred
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :sem :pred]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))
+
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-cat
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :cat]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))}))
 
 (defn np-grammar []
   (deliver-lexicon)

@@ -28,7 +28,6 @@
                  :or {do-enrich true
                       max-total-depth generate/max-total-depth
                       truncate true}}]
-  (log/error (str "generating with model named: " (:name model)))
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [result (engine/generate spec model
                                 :do-enrich do-enrich

@@ -84,6 +84,20 @@
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
 
+(defn intersection-with-identity [set1 set2]
+  (if (> (count set1)
+         (count set2))
+    (filter (fn [member2]
+              (some (fn [member1]
+                      (identical? member1 member2))
+                    set1))
+            set2)
+    (filter (fn [member1]
+              (some (fn [member2]
+                      (identical? member1 member2))
+                    set2))
+            set1)))
+
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
@@ -105,12 +119,22 @@ to generate expressions by adding complements using (add-all-comps)."
         parents (shuffle (candidate-parents grammar spec))]
     (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
-          (mapfn (fn [parent]
-                   (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
-                   (if (= false (get-in parent [:head :phrasal] false))
-                     (let [candidate-lexemes (get-lex parent :head index)
-                           debug (log/debug (str "candidate lexical heads: " (count candidate-lexemes)))
-                           subset candidate-lexemes]
+          (when (= false (get-in spec [:head :phrasal] false))
+            (mapfn (fn [parent]
+                     (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
+                     (let [pred (get-in spec [:synsem :sem :pred])
+                           cat (get-in spec [:synsem :cat])
+                           pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
+                           cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
+                           subset
+                           (cond
+                             (and
+                              (not (= :top pred))
+                              (not (empty? pred-set))
+                              (not (= :top cat))
+                              (not (empty? cat-set)))
+                             (intersection-with-identity pred-set cat-set)
+                             true (get-lex parent :head index))]
                        (filter #(not (nil? %))
                                (do (when (not (empty? subset))
                                      (log/debug (str "adding lexical heads to parent:" (:rule parent)))
@@ -119,8 +143,8 @@ to generate expressions by adding complements using (add-all-comps)."
                                      (log/trace (str " with spec:" (spec-info spec))))
                                    (if (not (empty? subset))
                                      (over/overh parent (shuffle subset))
-                                     []))))))
-                 parents)
+                                     [])))))
+                   parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
@@ -235,9 +259,32 @@ bolt."
         (if (not (= true
                     (get-in bolt (concat path [:phrasal]))))
           (let [indexed (if index
-                         (get-lex immediate-parent :comp index))]
-            (if indexed indexed
-                (flatten (vals lexicon)))))
+                          (get-lex immediate-parent :comp index))
+                pred (get-in spec [:synsem :sem :pred])
+                cat (get-in spec [:synsem :cat])
+                pred-set (if (and (:pred2lex language-model)
+                                  (not (= :top pred)))
+                           (get (:pred2lex language-model) pred))
+                cat-set (if (and (:cat2lex language-model)
+                                 (not (= :top cat)))
+                          (get (:cat2lex language-model) cat))
+                subset
+                (cond (empty? pred-set)
+                      cat-set
+                      (empty? cat-set)
+                      pred-set
+                      true [] ;; disable use of :pred2lex and :cat2lex for complements: not working right yet.
+                      true
+                      (intersection-with-identity pred-set cat-set))]
+            (log/debug (str "complement i1 subset: " (string/join ","
+                                                                  (map (:morph language-model) subset))))
+            (log/debug (str "complement i2 subset: " (string/join ","
+                                                                  (map (:morph language-model) indexed))))
+            (if (not (empty? subset))
+              subset
+              (if (not (empty? indexed))
+                indexed
+                (flatten (vals lexicon))))))
 
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         bolt-child-italiano (strip-refs (get-in bolt (concat path [:italiano]) :top))

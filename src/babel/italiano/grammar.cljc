@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.enrich :refer [enrich]]
-   [babel.index :refer [create-index]]
+   [babel.index :refer [create-index map-subset-by-cat map-subset-by-pred]]
    [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
@@ -17,6 +17,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
+   [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
 
 (defn fo-ps [expr]
@@ -649,14 +650,30 @@
      :language-keyword :italiano
      :morph fo
      :morph-ps fo-ps
-     :lookup (fn [arg]
-               (analyze arg lexicon))
      :enrich enrich
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
+     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :lexicon lexicon
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-pred
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :sem :pred]))
+                                (vals lexicon-for-generation)))))
+      (flatten (vals lexicon-for-generation)))
+
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-cat
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :cat]))
+                                (vals lexicon-for-generation)))))
+      (flatten (vals lexicon-for-generation)))
+           
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
+     :lookup (fn [arg]
+               (analyze arg lexicon))}))
 
 ;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
@@ -738,6 +755,22 @@
                (analyze arg parse-lexicon))
      :morph fo
      :morph-ps fo-ps
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-pred
+      (filter #(not (nil? %))
+              (mapcat (fn [entry]
+                        (get-in entry [:synsem :sem :pred]))
+                      (vals lexicon-for-generation)))
+      (flatten (vals lexicon-for-generation)))
+     
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-cat
+      (filter #(not (nil? %))
+              (mapcat (fn [entry]
+                        (get-in entry [:synsem :cat]))
+                      (vals lexicon-for-generation)))
+      (flatten (vals lexicon-for-generation)))
+
      :rules rules
      :rule-map (zipmap rules
                        grammar)

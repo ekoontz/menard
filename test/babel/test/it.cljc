@@ -19,9 +19,12 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs]]))
 
-(def medium (future (grammar/medium)))
-(def np-grammar (future (grammar/np-grammar)))
-(def small (future (grammar/small)))
+(def medium (grammar/medium))
+(def np-grammar (grammar/np-grammar))
+(def small (grammar/small))
+
+(defn generate-with-medium [spec]
+  (generate spec medium))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -43,7 +46,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         :model @small
+                         small
                          :do-enrich false)]
     (is (= "io sono" (fo result)))))
 
@@ -53,7 +56,7 @@
                                    :sem {:subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         :model small)]
+                         small)]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
@@ -76,7 +79,7 @@
                                          :subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         :model small)]
+                         small)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
@@ -86,7 +89,7 @@
                                    :sem {:pred :be-called
                                          :subj {:pred :I}
                                          :iobj {:pred :luisa}}}}
-                         :model small)]
+                         small)]
     (is (not (nil? result)))
     (is (= "io mi chiamo Luisa" (fo result)))))
 
@@ -101,7 +104,7 @@
                                        :mod {:pred :difficile}
                                        :number :sing
                                        :pred :donna}}}
-                       :model np-grammar)]
+                       np-grammar)]
     (is (or (= (fo expr) "la donna difficile")
             (= (fo expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
@@ -113,7 +116,7 @@
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
   ;; might be anything.
-  (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}} :model np-grammar)]
+  (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}} np-grammar)]
     (is (not (= "" (fo result))))
     (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
     (is (not (empty? (parse (fo result)))))))
@@ -139,7 +142,7 @@
                                         ;; generic spec to something more specific
                                         ;; if this test fails and you want to investigate
                                         ;; why.
-                                        :model np-grammar)))]
+                                        np-grammar)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
@@ -158,7 +161,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
@@ -178,7 +181,7 @@
                                                 :sem {:tense :past
                                                       :aspect :progressive}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [fo (fo expr)
@@ -198,7 +201,7 @@
                                                 :sem {:tense :past
                                                       :aspect :perfect}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -216,7 +219,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -234,7 +237,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -280,8 +283,8 @@
 (defn roundtrip-parsing [n]
   (take n
         (repeatedly #(let [generated
-                           (fo (generate {:synsem {:cat :verb
-                                                   :subcat '()}}))
+                           (fo (generate-with-medium {:synsem {:cat :verb
+                                                               :subcat '()}}))
                            parsed (reduce concat (map :parses (parse generated medium)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
@@ -312,7 +315,7 @@
                         :subj {:pred :città}
                         :obj {:pred :calzoni}}}}]
     (is (or true ;; test won't complete (yet) without disabling with this 'or true'.
-            (not (nil? (generate synsem)))))))
+            (not (nil? (generate-with-medium synsem)))))))
 
 (deftest casa-parse
   (is (not (empty?
@@ -323,33 +326,33 @@
         (generate {:synsem {:sem {:subj {:pred :loro}
                                   :pred :manage
                                   :tense :present}}}
-                  :model small)]
+                  small)]
     (is (= "loro gestiscono" (fo result)))))
 
 (deftest casa-generate
-  (let [result (generate {:synsem {:cat :noun
-                                   :agr {:number :sing}
-                                   :sem {:pred :house
-                                         :mod '()
-                                         :spec {:def :def}}}})]
+  (let [result (generate-with-medium {:synsem {:cat :noun
+                                               :agr {:number :sing}
+                                               :sem {:pred :house
+                                                     :mod '()
+                                                     :spec {:def :def}}}})]
     (is (= (fo result) "la casa"))
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest case-generate
-  (let [result (generate {:synsem {:cat :noun
-                                   :agr {:number :plur}
-                                   :sem {:pred :house
-                                         :mod '()
-                                         :spec {:def :def}}}})]
+  (let [result (generate-with-medium {:synsem {:cat :noun
+                                               :agr {:number :plur}
+                                               :sem {:pred :house
+                                                     :mod '()
+                                                     :spec {:def :def}}}})]
     (is (= (fo result) "le case"))
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest alla-casa-generate
-  (let [result (generate 
+  (let [result (generate-with-medium
                 {:comp {:synsem {:agr {:number :sing}
                                  :reflexive false}}
-                                 ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
-                                 ;; eliminate this need.
+                 ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
+                 ;; eliminate this need.
                  :synsem {:cat :prep
                           :sem {:pred :a
                                 :obj {:pred :house
@@ -358,7 +361,7 @@
     (is (= (fo result) "alla casa"))))
 
 (deftest a-casa-generate
-  (let [result (generate 
+  (let [result (generate-with-medium
                 {:comp {:synsem {:pronoun false}}
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
                  ;; eliminate this need.
@@ -375,7 +378,7 @@
 
 ;; TODO: what is this test doing that the preceding test is not doing?
 (deftest a-casa-generate-2
-  (let [result (generate 
+  (let [result (generate-with-medium
                 {:modified false
                  :synsem {:cat :verb 
                           :sem {:tense :present 
@@ -384,9 +387,6 @@
                                       :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
                                 :subj {:pred :I}}}})]
     (is (= (fo result) "io sono a casa"))))
-
-(deftest alla-prossima
-  (let [alla-prossima "alla prossima"]))
 
 (deftest chiamarsi-1
   (let [result (parse "io mi chiamo Luisa")]
@@ -443,57 +443,57 @@
 
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))
-        gen-result (generate {:synsem {:cat :prep 
-                                       :sem {:pred :in-front-of
-                                             :obj {:pred :table
-                                                   :number :sing
-                                                   :mod '()
-                                                   :spec {:def :def}}}}
-                              :comp {:synsem {:cat :noun
-                                              :pronoun false
-                                              :subcat '()}}})]
+        gen-result (generate-with-medium {:synsem {:cat :prep 
+                                                   :sem {:pred :in-front-of
+                                                         :obj {:pred :table
+                                                               :number :sing
+                                                               :mod '()
+                                                               :spec {:def :def}}}}
+                                          :comp {:synsem {:cat :noun
+                                                          :pronoun false
+                                                          :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti il tavolo"
            (fo gen-result)))))
 
 (deftest davanti-lo-studente
   (let [parse-result (mapcat :parses (parse "davanti lo studente"))
-        gen-result (generate {:synsem {:cat :prep 
-                                       :sem {:pred :in-front-of
-                                             :obj {:pred :student
-                                                   :number :sing
-                                                   :mod '()
-                                                   :spec {:def :def}}}}
-                              :comp {:synsem {:cat :noun
-                                              :pronoun false
-                                              :subcat '()}}})]
+        gen-result (generate-with-medium {:synsem {:cat :prep 
+                                                   :sem {:pred :in-front-of
+                                                         :obj {:pred :student
+                                                               :number :sing
+                                                               :mod '()
+                                                               :spec {:def :def}}}}
+                                          :comp {:synsem {:cat :noun
+                                                          :pronoun false
+                                                          :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
            (fo gen-result)))))
 
 (deftest davanti-il-tavolo
-  (let [expr (generate {:synsem {:cat :prep
-                                 :sem {:pred :in-front-of
-                                       :reflexive false
-                                       :obj {:pred :table
-                                             :mod '()
-                                             :number :sing
-                                             :spec {:def :def
-                                                    :pred :definite}}}}})]
+  (let [expr (generate-with-medium {:synsem {:cat :prep
+                                             :sem {:pred :in-front-of
+                                                   :reflexive false
+                                                   :obj {:pred :table
+                                                         :mod '()
+                                                         :number :sing
+                                                         :spec {:def :def
+                                                                :pred :definite}}}}})]
     (is (= (fo expr)
            "davanti il tavolo"))))
 
 (deftest furniture-sentence
-  (let [expr (generate {:synsem {:sem {:obj {:pred :table :mod '() :spec {:def :def}
-                                             :number :sing}
-                                       :pred :in-front-of
-                                       :subj {:pred :chair :mod '() :spec {:def :def}
-                                              :number :sing}
-                                       :tense :present
-                                       :aspect :progressive}
-                                 :cat :verb}
-                        :comp {:synsem {:agr {:person :3rd}}}
-                        :modified false})]
+  (let [expr (generate-with-medium {:synsem {:sem {:obj {:pred :table :mod '() :spec {:def :def}
+                                                         :number :sing}
+                                                   :pred :in-front-of
+                                                   :subj {:pred :chair :mod '() :spec {:def :def}
+                                                          :number :sing}
+                                                   :tense :present
+                                                   :aspect :progressive}
+                                             :cat :verb}
+                                    :comp {:synsem {:agr {:person :3rd}}}
+                                    :modified false})]
     (is (= (fo expr)
            "la sedia è davanti il tavolo"))))
 

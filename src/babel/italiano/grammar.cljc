@@ -563,7 +563,7 @@
             (if (not (empty? filtered-v))
               [k filtered-v])))))
 
-(defn model [lexicon-filter-fn grammar-filter-fn]
+(defn model [name lexicon-filter-fn grammar-filter-fn]
   "create a model using a lexicon derived from the supplied filtering function."
   (deliver-lexicon)
   (let [lexicon @lexicon
@@ -575,7 +575,8 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         grammar (filter grammar-filter-fn grammar)]
-    {:language "it"
+    {:name name
+     :language "it"
      :language-keyword :italiano
      :morph fo
      :morph-ps fo-ps

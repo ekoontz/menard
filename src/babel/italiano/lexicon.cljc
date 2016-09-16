@@ -2,7 +2,6 @@
 (ns babel.italiano.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.lexicon :refer [universals]]
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [default
                             filter-vals listify map-function-on-map-vals

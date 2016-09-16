@@ -57,8 +57,7 @@
                (repeatedly 
                 #(with-out-str (time (fo
                                       (let [generated
-                                            (generate spec
-                                                      :model model)
+                                            (generate spec model)
                                             output (log/info (fo generated))]
                                         generated))))))
          (map #(string/replace % #".*time:\s*([0-9.]+).*" "$1"))

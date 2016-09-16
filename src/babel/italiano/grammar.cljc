@@ -218,6 +218,16 @@
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
+
+;                   (let [sem (atom :top)
+;                         subcat (atom :top)]
+;                     {:head {:cat :adverb
+;                             :sem sem}
+;                      :synsem {:sem sem
+;                               :subcat subcat}
+;                      :comp {:synsem {:subcat subcat}}
+;                      :rule "adverb-phrase"})
+                   
                    ;; nbar where head (noun) is first ('h' in h11)
                    (unifyc h11-comp-subcat-1
                            (let [is-propernoun? (atom :top)]

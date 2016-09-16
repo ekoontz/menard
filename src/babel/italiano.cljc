@@ -24,11 +24,11 @@
    (morph/analyze surface-form lexicon)))
 
 (defn generate
-  [spec & {:keys [do-enrich max-total-depth model truncate]
-           :or {do-enrich true
-                max-total-depth generate/max-total-depth
-                model (medium)
-                truncate true}}]
+  [spec model & {:keys [do-enrich max-total-depth truncate]
+                 :or {do-enrich true
+                      max-total-depth generate/max-total-depth
+                      truncate true}}]
+  (log/error (str "generating with model named: " (:name model)))
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [result (engine/generate spec model
                                 :do-enrich do-enrich

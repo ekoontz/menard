@@ -1427,8 +1427,6 @@
                              :2plur "potete"
                              :3plur "possono"}}}]
    [{:unify [shared-part-of-potere]
-     :synsem {:sem {:pred :can}}}
-    {:unify [shared-part-of-potere]
      :synsem {:sem {:pred :may}}}
     {:unify [shared-part-of-potere]
      :synsem {:sem {:pred :be-able-to}}}])

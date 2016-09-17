@@ -24,7 +24,7 @@
 (def small (grammar/small))
 
 (defn generate-with-medium [spec]
-  (generate spec medium))
+  (generate spec :model medium))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -46,7 +46,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         small
+                         :model small
                          :do-enrich false)]
     (is (= "io sono" (fo result)))))
 
@@ -56,7 +56,7 @@
                                    :sem {:subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         small)]
+                         :model small)]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
@@ -79,7 +79,7 @@
                                          :subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         small)]
+                         :model small)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
@@ -89,7 +89,7 @@
                                    :sem {:pred :be-called
                                          :subj {:pred :I}
                                          :iobj {:pred :luisa}}}}
-                         small)]
+                         :model small)]
     (is (not (nil? result)))
     (is (= "io mi chiamo Luisa" (fo result)))))
 
@@ -104,7 +104,7 @@
                                        :mod {:pred :difficile}
                                        :number :sing
                                        :pred :donna}}}
-                       np-grammar)]
+                       :model np-grammar)]
     (is (or (= (fo expr) "la donna difficile")
             (= (fo expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
@@ -116,7 +116,8 @@
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
   ;; might be anything.
-  (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}} np-grammar)]
+  (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}}
+                         :model np-grammar)]
     (is (not (= "" (fo result))))
     (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
     (is (not (empty? (parse (fo result)))))))
@@ -142,7 +143,7 @@
                                         ;; generic spec to something more specific
                                         ;; if this test fails and you want to investigate
                                         ;; why.
-                                        np-grammar)))]
+                                        :model np-grammar)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
@@ -161,7 +162,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present}
                                                 :subcat '()}}
-                                      small)))]
+                                      :model small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
@@ -181,7 +182,7 @@
                                                 :sem {:tense :past
                                                       :aspect :progressive}
                                                 :subcat '()}}
-                                      small)))]
+                                      :model small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [fo (fo expr)
@@ -201,7 +202,7 @@
                                                 :sem {:tense :past
                                                       :aspect :perfect}
                                                 :subcat '()}}
-                                      small)))]
+                                      :model small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -219,7 +220,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
                                                 :subcat '()}}
-                                      small)))]
+                                      :model small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -237,7 +238,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
                                                 :subcat '()}}
-                                      small)))]
+                                      :model small)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -326,7 +327,7 @@
         (generate {:synsem {:sem {:subj {:pred :loro}
                                   :pred :manage
                                   :tense :present}}}
-                  small)]
+                  :model small)]
     (is (= "loro gestiscono" (fo result)))))
 
 (deftest casa-generate

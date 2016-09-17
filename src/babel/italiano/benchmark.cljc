@@ -1,6 +1,6 @@
 (ns babel.italiano.benchmark
   (:refer-clojure :exclude [get-in])
-  (:require [babel.italiano :refer [analyze generate parse]]
+  (:require [babel.italiano :as italiano :refer [analyze parse]]
             [babel.italiano.grammar :as grammar]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
@@ -12,6 +12,13 @@
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [dag_unify.core :refer [get-in strip-refs]]))
+
+;; Creating a language model is expensive so we'll do it once before running any benchmarks..
+(def small (grammar/small))
+
+;; .. and use this language model for all generation.
+(defn generate [spec]
+  (italiano/generate spec :model small))
 
 (defn exception [error-string]
   #?(:clj
@@ -57,7 +64,7 @@
                (repeatedly 
                 #(with-out-str (time (fo
                                       (let [generated
-                                            (generate spec model)
+                                            (italiano/generate spec :model model)
                                             output (log/info (fo generated))]
                                         generated))))))
          (map #(string/replace % #".*time:\s*([0-9.]+).*" "$1"))
@@ -79,8 +86,7 @@
 
 ;; lein run -m babel.italiano.benchmark/gen-mark 10
 (defn gen-mark [do-this-many]
-  (let [do-this-many (Integer. do-this-many)
-        small (grammar/small)]
+  (let [do-this-many (Integer. do-this-many)]
     (benchmark {:synsem {:subcat '()
                          :sem {:pred :be-called
                                :tense :present
@@ -90,8 +96,7 @@
                do-this-many)))
 
 (defn gen-mark2 [do-this-many]
-  (let [do-this-many (Integer. do-this-many)
-        small (grammar/small)]
+  (let [do-this-many (Integer. do-this-many)]
     (benchmark {:synsem {:subcat '()
                          :essere false
                          :sem {:pred :do
@@ -101,8 +106,7 @@
                do-this-many)))
 
 (defn gen-mark3 [do-this-many]
-  (let [do-this-many (Integer. do-this-many)
-        small (grammar/small)]
+  (let [do-this-many (Integer. do-this-many)]
     (benchmark {:synsem {:subcat '()
                          :essere true
                          :sem {:tense :past

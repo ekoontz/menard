@@ -27,6 +27,32 @@
   (if (not (realized? lexicon))
     (deliver lexicon (edn2lexicon (resource "babel/italiano/lexicon.edn")))))
 
+;; The values in this map in (def defaults) are used for lexical
+;; compilation but also available for external usages.
+(def defaults
+  {:adjective
+   {:non-comparative
+    (let [subject (atom :top)]
+      {:synsem {:cat :adjective
+                   :sem {:arg1 subject
+                         :comparative false}
+                :subcat {:1 {:sem subject}
+                         :2 '()}}})}
+
+   :agreement
+   (let [agr (atom :top)
+         cat (atom :verb)
+         essere (atom :top)
+         infl (atom :top)]
+     {:italiano {:agr agr
+                 :cat cat
+                 :essere essere
+                 :infl infl}
+      :synsem {:agr agr
+               :cat cat
+               :essere essere
+               :infl infl}})})
+
 ;; TODO: promote to babel.lexiconfn
 ;; also consider renaming babel.lexiconfn to babel.lexicon.
 (defn apply-unify-key [lexicon]
@@ -294,12 +320,9 @@
       
       ;; <adjective default rules>
       (default ;; an adjective is comparative=false by default..
-       (let [subject (atom :top)]
-         {:synsem {:cat :adjective
-                   :sem {:arg1 subject
-                             :comparative false}
-                   :subcat {:1 {:sem subject}
-                            :2 '()}}}))
+       (-> defaults
+           :adjective
+           :non-comparative))
       ;; ..but, if comparative:
       (default
        (let [complement-sem (atom :top)
@@ -335,18 +358,7 @@
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
-       (let [agr (atom :top)
-             cat (atom :verb)
-             essere (atom :top)
-             infl (atom :top)]
-         {:italiano {:agr agr
-                     :cat cat
-                     :essere essere
-                     :infl infl}
-          :synsem {:agr agr
-                   :cat cat
-                   :essere essere
-                   :infl infl}}))
+       (:agreement defaults))
       ;; </category-independent>
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set

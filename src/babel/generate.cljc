@@ -135,15 +135,7 @@ to generate expressions by adding complements using (add-all-comps)."
                               (not (empty? cat-set)))
                              (intersection-with-identity pred-set cat-set)
                              true (get-lex parent :head index))]
-                       (filter #(not (nil? %))
-                               (do (when (not (empty? subset))
-                                     (log/debug (str "adding lexical heads to parent:" (:rule parent)))
-                                     
-                                     (log/debug (str " with lexemes:" (string/join ";" (sort (map morph subset)))))
-                                     (log/trace (str " with spec:" (spec-info spec))))
-                                   (if (not (empty? subset))
-                                     (over/overh parent (shuffle subset))
-                                     [])))))
+                       (over/overh parent (shuffle subset))))
                    parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
@@ -275,15 +267,6 @@ bolt."
                       pred-set
                       true
                       (intersection-with-identity pred-set cat-set))]
-            (log/debug (str "complement spec:" (strip-refs spec)))
-            (log/debug (str "complement pred-set: " (string/join ","
-                                                                 (sort (map (:morph language-model) pred-set)))))
-            (log/debug (str "complement cat-set: " (string/join ","
-                                                                (sort (map (:morph language-model) cat-set)))))
-            (log/debug (str "complement i1 subset: " (string/join ","
-                                                                  (sort (map (:morph language-model) subset)))))
-            (log/debug (str "complement i2 subset: " (string/join ","
-                                                                  (sort (map (:morph language-model) indexed)))))
             (if (not (empty? subset))
               subset
               (if (not (empty? indexed))

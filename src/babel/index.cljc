@@ -200,7 +200,7 @@
     (let [pred (first preds)]
       (merge {pred
               (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme [:synsem :sem :pred]))
+                        (or (= :top (get-in lexeme [:synsem :sem :pred] :top))
                             (= pred
                                (get-in lexeme [:synsem :sem :pred]))))
                       lexemes)}
@@ -212,7 +212,7 @@
     (let [cat (first cats)]
       (merge {cat
               (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme [:synsem :cat]))
+                        (or (= :top (get-in lexeme [:synsem :cat] :top))
                             (= cat
                                (get-in lexeme [:synsem :cat]))))
                       lexemes)}

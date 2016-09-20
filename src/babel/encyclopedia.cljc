@@ -205,6 +205,8 @@ as a map of implications"}
    {:pred :vino}     {:artifact true
                       :drinkable true}
 
+   {:pred :water}    {:drinkable true}
+   
    {:pred :word}     {:consumable false
                       :legible true
                       :living false

@@ -273,13 +273,17 @@ bolt."
                       cat-set
                       (empty? cat-set)
                       pred-set
-                      true [] ;; disable use of :pred2lex and :cat2lex for complements: not working right yet.
                       true
                       (intersection-with-identity pred-set cat-set))]
+            (log/debug (str "complement spec:" (strip-refs spec)))
+            (log/debug (str "complement pred-set: " (string/join ","
+                                                                 (sort (map (:morph language-model) pred-set)))))
+            (log/debug (str "complement cat-set: " (string/join ","
+                                                                (sort (map (:morph language-model) cat-set)))))
             (log/debug (str "complement i1 subset: " (string/join ","
-                                                                  (map (:morph language-model) subset))))
+                                                                  (sort (map (:morph language-model) subset)))))
             (log/debug (str "complement i2 subset: " (string/join ","
-                                                                  (map (:morph language-model) indexed))))
+                                                                  (sort (map (:morph language-model) indexed)))))
             (if (not (empty? subset))
               subset
               (if (not (empty? indexed))

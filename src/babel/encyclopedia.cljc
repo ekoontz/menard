@@ -196,17 +196,6 @@ as a map of implications"}
 
    {:pred :student}  {:human true}
 
-   ;; The following inference rule is not
-   ;; yet used, but intended as a way to integrate
-   ;; verbs into the encyclopedia as we do with nouns.
-   ;; Note the use of {:cat :verb} to distinguish this
-   ;; from ..
-   {:pred :study   
-    :cat :verb}      {:activity true
-                      :subj {:human true}
-                      :obj {:legible true}}
-
-   ;; .. the next rule which applies to nouns only.
    {:pred :study   
     :cat :noun}      {:place true}
 

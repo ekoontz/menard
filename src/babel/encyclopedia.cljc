@@ -251,6 +251,9 @@ as a map of implications"}
         {:pred :answer
          :subj {:human true}
          :obj {:human true}}
+
+        {:pred :avoid
+         :subj {:animate true}}
         
         {:pred :boil
          :subj {:human true}

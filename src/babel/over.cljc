@@ -298,6 +298,13 @@
             (nil? (get-in parent [:schema-symbol] nil))
             (throw (exception (str "no schema symbol for parent: " (:rule parent))))
 
+            (nil? (:first parent))
+            (throw (exception (str "no :first key for parent: " (:rule parent) " : should be set to either :head or :comp.")))
+
+            (and (not (= :head (:first parent)))
+                 (not (= :comp (:first parent))))
+            (throw (exception (str ":first key for parent: " (:rule parent) " : must be either :head or :comp, but it was: " (:first parent))))
+            
             true
             (let [[head comp] (if (= (:first parent) :head)
                                 [child1 child2]

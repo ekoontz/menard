@@ -18,6 +18,8 @@
   (parse/fo-ps expr fo))
 
 (defn analyze
+  "analyze a word: as opposed to parsing which is multi-word."
+  ;; TODO: should take a language model, not a lexicon
   ([surface-form]
    (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon]

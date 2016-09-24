@@ -567,10 +567,12 @@
             (if (not (empty? filtered-v))
               [k filtered-v])))))
 
-(defn model [name lexicon-filter-fn grammar-filter-fn]
+(defn model [ & [name lexicon-filter-fn grammar-filter-fn]]
   "create a model using a lexicon derived from the supplied filtering function."
   (deliver-lexicon)
-  (let [lexicon @lexicon
+  (let [lexicon-filter-fn (or lexicon-filter-fn (fn [x] x))
+        grammar-filter-fn (or grammar-filter-fn (fn [x] x))
+        lexicon @lexicon
         lexicon
         (into {}
               (for [[k v] lexicon]

@@ -198,7 +198,7 @@
                                                        (string/join ","
                                                                     (map #(morph-ps %) right-signs))))
                                        (if parse-with-truncate truncated-parents parents)))
-                                 ;; TODO: explain why we can use (first) here for the left- and right-strings.
+                                   ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                    ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))
                                 ;; </value>

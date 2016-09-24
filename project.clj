@@ -5,14 +5,11 @@
 ;; babel.db: SQL support (mainly Postgres/JSONB specific)
 ;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
 ;;
-;; Language-specific:
-;; babel.ak ;; https://en.wikipedia.org/wiki/Akan_language
+;; Language-specific: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
+;; babel.ab
 ;; ..
-;; babel.en
-;; babel.es
-;; ..
-;; babel.it
-;; babel.zh
+;; babel.zu
 ;;
 (defproject babel "2.0.6"
   :description "A library for natural language generation and parsing"

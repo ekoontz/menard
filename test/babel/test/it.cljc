@@ -498,3 +498,7 @@
     (is (= (fo expr)
            "la sedia è davanti il tavolo"))))
 
+(deftest non-arriva
+  (is (not (empty? (-> "non arriva"
+                       parse
+                       :parses)))))

@@ -4,16 +4,24 @@
 ;; babel.format: translation to/from json and html
 ;; babel.db: SQL support (mainly Postgres/JSONB specific)
 ;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
-;; babel.<2 letter language code> babel.es, babel.en, etc.
+;;
+;; Language-specific:
+;; babel.ak ;; https://en.wikipedia.org/wiki/Akan_language
+;; ..
+;; babel.en
+;; babel.es
+;; ..
+;; babel.it
+;; babel.zh
 ;;
 (defproject babel "2.0.6"
-  :description "A library for generation and parsing of expressions from grammars and lexicons."
+  :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "1.3.7"]
+                 [dag_unify "1.3.8-SNAPSHOT"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]

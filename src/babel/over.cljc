@@ -191,7 +191,7 @@
          (log/debug (str "overh: " (get-in parent [:rule]) " -> " (get-in head [:rule]
                                                                         (get-in head [:synsem :sem :pred]
                                                                                 "(no pred for head)"))))
-         (log/trace (str "overh successful result: " (strip-refs (dissoc result :serialized))))
+         (log/trace (str "overh successful result: " (strip-refs (dissoc result :dag_unify.core/serialized))))
          (list result))))))
 
 ;; Haskell-looking signature:
@@ -282,9 +282,10 @@
         nil
 
         (and (map? parents)
-             (not (nil? (:serialized parents))))
+             (not (nil? (:dag_unify.core/serialized parents))))
         ;; In this case, supposed 'parent' is really a lexical item: for now, definition of 'lexical item' is,
-        ;; it has a non-nil value for :serialized - just return nil, nothing else to do.
+        ;; it has a non-nil value for :dag_unify.core/serialized - just return nil, nothing else to do.
+        ;; TODO: above test of 'lexical item' is not right: a parent might very well have a :serialized key.
         (throw (exception (str "Don't know what to do with this parent: " parents)))
 
         ;; if parent is a symbol, evaluate it; should evaluate to a list of expansions (which might also be symbols, etc).
@@ -292,7 +293,7 @@
         #?(:clj (over (eval parents) child1 child2))
 
         true
-        (let [parent (first parents)]
+        (let [parent (first parents)] ;; TODO: use recur
           (cond
             (nil? (get-in parent [:schema-symbol] nil))
             (throw (exception (str "no schema symbol for parent: " (:rule parent))))
@@ -379,8 +380,8 @@
 
 (defn truncate [input truncate-paths language-model]
   (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
-  (let [serialized (if (:serialized input)
-                     (:serialized input)
+  (let [serialized (if (:dag_unify.core/serialized input)
+                     (:dag_unify.core/serialized input)
                      (serialize input))
         paths-and-vals (rest serialized)
         path-sets (mapfn first paths-and-vals)

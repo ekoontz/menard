@@ -219,18 +219,26 @@
                              {:rule "intensifier-phrase"
                               :synsem head-synsem}))
 
-                   (unifyc head-principle
-                           (let [parent-subcat (atom :top)
-                                 sem (atom :top)
-                                 comp-subcat (atom {:subcat {:1 parent-subcat}})]
-                             {:head {:synsem {:cat :adverb
-                                              :sem sem
-                                              :subcat {:1 comp-subcat}}}
-                              :synsem {:cat :adverb
+                   (let [parent-subcat (atom :top)
+                         sem (atom :top)
+                         infl (atom :top)
+                         comp-synsem (atom {:sem sem
+                                            :infl infl
+                                            :subcat {:1 parent-subcat}})]
+                     (unifyc
+                      head-first
+                      {:head {:synsem {:cat :adverb
                                        :sem sem
-                                       :subcat parent-subcat}
-                              :schema-symbol 'h11
-                              :rule "adverb-phrase"}))
+                                       :subcat {:1 comp-synsem}}}
+                       :first :head
+                       :comp {:synsem comp-synsem}
+                       :synsem {:cat :verb
+                                :infl infl
+                                :aux false
+                                :sem sem
+                                :subcat parent-subcat}
+                       :schema-symbol 'h11
+                       :rule "adverb-phrase"}))
                    
                    ;; nbar where head (noun) is first ('h' in h11)
                    (unifyc h11-comp-subcat-1

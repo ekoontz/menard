@@ -4,7 +4,7 @@
    [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.italiano :refer [analyze fo-ps generate lightning-bolts parse preprocess]]
-   [babel.italiano.grammar :as grammar]
+   [babel.italiano.grammar :as grammar :refer [model]]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo
                                                 replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
@@ -17,7 +17,7 @@
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]
-   [dag_unify.core :refer [copy fail? get-in strip-refs]]))
+   [dag_unify.core :refer [copy fail? get-in strip-refs unifyc]]))
 
 (def medium (grammar/medium))
 (def np-grammar (grammar/np-grammar))
@@ -499,6 +499,11 @@
            "la sedia è davanti il tavolo"))))
 
 (deftest non-arriva
-  (is (not (empty? (-> "non arriva"
-                       parse
-                       :parses)))))
+  (is (-> "non arriva"
+          parse
+          first
+          :parses
+          empty?
+          not)))
+
+

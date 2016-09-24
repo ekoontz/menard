@@ -75,7 +75,7 @@
    ))
 
 (defn moreover-head [parent child & [morph]]
-  (let [morph (if morph morph (fn [x] (strip-refs (dissoc x :serialized))))]
+  (let [morph (if morph morph (fn [x] (str "(no morph function provided:" x)))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
     (let [head-pre-checks (head-pre-checks parent child)
@@ -148,8 +148,8 @@
     (do
       (log/trace (str "overh: parent: " (get-in parent [:rule])))
       (log/trace (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
-      (log/trace (str "overh: parent: " (strip-refs (dissoc parent :serialized))))
-      (log/trace (str "overh: head: " (strip-refs (dissoc head :serialized))))))
+      (log/trace (str "overh: parent: " parent))
+      (log/trace (str "overh: head: " head))))
   ;; TODO: get rid of all this type-checking and use
   ;; whatever the smart people use for Clojure argument type-checking.
   (cond

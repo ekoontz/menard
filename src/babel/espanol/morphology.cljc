@@ -618,7 +618,7 @@
                                                             (= lexeme :top)
                                                             :top
                                                             true
-                                                            (dissoc (copy lexeme) :serialized))]
+                                                            (copy lexeme))]
                                            (if (not (= :none (get-in lexeme path :none)))
                                              (list {(get-in lexeme path :none)
                                                     (merge

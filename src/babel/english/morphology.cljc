@@ -794,7 +794,7 @@
                                                             (= lexeme :top)
                                                             :top
                                                             true
-                                                            (dissoc (copy lexeme) :serialized))
+                                                            (copy lexeme))
                                                debug (if (string? (get-in lexeme path :none))
                                                        (do (log/trace (str "lexeme:" (strip-refs lexeme)))
                                                            (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))

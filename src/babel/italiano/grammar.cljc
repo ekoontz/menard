@@ -586,6 +586,9 @@
      :enrich enrich
      :generate {:lexicon lexicon}
      :grammar grammar
+     :grammar-map (zipmap
+                   (map #(keyword (get-in % [:rule])) grammar)
+                   grammar)
      :lexicon lexicon
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))

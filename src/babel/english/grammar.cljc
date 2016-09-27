@@ -421,6 +421,11 @@
                                        :sem {:tense :past}
                                        :subcat {:2 {:agr obj-agr}}}}))
                    (unify-check h21
+                           {:rule "vp-conditional"
+                            :synsem {:aux false
+                                     :infl :conditional
+                                     :cat :verb}})
+                   (unify-check h21
                            {:rule "vp-future"
                             :synsem {:aux false
                                      :infl :future

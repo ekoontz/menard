@@ -7,11 +7,11 @@
 ;;
 ;; Language-specific: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
-;; babel.ab
+;; babel.ab (Abkhaz)
 ;; ..
-;; babel.zu
+;; babel.zu (Zulu)
 ;;
-(defproject babel "2.0.7"
+(defproject babel "2.0.8-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}

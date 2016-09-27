@@ -164,7 +164,6 @@
                               :sem {:aspect :progressive
                                     :pred :be-called
                                     :reflexive true
-                                    :tense :present
                                     :subj the-real-subj
                                     :obj the-real-subj
                                     :iobj the-obj}

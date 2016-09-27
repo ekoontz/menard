@@ -154,7 +154,8 @@
                                  :sem {:mod '()
                                        :iobj {:pred :luisa}
                                        :pred :be-called
-                                       :subj {:pred :lei}}}}
+                                       :subj {:pred :lei}
+                                       :tense :present}}}
                        :model medium)))))
                                        
 (deftest jean-s

@@ -11,14 +11,14 @@
 ;; ..
 ;; babel.zu
 ;;
-(defproject babel "2.0.7-SNAPSHOT"
+(defproject babel "2.0.7"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "1.3.8-SNAPSHOT"]
+                 [dag_unify "1.3.8"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]

@@ -2262,8 +2262,33 @@
     (deliver lexicon
              (-> (compile-lex lexicon-source 
                               morph/exception-generator 
-                              morph/phonize morph/english-specific-rules)
-                 
+                              morph/phonize)
+
+                 ;; <noun default rules>            
+                 ;; pronouns have semantic number and gender.
+                 (default
+                  (let [gender (atom :top)
+                        number (atom :top)]
+                    {:synsem {:cat :noun
+                              :pronoun true
+                              :agr {:gender gender
+                                    :number number}
+                              :sem {:gender gender
+                                    :number number}}}))
+
+                 ;; propernouns have semantic number and gender.
+                 (default
+                  (let [gender (atom :top)
+                        number (atom :top)]
+                    {:synsem {:cat :noun
+                              :propernoun true
+                   :agr {:gender gender
+                         :number number}
+                              :sem {:gender gender
+                                    :number number}}}))
+                 ;; </noun default rules>            
+
+                 ;; <verb default rules>
                  ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
                  (default
                   {:synsem {:cat :verb
@@ -2398,4 +2423,8 @@
                  (default
                   {:synsem {:cat :noun
                             :pronoun false
-                            :reflexive false}})))))
+                            :reflexive false}})
+
+                 ;; </verb default rules>
+
+                 ))))

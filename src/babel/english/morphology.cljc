@@ -719,59 +719,6 @@
      (get lexicon surface-form)
      ))))
 
-(def pronoun-semantic-gender-agreement
-  (let [gender (atom :top)]
-    {:synsem {:sem {:gender gender}
-              :agr {:gender gender}}}))
-
-(defn agreement [lexical-entry]
-  (cond
-   (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (atom :top)
-         infl (atom :top)]
-     (unifyc lexical-entry
-             {:english {:cat cat
-                        :infl infl}
-              :synsem {:cat cat
-                       :infl infl}}))
-
-   (and (= (get-in lexical-entry [:synsem :cat]) :noun)
-        (or (= (get-in lexical-entry [:synsem :pronoun]) true)
-            (= (get-in lexical-entry [:synsem :propernoun]) true)))
-   (let [agr (atom :top)
-         cat (atom :top)
-         pronoun (atom :top)
-         propernoun (atom :top)]
-     (unifyc lexical-entry
-             {:english {:agr agr
-                        :cat cat
-                        :propernoun propernoun
-                        :pronoun pronoun}
-              :synsem {:agr agr
-                       :cat cat
-                       :propernoun propernoun
-                       :pronoun pronoun}}
-             pronoun-semantic-gender-agreement))
-
-   (= (get-in lexical-entry [:synsem :cat]) :noun)
-   (let [agr (atom :top)
-         cat (atom :top)
-         pronoun (atom :top)]
-     (unifyc lexical-entry
-             {:english {:agr agr
-                        :cat cat
-                        :pronoun pronoun}
-              :synsem {:agr agr
-                       :cat cat
-                       :pronoun pronoun}}))
-   ;; note that we don't unifyc with pronoun-semantic-gender-agreement in this second case.
-   
-   true
-   lexical-entry))
-
-(def english-specific-rules
-  (list agreement))
-
 ;; TODO: rewrite with recur or map or similar, rather than recursively.
 (defn exception-generator [lexicon]
   (if (not (empty? lexicon))

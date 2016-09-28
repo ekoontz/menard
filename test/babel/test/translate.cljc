@@ -6,13 +6,63 @@
    [clojure.test :refer [deftest is]]
    [dag_unify.core :refer [get-in strip-refs]]))
 
-;; test that gender is correctly translated
-(deftest past-and-gender-agreement
-  (let [semantics (strip-refs (get-in (first (:parses (first (babel.italiano/parse "loro sono andate"))))
-                                      [:synsem :sem]))
-        english-translation (babel.english/generate {:synsem {:sem semantics}}
-                                                    :model en/small)]
-    (= "they (♀) went" (babel.english.morphology/fo english-translation))))
+;; In Italian, certain verbs, called "essere" verbs, when conjugated
+;; in certain tenses, agree in gender and number with their subject:
+;;
+;; For example, compare:
+;;  Italian: "loro sono andati"
+;;  English: They (masculine plural) went.
+;; but:
+;;  Italian: "loro sono andate"
+;;  English: They (feminine plural) went.
+;;
+;; In English we indicate feminine and masculine gender with ♀ and ♂,
+;; respectively.
 
+;; Test that gender agreement is correctly translated.
+(deftest past-and-gender-agreement-feminine
+  (let [italian "loro sono andate"
 
+        italian-structure
+        (-> italian
+            babel.italiano/parse
+            first
+            :parses
+            first)
+         
+        semantics
+        (-> italian-structure
+            (get-in [:synsem :sem])
+            strip-refs)
+        
+        english-structure
+        (->  {:synsem {:sem semantics}}
+             (babel.english/generate :model en/small))
+
+        english (babel.english.morphology/fo english-structure)]
+
+    (= "they (♀) went" english)))
+
+(deftest past-and-gender-agreement-masculine
+  (let [italian "loro sono andati"
+
+        italian-structure
+        (-> italian
+            babel.italiano/parse
+            first
+            :parses
+            first)
+         
+        semantics
+        (-> italian-structure
+            (get-in [:synsem :sem])
+            strip-refs)
+        
+        english-structure
+        (->  {:synsem {:sem semantics}}
+             (babel.english/generate :model en/small))
+
+        english (babel.english.morphology/fo english-structure)]
+
+    (= "they (♂) went" english)))
 

@@ -182,6 +182,29 @@
                  :synsem {:cat cat
                           :agr agr
                           :subcat {:1 {:agr agr}}}})))
+
+      ;; pronouns have semantic number and gender.
+      (default
+       (let [gender (atom :top)
+             number (atom :top)]
+         {:synsem {:cat :noun
+                   :pronoun true
+                   :agr {:gender gender
+                         :number number}
+                   :sem {:gender gender
+                         :number number}}}))
+
+      ;; propernouns have semantic number and gender.
+      (default
+       (let [gender (atom :top)
+             number (atom :top)]
+         {:synsem {:cat :noun
+                   :propernoun true
+                   :agr {:gender gender
+                         :number number}
+                   :sem {:gender gender
+                         :number number}}}))
+
       ;; </noun default rules>            
 
       ;; <verb default rules>

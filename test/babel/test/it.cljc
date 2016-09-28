@@ -506,4 +506,13 @@
           empty?
           not)))
 
+(deftest past-and-gender-agreement
+  (= (fo (generate {:synsem {:sem {:pred :go
+                                   :aspect :perfect
+                                   :tense :past
+                                   :subj {:gender :fem
+                                          :pred :loro}}}}
+                   :model small))
+     "loro sono andate"))
+
 

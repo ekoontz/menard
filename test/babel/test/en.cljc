@@ -268,3 +268,14 @@
                                                          :pred :definite}}
                                             :cat :noun}})))]
     (is true)))
+
+(deftest past-and-gender-agreement
+  (= (fo (generate {:synsem {:sem {:pred :go
+                                   :aspect :perfect
+                                   :tense :past
+                                   :subj {:gender :fem
+                                          :pred :loro}}}}
+                   :model small))
+     "they (♀) went"))
+
+

@@ -532,8 +532,8 @@
                       :subcat {:2 {:cat :prep
                                    :sem {:pred :with}}}}}
             {:synsem {:cat :verb
-                      :sem {:pred :dance
-                            :subcat {:2 '()}}}}]
+                      :sem {:pred :dance}
+                      :subcat {:2 '()}}}]
    
    "decide" {:synsem {:cat :verb
                       :sem {:pred :decide}}}

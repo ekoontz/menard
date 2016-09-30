@@ -2264,7 +2264,28 @@
                               morph/exception-generator 
                               morph/phonize)
 
+                 ;; <category-independent rules>
+                 
+                 (default
+                  (let [cat (atom :top)]
+                    {:english {:cat cat}
+                     :synsem {:cat cat}}))
+
+                 ;; </category-independent rules>
+                 
                  ;; <noun default rules>            
+
+                 ;; make :propernoun and :pronoun available to morphological rules
+                 ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
+                 (default
+                  (let [pronoun (atom :top)
+                        propernoun (atom :top)]
+                    {:english {:pronoun pronoun
+                               :propernoun propernoun}
+                     :synsem {:cat :noun
+                              :pronoun pronoun
+                              :propernoun propernoun}}))
+
                  ;; pronouns have semantic number and gender.
                  (default
                   (let [gender (atom :top)
@@ -2282,10 +2303,19 @@
                         number (atom :top)]
                     {:synsem {:cat :noun
                               :propernoun true
-                   :agr {:gender gender
-                         :number number}
+                              :agr {:gender gender
+                                    :number number}
                               :sem {:gender gender
                                     :number number}}}))
+
+                 ;; nouns have number-agreement morphology: 'the dog sleeps' vs 'the dogs sleep'
+                 ;; english.morphology needs to see the :cat=noun as well, so share that within :english.
+                 (default
+                  (let [agr (atom :top)]
+                    {:english {:agr agr}
+                     :synsem {:cat :noun
+                              :agr agr}}))
+                 
                  ;; </noun default rules>            
 
                  ;; <verb default rules>

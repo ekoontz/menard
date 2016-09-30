@@ -278,4 +278,9 @@
                    :model small))
      "they (♀) went"))
 
-
+(deftest noun-number-agreement
+  (= (fo (generate {:synsem {:agr {:number :plur}
+                             :cat :noun
+                             :sem {:pred :cat :spec {:def :def}
+                                   :mod '()}}}))
+     "the cats"))

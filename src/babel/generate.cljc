@@ -117,7 +117,7 @@ to generate expressions by adding complements using (add-all-comps)."
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
-    (log/debug (str "lightning-bolt: candidate-parents:" (count parents) " for spec:" (strip-refs spec)))
+    (log/debug (str "lightning-bolt: candidate-parents: [" (string/join "," (map :rule parents)) "] for spec:" (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (mapfn (fn [parent]
@@ -182,18 +182,6 @@ bolt."
                                    truncate-children max-total-depth))
        (do (log-bolt-groups bolt-groups language-model)
            (reduce concat bolt-groups))))))
-
-(defn log-bolt-groups [bolt-groups language-model]
-  (log/trace
-   (str "bolt-groups:\n"
-        (string/join "\n"
-                     (map (fn [bolt-group]
-                            (str "bolt-group:\n"
-                                 (string/join "\n"
-                                              (map (fn [bolt]
-                                                     (str " " (show-bolt bolt language-model)))
-                                                   bolt-group))))
-                          bolt-groups)))))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
@@ -344,33 +332,6 @@ bolt."
 
                             (take max-generated-complements (lazy-cat phrasal-complements filtered-lexical-complements)))))))))
 
-(defn spec-info [spec]
-  "give a human-readable summary of _spec_."
-  (strip-refs
-   (merge
-    (if-let [cat (get-in spec [:synsem :cat])]
-      {:cat cat})
-    (if-let [essere (get-in spec [:synsem :essere])]
-      {:essere essere})
-    (if-let [pred (get-in spec [:synsem :sem :pred])]
-      {:pred pred})
-    (if-let [agr (get-in spec [:synsem :agr])]
-      {:agr agr})
-    (if-let [def (get-in spec [:synsem :sem :spec :def])]
-      {:def def})
-    (if-let [pronoun (get-in spec [:synsem :pronoun])]
-      {:pronoun pronoun})
-    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
-    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
-      (if (not (= :not-found-by-spec-info mod))
-        {:mod mod}))
-    (if-let [modified (get-in spec [:modified])]
-      {:modified modified})
-    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
-                      (get-in spec [:synsem :subcat :1 :cat]))]
-      {:subcat/:1/:cat subcat1
-       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
-
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
@@ -430,3 +391,42 @@ bolt."
         (log/trace (str "P(c," depth ") = " prob " (c: probablity of choosing lexemes rather than phrases given a depth)."))
         (> (* 10 prob) (rand-int 10)))
       false)))
+
+(defn spec-info [spec]
+  "give a human-readable summary of _spec_."
+  (strip-refs
+   (merge
+    (if-let [cat (get-in spec [:synsem :cat])]
+      {:cat cat})
+    (if-let [essere (get-in spec [:synsem :essere])]
+      {:essere essere})
+    (if-let [pred (get-in spec [:synsem :sem :pred])]
+      {:pred pred})
+    (if-let [agr (get-in spec [:synsem :agr])]
+      {:agr agr})
+    (if-let [def (get-in spec [:synsem :sem :spec :def])]
+      {:def def})
+    (if-let [pronoun (get-in spec [:synsem :pronoun])]
+      {:pronoun pronoun})
+    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
+    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
+      (if (not (= :not-found-by-spec-info mod))
+        {:mod mod}))
+    (if-let [modified (get-in spec [:modified])]
+      {:modified modified})
+    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
+                      (get-in spec [:synsem :subcat :1 :cat]))]
+      {:subcat/:1/:cat subcat1
+       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
+
+(defn log-bolt-groups [bolt-groups language-model]
+  (log/trace
+   (str "bolt-groups:\n"
+        (string/join "\n"
+                     (map (fn [bolt-group]
+                            (str "bolt-group:\n"
+                                 (string/join "\n"
+                                              (map (fn [bolt]
+                                                     (str " " (show-bolt bolt language-model)))
+                                                   bolt-group))))
+                          bolt-groups)))))

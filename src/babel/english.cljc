@@ -83,18 +83,23 @@
                   :synsem {:cat :verb}})]
     (println (str "count: " count))
     (println (str "spec:" spec))
-    (doall (take count (repeatedly
-                        #(let [expr (generate spec
-                                              :model model)
-                               fo (fo expr :show-notes false)]
-                           (let [to-print
-                                 (cond
-                                   (empty? fo) (str "(failed)")
-                                   true
-                                   (str (string/capitalize (nth fo 0))
-                                        (string/join "" (rest (vec fo)))
-                                        "."))]
-                             (println to-print))))))))
+    (doall (pmap
+            (fn [num]
+              (let [expr (generate spec
+                                   :model model)
+                    fo (fo expr :show-notes false)]
+                (let [to-print
+                      (cond
+                        (empty? fo) (str "(failed)")
+                        true
+                        (str (string/capitalize (nth fo 0))
+                             (string/join "" (rest (vec fo)))
+                             "."))]
+                  (println (str num ". " to-print)))))
+            (range 0 count)))))
+
+
+
 
 
 

@@ -74,21 +74,29 @@
    (parse/parse (preprocess input) model)))
 
 
-(defn sentences [ & [spec model]]
-  (let [model (if model model (medium))
-        spec (if spec
-               (unifyc spec {:modified false})
-               {:modified false
-                :synsem {:cat :verb}})]
-    (repeatedly #(println (str (let [expr (generate spec
-                                                    :model model)
-                                     fo (fo expr :show-notes false)]
+(defn sentences [ & [count spec model]]
+  (let [count (or count 100)
+        model (or model (medium))
+        spec (or (and spec
+                      (unifyc spec {:modified false}))
+                 {:modified false
+                  :synsem {:cat :verb}})]
+    (println (str "count: " count))
+    (println (str "spec:" spec))
+    (doall (take count (repeatedly
+                        #(let [expr (generate spec
+                                              :model model)
+                               fo (fo expr :show-notes false)]
+                           (let [to-print
                                  (cond
                                    (empty? fo) (str "(failed)")
                                    true
                                    (str (string/capitalize (nth fo 0))
                                         (string/join "" (rest (vec fo)))
-                                        "."))))))))
+                                        "."))]
+                             (println to-print))))))))
+
+
 
 
 

@@ -1543,19 +1543,22 @@
                           :physical-object true
                           :human false}}})
 
-   ;; TODO: add PP[with] "remain with .."
    "remain" [{:synsem {:cat :verb
+                       :subcat {:2 {:cat :prep
+                                    :sem {:pred :with}}}
                        :sem {:pred :remain}}} ;; for other than italian
                     
              ;; these two below are for Italian.          
-
-             
              {:english {:note {:it "ri"}}
               :synsem {:cat :verb
-                       :sem {:pred :remain1}}}
+                       :sem {:pred :remain1}
+                       :subcat {:2 {:cat :prep
+                                    :sem {:pred :with}}}}}
              {:english {:note {:it "re"}}
               :synsem {:cat :verb
-                       :sem {:pred :remain2}}}]
+                       :sem {:pred :remain2}
+                       :subcat {:2 {:cat :prep
+                                    :sem {:pred :with}}}}}]
 
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}

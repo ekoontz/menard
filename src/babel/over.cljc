@@ -41,28 +41,6 @@
       (log/debug (str "check-vals caught a fail: p1=" p1 "; p2=" p2 "; fail-path:" (fail-path m1 m2))))
     result))
 
-(defn head-pre-checks [parent child]
-  (or
-   (check-vals parent child [:head :synsem :cat]            [:synsem :cat])
-   (check-vals parent child [:head :synsem :essere]         [:synsem :essere])
-   (check-vals parent child [:head :synsem :subcat :1 :cat] [:synsem :subcat :1 :cat])
-   (check-vals parent child [:head :synsem :subcat :2 :cat] [:synsem :subcat :2 :cat])
-   (check-vals parent child [:head :synsem :infl]           [:synsem :infl])
-   (check-vals parent child [:head :phrasal]                [:phrasal])
-   (check-vals parent child [:head :synsem :agr]            [:synsem :agr])
-   (check-vals parent child [:head :synsem :sem]            [:synsem :sem])
-   (check-vals parent child [:head :synsem :aux]            [:synsem :aux])
-   (check-vals parent child [:head :synsem :pronoun]        [:synsem :pronoun])
-   (check-vals parent child [:head :synsem :propernoun]     [:synsem :propernoun])
-   (check-vals parent child [:head :synsem :subcat]         [:synsem :subcat])
-   (check-vals parent child [:head :modified]               [:modified])
-   ;; TODO: language-specific rules should be supplied from their respective namespaces.
-   (check-vals parent child [:head :espanol :espanol]       [:espanol :espanol])
-   (check-vals parent child [:head :italiano :italiano]     [:italiano :italiano])
-   (check-vals parent child [:head :synsem :comp-type]      [:synsem :comp-type])
-
-   ))
-
 (defn comp-pre-checks [parent child]
   (or
    (check-vals parent child [:comp :synsem :cat]            [:synsem :cat])
@@ -78,15 +56,9 @@
   (let [morph (if morph morph (fn [x] (str "(no morph function provided:" x)))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
     (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
-    (let [head-pre-checks (head-pre-checks parent child)
-          result
-          (if head-pre-checks
-            (do
-              (log/trace (str "moreover-head: head failed prechecks for parent: " (get-in parent [:rule])))
-              :fail)
-            (unify
-             (copy parent)
-             {:head (copy child)}))]
+    (let [result (unify
+                  (copy parent)
+                  {:head (copy child)})]
       (if (not (fail? result))
         (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
                                     ":'" (morph result) "'"))
@@ -104,15 +76,6 @@
         ;; Ideally the attempt would always succeed, because calling (moreover-head) is expensive
         ;; because of the need to copy structures.
         (do
-          (if (not (= true head-pre-checks))
-            (log/warn (str "moreover-head: pre-check missed: fail-path-between "
-                           "parent:'" (get-in parent [:rule]) "' and child with pred:"
-                           (get-in child [:rule] (get-in child [:synsem :sem :pred] :nopred)) " ; "
-                           (let [{path :fail-path
-                                  parent-value :val1
-                                  head-value :val2} (fail-path parent {:head child})]
-                             (str "parent[" path        "] = " parent-value ";")))))
-                             
           (if (= *extra-diagnostics* true)
             (let [fail-path (get-fail-path (get-in parent [:head]) child)]
               (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))

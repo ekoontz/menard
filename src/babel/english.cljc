@@ -75,7 +75,7 @@
 
 
 (defn sentences [ & [count spec model]]
-  (let [count (or count 100)
+  (let [count (or (Integer. count) 100)
         model (or model (medium))
         spec (or (and spec
                       (unifyc spec {:modified false}))
@@ -95,7 +95,7 @@
                         (str (string/capitalize (nth fo 0))
                              (string/join "" (rest (vec fo)))
                              "."))]
-                  (println (str num ". " to-print)))))
+                  (println (str (+ 1 num) ". " to-print)))))
             (range 0 count)))))
 
 

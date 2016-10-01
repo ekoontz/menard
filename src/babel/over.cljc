@@ -19,28 +19,6 @@
 
 (def ^:dynamic *extra-diagnostics* false)
 
-(defn check-vals [m1 m2 p1 p2]
-  (let [v1 (get-in m1 p1 :top)
-        v2 (get-in m2 p2 :top)
-        result
-        (cond (= :top v1)
-              false
-              (= :top v2)
-              false
-              (= :fail v1)
-              true
-              (= :top v2)
-              true
-              (and (map? m1)
-                   (map? m2))
-              (fail? (unifyc v1 v2))
-
-              true
-              (not (= v1 v2)))]
-    (if (= result true)
-      (log/debug (str "check-vals caught a fail: p1=" p1 "; p2=" p2 "; fail-path:" (fail-path m1 m2))))
-    result))
-
 (defn moreover-head [parent child & [morph]]
   (let [morph (if morph morph (fn [x] (str "(no morph function provided:" x)))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))

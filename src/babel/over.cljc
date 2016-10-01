@@ -19,56 +19,6 @@
 
 (def ^:dynamic *extra-diagnostics* false)
 
-(defn moreover-head [parent child & [morph]]
-  (let [morph (if morph morph (fn [x] (str "(no morph function provided:" x)))]
-    (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
-    (log/trace (str "moreover-head (candidate) head child: [" (get-in parent [:child]) "] '" (morph child) "' sem:" (strip-refs (get-in child '(:synsem :sem) :top))))
-    (let [result (unify
-                  (copy parent)
-                  {:head (copy child)})]
-      (if (not (fail? result))
-        (let [debug (log/trace (str "moreover-head: " (get-in parent '(:rule)) " succeeded: " (get-in result [:rule])
-                                    ":'" (morph result) "'"))
-              debug
-              (let [p-sc (get-in parent [:head :synsem :subcat :1 :cat] :top)
-                    c-sc (get-in child [:synsem :subcat :1 :cat] :top)]
-                (if (fail? (unifyc p-sc c-sc))
-                  (do
-                    (log/debug (str "moreover-head: pass: parent sc:" (get-in parent [:head :synsem :subcat :1 :cat] :none)))
-                    (log/debug (str "moreover-head: pass: head sc:  " (get-in child [:synsem :subcat :1 :cat] :none))))))
-              debug (log/trace (str " resulting sem: " (strip-refs (get-in result '(:synsem :sem)))))]
-          result)
-
-        ;; else: attempt to put head under parent failed: provide diagnostics through log/debug messages.
-        ;; Ideally the attempt would always succeed, because calling (moreover-head) is expensive
-        ;; because of the need to copy structures.
-        (do
-          (if (= *extra-diagnostics* true)
-            (let [fail-path (get-fail-path (get-in parent [:head]) child)]
-              (log/trace (str "moreover-head: failed to add head: '" (morph child) "' to parent: " (get-in parent [:rule])))
-              (log/trace (str "parent " (get-in parent [:rule])
-                              " wanted head with: "
-                              (strip-refs (get-in parent [:head :synsem]))))
-              (log/trace (str "fail-path: " (get-fail-path (get-in parent [:head])
-                                                           child)))
-              (log/trace (str "  parent@" fail-path "="
-                              (get-in parent (concat [:head] fail-path))))
-              (log/trace (str "    head@" fail-path "="
-                              (get-in child fail-path)))
-              (if (and (not (= (get-in parent [:synsem :cat])
-                               (get-in child [:synsem :cat]))))
-                (log/warn (str "moreover-head: parent's :cat != head child's cat.")))
-              (if (fail? (unify (get-in parent [:head :synsem :subcat :1 :cat])
-                                (get-in child [:synsem :subcat :1 :cat])))
-                (log/trace (str "moreover-head: parent specifies: [:head :synsem :subcat :1]: " (get-in parent [:head :synsem :subcat :1 :cat]) ";"
-                                "moreover-head: head child specifies: [:synsem subcat :1]   : " (get-in child [:synsem :subcat :1 :cat]))))
-              (if (and false ;; TODO (if no-pre-checks-have-caught-this ..)
-                       (get-in parent [:head :synsem :infl])
-                       (get-in comp [:synsem :infl]))
-                (log/debug (str "moreover-head: fail-path-between:"
-                                (fail-path-between parent {:head child}))))))
-          :fail)))))
-
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -113,7 +63,9 @@
    true
    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
    ;; and save 'true' for errors.
-   (let [result (moreover-head parent head)
+   (let [result (unify (copy parent)
+                       {:head (copy head)})
+
          is-fail? (fail? result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)

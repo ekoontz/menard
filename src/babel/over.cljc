@@ -41,17 +41,6 @@
       (log/debug (str "check-vals caught a fail: p1=" p1 "; p2=" p2 "; fail-path:" (fail-path m1 m2))))
     result))
 
-(defn comp-pre-checks [parent child]
-  (or
-   (check-vals parent child [:comp :synsem :cat]            [:synsem :cat])
-   (check-vals parent child [:comp :synsem :agr]            [:synsem :agr])
-   (check-vals parent child [:comp :synsem :case]           [:synsem :case])
-   (check-vals parent child [:comp :synsem :sem]            [:synsem :sem])
-   (check-vals parent child [:comp :synsem :reflexive]      [:synsem :reflexive])
-   (check-vals parent child [:comp :synsem :pronoun]        [:synsem :pronoun])
-   (check-vals parent child [:comp :synsem :subcat]         [:synsem :subcat])
-   ))
-
 (defn moreover-head [parent child & [morph]]
   (let [morph (if morph morph (fn [x] (str "(no morph function provided:" x)))]
     (log/trace (str "moreover-head (candidate) parent: [" (get-in parent [:rule]) "] '" (morph parent) "' sem:    " (strip-refs (get-in parent '(:synsem :sem) :no-semantics))))
@@ -113,7 +102,7 @@
       (log/trace (str "overh: parent: " parent))
       (log/trace (str "overh: head: " head))))
   ;; TODO: get rid of all this type-checking and use
-  ;; whatever the smart people use for Clojure argument type-checking.
+  ;; whatever people use for Clojure argument type-checking.
   (cond
 
    (nil? head)
@@ -203,11 +192,9 @@
                        (overc parent child))
                      comp-children)))
    true
-   (let [check-result (comp-pre-checks parent comp)
-         result (if check-result :fail
-                      (unifyc parent
-                              {:comp comp}))
-         is-fail? (fail? result)]
+   (let [result (unifyc parent
+                        {:comp comp})
+         is-fail? (= :fail result)]
      (if (not is-fail?)
        (do
          (log/debug (str "overc: " (get-in parent [:rule]) " -> " (get-in comp [:rule]

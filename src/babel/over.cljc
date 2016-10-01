@@ -66,7 +66,7 @@
    (let [result (unify (copy parent)
                        {:head (copy head)})
 
-         is-fail? (fail? result)
+         is-fail? (= :fail result)
          label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
      (if (not is-fail?)
        (do

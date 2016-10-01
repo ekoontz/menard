@@ -99,11 +99,9 @@
     (set? parent)
     (vector? parent))
    (let [parents (lazy-seq parent)]
-     (filter (fn [result]
-               (not (fail? result)))
-             (mapcat (fn [parent]
-                       (overc parent comp))
-                     parents)))
+     (mapcat (fn [parent]
+               (overc parent comp))
+             parents))
 
    #?(:clj (future? comp))
    #?(:clj (overc parent (deref comp)))
@@ -208,7 +206,7 @@
                ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
                ;; and figure out head-comp ordering from :first attribute.
                (filter (fn [each]
-                         (not (fail? each)))
+                         (not (= :fail each)))
                        (overhc parent
                                (if (= (:first parent) :head)
                                  child1 child2)

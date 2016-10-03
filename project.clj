@@ -11,7 +11,7 @@
 ;; ..
 ;; babel.zu (Zulu)
 ;;
-(defproject babel "2.0.10"
+(defproject babel "2.0.11-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
@@ -23,11 +23,7 @@
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]
                  [korma "0.4.1"]
-                 ;; TODO: are all these exclusions still necessary?
-                 [log4j/log4j "1.2.17" :exclusions [javax.mail/mail
-                                                    javax.jms/jms
-                                                    com.sun.jdmk/jmxtools
-                                                    com.sun.jmx/jmxri]]
+                 [log4j/log4j "1.2.17"]
                  [org.clojure/core.cache "0.6.5"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.7.170"]

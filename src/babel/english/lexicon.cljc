@@ -1092,6 +1092,27 @@
                     :pred :I}
               :subcat '()}}]
 
+   "I (♂)" 
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :masc
+                   :person :1st
+                   :number :sing}
+             :sem {:human true
+                   :pred :I}
+             :subcat '()}}
+   "I (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :fem
+                   :person :1st
+                   :number :sing}
+             :sem {:human true
+                   :pred :I}
+             :subcat '()}}
+  
    "if"   {:synsem {:cat :comp
                     :comp-type :if
                     :subcat {:1 {:cat :verb
@@ -1286,6 +1307,28 @@
                     :pred :luisa-and-i}
               :subcat '()}}]
 
+  "Luisa and I (♂)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :masc
+                   :person :1st
+                   :number :plur}
+              :sem {:human true
+                    :pred :luisa-and-i}
+             :subcat '()}}
+
+   "Luisa and I (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :nom
+             :agr {:gender :fem
+                   :person :1st
+                   :number :plur}
+             :sem {:human true
+                    :pred :luisa-and-i}
+             :subcat '()}}
+   
    "make" {:synsem {:cat :verb
                     :sem {:pred :make}}
            :english {:past "made"}}
@@ -1939,7 +1982,51 @@
                     :human false
                     :pred :loro}
               :subcat '()}}]
-            
+
+   "they (♂)"
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :plur}
+              :sem {:gender :masc
+                    :human true
+                    :pred :loro}
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :masc
+                    :number :plur}
+              :sem {:gender :masc
+                    :human false
+                    :pred :loro}
+              :subcat '()}}]
+   
+   "they (♀)"
+   [{:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :plur}
+              :sem {:gender :fem
+                    :human true
+                    :pred :loro}
+              :subcat '()}}
+    {:synsem {:cat :noun
+              :pronoun true
+              :case :nom
+              :agr {:person :3rd
+                    :gender :fem
+                    :number :plur}
+              :sem {:gender :fem
+                    :human false
+                    :pred :loro}
+              :subcat '()}}]
+   
    "think" (let [common {:synsem {:cat :verb
                                   :subcat {:1 {:cat :noun
                                                :sem {:human true}}}}
@@ -2177,6 +2264,30 @@
                     :pred :tu}
               :subcat '()}}]
 
+   "you (♂)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :reflexive false
+             :case :top ;; see comment in "it" about :case.
+             :agr {:person :2nd
+                   :gender :masc
+                   :number :sing}
+             :sem {:human true
+                   :pred :tu}
+             :subcat '()}}
+
+   "you (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :reflexive false
+             :case :top ;; see comment in "it" about :case.
+             :agr {:person :2nd
+                   :gender :fem
+                   :number :sing}
+             :sem {:human true
+                   :pred :tu}
+             :subcat '()}}
+   
    "you all"
    [{:english {:note "♂"}
      :synsem {:cat :noun
@@ -2202,6 +2313,33 @@
                    :reflexive false
                    :pred :voi}
              :subcat '()}}]
+
+   "you all (♂)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :reflexive false
+             :case :top ;; see comment in "it" about :case.
+             :agr {:person :2nd
+                   :gender :masc
+                   :number :plur}
+             :sem {:human true
+                   :reflexive false
+                   :pred :voi}
+             :subcat '()}}
+
+   "you all (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :reflexive false
+             :case :top ;; see comment in "it" about :case.
+             :agr {:person :2nd
+                   :gender :fem
+                   :number :plur}
+             :sem {:human true
+                   :reflexive false
+                   :pred :voi}
+             :subcat '()}}
+
    "your"
    (map #(unify %
                 {:synsem {:cat :det

@@ -11,7 +11,7 @@
 ;; ..
 ;; babel.zu (Zulu)
 ;;
-(defproject babel "2.0.11"
+(defproject babel "2.0.12-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}

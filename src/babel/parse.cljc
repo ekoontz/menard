@@ -229,7 +229,8 @@
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
                    result (parse tokenizations model original-input)]
                (if (empty? result)
-                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: " (string/join ";" tokenizations)))
+                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
+                                (string/join ";" tokenizations)))
                  (log/info (str "parsed input:    \"" input "\"")))
                result))
          

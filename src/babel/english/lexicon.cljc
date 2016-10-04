@@ -2371,6 +2371,30 @@
                     :pred :tu}
               :subcat '()}}]
 
+   "yourself (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :acc
+             :reflexive true
+             :agr {:person :2nd
+                   :number :sing
+                   :gender :fem}
+             :sem {:human true
+                   :pred :tu}
+             :subcat '()}}
+
+   "yourself (♂)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :acc
+             :reflexive true
+             :agr {:person :2nd
+                   :number :sing
+                   :gender :masc}
+             :sem {:human true
+                   :pred :tu}
+             :subcat '()}}
+
    "yourselves"
    [{:synsem {:cat :noun
               :pronoun true

@@ -30,6 +30,9 @@
       (string? input)
       input
 
+      (string? (get-in input [:english]))
+      (get-in input [:english])
+
       (and (map? input)
            (map? (get-in input [:english])))
       (get-string (get-in input [:english])

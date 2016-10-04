@@ -124,6 +124,9 @@
 (deftest simple-parse
   (is (not (empty? (parse "she sleeps" medium)))))
 
+(deftest future-parse
+  (is (not (empty? (parse "he will speak" medium)))))
+
 (deftest be-called
   (is (= 10
          (count

@@ -624,7 +624,11 @@
                           :infl :present
                           :subcat {:1 {:agr {:number :sing
                                              :person :3rd}}}}}}})
-
+(def infinitive-to-future
+  {#"^will "
+   {:replace-with ""
+    :unify-with {:synsem {:cat :verb
+                          :infl :future}}}})
 
 (def infinitive-to-past-1
   {#"d$"
@@ -681,9 +685,11 @@
 
          lexical-noun-to-singular ;; turns :number :top to :number :sing
 
+         infinitive-to-future ;; "will love" => love
+         
          infinitive-to-past-1 ;; love => loved
          infinitive-to-past-2 ;; talked => talk
-
+         
          )
         
         analyzed

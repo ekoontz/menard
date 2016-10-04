@@ -73,7 +73,6 @@
   ([input model]
    (parse/parse (preprocess input) model)))
 
-
 (defn sentences [ & [count spec model]]
   (let [count (or (Integer. count) 100)
         model (or model (medium))
@@ -97,11 +96,3 @@
                              "."))]
                   (println (str (+ 1 num) ". " to-print)))))
             (range 0 count)))))
-
-
-
-
-
-
-
-

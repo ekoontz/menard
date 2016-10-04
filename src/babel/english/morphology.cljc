@@ -636,6 +636,30 @@
     :unify-with {:synsem {:cat :verb
                           :infl :conditional}}}})
 
+(def infinitive-to-imperfect1
+  {#"^used to "
+   {:replace-with ""
+    :unify-with {:synsem {:cat :verb
+                          :infl :imperfect}}}})
+
+(def infinitive-to-imperfect2
+  {#"^(was|were) (.*)ing" ;; posting -> post
+   {:replace-with "$2"
+    :unify-with {:synsem {:cat :verb
+                          :infl :imperfect}}}})
+
+(def infinitive-to-imperfect3 ;; flaming -> flame, causing -> cause, tasting -> taste
+  {#"^(was|were) (.*[mstv])ing"
+   {:replace-with "$2e"
+    :unify-with {:synsem {:cat :verb
+                          :infl :imperfect}}}})
+
+(def infinitive-to-imperfect4 ;; tripping -> trip
+  {#"^(was|were) (.*)[nsp]ing"
+   {:replace-with "$2"
+    :unify-with {:synsem {:cat :verb
+                          :infl :imperfect}}}})
+
 (def infinitive-to-past-1
   {#"d$"
    {:replace-with ""
@@ -693,6 +717,10 @@
 
          infinitive-to-conditional ;; "would love" => love
          infinitive-to-future ;; "will love" => love
+         infinitive-to-imperfect1 ;; "used to love" => love
+         infinitive-to-imperfect2 ;; "was posting" => post
+         infinitive-to-imperfect3 ;; "was causing" => cause
+         infinitive-to-imperfect4 ;; "was stopping" => stop
          
          infinitive-to-past-1 ;; love => loved
          infinitive-to-past-2 ;; talked => talk

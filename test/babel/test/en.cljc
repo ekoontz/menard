@@ -130,6 +130,11 @@
 (deftest conditional-parse
   (is (not (empty? (parse "she would speak" medium)))))
 
+(deftest imperfect-parse
+  (is (not (empty? (parse "she used to speak" medium))))
+  (is (not (empty? (parse "she was loving" medium))))
+  (is (not (empty? (parse "she was speaking" medium)))))
+
 (deftest parse-with-gender-symbols
   (is (not (empty? (parse "I (♀) speak"))))
   (is (not (empty? (parse "I (♂) speak"))))

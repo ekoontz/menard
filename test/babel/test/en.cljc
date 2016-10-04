@@ -127,6 +127,17 @@
 (deftest future-parse
   (is (not (empty? (parse "he will speak" medium)))))
 
+(deftest conditional-parse
+  (is (not (empty? (parse "she would speak" medium)))))
+
+(deftest parse-with-gender-symbols
+  (is (not (empty? (parse "I (♀) speak"))))
+  (is (not (empty? (parse "I (♂) speak"))))
+  (is (not (empty? (parse "you (♀) speak"))))
+  (is (not (empty? (parse "you (♂) speak"))))
+  (is (not (empty? (parse "you all (♀) speak"))))
+  (is (not (empty? (parse "you all (♂) speak")))))
+
 (deftest be-called
   (is (= 10
          (count

@@ -630,6 +630,12 @@
     :unify-with {:synsem {:cat :verb
                           :infl :future}}}})
 
+(def infinitive-to-conditional
+  {#"^would "
+   {:replace-with ""
+    :unify-with {:synsem {:cat :verb
+                          :infl :conditional}}}})
+
 (def infinitive-to-past-1
   {#"d$"
    {:replace-with ""
@@ -685,6 +691,7 @@
 
          lexical-noun-to-singular ;; turns :number :top to :number :sing
 
+         infinitive-to-conditional ;; "would love" => love
          infinitive-to-future ;; "will love" => love
          
          infinitive-to-past-1 ;; love => loved

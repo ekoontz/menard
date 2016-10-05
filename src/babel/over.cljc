@@ -16,65 +16,28 @@
 
 ;; use map or pmap.
 (def ^:const mapfn pmap)
-
 (def ^:dynamic *extra-diagnostics* false)
 
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
-  (when (and (map? parent)
-             (map? head))
-    (do
-      (log/trace (str "overh: parent: " (get-in parent [:rule])))
-      (log/trace (str "overh: head: " (get-in head [:rule] (str "head is a lexeme with pred: " (strip-refs (get-in head [:synsem :sem :pred]))))))
-      (log/trace (str "overh: parent: " parent))
-      (log/trace (str "overh: head: " head))))
   ;; TODO: get rid of all this type-checking and use
   ;; whatever people use for Clojure argument type-checking.
   (cond
-
-   (nil? head)
-   nil
-
-   (or
-    (seq? parent)
-    (set? parent)
-    (vector? parent))
-   (let [parents (lazy-seq parent)]
-     (filter (fn [result]
-               (not (fail? result)))
-             (mapcat (fn [each-parent]
-                       (overh each-parent head))
-                     parents)))
-
-   (or (set? head)
-       (vector? head))
-   (do (log/trace "head is a set: converting to a seq.")
-       (overh parent (lazy-seq head)))
-
-   (seq? head)
-   (let [head-children head]
-     (log/trace (str "head is a seq - actual type is " (type head)))
-     (filter (fn [result]
-               (not (fail? result)))
-             (mapcat (fn [child]
-                       (overh parent child))
-                     head-children)))
-   true
-   ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
-   ;; and save 'true' for errors.
-   (let [result (unify (copy parent)
-                       {:head (copy head)})
-
-         is-fail? (= :fail result)
-         label (if (get-in parent [:rule]) (get-in parent [:rule]) (:comment parent))]
-     (if (not is-fail?)
-       (do
-         (log/debug (str "overh: " (get-in parent [:rule]) " -> " (get-in head [:rule]
-                                                                        (get-in head [:synsem :sem :pred]
-                                                                                "(no pred for head)"))))
-         (log/trace (str "overh successful result: " (strip-refs (dissoc result :dag_unify.core/serialized))))
-         (list result))))))
+    (or (seq? head)
+        (vector? head))
+    (mapcat (fn [child]
+              (overh parent child))
+            head)
+    true
+    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
+    ;; and save 'true' for errors.
+    (let [result (unify (copy parent)
+                        {:head (copy head)})
+          
+          is-fail? (= :fail result)]
+      (if (not is-fail?)
+        (list result)))))
 
 ;; Haskell-looking signature:
 ;; (parent:map) X (child:{set,seq,fs}) => list:map
@@ -82,43 +45,22 @@
 ;; is still true.
 (defn overc [parent comp]
   "add given child as the comp child of the phrase: parent."
-
-  (log/trace (str "set? parent:" (set? parent)))
-  (log/trace (str "seq? parent:" (seq? parent)))
-  (log/trace (str "seq? comp:" (seq? comp)))
-
-  (log/trace (str "type of parent: " (type parent)))
-  (log/trace (str "type of comp  : " (type comp)))
-  (log/trace (str "nil? comp  : " (nil? comp)))
-
   (cond
-   (nil? comp) nil
-
-   (or
-    (seq? parent)
-    (set? parent)
-    (vector? parent))
+   (or (seq? parent)
+       (vector? parent))
    (let [parents (lazy-seq parent)]
      (mapcat (fn [parent]
                (overc parent comp))
              parents))
 
-   #?(:clj (future? comp))
-   #?(:clj (overc parent (deref comp)))
-
-   (or (set? comp)
-       (vector? comp))
-   (do (log/trace "comp is a set: converting to a seq.")
-       (overc parent (lazy-seq comp)))
+   (vector? comp)
+   (overc parent (lazy-seq comp))
 
    (seq? comp)
    (let [comp-children comp]
-     (log/trace (str "comp is a seq - actual type is " (type comp)))
-     (filter (fn [result]
-               (not (fail? result)))
-             (mapcat (fn [child]
-                       (overc parent child))
-                     comp-children)))
+     (mapcat (fn [child]
+               (overc parent child))
+             comp-children))
    true
    (let [result (unifyc parent
                         {:comp comp})
@@ -141,78 +83,23 @@
 ;; 2) called with both a child1 and a child2, but child2's supplied value is nil:
 ;;    should be treated the same as empty list.
 (defn over [parents child1 & [child2]]
-  (log/trace (str "over:" (count parents)))
-  (cond (vector? child1)
-        (over parents (seq child1) child2)
-
-        (vector? child2)
-        (over parents child1 (seq child2))
-
-        (map? parents)
-        (do
-          (log/trace (str "parents is a map: converting to a list and re-calling."))
-          (over (list parents) child1 child2))
-
-        (nil? child2)
-        (over parents child1 :top)        
-
-        (empty? parents)
-        nil
-
-        (and (map? parents)
-             (not (nil? (:dag_unify.core/serialized parents))))
-        ;; In this case, supposed 'parent' is really a lexical item: for now, definition of 'lexical item' is,
-        ;; it has a non-nil value for :dag_unify.core/serialized - just return nil, nothing else to do.
-        ;; TODO: above test of 'lexical item' is not right: a parent might very well have a :serialized key.
-        (throw (exception (str "Don't know what to do with this parent: " parents)))
-
-        ;; if parent is a symbol, evaluate it; should evaluate to a list of expansions (which might also be symbols, etc).
-        #?(:clj (symbol? parents))
-        #?(:clj (over (eval parents) child1 child2))
+  (cond (map? parents)
+        (over (list parents) child1 child2)
 
         true
-        (let [parent (first parents)] ;; TODO: use recur
-          (cond
-            (nil? (get-in parent [:schema-symbol] nil))
-            (throw (exception (str "no schema symbol for parent: " (:rule parent))))
-
-            (nil? (:first parent))
-            (throw (exception (str "no :first key for parent: " (:rule parent) " : should be set to either :head or :comp.")))
-
-            (and (not (= :head (:first parent)))
-                 (not (= :comp (:first parent))))
-            (throw (exception (str ":first key for parent: " (:rule parent) " : must be either :head or :comp, but it was: " (:first parent))))
-            
-            true
-            (let [[head comp] (if (= (:first parent) :head)
-                                [child1 child2]
-                                [child2 child1])]
-              (log/trace (str "over: parent: " (get-in parent [:rule]) " (" (get-in parent [:schema-symbol]) "); heads:["
-                              (string/join ","
-                                           (map (fn [h]
-                                                  (get-in h [:rule]
-                                                          (str (get-in h [:synsem :sem :pred]))))
-                                                head))
-                              "]"))
-              (if (= (:first parent) :head)
-                ;; else, head is left child.
-                (do (log/trace "over: left child (head):" (strip-refs child1))
-                    (log/trace "over: right child (comp):" (strip-refs child2)))
-                ;; else, head is right child.
-                (do (log/trace "over: left child (comp):" (strip-refs child1))
-                    (log/trace "over: right child (head):" (strip-refs child2))))
-
-              (concat
-               ;; if parent is map, do introspection: figure out the schema from the :schema-symbol attribute,
-               ;; and figure out head-comp ordering from :first attribute.
-               (filter (fn [each]
-                         (not (= :fail each)))
-                       (overhc parent
-                               (if (= (:first parent) :head)
-                                 child1 child2)
-                               (if (= (:first parent) :head)
-                                 child2 child1)))
-               (over (rest parents) child1 child2)))))))
+        (mapcat
+         (fn [parent]
+           (let [[head comp] (if (= (:first parent) :head)
+                               [child1 child2]
+                               [child2 child1])]
+             (filter (fn [each]
+                       (not (= :fail each)))
+                     (overhc parent
+                             (if (= (:first parent) :head)
+                               child1 child2)
+                             (if (= (:first parent) :head)
+                               child2 child1)))))
+         parents)))
 
 (defn morph-with-recovery [morph-fn input]
   (if (nil? input)

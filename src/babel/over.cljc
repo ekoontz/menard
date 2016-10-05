@@ -6,8 +6,9 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail? fail-path fail-path-between get-in strip-refs unify unifyc
-                           ;; temporary: until we move (truncate) from here to dag_unify.
+   [dag_unify.core :refer [copy fail-path get-in unify unifyc
+                           ;; temporary: until we move (truncate) from here to dag_unify, we
+                           ;; need these three:
                            deserialize dissoc-paths serialize
 ]]))
 
@@ -33,18 +34,12 @@
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
     (let [result (unify (copy parent)
-                        {:head (copy head)})
-          
-          is-fail? (= :fail result)]
-      (if (not is-fail?)
+                        {:head (copy head)})]
+      (if (not (= :fail result))
         (list result)))))
 
-;; Haskell-looking signature:
-;; (parent:map) X (child:{set,seq,fs}) => list:map
-;; TODO: verify that the above comment about the signature
-;; is still true.
 (defn overc [parent comp]
-  "add given child as the comp child of the phrase: parent."
+  "add given child as the complement of the parent"
   (cond
    (or (seq? parent)
        (vector? parent))
@@ -68,7 +63,6 @@
          (log/debug (str "overc: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
                                                                           (get-in comp [:synsem :sem :pred]
                                                                                   "(no pred for comp)"))))
-         ;; TODO: why are we returning a list here rather than just the result?
          (list result))))))
 
 (defn overhc [parent head comp]

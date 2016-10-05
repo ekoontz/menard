@@ -92,11 +92,7 @@
            (let [[head comp] (if (= (:first parent) :head)
                                [child1 child2]
                                [child2 child1])]
-             (overhc parent
-                     (if (= (:first parent) :head)
-                       child1 child2)
-                     (if (= (:first parent) :head)
-                       child2 child1))))
+             (overhc parent head comp)))
          parents)))
 
 (defn morph-with-recovery [morph-fn input]

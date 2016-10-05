@@ -2170,6 +2170,28 @@
                    :pred :noi}
              :subcat '()}}]
 
+   "we (♂)" {:synsem {:cat :noun
+                      :pronoun true
+                      :case :nom
+                      :agr {:person :1st
+                            :gender :masc
+                            :number :plur}
+                      :sem {:human true
+                            :gender :masc
+                            :pred :noi}
+                      :subcat '()}}
+
+   "we (♀)" {:synsem {:cat :noun
+                      :pronoun true
+                      :case :nom
+                      :agr {:person :1st
+                            :gender :masc
+                            :number :plur}
+                      :sem {:human true
+                            :gender :fem
+                            :pred :noi}
+                      :subcat '()}}
+   
    "wear"  {:english {:past "wore"}
             :synsem {:cat :verb
                      :sem {:pred :wear}}}

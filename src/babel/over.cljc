@@ -53,10 +53,8 @@
                (overc parent comp))
              parents))
 
-   (vector? comp)
-   (overc parent (lazy-seq comp))
-
-   (seq? comp)
+   (or (seq? comp)
+       (vector? comp))
    (let [comp-children comp]
      (mapcat (fn [child]
                (overc parent child))
@@ -95,31 +93,6 @@
              (overhc parent head comp)))
          parents)))
 
-(defn morph-with-recovery [morph-fn input]
-  (if (nil? input)
-    (exception (str "don't call morph-with-recovery with input=nil.")))
-  (if (nil? morph-fn)
-    (exception (str "don't call morph-with-recovery with morph-fn=nil.")))
-  (let [result (morph-fn input)
-        result (if (or (nil? result)
-                       (= "" result))
-                 (get-in input [:english :english] "")
-                 result)
-        result (if (or (nil? result)
-                       (= "" result))
-                 (get-in input [:english] "")
-                 result)
-        result (if (or (nil? result)
-                       (= "" result))
-                 (get-in input [:rule] "")
-                 result)
-        result (if (or (nil? result)
-                       (= "" result))
-                 (exception
-                  (str "r5: " input "/" (nil? input)))
-                 result)]
-    result))
-
 (defn show-bolt [bolt language-model]
   (if (nil? bolt)
     (exception (str "don't call show-bolt with bolt=null."))
@@ -127,7 +100,7 @@
       (if (nil? morph)
         (exception (str "don't call show-bolt with morph=null."))
         (str "[" (get-in bolt [:rule])
-             " '" (morph-with-recovery morph bolt) "'"
+             " "
              (let [head-bolt (get-in bolt [:head])]
                (if (not (nil? head-bolt))
                  (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]

@@ -143,6 +143,14 @@
   (is (not (empty? (parse "you all (♀) speak"))))
   (is (not (empty? (parse "you all (♂) speak")))))
 
+(deftest go-upstairs
+  (is (not (empty? (parse "I go upstairs"))))
+  (is (not (empty? (parse "you go upstairs"))))
+  (is (not (empty? (parse "she goes upstairs"))))
+  (is (not (empty? (parse "we go upstairs"))))
+  (is (not (empty? (parse "you all go upstairs"))))
+  (is (not (empty? (parse "they go upstairs")))))
+
 (deftest be-called
   (is (= 10
          (count

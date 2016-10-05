@@ -784,7 +784,7 @@
                                      :subcat {:1 {:agr {:person :2nd}}}}}
                            {:synsem {:cat :verb
                                      :infl :present
-                                     :subcat {:1 {:agr {:number :sing
+                                     :subcat {:1 {:agr {:number :plur
                                                         :person :3rd}}}}}]))))))))
 
 ;; TODO: rewrite with recur or map or similar, rather than recursively.

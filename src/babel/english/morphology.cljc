@@ -758,10 +758,34 @@
      (concat
       (or analyzed analyzed-via-identity)
 
-     ;; also lookup the surface form itself, which
-     ;; might be either the canonical form of a word, or an irregular conjugation of a word.
-     (get lexicon surface-form)
-     ))))
+      ;; also lookup the surface form itself, which
+      ;; might be either the canonical form of a word, or an irregular conjugation of a word.
+
+      ;; In english, the canonical form of a verb looks the same as the 1st and 2nd person present tense,
+      ;; (regardless of number), and the same as the 3rd person plural present tense; e.g.:
+      ;; "sleep" is the canonical form, which is used in: "I sleep","you sleep","you all sleep",
+      ;; "they sleep","we sleep". The following causes canonical forms to be expanded to all of
+      ;; these. We don't want to simply leave it as an unconjugated, canonical form, as this
+      ;; will lead to a profusion of unintended parses (e.g. "sleep" will be treated as past, present, and
+      ;; future, when it is only meant as one of the above-described present forms.
+      (->> (get lexicon surface-form)
+           (mapcat (fn [entry]
+                     (map (fn [variant]
+                            (let [result
+                                  (unifyc entry variant)]
+                              (if (not (fail? result))
+                                result
+                                entry)))
+                          [{:synsem {:cat :verb
+                                     :infl :present
+                                     :subcat {:1 {:agr {:person :1st}}}}}
+                           {:synsem {:cat :verb
+                                     :infl :present
+                                     :subcat {:1 {:agr {:person :2nd}}}}}
+                           {:synsem {:cat :verb
+                                     :infl :present
+                                     :subcat {:1 {:agr {:number :sing
+                                                        :person :3rd}}}}}]))))))))
 
 ;; TODO: rewrite with recur or map or similar, rather than recursively.
 (defn exception-generator [lexicon]

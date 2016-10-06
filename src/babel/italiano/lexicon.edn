@@ -621,6 +621,11 @@
   :synsem {:cat :verb
            :sem {:pred :deludere}}}
 
+ "dentista"
+ {:synsem {:cat :noun
+           :sem {:pred :dentist}
+           :agr {:gender :masc}}}
+
  "desiderare"  {:synsem {:cat :verb
                          :sem {:pred :desire}}}
 

@@ -166,6 +166,8 @@ as a map of implications"}
    {:pred :coffee}   {:artifact true
                       :drinkable true}
 
+   {:pred :dentist}  {:human true}
+   
    {:pred :espresso} {:artifact true
                       :drinkable true}
 

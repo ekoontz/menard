@@ -1,23 +1,42 @@
 (ns babel.over
-  (:refer-clojure :exclude [get get-in resolve find parents])
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.exception :refer [exception]]
-   [babel.lexiconfn :refer [get-fail-path]]
-   [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail-path get-in unify unifyc
+   [dag_unify.core :refer [copy get-in unify
                            ;; temporary: until we move (truncate) from here to dag_unify, we
                            ;; need these three:
-                           deserialize dissoc-paths serialize
-]]))
-
-;; TODO: need better debugging throughout this file to diagnose generation failures.
-;; using (get-fail-path) is one example.
+                           deserialize dissoc-paths serialize]]))
 
 ;; use map or pmap.
 (def ^:const mapfn pmap)
-(def ^:dynamic *extra-diagnostics* false)
+
+(declare overc)
+(declare overh)
+(declare overhc)
+
+;; TODO: distinguish between when:
+;; 1) called with only a child1 (no child2),
+;; 2) called with both a child1 and a child2, but child2's supplied value is nil:
+;;    should be treated the same as empty list.
+(defn over [parents child1 & [child2]]
+  (cond (map? parents)
+        (over (list parents) child1 child2)
+
+        true
+        (mapcat
+         (fn [parent]
+           (let [[head comp] (if (= (:first parent) :head)
+                               [child1 child2]
+                               [child2 child1])]
+             (overhc parent head comp)))
+         parents)))
+
+(defn overhc [parent head comp]
+  (-> parent
+      (overh head)
+      (overc comp)))
 
 (defn overh
   "add given head as the head child of the phrase: parent."
@@ -65,51 +84,8 @@
                                                                                   "(no pred for comp)"))))
          (list result))))))
 
-(defn overhc [parent head comp]
-  (-> parent
-      (overh head)
-      (overc comp)))
-
-;; TODO: distinguish between when:
-;; 1) called with only a child1 (no child2),
-;; 2) called with both a child1 and a child2, but child2's supplied value is nil:
-;;    should be treated the same as empty list.
-(defn over [parents child1 & [child2]]
-  (cond (map? parents)
-        (over (list parents) child1 child2)
-
-        true
-        (mapcat
-         (fn [parent]
-           (let [[head comp] (if (= (:first parent) :head)
-                               [child1 child2]
-                               [child2 child1])]
-             (overhc parent head comp)))
-         parents)))
-
-(defn show-bolt [bolt language-model]
-  (if (nil? bolt)
-    (exception (str "don't call show-bolt with bolt=null."))
-    (let [morph (:morph language-model)]
-      (if (nil? morph)
-        (exception (str "don't call show-bolt with morph=null."))
-        (str "[" (get-in bolt [:rule])
-             " "
-             (let [head-bolt (get-in bolt [:head])]
-               (if (not (nil? head-bolt))
-                 (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
-                   (if (not (nil? rest-str))
-                     (str " -> " rest-str)))))
-             "]")))))
-
-(defn subpath? [path1 path2]
-  "return true if path1 is subpath of path2."
-  (if (empty? path1)
-    true
-    (if (= (first path1) (first path2))
-      (subpath? (rest path1)
-                (rest path2))
-      false)))
+(declare show-bolt)
+(declare subpath?)
 
 (defn truncate [input truncate-paths language-model]
   (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
@@ -138,3 +114,28 @@
 (defn truncate-expressions [expressions truncate-paths language-model]
   (map #(truncate % truncate-paths language-model)
        expressions))
+
+
+(defn show-bolt [bolt language-model]
+  (if (nil? bolt)
+    (exception (str "don't call show-bolt with bolt=null."))
+    (let [morph (:morph language-model)]
+      (if (nil? morph)
+        (exception (str "don't call show-bolt with morph=null."))
+        (str "[" (get-in bolt [:rule])
+             " "
+             (let [head-bolt (get-in bolt [:head])]
+               (if (not (nil? head-bolt))
+                 (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
+                   (if (not (nil? rest-str))
+                     (str " -> " rest-str)))))
+             "]")))))
+
+(defn subpath? [path1 path2]
+  "return true if path1 is subpath of path2."
+  (if (empty? path1)
+    true
+    (if (= (first path1) (first path2))
+      (subpath? (rest path1)
+                (rest path2))
+      false)))

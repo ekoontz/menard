@@ -1178,6 +1178,33 @@
                     :human false}
               :subcat '()}}]
 
+   "it (♂)"
+   {:synsem {:cat :noun
+             :pronoun true
+             :case :top ;; we could just omit this kv, but we explicitly
+             ;; set it to :top to show how it's different than other
+             ;; pronouns: like 'you' the nominative and accusative
+             ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
+             :agr {:person :3rd
+                   :number :sing}
+             :reflexive false
+             :sem {:pred :lui
+                   :gender :masc
+                   :human false}
+             :subcat '()}}
+
+   "it (♀)"
+   {:synsem {:cat :noun
+             :pronoun true
+              :case :top ;; see above comment
+             :agr {:person :3rd
+                   :number :sing}
+             :reflexive false
+              :sem {:pred :lei
+                    :gender :fem
+                    :human false}
+             :subcat '()}}
+   
    "itself"
    [{:synsem {:cat :noun
               :pronoun true

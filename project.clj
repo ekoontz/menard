@@ -1,17 +1,4 @@
-;; TODO: split into:
-;; 
-;; babel.core: generation, parsing, lexical compilation, encyclopedia and anything else not covered below
-;; babel.format: translation to/from json and html
-;; babel.db: SQL support (mainly Postgres/JSONB specific)
-;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
-;;
-;; Language-specific: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-
-;; babel.ab (Abkhaz)
-;; ..
-;; babel.zu (Zulu)
-;;
-(defproject babel "2.1.3"
+(defproject babel "2.1.4"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
@@ -72,6 +59,19 @@
 ;; this hook doesn't work yet.
 ;;  :hooks [leiningen.cljsbuild])
 
+;; TODO: split into:
+;; 
+;; babel.core: generation, parsing, lexical compilation, encyclopedia and anything else not covered below
+;; babel.format: translation to/from json and html
+;; babel.db: SQL support (mainly Postgres/JSONB specific)
+;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
+;;
+;; Language-specific: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
+;; babel.ab (Abkhaz)
+;; ..
+;; babel.zu (Zulu)
+;;
 
 
 

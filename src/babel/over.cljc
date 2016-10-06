@@ -55,8 +55,8 @@
                (overc parent child))
              comp-children))
    true
-   (let [result (unifyc parent
-                        {:comp comp})
+   (let [result (unify (copy parent)
+                       {:comp (copy comp)})
          is-fail? (= :fail result)]
      (if (not is-fail?)
        (do

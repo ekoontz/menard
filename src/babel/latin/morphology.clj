@@ -2,37 +2,37 @@
   )
 
 (def replace-patterns
-  {:p [#"^(.)eo$" "$1eo"]
+  {:p [#"^(.)eo$" "$1ēre"]
    :g [#"^(.)eo$" "$1eo"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :sing
                                    :person :1st}}}}}}
-  {:p [#"^(.)as$" "$1eo"]
+  {:p [#"^(.)as$" "$1ēre"]
    :g [#"^(.)eo$" "$1as"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :sing
                                    :person :2nd}}}}}}
-  {:p [#"^(.)at$" "$1eo"]
+  {:p [#"^(.)at$" "$1ēre"]
    :g [#"^(.)eo$" "$1at"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :sing
                                    :person :3rd}}}}}}
-  {:p [#"^(.)amus$" "$1eo"]
+  {:p [#"^(.)amus$" "$1ēre"]
    :g [#"^(.)eo$" "$1amus"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :plur
                                    :person :1st}}}}}}
-  {:p [#"^(.)atis$" "$1eo"]
+  {:p [#"^(.)atis$" "$1ēre"]
    :g [#"^(.)eo$" "$1atis"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :plur
                                    :person :2nd}}}}}}
-  {:p [#"^(.)ant$" "$1eo"]
+  {:p [#"^(.)ant$" "$1ēre"]
    :g [#"^(.)eo$" "$1ant"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}

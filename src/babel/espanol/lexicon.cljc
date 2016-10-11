@@ -430,7 +430,8 @@
                             :reflexive true
                             :sem subject-semantics}}}})
    
-   "enseñar" [{:synsem {:cat :verb
+   "enseñar" [{:note "e-"
+               :synsem {:cat :verb
                         :sem {:pred :show}}}
               {:synsem {:cat :verb
                         :sem {:pred :teach}}}]
@@ -690,7 +691,9 @@
                       :sem {:pred :lie}}}
    
    "mirar" {}
-   "mostrar" {}
+   "mostrar" {:note "m-"
+              :synsem {:cat :verb
+                       :sem {:pred :show}}}
    
    "mujer"
    (unify agreement-noun

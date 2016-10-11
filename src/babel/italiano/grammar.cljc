@@ -3,7 +3,7 @@
   (:require
    [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index map-subset-by-cat map-subset-by-pred]]
-   [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon lexicon]]
+   [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head

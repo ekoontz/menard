@@ -1,19 +1,19 @@
 {
- "abeo" {:synsem {:cat :verb
+ "abēre" {:synsem {:cat :verb
                   :sem {:pred :go-away}}}
 
  ;; use square brackets [ .. ] to indicate multiple meanings
- "adeo" [{:synsem {:cat :verb
+ "adēre" [{:synsem {:cat :verb
                    :sem {:pred :approach}}}
          {:synsem {:cat :verb
                    :sem {:pred :go-torward}}}]
 
- "circumeo" {:synsem {:cat :verb
+ "circumēre" {:synsem {:cat :verb
                       :sem {:pred :go-around}}}
 
- ;; as with "adeo" above, we use square brackets
+ ;; as with "adēre" above, we use square brackets
  ;; to indicate multiple meanings
- "exeo" [{:synsem {:cat :verb
+ "exēre" [{:synsem {:cat :verb
                    :sem {:pred :exit}}}
          {:synsem {:cat :verb
                   :sem {:pred :go-out}}}

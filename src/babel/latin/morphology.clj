@@ -9,31 +9,31 @@
                 :subcat {:1 {:agr {:number :sing
                                    :person :1st}}}}}}
   {:p [#"^(.)as$" "$1ēre"]
-   :g [#"^(.)eo$" "$1as"]
+   :g [#"^(.)eo$" "$1es"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :sing
                                    :person :2nd}}}}}}
   {:p [#"^(.)at$" "$1ēre"]
-   :g [#"^(.)eo$" "$1at"]
+   :g [#"^(.)eo$" "$1et"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :sing
                                    :person :3rd}}}}}}
   {:p [#"^(.)amus$" "$1ēre"]
-   :g [#"^(.)eo$" "$1amus"]
+   :g [#"^(.)eo$" "$1emus"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :plur
                                    :person :1st}}}}}}
   {:p [#"^(.)atis$" "$1ēre"]
-   :g [#"^(.)eo$" "$1atis"]
+   :g [#"^(.)eo$" "$1etis"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :plur
                                    :person :2nd}}}}}}
   {:p [#"^(.)ant$" "$1ēre"]
-   :g [#"^(.)eo$" "$1ant"]
+   :g [#"^(.)eo$" "$1ent"]
    :u {:synsem {:infl :present
                 :sem {:tense :present}
                 :subcat {:1 {:agr {:number :plur

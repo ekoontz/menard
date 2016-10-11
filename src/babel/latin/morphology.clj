@@ -44,7 +44,29 @@
    
 (defn analyze [surface-form lexicon]
   "Analyze a single surface form into a set of lexical forms."
-  )
+  (concat (if (get lexicon surface-form)
+            (get lexicon surface-form))
+          (mapcat
+           (fn [replace-pattern]
+             (let [ ;; regular expression that matches the surface form
+                   from (nth (:p replace-pattern) 0)]
+               (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
+               (if (re-matches from surface-form)
+                 (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+                       ;; to create the lexical string
+                       to (nth (:p replace-pattern) 1)
+
+                       ;; unifies with the lexical entry to create the inflected form.
+                       unify-with (if (:u replace-pattern)
+                                    (:u replace-pattern)
+                                    :top) ;; default unify-with
+                     
+                       lex (string/replace surface-form from to)]
+                   (filter (fn [result] (not (= :fail result)))
+                           (map (fn [lexical-entry]
+                                  (unifyc unify-with lexical-entry))
+                                (get lexicon lex)))))))
+           replace-patterns)))
 
 (defn conjugate [infinitive unify-with]
   "Conjugate an infinitive into a surface form by taking the first 

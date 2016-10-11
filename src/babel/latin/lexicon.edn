@@ -19,5 +19,8 @@
                   :sem {:pred :go-out}}}
          {:synsem {:cat :verb
                   :sem {:pred :leave}}}]
+
+ "laudāre" {:synsem {:cat :verb
+                     :sem {:pred :praise}}}
  }
 

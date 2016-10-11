@@ -1,43 +1,46 @@
 (ns babel.latin.morphology
-  )
+  (:require [clojure.tools.logging :as log]
+            [clojure.string :as string]
+            [dag_unify.core :refer [fail? unifyc]]))
 
 (def replace-patterns
-  {:p [#"^(.)eo$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1eo"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :sing
-                                   :person :1st}}}}}}
-  {:p [#"^(.)as$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1as"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :sing
-                                   :person :2nd}}}}}}
-  {:p [#"^(.)at$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1at"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :sing
-                                   :person :3rd}}}}}}
-  {:p [#"^(.)amus$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1amus"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :plur
-                                   :person :1st}}}}}}
-  {:p [#"^(.)atis$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1atis"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :plur
-                                   :person :2nd}}}}}}
-  {:p [#"^(.)ant$" "$1ēre"]
-   :g [#"^(.)ēre$" "$1ant"]
-   :u {:synsem {:infl :present
-                :sem {:tense :present}
-                :subcat {:1 {:agr {:number :plur
-                                   :person :3rd}}}}}})
+  [
+   {:p [#"^(.+)eo$"  "$1ēre"]
+    :g [#"^(.+)ēre$" "$1eo"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}}
+   {:p [#"^(.+)as$"  "$1ēre"]
+    :g [#"^(.+)ēre$" "$1as"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}}
+   {:p [#"^(.+)at$"  "$1ēre"]
+    :g [#"^(.+)ēre$" "$1at"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}}
+   {:p [#"^(.+)amus$" "$1ēre"]
+    :g [#"^(.+)ēre$"  "$1amus"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}}
+   {:p [#"^(.+)atis$" "$1ēre"]
+    :g [#"^(.+)ēre$"  "$1atis"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}}}}
+   {:p [#"^(.+)ant$"  "$1ēre"]
+    :g [#"^(.+)ēre$"  "$1ant"]
+    :u {:synsem {:infl :present
+                 :sem {:tense :present}
+                 :subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}}])
    
 (defn analyze [surface-form lexicon]
   "Analyze a single surface form into a set of lexical forms."

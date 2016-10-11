@@ -258,8 +258,6 @@
                                    (get-in word [:français]) "; stringness: "
                                    (string? (get-in word [:français])))))))))
   
-(declare fo-ps-it)
-
 (defn fo [input]
   (cond 
    (= input :fail)
@@ -312,10 +310,6 @@
      (map (fn [each]
             (fo-ps each))
           expr)
-
-     (and (map? expr)
-          (:français expr))
-     (fo-ps-it (:français expr))
 
      (and (map? expr)
           (:rule expr)
@@ -537,84 +531,3 @@
         (unifyc a-map
                 {:français {:français a-string}}
                 common))))
-
-(defn agreement [lexical-entry]
-  (cond
-   (= (get-in lexical-entry [:synsem :cat]) :verb)
-   (let [cat (atom :top)
-         infl (atom :top)]
-     (unifyc lexical-entry
-             {:français {:cat cat
-                         :infl infl}
-              :synsem {:cat cat
-                       :infl infl}}))
-
-   (= (get-in lexical-entry [:synsem :cat]) :noun)
-   (nouns/agreement lexical-entry)
-
-   true
-   lexical-entry))
-
-(def french-specific-rules
-  (list agreement))
-
-(defn suffix-of [word]
-  "compute the final character given a lexical entry and agreement info in :agr."
-  (let [suffix (cond
-
-                (and (= (get-in word '(:obj-agr :gender)) :fem)
-                     (= (get-in word '(:obj-agr :number)) :sing))
-                "a"
-
-                (and (= (get-in word '(:obj-agr :gender)) :fem)
-                     (= (get-in word '(:obj-agr :number)) :plur))
-                "e"
-
-                (= (get-in word '(:obj-agr :number)) :plur)
-                "i"
-
-                (and (= (get-in word '(:agr :gender)) :fem)
-                     (= (get-in word '(:agr :number)) :sing)
-                     (= (get-in word '(:essere)) true))
-                "a"
-
-                (and (= (get-in word '(:agr :gender)) :fem)
-                     (= (get-in word '(:agr :number)) :plur)
-                     (= (get-in word '(:essere)) true))
-                "e"
-
-                (and (= (get-in word '(:agr :number)) :plur)
-                     (= (get-in word '(:essere)) true))
-                "i"
-
-                true
-                "o"
-
-                )]
-    suffix))
-
-(defn possible-lexemes [surface-form]
-  (filter #(not (nil? %))
-          (map
-           (fn [replace-pattern]
-             (let [ ;; regular expression that matches the surface form
-                   from (nth (:p replace-pattern) 0)
-          
-                   ;; expression that is used by string/replace along with the first regexp and the surface form,
-                   ;; to create the lexical string
-                   to (nth (:p replace-pattern) 1)
-          
-                   ;; unifies with the lexical entry to create the inflected form.
-                   unify-with (:u replace-pattern)
-          
-                   lex (if (re-matches from surface-form)
-                         (do
-                           (log/info (str "MATCHED SURFACE FORM: " surface-form " with from:"
-                                          from " and to: " to "; unify-with: " unify-with))
-                           (string/replace surface-form from to)))]
-               (if (re-matches from surface-form)
-                 {:from from
-                  :to to
-                  :lex lex})))
-           replace-patterns)))
-

@@ -21,16 +21,32 @@
          (conjugate "ardēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
 
-(deftest generate-1
+(deftest generate-present
   (is (= "ardetis"
          (fo (generate
               {:root "ardēre"
-               :synsem {:sem {:subj {:pred :voi}}}})))))
+               :synsem {:sem {:subj {:pred :voi}
+                              :tense :present}}})))))
 
-
+(deftest generate-imperfect
+  (is (= "ardebam"
+         (fo (generate
+              {:root "ardēre"
+               :synsem {:sem {:subj {:pred :I}
+                              :tense :past
+                              :aspect :progressive}}})))))
+(deftest generate-future
+  (is (= "ardebunt"
+         (fo (generate
+              {:root "ardēre"
+               :synsem {:sem {:subj {:pred :loro}
+                              :tense :future}}})))))
 (deftest engine-generate
   (is (= "ardetis"
          (fo (engine/generate
               {:root "ardēre"
-               :synsem {:sem {:subj {:pred :voi}}}}
+               :synsem {:sem {:subj {:pred :voi}
+                              :tense :present}}}
               model)))))
+
+

@@ -14,7 +14,9 @@
 
     (map (fn [form]
            (let [suffix (first form)
-                 info (second form)]
+                 info (unifyc (second form)
+                              common)]
+             ;; TODO: check for unifyc returning :fail.
              {:p [(re-pattern (str "^(.+)" suffix "$"))
                   (str "$1" infinitive)]
               :g [(re-pattern (str "^(.+)" infinitive "$"))

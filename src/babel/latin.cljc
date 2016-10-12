@@ -1,35 +1,38 @@
 (ns babel.latin
   (:refer-clojure :exclude [get-in])
   (:require [babel.latin.morphology :as morph]
-            [babel.lexiconfn :refer [default listify]]
+            [babel.lexiconfn :refer [default listify map-function-on-map-vals]]
             [clojure.java.io :refer [reader resource]]
             [clojure.repl :refer [doc]]
-            [dag_unify.core :refer [get-in]]))
+            [dag_unify.core :refer [fail? get-in unifyc]]))
 
 (defn edn2lexicon [resource]
   (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
       listify
+      (map-function-on-map-vals
+       (fn [lexicon-string lexemes]
+         (map (fn [lexeme]
+                (merge lexeme
+                       {:root lexicon-string}))
+              lexemes)))
       (default
        {:phrasal false})))
 
 (def lexicon (edn2lexicon "src/babel/latin/lexicon.edn"))
 
-(defn pred2root [pred]
-  (first (shuffle
-          (filter (fn [root]
-                    (let [vals (get lexicon root)]
-                      (not (empty? (filter (fn [val]
-                                             (= (get-in val [:synsem :sem :pred]) pred))
-                                           vals)))))
-                  (keys lexicon)))))
 
 (defn generate [spec]
-  (let [pred (get-in spec [:synsem :sem :pred])
-        subject (get-in spec [:synsem :sem :subj :pred])
-        verb (pred2root pred)]
-    (morph/conjugate verb {:synsem {:sem {:subj {:pred subject}}}})))
+  (first (shuffle
+          (filter #(not (fail? %))
+                  (map (fn [val]
+                         (unifyc spec val))
+                       (flatten (vals lexicon)))))))
+
+(defn fo [structure]
+  (morph/conjugate (get-in structure [:root]) structure))
 
 (def model {:lexicon lexicon
-            :generate generate})
+            :fo fo
+            :generate-fn generate})
 
 

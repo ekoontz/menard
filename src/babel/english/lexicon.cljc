@@ -817,6 +817,16 @@
              :subcat {:2 {:cat :prep}}}
     :english {:past "went"}}
 
+   "go around"
+   {:synsem {:cat :verb
+             :sem {:activity true
+                   :discrete false
+                   :pred :go-around}
+             :subcat {:2 '()}}
+    :english {:past "went around"
+              :participle "going around"
+              :present {:3sing "goes around"}}}
+
    "go downstairs"
    {:synsem {:cat :verb
              :sem {:activity true

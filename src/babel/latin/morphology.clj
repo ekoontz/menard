@@ -74,6 +74,36 @@
      ["unt"
       {:synsem {:sem {:subj {:pred :loro}}}}]]}))
 
+
+
+(def ere-present-indicative
+  (conjugation 
+   {:infinitive "ere-i"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["io"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["is"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["it"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["imus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["itis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["iunt"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+
+
+
+
 (def ire-present-indicative
   (conjugation 
    {:infinitive "īre"     
@@ -102,6 +132,14 @@
                               ere-bar-present-indicative
                               ere-present-indicative
                               ire-present-indicative))
+
+
+
+
+
+
+
+
 
 (defn analyze [surface-form lexicon]
   (morph/analyze surface-form lexicon replace-patterns))

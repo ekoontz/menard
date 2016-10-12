@@ -1,7 +1,7 @@
 (ns babel.test.la
   (:require
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :refer [lexicon]]
+   [babel.latin :refer [generate lexicon]]
    [clojure.test :refer [deftest is]]))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
@@ -16,6 +16,10 @@
          (conjugate "abēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
 
+(deftest generate-1
+  (is (= "circumetis"
+         (generate {:synsem {:sem {:pred :go-around
+                                   :subj {:pred :voi}}}}))))
 
 
 

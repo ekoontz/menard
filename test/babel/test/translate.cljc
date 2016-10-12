@@ -66,3 +66,24 @@
 
     (= "they (♂) went" english)))
 
+(deftest latin
+  (let [latin "ardebam"
+        latin-structure
+        (-> latin
+            babel.latin/parse
+            first
+            :parses
+            first)
+         
+        semantics
+        (-> latin-structure
+            (get-in [:synsem :sem])
+            strip-refs)
+        
+        english-structure
+        (->  {:synsem {:sem semantics}}
+             (babel.english/generate :model en/small))
+
+        english (babel.english.morphology/fo english-structure)]
+
+    (= "I was burning" english)))

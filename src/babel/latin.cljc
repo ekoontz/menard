@@ -20,13 +20,15 @@
 
 (def lexicon (edn2lexicon "src/babel/latin/lexicon.edn"))
 
-
 (defn generate [spec]
   (first (shuffle
           (filter #(not (fail? %))
                   (map (fn [val]
                          (unifyc spec val))
                        (flatten (vals lexicon)))))))
+
+(defn parse [surface]
+  [{:parses (morph/analyze surface lexicon)}])
 
 (defn fo [structure]
   (morph/conjugate (get-in structure [:root]) structure))

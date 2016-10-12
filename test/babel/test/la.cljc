@@ -10,7 +10,7 @@
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
   (is (= :verb
-         (-> (analyze "abeo" lexicon)
+         (-> (analyze "ardeo" lexicon)
              first
              (get-in [:synsem :cat])))))
 

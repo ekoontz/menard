@@ -5,9 +5,9 @@
  ;; use square brackets [ .. ] to indicate multiple meanings
  "adēre" [{:synsem {:cat :verb
                    :sem {:pred :approach}}}
-         {:synsem {:cat :verb
-                   :sem {:pred :go-torward}}}]
-
+          {:synsem {:cat :verb
+                    :sem {:pred :go-toward}}}]
+ 
  "circumēre" {:synsem {:cat :verb
                       :sem {:pred :go-around}}}
 

@@ -13,8 +13,8 @@
 (deftest conjugate-ere
   (is (= "abamus"
          (conjugate "abēre"
-                    {:synsem {:subcat {:1 {:agr {:number :plur
-                                                 :person :1st}}}}}))))
+                    {:synsem {:sem {:subj {:pred :noi}}}}))))
+
 
 
 

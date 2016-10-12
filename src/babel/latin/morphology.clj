@@ -373,11 +373,9 @@
                               ire-future-indicative))
 
 (defn analyze [surface-form lexicon]
+  "find the lexical structure for a surface form given a lexicon"
   (morph/analyze surface-form lexicon replace-patterns))
 
-(defn conjugate [surface-form lexicon]
-  (morph/conjugate surface-form lexicon replace-patterns))
-
-
-  
-
+(defn conjugate [structure lexicon]
+  "reverse of analyze: find the surface form given a lexical structure and a lexicon"
+  (morph/conjugate structure lexicon replace-patterns))

@@ -1,8 +1,11 @@
 (ns babel.test.la
   (:require
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :refer [generate lexicon]]
+   [babel.latin :refer [model]]
    [clojure.test :refer [deftest is]]))
+
+(def lexicon (:lexicon model))
+(def generate (:generate model))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
@@ -18,8 +21,10 @@
 
 (deftest generate-1
   (is (= "circumetis"
-         (generate {:synsem {:sem {:pred :go-around
-                                   :subj {:pred :voi}}}}))))
+         (generate
+          {:synsem {:sem {:pred :go-around
+                          :subj {:pred :voi}}}}))))
+
 
 
 

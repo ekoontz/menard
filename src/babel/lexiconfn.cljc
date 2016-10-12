@@ -63,10 +63,10 @@
         lexicon-stage-3 (if language-specific-rules
                           (map-function-on-map-vals
                            lexicon-stage-2
-                           (fn [lexical-string lexeme]
+                           (fn [lexical-string lexemes]
                              (map (fn [lexeme]
                                     (transform lexeme language-specific-rules))
-                                  lexeme)))
+                                  lexemes)))
                           ;; no language-specific rules: lexicon-stage-3 == lexicon-stage-2
                           lexicon-stage-2)
 

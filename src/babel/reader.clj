@@ -72,7 +72,7 @@
       (deserialize (read-string (:structure (first results)))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
-                                                 target-language target-local
+                                                 target-language target-locale
                                                  source-model target-model]
   (let [target-expression (engine/generate target-spec :model target-model)
         source-expression (engine/generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}

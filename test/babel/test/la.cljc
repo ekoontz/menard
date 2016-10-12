@@ -1,5 +1,6 @@
 (ns babel.test.la
   (:require
+   [babel.engine :as engine]
    [babel.latin.morphology :refer [analyze conjugate]]
    [babel.latin :refer [model]]
    [clojure.test :refer [deftest is]]))
@@ -27,7 +28,9 @@
                :synsem {:sem {:subj {:pred :voi}}}})))))
 
 
-
-
-
-
+(deftest engine-generate
+  (is (= "ardetis"
+         (fo (engine/generate
+              {:root "ardēre"
+               :synsem {:sem {:subj {:pred :voi}}}}
+              model)))))

@@ -23,9 +23,11 @@
  "laudāre" {:synsem {:cat :verb
                      :sem {:pred :praise}}}
 
- "portāre" {:conjugation 1
-            :synsem {:cat :verb
-                     :sem {:pred :praise}}}
-
+ "portāre" [{:conjugation 1
+             :synsem {:cat :verb
+                      :sem {:pred :bring}}}
+            {:conjugation 1
+             :synsem {:cat :verb
+                      :sem {:pred :carry}}}]
  }
 

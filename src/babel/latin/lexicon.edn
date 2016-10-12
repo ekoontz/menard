@@ -9,16 +9,16 @@
                     :sem {:pred :go-toward}}}]
  
  "circumēre" {:synsem {:cat :verb
-                      :sem {:pred :go-around}}}
-
+                       :sem {:pred :go-around}}}
+ 
  ;; as with "adēre" above, we use square brackets
  ;; to indicate multiple meanings
  "exēre" [{:synsem {:cat :verb
-                   :sem {:pred :exit}}}
-         {:synsem {:cat :verb
-                  :sem {:pred :go-out}}}
-         {:synsem {:cat :verb
-                  :sem {:pred :leave}}}]
+                    :sem {:pred :exit}}}
+          {:synsem {:cat :verb
+                    :sem {:pred :go-out}}}
+          {:synsem {:cat :verb
+                    :sem {:pred :leave}}}]
 
  "laudāre" {:synsem {:cat :verb
                      :sem {:pred :praise}}}

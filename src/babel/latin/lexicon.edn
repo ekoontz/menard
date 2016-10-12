@@ -1,24 +1,17 @@
 {
- "abēre" {:synsem {:cat :verb
-                  :sem {:pred :go-away}}}
+ "respondēre" {:synsem {:cat :verb
+                  :sem {:pred :answer}}}
 
  ;; use square brackets [ .. ] to indicate multiple meanings
- "adēre" [{:synsem {:cat :verb
-                   :sem {:pred :approach}}}
-         {:synsem {:cat :verb
-                   :sem {:pred :go-torward}}}]
-
- "circumēre" {:synsem {:cat :verb
-                      :sem {:pred :go-around}}}
+ "ardēre" {:synsem {:cat :verb
+                   :sem {:pred :burn}}}
+        
+ "legere" {:synsem {:cat :verb
+                      :sem {:pred :read}}}
 
  ;; as with "adēre" above, we use square brackets
  ;; to indicate multiple meanings
- "exēre" [{:synsem {:cat :verb
-                   :sem {:pred :exit}}}
-         {:synsem {:cat :verb
-                  :sem {:pred :go-out}}}
-         {:synsem {:cat :verb
-                  :sem {:pred :leave}}}]
+ 
 
  "laudāre" {:synsem {:cat :verb
                      :sem {:pred :praise}}}

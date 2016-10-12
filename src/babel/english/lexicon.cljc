@@ -402,6 +402,10 @@
                      :sem {:pred :bring}}
           :english {:past "brought"}}
    
+   "burn" {:synsem {:cat :verb
+                    :sem {:pred :burn}}
+           :english {:past "burnt"}}
+
    "buy" {:synsem {:cat :verb
                    :sem {:pred :comprare}}
           :english {:past "bought"

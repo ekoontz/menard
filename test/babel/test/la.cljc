@@ -4,6 +4,7 @@
    [babel.latin :refer [lexicon]]
    [clojure.test :refer [deftest is]]))
 
+;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
   (is (= :verb
          (-> (analyze "abeo" lexicon)
@@ -11,7 +12,7 @@
              (get-in [:synsem :cat])))))
 
 (deftest conjugate-ere
-  (is (= "abamus"
+  (is (= "abemus"
          (conjugate "abēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
 

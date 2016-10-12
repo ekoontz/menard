@@ -270,6 +270,138 @@ IMPERFECT BEGINS HERE
 
 
 
+FUTURE BEGINS HERE
+
+(def are-future-indicative
+  (conjugation 
+   {:infinitive "āre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["abo"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["abis"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["abit"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["abimus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["abitis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["abunt"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def ere-bar-imperfect-indicative
+  (conjugation 
+   {:infinitive "ēre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["ebo"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["ebis"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["ebit"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["ebimus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["ebitis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ebunt"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def ere-future-indicative
+  (conjugation 
+   {:infinitive "ere"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["am"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["es"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["et"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["emus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["etis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ent"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+
+
+(def ere-future-indicative
+  (conjugation 
+   {:infinitive "ere-i"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["iam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["ies"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["iet"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["iemus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["ietis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ient"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+
+
+
+
+(def ire-future-indicative
+  (conjugation 
+   {:infinitive "īre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["iam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["ies"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["iet"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["iemus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["ietis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ient"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def replace-patterns (concat are-future-indicative
+                              ere-bar-future-indicative
+                              ere-future-indicative
+                              ire-future-indicative))
 
 
 

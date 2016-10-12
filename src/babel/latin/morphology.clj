@@ -134,6 +134,141 @@
                               ire-present-indicative))
 
 
+IMPERFECT BEGINS HERE
+
+(def are-imperfect-indicative
+  (conjugation 
+   {:infinitive "āre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["abam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["abas"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["abat"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["abamus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["abatis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["abant"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def ere-bar-imperfect-indicative
+  (conjugation 
+   {:infinitive "ēre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["ebam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["ebas"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["ebat"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["ebamus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["ebatis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ebant"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def ere-imperfect-indicative
+  (conjugation 
+   {:infinitive "ere"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["ebam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["ebas"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["ebat"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["ebamus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["ebatis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["ebant"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+
+
+(def ere-imperfect-indicative
+  (conjugation 
+   {:infinitive "ere-i"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["iebam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["iebas"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["iebat"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["iebamus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["iebatis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["iebant"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+
+
+
+
+(def ire-imperfect-indicative
+  (conjugation 
+   {:infinitive "īre"     
+    :common {:synsem {:infl :present
+                      :sem {:tense :present}}}
+    :forms
+    [["iebam"
+      {:synsem {:sem {:subj {:pred :I}}}}]
+
+     ["iebas"
+      {:synsem {:sem {:subj {:pred :tu}}}}]
+     
+     ["iebat"
+      {:synsem {:sem {:subj {:pred :lui}}}}]
+     
+     ["iebamus"
+      {:synsem {:sem {:subj {:pred :noi}}}}]
+     
+     ["iebatis"
+      {:synsem {:sem {:subj {:pred :voi}}}}]
+     
+     ["iebant"
+      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+
+(def replace-patterns (concat are-imperfect-indicative
+                              ere-bar-imperfect-indicative
+                              ere-imperfect-indicative
+                              ire-imperfect-indicative))
+
+
+
 
 
 

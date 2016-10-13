@@ -6,16 +6,13 @@
    [babel.latin :as la]
    [babel.italiano :as it]))
 
-(def verbcoach-models
-  {"en" (babel.english.grammar/verbcoach)
+(def models
+  {"en" (babel.english.grammar/small)
    "es" babel.espanol.grammar/small
    "fr" babel.francais.grammar/medium
    "it" (babel.italiano.grammar/medium)
    "la" babel.latin/model})
 
-
-
-   
 
 
 

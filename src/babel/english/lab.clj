@@ -1,6 +1,6 @@
 (ns babel.english.lab
   (:require [babel.english :refer [generate]]
-            [babel.english.grammar :refer [verbcoach]]
+            [babel.english.grammar :refer [small]]
             [babel.english.morphology :as morph :refer [fo]]))
 
 (def foo
@@ -8,7 +8,7 @@
                             :subj {:pred :I}
                             :tense :past
                             :aspect :perfect
-                            }}} :model verbcoach))
+                            }}} :model small))
 
 ;; TODO: make this a test
 (defn run []
@@ -18,7 +18,7 @@
                                    :subj {:pred :lui}
                                    :tense :present
                                    :aspect :progressive
-                                   }}} :model verbcoach)
+                                   }}} :model small)
          :from-language "it"))))
 
 ;; lein run -m babel.english.lab/run2 20 5

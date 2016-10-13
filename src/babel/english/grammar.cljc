@@ -491,7 +491,7 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(defn small []
+(defn very-small []
   (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
@@ -513,7 +513,7 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         ]
-    {:name "small"
+    {:name "very-small"
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -680,7 +680,7 @@
                        [k filtered-v]))))}
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
-(defn verbcoach []
+(defn small []
   (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
@@ -717,7 +717,7 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         ]
-    {:name "verbcoach"
+    {:name "small"
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree

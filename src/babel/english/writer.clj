@@ -3,7 +3,7 @@
 
 (require '[babel.config :refer [language-to-root-spec]])
 (require '[babel.engine :as engine :refer [generate]])
-(require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np verbcoach]])
+(require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
 (require '[babel.reader :refer [read-all read-one]])
@@ -69,7 +69,7 @@
                             (process [{:fill-one-language
                                        {:count 1
                                         :spec spec
-                                        :model verbcoach
+                                        :model small
                                         }}]
                                      source-language-short-name)]
                         ;; TODO: 'result' is currently

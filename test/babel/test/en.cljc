@@ -21,7 +21,6 @@
 
 (def medium (grammar/medium))
 (def small (grammar/small))
-(def verbcoach (grammar/verbcoach))
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,

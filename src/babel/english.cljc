@@ -8,7 +8,7 @@
     :refer [medium np-grammar
             small-lexicon small-plus-vp-pronoun
             small-plus-plus-np
-            verbcoach]]
+            small]]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]

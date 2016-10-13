@@ -17,6 +17,9 @@
      
      ["at"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["at"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["amus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -40,6 +43,9 @@
      
      ["et"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["et"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["emus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -63,6 +69,9 @@
      
      ["it"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["it"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["imus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -86,6 +95,9 @@
      
      ["it"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["it"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["imus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -109,6 +121,9 @@
      
      ["it"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["it"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["imus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -136,7 +151,10 @@
      
      ["abat"
       {:synsem {:sem {:subj {:pred :lui}}}}]
-     
+
+     ["abat"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
+
      ["abamus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
      
@@ -159,6 +177,9 @@
      
      ["ebat"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["ebat"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["ebamus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -183,6 +204,9 @@
      ["ebat"
       {:synsem {:sem {:subj {:pred :lui}}}}]
      
+     ["ebat"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
+
      ["ebamus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
      
@@ -205,6 +229,9 @@
      
      ["iebat"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["iebat"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["iebamus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -228,6 +255,9 @@
      
      ["iebat"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["iebat"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["iebamus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -255,6 +285,9 @@
      
      ["abit"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["abit"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["abimus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -278,6 +311,9 @@
      
      ["ebit"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["ebit"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["ebimus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -301,6 +337,9 @@
      
      ["et"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["et"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["emus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -324,6 +363,9 @@
      
      ["iet"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["iet"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["iemus"
       {:synsem {:sem {:subj {:pred :noi}}}}]
@@ -347,6 +389,9 @@
      
      ["iet"
       {:synsem {:sem {:subj {:pred :lui}}}}]
+
+     ["iet"
+      {:synsem {:sem {:subj {:pred :lei}}}}]
      
      ["iemus"
       {:synsem {:sem {:subj {:pred :noi}}}}]

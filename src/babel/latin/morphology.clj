@@ -240,12 +240,12 @@
 
 ;;FUTURE BEGINS HERE
 
-(def future {:synsem {:sem {:tense :future}}})
+(def future-tense {:synsem {:sem {:tense :future}}})
 
 (def are-future-indicative
   (conjugation 
    {:infinitive "āre"     
-    :common future
+    :common future-tense
     :forms
     [["abo"
       {:synsem {:sem {:subj {:pred :I}}}}]
@@ -268,7 +268,7 @@
 (def ere-bar-future-indicative
   (conjugation 
    {:infinitive "ēre"     
-    :common future
+    :common future-tense
     :forms
     [["ebo"
       {:synsem {:sem {:subj {:pred :I}}}}]
@@ -291,7 +291,7 @@
 (def ere-future-indicative
   (conjugation 
    {:infinitive "ere"     
-    :common future
+    :common future-tense
     :forms
     [["am"
       {:synsem {:sem {:subj {:pred :I}}}}]
@@ -314,7 +314,7 @@
 (def ere-i-future-indicative
   (conjugation 
    {:infinitive "ere-i" ;; FIXME: use {:conjugation :3i}
-    :common future
+    :common future-tense
     :forms
     [["iam"
       {:synsem {:sem {:subj {:pred :I}}}}]
@@ -337,7 +337,7 @@
 (def ire-future-indicative
   (conjugation 
    {:infinitive "īre"     
-    :common future
+    :common future-tense
     :forms
     [["iam"
       {:synsem {:sem {:subj {:pred :I}}}}]

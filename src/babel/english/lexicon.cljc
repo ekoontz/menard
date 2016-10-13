@@ -920,6 +920,11 @@
                   :sem {:human true
                         :pred :lui}
                   :subcat '()}}
+
+   "hear" {:synsem {:cat :verb
+                    :sem {:pred :hear}}
+           :english {:past "heard"}}
+
    "help"
    {:synsem {:cat :verb
              :sem {:pred :aiutare
@@ -1560,6 +1565,9 @@
             :english {:note "🎼"}
             :synsem {:cat :verb
                      :sem {:pred :suonare}}}]
+
+   "praise" {:synsem {:cat :verb
+                      :sem {:pred :praise}}}
 
    ;; TODO: all reflexive verbs should have this subject-object agreement like this one does:
    "prepare" (let [subject-semantics (atom :top)

@@ -68,3 +68,6 @@ identical semantic representation.
 # License
 
 Copyright © 2015 Eugene Koontz
+
+Distributed under the Eclipse Public License, the same as Clojure.
+Please see the `epl-v10.html` file at the top level of this repo.

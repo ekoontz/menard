@@ -2,8 +2,8 @@
  "ardēre" {:synsem {:cat :verb
                    :sem {:pred :burn}}}
         
- "audire" {:synsem {:cat :verb
-                      :sem {:pred :hear}}}
+ "audīre" {:synsem {:cat :verb
+                    :sem {:pred :hear}}}
 
  "laudāre" {:synsem {:cat :verb
                      :sem {:pred :praise}}}

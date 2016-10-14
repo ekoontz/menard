@@ -1,6 +1,7 @@
 (ns babel.reader
   [:refer-clojure :exclude [get-in resolve]]
   [:require
+   [babel.directory :refer [models]]
    [babel.engine :as engine]
    [babel.korma :as korma]
    [clojure.string :as string]

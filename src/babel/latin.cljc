@@ -28,10 +28,6 @@
 
 (declare generate)
 
-(def model {:lexicon lexicon
-            :fo fo
-            :generate-fn generate})
-
 (def tenses
   [{:tense :present}
    {:tense :past
@@ -59,8 +55,6 @@
    {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}}
    {:synsem {:sem {:pred (first (shuffle preds))}}}))
 
-
-
-
-
-
+(def model {:lexicon lexicon
+            :fo fo
+            :generate-fn generate})

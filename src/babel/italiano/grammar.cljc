@@ -664,7 +664,7 @@
                                  (morph-walk-tree tree))))
      :language "it"
      :language-keyword :italiano
-     :morph fo
+     :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
      :morph-ps fo-ps
      :enrich enrich
      :generate {:lexicon lexicon-for-generation}

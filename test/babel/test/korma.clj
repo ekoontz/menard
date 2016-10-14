@@ -2,7 +2,8 @@
 ;; - it uses korma, but it is not itself korma.
 (ns babel.test.korma
   (:refer-clojure :exclude [test update])
-  (:require [clj-time.coerce :as c]
+  (:require [babel.writer :as writer]
+            [clj-time.coerce :as c]
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]

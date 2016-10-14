@@ -39,8 +39,7 @@
  
   
  "abitare" {:synsem {:cat :verb
-                         :sem {:pred :live-address}}}
- 
+                         :sem {:pred :live-somewhere}}}
  
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}

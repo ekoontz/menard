@@ -2,12 +2,8 @@
   (:require
    [babel.engine :as engine]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :refer [model]]
+   [babel.latin :refer [fo generate lexicon model]]
    [clojure.test :refer [deftest is]]))
-
-(def lexicon (:lexicon model))
-(def generate (:generate-fn model))
-(def fo (:fo model))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere

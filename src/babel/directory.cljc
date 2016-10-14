@@ -15,9 +15,6 @@
    "fr" babel.francais.grammar/medium
    "it" (babel.italiano.grammar/medium)
    "la" babel.latin/model})
-
-(defn generate [language spec]
-  (engine/generate spec (get models language)))
                  
 
 

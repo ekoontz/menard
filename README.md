@@ -20,7 +20,7 @@ Babel is based on a linguistic theory called HPSG. For more details please see:
 
 # License
 
-Copyright © 2015 Eugene Koontz
+Copyright © 2016 Eugene Koontz
 
 Distributed under the Eclipse Public License, the same as Clojure.
 Please see the `epl-v10.html` file at the top level of this repo.

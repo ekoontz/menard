@@ -1614,7 +1614,7 @@
                    :discrete false}}}
    
    "receive"  {:synsem {:cat :verb
-                        :sem {:pred :ricevere}}}
+                        :sem {:pred :receive}}}
 
    "reciprocate" {:synsem {:cat :verb
                            :sem {:pred :reciprocate}}}
@@ -1655,7 +1655,11 @@
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}
 
-   "reserve" {:synsem {:cat :verb
+    "repeat"  {:synsem {:cat :verb
+                        :sem {:pred :repeat}}}
+    
+    
+    "reserve" {:synsem {:cat :verb
                 :sem {:pred :reserve}}}
 
    "respond"  {:share-sem :obj

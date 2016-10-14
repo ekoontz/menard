@@ -1291,10 +1291,15 @@
                           :present {:3sing "listens to"}}}
 
    "live" {:synsem {:cat :verb
-                    :sem {:pred :live}
+                    :sem {:pred :live-somewhere}
                     :subcat {:2 '()}}}
 
-   "look" {:share-sem :obj
+   
+     "live" {:synsem {:cat :verb
+                    :sem {:pred :live}
+                    :subcat {:2 '()}}}
+    
+    "look" {:share-sem :obj
            :synsem {:cat :verb
                     :sem {:pred :look
                           :subcat {:2 {:cat :prep

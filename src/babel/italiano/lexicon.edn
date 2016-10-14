@@ -37,6 +37,11 @@
                          :essere false
                          :sem {:pred :abbracciare}}}
  
+  
+ "abitare" {:synsem {:cat :verb
+                         :sem {:pred :live-address}}}
+ 
+ 
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
@@ -1290,6 +1295,11 @@
  {:synsem {:cat :verb
            :sem {:pred :lie}}}
 
+ "mettere" {:synsem {:cat :verb
+                      :sem {:pred :put}}
+             :italiano {:passato "messo"}}
+ 
+ 
  "mezzogiorno"
  {:synsem {:agr {:gender :masc}
            :cat :noun
@@ -1479,7 +1489,7 @@
                          :sem {:pred :recognize}}}
 
  "ricevere"  {:synsem {:cat :verb
-                       :sem {:pred :ricevere}}}
+                       :sem {:pred :receive}}}
  "ricordare"  {:synsem {:cat :verb
                         :sem {:pred :ricordare}}}
 
@@ -1491,6 +1501,9 @@
                                   :3plur "rimangono"}
                         :future-stem "rimarr"}}
 
+ "ripetere"  {:synsem {:cat :verb
+                       :sem {:pred :repeat}}}
+ 
  "riposare" {:synsem {:cat :verb
                       :sem {:pred :rest}}}
 
@@ -1613,6 +1626,10 @@
  
  "sospirare" {:synsem {:cat :verb
                        :sem {:pred :sigh}}}
+                                     
+ "spendere" {:synsem {:cat :verb :sem {:pred :spend}}
+             :italiano {:passato "speso"}}
+ 
  
  "spostare" {:synsem {:cat :verb
                       :sem {:pred :displace}}}

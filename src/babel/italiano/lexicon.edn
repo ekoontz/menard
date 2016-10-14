@@ -412,14 +412,6 @@
                  :human true;; TODO:should not need this because child => human.
                  :child true}}
   :italiano {:cat :adjective}}
-
- "c" ;; "c'è un tavolo.." ;; TODO: add same for "ci" (but :number :plur)
- {:synsem {:cat :noun
-           :pronoun true
-           :case :existential
-           :sem {:pred :existential}
-           :agr {:number :sing
-                 :person :3rd}}}
  
  ;; working on: "mi sono comprato un nuovo cellulare"
  "cellulare"
@@ -471,13 +463,27 @@
              :italiano {:passato "chiuso"}}
 
  "ci"
- {:synsem {:cat :noun
-           :pronoun true
-           :agr {:person :1st
-                 :number :plur}
-           :reflexive true
-           :sem {:human true 
-                 :pred :noi}}}
+ [{:synsem {:cat :noun
+            :pronoun true
+            :agr {:person :1st
+                  :number :plur}
+            :reflexive true
+            :sem {:human true 
+                  :pred :noi}}}
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :sem {:null true
+                  :pred :existential}
+            :agr {:person :3rd
+                  :number :sing}}}
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :sem {:null true
+                  :pred :existential}
+            :agr {:person :3rd
+                  :number :plur}}}]
 
  "cipolla"
  {:synsem {:agr {:gender :fem}
@@ -860,7 +866,7 @@
      :synsem {:sem {:pred :exist}
               :subcat {:1 {:cat :noun
                            :pronoun true
-                           :case :existential}}}}
+                           :sem {:null true}}}}}
 
     ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
     {:unify [essere-common gender-and-number-agreement subj-obj-humanness]

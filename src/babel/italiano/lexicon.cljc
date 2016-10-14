@@ -205,6 +205,11 @@
                    :sem {:gender gender
                          :number number}}}))
 
+      ;; nouns are semantically non-null by default
+      (default
+       {:synsem {:cat :noun
+                 :sem {:null false}}})
+      
       ;; </noun default rules>            
 
       ;; <verb default rules>
@@ -321,6 +326,11 @@
       (default ;; essere defaults to false.
        {:synsem {:cat :verb
                  :essere false}})
+
+      (default ;; subject is semantically non-null by default.
+       {:synsem {:cat :verb
+                 :aux false
+                 :subcat {:1 {:sem {:null false}}}}})
       
       ;; </verb default rules>
 

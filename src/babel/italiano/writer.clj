@@ -91,6 +91,13 @@
    (cond (= (get-in spec [:root :italiano :italiano])
             "funzionare")
          [:3rd]
+
+         (and
+          (= (get-in spec [:synsem :sem :pred]) :exist)
+          (= (get-in spec [:root :italiano :italiano])
+             "essere"))
+         [:3rd]
+         
          true
          [:1st :2nd :3rd])
 

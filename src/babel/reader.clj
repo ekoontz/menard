@@ -92,27 +92,44 @@
    and the single expression in the source language contains that semantics."
   (log/debug (str "generate target language set with spec: " target-spec))
   (let [target-spec (unify target-spec
-                    {:synsem {:subcat '()}})
-
-        ;; normalize for JSON lookup: convert a spec which is simply :top to be {}.
-        json-input-spec (if (= :top target-spec)
-                          {}
-                          target-spec)
+                           {:synsem {:subcat '()}})]
+    (cond (= target-language "la")
+          (let [target-spec (unify (babel.latin/get-spec)
+                                   target-spec)
+                target-expr 
+                ((-> models
+                     (get "la")
+                     ((get :generate-fn) target-spec)))
+                semantics (get-in target-expr [:synsem :sem])
+                source-expr
+                ((-> models
+                     (get source-language)
+                     ((get :generate-fn) {:synsem {:sem semantics}})))]
+            {:source ((-> models
+                          (get source-language)
+                          ((get :fo) source-expr)))
+             :target-spec target-spec
+             :targets [target-expr]})
+          true
+          (let [;; normalize for JSON lookup: convert a spec which is simply :top to be {}.
+                json-input-spec (if (= :top target-spec)
+                                  {}
+                                  target-spec)
         
-        target-json-spec (json/write-str (strip-refs json-input-spec))
-        ]
-    (log/debug (str "looking for expressions in language: " target-language
-                    " with spec: " target-spec))
-    (log/debug (str "looking for expressions in language: " target-language
-                    " with json-spec: " target-json-spec))
+                target-json-spec (json/write-str (strip-refs json-input-spec))
+                ]
+            (log/debug (str "looking for expressions in language: " target-language
+                            " with spec: " target-spec))
+            (log/debug (str "looking for expressions in language: " target-language
+                            " with json-spec: " target-json-spec))
 
-    ;; get the structure of a random expression in the target language that matches
-    ;; the specification _spec_.
-    ;; TODO: this is wasteful - we are getting *all* possible expressions, when we only need
-    ;; one (random) expression.
-    ;; instead, we should use the target.surface as an input to a hash function; that is,
-    ;; ORDER BY the value of the hash function on each row.
-    (let [results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
+            ;; get the structure of a random expression in the target language that matches
+            ;; the specification _spec_.
+            ;; TODO: this is wasteful - we are getting *all* possible expressions, when we only need
+            ;; one (random) expression.
+            ;; instead, we should use the target.surface as an input to a hash function; that is,
+            ;; ORDER BY the value of the hash function on each row.
+            (let [results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
                                         FROM expression AS target
                                        WHERE target.active=true
                                          AND target.language=?
@@ -120,49 +137,49 @@
                                          AND target.surface != ''
                                          AND target.structure @> '" target-json-spec "'
                                          AND target.active=true")
-                                [target-language]]
-                               :results)]
-      (if (empty? results)
-        (do
-          (log/error (str "nothing found in target language: " target-language
-                          " that matches spec: " target-spec))
-          (throw (Exception. (str "nothing found in target language: " target-language
-                                  " that matches spec: " target-spec))))
-
-        ;; choose a random expression from the results of the above.
-        ;; TODO: should choose a random one using SQL rather than taking them
-        ;; all and choosing a random one
-        (let [size-of-results (.size results)
-              index-of-result (rand-int (.size results))
-              debug (log/debug (str "number of target results:" size-of-results))
-              debug (log/debug (str "index of target result:" index-of-result))
-              target-expression (nth results index-of-result)
-              debug (log/debug (str "target-expression is nil?" (nil? target-expression)))
-              debug (log/trace (str "target-expression is: " target-expression))
-              ]
-
-          ;; Now get all the target expressions that are semantically
-          ;; equivalent to this expression's semantics,
-          ;; and a single source expression whose semantics contain
-          ;; that same semantics.
-          ;; TODO: consider selecting source where semantics contains
-          ;; that semantics, OR is contained by that semantics.
-          ;; Both possiblities might be necessary if the lexicon of
-          ;; the source language and target language differ in how
-          ;; much semantic information are encoded in entries for
-          ;; specific lexemes. For example, 'to go' in English
-          ;; specifies
-          ;; {activity: true}, whereas 'andare' in English does
-          ;; not. This might be a bug in the Italian lexicon, but
-          ;; this database lookup should be able to handle bugs like this.
-          (let [result (deserialize (read-string (:target target-expression)))
-                ;; TODO: allow queries that have refs - might be
-                ;; useful for modeling anaphora and binding.
-                json-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
-            (log/debug (str "semantics:" (strip-refs (get-in result [:synsem :sem]))))
-            (log/trace (str "json-semantics:" json-semantics))
-            (let [results
-                  (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
+                                        [target-language]]
+                                       :results)]
+              (if (empty? results)
+                (do
+                  (log/error (str "nothing found in target language: " target-language
+                                  " that matches spec: " target-spec))
+                  (throw (Exception. (str "nothing found in target language: " target-language
+                                          " that matches spec: " target-spec))))
+                
+                ;; choose a random expression from the results of the above.
+                ;; TODO: should choose a random one using SQL rather than taking them
+                ;; all and choosing a random one
+                (let [size-of-results (.size results)
+                      index-of-result (rand-int (.size results))
+                      debug (log/debug (str "number of target results:" size-of-results))
+                      debug (log/debug (str "index of target result:" index-of-result))
+                      target-expression (nth results index-of-result)
+                      debug (log/debug (str "target-expression is nil?" (nil? target-expression)))
+                      debug (log/trace (str "target-expression is: " target-expression))
+                      ]
+            
+                  ;; Now get all the target expressions that are semantically
+                  ;; equivalent to this expression's semantics,
+                  ;; and a single source expression whose semantics contain
+                  ;; that same semantics.
+                  ;; TODO: consider selecting source where semantics contains
+                  ;; that semantics, OR is contained by that semantics.
+                  ;; Both possiblities might be necessary if the lexicon of
+                  ;; the source language and target language differ in how
+                  ;; much semantic information are encoded in entries for
+                  ;; specific lexemes. For example, 'to go' in English
+                  ;; specifies
+                  ;; {activity: true}, whereas 'andare' in English does
+                  ;; not. This might be a bug in the Italian lexicon, but
+                  ;; this database lookup should be able to handle bugs like this.
+                  (let [result (deserialize (read-string (:target target-expression)))
+                        ;; TODO: allow queries that have refs - might be
+                        ;; useful for modeling anaphora and binding.
+                        json-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
+                    (log/debug (str "semantics:" (strip-refs (get-in result [:synsem :sem]))))
+                    (log/trace (str "json-semantics:" json-semantics))
+                    (let [results
+                          (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,
                                              source.structure AS structure,
                                              target.structure::text AS target_structure
@@ -173,7 +190,7 @@
                                                WHERE source.language=?
                                                  AND source.active=true
                                                  AND source.structure->'synsem'->'sem' @> '"
-                                     json-semantics "' LIMIT 1) AS source
+                                             json-semantics "' LIMIT 1) AS source
                                   INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
                                                               root,structure
                                                          FROM expression_with_root AS target
@@ -183,33 +200,33 @@
                                                            ON (source.surface IS NOT NULL) 
                                                           AND (target.surface IS NOT NULL) 
                                                           AND (source.sem @> target.sem)")
-                            [source-language target-language]]
-                           :results)]
-          (if (nil? (first (map :source results)))
-            (do
-              (log/error (str "no source expression found for semantics: "
-                              (get-in (strip-refs (deserialize
-                                                   (read-string (:target target-expression))))
-                                      [:synsem :sem])))
-              (throw (Exception.
-                      (str "no source expression found for target expression: '"
-                           (:surface target-expression) "' and semantics: " 
-                           (get-in (strip-refs (deserialize
-                                                (read-string (:target target-expression))))
-                                              [:synsem :sem])))))
-            (let [debug (log/trace (str "source-structure:"
-                                        (first (map :structure results))))
-                  debug (log/trace (str "read from target_structure:"
-                                        (first (map :target_structure results))))
-                  debug (log/trace (str "target structures: (via read-str)" 
-                                        (read-str (first (map :target_structure results)))))
-                  debug (log/trace (str "target-structures (via json-read-str):" 
-                                        (json-read-str (first (map :target_structure results)))))]
-              {:source-id (first (map :source_id results))
-               :source (first (map :source results))
-               :target-spec target-spec
-               :targets (map :target results)})))))))))
-
+                                        [source-language target-language]]
+                                       :results)]
+                      (if (nil? (first (map :source results)))
+                        (do
+                          (log/error (str "no source expression found for semantics: "
+                                          (get-in (strip-refs (deserialize
+                                                               (read-string (:target target-expression))))
+                                                  [:synsem :sem])))
+                          (throw (Exception.
+                                  (str "no source expression found for target expression: '"
+                                       (:surface target-expression) "' and semantics: " 
+                                       (get-in (strip-refs (deserialize
+                                                            (read-string (:target target-expression))))
+                                               [:synsem :sem])))))
+                        (let [debug (log/trace (str "source-structure:"
+                                                    (first (map :structure results))))
+                              debug (log/trace (str "read from target_structure:"
+                                                    (first (map :target_structure results))))
+                              debug (log/trace (str "target structures: (via read-str)" 
+                                                    (read-str (first (map :target_structure results)))))
+                              debug (log/trace (str "target-structures (via json-read-str):" 
+                                                    (json-read-str (first (map :target_structure results)))))]
+                          {:source-id (first (map :source_id results))
+                           :source (first (map :source results))
+                           :target-spec target-spec
+                           :targets (map :target results)})))))))))))
+    
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a
   language and optionally additional filter specification"

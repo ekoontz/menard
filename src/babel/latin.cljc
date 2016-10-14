@@ -42,18 +42,41 @@
     (map #(get-in % [:synsem :sem :pred]) 
          (filter #(= :verb (get-in % [:synsem :cat]))
                  (flatten (vals lexicon)))))))
+(def roots
+  (vec
+   (set
+    (map #(get-in % [:root])
+         (filter #(= :verb (get-in % [:synsem :cat]))
+                 (flatten (vals lexicon)))))))
 
 (defn generate [spec]
-  (first (shuffle
-          (filter #(not (fail? %))
-                  (map (fn [val]
-                         (unifyc spec val))
-                       (flatten (vals lexicon)))))))
-(defn get-spec []
+  (let [expr
+        (first (shuffle
+                (filter #(not (fail? %))
+                        (map (fn [val]
+                               (unifyc spec val))
+                             (flatten (vals lexicon))))))]
+    (if expr
+      (conj {:surface (fo expr)}
+            expr))))
+
+(defn get-spec [base-spec]
+  "return a spec that is more specific than base-spec, specific enough to conjugate."
   (unifyc
-   {:synsem {:sem (first (shuffle tenses))}}
-   {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}}
-   {:synsem {:sem {:pred (first (shuffle preds))}}}))
+   base-spec
+   (or (and (get-in base-spec [:synsem :sem :tense])
+            base-spec)
+       {:synsem {:sem (first (shuffle tenses))}})
+   (or (and (get-in base-spec [:synsem :subj :pred])
+            base-spec)
+       {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}})
+   (or (and (get-in base-spec [:root])
+            base-spec)
+       {:root (first (shuffle roots))})))
+
+
+
+
 
 (def model {:lexicon lexicon
             :fo fo

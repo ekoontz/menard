@@ -15,7 +15,7 @@
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
-  (write-lexicon "en" lexicon))
+  (write-lexicon "en" @lexicon))
 
 (defn expression [spec]
   (let [spec (if spec spec :top)]
@@ -69,7 +69,7 @@
                             (process [{:fill-one-language
                                        {:count 1
                                         :spec spec
-                                        :model small
+                                        :model (small)
                                         }}]
                                      source-language-short-name)]
                         ;; TODO: 'result' is currently

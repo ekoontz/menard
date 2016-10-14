@@ -1290,14 +1290,10 @@
                           :past "listened to"
                           :present {:3sing "listens to"}}}
 
-   "live" {:synsem {:cat :verb
-                    :sem {:pred :live-somewhere}
-                    :subcat {:2 '()}}}
-
-   
-     "live" {:synsem {:cat :verb
-                    :sem {:pred :live}
-                    :subcat {:2 '()}}}
+   "live" [{:synsem {:cat :verb
+                     :sem {:pred :live-somewhere}}}
+           {:synsem {:cat :verb
+                     :sem {:pred :live}}}]
     
     "look" {:share-sem :obj
            :synsem {:cat :verb

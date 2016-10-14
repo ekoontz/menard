@@ -684,6 +684,11 @@
                  :edible false}}
   :italiano {:fem {:sing "difficile"}}}
 
+ 
+ "dimenticare"  {:synsem {:cat :verb
+                         :sem {:pred :forget}}}
+
+ 
  "dipingere" {:synsem {:cat :verb
                        :sem {:pred :paint}}
               :italiano {:passato "dipinto"}}
@@ -923,6 +928,10 @@
                       :sem {:pred :furnish}}
              :italiano {:boot-stem1 "fornisc"}}
 
+ "frequentare"  {:synsem {:cat :verb
+                      :sem {:pred :attend}}}
+ 
+ 
  "funzionare" {:synsem {:cat :verb
                         :essere false
                         :sem {:pred :work-nonhuman}}}

@@ -104,8 +104,7 @@
     (process [{:fill-one-language
                {:count 1
                 :spec spec
-                :model small
-                }}]
+                :model small}}]
              "en")
     (catch Exception e
       (cond

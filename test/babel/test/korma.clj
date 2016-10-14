@@ -15,9 +15,3 @@
 (deftest simple
   (let [result (exec-raw ["SELECT 1 AS retval"] :results)]
     (is (= 1 (:retval (first result))))))
-
-
-
-
-
-

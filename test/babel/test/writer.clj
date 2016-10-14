@@ -8,5 +8,3 @@
 
 (deftest simple
   (is (= true true)))
-
-

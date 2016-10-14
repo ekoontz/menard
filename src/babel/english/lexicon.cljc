@@ -1857,7 +1857,12 @@
     :synsem {:cat :verb
              :sem {:pred :speak}}}
 
-   "start" {:synsem {:cat :verb
+    "spend" {:synsem {:cat :verb
+                     :sem {:pred :spend}}
+            :english {:past "spent"}}
+    
+    
+    "start" {:synsem {:cat :verb
                      :sem {:pred :start}}}
    
    "stay" {:synsem {:cat :verb

@@ -10,7 +10,7 @@
   (let [{infinitive :infinitive
          common :common
          forms :forms} specification]
-    (log/info (str "conjugation for: " infinitive " with common:" common))
+    (log/debug (str "conjugation for: " infinitive " with common:" common))
 
     (map (fn [form]
            (let [suffix (first form)

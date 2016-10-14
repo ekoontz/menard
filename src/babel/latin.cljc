@@ -26,6 +26,8 @@
 (defn fo [structure]
   (morph/conjugate (get-in structure [:root]) structure))
 
+(declare generate)
+
 (def model {:lexicon lexicon
             :fo fo
             :generate-fn generate})

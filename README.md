@@ -5,13 +5,15 @@
 
 A Clojure library for generation and parsing of natural language expressions.
 
-# Getting Started
+```shell
+demo.sh
+```
 
-```demo.sh```
+will demonstrate some of the library's abilities to generate English expressions.
 
-will some of the library's abilities.
-
-```lein test```
+```shell
+lein test
+```
 
 will show a more in-depth verification of the library's behavior.
 

@@ -1,7 +1,8 @@
 (defproject babel "2.2.1-SNAPSHOT
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
-  :license {:name "Proprietary: all rights reserved. No distribution allowed without consent of owners."}
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]

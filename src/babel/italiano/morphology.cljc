@@ -1091,7 +1091,7 @@
 
            (and (= a "ci")
                 (string? b)
-                (re-find #"^[aeèiou]" b))
+                (re-find #"^[eè]" b))
            (str "c'" b)
            
            ;; handle e.g. "io lo ho visto" => "io l'ho visto"

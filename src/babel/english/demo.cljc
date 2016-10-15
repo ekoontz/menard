@@ -13,6 +13,8 @@
 ;; should also be possible to override per-language.
 (def ^:const max-total-depth 25)
 
+(def default-language-model (medium))
+
 (defn demo [ & [n spec]]
   (let [demo-specs
         [{:demo-name "Dog noun phrases"
@@ -80,7 +82,7 @@
                         (println log-message)
                         (println)
                         (let [language-model (if (:lm spec) (:lm spec)
-                                                 medium)
+                                                 default-language-model)
                               expressions (run-demo-with n (dissoc spec :lm) language-model)]
                           (count (pmap (fn [expression]
                                          (let [formatted (fo expression :show-notes false)]
@@ -95,18 +97,19 @@
                           demo-specs)
                   demo-specs)))))
 
-(defn run-demo-with [ & [n spec grammar]]
+(defn run-demo-with [n spec model]
   "print out _n_ generated sentences to stdout."
   (let [n (if n (Integer. n)
               100)
-        spec (if spec spec
+        spec (if spec (unifyc spec
+                              {:modified false})
                  :top)]
     (filter #(not (nil? %)) 
             (take n (repeatedly
                      #(let [result
                             (time
-                             (if grammar
-                               (generate spec grammar {:max-total-depth max-total-depth})
-                               (generate spec medium {:max-total-depth max-total-depth})))]
+                             (generate spec
+                                       :model model
+                                       :max-total-depth max-total-depth))]
                         result))))))
 

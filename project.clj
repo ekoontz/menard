@@ -23,13 +23,6 @@
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]]
-  :repositories {"hiro-tan" "http://hiro-tan.org/mvn/repository"
-
-                 ;; do: lein deploy s3
-                 "s3" {:url "s3p://ekoontz-repo/releases/"
-                       :username :env/aws_access_key ;; gets environment variable AWS_ACCESS_KEY
-                       :passphrase :env/aws_secret_key} ;; gets environment variable AWS_SECRET_KEY
-                 }
 
   :filespecs [{:type :path :path "compiled"}]
   :resource-paths ["resources"]
@@ -39,8 +32,7 @@
             [lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
-            [lein-ring "0.9.3"]
-            [s3-wagon-private "1.2.0"]]
+            [lein-ring "0.9.3"]]
 
   ;; run clojure tests with "lein test"
   ;; run clojurescript tests with "lein doo slimer test"

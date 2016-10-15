@@ -268,7 +268,8 @@ as a map of implications"}
 
         {:pred :burn
          :subj {:human true}
-         :obj {:human false}}
+         :obj {:human false
+               :physical-object true}}
         
         {:pred :carry
          :subj {:human true}

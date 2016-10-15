@@ -7,9 +7,11 @@ A Clojure library for generation and parsing of natural language expressions.
 
 # Getting Started
 
+More documentation to come, but:
+
 ```lein test```
 
-I hope the tests will be useful for demonstrating the library's abilities.
+will demonstrate the library's abilities.
 
 # HPSG (Head Driven Phrase Structure Grammar)
 

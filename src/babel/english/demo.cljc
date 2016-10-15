@@ -105,7 +105,7 @@
               100)
         spec (if spec (unifyc spec
                               {:modified false})
-                 :top)]
+                 {:modified false})]
     (filter #(not (nil? %)) 
             (take n (repeatedly
                      #(let [result

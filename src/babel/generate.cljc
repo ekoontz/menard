@@ -259,7 +259,9 @@ bolt."
               subset
               (if (not (empty? indexed))
                 indexed
-                (flatten (vals lexicon))))))
+                (do
+                  (log/warn (str "no candidate lexemes were found."))
+                  nil)))))
 
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         bolt-child-italiano (strip-refs (get-in bolt (concat path [:italiano]) :top))

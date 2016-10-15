@@ -266,6 +266,10 @@ as a map of implications"}
          :subj {:human true}
          :obj {:buyable true}}
 
+        {:pred :burn
+         :subj {:human true}
+         :obj {:human false}}
+        
         {:pred :carry
          :subj {:human true}
          :obj {:physical-object true}}

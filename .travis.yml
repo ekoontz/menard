@@ -1,6 +1,5 @@
 language: clojure
-lein: lein2
-install: cd leiningen-core; lein install; lein classpath | tail -n 1 > .lein-bootstrap; cd ..
+lein: 2.6.1
 script: lein with-profile travis-ci test
 addons:
   postgresql: "9.4"

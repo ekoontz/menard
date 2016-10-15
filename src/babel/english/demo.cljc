@@ -5,7 +5,8 @@
    [babel.english.morphology :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [clojure.string :as string]
-   #?(:clj [clojure.tools.logging :as log])))
+   #?(:clj [clojure.tools.logging :as log])
+   [dag_unify.core :refer [unifyc]]))
 
 (declare run-demo-with)
 
@@ -22,7 +23,7 @@
                    :sem {:pred :cane}}}
 
          {:demo-name "Very specific noun phrases: few-rules"
-          :lm few-rules
+          :lm (few-rules)
           :synsem {:cat :noun
                    :sem {:pred :cane
                          :number :plur
@@ -31,7 +32,7 @@
                                 :of {:pred :luisa}}}}}
 
          {:demo-name "Very specific noun phrases: small-lexicon"
-          :lm small-lexicon
+          :lm (small-lexicon)
           :synsem {:cat :noun
                    :sem {:pred :cane
                          :number :plur
@@ -74,7 +75,7 @@
           :demo-name "Totally random expressions"}
          ]]
          
-    (count (map (fn [spec]
+    (doall (map (fn [spec]
                   (let [log-message 
                         (str "running demo: " (:demo-name spec) "; " n " attempts.")]
                     (do (log/info log-message)
@@ -95,7 +96,8 @@
                   (filter #(= (:demo-name %)
                               spec)
                           demo-specs)
-                  demo-specs)))))
+                  demo-specs)))
+    (println (str "babel demo is finished. JVM shutting down."))))
 
 (defn run-demo-with [n spec model]
   "print out _n_ generated sentences to stdout."

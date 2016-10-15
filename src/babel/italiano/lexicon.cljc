@@ -98,15 +98,15 @@
       evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
       listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
 
-      (default ;; all lexemes are phrasal=false by default.
-       {:phrasal false})
-
       ;; end language-independent operations.
 
       ;; begin language-dependent operations.
       apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values)).
       ;; the operation of apply-unify-key is language-independent, but
       ;; the values of :unify may be symbols that refer to language-dependent values.
+
+      (default ;; all lexemes are phrasal=false by default.
+       {:phrasal false})
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 

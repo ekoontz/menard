@@ -147,7 +147,13 @@
    "beber" {:synsem {:cat :verb
                      :sem {:pred :drink}}}
    
-   "buscar" {}
+   "buscar" (let [common {:espanol}]
+             [{:unify [common]
+               :synsem {:cat :verb
+                        :sem {:pred :look-for}}}
+              {:unify [common]
+               :synsem {:cat :verb
+                        :sem {:pred :look-up}}}])
    "caber" {}
    "caerse" {}
    

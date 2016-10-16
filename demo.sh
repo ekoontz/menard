@@ -1,14 +1,9 @@
 #!/bin/sh
+set -euo pipefail
+IFS=$'\n\t'
 
-NUM=$1
-if [[ ! ${NUM} ]]; then
-    NUM=5
-fi
-
-DEMO=$2
-if [[ ! ${DEMO} ]]; then
-    DEMO=""
-fi
+NUM=${1:-5}
+DEMO=${2:-""}
 
 #TODO: run other languages besides english.
 lein run -m babel.english.demo/demo ${NUM} "${DEMO}"

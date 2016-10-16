@@ -1641,6 +1641,12 @@
  "sospirare" {:synsem {:cat :verb
                        :sem {:pred :sigh}}}
                                      
+ 
+ "spegnere" {:synsem {:cat :verb :sem {:pred :turn-off}}
+             :italiano {:passato "spento"
+                       :present {:1sing "spengo"
+                                 :3plur "spengono"}
+ 
  "spendere" {:synsem {:cat :verb :sem {:pred :spend}}
              :italiano {:passato "speso"}}
  

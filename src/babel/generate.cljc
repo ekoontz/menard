@@ -32,6 +32,7 @@
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare generate-all)
+(declare not-fail?)
 (declare spec-info)
 
 ;; FIXME: truncate-children=false (the non-default option) is not propagated through all calls,
@@ -193,11 +194,11 @@ bolt."
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         
         lexical-complements (lazy-shuffle
-                                      (filter (fn [lexeme]
-                                                (and (not (fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
-                                                                        bolt-child-synsem)))))
-                                              complement-candidate-lexemes))]
-    (filter #(not (fail? %))
+                             (filter (fn [lexeme]
+                                       (and (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                                              bolt-child-synsem))))
+                                     complement-candidate-lexemes))]
+    (filter #(not-fail? %)
             (mapfn (fn [complement]
                      (let [unified
                            (unify (copy bolt)
@@ -277,14 +278,14 @@ bolt."
   (filter #(not (= :fail %))
           (pmap (fn [rule]
                   (log/trace (str "candidate-parents: rule: " (:rule rule)))
-                  (if (and (not (fail? (unifyc (get-in rule [:synsem :cat] :top)
-                                               (get-in spec [:synsem :cat] :top))))
-                           (not (fail? (unifyc (get-in rule [:synsem :infl] :top)
-                                               (get-in spec [:synsem :infl] :top))))
-                           (not (fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
-                                               (get-in spec [:synsem :sem :tense] :top))))
-                           (not (fail? (unifyc (get-in rule [:synsem :modified] :top)
-                                               (get-in spec [:synsem :modified] :top)))))
+                  (if (and (not-fail? (unifyc (get-in rule [:synsem :cat] :top)
+                                              (get-in spec [:synsem :cat] :top)))
+                           (not-fail? (unifyc (get-in rule [:synsem :infl] :top)
+                                              (get-in spec [:synsem :infl] :top)))
+                           (not-fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
+                                               (get-in spec [:synsem :sem :tense] :top)))
+                           (not-fail? (unifyc (get-in rule [:synsem :modified] :top)
+                                              (get-in spec [:synsem :modified] :top))))
                     (let [result
                            (unifyc spec rule)]
                       (if (fail? result)
@@ -361,3 +362,6 @@ bolt."
                       (identical? member1 member2))
                     set2))
             set1)))
+
+(defn not-fail? [arg]
+  (not (= :fail arg)))

@@ -306,7 +306,22 @@
 
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
-   "être"
+   
+    "éteindre" {:synsem {:cat :verb
+                         :sem {:pred :turn-off}
+                         :essere false}
+                :français {:future-stem "éteind"
+                           :infinitive "éteindre"
+                           :present {:1sing "éteins"
+                                     :2sing "éreins"
+                                     :3sing "éteint"
+                                     :1plur "éteignons"
+                                     :2plur "éteignez"
+                                     :3plur "éteignent"}
+                          :past-participle "étreint"
+                          :imperfect-stem "éteign"}}
+    
+    "être"
    (let [common
          {:synsem {:cat :verb
                    :essere false}
@@ -349,7 +364,7 @@
                                      :2plur "étreignez"
                                      :3plur "étreignent"}
                           :past-participle "étreint"
-                          :imperfect-stem "étreindr"}}
+                          :imperfect-stem "étreign"}}
    
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}

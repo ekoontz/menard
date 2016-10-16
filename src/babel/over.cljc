@@ -122,14 +122,14 @@
     (let [morph (:morph language-model)]
       (if (nil? morph)
         (exception (str "don't call show-bolt with morph=null."))
-        (str "[" (get-in bolt [:rule])
-             " "
+        (str (if (get-in bolt [:rule]) (str "[" (get-in bolt [:rule]) " "))
              (let [head-bolt (get-in bolt [:head])]
-               (if (not (nil? head-bolt))
+               (if (nil? head-bolt)
+                 (morph bolt)
                  (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
                    (if (not (nil? rest-str))
-                     (str " -> " rest-str)))))
-             "]")))))
+                     (str "-> " rest-str)))))
+             (if (get-in bolt [:rule]) "]"))))))
 
 (defn subpath? [path1 path2]
   "return true if path1 is subpath of path2."

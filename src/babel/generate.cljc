@@ -88,35 +88,24 @@
   "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
 such that only the head children are generated. This sequence is used by (generate (above))
 to generate expressions by adding complements using (add-all-comps)."
-  (log/trace (str "lightning-bolts(depth=" depth
-                  "; total-depth=" total-depth
-                  "; max-total-depth=" max-total-depth
-                  "; spec info:" (spec-info spec) ")"))
-  (let [morph (:morph language-model)
-        grammar (:grammar language-model)
+  (let [grammar (:grammar language-model)
         index (:index language-model)
-        morph (if morph morph (fn [input] (get-in input [:rule] :default-morph-no-rule)))
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents (shuffle (candidate-parents grammar spec))]
-    (log/debug (str "lightning-bolt: candidate-parents: [" (string/join "," (map :rule parents)) "] for spec:" (strip-refs spec)))
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (mapfn (fn [parent]
-                     (log/debug (str "looking for lexical heads of parent: " (:rule parent)))
                      (let [pred (get-in spec [:synsem :sem :pred])
                            cat (get-in spec [:synsem :cat])
                            pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
                            cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
                            subset
                            (cond
-                             (and
-                              (not (= :top pred))
-                              (not (empty? pred-set))
-                              (not (= :top cat))
-                              (not (empty? cat-set)))
+                             (and (not (= :top pred)) (not (empty? pred-set))
+                                  (not (= :top cat)) (not (empty? cat-set)))
                              (intersection-with-identity pred-set cat-set)
                              true (get-lex parent :head index))]
                        (over/overh parent (shuffle subset))))
@@ -125,15 +114,11 @@ to generate expressions by adding complements using (add-all-comps)."
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
             (mapfn (fn [parent]
-                     (log/debug (str "looking for phrasal heads of parent: " (:rule parent)))
                      (over/overh parent
                                  (lightning-bolts language-model (get-in parent [:head])
                                                   (+ 1 depth) (+ 1 total-depth)
                                                   :max-total-depth max-total-depth)))
-                   parents)
-            (do
-              (log/trace (str "hit max-total-depth: " max-total-depth ": will not generate phrasal head children."))
-              nil))]
+                   parents))]
       (if (lexemes-before-phrases total-depth max-total-depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))

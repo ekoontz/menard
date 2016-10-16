@@ -90,7 +90,6 @@
 such that only the head children are generated. This sequence is used by (generate (above))
 to generate expressions by adding complements using (add-all-comps)."
   (let [grammar (:grammar language-model)
-        index (:index language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
@@ -108,8 +107,8 @@ to generate expressions by adding complements using (add-all-comps)."
                              (and (not (= :top pred)) (not (empty? pred-set))
                                   (not (= :top cat)) (not (empty? cat-set)))
                              (intersection-with-identity pred-set cat-set)
-                             true (get-lex parent :head index))]
-                       (over/overh parent (shuffle subset))))
+                             true (get-lex parent :head (:index language-model)))]
+                       (over/overh parent (lazy-shuffle subset))))
                    parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

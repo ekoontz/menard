@@ -428,6 +428,16 @@
                     :essere false
                     :sem {:pred :have-dinner}}}
      
+ 
+ "cercare" (let [common {:italiano}]
+             [{:unify [common]
+               :synsem {:cat :verb
+                        :sem {:pred :look-for}}}
+              {:unify [common]
+               :synsem {:cat :verb
+                        :sem {:pred :look-up}}}])
+ 
+ 
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}
       
@@ -492,10 +502,6 @@
                  :edible true
                  :animate false
                  :artifact false}}}
-      
- "cercare" {:synsem {:cat :verb
-                     :essere false
-                     :sem {:pred :cercare}}}
 
  "città"
  {:synsem {:agr {:gender :fem}

@@ -21,7 +21,6 @@
 
 (declare add-all-comps)
 (declare add-all-comps-with-paths)
-(declare add-complements)
 (declare add-complement-to-bolt)
 (declare bolt-depth)
 (declare candidate-parents)

@@ -31,7 +31,6 @@
 (declare lazy-shuffle)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
-(declare log-bolt-groups)
 (declare generate-all)
 (declare path-to-map)
 (declare spec-info)
@@ -180,8 +179,7 @@ bolt."
          (add-all-comps-with-paths [bolt] language-model total-depth
                                    (find-comp-paths-in (bolt-depth bolt))
                                    truncate-children max-total-depth))
-       (do (log-bolt-groups bolt-groups language-model)
-           (reduce concat bolt-groups))))))
+       bolts))))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
@@ -415,14 +413,3 @@ bolt."
       {:subcat/:1/:cat subcat1
        :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
 
-(defn log-bolt-groups [bolt-groups language-model]
-  (log/trace
-   (str "bolt-groups:\n"
-        (string/join "\n"
-                     (map (fn [bolt-group]
-                            (str "bolt-group:\n"
-                                 (string/join "\n"
-                                              (map (fn [bolt]
-                                                     (str " " (show-bolt bolt language-model)))
-                                                   bolt-group))))
-                          bolt-groups)))))

@@ -266,7 +266,7 @@ bolt."
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         bolt-child-italiano (strip-refs (get-in bolt (concat path [:italiano]) :top))
         
-        filtered-lexical-complements (lazy-shuffle
+        lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
                                                 (and (not (= :fail (unify (strip-refs (get-in lexeme [:synsem] :top))
                                                                           bolt-child-synsem)))
@@ -295,7 +295,7 @@ bolt."
                                                             :max-total-depth max-total-depth))
                         lexemes-before-phrases (lexemes-before-phrases total-depth max-total-depth)]
                     (cond (and lexemes-before-phrases
-                               (empty? filtered-lexical-complements)
+                               (empty? lexical-complements)
                                (= false (get-in spec [:phrasal] true)))
                           (log/warn (str "failed to generate any lexical complements with spec: "
                                          (strip-refs spec)))
@@ -306,7 +306,7 @@ bolt."
                           (log/warn (str "failed to generate any phrasal complements with spec: "
                                          (strip-refs spec)))
 
-                          (and (empty? filtered-lexical-complements)
+                          (and (empty? lexical-complements)
                                (empty? phrasal-complements))
 
                           (let [message (str "add-complement-to-bolt: could generate neither phrasal "
@@ -324,7 +324,7 @@ bolt."
 
                           lexemes-before-phrases
                           (take max-generated-complements
-                                (lazy-cat filtered-lexical-complements phrasal-complements))
+                                (lazy-cat lexical-complements phrasal-complements))
                           true
                           (do
                             (log/trace (str "successfully generated some complements for bolt:"
@@ -332,7 +332,7 @@ bolt."
                                             " matching spec:"
                                             (spec-info spec)))
 
-                            (take max-generated-complements (lazy-cat phrasal-complements filtered-lexical-complements)))))))))
+                            (take max-generated-complements (lazy-cat phrasal-complements lexical-complements)))))))))
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"

@@ -138,22 +138,17 @@ bolt."
    (reduce concat bolt-groups)))
 
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
-  (if (not (empty? comp-paths))
-    (add-all-comps-with-paths
-     (lazy-mapcat
-      (fn [bolt]
-        (let [path (first comp-paths)]
-          (add-complement-to-bolt bolt path
-                                  language-model (+ total-depth (count path))
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)))
-      bolts)
-     language-model
-     total-depth
-     (rest comp-paths)
-     truncate-children
-     max-total-depth)
-    bolts))
+  (if (empty? comp-paths) bolts
+      (add-all-comps-with-paths
+       (lazy-mapcat
+        (fn [bolt]
+          (let [path (first comp-paths)]
+            (add-complement-to-bolt bolt path
+                                    language-model (+ total-depth (count path))
+                                    :max-total-depth max-total-depth
+                                    :truncate-children truncate-children)))
+        bolts)
+       language-model total-depth (rest comp-paths) truncate-children max-total-depth)))
 
 (defn add-complement-to-bolt [bolt path language-model total-depth
                               & {:keys [max-total-depth truncate-children]

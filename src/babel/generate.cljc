@@ -160,18 +160,13 @@ _bolt-groups_, add all possible complements at all open nodes in the
 bolt, from deepest and working upward to the top. Return a lazy
 sequence of having added all possible complements at each node in the
 bolt."
-  (let [bolt-groups
-        (filter #(not (empty? %))
-                bolt-groups)
-        bolts (reduce concat bolt-groups)]
-    (when (not (empty? bolt-groups))
-      (lazy-mapcat
-       (fn [bolt]
-         (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))
-         (add-all-comps-with-paths [bolt] language-model total-depth
-                                   (find-comp-paths-in (bolt-depth bolt))
-                                   truncate-children max-total-depth))
-       bolts))))
+  (let [bolts (reduce concat bolt-groups)]
+    (lazy-mapcat
+     (fn [bolt]
+       (add-all-comps-with-paths [bolt] language-model total-depth
+                                 (find-comp-paths-in (bolt-depth bolt))
+                                 truncate-children max-total-depth))
+     bolts)))
 
 ;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]

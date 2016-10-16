@@ -307,10 +307,6 @@ bolt."
   #?(:cljs
      (throw (js/Error. error-string))))
 
-(defn current-time []
-  #?(:clj (System/currentTimeMillis))
-  #?(:cljs (.getTime (js/Date.))))
-
 ;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
 (defn lazy-mapcat  [f coll]
   (lazy-seq

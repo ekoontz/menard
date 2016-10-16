@@ -264,17 +264,11 @@ bolt."
                   nil)))))
 
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
-        bolt-child-italiano (strip-refs (get-in bolt (concat path [:italiano]) :top))
         
         lexical-complements (lazy-shuffle
                                       (filter (fn [lexeme]
-                                                (and (not (= :fail (unify (strip-refs (get-in lexeme [:synsem] :top))
-                                                                          bolt-child-synsem)))
-                                                     ;; TODO: language-specific: allow
-                                                     ;; some way to have this optimization be expressed
-                                                     ;; in a language-specific way.
-                                                     (not (= :fail (unify (strip-refs (get-in lexeme [:italiano] :top))
-                                                                          (strip-refs bolt-child-italiano))))))
+                                                (and (not (fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                                                        bolt-child-synsem)))))
                                               complement-candidate-lexemes))]
     (filter #(not (fail? %))
             (mapfn (fn [complement]

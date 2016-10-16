@@ -167,7 +167,6 @@ bolt."
                                truncate-children max-total-depth))
    (reduce concat bolt-groups)))
 
-;; TODO: make this non-recursive by using mapcat.
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
   (if (not (empty? comp-paths))
     (add-all-comps-with-paths

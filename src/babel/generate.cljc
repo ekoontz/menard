@@ -26,6 +26,7 @@
 (declare candidate-parents)
 (declare exception)
 (declare find-comp-paths-in)
+(declare intersection-with-identity)
 (declare lazy-mapcat)
 (declare lazy-shuffle)
 (declare lexemes-before-phrases)
@@ -79,20 +80,6 @@
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth)))))
-
-(defn intersection-with-identity [set1 set2]
-  (if (> (count set1)
-         (count set2))
-    (filter (fn [member2]
-              (some (fn [member1]
-                      (identical? member1 member2))
-                    set1))
-            set2)
-    (filter (fn [member1]
-              (some (fn [member2]
-                      (identical? member1 member2))
-                    set2))
-            set1)))
 
 (defn lightning-bolts [language-model spec depth total-depth
                        & {:keys [max-total-depth]
@@ -393,3 +380,16 @@ bolt."
       {:subcat/:1/:cat subcat1
        :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
 
+(defn intersection-with-identity [set1 set2]
+  (if (> (count set1)
+         (count set2))
+    (filter (fn [member2]
+              (some (fn [member1]
+                      (identical? member1 member2))
+                    set1))
+            set2)
+    (filter (fn [member1]
+              (some (fn [member2]
+                      (identical? member1 member2))
+                    set2))
+            set1)))

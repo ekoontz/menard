@@ -595,7 +595,7 @@
 
    "eat" {:english {:past "ate"}
           :synsem {:cat :verb
-                   :sem {:pred :mangiare}}}
+                   :sem {:pred :eat}}}
 
    "eat dinner" {:synsem {:cat :verb
                           :sem {:pred :have-dinner}
@@ -1303,13 +1303,13 @@
 
    ;; TODO: combine all "look X" into "look" with different subcategorizations
    "look for" {:synsem {:cat :verb
-                        :sem {:pred :cercare}}
+                        :sem {:pred :look-for}}
                :english {:participle "looking for"
                          :past "looked for"
                          :present {:3sing "looks for"}}}
 
    "look up" {:synsem {:cat :verb
-                       :sem {:pred :cercare}}
+                       :sem {:pred :look-up}}
               :english {:participle "looking up"
                         :past "looked up"
                         :present {:3sing "looks up"}}}

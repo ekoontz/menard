@@ -642,7 +642,12 @@
    "faint" {:synsem {:cat :verb
                      :sem {:pred :faint}
                      :subcat {:2 '()}}}
-   "fall asleep"
+   
+    "fall" {:english {:past "fell"}
+          :synsem {:cat :verb
+                   :sem {:pred :fall}}}
+    
+    "fall asleep"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :fall-asleep

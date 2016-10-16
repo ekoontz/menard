@@ -165,12 +165,6 @@ bolt."
                 bolt-groups)
         bolts (reduce concat bolt-groups)]
     (when (not (empty? bolt-groups))
-      (log/trace (str "counts by group: [ "
-                      (string/join ","
-                                   (map (fn [group]
-                                          (count group))
-                                        bolt-groups))
-                      " ]"))
       (lazy-mapcat
        (fn [bolt]
          (log/trace (str "add-all-comps: adding comps to bolt: " (show-bolt bolt language-model)))

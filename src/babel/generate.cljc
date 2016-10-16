@@ -54,9 +54,9 @@
                                                   :truncate-children truncate-children)))]
       (if expression
         (do
-          (log/info (str "generate: generated "
-                         (morph-ps expression)
-                         " for spec:" (strip-refs spec)))
+          (log/debug (str "generate: generated "
+                          (morph-ps expression)
+                          " for spec:" (strip-refs spec)))
           (log/trace (str "generate: generated "
                           "'" (morph expression) "';"
                           " expr spec: "

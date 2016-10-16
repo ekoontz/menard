@@ -9,9 +9,18 @@ A Clojure library for generation and parsing of natural language expressions.
 demo.sh
 ```
 
-will demonstrate some of the library's abilities to generate English
-expressions. [Here is the output of a sample run of
+runs
+[babel.english.demo/demo](https://github.com/ekoontz/babel/blob/master/src/babel/english/demo.cljc)
+and will demonstrate some of the library's abilities to generate
+English expressions. [Here is the output of a sample run of
 demo.sh](https://gist.github.com/ekoontz/57c332d85ccf47503666c72fe241cb14)
+
+```shell
+lein run -m babel.english/sentences 100
+```
+
+runs [babel.english/sentences](https://github.com/ekoontz/babel/blob/master/src/babel/english.cljc#L76) and will generate 100 random English sentences. [Here is the output of a sample run](https://gist.github.com/ekoontz/999b640014578b408437b97d5fdc7221).
+
 
 ```shell
 lein test

@@ -32,7 +32,6 @@
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare generate-all)
-(declare path-to-map)
 (declare spec-info)
 
 ;; FIXME: truncate-children=false (the non-default option) is not propagated through all calls,
@@ -220,8 +219,8 @@ bolt."
             (mapfn (fn [complement]
                      (let [unified
                            (unify (copy bolt)
-                                  (path-to-map path
-                                               (copy complement)))]
+                                  (assoc-in {} path 
+                                            (copy complement)))]
                        (if truncate-children
                          (truncate unified [path] language-model)
                          unified)))
@@ -335,12 +334,6 @@ bolt."
      (concat
       (f (first coll))
       (lazy-mapcat f (rest coll))))))
-
-(defn path-to-map [path val]
-  (let [feat (first path)]
-    (if feat
-      {feat (path-to-map (rest path) val)}
-      val)))
 
 (defn lexemes-before-phrases [depth max-total-depth]
   "returns true or false: true means generate by adding lexemes first; otherwise, by adding phrases first. Takes depth as an argument, which makes returning true (i.e. lexemes first) increasingly likely as depth increases."

@@ -2133,7 +2133,15 @@
                     :sem {:pred :try}
                     :subcat {:2 '()}}}]
 
-   "understand" (let [common {:english {:past "understood"}}]
+    "turn off"
+   {:synsem {:cat :verb
+             :sem {:pred :turn-off}}
+    :english {:past "turned off"
+              :present {:3sing "turns off"}
+              :participle "turning off"}}
+    
+    
+    "understand" (let [common {:english {:past "understood"}}]
                   [(unify
                    common
                    {:synsem {:cat :verb

@@ -165,8 +165,6 @@ bolt."
                 bolt-groups)
         bolts (reduce concat bolt-groups)]
     (when (not (empty? bolt-groups))
-      (log/trace (str "bolt group count: " (count bolt-groups)))
-      (log/trace (str "total bolt count: " (count bolts)))
       (log/trace (str "counts by group: [ "
                       (string/join ","
                                    (map (fn [group]

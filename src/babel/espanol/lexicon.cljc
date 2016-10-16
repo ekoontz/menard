@@ -109,7 +109,7 @@
                         :sem {:pred :add}}}
    
    "apagar" {:synsem {:cat :verb
-                      :sem {:pred :turn-off}
+                      :sem {:pred :turn-off}}}
    
    "apoyar" {:synsem {:cat :verb
                       :sem {:pred :support}}}

@@ -157,18 +157,14 @@ bolt."
                                       truncate-children true}}]
   (log/trace (str "add-complement-to-bolt: " (show-bolt bolt language-model)
                   "@[" (string/join " " path) "]" "^" total-depth))
-  (let [index (:index language-model)
-        lexicon (or (-> :generate :lexicon language-model)
+  (let [lexicon (or (-> :generate :lexicon language-model)
                     (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
         spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))
         complement-candidate-lexemes
-        (if (not (= true
-                    (get-in bolt (concat path [:phrasal]))))
-          (let [indexed (if index
-                          (get-lex immediate-parent :comp index))
-                pred (get-in spec [:synsem :sem :pred])
+        (if (not (= true (get-in bolt (concat path [:phrasal]))))
+          (let [pred (get-in spec [:synsem :sem :pred])
                 cat (get-in spec [:synsem :cat])
                 pred-set (if (and (:pred2lex language-model)
                                   (not (= :top pred)))
@@ -185,14 +181,14 @@ bolt."
                       (intersection-with-identity pred-set cat-set))]
             (if (not (empty? subset))
               subset
-              (if (not (empty? indexed))
-                indexed
-                (do
-                  (log/warn (str "no candidate lexemes were found."))
-                  nil)))))
-
+              (let [index (:index language-model)
+                    indexed (if index (get-lex immediate-parent :comp index))]
+                (if (not (empty? indexed))
+                  indexed
+                  (do
+                    (log/warn (str "no candidate lexemes were found."))
+                    nil))))))
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
-        
         lexical-complements (lazy-shuffle
                              (filter (fn [lexeme]
                                        (and (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))

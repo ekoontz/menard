@@ -96,7 +96,11 @@
                :synsem {:cat :verb
                         :sem {:pred :have-lunch}}}
    
-   "andar" {}
+   "andar" {:espanol {:preterito-stem "anduv"}
+               :synsem {:cat :verb
+                        :sem {:pred :walk}}}
+   
+   
    
    "anunciar" {:synsem {:cat :verb
                         :sem {:pred :announce}}}
@@ -104,7 +108,8 @@
    "añadir" {:synsem {:cat :verb
                         :sem {:pred :add}}}
    
-   "apagar" {}
+   "apagar" {:synsem {:cat :verb
+                      :sem {:pred :}
    
    "apoyar" {:synsem {:cat :verb
                       :sem {:pred :support}}}

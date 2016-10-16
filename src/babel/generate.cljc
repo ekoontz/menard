@@ -184,25 +184,6 @@ bolt."
      max-total-depth)
     bolts))
 
-(defn bolt-depth [bolt]
-  (if-let [head (get-in bolt [:head] nil)]
-    (+ 1 (bolt-depth head))
-    0))
-
-(defn find-comp-paths-in [depth]
-  (cond
-    ;; most-frequent cases done statically:
-    (= 0 depth) nil
-    (= 1 depth) [[:comp]]
-    (= 2 depth) [[:head :comp][:comp]]
-    (= 3 depth) [[:head :head :comp][:head :comp][:comp]]
-    (= 4 depth) [[:head :head :head :comp][:head :head :comp][:head :comp][:comp]]
-
-    ;; 
-    true
-    (cons (vec (concat (take (- depth 1) (repeatedly (fn [] :head))) [:comp]))
-          (find-comp-paths-in (- depth 1)))))
-
 (defn add-complement-to-bolt [bolt path language-model total-depth
                               & {:keys [max-total-depth truncate-children]
                                  :or {max-total-depth max-total-depth
@@ -307,6 +288,25 @@ bolt."
                                             (spec-info spec)))
 
                             (take max-generated-complements (lazy-cat phrasal-complements lexical-complements)))))))))
+
+(defn bolt-depth [bolt]
+  (if-let [head (get-in bolt [:head] nil)]
+    (+ 1 (bolt-depth head))
+    0))
+
+(defn find-comp-paths-in [depth]
+  (cond
+    ;; most-frequent cases done statically:
+    (= 0 depth) nil
+    (= 1 depth) [[:comp]]
+    (= 2 depth) [[:head :comp][:comp]]
+    (= 3 depth) [[:head :head :comp][:head :comp][:comp]]
+    (= 4 depth) [[:head :head :head :comp][:head :head :comp][:head :comp][:comp]]
+
+    ;; 
+    true
+    (cons (vec (concat (take (- depth 1) (repeatedly (fn [] :head))) [:comp]))
+          (find-comp-paths-in (- depth 1)))))
 
 (defn candidate-parents [rules spec]
   "find subset of _rules_ for which each member unifies successfully with _spec_"

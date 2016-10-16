@@ -9,7 +9,9 @@ A Clojure library for generation and parsing of natural language expressions.
 demo.sh
 ```
 
-will demonstrate some of the library's abilities to generate English expressions.
+will demonstrate some of the library's abilities to generate English
+expressions. [Here is the output of a sample run of
+demo.sh](https://gist.github.com/ekoontz/57c332d85ccf47503666c72fe241cb14)
 
 ```shell
 lein test

@@ -119,12 +119,13 @@ to generate expressions by adding complements using (add-all-comps)."
                                                   (+ 1 depth) (+ 1 total-depth)
                                                   :max-total-depth max-total-depth)))
                    parents))]
-      (if (lexemes-before-phrases total-depth max-total-depth)
-        (lazy-cat lexical phrasal)
-        (lazy-cat phrasal lexical)))))
+      (reduce concat 
+              (if (lexemes-before-phrases total-depth max-total-depth)
+                (lazy-cat lexical phrasal)
+                (lazy-cat phrasal lexical))))))
 
 ;; TODO: catch exception thrown by add-complement-by-bolt: "could generate neither phrasal nor lexical complements for bolt"
-(defn add-all-comps [bolt-groups language-model total-depth truncate-children max-total-depth]
+(defn add-all-comps [bolts language-model total-depth truncate-children max-total-depth]
   "At each point in each bolt in the list of list of bolts,
 _bolt-groups_, add all possible complements at all open nodes in the
 bolt, from deepest and working upward to the top. Return a lazy
@@ -135,7 +136,7 @@ bolt."
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth))
-   (reduce concat bolt-groups)))
+   bolts))
 
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
   (if (empty? comp-paths) bolts

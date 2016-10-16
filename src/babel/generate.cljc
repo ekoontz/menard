@@ -256,9 +256,6 @@ bolt."
                                           (spec-info spec)
                                           )]
                             (log/warn message)
-                            ;; TODO: add optional exception-throwing if
-                            ;; "could generate neither phrasal nor lexical complements for bolt.." is
-                            ;; reached.
                             (if error-if-no-complements (exception message)))
 
                           lexemes-before-phrases

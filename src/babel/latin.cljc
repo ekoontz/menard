@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.latin.morphology :as morph]
             [babel.lexiconfn :refer [default listify map-function-on-map-vals]]
-            [clojure.java.io :refer [reader resource]]
+            [clojure.java.io :refer [resource]]
             [clojure.repl :refer [doc]]
             [dag_unify.core :refer [fail? get-in unifyc]]))
 
@@ -18,7 +18,8 @@
       (default
        {:phrasal false})))
 
-(def lexicon (edn2lexicon "src/babel/latin/lexicon.edn"))
+(def lexicon
+  (edn2lexicon (resource "babel/latin/lexicon.edn")))
 
 (defn parse [surface]
   [{:parses (morph/analyze surface lexicon)}])
@@ -73,10 +74,6 @@
    (or (and (get-in base-spec [:root])
             base-spec)
        {:root (first (shuffle roots))})))
-
-
-
-
 
 (def model {:lexicon lexicon
             :fo fo

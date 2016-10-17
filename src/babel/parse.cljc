@@ -224,7 +224,7 @@
            (parse-from-file input model)
            (string? input)
            (do
-             (log/info (str "parsing input: '" input "'"))
+             (log/debug (str "parsing input: '" input "'"))
              ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
                    result (parse tokenizations model original-input)]

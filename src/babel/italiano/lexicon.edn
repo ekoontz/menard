@@ -1301,7 +1301,7 @@
  "mangiare"
  {:synsem {:cat :verb
            :essere false
-           :sem {:pred :mangiare
+           :sem {:pred :eat
                  :subj {:animate true}
                  :obj {:edible true}}}}
  "Matteo"

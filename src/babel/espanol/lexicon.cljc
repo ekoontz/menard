@@ -192,16 +192,9 @@
              :synsem {:cat :verb
                       :sem {:pred :begin}}}
    
-   "comer" [{:synsem {:cat :verb
-                      :subcat {:2 {:cat :noun}}
-                      :sem {:pred :mangiare
-                            :obj {:edible true
-                                  ;; TODO: should not need this: lexical compilation should enforce it.
-                                  :human false
-                                  }}}}
-            {:synsem {:cat :verb
-                      :sem {:pred :mangiare}}}]
-   
+   "comer" {:synsem {:cat :verb
+                     :sem {:pred :eat}}}
+
    "compartir" {:synsem {:cat :verb
                          :sem {:pred :share}}}
    

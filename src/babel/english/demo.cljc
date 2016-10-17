@@ -54,7 +54,7 @@
          {:demo-name "Sentences about dogs eating"
           :synsem {:cat :verb
                    :sem {:subj {:pred :cane}
-                         :pred :mangiare}}}
+                         :pred :eat}}}
 
          {:demo-name "Sentences about thinking"
           :synsem {:cat :verb

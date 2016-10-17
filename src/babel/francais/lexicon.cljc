@@ -505,7 +505,7 @@
   
   "manger"
   {:synsem {:cat :verb
-            :sem {:pred :mangiare}}}
+            :sem {:pred :eat}}}
   
   "manquer" {:synsem {:cat :verb
                       :sem {:pred :to-be-missing}}}

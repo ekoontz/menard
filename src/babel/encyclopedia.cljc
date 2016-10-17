@@ -390,7 +390,7 @@ as a map of implications"}
         {:pred :live
          :subj {:animate true}}
         
-        {:pred :mangiare
+        {:pred :eat
          :subj {:animate true}
          :obj {:edible true}}
         

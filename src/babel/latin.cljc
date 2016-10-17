@@ -1,7 +1,9 @@
 (ns babel.latin
   (:refer-clojure :exclude [get-in])
   (:require [babel.latin.morphology :as morph]
-            [babel.lexiconfn :refer [default listify map-function-on-map-vals]]
+            [babel.lexiconfn :refer [default listify map-function-on-map-vals
+                                     verb-pred-defaults]]
+            [babel.encyclopedia :as encyc]
             [clojure.java.io :refer [resource]]
             [clojure.repl :refer [doc]]
             [dag_unify.core :refer [fail? get-in unifyc]]))
@@ -19,7 +21,8 @@
        {:phrasal false})))
 
 (def lexicon
-  (edn2lexicon (resource "babel/latin/lexicon.edn")))
+  (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
+      (verb-pred-defaults encyc/verb-pred-defaults)))
 
 (defn parse [surface]
   [{:parses (morph/analyze surface lexicon)}])

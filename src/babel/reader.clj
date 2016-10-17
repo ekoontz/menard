@@ -98,15 +98,15 @@
                 target-expr 
                 ((-> models
                      (get "la")
-                     ((get :generate-fn) target-spec)))
+                     (get :generate-fn)) target-spec)
                 semantics (get-in target-expr [:synsem :sem])
                 source-expr
                 ((-> models
                      (get source-language)
-                     ((get :generate-fn) {:synsem {:sem semantics}})))]
+                     (get :generate-fn)) {:synsem {:sem semantics}})]
             {:source ((-> models
                           (get source-language)
-                          ((get :fo) source-expr)))
+                          ((get :morph) source-expr)))
              :target-spec target-spec
              :targets [target-expr]})
           true

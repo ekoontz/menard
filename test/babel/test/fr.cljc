@@ -288,7 +288,7 @@
     (is (not (nil? result)))
     (is (= (get-in (first result)
                    [:synsem :sem :pred])
-           :mangiare))
+           :eat))
     (is (= (get-in (first result)
                    [:synsem :infl])
            :present))))

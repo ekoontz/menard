@@ -2000,7 +2000,8 @@
     ]
    
    "they"
-   [{:english {:note "♂"}
+   [;; human
+    {:english {:note "♂"} 
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -2011,6 +2012,7 @@
                     :human true
                     :pred :loro}
               :subcat '()}}
+    ;; non-human
     {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
@@ -2022,6 +2024,7 @@
                     :human false
                     :pred :loro}
               :subcat '()}}
+    ;; human
     {:english {:note "♀"}
      :synsem {:cat :noun
               :pronoun true
@@ -2033,52 +2036,9 @@
                     :human true
                    :pred :loro}
               :subcat '()}}
+    ;; non-human
     {:english {:note "♀"}
      :synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :gender :fem
-                    :number :plur}
-              :sem {:gender :fem
-                    :human false
-                    :pred :loro}
-              :subcat '()}}]
-
-   "they (♂)"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :gender :masc
-                    :number :plur}
-              :sem {:gender :masc
-                    :human true
-                    :pred :loro}
-              :subcat '()}}
-    {:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :gender :masc
-                    :number :plur}
-              :sem {:gender :masc
-                    :human false
-                    :pred :loro}
-              :subcat '()}}]
-   
-   "they (♀)"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :gender :fem
-                    :number :plur}
-              :sem {:gender :fem
-                    :human true
-                    :pred :loro}
-              :subcat '()}}
-    {:synsem {:cat :noun
               :pronoun true
               :case :nom
               :agr {:person :3rd

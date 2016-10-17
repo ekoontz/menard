@@ -94,8 +94,7 @@
   (let [target-spec (unify target-spec
                            {:synsem {:subcat '()}})]
     (cond (= target-language "la")
-          (let [target-spec (unify (babel.latin/get-spec)
-                                   target-spec)
+          (let [target-spec (babel.latin/get-spec target-spec)
                 target-expr 
                 ((-> models
                      (get "la")

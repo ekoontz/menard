@@ -12,8 +12,6 @@
                               transitivize]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
 
-(declare edn2lexicon)
-
 (def lexicon-source
   {
    "Antonia"

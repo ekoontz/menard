@@ -82,10 +82,10 @@
                 target-generate-fn
                 target-format-fn)]
     (is (or (= source "he used to answer")
-            (= source "he was answering")))))
-
-;    (is (or (= target "foobar")))))
-
+            (= source "he was answering")
+            (= source "he used to respond")
+            (= source "he was responding")))
+    (is (or (= target "respondebat")))))
 
 
 

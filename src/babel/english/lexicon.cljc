@@ -641,9 +641,9 @@
                      :sem {:pred :faint}
                      :subcat {:2 '()}}}
    
-    "fall" {:english {:past "fell"}
-          :synsem {:cat :verb
-                   :sem {:pred :fall}}}
+    "fall" {:synsem {:cat :verb
+                     :sem {:pred :fall}}
+          :english {:past "fell"}}
     
     "fall asleep"
    (let [subject-semantics (atom :top)]

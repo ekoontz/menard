@@ -10,12 +10,13 @@
    [dag_unify.core :refer [get-in]]))
 
 (def models
-  {"en"
+  {:en
    (let [model (babel.english.grammar/small)]
      (conj model
            {:generate-fn (fn [spec]
                            (en/generate spec :model model))}))
-   "la" babel.latin/model})
+   :la babel.latin/model})
+
                  
 
 

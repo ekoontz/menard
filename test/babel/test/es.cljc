@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
             [babel.espanol :refer [analyze generate parse]]
-            [babel.espanol.grammar :refer [small medium]]
+            [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
@@ -11,6 +11,9 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
+
+(def small (grammar/small))
+(def medium (grammar/medium))
 
 (deftest generate-conditional
   (let [result (generate {:synsem {:subcat '()

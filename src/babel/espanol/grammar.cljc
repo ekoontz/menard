@@ -409,7 +409,8 @@
           (aux-is-head-feature phrase)))
        grammar))
 
-(def small
+(defn small []
+  (log/info (str "Español model: small"))
   (let [grammar
         (filter #(or (= (get-in % [:rule]) "s-conditional-nonphrasal")
                      (= (get-in % [:rule]) "s-conditional-phrasal")
@@ -463,7 +464,8 @@
                                  (morph-walk-tree tree))))
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
 
-(def medium
+(defn medium []
+  (log/info (str "Español model: medium"))
   (let [lexicon-for-generation
         (into {}
               (for [[k v] lexicon]
@@ -489,8 +491,7 @@
 
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon small)
-               (:lookup small)
-               (:grammar small)))
+               (:lexicon (small))
+               (:lookup (small))
+               (:grammar (small))))
 
-(log/info "Español grammars defined (small, medium).")

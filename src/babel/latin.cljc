@@ -22,6 +22,14 @@
 
 (def lexicon
   (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
+
+
+      (default ;; intransitive verbs' :obj is :unspec.
+       {:synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}
+                 :sem {:obj :unspec}}})
+
       (verb-pred-defaults encyc/verb-pred-defaults)))
 
 (defn parse [surface]

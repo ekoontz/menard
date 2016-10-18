@@ -21,8 +21,8 @@
                            ;;temporary
                            copy]]))
 
-(def lexicon (:lexicon medium))
-(def grammar (:grammar-map medium))
+(def lexicon (:lexicon (medium)))
+(def grammar (:grammar-map (medium)))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

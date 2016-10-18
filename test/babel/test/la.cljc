@@ -46,29 +46,47 @@
                               :tense :present}}}
               model)))))
 
-(deftest reader1
-  (let [source-language :en
+(def source-language :en)
+
+;; function to generate expression in target langage
+(def source-generate-fn (-> models source-language :generate-fn))
+
+;; function to render target expression as text. show-notes=false because
+;; we are translating from Latin which (at least for the purposes of this
+;; implemetation) lacks the same kind of gender differences that Italian, for
+;; example, has.
+(def source-format-fn #((-> models source-language :morph) % :show-notes false))
+
+(def target-language :la)
 
         ;; function to generate expression in target langage
-        source-generate-fn (-> models source-language :generate-fn)
+(def target-generate-fn (-> models target-language :generate-fn))
 
-        ;; function to render target expression as text. show-notes=false because
-        ;; we are translating from Latin which (at least for the purposes of this
-        ;; implemetation) lacks the same kind of gender differences that Italian, for
-        ;; example, has.
-        source-format-fn #((-> models source-language :morph) % :show-notes false)
+(def target-format-fn (-> models target-language :morph))
 
-        generated (->
-                   {:synsem {:sem {:subj {:pred :lui}
-                                   :obj :unspec
-                                   :tense :past
-                                   :aspect :progressive
-                                   :pred :answer}}}
-                   source-generate-fn
-                   source-format-fn)]
-    
-    (or (= generated "he used to answer")
-        (= generated "he was answering"))))
+(deftest reader1
+  (let [source (->
+                {:synsem {:sem {:subj {:pred :lui}
+                                :obj :unspec
+                                :tense :past
+                                :aspect :progressive
+                                :pred :answer}}}
+                source-generate-fn
+                source-format-fn)
+        target (->
+                {:synsem {:sem {:subj {:pred :lui}
+                                :obj :unspec
+                                :tense :past
+                                :aspect :progressive
+                                :pred :answer}}}
+                target-generate-fn
+                target-format-fn)]
+    (is (or (= source "he used to answer")
+            (= source "he was answering")))))
+
+;    (is (or (= target "foobar")))))
+
+
 
 
 

@@ -87,5 +87,5 @@
        {:root (first (shuffle roots))})))
 
 (def model {:lexicon lexicon
-            :fo fo
+            :morph fo
             :generate-fn generate})

@@ -227,11 +227,24 @@ as a map of implications"}
 ;; {:aux false}: needed to prevent matching aux verbs because
 ;; they lack a {:pred} value.
 (def verb-pred-defaults
-  (map #(unify {:synsem {:aux false
-                         :sem {:shared-with-obj false}
-                         :cat :verb}}
-               {:synsem {:sem %}})
-         
+  (mapcat (fn [sem]
+            (cond (get-in sem [:obj])
+                  [(unify {:synsem {:aux false
+                                    :sem {:shared-with-obj false} ;; prevent matching reflexive verbs.
+                                    :cat :verb}}
+                          {:synsem {:sem sem}})
+
+                   ;; remove :obj, so that the :subj part will work even
+                   ;; if the verb has no :obj.
+                   (unify {:synsem {:aux false
+                                    :cat :verb}}
+                          {:synsem {:sem
+                                    (dissoc sem :obj)}})]
+                  true
+                  (unify {:synsem {:aux false
+                                   :cat :verb}}
+                         {:synsem {:sem sem}})))
+                  
        [{:pred :abbracciare
          :active false
          :discrete false

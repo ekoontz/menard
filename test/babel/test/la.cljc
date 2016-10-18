@@ -65,20 +65,17 @@
 (def target-format-fn (-> models target-language :morph))
 
 (deftest reader1
-  (let [source (->
-                {:synsem {:sem {:subj {:pred :lui}
-                                :obj :unspec
-                                :tense :past
-                                :aspect :progressive
-                                :pred :answer}}}
+  (let [spec {:synsem {:sem {:subj {:pred :lui}
+                             :obj :unspec
+                             :tense :past
+                             :aspect :progressive
+                             :pred :answer}}}
+        source (->
+                spec
                 source-generate-fn
                 source-format-fn)
         target (->
-                {:synsem {:sem {:subj {:pred :lui}
-                                :obj :unspec
-                                :tense :past
-                                :aspect :progressive
-                                :pred :answer}}}
+                spec
                 target-generate-fn
                 target-format-fn)]
     (is (or (= source "he used to answer")

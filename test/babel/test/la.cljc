@@ -5,7 +5,7 @@
    [babel.engine :as engine]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :as target :refer [fo generate lexicon model reader-fn source-model]]
+   [babel.latin :as target :refer [fo generate lexicon model read-one source-model]]
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
@@ -90,9 +90,9 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [result (reader-fn)
+  (let [result (read-one)
         subj (get result :subj)
-        possible-answer (first (get result :possible-answers))]
+        possible-answer (first (get result :targets))]
     (log/info (str "reader2 test: result:" result))
     (is
      (or
@@ -121,5 +121,3 @@
        (= subj :loro)
        (= "ardebant"
           possible-answer))))))
-
-

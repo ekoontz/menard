@@ -94,21 +94,7 @@
   (let [target-spec (unify target-spec
                            {:synsem {:subcat '()}})]
     (cond (= target-language "la")
-          (let [target-spec (babel.latin/get-spec target-spec)
-                target-expr 
-                ((-> models
-                     (get "la")
-                     (get :generate-fn)) target-spec)
-                semantics (get-in target-expr [:synsem :sem])
-                source-expr
-                ((-> models
-                     (get source-language)
-                     (get :generate-fn)) {:synsem {:sem semantics}})]
-            {:source ((-> models
-                          (get source-language)
-                          ((get :morph) source-expr)))
-             :target-spec target-spec
-             :targets [target-expr]})
+          (babel.latin/read-one)
           true
           (let [;; normalize for JSON lookup: convert a spec which is simply :top to be {}.
                 json-input-spec (if (= :top target-spec)

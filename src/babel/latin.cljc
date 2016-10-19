@@ -118,7 +118,7 @@
 
 (def source-model (babel.english.grammar/small))
 
-(defn reader-fn []
+(defn read-one []
   (let [spec (choose-spec curriculum model)
         target-expression (generate spec)
         semantics-of-target-expression (get-in target-expression [:synsem :sem])
@@ -130,10 +130,9 @@
         semantics-of-source-expression
         (set (map #(get-in % [:synsem :sem])
                   parses))]
-    {:question question-to-pose-to-user
+    {:source question-to-pose-to-user
      :subj (get-in (first semantics-of-source-expression) [:subj :pred])
-     :possible-answers (vec (set (map #(morph (generate {:synsem {:sem %}}))
-                                      semantics-of-source-expression)))}))
-
+     :targets (vec (set (map #(morph (generate {:synsem {:sem %}}))
+                             semantics-of-source-expression)))}))
 
 

@@ -1,11 +1,15 @@
 (ns babel.test.la
+  (:refer-clojure :exclude [get-in])
   (:require
    [babel.directory :refer [models]]
    [babel.engine :as engine]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :as target :refer [fo generate lexicon model]]
-   [clojure.test :refer [deftest is]]))
+   [babel.latin :as target :refer [fo generate lexicon model reader-fn source-model]]
+   [clojure.repl :refer [doc]]
+   [clojure.test :refer [deftest is]]
+   [clojure.tools.logging :as log]
+   [dag_unify.core :refer [get-in strip-refs unify]]))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
@@ -85,42 +89,37 @@
             (= source "he was responding")))
     (is (or (= target "respondebat")))))
 
-(defn intersection [curriculum model]
-  ;; TODO implement this stub
-  model)
-
-(defn choose-spec [curriculum model]
-  "choose a random spec based on the given curriculum and model"
-  ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
-  ;; the imperfect tense.
-  (target/get-spec
-   {:root "ardēre"
-    :synsem {:sem {:tense :past
-                   :aspect :progressive}}}))
-  
-(def curriculum
-  {:nouns ["lui" "lei"]
-   :verbs :all
-   :tenses :all})
-
-(def custom-model
-  (intersection
-   curriculum
-   target/model))
-
-(def source-model (babel.english.grammar/small))
-
 (deftest reader2
-  (let [spec (choose-spec curriculum target/model)
-        target-expression (target/generate spec)]
-    (is (string? (target/morph target-expression)))
-    (let [;; this is to show the user question in their native (i.e. 'source') language.
-          semantics (get-in target-expression [:synsem :sem])
-          pose-question-to-user
-          (source/morph (source/generate {:synsem {:sem semantics}}
-                                         :model source-model)
-                        :show-notes false) ;; TODO: use {:from-language :la}
-          result
-          (-> spec
-              target/generate)]
-      (is (not (nil? result))))))
+  (let [result (reader-fn)
+        subj (get result :subj)
+        possible-answer (first (get result :possible-answers))]
+    (log/info (str "reader2 test: result:" result))
+    (is
+     (or
+      (and
+       (= subj :I)
+       (= "ardebam"
+          possible-answer))
+      (and
+       (= subj :tu)
+       (= "ardebas"
+          possible-answer))
+      (and
+       (= subj :noi)
+       (= "ardebamus"
+          possible-answer))
+      (and
+       (= subj :voi)
+       (= "ardebatis"
+          possible-answer))
+      (and
+       (or (= subj :lui)
+           (= subj :lei))
+       (= "ardebat"
+          possible-answer))
+      (and
+       (= subj :loro)
+       (= "ardebant"
+          possible-answer))))))
+
+

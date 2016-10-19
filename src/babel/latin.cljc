@@ -6,7 +6,7 @@
             [babel.encyclopedia :as encyc]
             [clojure.java.io :refer [resource]]
             [clojure.repl :refer [doc]]
-            [dag_unify.core :refer [fail? get-in unifyc]]))
+            [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
 (defn edn2lexicon [resource]
   (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
@@ -93,3 +93,47 @@
 (def model {:lexicon lexicon
             :morph fo
             :generate-fn generate})
+(defn intersection [curriculum model]
+  ;; TODO implement this stub
+  model)
+
+(defn choose-spec [curriculum model]
+  "choose a random spec based on the given curriculum and model"
+  ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
+  ;; the imperfect tense.
+  (get-spec
+   {:root "ardēre"
+    :synsem {:sem {:tense :past
+                   :aspect :progressive}}}))
+  
+(def curriculum
+  {:nouns ["lui" "lei"]
+   :verbs :all
+   :tenses :all})
+
+(def custom-model
+  (intersection
+   curriculum
+   model))
+
+(def source-model (babel.english.grammar/small))
+
+(defn reader-fn []
+  (let [spec (choose-spec curriculum model)
+        target-expression (generate spec)
+        semantics-of-target-expression (get-in target-expression [:synsem :sem])
+        question-to-pose-to-user
+        (babel.english/morph (babel.english/generate {:synsem {:sem semantics-of-target-expression}}
+                                                     :model source-model)
+                             :show-notes false) ;; TODO: use {:from-language :la}
+        parses (babel.english/parse question-to-pose-to-user)
+        semantics-of-source-expression
+        (set (map #(get-in % [:synsem :sem])
+                  parses))]
+    {:question question-to-pose-to-user
+     :subj (get-in (first semantics-of-source-expression) [:subj :pred])
+     :possible-answers (vec (set (map #(morph (generate {:synsem {:sem %}}))
+                                      semantics-of-source-expression)))}))
+
+
+

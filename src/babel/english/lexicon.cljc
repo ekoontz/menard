@@ -2287,30 +2287,6 @@
               :sem {:human true
                     :pred :tu}
               :subcat '()}}]
-
-   "you (♂)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :masc
-                   :number :sing}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
-
-   "you (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :fem
-                   :number :sing}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
    
    "you all"
    [{:english {:note "♂"}
@@ -2337,32 +2313,6 @@
                    :reflexive false
                    :pred :voi}
              :subcat '()}}]
-
-   "you all (♂)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :masc
-                   :number :plur}
-             :sem {:human true
-                   :reflexive false
-                   :pred :voi}
-             :subcat '()}}
-
-   "you all (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :reflexive false
-             :case :top ;; see comment in "it" about :case.
-             :agr {:person :2nd
-                   :gender :fem
-                   :number :plur}
-             :sem {:human true
-                   :reflexive false
-                   :pred :voi}
-             :subcat '()}}
 
    "your"
    (map #(unify %
@@ -2394,30 +2344,6 @@
               :sem {:human true
                     :pred :tu}
               :subcat '()}}]
-
-   "yourself (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :acc
-             :reflexive true
-             :agr {:person :2nd
-                   :number :sing
-                   :gender :fem}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
-
-   "yourself (♂)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :acc
-             :reflexive true
-             :agr {:person :2nd
-                   :number :sing
-                   :gender :masc}
-             :sem {:human true
-                   :pred :tu}
-             :subcat '()}}
 
    "yourselves"
    [{:synsem {:cat :noun

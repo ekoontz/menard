@@ -22,6 +22,10 @@
 (def lexicon (:lexicon (medium)))
 (def grammar (:grammar-map (medium)))
 
+;; can't decide between 'morph' or 'fo' or something other better name.
+(defn morph [expr]
+  (fo expr))
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 

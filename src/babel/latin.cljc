@@ -35,9 +35,13 @@
 (defn parse [surface]
   [{:parses (morph/analyze surface lexicon)}])
 
+;; can't decide which to use "fo" or "morph", if either.
 (defn fo [structure]
   (morph/conjugate (get-in structure [:root]) structure))
 
+(defn morph [structure]
+  (fo structure))
+    
 (declare generate)
 
 (def tenses

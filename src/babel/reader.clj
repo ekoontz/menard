@@ -90,7 +90,7 @@
    by this set.
    To rephrase, the set of expressions in the target language share an identical semantics, 
    and the single expression in the source language contains that semantics."
-  (log/debug (str "generate target language set with spec: " target-spec))
+  (log/debug (str "generate target language set with target-language:" target-language " ;spec: " target-spec))
   (let [target-spec (unify target-spec
                            {:synsem {:subcat '()}})]
     (cond (= target-language "la")

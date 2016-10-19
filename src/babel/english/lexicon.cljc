@@ -1113,27 +1113,6 @@
               :sem {:human true
                     :pred :I}
               :subcat '()}}]
-
-   "I (♂)" 
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:gender :masc
-                   :person :1st
-                   :number :sing}
-             :sem {:human true
-                   :pred :I}
-             :subcat '()}}
-   "I (♀)"
-   {:synsem {:cat :noun
-             :pronoun true
-             :case :nom
-             :agr {:gender :fem
-                   :person :1st
-                   :number :sing}
-             :sem {:human true
-                   :pred :I}
-             :subcat '()}}
   
    "if"   {:synsem {:cat :comp
                     :comp-type :if

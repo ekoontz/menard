@@ -23,8 +23,10 @@
 (def grammar (:grammar-map (medium)))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.
-(defn morph [expr]
-  (fo expr))
+(defn morph [expr & {:keys [from-language show-notes]
+                     :or {from-language nil
+                          show-notes true}}]
+  (fo expr :from-language from-language :show-notes show-notes))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

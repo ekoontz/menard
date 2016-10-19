@@ -97,14 +97,14 @@
   ;; TODO implement this stub
   model)
 
-(defn choose-spec [curriculum model]
+(defn choose-spec [spec curriculum model]
   "choose a random spec based on the given curriculum and model"
   ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
   ;; the imperfect tense.
   (get-spec
-   {:root "ardēre"
-    :synsem {:sem {:tense :past
-                   :aspect :progressive}}}))
+   (unifyc spec
+           {:synsem {:sem {:tense :past
+                           :aspect :progressive}}})))
   
 (def curriculum
   {:nouns ["lui" "lei"]
@@ -118,8 +118,8 @@
 
 (def source-model (babel.english.grammar/small))
 
-(defn read-one []
-  (let [spec (choose-spec curriculum model)
+(defn read-one [spec]
+  (let [spec (choose-spec spec curriculum model)
         target-expression (generate spec)
         semantics-of-target-expression (get-in target-expression [:synsem :sem])
         question-to-pose-to-user

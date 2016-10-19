@@ -90,7 +90,8 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [result (read-one)
+  (let [result (read-one {:root "ardēre"}) ;; use a specific :root so that we can test
+        ;; for specific literal strings in the result.
         subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]
     (log/info (str "reader2 test: result:" result))

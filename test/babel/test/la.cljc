@@ -113,13 +113,13 @@
 (deftest reader2
   (let [spec (choose-spec curriculum target/model)
         target-expression (target/generate spec)]
-
     (is (string? (target/morph target-expression)))
     (let [;; this is to show the user question in their native (i.e. 'source') language.
           semantics (get-in target-expression [:synsem :sem])
           pose-question-to-user
           (source/morph (source/generate {:synsem {:sem semantics}}
-                                         :model source-model))
+                                         :model source-model)
+                        :show-notes false)
           result
           (-> spec
               target/generate)]

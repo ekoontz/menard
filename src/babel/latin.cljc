@@ -93,28 +93,34 @@
 (def model {:lexicon lexicon
             :morph fo
             :generate-fn generate})
-(defn intersection [curriculum model]
-  ;; TODO implement this stub
-  model)
+
+(defn intersection [spec curriculum model]
+  (cond false ;; TODO implement this stub and set to true
+        (unifyc spec
+                ;; e.g. support curriculum was
+                ;; drilling on imperfect, we would have:
+                {:synsem {:sem {:tense :past
+                               :aspect :imperfect}}})
+        true
+        spec))
 
 (defn choose-spec [spec curriculum model]
   "choose a random spec based on the given curriculum and model"
   ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
   ;; the imperfect tense.
-  (get-spec
-   (unifyc spec
-           {:synsem {:sem {:tense :past
-                           :aspect :progressive}}})))
+  (let [spec-for-curriculum (intersection spec curriculum model)]
+    (get-spec spec-for-curriculum)))
   
 (def curriculum
   {:nouns ["lui" "lei"]
    :verbs :all
    :tenses :all})
 
-(def custom-model
-  (intersection
-   curriculum
-   model))
+(defn custom-model [curriculum model]
+  "create a language model especially for a given curriculum that is a subset of the given model"
+  (intersection :top
+                curriculum
+                model))
 
 (def source-model (babel.english.grammar/small))
 

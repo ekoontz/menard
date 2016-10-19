@@ -131,7 +131,7 @@
         (set (map #(get-in % [:synsem :sem])
                   parses))]
     {:source question-to-pose-to-user
-     :subj (get-in (first semantics-of-source-expression) [:subj :pred])
+     :semantics (strip-refs semantics-of-target-expression)
      :targets (vec (set (map #(morph (generate {:synsem {:sem %}}))
                              semantics-of-source-expression)))}))
 

@@ -91,7 +91,7 @@
 
 (deftest reader2
   (let [result (read-one)
-        subj (get result :subj)
+        subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]
     (log/info (str "reader2 test: result:" result))
     (is

@@ -17,9 +17,7 @@
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
    [dag_unify.core :refer [deserialize dissoc-paths
-                           fail? fail-path get-in serialize strip-refs
-                           ;;temporary
-                           copy]]))
+                           fail? fail-path get-in serialize strip-refs]]))
 
 (def lexicon (:lexicon (medium)))
 (def grammar (:grammar-map (medium)))

@@ -592,6 +592,20 @@
       ;; default case.
       (str english "s"))))
 
+(def gender-symbol-female
+  {#" \(♀\)$"
+   {:replace-with ""
+    :unify-with {:synsem {:cat :noun
+                          :agr {:gender :fem}}}}})
+
+(def gender-symbol-male
+  {#" \(♂\)$"
+   {:replace-with ""
+    :unify-with {:synsem {:cat :noun
+                          :agr {:gender :fem}}}}})
+
+;; TODO: do other unicode entities/emojis like soccer ball and music staff.
+
 (def plural-to-singular-noun
   {#"s$"
    {:replace-with ""
@@ -703,6 +717,8 @@
   "return the map incorporating the lexical information about a surface form."
   (let [replace-pairs
         (merge 
+         gender-symbol-female
+         gender-symbol-male
          plural-to-singular-noun
          infinitive-to-infinitive
          infinitive-to-1sing-present

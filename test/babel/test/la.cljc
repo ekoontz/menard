@@ -119,7 +119,7 @@
           pose-question-to-user
           (source/morph (source/generate {:synsem {:sem semantics}}
                                          :model source-model)
-                        :show-notes false)
+                        :show-notes false) ;; TODO: use {:from-language :la}
           result
           (-> spec
               target/generate)]

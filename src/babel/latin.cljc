@@ -109,7 +109,7 @@
   ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
   ;; the imperfect tense.
   (let [spec-for-curriculum (intersection spec curriculum model)]
-    (get-spec spec-for-curriculum)))
+    (get-spec spec)))
   
 (def curriculum
   {:nouns ["lui" "lei"]

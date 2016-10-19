@@ -3,7 +3,7 @@
    [babel.directory :refer [models]]
    [babel.engine :as engine]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :refer [fo generate lexicon model]]
+   [babel.latin :as la :refer [fo generate lexicon model]]
    [clojure.test :refer [deftest is]]))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
@@ -85,7 +85,25 @@
     (is (or (= target "respondebat")))))
 
 
+(defn intersection [curriculum model]
+  ;; TODO implement this stub
+  model)
 
+(defn choose-spec [curriculum model]
+  ;; TODO: implement this stub
+  :top)
 
+(deftest reader2
+  (let [curriculum
+        {:nouns ["lui" "lei"]
+         :verbs :all
+         :tenses :all}
 
+        custom-model
+        (intersection
+         curriculum
+         la/model)
 
+        spec (choose-spec curriculum la/model)]
+    (is (= :top
+           spec))))

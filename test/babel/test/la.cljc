@@ -90,7 +90,10 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [result (read-one {:root "ardēre"}) ;; use a specific :root so that we can test
+  (let [;; use a specific :root and verb conjugation so that we can test
+        result (read-one {:root "ardēre"
+                          :synsem {:sem {:tense :past
+                                         :aspect :progressive}}})
         ;; for specific literal strings in the result.
         subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]

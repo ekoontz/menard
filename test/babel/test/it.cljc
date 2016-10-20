@@ -60,6 +60,11 @@
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
+(deftest parse-ci-before-vowel
+  (let [result (:parses (first (parse "c'è stato")))]
+    (is (not (empty? result)))
+    (is (= "c'è stato") (fo (first (:parses (first result)))))))
+
 ;; this should succeed to parse...
 (deftest passato-prossimo-parsing-positive
   (let [result (:parses (first (parse "lei è andata")))]

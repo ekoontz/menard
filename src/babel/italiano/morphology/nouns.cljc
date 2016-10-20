@@ -10,6 +10,10 @@
 (def replace-patterns
   [
 
+   {:p [#"^c$" "ci"] ;; "c'" -> "ce"
+    :u {:synsem {:cat :noun
+                 :case :nom}}}
+
    {:p [#"^l$" "la"] ;; "l'" -> "la"
     :u {:synsem {:cat :noun
                  :pronoun true

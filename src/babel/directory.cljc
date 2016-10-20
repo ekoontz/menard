@@ -11,12 +11,13 @@
 
 (def models
   {:en
-   (let [model (babel.english.grammar/small)]
-     (conj model
-           {:generate-fn (fn [spec]
-                           (en/generate spec :model model))}))
-   :la babel.latin/model
-   :it (let [model (babel.italiano.grammar/small)]
-         (conj model
-               {:generate-fn (fn [spec]
-                               (it/generate spec :model model))}))})
+   (future (let [model (babel.english.grammar/small)]
+             (conj model
+                   {:generate-fn (fn [spec]
+                                   (en/generate spec :model model))})))
+   :la (future babel.latin/model)
+   :it (future (let [model (babel.italiano.grammar/small)]
+                 (conj model
+                       {:generate-fn (fn [spec]
+                                       (it/generate spec :model model))})))})
+

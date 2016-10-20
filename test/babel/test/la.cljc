@@ -11,6 +11,23 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :refer [get-in strip-refs unify]]))
 
+(def source-language :en)
+(def target-language :la)
+
+;; function to generate expression in target language
+(def source-generate-fn (-> models source-language deref :generate-fn))
+
+;; function to render target expression as text. show-notes=false because
+;; we are translating from Latin which (at least for the purposes of this
+;; implemetation) lacks the same kind of gender differences that Italian, for
+;; example, has.
+(def source-format-fn #((-> models source-language deref :morph) % :show-notes false))
+
+;; function to generate expression in target langage
+(def target-generate-fn (-> models target-language deref :generate-fn))
+
+(def target-format-fn (-> models target-language deref :morph))
+
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
   (is (= :verb
@@ -50,24 +67,6 @@
                :synsem {:sem {:subj {:pred :voi}
                               :tense :present}}}
               model)))))
-
-(def source-language :en)
-
-;; function to generate expression in target language
-(def source-generate-fn (-> models source-language :generate-fn))
-
-;; function to render target expression as text. show-notes=false because
-;; we are translating from Latin which (at least for the purposes of this
-;; implemetation) lacks the same kind of gender differences that Italian, for
-;; example, has.
-(def source-format-fn #((-> models source-language :morph) % :show-notes false))
-
-(def target-language :la)
-
-        ;; function to generate expression in target langage
-(def target-generate-fn (-> models target-language :generate-fn))
-
-(def target-format-fn (-> models target-language :morph))
 
 (deftest reader1
   (let [spec {:synsem {:sem {:subj {:pred :lui}

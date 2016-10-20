@@ -6,6 +6,7 @@
             [babel.encyclopedia :as encyc]
             [clojure.java.io :refer [resource]]
             [clojure.repl :refer [doc]]
+            [clojure.tools.logging :as log]
             [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
 
 (defn edn2lexicon [resource]
@@ -78,12 +79,21 @@
 
 (defn get-spec [base-spec]
   "return a spec that is more specific than base-spec, specific enough to conjugate."
+  (log/debug (str "get-spec:base-spec:" base-spec ";subj: " (get-in base-spec [:synsem :subj :pred])))
   (unifyc
    base-spec
+
+   ;; Read 'em their rights:
+   ;; 
+   ;; 1. You have the right to a tense. if you do not have one,
+   ;; get-spec will appoint one for you.
    (or (and (get-in base-spec [:synsem :sem :tense])
             base-spec)
        {:synsem {:sem (first (shuffle tenses))}})
-   (or (and (get-in base-spec [:synsem :subj :pred])
+
+   ;; 2. You have the right to a subject. if you do not have one,
+   ;; get-spec will appoint one for you.
+   (or (and (get-in base-spec [:synsem :sem :subj :pred])
             base-spec)
        {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}})
    (or (and (get-in base-spec [:root])
@@ -108,8 +118,8 @@
   "choose a random spec based on the given curriculum and model"
   ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
   ;; the imperfect tense.
-  (let [spec-for-curriculum (intersection spec curriculum model)]
-    (get-spec spec)))
+  (let [spec-from-curriculum (intersection spec curriculum model)]
+    (get-spec spec-from-curriculum)))
   
 (def curriculum
   {:nouns ["lui" "lei"]

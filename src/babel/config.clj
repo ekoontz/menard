@@ -36,6 +36,9 @@
         (re-find #"italian" (string/lower-case match-string))
         "italiano"
 
+        (re-find #"latin" (string/lower-case match-string))
+        "latin"
+
         :else
         (str "(no sqlname for language:" match-string " detected.")))
 
@@ -60,6 +63,7 @@
         (= lang "en") "English"
         (= lang "es") "Spanish"
         (= lang "fr") "French"
+        (= lang "la") "Latin"
         true (str "unknown:" lang)))
 
 +;; TODO: throw exception rather than "(no shortname for language)"
@@ -87,6 +91,9 @@
          (re-find #"italian" (string/lower-case match-string))
          "it"
 
+         (re-find #"latin" (string/lower-case match-string))
+         "la"
+
          :else
          (str "(no shortname for language:" match-string " detected.")))
 
@@ -96,5 +103,6 @@
         (= lang "es") :espanol
         (= lang "fr") :français
         (= lang "it") :italiano
+        (= lang "la") :latin
         true (str "unknown lang: " lang)))
   

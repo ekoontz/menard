@@ -41,7 +41,7 @@
          (conjugate "ardēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
 
-(def model (-> ((-> models target-language)) deref))
+(defn model [] (-> ((-> models target-language)) deref))
 
 (deftest generate-present
   (is (= "ardetis"
@@ -71,7 +71,7 @@
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :voi}
                               :tense :present}}}
-              model)))))
+              (model))))))
 
 (deftest reader1
   (let [spec {:synsem {:sem {:subj {:pred :lui}
@@ -100,7 +100,7 @@
         result (read-one {:root "ardēre"
                           :synsem {:sem {:tense :past
                                          :aspect :progressive}}}
-                         model source-model)
+                         (model) source-model)
         ;; for specific literal strings in the result.
         subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]

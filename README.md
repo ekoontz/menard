@@ -5,6 +5,24 @@
 
 A Clojure library for generation and parsing of natural language expressions.
 
+```clojure
+user=> (require 'babel.english)
+nil
+;; generate a random expression in English
+"your womens' new cities will lose me"
+(-> :top babel.english/generate babel.english/morph)
+;; generate an English sentence about dogs eating
+(-> {:synsem {:sem {:pred :eat :subj {:pred :cane}}}} babel.english/generate babel.english/morph)
+"your first student's new dogs used to eat a small music's pizza"
+;; generate a random expression in Italian
+(-> :top babel.italiano/generate babel.italiano/morph)
+"qualche neonato cittadino bene non bene non la sua"
+;; generate an Italian sentence about cats drinking
+(-> {:synsem {:sem {:pred :drink :subj {:pred :cat}}}} babel.italiano/generate babel.italiano/morph)
+"in delle brutto isole uno corto cane berrà la tua ensalata"
+user> 
+```
+
 ```shell
 demo.sh
 ```

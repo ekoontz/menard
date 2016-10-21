@@ -36,7 +36,7 @@
           :synsem {:cat :noun
                    :sem {:pred :cane
                          :number :plur
-                         :mod {:pred :first}
+                         :mod {:pred :second}
                          :spec {:def :genitive
                                 :of {:pred :luisa}}}}}
         

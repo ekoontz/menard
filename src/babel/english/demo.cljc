@@ -82,8 +82,7 @@
                         (println)
                         (println log-message)
                         (println)
-                        (let [language-model (if (:lm spec) (:lm spec)
-                                                 default-language-model)
+                        (let [language-model (or (:lm spec) default-language-model)
                               expressions (run-demo-with n (dissoc spec :lm) language-model)]
                           (count (pmap (fn [expression]
                                          (let [formatted (fo expression :show-notes false)]

@@ -15,7 +15,8 @@
              (conj model
                    {:generate-fn (fn [spec]
                                    (en/generate spec :model model))})))
-   :la (future babel.latin/model)
+   :fr (future (babel.francais.grammar/medium))
+   :la (future la/model)
    :it (future (let [model (babel.italiano.grammar/small)]
                  (conj model
                        {:generate-fn (fn [spec]

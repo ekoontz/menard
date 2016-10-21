@@ -38,7 +38,7 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate :model en/small))
+             (babel.english/generate :model (-> ((-> models :en)) deref)))
 
         english (babel.english.morphology/fo english-structure)]
 
@@ -61,7 +61,7 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate :model en/small))
+             (babel.english/generate :model (-> ((-> models :en)) deref)))
 
         english (babel.english.morphology/fo english-structure)]
 
@@ -84,8 +84,8 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate :model en/small))
-
+             (babel.english/generate :model (-> ((-> models :en)) deref)))
+        
         english (babel.english.morphology/fo english-structure
                                              :show-notes false)]
 

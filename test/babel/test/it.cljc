@@ -1,6 +1,7 @@
 (ns babel.test.it
   (:refer-clojure :exclude [get-in])
   (:require
+   [babel.directory :refer [models]]
    [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.italiano :refer [analyze fo-ps generate lightning-bolts parse preprocess]]
@@ -21,7 +22,7 @@
 
 (def medium (grammar/medium))
 (def np-grammar (grammar/np-grammar))
-(def small (grammar/small))
+(defn small [] (-> ((-> models :it)) deref))
 
 (defn generate-with-medium [spec]
   (generate spec :model medium))
@@ -46,7 +47,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         :model small
+                         :model (small)
                          :do-enrich false)]
     (is (= "io sono" (fo result)))))
 
@@ -56,7 +57,7 @@
                                    :sem {:subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         :model small)]
+                         :model (small))]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (fo result)))))
 
@@ -84,7 +85,7 @@
                                          :subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
-                         :model small)]
+                         :model (small))]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (fo result)))))
 
@@ -94,7 +95,7 @@
                                    :sem {:pred :be-called
                                          :subj {:pred :I}
                                          :iobj {:pred :luisa}}}}
-                         :model small)]
+                         :model (small))]
     (is (not (nil? result)))
     (is (= "io mi chiamo Luisa" (fo result)))))
 
@@ -167,7 +168,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
@@ -187,7 +188,7 @@
                                                 :sem {:tense :past
                                                       :aspect :progressive}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [fo (fo expr)
@@ -207,7 +208,7 @@
                                                 :sem {:tense :past
                                                       :aspect :perfect}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -225,7 +226,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -243,7 +244,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
                                                 :subcat '()}}
-                                      :model small)))]
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [fo (fo expr)
@@ -332,7 +333,7 @@
         (generate {:synsem {:sem {:subj {:pred :loro}
                                   :pred :manage
                                   :tense :present}}}
-                  :model small)]
+                  :model (small))]
     (is (= "loro gestiscono" (fo result)))))
 
 (deftest casa-generate
@@ -517,7 +518,7 @@
                                        :tense :past
                                        :subj {:gender :fem
                                               :pred :loro}}}}
-                       :model small))
+                       :model (small)))
      "loro sono andate")))
 
 (deftest exists1
@@ -528,7 +529,7 @@
                                        :tense :conditional}}
                         :root {:italiano {:italiano "essere"}}
                         :comp {:synsem {:agr {:number :sing}}}}
-                       :model small))
+                       :model (small)))
          "ci sarebbe")))
 
 (deftest exists2
@@ -540,7 +541,7 @@
                                        :tense :past}}
                         :root {:italiano {:italiano "essere"}}
                         :comp {:synsem {:agr {:number :sing}}}}
-                       :model small))
+                       :model (small)))
          "c'era")))
 
 (deftest exists3
@@ -551,7 +552,7 @@
                                        :tense :present}}
                         :root {:italiano {:italiano "essere"}}
                         :comp {:synsem {:agr {:number :sing}}}}
-                       :model small))
+                       :model (small)))
          "c'è")))
 
 

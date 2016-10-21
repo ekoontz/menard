@@ -19,7 +19,7 @@
 
 ;; function to render target expression as text. show-notes=false because
 ;; we are translating from Latin which (at least for the purposes of this
-;; implemetation) lacks the same kind of gender differences that Italian, for
+;; implementation) lacks the same kind of gender differences that Italian, for
 ;; example, has.
 (def source-format-fn #((-> models source-language deref :morph) % :show-notes false))
 

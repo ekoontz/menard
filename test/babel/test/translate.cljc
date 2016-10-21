@@ -1,6 +1,7 @@
 (ns babel.test.translate
   (:refer-clojure :exclude [get-in])
   (:require
+   [babel.directory :refer [models]]
    [babel.test.it :as it]
    [babel.test.en :as en]
    [clojure.test :refer [deftest is]]
@@ -68,9 +69,10 @@
 
 (deftest latin
   (let [latin "ardebam"
+        latin-model (-> ((-> models :la)) deref)
         latin-structure
         (-> latin
-            babel.latin/parse
+            (babel.latin/parse latin-model)
             first
             :parses
             first)
@@ -84,6 +86,10 @@
         (->  {:synsem {:sem semantics}}
              (babel.english/generate :model en/small))
 
-        english (babel.english.morphology/fo english-structure)]
+        english (babel.english.morphology/fo english-structure
+                                             :show-notes false)]
 
-    (= "I was burning" english)))
+    (is (or (= "I was burning" english)
+            (= "I used to burn" english)))))
+
+

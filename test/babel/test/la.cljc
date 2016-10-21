@@ -5,7 +5,7 @@
    [babel.engine :as engine]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :as target :refer [fo generate lexicon model read-one source-model]]
+   [babel.latin :as target :refer [fo generate read-one]]
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
@@ -15,37 +15,41 @@
 (def target-language :la)
 
 ;; function to generate expression in target language
-(def source-generate-fn (-> models source-language deref :generate-fn))
+(def source-generate-fn (-> ((-> models source-language)) deref :generate-fn))
 
 ;; function to render target expression as text. show-notes=false because
 ;; we are translating from Latin which (at least for the purposes of this
 ;; implementation) lacks the same kind of gender differences that Italian, for
 ;; example, has.
-(def source-format-fn #((-> models source-language deref :morph) % :show-notes false))
+(def source-format-fn (-> ((-> models source-language)) deref :morph))
 
 ;; function to generate expression in target langage
-(def target-generate-fn (-> models target-language deref :generate-fn))
+(def target-generate-fn (-> ((-> models :la)) deref :generate-fn))
 
-(def target-format-fn (-> models target-language deref :morph))
+(def target-format-fn (-> ((-> models :la)) deref :morph))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
-  (is (= :verb
-         (-> (analyze "ardeo" lexicon)
-             first
-             (get-in [:synsem :cat])))))
+  (let [lexicon (-> ((-> models :la)) deref :lexicon)]
+    (is (= :verb
+           (-> (analyze "ardeo" lexicon)
+               first
+               (get-in [:synsem :cat]))))))
 
 (deftest conjugate-ere
   (is (= "ardemus"
          (conjugate "ardēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
 
+(def model (-> ((-> models target-language)) deref))
+
 (deftest generate-present
   (is (= "ardetis"
          (fo (generate
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :voi}
-                              :tense :present}}})))))
+                              :tense :present}}}
+              model)))))
 
 (deftest generate-imperfect
   (is (= "ardebam"
@@ -53,13 +57,18 @@
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :I}
                               :tense :past
-                              :aspect :progressive}}})))))
+                              :aspect :progressive}}}
+              model)))))
+
 (deftest generate-future
   (is (= "ardebunt"
          (fo (generate
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :loro}
-                              :tense :future}}})))))
+                              :tense :future}}}
+              model)))))
+
+
 (deftest engine-generate
   (is (= "ardetis"
          (fo (engine/generate
@@ -89,10 +98,13 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [;; use a specific :root and verb conjugation so that we can test
+  (let [source-model (-> ((-> models :en)) deref)
+
+        ;; use a specific :root and verb conjugation so that we can test
         result (read-one {:root "ardēre"
                           :synsem {:sem {:tense :past
-                                         :aspect :progressive}}})
+                                         :aspect :progressive}}}
+                         model source-model)
         ;; for specific literal strings in the result.
         subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]

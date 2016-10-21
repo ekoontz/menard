@@ -16,22 +16,18 @@
                            fail? fail-path get-in serialize strip-refs
                            ;;temporary
                            copy]]))
-
-(def lexicon (:lexicon medium))
-(def grammar (:grammar-map medium))
-
 (defn analyze
   ([surface-form]
    (map
     (fn [each-analysis]
       (dissoc each-analysis :serialized))
-    (analyze surface-form lexicon))) ;; use (:lexicon medium) per above (def).
+    (analyze surface-form (:lexicon (medium)))))
 
   ([surface-form lexicon] ;; use user-provided lexicon
    (map
     (fn [each-analysis]
       (dissoc each-analysis :serialized))
-    (morph/analyze surface-form lexicon))))
+    (morph/analyze surface-form (:lexicon (medium))))))
 
 ;; TODO: do morphological analysis
 ;; do find non-infinitives (e.g. find 'parler' given 'parle')
@@ -40,7 +36,7 @@
 ;; list of lexemes; for each, [:synsem :agr :person] will be
 ;; 1st, 2nd, or 3rd, and for all, number will be singular.
 (defn lookup [lexeme]
-  ((:lookup medium) lexeme))
+  ((:lookup (medium)) lexeme))
 
 (defn generate
   [spec & [model
@@ -48,7 +44,7 @@
             :or {max-total-depth generate/max-total-depth
                  truncate-children true}}]]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (let [model (if model model medium)]
+  (let [model (if model model (medium))]
     (let [result (engine/generate spec model
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children)]
@@ -65,7 +61,7 @@
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse (preprocess input) medium))
+   (parse (preprocess input) (medium)))
 
   ([input model]
    (parse/parse (preprocess input) model)))

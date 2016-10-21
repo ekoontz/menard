@@ -22,19 +22,9 @@
       (default
        {:phrasal false})))
 
-(def lexicon
-  (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
-
-      (default ;; intransitive verbs' :obj is :unspec.
-       {:synsem {:cat :verb
-                 :subcat {:1 {:top :top}
-                          :2 '()}
-                 :sem {:obj :unspec}}})
-
-      (verb-pred-defaults encyc/verb-pred-defaults)))
-
-(defn parse [surface]
-  [{:parses (morph/analyze surface lexicon)}])
+(defn parse [surface model]
+  (let [lexicon (:lexicon model)]
+    [{:parses (morph/analyze surface lexicon)}]))
 
 ;; can't decide which to use "fo" or "morph", if either.
 (defn fo [structure]
@@ -42,8 +32,23 @@
 
 (defn morph [structure]
   (fo structure))
-    
+
 (declare generate)
+
+(defn model []
+  (let [lexicon
+        (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
+          
+            (default ;; intransitive verbs' :obj is :unspec.
+             {:synsem {:cat :verb
+                       :subcat {:1 {:top :top}
+                                :2 '()}
+                       :sem {:obj :unspec}}})
+            
+            (verb-pred-defaults encyc/verb-pred-defaults))]
+    {:lexicon lexicon
+     :morph morph
+     :generate-fn generate}))
 
 (def tenses
   [{:tense :present}
@@ -53,21 +58,23 @@
 
 (def subjects [:I :tu :lui :lei :noi :voi :loro])
 
-(def preds
+(defn preds [lexicon]
   (vec
    (set
     (map #(get-in % [:synsem :sem :pred]) 
          (filter #(= :verb (get-in % [:synsem :cat]))
                  (flatten (vals lexicon)))))))
-(def roots
+
+(defn roots [lexicon]
   (vec
    (set
     (map #(get-in % [:root])
          (filter #(= :verb (get-in % [:synsem :cat]))
                  (flatten (vals lexicon)))))))
 
-(defn generate [spec]
-  (let [expr
+(defn generate [spec model]
+  (let [lexicon (:lexicon model)
+        expr
         (first (shuffle
                 (filter #(not (fail? %))
                         (map (fn [val]
@@ -77,7 +84,7 @@
       (conj {:surface (fo expr)}
             expr))))
 
-(defn get-spec [base-spec]
+(defn get-spec [base-spec model]
   "return a spec that is more specific than base-spec, specific enough to conjugate."
   (log/debug (str "get-spec:base-spec:" base-spec ";subj: " (get-in base-spec [:synsem :subj :pred])))
   (unifyc
@@ -98,11 +105,8 @@
        {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}})
    (or (and (get-in base-spec [:root])
             base-spec)
-       {:root (first (shuffle roots))})))
+       {:root (first (shuffle (roots model)))})))
 
-(def model {:lexicon lexicon
-            :morph fo
-            :generate-fn generate})
 
 (defn intersection [spec curriculum model]
   (cond false ;; TODO implement this stub and set to true
@@ -119,7 +123,7 @@
   ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
   ;; the imperfect tense.
   (let [spec-from-curriculum (intersection spec curriculum model)]
-    (get-spec spec-from-curriculum)))
+    (get-spec spec-from-curriculum model)))
   
 (def curriculum
   {:nouns ["lui" "lei"]
@@ -132,11 +136,9 @@
                 curriculum
                 model))
 
-(def source-model (babel.english.grammar/small))
-
-(defn read-one [spec]
-  (let [spec (choose-spec spec curriculum model)
-        target-expression (generate spec)
+(defn read-one [spec target-model source-model]
+  (let [spec (choose-spec spec curriculum target-model)
+        target-expression (generate spec target-model)
         semantics-of-target-expression (get-in target-expression [:synsem :sem])
         question-to-pose-to-user
         (babel.english/morph (babel.english/generate {:synsem {:sem semantics-of-target-expression}}
@@ -148,7 +150,8 @@
                   parses))]
     {:source question-to-pose-to-user
      :semantics (strip-refs semantics-of-target-expression)
-     :targets (vec (set (map #(morph (generate {:synsem {:sem %}}))
+     :targets (vec (set (map #(morph (generate {:synsem {:sem %}}
+                                               target-model))
                              semantics-of-source-expression)))}))
 
 

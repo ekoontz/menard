@@ -5,7 +5,7 @@
    [babel.engine :as engine]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :as target :refer [fo generate read-one]]
+   [babel.latin :as target :refer [fo read-one]]
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
@@ -24,7 +24,7 @@
 (def source-format-fn (-> ((-> models source-language)) deref :morph))
 
 ;; function to generate expression in target langage
-(def target-generate-fn (-> ((-> models :la)) deref :generate-fn))
+(def generate (-> ((-> models :la)) deref :generate-fn))
 
 (def target-format-fn (-> ((-> models :la)) deref :morph))
 
@@ -48,8 +48,7 @@
          (fo (generate
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :voi}
-                              :tense :present}}}
-              model)))))
+                              :tense :present}}})))))
 
 (deftest generate-imperfect
   (is (= "ardebam"
@@ -57,17 +56,14 @@
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :I}
                               :tense :past
-                              :aspect :progressive}}}
-              model)))))
+                              :aspect :progressive}}})))))
 
 (deftest generate-future
   (is (= "ardebunt"
          (fo (generate
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :loro}
-                              :tense :future}}}
-              model)))))
-
+                              :tense :future}}})))))
 
 (deftest engine-generate
   (is (= "ardetis"
@@ -89,7 +85,7 @@
                 source-format-fn)
         target (->
                 spec
-                target-generate-fn
+                generate
                 target-format-fn)]
     (is (or (= source "he used to answer")
             (= source "he was answering")

@@ -48,9 +48,14 @@
                                   {:generate-fn (fn [spec]
                                                   (la/generate spec model))}))))))
                       
-     :it (future (let [model (babel.italiano.grammar/small)]
-                   (conj model
-                         {:generate-fn (fn [spec]
-                                         (it/generate spec :model model))})))}))
+     :it (fn []
+           (if (realized? it)
+             it
+             (deliver it
+                      (let [model (babel.italiano.grammar/small)]
+                        (conj model
+                              {:generate-fn (fn [spec]
+                                              (it/generate spec :model model))})))))}))
+
 
 

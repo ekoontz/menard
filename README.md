@@ -15,6 +15,7 @@ nil
 (-> {:synsem {:sem {:pred :eat :subj {:pred :cane}}}} babel.english/generate babel.english/morph)
 "your first student's new dogs used to eat a small music's pizza"
 ;; generate a random expression in Italian
+user=> (require 'babel.italiano)
 (-> :top babel.italiano/generate babel.italiano/morph)
 "qualche neonato cittadino bene non bene non la sua"
 ;; generate an Italian sentence about cats drinking

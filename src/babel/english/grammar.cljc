@@ -883,7 +883,7 @@
                                 (= k "second")
                                 (= k "s"))
                           [k v])))]
-    {:name "few-rules"
+    {:name "small-lexicon"
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]
                         (do

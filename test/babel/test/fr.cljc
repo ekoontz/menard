@@ -2,9 +2,10 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.engine :as engine]
+            [babel.directory :refer [models]]
             [babel.generate :as generate]
-            [babel.francais :refer [generate lookup parse]]
-            [babel.francais.grammar :refer [small medium]]
+            [babel.francais :as fr :refer [parse]]
+            [babel.francais.grammar :as grammar]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
                                                replace-patterns]]
@@ -17,6 +18,12 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
 
+(def medium (grammar/medium))
+(def small (grammar/small))
+
+(defn generate [spec]
+  (fr/generate spec medium))
+
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
 ;; TODO: do morphological analysis
@@ -28,16 +35,16 @@
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map medium)) (lookup arg1)))
+   (over/over (vals (:grammar-map medium)) (analyze arg1 (:lexicon medium))))
   ([grammar arg1]
-   (over/over grammar (lookup arg1)))
+   (over/over grammar (analyze arg1 (:lexicon medium))))
   ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over grammar (lookup arg1)
+         (over grammar (analyze arg1 (:lexicon medium))
                arg2)
 
          (string? arg2)
-         (over grammar arg1 (lookup arg2))
+         (over grammar arg1 (analyze arg2 (:lexicon medium)))
 
          true
          (over/over grammar arg1 arg2))))
@@ -220,8 +227,9 @@
 (deftest generate-vp-aux-reflexive
   (let [result
         (generate
-         {:synsem {:subcat '() :sem {:subj {:pred :lei}
-                                     :pred :have-fun :tense :past}}})]
+         {:synsem {:subcat '()
+                   :sem {:subj {:pred :lei}
+                         :pred :have-fun :tense :past}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
 (deftest generate-vp-present-reflexive
@@ -371,29 +379,6 @@
                                                  :number :sing}}}}})
          "blesses")))
 
-(defn get-lex [exp]
-  (filter #(not (nil? (:lookup %)))
-          (map #(let [from (first %)
-                      to (second %)
-                      unify-with (nth % 2)
-                      lex (string/replace exp from to)]
-                  {:lex lex
-                   :lookup (lookup lex)
-                   :unified (map (fn [entry]
-                                   (unifyc unify-with entry))
-                                 (lookup lex))})
-               replace-patterns)))
-
-(defn get-lex2 [exp]
-  (filter (fn [result] (not (= :fail result)))
-          (mapcat #(let [from (first %)
-                         to (second %)
-                         unify-with (nth % 2)
-                         lex (string/replace exp from to)]
-                     (map (fn [entry]
-                            (unifyc unify-with entry))
-                          (lookup lex)))
-                  replace-patterns)))
 (deftest have-fun
   (let [have-fun-expression
         (generate

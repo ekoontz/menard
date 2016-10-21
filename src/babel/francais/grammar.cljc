@@ -455,7 +455,7 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(def small
+(defn small []
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal")
                      (= (:rule %) "s-present-nonphrasal")
@@ -499,7 +499,7 @@
 (defn analyze [arg]
   (morph/analyze arg lexicon))
 
-(def medium
+(defn medium []
   (let [lexicon
         (into {}
               (for [[k v] lexicon]
@@ -507,16 +507,24 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
 
-        grammar ;; small grammar + a few other things:
-        (seq (union (set (:grammar small))
-                    (set (filter #(or (= (:rule %) "vp-pronoun-nonphrasal")
-                                      (= (:rule %) "vp-pronoun-phrasal")
-                                      (= (:rule %) "s-conditional-phrasal")
-                                      (= (:rule %) "s-present-phrasal")
-                                      (= (:rule %) "s-future-phrasal")
-                                      (= (:rule %) "vp-aux-22")
-                                      (= (:rule %) "vp-32"))
-                                 grammar))))]
+        grammar 
+        (seq (set (filter #(or ;; small grammar ..
+                            (= (:rule %) "vp-pronoun-nonphrasal")
+                            (= (:rule %) "vp-pronoun-phrasal")
+                            (= (:rule %) "s-conditional-phrasal")
+                            (= (:rule %) "s-present-phrasal")
+                            (= (:rule %) "s-future-phrasal")
+                            (= (:rule %) "vp-aux-22")
+                            (= (:rule %) "vp-32")
+                            
+                            ;; .. and a few other things: 
+                            (= (:rule %) "s-conditional-nonphrasal")
+                            (= (:rule %) "s-present-nonphrasal")
+                            (= (:rule %) "s-future-nonphrasal")
+                            (= (:rule %) "s-imperfect-nonphrasal")
+                            (= (:rule %) "s-aux")
+                            (= (:rule %) "vp-aux"))
+                          grammar)))]
     {:name "medium"
      :enrich enrich
      :grammar grammar
@@ -546,4 +554,3 @@
                (:lookup medium)
                (:grammar medium)))
 
-(log/info "Français grammar defined (small, medium).")

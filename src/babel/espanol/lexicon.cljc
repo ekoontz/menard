@@ -155,7 +155,7 @@
                         {:preterito-stem "cup"}
                :synsem {:cat :verb
                         :sem {:pred :fit}}}
-   "caer" 
+   "caer" {}
    
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :change}}}

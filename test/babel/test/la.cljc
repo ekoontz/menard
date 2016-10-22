@@ -12,9 +12,8 @@
    [dag_unify.core :refer [get-in strip-refs unify]]))
 
 (def source-language :en)
-(def target-language :la)
 
-(defn model [] (-> ((-> models target-language)) deref))
+(defn model [] (-> ((-> models :la)) deref))
 
 (defn generate [spec]
   ((-> (model) :generate-fn) spec))

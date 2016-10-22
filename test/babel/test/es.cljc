@@ -1,6 +1,7 @@
 (ns babel.test.es
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :as engine]
+  (:require [babel.directory :refer [models]]
+            [babel.engine :as engine]
             [babel.espanol :refer [analyze generate parse]]
             [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
@@ -12,15 +13,18 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
-(def small (grammar/small))
-(def medium (grammar/medium))
+(defn small [] (-> ((-> models :es)) deref))
+(def medium-model (promise))
+(defn medium [] (if (realized? medium-model)
+                  @medium-model
+                  @(deliver medium-model (grammar/medium))))
 
 (deftest generate-conditional
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         small
+                         (grammar/small)
                          {:truncate-children false})]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
@@ -32,17 +36,17 @@
                 {:root {:espanol {:espanol "abrazar"}}
                  :synsem {:sem {:subj {:pred :I}}
                           :infl :preterito}}
-                small
+                (grammar/small)
                 {:truncate-children false})]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (engine/expression small {:synsem {:sem {:pred :be-called}}})]
+  (let [result (engine/expression (grammar/small) {:synsem {:sem {:pred :be-called}}})]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
-  (let [result (fo (engine/expression small
+  (let [result (fo (engine/expression (grammar/small)
                                       {:synsem {:sem {:tense :present
                                                       :aspect :progressive
                                                       :subj {:pred :I}

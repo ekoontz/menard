@@ -4,7 +4,7 @@
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.espanol.grammar :refer [small medium]]
+   [babel.espanol.grammar :as grammar]
    [babel.espanol.morphology :as morph :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [babel.over :refer [over truncate]]
@@ -16,6 +16,17 @@
                            fail? fail-path get-in serialize strip-refs
                            ;;temporary
                            copy]]))
+
+(def small-model (promise))
+(defn small [] (if (realized? small-model)
+                 @small-model
+                 @(deliver small-model (grammar/small))))
+
+(def medium-model (promise))
+(defn medium [] (if (realized? medium-model)
+                  @medium-model
+                  @(deliver medium-model (grammar/medium))))
+
 (defn analyze
   ([surface-form]
    (map

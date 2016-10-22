@@ -4,7 +4,7 @@
   (:require [babel.engine :as engine]
             [babel.directory :refer [models]]
             [babel.generate :as generate]
-            [babel.francais :as fr :refer [parse]]
+            [babel.francais :as fr :refer [parse small medium]]
             [babel.francais.grammar :as grammar]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
@@ -18,11 +18,8 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
 
-(def medium (grammar/medium))
-(def small (grammar/small))
-
 (defn generate [spec]
-  (fr/generate spec medium))
+  (fr/generate spec (medium)))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
@@ -35,16 +32,16 @@
 
 (defn over
   ([arg1]
-   (over/over (vals (:grammar-map medium)) (analyze arg1 (:lexicon medium))))
+   (over/over (vals (:grammar-map (medium))) (analyze arg1 (:lexicon (medium)))))
   ([grammar arg1]
-   (over/over grammar (analyze arg1 (:lexicon medium))))
+   (over/over grammar (analyze arg1 (:lexicon (medium)))))
   ([grammar arg1 arg2]
    (cond (string? arg1)
-         (over grammar (analyze arg1 (:lexicon medium))
+         (over grammar (analyze arg1 (:lexicon (medium)))
                arg2)
 
          (string? arg2)
-         (over grammar arg1 (analyze arg2 (:lexicon medium)))
+         (over grammar arg1 (analyze arg2 (:lexicon (medium))))
 
          true
          (over/over grammar arg1 arg2))))
@@ -55,7 +52,7 @@
                                                 :subj {:pred :I}
                                                 :tense :present
                                                 :aspect :progressive}}}
-                                small)]
+                                (small))]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-conditional
@@ -63,7 +60,7 @@
                                           :sem {:pred :sleep
                                                 :subj {:pred :I}
                                                 :tense :conditional}}}
-                                small)]
+                                (small))]
     (is (= "je dormirais" (fo result)))))
 
 (deftest generate-present-irregular
@@ -71,7 +68,7 @@
                                           :sem {:pred :be
                                                 :subj {:pred :I}
                                                 :tense :present}}}
-                                small)]
+                                (small))]
     (is (= "je suis" (fo result)))))
 
 (deftest generate-imperfect-irregular-être
@@ -80,7 +77,7 @@
                                           :sem {:pred :be
                                                 :subj {:pred :I}}}}
 
-                                small)]
+                                (small))]
     (is (= "j'étais" (fo result)))))
 
 (deftest generate-imperfect-irregular-avoir
@@ -88,35 +85,35 @@
                                           :infl :imperfect
                                           :sem {:pred :have
                                                 :subj {:pred :I}}}}
-                                small
+                                (small)
                                 :truncate-children false)]
     (is (not (nil? result)))
     (is (= "av" (get-in result [:head :français :imperfect-stem])))
     (is (= "j'avais" (fo result)))))
 
 (deftest être-as-aux
-  (let [lexicon (:lexicon small)
+  (let [lexicon (:lexicon (small))
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unifyc rule
                                {:head (last (get lexicon "être"))}))
-                     (:grammar small)))]
+                     (:grammar (small))))]
     (is (not (empty? result)))
     (is (= (get-in (first result) [:rule]) "vp-aux"))))
 
 (deftest vp-aux-test
   (let [rule (first (filter #(= (:rule %) "vp-aux")
-                            (:grammar small)))]
+                            (:grammar (small))))]
     (is (not (nil? rule)))))
 
 (def etre-test
   (is (not (nil? (first (filter #(= true (get-in % [:synsem :aux]))
-                                (get (:lexicon small) "être")))))))
+                                (get (:lexicon (small)) "être")))))))
 
 (deftest over-test
-  (let [lexicon (:lexicon small)
-        grammar (:grammar small)
+  (let [lexicon (:lexicon (small))
+        grammar (:grammar (small))
         result
         (over grammar
               (get lexicon "nous")
@@ -191,7 +188,7 @@
                                             :pred :go
                                             :aspect :perfect
                                             :tense :past}}})
-                           small)]
+                           (small))]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 
@@ -207,10 +204,10 @@
 (deftest generate-reflexive-present
   (let [rules {:s-present-phrasal
                (first (filter #(= (get % :rule) "s-present-phrasal")
-                              (:grammar medium)))
+                              (:grammar (medium))))
                :vp-pronoun-nonphrasal
                (first (filter #(= (get % :rule) "vp-pronoun-nonphrasal")
-                              (:grammar medium)))}
+                              (:grammar (medium))))}
 
         result (over (get rules :s-present-phrasal)
                      "je" 

@@ -1,11 +1,21 @@
 (ns babel.francais
   (:require
    [babel.engine :as engine]
-   [babel.francais.grammar :refer [medium small]]
+   [babel.francais.grammar :as grammar]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate]
    [babel.parse :as parse]
    [clojure.string :as string]))
+
+(def small-model (promise))
+(defn small [] (if (realized? small-model)
+                 @small-model
+                 @(deliver small-model (grammar/small))))
+
+(def medium-model (promise))
+(defn medium [] (if (realized? medium-model)
+                  @medium-model
+                  @(deliver medium-model (grammar/medium))))
 
 (defn analyze
   ([surface-form]

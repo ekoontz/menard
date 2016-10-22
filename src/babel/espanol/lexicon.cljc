@@ -190,7 +190,8 @@
                         :sem {:pred :walk}}}
    "cancelar" {:synsem {:cat :verb
                         :sem {:pred :cancel}}}
-   "cantar" {}
+   "cantar" {:synsem {:cat :verb
+                        :sem {:pred :sing}}}
    "casarse" {}
    
    "cenar" {:synsem {:cat :verb

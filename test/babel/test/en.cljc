@@ -277,7 +277,7 @@
 
 (deftest infinitive-vp
   (let [medium (medium)
-        vp-infinitive (:vp-infinitive (:grammar-map medium))
+        vp-infinitive (:vp-infinitive (:grammar-map (medium)))
         expr (-> vp-infinitive
                  (overh (get (:lexicon medium) "speak"))
                  (overc (generate {:synsem {:sem {:pred :word

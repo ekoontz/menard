@@ -1,8 +1,7 @@
 (ns babel.espanol.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [babel.logjs :as log])
+   [clojure.tools.logging :as log]
    [babel.lexiconfn :refer [compile-lex if-then
                             map-function-on-map-vals unify]]
    [babel.espanol.morphology :as morph]

@@ -19,9 +19,6 @@
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
 
-(def lexicon (:lexicon (medium)))
-(def grammar (:grammar-map (medium)))
-
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
@@ -33,25 +30,15 @@
 
 (defn analyze
   ([surface-form]
-   (analyze surface-form lexicon)) ;; use (:lexicon medium) per above (def).
-
+   (analyze surface-form (:lexicon (grammar/medium))))
   ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))
-
-;; TODO: do morphological analysis
-;; do find non-infinitives (e.g. find 'parler' given 'parle')
-;; and then apply conjugated parts to lexeme
-;; i.e. if input is 'parle', return
-;; list of lexemes; for each, [:synsem :agr :person] will be
-;; 1st, 2nd, or 3rd, and for all, number will be singular.
-(defn lookup [lexeme]
-  ((:lookup medium) lexeme))
 
 (defn generate
   [spec & {:keys [max-total-depth model truncate-children]
            :or {max-total-depth generate/max-total-depth
                 truncate-children true
-                model (medium)}}]
+                model (grammar/medium)}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [result (engine/generate spec model
                                 :max-total-depth max-total-depth
@@ -72,14 +59,14 @@
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse (preprocess input) (medium)))
+   (parse (preprocess input) (grammar/medium)))
 
   ([input model]
    (parse/parse (preprocess input) model)))
 
 (defn sentences [ & [count spec model]]
   (let [count (or (Integer. count) 100)
-        model (or model (medium))
+        model (or model (grammar/medium))
         spec (or (and spec
                       (unifyc spec {:modified false}))
                  {:modified false

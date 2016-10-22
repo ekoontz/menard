@@ -120,8 +120,6 @@
 
 (defn choose-spec [spec curriculum model]
   "choose a random spec based on the given curriculum and model"
-  ;; for now, stubbed out: imagine a curriculum narrowly based on a single verb and
-  ;; the imperfect tense.
   (let [spec-from-curriculum (intersection spec curriculum model)]
     (get-spec spec-from-curriculum model)))
   

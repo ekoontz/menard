@@ -20,9 +20,9 @@
            (if (realized? en)
              en
              (deliver en 
-                      (do (log/info (str "starting to load english model!"))
+                      (do (log/info (str "starting to load english model.."))
                           (let [model (babel.english.grammar/small)]
-                            (log/info (str "finished loading english model!"))
+                            (log/info (str "finished loading english model."))
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (en/generate spec :model model))}))))))
@@ -31,9 +31,9 @@
            (if (realized? fr)
              fr
              (deliver fr
-                      (do (log/info (str "starting to load French model!"))
+                      (do (log/info (str "starting to load French model.."))
                           (let [model (babel.francais.grammar/medium)]
-                            (log/info (str "finished loading French model!"))
+                            (log/info (str "finished loading French model."))
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (fr/generate spec :model model))}))))))
@@ -41,13 +41,12 @@
            (if (realized? la)
              la
              (deliver la
-                      (do (log/info (str "starting to load latin model!"))
+                      (do (log/info (str "starting to load latin model.."))
                           (let [model (la/model)]
-                            (log/info (str "finished loading latin model!"))
+                            (log/info (str "finished loading latin model."))
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (la/generate spec model))}))))))
-                      
      :it (fn []
            (if (realized? it)
              it

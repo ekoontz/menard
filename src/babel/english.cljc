@@ -15,7 +15,6 @@
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
 
-
 (def small-model (promise))
 (defn small [] (if (realized? small-model)
                  @small-model

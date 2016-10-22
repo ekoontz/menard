@@ -188,7 +188,8 @@
    
    "caminar" {:synsem {:cat :verb
                         :sem {:pred :walk}}}
-   "cancelar" {}
+   "cancelar" {:synsem {:cat :verb
+                        :sem {:pred :cancel}}}
    "cantar" {}
    "casarse" {}
    

@@ -733,7 +733,22 @@
       :english {:participle "getting dressed"
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
-   "get off"
+   
+    
+    "get married"
+   (let [subject-semantics (atom :top)]
+     {:synsem {:cat :verb
+               :sem {:pred :get-married
+                     :reflexive true
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting married"
+                :present {:3sing "gets married"}
+                :past "got married"}})
+    
+    "get off"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :get-off

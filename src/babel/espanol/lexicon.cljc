@@ -151,6 +151,7 @@
                        :sem {:pred :look-for}}}
              {:synsem {:cat :verb
                        :sem {:pred :look-up}}}]
+   
    "caber" {:espanol {:present {:1sing "quepo"}
                       :preterito-stem "cup"}
             :synsem {:cat :verb
@@ -228,7 +229,11 @@
              :synsem {:cat :verb
                       :sem {:pred :confess}}}
    
-   "conducir" {}
+   "conducir" [{:espanol  {:present {:1sing "conduzco"}
+                  {:synsem {:cat :verb
+                       :sem {:pred :lead}}}
+             {:synsem {:cat :verb
+                       :sem {:pred :drive-c}}}]
    "conocer" {}
    
    "consentir" {:espanol {:boot-stem "consient"}

@@ -4,11 +4,7 @@
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.english.grammar :as grammar
-    :refer [medium np-grammar
-            small-lexicon small-plus-vp-pronoun
-            small-plus-plus-np
-            small]]
+   [babel.english.grammar :as grammar]
    [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]
@@ -18,6 +14,18 @@
    #?(:clj [clojure.tools.logging :as log])
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
+
+
+(def small-model (promise))
+(defn small [] (if (realized? small-model)
+                 @small-model
+                 @(deliver small-model (grammar/small))))
+
+(def medium-model (promise))
+(defn medium []
+  (if (realized? medium-model)
+    @medium-model
+    @(deliver medium-model (grammar/medium))))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
@@ -30,7 +38,7 @@
 
 (defn analyze
   ([surface-form]
-   (analyze surface-form (:lexicon (grammar/medium))))
+   (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))
 
@@ -38,7 +46,7 @@
   [spec & {:keys [max-total-depth model truncate-children]
            :or {max-total-depth generate/max-total-depth
                 truncate-children true
-                model (grammar/medium)}}]
+                model (medium)}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [result (engine/generate spec model
                                 :max-total-depth max-total-depth
@@ -59,14 +67,14 @@
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
 
   ([input]
-   (parse (preprocess input) (grammar/medium)))
+   (parse (preprocess input) (medium)))
 
   ([input model]
    (parse/parse (preprocess input) model)))
 
 (defn sentences [ & [count spec model]]
   (let [count (or (Integer. count) 100)
-        model (or model (grammar/medium))
+        model (or model (medium))
         spec (or (and spec
                       (unifyc spec {:modified false}))
                  {:modified false

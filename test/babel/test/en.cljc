@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
             [babel.engine :as engine]
-            [babel.english :refer [analyze fo-ps generate parse sentences]]
+            [babel.english :refer [analyze fo-ps generate medium parse sentences]]
             [babel.english.grammar :as grammar]
             [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
@@ -19,12 +19,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unifyc]]))
-
-(defn small [] (-> ((-> models :en)) deref))
-(def medium-model (promise))
-(defn medium [] (if (realized? medium-model)
-                  @medium-model
-                  @(deliver medium-model (grammar/medium))))
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,
@@ -126,18 +120,18 @@
                  "you all used to go downstairs"))))))
 
 (deftest simple-parse
-  (is (not (empty? (parse "she sleeps" (medium))))))
+  (is (not (empty? (parse "she sleeps")))))
 
 (deftest future-parse
-  (is (not (empty? (parse "he will speak" (medium))))))
+  (is (not (empty? (parse "he will speak")))))
 
 (deftest conditional-parse
-  (is (not (empty? (parse "she would speak" (medium))))))
+  (is (not (empty? (parse "she would speak")))))
 
 (deftest imperfect-parse
-  (is (not (empty? (parse "she used to speak" (medium)))))
-  (is (not (empty? (parse "she was loving" (medium)))))
-  (is (not (empty? (parse "she was speaking" (medium))))))
+  (is (not (empty? (parse "she used to speak"))))
+  (is (not (empty? (parse "she was loving"))))
+  (is (not (empty? (parse "she was speaking")))))
 
 (deftest parse-with-gender-symbols
   (is (not (empty? (parse "I (♀) speak"))))
@@ -161,13 +155,12 @@
           (filter #(not (= % ""))
                   (take
                    10
-                   (repeatedly #(let [foo (generate {:modified false
-                                                     :synsem {:cat :verb
-                                                              :sem {:pred :be-called}}}
-                                                    :model (medium))]
-                                  (is (not (= "" (fo foo))))
-                                  (log/info (str "fo: " (fo foo)))
-                                  (fo foo)))))))))
+                   (repeatedly #(let [expression (generate {:modified false
+                                                            :synsem {:cat :verb
+                                                                     :sem {:pred :be-called}}})]
+                                  (is (not (= "" (fo expression))))
+                                  (log/info (str "fo: " (fo expression)))
+                                  (fo expression)))))))))
 
 (deftest mod-is-empty-list
   (let [result (generate {:modified false
@@ -186,8 +179,7 @@
                                        :iobj {:pred :luisa}
                                        :pred :be-called
                                        :subj {:pred :lei}
-                                       :tense :present}}}
-                       :model (medium))))))
+                                       :tense :present}}})))))
                                        
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
@@ -205,8 +197,7 @@
                                   :mod '()
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}}
-                  :model (medium))]
+                                  :pred :cane}}})]
     (is (not (nil? result)))
     (is (= "Juana's dog" (fo result)))))
 
@@ -217,8 +208,7 @@
                                   :number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}}
-                  :model (medium))]
+                                  :pred :cane}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
 
@@ -231,8 +221,7 @@
                               :modified false
                               :synsem {:sem {:pred :wash
                                              :mod nil
-                                             :reflexive true}}}
-                             :model (medium))]
+                                             :reflexive true}}})]
                         {:f (fo generated :from-language "it")
                          :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
@@ -266,8 +255,7 @@
                                              :number :sing
                                              :spec {:def :def
                                                     :pred :definite}}
-                                       :tense :present}}}
-                       :model (medium))]
+                                       :tense :present}}})]
     (is (= (fo expr)
            "the chair is in front of the table"))))
 
@@ -283,8 +271,7 @@
                                               :number :sing
                                               :spec {:def :def
                                                      :pred :definite}}
-                                       :tense :present}}}
-                       :model (medium))]
+                                       :tense :present}}})]
     (is (= (fo expr)
            "the chair is in front of itself"))))
 
@@ -305,8 +292,7 @@
                                    :aspect :perfect
                                    :tense :past
                                    :subj {:gender :fem
-                                          :pred :loro}}}}
-                   :model (small)))
+                                          :pred :loro}}}}))
      "they (♀) went"))
 
 (deftest noun-number-agreement

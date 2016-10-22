@@ -14,19 +14,10 @@
 (def source-language :en)
 (def target-language :la)
 
-;; function to generate expression in target language
-(def source-generate-fn (-> ((-> models source-language)) deref :generate-fn))
+(defn model [] (-> ((-> models target-language)) deref))
 
-;; function to render target expression as text. show-notes=false because
-;; we are translating from Latin which (at least for the purposes of this
-;; implementation) lacks the same kind of gender differences that Italian, for
-;; example, has.
-(def source-format-fn (-> ((-> models source-language)) deref :morph))
-
-;; function to generate expression in target langage
-(def generate (-> ((-> models :la)) deref :generate-fn))
-
-(def target-format-fn (-> ((-> models :la)) deref :morph))
+(defn generate [spec]
+  ((-> (model) :generate-fn) spec))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
@@ -40,8 +31,6 @@
   (is (= "ardemus"
          (conjugate "ardēre"
                     {:synsem {:sem {:subj {:pred :noi}}}}))))
-
-(defn model [] (-> ((-> models target-language)) deref))
 
 (deftest generate-present
   (is (= "ardetis"
@@ -79,6 +68,10 @@
                              :tense :past
                              :aspect :progressive
                              :pred :answer}}}
+        source-format-fn (-> ((-> models source-language)) deref :morph)
+        source-generate-fn (-> ((-> models source-language)) deref :generate-fn)
+        target-format-fn (-> ((-> models :la)) deref :morph)
+
         source (->
                 spec
                 source-generate-fn

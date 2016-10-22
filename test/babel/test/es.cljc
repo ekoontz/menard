@@ -13,7 +13,11 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
-(defn small [] (-> ((-> models :es)) deref))
+(def small-model (promise))
+(defn small [] (if (realized? small-model)
+                 @small-model
+                 @(deliver small-model (grammar/small))))
+
 (def medium-model (promise))
 (defn medium [] (if (realized? medium-model)
                   @medium-model
@@ -24,7 +28,7 @@
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         (grammar/small)
+                         (small)
                          {:truncate-children false})]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
@@ -36,17 +40,17 @@
                 {:root {:espanol {:espanol "abrazar"}}
                  :synsem {:sem {:subj {:pred :I}}
                           :infl :preterito}}
-                (grammar/small)
+                (small)
                 {:truncate-children false})]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (engine/expression (grammar/small) {:synsem {:sem {:pred :be-called}}})]
+  (let [result (engine/expression (small) {:synsem {:sem {:pred :be-called}}})]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
-  (let [result (fo (engine/expression (grammar/small)
+  (let [result (fo (engine/expression (small)
                                       {:synsem {:sem {:tense :present
                                                       :aspect :progressive
                                                       :subj {:pred :I}

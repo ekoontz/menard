@@ -84,8 +84,9 @@
       (conj {:surface (fo expr)}
             expr))))
 
-(defn get-spec [base-spec model]
+(defn get-spec
   "return a spec that is more specific than base-spec, specific enough to conjugate."
+  [base-spec model]
   (log/debug (str "get-spec:base-spec:" base-spec ";subj: " (get-in base-spec [:synsem :subj :pred])))
   (unifyc
    base-spec

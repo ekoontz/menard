@@ -671,7 +671,13 @@
                   {:synsem {:sem {:mod {:pred :first}
                                   :comparative false}}})
 
-   "fold" {:synsem {:cat :verb
+   "fit" {:english {:past "fit"
+                    :participle "fitting"}
+          :synsem {:cat :verb
+                   :sem {:pred :fit}}}
+    
+    
+    "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
    
    "follow" {:synsem {:cat :verb

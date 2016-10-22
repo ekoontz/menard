@@ -4,7 +4,7 @@
    [babel.directory :refer [models]]
    [babel.engine :as engine]
    [babel.generate :as generate]
-   [babel.italiano :refer [analyze fo-ps generate lightning-bolts parse preprocess]]
+   [babel.italiano :refer [analyze fo-ps generate lightning-bolts medium np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]
    [babel.italiano.morphology :as morph :refer [analyze-regular fo
                                                 replace-patterns]]
@@ -20,12 +20,8 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unifyc]]))
 
-(def medium (grammar/medium))
-(def np-grammar (grammar/np-grammar))
-(defn small [] (-> ((-> models :it)) deref))
-
 (defn generate-with-medium [spec]
-  (generate spec :model medium))
+  (generate spec :model (medium)))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -110,20 +106,20 @@
                                        :mod {:pred :difficile}
                                        :number :sing
                                        :pred :donna}}}
-                       :model np-grammar)]
+                       :model (np-grammar))]
     (is (or (= (fo expr) "la donna difficile")
             (= (fo expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
-                                     :parses (parse (fo expr) np-grammar))))))))
+                                     :parses (parse (fo expr) (np-grammar)))))))))
 
 (deftest forbid-mispelling
- (is (empty? (:parses (parse (fo "la donna difficila") np-grammar)))))
+ (is (empty? (:parses (parse (fo "la donna difficila") (np-grammar))))))
 
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
   ;; might be anything.
   (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}}
-                         :model np-grammar)]
+                         :model (np-grammar))]
     (is (not (= "" (fo result))))
     (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
     (is (not (empty? (parse (fo result)))))))
@@ -149,12 +145,12 @@
                                         ;; generic spec to something more specific
                                         ;; if this test fails and you want to investigate
                                         ;; why.
-                                        :model np-grammar)))]
+                                        :model (np-grammar))))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [fo (fo expr)
                                   parsed (reduce concat (map :parses
-                                                             (parse fo np-grammar)))]
+                                                             (parse fo (np-grammar))))]
                               (if (not (empty? parsed))
                                 (log/info (str "parse OK:" fo))
                                 (log/error (str "parse failed: " fo)))
@@ -273,7 +269,7 @@
           (let [semantics (strip-refs
                            (get-in
                             (first
-                             (reduce concat (map :parses (parse surface medium))))
+                             (reduce concat (map :parses (parse surface (medium)))))
                             [:synsem :sem]))]
             (is (map? semantics))))
         ["la sua ragazza"

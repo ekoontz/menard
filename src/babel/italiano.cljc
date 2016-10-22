@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.engine :as engine]
-   [babel.italiano.grammar :as grammar :refer [small medium]]
+   [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [fo]]
    [babel.generate :as generate]
@@ -14,6 +14,22 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
+(def small-model (promise))
+(defn small [] (if (realized? small-model)
+                 @small-model
+                 @(deliver small-model (grammar/small))))
+
+(def medium-model (promise))
+(defn medium []
+  (if (realized? medium-model)
+    @medium-model
+    @(deliver medium-model (grammar/medium))))
+
+(def np-grammar-model (promise))
+(defn np-grammar []
+  (if (realized? np-grammar-model)
+    @np-grammar-model
+    @(deliver np-grammar-model (grammar/np-grammar))))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]

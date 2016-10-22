@@ -186,7 +186,8 @@
                             :sem subject-semantics}}}})
    
    
-   "caminar" {}
+   "caminar" {:synsem {:cat :verb
+                        :sem {:pred :walk}}}
    "cancelar" {}
    "cantar" {}
    "casarse" {}

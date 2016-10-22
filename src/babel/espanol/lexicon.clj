@@ -155,7 +155,15 @@
                       :preterito-stem "cup"}
             :synsem {:cat :verb
                      :sem {:pred :fit}}}
-   "caer" {}
+   "caer" {:espanol  {:present {:1sing "caigo"}
+                     :preterito {:1sing "caì"
+                                 :2sing "caiste"
+                                 :3sing "cayò"
+                                 :1plur "caimos"
+                                 :2plur "caisteis"
+                                 :3plur "cayeron"}}
+            :synsem {:cat :verb
+                      :sem {:pred :fall}}}
 
    "cambiar" {:synsem {:cat :verb
                        :sem {:pred :change}}}

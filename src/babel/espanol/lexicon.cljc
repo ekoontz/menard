@@ -229,11 +229,12 @@
              :synsem {:cat :verb
                       :sem {:pred :confess}}}
    
-   "conducir" [{:espanol  {:present {:1sing "conduzco"}
-                  {:synsem {:cat :verb
-                       :sem {:pred :lead}}}
-             {:synsem {:cat :verb
-                       :sem {:pred :drive-c}}}]
+   "conducir" [{:espanol  {:present {:1sing "conduzco"}}
+                :synsem {:cat :verb
+                         :sem {:pred :lead}}}
+               {:espanol  {:present {:1sing "conduzco"}}
+                :synsem {:cat :verb
+                         :sem {:pred :drive-c}}}]
    "conocer" {}
    
    "consentir" {:espanol {:boot-stem "consient"}

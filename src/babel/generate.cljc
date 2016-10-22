@@ -109,7 +109,15 @@ to generate expressions by adding complements using (add-all-comps)."
                        (and (not (= :top pred)) (not-empty pred-set)
                             (not (= :top cat)) (not-empty cat-set))
                        (intersection-with-identity pred-set cat-set)
-                       true (get-lex parent :head (:index language-model)))]
+
+                       (and (not (= :top cat)) (not-empty cat-set))
+                       cat-set
+
+                       (and (not (= :top pred)) (not-empty pred-set))
+                       pred-set
+
+                       true
+                       (get-lex parent :head (:index language-model)))]
                  (over/overh parent (lazy-shuffle subset))))
              parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.

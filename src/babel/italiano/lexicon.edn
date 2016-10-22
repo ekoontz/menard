@@ -16,7 +16,7 @@
             :subcat {:1 {:cat :noun
                          :reflexive false}
                      :2 '()}}}
-  
+
   ;; "a" as in "a mezzogiorno"
   {:synsem {:cat :prep
             :sem {:pred :a
@@ -26,7 +26,7 @@
                          :subcat '()}
                        :2 '()}}}
   ]
-   
+
  "abbandonare" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}
 
@@ -36,11 +36,11 @@
  "abbracciare" {:synsem {:cat :verb
                          :essere false
                          :sem {:pred :abbracciare}}}
- 
-  
+
+
  "abitare" {:synsem {:cat :verb
                          :sem {:pred :live-somewhere}}}
- 
+
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
@@ -83,7 +83,7 @@
      :synsem {:cat :adjective
               :sem {:pred :affolato
                     :comparative false}}})]
- 
+
  "aggiungere" {:synsem {:cat :verb
                         :sem {:pred :add}}}
  "aiutare"
@@ -100,7 +100,7 @@
             :sem {:pred :alto
                   :comparative false
                   :human true}}} ;; only humans can be tall.
-  
+
   ;; comparative:
   {:synsem {:cat :adjective
             :sem {:comparative true
@@ -127,7 +127,7 @@
            :sem {:pred :amico
                  :human true
                  :child false}}}
-   
+
  "ammirare" {:synsem {:cat :verb
                       :sem {:pred :admire}}}
  "andare"
@@ -162,7 +162,7 @@
 
  "approfittare"  {:synsem {:cat :verb
                            :sem {:pred :take-advantage-of}}}
-   
+
  "approvare" {:synsem {:cat :verb
                        :sem {:pred :approve}}}
 
@@ -170,14 +170,14 @@
                          :sem {:pred :get-angry
                                :reflexive true
                                :subj {:animate true}}}}
-   
- "arrivare" {:synsem {:essere true 
+
+ "arrivare" {:synsem {:essere true
                       :cat :verb
                       :sem {:pred :arrive}
                       :subcat {:2 '()}}}
-                              
+
  ;; TODO: add                 :subcat {:2 {:cat :prep}}}}
-   
+
  "ascoltare"  {:synsem {:cat :verb
                         :sem {:pred :listen-to}}}
 
@@ -196,7 +196,7 @@
  "aula" {:synsem {:agr {:gender :fem}
                   :cat :noun
                   :sem {:pred :classroom}}}
-   
+
  "aumentare"   {:synsem {:cat :verb
                          :sem {:pred :increase}}}
  "avere"
@@ -212,7 +212,7 @@
                                           :1plur "abbiamo"
                                           :2plur "avete"
                                           :3plur "hanno"}}}]
-   
+
    ;; 1. "avere": to possess something buyable
    [{:unify [avere-common]
      :note "avere (possess)"
@@ -255,16 +255,16 @@
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
                            :subcat {:2 '()}}}}}])
-     
+
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
  "bello"
  [{:synsem {:cat :adjective
             :sem {:pred :bello}}}
-  
+
   {:synsem {:cat :adjective
             :sem {:comparative true
-                  :pred :bello}}}]    
+                  :pred :bello}}}]
 
  "bene"
  {:synsem {:cat :adverb
@@ -324,7 +324,7 @@
            :sem {:pred :brutto
                  :comparative false ;; for now, no restrictions on what can be ugly.
                  }}}
-  
+
  "bucato"
  {:synsem {:cat :noun
            :agr {:gender :masc
@@ -337,6 +337,12 @@
                  :pred :laundry
                  :speakable false}
            :subcat {:1 {:def :def}}}}
+
+
+"cadere" {:synsem {:essere true
+                     :cat :verb
+                     :sem {:pred :fall}}}
+
 
  "caffè" [{:synsem {:agr {:gender :masc
                           :number :sing}
@@ -356,11 +362,11 @@
 
  "cambiare" {:synsem {:cat :verb
                       :sem {:pred :change}}}
- 
+
  "cambiarsi" {:synsem {:cat :verb
                        :sem {:pred :change-clothes
                              :reflexive true}}}
- 
+
  "cancellare" {:synsem {:cat :verb
                         :sem {:pred :erase}}}
 
@@ -394,7 +400,7 @@
  [{:synsem {:agr {:gender :fem}
             :cat :noun
             :sem {:pred :house}}}
-   
+
   ;; in the sense of "a casa": no article needed.
   {:synsem {:case :acc
             :cat :noun
@@ -412,7 +418,7 @@
                  :human true;; TODO:should not need this because child => human.
                  :child true}}
   :italiano {:cat :adjective}}
- 
+
  ;; working on: "mi sono comprato un nuovo cellulare"
  "cellulare"
  {:synsem {:agr {:gender :masc}
@@ -423,23 +429,23 @@
                  :writable false
                  :place false
                  :speakable false}}}
-  
+
  "cenare" {:synsem {:cat :verb
                     :essere false
                     :sem {:pred :have-dinner}}}
-     
- 
+
+
  "cercare"  [{:synsem {:cat :verb
             :essere false
             :sem {:pred :look-for}}}
   {:synsem {:cat :verb
             :essere false
             :sem {:pred :look-up}}}]
- 
- 
+
+
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}
-      
+
  "chiamarsi" (let [gender (atom :top)
                    human (atom :top)
                    number (atom :top)]
@@ -461,7 +467,7 @@
                     :sem {:physical-object true
                           :pred :key
                           :place false}}}
-   
+
  "chiedere" {:synsem {:cat :verb
                       :sem {:subj {:human true}
                             :pred :chiedere}}
@@ -477,7 +483,7 @@
             :agr {:person :1st
                   :number :plur}
             :reflexive true
-            :sem {:human true 
+            :sem {:human true
                   :pred :noi}}}
   {:synsem {:cat :noun
             :pronoun true
@@ -538,14 +544,14 @@
 
  "commentare"  {:synsem {:cat :verb
                          :sem {:pred :comment}}}
- 
+
  "comprare" {:synsem {:cat :verb
                       :essere false
                       :sem {:pred :comprare}}}
-   
+
  "condividere"  {:synsem {:cat :verb
                           :sem {:pred :share}}
-                 :italiano {:passato "condiviso"}}                           
+                 :italiano {:passato "condiviso"}}
 
  "conservare" [{:synsem {:cat :verb
                          :sem {:pred :conserve}}}
@@ -562,7 +568,7 @@
  [{:synsem {:cat :adjective
             :sem {:pred :contento
                   :subj {:human true}}}}
-    
+
   {:synsem {:cat :adjective
             :sem {:comparative true
                   :pred :contento
@@ -571,7 +577,7 @@
 
  "contraccambiare" {:synsem {:sem {:pred :reciprocate}
                              :cat :verb}}
-   
+
  "correre"  {:italiano {:passato "corso"}
              :synsem {:cat :verb
                       :sem {:pred :run}}}
@@ -583,7 +589,7 @@
  [{:synsem {:cat :adjective
             :sem {:pred :contento
                   :subj {:human true}}}}
-    
+
   {:synsem {:cat :adjective
             :sem {:comparative true
                   :pred :contento
@@ -694,15 +700,15 @@
                  :edible false}}
   :italiano {:fem {:sing "difficile"}}}
 
- 
+
  "dimenticare"  {:synsem {:cat :verb
                          :sem {:pred :forget}}}
 
- 
+
  "dipingere" {:synsem {:cat :verb
                        :sem {:pred :paint}}
               :italiano {:passato "dipinto"}}
-   
+
  "dire" (let [shared-part-of-dire
               {:synsem {:cat :verb}
                :italiano {:drop-e false
@@ -714,10 +720,10 @@
            {:unify [shared-part-of-dire]
             :synsem {:sem {:pred :tell}}}])
 
- "diventare" {:synsem {:essere true 
+ "diventare" {:synsem {:essere true
                        :cat :verb
                        :sem {:pred :become}}}
- 
+
  "divertirsi" {:synsem {:cat :verb
                         :sem {:pred :have-fun
                               :reflexive true}}}
@@ -731,7 +737,7 @@
            :subcat {:1 {:infl :future
                         :sem {:tense :future}
                         :subcat '()}}}}
- 
+
  "donna"
  {:synsem {:agr {:gender :fem}
            :cat :noun
@@ -766,7 +772,7 @@
  "ensalata" {:synsem {:sem {:pred :salad}
                       :cat :noun
                       :agr {:gender :fem}}}
- 
+
  "entrare" {:synsem {:cat :verb
                      :essere true
                      :sem {:pred :enter}}}
@@ -779,12 +785,12 @@
  "espresso" {:synsem {:agr {:gender :masc}
                       :cat :noun
                       :sem {:pred :espresso}}}
- 
+
  "esprimere" {:italiano {:passato "espresso"}
               :synsem {:cat :verb
                        :sem {:pred :express}}}
  "essere"
- (let [essere-common 
+ (let [essere-common
        {:synsem {:cat :verb
                  :essere true}
         :italiano {:future-stem "sar"
@@ -888,7 +894,7 @@
      :notes "essere-aux"
      :synsem {:aux true}
      :italiano {:notes "essere-aux"}}])
-      
+
  "evitare"  {:synsem {:cat :verb
                       :sem {:pred :avoid}}}
  "fare"
@@ -922,11 +928,11 @@
                                         ;                :subcat {:3 {:cat :adverb
                                         ;                             :sem {:pred :bad}}}}}
     ])
- 
+
  "finestre" {:synsem {:agr {:gender :fem}
                       :cat :noun
                       :sem {:pred :window}}}
-   
+
  "finire"  {:italiano {:boot-stem1 "finisc"}
             :synsem {:cat :verb
                      :sem {:pred :finish}}}
@@ -940,8 +946,8 @@
 
  "frequentare"  {:synsem {:cat :verb
                       :sem {:pred :attend}}}
- 
- 
+
+
  "funzionare" {:synsem {:cat :verb
                         :essere false
                         :sem {:pred :work-nonhuman}}}
@@ -994,7 +1000,7 @@
            :def :def
            :agr {:gender :masc
                  :number :plur}}}
- 
+
  "idea" {:synsem {:agr {:gender :fem}
                   :cat :noun
                   :sem {:pred :idea}}}
@@ -1006,14 +1012,14 @@
 
  "imparare"  {:synsem {:cat :verb
                        :sem {:pred :learn}}}
- 
+
  "impegnare" {:synsem {:cat :verb
                        :sem {:pred :engage}}}
- 
+
  "in" {:synsem {:cat :prep
                 :sem {:pred :in
                       :obj {:place true}}}}
- 
+
  "incontrare"  {:synsem {:cat :verb
                          :sem {:pred :incontrare}}}
 
@@ -1025,7 +1031,7 @@
 
  "interrompere" {:italiano {:passato "interrotto"}
                  :synsem {:cat :verb
-                          :sem {:pred :interrupt}}} 
+                          :sem {:pred :interrupt}}}
  "io"
  [{:synsem {:cat :noun
             :pronoun true
@@ -1052,7 +1058,7 @@
                    :sem {:pred :island}}}
  "la"
  ;; as with "lo", do we need both of these "lo" entries? try to get by with just one.
- ;; TODO: refactor commonalities 
+ ;; TODO: refactor commonalities
  ;; 1. pronoun: human
  [{:synsem {:cat :noun
             :pronoun true
@@ -1124,7 +1130,7 @@
                   :number :sing}
             :sem {:number :sing
                   :person :2nd}}}
-  
+
   {:synsem {:cat :det
             :def :possessive
             :agr {:gender :fem
@@ -1156,18 +1162,18 @@
      :synsem {:sem {:human false}}}
     {:unify [common]
      :synsem {:sem {:human true}}}])
-     
+
  "leggere"
  {:italiano {:passato "letto"}
   :synsem {:cat :verb
            :essere false
            :sem {:discrete false
                  :pred :read}}}
- 
+
  "lezione" {:synsem {:agr {:gender :fem}
                      :cat :noun
                      :sem {:pred :lesson}}}
-   
+
  "libro" {:synsem {:agr {:gender :masc}
                    :cat :noun
                    :sem {:pred :libro}}}
@@ -1252,7 +1258,7 @@
            :synsem {:sem {:human false}}}
           {:unify [common]
            :synsem {:sem {:human true}}}])
- 
+
  "Luisa"
  {:synsem {:sem {:pred :luisa
                  :human true}
@@ -1278,7 +1284,7 @@
             :sem {:human true
                   :pred :luisa-and-i}
             :subcat '()}}]
-   
+
  "macchiare" {:synsem {:cat :verb
                        :sem {:pred :stain}}}
  "madre"
@@ -1290,11 +1296,11 @@
 
  "male" {:synsem {:cat :adverb
                   :sem {:pred :bad}}}
- 
+
  "mancare"  {:italiano {:future-stem "mancher"}
              :synsem {:cat :verb
                       :sem {:pred :mancare}}}
-   
+
  "mandare"  {:synsem {:cat :verb
                       :sem {:pred :send}}}
 
@@ -1317,8 +1323,8 @@
  "mettere" {:synsem {:cat :verb
                       :sem {:pred :put}}
              :italiano {:passato "messo"}}
- 
- 
+
+
  "mezzogiorno"
  {:synsem {:agr {:gender :masc}
            :cat :noun
@@ -1336,16 +1342,16 @@
 
  "migliorare" {:synsem {:cat :verb
                         :sem {:pred :improve}}} ;; c.f. english: "ameliorate"
-    
+
  "misurare" {:synsem {:cat :verb
                       :sem {:pred :measure}}}
- 
+
  "mostrare" {:synsem {:cat :verb
                       :sem {:pred :show}}}
 
  "moltiplicare" {:synsem {:cat :verb
                           :sem {:pred :multiply}}}
- 
+
  "muovere" {:synsem {:cat :verb
                      :sem {:pred :move}}}
 
@@ -1353,14 +1359,14 @@
                      :essere true
                      :sem {:pred :be-born}}
             :italiano {:passato "nato"}}
-   
+
  "neonato"
  {:synsem {:agr {:gender :masc}
            :cat :noun
            :sem {:pred :newborn
                  :human true
                  :adult false}}}
-   
+
  ;; non-comparative
  ;; TODO: add comparative
  "nero"
@@ -1394,7 +1400,7 @@
 
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
-   
+
  "ostana" {:synsem {:cat :noun
                     :propernoun true
                     :sem {:pred :ostana
@@ -1421,15 +1427,15 @@
             :sem {:pred :speak}}}
   {:synsem {:cat :verb
             :sem {:pred :talk}}}]
-   
- "partire" {:synsem {:essere true 
+
+ "partire" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :leave}}}
  "pensare"
  {:synsem {:cat :verb
            :essere false
            :sem {:pred :think}}}
- 
+
  "piangere" {:italiano {:passato "pianto"}
              :synsem {:cat :verb
                       :sem {:pred :cry}}}
@@ -1449,7 +1455,7 @@
                          :sem {:pred :carry}}}
                {:synsem {:cat :verb
                          :sem {:pred :wear}}}]
- "potere" 
+ "potere"
  (let [shared-part-of-potere
        {:synsem {:cat :verb}
         :italiano {:future-stem "potr"
@@ -1464,14 +1470,14 @@
      :synsem {:sem {:pred :may}}}
     {:unify [shared-part-of-potere]
      :synsem {:sem {:pred :be-able-to}}}])
-                                      
+
  "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
              :italiano {:passato "preso"}}
- 
+
  "prepararsi" {:synsem {:cat :verb
                         :sem {:pred :get-ready
                               :reflexive true}}}
- 
+
  "prenotare" {:synsem {:cat :verb
                        :sem {:pred :reserve}}}
  "qualche"
@@ -1479,10 +1485,10 @@
            :def :indef
            :agr {:mass false
                  :number :sing}}}
- 
+
  "raccontare" {:synsem {:cat :verb
                         :sem {:pred :recount}}}
- 
+
  "recuperare" {:synsem {:cat :verb
                         :sem {:pred :recover}}}
  "ragazza"
@@ -1495,15 +1501,15 @@
            :agr {:gender :masc}
            :sem {:pred :boy
                  :human true}}}
-              
- "restare" {:synsem {:essere true 
+
+ "restare" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :remain2}}}
-   
+
  "restituire" {:italiano {:boot-stem1 "restituisc"}
                :synsem {:cat :verb
                         :sem {:pred :giveback-return}}}
- 
+
  "riconoscere" {:synsem {:cat :verb
                          :sem {:pred :recognize}}}
 
@@ -1522,7 +1528,7 @@
 
  "ripetere"  {:synsem {:cat :verb
                        :sem {:pred :repeat}}}
- 
+
  "riposare" {:synsem {:cat :verb
                       :sem {:pred :rest}}}
 
@@ -1539,7 +1545,7 @@
            :sem {:pred :restaurant
                  :city false
                  :place true}}}
- 
+
  "ritornare" {:synsem {:cat :verb
                        :sem {:pred :ritornare}
                        :essere true}}
@@ -1550,7 +1556,7 @@
 
  "rubare" {:synsem {:cat :verb
                     :sem {:pred :steal}}}
-      
+
  ;; non-comparative
  ;; TODO: add comparative
  "rosso"
@@ -1559,7 +1565,7 @@
                  :comparative false
                  :physical-object true
                  :human false}}}
- 
+
  "salire" (let [common {:synsem {:cat :verb
                                  :essere true}
                         :italiano {:italiano "salire"
@@ -1569,8 +1575,8 @@
               :synsem {:sem {:pred :get-on}}}
              {:unify [common]
               :synsem {:sem {:pred :go-upstairs}}}])
-   
- "scappare"  {:synsem {:cat :verb 
+
+ "scappare"  {:synsem {:cat :verb
                        :sem {:pred :escape}}}
 
  "scarpa" {:synsem {:agr {:gender :fem}
@@ -1580,19 +1586,19 @@
  "scattare" {:synsem {:cat :verb
                       :sem {:pred :snap-pictures}}}
 
- "scaricare" {:synsem {:cat :verb 
+ "scaricare" {:synsem {:cat :verb
                        :sem {:pred :scaricare}}}
-   
- "scendere" [{:synsem {:cat :verb 
+
+ "scendere" [{:synsem {:cat :verb
                        :essere true
                        :sem {:pred :get-off}}
-              :italiano {:passato "sceso"}}                
+              :italiano {:passato "sceso"}}
              {:synsem {:cat :verb
                        :essere true
                        :sem {:pred :go-downstairs}}
               :italiano {:passato "sceso"}}]
-   
- "scrivere"  {:synsem {:cat :verb 
+
+ "scrivere"  {:synsem {:cat :verb
                        :sem {:pred :scrivere}}
               :italiano {:passato "scritto"}}
 
@@ -1610,7 +1616,7 @@
  "sedia" {:synsem {:cat :noun
                    :agr {:gender :fem}
                    :sem {:pred :chair}}}
- 
+
  "sgridare" {:synsem {:cat :verb
                       :sem {:pred :scold}}}
 
@@ -1621,7 +1627,7 @@
                  :cat :noun
                  :pronoun true
                  :reflexive true}}
-       
+
        {;; masculine singular
         :synsem {:agr {:person :3rd
                        :gender :masc
@@ -1629,63 +1635,63 @@
                  :cat :noun
                  :pronoun true
                  :reflexive true}}
-       
+
        ;; plural: unspecified gender
        {:synsem {:agr {:person :3rd
                        :number :plur}
                  :cat :noun
                  :pronoun true
                  :reflexive true}}]
- 
+
  "sistemare" {:synsem {:cat :verb
                        :sem {:pred :organize}}}
- 
+
  "sopportare" {:synsem {:cat :verb
                         :sem {:pred :endure}}}
- 
+
  "sospirare" {:synsem {:cat :verb
                        :sem {:pred :sigh}}}
-                                     
+
  "spegnere" {:synsem {:cat :verb :sem {:pred :turn-off}}
              :italiano {:passato "spento"
                         :present {:1sing "spengo"
                                   :3plur "spengono"}}}
- 
+
  "spendere" {:synsem {:cat :verb :sem {:pred :spend}}
              :italiano {:passato "speso"}}
- 
- 
+
+
  "spostare" {:synsem {:cat :verb
                       :sem {:pred :displace}}}
- 
+
  "sprecare" {:synsem {:cat :verb
                       :sem {:pred :waste}}}
- 
- "stampare"  {:synsem {:cat :verb 
+
+ "stampare"  {:synsem {:cat :verb
                        :sem {:pred :stampare}}}
- 
+
  "stare"  {:synsem {:cat :verb
                     :essere true
                     :sem {:pred :stay}}
            :italiano {:present {:2sing "stai"
                                 :3plur "stanno"}
-                      :future-stem "star"}}                    
- 
- "studiare"  {:synsem {:cat :verb 
+                      :future-stem "star"}}
+
+ "studiare"  {:synsem {:cat :verb
                        :sem {:pred :study}}}
- 
+
  "studente"  {:synsem {:agr {:gender :masc}
                        :cat :noun
                        :sem {:pred :student}}}
- 
- "suonare"  {:synsem {:cat :verb 
+
+ "suonare"  {:synsem {:cat :verb
                       :sem {:subj {:human true}
                             :pred :suonare}}}
 
  "svegliarsi" {:synsem {:cat :verb
                         :sem {:pred :wake-up
                               :reflexive true}}}
- 
+
  "svenire" {:synsem {:cat :verb
                      :essere true
                      :sem {:pred :faint}}
@@ -1695,13 +1701,13 @@
                                  :3sing "sviene"
                                  :3plur "svengono"}
                        :future-stem "sverr"}}
- 
- "sviluppare"  {:synsem {:cat :verb 
+
+ "sviluppare"  {:synsem {:cat :verb
                          :sem {:pred :develop}}}
- 
+
  "tagliare"  {:synsem {:cat :verb
                        :sem {:pred :cut}}}
- 
+
  "tavolino" {:synsem {:cat :noun
                       :agr {:gender :masc}
                       :sem {:pred :small-table}}}
@@ -1709,12 +1715,12 @@
  "tavolo" {:synsem {:agr {:gender :masc}
                     :cat :noun
                     :sem {:pred :table}}}
- 
- "telefonare"  {:synsem {:cat :verb 
+
+ "telefonare"  {:synsem {:cat :verb
                          :essere false
                          :sem {:pred :telefonare}}}
- 
- "tenere"  {:synsem {:cat :verb 
+
+ "tenere"  {:synsem {:cat :verb
                      :sem {:pred :hold}}
             :italiano {:passato "tenuto"
                        :present {:1sing "tengo"
@@ -1733,20 +1739,20 @@
            :subcat '()}
   :italiano {:initial true}}
 
- "tirare" 
- {:synsem {:cat :verb 
+ "tirare"
+ {:synsem {:cat :verb
            :sem {:pred :throw}}}
- 
- "tornare" 
- {:synsem {:cat :verb 
+
+ "tornare"
+ {:synsem {:cat :verb
            :sem {:pred :tornare}
            :essere true}}
- 
+
  "trasferire"
  {:synsem {:cat :verb
            :sem {:pred :transfer}}
   :italiano {:boot-stem1 "trasferisc"}}
- 
+
  "tu"
  [{:synsem {:cat :noun
             :pronoun true
@@ -1771,7 +1777,7 @@
  {:synsem {:agr {:gender :masc}
            :cat :noun
            :sem {:pred :bird}}}
- 
+
  "un" [{:synsem {:cat :det
                  :def :indef
                  :mass false
@@ -1803,10 +1809,10 @@
            :sem {:human true
                  :pred :man
                  :child false}}}
- 
+
  "usare"  {:synsem {:cat :verb
                     :sem {:pred :usare}}}
- 
+
  "uscire" (let [common {:synsem {:cat :verb
                                  :essere true}
                         :italiano {:italiano "uscire"
@@ -1815,15 +1821,15 @@
               :synsem {:sem {:pred :go-out}}}
              {:unify [common]
               :synsem {:sem {:pred :exit}}}])
- "vedere" 
+ "vedere"
  {:synsem {:cat :verb
            :sem {:pred :see}}
   :italiano {:passato "visto"
              :future-stem "vedr"}}
- 
- "vendere"  {:synsem {:cat :verb 
+
+ "vendere"  {:synsem {:cat :verb
                       :sem {:pred :vendere}}}
- 
+
  "venire" {:synsem {:cat :verb
                     :essere true
                     :sem {:pred :come}}
@@ -1833,11 +1839,11 @@
                                 :3sing "viene"
                                 :3plur "vengono"}
                       :future-stem "verr"}}
- 
+
  "ventotto" {:synsem {:cat :det
                       :def :twentyeight
                       :agr {:number :plur}}}
- 
+
  "vestirsi" {:synsem {:cat :verb
                       :sem {:pred :get-dressed
                             :reflexive true}}}
@@ -1851,7 +1857,7 @@
                  :pred :voi}
            :subcat '()}
   :italiano {:initial true}}
- 
+
  "vincere"  {:synsem {:cat :verb
                       :sem {:pred :win}}}
 
@@ -1859,14 +1865,14 @@
                   :cat :noun
                   :pred :vino
                   :sem {:pred :vino}}}
- "vivere" 
+ "vivere"
  [{:synsem {:cat :verb
             :sem {:subj {:living true}
                   :pred :live}
             :essere true}
    :italiano {:passato "vissuto"
               :future-stem "vivr"}}]
- 
+
  "voi"
  [{:synsem {:cat :noun
             :pronoun true
@@ -1877,7 +1883,7 @@
             :sem {:pred :voi
                   :human true}
             :subcat '()}}
-  
+
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1887,7 +1893,7 @@
             :sem {:pred :voi
                   :human true}
             :subcat '()}}]
- 
+
  "volere" {:synsem {:cat :verb
                     :sem {:pred :want}}
            :italiano {:future-stem "vorr"
@@ -1908,4 +1914,3 @@
 ;; ":top-noun" {:synsem {:cat :noun}
 ;;              :top true}
  }
-

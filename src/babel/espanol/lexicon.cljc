@@ -152,9 +152,9 @@
              {:synsem {:cat :verb
                        :sem {:pred :look-up}}}]
    "caber" {:espanol {:present {:1sing "quepo"}
-                        {:preterito-stem "cup"}
-               :synsem {:cat :verb
-                        :sem {:pred :fit}}}
+                      :preterito-stem "cup"}
+            :synsem {:cat :verb
+                     :sem {:pred :fit}}}
    "caer" {}
    
    "cambiar" {:synsem {:cat :verb

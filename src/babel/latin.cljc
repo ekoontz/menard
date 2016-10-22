@@ -106,8 +106,7 @@
        {:synsem {:sem {:subj {:pred (first (shuffle subjects))}}}})
    (or (and (get-in base-spec [:root])
             base-spec)
-       {:root (first (shuffle (roots model)))})))
-
+       {:root (first (shuffle (roots (:lexicon model))))})))
 
 (defn intersection [spec curriculum model]
   (cond false ;; TODO implement this stub and set to true

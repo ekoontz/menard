@@ -193,7 +193,11 @@
                                                     (:synsem :infl))))))
 
 
-
+(defn map-subset-by [lexemes path]
+  (let [vals (filter #(not (= ::none (get-in % path ::none)))
+                     lexemes)]
+    vals))
+    
 (defn map-subset-by-pred [preds
                           lexemes]
   (if (and true (not (empty? preds)))

@@ -55,7 +55,10 @@
     (let [result (unify (copy parent)
                         {:head (copy head)})]
       (if (not (= :fail result))
-        (list result)))))
+        (list result)
+        (log/debug (str "fail-path:" (dag_unify.core/fail-path
+                                      (copy parent)
+                                      {:head (copy head)})))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"

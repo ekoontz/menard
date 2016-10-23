@@ -244,10 +244,11 @@
                  {:unify [common]
                   :synsem {:cat :verb
                          :sem {:pred :drive-c}}}])
-   "conocer" {synsem {espanol {present {:1sing "conozco"}}}}
-                {:synsem {:cat :verb
-                          :sem {:pred :know}}}
 
+   "conocer" {:espanol {:present {:1sing "conozco"}}
+              :synsem {:cat :verb
+                       :sem {:pred :know}}}
+   
    "consentir" {:espanol {:boot-stem "consient"}
                 :synsem {:cat :verb
                          :sem {:pred :consent}}}

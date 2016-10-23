@@ -119,6 +119,9 @@ to generate expressions by adding complements using (add-all-comps)."
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
                    (if (and (not (empty? subset)) (empty? result))
+                     ;; log/warn because it's very expensive to run
+                     ;; over/overh: for every candidate, both parent
+                     ;; and candidate head must be copied.
                      (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (:rule parent))))
                    result)))
              parents))

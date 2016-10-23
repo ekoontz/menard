@@ -141,7 +141,7 @@
                                                         (log/error message)
                                                         (throw (Exception. message))))
                                                     
-                                                    ;; The verb is "funzionare" (which takes a non-human
+                                                    ;; The verb is "funcionar" (which takes a non-human
                                                     ;; subject), but we're trying to generate with
                                                     ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
                                                     ;; are human.
@@ -155,7 +155,7 @@
                                                     (log/info (str "ignoring exception(funcionar-is-only-nonhuman): " e))
                                                     
                                                     
-                                                    ;; The verb is "funzionare" (which takes a non-human
+                                                    ;; The verb is "funcionar" (which takes a non-human
                                                     ;; subject), but we're trying to generate a non-pronoun complement;
                                                     ;; there are no such single words in the lexicon that are both
                                                     ;; non-human and non-pronoun. There are *human* non-pronouns in the lexicon,

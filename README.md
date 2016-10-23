@@ -12,11 +12,28 @@ nil
 ;; generate a random expression in English
 user> (-> :top babel.english/generate babel.english/morph)
 "your womens' new cities will lose me"
+```
 
+The function `babel.english/generate` generates an English expression
+with input argument `:top`. This argument is the most general input
+possible: it means, generate a totally random expression with no
+constraints placed on what is generated.
+
+The generated expression is a Clojure map representing the phrase
+structure of the expression. We pass this to the function
+`babel.english/morph` (short for "morphology") to convert this into a
+human readable string.
+
+```clojure
 ;; generate an English sentence about dogs eating
 user> (-> {:synsem {:sem {:pred :eat :subj {:pred :cane}}}} babel.english/generate babel.english/morph)
 "your first student's new dogs used to eat a small music's pizza"
+```
 
+Rather than simply using `:top` as the input to generation, we now
+provide specific constraints to the generation process.
+
+```clojure
 ;; generate a random expression in Italian
 user> (require 'babel.italiano)
 (-> :top babel.italiano/generate babel.italiano/morph)

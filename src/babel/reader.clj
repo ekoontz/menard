@@ -94,7 +94,9 @@
   (let [target-spec (unify target-spec
                            {:synsem {:subcat '()}})]
     (cond (= target-language "la")
-          (babel.latin/read-one :top ((-> models :la))) ;; TODO: use target-spec
+          (babel.latin/read-one :top  ;; TODO: use target-spec
+                                @((-> models :la))
+                                @((-> models :en)))
           true
           (let [;; normalize for JSON lookup: convert a spec which is simply :top to be {}.
                 json-input-spec (if (= :top target-spec)

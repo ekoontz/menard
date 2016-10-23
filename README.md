@@ -31,7 +31,10 @@ user> (-> {:synsem {:sem {:pred :eat :subj {:pred :cane}}}} babel.english/genera
 ```
 
 Rather than simply using `:top` as the input to generation, we now
-provide specific constraints to the generation process.
+provide some constraints to the generation process. Specifically, we
+require that the expression must be about eating, and that the subject
+of the eating must be a dog or dogs (the value `:cane` by convention
+happens to be taken from the Italian word for "dog").
 
 ```clojure
 ;; generate a random expression in Italian

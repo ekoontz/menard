@@ -22,7 +22,7 @@
 
 (defn expression [& [spec]]
   (let [spec (if spec spec :top)]
-    (engine/expression small spec)))
+    (engine/expression (small) spec)))
 
 (defn fo [expression]
   (morph/fo expression))

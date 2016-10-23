@@ -158,7 +158,7 @@
   (let [lexicon (if (map? lexicon)
                   (keys lexicon)
                   lexicon)]
-    (log/info (str "create index with lexicon: " (count lexicon)))
+    (log/info (str "create index with lexicon with size: " (count lexicon)))
     (conj (build-lex-sch-index grammar
                                (map (fn [lexeme]
                                       (log/debug (str "trying(ci) lexeme: " lexeme))

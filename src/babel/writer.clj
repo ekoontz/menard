@@ -190,7 +190,10 @@
                                "]")
                 language]])))
 
-(defn populate-with-language [num model spec]
+;; TODO: change all calls to populate-with-language to set source-language if needed
+(defn populate-with-language
+  "generate(model,spec) and insert _num_ expressions into the _expression_ database table. source-language may be used to affect how source expression appears in the _expression_ table's _surface_ column."
+  [num model spec & [source-language]]
   (let [spec (if spec spec :top)
         language (:language model)
         debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
@@ -207,9 +210,8 @@
             ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
             fo (:morph model)
 
-            ;; TODO: hard-wired from-language to "it" for now: :from-language
-            ;; should be passed down the caller chain.
-            surface (fo sentence :from-language "it")]
+            surface (if source-language (fo sentence :source-language source-language)
+                        (fo sentence))]
         (if (empty? surface)
           (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
             (log/warn (str "sentence: " sentence))

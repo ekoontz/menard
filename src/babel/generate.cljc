@@ -200,7 +200,7 @@ bolt."
                 (if (not (empty? indexed))
                   indexed
                   (do
-                    (log/warn (str "no candidate lexemes were found."))
+                    (log/warn (str "no candidate lexemes were found as a complement."))
                     nil))))))
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         lexical-complements (lazy-shuffle

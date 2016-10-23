@@ -34,9 +34,8 @@
                     (vals lexicon))
 
         ;; for debugging: use map: in-order rather than interleaved by multiple workers.
-        ;; for production: use pmap.
-        use-map-fn pmap
-;;        use-map-fn pmap
+        ;; TODO: using pmap fails: cannot generate sentences; figure out why.
+        use-map-fn map
 
         root-verbs 
         (zipmap

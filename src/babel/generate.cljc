@@ -115,9 +115,11 @@ to generate expressions by adding complements using (add-all-comps)."
                        (do
                          (log/warn (str "no index found for spec: " (strip-refs spec)))
                          (get-lex parent :head (:index language-model))))]
-                 (log/debug (str "lightning-bolts: OPTIM size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
+                 (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
                  (let [result (over/overh parent (lazy-shuffle subset))]
-                   (log/debug (str "lightning-bolts: OPTIM surviving candidate heads: " (count result)))
+                   (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
+                   (if (empty? result)
+                     (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (:rule parent))))
                    result)))
              parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.

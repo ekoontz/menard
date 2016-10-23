@@ -3,7 +3,8 @@
 
 (require '[babel.engine :as engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
-(require '[babel.espanol.grammar :refer [small parse]])
+(require '[babel.espanol :refer [small]])
+(require '[babel.espanol.grammar :refer [parse]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
@@ -121,7 +122,7 @@
                                                   (process [{:fill-one-language
                                                              {:count 1
                                                               :spec spec
-                                                              :model small
+                                                              :model (small)
                                                               }}]
                                                            "es"))
                                                 

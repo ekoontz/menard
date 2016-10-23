@@ -108,6 +108,9 @@ to generate expressions by adding complements using (add-all-comps)."
                                                   [cat-set pred-set])
                      subset
                      (cond
+                       (= true (get-in parent [:head :phrasal]))
+                       []
+                       
                        (not (empty? non-empty-index-sets))
                        (reduce intersection-with-identity non-empty-index-sets)
 

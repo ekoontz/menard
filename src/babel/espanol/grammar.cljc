@@ -5,7 +5,9 @@
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
-   [babel.index :refer (build-lex-sch-index create-index spec-to-phrases)]
+   [babel.index :refer (build-lex-sch-index
+                        create-index map-subset-by-cat
+                        map-subset-by-pred spec-to-phrases)]
    [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
@@ -452,6 +454,22 @@
                    (map #(keyword (get-in % [:rule]))
                         grammar)
                    grammar)
+
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-pred
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :sem :pred]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))
+     
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-cat
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :cat]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))
      
      :grammar grammar
      :lexicon lexicon
@@ -483,6 +501,23 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
+
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-pred
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :sem :pred]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))
+
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-cat
+      (filter #(not (nil? %))
+              (vec (set (mapcat (fn [entry]
+                                  (get-in entry [:synsem :cat]))
+                                (vals lexicon)))))
+      (flatten (vals lexicon)))
+
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon

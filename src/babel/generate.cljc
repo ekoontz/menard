@@ -104,21 +104,21 @@ to generate expressions by adding complements using (add-all-comps)."
                      cat (get-in spec [:synsem :cat])
                      pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
                      cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
+                     non-empty-index-sets (filter #(not (empty? %))
+                                                  [cat-set pred-set])
                      subset
                      (cond
-                       (and (not (= :top pred)) (not-empty pred-set)
-                            (not (= :top cat)) (not-empty cat-set))
-                       (intersection-with-identity pred-set cat-set)
-
-                       (and (not (= :top cat)) (not-empty cat-set))
-                       cat-set
-
-                       (and (not (= :top pred)) (not-empty pred-set))
-                       pred-set
+                       (not (empty? non-empty-index-sets))
+                       (reduce intersection-with-identity non-empty-index-sets)
 
                        true
-                       (get-lex parent :head (:index language-model)))]
-                 (over/overh parent (lazy-shuffle subset))))
+                       (do
+                         (log/warn (str "no index found for spec: " (strip-refs spec)))
+                         (get-lex parent :head (:index language-model))))]
+                 (log/debug (str "lightning-bolts: OPTIM size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
+                 (let [result (over/overh parent (lazy-shuffle subset))]
+                   (log/debug (str "lightning-bolts: OPTIM surviving candidate heads: " (count result)))
+                   result)))
              parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

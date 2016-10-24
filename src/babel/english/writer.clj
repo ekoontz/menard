@@ -12,7 +12,7 @@
                    fill-language-by-spec
                    process write-lexicon reload]])
 (require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
+(require '[dag_unify.core :refer (fail? get-in strip-refs unifyc)])
 
 (defn rewrite-lexicon []
   (write-lexicon "en" @lexicon))
@@ -25,12 +25,14 @@
   "Generate translations from source language (e.g. 'it' for Italian) into English.
    Optionally takes a root form of a verb in the source language."
   ;; Example usage: (translate \"es\" \"abrazar\"
+  (log/info (str "calling (rewrite-lexicon)"))
   (rewrite-lexicon)
+  (log/info (str "finished calling (rewrite-lexicon)"))
   (let [spec :top
         ;; {:synsem {:sem {:pred :arrive}}}
 
         spec (if root
-               (unify spec
+               (unifyc spec
                       (language-to-root-spec source-language-short-name root))
                spec)
 
@@ -143,26 +145,26 @@
     (write-lexicon "en" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))
-    ;; TODO: rewrite with threading macro (->)
+    ;; TODO: rewrite with threading macro (->>)
     (.size (pmap (fn [verb]
                    (let [root-form (get-in verb [:english :english])]
                      (log/debug (str "generating from root-form:" root-form))
                      (.size (map (fn [tense]
-                                   (let [spec (unify {:root {:english {:english root-form}}}
+                                   (let [spec (unifyc {:root {:english {:english root-form}}}
                                                      tense)]
                                      (.size
                                       (map (fn [gender]
-                                             (let [spec (unify spec
+                                             (let [spec (unifyc spec
                                                                {:comp {:synsem {:agr gender}}})]
                                                (log/trace (str "generating from gender: " gender))
                                                (.size
                                                 (map (fn [person]
-                                                       (let [spec (unify spec
+                                                       (let [spec (unifyc spec
                                                                          {:comp {:synsem {:agr {:person person}}}})]
                                                          (log/trace (str "generating from person: " person))
                                                          (.size
                                                           (map (fn [number]
-                                                                 (let [spec (unify spec
+                                                                 (let [spec (unifyc spec
                                                                                    {:comp {:synsem {:agr {:number number}}}})]
                                                                    (write-one spec)))
                                                                [:sing :plur]))))

@@ -115,7 +115,7 @@
                          (reduce intersection-with-identity non-empty-index-sets)
                          true
                          (do
-                           (log/warn (str "no index found for spec: " (strip-refs spec)))
+                           (log/warn (str "no index found for spec: " (spec-info spec)))
                            (get-lex parent :head (:index language-model))))]
                    (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
                    (let [result (over/overh parent (lazy-shuffle subset))]

@@ -102,7 +102,8 @@
             (lazy-mapcat
              (fn [parent]
                (when (= false (get-in parent [:head :phrasal] false))
-                 (let [pred (get-in spec [:synsem :sem :pred])
+                 (let [parent (unifyc parent spec)
+                       pred (get-in spec [:synsem :sem :pred])
                        cat (get-in spec [:synsem :cat])
                        pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
                        cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
@@ -112,7 +113,6 @@
                        (cond
                          (not (empty? non-empty-index-sets))
                          (reduce intersection-with-identity non-empty-index-sets)
-                         
                          true
                          (do
                            (log/warn (str "no index found for spec: " (strip-refs spec)))

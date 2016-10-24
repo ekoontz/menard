@@ -373,14 +373,24 @@
                                          :2 '()}}}}}))
       ;; </adjective default rules>
 
-      ;; <adverb default rules>
+      ;; <sent-modifier default rules>
       (default
        (let [sentential-sem (atom :top)]
          {:synsem {:cat :sent-modifier
                    :sem {:subj sentential-sem}
                    :subcat {:1 {:sem sentential-sem}}}}))
-      ;; </adverb default rules>
+      ;; </sent-modifier default rules>
 
+      ;; <adverb default rules>
+      (default
+       (let [verb-sem (atom :top)]
+         {:synsem {:cat :adverb
+                   :sem verb-sem
+                   :subcat {:1 {:cat :verb
+                                :sem verb-sem}
+                            :2 '()}}}))
+      ;; </adverb default rules>
+      
       ;; <determiner default rules>
       (default
        (let [def (atom :top)]

@@ -1,7 +1,7 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.english.lexicon :refer [deliver-lexicon lexicon]]
+   [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.enrich :refer [enrich]]
    [babel.index :refer (build-lex-sch-index create-index map-subset-by-cat map-subset-by-pred spec-to-phrases)]
@@ -474,7 +474,6 @@
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
 (defn very-small []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-present-nonphrasal-head")
@@ -529,7 +528,6 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn small-plus-vp-pronoun []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -590,7 +588,6 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn small-plus-plus-np []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -663,7 +660,6 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn small []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal-head")
                      (= (:rule %) "s-conditional-phrasal-head")
@@ -740,7 +736,6 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn medium []
-  (deliver-lexicon)
   (let [lexicon
         (into {}
               (for [[k v] @lexicon]
@@ -786,7 +781,6 @@
       (flatten (vals lexicon)))}))
 
 (defn np-grammar []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "noun-phrase2")
                      (= (:rule %) "nbar"))
@@ -831,7 +825,6 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
 
 (defn few-rules []
-  (deliver-lexicon)
   (let [grammar
         (filter #(or (= (:rule %) "determiner-phrase")
                      (= (:rule %) "noun-phrase2")
@@ -856,7 +849,6 @@
      :lexicon lexicon}))
 
 (defn small-lexicon []
-  (deliver-lexicon)
   (let [grammar grammar
         lexicon (into {}
                       (for [[k v] @lexicon]

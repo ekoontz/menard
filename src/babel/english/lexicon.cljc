@@ -2347,207 +2347,212 @@
               :subcat '()}}]
    })
 
-(def lexicon (promise))
+(declare lexicon)
 
 ;; TODO: allow a filter of lexemes
-(defn deliver-lexicon []
-  (if (not (realized? lexicon))
-    (deliver lexicon
-             (-> (compile-lex lexicon-source 
-                              morph/exception-generator 
-                              morph/phonize)
+(defn- deliver-lexicon []
+  (-> (compile-lex lexicon-source 
+                   morph/exception-generator 
+                   morph/phonize)
 
-                 ;; <category-independent rules>
+      ;; <category-independent rules>
                  
-                 (default
-                  (let [cat (atom :top)]
-                    {:english {:cat cat}
-                     :synsem {:cat cat}}))
+      (default
+       (let [cat (atom :top)]
+         {:english {:cat cat}
+          :synsem {:cat cat}}))
 
-                 ;; </category-independent rules>
-                 
-                 ;; <noun default rules>            
-
-                 ;; make :propernoun and :pronoun available to morphological rules
-                 ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
-                 (default
-                  (let [pronoun (atom :top)
+      ;; </category-independent rules>
+      
+      ;; <noun default rules>            
+      
+      ;; make :propernoun and :pronoun available to morphological rules
+      ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
+      (default
+       (let [pronoun (atom :top)
                         propernoun (atom :top)]
-                    {:english {:pronoun pronoun
-                               :propernoun propernoun}
-                     :synsem {:cat :noun
-                              :pronoun pronoun
-                              :propernoun propernoun}}))
-
-                 ;; pronouns have semantic number and gender.
-                 (default
-                  (let [gender (atom :top)
-                        number (atom :top)]
-                    {:synsem {:cat :noun
+         {:english {:pronoun pronoun
+                    :propernoun propernoun}
+          :synsem {:cat :noun
+                   :pronoun pronoun
+                   :propernoun propernoun}}))
+      
+      ;; pronouns have semantic number and gender.
+      (default
+       (let [gender (atom :top)
+             number (atom :top)]
+         {:synsem {:cat :noun
                               :pronoun true
+                   :agr {:gender gender
+                         :number number}
+                   :sem {:gender gender
+                         :number number}}}))
+      
+      ;; propernouns have semantic number and gender.
+      (default
+       (let [gender (atom :top)
+             number (atom :top)]
+         {:synsem {:cat :noun
+                   :propernoun true
                               :agr {:gender gender
                                     :number number}
-                              :sem {:gender gender
-                                    :number number}}}))
-
-                 ;; propernouns have semantic number and gender.
-                 (default
-                  (let [gender (atom :top)
-                        number (atom :top)]
-                    {:synsem {:cat :noun
-                              :propernoun true
-                              :agr {:gender gender
-                                    :number number}
-                              :sem {:gender gender
-                                    :number number}}}))
-
-                 ;; nouns have number-agreement morphology: 'the dog sleeps' vs 'the dogs sleep'
-                 ;; english.morphology needs to see the :cat=noun as well, so share that within :english.
-                 (default
-                  (let [agr (atom :top)]
+                   :sem {:gender gender
+                         :number number}}}))
+      
+      ;; nouns have number-agreement morphology: 'the dog sleeps' vs 'the dogs sleep'
+      ;; english.morphology needs to see the :cat=noun as well, so share that within :english.
+      (default
+       (let [agr (atom :top)]
                     {:english {:agr agr}
                      :synsem {:cat :noun
                               :agr agr}}))
+      
+      ;; A pronoun is either reflexive or not reflexive, but
+      ;; a non-pronoun is never reflexive.
+      (default
+       {:synsem {:cat :noun
+                 :pronoun false
+                 :reflexive false}})
+      
+      ;; </noun default rules>            
+      
+      ;; <verb default rules>
+      ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
+      (default
+       {:synsem {:cat :verb
+                 :subcat {:2 {:cat :top}}}})
+      
+      ;; prevent :modal-with :infinitive matching unless it's already set
+      (default
+       {:modal-with false
+        :synsem {:cat :verb}})
+      
+      (default
+       (let [modal-subject (atom {:cat :noun})]
+         {:modal-with :infinitive
+          :synsem {:cat :verb
+                   :subcat {:1 modal-subject
+                            :2 {:cat :verb
+                                :infl :infinitive
+                                :subcat {:1 modal-subject
+                                         :2 '()}}}}}))
+      (default
+       (let [modal-subject (atom {:cat :noun})]
+         {:modal-with :root
+          :synsem {:cat :verb
+                   :subcat {:1 modal-subject
+                            :2 {:cat :verb
+                                :infl :root
+                                :subcat {:1 modal-subject
+                                         :2 '()}}}}}))
+      
+      ;; prevent :shared-semantics :obj unless it's already set
+      (default
+       {:share-sem false
+        :synsem {:cat :verb}})
+      
+      ;; semantic object of lexical verb is the same as the object of verb's prepositional phrase.
+      (default
+       (let [obj (atom :top)]
+         {:share-sem :obj
+          :synsem {:cat :verb
+                   :sem {:obj obj}
+                   :subcat {:2 {:cat :prep
+                                :sem {:obj obj}}}}}))
+      
+      ;; add :sem :obj if necessary, so that intransitivize is triggered.
+      (if-then {:modal-with false
+                :synsem {:cat :verb
+                         :subcat {:2 {:cat :noun}}}}
+               {:synsem {:sem {:obj {:pred :top}}}})
+      
+      
+      (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
+       {:synsem {:cat :verb
+                 :aux false
+                 :sem {:obj {:top :top}
+                       :shared-with-obj false
+                       :reflexive false}
+                 ;; likely to be :noun or :prep but could be others
+                 :subcat {:2 {:cat :top}
+                          :3 '()}}}
+       (fn [lexeme]
+         (unifyc
+          (dissoc-paths lexeme [[:synsem :sem :obj]
+                                [:synsem :subcat :2]])
+          {:applied {:1 true}
+           :synsem {:subcat {:2 '()}}})))
+      
+      (default ;; intransitive verbs' :obj is :unspec.
+       {:modal-with false
+        :applied {:2 true}
+        :synsem {:cat :verb
+                 :subcat {:1 {:top :top}
+                          :2 '()}
+                 :sem {:reflexive false
+                       :shared-with-obj false
+                       :obj :unspec}}})
+      
+      ;; If verb does specify a [:sem :obj], then fill
+      ;; it in with subcat info.
+      ;; TODO: remove use of this opaque function: 'transitivize'
+      transitivize
+      
+      (verb-pred-defaults encyc/verb-pred-defaults)
+      
+      ;; if a verb has an object,
+      ;; and the object is not {:reflexive true}
+      ;; then the object is {:reflexive false}
+      (if-then {:synsem {:cat :verb
+                         :subcat {:2 {:reflexive false}}}}
+               {:synsem {:subcat {:2 {:reflexive false}}}})
+      
+      ;; if a verb has an object,
+      ;; and the object is {:cat :noun},
+      ;; then the object is {:synsem {:case :acc}}.
+      (if-then {:synsem {:cat :verb
+                         :subcat {:2 {:cat :noun}}}}
+               {:synsem {:subcat {:2 {:case :acc}}}})
+      
+      ;; if not(reflexive), then reflexive = false.
+      (if-then {:synsem {:cat :verb
+                         :sem {:reflexive false}}}
+               {:synsem {:sem {:reflexive false}}})
 
-                 ;; A pronoun is either reflexive or not reflexive, but
-                 ;; a non-pronoun is never reflexive.
-                 (default
-                  {:synsem {:cat :noun
-                            :pronoun false
-                            :reflexive false}})
-                 
-                 ;; </noun default rules>            
-
-                 ;; <verb default rules>
-                 ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
-                 (default
-                  {:synsem {:cat :verb
-                            :subcat {:2 {:cat :top}}}})
-
-                 ;; prevent :modal-with :infinitive matching unless it's already set
-                 (default
-                  {:modal-with false
-                   :synsem {:cat :verb}})
-
-                 (default
-                  (let [modal-subject (atom {:cat :noun})]
-                    {:modal-with :infinitive
-                     :synsem {:cat :verb
-                              :subcat {:1 modal-subject
-                                       :2 {:cat :verb
-                                           :infl :infinitive
-                                           :subcat {:1 modal-subject
-                                                    :2 '()}}}}}))
-                 (default
-                  (let [modal-subject (atom {:cat :noun})]
-                    {:modal-with :root
-                     :synsem {:cat :verb
-                              :subcat {:1 modal-subject
-                                       :2 {:cat :verb
-                                           :infl :root
-                                           :subcat {:1 modal-subject
-                                                    :2 '()}}}}}))
-
-                 ;; prevent :shared-semantics :obj unless it's already set
-                 (default
-                  {:share-sem false
-                   :synsem {:cat :verb}})
-
-                 ;; semantic object of lexical verb is the same as the object of verb's prepositional phrase.
-                 (default
-                  (let [obj (atom :top)]
-                    {:share-sem :obj
-                     :synsem {:cat :verb
-                              :sem {:obj obj}
-                              :subcat {:2 {:cat :prep
-                                           :sem {:obj obj}}}}}))
-
-                 ;; add :sem :obj if necessary, so that intransitivize is triggered.
-                 (if-then {:modal-with false
-                           :synsem {:cat :verb
-                                    :subcat {:2 {:cat :noun}}}}
-                          {:synsem {:sem {:obj {:pred :top}}}})
-                 
-
-                 (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
-                  {:synsem {:cat :verb
-                            :aux false
-                            :sem {:obj {:top :top}
-                                  :shared-with-obj false
-                                  :reflexive false}
-                            ;; likely to be :noun or :prep but could be others
-                            :subcat {:2 {:cat :top}
-                                     :3 '()}}}
-                  (fn [lexeme]
-                    (unifyc
-                     (dissoc-paths lexeme [[:synsem :sem :obj]
-                                           [:synsem :subcat :2]])
-                     {:applied {:1 true}
-                      :synsem {:subcat {:2 '()}}})))
-                 
-                 (default ;; intransitive verbs' :obj is :unspec.
-                  {:modal-with false
-                   :applied {:2 true}
-                   :synsem {:cat :verb
-                            :subcat {:1 {:top :top}
-                                     :2 '()}
-                            :sem {:reflexive false
-                                  :shared-with-obj false
-                                  :obj :unspec}}})
-
-                 ;; If verb does specify a [:sem :obj], then fill
-                 ;; it in with subcat info.
-                 ;; TODO: remove use of this opaque function: 'transitivize'
-                 transitivize
-
-                 (verb-pred-defaults encyc/verb-pred-defaults)
-                 
-                 ;; if a verb has an object,
-                 ;; and the object is not {:reflexive true}
-                 ;; then the object is {:reflexive false}
-                 (if-then {:synsem {:cat :verb
-                                    :subcat {:2 {:reflexive false}}}}
-                          {:synsem {:subcat {:2 {:reflexive false}}}})
-
-                 ;; if a verb has an object,
-                 ;; and the object is {:cat :noun},
-                 ;; then the object is {:synsem {:case :acc}}.
-                 (if-then {:synsem {:cat :verb
-                                    :subcat {:2 {:cat :noun}}}}
-                          {:synsem {:subcat {:2 {:case :acc}}}})
-
-                 ;; if not(reflexive), then reflexive = false.
-                 (if-then {:synsem {:cat :verb
-                                    :sem {:reflexive false}}}
-                          {:synsem {:sem {:reflexive false}}})
-
-                 ;; if not(aux), then aux=false
-                 (if-then {:synsem {:cat :verb
-                                    :aux false}}
-                          {:synsem {:aux false}})
-                 
-                 ;; subject-and-reflexive-pronoun agreement
-                 (if-then {:synsem {:sem {:reflexive true}
-                                    :cat :verb
-                                    :subcat {:1 {:agr :top}
-                                             :2 {:agr :top}}}}
-                                          
-                          (let [subject-agr (atom :top)]
-                            {:synsem {:subcat {:1 {:agr subject-agr}
-                                               :2 {:agr subject-agr}}}}))
-                 (default
-                  (let [obj-sem (atom :top)]
-                    {:synsem {:cat :prep
-                              :subcat {:1 {:cat :noun
-                                           :case :acc
-                                           :subcat '()
-                                           :sem obj-sem}
-                                       :2 '()}
-                              :sem {:obj obj-sem}}}))
+      ;; if not(aux), then aux=false
+      (if-then {:synsem {:cat :verb
+                         :aux false}}
+               {:synsem {:aux false}})
+      
+      ;; subject-and-reflexive-pronoun agreement
+      (if-then {:synsem {:sem {:reflexive true}
+                         :cat :verb
+                         :subcat {:1 {:agr :top}
+                                  :2 {:agr :top}}}}
+               
+               (let [subject-agr (atom :top)]
+                 {:synsem {:subcat {:1 {:agr subject-agr}
+                                    :2 {:agr subject-agr}}}}))
+      (default
+       (let [obj-sem (atom :top)]
+         {:synsem {:cat :prep
+                   :subcat {:1 {:cat :noun
+                                :case :acc
+                                :subcat '()
+                                :sem obj-sem}
+                            :2 '()}
+                   :sem {:obj obj-sem}}}))
                  (default
                   {:synsem {:cat :verb
                             :subcat {:2 {:subcat '()}}}})
-
+                 
                  ;; </verb default rules>
+                 
+))
 
-                 ))))
+(def lexicon-promise (promise))
+(def lexicon
+  (future
+    (if (realized? lexicon-promise)
+      @lexicon-promise
+      @(deliver lexicon-promise (deliver-lexicon)))))

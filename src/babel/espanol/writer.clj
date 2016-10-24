@@ -56,19 +56,8 @@
         ;; TODO: using pmap fails: cannot generate sentences; figure out why.
         use-map-fn map
 
-        root-verbs 
-        (zipmap
-         (keys lexicon)
-         (use-map-fn (fn [lexeme-set]
-                       (filter (fn [lexeme]
-                                 (and
-                                  ;; how to only generate for a single infinitive (for testing/development):
-                                  ;;                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
-                                  (= (get-in lexeme [:synsem :cat]) :verb)
-                                  (= (get-in lexeme [:synsem :infl]) :top)
-                                  (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
-                               lexeme-set))
-                     lexemes))
+        root-verbs (root-verbs lexicon)
+
         root-verb-array
         (reduce concat
                 (use-map-fn (fn [key]
@@ -79,21 +68,23 @@
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))
 
-    (.size (use-map-fn
-            (fn [verb]
-              (log/debug (str "verb: " (strip-refs verb)))
-              (let [root-form (get-in verb [:espanol :espanol])]
-                (log/info (str "generating with verb: '" root-form "'"))
-                (.size (use-map-fn
-                        (fn [tense]
-                          (let [debug (log/debug (str "{:root {:espanol {:espanol " root-form))
-                                spec (unify/unify {:root {:espanol {:espanol root-form}}}
-                                                  tense)]
-                            (.size
-                             (use-map-fn
-                              (fn [gender]
-                                (let [spec (unify/unify spec
-                                                        {:comp {:synsem {:agr gender}}})]
+    (.size
+     (-> root-verb-array
+         (use-map-fn
+          (fn [verb]
+            (log/debug (str "verb: " (strip-refs verb)))
+            (let [root-form (get-in verb [:espanol :espanol])]
+              (log/info (str "generating with verb: '" root-form "'"))
+              (.size (use-map-fn
+                      (fn [tense]
+                        (let [debug (log/debug (str "{:root {:espanol {:espanol " root-form))
+                              spec (unify/unify {:root {:espanol {:espanol root-form}}}
+                                                tense)]
+                          (.size
+                           (use-map-fn
+                            (fn [gender]
+                              (let [spec (unify/unify spec
+                                                      {:comp {:synsem {:agr gender}}})]
                                   (log/debug (str "generating from gender: " gender " with spec: " spec))
                                   (.size
                                    (use-map-fn
@@ -252,5 +243,4 @@
                                                       :tense :past}}}
                                       
                                       ))
-                        ))))
-            root-verb-array))))
+                        )))))))))

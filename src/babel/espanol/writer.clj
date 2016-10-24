@@ -71,8 +71,8 @@
                    (.size root-verb-array)))
 
     (.size
-     (-> root-verb-array
-         (use-map-fn
+     (->> root-verb-array
+          (use-map-fn
           (fn [verb]
             (log/debug (str "verb: " (strip-refs verb)))
             (let [root-form (get-in verb [:espanol :espanol])]
@@ -80,12 +80,12 @@
               (doall (use-map-fn
                       (fn [tense]
                         (let [debug (log/debug (str "{:root {:espanol {:espanol " root-form))
-                              spec (unify/unify {:root {:espanol {:espanol root-form}}}
+                              spec (unify/unifyc {:root {:espanol {:espanol root-form}}}
                                                 tense)]
                           (doall
                            (use-map-fn
                             (fn [gender]
-                              (let [spec (unify/unify spec
+                              (let [spec (unify/unifyc spec
                                                       {:comp {:synsem {:agr gender}}})]
                                   (log/debug (str "generating from gender: " gender " with spec: " spec))
                                   (doall

@@ -28,6 +28,25 @@
 (defn fo [expression]
   (morph/fo expression))
 
+;; for debugging: use map: in-order rather than interleaved by multiple workers.
+;; TODO: using pmap fails: cannot generate sentences; figure out why.
+(def use-map-fn map)
+
+(defn root-verbs [lexicon]
+  (let [lexemes (vals lexicon)]
+    (zipmap
+     (keys lexicon)
+     (use-map-fn (fn [lexeme-set]
+                   (filter (fn [lexeme]
+                             (and
+                              ;; how to only generate for a single infinitive (for testing/development):
+                              ;;                           (= (get-in lexeme [:espanol :espanol]) "abandonar")
+                                  (= (get-in lexeme [:synsem :cat]) :verb)
+                                  (= (get-in lexeme [:synsem :infl]) :top)
+                                  (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                           lexeme-set))
+                 lexemes))))
+
 (defn todos [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
         lexemes (if lexeme (list (get lexicon lexeme))

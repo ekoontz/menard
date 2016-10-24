@@ -62,7 +62,9 @@
         (reduce concat
                 (use-map-fn (fn [key]
                               (get root-verbs key))
-                            (sort (keys root-verbs))))]
+                            (if lexeme
+                              [lexeme]
+                              (sort (keys root-verbs)))))]
     (write-lexicon "es" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"

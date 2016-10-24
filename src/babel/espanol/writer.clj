@@ -75,18 +75,18 @@
             (log/debug (str "verb: " (strip-refs verb)))
             (let [root-form (get-in verb [:espanol :espanol])]
               (log/info (str "generating with verb: '" root-form "'"))
-              (.size (use-map-fn
+              (doall (use-map-fn
                       (fn [tense]
                         (let [debug (log/debug (str "{:root {:espanol {:espanol " root-form))
                               spec (unify/unify {:root {:espanol {:espanol root-form}}}
                                                 tense)]
-                          (.size
+                          (doall
                            (use-map-fn
                             (fn [gender]
                               (let [spec (unify/unify spec
                                                       {:comp {:synsem {:agr gender}}})]
                                   (log/debug (str "generating from gender: " gender " with spec: " spec))
-                                  (.size
+                                  (doall
                                    (use-map-fn
                                     (fn [person]
                                       (let [debug (log/debug (str "generating from spec(pre-person):" spec))
@@ -116,7 +116,7 @@
                                             ]
                                         (log/debug (str "generating from person: " person))
                                         (log/debug (str "generating from spec+person: " spec))
-                                        (.size
+                                        (doall
                                          (use-map-fn
                                           (fn [number]
                                             (let [debug (log/debug (str "generating from spec(1): " spec))

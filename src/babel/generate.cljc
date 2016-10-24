@@ -101,33 +101,34 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (let [pred (get-in spec [:synsem :sem :pred])
-                     cat (get-in spec [:synsem :cat])
-                     pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
-                     cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
-                     non-empty-index-sets (filter #(not (empty? %))
-                                                  [cat-set pred-set])
-                     subset
-                     (cond
-                       (= true (get-in parent [:head :phrasal]))
-                       []
-                       
-                       (not (empty? non-empty-index-sets))
-                       (reduce intersection-with-identity non-empty-index-sets)
-
-                       true
-                       (do
-                         (log/warn (str "no index found for spec: " (strip-refs spec)))
-                         (get-lex parent :head (:index language-model))))]
-                 (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
-                 (let [result (over/overh parent (lazy-shuffle subset))]
-                   (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
-                   (if (and (not (empty? subset)) (empty? result))
-                     ;; log/warn because it's very expensive to run
-                     ;; over/overh: for every candidate, both parent
-                     ;; and candidate head must be copied.
-                     (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (:rule parent))))
-                   result)))
+               (when (= false (get-in parent [:head :phrasal] false))
+                 (let [pred (get-in spec [:synsem :sem :pred])
+                       cat (get-in spec [:synsem :cat])
+                       pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
+                       cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
+                       non-empty-index-sets (filter #(not (empty? %))
+                                                    [cat-set pred-set])
+                       subset
+                       (cond
+                         (= true (get-in parent [:head :phrasal]))
+                         []
+                         
+                         (not (empty? non-empty-index-sets))
+                         (reduce intersection-with-identity non-empty-index-sets)
+                         
+                         true
+                         (do
+                           (log/warn (str "no index found for spec: " (strip-refs spec)))
+                           (get-lex parent :head (:index language-model))))]
+                   (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (:rule parent)))
+                   (let [result (over/overh parent (lazy-shuffle subset))]
+                     (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
+                     (if (and (not (empty? subset)) (empty? result))
+                       ;; log/warn because it's very expensive to run
+                       ;; over/overh: for every candidate, both parent
+                       ;; and candidate head must be copied.
+                       (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (:rule parent))))
+                     result))))
              parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

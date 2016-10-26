@@ -190,14 +190,14 @@
                    (unify-check c11-comp-subcat-1
                            (let [propernoun (atom :top)
                                  head-sem (atom :top)]
-                             {:synsem {:modified true
-                                       :reflexive false
+                             {:modified true
+                              :synsem {:reflexive false
                                        :propernoun propernoun}
                               :comp {:synsem {:cat :adjective
                                               :sem head-sem}}
-                              :head {:synsem {:cat :noun
+                              :head {:modified false
+                                     :synsem {:cat :noun
                                               :propernoun propernoun
-                                              :modified false
                                               :sem head-sem}}
                               :rule "nbar"}))
 

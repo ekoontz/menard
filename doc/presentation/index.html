@@ -15,6 +15,9 @@
     
     <link rel="shortcut icon" href="favicon.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <link href="css/babel.css" rel="stylesheet" />
+
 </head>
 
 <body class="impress-not-supported">
@@ -71,8 +74,15 @@
       Usage
 
       <div class="code">
-	(require 'babel.english :as en)
-	(require 'babel.italian :as it)
+(require 'babel.english :as en)
+
+(repeatedly
+  #(println
+     (babel.english/morph
+       (babel.english/generate :top))))
+
+(map #(println (babel.english/morph %))
+           (babel.english/generate-all :top))
       </div>
 
     </div>

@@ -1,0 +1,14 @@
+div.code {
+    border:5px solid #eee;
+    width:90%;
+    margin:5%;
+    white-space:pre;
+    font-family:monospace;
+    font-size:smaller;
+    line-height: 2em;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+
+    
+}

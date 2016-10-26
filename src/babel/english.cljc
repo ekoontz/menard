@@ -25,6 +25,19 @@
     @medium-model
     @(deliver medium-model (grammar/medium))))
 
+(defn generate
+  [spec & {:keys [max-total-depth model truncate-children]
+           :or {max-total-depth generate/max-total-depth
+                truncate-children true
+                model (medium)}}]
+  (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
+  (let [result (generate/generate spec model
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate-children)]
+    (if result
+      (conj {:surface (fo result)}
+            result))))
+
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
@@ -39,19 +52,6 @@
    (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))
-
-(defn generate
-  [spec & {:keys [max-total-depth model truncate-children]
-           :or {max-total-depth generate/max-total-depth
-                truncate-children true
-                model (medium)}}]
-  (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (let [result (generate/generate spec model
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)]
-    (if result
-      (conj {:surface (fo result)}
-            result))))
 
 (defn preprocess [input]
   "arbitrary regexp replacements to convert English orthography into a parsable whitespace-delimited expression"

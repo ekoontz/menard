@@ -1,7 +1,6 @@
 (ns babel.directory
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.engine :as engine]
    [babel.english :as en]
    [babel.espanol :as es]
    [babel.francais :as fr]

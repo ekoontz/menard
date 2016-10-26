@@ -3,7 +3,6 @@
   (:require
    [babel.francais :refer [analyze generate parse]]
    [babel.francais.grammar :refer [small medium]]
-   [babel.engine :as engine]
    [babel.korma :as korma]
    [babel.francais.morphology :refer [fo]]
    [babel.parse :as parse]

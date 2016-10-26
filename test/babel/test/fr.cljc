@@ -1,14 +1,13 @@
 (ns ^{:doc "French testing code"}
     babel.test.fr
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :as engine]
-            [babel.directory :refer [models]]
-            [babel.generate :as generate]
-            [babel.francais :as fr :refer [parse small medium]]
+  (:require [babel.directory :refer [models]]
+            [babel.francais :as fr :refer [generate parse small medium]]
             [babel.francais.grammar :as grammar]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
                                                replace-patterns]]
+            [babel.generate :as generate]
             [babel.over :as over]
             [babel.parse :as parse]
             [clojure.string :as string]
@@ -17,9 +16,6 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
-
-(defn generate [spec]
-  (fr/generate spec (medium)))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
@@ -47,46 +43,46 @@
          (over/over grammar arg1 arg2))))
 
 (deftest generate-present
-  (let [result (engine/generate {:synsem {:subcat '()
-                                          :sem {:pred :sleep
-                                                :subj {:pred :I}
-                                                :tense :present
-                                                :aspect :progressive}}}
-                                (small))]
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :sleep
+                                         :subj {:pred :I}
+                                         :tense :present
+                                         :aspect :progressive}}}
+                         (small))]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-conditional
-  (let [result (engine/generate {:synsem {:subcat '()
-                                          :sem {:pred :sleep
-                                                :subj {:pred :I}
-                                                :tense :conditional}}}
-                                (small))]
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :sleep
+                                         :subj {:pred :I}
+                                         :tense :conditional}}}
+                         (small))]
     (is (= "je dormirais" (fo result)))))
 
 (deftest generate-present-irregular
-  (let [result (engine/generate {:synsem {:subcat '()
-                                          :sem {:pred :be
-                                                :subj {:pred :I}
-                                                :tense :present}}}
-                                (small))]
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :be
+                                         :subj {:pred :I}
+                                         :tense :present}}}
+                         (small))]
     (is (= "je suis" (fo result)))))
 
 (deftest generate-imperfect-irregular-être
-  (let [result (engine/generate {:synsem {:subcat '()
-                                          :infl :imperfect
-                                          :sem {:pred :be
-                                                :subj {:pred :I}}}}
-
-                                (small))]
+  (let [result (generate {:synsem {:subcat '()
+                                   :infl :imperfect
+                                   :sem {:pred :be
+                                         :subj {:pred :I}}}}
+                         
+                         (small))]
     (is (= "j'étais" (fo result)))))
 
 (deftest generate-imperfect-irregular-avoir
-  (let [result (engine/generate {:synsem {:subcat '()
-                                          :infl :imperfect
-                                          :sem {:pred :have
-                                                :subj {:pred :I}}}}
-                                (small)
-                                :truncate-children false)]
+  (let [result (generate/generate {:synsem {:subcat '()
+                                            :infl :imperfect
+                                            :sem {:pred :have
+                                                  :subj {:pred :I}}}}
+                                  (small)
+                                  :truncate-children false)]
     (is (not (nil? result)))
     (is (= "av" (get-in result [:head :français :imperfect-stem])))
     (is (= "j'avais" (fo result)))))
@@ -181,14 +177,14 @@
 
 (deftest generate-passe-compose-1
   (let [result
-        (generate/generate (unifyc
-                            {:synsem {:subcat '()}}
-                            {:synsem {:sem {:subj {:pred :noi
-                                                   :gender :fem}
-                                            :pred :go
-                                            :aspect :perfect
-                                            :tense :past}}})
-                           (small))]
+        (generate (unifyc
+                   {:synsem {:subcat '()}}
+                   {:synsem {:sem {:subj {:pred :noi
+                                          :gender :fem}
+                                   :pred :go
+                                   :aspect :perfect
+                                   :tense :past}}})
+                  (small))]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 

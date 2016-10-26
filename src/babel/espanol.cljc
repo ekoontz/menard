@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [dag_unify.core :refer (fail-path get-in unifyc)]
-   [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.espanol.grammar :as grammar]
    [babel.espanol.morphology :as morph :refer [fo]]
@@ -56,9 +55,9 @@
                  truncate-children true}}]]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (let [model (if model model (medium))]
-    (let [result (engine/generate spec model
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)]
+    (let [result (generate/generate spec model
+                                    :max-total-depth max-total-depth
+                                    :truncate-children truncate-children)]
       (if result
         (conj {:surface (fo result)}
               result)))))

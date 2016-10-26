@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.config :refer [language-to-root-spec]])
-(require '[babel.engine :as engine :refer [generate]])
+(require '[babel.generate :refer [generate]])
 (require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
@@ -19,7 +19,7 @@
 
 (defn expression [spec]
   (let [spec (if spec spec :top)]
-    (engine/expression small-plus-plus-np spec)))
+    (generate small-plus-plus-np spec)))
 
 (defn translate [source-language-short-name & [root]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.

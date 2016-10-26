@@ -1,7 +1,7 @@
 (ns babel.italiano
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.engine :as engine]
+   [babel.generate :as generate]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [fo]]
@@ -57,10 +57,10 @@
                 model (medium)
                 truncate true}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (let [result (engine/generate spec model
-                                :do-enrich do-enrich
-                                :max-total-depth max-total-depth
-                                :truncate-children truncate)]
+  (let [result (generate/generate spec model
+                                  :do-enrich do-enrich
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate)]
     (if result
       (conj {:surface (fo result)}
             result))))

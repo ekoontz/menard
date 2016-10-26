@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.directory :refer [models]]
-   [babel.engine :as engine]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
    [babel.latin :as target :refer [fo read-one]]
@@ -52,15 +51,6 @@
               {:root "ardēre"
                :synsem {:sem {:subj {:pred :loro}
                               :tense :future}}})))))
-
-(deftest engine-generate
-  (is (= "ardetis"
-         (fo (engine/generate
-              {:root "ardēre"
-               :synsem {:sem {:subj {:pred :voi}
-                              :tense :present}}}
-              (model))))))
-
 (deftest reader1
   (let [spec {:synsem {:sem {:subj {:pred :lui}
                              :obj :unspec

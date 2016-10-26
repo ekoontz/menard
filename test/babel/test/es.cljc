@@ -1,7 +1,6 @@
 (ns babel.test.es
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.engine :as engine]
             [babel.espanol :refer [analyze generate small medium parse]]
             [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
@@ -36,16 +35,16 @@
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (engine/expression (small) {:synsem {:sem {:pred :be-called}}})]
+  (let [result (generate {:synsem {:sem {:pred :be-called}}} (small))]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
-  (let [result (fo (engine/expression (small)
-                                      {:synsem {:sem {:tense :present
-                                                      :aspect :progressive
-                                                      :subj {:pred :I}
-                                                      :pred :be-called
-                                                      :obj {:pred :Juan}}}}))]
+  (let [result (fo (generate {:synsem {:sem {:tense :present
+                                             :aspect :progressive
+                                             :subj {:pred :I}
+                                             :pred :be-called
+                                             :obj {:pred :Juan}}}}
+                             (small)))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

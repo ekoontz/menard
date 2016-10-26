@@ -1,8 +1,7 @@
 (ns ^{:doc "Parsing Testing Code"}
     babel.test.parse
   (:refer-clojure :exclude [get-in])
-  (:require [babel.engine :as engine]
-            [babel.francais.grammar :refer [small medium]]
+  (:require [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze fo replace-patterns]]
             [babel.over :as over]

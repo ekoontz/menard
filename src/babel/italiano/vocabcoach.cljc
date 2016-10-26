@@ -4,7 +4,7 @@
    #?(:clj [clojure.tools.logging :as log])
    [babel.cache :refer [create-index]]
    #?(:cljs [babel.logjs :as log]) 
-   [babel.engine :as engine]
+   [babel.generate :as generate]
    [babel.italiano :refer [analyze parse]]
    [babel.italiano.grammar :refer [medium]]
    [babel.italiano.lexicon :as main-lexicon]
@@ -39,12 +39,12 @@
                                head-principle)}))
 (defn generate
   ([]
-   (let [result (engine/generate :top model)]
+   (let [result (generate/generate :top model)]
      (if result
        (conj {:surface (fo result)}
              result))))
   ([spec]
-   (let [result (engine/generate spec model)]
+   (let [result (generate/generate spec model)]
      (if result
        (conj {:surface (fo result)}
              result)))))

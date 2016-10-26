@@ -1,7 +1,6 @@
 (ns babel.francais.workbook
   (:refer-clojure :exclude [get-in resolve find parents])
   (:require
-   [babel.engine :as engine]
    [babel.francais :refer [analyze generate lookup parse]]
    [babel.francais.grammar :refer [small medium]]
    [babel.francais.lexicon :refer [lexicon]]

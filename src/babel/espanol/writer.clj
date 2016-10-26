@@ -1,13 +1,13 @@
 (ns babel.espanol.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.engine :as engine :refer [generate]])
 (require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol :refer [small]])
 (require '[babel.espanol.grammar :refer [parse]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
+(require '[babel.generate :refer [generate]])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
 (require '[babel.log :refer [log4j!]])
 (require '[babel.parse :as parse])
@@ -23,7 +23,7 @@
 
 (defn expression [& [spec]]
   (let [spec (if spec spec :top)]
-    (engine/expression (small) spec)))
+    (generate (small) spec)))
 
 (defn fo [expression]
   (morph/fo expression))

@@ -1,7 +1,6 @@
 (ns babel.english.workbook
   (:refer-clojure :exclude [get-in resolve find parents])
   (:require
-   [babel.engine :as engine]
    [babel.english :refer [generate parse]]
    [babel.english.grammar :refer [small small-plus-plus-np medium np-grammar]]
    [babel.english.lexicon :refer [lexicon]]

@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.directory :refer [models]]
-   [babel.engine :as engine]
    [babel.generate :as generate]
    [babel.italiano :refer [analyze fo-ps generate lightning-bolts medium np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]

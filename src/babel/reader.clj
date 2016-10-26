@@ -2,7 +2,7 @@
   [:refer-clojure :exclude [get-in resolve]]
   [:require
    [babel.directory :refer [models]]
-   [babel.engine :as engine]
+   [babel.generate :refer [generate]]
    [babel.korma :as korma]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
@@ -16,7 +16,6 @@
 
 ;; TODO: calling functions in here 'generate-X' is misleading
 ;; since they are querying a table to find sentences, not generating sentences from scratch.
-(declare generate)
 (declare generate-question-and-correct-set)
 (declare id2expression)
 (declare json-read-str)
@@ -75,9 +74,9 @@
 (defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
                                                  target-language target-locale
                                                  source-model target-model]
-  (let [target-expression (engine/generate target-spec :model target-model)
-        source-expression (engine/generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}
-                                           :model source-model)]
+  (let [target-expression (generate target-spec target-model)
+        source-expression (generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}
+                                    source-model)]
         {:source ((:fo source-model) source-expression)
          :targets [(:fo target-model) target-expression]
          :target-spec target-spec

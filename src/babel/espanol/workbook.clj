@@ -1,8 +1,6 @@
 (ns babel.espanol.workbook
   (:refer-clojure :exclude [get-in resolve find parents])
   (:require
-   [babel.engine :as engine]
-
    [babel.espanol :refer [generate parse]]
    [babel.espanol.grammar :refer [small medium]]
    [babel.espanol.lexicon :refer [lexicon]]

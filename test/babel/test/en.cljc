@@ -1,7 +1,6 @@
 (ns babel.test.en
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.engine :as engine]
             [babel.english :refer [analyze fo-ps generate medium parse sentences]]
             [babel.english.grammar :as grammar]
             [babel.english.lexicon :refer [lexicon]]

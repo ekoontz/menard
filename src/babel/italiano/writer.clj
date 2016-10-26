@@ -1,7 +1,7 @@
 (ns babel.italiano.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.engine :as engine])
+(require '[babel.generate :as generate])
 (require '[babel.italiano.grammar :as grammar :refer [create-model-for-spec]])
 (require '[babel.italiano.morphology :as morph])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
@@ -12,7 +12,7 @@
 (def small (grammar/small))
 
 (defn expression [spec]
-  (engine/expression small spec))
+  (generate/generate small spec))
 
 (defn fo [spec]
   (morph/fo spec))

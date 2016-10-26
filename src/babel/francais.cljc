@@ -1,6 +1,5 @@
 (ns babel.francais
   (:require
-   [babel.engine :as engine]
    [babel.francais.grammar :as grammar]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate]
@@ -25,17 +24,17 @@
 
 (defn generate
   ([]
-   (let [result (engine/generate :top (medium))]
+   (let [result (generate/generate :top (medium))]
      (if result
        (conj {:surface (fo result)}
              result))))
   ([spec]
-   (let [result (engine/generate spec (medium))]
+   (let [result (generate/generate spec (medium))]
      (if result
        (conj {:surface (fo result)}
              result))))
   ([spec model]
-   (let [result (engine/generate spec model)]
+   (let [result (generate/generate spec model)]
      (if result
        (conj {:surface (fo result)}
              result)))))

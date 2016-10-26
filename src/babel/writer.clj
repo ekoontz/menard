@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
     [babel.encyclopedia :refer [sem-impl]]
-    [babel.engine :as engine]
+    [babel.generate :refer [generate]]
     [babel.korma :as korma]
     [babel.log :refer [log4j!]]
     [clojure.data.json :as json]
@@ -51,9 +51,9 @@
 
         ;; 1. generate sentence in target language.
         ;; resolve future
-        target-language-sentence (engine/generate spec target-language-model
-                                                  :enrich true
-                                                  :truncate-children false)
+        target-language-sentence (generate spec target-language-model
+                                           :enrich true
+                                           :truncate-children false)
         ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
         ;; so that we can search for them with specifications that might include :comp and :head search keys.
         ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
@@ -112,12 +112,12 @@
         ;; TODO: add warning if semantics of target-expression is merely :top - it's
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
-        source-language-sentence (engine/generate {:synsem {:sem semantics}}
-                                                  source-language-model :truncate-children false)
-
+        source-language-sentence (generate {:synsem {:sem semantics}}
+                                           source-language-model :truncate-children false)
+        
         source-language-sentence (if (:morph-walk-tree source-language-model)
                                    (clojure.core/merge ((:morph-walk-tree source-language-model) source-language-sentence)
-                                          source-language-sentence)
+                                                       source-language-sentence)
                                    (do (log/warn (str "there is no morph-walk-tree function for the model:"
                                                       (:name source-language-model) " of language: "
                                                       (:language source-language-model)))
@@ -198,8 +198,8 @@
         language (:language model)
         debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
     (dotimes [n num]
-      (let [sentence (engine/expression model spec :truncate-children false)
-            ;; In the (engine/expression) call above, we don't want to
+      (let [sentence (generate spec model :truncate-children false)
+            ;; In the (generate) call above, we don't want to
             ;; truncate because we want to store the entire tree in
             ;; the _structure_ and _serialized_ columns of the
             ;; database, so that we can search for them with

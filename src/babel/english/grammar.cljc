@@ -3,7 +3,6 @@
   (:require 
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
-   [babel.enrich :refer [enrich]]
    [babel.index :refer (build-lex-sch-index create-index map-subset-by-cat map-subset-by-pred spec-to-phrases)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
@@ -818,7 +817,6 @@
      :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
-     :enrich enrich
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
@@ -843,7 +841,6 @@
      :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
-     :enrich enrich
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))
@@ -869,7 +866,6 @@
      :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
-     :enrich enrich
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon}))

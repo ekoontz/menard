@@ -29,7 +29,7 @@
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
-                          show-notes true}}]
+                          show-notes false}}]
   (fo expr :from-language from-language :show-notes show-notes))
 
 (defn fo-ps [expr]

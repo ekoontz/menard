@@ -1,7 +1,6 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
-   [babel.enrich :refer [enrich]]
    [babel.index :refer [create-index map-subset-by-cat map-subset-by-pred]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
@@ -596,7 +595,6 @@
      :morph-ps fo-ps
      :lookup (fn [arg]
                (analyze arg lexicon))
-     :enrich enrich
      :generate {:lexicon lexicon}
      :grammar grammar
      :grammar-map (zipmap
@@ -666,7 +664,6 @@
      :language-keyword :italiano
      :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
      :morph-ps fo-ps
-     :enrich enrich
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
@@ -759,7 +756,6 @@
         lexicon-for-generation (lexicon-for-generation lexicon)
         rules (map #(keyword (get-in % [:rule])) grammar)]
     {:name "medium"
-     :enrich enrich
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
@@ -842,7 +838,6 @@
        :morph fo
        :lookup (fn [arg]
                  (analyze arg lexicon))
-       :enrich enrich
        :generate {:lexicon lexicon-for-generation}
        :grammar grammar
        :lexicon lexicon

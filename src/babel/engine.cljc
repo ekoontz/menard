@@ -36,16 +36,12 @@
 ;; TODO: (defn generate [...] (take 1 (generate-all ...)))
 ;; TODO: this should just call (take 1 (generate-all ..))
 ;;(fo (generate :top medium {:max-total-depth 2}))
-(defn generate [spec language-model & {:keys [add-subcat do-enrich max-total-depth truncate-children]
+(defn generate [spec language-model & {:keys [add-subcat max-total-depth truncate-children]
                                        :or {add-subcat true
-                                            do-enrich true
                                             max-total-depth generate/max-total-depth
                                             truncate-children true}}]
-  (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; enrich: " do-enrich "; truncate-children: " truncate-children))
-  (let [language-model (if (future? language-model)
-                         @language-model
-                         language-model)
-        grammar (:grammar language-model)]
+  (log/debug (str "engine/generate with spec: " (strip-refs spec) "; max-total-depth: " max-total-depth "; truncate-children: " truncate-children))
+  (let [grammar (:grammar language-model)]
     (cond (:generate-fn language-model)
           ((:generate-fn language-model) spec)
           (empty? grammar)
@@ -62,42 +58,13 @@
                        (unify spec
                               {:synsem {:subcat '()}}))
 
-                debug (log/debug (str "pre-enrich spec: " spec))
-
                 ;; if a generate-only lexicon is supplied by the language model, use that.
                 lexicon (if (get-in language-model [:generate :lexicon])
                           (get-in language-model [:generate :lexicon])
-                          (get-in language-model [:lexicon]))
-
-                post-enrich-spec (if (and do-enrich (:enrich language-model))
-                                   ((:enrich language-model)
-                                    spec
-                                    lexicon)
-                                   spec)
-
-                spec (if (not (empty? post-enrich-spec))
-                       post-enrich-spec
-                       (list spec))
-
-                debug (log/debug (str "post-enrich spec: "
-                                      (string/join ";" spec)))
-                
-                check-for-empty-spec (if (empty? spec)
-                                       (do (log/error (str "post-enrich spec is empty!"))
-                                           (exception (str "post-enrich spec is empty!"))))
-                debug (if (seq? spec)
-                        (count
-                         (map #(log/debug (str "post-enrich spec: " %))
-                              spec))
-                        (log/debug (str "post-enrich spec: " spec)))
-                ]
-            (first (map (fn [each-spec]
-                          (generate/generate each-spec language-model
-                                             :truncate-children truncate-children
-                                             :max-total-depth max-total-depth))
-                        (if (or (seq? spec) (vector? spec))
-                          spec
-                          [spec])))))))
+                          (get-in language-model [:lexicon]))]
+            (generate/generate spec language-model
+                               :truncate-children truncate-children
+                               :max-total-depth max-total-depth)))))
 
 #?(:clj
 (defn generate-from-request [request]

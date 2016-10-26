@@ -1,7 +1,6 @@
 (ns babel.espanol.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require 
-   [babel.enrich :refer [enrich]]
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
@@ -447,7 +446,6 @@
      :language-keyword :espanol
      :lookup (fn [arg]
                (morph/analyze arg lexicon-for-analysis))
-     :enrich enrich
      
      ;; Will throw exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
@@ -492,7 +490,6 @@
                     [k filtered-v]))))
         lexicon-for-analysis lexicon]
     {:name "medium"
-     :enrich enrich
      :lookup (fn [arg]
                (morph/analyze arg lexicon-for-analysis))
      :morph fo

@@ -25,6 +25,8 @@
     @medium-model
     @(deliver medium-model (grammar/medium))))
 
+(declare morph)
+
 (defn generate
   ([]
    (let [max-total-depth generate/max-total-depth

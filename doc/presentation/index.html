@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -12,13 +12,14 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
 
     <link href="css/impress-demo.css" rel="stylesheet" />
+    <link href="css/dagre.css" rel="stylesheet" />
     
     <link rel="shortcut icon" href="favicon.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
     <link href="css/babel.css" rel="stylesheet" />
 
-</head>
+  </head>
 
 <body class="impress-not-supported">
 
@@ -80,6 +81,46 @@
       </div>
 
     </div>
+
+    <div class="step slide"  data-x="1000" data-y="2000" data-scale="2">
+      how does it work?
+      <div class="code">
+	(defn generate-all [grammar lexicon & [trees]]
+	  (let [tree (or trees grammar)]
+	    (mapcat (fn [tree]
+...
+              (map (fn [child]
+..
+	   (over 
+      </div>
+
+    </div>
+
+    <div class="step slide"  data-x="1000" data-y="4000" data-scale="2">
+       But this does not suffice:
+       <ul>
+	 <li>word order</li>
+	 <li>agreement</li>
+	 <li>semantic compositionality</li>
+       </ul>
+
+       We need some way for the nodes in the tree to <i>relate</i> to one another
+
+    </div>
+
+    <div class="step slide"  data-x="1000" data-y="6000" data-scale="2">
+     Semantic composition
+    </div>
+
+    <div class="step slide"  data-x="1000" data-y="8000" data-scale="2">
+      HERE IS A COOL TREE!!
+      <svg id="tree1" width="960" height="600"><g/></svg>
+
+    </div>
+
+    <div class="step slide"  data-x="1000" data-y="10000" data-scale="2">
+    </div>
+
 
     <div class="step slide" data-x="1000" data-y="-1500" data-scale="2">
       <div class="avm">
@@ -191,6 +232,56 @@ if ("ontouchstart" in document.documentElement) {
 </script>
 <script src="js/impress.js"></script>
 <script>impress().init();</script>
+
+<script src="js/d3.v3.min.js"></script>       
+<script src="js/dagre-d3.min.js"></script>       
+
+<script id="js">
+// Create a new directed graph
+var g = new dagreD3.graphlib.Graph().setGraph({});
+
+g.setNode("det",   { shape: "circle" });
+g.setNode("noun",  { shape: "circle" });
+g.setNode("noun2", { shape: "circle" });
+g.setNode("NP",    { shape: "circle" });
+g.setNode("S",     { shape: "circle" });
+g.setNode("VP",    { shape: "circle" });
+g.setNode("verb",  { shape: "circle" });
+
+g.setEdge("S",     "noun", {});
+g.setEdge("S",     "VP", {});
+g.setEdge("VP",    "verb", {});
+g.setEdge("VP",    "NP", {});
+g.setEdge("NP",    "det", {});
+g.setEdge("NP",    "noun2", {});
+
+var svg = d3.select("#tree1"),
+    inner = svg.select("g");
+
+// Set up zoom support
+var zoom = d3.behavior.zoom().on("zoom", function() {
+      inner.attr("transform", "translate(" + d3.event.translate + ")" +
+                                  "scale(" + d3.event.scale + ")");
+    });
+svg.call(zoom);
+
+// Create the renderer
+var render = new dagreD3.render();
+
+// Run the renderer. This is what draws the final graph.
+render(inner, g);
+
+// Center the graph
+var initialScale = 1;
+
+zoom
+  .translate([(svg.attr("width") - g.graph().width * initialScale) / 2, 20])
+  .scale(initialScale)
+  .event(svg);
+
+svg.attr('height', g.graph().height * initialScale + 40);
+
+</script> 
 
 </body>
 </html>

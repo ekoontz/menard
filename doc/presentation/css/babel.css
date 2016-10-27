@@ -60,3 +60,9 @@ td.ref div {
     margin:0.1em;
     border:2px solid black;
 }
+
+ul {
+ list-style-type: square;
+ list-style-position: outside;
+ list-style-image: none;
+}

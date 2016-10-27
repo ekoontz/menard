@@ -1,7 +1,16 @@
+/* 
+don't make previous or next slides less-opaque, so that
+we can zoom in on content from an existing slide:
+https://github.com/impress/impress.js/issues/136 */
+.impress-enabled .step {
+    opacity: 1.0;
+}
+
 div.code {
     border:5px solid #eee;
     width:90%;
     margin:5%;
+    padding:1%;
     white-space:pre;
     font-family:monospace;
     font-size:smaller;
@@ -9,6 +18,45 @@ div.code {
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
+}
 
-    
+div.avm {
+    margin-right:1em;
+    float:left;
+}
+
+div.avm table {
+    width:auto;
+    border-left:8px solid lightblue;
+    border-top:1px solid lightblue;
+    border-bottom:1px solid lightblue;
+    border-right:8px solid lightblue;
+    border-collapse:collapse;
+}
+
+div.avm th {
+    vertical-align:middle;
+    padding:0.2em;
+    font-family:monospace;
+    font-weight:bold;
+    text-align:left;
+}
+
+div.avm td {
+    padding:0.2em;
+    text-align:right;
+}
+
+div.avm td.ref {
+    margin:0;
+    padding:0;
+}
+
+td.ref div {
+    font-weight:bold;
+    font-size:smaller;
+    text-align:center;
+    padding:0.1em;
+    margin:0.1em;
+    border:2px solid black;
 }

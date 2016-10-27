@@ -114,11 +114,13 @@
 
     <div class="step slide"  data-x="1000" data-y="8000" data-scale="2">
       HERE IS A COOL TREE!!
-      <svg id="tree1" width="960" height="600"><g/></svg>
+      <svg id="tree1" width="500" height="600"><g/></svg>
 
     </div>
 
     <div class="step slide"  data-x="1000" data-y="10000" data-scale="2">
+      HERE IS ANOTHER ONE!
+      <svg id="tree2" width="500" height="600"><g/></svg>
     </div>
 
 
@@ -234,53 +236,11 @@ if ("ontouchstart" in document.documentElement) {
 <script>impress().init();</script>
 
 <script src="js/d3.v3.min.js"></script>       
-<script src="js/dagre-d3.min.js"></script>       
+<script src="js/dagre-d3.min.js"></script>
+<script src="js/tree1.js"></script>
+<script src="js/tree2.js"></script>       
 
-<script id="js">
-// Create a new directed graph
-var g = new dagreD3.graphlib.Graph().setGraph({});
-
-g.setNode("det",   { shape: "circle" });
-g.setNode("noun",  { shape: "circle" });
-g.setNode("noun2", { shape: "circle" });
-g.setNode("NP",    { shape: "circle" });
-g.setNode("S",     { shape: "circle" });
-g.setNode("VP",    { shape: "circle" });
-g.setNode("verb",  { shape: "circle" });
-
-g.setEdge("S",     "noun", {});
-g.setEdge("S",     "VP", {});
-g.setEdge("VP",    "verb", {});
-g.setEdge("VP",    "NP", {});
-g.setEdge("NP",    "det", {});
-g.setEdge("NP",    "noun2", {});
-
-var svg = d3.select("#tree1"),
-    inner = svg.select("g");
-
-// Set up zoom support
-var zoom = d3.behavior.zoom().on("zoom", function() {
-      inner.attr("transform", "translate(" + d3.event.translate + ")" +
-                                  "scale(" + d3.event.scale + ")");
-    });
-svg.call(zoom);
-
-// Create the renderer
-var render = new dagreD3.render();
-
-// Run the renderer. This is what draws the final graph.
-render(inner, g);
-
-// Center the graph
-var initialScale = 1;
-
-zoom
-  .translate([(svg.attr("width") - g.graph().width * initialScale) / 2, 20])
-  .scale(initialScale)
-  .event(svg);
-
-svg.attr('height', g.graph().height * initialScale + 40);
-
+<script>
 </script> 
 
 </body>

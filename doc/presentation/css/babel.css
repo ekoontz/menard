@@ -3,7 +3,7 @@ don't make previous or next slides less-opaque, so that
 we can zoom in on content from an existing slide:
 https://github.com/impress/impress.js/issues/136 */
 .impress-enabled .step {
-    opacity: 1.0;
+    opacity:1.0;
 }
 
 div.code {

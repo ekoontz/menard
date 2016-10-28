@@ -110,52 +110,57 @@
     </div>
 
     <div class="step slide"  data-x="-3000" data-y="0" data-scale="2">
-      Depth-first search (1)
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
+      Depth-first search (1): descend f() 
       <svg id="depth_first_1" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="-1000" data-y="0" data-scale="2">
-      Depth-first search (2)
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
+      Depth-first search (2): descend f() 
       <svg id="depth_first_2" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
-      Depth-first search (3)
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
+      Depth-first search (3): descend f() 
       <svg id="depth_first_3" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
-      Depth-first search (4)
+      Depth-first search (4): descend f() 
       <svg id="depth_first_4" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="5000" data-y="0" data-scale="2">
-      Depth-first search (5)
+      Depth-first search (5): descend f() 
       <svg id="depth_first_5" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="7000" data-y="0" data-scale="2">
-      Depth-first search (6)
+      Depth-first search (6): descend f() 
       <svg id="depth_first_6" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="9000" data-y="0" data-scale="2">
-      Depth-first search (7)
+      Depth-first search (7): descend f() 
       <svg id="depth_first_7" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide"  data-x="11000" data-y="0" data-scale="2">
-      Depth-first search (8)
+      Depth-first search (8): descend f() 
       <svg id="depth_first_8" width="600" height="600"><g/></svg>
     </div>
 
-    <div class="step slide"  data-x="-3000" data-y="1500" data-scale="2">
+    <div id="transition0" class="step slide"  data-x="-3000" data-y="1500" data-scale="2">
       Depth-first search (final)
-      <div class="code" style="float:right">(generate {:sem  ‍👁 }) ⇒ </div>
-      <svg id="she_sees_the_cat" width="600" height="600"><g/></svg>
+      <div style="float:right;width:50%;overflow:hidden;position:absolute;right:0;top:0;font-size:100%;">
+        <div class="code">(generate {:sem _ (_,_)})</div>
+        <div class="code">(generate {:sem ‍👁(_,_)})</div>
+	<div class="code">(generate {:sem ‍👁(_, 🐱)})</div>
+	<div class="code">(generate {:sem ‍👁(‍👱‍♀️,_)})</div>
+	<div class="code">(generate {:sem ‍👁(‍👱‍♀️, 🐱})</div>
+      </div>
+      <div style="float:left;width:69%;height:600px;width:600px;position:absolute;left:1%;top:15%;font-size:100%">
+	<svg id="she_sees_the_cat" width="600" height="600"><g/></svg>
+      </div>
     </div>
 
     <div class="step slide" data-x="0" data-y="1500" data-scale="2">
@@ -208,7 +213,7 @@ if ("ontouchstart" in document.documentElement) {
 <script src="js/d3.v3.min.js"></script>       
 <script src="js/dagre-d3.min.js"></script>
 <script src="js/graphlib-dot.js"></script>
-<script src="js/graphs.js"></script>       
+<script src="js/graphs.js"></script>
 <script>
   d3.select("#she_sees_the_cat").call(dagreD3.render(), graphlibDot.read(she_sees_the_cat));
   d3.select("#depth_first_1").call(dagreD3.render(),    graphlibDot.read(depth_first_1));
@@ -219,7 +224,10 @@ if ("ontouchstart" in document.documentElement) {
   d3.select("#depth_first_6").call(dagreD3.render(),    graphlibDot.read(depth_first_6));
   d3.select("#depth_first_7").call(dagreD3.render(),    graphlibDot.read(depth_first_7));
   d3.select("#depth_first_8").call(dagreD3.render(),    graphlibDot.read(depth_first_8));
+
 </script>
+
+
 
 </body>
 </html>

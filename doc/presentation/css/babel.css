@@ -25,6 +25,10 @@ div.avm {
     font-size:125%;
 }
 
+div.hide {
+    visibility:hidden;
+}
+
 div.avm table {
     width:auto;
     border-left:8px solid lightblue;

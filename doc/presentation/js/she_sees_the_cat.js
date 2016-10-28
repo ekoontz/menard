@@ -10,7 +10,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>sem</th><td>👁 (👱‍♀️,🐱)</td>
+                      <th>sem</th><td> 👁 (👱‍♀️,🐱)</td>
                     </tr>
                     <tr>
                       <th>str</th><td><i>she sees the cat</i></td>
@@ -32,7 +32,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>sem</th><td>‍👁 ( _ ,🐱)</td>
+                      <th>sem</th><td> ‍👁 ( _ ,🐱)</td>
                     </tr>
                     <tr>
                       <th>str</th><td><i>sees the cat</i></td>
@@ -43,7 +43,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>sem</th><td>‍👁 ( _ , _ )</td>
+                      <th>sem</th><td> ‍👁 ( _ , _ )</td>
                     </tr>
                     <tr>
                       <th>str</th><td><i>sees</i></td>
@@ -110,4 +110,4 @@ syntax.graph().transition = function(selection) {
 var render = dagreD3.render();
 
 // Render the graph into svg g
-d3.select("#tree4").call(render, syntax);
+d3.select("#she_sees_the_cat").call(render, syntax);

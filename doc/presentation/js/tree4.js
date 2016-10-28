@@ -2,39 +2,107 @@ var digraph = `
 
 digraph {
     
-    node [rx=5 ry=5 labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"] 
+    node [rx=5 ry=5 labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
 
-    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"] 
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
 
-    A [labelType="html" 
-       label="A <span style='font-size:32px'>Big</span> <span style='color:red;'>HTML</span> Source!"]; 
+    she_sees_the_cat [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>👁 (👱‍♀️,🐱)</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>she sees the cat</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    C; 
+    she [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>‍👱‍♀️</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>she</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    E [label="Bold Red Sink!!" style="fill: #f77; font-weight: bold"]; 
+    sees_the_cat [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>‍👁 ( _ ,🐱)</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>sees the cat</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    A -> B -> C; 
+    sees [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>‍👁 ( _ , _ )</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>sees</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    B -> D [label="A blue label" labelStyle="fill: #55f; font-weight: bold;"]; 
+    the_cat [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>‍🐱</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>the cat</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    D -> E [label="A thick red edge" style="stroke: #f77; stroke-width: 2px;" arrowheadStyle="fill: #f77"]; 
+    the [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td></td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>the</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    C -> E; 
+    cat [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>sem</th><td>🐱</td>
+                    </tr>
+                    <tr>
+                      <th>str</th><td><i>cat</i></td>
+                    </tr>
+                  </table></div>"]; 
 
-    A -> D [labelType="html" label="A multi-rank <span style='color:blue;'>HTML</span> edge!"]; 
 
+    
+    she_sees_the_cat  -> she;
+    she_sees_the_cat  -> sees_the_cat;
+    sees_the_cat -> sees;
+    sees_the_cat -> the_cat;
+    the_cat -> the;
+    the_cat -> cat;
 }
 
 `
 
-var tree3;
+var syntax;
 try {
-    tree3 = graphlibDot.read(digraph);
+    syntax = graphlibDot.read(digraph);
 } catch (e) {
     console.error("could not read input graph:" + e);
 }
 
-tree3.graph().transition = function(selection) {
+syntax.graph().transition = function(selection) {
     return selection.transition().duration(500);
 };
 
@@ -42,4 +110,4 @@ tree3.graph().transition = function(selection) {
 var render = dagreD3.render();
 
 // Render the graph into svg g
-d3.select("#tree3").call(render, tree3);
+d3.select("#tree4").call(render, syntax);

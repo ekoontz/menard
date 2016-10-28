@@ -18,6 +18,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
     <link href="css/babel.css" rel="stylesheet" />
+    <link href="css/graphs.css" rel="stylesheet" />
 
   </head>
 
@@ -109,37 +110,37 @@
     </div>
 
     <div class="step slide"  data-x="-3000" data-y="0" data-scale="2">
-      Semantic composition
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
-      <svg id="she_sees_the_cat" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="-1000" data-y="0" data-scale="2">
-      Depth-first search (0)
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
-      <svg id="depth_first_0" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
-      Depth-first search (0.5)
-      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
-      <svg id="depth_first_05" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
       Depth-first search (1)
       <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
       <svg id="depth_first_1" width="600" height="600"><g/></svg>
     </div>
 
-    <div class="step slide"  data-x="5000" data-y="0" data-scale="2">
+    <div class="step slide"  data-x="-1000" data-y="0" data-scale="2">
       Depth-first search (2)
+      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
       <svg id="depth_first_2" width="600" height="600"><g/></svg>
     </div>
 
-    <div class="step slide"  data-x="7000" data-y="0" data-scale="2">
+    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
       Depth-first search (3)
+      <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
       <svg id="depth_first_3" width="600" height="600"><g/></svg>
+    </div>
+
+    <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
+      Depth-first search (4)
+      <svg id="depth_first_4" width="600" height="600"><g/></svg>
+    </div>
+
+    <div class="step slide"  data-x="5000" data-y="0" data-scale="2">
+      Depth-first search (5)
+      <svg id="depth_first_5" width="600" height="600"><g/></svg>
+    </div>
+
+    <div class="step slide"  data-x="7000" data-y="0" data-scale="2">
+      Semantic composition
+      <div class="code" style="float:right">(generate {:sem  ‍👁 }) ⇒ </div>
+      <svg id="she_sees_the_cat" width="600" height="600"><g/></svg>
     </div>
 
     <div class="step slide" data-x="9000" data-y="0" data-scale="2">
@@ -195,10 +196,11 @@ if ("ontouchstart" in document.documentElement) {
 <script src="js/graphs.js"></script>       
 <script>
   d3.select("#she_sees_the_cat").call(dagreD3.render(), graphlibDot.read(she_sees_the_cat));
-  d3.select("#depth_first_0").call(dagreD3.render(),    graphlibDot.read(depth_first_0));
-  d3.select("#depth_first_05").call(dagreD3.render(),    graphlibDot.read(depth_first_05));
   d3.select("#depth_first_1").call(dagreD3.render(),    graphlibDot.read(depth_first_1));
   d3.select("#depth_first_2").call(dagreD3.render(),    graphlibDot.read(depth_first_2));
+  d3.select("#depth_first_3").call(dagreD3.render(),    graphlibDot.read(depth_first_3));
+  d3.select("#depth_first_4").call(dagreD3.render(),    graphlibDot.read(depth_first_4));
+  d3.select("#depth_first_5").call(dagreD3.render(),    graphlibDot.read(depth_first_5));
 </script>
 
 </body>

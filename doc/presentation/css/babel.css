@@ -8,7 +8,6 @@ https://github.com/impress/impress.js/issues/136 */
 
 div.code {
     border:5px solid #eee;
-    width:90%;
     margin:5%;
     padding:1%;
     white-space:pre;
@@ -23,6 +22,7 @@ div.code {
 div.avm {
     margin-right:1em;
     float:left;
+    font-size:125%;
 }
 
 div.avm table {

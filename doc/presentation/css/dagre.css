@@ -1,7 +1,8 @@
 svg {
-    margin:1em;
+    margin:0.25em;
     border: 0px solid #999;
     overflow: hidden;
+    float:left;
 }
 
 .node {

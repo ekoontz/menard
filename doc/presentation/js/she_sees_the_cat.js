@@ -82,8 +82,6 @@ digraph {
                       <th>str</th><td><i>cat</i></td>
                     </tr>
                   </table></div>"]; 
-
-
     
     she_sees_the_cat  -> she;
     she_sees_the_cat  -> sees_the_cat;
@@ -110,4 +108,5 @@ syntax.graph().transition = function(selection) {
 var render = dagreD3.render();
 
 // Render the graph into svg g
-d3.select("#she_sees_the_cat").call(render, syntax);
+var svg = d3.select("#she_sees_the_cat").call(render, syntax);
+

@@ -117,10 +117,15 @@
     <div class="step slide"  data-x="-1000" data-y="0" data-scale="2">
       Depth-first search
       <div class="code" style="float:left">(generate {:sem  ‍👁 }) ⇒ </div>
-      <svg id="depth_first" width="600" height="600"><g/></svg>
+      <svg id="depth_first_1" width="600" height="600"><g/></svg>
     </div>
 
-    <div class="step slide" data-x="1000" data-y="0" data-scale="2">
+    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
+      Depth-first search (2)
+      <svg id="depth_first_2" width="600" height="600"><g/></svg>
+    </div>
+
+    <div class="step slide" data-x="3000" data-y="0" data-scale="2">
       <div class="avm">
 	<table>
 	  <tr>
@@ -175,7 +180,10 @@ if ("ontouchstart" in document.documentElement) {
   d3.select("#she_sees_the_cat").call(dagreD3.render(), graphlibDot.read(she_sees_the_cat));
 </script>
 <script>
-  d3.select("#depth_first").call(dagreD3.render(), graphlibDot.read(depth_first_1));
+  d3.select("#depth_first_1").call(dagreD3.render(), graphlibDot.read(depth_first_1));
+</script>
+<script>
+  d3.select("#depth_first_2").call(dagreD3.render(), graphlibDot.read(depth_first_2));
 </script>
 
 </body>

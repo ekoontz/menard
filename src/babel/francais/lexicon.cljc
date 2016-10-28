@@ -8,10 +8,13 @@
    [babel.pos :as pos :refer [pronoun-acc]]
    [dag_unify.core :refer [get-in]]))
 
-(def lexicon-source 
+(def lexicon-source
   {
    "abandoner" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}
+
+   "abîmeer" {:synsem {:cat :verb
+                         :sem {:pred :damage}}}
 
    "accepter" {:synsem {:cat :verb
                         :sem {:pred :accept}}}
@@ -31,7 +34,7 @@
                            :subj {:human true}}}}
    "ajouter" {:synsem {:cat :verb
                      :sem {:pred :add}}}
-    
+
    "aller" {:français {:future-stem "ir"
                        :present {:1sing "vais"
                                  :2sing "vas"
@@ -46,7 +49,7 @@
 
    "annoncer" {:synsem {:cat :verb
                        :sem {:pred :announce}}}
-   
+
    "appeler" {:synsem {:cat :verb
                        :boot-stem "appell"
                        :future-stem "appell"
@@ -61,11 +64,11 @@
    "apprendre" {:synsem {:cat :verb
                          :past-participle "appris"
                          :sem {:pred :learn}}}
-   
+
    "rester" {:synsem {:cat :verb
                        :essere true
                        :sem {:pred :remain}}}
-   
+
    "assurer" [{:synsem {:cat :verb
                         :sem {:pred :assure}}}
               {:synsem {:cat :verb
@@ -73,9 +76,9 @@
 
    "attendre" {:synsem {:cat :verb
                         :sem {:pred :wait-for}}}
-                       
+
    "augmenter" {:synsem {:cat :verb
-                         :sem {:pred :increase}}}                   
+                         :sem {:pred :increase}}}
    "avoir"
    (let [common
          {:synsem {:essere false
@@ -110,16 +113,16 @@
 
    "changer" {:synsem {:cat :verb
                       :sem {:pred :change}}}
-   
+
    "chanter" {:synsem {:cat :verb
                        :sem {:pred :sing}}}
-   
+
    "commencer" {:synsem {:cat :verb
                          :sem {:pred :begin}}}
 
    "commenter" {:synsem {:cat :verb
                          :sem {:pred :comment}}}
-   
+
    "comprendre" {:synsem {:cat :verb
                           :past-participle "compris"
                           :sem {:pred :understand}}}
@@ -128,10 +131,10 @@
                           :sem {:pred :conserve}}}
                 {:synsem {:cat :verb
                           :sem {:pred :preserve}}}]
-   
+
    "considérer" {:synsem {:cat :verb
                          :sem {:pred :consider}}}
-    
+
    "couper" {:synsem {:cat :verb
                       :sem {:pred :cut}}}
 
@@ -167,13 +170,13 @@
 
    "créer" {:synsem {:cat :verb
                      :sem {:pred :create}}}
-   
+
    "croire" {:synsem {:cat :verb
                       :sem {:pred :believe}}}
-   
+
    "danser" {:synsem {:cat :verb
                        :sem {:pred :dance}}}
-   
+
    "decider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
 
@@ -195,13 +198,13 @@
                                :3plur "doivent"}}}]
      (unify common {:synsem {:sem {:pred :have-to
                                    :subj {:human true}}}}))
-  
+
    "décider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
-   
+
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}
-   
+
    "devenir"
    (let [common
          {:synsem {:essere true
@@ -218,8 +221,8 @@
                                :3plur "deviennent"}}}]
      (unify common {:synsem {:sem {:pred :become
                                    :subj {:human true}}}}))
-   
-   
+
+
    "dire"
    (let [shared-part-of-dire
          {:synsem {:cat :verb}
@@ -237,13 +240,13 @@
              {:synsem {:sem {:pred :say}}})
       (unify shared-part-of-dire
              {:synsem {:sem {:pred :tell}}})])
-   
+
    "diviser" {:synsem {:cat :verb
                       :sem {:pred :divide}}}
-   
+
    "donner" {:synsem {:cat :verb
                       :sem {:pred :give}}}
-   
+
    "dormir" {:synsem {:cat :verb
                       :sem {:pred :sleep}}
              :français {:past-participle "dit"
@@ -306,7 +309,7 @@
 
    "essayer" {:synsem {:cat :verb
                       :sem {:pred :try}}}
-   
+
     "éteindre" {:synsem {:cat :verb
                          :sem {:pred :turn-off}
                          :essere false}
@@ -320,7 +323,7 @@
                                      :3plur "éteignent"}
                           :past-participle "étreint"
                           :imperfect-stem "éteign"}}
-    
+
     "être"
    (let [common
          {:synsem {:cat :verb
@@ -351,7 +354,7 @@
              {:synsem {:subcat {:2 {:essere true}}}})])
    ;; ^^ in auxiliary form, "être" only allows essere=true verbs.
    ;; compare with "avoir", which only allows essere=false verbs.
-     
+
    "étreindre" {:synsem {:cat :verb
                          :sem {:pred :hug}
                          :essere false}
@@ -365,22 +368,22 @@
                                      :3plur "étreignent"}
                           :past-participle "étreint"
                           :imperfect-stem "étreign"}}
-   
+
    "étudier" {:synsem {:cat :verb
                        :sem {:pred :study}}}
-   
+
    "éviter" {:synsem {:cat :verb
                       :sem {:pred :avoid}}}
-  
+
    "exister" {:synsem {:cat :verb
                        :sem {:pred :exist}}}
-   
+
    "exprimer" {:synsem {:cat :verb
                         :sem {:pred :express}}}
-   
+
    "expulser" {:synsem {:cat :verb
                         :sem {:pred :throw-out}}}
-   
+
    "faire"
       (let [shared-part-of-faire
             {:synsem {:cat :verb}
@@ -394,15 +397,15 @@
                                   :1plur "faisons"
                                   :2plur "faites"
                                   :3plur "font"}}}]
-    
+
         [(unify shared-part-of-faire
              {:synsem {:sem {:pred :do}}})
          (unify shared-part-of-faire
                 {:synsem {:sem {:pred :make}}})])
-   
+
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
-   
+
    "gagner" [{:synsem {:cat :verb
                        :sem {:pred :earn
                              :subj {:human true}}}}
@@ -502,14 +505,14 @@
 
    "mal" {:synsem {:cat :adverb
                    :sem {:pred :bad}}}
-  
+
   "manger"
   {:synsem {:cat :verb
             :sem {:pred :eat}}}
-  
+
   "manquer" {:synsem {:cat :verb
                       :sem {:pred :to-be-missing}}}
-  
+
   "marcher" [{:synsem {:cat :verb
                        :sem {:pred :walk}}}
              {:synsem {:cat :verb
@@ -532,9 +535,9 @@
                                :1plur "mettons"
                                :2plur "mettez"
                                :3plur "mettent"}
-                     
+
                      :sem {:pred :put}}}
-  
+
   "naître" {:synsem {:cat :verb
                      :future-stem "naîtr"
                      :imperfect-stem "naiss"
@@ -545,9 +548,9 @@
                                :1plur "naissons"
                                :2plur "naissez"
                                :3plur "naissent"}
-                     
+
                      :sem {:pred :be-born}}}
-  
+
   "nous"
   (let [common {:synsem {:case :top
                          :agr {:person :1st
@@ -560,7 +563,7 @@
      (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
-  
+
    "observer" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
 
@@ -588,7 +591,7 @@
                          :imperfect "peign"}
               :synsem {:cat :verb
                        :sem {:pred :paint}}}
-   
+
    "profiter (de)" {:synsem {:cat :verb
                              :sem {:pred :take-advantage-of}}}
 
@@ -618,12 +621,12 @@
              {:synsem {:sem {:pred :may}}})
       (unify shared-part-of-pouvoir
              {:synsem {:sem {:pred :be-able-to}}})])
-  
+
   "regarder" [{:synsem {:cat :verb
                         :sem {:pred :look}}}
               {:synsem {:cat :verb
                         :sem {:pred :watch}}}]
-  
+
   "remarquer" {:synsem {:cat :verb
                         :sem {:pred :note}}}
 
@@ -651,7 +654,7 @@
                                    :2 {:agr subject-agr
                                        :pronoun true
                                        :reflexive true
-                                       :sem subject-semantics}}}})  
+                                       :sem subject-semantics}}}})
    "s'appeler"
    (let [subject-semantics (atom :top)
          called-semantics (atom :top)
@@ -696,7 +699,7 @@
                                          :pronoun true
                                          :reflexive true
                                          :sem subject-semantics}}}})
-   
+
    "se changer" (let [subject-semantics (atom {:human true})
                       subject-agr (atom :top)]
                   {
@@ -712,11 +715,11 @@
                                          :pronoun true
                                          :reflexive true
                                          :sem subject-semantics}}}})
-   
+
    ;; not supported in grammar yet.
    ;;                                     :3 {:cat :adverb
    ;;                                         :sem {:pred :bad}}}}})
-   
+
   "s'endormir" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -731,7 +734,7 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-  
+
   "s'énerver" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -746,7 +749,7 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-  
+
   "s'ennuyer" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -763,7 +766,7 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-  
+
  "s'enrager" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -778,7 +781,7 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
- 
+
   "se lever" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -825,7 +828,7 @@
      (unify gender-pronoun-agreement
             common
             {:synsem {:agr {:gender :masc}}})])
-  
+
   "venir"
    (let [common
          {:synsem {:essere true
@@ -842,7 +845,7 @@
                                :3plur "viennent"}}}]
      (unify common {:synsem {:sem {:pred :come
                                    :subj {:human true}}}}))
-  
+
   "vous"
   (let [common {:synsem {:case :top
                          :agr {:person :2nd
@@ -862,7 +865,7 @@
 
       ;; make an intransitive version of every verb which has a path [:sem :obj].
       intransitivize
-              
+
       ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
       transitivize
 
@@ -879,7 +882,7 @@
                                :reflexive false
                                }}}
                {:synsem {:sem {:obj :unspec}}})
-              
+
       ;; TODO: use lexiconfn/if-then here, like espanol/lexicon does.
       ;; default: essere=false
       (map-function-on-map-vals
@@ -896,14 +899,13 @@
                       true ;; otherwise, leave the verb alone
                       val))
               vals)))
-              
+
       ;; Cleanup functions can go here. Number them for ease of reading.
       ;; 1. this filters out any verbs without an inflection:
-      ;; infinitive verbs should have inflection ':infinitive', 
+      ;; infinitive verbs should have inflection ':infinitive',
       ;; rather than not having any inflection.
-      (map-function-on-map-vals 
+      (map-function-on-map-vals
        (fn [k vals]
          (filter #(or (not (= :verb (get-in % [:synsem :cat])))
                       (not (= :none (get-in % [:synsem :infl] :none))))
                  vals)))))
-

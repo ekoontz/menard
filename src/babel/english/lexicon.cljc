@@ -50,14 +50,14 @@
 
    "accept"  {:synsem {:cat :verb
                        :sem {:pred :accept}}}
-   
+
    "accompany" {:synsem {:cat :verb
                          :sem {:pred :accompany}
                          :subcat {:1 {:cat :noun}
                                   :2 {:cat :noun}
                                   :3 '()}}
                 :english {:past "accompanied"}}
-   
+
    "add" {:synsem {:cat :verb
                    :sem {:pred :add}}}
 
@@ -80,7 +80,7 @@
              {:synsem {:cat :verb
                        :sem {:pred :arrive
                              :subcat {:2 '()}}}}]
-   
+
    "ask" {:synsem {:cat :verb
                    :sem {:pred :chiedere}}}
 
@@ -118,7 +118,7 @@
 
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}
-   
+
    "be" (let [number-agr (atom :top)
               common {:synsem {:cat :verb}
                       :english {:present {:1sing "am"
@@ -223,11 +223,11 @@
                                                  :1plur "were able"
                                                  :2plur "were able"
                                                  :3plur "were able"}
-                                     
+
                                      ;; TODO: improve this. Currently sounds pretty awkward:
                                      ;; "he was being able"
                                      :participle "being able"
-                                     
+
                                      :present {:1sing "am able"
                                                :2sing "are able"
                                                :3sing "is able"
@@ -331,7 +331,7 @@
                        :sem {:pred :become}
                        :subcat {:2 '()}}
               :english {:past "became"}}]
-   
+
    "begin" [{:synsem {:cat :verb
                       :sem {:pred :begin}
                       :subcat {:2 '()}}
@@ -399,7 +399,7 @@
    "bring" {:synsem {:cat :verb
                      :sem {:pred :bring}}
           :english {:past "brought"}}
-   
+
    "burn" {:synsem {:cat :verb
                     :sem {:pred :burn}}
            :english {:past "burnt"}}
@@ -411,7 +411,7 @@
 
    "call" {:synsem {:cat :verb
                     :sem {:pred :call}}}
-   "can" 
+   "can"
    {:english {:participle "being able to"
               :past "could"
               :imperfect {:1sing "used to be able to"
@@ -464,23 +464,23 @@
                                            :sem {:obj {:human true}
                                                  :pred :with}
                                            :subcat '()}}}})])
-             
+
    "charge" {:synsem {:cat :verb
                       :sem {:pred :caricare}}}
 
    "check" {:synsem {:cat :verb
                      :sem {:pred :check}}}
-                   
+
    "city" {:synsem {:cat :noun
                     :sem {:pred :city
                           :city true}}}
-   
+
    "close" {:synsem {:cat :verb
-                     :sem {:pred :close}}}                
+                     :sem {:pred :close}}}
 
    "coffee" {:synsem {:cat :noun
                       :sem {:pred :coffee}}}
-   
+
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}
                     :subcat {:2 '()}}
@@ -505,7 +505,7 @@
 
    "continue" {:synsem {:cat :verb
                       :sem {:pred :continue}}}
-   
+
    "convert" {:synsem {:cat :verb
                        :sem {:pred :convert}}}
 
@@ -516,7 +516,7 @@
                                        :sem {:pred :with}}}}}
    "count" {:synsem {:cat :verb
                       :sem {:pred :count}}}
-   
+
    "create" {:synsem {:cat :verb
                       :sem {:pred :create}}}
 
@@ -529,6 +529,10 @@
           :synsem {:cat :verb
                    :sem {:pred :cut}}}
 
+    "damage" {:synsem {:cat :verb
+                   :sem {:pred :damage}}}
+
+
    "dance" [{:synsem {:cat :verb
                       :sem {:pred :dance}
                       :subcat {:2 {:cat :prep
@@ -536,7 +540,7 @@
             {:synsem {:cat :verb
                       :sem {:pred :dance}
                       :subcat {:2 '()}}}]
-   
+
    "decide" {:synsem {:cat :verb
                       :sem {:pred :decide}}}
 
@@ -554,7 +558,7 @@
 
    "dictate" {:synsem {:cat :verb
                       :sem {:pred :dictate}}}
-   
+
    "dine" {:synsem {:cat :verb
                     :sem {:pred :cenare}
                     :subcat {:2 '()}}}
@@ -564,7 +568,7 @@
 
    "divide" {:synsem {:cat :verb
                       :sem {:pred :divide}}}
-   
+
    "drink" {:synsem {:cat :verb
                      :sem {:pred :drink}}
             :english {:past "drank"}}
@@ -614,7 +618,7 @@
    "enjoy" {:english {:present {:3sing "enjoys"}}
             :synsem {:cat :verb
                      :sem {:pred :enjoy}}}
-  
+
    "enter"  {:synsem {:cat :verb
                       :sem {:pred :enter}}}
 
@@ -630,7 +634,7 @@
    "exist" {:synsem {:cat :verb
                      :sem {:pred :exist}
                      :subcat {:2 '()}}}
-   
+
    "exit" {:synsem {:cat :verb
                      :sem {:pred :exit}}}
 
@@ -640,11 +644,11 @@
    "faint" {:synsem {:cat :verb
                      :sem {:pred :faint}
                      :subcat {:2 '()}}}
-   
+
     "fall" {:synsem {:cat :verb
                      :sem {:pred :fall}}
           :english {:past "fell"}}
-    
+
     "fall asleep"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -663,7 +667,7 @@
                       :sem {:human true
                             :pred :father
                             :child false}}}
-   
+
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 
@@ -675,14 +679,14 @@
                     :participle "fitting"}
           :synsem {:cat :verb
                    :sem {:pred :fit}}}
-    
-    
+
+
     "fold" {:synsem {:cat :verb
                     :sem {:pred :fold}}}
-   
+
    "follow" {:synsem {:cat :verb
                       :sem {:pred :follow}}}
-   
+
    "for" {:synsem {:cat :prep
                    :subcat {:1 {:cat :noun}}
                    :sem {:pred :for}}}
@@ -726,7 +730,7 @@
       :english {:participle "getting bored"
                 :present {:3sing "gets bored"}
                 :past "got bored"}})
-   
+
    "get dressed"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -739,8 +743,8 @@
       :english {:participle "getting dressed"
                 :present {:3sing "gets dressed"}
                 :past "got dressed"}})
-   
-    
+
+
     "get married"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -753,7 +757,7 @@
       :english {:participle "getting married"
                 :present {:3sing "gets married"}
                 :past "got married"}})
-    
+
     "get off"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -864,7 +868,7 @@
     :english {:past "went downstairs"
               :participle "going downstairs"
               :present {:3sing "goes downstairs"}}}
-   
+
    "go out"
    {:synsem {:cat :verb
              :sem {:activity true
@@ -874,7 +878,7 @@
     :english {:past "went out"
               :participle "going out"
               :present {:3sing "goes out"}}}
-   
+
    "go upstairs"
    {:synsem {:cat :verb
              :sem {:activity true
@@ -884,7 +888,7 @@
     :english {:past "went upstairs"
               :participle "going upstairs"
               :present {:3sing "goes upstairs"}}}
-   
+
    "grab"  {:synsem {:cat :verb
                      :sem {:pred :prendere}}
             :english {:participle "grabbing"
@@ -892,7 +896,7 @@
 
    "guess" {:synsem {:cat :verb
                      :sem {:pred :guess}}}
-   
+
    ;; TODO: add auxiliary sense of "have"
    "have" [;; possessive
            {:synsem {:cat :verb
@@ -909,7 +913,7 @@
                      :sem {:pred :have-to}}
             :english {:present {:3sing "has"}
                       :past "had"}
-            :modal-with :infinitive}] 
+            :modal-with :infinitive}]
 
    "have dinner" {:synsem {:cat :verb
                            :sem {:pred :have-dinner}
@@ -927,14 +931,14 @@
       :english {:participle "having fun"
                 :present {:3sing "has fun"}
                 :past "had fun"}})
-   
+
    "have lunch" {:synsem {:cat :verb
                           :sem {:pred :have-lunch}
                           :subcat {:2 '()}}
                  :english {:present {:3sing "has lunch"}
                            :past "had lunch"
                            :participle "having lunch"}}
-   
+
    "he" {:synsem {:cat :noun
                   :pronoun true
                   :case :nom
@@ -996,7 +1000,7 @@
                    :sem {:human true
                          :pred :lui}
                    :subcat '()}}
-   
+
    "himself" {:synsem {:cat :noun
                        :pronoun true
                        :case :acc
@@ -1015,13 +1019,13 @@
                     :agr {:number :plur}
                     :sem {:of {:pred :lui}}
                     :def :possessive}}]
-                 
+
    "hit" {:english {:past {:english "hit"
                           :note "past tense"}
                    :participle "hitting"}
           :synsem {:cat :verb
                    :sem {:pred :hit}}}
-   
+
    "hold"
    {:synsem {:cat :verb
              :sem {:pred :hold}}
@@ -1046,7 +1050,7 @@
              :sem {:pred :hug}}
     :english {:past "hugged"
               :participle "hugging"}}
-            
+
    "hurt" (let [common {:english {:past "hurt"}
                         :synsem {:cat :verb}}]
             ;; 1. reflexive sense of "hurt"
@@ -1099,7 +1103,7 @@
                     :number :plur}
               :sem {:human true
                     :pred :Juan-and-i}
-              :subcat '()}}]        
+              :subcat '()}}]
 
    "Juan and me"
    [{:synsem {:cat :noun
@@ -1111,8 +1115,8 @@
                     :number :plur}
               :sem {:human true
                     :pred :Juan-and-i}
-              :subcat '()}}]        
-   "I" 
+              :subcat '()}}]
+   "I"
    [{:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
@@ -1134,7 +1138,7 @@
               :sem {:human true
                     :pred :I}
               :subcat '()}}]
-  
+
    "if"   {:synsem {:cat :comp
                     :comp-type :if
                     :subcat {:1 {:cat :verb
@@ -1143,7 +1147,7 @@
 
    "imagine" {:synsem {:cat :verb
                        :sem {:pred :imagine}}}
-   
+
    "import" {:synsem {:cat :verb
                       :sem {:pred :import}}}
 
@@ -1242,7 +1246,7 @@
    "leave" [{:english {:past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave-behind}}}
-            
+
             {:english {:note "on a trip"
                        :past "left"}
              :synsem {:cat :verb
@@ -1252,13 +1256,13 @@
                    :sem {:pred :lie}
                    :subcat {:2 {:cat :prep
                                 :sem {:pred :to}}}}}
-   
+
    "lift" {:synsem {:cat :verb
                     :sem {:pred :lift}}}
-             
+
    "light" {:synsem {:cat :verb
                      :sem {:pred :light}}}
-   
+
    "listen to" {:synsem {:cat :verb
                          :sem {:pred :listen-to}}
                 :english {:participle "listening to"
@@ -1269,7 +1273,7 @@
                      :sem {:pred :live-somewhere}}}
            {:synsem {:cat :verb
                      :sem {:pred :live}}}]
-    
+
     "look" {:share-sem :obj
            :synsem {:cat :verb
                     :sem {:pred :look
@@ -1350,11 +1354,11 @@
              :sem {:human true
                     :pred :luisa-and-i}
              :subcat '()}}
-   
+
    "make" {:synsem {:cat :verb
                     :sem {:pred :make}}
            :english {:past "made"}}
-   
+
    "man" {:english {:plur "men"}
           :synsem {:agr {:gender :masc}
                    :cat :noun
@@ -1435,8 +1439,8 @@
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
-   
-   "myself" 
+
+   "myself"
    {:synsem {:cat :noun
              :pronoun true
              :case :acc
@@ -1501,7 +1505,7 @@
                     :gender :fem}
               :sem {:human true}
               :subcat '()}}
-    
+
     {:synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1511,7 +1515,7 @@
                     :gender :masc}
               :sem {:human true}
               :subcat '()}}]
-   
+
    "paint"  {:synsem {:cat :verb
                       :sem {:pred :paint}}}
 
@@ -1529,7 +1533,7 @@
    "pizza"
    {:synsem {:cat :noun
              :sem {:pred :pizza}}}
-   
+
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").
    "play" [{:comment "We are talking about playing games or sports."
@@ -1576,19 +1580,19 @@
                            ;; example of a synonym, where we use the convention of making the
                            ;; :pred (i.e. :student) the more common case (c.f. "student")
                            :pred :student}}}
-   
+
    "put" {:english {:past "put"
                     :participle "putting"}
           :synsem {:cat :verb
                    :sem {:pred :put}}}
-   
+
    "read" ;; if this was a phonetic dictionary, there would be two entries for each pronounciation (i.e. both "reed" or "red" pronounciations)
    {:english {:past {:english "read"
                      :note "past tense"}}
     :synsem {:cat :verb
              :sem {:pred :read
                    :discrete false}}}
-   
+
    "receive"  {:synsem {:cat :verb
                         :sem {:pred :receive}}}
 
@@ -1615,8 +1619,8 @@
                        :subcat {:2 {:cat :prep
                                     :sem {:pred :with}}}
                        :sem {:pred :remain}}} ;; for other than italian
-                    
-             ;; these two below are for Italian.          
+
+             ;; these two below are for Italian.
              {:english {:note {:it "ri"}}
               :synsem {:cat :verb
                        :sem {:pred :remain1}
@@ -1633,8 +1637,8 @@
 
     "repeat"  {:synsem {:cat :verb
                         :sem {:pred :repeat}}}
-    
-    
+
+
     "reserve" {:synsem {:cat :verb
                 :sem {:pred :reserve}}}
 
@@ -1681,10 +1685,10 @@
                                  :pronoun false
                                  :sem of
                                  :subcat '()}}}})]
-         
+
    "salad" {:synsem {:cat :noun
                      :sem {:pred :salad}}}
-            
+
    "say" {:english {:past "said"}
           :synsem {:cat :verb
                    :sem {:pred :say}}}
@@ -1788,7 +1792,7 @@
    "sing" {:synsem {:cat :verb
                     :sem {:pred :sing}}
            :english {:past "sang"}}
-   
+
    "sit down" {:english {:past "sat down"
                          :participle "sitting down"
                          :past-participle "sat down"
@@ -1809,7 +1813,7 @@
                           :comparative false}
                     :subcat {:1 {:cat :det}
                              :2 '()}}})
-  
+
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}
                     :subcat {:2 {:sem {:pred :picture}}}}
@@ -1833,14 +1837,18 @@
     :synsem {:cat :verb
              :sem {:pred :speak}}}
 
+    "spell" {:synsem {:cat :verb
+             :sem {:pred :spell}}}
+
+
     "spend" {:synsem {:cat :verb
                      :sem {:pred :spend}}
             :english {:past "spent"}}
-    
-    
+
+
     "start" {:synsem {:cat :verb
                      :sem {:pred :start}}}
-   
+
    "stay" {:synsem {:cat :verb
                     :sem {:pred :stay}
                     :subcat {:2 {:cat :prep
@@ -1935,7 +1943,7 @@
                            :of :none}
                      :def :def}}]
 
-   "the" (map #(unify % 
+   "the" (map #(unify %
                       {:synsem {:cat :det
                                 :sem {:pred :definite
                                       :of {:pred nil}}
@@ -1950,7 +1958,7 @@
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
-    
+
    "themselves"
    [{:synsem {:cat :noun
               :pronoun true
@@ -1960,7 +1968,7 @@
                     :number :plur
                     :gender :fem}
               :subcat '()}}
-    
+
     {:synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -1970,10 +1978,10 @@
                     :gender :masc}
               :subcat '()}}
     ]
-   
+
    "they"
    [;; human
-    {:english {:note "♂"} 
+    {:english {:note "♂"}
      :synsem {:cat :noun
               :pronoun true
               :case :nom
@@ -2020,7 +2028,7 @@
                     :human false
                     :pred :loro}
               :subcat '()}}]
-   
+
    "think" (let [common {:synsem {:cat :verb
                                   :subcat {:1 {:cat :noun
                                                :sem {:human true}}}}
@@ -2055,12 +2063,12 @@
    "to" {:synsem {:cat :prep
                   :subcat {:1 {:cat :noun}}
                   :sem {:pred :to}}}
-   
+
    "transfer" {:english {:past "transferred"
                          :participle "transferring"}
                :synsem {:cat :verb
                         :sem {:pred :transfer}}}
-              
+
    "try" [{:modal-with :infinitive
            :synsem {:cat :verb
                     :sem {:pred :try}}}
@@ -2074,8 +2082,8 @@
     :english {:past "turned off"
               :present {:3sing "turns off"}
               :participle "turning off"}}
-    
-    
+
+
     "understand" (let [common {:english {:past "understood"}}]
                   [(unify
                    common
@@ -2092,7 +2100,7 @@
                    {:synsem {:cat :verb
                              :sem {:pred :understand-simply}}
                     :english {:note "simply"}})])
-                           
+
    "upload"  {:synsem {:cat :verb
                        :sem {:pred :caricare}}}
 
@@ -2102,7 +2110,7 @@
    "wait"  {:synsem {:cat :verb
                      :sem {:pred :wait-for}
                      :subcat {:2 {:sem {:pred :for}}}}}
-                           
+
    "wake up"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -2128,7 +2136,7 @@
 
    "warn" {:synsem {:cat :verb
                      :sem {:pred :warn}}}
-   
+
    ;; TODO: rename {:pred :wash} to {:pred :wash-oneself} and add non-reflexive "wash" with {:pred :wash}.
    "wash" (let [subject-semantics (atom :top)]
             {:synsem {:cat :verb
@@ -2171,7 +2179,7 @@
                    :gender :masc
                    :pred :noi}
              :subcat '()}}]
-   
+
    "wear"  {:english {:past "wore"}
             :synsem {:cat :verb
                      :sem {:pred :wear}}}
@@ -2193,7 +2201,7 @@
    "with" {:synsem {:cat :prep
                     :subcat {:1 {:cat :noun}}
                     :sem {:pred :with}}}
-   
+
    "woman" {:english {:plur "women"}
             :synsem {:agr {:gender :fem}
                      :cat :noun
@@ -2213,11 +2221,11 @@
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human}}
             :english {:note "human"}}
-           
+
            {:english {:note "nonliving or machines"} ;; TODO: add support in UI for :note.
             :synsem {:cat :verb
                      :sem {:pred :work-nonhuman}}}]
-   
+
    "write"  {:english {:past "wrote"
                        :past-participle "written"}
              :synsem {:cat :verb
@@ -2265,7 +2273,7 @@
               :sem {:human true
                     :pred :tu}
               :subcat '()}}]
-   
+
    "you all"
    [{:english {:note "♂"}
      :synsem {:cat :noun
@@ -2299,7 +2307,7 @@
                           :def :possessive}})
         [{:synsem {:agr {:number :sing}}}
          {:synsem {:agr {:number :plur}}}])
-   
+
    "yourself"
    [{:synsem {:cat :noun
               :pronoun true
@@ -2311,7 +2319,7 @@
               :sem {:human true
                    :pred :tu}
               :subcat '()}}
-    
+
     {:synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -2334,7 +2342,7 @@
               :sem {:human true
                     :pred :voi}
               :subcat '()}}
-    
+
     {:synsem {:cat :noun
               :pronoun true
               :case :acc
@@ -2350,6 +2358,7 @@
 (declare lexicon)
 
 ;; TODO: allow a filter of lexemes
+<<<<<<< Updated upstream
 (defn- deliver-lexicon []
   (-> (compile-lex lexicon-source 
                    morph/exception-generator 
@@ -2370,6 +2379,30 @@
       ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
       (default
        (let [pronoun (atom :top)
+=======
+(defn deliver-lexicon []
+  (if (not (realized? lexicon))
+    (deliver lexicon
+             (-> (compile-lex lexicon-source
+                              morph/exception-generator
+                              morph/phonize)
+
+                 ;; <category-independent rules>
+
+                 (default
+                  (let [cat (atom :top)]
+                    {:english {:cat cat}
+                     :synsem {:cat cat}}))
+
+                 ;; </category-independent rules>
+
+                 ;; <noun default rules>
+
+                 ;; make :propernoun and :pronoun available to morphological rules
+                 ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
+                 (default
+                  (let [pronoun (atom :top)
+>>>>>>> Stashed changes
                         propernoun (atom :top)]
          {:english {:pronoun pronoun
                     :propernoun propernoun}
@@ -2406,6 +2439,7 @@
                     {:english {:agr agr}
                      :synsem {:cat :noun
                               :agr agr}}))
+<<<<<<< Updated upstream
       
       ;; A pronoun is either reflexive or not reflexive, but
       ;; a non-pronoun is never reflexive.
@@ -2542,6 +2576,144 @@
                                 :sem obj-sem}
                             :2 '()}
                    :sem {:obj obj-sem}}}))
+=======
+
+                 ;; A pronoun is either reflexive or not reflexive, but
+                 ;; a non-pronoun is never reflexive.
+                 (default
+                  {:synsem {:cat :noun
+                            :pronoun false
+                            :reflexive false}})
+
+                 ;; </noun default rules>
+
+                 ;; <verb default rules>
+                 ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
+                 (default
+                  {:synsem {:cat :verb
+                            :subcat {:2 {:cat :top}}}})
+
+                 ;; prevent :modal-with :infinitive matching unless it's already set
+                 (default
+                  {:modal-with false
+                   :synsem {:cat :verb}})
+
+                 (default
+                  (let [modal-subject (atom {:cat :noun})]
+                    {:modal-with :infinitive
+                     :synsem {:cat :verb
+                              :subcat {:1 modal-subject
+                                       :2 {:cat :verb
+                                           :infl :infinitive
+                                           :subcat {:1 modal-subject
+                                                    :2 '()}}}}}))
+                 (default
+                  (let [modal-subject (atom {:cat :noun})]
+                    {:modal-with :root
+                     :synsem {:cat :verb
+                              :subcat {:1 modal-subject
+                                       :2 {:cat :verb
+                                           :infl :root
+                                           :subcat {:1 modal-subject
+                                                    :2 '()}}}}}))
+
+                 ;; prevent :shared-semantics :obj unless it's already set
+                 (default
+                  {:share-sem false
+                   :synsem {:cat :verb}})
+
+                 ;; semantic object of lexical verb is the same as the object of verb's prepositional phrase.
+                 (default
+                  (let [obj (atom :top)]
+                    {:share-sem :obj
+                     :synsem {:cat :verb
+                              :sem {:obj obj}
+                              :subcat {:2 {:cat :prep
+                                           :sem {:obj obj}}}}}))
+
+                 ;; add :sem :obj if necessary, so that intransitivize is triggered.
+                 (if-then {:modal-with false
+                           :synsem {:cat :verb
+                                    :subcat {:2 {:cat :noun}}}}
+                          {:synsem {:sem {:obj {:pred :top}}}})
+
+
+                 (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
+                  {:synsem {:cat :verb
+                            :aux false
+                            :sem {:obj {:top :top}
+                                  :shared-with-obj false
+                                  :reflexive false}
+                            ;; likely to be :noun or :prep but could be others
+                            :subcat {:2 {:cat :top}
+                                     :3 '()}}}
+                  (fn [lexeme]
+                    (unifyc
+                     (dissoc-paths lexeme [[:synsem :sem :obj]
+                                           [:synsem :subcat :2]])
+                     {:applied {:1 true}
+                      :synsem {:subcat {:2 '()}}})))
+
+                 (default ;; intransitive verbs' :obj is :unspec.
+                  {:modal-with false
+                   :applied {:2 true}
+                   :synsem {:cat :verb
+                            :subcat {:1 {:top :top}
+                                     :2 '()}
+                            :sem {:reflexive false
+                                  :shared-with-obj false
+                                  :obj :unspec}}})
+
+                 ;; If verb does specify a [:sem :obj], then fill
+                 ;; it in with subcat info.
+                 ;; TODO: remove use of this opaque function: 'transitivize'
+                 transitivize
+
+                 (verb-pred-defaults encyc/verb-pred-defaults)
+
+                 ;; if a verb has an object,
+                 ;; and the object is not {:reflexive true}
+                 ;; then the object is {:reflexive false}
+                 (if-then {:synsem {:cat :verb
+                                    :subcat {:2 {:reflexive false}}}}
+                          {:synsem {:subcat {:2 {:reflexive false}}}})
+
+                 ;; if a verb has an object,
+                 ;; and the object is {:cat :noun},
+                 ;; then the object is {:synsem {:case :acc}}.
+                 (if-then {:synsem {:cat :verb
+                                    :subcat {:2 {:cat :noun}}}}
+                          {:synsem {:subcat {:2 {:case :acc}}}})
+
+                 ;; if not(reflexive), then reflexive = false.
+                 (if-then {:synsem {:cat :verb
+                                    :sem {:reflexive false}}}
+                          {:synsem {:sem {:reflexive false}}})
+
+                 ;; if not(aux), then aux=false
+                 (if-then {:synsem {:cat :verb
+                                    :aux false}}
+                          {:synsem {:aux false}})
+
+                 ;; subject-and-reflexive-pronoun agreement
+                 (if-then {:synsem {:sem {:reflexive true}
+                                    :cat :verb
+                                    :subcat {:1 {:agr :top}
+                                             :2 {:agr :top}}}}
+
+                          (let [subject-agr (atom :top)]
+                            {:synsem {:subcat {:1 {:agr subject-agr}
+                                               :2 {:agr subject-agr}}}}))
+                 (default
+                  (let [obj-sem (atom :top)]
+                    {:synsem {:cat :prep
+                              :subcat {:1 {:cat :noun
+                                           :case :acc
+                                           :subcat '()
+                                           :sem obj-sem}
+                                       :2 '()}
+                              :sem {:obj obj-sem}}}))
+>>>>>>> Stashed changes
                  (default
                   {:synsem {:cat :verb
                             :subcat {:2 {:subcat '()}}}})

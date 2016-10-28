@@ -293,7 +293,8 @@
                           :sem {:pred :believe}}}
 
 
-   "dañar" {}
+   "dañar" {:synsem {:cat :verb
+                          :sem {:pred :damage}}}
 
    "dar" {:espanol  {:present {:1sing "doy"
                                :2plur "dais"}
@@ -334,7 +335,8 @@
                      :sem {:pred :leave-behind}}}
 
 
-   "deletrear" {}
+   "deletrear" {:synsem {:cat :verb
+                     :sem {:pred :spell}}}
 
    "desarrollar" {:synsem {:cat :verb
                            :sem {:pred :develop}}}
@@ -342,7 +344,19 @@
    "desear" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
 
-   "despertarse" {}
+   "despertarse" (let [subject-semantics (atom {:human true})
+         subject-agr (atom :top)]
+     {:synsem {:cat :verb
+               :sem {:pred :wake-up
+                     :reflexive true
+                     :subj subject-semantics
+                     :obj subject-semantics}
+               :subcat {:1 {:agr subject-agr
+                            :sem subject-semantics}
+                        :2 {:agr subject-agr
+                            :pronoun true
+                            :reflexive true
+                            :sem subject-semantics}}}})
    "dibujar" {}
 
    "divertirse"

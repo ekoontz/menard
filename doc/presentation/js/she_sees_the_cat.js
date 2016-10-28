@@ -1,4 +1,4 @@
-var digraph = `
+var she_sees_the_cat = `
 
 digraph {
     
@@ -95,7 +95,7 @@ digraph {
 
 var syntax;
 try {
-    syntax = graphlibDot.read(digraph);
+    syntax = graphlibDot.read(she_sees_the_cat);
 } catch (e) {
     console.error("could not read input graph:" + e);
 }

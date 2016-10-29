@@ -1803,6 +1803,10 @@
            {:synsem {:cat :noun
                      :sem {:pred :sigh}}}]
 
+   "sign" {:synsem {:cat :verb
+                    :sem {:pred :sign}}}
+
+
    "sing" {:synsem {:cat :verb
                     :sem {:pred :sing}}
            :english {:past "sang"}}

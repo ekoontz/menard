@@ -815,6 +815,11 @@
 
   "touer" {:synsem {:cat :verb
                     :sem {:pred :kill}}}
+
+  "trouver" {:synsem {:cat :verb
+                    :sem {:pred :find}}}
+
+
   "tu"
   (let [common {:synsem {:cat :noun
                          :case :nom

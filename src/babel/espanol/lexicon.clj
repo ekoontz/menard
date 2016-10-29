@@ -537,7 +537,8 @@
 ;   "faltar" {:synsem {:cat :verb
 ;                      :sem {:pred :to-be-missing}}}
 
-   "firmar" {}
+   "firmar" {:synsem {:cat :verb
+                        :sem {:pred :sign}}}
 
    "formar" {:synsem {:cat :verb
                       :sem {:pred :form}}}

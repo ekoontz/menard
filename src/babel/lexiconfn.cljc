@@ -14,13 +14,12 @@
    [clojure.string :as string]
    [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists?
                                      fail-path fail? get-in isomorphic?
-                                     serialize strip-refs unifyc]]))
+                                     serialize strip-refs unify]]))
 
 (declare listify)
 (declare map-function-on-map-vals)
 (declare rules)
 (declare transform)
-(declare unify)
 
 ;; TODO: compile-lex should simply be a pipeline rather than an argument-position-sensitive function.
 ;; The current form is too complex because each argument has a slightly different signature.
@@ -85,31 +84,6 @@
     lexicon))
 
 (declare get-fail-path)
-
-(defn unify [ & args]
-  "like unify/unify, but unify/copy each argument before unifying, and throw an exception if unification fails."
-  (log/trace (str "(lexfn)unify args: " (map strip-refs args)))
-  (log/trace (str "(lexfn)unify first arg: " (strip-refs (first args))))
-  (let [retval (apply unifyc args)]
-    (if (not (fail? retval))
-      retval
-      ;; TODO: log message is too long to read.
-      (let [message (str "Failed to unify args:"
-                         (string/join ";  "
-                                      (map (fn [arg]
-                                             (dissoc (strip-refs arg)
-                                                     :serialized))
-                                           args))
-                         
-                         (cond (= 2 (count args))
-                               (let [fail-path (get-fail-path (first args) (second args))]
-                                 (str "; failed path: " fail-path
-                                      "; arg1(" fail-path ")=" (get-in (first args) fail-path)
-                                      "; arg2(" fail-path ")=" (get-in (second args) fail-path)))
-                               true
-                               ""))]
-        (do (log/error message)
-            (throw (exception message)))))))
 
 (defn encode-where-query [& where]
   "encode a query as a set of index queries."
@@ -204,7 +178,7 @@
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
              (not (nil? (get-in lexical-entry '(:synsem :sem :iobj))))
              (not (= '() (get-in lexical-entry [:synsem :subcat :3]))))
-        (unifyc
+        (unify
          lexical-entry
          (let [ref (atom :top)]
            {:synsem {:subcat {:3 {:sem ref}}
@@ -214,7 +188,7 @@
 
 (defn intensifier-agreement [lexical-entry]
   (cond (= (get-in lexical-entry '(:synsem :cat)) :intensifier)
-        (unifyc
+        (unify
          (let [agr (atom :top)]
            {:synsem {:agr agr
                      :subcat {:1 {:agr agr}
@@ -225,13 +199,13 @@
 
 (defn pronoun-and-propernouns [lexical-entry]
   (cond (= true (get-in lexical-entry '(:synsem :pronoun)))
-        (unifyc lexical-entry
+        (unify lexical-entry
                 {:synsem {:propernoun false
                           :cat :noun
                           :subcat '()}})
 
         (= true (get-in lexical-entry '(:synsem :propernoun)))
-        (unifyc lexical-entry
+        (unify lexical-entry
                 {:synsem {:cat :noun
                           :pronoun false
                           :subcat '()}})
@@ -242,16 +216,16 @@
 ;; to add new language like Espanol.
 (defn embed-phon [lexical-entry]
   (cond (string? (get-in lexical-entry '(:english)))
-        (unifyc {:english {:english (get-in lexical-entry '(:english))}}
+        (unify {:english {:english (get-in lexical-entry '(:english))}}
                 (embed-phon (dissoc lexical-entry ':english)))
 
         (and (string? (get-in lexical-entry '(:italiano)))
              (= :verb (get-in lexical-entry '(:synsem :cat))))
-        (unifyc {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
+        (unify {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
                 (embed-phon (dissoc lexical-entry ':italiano)))
 
         (string? (get-in lexical-entry '(:italiano)))
-        (unifyc {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
+        (unify {:italiano {:italiano (get-in lexical-entry '(:italiano))}}
                 (embed-phon (dissoc lexical-entry ':italiano)))
         true
         lexical-entry))
@@ -263,7 +237,7 @@
              (= :none (get-in lexical-entry '(:synsem :sem :location) :none))
              (= :none (get-in lexical-entry '(:synsem :subcat :2) :none))
              (not (= true (get-in lexical-entry '(:synsem :aux)))))
-        (unifyc
+        (unify
          lexical-entry
          intransitive)
         true
@@ -272,7 +246,7 @@
 (defn modality-rule [lexical-entry]
   "prevent ratholes like 'Potere ... potere dormire (To be able...to be able to sleep)'"
   (cond (= true (get-in lexical-entry '(:synsem :modal)))
-        (unifyc
+        (unify
          modal lexical-entry
          {:synsem {:subcat {:2 {:modal false}}}})
 
@@ -288,7 +262,7 @@
   ;; TODO: mass noun part not implemented yet.
   (cond (and (= :verb (get-in lexical-entry '(:synsem :cat)))
              (= :noun (get-in lexical-entry '(:synsem :subcat :2 :cat))))
-        (unifyc lexical-entry
+        (unify lexical-entry
                 {:synsem {:subcat {:2 {:subcat '()}}}})
 
         true
@@ -309,7 +283,7 @@
              ;; do not apply rule if there is :3.
              (= :none (get-in lexical-entry [:synsem :subcat :3] :none)))
 
-        (unifyc
+        (unify
          lexical-entry
          transitive-but-object-cat-not-set)
         true
@@ -320,7 +294,7 @@
   "every verb has at least a subject."
   (cond (and (= (get-in lexical-entry [:synsem :cat]) :verb)
              (not (= false (get-in lexical-entry [:intransitivize]))))
-        (unifyc
+        (unify
          lexical-entry
          verb-subjective)
         true
@@ -334,8 +308,8 @@
              (not (= (get-in lexical-entry [:synsem :pronoun]) true))
              (not (= (get-in lexical-entry [:synsem :propernoun]) true)))
         (let [result 
-              (unifyc lexical-entry
-                      (unifyc agreement-noun
+              (unify lexical-entry
+                      (unify agreement-noun
                               common-noun
                               {:synsem {:pronoun false
                                         :subcat {:1 {:cat :det}
@@ -358,7 +332,7 @@
        {:synsem {:sem (sem-impl (get-in lexical-entry [:synsem :sem]))}}
 
        (and true (= (get-in lexical-entry [:synsem :cat]) :verb))
-       {:synsem {:sem (reduce unifyc
+       {:synsem {:sem (reduce unify
                               (filter #(not (= :does-not-apply %))
                                       [:top ;; necessary to prevent cases where neither :subj nor :obj exists.
                                        (if (not (= :none (get-in lexical-entry [:synsem :sem :subj] :none)))
@@ -388,18 +362,18 @@
 
              ;; if subcat is defined, then go with that rather than trying to unify with subcat0
              (= :none (get-in lexical-entry [:synsem :subcat] :none)))
-        (unifyc
+        (unify
          subcat0
          lexical-entry)
 
         (and (= (get-in lexical-entry '(:synsem :cat)) :adjective)
              (not (= (get-in lexical-entry '(:synsem :sem :comparative)) true)))
-        (unifyc
+        (unify
          subcat1
          lexical-entry)
 
         (= (get-in lexical-entry '(:synsem :cat)) :sent-modifier)
-        (unifyc
+        (unify
          {:synsem {:subcat {:1 {:cat :verb
                                 :subcat '()}
                             :2 '()}}}
@@ -410,7 +384,7 @@
 
 (defn determiner-stuff [lexical-entry]
   (cond (= (get-in lexical-entry '(:synsem :cat)) :det)
-        (unifyc determiner
+        (unify determiner
                 lexical-entry)
         true
         lexical-entry))
@@ -425,7 +399,7 @@
 
    ;; create an intransitive version of this transitive verb by removing the second arg (:synsem :subcat :2), and replacing with nil.
    (list
-    (unifyc (dissoc-paths lexical-entry (list [:synsem :subcat :2]
+    (unify (dissoc-paths lexical-entry (list [:synsem :subcat :2]
                                               [:serialized]))
             {:synsem {:subcat {:2 '()}}
              :canary :tweet43}) ;; if the canary tweets, then the runtime is getting updated correctly.
@@ -448,7 +422,7 @@
 ;; iterations, this same fixed point will be reached no matter which
 ;; order the rules are applied, as long as all rules are applied at
 ;; each iteration. This is guaranteed by using these rules below in
-;; (transform) so that the rules' outputs are reduced using unifyc.
+;; (transform) so that the rules' outputs are reduced using unify.
 (def rules (list category-to-subcat
                  commonnoun
                  determiner-stuff
@@ -466,10 +440,10 @@
 ;; such a way that is non-monotonic and dependent on the order of rule
 ;; application. Because of these complications, avoid and use
 ;; unifying-rules instead, where possible. Only to be used where
-;; (reduce unifyc ..) would not work, as with embed-phon, where
+;; (reduce unify ..) would not work, as with embed-phon, where
 ;; {:italiano <string>} needs to be turned into {:italiano {:italiano <string>}},
 ;; but unifying the input and output of the rule would be :fail.
-;; These rules are (reduce)d using merge rather than unifyc.
+;; These rules are (reduce)d using merge rather than unify.
 (def modifying-rules (list embed-phon))
 
 ;; TODO: allow transforming rules to emit sequences as well as just the
@@ -492,7 +466,7 @@
                                     (log/error message)
                                     (throw (exception message)))
                                       
-                                  (let [result (unifyc %1 %2)]
+                                  (let [result (unify %1 %2)]
                                     (if (fail? result)
                                       (let [fail-path (get-fail-path %1 %2)
                                             message (str "lexical entry reduce fail:(fail-path=" fail-path "): "
@@ -517,7 +491,7 @@
                                         result))))
                                 rules))
                 result (if (not (fail? result))
-                         (reduce unifyc (map (fn [rule]
+                         (reduce unify (map (fn [rule]
                                               (let [result (rule result)]
                                                 (if (fail? result)
                                                   (do (log/error (str "merge-type lexical rule: " rule " caused lexical-entry: " lexical-entry 
@@ -651,7 +625,7 @@
      ;; TODO: consider using pmap.
      (map (fn [original-val]
             (let [result
-                  (unifyc original-val unify-with)]
+                  (unify original-val unify-with)]
               (if (not (fail? result))
                 result
                 original-val)))
@@ -666,7 +640,7 @@
      (concat
       vals
       (remove fail? 
-              (map #(modify-with (unifyc unify-with %))
+              (map #(modify-with (unify unify-with %))
                    vals))))))
 
 (defn if-has [lexicon path value-at-path unify-with]
@@ -676,15 +650,15 @@
      ;; TODO: consider using pmap.
      (map (fn [original-val]
             (let [unify-against
-                  (create-path-in path (unifyc (get-in original-val path :fail)
+                  (create-path-in path (unify (get-in original-val path :fail)
                                                value-at-path))
-                  result (unifyc original-val unify-against unify-with)]
+                  result (unify original-val unify-against unify-with)]
               (if (not (fail? result))
                 result
                 original-val)))
           vals))))
 
-;; TODO: s/unifyc/unify/ for performance
+;; TODO: s/unify/unify/ for performance
 ;; TODO: use (default) rather than this; it's simpler to understand and faster.
 (defn if-then [lexicon if-has unify-with]
   (map-function-on-map-vals
@@ -692,11 +666,11 @@
    (fn [k vals]
      ;; TODO: use (map .. x) rather than (mapcat ... (list x))
      (mapcat (fn [val]
-               (let [result (unifyc val if-has)]
+               (let [result (unify val if-has)]
                  (cond (not (fail? result))
                        (do
                          (log/debug (str val ": matches: if: " if-has " then " unify-with))
-                         (list (unifyc val unify-with)))
+                         (list (unify val unify-with)))
                        true
                        (list val))))
              vals))))
@@ -751,7 +725,7 @@
           keys2 (keys map2)
           fail-keys (mapcat (fn [key]
                               (if (fail?
-                                   (unifyc (get-in map1 [key] :top)
+                                   (unify (get-in map1 [key] :top)
                                            (get-in map2 [key] :top)))
                                 (list key)))
                             (set (concat keys1 keys2)))]

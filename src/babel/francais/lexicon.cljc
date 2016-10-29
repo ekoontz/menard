@@ -4,9 +4,9 @@
    [babel.francais.morphology :refer [exception-generator phonize]]
    [babel.francais.pos :refer [gender-pronoun-agreement intransitivize
                                transitivize verb-aux]]
-   [babel.lexiconfn :refer (compile-lex if-then map-function-on-map-vals unify)]
+   [babel.lexiconfn :refer [compile-lex if-then map-function-on-map-vals]]
    [babel.pos :as pos :refer [pronoun-acc]]
-   [dag_unify.core :refer [get-in]]))
+   [dag_unify.core :refer [get-in unify]]))
 
 (def lexicon-source
   {

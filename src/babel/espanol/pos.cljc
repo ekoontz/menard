@@ -1,6 +1,7 @@
 (ns babel.espanol.pos
-  (:require [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)]
-            [babel.pos :as pos]))
+  (:require [babel.lexiconfn :as lexiconfn :refer [map-function-on-map-vals]]
+            [babel.pos :as pos]
+            [dag_unify.core :refer [unify]]))
 
 (def agreement-noun pos/agreement-noun)
 (def cat-of-pronoun pos/cat-of-pronoun)

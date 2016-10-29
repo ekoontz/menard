@@ -3,12 +3,12 @@
   (:require
    [clojure.tools.logging :as log]
    [babel.lexiconfn :refer [compile-lex if-then
-                            map-function-on-map-vals unify]]
+                            map-function-on-map-vals]]
    [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer [agreement-noun cat-of-pronoun common-noun determiner
                               feminine-noun intransitivize masculine-noun transitivize]]
    [babel.pos :as pos :refer [pronoun-acc]]
-   [dag_unify.core :refer [fail? get-in]]))
+   [dag_unify.core :refer [fail? get-in unify]]))
 
 (def lexicon-source
   {""

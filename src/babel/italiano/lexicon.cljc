@@ -5,10 +5,7 @@
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [default
                             filter-vals listify map-function-on-map-vals
-                            new-entries rewrite-keys verb-pred-defaults
-                            ;; TODO: use dag_unify/unifyc instead:
-                            ;; deprecate lexiconfn/unify.
-                            unify]]
+                            new-entries rewrite-keys verb-pred-defaults]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -18,7 +15,7 @@
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader resource]]
    [clojure.repl :refer [doc]]
-   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (declare edn2lexicon)
 

@@ -4,13 +4,13 @@
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [compile-lex default
                             if-then new-entries
-                            map-function-on-map-vals unify
+                            map-function-on-map-vals
                             verb-pred-defaults]]
    [babel.english.morphology :as morph]
    [babel.english.pos :refer [adjective
                               subject-verb-agreement
                               transitivize]]
-   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (def lexicon-source
   {
@@ -1076,7 +1076,7 @@
             ;; 1. reflexive sense of "hurt"
             [(let [subject-semantics (atom :top)
                    subject-agr (atom :top)]
-               (unifyc common
+               (unify common
                        {:synsem {:sem {:pred :hurt-oneself
                                        :subj subject-semantics
                                        :obj subject-semantics}
@@ -1088,7 +1088,7 @@
                                              :sem subject-semantics}}}}))
 
              ;; 2. transitive sense of "hurt"
-             (unifyc common
+             (unify common
                      {:synsem {:sem {:pred :hurt
                                      ;; TODO: consider making lexicon post-processing rule:
                                      ;; if not(reflexive=true) => reflexive=false
@@ -2520,7 +2520,7 @@
                  :subcat {:2 {:cat :top}
                           :3 '()}}}
        (fn [lexeme]
-         (unifyc
+         (unify
           (dissoc-paths lexeme [[:synsem :sem :obj]
                                 [:synsem :subcat :2]])
           {:applied {:1 true}

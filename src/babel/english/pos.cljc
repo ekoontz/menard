@@ -2,22 +2,20 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.english.morphology :refer (fo)]
-   ;; TODO: use unify/unifyc, not lexiconfn/unify: they are (should be equivalent), and
-   ;; to have both is confusing.
-   [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals unify)]
+   [babel.lexiconfn :as lexiconfn :refer [map-function-on-map-vals]]
    [babel.pos :as pos]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :as unify :refer (dissoc-paths get-in serialize unifyc)]))
+   [dag_unify.core :as unify :refer (dissoc-paths get-in serialize unify)]))
 
 (def adjective pos/adjective)
 (def common-noun pos/common-noun)
 (def countable-noun pos/common-noun)
 
-(def feminine-noun (unifyc
+(def feminine-noun (unify
                     pos/agreement-noun (:feminine pos/noun)))
 
-(def masculine-noun (unifyc
+(def masculine-noun (unify
                     pos/agreement-noun (:masculine pos/noun)))
 
 (def agreement-noun

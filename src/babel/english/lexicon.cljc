@@ -2239,7 +2239,7 @@
    "write"  {:english {:past "wrote"
                        :past-participle "written"}
              :synsem {:cat :verb
-                      :sem {:pred :scrivere}}}
+                      :sem {:pred :write}}}
 
    "yell" {:synsem {:cat :verb
                     :sem {:pred :yell}
@@ -2426,7 +2426,7 @@
                      :synsem {:cat :noun
                               :agr agr}}))
 <<<<<<< Updated upstream
-      
+
 =======
 <<<<<<< Updated upstream
 

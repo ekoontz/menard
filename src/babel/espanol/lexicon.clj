@@ -500,12 +500,14 @@
    "entrar" {:synsem {:cat :verb
                       :sem {:pred :enter}}}
 
-   "enviar" {}
+   "enviar" {:synsem {:cat :verb
+                        :sem {:pred :send}}}
 
    "escapar" {:synsem {:cat :verb
                        :sem {:pred :escape}}}
 
-   "escribir" {}
+   "escribir" {:synsem {:cat :verb
+                        :sem {:pred :write}}}
 
    "escuchar" {:synsem {:cat :verb
                         :sem {:pred :listen-to}}}

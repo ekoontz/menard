@@ -720,6 +720,11 @@
            {:unify [shared-part-of-dire]
             :synsem {:sem {:pred :tell}}}])
 
+"disegnare"  {:synsem {:cat :verb
+                         :sem {:pred :draw}}}
+
+
+
  "diventare" {:synsem {:essere true
                        :cat :verb
                        :sem {:pred :become}}}
@@ -1752,6 +1757,11 @@
  {:synsem {:cat :verb
            :sem {:pred :transfer}}
   :italiano {:boot-stem1 "trasferisc"}}
+
+  "trovare"
+  {:synsem {:cat :verb
+            :sem {:pred :find}}}
+
 
  "tu"
  [{:synsem {:cat :noun

@@ -465,11 +465,11 @@
              :synsem {:cat :verb
                       :sem {:pred :light}}}
 
-   "encontrar" (let [shared-part-of-llevar
+   "encontrar" (let [shared-part-of-encontrar
                   {:synsem {:cat :verb}}]
               [(unify shared-part-of-encontrar
                       {:synsem {:sem {:pred :find}}})
-               (unify shared-part-of-llevar
+               (unify shared-part-of-encontrar
                       {:synsem {:sem {:pred :drive}}})])
 
    "enojarse"

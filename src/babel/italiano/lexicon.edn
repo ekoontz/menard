@@ -952,6 +952,8 @@
  "frequentare"  {:synsem {:cat :verb
                       :sem {:pred :attend}}}
 
+ "fumare"  {:synsem {:cat :verb
+                      :sem {:pred :smoke}}}
 
  "funzionare" {:synsem {:cat :verb
                         :essere false

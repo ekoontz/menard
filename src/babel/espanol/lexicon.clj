@@ -547,7 +547,8 @@
              :synsem {:cat :verb
                       :sem {:pred :scrub}}}
 
-   "fumar" {}
+   "fumar" {:synsem {:cat :verb
+                      :sem {:pred :smoke}}}
 
    "funcionar" {:synsem {:cat :verb
                          :sem {:subj {:human false}

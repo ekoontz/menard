@@ -2425,12 +2425,6 @@
                     {:english {:agr agr}
                      :synsem {:cat :noun
                               :agr agr}}))
-<<<<<<< Updated upstream
-
-=======
-<<<<<<< Updated upstream
-
->>>>>>> Stashed changes
       ;; A pronoun is either reflexive or not reflexive, but
       ;; a non-pronoun is never reflexive.
       (default

@@ -499,13 +499,13 @@
     (is (= (fo expr)
            "la sedia è davanti il tavolo"))))
 
-(deftest non-arriva
-  (is (-> "non arriva"
-          parse
-          first
-          :parses
-          empty?
-          not)))
+;(deftest non-arriva
+;  (is (-> "non arriva"
+;          parse
+;          first
+;          :parses
+;          empty?
+;          not)))
 
 (deftest past-and-gender-agreement
   (is (= (fo (generate {:synsem {:sem {:pred :go

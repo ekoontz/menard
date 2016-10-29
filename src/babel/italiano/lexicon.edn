@@ -1409,8 +1409,8 @@
                   :human true}
             :subcat '()}}]
 
- "non" {:synsem {:cat :adverb
-                 :sem {:mod {:polarity :-}}}}
+; "non" {:synsem {:cat :adverb
+;                 :sem {:mod {:polarity :-}}}}
 
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}

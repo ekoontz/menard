@@ -248,7 +248,7 @@
    "conocer" {:espanol {:present {:1sing "conozco"}}
               :synsem {:cat :verb
                        :sem {:pred :know}}}
-   
+
    "consentir" {:espanol {:boot-stem "consient"}
                 :synsem {:cat :verb
                          :sem {:pred :consent}}}
@@ -357,7 +357,8 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
-   "dibujar" {}
+   "dibujar" {:synsem {:cat :verb
+                      :sem {:pred :draw}}}
 
    "divertirse"
    (let [subject-semantics (atom {:human true})
@@ -464,7 +465,12 @@
              :synsem {:cat :verb
                       :sem {:pred :light}}}
 
-   "encontrar" {}
+   "encontrar" (let [shared-part-of-llevar
+                  {:synsem {:cat :verb}}]
+              [(unify shared-part-of-encontrar
+                      {:synsem {:sem {:pred :find}}})
+               (unify shared-part-of-llevar
+                      {:synsem {:sem {:pred :drive}}})])
 
    "enojarse"
    (let [subject-semantics (atom {:human true})

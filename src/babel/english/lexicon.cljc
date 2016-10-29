@@ -643,6 +643,10 @@
    "exit" {:synsem {:cat :verb
                      :sem {:pred :exit}}}
 
+   "explain" {:synsem {:cat :verb
+                     :sem {:pred :explain}}}
+
+
    "express" {:synsem {:cat :verb
                        :sem {:pred :express}}}
 

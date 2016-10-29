@@ -526,7 +526,9 @@
    "existir" {:synsem {:cat :verb
                        :sem {:pred :exist}}}
 
-   "explicar" {}
+   "explicar" {:espanol {:preterito-stem "expliqu"}
+               :synsem {:cat :verb
+                        :sem {:pred :explain}}}
 
    "expresar" {:synsem {:cat :verb
                         :sem {:pred :express}}}

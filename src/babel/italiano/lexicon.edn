@@ -1666,6 +1666,10 @@
              :italiano {:passato "speso"}}
 
 
+ "spiegare" {:synsem {:cat :verb
+                      :sem {:pred :explain}}}
+
+
  "spostare" {:synsem {:cat :verb
                       :sem {:pred :displace}}}
 

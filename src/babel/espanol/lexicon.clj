@@ -849,7 +849,23 @@
 
    ;; 2nd person plural informal 'vosotros/as' (ES-only)
 
-   "oir" {}
+   "oir" {:espanol {:futuro-stem "oir"
+                   :present {:1sing "oigo"
+                             :2sing "oyes"
+                             :3sing "oye"
+                             :1plur "oímos"
+                             :2plur "oís"
+                             :3plur "oyen"}
+                   :preterito {:1sing "oí"
+                               :2sing "oiste"
+                               :3sing "oyó"
+                               :1plur "oímos"
+                               :2plur "oísteis"
+                               :3plur "oyeron"}}
+         :synsem {:cat :verb
+                  :sem {:subj {:animate true}
+                        :pred :hear}}}
+
    "olvidar" {}
    "organizar" {}
    "pagar" {}

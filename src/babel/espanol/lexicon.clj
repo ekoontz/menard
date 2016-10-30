@@ -863,8 +863,7 @@
                                :2plur "oísteis"
                                :3plur "oyeron"}}
          :synsem {:cat :verb
-                  :sem {:subj {:animate true}
-                        :pred :hear}}}
+                  :sem {:pred :hear}}}
 
    "olvidar" {:synsem {:cat :verb
                       :sem {:pred :forget}}}

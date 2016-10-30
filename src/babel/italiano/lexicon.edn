@@ -214,57 +214,56 @@
                                           :3plur "hanno"}}}]
 
    ;; 1. "avere": to possess something buyable
-   [{:unify [avere-common]
-     :note "avere (possess)"
-     :synsem {:sem {:pred :have}}}
+   {:unify [avere-common]
+    :note "avere (possess)"
+    :synsem {:sem {:pred :have}}}
 
     ;; 2. "avere": to be in a relation with: e.g. "I have two children"
-    {:unify [avere-common]
-     :note "avere (relation)"
-     :synsem {:sem {:pred :have}}}
+   {:unify [avere-common]
+    :note "avere (relation)"
+    :synsem {:sem {:pred :have}}}
+   
+   ;; 3. avere: unspecified object
+   {:unify [avere-common]
+    :note "avere (possess): unspecified object"
+    :synsem {:sem {:pred :have}}}
 
-    ;; 3. avere: unspecified object
-    {:unify [avere-common]
-     :note "avere (possess): unspecified object"
-     :synsem {:sem {:pred :have}}}
-
-    ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
-    (let [agr (atom :top)]
-      {:unify [avere-common]
-       :note "avere(aux): takes trans"
-       :synsem {:aux true
-                :infl :present
+   ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
+   (let [agr (atom :top)]
+     {:unify [avere-common]
+      :note "avere(aux): takes trans"
+      :synsem {:aux true
+               :infl :present
                 :subcat {:2 {:agr agr
                              :sem {:reflexive false}
                              :subcat {:2 {:agr agr
                                           :pronoun true}}
                              :essere false}}}})
-
-    ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
-    ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
-    ;; "avere": auxiliary-verb: takes 2 args:
-    ;; 1. subject that is the same as the subject of 2.
-    ;; 2. an intransitive verb.
-    {:unify [avere-common]
-     :note "avere(aux): takes intrans"
-     :synsem {:aux true
-              :infl :present
-              :subcat {:2 {:sem {:reflexive false}
-                           :essere false
-                           :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+   
+   ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
+   ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
+   ;; "avere": auxiliary-verb: takes 2 args:
+   ;; 1. subject that is the same as the subject of 2.
+   ;; 2. an intransitive verb.
+   {:unify [avere-common]
+    :note "avere(aux): takes intrans"
+    :synsem {:aux true
+             :infl :present
+             :subcat {:2 {:sem {:reflexive false}
+                          :essere false
+                          :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                           ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}
+                          ;; but is expected to reduce fails during generation.
+                          :subcat {:2 '()}}}}}
     
-     ;; 5. avere bisogno di
-     (let [need-obj (atom :top)]
-        {:unify [avere-common]
-         :synsem {:sem {:pred :need
-                        :obj need-obj}
-                  :subcat {:2 {:cat :noun
-                               :sem {:pred :bisogno-di
-                                     :obj need-obj}}}}})]
-                           
+   ;; 6. avere bisogno di
+   (let [need-obj (atom :top)]
+     {:unify [avere-common]
+      :synsem {:sem {:pred :need
+                     :obj need-obj}
+               :subcat {:2 {:cat :noun
+                            :sem {:pred :bisogno-di
+                                  :obj need-obj}}}}}))
 
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
@@ -323,7 +322,7 @@
                   :obj the-object}
             :subcat {:1 {:cat :prep
                          :sem {:pred :di
-                               :obj the-object}}}}
+                               :obj the-object}}}}})
 
  "braccio"
  {:synsem {:agr {:gender :masc}

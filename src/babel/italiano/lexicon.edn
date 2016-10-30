@@ -212,7 +212,6 @@
                                           :1plur "abbiamo"
                                           :2plur "avete"
                                           :3plur "hanno"}}}]
-
    ;; 1. "avere": to possess something buyable
    [{:unify [avere-common]
      :note "avere (possess)"
@@ -253,8 +252,17 @@
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                           ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}])
+                          ;; but is expected to reduce fails during generation.
+                          :subcat {:2 '()}}}}}
+
+   ;; 6. avere bisogno di
+   (let [need-obj (atom :top)]
+     {:unify [avere-common]
+      :synsem {:sem {:pred :need
+                     :obj need-obj}
+               :subcat {:2 {:cat :noun
+                            :sem {:pred :bisogno-di
+                                  :obj need-obj}}}}})])
 
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
@@ -309,6 +317,7 @@
 "bisogno"
 (let [the-object (atom :top)]
   {:synsem {:cat :noun
+            :agr {:gender :masc}
             :sem {:pred :bisogno-di
                   :obj the-object}
             :subcat {:1 {:cat :prep
@@ -664,17 +673,21 @@
  "dettare" {:synsem {:cat :verb
                      :sem {:pred :dictate}}}
  "di"
- {:synsem {:cat :prep
-           :sem {:pred :di
-                 :comparative true}
-           :subcat {:1 {:cat :noun
-                        :subcat '()
-                        :def {:not :partitivo} ;; avoid alliteration like "di delle ragazze (of some women)"
-                        :case :disj ;; pronouns must be disjunctive (me/te/lui/lei...etc)
-                        ;; non-pronouns will unify with this constraint.
-                        }
-                    :2 '()}}
-  :italiano {:initial true}}
+ [;{:synsem {:cat :prep
+  ;          :sem {:pred :di
+  ;                :comparative true}
+  ;          :subcat {:1 {:cat :noun
+  ;                       :subcat '()
+  ;                       :def {:not :partitivo} ;; avoid alliteration like "di delle ragazze (of some women)"
+  ;                       :case :disj ;; pronouns must be disjunctive (me/te/lui/lei...etc)
+  ;                       ;; non-pronouns will unify with this constraint.
+  ;                       }
+  ;                   :2 '()}}
+  ; :italiano {:initial true}}
+
+  {:synsem {:cat :prep ;; subcat is empty: allow generation of e.g. "ho bisogna di" with no object.
+            :sem {:pred :di}
+            :subcat '()}}]
 
  "di la"
  {:synsem {:cat :det

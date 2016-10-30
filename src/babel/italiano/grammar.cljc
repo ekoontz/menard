@@ -280,6 +280,12 @@
                                      :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
+                   (unifyc h10
+                           {:rule "np-to-n-plus-di"
+                            :synsem {:cat :noun}
+                            :head {:phrasal false}
+                            :comp {:phrasal false}})
+                   
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)
@@ -621,7 +627,8 @@
                      (= (:rule %) "vp-aux")
                      (= (:rule %) "vp-aux-22")
                      (= (:rule %) "vp-pronoun-nonphrasal")
-                     (= (:rule %) "vp-pronoun-phrasal"))
+                     (= (:rule %) "vp-pronoun-phrasal")
+                     (= (:rule %) "np-to-n-plus-di"))
                 grammar)
 
           lexicon  ;; create a subset of the lexicon tailored to this small grammar.
@@ -650,7 +657,12 @@
                                       (and (= (get-in % [:synsem :propernoun]) true)
                                            (= (get-in % [:synsem :sem :city] false) false)) 
           
-                                      (= (get-in % [:synsem :pronoun]) true)))
+                                      (= (get-in % [:synsem :pronoun]) true)
+
+                                      (= (get-in % [:italiano :italiano]) "bisogno")
+                                      (= (get-in % [:italiano :italiano]) "di")
+                                      ))
+                                      
                                 v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
@@ -679,7 +691,10 @@
            
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lookup (fn [arg]
-               (analyze arg lexicon))}))
+               (analyze arg lexicon))
+
+     :rule-map (zipmap (map #(keyword (get-in % [:rule])) grammar)
+                       grammar)}))
 
 ;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]

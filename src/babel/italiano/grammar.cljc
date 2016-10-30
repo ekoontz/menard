@@ -1,7 +1,7 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
-   [babel.index :refer [create-index map-subset-by-cat map-subset-by-pred]]
+   [babel.index :refer [create-index map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
@@ -669,20 +669,10 @@
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :lexicon lexicon
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-pred
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :sem :pred]))
-                                (vals lexicon-for-generation)))))
-      (flatten (vals lexicon-for-generation)))
+     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
 
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :cat]))
-                                (vals lexicon-for-generation)))))
-      (flatten (vals lexicon-for-generation)))
+     (map-subset-by-path lexicon-for-generation [:synsem :cat])
            
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lookup (fn [arg]
@@ -768,20 +758,10 @@
      :morph fo
      :morph-ps fo-ps
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-pred
-      (filter #(not (nil? %))
-              (mapcat (fn [entry]
-                        (get-in entry [:synsem :sem :pred]))
-                      (vals lexicon-for-generation)))
-      (flatten (vals lexicon-for-generation)))
+     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat
-      (filter #(not (nil? %))
-              (mapcat (fn [entry]
-                        (get-in entry [:synsem :cat]))
-                      (vals lexicon-for-generation)))
-      (flatten (vals lexicon-for-generation)))
+     (map-subset-by-path lexicon-for-generation [:synsem :cat])
 
      :rules rules
      :rule-map (zipmap rules

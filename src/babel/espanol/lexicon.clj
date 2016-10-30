@@ -681,6 +681,11 @@
                             :reflexive true
                             :sem subject-semantics}}}})
 
+   "lavar" {:synsem {:cat :verb
+               :sem {:pred :wash}}}
+
+
+
    "lavarse" (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
      {:synsem {:cat :verb

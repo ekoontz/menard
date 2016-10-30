@@ -1537,6 +1537,13 @@
  "ricordare"  {:synsem {:cat :verb
                         :sem {:pred :ricordare}}}
 
+ "riempire"  {:synsem {:cat :verb
+                        :sem {:pred :fill}}
+              :italiano {:present {:1sing "riempio"
+                                   :3sing "riempie"
+                                   :3plur "riempiono"}}}
+
+
  "rimanere" {:synsem {:cat :verb
                       :essere true
                       :sem {:pred :remain1}}

@@ -680,6 +680,9 @@
                             :pred :father
                             :child false}}}
 
+    "fill" {:synsem {:cat :verb
+                     :sem {:pred :fill}}}
+
    "find" {:synsem {:cat :verb
                      :sem {:pred :break }}
                      :english {:past "found"}}

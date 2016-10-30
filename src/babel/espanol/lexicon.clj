@@ -758,7 +758,8 @@
    "llegar" {:synsem {:cat :verb
                       :sem {:pred :arrive}}}
 
-   "llenar" {}
+   "llenar" {:synsem {:cat :verb
+                      :sem {:pred :fill}}}
 
    "llevar" (let [shared-part-of-llevar
                   {:synsem {:cat :verb}}]

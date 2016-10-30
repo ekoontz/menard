@@ -808,7 +808,8 @@
    "nadar" {:synsem {:cat :verb
                       :sem {:pred :swim}}}
 
-   "necesitar" {}
+   "necesitar" {:synsem {:cat :verb
+                      :sem {:pred :need}}}
 
    "negar" {:espanol {:boot-stem "nieg"}
                 :synsem {:cat :verb

@@ -1416,6 +1416,10 @@
  "non" {:synsem {:cat :adverb
                  :sem {:mod {:polarity :-}}}}
 
+ "nuotare"  {:synsem {:cat :verb
+                       :sem {:pred :swim}}}
+
+
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
 

@@ -1915,6 +1915,11 @@
    "support" {:synsem {:cat :verb
                        :sem {:pred :support}}}
 
+   "swim" {:synsem {:cat :verb
+                        :sem {:pred :break }}
+                        :english {:past "swam"}}
+
+
    "table" {:synsem {:cat :noun
                      :sem {:pred :table}}}
 

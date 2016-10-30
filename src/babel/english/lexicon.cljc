@@ -1849,6 +1849,10 @@
               :sem {:pred :some-one-of
                     :of {:pred nil}}
               :agr {:number :sing}}}]
+
+   "smoke" {:synsem {:cat :verb
+             :sem {:pred :smoke}}}
+
    "speak"
    {:english {:past "spoke"
               :past-participle "spoken"}
@@ -2243,6 +2247,10 @@
            {:english {:note "nonliving or machines"} ;; TODO: add support in UI for :note.
             :synsem {:cat :verb
                      :sem {:pred :work-nonhuman}}}]
+
+    "wound" {:synsem {:cat :verb
+                     :sem {:pred :wound}}}
+
 
    "write"  {:english {:past "wrote"
                        :past-participle "written"}

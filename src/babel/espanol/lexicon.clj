@@ -567,7 +567,8 @@
                                         ;                     "gustar" {:synsem {:cat :verb
                                         ;                                         :sem {:pred :??}}}
 
-   "gastar" {}
+   "gastar" {:synsem {:cat :verb
+                      :sem {:pred :spend}}}
 
    "hablar" [{:synsem {:cat :verb
                        :sem {:pred :speak
@@ -594,7 +595,9 @@
       (unify common
              {:synsem {:sem {:pred :make}}})])
 
-   "herir" {}
+   "herir" {:espanol {:boot-stem "hier"}
+             :synsem {:cat :verb
+                      :sem {:pred :wound}}}
 
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb

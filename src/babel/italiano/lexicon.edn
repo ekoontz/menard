@@ -934,7 +934,11 @@
                                         ;                             :sem {:pred :bad}}}}}
     ])
 
- "finestre" {:synsem {:agr {:gender :fem}
+"ferire"  {:italiano {:boot-stem1 "ferisc"}
+            :synsem {:cat :verb
+                      :sem {:pred :wound}}}
+
+ "finestra" {:synsem {:agr {:gender :fem}
                       :cat :noun
                       :sem {:pred :window}}}
 

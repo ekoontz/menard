@@ -866,11 +866,17 @@
                   :sem {:subj {:animate true}
                         :pred :hear}}}
 
-   "olvidar" {}
+   "olvidar" {:synsem {:cat :verb
+                      :sem {:pred :forget}}}
+
    "organizar" {}
+
    "pagar" {}
+
    "parar" {}
+
    "pedir" {}
+
    "peinarse" {}
 
    "os"

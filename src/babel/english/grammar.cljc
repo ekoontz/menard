@@ -3,7 +3,7 @@
   (:require 
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
-   [babel.index :refer (build-lex-sch-index create-index map-subset-by-cat map-subset-by-pred spec-to-phrases)]
+   [babel.index :refer (build-lex-sch-index create-index map-subset-by-path spec-to-phrases)]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head
@@ -747,20 +747,10 @@
      :index (create-index grammar (flatten (vals lexicon)) head-principle)
 
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-pred
-      (vec (set (filter #(not (nil? %))
-                        (map (fn [entry]
-                               (get-in entry [:synsem :sem :pred]))
-                             (flatten (vals lexicon))))))
-      (flatten (vals lexicon)))
+     (map-subset-by-path lexicon [:synsem :sem :pred])
 
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat
-      (vec (set (filter #(not (nil? %))
-                        (map (fn [entry]
-                               (get-in entry [:synsem :cat]))
-                             (flatten (vals lexicon))))))
-      (flatten (vals lexicon)))}))
+     (map-subset-by-path lexicon [:synsem :cat])}))
 
 (defn np-grammar []
   (let [grammar

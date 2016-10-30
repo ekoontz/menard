@@ -548,7 +548,7 @@
                       :sem {:pred :scrub}}}
 
    "fumar" {:synsem {:cat :verb
-                      :sem {:pred :smoke}}}
+                     :sem {:pred :smoke}}}
 
    "funcionar" {:synsem {:cat :verb
                          :sem {:subj {:human false}
@@ -596,15 +596,15 @@
              {:synsem {:sem {:pred :make}}})])
 
    "herir" {:espanol {:boot-stem "hier"}
-             :synsem {:cat :verb
-                      :sem {:pred :wound}}}
+            :synsem {:cat :verb
+                     :sem {:pred :wound}}}
 
    "hervir" {:espanol {:boot-stem "hierv"}
              :synsem {:cat :verb
                       :sem {:pred :boil}}}
 
    "intentar" {:synsem {:cat :verb
-                      :sem {:pred :try}}}
+                        :sem {:pred :try}}}
 
    "ir" {:espanol {:futuro-stem "ir"
                    :present {:1sing "voy"
@@ -682,9 +682,7 @@
                             :sem subject-semantics}}}})
 
    "lavar" {:synsem {:cat :verb
-               :sem {:pred :wash}}}
-
-
+                     :sem {:pred :wash}}}
 
    "lavarse" (let [subject-semantics (atom {:human true})
                    subject-agr (atom :top)]
@@ -706,8 +704,8 @@
                                  :1plur "leimos"
                                  :2plur "leisteis"
                                  :3plur "leyeron"}}
-          :synsem {:cat :verb
-                   :sem {:pred :read}}}
+           :synsem {:cat :verb
+                    :sem {:pred :read}}}
 
    "levantarse"
    (let [subject-semantics (atom {:human true})
@@ -725,7 +723,7 @@
                             :sem subject-semantics}}}})
 
    "limpiar" {:synsem {:cat :verb
-               :sem {:pred :clean}}}
+                       :sem {:pred :clean}}}
 
    "llamarse"
    (let [subject-semantics (atom :top)

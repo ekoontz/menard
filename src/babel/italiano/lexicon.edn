@@ -254,7 +254,8 @@
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}]
+                           :subcat {:2 '()}}}}}
+    
      ;; 5. avere bisogno di
      (let [need-obj (atom :top)]
         {:unify [avere-common]
@@ -262,8 +263,8 @@
                         :obj need-obj}
                   :subcat {:2 {:cat :noun
                                :sem {:pred :bisogno-di
-                                     :obj need-obj}}}}}
-                           )
+                                     :obj need-obj}}}}})]
+                           
 
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}

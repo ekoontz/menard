@@ -603,7 +603,8 @@
              :synsem {:cat :verb
                       :sem {:pred :boil}}}
 
-   "intentar" {}
+   "intentar" {:synsem {:cat :verb
+                      :sem {:pred :try}}}
 
    "ir" {:espanol {:futuro-stem "ir"
                    :present {:1sing "voy"

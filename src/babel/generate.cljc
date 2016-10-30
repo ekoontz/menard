@@ -107,10 +107,11 @@
                  (let [parent (unifyc parent spec)
                        pred (get-in spec [:synsem :sem :pred])
                        cat (get-in spec [:synsem :cat])
-                       pred-set (if (:pred2lex language-model) (get (:pred2lex language-model) pred))
-                       cat-set (if (:cat2lex language-model) (get (:cat2lex language-model) cat))
+                       aux (get-in spec [:synsem :aux])
                        non-empty-index-sets (filter #(not (empty? %))
-                                                    [cat-set pred-set])
+                                                    [(get (:pred2lex language-model) pred)
+                                                     (get (:cat2lex language-model) cat)
+                                                     (get (:aux2lex language-model) aux)])
                        subset
                        (cond
                          (not (empty? non-empty-index-sets))

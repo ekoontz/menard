@@ -668,6 +668,9 @@
      :grammar grammar
      :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :lexicon lexicon
+     :aux2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-path lexicon-for-generation [:synsem :aux])
+
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
      (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
 
@@ -757,15 +760,22 @@
                (analyze arg parse-lexicon))
      :morph fo
      :morph-ps fo-ps
+
+     :rules rules
+     :rule-map (zipmap rules
+                       grammar)
+
+
+     ;; indices from paths to subsets of the lexicon
+     :aux2lex
+     (map-subset-by-path lexicon-for-generation [:synsem :aux])
+
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
      (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
      (map-subset-by-path lexicon-for-generation [:synsem :cat])
 
-     :rules rules
-     :rule-map (zipmap rules
-                       grammar)
      }))
 
 (defn np-grammar []
@@ -824,4 +834,16 @@
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
        :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
        :rules rules
-       :rule-map (zipmap rules grammar)}))
+       :rule-map (zipmap rules grammar)
+
+       ;; indices from paths to subsets of the lexicon
+       :aux2lex
+       (map-subset-by-path lexicon-for-generation [:synsem :aux])
+       
+       :pred2lex ;; map:<pred => subset of lexicon with that pred>
+       (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
+       
+       :cat2lex ;; map:<cat => subset of lexicon with that cat>
+       (map-subset-by-path lexicon-for-generation [:synsem :cat])}))
+
+

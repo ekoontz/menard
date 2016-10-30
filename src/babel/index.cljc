@@ -197,30 +197,17 @@
   (let [vals (filter #(not (= ::none (get-in % path ::none)))
                      lexemes)]
     vals))
-    
-(defn map-subset-by-pred [preds
-                          lexemes]
-  (if (and true (not (empty? preds)))
-    (let [pred (first preds)]
-      (merge {pred
-              (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme [:synsem :sem :pred] :top))
-                            (= pred
-                               (get-in lexeme [:synsem :sem :pred]))))
-                      lexemes)}
-             (map-subset-by-pred (rest preds)
-                                 lexemes)))))
 
-(defn map-subset-by-path2 [preds lexemes path]
-  (if (and true (not (empty? preds)))
-    (let [pred (first preds)]
+(defn map-subset-by-path2 [vals-at-path lexemes path]
+  (if (and true (not (empty? vals-at-path)))
+    (let [pred (first vals-at-path)]
       (merge {pred
               (filter (fn [lexeme]
                         (or (= :top (get-in lexeme path :top))
                             (= pred
                                (get-in lexeme path))))
                       lexemes)}
-             (map-subset-by-path2 (rest preds)
+             (map-subset-by-path2 (rest vals-at-path)
                                   lexemes
                                   path)))))
 
@@ -232,15 +219,3 @@
                           (flatten (vals lexicon))))))
    (flatten (vals lexicon))
    path))
-
-(defn map-subset-by-cat [cats lexemes]
-  (if (and true (not (empty? cats)))
-    (let [cat (first cats)]
-      (merge {cat
-              (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme [:synsem :cat] :top))
-                            (= cat
-                               (get-in lexeme [:synsem :cat]))))
-                      lexemes)}
-             (map-subset-by-cat (rest cats)
-                                lexemes)))))

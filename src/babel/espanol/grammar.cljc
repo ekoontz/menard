@@ -457,7 +457,7 @@
      (map-subset-by-path lexicon [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat lexicon [:synsem :cat])
+     (map-subset-by-path lexicon [:synsem :cat])
      
      :grammar grammar
      :lexicon lexicon
@@ -493,7 +493,7 @@
      (map-subset-by-path lexicon [:synsem :sem :pred])
 
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat lexicon [:synsem :cat])
+     (map-subset-by-path lexicon [:synsem :cat])
 
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))

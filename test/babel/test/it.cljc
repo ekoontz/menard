@@ -19,9 +19,6 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unifyc]]))
 
-(defn generate-with-medium [spec]
-  (generate spec :model (medium)))
-
 (deftest analyze-1
   (let [singular (analyze "compito")
         plural  (analyze "compiti")]
@@ -285,7 +282,7 @@
 (defn roundtrip-parsing [n]
   (take n
         (repeatedly #(let [generated
-                           (fo (generate-with-medium {:synsem {:cat :verb
+                           (fo (generate {:synsem {:cat :verb
                                                                :subcat '()}}))
                            parsed (reduce concat (map :parses (parse generated medium)))]
                        (log/info (str "generated: " generated))
@@ -317,7 +314,7 @@
                         :subj {:pred :città}
                         :obj {:pred :calzoni}}}}]
     (is (or true ;; test won't complete (yet) without disabling with this 'or true'.
-            (not (nil? (generate-with-medium synsem)))))))
+            (not (nil? (generate synsem)))))))
 
 (deftest casa-parse
   (is (not (empty?
@@ -332,7 +329,7 @@
     (is (= "loro gestiscono" (fo result)))))
 
 (deftest casa-generate
-  (let [result (generate-with-medium {:synsem {:cat :noun
+  (let [result (generate {:synsem {:cat :noun
                                                :agr {:number :sing}
                                                :sem {:pred :house
                                                      :mod '()
@@ -341,7 +338,7 @@
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest case-generate
-  (let [result (generate-with-medium {:synsem {:cat :noun
+  (let [result (generate {:synsem {:cat :noun
                                                :agr {:number :plur}
                                                :sem {:pred :house
                                                      :mod '()
@@ -350,7 +347,7 @@
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest alla-casa-generate
-  (let [result (generate-with-medium
+  (let [result (generate
                 {:comp {:synsem {:agr {:number :sing}
                                  :reflexive false}}
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
@@ -363,7 +360,7 @@
     (is (= (fo result) "alla casa"))))
 
 (deftest a-casa-generate
-  (let [result (generate-with-medium
+  (let [result (generate
                 {:comp {:synsem {:pronoun false}}
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
                  ;; eliminate this need.
@@ -380,7 +377,7 @@
 
 ;; TODO: what is this test doing that the preceding test is not doing?
 (deftest a-casa-generate-2
-  (let [result (generate-with-medium
+  (let [result (generate
                 {:modified false
                  :synsem {:cat :verb 
                           :sem {:tense :present 
@@ -445,7 +442,7 @@
 
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))
-        gen-result (generate-with-medium {:synsem {:cat :prep 
+        gen-result (generate {:synsem {:cat :prep 
                                                    :sem {:pred :in-front-of
                                                          :obj {:pred :table
                                                                :number :sing
@@ -460,7 +457,7 @@
 
 (deftest davanti-lo-studente
   (let [parse-result (mapcat :parses (parse "davanti lo studente"))
-        gen-result (generate-with-medium {:synsem {:cat :prep 
+        gen-result (generate {:synsem {:cat :prep 
                                                    :sem {:pred :in-front-of
                                                          :obj {:pred :student
                                                                :number :sing
@@ -474,7 +471,7 @@
            (fo gen-result)))))
 
 (deftest davanti-il-tavolo
-  (let [expr (generate-with-medium {:synsem {:cat :prep
+  (let [expr (generate {:synsem {:cat :prep
                                              :sem {:pred :in-front-of
                                                    :reflexive false
                                                    :obj {:pred :table
@@ -486,7 +483,7 @@
            "davanti il tavolo"))))
 
 (deftest furniture-sentence
-  (let [expr (generate-with-medium {:synsem {:sem {:obj {:pred :table :mod '() :spec {:def :def}
+  (let [expr (generate {:synsem {:sem {:obj {:pred :table :mod '() :spec {:def :def}
                                                          :number :sing}
                                                    :pred :in-front-of
                                                    :subj {:pred :chair :mod '() :spec {:def :def}

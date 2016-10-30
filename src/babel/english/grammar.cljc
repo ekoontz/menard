@@ -249,23 +249,6 @@
                        :head {:synsem {:sem sem
                                        :subcat {:1 {:agr agr
                                                     :reflexive reflexive}}}}}))
-                   (unify-check c00
-                                modified
-                                (let [head-sem (atom :top)]
-                                  {:modified true
-                                   :english {:punctuation {:middle ","}}
-                                   :synsem {:subcat '()
-                                            :sem head-sem
-                                            :cat :verb}
-                                   :comp {:synsem {:cat :prep
-                                                   :subcat '()
-                                                   :sem head-sem}}
-                                   :head {:modified false
-                                          :synsem {:cat :verb
-                                                   :subcat '()
-                                                   :sem head-sem}}
-                                   :rule "s-modified-modifier-first"}))
-                    
                    (unify-check c10
                                 root-is-head-root
                                 unmodified

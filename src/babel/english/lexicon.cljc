@@ -1487,6 +1487,10 @@
                             :def :possessive
                             :sem {:of of}}}}})
 
+   "need" {:synsem {:cat :verb
+                :sem {:pred :need}}}
+
+
    "new" {:synsem {:cat :adjective
                    :sem {:mod {:pred :new}
                          :physical-object true}}}

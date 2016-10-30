@@ -254,7 +254,16 @@
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}])
+                           :subcat {:2 '()}}}}}]
+     ;; 5. avere bisogno di
+     (let [need-obj (atom :top)]
+        {:unify [avere-common]
+         :synsem {:sem {:pred :need
+                        :obj need-obj}
+                  :subcat {:2 {:cat :noun
+                               :sem {:pred :bisogno-di
+                                     :obj need-obj}}}}}
+                           )
 
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
@@ -298,12 +307,23 @@
                  :human false}}
   :italiano {:masc {:plur "bianchi"}
              :fem {:plur "bianche"}}}
+
  "birra"
  {:synsem {:agr {:gender :fem}
            :cat :noun
            :sem {:pred :birra
                  :artifact true
                  :drinkable true}}}
+
+"bisogno"
+(let [the-object (atom :top)]
+  {:synsem {:cat :noun
+            :sem {:pred :bisogno-di
+                  :obj the-object}
+            :subcat {:1 {:cat :prep
+                         :sem {:pred :di
+                               :obj the-object}}}}
+
  "braccio"
  {:synsem {:agr {:gender :masc}
            :cat :noun

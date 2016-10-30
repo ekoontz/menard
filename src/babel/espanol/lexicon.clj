@@ -869,7 +869,8 @@
    "olvidar" {:synsem {:cat :verb
                       :sem {:pred :forget}}}
 
-   "organizar" {}
+   "organizar" {:synsem {:cat :verb
+                      :sem {:pred :organize}}}
 
    "pagar" {}
 

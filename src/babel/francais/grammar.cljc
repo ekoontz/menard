@@ -7,8 +7,8 @@
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.index :refer (build-lex-sch-index
-                        create-index map-subset-by-cat
-                        map-subset-by-pred spec-to-phrases)]
+                        create-index map-subset-by-path
+                        spec-to-phrases)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
@@ -489,20 +489,10 @@
      :enrich enrich
 
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-pred
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :sem :pred]))
-                                (vals lexicon)))))
-      (flatten (vals lexicon)))
+     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :cat]))
-                                (vals lexicon)))))
-      (flatten (vals lexicon)))
+     (map-subset-by-path lexicon-for-generation [:synsem :cat])
 
      :grammar grammar
      ;; Will throw exception if more than 1 rule has the same :rule value:
@@ -561,20 +551,10 @@
                                  (morph-walk-tree tree))))
 
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-pred
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :sem :pred]))
-                                (vals lexicon)))))
-      (flatten (vals lexicon)))
+     (map-subset-by-path lexicon [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-cat
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :cat]))
-                                (vals lexicon)))))
-      (flatten (vals lexicon)))
+     (map-subset-by-path lexicon [:synsem :cat])
 
      :morph-ps fo-ps
      :language "fr"

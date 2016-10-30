@@ -1294,11 +1294,11 @@
            {:synsem {:cat :verb
                      :sem {:pred :live}}}]
 
-    "look" {:share-sem :obj
-           :synsem {:cat :verb
-                    :sem {:pred :look
-                          :subcat {:2 {:cat :prep
-                                       :sem {:pred :at}}}}}}
+    "look at" {:synsem {:cat :verb
+                         :sem {:pred :look-at}}
+                :english {:participle "looking at"
+                          :past "looked at"
+                          :present {:3sing "looks at"}}}
 
    ;; TODO: combine all "look X" into "look" with different subcategorizations
    "look for" {:synsem {:cat :verb

@@ -1004,6 +1004,10 @@
  "guadagnare"  {:synsem {:cat :verb
                          :sem {:pred :earn}}}
 
+ "guardare"  {:synsem {:cat :verb
+                         :sem {:pred :look-at}}}
+
+
  "guidare"  {:synsem {:cat :verb
                       :sem {:pred :drive}}}
  "i"

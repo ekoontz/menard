@@ -805,8 +805,8 @@
                       :sem {:pred :be-born}}}
 
 
-   "nadar" {{:synsem {:cat :verb
-                      :sem {:pred :swim}}}}
+   "nadar" {:synsem {:cat :verb
+                      :sem {:pred :swim}}}
 
    "necesitar" {}
 

@@ -783,7 +783,8 @@
              :synsem {:cat :verb
                       :sem {:pred :lie}}}
 
-   "mirar" {}
+   "mirar" {:synsem {:cat :verb
+                      :sem {:pred :look-at}}}
    "mostrar" {:note "m-"
               :synsem {:cat :verb
                        :sem {:pred :show}}}

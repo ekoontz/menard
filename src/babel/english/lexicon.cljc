@@ -582,7 +582,7 @@
             :english {:past "drank"}}
 
    "drive" {:synsem {:cat :verb
-                     :sem {:pred :guidare}}
+                     :sem {:pred :drive}}
             :english {:past "drove"}}
 
    "disappoint" {:synsem {:cat :verb

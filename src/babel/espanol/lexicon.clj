@@ -697,7 +697,7 @@
                                       :pronoun true
                                       :reflexive true
                                       :sem subject-semantics}}}})
-   
+
    "leer" {:espanol {:preterito {:1sing "leì"
                                  :2sing "leiste"
                                  :3sing "leyò"
@@ -767,8 +767,11 @@
                (unify shared-part-of-llevar
                       {:synsem {:sem {:pred :bring}}})])
 
-   "llorar" {}
-   "manejar" {}
+   "llorar" {:synsem {:cat :verb
+                      :sem {:pred :cry}}}
+
+   "manejar" {:synsem {:cat :verb
+                      :sem {:pred :drive}}}
 
    "me" {:synsem {:cat :noun
                   :pronoun true

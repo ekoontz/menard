@@ -1005,7 +1005,7 @@
                          :sem {:pred :earn}}}
 
  "guidare"  {:synsem {:cat :verb
-                      :sem {:pred :guidare}}}
+                      :sem {:pred :drive}}}
  "i"
  {:synsem {:cat :det
            :def :def
@@ -1409,8 +1409,8 @@
                   :human true}
             :subcat '()}}]
 
-; "non" {:synsem {:cat :adverb
-;                 :sem {:mod {:polarity :-}}}}
+ "non" {:synsem {:cat :adverb
+                 :sem {:mod {:polarity :-}}}}
 
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
@@ -1542,7 +1542,6 @@
               :italiano {:present {:1sing "riempio"
                                    :3sing "riempie"
                                    :3plur "riempiono"}}}
-
 
  "rimanere" {:synsem {:cat :verb
                       :essere true

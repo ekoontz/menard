@@ -1153,6 +1153,9 @@
                      :sem {:pred :wash
                            :reflexive true}}}
 
+ "lavare"  {:synsem {:cat :verb
+                       :sem {:pred :wash}}}
+
  "lavorare"  {:synsem {:cat :verb
                        :sem {:pred :work-human}}}
  "le"
@@ -1491,6 +1494,11 @@
 
  "prenotare" {:synsem {:cat :verb
                        :sem {:pred :reserve}}}
+
+ "pulire" {:italiano {:boot-stem1 "pulisc"}
+               :synsem {:cat :verb
+                       :sem {:pred :clean}}}
+
  "qualche"
  {:synsem {:cat :det
            :def :indef

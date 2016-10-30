@@ -466,7 +466,7 @@
                                            :subcat '()}}}})])
 
    "charge" {:synsem {:cat :verb
-                      :sem {:pred :caricare}}}
+                      :sem {:pred :charge}}}
 
    "check" {:synsem {:cat :verb
                      :sem {:pred :check}}}
@@ -474,6 +474,9 @@
    "city" {:synsem {:cat :noun
                     :sem {:pred :city
                           :city true}}}
+
+   "clean" {:synsem {:cat :verb
+                     :sem {:pred :clean}}}
 
    "close" {:synsem {:cat :verb
                      :sem {:pred :close}}}

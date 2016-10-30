@@ -699,7 +699,14 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
-   "leer" {}
+   "leer" {:espanol  :preterito {:1sing "leì"
+                                 :2sing "leiste"
+                                 :3sing "leyò"
+                                 :1plur "leimos"
+                                 :2plur "leisteis"
+                                 :3plur "leyeron"}}
+          :synsem {:cat :verb
+                   :sem {:pred :read}}}
 
    "levantarse"
    (let [subject-semantics (atom {:human true})
@@ -716,7 +723,8 @@
                             :reflexive true
                             :sem subject-semantics}}}})
 
-   "limpiar" {}
+   "limpiar" {:synsem {:cat :verb
+               :sem {:pred :clean}}}
 
    "llamarse"
    (let [subject-semantics (atom :top)

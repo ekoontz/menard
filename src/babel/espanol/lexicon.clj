@@ -785,9 +785,10 @@
 
    "mirar" {:synsem {:cat :verb
                       :sem {:pred :look-at}}}
-   "mostrar" {:note "m-"
-              :synsem {:cat :verb
-                       :sem {:pred :show}}}
+
+   "mostrar" {:espanol {:boot-stem "muestr"}
+             :synsem {:cat :verb
+                      :sem {:pred :show}}}
 
    "mujer"
    (unify agreement-noun

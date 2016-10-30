@@ -722,7 +722,7 @@
         (into {}
               (for [[k v] @lexicon]
                 (let [filtered-v v]
-                  (if (not (empty? filtered-v))
+                  (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))]
     {:name "medium"
 
@@ -748,18 +748,18 @@
 
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
      (map-subset-by-pred
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :sem :pred]))
-                                (vals lexicon)))))
+      (vec (set (filter #(not (nil? %))
+                        (map (fn [entry]
+                               (get-in entry [:synsem :sem :pred]))
+                             (flatten (vals lexicon))))))
       (flatten (vals lexicon)))
 
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
      (map-subset-by-cat
-      (filter #(not (nil? %))
-              (vec (set (mapcat (fn [entry]
-                                  (get-in entry [:synsem :cat]))
-                                (vals lexicon)))))
+      (vec (set (filter #(not (nil? %))
+                        (map (fn [entry]
+                               (get-in entry [:synsem :cat]))
+                             (flatten (vals lexicon))))))
       (flatten (vals lexicon)))}))
 
 (defn np-grammar []

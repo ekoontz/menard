@@ -2165,21 +2165,20 @@
    "warn" {:synsem {:cat :verb
                      :sem {:pred :warn}}}
 
-   ;; TODO: rename {:pred :wash} to {:pred :wash-oneself} and add non-reflexive "wash" with {:pred :wash}.
-   "wash" {:synsem {:cat :verb
+   "wash" [;; 1. non-reflexive
+           {:synsem {:cat :verb
                      :sem {:pred :wash}}}
-
-
-   "wash" (let [subject-semantics (atom :top)]
-            {:synsem {:cat :verb
-                      :sem {:pred :wash-oneself
-                            :reflexive true
-                            :subj subject-semantics
-                            :obj subject-semantics}
-                      :subcat {:1 {:sem subject-semantics}
-                               :2 {:pronoun true
-                                   :reflexive true
-                                   :sem subject-semantics}}}})
+           ;; 2. reflexive
+           (let [subject-semantics (atom :top)]
+             {:synsem {:cat :verb
+                       :sem {:pred :wash-oneself
+                             :reflexive true
+                             :subj subject-semantics
+                             :obj subject-semantics}
+                       :subcat {:1 {:sem subject-semantics}
+                                :2 {:pronoun true
+                                    :reflexive true
+                                    :sem subject-semantics}}}})]
    "waste" {:synsem {:cat :verb
                 :sem {:pred :waste}}}
 

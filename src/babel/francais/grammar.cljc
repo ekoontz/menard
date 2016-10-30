@@ -489,10 +489,10 @@
      :enrich enrich
 
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
+     (map-subset-by-path lexicon [:synsem :sem :pred])
      
      :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon-for-generation [:synsem :cat])
+     (map-subset-by-path lexicon [:synsem :cat])
 
      :grammar grammar
      ;; Will throw exception if more than 1 rule has the same :rule value:

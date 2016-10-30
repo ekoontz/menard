@@ -871,7 +871,9 @@
    "organizar" {:synsem {:cat :verb
                       :sem {:pred :organize}}}
 
-   "pagar" {}
+   "pagar" {:espanol {:preterito {:1sing "pagué"}}
+          :synsem {:cat :verb
+                    :sem {:pred :pay}}}
 
    "parar" {}
 

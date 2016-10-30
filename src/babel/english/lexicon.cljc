@@ -1554,6 +1554,11 @@
                       :sem {:pred :party
                             :event true}}}]
 
+   "pay" {:synsem {:cat :verb
+                    :sem {:pred :pay}}
+                          :english {:past "paid"}}
+
+
    "pizza"
    {:synsem {:cat :noun
              :sem {:pred :pizza}}}

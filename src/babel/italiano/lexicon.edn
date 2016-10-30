@@ -222,7 +222,7 @@
    {:unify [avere-common]
     :note "avere (relation)"
     :synsem {:sem {:pred :have}}}
-   
+
    ;; 3. avere: unspecified object
    {:unify [avere-common]
     :note "avere (possess): unspecified object"
@@ -239,7 +239,7 @@
                              :subcat {:2 {:agr agr
                                           :pronoun true}}
                              :essere false}}}})
-   
+
    ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
    ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
    ;; "avere": auxiliary-verb: takes 2 args:
@@ -255,7 +255,7 @@
                            ;; this additional qualification here (:reflexive false) is not necessary
                           ;; but is expected to reduce fails during generation.
                           :subcat {:2 '()}}}}}
-    
+
    ;; 6. avere bisogno di
    (let [need-obj (atom :top)]
      {:unify [avere-common]
@@ -1456,6 +1456,12 @@
                                   :3sing "ottiene"
                                   :3plur "ottengono"}
                         :future-stem "otterr"}}
+
+ "pagare" {:synsem {:cat :verb
+                     :essere false
+                     :sem {:pred :pay}}}
+
+
  "pane"
  ;; inherently singular.
  {:synsem {:agr {:gender :masc}
@@ -1473,6 +1479,7 @@
  "partire" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :leave}}}
+
  "pensare"
  {:synsem {:cat :verb
            :essere false

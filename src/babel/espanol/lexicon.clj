@@ -1,13 +1,15 @@
 (ns babel.espanol.lexicon
   (:refer-clojure :exclude [get-in])
   (:require
-   [clojure.tools.logging :as log]
+   [babel.encyclopedia :as encyc]
    [babel.lexiconfn :refer [compile-lex if-then
-                            map-function-on-map-vals]]
+                            map-function-on-map-vals
+                            verb-pred-defaults]]
    [babel.espanol.morphology :as morph]
    [babel.espanol.pos :refer [agreement-noun cat-of-pronoun common-noun determiner
                               feminine-noun intransitivize masculine-noun transitivize]]
    [babel.pos :as pos :refer [pronoun-acc]]
+   [clojure.tools.logging :as log]
    [dag_unify.core :refer [fail? get-in unify]]))
 
 (def lexicon-source
@@ -555,13 +557,9 @@
                                :pred :work-nonhuman}}}
 
    "ganar" [{:synsem {:cat :verb
-                      :sem {:pred :earn
-                            :subj {:human true}
-                            :obj {:human false}}}}
+                      :sem {:pred :earn}}}
             {:synsem {:cat :verb
-                      :sem {:pred :win
-                            :subj {:human true}
-                            :obj {:human false}}}}]
+                      :sem {:pred :win}}}]
 
    ;; TODO: handle syntax/semantics mismatch between Italian/Espanol and English.
                                         ;                     "gustar" {:synsem {:cat :verb
@@ -1128,6 +1126,8 @@
 
       ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
       transitivize
+
+      (verb-pred-defaults encyc/verb-pred-defaults)
 
       ;; if verb has no :aux, it's {:aux false}
       (if-then {:synsem {:cat :verb

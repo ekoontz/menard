@@ -103,32 +103,33 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (when (= false (get-in parent [:head :phrasal] false))
-                 (let [parent (unifyc parent spec)
-                       pred (get-in spec [:synsem :sem :pred])
-                       cat (get-in spec [:synsem :cat])
-                       aux (get-in spec [:synsem :aux])
-                       non-empty-index-sets (filter #(not (empty? %))
-                                                    [(get (:pred2lex language-model) pred)
-                                                     (get (:cat2lex language-model) cat)
-                                                     (get (:aux2lex language-model) aux)])
-                       subset
-                       (cond
-                         (not (empty? non-empty-index-sets))
-                         (reduce intersection-with-identity non-empty-index-sets)
-                         true
-                         (do
-                           (log/warn (str "no index found for spec: " (spec-info spec)))
-                           (get-lex parent :head (:index language-model))))]
-                   (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (get-in parent [:rule])))
-                   (let [result (over/overh parent (lazy-shuffle subset))]
-                     (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
-                     (if (and (not (empty? subset)) (empty? result))
-                       ;; log/warn because it's very expensive to run
-                       ;; over/overh: for every candidate, both parent
-                       ;; and candidate head must be copied.
-                       (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
-                     result))))
+               (let [parent (unify parent spec)]
+                 (when (= false (get-in parent [:head :phrasal] false))
+                   (let [pred (get-in spec [:synsem :sem :pred])
+                         cat (get-in spec [:synsem :cat])
+                         aux (get-in spec [:synsem :aux])
+                         non-empty-index-sets (filter #(not (empty? %))
+                                                      [(get (:pred2lex language-model) pred)
+                                                       (get (:cat2lex language-model) cat)
+                                                       (get (:aux2lex language-model) aux)])
+                         subset
+                         (cond
+                           (not (empty? non-empty-index-sets))
+                           (reduce intersection-with-identity non-empty-index-sets)
+                           true
+                           (do
+                             (log/warn (str "no index found for spec: " (spec-info spec)))
+                             (get-lex parent :head (:index language-model))))]
+                     (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (get-in parent [:rule])))
+                     (let [result (over/overh parent (lazy-shuffle subset))]
+                       (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
+                       (log/info (str "trying overh with spec: " (strip-refs spec)))
+                       (if (and (not (empty? subset)) (empty? result))
+                         ;; log/warn because it's very expensive to run
+                         ;; over/overh: for every candidate, both parent
+                         ;; and candidate head must be copied.
+                         (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
+                       result)))))
              parents))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)

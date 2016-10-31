@@ -6,7 +6,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer [copy get-in fail? strip-refs unify unifyc]]))
+   [dag_unify.core :refer [copy get-in fail? strip-refs unify]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
@@ -340,16 +340,16 @@
   (filter #(not (= :fail %))
           (pmap (fn [rule]
                   (log/trace (str "candidate-parents: rule: " (:rule rule)))
-                  (if (and (not-fail? (unifyc (get-in rule [:synsem :cat] :top)
-                                              (get-in spec [:synsem :cat] :top)))
-                           (not-fail? (unifyc (get-in rule [:synsem :infl] :top)
-                                              (get-in spec [:synsem :infl] :top)))
-                           (not-fail? (unifyc (get-in rule [:synsem :sem :tense] :top)
-                                               (get-in spec [:synsem :sem :tense] :top)))
-                           (not-fail? (unifyc (get-in rule [:synsem :modified] :top)
-                                              (get-in spec [:synsem :modified] :top))))
+                  (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
+                                             (get-in spec [:synsem :cat] :top)))
+                           (not-fail? (unify (get-in rule [:synsem :infl] :top)
+                                             (get-in spec [:synsem :infl] :top)))
+                           (not-fail? (unify (get-in rule [:synsem :sem :tense] :top)
+                                             (get-in spec [:synsem :sem :tense] :top)))
+                           (not-fail? (unify (get-in rule [:synsem :modified] :top)
+                                             (get-in spec [:synsem :modified] :top))))
                     (let [result
-                           (unifyc spec rule)]
+                          (unify spec rule)]
                       (if (fail? result)
                         :fail
                         result))

@@ -1315,7 +1315,7 @@
 
                 (and (= :noun (get-in lexeme [:synsem :cat]))
                      (= :top (get-in lexeme [:synsem :agr :number])))
-                ;; if a noun has no number, it's :sing(gular)
+                ;; if a noun has no number, it's singular.
                 (unifyc lexeme
                         {:synsem {:agr {:number :sing}}})
                 true

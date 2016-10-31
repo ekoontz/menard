@@ -190,7 +190,8 @@
                                        (if (not (empty? parents))
                                          (log/debug (str "parse/parses: parents: "
                                                          (string/join ","
-                                                                      (map #(morph-ps %) parents)))))
+                                                                      (map #(morph-ps %) parents))))
+                                         (log/debug (str "no parents found for left/right:")))
                                        (log/debug (str " left: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) left-signs))))

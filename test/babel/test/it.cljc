@@ -3,10 +3,9 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :refer [analyze fo-ps generate lightning-bolts medium np-grammar parse preprocess small]]
+   [babel.italiano :refer [analyze fo-ps generate lightning-bolts medium morph np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]
-   [babel.italiano.morphology :as morph :refer [analyze-regular fo
-                                                replace-patterns]]
+   [babel.italiano.morphology :as morph :refer [analyze-regular replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
@@ -41,7 +40,7 @@
                                          :tense :present}}}
                          :model (small)
                          :do-enrich false)]
-    (is (= "io sono" (fo result)))))
+    (is (= "io sono" (morph result)))))
 
 (deftest passato-prossimo
   (let [result (generate {:root {:italiano {:italiano "bere"}}
@@ -51,18 +50,18 @@
                                          :aspect :perfect}}}
                          :model (small))]
     (is (not (nil? result)))
-    (is (= "io ho bevuto" (fo result)))))
+    (is (= "io ho bevuto" (morph result)))))
 
 (deftest parse-ci-before-vowel
   (let [result (:parses (first (parse "c'è stato")))]
     (is (not (empty? result)))
-    (is (= "c'è stato") (fo (first (:parses (first result)))))))
+    (is (= "c'è stato") (morph (first (:parses (first result)))))))
 
 ;; this should succeed to parse...
 (deftest passato-prossimo-parsing-positive
   (let [result (:parses (first (parse "lei è andata")))]
     (is (not (empty? result)))
-    (is (= "lei è andata") (fo (first (:parses (first result)))))))
+    (is (= "lei è andata") (morph (first (:parses (first result)))))))
 
 ;; ..whereas this should fail:
 (deftest passato-prossimo-parsing-negative
@@ -79,7 +78,7 @@
                                          :aspect :perfect}}}
                          :model (small))]
     (is (not (nil? result)))
-    (is (= "io mi sono alzata" (fo result)))))
+    (is (= "io mi sono alzata" (morph result)))))
 
 (deftest present-ditransitive
   (let [result (generate {:synsem {:subcat '()
@@ -89,12 +88,12 @@
                                          :iobj {:pred :luisa}}}}
                          :model (small))]
     (is (not (nil? result)))
-    (is (= "io mi chiamo Luisa" (fo result)))))
+    (is (= "io mi chiamo Luisa" (morph result)))))
 
 (deftest parse-io-parlo
   (let [result (:parses (first (parse "io parlo")))]
     (is (not (empty? result)))
-    (is (= "io parlo") (fo (first (:parses (first result)))))))
+    (is (= "io parlo") (morph (first (:parses (first result)))))))
         
 (deftest round-trip-1
   (let [expr (generate {:synsem {:subcat '()
@@ -103,22 +102,22 @@
                                        :number :sing
                                        :pred :donna}}}
                        :model (np-grammar))]
-    (is (or (= (fo expr) "la donna difficile")
-            (= (fo expr) "la difficile donna")))
+    (is (or (= (morph expr) "la donna difficile")
+            (= (morph expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
-                                     :parses (parse (fo expr) (np-grammar)))))))))
+                                     :parses (parse (morph expr) (np-grammar)))))))))
 
 (deftest forbid-mispelling
- (is (empty? (:parses (parse (fo "la donna difficila") (np-grammar))))))
+ (is (empty? (:parses (parse (morph "la donna difficila") (np-grammar))))))
 
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
   ;; might be anything.
   (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}}
                          :model (np-grammar))]
-    (is (not (= "" (fo result))))
+    (is (not (= "" (morph result))))
     (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
-    (is (not (empty? (parse (fo result)))))))
+    (is (not (empty? (parse (morph result)))))))
 
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
@@ -144,12 +143,12 @@
                                         :model (np-grammar))))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
-                            (let [fo (fo expr)
+                            (let [surface (morph expr)
                                   parsed (reduce concat (map :parses
-                                                             (parse fo (np-grammar))))]
+                                                             (parse surface (np-grammar))))]
                               (if (not (empty? parsed))
-                                (log/info (str "parse OK:" fo))
-                                (log/error (str "parse failed: " fo)))
+                                (log/info (str "parse OK:" surface))
+                                (log/error (str "parse failed: " surface)))
                               (is (not (empty? parsed)))))
                           expressions))))))
 
@@ -163,11 +162,11 @@
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
-                            (let [fo (fo expr)
-                                  parsed (reduce concat (map :parses (parse fo)))]
+                            (let [surface (morph expr)
+                                  parsed (reduce concat (map :parses (parse surface)))]
                               (if (not (empty? parsed))
-                                (log/info (str "parse OK:" fo))
-                                (log/error (str "parse failed: " fo)))
+                                (log/info (str "parse OK:" surface))
+                                (log/error (str "parse failed: " surface)))
                               (is (not (empty? parsed)))))
                           expressions))))))
 
@@ -183,11 +182,11 @@
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
-                            (let [fo (fo expr)
-                                  parsed (reduce concat (map :parses (parse fo)))]
+                            (let [surface (morph expr)
+                                  parsed (reduce concat (map :parses (parse surface)))]
                               (if (not (empty? parsed))
-                                (log/info (str "parse OK:" fo))
-                                (log/error (str "parse failed: " fo)))
+                                (log/info (str "parse OK:" surface))
+                                (log/error (str "parse failed: " surface)))
                               (is (not (empty? parsed)))))
                           expressions))))))
 
@@ -203,11 +202,11 @@
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses (parse fo)))]
+                          (let [surface (morph expr)
+                                parsed (reduce concat (map :parses (parse surface)))]
                             (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
+                              (log/info (str "parse OK:" surface))
+                              (log/error (str "parse failed: " surface)))
                             (is (not (empty? parsed)))))
                         expressions))))))
 
@@ -221,11 +220,11 @@
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses (parse fo)))]
+                          (let [surface (morph expr)
+                                parsed (reduce concat (map :parses (parse surface)))]
                             (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
+                              (log/info (str "parse OK:" surface))
+                              (log/error (str "parse failed: " surface)))
                             (is (not (empty? parsed)))))
                         expressions))))))
 
@@ -239,11 +238,11 @@
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
-                          (let [fo (fo expr)
-                                parsed (reduce concat (map :parses (parse fo)))]
+                          (let [surface (morph expr)
+                                parsed (reduce concat (map :parses (parse surface)))]
                             (if (not (empty? parsed))
-                              (log/info (str "parse OK:" fo))
-                              (log/error (str "parse failed: " fo)))
+                              (log/info (str "parse OK:" surface))
+                              (log/error (str "parse failed: " surface)))
                             (is (not (empty? parsed)))))
                         expressions))))))
 
@@ -254,9 +253,9 @@
     ;; formatting the first of the resultant parse trees:
     ;; output should be the same as the input to the parser:
     (is (or (= "il gatto rosso si è alzato"
-               (fo (first result)))
+               (morph (first result)))
             (= "il rosso gatto si è alzato"
-               (fo (first result)))))))
+               (morph (first result)))))))
             
 ;; tricky tokenization of 'la sua' and 'la loro' as lexemes.
 (deftest parsing
@@ -282,7 +281,7 @@
 (defn roundtrip-parsing [n]
   (take n
         (repeatedly #(let [generated
-                           (fo (generate {:synsem {:cat :verb
+                           (morph (generate {:synsem {:cat :verb
                                                                :subcat '()}}))
                            parsed (reduce concat (map :parses (parse generated medium)))]
                        (log/info (str "generated: " generated))
@@ -326,7 +325,7 @@
                                   :pred :manage
                                   :tense :present}}}
                   :model (small))]
-    (is (= "loro gestiscono" (fo result)))))
+    (is (= "loro gestiscono" (morph result)))))
 
 (deftest casa-generate
   (let [result (generate {:synsem {:cat :noun
@@ -334,7 +333,7 @@
                                                :sem {:pred :house
                                                      :mod '()
                                                      :spec {:def :def}}}})]
-    (is (= (fo result) "la casa"))
+    (is (= (morph result) "la casa"))
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest case-generate
@@ -343,7 +342,7 @@
                                                :sem {:pred :house
                                                      :mod '()
                                                      :spec {:def :def}}}})]
-    (is (= (fo result) "le case"))
+    (is (= (morph result) "le case"))
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 
 (deftest alla-casa-generate
@@ -357,7 +356,7 @@
                                 :obj {:pred :house
                                       :spec {:def :def}
                                       :mod '()}}}})]
-    (is (= (fo result) "alla casa"))))
+    (is (= (morph result) "alla casa"))))
 
 (deftest a-casa-generate
   (let [result (generate
@@ -373,7 +372,7 @@
                                       ;; (less bolts where no complement can
                                       ;; be found).
                                       :spec {:def :none}}}}})] ;; "a casa", not "a tua casa", "a della casa", etc
-    (is (= (fo result) "a casa"))))
+    (is (= (morph result) "a casa"))))
 
 ;; TODO: what is this test doing that the preceding test is not doing?
 (deftest a-casa-generate-2
@@ -385,7 +384,7 @@
                                 :obj {:pred :house
                                       :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
                                 :subj {:pred :I}}}})]
-    (is (= (fo result) "io sono a casa"))))
+    (is (= (morph result) "io sono a casa"))))
 
 (deftest chiamarsi-1
   (let [result (parse "io mi chiamo Luisa")]
@@ -453,7 +452,7 @@
                                                           :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti il tavolo"
-           (fo gen-result)))))
+           (morph gen-result)))))
 
 (deftest davanti-lo-studente
   (let [parse-result (mapcat :parses (parse "davanti lo studente"))
@@ -468,7 +467,7 @@
                                                           :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
-           (fo gen-result)))))
+           (morph gen-result)))))
 
 (deftest davanti-il-tavolo
   (let [expr (generate {:synsem {:cat :prep
@@ -479,7 +478,7 @@
                                                          :number :sing
                                                          :spec {:def :def
                                                                 :pred :definite}}}}})]
-    (is (= (fo expr)
+    (is (= (morph expr)
            "davanti il tavolo"))))
 
 (deftest furniture-sentence
@@ -493,7 +492,7 @@
                                              :cat :verb}
                                     :comp {:synsem {:agr {:person :3rd}}}
                                     :modified false})]
-    (is (= (fo expr)
+    (is (= (morph expr)
            "la sedia è davanti il tavolo"))))
 
 ;(deftest non-arriva
@@ -505,7 +504,7 @@
 ;          not)))
 
 (deftest past-and-gender-agreement
-  (is (= (fo (generate {:synsem {:sem {:pred :go
+  (is (= (morph (generate {:synsem {:sem {:pred :go
                                        :aspect :perfect
                                        :tense :past
                                        :subj {:gender :fem
@@ -514,7 +513,7 @@
      "loro sono andate")))
 
 (deftest exists1
-  (is (= (fo (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:sem {:obj :unspec
                                        :subj :top
                                        :pred :exist
                                        :reflexive false
@@ -525,7 +524,7 @@
          "ci sarebbe")))
 
 (deftest exists2
-  (is (= (fo (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:sem {:obj :unspec
                                        :subj :top
                                        :pred :exist
                                        :reflexive false
@@ -537,7 +536,7 @@
          "c'era")))
 
 (deftest exists3
-  (is (= (fo (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:sem {:obj :unspec
                                        :subj :top
                                        :pred :exist
                                        :reflexive false
@@ -548,6 +547,8 @@
          "c'è")))
 
 (deftest bisogno
-  (is (not (empty (:parses (first (parse "ho bisogno di" (small)))))))
+  (is (not (empty? (:parses (first (parse "ho bisogno di" (small)))))))
+  (is (= "vp-present" (:rule (first (:parses (first (parse "ho bisogno di" (small))))))))
   (is (= "io ho bisogno di"
-         (generate {:synsem {:sem {:tense :present :pred :need :subj {:pred :I}}}} :model (small)))))
+         (morph (generate {:synsem {:sem {:tense :present :pred :need :subj {:pred :I}}}} :model (small))))))
+

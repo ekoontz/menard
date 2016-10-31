@@ -287,11 +287,11 @@
       (and (= :none (get-in tree [:head] :none))
            (= :none (get-in tree [:comp] :none))
            (not (= :none (get-in tree [:rule] :none))))
-      (str "[" (get-in tree [:rule]) "/" (get-in tree [:synsem :cat]) " "
+      (str "[" (get-in tree [:rule]) "/" (get-in tree [:synsem :cat]) " pred(" (get-in tree [:synsem :sem :pred]) ") "
            "'" (fo tree) "']")
 
       (= head-first? :none)
-      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat] ""))
+      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat]) " pred(" (get-in tree [:synsem :sem :pred]) ") ")
 
       (= head-first? :comp)
       (str "[" (get-in tree [:rule]) " "

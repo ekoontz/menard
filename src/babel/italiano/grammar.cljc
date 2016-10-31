@@ -626,6 +626,7 @@
                      (= (:rule %) "vp-32")
                      (= (:rule %) "vp-aux")
                      (= (:rule %) "vp-aux-22")
+                     (= (:rule %) "vp-present")
                      (= (:rule %) "vp-pronoun-nonphrasal")
                      (= (:rule %) "vp-pronoun-phrasal")
                      (= (:rule %) "np-to-n-plus-di"))
@@ -648,7 +649,12 @@
                                            (= (get-in % [:synsem :aux]) true))
                                        
                                        (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
-                                           (= (get-in % [:synsem :sem :reflexive] false) true))  ;; ..but allow reflexive verbs.
+                                           ;; ..but allow reflexive verbs.
+                                           (= (get-in % [:synsem :sem :reflexive] false) true)
+
+                                           ;; ..or "avere" + bisogna di
+                                           (and (= (get-in % [:synsem :sem :pred]) :need)
+                                                (= (get-in % [:italiano :infinitive]) "avere")))
                                        
                                        ;; exclude verbs that take an adverb as the third argument.
                                        (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 

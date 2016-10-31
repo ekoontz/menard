@@ -56,7 +56,7 @@
                         {:head (copy head)})]
       (if (not (= :fail result))
         (list result)
-        (log/debug (str "fail-path:" (dag_unify.core/fail-path
+        (log/debug (str "fail-path for rule: " (:rule parent) ":" (dag_unify.core/fail-path
                                       (copy parent)
                                       {:head (copy head)})))))))
 

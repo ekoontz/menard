@@ -123,7 +123,7 @@
                      (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (get-in parent [:rule])))
                      (let [result (over/overh parent (lazy-shuffle subset))]
                        (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
-                       (log/info (str "trying overh with spec: " (strip-refs spec)))
+                       (log/debug (str "trying overh with spec: " (strip-refs spec)))
                        (if (and (not (empty? subset)) (empty? result)
                                 (> (count subset)
                                    10))

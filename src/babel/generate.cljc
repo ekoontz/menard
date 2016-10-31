@@ -124,7 +124,9 @@
                      (let [result (over/overh parent (lazy-shuffle subset))]
                        (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
                        (log/info (str "trying overh with spec: " (strip-refs spec)))
-                       (if (and (not (empty? subset)) (empty? result))
+                       (if (and (not (empty? subset)) (empty? result)
+                                (> (count subset)
+                                   10))
                          ;; log/warn because it's very expensive to run
                          ;; over/overh: for every candidate, both parent
                          ;; and candidate head must be copied.

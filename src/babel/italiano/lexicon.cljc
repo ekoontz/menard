@@ -253,7 +253,8 @@
       (verb-pred-defaults encyc/verb-pred-defaults)
 
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
-       {:synsem {:cat :verb
+       {:allow-intransitivize true
+        :synsem {:cat :verb
                  :aux false
                  :sem {:obj {:top :top}
                        :reflexive false}

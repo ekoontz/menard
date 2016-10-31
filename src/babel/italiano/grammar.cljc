@@ -280,15 +280,12 @@
                                      :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
-                   ;; TODO: for now special-purpose rule for generating "[vp avere [np-to-n-plus-di bisogno di]]"
                    (unifyc h10
-                           {:rule "np-to-n-plus-di"
+                           {:rule "np-to-n-pp"
                             :synsem {:cat :noun}
                             :head {:phrasal false}
-                            :comp {:phrasal false
-                                   :synsem {:cat :prep
+                            :comp {:synsem {:cat :prep
                                             :sem {:pred :di}}}})
-                   
                    (unifyc c10
                            comp-specs-head
                            (let [number-agreement (atom :top)

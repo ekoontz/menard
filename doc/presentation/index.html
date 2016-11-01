@@ -61,6 +61,9 @@
       values are defined such that they are only allowed them to be
       combined in certain ways.
 
+    </p>
+    <p>
+
       Example 1: category (:cat)
 
       Lexemes are declared to have a :cat value which can only be one
@@ -70,6 +73,8 @@
       For example, the rule: NP -> Det N, the first child must be:
       {:cat :determiner}, while the second child must be: {:cat
       :noun}.
+    </p>
+    <p>
 
       In addition, the parent of the rule, also has a :cat value,
       which is the same as one of the children. For example, in the
@@ -79,19 +84,37 @@
       VP, the first child must be {:cat :noun}, and the NP in turn,
       will be formed such that its second child is also {:cat :noun}.
 
+    </p>
+    <p>
+
       We call the child that shares the same :cat value as its parent,
       the _head_ child ,and the other child, we call the _complement_.
+      (generate) builds a tree by adding _head_ children first, and
+      then complements. This is to allow generation by a given
+      specification to be efficient.
+      
+    </p>
+
+
+    
+    <p>
 
       Example 2: subcategorization (:subcat)
+    </p>
+    <p>
 
       The other way that we constrain the generation process is with
       another specially-designated key called :subcat. This key allows
       children to specify what their complement sibling will
       be. (Human children are not so fortunate - imagine if, as an
       older sibling, you could choose a sibling to your preferences.)
+    </p>
+    <p>
 
       For example, in the rule NP -> Det N, the head noun chooses a
       determiner according to whether the N is singular, mass, etc:
+    </p>
+    <p>
 
       A cat.
       Some cats.
@@ -99,25 +122,66 @@
       
       * A cats.
       * A dirt.
+    </p>
+    <p>
 
       Example 3: semantics: composition of expressions
 
       The semantics of a parent is a map nested within the parent's
       map, in the :sem key. This key's value is shared with the the
       :sem key's value in the head child.
-      
+
+    </p>
+    <p>
       Example 4: semantics: selection of arguments
       
       heads of phrases constrain what their complement sibling will be
       by semantics as well as (as we saw in example 2) by category.
-      
-      
+
     </p>
       
+    <p>
+      Generation via specification.
+
+      Earlier we saw a demonstration of random generation, but Babel
+      can also generate expressions which match a desired
+      specification. A specification is written as a Clojure map, just
+      as phrase structure rules and lexemes are, e.g. :sem = :cat.
+
+      babel.test.en> (repeatedly #(println (morph (generate {:synsem {:sem {:pred :cat}
+                                                                      :cat :noun}}))))
+some stupid student's old cat
+Luisa's first cat
+some old mothers' first mothers' red cats
+      
     </p>
 
+    <p>
+      The generative process chooses rules and children randomly, but,
+      when it adds children, it requires that the resulting structure
+      conforms to the given specification.
 
+      Show diagram showing rules and children are "belt fed" as children.
+      
+    </p>
+    
+    <p>
+    This can be made reasonably efficent because of the constraints
+    that the head and parent of a phrase structure rule share semantics and category.
+    </p>
 
+    <p>Unification: why it's important. Unification allows us to
+    express grammatical information in a concise "Don't Repeat
+    Yourself" manner. We can have relatively few rule, because the
+    lexicon bears most of the responsibility for determining how
+    expressions are generated.
+    </p>
+    <p>
+      But: generation is still slow: we have to do a "sequential scan"
+      of the potential children to find a child that actually matches
+      our desired specification. Solution: add indices.
+    </p>
+    
   </div>
   
 <!--

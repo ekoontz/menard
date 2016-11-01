@@ -9,7 +9,7 @@ https://github.com/impress/impress.js/issues/136 */
 div.code {
     border:5px solid #eee;
     margin:5%;
-    padding:1%;
+    padding:2%;
     white-space:pre;
     font-family:monospace;
     font-size:smaller;

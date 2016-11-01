@@ -26,7 +26,7 @@
 
   <div id="prose-version" style="display:none">
     <p>
-      Here are some random Engilsh expressions that babel can generate:
+      Here are some random English expressions that babel can generate:
 
       her black bird's first shoe used to have Antonia
       you all would prepare yourselves
@@ -94,11 +94,8 @@
       specification to be efficient.
       
     </p>
-
-
     
     <p>
-
       Example 2: subcategorization (:subcat)
     </p>
     <p>
@@ -161,27 +158,40 @@ some old mothers' first mothers' red cats
       when it adds children, it requires that the resulting structure
       conforms to the given specification.
 
-      Show diagram showing rules and children are "belt fed" as children.
+      (Show diagram showing rules and children are "belt fed" as children).
       
     </p>
     
     <p>
-    This can be made reasonably efficent because of the constraints
-    that the head and parent of a phrase structure rule share semantics and category.
+    Search is made more efficent because of the constraints that the
+    head and parent of a phrase structure rule share semantics and
+    category.
     </p>
 
-    <p>Unification: why it's important. Unification allows us to
+    <p>
+      Unification: why it's important. Unification allows us to
     express grammatical information in a concise "Don't Repeat
     Yourself" manner. We can have relatively few rule, because the
-    lexicon bears most of the responsibility for determining how
-    expressions are generated.
+    most of the responsibility for determining how expressions are
+    generated is borne by the lexicon.
     </p>
+
     <p>
       But: generation is still slow: we have to do a "sequential scan"
       of the potential children to find a child that actually matches
-      our desired specification. Solution: add indices.
+      our desired specification. 
     </p>
-    
+
+    <p>Optimization</p>
+
+    - add indices to reduce set that we need to scan.
+    - truncate trees after adding children to reduce cost of unification.
+
+    <p>Upcoming 
+      - more optimization
+      - web-based development environment for grammars
+      - ingest from from wikitionary, wikipedia, existing HPSG grammars
+    </p>
   </div>
   
 <!--
@@ -232,6 +242,55 @@ some old mothers' first mothers' red cats
       Babel
     </div>
 
+    <div class="step slide" data-x="0" data-y="-3000" data-scale="2">
+    <p>How to generate random English expressions</p>
+
+    <div class="code">(use '[babel.english :only [generate morph]])
+(repeatedly #(println (morph (generate))))</div>
+
+    <div class="code" style="font-size:small">
+Matteo's new cat would pay you all
+his second cats' small cities would return Antonia
+Antonio's stupid mother wants to wear you
+Gianluca and Giovanni's red parties will pay Gianluca
+Antonia and Luisa's small coffees' red keys will endure Juan and me
+Matteo's intelligent women would lift you
+your small games' bread's second books would conserve it
+your intelligent woman would assure it
+the stupid mens' students' black chairs would listen to it
+</div>
+    </div>
+
+    <div class="step slide" data-x="2000" data-y="-3000" data-scale="2">
+      <h2>Generation: how?</h2>
+
+      Definitions: 
+      <ul>
+	<li>phrase structure rule <pre>NP -&gt; Det N</pre></li>
+	<li>lexeme (a.k.a. terminal symbol) <pre>pizza</pre></li>
+      </ul>
+
+      <div style="float:left;width:69%;height:600px;width:600px;left:1%;top:15%;font-size:100%">
+	<svg id="phrase_structure"><g/></svg>
+      </div>
+      
+      A _phrase structure rule_ consists of a parent and two
+      children, whereas a _lexeme_ has no children. The two children of a
+      phrase structure rule may be either lexemes or other phrase
+      structure rules.
+
+
+      
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="-3000" data-scale="2">
+      Babel creates an expression by adding children to rules until
+      there are no more empty places in the tree to add children.
+
+      (show simplified (defn generate))
+
+    </div>
+    
     <div class="step slide" data-x="-1000" data-y="-1500" data-scale="2">
       Usage
 
@@ -399,6 +458,7 @@ if ("ontouchstart" in document.documentElement) {
 <script src="js/graphlib-dot.js"></script>
 <script src="js/graphs.js"></script>
 <script>
+  d3.select("#phrase_structure").call(dagreD3.render(), graphlibDot.read(phrase_structure));
   d3.select("#she_sees_the_cat").call(dagreD3.render(), graphlibDot.read(she_sees_the_cat));
   d3.select("#depth_first_1").call(dagreD3.render(),    graphlibDot.read(depth_first_1));
   d3.select("#depth_first_2").call(dagreD3.render(),    graphlibDot.read(depth_first_2));

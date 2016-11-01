@@ -1,3 +1,20 @@
+var phrase_structure = `
+digraph {
+    node [rx=5 ry=5 labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    parent [label="foo"];
+
+    child1 [label="bar"];
+    child2 [label="baz"];
+
+    parent -> child1;
+    parent -> child2;
+    
+}
+`;
+
 var depth_first_1 = `
 
 digraph {

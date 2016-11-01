@@ -8,7 +8,7 @@
     
     <meta name="description" content="A Clojure library for generation and parsing of natural language expressions." />
     <meta name="author" content="Eugene Koontz" />
-
+    <meta name="thanks-to" content="http://impress.github.io/impress.js/ by @bartaz" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
 
     <link href="css/impress-demo.css" rel="stylesheet" />
@@ -24,6 +24,102 @@
 
 <body class="impress-not-supported">
 
+  <div id="prose-version" style="display:none">
+    <p>
+      Here are some random Engilsh expressions that babel can generate:
+
+      her black bird's first shoe used to have Antonia
+      you all would prepare yourselves
+      the small pupil's professor's tall woman would move her
+
+      babel.test.en> (repeatedly #(println (morph (generate))))
+    </p>
+    <p>
+      How does it work?
+
+      Definitions: 
+
+      - phrase structure rule NP -> Det N
+      - lexeme (a.k.a. terminal symbol) pizza
+
+      A _phrase structure rule_ consists of a parent and two
+      children, whereas a _lexeme_ has no children. The two children of a
+      phrase structure rule may be either lexemes or other phrase
+      structure rules.
+
+      Babel creates an expression by adding children to rules until
+      there are no more empty places in the tree to add children.
+
+      But how does babel know:
+
+      - which rule to start with?
+      - which chidren may be added at which location, to which
+      parents?
+      - how to prevent the procedure from running forever?
+
+      The solution is that both rules and lexemes are maps whose
+      values are defined such that they are only allowed them to be
+      combined in certain ways.
+
+      Example 1: category (:cat)
+
+      Lexemes are declared to have a :cat value which can only be one
+      of a small number of possibilities: {:noun, :verb, :preposition,
+      ..}. These are called "parts of speech". The phrase structure
+      rules are declared to only allow children with a certain value.
+      For example, the rule: NP -> Det N, the first child must be:
+      {:cat :determiner}, while the second child must be: {:cat
+      :noun}.
+
+      In addition, the parent of the rule, also has a :cat value,
+      which is the same as one of the children. For example, in the
+      rule: NP -> Det N, the :cat of the entire rule is the same as
+      that of the second child. This allows rules to be added to other
+      rules only in a certain way. For example, in the rule: S -> NP
+      VP, the first child must be {:cat :noun}, and the NP in turn,
+      will be formed such that its second child is also {:cat :noun}.
+
+      We call the child that shares the same :cat value as its parent,
+      the _head_ child ,and the other child, we call the _complement_.
+
+      Example 2: subcategorization (:subcat)
+
+      The other way that we constrain the generation process is with
+      another specially-designated key called :subcat. This key allows
+      children to specify what their complement sibling will
+      be. (Human children are not so fortunate - imagine if, as an
+      older sibling, you could choose a sibling to your preferences.)
+
+      For example, in the rule NP -> Det N, the head noun chooses a
+      determiner according to whether the N is singular, mass, etc:
+
+      A cat.
+      Some cats.
+      Some dirt.
+      
+      * A cats.
+      * A dirt.
+
+      Example 3: semantics: composition of expressions
+
+      The semantics of a parent is a map nested within the parent's
+      map, in the :sem key. This key's value is shared with the the
+      :sem key's value in the head child.
+      
+      Example 4: semantics: selection of arguments
+      
+      heads of phrases constrain what their complement sibling will be
+      by semantics as well as (as we saw in example 2) by category.
+      
+      
+    </p>
+      
+    </p>
+
+
+
+  </div>
+  
 <!--
     For example this fallback message is only visible when there is `impress-not-supported` class on body.
 -->

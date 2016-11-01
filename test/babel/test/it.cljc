@@ -547,8 +547,6 @@
          "c'è")))
 
 (deftest bisogno
-  (is (not (empty? (:parses (first (parse "ho bisogno di" (small)))))))
-  (is (= "vp-present" (:rule (first (:parses (first (parse "ho bisogno di" (small))))))))
-  (is (= "io ho bisogno di"
-         (morph (generate {:synsem {:sem {:tense :present :pred :need :subj {:pred :I}}}} :model (small))))))
+  (is (not (empty? (:parses (first (parse "io ho bisogno di il caffè")))))))
+
 

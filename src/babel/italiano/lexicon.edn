@@ -317,7 +317,7 @@
                  :artifact true
                  :drinkable true}}}
 "bisogno"
-(let [the-object (atom {:pred :coffee})]
+(let [the-object (atom :top)]
   {:synsem {:cat :noun
             :agr {:gender :masc}
             :sem {:pred :bisogno-di

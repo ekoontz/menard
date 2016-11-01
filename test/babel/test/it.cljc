@@ -329,10 +329,10 @@
 
 (deftest casa-generate
   (let [result (generate {:synsem {:cat :noun
-                                               :agr {:number :sing}
-                                               :sem {:pred :house
-                                                     :mod '()
-                                                     :spec {:def :def}}}})]
+                                   :agr {:number :sing}
+                                   :sem {:pred :house
+                                         :mod '()
+                                         :spec {:def :def}}}})]
     (is (= (morph result) "la casa"))
     (is (= (get-in result [:synsem :sem :mod]) '()))))
 

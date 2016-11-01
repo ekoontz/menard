@@ -6,7 +6,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer [copy get-in fail? strip-refs unify]]))
+   [dag_unify.core :refer [copy get-in fail? strip-refs unify unify!]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
@@ -225,9 +225,9 @@
     (filter #(not-fail? %)
             (mapfn (fn [complement]
                      (let [unified
-                           (unify (copy bolt)
-                                  (assoc-in {} path 
-                                            (copy complement)))]
+                           (unify! (copy bolt)
+                                   (assoc-in {} path 
+                                             (copy complement)))]
                        (if truncate-children
                          (truncate unified [path] language-model)
                          unified)))

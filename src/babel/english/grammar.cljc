@@ -364,7 +364,8 @@
                    (unify-check h21
                            root-is-comp
                            {:rule "vp-aux"
-                            :head {:phrasal false}
+                            :head {:phrasal false
+                                   :synsem {:aux true}}
                             :synsem {:aux true
                                      :infl :present
                                      :sem {:aspect :perfect

@@ -401,7 +401,8 @@
                    (unifyc h21a
                            root-is-comp
                            {:rule "vp-aux"
-                            :head {:phrasal false}
+                            :head {:phrasal false
+                                   :synsem {:aux true}}
                             :synsem {:aux true
                                      :infl :present
                                      :sem {:tense :past}
@@ -415,7 +416,8 @@
                            root-is-comp
                            vp-non-pronoun
                            (let [obj-agr (atom :top)]
-                             {:head {:phrasal false}
+                             {:head {:phrasal false
+                                     :synsem {:aux true}}
                               :rule "vp-aux-22"
                               :synsem {:aux true
                                        :cat :verb
@@ -491,7 +493,8 @@
                    (unifyc h32
                            root-is-head
                            {:rule "vp-32"
-                            :head {:phrasal false}
+                            :head {:phrasal false
+                                   :synsem {:aux false}}
                             :synsem {:aux false
                                      :infl {:not :past}
                                      :cat :verb}})

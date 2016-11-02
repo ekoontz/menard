@@ -178,7 +178,8 @@
                                        :iobj {:pred :luisa}
                                        :pred :be-called
                                        :subj {:pred :lei}
-                                       :tense :present}}})))))
+                                       :tense :present}}}
+                       :truncate false)))))
                                        
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))

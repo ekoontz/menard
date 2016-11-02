@@ -152,7 +152,7 @@
                                 :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
                     subject-verb-agreement
-                    {:sense 2
+                    {:sense 2 ;; used for logging
                      ;; TODO: remove (in)transtivize (false|true): should not
                      ;; need these explicit compiler directives; compilation
                      ;; should be able to manage on its own

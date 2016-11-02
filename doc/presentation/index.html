@@ -262,34 +262,44 @@ the stupid mens' students' black chairs would listen to it
     </div>
 
     <div class="step slide" data-x="2000" data-y="-3000" data-scale="2">
-      <h2>Generation: how?</h2>
+      <h1>Generation: how?</h1>
 
-      Definitions: 
       <ul>
-	<li>phrase structure rule <pre>NP -&gt; Det N</pre></li>
-	<li>lexeme (a.k.a. terminal symbol) <pre>pizza</pre></li>
+	<li>phrase structure rules <pre>NP -&gt; article noun</pre></li>
+	<li>lexemes (a.k.a. terminal symbols) <pre>the,pizza,..</pre></li>
       </ul>
 
       <div style="float:left;width:69%;height:600px;width:600px;left:1%;top:15%;font-size:100%">
 	<svg id="phrase_structure"><g/></svg>
       </div>
       
-      A _phrase structure rule_ consists of a parent and two
-      children, whereas a _lexeme_ has no children. The two children of a
-      phrase structure rule may be either lexemes or other phrase
-      structure rules.
-
-
-      
     </div>
 
     <div class="step slide" data-x="4000" data-y="-3000" data-scale="2">
-      Babel creates an expression by adding children to rules until
-      there are no more empty places in the tree to add children.
-
-      (show simplified (defn generate))
-
+      <h1>Depth-first generation</h1>
     </div>
+
+    <div class="step slide" data-x="6000" data-y="-3000" data-scale="2">
+      <h1>foo1</h1>
+    </div>
+
+    <div class="step slide" data-x="8000" data-y="-3000" data-scale="2">
+      <h1>foo2</h1>
+    </div>
+
+    <div class="step slide" data-x="10000" data-y="-3000" data-scale="2">
+      <h1>foo</h1>
+    </div>
+    <div class="step slide" data-x="12000" data-y="-3000" data-scale="2">
+      <h1>foo</h1>
+    </div>
+    <div class="step slide" data-x="14000" data-y="-3000" data-scale="2">
+      <h1>foo</h1>
+    </div>
+    <div class="step slide" data-x="16000" data-y="-3000" data-scale="2">
+      <h1>foo</h1>
+    </div>
+
     
     <div class="step slide" data-x="-1000" data-y="-1500" data-scale="2">
       Usage

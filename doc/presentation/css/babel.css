@@ -6,6 +6,12 @@ https://github.com/impress/impress.js/issues/136 */
     opacity:1.0;
 }
 
+h1 {
+    text-align:center;
+    font-size:larger;
+    margin-bottom:1em;
+}
+
 div.code {
     border:5px solid #eee;
     margin:5%;

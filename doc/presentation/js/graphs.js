@@ -4,10 +4,10 @@ digraph {
 
     edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
 
-    parent [label="foo"];
+    parent [label="NP"];
 
-    child1 [label="bar"];
-    child2 [label="baz"];
+    child1 [label="article"];
+    child2 [label="noun"];
 
     parent -> child1;
     parent -> child2;

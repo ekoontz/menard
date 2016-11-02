@@ -104,13 +104,28 @@
             (lazy-mapcat
              (fn [parent]
                (let [parent (unify parent spec)
+
                      pred (get-in spec [:synsem :sem :pred])
                      cat (get-in spec [:synsem :cat])
                      aux (get-in spec [:synsem :aux])
+                     infl (get-in spec [:synsem :infl])
+
+                     predh (get-in parent [:head :synsem :sem :pred])
+                     cath (get-in parent [:head :synsem :cat])
+                     auxh (get-in parent [:head :synsem :aux])
+                     inflh (get-in parent [:head :synsem :infl])
+                     
                      non-empty-index-sets (filter #(not (empty? %))
                                                   [(get (:pred2lex language-model) pred)
                                                    (get (:cat2lex language-model) cat)
-                                                   (get (:aux2lex language-model) aux)])
+                                                   (get (:aux2lex language-model) aux)
+                                                   (get (:infl2lex language-model) infl)
+
+                                                   (get (:pred2lex language-model) predh)
+                                                   (get (:cat2lex language-model) cath)
+                                                   (get (:aux2lex language-model) auxh)
+                                                   (get (:infl2lex language-model) inflh)
+                                                   ])
                      subset
                      (cond
                        (not (empty? non-empty-index-sets))

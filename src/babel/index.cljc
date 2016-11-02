@@ -116,6 +116,7 @@
       (lazy-cat (over/overc parent (first lex))
                 (overc-with-index-1 parent (rest lex))))))
 
+;; TODO: remove this: has already been removed in favor of (map-subset-by-path)
 ;; TODO: document how this works and especially what 'phrase-constraint' means.
 (defn create-index [grammar lexicon phrase-constraint]
   (let [lexicon (if (map? lexicon)
@@ -139,7 +140,6 @@
                   {:synsem {:cat :verb, :aux false}, :head {:synsem {:cat :verb, :infl :infinitive, :subcat {:2 {}, :1 {}}}, :phrasal false}, :phrasal true}
                   )
             grammar)})))
-
 
 (defn show-spec [spec]
   (cond (seq? spec)

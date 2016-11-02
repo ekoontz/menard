@@ -758,6 +758,9 @@
      :aux2lex
      (map-subset-by-path lexicon [:synsem :aux])
 
+     :infl2lex
+     (map-subset-by-path lexicon [:synsem :infl])
+
      :pred2lex ;; map:<pred => subset of lexicon with that pred>
      (map-subset-by-path lexicon [:synsem :sem :pred])
 

@@ -96,8 +96,6 @@
 (declare subpath?)
 
 (defn truncate [input truncate-paths language-model]
-  (if (= :fail input)
-    (exception (str "input is fail!")))
   (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
   (let [serialized (if (:dag_unify.core/serialized input)
                      (:dag_unify.core/serialized input)

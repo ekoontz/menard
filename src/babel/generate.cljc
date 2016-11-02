@@ -97,7 +97,9 @@
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
-        parents (lazy-shuffle (candidate-parents grammar spec))]
+        parents (lazy-shuffle (filter #(= false
+                                          (get-in % [:head :phrasal] false))
+                                      (candidate-parents grammar spec)))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat

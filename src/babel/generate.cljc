@@ -139,7 +139,7 @@
                    (log/debug (str "trying overh with spec: " (strip-refs spec)))
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
-                               10))
+                               50))
                      ;; log/warn because it's very expensive to run
                      ;; over/overh: for every candidate, both parent
                      ;; and candidate head must be copied.

@@ -39,7 +39,7 @@
 
       Definitions: 
 
-      - phrase structure rule NP -> Det N
+      - phrase structure rule NP &rarr; Det N
       - lexeme (a.k.a. terminal symbol) pizza
 
       A _phrase structure rule_ consists of a parent and two
@@ -265,39 +265,190 @@ the stupid mens' students' black chairs would listen to it
       <h1>Generation: how?</h1>
 
       <ul>
-	<li>phrase structure rules <pre>NP -&gt; article noun</pre></li>
+	<li>phrase structure rules <pre>NP &rarr; article noun</pre></li>
 	<li>lexemes (a.k.a. terminal symbols) <pre>the,pizza,..</pre></li>
       </ul>
 
-      <div style="float:left;width:69%;height:600px;width:600px;left:1%;top:15%;font-size:100%">
-	<svg id="phrase_structure"><g/></svg>
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure1"><g/></svg>
+      </div>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure2"><g/></svg>
       </div>
       
     </div>
 
     <div class="step slide" data-x="4000" data-y="-3000" data-scale="2">
-      <h1>Depth-first generation</h1>
-    </div>
+      <h1>Generation: how?</h1>
 
+      <ul>
+	<li>phrase structure rules <pre>NP &rarr; article noun</pre></li>
+	<li>lexemes (a.k.a. terminal symbols) <pre>the,pizza,..</pre></li>
+      </ul>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure3" height="600"><g/></svg>
+      </div>
+      
+    </div>
+    
     <div class="step slide" data-x="6000" data-y="-3000" data-scale="2">
-      <h1>foo1</h1>
+      <h1>Depth-first, head-first generation (0)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="s_to_np_vp" height="600"><g/></svg>
+      </div>
+
     </div>
 
     <div class="step slide" data-x="8000" data-y="-3000" data-scale="2">
-      <h1>foo2</h1>
+      <h1>Depth-first, head-first generation (1)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="vp_is_head" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>S</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>VP</td>
+	</tr>
+	<tr>
+	  <th>complement</th>
+	  <td class='comp'>NP</td>
+	</tr>
+      </table>      
     </div>
 
     <div class="step slide" data-x="10000" data-y="-3000" data-scale="2">
-      <h1>foo</h1>
+      <h1>Depth-first, head-first generation (2)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure5" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>VP</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>sleeps</td>
+	</tr>
+      </table>
     </div>
+
     <div class="step slide" data-x="12000" data-y="-3000" data-scale="2">
-      <h1>foo</h1>
+      <h1>Depth-first, head-first generation (3)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure6" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>NP</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>N'</td>
+	</tr>
+      </table>
     </div>
+
     <div class="step slide" data-x="14000" data-y="-3000" data-scale="2">
-      <h1>foo</h1>
+      <h1>Depth-first, head-first generation (4)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure7" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>N'</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>cat</td>
+	</tr>
+	<tr>
+	  <th>complement</th>
+	  <td class='comp'>Adjective</td>
+	</tr>
+      </table>
     </div>
+
     <div class="step slide" data-x="16000" data-y="-3000" data-scale="2">
-      <h1>foo</h1>
+      <h1>Depth-first, head-first generation (5)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="nbar_finished" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>N'</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>cat</td>
+	</tr>
+	<tr>
+	  <th>complement</th>
+	  <td class='comp'>black</td>
+	</tr>
+      </table>
+
+    </div>
+
+    <div class="step slide" data-x="18000" data-y="-3000" data-scale="2">
+      <h1>Depth-first, head-first generation (6)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure8" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>NP</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>N'</td>
+	</tr>
+	<tr>
+	  <th>complement</th>
+	  <td class='comp'>Det</td>
+	</tr>
+      </table>
+
+    </div>
+
+    <div class="step slide" data-x="20000" data-y="-3000" data-scale="2">
+      <h1>Depth-first, head-first generation (7)</h1>
+
+      <div class="svg" style="width:40%">
+	<svg id="phrase_structure9" height="600"><g/></svg>
+      </div>
+      <table class="hc">
+	<tr>
+	  <th>parent</th>
+	  <td class='parent'>NP</td>
+	</tr>
+	<tr>
+	  <th>head</th>
+	  <td class='head'>N'</td>
+	</tr>
+	<tr>
+	  <th>complement</th>
+	  <td class='comp'>a</td>
+	</tr>
+      </table>
+
     </div>
 
     
@@ -467,21 +618,7 @@ if ("ontouchstart" in document.documentElement) {
 <script src="js/dagre-d3.min.js"></script>
 <script src="js/graphlib-dot.js"></script>
 <script src="js/graphs.js"></script>
-<script>
-  d3.select("#phrase_structure").call(dagreD3.render(), graphlibDot.read(phrase_structure));
-  d3.select("#she_sees_the_cat").call(dagreD3.render(), graphlibDot.read(she_sees_the_cat));
-  d3.select("#depth_first_1").call(dagreD3.render(),    graphlibDot.read(depth_first_1));
-  d3.select("#depth_first_2").call(dagreD3.render(),    graphlibDot.read(depth_first_2));
-  d3.select("#depth_first_3").call(dagreD3.render(),    graphlibDot.read(depth_first_3));
-  d3.select("#depth_first_4").call(dagreD3.render(),    graphlibDot.read(depth_first_4));
-  d3.select("#depth_first_5").call(dagreD3.render(),    graphlibDot.read(depth_first_5));
-  d3.select("#depth_first_6").call(dagreD3.render(),    graphlibDot.read(depth_first_6));
-  d3.select("#depth_first_7").call(dagreD3.render(),    graphlibDot.read(depth_first_7));
-  d3.select("#depth_first_8").call(dagreD3.render(),    graphlibDot.read(depth_first_8));
-
-</script>
-
-
+<script src="js/draw.js"></script>
 
 </body>
 </html>

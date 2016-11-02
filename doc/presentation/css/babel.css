@@ -25,6 +25,37 @@ div.code {
     border-radius:5px;
 }
 
+div.parent,div.head,div.comp {
+    font-size:200%;
+    margin:1%;
+    float:left;
+    padding:0.25em;
+}
+
+.parent {
+    background:blue;
+    color:white;
+}
+
+.head {
+    background:green;
+    color:white;
+}
+
+.comp {
+    background:yellow;
+    color:blue;
+}
+
+table.hc td, th {
+    padding:0.25em;
+}
+
+table.hc th {
+    font-weight:bold;
+    text-align:right;
+}
+
 div.avm {
     margin-right:1em;
     float:left;

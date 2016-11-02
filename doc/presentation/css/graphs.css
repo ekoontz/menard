@@ -1,3 +1,10 @@
+div.svg {
+    border:0px dashed blue;
+    padding:1em;
+    margin:0.25em;
+    float:left;
+}
+
 svg#she_sees_the_cat {
     font-size:5%;
 }

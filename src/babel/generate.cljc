@@ -220,7 +220,8 @@
                            (unify! (copy bolt)
                                    (assoc-in {} path 
                                              (copy complement)))]
-                       (if truncate-children
+                       (if (and (not-fail? unified)
+                                truncate-children)
                          (truncate unified [path] language-model)
                          unified)))
                    (let [phrasal-complements (if (and (> max-total-depth total-depth)

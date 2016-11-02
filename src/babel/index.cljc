@@ -85,43 +85,6 @@
                      all-phrases))}
        (spec-to-phrases (rest specs) all-phrases)))
     {}))
-
-(defn get-lex [parent head-or-comp index]
-  "return the subset of the whole lexicon that can be added to _parent_ either as a head (head-or-comp=:head) or as a comp (head-or-comp=:comp)."
-  (log/debug (str "get-lex:" parent))
-  (if (nil? parent)
-    #{}
-    (do
-      (log/debug (str "get-lex: " (get-in parent [:rule]) " ; head-or-comp:" head-or-comp))
-      (if (not (map? parent))
-        (throw (exception (str "first arguments should have been a map, but instead was of type: " (type parent) "; parent: " parent))))
-      (log/trace (str "get-lex parent: " (get-in parent [:rule]) " for: " head-or-comp))
-      (if (nil? (get-in parent [:rule]))
-        (throw (exception (str "no parent for: " parent))))
-      (let [result (cond (= :head head-or-comp)
-                         (if (and (= :head head-or-comp)
-                                  (not (nil? (:head (get index (get-in parent [:rule]))))))
-                           (do
-                             (log/trace (str "get-lex hit: head for parent: " (get-in parent [:rule])))
-                             (:head (get index (get-in parent [:rule]))))
-
-                           (do (log/warn (str "INDEX MISS 1 for rule: " (get-in parent [:rule]) " h/c: " head-or-comp " :: index:" (type index)))
-                               #{}))
-
-                         (= :comp head-or-comp)
-                         (if (and (= :comp head-or-comp)
-                                  (not (nil? (:comp (get index (get-in parent [:rule]))))))
-                           (do
-                             (log/trace (str "get-lex hit: comp for parent: " (get-in parent [:rule])))
-                             (:comp (get index (get-in parent [:rule]))))
-                           (do
-                             (log/warn (str "INDEX MISS 2"))
-                             nil))
-                       
-                         true
-                         (do (log/warn (str "INDEX MISS 3: head-or-comp:" head-or-comp))
-                             nil))]
-        result))))
   
 (defn get-parent-phrases-for-spec [index spec]
   (log/trace (str "Looking up spec: " (show-spec spec)))

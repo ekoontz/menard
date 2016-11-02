@@ -1,7 +1,6 @@
 (ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.index :refer [get-lex]]
    [babel.over :as over :refer [show-bolt truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 

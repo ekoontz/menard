@@ -1,7 +1,7 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
-   [babel.index :refer [create-index map-subset-by-path]]
+   [babel.index :refer [map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
@@ -607,8 +607,7 @@
                    (map #(keyword (get-in % [:rule])) grammar)
                    grammar)
      :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))}))
 
 (defn small []
   (deliver-lexicon)
@@ -684,7 +683,6 @@
      :morph-ps fo-ps
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :lexicon lexicon
      :aux2lex ;; map:<pred => subset of lexicon with that pred>
      (map-subset-by-path lexicon-for-generation [:synsem :aux])
@@ -741,9 +739,7 @@
                     [k filtered-v]))))]
     (log/debug (str "micro lexicon size:" (count (keys micro-lexicon))))
     (clojure.core/merge small
-                        {:lexicon micro-lexicon
-                         :index (create-index (:grammar small)
-                                              (flatten (vals micro-lexicon)) head-principle)})))
+                        {:lexicon micro-lexicon})))
 
 (defn medium []
   (deliver-lexicon)
@@ -772,7 +768,6 @@
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
@@ -852,7 +847,6 @@
        :grammar grammar
        :lexicon lexicon
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-       :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
        :rules rules
        :rule-map (zipmap rules grammar)
 

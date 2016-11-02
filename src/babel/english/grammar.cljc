@@ -3,7 +3,7 @@
   (:require 
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
-   [babel.index :refer (build-lex-sch-index create-index map-subset-by-path spec-to-phrases)]
+   [babel.index :refer [map-subset-by-path]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head
@@ -506,8 +506,7 @@
                                       (= :it (get-in % [:target])))
                                  v)]
                      (if (not (empty? filtered-v))
-                       [k filtered-v]))))}
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+                       [k filtered-v]))))}}))
 
 (defn small-plus-vp-pronoun []
   (let [grammar
@@ -566,8 +565,7 @@
                                       (= :it (get-in % [:target])))
                                  v)]
                      (if (not (empty? filtered-v))
-                       [k filtered-v]))))}
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+                       [k filtered-v]))))}}))
 
 (defn small-plus-plus-np []
   (let [grammar
@@ -638,8 +636,7 @@
                                       (= :it (get-in % [:target])))
                                  v)]
                      (if (not (empty? filtered-v))
-                       [k filtered-v]))))}
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+                       [k filtered-v]))))}}))
 
 (defn small []
   (let [grammar
@@ -715,7 +712,6 @@
                                  v)]
                      (if (not (empty? filtered-v))
                        [k filtered-v]))))}
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
 
      :aux2lex
      (map-subset-by-path lexicon [:synsem :aux])
@@ -753,7 +749,6 @@
      :morph-ps fo-ps
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
 
      :aux2lex
      (map-subset-by-path lexicon [:synsem :aux])
@@ -807,8 +802,7 @@
                (analyze arg lexicon))
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :lexicon lexicon}))
 
 (defn few-rules []
   (let [grammar
@@ -818,7 +812,6 @@
                 grammar)
         lexicon @lexicon]
     {:name "few-rules"
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -843,7 +836,6 @@
                                 (= k "s"))
                           [k v])))]
     {:name "small-lexicon"
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree

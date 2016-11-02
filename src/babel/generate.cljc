@@ -205,9 +205,7 @@
                       pred-set
                       true
                       (intersection-with-identity pred-set cat-set))]
-            (if (not (empty? subset))
-              subset
-              (vals (:lexicon language-model)))))
+            subset))
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         lexical-complements (lazy-shuffle
                              (filter (fn [lexeme]

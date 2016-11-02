@@ -7,7 +7,9 @@
    [dag_unify.core :refer [copy get-in unify unify!
                            ;; temporary: until we move (truncate) from here to dag_unify, we
                            ;; need these three:
-                           deserialize dissoc-paths serialize]]))
+                           deserialize dissoc-paths serialize
+                           ;; needed for log/debug statements:
+                           strip-refs]]))
 
 ;; use map or pmap.
 (def ^:const mapfn pmap)
@@ -55,7 +57,9 @@
     (let [result (unify! (copy parent)
                          {:head (copy head)})]
       (if (not (= :fail result))
-        (list result)
+        (do
+          (log/debug (str "overh: " (get-in parent [:rule]) " -> " (strip-refs head)))
+          (list result))
         (log/debug (str "fail-path for rule: " (:rule parent) ":"
                         (dag_unify.core/fail-path
                          (copy parent)
@@ -92,6 +96,8 @@
 (declare subpath?)
 
 (defn truncate [input truncate-paths language-model]
+  (if (= :fail input)
+    (exception (str "input is fail!")))
   (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
   (let [serialized (if (:dag_unify.core/serialized input)
                      (:dag_unify.core/serialized input)

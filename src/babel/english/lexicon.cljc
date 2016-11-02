@@ -1926,8 +1926,8 @@
 
    "swim" {:synsem {:cat :verb
                         :sem {:pred :break }}
-                        :english {:past "swam"}}
-
+           :english {:past "swam"
+                     :participle "swimming"}}
 
    "table" {:synsem {:cat :noun
                      :sem {:pred :table}}}

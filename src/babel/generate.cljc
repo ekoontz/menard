@@ -133,7 +133,7 @@
                        true
                        (do
                          (log/warn (str "no index found for spec: " spec))
-                         (get-lex parent :head (:index language-model))))]
+                         []))]
                  (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (get-in parent [:rule])))
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))

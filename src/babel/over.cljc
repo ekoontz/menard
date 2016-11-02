@@ -4,7 +4,7 @@
    [babel.exception :refer [exception]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy get-in unify
+   [dag_unify.core :refer [copy get-in unify unify!
                            ;; temporary: until we move (truncate) from here to dag_unify, we
                            ;; need these three:
                            deserialize dissoc-paths serialize]]))
@@ -52,13 +52,14 @@
     true
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.
-    (let [result (unify (copy parent)
-                        {:head (copy head)})]
+    (let [result (unify! (copy parent)
+                         {:head (copy head)})]
       (if (not (= :fail result))
         (list result)
-        (log/debug (str "fail-path for rule: " (:rule parent) ":" (dag_unify.core/fail-path
-                                      (copy parent)
-                                      {:head (copy head)})))))))
+        (log/debug (str "fail-path for rule: " (:rule parent) ":"
+                        (dag_unify.core/fail-path
+                         (copy parent)
+                         {:head (copy head)})))))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"
@@ -77,8 +78,8 @@
                (overc parent child))
              comp-children))
    true
-   (let [result (unify (copy parent)
-                       {:comp (copy comp)})
+   (let [result (unify! (copy parent)
+                        {:comp (copy comp)})
          is-fail? (= :fail result)]
      (if (not is-fail?)
        (do

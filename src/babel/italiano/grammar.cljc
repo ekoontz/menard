@@ -788,13 +788,14 @@
 
 
      ;; indices from paths to subsets of the lexicon
-     :aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
+     :aux2lex
+     (map-subset-by-path lexicon-for-generation [:synsem :aux])
 
-     :infl2lex (map-subset-by-path lexicon [:synsem :infl])
-
-     :pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
+     :pred2lex ;; map:<pred => subset of lexicon with that pred>
+     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
      
-     :cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
+     :cat2lex ;; map:<cat => subset of lexicon with that cat>
+     (map-subset-by-path lexicon-for-generation [:synsem :cat])
 
      }))
 

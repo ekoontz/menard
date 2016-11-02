@@ -105,14 +105,12 @@
              (fn [parent]
                (let [parent (unify parent spec)
                      pred (get-in spec [:synsem :sem :pred])
-                     cat (get-in parent [:head :synsem :cat])
-                     aux (get-in parent [:head :synsem :aux])
-                     infl (get-in parent [:head :synsem :infl])
+                     cat (get-in spec [:synsem :cat])
+                     aux (get-in spec [:synsem :aux])
                      non-empty-index-sets (filter #(not (empty? %))
                                                   [(get (:pred2lex language-model) pred)
                                                    (get (:cat2lex language-model) cat)
-                                                   (get (:aux2lex language-model) aux)
-                                                   (get (:infl2lex language-model) infl)])
+                                                   (get (:aux2lex language-model) aux)])
                      subset
                      (cond
                        (not (empty? non-empty-index-sets))

@@ -10,3 +10,5 @@ sudo: false
 env:
   global:
     - JAVA_OPTS="-Xmx1G"
+jdk:
+  - oraclejdk8

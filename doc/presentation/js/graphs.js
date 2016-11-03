@@ -942,7 +942,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>rule</th><td>S</td>
+                      <th>rule</th><td>Sentence</td>
                     </tr>
                   </table></div>"]; 
 
@@ -950,7 +950,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>rule</th><td>NP</td>
+                      <th>rule</th><td>Noun Phrase</td>
                     </tr>
                     <tr>
                       <th>num</th><td><div class='ref'>1</div></td>
@@ -961,7 +961,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>rule</th><td>VP</td>
+                      <th>rule</th><td>Verb Phrase</td>
                     </tr>
                     <tr>
                       <th>num</th><td><div class='ref'>1</div></td>
@@ -974,6 +974,49 @@ digraph {
 
 `;
 
+var instead2 = `
+
+digraph {
+    
+    node [rx=5 ry=5 labelStyle="font: 300 18px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    np [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>Noun Phrase</td>
+                    </tr>
+                  </table></div>"]; 
+
+    det [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>Determiner</td>
+                    </tr>
+                    <tr>
+                      <th>num</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+
+    n [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>Noun</td>
+                    </tr>
+                    <tr>
+                      <th>num</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+    
+    np -> det [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+    np -> n [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+}
+
+`;
 
 var she_sees_the_cat = `
 

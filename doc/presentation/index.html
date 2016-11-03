@@ -275,7 +275,7 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
-    <div class="step slide" data-x="8000" data-y="-3000" data-scale="2">
+    <div class="step slide" data-x="-2000" data-y="-1500" data-scale="2">
       <h1>Depth-first, head-first generation (1)</h1>
 
       <div class="svg" style="width:40%">
@@ -297,7 +297,7 @@ the stupid mens' students' black chairs would listen to it
       </table>      
     </div>
 
-    <div class="step slide" data-x="10000" data-y="-3000" data-scale="2">
+    <div class="step slide" data-x="0" data-y="-1500" data-scale="2">
       <h1>Depth-first, head-first generation (2)</h1>
 
       <div class="svg" style="width:40%">
@@ -315,7 +315,7 @@ the stupid mens' students' black chairs would listen to it
       </table>
     </div>
 
-    <div class="step slide" data-x="12000" data-y="-3000" data-scale="2">
+    <div class="step slide" data-x="2000" data-y="-1500" data-scale="2">
       <h1>Depth-first, head-first generation (3)</h1>
 
       <div class="svg" style="width:40%">
@@ -333,7 +333,7 @@ the stupid mens' students' black chairs would listen to it
       </table>
     </div>
 
-    <div class="step slide" data-x="14000" data-y="-3000" data-scale="2">
+    <div class="step slide" data-x="4000" data-y="-1500" data-scale="2">
       <h1>Depth-first, head-first generation (4)</h1>
 
       <div class="svg" style="width:40%">
@@ -355,7 +355,7 @@ the stupid mens' students' black chairs would listen to it
       </table>
     </div>
 
-    <div class="step slide" data-x="16000" data-y="-3000" data-scale="2">
+    <div class="step slide" data-x="16000" data-y="-1500" data-scale="2">
       <h1>Depth-first, head-first generation (5)</h1>
 
       <div class="svg" style="width:40%">
@@ -424,7 +424,7 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
-    <div class="step slide" data-x="-2000" data-y="-1500" data-scale="2">
+    <div class="step slide" data-x="-2000" data-y="0" data-scale="2">
       <h1>Agreement</h1>
 
       <div class="examples">
@@ -444,7 +444,7 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
-    <div class="step slide" data-x="0" data-y="-1500" data-scale="2">
+    <div class="step slide" data-x="0" data-y="0" data-scale="2">
       <h1>Rule Explosion (1)</h1>
 
       <div class="examples">
@@ -461,7 +461,7 @@ NP[singular] &rarr; Det[singular] N[singular]
 NP[singular] &rarr; Det[plural] N[plural]</div>
     </div>
 
-    <div class="step slide" data-x="2000" data-y="-1500" data-scale="2">
+    <div class="step slide" data-x="2000" data-y="0" data-scale="2">
       <h1>Rule Explosion (2)</h1>
 
       <div class="examples">
@@ -480,158 +480,58 @@ N'[singular] &rarr; Adjective N[singular]
 N'[plural] &rarr; Adjective N[plural]</div>
     </div>
 
-    <div class="step slide" data-x="4000" data-y="-1500" data-scale="2">
-      <h1>Instead..</h1>
+    <div class="step slide" data-x="4000" data-y="0" data-scale="2">
+      <h1>Instead (1)</h1>
 
-      <svg id="instead" width="600" height="600"><g/></svg>
-
-    </div>
-    
-    <div class="step slide" data-x="-1000" data-y="0" data-scale="2">
-      Usage
-
-      <div class="code">(require 'babel.english :as en)
-(require 'babel.english)
-(babel.english/generate)
-(babel.english/generate-all)
-      </div>
-
-    </div>
-
-    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
-      how does it work?
-      <div class="code">
-	(defn generate-all [grammar lexicon & [trees]]
-	  (let [tree (or trees grammar)]
-	    (mapcat (fn [tree]
-...
-              (map (fn [child]
-..
-	   (over 
-      </div>
-
-    </div>
-
-    <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
-       But this does not suffice:
-       <ul>
-	 <li>word order</li>
-	 <li>agreement</li>
-	 <li>semantic compositionality</li>
-       </ul>
-
-       We need some way for the nodes in the tree to <i>relate</i> to one another
-
-    </div>
-
-    <div class="step slide"  data-x="-3000" data-y="0" data-scale="2">
-      Depth-first search (1): descend f() 
-      <svg id="depth_first_1" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="-1000" data-y="0" data-scale="2">
-      Depth-first search (2): descend f() 
-      <svg id="depth_first_2" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
-      Depth-first search (3): descend f() 
-      <svg id="depth_first_3" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
-      Depth-first search (4): descend f() 
-      <svg id="depth_first_4" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="5000" data-y="0" data-scale="2">
-      Depth-first search (5): descend f() 
-      <svg id="depth_first_5" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="7000" data-y="0" data-scale="2">
-      Depth-first search (6): descend f() 
-      <svg id="depth_first_6" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="9000" data-y="0" data-scale="2">
-      Depth-first search (7): descend f() 
-      <svg id="depth_first_7" width="600" height="600"><g/></svg>
-    </div>
-
-    <div class="step slide"  data-x="11000" data-y="0" data-scale="2">
-      Depth-first search (8): descend f() 
-      <svg id="depth_first_8" width="600" height="600"><g/></svg>
-    </div>
-
-    <div id="transition0" class="step slide"  data-x="-3000" data-y="1500" data-scale="2">
-      Depth-first search (final)
-      <div style="float:right;width:50%;overflow:hidden;position:absolute;right:0;top:0;font-size:100%;">
-        <div class="code">(generate {:sem _ (_,_)})</div>
-        <div class="code">(generate {:sem ‍👁 (_,_)})</div>
-	<div class="code">(generate {:sem ‍👁 (_, 🐱)})</div>
-	<div class="code">(generate {:sem ‍👁 (‍👱‍♀️,_)})</div>
-	<div class="code">(generate {:sem ‍👁 (‍👱‍♀️, 🐱})</div>
-      </div>
       <div style="float:left;width:69%;height:600px;width:600px;position:absolute;left:1%;top:15%;font-size:100%">
 	<svg id="she_sees_the_cat" width="600" height="600"><g/></svg>
       </div>
     </div>
+    
+    <div class="step slide" data-x="6000" data-y="0" data-scale="2">
+      <h1>Instead (2)</h1>
+    </div>
 
-    <div class="step" data-x="-3500" data-y="1800" data-scale="1">
-      <!-- zoom in on previous slide. -->
+    <div class="step slide" data-x="-2000" data-y="1500" data-scale="2">
+      <h1>Unification (1)</h1>
+    </div>
+
+    <div class="step slide" data-x="0" data-y="1500" data-scale="2">
+      <h1>Unification (2)</h1>
+    </div>
+
+    <div class="step slide" data-x="2000" data-y="1500" data-scale="2">
+      <h1>Unification (3)</h1>
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="1500" data-scale="2">
+      <h1>Unification (4)</h1>
+    </div>
+
+    <div class="step slide" data-x="-2000" data-y="3000" data-scale="2">
+      <h1>Parents apply heads to complement</h1>
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="3000" data-scale="2">
+      <h1>Parent's semantics = head's semantics</h1>
+    </div>
+
+
+    <div class="step slide" data-x="0" data-y="3000" data-scale="2">
+      <h1>Lexeme (1)</h1>
+      <h2>Agreement</h2>
+    </div>
+
+    <div class="step slide" data-x="2000" data-y="3000" data-scale="2">
+      <h1>Lexeme (2)</h1>
+      <h2>Semantics</h2>
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="3000" data-scale="2">
+      <h1>Add "sleeps" to S &rarr; NP VP</h1>
     </div>
     
-    <div class="step slide" data-x="-1000" data-y="1500" data-scale="2">
-      <div class="avm">
-	<table>
-	  <tr>
-	    <th>:foo</th>
-	    <td>
-	      <table
-		 <tr>
-		   <th>:bar</th>
-		   <td class="ref"><div>1</div></td>
-		   <td>42</td>
-		 </tr>
-		 <tr>
-		   <th>:baz</th>
-		   <td class="ref"><div>1</div></td>
-		   <td>42</td>
-		 </tr>
- 	       </table>
-	    </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="step slide" data-x="-3000" data-y="3000" data-scale="2">
-      Unification
-    </div>
-
-    <div class="step slide" data-x="-1000" data-y="3000" data-scale="2">
-      Lexicon compilation
-
-      <ul>
-	 <li>defaults</li>
-      </ul>
-
-    </div>
-
-    <div class="step slide" data-x="1000" data-y="3000" data-scale="2">
-      over(parent,head) is function instantiation
-    </div>
-
-    <div class="step slide" data-x="1000" data-y="3000" data-scale="2">
-      over(parent,complement) is function application
-    </div>
-
-    <div class="step slide" data-x="3000" data-y="3000" data-scale="2">
-      a complex example
-    </div>
-
-    <div id="overview" class="step" data-x="1000" data-y="500" data-scale="10">
+    <div id="overview" class="step" data-x="4000" data-y="0" data-scale="10">
       <!-- zoom out to show all slides -->
       
     </div>

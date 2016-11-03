@@ -1129,6 +1129,45 @@ digraph {
 
 `;
 
+var add_sleeps = `
+digraph {
+    
+    node [rx=5 ry=5 labelStyle="font: 300 18px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    s [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>S &rarr; NP VP</td>
+                    </tr>
+                    <tr>
+                      <th>args</th><td>[ ]</td>
+                    </tr>
+                  </table></div>"]; 
+
+    np [labelType="html"
+	 label="<div style='margin-bottom:1em' class='ref'>1</div>"];
+
+    vp [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>orthography</th><td>sleeps</td>
+                    </tr>
+
+                    <tr>
+                      <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>]</td>
+                    </tr>
+                  </table></div>"]; 
+    
+    s -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+    s -> vp [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+}
+
+`;
+
 var she_sees_the_cat = `
 
 digraph {

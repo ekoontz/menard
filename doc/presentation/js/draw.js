@@ -22,6 +22,8 @@ d3.select("#parents_apply_heads_2"). call(dagreD3.render(),     graphlibDot.read
 
 d3.select("#parents_semantics"). call(dagreD3.render(),     graphlibDot.read(parents_semantics));
 
+d3.select("#add_sleeps"). call(dagreD3.render(),     graphlibDot.read(add_sleeps));
+
 d3.select("#she_sees_the_cat"). call(dagreD3.render(),     graphlibDot.read(she_sees_the_cat));
 d3.select("#depth_first_1").    call(dagreD3.render(),     graphlibDot.read(depth_first_1));
 d3.select("#depth_first_2").    call(dagreD3.render(),     graphlibDot.read(depth_first_2));

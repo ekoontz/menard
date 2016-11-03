@@ -1158,8 +1158,39 @@ digraph {
                     </tr>
 
                     <tr>
-                      <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>]</td>
+                      <th>args</th>
+                      <td>[</td>
+                      <td><div class='ref'>1</div></td>
+                      <td>
+                        <table>
+                          <tr>
+                            <th>foo</th>
+                            <td>42</td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>]</td>
                     </tr>
+
+ 	            <tr>
+                      <th>semantics</th>
+                      <td><div class='ref'>3</div></td>
+                      <td colspan='3'>
+	                <table>
+		          <tr>
+		            <th>predicate</th>
+		            <td>sleeps</th>
+		          </tr>
+		          <tr>
+		            <th>subject</th>
+		            <td><div class='ref'>2</div></td>
+		            <td><table><tr><th>animate</th><td>true</td></tr></table></table>
+		          </tr>
+	                </table>
+	              </td>
+	            </tr>
+
+
                   </table></div>"]; 
     
     s -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];

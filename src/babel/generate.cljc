@@ -143,7 +143,7 @@
                      ;; log/warn because it's very expensive to run
                      ;; over/overh: for every candidate, both parent
                      ;; and candidate head must be copied.
-                     (log/warn (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
+                     (log/debug (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
                    result)))
              (filter #(= false
                          (get-in % [:head :phrasal] false))
@@ -160,14 +160,14 @@
                          (filter #(= true
                                      (get-in % [:head :phrasal] true))
                                  parents)))]
-        (filter
-         (fn [bolt]
-           (any-possible-complement?
-            bolt [:comp] language-model total-depth
-            :max-total-depth max-total-depth))
-         (if (lexemes-before-phrases total-depth max-total-depth)
-           (lazy-cat lexical phrasal)
-           (lazy-cat phrasal lexical))))))
+      (filter
+       (fn [bolt]
+         (any-possible-complement?
+          bolt [:comp] language-model total-depth
+          :max-total-depth max-total-depth))
+       (if (lexemes-before-phrases total-depth max-total-depth)
+         (lazy-cat lexical phrasal)
+         (lazy-cat phrasal lexical))))))
 
 (defn add-all-comps
   "At each point in each bolt in the list of list of bolts,
@@ -175,7 +175,7 @@
   bolt, from deepest and working upward to the top. Return a lazy
   sequence of having added all possible complements at each node in
   the bolt."
-   [bolts language-model total-depth truncate-children max-total-depth]
+  [bolts language-model total-depth truncate-children max-total-depth]
   (lazy-mapcat
    (fn [bolt]
      (add-all-comps-with-paths [bolt] language-model total-depth
@@ -250,7 +250,7 @@
                                 (empty? lexical-complements)
                                 (= false (get-in spec [:phrasal] true)))
                            (log/warn (str "failed to generate any lexical complements with spec: "
-                                  (strip-refs spec)))
+                                          (strip-refs spec)))
                            
                            (and lexemes-before-phrases
                                 (= true (get-in spec [:phrasal] false))
@@ -268,7 +268,7 @@
                                       "while trying to create a complement: "
                                       (spec-info spec)
                                       )]
-                             (log/warn message)
+                             (log/debug message)
                              (if error-if-no-complements (exception message)))
                            
                            lexemes-before-phrases

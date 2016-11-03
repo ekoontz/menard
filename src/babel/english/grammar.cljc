@@ -250,16 +250,6 @@
                                        :subcat {:1 {:agr agr
                                                     :reflexive reflexive}}}}}))
                    (unify-check c10
-                                root-is-head-root
-                                unmodified
-                                {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
-                                        :synsem {:aux true}}
-                                 :rule "s-aux"
-                                 :synsem {:infl :present
-                                          :cat :verb
-                                          :sem {:aspect :perfect
-                                                :tense :past}}})
-                   (unify-check c10
                                 root-is-head
                                 unmodified
                                 {:head {:phrasal false ;; non-auxiliary past: e.g. "he slept"
@@ -360,7 +350,6 @@
                             :synsem {:aux false
                                      :infl :infinitive
                                      :cat :verb}})
-
                    (unify-check h21
                            {:rule "vp-conditional"
                             :synsem {:aux false

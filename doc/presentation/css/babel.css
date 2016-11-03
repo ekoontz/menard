@@ -67,7 +67,8 @@ div.hide {
 }
 
 div.avm table {
-    width:auto;
+    width:100%;
+    white-space:nowrap;
     border-left:8px solid lightblue;
     border-top:1px solid lightblue;
     border-bottom:1px solid lightblue;
@@ -134,4 +135,10 @@ div.examples {
 
 div.examples img {
     border:1px solid black;
+}
+
+td.func {
+    padding:1em;
+    font-size:large;
+    font-family:monospace;
 }

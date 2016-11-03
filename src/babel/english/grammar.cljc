@@ -362,30 +362,6 @@
                                      :cat :verb}})
 
                    (unify-check h21
-                           root-is-comp
-                           {:rule "vp-aux"
-                            :head {:phrasal false
-                                   :synsem {:aux true}}
-                            :synsem {:aux true
-                                     :infl :present
-                                     :sem {:aspect :perfect
-                                           :tense :past}
-                                     :cat :verb}})
-
-                   ;; this rule is kind of complicated and made more so by
-                   ;; dependence on auxilary sense of "avere" which supplies the
-                   ;; obj-agr agreement between the object and the main (non-auxilary) verb.
-                   (unify-check h22
-                           root-is-comp
-                           (let [obj-agr (atom :top)]
-                             {:head {:phrasal false}
-                              :rule "vp-aux-22"
-                              :synsem {:aux true
-                                       :cat :verb
-                                       :infl :present
-                                       :sem {:tense :past}
-                                       :subcat {:2 {:agr obj-agr}}}}))
-                   (unify-check h21
                            {:rule "vp-conditional"
                             :synsem {:aux false
                                      :infl :conditional

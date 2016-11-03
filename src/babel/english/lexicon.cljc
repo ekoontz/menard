@@ -2284,6 +2284,14 @@
                     :sem {:pred :yell}
                     :subcat {:2 {:cat :prep
                                  :sem {:pred :at}}}}}
+   "yellow"
+   (unify adjective
+          {:synsem {:cat :adjective
+                    :sem {:mod {:pred :yellow}
+                          :comparative false
+                          :physical-object true
+                          :human false}}})
+
    "you"
    [{:english {:note "♂"}
      :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..

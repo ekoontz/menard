@@ -93,7 +93,7 @@ div.avm td.ref {
     padding:0;
 }
 
-td.ref div {
+div.ref {
     font-weight:bold;
     font-size:smaller;
     text-align:center;

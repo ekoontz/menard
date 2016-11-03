@@ -930,6 +930,51 @@ digraph {
 
 `;
 
+var instead1 = `
+
+digraph {
+    
+    node [rx=5 ry=5 labelStyle="font: 300 18px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    s [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>S</td>
+                    </tr>
+                  </table></div>"]; 
+
+    np [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>NP</td>
+                    </tr>
+                    <tr>
+                      <th>num</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+
+    vp [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>VP</td>
+                    </tr>
+                    <tr>
+                      <th>num</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+    
+    s -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+    s -> vp [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+}
+
+`;
+
+
 var she_sees_the_cat = `
 
 digraph {

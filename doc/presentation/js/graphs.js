@@ -1057,6 +1057,45 @@ digraph {
 
 `;
 
+var parents_apply_heads_2 = `
+
+digraph {
+    
+    node [rx=5 ry=5 labelStyle="font: 300 18px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    vp [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>VP &rarr; V VP</td>
+                    </tr>
+                    <tr>
+                      <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>]</td>
+                    </tr>
+                  </table></div>"]; 
+
+    v [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>rule</th><td>V</td>
+                    </tr>
+                    <tr>
+                      <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>,</td><td><div class='ref'>2</div></td><td>]</td>
+                    </tr>
+                  </table></div>"]; 
+
+    np [labelType="html"
+	 label="<div style='margin-bottom:1em' class='ref'>2</div>"];
+    
+    vp -> v [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+    vp -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+}
+
+`;
+
 var she_sees_the_cat = `
 
 digraph {

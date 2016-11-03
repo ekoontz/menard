@@ -26,15 +26,15 @@ human readable string.
 
 ```clojure
 ;; generate an English sentence about dogs eating
-user> (-> {:synsem {:sem {:pred :eat :subj {:pred :cane}}}} babel.english/generate babel.english/morph)
+user> (-> {:synsem {:sem {:pred :eat :subj {:pred :dog}}}} babel.english/generate babel.english/morph)
 "your first student's new dogs used to eat a small music's pizza"
 ```
 
 Rather than simply using `:top` as the input to generation, we now
 provide some constraints to the generation process. Specifically, we
 require that the expression must be about eating, and that the subject
-of the eating must be a dog or dogs (the value `:cane` by convention
-happens to be taken from the Italian word for "dog").
+of the eating must be a dog or dogs (the value `:dog` is the semantics for
+the English word "dog").
 
 ```clojure
 ;; generate a random expression in Italian
@@ -42,8 +42,8 @@ user> (require 'babel.italiano)
 (-> :top babel.italiano/generate babel.italiano/morph)
 "qualche neonato cittadino bene non bene non la sua"
 
-;; generate an Italian sentence about cats drinking
-(-> {:synsem {:sem {:pred :drink :subj {:pred :cat}}}} babel.italiano/generate babel.italiano/morph)
+;; generate an Italian sentence about dogs drinking
+(-> {:synsem {:sem {:pred :drink :subj {:pred :dog}}}} babel.italiano/generate babel.italiano/morph)
 "in delle brutto isole uno corto cane berrà la tua ensalata"
 user> 
 ```

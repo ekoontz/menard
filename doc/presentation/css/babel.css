@@ -14,8 +14,8 @@ h1 {
 
 div.code {
     border:5px solid #eee;
-    margin:5%;
-    padding:2%;
+    margin:1%;
+    padding:1%;
     white-space:pre;
     font-family:monospace;
     font-size:smaller;
@@ -126,4 +126,12 @@ svg#depth_first_4 {
 
 svg#depth_first_5 {
     font-size:25%;
+}
+
+div.examples {
+    padding-top:2em;
+}
+
+div.examples img {
+    border:1px solid black;
 }

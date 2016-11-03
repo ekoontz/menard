@@ -424,8 +424,70 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
+    <div class="step slide" data-x="-2000" data-y="-1500" data-scale="2">
+      <h1>Agreement</h1>
+
+      <div class="examples">
+	<img style="float:right" width="100px" src="Flag_of_England.svg" />
+       <p>The cat sleeps</p>
+       <p>The cats sleep</p>
+       <p>*The cat sleep</p>
+       <p>*The cats sleeps</p>
+      </div>
+
+
+      <div class="examples">
+	<img style="float:right" width="100px" src="Flag_of_Italy.svg" />
+	<p>Il gatto nero dorme</p>
+	<p>I gatti neri dormano</p>
+      </div>
+
+    </div>
+
+    <div class="step slide" data-x="0" data-y="-1500" data-scale="2">
+      <h1>Rule Explosion (1)</h1>
+
+      <div class="examples">
+       <p>The cat sleeps</p>
+       <p>The cats sleep</p>
+       <p>*The cat sleep</p>
+       <p>*The cats sleeps</p>
+       <p>*A cats sleep</p>
+      </div>
+
+      <div class="code">S &rarr; NP[singular] VP[singular]
+S &rarr; NP[plural] VP[plural] 
+NP[singular] &rarr; Det[singular] N[singular]
+NP[singular] &rarr; Det[plural] N[plural]</div>
+    </div>
+
+    <div class="step slide" data-x="2000" data-y="-1500" data-scale="2">
+      <h1>Rule Explosion (2)</h1>
+
+      <div class="examples">
+       <p>The black cat sleeps</p>
+       <p>The black cats sleep</p>
+       <p>*The black cat sleep</p>
+       <p>*The black cats sleeps</p>
+       <p>*A black cats sleep</p>
+      </div>
+
+      <div class="code">S &rarr; NP[singular] VP[singular]
+S &rarr; NP[plural] VP[plural] 
+NP[singular] &rarr; Det[singular] N[singular]
+NP[singular] &rarr; Det[plural] N[plural]
+N'[singular] &rarr; Adjective N[singular]
+N'[plural] &rarr; Adjective N[plural]</div>
+    </div>
+
+    <div class="step slide" data-x="4000" data-y="-1500" data-scale="2">
+      <h1>Instead..</h1>
+
+      <svg id="instead" width="600" height="600"><g/></svg>
+
+    </div>
     
-    <div class="step slide" data-x="-1000" data-y="-1500" data-scale="2">
+    <div class="step slide" data-x="-1000" data-y="0" data-scale="2">
       Usage
 
       <div class="code">(require 'babel.english :as en)
@@ -436,7 +498,7 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
-    <div class="step slide"  data-x="1000" data-y="-1500" data-scale="2">
+    <div class="step slide"  data-x="1000" data-y="0" data-scale="2">
       how does it work?
       <div class="code">
 	(defn generate-all [grammar lexicon & [trees]]
@@ -450,7 +512,7 @@ the stupid mens' students' black chairs would listen to it
 
     </div>
 
-    <div class="step slide"  data-x="3000" data-y="-1500" data-scale="2">
+    <div class="step slide"  data-x="3000" data-y="0" data-scale="2">
        But this does not suffice:
        <ul>
 	 <li>word order</li>

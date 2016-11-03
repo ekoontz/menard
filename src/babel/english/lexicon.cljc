@@ -376,7 +376,7 @@
    "book"
    {:synsem {:cat :noun
              :sem {:artifact true
-                   :pred :libro
+                   :pred :book
                    :legible true
                    :speakable false
                    :mass false
@@ -597,7 +597,7 @@
                         :sem {:pred :scaricare}}}
 
    "dog" {:synsem {:cat :noun
-                   :sem {:pred :cane
+                   :sem {:pred :dog
                          :pet true}}}
 
    "earn"  {:synsem {:cat :verb
@@ -2251,7 +2251,7 @@
             :synsem {:agr {:gender :fem}
                      :cat :noun
                      :sem {:human true
-                           :pred :donna
+                           :pred :woman
                            :child false}}}
 
    "wonder" {:synsem {:cat :verb

@@ -409,7 +409,7 @@
  {:synsem {:agr {:gender :masc}
            :cat :noun
            :sem {:pet true
-                 :pred :cane}}}
+                 :pred :dog}}}
 
  "capire" {:italiano {:boot-stem1 "capisc"}
            :synsem {:cat :verb
@@ -1216,7 +1216,7 @@
 
  "libro" {:synsem {:agr {:gender :masc}
                    :cat :noun
-                   :sem {:pred :libro}}}
+                   :sem {:pred :book}}}
 
  ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
  "lo"

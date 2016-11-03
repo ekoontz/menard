@@ -197,7 +197,7 @@
                                   :mod '()
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}})]
+                                  :pred :dog}}})]
     (is (not (nil? result)))
     (is (= "Juana's dog" (fo result)))))
 
@@ -208,7 +208,7 @@
                                   :number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :cane}}})]
+                                  :pred :dog}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
 

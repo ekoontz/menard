@@ -20,6 +20,8 @@ d3.select("#unification1"). call(dagreD3.render(),     graphlibDot.read(instead1
 d3.select("#parents_apply_heads").   call(dagreD3.render(),     graphlibDot.read(parents_apply_heads));
 d3.select("#parents_apply_heads_2"). call(dagreD3.render(),     graphlibDot.read(parents_apply_heads_2));
 
+d3.select("#parents_semantics"). call(dagreD3.render(),     graphlibDot.read(parents_semantics));
+
 d3.select("#she_sees_the_cat"). call(dagreD3.render(),     graphlibDot.read(she_sees_the_cat));
 d3.select("#depth_first_1").    call(dagreD3.render(),     graphlibDot.read(depth_first_1));
 d3.select("#depth_first_2").    call(dagreD3.render(),     graphlibDot.read(depth_first_2));

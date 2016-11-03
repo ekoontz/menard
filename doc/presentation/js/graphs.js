@@ -1096,6 +1096,39 @@ digraph {
 
 `;
 
+var parents_semantics = `
+
+digraph {
+    
+    node [rx=5 ry=5 labelStyle="font: 300 18px 'Helvetica Neue', Helvetica"];
+
+    edge [labelStyle="font: 300 14px 'Helvetica Neue', Helvetica"];
+
+    vp [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>semantics</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+
+    v [labelType="html"
+       label="<div class='avm'>
+                 <table>
+                    <tr>
+                      <th>semantics</th><td><div class='ref'>1</div></td>
+                    </tr>
+                  </table></div>"]; 
+
+    np [labelType="html"
+	 label="<div style='margin-bottom:1em'> </div>"];
+    
+    vp -> v [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+    vp -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
+}
+
+`;
+
 var she_sees_the_cat = `
 
 digraph {

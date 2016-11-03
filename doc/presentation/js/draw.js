@@ -15,6 +15,8 @@ d3.select("#phrase_structure9").call(dagreD3.render(), graphlibDot.read(phrase_s
 d3.select("#instead1"). call(dagreD3.render(),     graphlibDot.read(instead1));
 d3.select("#instead2"). call(dagreD3.render(),     graphlibDot.read(instead2));
 
+d3.select("#unification1"). call(dagreD3.render(),     graphlibDot.read(instead1));
+
 d3.select("#she_sees_the_cat"). call(dagreD3.render(),     graphlibDot.read(she_sees_the_cat));
 d3.select("#depth_first_1").    call(dagreD3.render(),     graphlibDot.read(depth_first_1));
 d3.select("#depth_first_2").    call(dagreD3.render(),     graphlibDot.read(depth_first_2));

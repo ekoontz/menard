@@ -168,7 +168,8 @@
                               :3 subcat-3}}}
      :comp {:synsem subcat-3}
      :synsem {:subcat {:1 subcat-1
-                       :2 subcat-2}}}))
+                       :2 subcat-2
+                       :3 '()}}}))
 
 (def comp-modifies-head
   (let [human (atom :top)

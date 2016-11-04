@@ -2146,7 +2146,10 @@
                 :subcat {:1 {:sem subj}
                          :2 {:cat :prep
                              :sem {:pred :on}}
-                         :3 {:sem obj}}}}
+                         :3 {:cat :noun
+                             :subcat '()
+                             :pronoun false
+                             :sem obj}}}}
       {:synsem {:cat :verb
                 :sem {:pred :turn-off
                       :subj subj
@@ -2154,7 +2157,10 @@
                 :subcat {:1 {:sem subj}
                          :2 {:cat :prep
                              :sem {:pred :off}}
-                         :3 {:sem obj}}}}])
+                         :3 {:cat :noun
+                             :subcat '()
+                             :pronoun false
+                             :sem obj}}}}])
       
    "turn off"
    {:synsem {:cat :verb

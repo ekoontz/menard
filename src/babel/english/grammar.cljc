@@ -44,7 +44,9 @@
      :comp {:english comp-english}
      :english {:a head-english
                :agr agr
-               :b comp-english}}))
+               :b comp-english}
+     :first :head}))
+               
 (def head-last
   (let [agr (atom :top)
         head-english (atom {:agr agr})
@@ -92,7 +94,6 @@
    head-first
    {:comment "h00"
     :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
-    :first :head
     :comp {:synsem {:subcat '()}}
     :head {:synsem {:subcat '()}}}))
 
@@ -130,7 +131,7 @@
    head-first
    {:comment "h10"
     :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
-    :first :head}))
+    }))
 
 (def h21
   (unify-check
@@ -138,8 +139,7 @@
    head-principle
    head-first
    {:comment "h21"
-    :schema-symbol 'h21 ;; used by over-each-parent to know where to put children.
-    :first :head}))
+    :schema-symbol 'h21})) ;; used by over-each-parent to know where to put children.
 
 (def h22
   (unify-check
@@ -148,7 +148,7 @@
    head-first
    {:comment "h22"
     :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
-    :first :head}))
+    }))
 
 (def h32
   (unify-check
@@ -157,7 +157,7 @@
    head-first
    {:comment "h32"
     :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
-    :first :head}))
+    }))
 
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS

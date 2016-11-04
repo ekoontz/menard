@@ -2134,7 +2134,12 @@
     :english {:past "turned off"
               :present {:3sing "turns off"}
               :participle "turning off"}}
-
+   "turn on"
+   {:synsem {:cat :verb
+             :sem {:pred :turn-on}}
+    :english {:past "turned on"
+               :present {:3sing "turns on"}
+              :participle "turning on"}}
 
     "understand" (let [common {:english {:past "understood"}}]
                   [(unify

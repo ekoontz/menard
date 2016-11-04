@@ -1505,9 +1505,17 @@
    "obtain" {:synsem {:cat :verb
                 :sem {:pred :obtain}}}
 
+   "off" {:synsem {:cat :prep
+                   :sem {:pred :off}
+                   :subcat '()}}
+
    "old" {:synsem {:cat :adjective
                    :sem {:mod {:pred :old}
                          :physical-object true}}}
+
+   "on" {:synsem {:cat :prep
+                  :sem {:pred :on}
+                  :subcat '()}}
 
    "organize" {:synsem {:cat :verb
                 :sem {:pred :organize}}}
@@ -2128,7 +2136,27 @@
                     :sem {:pred :try}
                     :subcat {:2 '()}}}]
 
-    "turn off"
+   "turn"
+   (let [subj (atom :top)
+         obj (atom :top)]
+     [{:synsem {:cat :verb
+                :sem {:pred :turn-on
+                      :subj subj
+                      :obj obj}
+                :subcat {:1 {:sem subj}
+                         :2 {:cat :prep
+                             :sem {:pred :on}}
+                         :3 {:sem obj}}}}
+      {:synsem {:cat :verb
+                :sem {:pred :turn-off
+                      :subj subj
+                      :obj obj}
+                :subcat {:1 {:sem subj}
+                         :2 {:cat :prep
+                             :sem {:pred :off}}
+                         :3 {:sem obj}}}}])
+      
+   "turn off"
    {:synsem {:cat :verb
              :sem {:pred :turn-off}}
     :english {:past "turned off"

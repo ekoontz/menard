@@ -1069,7 +1069,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>rule</th><td>VP &rarr; V VP</td>
+                      <th>rule</th><td>VP &rarr; Verb Noun Phrase</td>
                     </tr>
                     <tr>
                       <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>]</td>
@@ -1080,7 +1080,7 @@ digraph {
        label="<div class='avm'>
                  <table>
                     <tr>
-                      <th>rule</th><td>V</td>
+                      <th>rule</th><td>Verb</td>
                     </tr>
                     <tr>
                       <th>args</th><td>[</td><td><div class='ref'>1</div></td><td>,</td><td><div class='ref'>2</div></td><td>]</td>
@@ -1088,7 +1088,7 @@ digraph {
                   </table></div>"]; 
 
     np [labelType="html"
-	 label="<div style='margin-bottom:1em' class='ref'>2</div>"];
+	 label="<div style='margin-bottom:1em' class='ref'>2</div>NP"];
     
     vp -> v [label="head" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];
     vp -> np [label="comp" labelStyle="fill: #55f; font-weight: bold; font-size:100%"];

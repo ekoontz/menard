@@ -97,8 +97,10 @@
   ([input model]
    (parse/parse (preprocess input) model)))
 
-(defn sentences [ & [count spec model]]
-  (let [count (or (Integer. count) 100)
+(defn sentences [ & [count as-numbered-list spec model]]
+  (let [as-numbered-list (or (nil? as-numbered-list)
+                             (= as-numbered-list "true"))
+        count (or (Integer. count) 100)
         model (or model (medium))
         spec (or (and spec
                       (unifyc spec {:modified false}))
@@ -118,5 +120,13 @@
                         (str (string/capitalize (nth fo 0))
                              (string/join "" (rest (vec fo)))
                              "."))]
-                  (println (str (+ 1 num) ". " to-print)))))
+                  (cond
+                    as-numbered-list
+                    (println (str (+ 1 num) "." to-print))
+
+                    (= 0 (mod num 7))
+                    (print (str "\n\t" to-print " "))
+
+                    true
+                    (print (str to-print " "))))))
             (range 0 count)))))

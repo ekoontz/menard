@@ -1145,10 +1145,35 @@ digraph {
                     <tr>
                       <th>args</th><td>[ ]</td>
                     </tr>
+                    <tr>
+                      <th>semantics</th>
+                      <td><div class='ref'>3</div></th>
+                      <td>
+	                <table>
+		          <tr>
+		            <th>predicate</th>
+		            <td>sleeps</th>
+		          </tr>
+		          <tr>
+		            <th>subject</th>
+		            <td><div class='ref'>2</div></td>
+		            <td><table><tr><th>animate</th><td>true</td></tr></table></table>
+		          </tr>
+	                </table>
+
+                      </td>
+                    </tr>
+
                   </table></div>"]; 
 
     np [labelType="html"
-	 label="<div style='margin-bottom:1em' class='ref'>1</div>"];
+	 label="
+<div class='ref'>1</div></td>
+<div class='avm'>
+<table>
+<tr><th>foo</th><td>bar</td>
+</table>
+</div>"];
 
     vp [labelType="html"
        label="<div class='avm'>
@@ -1161,33 +1186,12 @@ digraph {
                       <th>args</th>
                       <td>[</td>
                       <td><div class='ref'>1</div></td>
-                      <td>
-                        <table>
-                          <tr>
-                            <th>foo</th>
-                            <td>42</td>
-                          </tr>
-                        </table>
-                      </td>
                       <td>]</td>
                     </tr>
 
  	            <tr>
                       <th>semantics</th>
                       <td><div class='ref'>3</div></td>
-                      <td colspan='3'>
-	                <table>
-		          <tr>
-		            <th>predicate</th>
-		            <td>sleeps</th>
-		          </tr>
-		          <tr>
-		            <th>subject</th>
-		            <td><div class='ref'>2</div></td>
-		            <td><table><tr><th>animate</th><td>true</td></tr></table></table>
-		          </tr>
-	                </table>
-	              </td>
 	            </tr>
 
 

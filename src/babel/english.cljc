@@ -94,8 +94,11 @@
   ([input]
    (parse (preprocess input) (medium)))
 
-  ([input model]
-   (parse/parse (preprocess input) model)))
+  ([input truncate?]
+   (parse (preprocess input) (medium) truncate?))
+
+  ([input model truncate?]
+   (parse/parse (preprocess input) model truncate?)))
 
 (defn sentences [ & [count as-numbered-list spec model]]
   (let [as-numbered-list (or (nil? as-numbered-list)

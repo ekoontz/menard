@@ -10,7 +10,6 @@
   [dag_unify.core :refer (get-in strip-refs)]))
 
 (def ^:const parse-with-lexical-caching true)
-(def ^:const parse-with-truncate true)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
@@ -129,11 +128,11 @@
           (if-let [comp (get-in sign [:comp])]
             {:comp (summarize comp model)}))))
   
-(defn parses [input n model span-map]
+(defn parses [input n model span-map parse-with-truncate]
   (cond
     (= n 1) input
     (> n 1)
-    (let [minus-1 (parses input (- n 1) model span-map)]
+    (let [minus-1 (parses input (- n 1) model span-map parse-with-truncate)]
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
@@ -218,8 +217,12 @@
    If the input is a string, then use a language-independent tokenizer to turn the string into a sequence of tokens.
    In the latter case, the tokens are assumed to be produced by splitting a string in 
    some language-dependent way."
-  ([input model & [original-input]]
-   (let [original-input (if original-input original-input input)
+  ([input model & [parse-with-truncate original-input]]
+   (let [parse-with-truncate
+         (cond (= parse-with-truncate false)
+               false
+               true true)
+         original-input (if original-input original-input input)
          model (if (future? model) @model model)]
      (cond (= (type input) java.io.BufferedReader)
            (parse-from-file input model)
@@ -228,7 +231,7 @@
              (log/debug (str "parsing input: '" input "'"))
              ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
-                   result (parse tokenizations model original-input)]
+                   result (parse tokenizations model parse-with-truncate original-input)]
                (if (empty? result)
                  (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
                                 (string/join ";" tokenizations)))
@@ -247,7 +250,7 @@
              (log/debug (str "input map:" input-map))
              (let [all-parses
                    (parses input-map token-count model
-                           (span-map token-count))
+                           (span-map token-count) parse-with-truncate)
                    result
                    {:token-count token-count
                     :complete-parses
@@ -282,16 +285,21 @@
 (defn fo-ps [tree fo]
   "return a human-readable string of a phrase structure tree. leaves of the tree are printed
    by calling the supplied _fo_ function"
-  (let [head-first? (get-in tree [:first] :none)]
+  (let [head-first? (get-in tree [:first] :none)
+        pred (get-in tree [:synsem :sem :pred])
+        cat (get-in tree [:synsem :cat])]
     (cond
       (and (= :none (get-in tree [:head] :none))
            (= :none (get-in tree [:comp] :none))
            (not (= :none (get-in tree [:rule] :none))))
-      (str "[" (get-in tree [:rule]) "/" (get-in tree [:synsem :cat]) " pred(" (get-in tree [:synsem :sem :pred]) ") "
+      (str "[" (get-in tree [:rule]) "/" (get-in tree [:synsem :cat])
+           (when pred
+             " pred(" pred ") ")
            "'" (fo tree) "']")
 
       (= head-first? :none)
-      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat]) " pred(" (get-in tree [:synsem :sem :pred]) ") ")
+      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat])
+           (when pred " pred(" (get-in tree [:synsem :sem :pred]) ") "))
 
       (= head-first? :comp)
       (str "[" (get-in tree [:rule]) " "

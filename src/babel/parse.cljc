@@ -287,19 +287,18 @@
    by calling the supplied _fo_ function"
   (let [head-first? (get-in tree [:first] :none)
         pred (get-in tree [:synsem :sem :pred])
-        cat (get-in tree [:synsem :cat])]
+        cat (str (get-in tree [:synsem :cat]) "")]
     (cond
       (and (= :none (get-in tree [:head] :none))
            (= :none (get-in tree [:comp] :none))
            (not (= :none (get-in tree [:rule] :none))))
-      (str "[" (get-in tree [:rule]) "/" (get-in tree [:synsem :cat])
-           (when pred
-             " pred(" pred ") ")
+      (str "[" (get-in tree [:rule]) "/" cat
+           pred
            "'" (fo tree) "']")
 
       (= head-first? :none)
-      (str "'" (fo tree) "'/" (get-in tree [:synsem :cat])
-           (when pred " pred(" (get-in tree [:synsem :sem :pred]) ") "))
+      (str "'" (fo tree) "'/" cat
+           pred)
 
       (= head-first? :comp)
       (str "[" (get-in tree [:rule]) " "

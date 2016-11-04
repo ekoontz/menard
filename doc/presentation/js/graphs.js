@@ -1147,7 +1147,7 @@ digraph {
                     </tr>
                     <tr>
                       <th>semantics</th>
-                      <td><div class='ref'>3</div></th>
+                      <td style='vertical-align:middle'><div class='ref'>3</div></th>
                       <td>
 	                <table>
 		          <tr>
@@ -1168,12 +1168,22 @@ digraph {
 
     np [labelType="html"
 	 label="
-<div class='ref'>1</div></td>
-<div class='avm'>
 <table>
-<tr><th>foo</th><td>bar</td>
+  <tr>
+    <td style='vertical-align:middle'>
+      <div class='ref'>1</div>
+    </td>
+    <td>
+      <div class='avm'>
+        <table>
+          <tr><th>semantics</th><td><div class='ref'>2</div></td></tr>
+          <tr><th>number</th><td>singular</td></tr>
+        </table>
+      </div>
+    </td>
+  </tr>
 </table>
-</div>"];
+"];
 
     vp [labelType="html"
        label="<div class='avm'>
@@ -1181,7 +1191,7 @@ digraph {
                     <tr>
                       <th>orthography</th><td>sleeps</td>
                     </tr>
-
+                    <tr><th>number</th><td>singular</td></tr>
                     <tr>
                       <th>args</th>
                       <td>[</td>

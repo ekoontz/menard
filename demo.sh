@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-NUM=${1:-5}
+NUM=${1:-10}
 DEMO=${2:-""}
 
 #TODO: run other languages besides english.

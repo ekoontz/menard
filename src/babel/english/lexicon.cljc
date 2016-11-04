@@ -197,7 +197,8 @@
                                        :2 {:cat :prep
                                            :reflexive false
                                            :sem {:obj obj
-                                                 :pred pred}}}}}))
+                                                 :pred pred}}
+                                       :3 '()}}}))
            (let [pred (atom :top)
                  obj (atom :top)
                  agr (atom :top)]
@@ -215,7 +216,8 @@
                                            :reflexive true
                                            :agr agr
                                            :sem {:obj obj
-                                                 :pred pred}}}}}))])
+                                                 :pred pred}}
+                                       :3 '()}}}))])
 
    "be able" (let [common {:english {:imperfect {:1sing "was able"
                                                  :2sing "were able"

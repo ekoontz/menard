@@ -374,7 +374,6 @@
                    (unify-check h21
                            root-is-head
                            {:rule "vp-present"
-                            :head {:phrasal false}
                             :synsem {:aux false
                                      :infl :present
                                      :sem {:tense :present}

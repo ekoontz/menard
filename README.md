@@ -78,6 +78,13 @@ Babel is based on a linguistic theory called HPSG. For more details please see:
 - http://hpsg.stanford.edu/
 - https://en.wikipedia.org/wiki/Head-driven_phrase_structure_grammar
 
+# Future Plans
+
+Learn more about:
+
+- https://en.wikipedia.org/wiki/Minimal_recursion_semantics
+- https://en.wikipedia.org/wiki/Rhetorical_Structure_Theory
+
 # License
 
 Copyright © 2016 Eugene Koontz

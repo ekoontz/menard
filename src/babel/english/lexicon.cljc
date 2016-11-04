@@ -2158,13 +2158,19 @@
       
    "turn off"
    {:synsem {:cat :verb
-             :sem {:pred :turn-off}}
+             :sem {:pred :turn-off
+                   :reflexive false}
+             :subcat {:2 {:cat :noun}
+                      :3 '()}}
     :english {:past "turned off"
               :present {:3sing "turns off"}
               :participle "turning off"}}
    "turn on"
    {:synsem {:cat :verb
-             :sem {:pred :turn-on}}
+             :sem {:pred :turn-on
+                   :reflexive false}
+             :subcat {:2 {:cat :noun}
+                      :3 '()}}
     :english {:past "turned on"
                :present {:3sing "turns on"}
               :participle "turning on"}}

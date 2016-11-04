@@ -137,8 +137,19 @@ div.examples img {
     border:1px solid black;
 }
 
-td.func {
-    padding:1em;
+table.func td {
+    vertical-align:middle;
+    ppadding:1em;
+    font-size:large;
+}
+
+table.func td.func {
+    vertical-align:middle;
+    ppadding:1em;
     font-size:large;
     font-family:monospace;
+}
+
+tr.args td {
+    vertical-align:middle;
 }

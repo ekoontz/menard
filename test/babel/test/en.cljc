@@ -307,18 +307,22 @@
   (is (not (empty? (parse "I turned the radio on"))))
   (is (not (empty? (parse "I turned off the radio"))))
   (is (not (empty? (parse "I turned the radio off"))))
-  (let [generated (generate {:synsem {:sem {:pred :turn-on
-                                            :tense :present
-                                            :obj {:mod '()
-                                                  :number :sing
-                                                  :spec {:def :def
-                                                         :of {:pred nil}}}
-                                            :subj {:pred :lei}}
-                                      :cat :verb}})]
-    (is (= "she turns the radio on"
-           (morph generated))
-        (= "she turns on the radio"
-           (morph generated)))))
+  (let [generated (morph (generate {:synsem {:sem {:pred :turn-on
+                                                   :tense :present
+                                                   :obj {:mod '()
+                                                         :number :sing
+                                                         :pred :radio
+                                                         :spec {:def :def
+                                                                :of {:pred nil}}}
+                                                   :subj {:pred :lei}}
+                                             :cat :verb}}))]
+    (is (or (= "she turns the radio on"
+                generated)
+            (= "she turns on the radio"
+               generated)))))
+
+
+
 
 
 

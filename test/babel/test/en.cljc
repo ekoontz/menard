@@ -301,3 +301,7 @@
                              :sem {:pred :cat :spec {:def :def}
                                    :mod '()}}}))
      "the cats"))
+
+(deftest phrasal-verbs
+  (is (not (empty? (parse "the radio")))))
+

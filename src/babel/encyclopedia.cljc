@@ -190,6 +190,9 @@ as a map of implications"}
    {:pred :pizza}    {:artifact true
                       :edible true}
 
+   {:pred :radio}    {:artifact true
+                      :consumable false}
+
    {:pred :salad}    {:artifact true
                       :edible true}
 

@@ -1620,6 +1620,9 @@
           :synsem {:cat :verb
                    :sem {:pred :put}}}
 
+   "radio" {:synsem {:cat :noun
+                     :sem {:pred :radio}}}
+   
    "read" ;; if this was a phonetic dictionary, there would be two
    ;; entries for each pronounciation - one pronounced as
    ;; like the word "reed" and one pronounced like the word "red".

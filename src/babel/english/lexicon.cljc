@@ -437,8 +437,7 @@
             :english {:past "carried"}}
 
    "cat" {:synsem {:cat :noun
-                   :sem {:pred :cat
-                         :pet true}}}
+                   :sem {:pred :cat}}}
 
    "chair" {:synsem {:cat :noun
                      :sem {:pred :chair}}}
@@ -599,8 +598,7 @@
                         :sem {:pred :scaricare}}}
 
    "dog" {:synsem {:cat :noun
-                   :sem {:pred :dog
-                         :pet true}}}
+                   :sem {:pred :dog}}}
 
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn}}}

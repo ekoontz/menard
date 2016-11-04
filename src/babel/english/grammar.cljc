@@ -387,6 +387,12 @@
                             :synsem {:aux false
                                      :cat :verb}})
 
+                   (unify-check h32
+                           root-is-head
+                          {:rule "vp32"
+                           :synsem {:aux false
+                                    :cat :verb}})
+
                    (unify-check h10
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}

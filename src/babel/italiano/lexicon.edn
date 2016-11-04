@@ -217,17 +217,22 @@
      :note "avere (possess)"
      :synsem {:sem {:pred :have}}}
     
-    ;; 2. "avere": to be in a relation with: e.g. "I have two children"
+    ;; 2. "avere": to be in a familial or social relation with:
+    ;; e.g. "ho due bambini (I have two children)"
     {:unify [avere-common]
      :note "avere (relation)"
      :synsem {:sem {:pred :have}}}
 
     ;; 3. avere: unspecified object
+    ;; TODO: remove: should be generated automatically via
+    ;; intransitivization
+    ;; 
     {:unify [avere-common]
      :note "avere (possess): unspecified object"
      :synsem {:sem {:pred :have}}}
 
-    ;; 4. "avere" that takes a transitive verb: e.g. "io l'ho vista (i saw her)"
+    ;; 4. "avere" auxiliary that takes a transitive verb:
+    ;; e.g. "io l'ho vista (i saw her)"
     (let [agr (atom :top)]
       {:unify [avere-common]
        :note "avere(aux): takes trans"
@@ -239,9 +244,10 @@
                                           :pronoun true}}
                              :essere false}}}})
 
-    ;; 5. "avere" that takes an intransitive verb or a transitive verb within a VP
-    ;;    with the object (e.g. "io ho dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
-    ;; "avere": auxiliary-verb: takes 2 args:
+    ;; 5. "avere" auxiliary that takes an intransitive verb or a
+    ;; transitive verb within a VP with the object (e.g. "io ho
+    ;; dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
+    ;; Takes 2 args:
     ;; 1. subject that is the same as the subject of 2.
     ;; 2. an intransitive verb.
     {:unify [avere-common]
@@ -258,7 +264,7 @@
    ;; 6. avere bisogno di
    (let [need-obj (atom :top)]
      {:unify [avere-common]
-      :allow-intransitivize false
+      :allow-intransitivize false ;; don't generate "ho bisogno di".
       :synsem {:sem {:pred :need
                      :obj need-obj}
                :subcat {:1 {:sem {:living true}}

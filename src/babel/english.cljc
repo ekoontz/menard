@@ -110,7 +110,7 @@
             (fn [num]
               (let [expr (generate spec
                                    :model model)
-                    fo (fo expr :show-notes false)]
+                    fo (morph expr :show-notes false)]
                 (let [to-print
                       (cond
                         (empty? fo) (str "(failed)")

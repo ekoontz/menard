@@ -303,9 +303,12 @@
      "the cats"))
 
 (deftest phrasal-verbs
-  (is (not (empty? (parse "the radio"))))
   (is (not (empty? (parse "I turned on the radio"))))
-  (is (or true (not (empty? (parse "I turned the radio on"))))))
+  (is (not (empty? (parse "I turned the radio on"))))
+  (is (not (empty? (parse "I turned off the radio"))))
+  (is (not (empty? (parse "I turned the radio off")))))
+
+
 
 
 

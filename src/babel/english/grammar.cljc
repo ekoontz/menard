@@ -345,6 +345,7 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :present}}})
+                   ;; TODO: consolidate all of these "h21" rules into a single rule.
                    (unify-check h21
                            {:rule "vp-infinitive"
                             :synsem {:aux false

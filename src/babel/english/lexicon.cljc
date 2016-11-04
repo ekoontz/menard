@@ -1490,14 +1490,15 @@
    "need" {:synsem {:cat :verb
                 :sem {:pred :need}}}
 
-
    "new" {:synsem {:cat :adjective
                    :sem {:mod {:pred :new}
                          :physical-object true}}}
 
-   "note" {:synsem {:cat :verb
-                    :sem {:pred :note}}}
-
+   "note" [{:synsem {:cat :verb
+                     :sem {:pred :note}}}
+           {:synsem {:cat :noun
+                     :sem {:pred :note}}}]
+           
    "observe" {:synsem {:cat :verb
                 :sem {:pred :observe}}}
 
@@ -1528,6 +1529,8 @@
                     :number :plur
                     :gender :fem}
               :sem {:human true}
+              ;; TODO: remove: should be derived from
+              ;; :pronoun=true.
               :subcat '()}}
 
     {:synsem {:cat :noun
@@ -1538,6 +1541,8 @@
                     :number :plur
                     :gender :masc}
               :sem {:human true}
+              ;; TODO: remove: should be derived from
+              ;; :pronoun=true.
               :subcat '()}}]
 
    "paint"  {:synsem {:cat :verb
@@ -1615,7 +1620,9 @@
           :synsem {:cat :verb
                    :sem {:pred :put}}}
 
-   "read" ;; if this was a phonetic dictionary, there would be two entries for each pronounciation (i.e. both "reed" or "red" pronounciations)
+   "read" ;; if this was a phonetic dictionary, there would be two
+   ;; entries for each pronounciation - one pronounced as
+   ;; like the word "reed" and one pronounced like the word "red".
    {:english {:past {:english "read"
                      :note "past tense"}}
     :synsem {:cat :verb

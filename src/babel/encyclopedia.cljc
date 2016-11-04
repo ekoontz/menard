@@ -184,6 +184,7 @@ as a map of implications"}
 
    {:pred :name}     {:physical-object false
                       :event false}
+   {:pred :note}     {:legible true}
 
    {:pred :pizza}    {:artifact true
                       :edible true}

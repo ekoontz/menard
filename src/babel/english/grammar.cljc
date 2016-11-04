@@ -366,6 +366,11 @@
                                     :infl :imperfect
                                     :cat :verb}})
                    (unify-check h21
+                          {:rule "vp-past"
+                           :synsem {:aux false
+                                    :infl :past
+                                    :cat :verb}})
+                   (unify-check h21
                            root-is-head
                            {:rule "vp-present"
                             :head {:phrasal false}

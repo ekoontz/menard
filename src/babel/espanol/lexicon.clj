@@ -878,11 +878,38 @@
    "parar" {:synsem {:cat :verb
                       :sem {:pred :stop}}}
 
+   "pararse" (let [subject-semantics
+                    subject-agr (atom :top)]
+                {:synsem {:cat :verb
+                          :sem {:pred :stop-oneself
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
+
+
    "pedir" {:espanol {:boot-stem "pid"}
              :synsem {:cat :verb
                       :sem {:pred :ask-for}}}
 
-   "peinarse" {}
+   "peinarse" (let [subject-semantics
+                    subject-agr (atom :top)]
+                {:synsem {:cat :verb
+                          :sem {:pred :comb-oneself
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
 
    "os"
    {:synsem {:cat cat-of-pronoun

@@ -1185,12 +1185,13 @@
             :sem {:number :plur
                   :person :2nd}}}]
 
- "lavarsi" {:synsem {:cat :verb
-                     :sem {:pred :wash
-                           :reflexive true}}}
-
  "lavare"  {:synsem {:cat :verb
-                       :sem {:pred :wash}}}
+                     :sem {:pred :wash}}}
+
+
+ "lavarsi" {:synsem {:cat :verb
+                     :sem {:pred :wash-oneself
+                           :reflexive true}}}
 
  "lavorare"  {:synsem {:cat :verb
                        :sem {:pred :work-human}}}
@@ -1496,6 +1497,11 @@
  {:synsem {:cat :verb
            :essere false
            :sem {:pred :think}}}
+
+"pettinarsi" {:synsem {:cat :verb
+                    :sem {:pred :comb-oneself
+                          :reflexive true}}}
+
 
  "piangere" {:italiano {:passato "pianto"}
              :synsem {:cat :verb

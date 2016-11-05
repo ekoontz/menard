@@ -478,6 +478,23 @@
    "coffee" {:synsem {:cat :noun
                       :sem {:pred :coffee}}}
 
+   "comb" (let [common {:english
+                        :synsem {:cat :verb}}]
+            ;; 1. reflexive sense of "hurt"
+            [(let [subject-semantics (atom :top)
+                   subject-agr (atom :top)]
+               (unify common
+                       {:synsem {:sem {:pred :comb-oneself
+                                       :subj subject-semantics
+                                       :obj subject-semantics}
+                                 :subcat {:1 {:agr subject-agr
+                                              :sem subject-semantics}
+                                         :2 {:agr subject-agr
+                                             :pronoun true
+                                             :reflexive true
+                                             :sem subject-semantics}}}}))
+
+
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}
                     :subcat {:2 '()}}
@@ -1915,6 +1932,24 @@
                      :sem {:pred :stop}}
             :english {:participle "stopping"
                       :past "stopped"}}
+
+   "stop" (let [common {:english {:participle "stopping"
+                                   :past "stopped"}
+                        :synsem {:cat :verb}}]
+            ;; 1. reflexive sense of "hurt"
+            [(let [subject-semantics (atom :top)
+                   subject-agr (atom :top)]
+               (unify common
+                       {:synsem {:sem {:pred :stop-oneself
+                                       :subj subject-semantics
+                                       :obj subject-semantics}
+                                 :subcat {:1 {:agr subject-agr
+                                              :sem subject-semantics}
+                                         :2 {:agr subject-agr
+                                             :pronoun true
+                                             :reflexive true
+                                             :sem subject-semantics}}}}))
+
 
 
    "strike" {:english {:past "struck"}

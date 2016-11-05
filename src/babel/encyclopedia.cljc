@@ -37,6 +37,8 @@ as a map of implications"}
                       :activity false
                       :living false
                       :physical-object true}
+
+   {:artifact false}  {:machine false}
    
    {:buyable true}   {:human false
                       :part-of-human-body false}

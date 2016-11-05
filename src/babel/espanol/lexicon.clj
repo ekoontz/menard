@@ -878,8 +878,8 @@
    "parar" {:synsem {:cat :verb
                       :sem {:pred :stop}}}
 
-   "pararse" (let [subject-semantics
-                    subject-agr (atom :top)]
+   "pararse" (let [subject-semantics (atom :top)
+                   subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :sem {:pred :stop-oneself
                                 :reflexive true
@@ -897,7 +897,7 @@
              :synsem {:cat :verb
                       :sem {:pred :ask-for}}}
 
-   "peinarse" (let [subject-semantics
+   "peinarse" (let [subject-semantics (atom :top)
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :sem {:pred :comb-oneself
@@ -910,7 +910,6 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-
    "os"
    {:synsem {:cat cat-of-pronoun
              :pronoun true
@@ -966,12 +965,9 @@
                            :pred :put}}}
 
    "ponerse de pie" {}
-
-
-   "preguntar" {:espanol
-             :synsem {:cat :verb
-                      :sem {:pred :ask-for}}}
-
+   
+   "preguntar" {:synsem {:cat :verb
+                         :sem {:pred :ask-for}}}
 
    "preocuparse" (let [subject-semantics (atom {:animate true})
                     subject-agr (atom :top)]
@@ -987,9 +983,8 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
 
-   "prestar" {:espanol
-             :synsem {:cat :verb
-                      :sem {:pred :lend}}}
+   "prestar" {:synsem {:cat :verb
+                       :sem {:pred :lend}}}
 
    "quedarse" (let [subject-semantics (atom {:animate true})
                     subject-agr (atom :top)]

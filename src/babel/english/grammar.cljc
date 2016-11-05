@@ -345,53 +345,26 @@
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :present}}})
-                   ;; TODO: consolidate all of these "h21" rules into a single rule.
+
                    (unify-check h21
-                           {:rule "vp-infinitive"
-                            :synsem {:aux false
-                                     :infl :infinitive
-                                     :cat :verb}})
+                                root-is-head
+                                {:rule "transitive-vp"
+                                 :head {:phrasal false}
+                                 :synsem {:aux false
+                                          :cat :verb}})
                    (unify-check h21
-                           {:rule "vp-conditional"
-                            :synsem {:aux false
-                                     :infl :conditional
-                                     :cat :verb}})
-                   (unify-check h21
-                           {:rule "vp-future"
-                            :synsem {:aux false
-                                     :infl :future
-                                     :cat :verb}})
-                   (unify-check h21
-                          {:rule "vp-imperfect"
-                           :synsem {:aux false
-                                    :infl :imperfect
-                                    :cat :verb}})
-                   (unify-check h21
-                          {:rule "vp-past"
-                           :synsem {:aux false
-                                    :infl :past
-                                    :cat :verb}})
-                   (unify-check h21
-                           root-is-head
-                           {:rule "vp-present"
-                            :synsem {:aux false
-                                     :infl :present
-                                     :sem {:tense :present}
-                                     :cat :verb}})
-                   (unify-check h21
-                           root-is-head
-                           {:comp {:phrasal false
-                                   :synsem {:cat :noun
-                                            :pronoun true}}
-                            :rule "vp-pronoun"
-                            :synsem {:aux false
-                                     :cat :verb}})
+                                root-is-head-root
+                                {:rule "transitive-vp"
+                                 :head {:phrasal true}
+                                 :synsem {:aux false
+                                          :cat :verb}})
 
                    (unify-check h32
                            root-is-head
-                          {:rule "vp32"
-                           :synsem {:aux false
-                                    :cat :verb}})
+                           {:rule "vp32"
+                            :head {:phrasal-verb true}
+                            :synsem {:aux false
+                                     :cat :verb}})
 
                    (unify-check h10
                            {:head {:phrasal false

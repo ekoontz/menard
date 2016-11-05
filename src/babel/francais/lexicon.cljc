@@ -643,6 +643,11 @@
   "répondre" {:synsem {:cat :verb
                        :sem {:pred :answer}}}
 
+  "rompre" {:synsem {:cat :verb
+                       :past-participle "rompu"
+                       :sem {:pred :break}}}
+
+
    "se" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

@@ -378,9 +378,10 @@
                    :place false
                    :consumable false}}}
 
-   "break" {:synsem {:cat :verb
-                     :sem {:pred :break }}
-            :english {:past "broke"}}
+   "break" {:english {:past "broke"
+                       :past-participle "broken"}
+             :synsem {:cat :verb
+                      :sem {:pred :break}}}
    "bread"
    ;; inherently singular.
    {:synsem {:agr {:number :sing}
@@ -1681,7 +1682,7 @@
     :intransitivize false
     :synsem {:cat :verb
              :sem {:pred :put-on}}}
-   
+
    "radio" {:synsem {:cat :noun
                      :sem {:pred :radio}}}
 
@@ -2546,7 +2547,7 @@
                    morph/phonize)
 
       apply-unify-key
-      
+
       ;; <category-independent rules>
 
       (default

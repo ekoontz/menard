@@ -965,7 +965,7 @@
                            :pred :put}}}
 
    "ponerse de pie" {}
-   
+
    "preguntar" {:synsem {:cat :verb
                          :sem {:pred :ask-for}}}
 
@@ -1027,7 +1027,8 @@
    "reparar" {:synsem {:cat :verb
                       :sem {:pred :repair}}}
    "responder" {}
-   "romper"  {}
+   "romper"  {:synsem {:cat :verb
+                      :sem {:pred :break}}}
 
    "saber" {}
    "sacar" {}

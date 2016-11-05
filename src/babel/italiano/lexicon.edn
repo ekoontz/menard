@@ -1548,6 +1548,11 @@
  "prenotare" {:synsem {:cat :verb
                        :sem {:pred :reserve}}}
 
+ "preoccuparsi" {:synsem {:cat :verb
+                        :sem {:pred :worry
+                              :reflexive true}}}
+
+
  "pulire" {:italiano {:boot-stem1 "pulisc"}
                :synsem {:cat :verb
                        :sem {:pred :clean}}}

@@ -966,8 +966,25 @@
                            :pred :put}}}
 
    "ponerse de pie" {}
-   "preguntar" {}
-   "preocuparse" {}
+   "preguntar" {:espanol
+             :synsem {:cat :verb
+                      :sem {:pred :ask-for}}}
+
+
+   "preocuparse" (let [subject-semantics (atom {:animate true})
+                    subject-agr (atom :top)]
+                {:synsem {:cat :verb
+                          :sem {:pred :worry
+                                :reflexive true
+                                :subj subject-semantics
+                                :obj subject-semantics}
+                          :subcat {:1 {:agr subject-agr
+                                       :sem subject-semantics}
+                                   :2 {:agr subject-agr
+                                       :pronoun true
+                                       :reflexive true
+                                       :sem subject-semantics}}}})
+
    "prestar" {}
 
    "quedarse" (let [subject-semantics (atom {:animate true})

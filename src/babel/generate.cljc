@@ -9,7 +9,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 5)
+(def ^:const max-total-depth 6)
 (def ^:const max-generated-complements 200)
 
 ;; use map or pmap.

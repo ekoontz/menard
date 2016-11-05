@@ -2164,7 +2164,7 @@
              :sem {:pred :turn-on
                    :reflexive false}
              :subcat {:2 {:cat :noun
-                          :pronon false}
+                          :pronoun false}
                       :3 '()}}
     :english {:past "turned on"
                :present {:3sing "turns on"}

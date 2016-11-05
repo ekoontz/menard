@@ -637,6 +637,9 @@
   "remarquer" {:synsem {:cat :verb
                         :sem {:pred :note}}}
 
+  "réparer" {:synsem {:cat :verb
+                      :sem {:pred :repair}}}
+
   "répondre" {:synsem {:cat :verb
                        :sem {:pred :answer}}}
 

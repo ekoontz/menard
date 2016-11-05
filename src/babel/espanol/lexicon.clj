@@ -1024,7 +1024,8 @@
                (unify shared-part-of-querer
                       {:synsem {:sem {:pred :love}}})])
 
-   "reparar" {}
+   "reparar" {:synsem {:cat :verb
+                      :sem {:pred :repair}}}
    "responder" {}
    "romper"  {}
 

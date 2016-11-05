@@ -1617,6 +1617,10 @@
                                   :3plur "rimangono"}
                         :future-stem "rimarr"}}
 
+"riparare" {:synsem {:cat :verb
+                         :sem {:pred :repair}}}
+
+
  "ripetere"  {:synsem {:cat :verb
                        :sem {:pred :repeat}}}
 

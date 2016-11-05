@@ -1738,6 +1738,8 @@
     "repeat"  {:synsem {:cat :verb
                         :sem {:pred :repeat}}}
 
+    "repair" {:synsem {:cat :verb
+                        :sem {:pred :repair}}}
 
     "reserve" {:synsem {:cat :verb
                 :sem {:pred :reserve}}}

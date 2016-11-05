@@ -219,7 +219,8 @@ as a map of implications"}
    {:pred :salad}    {:artifact true
                       :edible true}
 
-   {:pred :sigh}     {:physical-object false
+   {:pred :sigh}     {:artifact false
+                      :physical-object false
                       :event true}
    
    {:pred :shoe}     {:clothing true}

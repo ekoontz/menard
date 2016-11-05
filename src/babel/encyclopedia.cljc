@@ -150,6 +150,9 @@ as a map of implications"}
                       :machine false
                       :place false
                       :spec {:of {:human true}}}
+
+   {:pred :beach}    {:artifact false
+                      :place true}
    
    {:pred :bicycle}  {:artifact true
                       :consumable false

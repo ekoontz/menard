@@ -505,6 +505,10 @@
                        :sem {:pred :confess}
                        :subcat {:2 {:cat :prep
                                     :sem {:pred :to}}}}}
+
+   "complain" {:synsem {:cat :verb
+                        :sem {:pred :complain}}}
+
    "consent" {:synsem {:cat :verb
                        :sem {:pred :consent}
                        :subcat {:2 {:cat :prep

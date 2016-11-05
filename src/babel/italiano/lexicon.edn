@@ -1185,6 +1185,11 @@
             :sem {:number :plur
                   :person :2nd}}}]
 
+"lamentarsi" {:synsem {:cat :verb
+                       :sem {:pred :complain
+                             :reflexive true}}}
+
+
  "lavare"  {:synsem {:cat :verb
                      :sem {:pred :wash}}}
 

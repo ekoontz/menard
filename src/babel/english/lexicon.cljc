@@ -1501,6 +1501,13 @@
    "off" {:synsem {:cat :prep
                    :sem {:pred :off}
                    :subcat '()}}
+   
+   "up" {:synsem {:cat :prep
+                   :sem {:pred :up}
+                   :subcat '()}}
+   "down" {:synsem {:cat :prep
+                   :sem {:pred :down}
+                   :subcat '()}}
 
    "old" {:synsem {:cat :adjective
                    :sem {:mod {:pred :old}
@@ -2129,12 +2136,12 @@
          obj (atom :top)]
      [{:phrasal-verb true
        :synsem {:cat :verb
-                :sem {:pred :turn-on
+                :sem {:pred :turn-down
                       :subj subj
                       :obj obj}
                 :subcat {:1 {:sem subj}
                          :2 {:cat :prep
-                             :sem {:pred :on}}
+                             :sem {:pred :down}}
                          :3 {:cat :noun
                              :subcat '()
                              :pronoun false
@@ -2150,8 +2157,31 @@
                          :3 {:cat :noun
                              :subcat '()
                              :pronoun false
+                             :sem obj}}}}
+      {:phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :turn-on
+                      :subj subj
+                      :obj obj}
+                :subcat {:1 {:sem subj}
+                         :2 {:cat :prep
+                             :sem {:pred :on}}
+                         :3 {:cat :noun
+                             :subcat '()
+                             :pronoun false
+                             :sem obj}}}}
+      {:phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :turn-up
+                      :subj subj
+                      :obj obj}
+                :subcat {:1 {:sem subj}
+                         :2 {:cat :prep
+                             :sem {:pred :up}}
+                         :3 {:cat :noun
+                             :subcat '()
+                             :pronoun false
                              :sem obj}}}}])
-      
    "turn off"
    {:synsem {:cat :verb
              :sem {:pred :turn-off
@@ -2165,7 +2195,8 @@
    {:synsem {:cat :verb
              :sem {:pred :turn-on
                    :reflexive false}
-             :subcat {:2 {:cat :noun}
+             :subcat {:2 {:cat :noun
+                          :pronon false}
                       :3 '()}}
     :english {:past "turned on"
                :present {:3sing "turns on"}

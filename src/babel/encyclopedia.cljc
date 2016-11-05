@@ -479,6 +479,14 @@ as a map of implications"}
          :subj {:human true}
          :obj {:machine true}}
 
+        {:pred :turn-up
+         :subj {:human true}
+         :obj {:machine true}}
+
+        {:pred :turn-down
+         :subj {:human true}
+         :obj {:machine true}}
+
         {:pred :understand
          :subj {:human true}}
 

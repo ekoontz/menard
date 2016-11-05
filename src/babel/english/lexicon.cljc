@@ -3,7 +3,7 @@
   (:require
    [babel.encyclopedia :as encyc]
    [babel.english.morphology :as morph]
-   [babel.lexiconfn :refer [compile-lex default new-entries verb-pred-defaults]]
+   [babel.lexiconfn :refer [apply-unify-key compile-lex default new-entries verb-pred-defaults]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (def lexicon-source
@@ -1641,12 +1641,45 @@
                            ;; example of a synonym, where we use the convention of making the
                            ;; :pred (i.e. :student) the more common case (c.f. "student")
                            :pred :student}}}
-
-   "put" {:english {:past "put"
-                    :participle "putting"}
-          :synsem {:cat :verb
-                   :sem {:pred :put}}}
-
+   "put"
+   (let [common {:english {:participle "putting"
+                           :past "put"
+                           :present {:3sing "put"}
+                           :note "past tense"}}]
+     [{:unify [common]
+       :phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :insult}
+                :subcat {:2 {:cat :prep
+                             :sem {:pred :down}}}}}
+      {:unify [common]
+       :phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :delay}
+                :subcat {:2 {:cat :prep
+                             :sem {:pred :off}}}}}
+      {:unify [common]
+       :phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :put-on}
+                :subcat {:2 {:cat :prep
+                             :sem {:pred :on}}}}}
+      {:unify [common]
+       :phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :tolerate}
+                :subcat {:2 {:cat :prep
+                             :sem {:pred :up-with}}}}}])
+   "put on"
+   {:english {:participle "putting on"
+              :past "put on"
+              :present {:3sing "puts on"}
+              :note "past tense"}
+    :phrasal-verb true
+    :intransitivize false
+    :synsem {:cat :verb
+             :sem {:pred :put-on}}}
+   
    "radio" {:synsem {:cat :noun
                      :sem {:pred :radio}}}
 
@@ -2516,6 +2549,8 @@
                    morph/exception-generator
                    morph/phonize)
 
+      apply-unify-key
+      
       ;; <category-independent rules>
 
       (default

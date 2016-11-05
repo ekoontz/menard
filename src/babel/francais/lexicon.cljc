@@ -180,6 +180,10 @@
    "decider" {:synsem {:cat :verb
                        :sem {:pred :decide}}}
 
+   "demander" {:synsem {:cat :verb
+                       :sem {:pred :ask-for}}}
+
+
    "developer" {:synsem {:cat :verb
                         :sem {:pred :develop}}}
    "devoir"
@@ -199,8 +203,7 @@
      (unify common {:synsem {:sem {:pred :have-to
                                    :subj {:human true}}}}))
 
-   "décider" {:synsem {:cat :verb
-                       :sem {:pred :decide}}}
+
 
    "désirer" {:synsem {:cat :verb
                        :sem {:pred :desire}}}

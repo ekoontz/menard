@@ -878,7 +878,9 @@
    "parar" {:synsem {:cat :verb
                       :sem {:pred :stop}}}
 
-   "pedir" {}
+   "pedir" {:espanol {:boot-stem "pid"}
+             :synsem {:cat :verb
+                      :sem {:pred :ask-for}}}
 
    "peinarse" {}
 

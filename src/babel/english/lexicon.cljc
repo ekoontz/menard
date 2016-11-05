@@ -77,7 +77,7 @@
                              :subcat {:2 '()}}}}]
 
    "ask" {:synsem {:cat :verb
-                   :sem {:pred :chiedere}}}
+                   :sem {:pred :ask-for}}}
 
    "assume" {:synsem {:cat :verb
                       :sem {:pred :assume}

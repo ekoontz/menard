@@ -3,9 +3,7 @@
   (:require
    [babel.encyclopedia :as encyc]
    [babel.english.morphology :as morph]
-   [babel.lexiconfn :refer [compile-lex default
-                            if-then new-entries
-                            verb-pred-defaults]]
+   [babel.lexiconfn :refer [compile-lex default new-entries verb-pred-defaults]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (def lexicon-source
@@ -2646,33 +2644,29 @@
       ;; if a verb has an object,
       ;; and the object is {:cat :noun},
       ;; then the object is {:synsem {:case :acc}}.
-      (if-then {:synsem {:cat :verb
-                         :subcat {:2 {:cat :noun}}}}
-               {:synsem {:subcat {:2 {:case :acc}}}})
+      (default {:synsem {:cat :verb
+                         :subcat {:2 {:cat :noun
+                                      :case :acc}}}})
 
-      ;; if not(reflexive), then reflexive = false.
-      (if-then {:synsem {:cat :verb
-                         :sem {:reflexive false}}}
-               {:synsem {:sem {:reflexive false}}})
-
-      ;; if not(aux), then aux=false
-      (if-then {:synsem {:cat :verb
-                         :aux false}}
-               {:synsem {:aux false}})
+      ;; verbs default to aux=false
+      (default {:synsem {:cat :verb
+                         :aux false}})
 
       ;; phrasal-verbs: default is false
       (default {:synsem {:cat :verb}
                 :phrasal-verb false})
 
-      ;; subject-and-reflexive-pronoun agreement
-      (if-then {:synsem {:sem {:reflexive true}
-                         :cat :verb
-                         :subcat {:1 {:agr :top}
-                                  :2 {:agr :top}}}}
 
-               (let [subject-agr (atom :top)]
-                 {:synsem {:subcat {:1 {:agr subject-agr}
-                                    :2 {:agr subject-agr}}}}))
+      ;; reflexive=false
+      (default {:synsem {:cat :verb
+                         :sem {:reflexive false}}})
+      
+      (default
+       (let [subject-agr (atom :top)]
+         {:synsem {:sem {:reflexive true}
+                   :cat :verb
+                   :subcat {:1 {:agr :subject-agr}
+                            :2 {:agr :subject-agr}}}}))
       (default
        (let [obj-sem (atom :top)]
          {:synsem {:cat :prep

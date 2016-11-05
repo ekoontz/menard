@@ -17,7 +17,13 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unifyc]]))
+            [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unify]]))
+
+(defn display-expression [expr]
+  {:en (morph expr)
+   :subj (get-in expr [:synsem :sem :subj :pred])
+   :pred (get-in expr [:synsem :sem :pred])
+   :obj (get-in expr [:synsem :sem :obj :pred])})
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,
@@ -158,7 +164,7 @@
                                                             :synsem {:cat :verb
                                                                      :sem {:pred :be-called}}})]
                                   (is (not (= "" (fo expression))))
-                                  (log/info (str "fo: " (fo expression)))
+                                  (log/info (display-expression expression))
                                   (fo expression)))))))))
 
 (deftest mod-is-empty-list
@@ -256,6 +262,9 @@
                                               :spec {:def :def
                                                      :pred :definite}}
                                        :tense :present}}})]
+    (log/info (str "furniture-sentence: " 
+                   (display-expression expr)))
+
     (is (= (fo expr)
            "the chair is in front of the table"))))
 

@@ -146,7 +146,7 @@
                  the-obj (atom {:number number
                                 :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
-                    {:sense 2 ;; used for logging
+                    {:sense 2 ;; used for debugging
                      ;; TODO: remove (in)transtivize (false|true): should not
                      ;; need these explicit compiler directives; compilation
                      ;; should be able to manage on its own
@@ -2130,56 +2130,26 @@
                     :subcat {:2 '()}}}]
 
    "turn"
-   (let [subj (atom :top)
-         obj (atom :top)]
-     [{:phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :turn-down
-                      :subj subj
-                      :obj obj}
-                :subcat {:1 {:sem subj}
-                         :2 {:cat :prep
-                             :sem {:pred :down}}
-                         :3 {:cat :noun
-                             :subcat '()
-                             :pronoun false
-                             :sem obj}}}}
-      {:phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :turn-off
-                      :subj subj
-                      :obj obj}
-                :subcat {:1 {:sem subj}
-                         :2 {:cat :prep
-                             :sem {:pred :off}}
-                         :3 {:cat :noun
-                             :subcat '()
-                             :pronoun false
-                             :sem obj}}}}
-      {:phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :turn-on
-                      :subj subj
-                      :obj obj}
-                :subcat {:1 {:sem subj}
-                         :2 {:cat :prep
-                             :sem {:pred :on}}
-                         :3 {:cat :noun
-                             :subcat '()
-                             :pronoun false
-                             :sem obj}}}}
-      {:phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :turn-up
-                      :subj subj
-                      :obj obj}
-                :subcat {:1 {:sem subj}
-                         :2 {:cat :prep
-                             :sem {:pred :up}}
-                         :3 {:cat :noun
-                             :subcat '()
-                             :pronoun false
-                             :sem obj}}}}])
+   [{:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-down}
+              :subcat {:2 {:cat :prep
+                           :sem {:pred :down}}}}}
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-off}
+              :subcat {:2 {:cat :prep
+                           :sem {:pred :off}}}}}
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-on}
+              :subcat {:2 {:cat :prep
+                           :sem {:pred :on}}}}}
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-up}
+              :subcat {:2 {:cat :prep
+                           :sem {:pred :up}}}}}]
    "turn off"
    {:synsem {:cat :verb
              :sem {:pred :turn-off
@@ -2648,15 +2618,37 @@
                          :subcat {:2 {:cat :noun
                                       :case :acc}}}})
 
-      ;; verbs default to aux=false
+      ;; aux default: false
       (default {:synsem {:cat :verb
                          :aux false}})
 
-      ;; phrasal-verbs: default is false
+      ;; phrasal-verbs: false
       (default {:synsem {:cat :verb}
                 :phrasal-verb false})
 
+      (default
+       (let [subject (atom :top)]
+         {:synsem {:cat :verb
+                   :sem {:subj subject}
+                   :subcat {:1 {:sem subject}}}}))
 
+      (default
+       (let [object (atom :top)]
+         {:phrasal-verb false
+          :synsem {:cat :verb
+                   :sem {:obj object
+                         :iobj nil}
+                   :subcat {:2 {:sem object}}}}))
+
+      (default
+       (let [object (atom :top)]
+         {:phrasal-verb true
+          :synsem {:cat :verb
+                   :sem {:obj object}
+                   :subcat {:3 {:cat :noun
+                                :pronoun false
+                                :subcat '()
+                                :sem object}}}}))
       ;; reflexive=false
       (default {:synsem {:cat :verb
                          :sem {:reflexive false}}})
@@ -2668,6 +2660,13 @@
                    :subcat {:1 {:agr :subject-agr}
                             :2 {:agr :subject-agr}}}}))
       (default
+       {:synsem {:cat :verb
+                 :subcat {:2 {:subcat '()}}}})
+      
+      ;; </verb default rules>
+
+      ;; <prep default rules>
+      (default
        (let [obj-sem (atom :top)]
          {:synsem {:cat :prep
                    :subcat {:1 {:cat :noun
@@ -2676,12 +2675,9 @@
                                 :sem obj-sem}
                             :2 '()}
                    :sem {:obj obj-sem}}}))
-                 (default
-                  {:synsem {:cat :verb
-                            :subcat {:2 {:subcat '()}}}})
 
-                 ;; </verb default rules>
-
+      ;; </prep default rules>
+      
 ))
 
 (def lexicon-promise (promise))

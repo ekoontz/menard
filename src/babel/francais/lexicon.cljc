@@ -409,10 +409,6 @@
    "former" {:synsem {:cat :verb
                      :sem {:pred :form}}}
 
-
-   "former" {:synsem {:cat :verb
-                     :sem {:pred :form}}}
-
    "gagner" [{:synsem {:cat :verb
                        :sem {:pred :earn
                              :subj {:human true}}}}

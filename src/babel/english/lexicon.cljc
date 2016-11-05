@@ -723,10 +723,8 @@
                         :sem {:pred :furnish}}}
 
    "game" {:synsem {:cat :noun
-                    :sem {:pred :game
-                          :animate false
-                          :event true
-                          :games true}}}
+                    :sem {:pred :game}}}
+
    "get angry"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb

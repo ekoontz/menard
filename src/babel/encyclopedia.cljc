@@ -186,6 +186,11 @@ as a map of implications"}
    {:pred :espresso} {:artifact true
                       :drinkable true}
 
+   {:pred :game}     {:activity true
+                      :event true
+                      :games true
+                      :machine false}
+   
    {:pred :house}    {:artifact true
                       :city false
                       :consumable false

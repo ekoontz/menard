@@ -2,14 +2,10 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
+   [babel.english.morphology :as morph]
    [babel.lexiconfn :refer [compile-lex default
                             if-then new-entries
-                            map-function-on-map-vals
                             verb-pred-defaults]]
-   [babel.english.morphology :as morph]
-   [babel.english.pos :refer [adjective
-                              subject-verb-agreement
-                              transitivize]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (def lexicon-source
@@ -21,6 +17,7 @@
              :agr {:number :sing
                    :person :3rd
                    :gender :fem}}}
+
    "Antonia and Luisa"
    {:synsem {:sem {:pred :antonia-and-luisa
                    :human true}
@@ -151,7 +148,6 @@
                  the-obj (atom {:number number
                                 :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
-                    subject-verb-agreement
                     {:sense 2 ;; used for logging
                      ;; TODO: remove (in)transtivize (false|true): should not
                      ;; need these explicit compiler directives; compilation
@@ -366,13 +362,12 @@
    "bird" {:synsem {:cat :noun
                     :sem {:pred :bird}}}
    "black"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:mod {:pred :black}
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
-
+   {:synsem {:cat :adjective
+             :sem {:mod {:pred :black}
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
+  
    "boil" {:synsem {:cat :verb
                 :sem {:pred :boil}}}
    "book"
@@ -692,9 +687,9 @@
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 
-   "first" (unify adjective
-                  {:synsem {:sem {:mod {:pred :first}
-                                  :comparative false}}})
+   "first" {:synsem {:cat :adjective
+                     :sem {:mod {:pred :first}
+                           :comparative false}}}
 
    "fit" {:english {:past "fit"
                     :participle "fitting"}
@@ -1186,13 +1181,12 @@
    "insure" {:synsem {:cat :verb
                       :sem {:pred :insure}}}
 
-   "intelligent" (unify adjective
-                        {:synsem {:cat :adjective
-                                  :sem {:mod {:pred :intelligent}
-                                        :human true
-                                        :comparative false}
-                                  :subcat {:1 {:cat :det}
-                                           :2 '()}}})
+   "intelligent" {:synsem {:cat :adjective
+                           :sem {:mod {:pred :intelligent}
+                                 :human true
+                                 :comparative false}
+                           :subcat {:1 {:cat :det}
+                                    :2 '()}}}
    "interrupt" {:synsem {:cat :verb
                 :sem {:pred :interrupt}}}
    "it"
@@ -1654,12 +1648,11 @@
    "recover" {:synsem {:cat :verb
                 :sem {:pred :recover}}}
    "red"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:mod {:pred :rosso}
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
+   {:synsem {:cat :adjective
+             :sem {:mod {:pred :rosso}
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
 
    "remain" [{:synsem {:cat :verb
                        :subcat {:2 {:cat :prep
@@ -1750,9 +1743,10 @@
              :english {:participle "scrubbing"
                        :past "scrubbed"}}
 
-   "second" (unify adjective
-                   {:synsem {:sem {:mod {:pred :second}
-                                   :comparative false}}})
+   "second" {:synsem {:cat :adjective
+                      :sem {:mod {:pred :second}
+                            :comparative false}}}
+   
    "see"  [{:synsem {:cat :verb
                      :sem {:pred :see
                            :reflexive false}
@@ -1810,20 +1804,18 @@
    "shoe" {:synsem {:cat :noun
                     :sem {:pred :shoe}}}
    "short"
-   [(unify adjective
-           {:synsem {:cat :adjective
-                     :sem {:mod {:pred :short}
-                           :comparative false
-                           :physical-object true}
-                     :subcat {:1 {:cat :det}
-                              :2 '()}}})
-    (unify adjective
-           {:synsem {:cat :adjective
-                     :sem {:mod {:pred :short}
-                           :comparative false
-                           :event true}
-                     :subcat {:1 {:cat :det}
-                              :2 '()}}})]
+   [{:synsem {:cat :adjective
+              :sem {:mod {:pred :short}
+                    :comparative false
+                    :physical-object true}
+              :subcat {:1 {:cat :det}
+                       :2 '()}}}
+    {:synsem {:cat :adjective
+              :sem {:mod {:pred :short}
+                    :comparative false
+                    :event true}
+              :subcat {:1 {:cat :det}
+                       :2 '()}}}]
 
    "show" {:synsem {:cat :verb
                     :sem {:pred :show
@@ -1857,12 +1849,11 @@
                      :subcat {:2 '()}}
             :english {:past "slept"}}
    "small"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:mod {:pred :small}
-                          :comparative false}
-                    :subcat {:1 {:cat :det}
-                             :2 '()}}})
+   {:synsem {:cat :adjective
+             :sem {:mod {:pred :small}
+                   :comparative false}
+             :subcat {:1 {:cat :det}
+                      :2 '()}}}
 
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}
@@ -1928,13 +1919,12 @@
                       :sem {:pred :study}}
              :english {:past "studied"}}
 
-   "stupid" (unify adjective
-                   {:synsem {:cat :adjective
-                             :sem {:mod {:pred :stupid}
-                                   :human true
-                                   :comparative false}
-                             :subcat {:1 {:cat :det}
-                                      :2 '()}}})
+   "stupid" {:synsem {:cat :adjective
+                      :sem {:mod {:pred :stupid}
+                            :human true
+                            :comparative false}
+                      :subcat {:1 {:cat :det}
+                               :2 '()}}}
    "supply" {:synsem {:cat :verb
                 :sem {:pred :supply}}}
 
@@ -1970,13 +1960,12 @@
              :subcat {:2 {:cat :prep
                           :sem {:pred :to}}}}}
    "tall"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:mod {:pred :tall}
-                          :human true
-                          :comparative false}
-                    :subcat {:1 {:cat :det}
-                             :2 '()}}})
+   {:synsem {:cat :adjective
+             :sem {:mod {:pred :tall}
+                   :human true
+                   :comparative false}
+             :subcat {:1 {:cat :det}
+                      :2 '()}}}
 
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}
@@ -2341,12 +2330,11 @@
                     :subcat {:2 {:cat :prep
                                  :sem {:pred :at}}}}}
    "yellow"
-   (unify adjective
-          {:synsem {:cat :adjective
-                    :sem {:mod {:pred :yellow}
-                          :comparative false
-                          :physical-object true
-                          :human false}}})
+   {:synsem {:cat :adjective
+             :sem {:mod {:pred :yellow}
+                   :comparative false
+                   :physical-object true
+                   :human false}}}
 
    "you"
    [{:english {:note "♂"}
@@ -2614,11 +2602,15 @@
                        :shared-with-obj false
                        :obj :unspec}}})
 
-      ;; If verb does specify a [:sem :obj], then fill
-      ;; it in with subcat info.
-      ;; TODO: remove use of this opaque function: 'transitivize'
-      transitivize
-
+      ;; subject-verb agreement
+      (default (let [infl (atom :top)
+                     agr (atom :top)]
+                 {:english {:agr agr
+                            :infl infl}
+                  :synsem {:infl infl
+                           :cat :verb
+                           :subcat {:1 {:agr agr}}}}))
+      
       (verb-pred-defaults encyc/verb-pred-defaults)
 
       ;; if a verb has an object,

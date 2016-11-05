@@ -875,7 +875,8 @@
           :synsem {:cat :verb
                     :sem {:pred :pay}}}
 
-   "parar" {}
+   "parar" {:synsem {:cat :verb
+                      :sem {:pred :stop}}}
 
    "pedir" {}
 

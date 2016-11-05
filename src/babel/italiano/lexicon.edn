@@ -216,7 +216,7 @@
    [{:unify [avere-common]
      :note "avere (possess)"
      :synsem {:sem {:pred :have}}}
-    
+
     ;; 2. "avere": to be in a familial or social relation with:
     ;; e.g. "ho due bambini (I have two children)"
     {:unify [avere-common]
@@ -226,7 +226,7 @@
     ;; 3. avere: unspecified object
     ;; TODO: remove: should be generated automatically via
     ;; intransitivization
-    ;; 
+    ;;
     {:unify [avere-common]
      :note "avere (possess): unspecified object"
      :synsem {:sem {:pred :have}}}
@@ -973,6 +973,10 @@
  "finire"  {:italiano {:boot-stem1 "finisc"}
             :synsem {:cat :verb
                      :sem {:pred :finish}}}
+
+ "fermare"  {:synsem {:cat :verb
+            :sem {:pred :stop}}}
+
 
  "formare"  {:synsem {:cat :verb
                       :sem {:pred :form}}}

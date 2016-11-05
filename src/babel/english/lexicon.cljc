@@ -365,7 +365,7 @@
                    :comparative false
                    :physical-object true
                    :human false}}}
-  
+
    "boil" {:synsem {:cat :verb
                 :sem {:pred :boil}}}
    "book"
@@ -1489,7 +1489,7 @@
                      :sem {:pred :note}}}
            {:synsem {:cat :noun
                      :sem {:pred :note}}}]
-           
+
    "observe" {:synsem {:cat :verb
                 :sem {:pred :observe}}}
 
@@ -1499,7 +1499,7 @@
    "off" {:synsem {:cat :prep
                    :sem {:pred :off}
                    :subcat '()}}
-   
+
    "up" {:synsem {:cat :prep
                    :sem {:pred :up}
                    :subcat '()}}
@@ -1628,7 +1628,7 @@
 
    "radio" {:synsem {:cat :noun
                      :sem {:pred :radio}}}
-   
+
    "read" ;; if this was a phonetic dictionary, there would be two
    ;; entries for each pronounciation - one pronounced as
    ;; like the word "reed" and one pronounced like the word "red".
@@ -1751,7 +1751,7 @@
    "second" {:synsem {:cat :adjective
                       :sem {:mod {:pred :second}
                             :comparative false}}}
-   
+
    "see"  [{:synsem {:cat :verb
                      :sem {:pred :see
                            :reflexive false}
@@ -1910,6 +1910,12 @@
    "steal" {:synsem {:cat :verb
                      :sem {:pred :steal}}
             :english {:past "stole"}}
+
+  "stop"  {:synsem {:cat :verb
+                     :sem {:pred :stop}}
+            :english {:participle "stopping"
+                      :past "stopped"}}
+
 
    "strike" {:english {:past "struck"}
              :synsem {:cat :verb
@@ -2608,7 +2614,7 @@
                   :synsem {:infl infl
                            :cat :verb
                            :subcat {:1 {:agr agr}}}}))
-      
+
       (verb-pred-defaults encyc/verb-pred-defaults)
 
       ;; if a verb has an object,
@@ -2652,7 +2658,7 @@
       ;; reflexive=false
       (default {:synsem {:cat :verb
                          :sem {:reflexive false}}})
-      
+
       (default
        (let [subject-agr (atom :top)]
          {:synsem {:sem {:reflexive true}
@@ -2662,7 +2668,7 @@
       (default
        {:synsem {:cat :verb
                  :subcat {:2 {:subcat '()}}}})
-      
+
       ;; </verb default rules>
 
       ;; <prep default rules>
@@ -2677,7 +2683,7 @@
                    :sem {:obj obj-sem}}}))
 
       ;; </prep default rules>
-      
+
 ))
 
 (def lexicon-promise (promise))

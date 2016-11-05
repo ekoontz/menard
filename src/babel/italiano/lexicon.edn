@@ -51,7 +51,7 @@
            :cat :noun
            :sem {:artifact false
                  :animate false
-                 :pred :acqua}}}
+                 :pred :water}}}
  "addormentarsi"
  {:synsem {:cat :verb
            :sem {:pred :fall-asleep

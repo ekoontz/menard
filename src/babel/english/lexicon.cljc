@@ -2244,7 +2244,7 @@
                      :sem {:pred :watch}}}
 
    "water" {:synsem {:cat :noun
-                     :sem {:pred :acqua}}}
+                     :sem {:pred :water}}}
    "we"
    [{:english {:note "♀"}
      :synsem {:cat :noun

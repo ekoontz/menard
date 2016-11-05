@@ -33,12 +33,15 @@ as a map of implications"}
                       :speakable false
                       :place false}
 
+   {:artifact false}  {:clothing false
+                       :machine false}
+
    {:artifact true}  {:animate false
                       :activity false
                       :living false
                       :physical-object true}
 
-   {:artifact false}  {:machine false}
+
    
    {:buyable true}   {:human false
                       :part-of-human-body false}
@@ -54,8 +57,12 @@ as a map of implications"}
                       :place false
                       :physical-object true}
    {:consumable
+    false}           {:drinkable false
+                      :edible false}
+   {:consumable
     true}            {:activity false
                       :buyable true
+                      :clothing false
                       :furniture false
                       :legible false
                       :human false
@@ -65,9 +72,6 @@ as a map of implications"}
                       :physical-object true
                       :place false
                       :speakable false}
-   {:consumable
-    false}           {:drinkable false
-                      :edible false}
 
    {:drinkable true} {:animate false
                       :consumable true
@@ -84,6 +88,7 @@ as a map of implications"}
    {:furniture true} {:artifact true
                       :animate false
                       :buyable true
+                      :clothing false
                       :consumable false
                       :legible false
                       :edible false
@@ -125,7 +130,8 @@ as a map of implications"}
                       :spec {:of {:human true}}}
 
    {:physical-object
-    false}           {:consumable false
+    false}           {:clothing false
+                      :consumable false
                       :living false}
    {:physical-object
     true}            {:event false
@@ -144,6 +150,7 @@ as a map of implications"}
    {:pred :backpack} {:clothing true}
 
    {:pred :bag}      {:artifact true
+                      :clothing false
                       :consumable false
                       :event false
                       :legible false
@@ -155,8 +162,10 @@ as a map of implications"}
                       :place true}
    
    {:pred :bicycle}  {:artifact true
+                      :clothing false
                       :consumable false
                       :legible false
+                      :machine true
                       :place false
                       :spec {:of {:human true}}}
 
@@ -164,13 +173,15 @@ as a map of implications"}
                       :human false}
 
    {:pred :book}     {:artifact true
+                      :clothing false
                       :legible true
                       :machine false}
    
    {:pred :bread}    {:artifact true
                       :edible true}
-
-   {:pred :car}      {:consumable false
+   
+   {:pred :car}      {:clothing false
+                      :consumable false
                       :legible false
                       :machine true
                       :place false}
@@ -179,7 +190,8 @@ as a map of implications"}
    
    {:pred :chair}    {:furniture true}
    
-   {:pred :city}     {:machine false}
+   {:pred :city}     {:clothing false
+                      :machine false}
    
    {:pred :coffee}   {:artifact true
                       :drinkable true}
@@ -197,6 +209,7 @@ as a map of implications"}
                       :machine false}
    
    {:pred :house}    {:artifact true
+                      :clothing false
                       :city false
                       :consumable false
                       :machine false
@@ -204,22 +217,35 @@ as a map of implications"}
                       :legible false}
 
    {:pred :key}      {:artifact true
+                      :clothing false
                       :consumable false
                       :event false
                       :machine false
                       :place false}
 
+   {:pred :meeting}  {:clothing false
+                      :consumable false
+                      :living false
+                      :machine false}
+   
+   {:pred :music}    {:clothing false
+                      :consumable false}
+   
    {:pred :name}     {:physical-object false
                       :event false}
    
-   {:pred :note}     {:legible true}
+   {:pred :note}     {:animate false
+                      :clothing false
+                      :legible true}
 
-   {:pred :party}    {:machine false}
+   {:pred :party}    {:clothing false
+                      :machine false}
 
    {:pred :pizza}    {:artifact true
                       :edible true}
 
-   {:pred :radio}    {:machine true}
+   {:pred :radio}    {:clothing false
+                      :machine true}
 
    {:pred :salad}    {:artifact true
                       :edible true}
@@ -247,6 +273,7 @@ as a map of implications"}
                       :legible true
                       :living false
                       :machine false
+                      :physical-object false
                       :speakable true}
 
    ;; </preds>
@@ -352,6 +379,10 @@ as a map of implications"}
          :subj {:human true}
          :obj {:human false}}
 
+        {:pred :eat
+         :subj {:animate true}
+         :obj {:edible true}}
+
         {:pred :enter
          :subj {:animate true}
          :obj {:place true}}
@@ -428,10 +459,10 @@ as a map of implications"}
 
         {:pred :live
          :subj {:animate true}}
-        
-        {:pred :eat
-         :subj {:animate true}
-         :obj {:edible true}}
+
+        {:pred :put-on
+         :subj {:human true}
+         :obj {:clothing true}}
         
         {:pred :read
          :subj {:human true}

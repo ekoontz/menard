@@ -608,6 +608,10 @@
              {:synsem {:cat :verb
                        :past-participle "pris"
                        :sem {:pred :take}}}]
+
+  "prêter" {:synsem {:cat :verb
+                      :sem {:pred :lend}}}
+
   "pouvoir"
    (let [shared-part-of-pouvoir
          {:synsem {:essere false

@@ -966,6 +966,8 @@
                            :pred :put}}}
 
    "ponerse de pie" {}
+
+
    "preguntar" {:espanol
              :synsem {:cat :verb
                       :sem {:pred :ask-for}}}
@@ -985,7 +987,9 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
 
-   "prestar" {}
+   "prestar" {:espanol
+             :synsem {:cat :verb
+                      :sem {:pred :lend}}}
 
    "quedarse" (let [subject-semantics (atom {:animate true})
                     subject-agr (atom :top)]

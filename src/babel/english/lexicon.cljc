@@ -1252,7 +1252,7 @@
               :subcat '()}}]
    "keep"
    [{:synsem {:cat :verb
-              :sem {:pred :tenere}}
+              :sem {:pred :keep}}
      :english {:past "kept"}}
     {:synsem {:cat :verb
               :sem {:pred :keep-safe}}
@@ -1279,6 +1279,10 @@
                        :past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave}}}]
+
+  "lend" {:synsem {:cat :verb
+             :sem {:pred :lend}}
+             :english {:past "lent"}}
 
    "lie" {:synsem {:cat :verb
                    :sem {:pred :lie}

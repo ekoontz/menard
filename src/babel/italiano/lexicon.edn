@@ -1552,6 +1552,9 @@
                         :sem {:pred :worry
                               :reflexive true}}}
 
+ "prestare" {:synsem {:cat :verb
+                       :sem {:pred :lend}}}
+
 
  "pulire" {:italiano {:boot-stem1 "pulisc"}
                :synsem {:cat :verb

@@ -657,9 +657,10 @@
                      :sem {:pred :faint}
                      :subcat {:2 '()}}}
 
-    "fall" {:synsem {:cat :verb
-                     :sem {:pred :fall}}
-          :english {:past "fell"}}
+   "fall" {:transitivize false
+           :synsem {:cat :verb
+                    :sem {:pred :fall}}
+           :english {:past "fell"}}
 
     "fall asleep"
    (let [subject-semantics (atom :top)]
@@ -2137,7 +2138,8 @@
    "turn"
    (let [subj (atom :top)
          obj (atom :top)]
-     [{:synsem {:cat :verb
+     [{:phrasal-verb true
+       :synsem {:cat :verb
                 :sem {:pred :turn-on
                       :subj subj
                       :obj obj}
@@ -2148,7 +2150,8 @@
                              :subcat '()
                              :pronoun false
                              :sem obj}}}}
-      {:synsem {:cat :verb
+      {:phrasal-verb true
+       :synsem {:cat :verb
                 :sem {:pred :turn-off
                       :subj subj
                       :obj obj}
@@ -2641,6 +2644,10 @@
       (if-then {:synsem {:cat :verb
                          :aux false}}
                {:synsem {:aux false}})
+
+      ;; phrasal-verbs: default is false
+      (default {:synsem {:cat :verb}
+                :phrasal-verb false})
 
       ;; subject-and-reflexive-pronoun agreement
       (if-then {:synsem {:sem {:reflexive true}

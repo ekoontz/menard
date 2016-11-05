@@ -2508,7 +2508,7 @@
       ;; <noun default rules>
 
       ;; make :propernoun and :pronoun available to morphological rules
-      ;; to prevent e.g. (they -> theys) or (ourselves -> ourselvess)
+      ;; to prevent e.g. (they -> *theys) or (ourselves -> *ourselvess)
       (default
        (let [pronoun (atom :top)
                         propernoun (atom :top)]
@@ -2601,11 +2601,10 @@
                                 :sem {:obj obj}}}}}))
 
       ;; add :sem :obj if necessary, so that intransitivize is triggered.
-      (if-then {:modal-with false
+      (default {:modal-with false
                 :synsem {:cat :verb
-                         :subcat {:2 {:cat :noun}}}}
-               {:synsem {:sem {:obj {:pred :top}}}})
-
+                         :subcat {:2 {:cat :noun}}
+                         :sem {:obj {:pred :top}}}})
 
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:synsem {:cat :verb

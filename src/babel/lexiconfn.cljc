@@ -1,4 +1,4 @@
-(ns babel.lexiconfn
+(ns babel.lexiconfn ;; TODO consider renaming babel.lexiconfn to babel.lexicon.
   (:refer-clojure :exclude [exists? get-in resolve find])
   (:require
    [babel.encyclopedia :refer [sem-impl]]
@@ -748,3 +748,20 @@
     (verb-pred-defaults (default lexicon (first verb-pred-default-list))
                         (rest verb-pred-default-list))
     lexicon))
+
+(defn apply-unify-key [lexicon]
+  (into {}
+        (for [[k vals] lexicon]
+          [k
+           (map (fn [v]
+                  (cond
+                    (map? v)
+                    (reduce unify
+                            (cons (dissoc v :unify)
+                                  (map (fn [each-unify-arg]
+                                         (cond (fn? each-unify-arg)
+                                               (each-unify-arg)
+                                               true each-unify-arg))
+                                       (:unify v))))
+                    true v))
+                vals)])))

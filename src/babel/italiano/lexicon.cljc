@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer [default
+   [babel.lexiconfn :refer [apply-unify-key default
                             filter-vals listify map-function-on-map-vals
                             new-entries rewrite-keys verb-pred-defaults]]
 
@@ -49,25 +49,6 @@
                :cat cat
                :essere essere
                :infl infl}})})
-
-;; TODO: promote to babel.lexiconfn
-;; also consider renaming babel.lexiconfn to babel.lexicon.
-(defn apply-unify-key [lexicon]
-  (into {}
-        (for [[k vals] lexicon]
-          [k
-           (map (fn [v]
-                  (cond
-                    (map? v)
-                    (reduce unify
-                            (cons (dissoc v :unify)
-                                  (map (fn [each-unify-arg]
-                                         (cond (fn? each-unify-arg)
-                                               (each-unify-arg)
-                                               true each-unify-arg))
-                                       (:unify v))))
-                    true v))
-                vals)])))
 
 ;; TODO: dangerous to (eval) code that we don't directly control:
 ;; replace with a DSL that accomplishes the same thing without

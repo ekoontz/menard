@@ -478,22 +478,20 @@
    "coffee" {:synsem {:cat :noun
                       :sem {:pred :coffee}}}
 
-   "comb" (let [common {:english
-                        :synsem {:cat :verb}}]
-            ;; 1. reflexive sense of "hurt"
+   "comb" (let [common {:synsem {:cat :verb}}]
+            ;; 1. reflexive sense of "comb"
             [(let [subject-semantics (atom :top)
                    subject-agr (atom :top)]
-               (unify common
-                       {:synsem {:sem {:pred :comb-oneself
-                                       :subj subject-semantics
-                                       :obj subject-semantics}
-                                 :subcat {:1 {:agr subject-agr
-                                              :sem subject-semantics}
-                                         :2 {:agr subject-agr
-                                             :pronoun true
-                                             :reflexive true
-                                             :sem subject-semantics}}}}))
-
+               {:unify [common]
+                :synsem {:sem {:pred :comb-oneself
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})])
 
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}
@@ -1281,8 +1279,8 @@
                       :sem {:pred :leave}}}]
 
   "lend" {:synsem {:cat :verb
-             :sem {:pred :lend}}
-             :english {:past "lent"}}
+                   :sem {:pred :lend}}
+          :english {:past "lent"}}
 
    "lie" {:synsem {:cat :verb
                    :sem {:pred :lie}
@@ -1965,29 +1963,22 @@
                      :sem {:pred :steal}}
             :english {:past "stole"}}
 
-  "stop"  {:synsem {:cat :verb
-                     :sem {:pred :stop}}
-            :english {:participle "stopping"
-                      :past "stopped"}}
-
    "stop" (let [common {:english {:participle "stopping"
-                                   :past "stopped"}
+                                  :past "stopped"}
                         :synsem {:cat :verb}}]
-            ;; 1. reflexive sense of "hurt"
+            ;; 1. reflexive sense of "stop"
             [(let [subject-semantics (atom :top)
                    subject-agr (atom :top)]
-               (unify common
-                       {:synsem {:sem {:pred :stop-oneself
-                                       :subj subject-semantics
-                                       :obj subject-semantics}
-                                 :subcat {:1 {:agr subject-agr
-                                              :sem subject-semantics}
-                                         :2 {:agr subject-agr
-                                             :pronoun true
-                                             :reflexive true
-                                             :sem subject-semantics}}}}))
-
-
+               {:unify [common]
+                :synsem {:sem {:pred :stop-oneself
+                               :subj subject-semantics
+                               :obj subject-semantics}
+                         :subcat {:1 {:agr subject-agr
+                                      :sem subject-semantics}
+                                  :2 {:agr subject-agr
+                                      :pronoun true
+                                      :reflexive true
+                                      :sem subject-semantics}}}})])
 
    "strike" {:english {:past "struck"}
              :synsem {:cat :verb
@@ -2402,7 +2393,6 @@
                        :past-participle "worried"}
              :synsem {:cat :verb
                       :sem {:pred :worry}}}
-
 
    "write"  {:english {:past "wrote"
                        :past-participle "written"}

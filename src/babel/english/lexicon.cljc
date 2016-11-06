@@ -1753,6 +1753,9 @@
    "remember"  {:synsem {:cat :verb
                          :sem {:pred :ricordare}}}
 
+    "remove" {:synsem {:cat :verb
+                    :sem {:pred :remove}}}
+
     "repeat"  {:synsem {:cat :verb
                         :sem {:pred :repeat}}}
 

@@ -1041,7 +1041,9 @@
          :synsem {:cat :verb
                   :sem {:pred :know-s}}}
 
-   "sacar" {}
+   "sacar" {:espanol {:preterito {:1sing "saqué"}}
+          :synsem {:cat :verb
+                    :sem {:pred :remove}}}
 
    "salir" {:espanol {:present {:1sing "salgo"}}
             :synsem {:cat :verb

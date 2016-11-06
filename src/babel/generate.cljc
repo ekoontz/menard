@@ -114,7 +114,7 @@
                      (if-let [index-fn
                               (:index-fn language-model)]
                        (do (log/info (str "found index-fn."))
-                           (index-fn spec parent))
+                           (index-fn (get-in parent [:head] :top)))
                        (log/info (str "no index-fn")))
                      
                      pred (get-in spec [:synsem :sem :pred])

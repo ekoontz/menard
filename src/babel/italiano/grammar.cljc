@@ -771,9 +771,11 @@
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index-fn (fn [spec parent]
-                 (do (log/info (str "index-fn called with: " (strip-refs spec)))
-                     42))
+     :index-fn (fn [spec]
+                 (do (log/debug (str "index-fn called with unified head spec:"
+                                    (strip-refs
+                                     (dissoc (strip-refs spec)
+                                             :dag_unify.core/serialized))))))
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))

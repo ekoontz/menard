@@ -648,18 +648,17 @@
                        :sem {:pred :break}}}
 
   "savoir" {:synsem {:essere false
-            :cat :verb}
+                     :cat :verb
+                     :sem {:pred :know-s}}
             :français {:future-stem "saur"
-              :drop-e true
-              :past-participle "su"
-              :present {:1sing "sais"
-                        :2sing "sais"
-                        :3sing "sait"
-                        :1plur "savons"
-                        :2plur "savez"
-                        :3plur "savent"}}}
-
-
+                       :drop-e true
+                       :past-participle "su"
+                       :present {:1sing "sais"
+                                 :2sing "sais"
+                                 :3sing "sait"
+                                 :1plur "savons"
+                                 :2plur "savez"
+                                 :3plur "savent"}}}
 
    "se" {:synsem {:cat :noun
                   :pronoun true

@@ -1030,7 +1030,17 @@
    "romper"  {:synsem {:cat :verb
                       :sem {:pred :break}}}
 
-   "saber" {}
+   "saber" {:espanol {:futuro-stem "sabr"
+                   :present {:1sing "sé"}
+                   :preterito {:1sing "supe"
+                               :2sing "supiste"
+                               :3sing "supo"
+                               :1plur "supimos"
+                               :2plur "supsteis"
+                               :3plur "superon"}}
+         :synsem {:cat :verb
+                  :sem {:pred :know-s}}}
+
    "sacar" {}
 
    "salir" {:espanol {:present {:1sing "salgo"}}

@@ -1274,6 +1274,16 @@
    "learn" {:synsem {:cat :verb
                      :sem {:pred :learn}}}
 
+  "know" [{:english {:past "knew"
+                    :past-participle "known"}
+            :synsem {:cat :verb
+                     :sem {:pred :know-s}}
+           {:english {:past "knew"
+                     :past-participle "known"}
+                     :synsem {:cat :verb
+                     :sem {:pred :know-c}}]
+
+
    "leave" [{:english {:past "left"}
              :synsem {:cat :verb
                       :sem {:pred :leave-behind}}}

@@ -1277,11 +1277,11 @@
   "know" [{:english {:past "knew"
                     :past-participle "known"}
             :synsem {:cat :verb
-                     :sem {:pred :know-s}}
+                     :sem {:pred :know-s}}}
            {:english {:past "knew"
                      :past-participle "known"}
                      :synsem {:cat :verb
-                     :sem {:pred :know-c}}]
+                     :sem {:pred :know-c}}}]
 
 
    "leave" [{:english {:past "left"}

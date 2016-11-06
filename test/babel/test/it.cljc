@@ -55,10 +55,13 @@
 
 (deftest passato-prossimo
   (let [result (generate {:root {:italiano {:italiano "bere"}}
-                          :synsem {:subcat ()
-                                   :sem {:subj {:pred :I}
-                                         :tense :past
-                                         :aspect :perfect}}})]
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :perfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
 

@@ -110,6 +110,13 @@
              (fn [parent]
                (let [parent (unify parent spec)
 
+                     language-indices
+                     (if-let [index-fn
+                              (:index-fn language-model)]
+                       (do (log/info (str "found index-fn."))
+                           (index-fn spec parent))
+                       (log/info (str "no index-fn")))
+                     
                      pred (get-in spec [:synsem :sem :pred])
                      cat (get-in spec [:synsem :cat])
                      aux (get-in spec [:synsem :aux])

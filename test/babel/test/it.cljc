@@ -42,13 +42,23 @@
                          :do-enrich false)]
     (is (= "io sono" (morph result)))))
 
-(deftest passato-prossimo
+;; TODO: remove this test: use medium (default) model rather than small.
+(deftest passato-prossimo-small
   (let [result (generate {:root {:italiano {:italiano "bere"}}
                           :synsem {:subcat ()
                                    :sem {:subj {:pred :I}
                                          :tense :past
                                          :aspect :perfect}}}
                          :model (small))]
+    (is (not (nil? result)))
+    (is (= "io ho bevuto" (morph result)))))
+
+(deftest passato-prossimo
+  (let [result (generate {:root {:italiano {:italiano "bere"}}
+                          :synsem {:subcat ()
+                                   :sem {:subj {:pred :I}
+                                         :tense :past
+                                         :aspect :perfect}}})]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
 

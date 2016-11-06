@@ -17,7 +17,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [clojure.repl :refer (doc)]
-   [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
+   [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unifyc)]))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -771,6 +771,9 @@
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
+     :index-fn (fn [spec parent]
+                 (do (log/info (str "index-fn called with: " (strip-refs spec)))
+                     42))
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))

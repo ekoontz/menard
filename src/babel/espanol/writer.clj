@@ -1,14 +1,13 @@
 (ns babel.espanol.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.enrich :refer [enrich]])
 (require '[babel.espanol :refer [small]])
 (require '[babel.espanol.grammar :refer [parse]])
 (require '[babel.espanol.lexicon :refer [lexicon]])
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
 (require '[babel.generate :refer [generate]])
-(require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals unify)])
+(require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals)])
 (require '[babel.log :refer [log4j!]])
 (require '[babel.parse :as parse])
 (require '[babel.ug :refer :all])
@@ -16,7 +15,7 @@
 (require '[clojure.string :as string])
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs)])
-(require '[dag_unify.core :as unify])
+(require '[dag_unify.core :as unify :refer [unify]])
 
 ;; for debugging:
 (require '[babel.espanol.morphology.verbs :as esverbs])

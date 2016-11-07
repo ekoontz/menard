@@ -111,11 +111,11 @@
                      subset
                      (if-let [index-fn
                               (:index-fn language-model)]
-                       (do (log/info (str "found index-fn."))
+                       (do (log/debug (str "found index-fn."))
                            (index-fn (get-in parent [:head] :top)))
                        (do (log/warn (str "no indices found for spec: " spec))
                            []))]
-                 (log/debug (str "lightning-bolts: " (get-in parent [:rule])
+                 (log/info (str "lightning-bolts: " (get-in parent [:rule])
                                  " : (optimizeme) size of subset of candidate heads: "
                                  (count subset) " with spec: " (strip-refs spec)))
                  (log/trace (str "lightning-bolts: " (get-in parent [:rule])

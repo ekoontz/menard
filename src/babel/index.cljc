@@ -170,9 +170,9 @@
 
 (defn map-subset-by-path [lexicon path]
   (map-subset-by-path2
-   (vec (set (filter #(not (nil? %))
+   (vec (set (filter #(not (= :top %))
                      (map (fn [entry]
-                            (get-in entry path))
+                            (get-in entry path :top))
                           (flatten (vals lexicon))))))
    (flatten (vals lexicon))
    path))

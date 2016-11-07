@@ -21,29 +21,29 @@
 
 (defn demo [ & [n spec]]
   (let [demo-specs
-        [{:demo-name "Dog noun phrases"
+        [{:demo "Dog noun phrases"
           :synsem {:cat :noun
                    :sem {:pred :dog}}}
 
-         {:demo-name "Sentences about dogs eating"
+         {:demo "Sentences about dogs eating"
           :synsem {:cat :verb
                    :sem {:subj {:pred :dog}
                          :pred :eat}}}
 
-         {:demo-name "The adventures of Luisa's yellow cat"
+         {:demo "The adventures of Luisa's yellow cat"
           :synsem {:cat :verb
                    :sem {:subj {:pred :cat
                                 :mod {:pred :yellow}
                                 :spec {:def :genitive
                                        :of {:pred :luisa}}}}}}
 
-         {:demo-name "Women who read books"
+         {:demo "Women who read books"
           :synsem {:cat :verb
                    :sem {:subj {:pred :woman}
                          :pred :read
                          :obj {:pred :book}}}}
 
-         {:demo-name "Thinking"
+         {:demo "Thinking"
           :synsem {:cat :verb
                    :sem {:pred :think}}}
 
@@ -51,7 +51,7 @@
          
     (doall (map (fn [spec]
                   (let [log-message 
-                        (str "running demo: " (:demo-name spec) "..")]
+                        (str "running demo: " (:demo spec) "..")]
                     (do (if timings? (log/info log-message))
                         (println)
                         (println log-message)
@@ -66,7 +66,7 @@
                                                  "."))))
                                        expressions))))))
                 (if (and spec (not (empty? (string/trim spec))))
-                  (filter #(= (:demo-name %)
+                  (filter #(= (:demo %)
                               spec)
                           demo-specs)
                   demo-specs)))

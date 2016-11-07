@@ -5,12 +5,12 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
-   [dag_unify.core :refer [copy get-in fail? strip-refs unify unify!]]))
+   [dag_unify.core :refer [copy fail-path get-in fail? strip-refs unify unify!]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
 (def ^:const max-total-depth 6)
-(def ^:const max-generated-complements 200)
+(def ^:const max-generated-complements 20000)
 
 ;; use map or pmap.
 (def ^:const mapfn map)
@@ -26,7 +26,6 @@
 (declare candidate-parents)
 (declare exception)
 (declare find-comp-paths-in)
-(declare intersection-with-identity)
 (declare lazy-mapcat)
 (declare lazy-shuffle)
 (declare lexemes-before-phrases)
@@ -85,11 +84,11 @@
     (if truncate-children
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth true max-total-depth)
+       (add-all-comps language-model total-depth true max-total-depth spec)
        (truncate-expressions [[:head]] language-model))
       (->
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
-       (add-all-comps language-model total-depth false max-total-depth)))))
+       (add-all-comps language-model total-depth false max-total-depth spec)))))
 
 (defn lightning-bolts
   "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
@@ -109,46 +108,30 @@
             (lazy-mapcat
              (fn [parent]
                (let [parent (unify parent spec)
-
-                     language-indices
+                     subset
                      (if-let [index-fn
                               (:index-fn language-model)]
                        (do (log/info (str "found index-fn."))
                            (index-fn (get-in parent [:head] :top)))
-                       (log/info (str "no index-fn")))
-                     
-                     pred (get-in spec [:synsem :sem :pred])
-                     cat (get-in spec [:synsem :cat])
-                     aux (get-in spec [:synsem :aux])
-                     infl (get-in spec [:synsem :infl])
-
-                     predh (get-in parent [:head :synsem :sem :pred])
-                     cath (get-in parent [:head :synsem :cat])
-                     auxh (get-in parent [:head :synsem :aux])
-                     inflh (get-in parent [:head :synsem :infl])
-                     
-                     non-empty-index-sets (filter #(not (empty? %))
-                                                  [(get (:pred2lex language-model) pred)
-                                                   (get (:cat2lex language-model) cat)
-                                                   (get (:aux2lex language-model) aux)
-                                                   (get (:infl2lex language-model) infl)
-
-                                                   (get (:pred2lex language-model) predh)
-                                                   (get (:cat2lex language-model) cath)
-                                                   (get (:aux2lex language-model) auxh)
-                                                   (get (:infl2lex language-model) inflh)
-                                                   ])
-                     subset
-                     (cond
-                       (not (empty? non-empty-index-sets))
-                       (reduce intersection-with-identity non-empty-index-sets)
-                       true
-                       (do
-                         (log/warn (str "no index found for spec: " spec))
-                         []))]
-                 (log/debug (str "lightning-bolts: (optimizeme) size of subset of candidate heads: " (count subset) " with spec: " (strip-refs spec) " and parent:  " (get-in parent [:rule])))
+                       (do (log/warn (str "no indices found for spec: " spec))
+                           []))]
+                 (log/debug (str "lightning-bolts: " (get-in parent [:rule])
+                                 " : (optimizeme) size of subset of candidate heads: "
+                                 (count subset) " with spec: " (strip-refs spec)))
+                 (log/debug (str "lightning-bolts: " (get-in parent [:rule])
+                                 " : head lexeme candidates: "
+                                 (string/join ","
+                                              (map #((:morph language-model) %)
+                                                   subset))))
+                                                     
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
+
+                   (log/debug (str "lightning-bolts: surviving results: " 
+                                   (string/join ","
+                                                (map #((:morph language-model) %)
+                                                     result))))
+
                    (log/debug (str "trying overh with spec: " (strip-refs spec)))
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
@@ -188,62 +171,70 @@
   bolt, from deepest and working upward to the top. Return a lazy
   sequence of having added all possible complements at each node in
   the bolt."
-  [bolts language-model total-depth truncate-children max-total-depth]
+  [bolts language-model total-depth truncate-children max-total-depth top-level-spec]
   (lazy-mapcat
    (fn [bolt]
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
-                               truncate-children max-total-depth))
+                               truncate-children max-total-depth
+                               top-level-spec))
    bolts))
 
-(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths truncate-children max-total-depth]
-  (if (empty? comp-paths) bolts
-      (add-all-comps-with-paths
-       (lazy-mapcat
-        (fn [bolt]
-          (let [path (first comp-paths)]
-            (add-complement-to-bolt bolt path
-                                    language-model (+ total-depth (count path))
-                                    :max-total-depth max-total-depth
-                                    :truncate-children truncate-children)))
-        bolts)
-       language-model total-depth (rest comp-paths) truncate-children max-total-depth)))
+(defn add-all-comps-with-paths [bolts language-model total-depth comp-paths
+                                truncate-children max-total-depth top-level-spec]
+  (if (empty? comp-paths)
+    bolts
+    (add-all-comps-with-paths
+     (lazy-mapcat
+      (fn [bolt]
+        (let [path (first comp-paths)]
+          (add-complement-to-bolt bolt path
+                                  language-model (+ total-depth (count path))
+                                  top-level-spec
+                                  :max-total-depth max-total-depth
+                                  :truncate-children truncate-children
+                                  :top-level-spec top-level-spec)))
+      bolts)
+     language-model total-depth (rest comp-paths)
+     truncate-children max-total-depth top-level-spec)))
 
-(defn add-complement-to-bolt [bolt path language-model total-depth
+(defn add-complement-to-bolt [bolt path language-model total-depth top-level-spec
                               & {:keys [max-total-depth truncate-children]
                                  :or {max-total-depth max-total-depth
                                       truncate-children true}}]
-  (log/trace (str "add-complement-to-bolt: " (show-bolt bolt language-model)
-                  "@[" (string/join " " path) "]" "^" total-depth))
+  (log/debug (str "add-complement-to-bolt: " (show-bolt bolt language-model)
+                  "@[" (string/join " " path) "]" "^" total-depth
+                  "; top-level spec: " (strip-refs top-level-spec)))
+  (log/debug (str "add-complement-to-bolt: complement-spec: (1) "
+                  (strip-refs (get-in bolt path))))
+
   (let [lexicon (or (-> :generate :lexicon language-model)
                     (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
-        spec (get-in bolt path)
-        immediate-parent (get-in bolt (butlast path))
+        spec (strip-refs (get-in bolt path))
+        debug (log/info (str "spec to find complement lexemes: " spec))
         complement-candidate-lexemes
         (if (not (= true (get-in bolt (concat path [:phrasal]))))
-          (let [pred (get-in spec [:synsem :sem :pred])
-                cat (get-in spec [:synsem :cat])
-                pred-set (if (and (:pred2lex language-model)
-                                  (not (= :top pred)))
-                           (get (:pred2lex language-model) pred))
-                cat-set (if (and (:cat2lex language-model)
-                                 (not (= :top cat)))
-                          (get (:cat2lex language-model) cat))
-                subset
-                (cond (empty? pred-set)
-                      cat-set
-                      (empty? cat-set)
-                      pred-set
-                      true
-                      (intersection-with-identity pred-set cat-set))]
-            subset))
-        bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
+          (if-let [index-fn
+                   (:index-fn language-model)]
+            (index-fn spec)
+            (flatten (vals lexicon))))
+        debug 
+        (log/debug (str "lexical-complements (pre-over):"
+                        (string/join ","
+                                     (map #((:morph language-model) %)
+                                          complement-candidate-lexemes))))
+               
+        bolt-child-synsem (get-in bolt (concat path [:synsem]))
         lexical-complements (lazy-shuffle
                              (filter (fn [lexeme]
-                                       (and (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                       (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
                                      complement-candidate-lexemes))]
+    (log/debug (str "lexical-complements (post-over):"
+                    (string/join ","
+                                 (map #((:morph language-model) %)
+                                      lexical-complements))))
     (filter #(not-fail? %)
             (mapfn (fn [complement]
                      (let [unified

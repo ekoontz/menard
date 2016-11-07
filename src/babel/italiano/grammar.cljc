@@ -4,6 +4,7 @@
    [babel.index :refer [map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
+   [babel.over :refer [intersection-with-identity]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle root-is-comp
@@ -11,8 +12,7 @@
                      subcat-1-1-principle subcat-2-principle
                      subcat-1-1-principle-comp-subcat-1 
                      subcat-2-2-principle
-                     subcat-5-principle
-                     ]]
+                     subcat-5-principle]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
@@ -767,15 +767,70 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         lexicon-for-generation (lexicon-for-generation lexicon)
-        rules (map #(keyword (get-in % [:rule])) grammar)]
+        rules (map #(keyword (get-in % [:rule])) grammar)
+
+        ;; indices from paths to subsets of the lexicon
+        aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
+        infl2lex (map-subset-by-path lexicon [:synsem :infl])
+        pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
+        cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
+        it2lex (map-subset-by-path lexicon-for-generation [:italiano :italiano])]
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
+     :grammar (filter #(or (= (:rule %) "s-aux")
+                           (= (:rule %) "vp-aux"))
+                      grammar)
      :index-fn (fn [spec]
-                 (do (log/debug (str "index-fn called with unified head spec:"
+                 (do (log/debug (str "index-fn called with spec: " 
                                     (strip-refs
                                      (dissoc (strip-refs spec)
-                                             :dag_unify.core/serialized))))))
+                                             :dag_unify.core/serialized))))
+                     (log/debug (str "aux2lex: " (count
+                                                  (get aux2lex (get-in spec [:synsem :aux]
+                                                                       ::undefined)))))
+                     (log/debug (str "cat2lex: " (count
+                                                  (get cat2lex (get-in spec [:synsem :cat]
+                                                                       ::undefined)))))
+                     (log/debug (str "it2lex: " (count
+                                                 (get it2lex (get-in spec [:italiano :italiano]
+                                                                     ::undefined)))))
+                     (log/debug (str "infl2lex: " (count
+                                                   (get infl2lex (get-in spec [:synsem :infl]
+                                                                         ::undefined)))))
+                     (log/debug (str "pred2lex: " (count
+                                                   (get pred2lex (get-in spec [:synsem :sem :pred]
+                                                                         ::undefined)))))
+                     (log/trace (str "aux2lex: " (clojure.string/join
+                                                  ","
+                                                  (sort (map #(fo %)
+                                                             (get aux2lex (get-in spec [:synsem :aux]
+                                                                                  ::undefined)))))))
+                     (log/trace (str "cat2lex: " (clojure.string/join
+                                                  ","
+                                                  (sort (map #(fo %)
+                                                             (get cat2lex (get-in spec [:synsem :cat]
+                                                                                  ::undefined)))))))
+                     (log/trace (str "infl2lex: " (clojure.string/join
+                                                   ","
+                                                   (sort (map #(fo %)
+                                                              (get infl2lex (get-in spec [:synsem :infl]
+                                                                                    ::undefined)))))))
+                     (log/trace (str "pred2lex: " (clojure.string/join
+                                                   ","
+                                                   (sort (map #(fo %)
+                                                              (get pred2lex (get-in spec [:synsem :sem :pred]
+                                                                                    ::undefined)))))))
+                     (let [result
+                           (reduce intersection-with-identity
+                                   (filter #(not (empty? %))
+                                           [(get aux2lex (get-in spec [:synsem :aux] ::undefined))
+                                            (get cat2lex (get-in spec [:synsem :cat] ::undefined))
+                                            (get infl2lex (get-in spec [:synsem :infl] ::undefined))
+                                            (get it2lex (get-in spec [:italiano :italiano] ::undefined))
+                                            (get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))]))]
+                       (log/debug (str "intersection size: " (count result)))
+                       result)))
+                       
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
@@ -788,16 +843,6 @@
      :rules rules
      :rule-map (zipmap rules
                        grammar)
-
-
-     ;; indices from paths to subsets of the lexicon
-     :aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
-
-     :infl2lex (map-subset-by-path lexicon [:synsem :infl])
-
-     :pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
-     
-     :cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
 
      }))
 

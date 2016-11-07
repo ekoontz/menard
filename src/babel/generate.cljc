@@ -1,7 +1,7 @@
 (ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.over :as over :refer [show-bolt truncate truncate-expressions]]
+   [babel.over :as over :refer [intersection-with-identity show-bolt truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
@@ -438,20 +438,6 @@
                       (get-in spec [:synsem :subcat :1 :cat]))]
       {:subcat/:1/:cat subcat1
        :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
-
-(defn intersection-with-identity [set1 set2]
-  (if (> (count set1)
-         (count set2))
-    (filter (fn [member2]
-              (some (fn [member1]
-                      (identical? member1 member2))
-                    set1))
-            set2)
-    (filter (fn [member1]
-              (some (fn [member2]
-                      (identical? member1 member2))
-                    set2))
-            set1)))
 
 (defn not-fail? [arg]
   (not (= :fail arg)))

@@ -147,3 +147,18 @@
       (subpath? (rest path1)
                 (rest path2))
       false)))
+
+(defn intersection-with-identity [set1 set2]
+  (if (> (count set1)
+         (count set2))
+    (filter (fn [member2]
+              (some (fn [member1]
+                      (identical? member1 member2))
+                    set1))
+            set2)
+    (filter (fn [member1]
+              (some (fn [member2]
+                      (identical? member1 member2))
+                    set2))
+            set1)))
+

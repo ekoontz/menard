@@ -160,9 +160,8 @@
     (let [pred (first vals-at-path)]
       (merge {pred
               (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme path :top))
-                            (= pred
-                               (get-in lexeme path))))
+                        (= pred
+                           (get-in lexeme path)))
                       lexemes)}
              (map-subset-by-path2 (rest vals-at-path)
                                   lexemes

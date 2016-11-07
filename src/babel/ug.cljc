@@ -258,7 +258,6 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-
 (defn unify-check [ & vals]
   (let [result (apply unifyc vals)]
     (if (fail? result)

@@ -771,7 +771,6 @@
 
         ;; indices from paths to subsets of the lexicon
         aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
-        infl2lex (map-subset-by-path lexicon [:synsem :infl])
         pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
         cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
         it2lex (map-subset-by-path lexicon-for-generation [:italiano :italiano])]
@@ -794,9 +793,6 @@
                      (log/debug (str "it2lex: " (count
                                                  (get it2lex (get-in spec [:italiano :italiano]
                                                                      ::undefined)))))
-                     (log/debug (str "infl2lex: " (count
-                                                   (get infl2lex (get-in spec [:synsem :infl]
-                                                                         ::undefined)))))
                      (log/debug (str "pred2lex: " (count
                                                    (get pred2lex (get-in spec [:synsem :sem :pred]
                                                                          ::undefined)))))
@@ -810,11 +806,6 @@
                                                   (sort (map #(fo %)
                                                              (get cat2lex (get-in spec [:synsem :cat]
                                                                                   ::undefined)))))))
-                     (log/trace (str "infl2lex: " (clojure.string/join
-                                                   ","
-                                                   (sort (map #(fo %)
-                                                              (get infl2lex (get-in spec [:synsem :infl]
-                                                                                    ::undefined)))))))
                      (log/trace (str "pred2lex: " (clojure.string/join
                                                    ","
                                                    (sort (map #(fo %)
@@ -823,11 +814,11 @@
                      (let [result
                            (reduce intersection-with-identity
                                    (filter #(not (empty? %))
-                                           [(get aux2lex (get-in spec [:synsem :aux] ::undefined))
+                                           [(get it2lex (get-in spec [:italiano :italiano] ::undefined))
+                                            (get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))
+                                            (get aux2lex (get-in spec [:synsem :aux] ::undefined))
                                             (get cat2lex (get-in spec [:synsem :cat] ::undefined))
-                                            (get infl2lex (get-in spec [:synsem :infl] ::undefined))
-                                            (get it2lex (get-in spec [:italiano :italiano] ::undefined))
-                                            (get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))]))]
+                                            ]))]
                        (log/debug (str "intersection size: " (count result)))
                        result)))
                        

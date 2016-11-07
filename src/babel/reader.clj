@@ -257,8 +257,9 @@
            results))))
 
 (defn read-all [spec language]
-  (let [spec (unify spec
-                    {:synsem {:subcat '()}})
+  (let [spec (dissoc (unify spec
+                            {:synsem {:subcat '()}})
+                     :dag_unify.core/serialized)
 
         ;; normalize for JSON lookup
         json-input-spec (if (= :top spec)

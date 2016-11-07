@@ -118,7 +118,7 @@
                  (log/debug (str "lightning-bolts: " (get-in parent [:rule])
                                  " : (optimizeme) size of subset of candidate heads: "
                                  (count subset) " with spec: " (strip-refs spec)))
-                 (log/debug (str "lightning-bolts: " (get-in parent [:rule])
+                 (log/trace (str "lightning-bolts: " (get-in parent [:rule])
                                  " : head lexeme candidates: "
                                  (string/join ","
                                               (map #((:morph language-model) %)
@@ -127,7 +127,7 @@
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
 
-                   (log/debug (str "lightning-bolts: surviving results: " 
+                   (log/trace (str "lightning-bolts: surviving results: " 
                                    (string/join ","
                                                 (map #((:morph language-model) %)
                                                      result))))
@@ -212,7 +212,7 @@
                     (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
         spec (strip-refs (get-in bolt path))
-        debug (log/info (str "spec to find complement lexemes: " spec))
+        debug (log/debug (str "spec to find complement lexemes: " spec))
         complement-candidate-lexemes
         (if (not (= true (get-in bolt (concat path [:phrasal]))))
           (if-let [index-fn
@@ -220,7 +220,7 @@
             (index-fn spec)
             (flatten (vals lexicon))))
         debug 
-        (log/debug (str "lexical-complements (pre-over):"
+        (log/trace (str "lexical-complements (pre-over):"
                         (string/join ","
                                      (map #((:morph language-model) %)
                                           complement-candidate-lexemes))))
@@ -231,7 +231,7 @@
                                        (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
                                      complement-candidate-lexemes))]
-    (log/debug (str "lexical-complements (post-over):"
+    (log/trace (str "lexical-complements (post-over):"
                     (string/join ","
                                  (map #((:morph language-model) %)
                                       lexical-complements))))

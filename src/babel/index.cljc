@@ -155,12 +155,6 @@
                                                     (:synsem :sem :mod)
                                                     (:synsem :infl))))))
 
-
-(defn map-subset-by [lexemes path]
-  (let [vals (filter #(not (= ::none (get-in % path ::none)))
-                     lexemes)]
-    vals))
-
 (defn map-subset-by-path2 [vals-at-path lexemes path]
   (if (and true (not (empty? vals-at-path)))
     (let [pred (first vals-at-path)]

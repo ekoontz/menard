@@ -102,7 +102,8 @@
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
-        parents (lazy-shuffle (candidate-parents grammar spec))]
+        ;;        parents (lazy-shuffle (candidate-parents grammar spec))]
+        parents (candidate-parents grammar spec)]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
@@ -111,13 +112,16 @@
                      subset
                      (if-let [index-fn
                               (:index-fn language-model)]
-                       (do (log/debug (str "found index-fn."))
+                       (do (log/trace (str "found index-fn."))
+                           (log/debug (str "lightning-bolts: calling index-fn with rule: " (:rule parent)
+                                           " with spec: " (strip-refs (get-in parent [:head] :top))))
                            (index-fn (get-in parent [:head] :top)))
                        (do (log/warn (str "no indices found for spec: " spec))
                            []))]
-                 (log/info (str "lightning-bolts: " (get-in parent [:rule])
-                                 " : (optimizeme) size of subset of candidate heads: "
-                                 (count subset) " with spec: " (strip-refs spec)))
+                 (if (not (empty? subset))
+                   (log/debug (str "lightning-bolts: " (get-in parent [:rule])
+                                   " : (optimizeme) size of subset of candidate heads: "
+                                   (count subset) " with spec: " (strip-refs spec))))
                  (log/trace (str "lightning-bolts: " (get-in parent [:rule])
                                  " : head lexeme candidates: "
                                  (string/join ","
@@ -125,7 +129,8 @@
                                                    subset))))
                                                      
                  (let [result (over/overh parent (lazy-shuffle subset))]
-                   (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result)))
+                   (if (not (empty? result))
+                     (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result))))
 
                    (log/trace (str "lightning-bolts: surviving results: " 
                                    (string/join ","
@@ -147,21 +152,23 @@
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
-            (lazy-mapcat (fn [parent]
-                           (over/overh
-                            parent
-                            (lightning-bolts language-model (get-in parent [:head])
-                                             (+ 1 depth) (+ 1 total-depth)
-                                             :max-total-depth max-total-depth)))
+            (do
+              (lazy-mapcat (fn [parent]
+                             (log/debug (str "calling lightning-bolts recursively: parent: " (:rule parent)))
+                             (over/overh
+                              parent
+                              (lightning-bolts language-model (get-in parent [:head])
+                                               (+ 1 depth) (+ 1 total-depth)
+                                               :max-total-depth max-total-depth)))
                          (filter #(= true
                                      (get-in % [:head :phrasal] true))
-                                 parents)))]
+                                 parents))))]
       (filter
        (fn [bolt]
          (any-possible-complement?
           bolt [:comp] language-model total-depth
           :max-total-depth max-total-depth))
-       (if (lexemes-before-phrases total-depth max-total-depth)
+       (if (or true (lexemes-before-phrases total-depth max-total-depth))
          (lazy-cat lexical phrasal)
          (lazy-cat phrasal lexical))))))
 
@@ -351,24 +358,24 @@
   "find subset of _rules_ for which each member unifies successfully with _spec_"
   [rules spec]
   (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
-  (filter #(not (= :fail %))
-          (pmap (fn [rule]
-                  (log/trace (str "candidate-parents: rule: " (:rule rule)))
-                  (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
-                                             (get-in spec [:synsem :cat] :top)))
-                           (not-fail? (unify (get-in rule [:synsem :infl] :top)
-                                             (get-in spec [:synsem :infl] :top)))
-                           (not-fail? (unify (get-in rule [:synsem :sem :tense] :top)
-                                             (get-in spec [:synsem :sem :tense] :top)))
-                           (not-fail? (unify (get-in rule [:synsem :modified] :top)
-                                             (get-in spec [:synsem :modified] :top))))
-                    (let [result
-                          (unify spec rule)]
-                      (if (fail? result)
-                        :fail
-                        result))
-                    :fail))
-                rules)))
+  (let [result
+        (filter not-fail?
+                (mapfn (fn [rule]
+                         (log/trace (str "candidate-parents: rule: " (:rule rule)))
+                         (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
+                                                    (get-in spec [:synsem :cat] :top)))
+                                  (not-fail? (unify (get-in rule [:synsem :infl] :top)
+                                                    (get-in spec [:synsem :infl] :top)))
+                                  (not-fail? (unify (get-in rule [:synsem :sem :tense] :top)
+                                                    (get-in spec [:synsem :sem :tense] :top)))
+                                  (not-fail? (unify (get-in rule [:synsem :modified] :top)
+                                                   (get-in spec [:synsem :modified] :top))))
+                           (unify spec rule)
+                           :fail))
+                       rules))]
+    (log/debug (str "candidate-parents for spec: " (strip-refs spec) " : "
+                    (string/join "," (map :rule result))))
+    result))
 
 (defn lazy-shuffle [seq]
   (lazy-seq (shuffle seq)))

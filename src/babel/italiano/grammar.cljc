@@ -776,9 +776,7 @@
         it2lex (map-subset-by-path lexicon-for-generation [:italiano :italiano])]
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
-     :grammar (filter #(or (= (:rule %) "s-aux")
-                           (= (:rule %) "vp-aux"))
-                      grammar)
+     :grammar grammar
      :index-fn (fn [spec]
                  (do (log/debug (str "index-fn called with spec: " 
                                     (strip-refs

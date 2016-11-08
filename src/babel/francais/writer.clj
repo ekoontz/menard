@@ -74,7 +74,7 @@
                                                                 (process [{:fill-one-language
                                                                            {:count 1
                                                                             :spec spec
-                                                                            :model medium
+                                                                            :model (medium)
                                                                             }}]
                                                                          "fr")
                                                                 ;; TODO: move this to *before*

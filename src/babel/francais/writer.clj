@@ -68,7 +68,9 @@
                                                     (.size
                                                      (map (fn [number]
                                                             (let [spec (unify spec
-                                                                              {:comp {:synsem {:agr {:number number}}}})]
+                                                                              {:comp {:synsem {:agr {:number number}}}})
+                                                                  spec (dissoc spec
+                                                                               :dag_unify.core/serialized)]
                                                               (log/debug (str "generating from spec: " spec))
                                                               (try
                                                                 (process [{:fill-one-language

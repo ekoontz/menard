@@ -954,12 +954,12 @@
     {:unify [shared-part-of-fare]
      :synsem {:sem {:pred :make}}}
 
-    ;; this verb is not working as intended.
-                                        ;      {:unify [shared-part-of-fare reflexive]
-                                        ;       :synsem {:cat :verb
-                                        ;                :sem {:pred :hurt-oneself}
-                                        ;                :subcat {:3 {:cat :adverb
-                                        ;                             :sem {:pred :bad}}}}}
+    ;; TODO: this verb is not working as intended.
+    ;;{:unify [shared-part-of-fare reflexive]
+    ;; :synsem {:cat :verb
+    ;;           :sem {:pred :hurt-oneself}
+    ;;           :subcat {:3 {:cat :adverb
+    ;;                        :sem {:pred :bad}}}}}
     ])
 
 "ferire"  {:italiano {:boot-stem1 "ferisc"}

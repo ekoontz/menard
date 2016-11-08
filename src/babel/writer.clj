@@ -335,6 +335,10 @@
   (let [language (:language model)
         debug (log/debug (str "fill-language-by-spec: language: " language))
         debug (log/debug (str "fill-language-by-spec: spec: " spec))
+        ;; remove metadata (if any)
+        ;; that's not relevant to query:
+        spec (dissoc spec
+                     :dag_unify.core/serialized)
         json-spec (json/write-str (remove-top-values spec))
         current-count
         (:count

@@ -319,6 +319,46 @@
                                     :gender :fem}}}}}}
    ])
 
+(def past-reflexive-re-verb
+  [
+   {:p [#"^([^' ]+)t$"       "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1t"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :past-p}}}
+
+   {:p [#"^([^' ]+)t$"       "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1t"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :past-p}}}
+
+   {:p [#"^([^' ]+)ts$"      "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1ts"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :past-p}}}
+
+   ;; e.g. se plaindre => se plaindrons
+   {:p [#"^([^' ]+)ts$"      "se $1dre"]
+    :g [#"^se ([^' ]+)ndre$" "se $1ts"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :past-p}}}
+
+   {:p [#"^([^' ]+)ts$"   "se $1ndre"]
+    :g [#"^se ([^' ]+)ndre$" "$1ts"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :past-p}}}
+
+   {:p [#"^([^' ]+)ts$"   "se $1ndre"]
+    :g [#"^se ([^' ]+)ndre$" "$1ts"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :past-p}}}
+])
+
 (def past
   [
    {:comment "past participle non-reflexive singular -er; essere=true"
@@ -750,6 +790,7 @@
           present-nonreflexive-re-verb
           present-reflexive
           present-reflexive-re-verb
+          past-reflexive-re-verb
           future
           ]))
 

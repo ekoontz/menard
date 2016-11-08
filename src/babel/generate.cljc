@@ -53,6 +53,12 @@
                  ;; else:
                  (unify spec
                         {:synsem {:subcat '()}}))
+
+          ;; remove metadata (if any)
+          ;; that's not relevant to generation:
+          spec (dissoc spec
+                       :dag_unify.core/serialized)
+          
           lexicon (if lexicon lexicon (:lexicon language-model))
           morph (:morph language-model)
           morph-ps (:morph-ps language-model)]

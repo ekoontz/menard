@@ -210,8 +210,10 @@
             ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
             fo (:morph model)
 
-            surface (if source-language (fo sentence :source-language source-language)
-                        (fo sentence))]
+            surface (if sentence
+  	      	      (if source-language
+  	    	        (fo sentence :source-language source-language)
+                       (fo sentence)))]
         (if (empty? surface)
           (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
             (log/warn (str "sentence: " sentence))

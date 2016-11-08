@@ -68,7 +68,7 @@
                         replace-patterns)))]
     (if (empty? result)
       (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
-                              " unify-with: " unify-with ".")))
+                              " unify-with: " (strip-refs unify-with) ".")))
 
       (first result))))
 

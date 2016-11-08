@@ -294,10 +294,10 @@
            (not (= :none (get-in tree [:rule] :none))))
       (str "[" (get-in tree [:rule]) "/" cat
            pred
-           "'" (fo tree) "']")
+           " '" (fo tree) "']")
 
       (= head-first? :none)
-      (str "'" (fo tree) "'/" cat
+      (str " '" (fo tree) "'/" cat
            pred)
 
       (= head-first? :comp)

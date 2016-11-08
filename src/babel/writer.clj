@@ -469,7 +469,8 @@
                          (->> member-of-unit :fill :target-model))))
                     (if (:fill-one-language member-of-unit)
                       (let [count (or (->> member-of-unit :fill-one-language :count) 10)]
-                        (log/debug (str "doing fill-one-language: " (->> member-of-unit :fill-one-language :spec)
+                        (log/debug (str "doing fill-one-language: "
+                                        (->> member-of-unit :fill-one-language :spec)
                                         "; count=" count))
                         (fill-language-by-spec
                          (->> member-of-unit :fill-one-language :spec)

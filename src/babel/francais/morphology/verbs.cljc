@@ -133,6 +133,46 @@
                  :infl :present}}}
 ])
 
+(def present-reflexive-re-verb
+  [
+   {:p [#"^([^' ]+)s$"       "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1s"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)s$"       "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1s"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)t$"       "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1t"]
+    :u {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}
+                 :infl :present}}}
+
+   ;; e.g. se plaindre => se plaindrons
+   {:p [#"^([^' ]+)gnons$"   "se $1ndre"]
+    :g [#"^se ([^' ]+)ndre$" "se $1gnons"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)gniez$"   "se $1ndre"]
+    :g [#"^se ([^' ]+)ndre$" "$1gnez"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :2nd}}}
+                 :infl :present}}}
+
+   {:p [#"^([^' ]+)gnent$"   "se $1ndre"]
+    :g [#"^se ([^' ]+)ndre$" "$1gnent"]
+    :u {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}
+                 :infl :present}}}
+])
+
 (def present-reflexive
   ;; reflexive present -er and -ir type verbs
   [
@@ -709,6 +749,7 @@
           present-nonreflexive-ir-verb
           present-nonreflexive-re-verb
           present-reflexive
+          present-reflexive-re-verb
           future
           ]))
 

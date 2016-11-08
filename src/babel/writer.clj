@@ -216,8 +216,9 @@
                        (fo sentence)))]
         (if (empty? surface)
           (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
-            (log/warn (str "sentence: " sentence))
-            (log/warn warn-mesg)))
+            (log/error (str "sentence: " sentence))
+            (log/error warn-mesg)
+            (throw (Exception. (str warn-mesg)))))
         (log/info (str "populate-with-language:" language ": surface='"
                        surface "'"))
         (log/debug (str "populate-with-language:" language ": spec='"

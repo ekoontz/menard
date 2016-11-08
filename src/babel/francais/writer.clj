@@ -14,10 +14,6 @@
 (defn rewrite-lexicon []
   (write-lexicon "fr" lexicon))
 
-(defn expression [& [spec]]
-  (let [spec (if spec spec :top)]
-    (generate/generate spec medium)))
-
 (defn tout [ & [count]]
   (let [use-map-fn map
         count (if count (Integer. count) 10)

@@ -44,28 +44,33 @@
   "Conjugate an infinitive into a surface form by taking the first 
    element of replace-patterns where the element's :u unifies successfully with
    unify-with."
-  (first
-   (take 1
-         (remove #(nil? %)
-                 (map
-                  (fn [replace-pattern]
-                    (let [from (nth (:g replace-pattern) 0)
-                          to (nth (:g replace-pattern) 1)
-                          unify-against (if (:u replace-pattern)
-                                          (:u replace-pattern)
-                                          :top)]
-                      (if (and from to
-                               (re-matches from infinitive)
-                               (not (fail? (unifyc unify-against
-                                                   unify-with))))
-                        (do
-                          (log/debug (str "matched infinitive: " infinitive))
-                          (log/debug (str "from: " from))
-                          (log/debug (str "to: " to))
-                          (log/debug (str "input spec: " (strip-refs unify-with)))
-                          (log/debug (str "pattern spec:"  (strip-refs unify-against)))
-                          (string/replace infinitive from to)))))
-                  replace-patterns)))))
+  (let [result
+        (take 1
+              (remove #(nil? %)
+                      (map
+                       (fn [replace-pattern]
+                         (let [from (nth (:g replace-pattern) 0)
+                               to (nth (:g replace-pattern) 1)
+                               unify-against (if (:u replace-pattern)
+                                               (:u replace-pattern)
+                                               :top)]
+                            (if (and from to
+                                     (re-matches from infinitive)
+                                     (not (fail? (unifyc unify-against
+                                                         unify-with))))
+                              (do
+                                (log/debug (str "matched infinitive: " infinitive))
+                                (log/debug (str "from: " from))
+                                (log/debug (str "to: " to))
+                                (log/debug (str "input spec: " (strip-refs unify-with)))
+                                (log/debug (str "pattern spec:"  (strip-refs unify-against)))
+                                (string/replace infinitive from to)))))
+                        replace-patterns)))]
+    (if (empty? result)
+      (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
+                              " unify-with: " unify-with ".")))
+
+      (first result))))
 
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
@@ -77,7 +82,7 @@
           (if (string? result)
             (trim result)
             result))
-        
+
         ;; je + aime = j'aime
         (and (not (nil? b))
              (not (nil? (get-string b)))
@@ -91,7 +96,10 @@
         ;; (elle) la + est (amuseé) = (elle) l'est (amuseé)
         (and (not (nil? b))
              (let [a (get-string word)
-                   b (get-string b)]
+                   b-str (get-string b)
+                   debug (if (nil? b-str)
+                           (throw (Exception. (str "get-string=nil for b: " (strip-refs b)))))
+                   b b-str]
                (and (re-find #"^(la|le|me|se|te)$" a) ;;
                     (re-find #"^[aeéiou]" b))))
         (let [a (get-string word)]
@@ -109,7 +117,7 @@
         
         (nil? word)
         nil
-        
+
         (seq? word)
         (map (string/join " " #(get-string %))
              word)
@@ -127,38 +135,38 @@
           (log/debug (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
 
           (cond
-           (= word :top) ".."
+            (= word :top) ".."
            
-           (ref? word)
-           (get-string @word)
+            (ref? word)
+            (get-string @word)
+            
+            ;; TODO: this is a special case that should be handled below instead
+            ;; of forcing every input to go through this check.
+            (= word {:initial false})
+            ".."
+            (= word {:initial true})
+            ".."
            
-           ;; TODO: this is a special case that should be handled below instead
-           ;; of forcing every input to go through this check.
-           (= word {:initial false})
-           ".."
-           (= word {:initial true})
-           ".."
-           
-           (and (string? (get-in word '(:a)))
-                (string? (get-in word '(:b))))
-           (get-string (get-in word '(:a))
-                       (get-in word '(:b)))
-           
-           (and (string? (get-in word '(:a)))
-                (map? (get-in word '(:b))))
-           (get-string (get-in word '(:a))
-                       (get-in word '(:b)))
-           
-           (and (map? (get-in word '(:a)))
-                (map? (get-in word '(:b))))
-           (get-string
-            (get-in word '(:a))
-            (get-in word '(:b)))
-           
-           ;; TODO: this rule is pre-empting all of the following rules
-           ;; that look in :a and :b. Either remove those following rules
-           ;; if they are redundant and not needed, or move this general rule
-           ;; below the following rules.
+            (and (string? (get-in word '(:a)))
+                 (string? (get-in word '(:b))))
+            (get-string (get-in word '(:a))
+                        (get-in word '(:b)))
+            
+            (and (string? (get-in word '(:a)))
+                 (map? (get-in word '(:b))))
+            (get-string (get-in word '(:a))
+                        (get-in word '(:b)))
+            
+            (and (map? (get-in word '(:a)))
+                 (map? (get-in word '(:b))))
+            (get-string
+             (get-in word '(:a))
+             (get-in word '(:b)))
+            
+            ;; TODO: this rule is pre-empting all of the following rules
+            ;; that look in :a and :b. Either remove those following rules
+            ;; if they are redundant and not needed, or move this general rule
+            ;; below the following rules.
            (and (not (= :none (get-in word '(:a) :none)))
                 (not (= :none (get-in word '(:b) :none))))
            (get-string (get-in word '(:a))
@@ -173,7 +181,7 @@
            (str (string/trim (get-in word '(:a :français)))
                 " "
                 (string/trim (get-in word '(:b :français))))
-           
+
            (and
             (string? (get-in word '(:a)))
             (string? (get-in word '(:b :français)))
@@ -183,7 +191,7 @@
            (str (string/trim (get-in word '(:a)))
                 " "
                 (string/trim (get-in word '(:b :français))))
-           
+
            (and
             (string? (get-in word '(:a :français)))
             (get-in word '(:a :français))
@@ -216,12 +224,12 @@
                                       true
                                       (get-in word [:français]))]
                  (conjugate infinitive word))))
-              
+           
            (and
             (= (get-in word '(:infl)) :imperfect)
             (string? (get-in word '(:français))))
            (verbs/imperfect word)
-
+           
            (= (get-in word '(:infl)) :past-p)
            (cond (get-in word [:past-participle])
                  (get-in word [:past-participle])

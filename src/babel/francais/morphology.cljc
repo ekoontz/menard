@@ -254,7 +254,10 @@
                                    (get-in word [:français]) "; stringness: "
                                    (string? (get-in word [:français])))))))))
   
-(defn fo [input]
+(defn fo [input &
+          {:keys [from-language show-notes]
+           :or {from-language nil
+                show-notes false}}]
   (cond 
     (nil? input)
     nil

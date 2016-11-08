@@ -987,7 +987,7 @@
 
    "help"
    {:synsem {:cat :verb
-             :sem {:pred :aiutare
+             :sem {:pred :help
                    :activity true
                    :obj {:human true}}
              :subcat {:1 {:cat :noun}
@@ -1170,12 +1170,20 @@
               :sem {:human true
                     :pred :I}
               :subcat '()}}]
-
-   "if"   {:synsem {:cat :comp
-                    :comp-type :if
-                    :subcat {:1 {:cat :verb
-                                 :subcat '()}
-                             :2 '()}}}
+   
+   "if"   (let [obj (atom :top)]
+            {:synsem {:cat :comp
+                      :comp-type :if
+                      :sem {:if obj
+                            :pred :unspec}
+                      ;; {:pred :unspec} is to prevent unexpected
+                      ;; use of this lexeme with specifications that
+                      ;; as for a given {:pred}.
+                      
+                      :subcat {:1 {:cat :verb
+                                   :sem obj
+                                   :subcat '()}
+                               :2 '()}}})
 
    "imagine" {:synsem {:cat :verb
                        :sem {:pred :imagine}}}
@@ -2069,13 +2077,17 @@
            :synsem {:cat :verb
                     :sem {:pred :tell}}}
 
-   "that" [;; "that" as in "she thinks that .."
-           {:synsem {:cat :comp
-                     :comp-type :that
-                     :subcat {:1 {:cat :verb
-                                  :subcat '()}
-                              :2 '()}}}
-           ;; "that" as in "that woman"
+   "that" [;; "that": complementizer, as in "she thinks that .."
+           (let [obj (atom :top)]
+             {:synsem {:cat :comp
+                       :comp-type :that
+                       :sem {:that obj
+                             :pred :unspec}
+                       :subcat {:1 {:cat :verb
+                                    :sem obj
+                                    :subcat '()}
+                                :2 '()}}})
+           ;; "that": demonstrative, as in "that woman"
            {:synsem {:cat :det
                      :agr {:number :sing}
                      :sem {:pred :demonstrative
@@ -2359,11 +2371,14 @@
             :synsem {:cat :verb
                      :sem {:pred :wear}}}
    "whether"
-   {:synsem {:cat :comp
-             :comp-type :if
-             :subcat {:1 {:cat :verb
-                          :subcat '()}
-                      :2 '()}}}
+   (let [obj (atom :top)]
+     {:synsem {:cat :comp
+               :comp-type :if
+               :sem {:obj obj
+                     :pred :unspec}
+               :subcat {:1 {:cat :verb
+                            :subcat '()}
+                        :2 '()}}})
 
    "win"  {:synsem {:cat :verb
                     :sem {:pred :win}}

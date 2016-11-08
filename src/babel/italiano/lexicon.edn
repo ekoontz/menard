@@ -89,7 +89,7 @@
  "aiutare"
  {:synsem {:essere false
            :cat :verb
-           :sem {:pred :aiutare}}}
+           :sem {:pred :help}}}
 
  "alla prossima"
  {:synsem {:cat :exclamation

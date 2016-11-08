@@ -10,6 +10,8 @@
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
 (def ^:const max-total-depth 6)
+
+;; TODO support setting max-generated-complements to :unlimited
 (def ^:const max-generated-complements 20000)
 
 ;; use map or pmap.
@@ -97,6 +99,7 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
+  (log/debug (str "lightning-bolts: start: spec: " spec))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
@@ -154,7 +157,8 @@
                    (= true (get-in spec [:head :phrasal] true)))
             (do
               (lazy-mapcat (fn [parent]
-                             (log/debug (str "calling lightning-bolts recursively: parent: " (:rule parent)))
+                             (log/debug (str "calling lightning-bolts recursively: parent: " (:rule parent) " with spec : "
+                                             (get-in parent [:head])))
                              (over/overh
                               parent
                               (lightning-bolts language-model (get-in parent [:head])
@@ -224,7 +228,9 @@
         (if (not (= true (get-in bolt (concat path [:phrasal]))))
           (if-let [index-fn
                    (:index-fn language-model)]
-            (index-fn spec)
+            (do (log/debug (str "add-complement-to-bolt with bolt: " (show-bolt bolt language-model)
+                                " calling index-fn with spec: " spec ))
+                (index-fn spec))
             (flatten (vals lexicon))))
         debug 
         (log/trace (str "lexical-complements (pre-over):"
@@ -254,8 +260,11 @@
                          unified)))
                    (let [phrasal-complements (if (and (> max-total-depth total-depth)
                                                       (= true (get-in spec [:phrasal] true)))
-                                               (generate-all spec language-model (+ (count path) total-depth)
-                                                             :max-total-depth max-total-depth))
+                                               (do
+                                                 (log/debug (str "calling (generate-all) from add-complement-to-bolt with bolt:"
+                                                                 (show-bolt bolt language-model)))
+                                                 (generate-all spec language-model (+ (count path) total-depth)
+                                                               :max-total-depth max-total-depth)))
                          lexemes-before-phrases (lexemes-before-phrases total-depth max-total-depth)]
                      (cond (and lexemes-before-phrases
                                 (empty? lexical-complements)

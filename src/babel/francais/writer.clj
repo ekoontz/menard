@@ -50,7 +50,8 @@
             (fn [verb]
               (log/trace (str "verb: " (strip-refs verb)))
               (let [root-form (get-in verb [:français :français])
-                    essere (get-in verb [:synsem :essere])]
+                    essere (get-in verb [:synsem :essere])
+                    medium (medium)]
                 (log/info (str "generating with verb: '" root-form "'"))
                 (.size (map (fn [tense]
                               (let [spec (unify {:root {:français {:français root-form}}}
@@ -76,7 +77,7 @@
                                                                 (process [{:fill-one-language
                                                                            {:count 1
                                                                             :spec spec
-                                                                            :model (medium)
+                                                                            :model medium
                                                                             }}]
                                                                          "fr")
                                                                 ;; TODO: move this to *before*

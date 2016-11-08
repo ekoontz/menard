@@ -46,7 +46,7 @@
                    (.size root-verb-array)))
 
     ;; for debugging, change (pmap) to (map) so logging is easier to read: in-order rather than interleaved by multiple workers.
-    (.size (use-map-fn
+    (doall (use-map-fn
             (fn [verb]
               (log/trace (str "verb: " (strip-refs verb)))
               (let [root-form (get-in verb [:français :français])

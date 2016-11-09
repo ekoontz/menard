@@ -21,6 +21,18 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
+(def index-lexicon-on-paths
+  [[:italiano :italiano]
+   [:synsem :aux]
+   [:synsem :cat]
+   [:synsem :sem :pred]])
+
+(defn index-by-paths [lexicon]
+  (map (fn [path]
+         {:path path
+          :lexemes (map-subset-by-path lexicon path)})
+       index-lexicon-on-paths))
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 

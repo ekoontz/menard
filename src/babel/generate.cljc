@@ -99,7 +99,7 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  (log/debug (str "lightning-bolts: start: spec: " spec))
+  (log/debug (str "lightning-bolts: start: spec: " (spec-info spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
@@ -111,16 +111,15 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (let [parent (unify parent spec)
-                     subset
-                     (if-let [index-fn
-                              (:index-fn language-model)]
-                       (do (log/trace (str "found index-fn."))
-                           (log/debug (str "lightning-bolts: calling index-fn with rule: " (:rule parent)
-                                           " with spec: " (strip-refs (get-in parent [:head] :top))))
-                           (index-fn (get-in parent [:head] :top)))
-                       (do (log/warn (str "no indices found for spec: " spec))
-                           []))]
+               (let [debug (log/trace (str "parent before unify with parent: " (spec-info parent)))
+                     parent (unify parent spec)
+                     subset (if-let [index-fn (:index-fn language-model)]
+                              (do (log/trace (str "found index-fn."))
+                                  (log/debug (str "lightning-bolts: calling index-fn with rule: " (:rule parent)
+                                                  " with spec: " (strip-refs (get-in parent [:head] :top))))
+                                  (index-fn (get-in parent [:head] :top)))
+                              (do (log/warn (str "no indices found for spec: " spec))
+                                  []))]
                  (if (not (empty? subset))
                    (log/debug (str "lightning-bolts: " (get-in parent [:rule])
                                    " : (optimizeme) size of subset of candidate heads: "
@@ -131,6 +130,7 @@
                                               (map #((:morph language-model) %)
                                                    subset))))
                                                      
+                 (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (if (not (empty? result))
                      (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result))))
@@ -140,7 +140,6 @@
                                                 (map #((:morph language-model) %)
                                                      result))))
 
-                   (log/debug (str "trying overh with spec: " (strip-refs spec)))
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))
@@ -158,7 +157,7 @@
             (do
               (lazy-mapcat (fn [parent]
                              (log/debug (str "calling lightning-bolts recursively: parent: " (:rule parent) " with spec : "
-                                             (get-in parent [:head])))
+                                             (spec-info (get-in parent [:head]))))
                              (over/overh
                               parent
                               (lightning-bolts language-model (get-in parent [:head])

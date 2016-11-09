@@ -130,8 +130,7 @@
                                                      
                  (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
                  (let [result (over/overh parent (lazy-shuffle subset))]
-                   (if (not (empty? result))
-                     (log/debug (str "lightning-bolts: (optimizeme) surviving candidate heads: " (count result))))
+                   (log/debug (str "lightning-bolts:  surviving candidate heads: " (count result)))
 
                    (log/trace (str "lightning-bolts: surviving results: " 
                                    (string/join ","
@@ -144,7 +143,8 @@
                      ;; log/warn because it's very expensive to run
                      ;; over/overh: for every candidate, both parent
                      ;; and candidate head must be copied.
-                     (log/debug (str "tried: " (count subset) " lexical candidates with spec:" ( strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
+                     (log/warn (str "tried: " (count subset) " lexical candidates with spec:"
+                                    (strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
                    result)))
              (filter #(= false
                          (get-in % [:head :phrasal] false))

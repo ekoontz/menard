@@ -252,6 +252,11 @@
     {:root root
      :comp root}))
 
+(def root-is-comp-root
+  (let [root (atom :top)]
+    {:root root
+     :comp {:root root}}))
+
 (defn exception [error-string]
   #?(:clj
      (throw (Exception. (str ": " error-string))))

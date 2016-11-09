@@ -33,6 +33,25 @@
                [path (map-subset-by-path lexicon path)])
              index-lexicon-on-paths)))
 
+(defn lookup-spec [spec indices]
+  (log/debug (str "index-fn called with spec: " 
+                  (strip-refs
+                   (dissoc (strip-refs spec)
+                           :dag_unify.core/serialized))))
+  (let [result
+        (reduce intersection-with-identity
+                (filter #(not (empty? %))
+                        (map (fn [path]
+                               (let [result
+                                     (get (get indices path)
+                                          (get-in spec path ::undefined))]
+                                 (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
+                                                 " = " (count result)))
+                                 result))
+                             index-lexicon-on-paths)))]
+    (log/debug (str "indexed size returned: " (count result)))
+    result))
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 
@@ -652,7 +671,8 @@
                      (= (:rule %) "s-imperfect-nonphrasal")
                      (= (:rule %) "s-aux")
                      (= (:rule %) "vp-32")
-                     (= (:rule %) "vp-aux")
+                     (= (:rule %) "vp-aux-nonphrasal-complement")
+                     (= (:rule %) "vp-aux-phrasal-complement")
                      (= (:rule %) "vp-aux-22")
                      (= (:rule %) "vp-present")
                      (= (:rule %) "vp-pronoun-nonphrasal")
@@ -700,8 +720,13 @@
                                 v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)]
-    {:name "small"
+        lexicon-for-generation (lexicon-for-generation lexicon)
+
+        indices (create-indices lexicon-for-generation)]
+        
+    {:index-fn (fn [spec] (lookup-spec spec indices))
+
+     :name "small"
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -761,25 +786,6 @@
     (clojure.core/merge small
                         {:lexicon micro-lexicon})))
 
-(defn lookup-spec [spec indices]
-  (log/debug (str "index-fn called with spec: " 
-                  (strip-refs
-                   (dissoc (strip-refs spec)
-                           :dag_unify.core/serialized))))
-  (let [result
-        (reduce intersection-with-identity
-                (filter #(not (empty? %))
-                        (map (fn [path]
-                               (let [result
-                                     (get (get indices path)
-                                          (get-in spec path ::undefined))]
-                                 (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
-                                                 " = " (count result)))
-                                 result))
-                             index-lexicon-on-paths)))]
-    (log/debug (str "indexed size returned: " (count result)))
-    result))
-
 (defn medium []
   (deliver-lexicon)
   ;; TODO: remove parse-lexicon.
@@ -808,10 +814,10 @@
         ;; indices from paths to subsets of the lexicon
         indices (create-indices lexicon-for-generation)]
         
-    {:name "medium"
+    {:index-fn (fn [spec] (lookup-spec spec indices))
+     :name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index-fn (fn [spec] (lookup-spec spec indices))
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))

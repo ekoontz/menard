@@ -111,9 +111,7 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (let [debug (log/trace (str "parent before unify with parent: " (spec-info parent)))
-                     parent (unify parent spec)
-                     subset (if-let [index-fn (:index-fn language-model)]
+               (let [subset (if-let [index-fn (:index-fn language-model)]
                               (do (log/trace (str "found index-fn."))
                                   (log/debug (str "lightning-bolts: calling index-fn with rule: " (:rule parent)
                                                   " with spec: " (strip-refs (get-in parent [:head] :top))))

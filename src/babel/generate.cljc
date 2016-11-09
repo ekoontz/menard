@@ -118,7 +118,7 @@
                                   (flatten (vals lexicon))))]
                  (if (not (empty? subset))
                    (log/debug (str "lightning-bolts: " (get-in parent [:rule])
-                                   " : (optimizeme) size of subset of candidate heads: "
+                                   " : subset of candidate heads: "
                                    (count subset) " with spec: " (strip-refs spec)))
                    (log/debug (str "index returned a null set for spec:" (strip-refs spec))))
                  (log/trace (str "lightning-bolts: " (get-in parent [:rule])

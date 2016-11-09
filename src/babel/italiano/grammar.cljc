@@ -799,7 +799,13 @@
         aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
         pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
         cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
-        it2lex (map-subset-by-path lexicon-for-generation [:italiano :italiano])]
+
+        indices
+        (into {}
+              (map (fn [path]
+                     [path (map-subset-by-path lexicon-for-generation path)])
+                   [[:italiano :italiano]]))]
+        
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
@@ -814,9 +820,6 @@
                      (log/debug (str "cat2lex: " (count
                                                   (get cat2lex (get-in spec [:synsem :cat]
                                                                        ::undefined)))))
-                     (log/debug (str "it2lex: " (count
-                                                 (get it2lex (get-in spec [:italiano :italiano]
-                                                                     ::undefined)))))
                      (log/debug (str "pred2lex: " (count
                                                    (get pred2lex (get-in spec [:synsem :sem :pred]
                                                                          ::undefined)))))
@@ -838,11 +841,15 @@
                      (let [result
                            (reduce intersection-with-identity
                                    (filter #(not (empty? %))
-                                           [(get it2lex (get-in spec [:italiano :italiano] ::undefined))
-                                            (get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))
-                                            (get aux2lex (get-in spec [:synsem :aux] ::undefined))
-                                            (get cat2lex (get-in spec [:synsem :cat] ::undefined))
-                                            ]))]
+                                           (concat
+                                            (map (fn [path]
+                                                   (get (get indices path)
+                                                        (get-in spec path ::undefined)))
+                                                 [[:italiano :italiano]])
+                                            [(get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))
+                                             (get aux2lex (get-in spec [:synsem :aux] ::undefined))
+                                             (get cat2lex (get-in spec [:synsem :cat] ::undefined))
+                                             ])))]
                        (log/debug (str "indexed size returned: " (count result)))
                        result)))
                        

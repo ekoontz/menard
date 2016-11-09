@@ -27,11 +27,11 @@
    [:synsem :cat]
    [:synsem :sem :pred]])
 
-(defn index-by-paths [lexicon]
-  (map (fn [path]
-         {:path path
-          :lexemes (map-subset-by-path lexicon path)})
-       index-lexicon-on-paths))
+(defn create-indices [lexicon]
+  (into {}
+        (map (fn [path]
+               [path (map-subset-by-path lexicon path)])
+             index-lexicon-on-paths)))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -713,15 +713,6 @@
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
-     :aux2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon-for-generation [:synsem :aux])
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
-
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon-for-generation [:synsem :cat])
-           
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lookup (fn [arg]
                (analyze arg lexicon))
@@ -770,6 +761,25 @@
     (clojure.core/merge small
                         {:lexicon micro-lexicon})))
 
+(defn lookup-spec [spec indices]
+  (log/debug (str "index-fn called with spec: " 
+                  (strip-refs
+                   (dissoc (strip-refs spec)
+                           :dag_unify.core/serialized))))
+  (let [result
+        (reduce intersection-with-identity
+                (filter #(not (empty? %))
+                        (map (fn [path]
+                               (let [result
+                                     (get (get indices path)
+                                          (get-in spec path ::undefined))]
+                                 (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
+                                                 " = " (count result)))
+                                 result))
+                             index-lexicon-on-paths)))]
+    (log/debug (str "indexed size returned: " (count result)))
+    result))
+
 (defn medium []
   (deliver-lexicon)
   ;; TODO: remove parse-lexicon.
@@ -796,63 +806,12 @@
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon
-        aux2lex (map-subset-by-path lexicon-for-generation [:synsem :aux])
-        pred2lex (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
-        cat2lex (map-subset-by-path lexicon-for-generation [:synsem :cat])
-
-        indices
-        (into {}
-              (map (fn [path]
-                     [path (map-subset-by-path lexicon-for-generation path)])
-                   [[:italiano :italiano]]))]
+        indices (create-indices lexicon-for-generation)]
         
     {:name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
-     :index-fn (fn [spec]
-                 (do (log/debug (str "index-fn called with spec: " 
-                                    (strip-refs
-                                     (dissoc (strip-refs spec)
-                                             :dag_unify.core/serialized))))
-                     (log/debug (str "aux2lex: " (count
-                                                  (get aux2lex (get-in spec [:synsem :aux]
-                                                                       ::undefined)))))
-                     (log/debug (str "cat2lex: " (count
-                                                  (get cat2lex (get-in spec [:synsem :cat]
-                                                                       ::undefined)))))
-                     (log/debug (str "pred2lex: " (count
-                                                   (get pred2lex (get-in spec [:synsem :sem :pred]
-                                                                         ::undefined)))))
-                     (log/trace (str "aux2lex: " (clojure.string/join
-                                                  ","
-                                                  (sort (map #(fo %)
-                                                             (get aux2lex (get-in spec [:synsem :aux]
-                                                                                  ::undefined)))))))
-                     (log/trace (str "cat2lex: " (clojure.string/join
-                                                  ","
-                                                  (sort (map #(fo %)
-                                                             (get cat2lex (get-in spec [:synsem :cat]
-                                                                                  ::undefined)))))))
-                     (log/trace (str "pred2lex: " (clojure.string/join
-                                                   ","
-                                                   (sort (map #(fo %)
-                                                              (get pred2lex (get-in spec [:synsem :sem :pred]
-                                                                                    ::undefined)))))))
-                     (let [result
-                           (reduce intersection-with-identity
-                                   (filter #(not (empty? %))
-                                           (concat
-                                            (map (fn [path]
-                                                   (get (get indices path)
-                                                        (get-in spec path ::undefined)))
-                                                 [[:italiano :italiano]])
-                                            [(get pred2lex (get-in spec [:synsem :sem :pred] ::undefined))
-                                             (get aux2lex (get-in spec [:synsem :aux] ::undefined))
-                                             (get cat2lex (get-in spec [:synsem :cat] ::undefined))
-                                             ])))]
-                       (log/debug (str "indexed size returned: " (count result)))
-                       result)))
-                       
+     :index-fn (fn [spec] (lookup-spec spec indices))
      :language "it"
      :language-keyword :italiano
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
@@ -922,16 +881,5 @@
        :lexicon lexicon
        :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
        :rules rules
-       :rule-map (zipmap rules grammar)
-
-       ;; indices from paths to subsets of the lexicon
-       :aux2lex
-       (map-subset-by-path lexicon-for-generation [:synsem :aux])
-       
-       :pred2lex ;; map:<pred => subset of lexicon with that pred>
-       (map-subset-by-path lexicon-for-generation [:synsem :sem :pred])
-       
-       :cat2lex ;; map:<cat => subset of lexicon with that cat>
-       (map-subset-by-path lexicon-for-generation [:synsem :cat])}))
-
+       :rule-map (zipmap rules grammar)}))
 

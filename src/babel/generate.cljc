@@ -118,7 +118,8 @@
                  (if (not (empty? subset))
                    (log/debug (str "lightning-bolts: " (get-in parent [:rule])
                                    " : (optimizeme) size of subset of candidate heads: "
-                                   (count subset) " with spec: " (strip-refs spec))))
+                                   (count subset) " with spec: " (strip-refs spec)))
+                   (log/debug (str "index returned a null set for spec:" (strip-refs spec))))
                  (log/trace (str "lightning-bolts: " (get-in parent [:rule])
                                  " : head lexeme candidates: "
                                  (string/join ","
@@ -127,7 +128,8 @@
                                                      
                  (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
                  (let [result (over/overh parent (lazy-shuffle subset))]
-                   (log/debug (str "lightning-bolts:  surviving candidate heads: " (count result)))
+                   (if (not (empty? subset))
+                     (log/debug (str "lightning-bolts:  surviving candidate heads: " (count result))))
 
                    (log/trace (str "lightning-bolts: surviving results: " 
                                    (string/join ","
@@ -224,7 +226,11 @@
                    (:index-fn language-model)]
             (do (log/debug (str "add-complement-to-bolt with bolt: " (show-bolt bolt language-model)
                                 " calling index-fn with spec: " spec ))
-                (index-fn spec))
+                (let [result
+                      (index-fn spec)]
+                  (if (and false (not (empty? result)))
+                    result
+                    (flatten (vals lexicon)))))
             (do (log/warn (str "add-complement-to-bolt: no index-fn for model:" (:name language-model) ": using entire lexicon."))
                 (flatten (vals lexicon)))))
         debug 

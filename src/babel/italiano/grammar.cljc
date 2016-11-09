@@ -44,12 +44,18 @@
                         (map (fn [path]
                                (let [result
                                      (get (get indices path)
-                                          (get-in spec path ::undefined))]
-                                 (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
-                                                 " = " (count result)))
+                                          (get-in spec path ::undefined)
+                                          [])]
+                                 (if (not (empty? result))
+                                   (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
+                                                   " = " (count result)))
+                                   (log/trace (str "empty result for path: " path "; spec=" (strip-refs spec))))
                                  result))
                              index-lexicon-on-paths)))]
-    (log/debug (str "indexed size returned: " (count result)))
+    (log/debug (str "indexed size returned: " (count result) " for spec: " (strip-refs spec)))
+    (if (and false (empty? result))
+      (throw (Exception. (str "oops: " (strip-refs spec)))))
+    
     result))
 
 (defn fo-ps [expr]

@@ -7,8 +7,10 @@
    [babel.over :refer [intersection-with-identity]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
-                     head-principle root-is-comp
-                     root-is-head root-is-head-root subcat-1-principle
+                     head-principle
+                     root-is-comp root-is-comp-root
+                     root-is-head root-is-head-root
+                     subcat-1-principle
                      subcat-1-1-principle subcat-2-principle
                      subcat-1-1-principle-comp-subcat-1 
                      subcat-2-2-principle
@@ -399,15 +401,27 @@
                                      :infl :infinitive
                                      :cat :verb}})
                    (unifyc h21a
-                           root-is-comp
-                           {:rule "vp-aux"
+                           root-is-comp-root
+                           {:rule "vp-aux-phrasal-complement"
                             :head {:phrasal false
                                    :synsem {:aux true}}
+                            :comp {:phrasal true}
                             :synsem {:aux true
                                      :infl :present
                                      :sem {:tense :past}
                                      :cat :verb}})
 
+                   (unifyc h21a
+                           root-is-comp
+                           {:rule "vp-aux-nonphrasal-complement"
+                            :head {:phrasal false
+                                   :synsem {:aux true}}
+                            :comp {:phrasal false}
+                            :synsem {:aux true
+                                     :infl :present
+                                     :sem {:tense :past}
+                                     :cat :verb}})
+                   
                    ;; this rule is kind of complicated and made more so by
                    ;; dependence on auxilary sense of "avere" which supplies the
                    ;; obj-agr agreement between the object and the main (non-auxilary) verb.

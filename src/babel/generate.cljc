@@ -110,13 +110,11 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (let [subset (if-let [index-fn (:index-fn language-model)]
-                              (do (log/trace (str "found index-fn."))
-                                  (log/debug (str "lightning-bolts: calling index-fn with rule: " (:rule parent)
-                                                  " with spec: " (strip-refs (get-in parent [:head] :top))))
-                                  (index-fn (get-in parent [:head] :top)))
-                              (do (log/warn (str "no indices found for spec: " spec))
-                                  []))]
+               (let [lexicon (or (-> :generate :lexicon language-model) (:lexicon language-model))
+                     subset (if-let [index-fn (:index-fn language-model)]
+                              (index-fn (get-in parent [:head] :top))
+                              (do (log/warn (str "lightning-bolts: no index-fn for model:" (:name language-model) ": using entire lexicon."))
+                                  (flatten (vals lexicon))))]
                  (if (not (empty? subset))
                    (log/debug (str "lightning-bolts: " (get-in parent [:rule])
                                    " : (optimizeme) size of subset of candidate heads: "
@@ -227,7 +225,8 @@
             (do (log/debug (str "add-complement-to-bolt with bolt: " (show-bolt bolt language-model)
                                 " calling index-fn with spec: " spec ))
                 (index-fn spec))
-            (flatten (vals lexicon))))
+            (do (log/warn (str "add-complement-to-bolt: no index-fn for model:" (:name language-model) ": using entire lexicon."))
+                (flatten (vals lexicon)))))
         debug 
         (log/trace (str "lexical-complements (pre-over):"
                         (string/join ","

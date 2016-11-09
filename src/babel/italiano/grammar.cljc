@@ -831,7 +831,7 @@
                                             (get aux2lex (get-in spec [:synsem :aux] ::undefined))
                                             (get cat2lex (get-in spec [:synsem :cat] ::undefined))
                                             ]))]
-                       (log/debug (str "intersection size: " (count result)))
+                       (log/debug (str "indexed size returned: " (count result)))
                        result)))
                        
      :language "it"

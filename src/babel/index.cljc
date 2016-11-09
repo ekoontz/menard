@@ -7,7 +7,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [fail? dissoc-paths get-in label-of
-                           remove-top-values-log
+                           remove-top-values-log strip-refs
                            unifyc]]
 
    [babel.over :as over]))
@@ -27,11 +27,13 @@
 
 (declare spec-to-phrases)
 
+;; TODO: remove: not used anymore.
 ;; TODO: diagnostic function that is too specific currently (e.g. refers to ':english').
 (defn check-index [index]
   (if (not (= :top (get-in (first (:head (get index "nbar"))) [:english :agr :number])))
     (throw (exception (str "CHECK INDEX FAILED! " (get index "nbar"))))))
   
+;; TODO: remove: not used anymore.
 (defn build-lex-sch-index [phrases lexicon all-phrases]
   "Build a mapping of phrases onto subsets of the lexicon. The two values (subsets of the lexicon) to be
    generated for each key (phrase) are: 
@@ -156,12 +158,13 @@
                                                     (:synsem :infl))))))
 
 (defn map-subset-by-path2 [vals-at-path lexemes path]
-  (if (and true (not (empty? vals-at-path)))
-    (let [pred (first vals-at-path)]
-      (merge {pred
+  (if (not (empty? vals-at-path))
+    (let [val (first vals-at-path)]
+      (merge {val
               (filter (fn [lexeme]
-                        (= pred
-                           (get-in lexeme path)))
+                        (or (= :top (get-in lexeme path))
+                            (= val
+                               (get-in lexeme path))))
                       lexemes)}
              (map-subset-by-path2 (rest vals-at-path)
                                   lexemes
@@ -175,3 +178,49 @@
                           (flatten (vals lexicon))))))
    (flatten (vals lexicon))
    path))
+
+(defn create-indices [lexicon index-lexicon-on-paths]
+  (into {}
+        (map (fn [path]
+               [path (map-subset-by-path lexicon path)])
+             index-lexicon-on-paths)))
+
+(defn intersection-with-identity [ & [set1 set2]]
+  (if (> (count set1)
+         (count set2))
+    (filter (fn [member2]
+              (some (fn [member1]
+                      (identical? member1 member2))
+                    set1))
+            set2)
+    (filter (fn [member1]
+              (some (fn [member2]
+                      (identical? member1 member2))
+                    set2))
+            set1)))
+
+(defn lookup-spec [spec indices index-lexicon-on-paths]
+  (log/debug (str "index-fn called with spec: " 
+                  (strip-refs
+                   (dissoc (strip-refs spec)
+                           :dag_unify.core/serialized))))
+  (let [result
+        (reduce intersection-with-identity
+                (filter #(not (empty? %))
+                        (map (fn [path]
+                               (let [result
+                                     (get (get indices path)
+                                          (get-in spec path ::undefined)
+                                          [])]
+                                 (if (not (empty? result))
+                                   (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
+                                                   " = " (count result)))
+                                   (log/trace (str "empty result for path: " path "; spec=" (strip-refs spec))))
+                                 result))
+                             index-lexicon-on-paths)))]
+    (log/debug (str "indexed size returned: " (count result) " for spec: " (strip-refs spec)))
+    (if (and false (empty? result))
+      (throw (Exception. (str "oops: " (strip-refs spec)))))
+    
+    result))
+

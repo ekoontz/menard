@@ -1,10 +1,9 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
-   [babel.index :refer [map-subset-by-path]]
+   [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
-   [babel.over :refer [intersection-with-identity]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head
                      head-principle
@@ -26,37 +25,6 @@
    [:synsem :aux]
    [:synsem :cat]
    [:synsem :sem :pred]])
-
-(defn create-indices [lexicon]
-  (into {}
-        (map (fn [path]
-               [path (map-subset-by-path lexicon path)])
-             index-lexicon-on-paths)))
-
-(defn lookup-spec [spec indices]
-  (log/debug (str "index-fn called with spec: " 
-                  (strip-refs
-                   (dissoc (strip-refs spec)
-                           :dag_unify.core/serialized))))
-  (let [result
-        (reduce intersection-with-identity
-                (filter #(not (empty? %))
-                        (map (fn [path]
-                               (let [result
-                                     (get (get indices path)
-                                          (get-in spec path ::undefined)
-                                          [])]
-                                 (if (not (empty? result))
-                                   (log/trace (str "subset for path:" path " => " (get-in spec path ::undefined)
-                                                   " = " (count result)))
-                                   (log/trace (str "empty result for path: " path "; spec=" (strip-refs spec))))
-                                 result))
-                             index-lexicon-on-paths)))]
-    (log/debug (str "indexed size returned: " (count result) " for spec: " (strip-refs spec)))
-    (if (and false (empty? result))
-      (throw (Exception. (str "oops: " (strip-refs spec)))))
-    
-    result))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -728,9 +696,9 @@
                     [k filtered-v]))))
         lexicon-for-generation (lexicon-for-generation lexicon)
 
-        indices (create-indices lexicon-for-generation)]
+        indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
         
-    {:index-fn (fn [spec] (lookup-spec spec indices))
+    {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
 
      :name "small"
      :morph-walk-tree (fn [tree]
@@ -818,9 +786,9 @@
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon
-        indices (create-indices lexicon-for-generation)]
+        indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
         
-    {:index-fn (fn [spec] (lookup-spec spec indices))
+    {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar

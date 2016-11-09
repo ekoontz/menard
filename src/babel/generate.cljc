@@ -1,7 +1,8 @@
 (ns babel.generate
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
-   [babel.over :as over :refer [intersection-with-identity show-bolt truncate truncate-expressions]]
+   [babel.index :refer [intersection-with-identity]]
+   [babel.over :as over :refer [show-bolt truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
@@ -228,9 +229,7 @@
                                 " calling index-fn with spec: " spec ))
                 (let [result
                       (index-fn spec)]
-                  (if (and false (not (empty? result)))
-                    result
-                    (flatten (vals lexicon)))))
+                    result))
             (do (log/warn (str "add-complement-to-bolt: no index-fn for model:" (:name language-model) ": using entire lexicon."))
                 (flatten (vals lexicon)))))
         debug 
@@ -310,24 +309,9 @@
         immediate-parent (get-in bolt (butlast path))
         complement-candidate-lexemes
         (if (not (= true (get-in bolt (concat path [:phrasal]))))
-          (let [pred (get-in spec [:synsem :sem :pred])
-                cat (get-in spec [:synsem :cat])
-                pred-set (if (and (:pred2lex language-model)
-                                  (not (= :top pred)))
-                           (get (:pred2lex language-model) pred))
-                cat-set (if (and (:cat2lex language-model)
-                                 (not (= :top cat)))
-                          (get (:cat2lex language-model) cat))
-                subset
-                (cond (empty? pred-set)
-                      cat-set
-                      (empty? cat-set)
-                      pred-set
-                      true
-                      (intersection-with-identity pred-set cat-set))]
-            (if (not (empty? subset))
-              subset
-              (vals (:lexicon language-model)))))
+          (and
+           (:index-fn language-model)
+           ((:index-fn language-model) spec)))
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         lexical-complements (filter (fn [lexeme]
                                       (and (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))

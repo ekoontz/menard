@@ -3,7 +3,7 @@
   (:require 
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
-   [babel.index :refer [map-subset-by-path]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head
@@ -23,6 +23,11 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
+
+(def index-lexicon-on-paths
+  [[:synsem :cat]
+   [:synsem :aux]
+   [:synsem :sem :pred]])
 
 (declare cache)
 
@@ -661,16 +666,7 @@
                                       (= :it (get-in % [:target])))
                                  v)]
                      (if (not (empty? filtered-v))
-                       [k filtered-v]))))}
-
-     :aux2lex
-     (map-subset-by-path lexicon [:synsem :aux])
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-     
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])}))
+                       [k filtered-v]))))}}))
 
 (defn medium []
   (let [lexicon
@@ -678,9 +674,11 @@
               (for [[k v] @lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "medium"
 
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
                    (map #(keyword (get-in % [:rule])) grammar)
@@ -698,19 +696,7 @@
      :morph fo
      :morph-ps fo-ps
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-
-     :aux2lex
-     (map-subset-by-path lexicon [:synsem :aux])
-
-     :infl2lex
-     (map-subset-by-path lexicon [:synsem :infl])
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])}))
+     :lexicon lexicon}))
 
 (defn np-grammar []
   (let [grammar

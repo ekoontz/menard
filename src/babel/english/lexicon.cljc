@@ -1696,7 +1696,6 @@
               :past "put on"
               :present {:3sing "puts on"}
               :note "past tense"}
-    :phrasal-verb true
     :intransitivize false
     :synsem {:cat :verb
              :sem {:pred :put-on}}}

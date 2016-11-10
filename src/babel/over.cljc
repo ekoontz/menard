@@ -40,6 +40,34 @@
       (overh head)
       (overc comp)))
 
+(defn spec-info
+  "give a human-readable summary of _spec_."
+  [spec]
+  (strip-refs
+   (merge
+    (if-let [cat (get-in spec [:synsem :cat])]
+      {:cat cat})
+    (if-let [essere (get-in spec [:synsem :essere])]
+      {:essere essere})
+    (if-let [pred (get-in spec [:synsem :sem :pred])]
+      {:pred pred})
+    (if-let [agr (get-in spec [:synsem :agr])]
+      {:agr agr})
+    (if-let [def (get-in spec [:synsem :sem :spec :def])]
+      {:def def})
+    (if-let [pronoun (get-in spec [:synsem :pronoun])]
+      {:pronoun pronoun})
+    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
+    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
+      (if (not (= :not-found-by-spec-info mod))
+        {:mod mod}))
+    (if-let [modified (get-in spec [:modified])]
+      {:modified modified})
+    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
+                      (get-in spec [:synsem :subcat :1 :cat]))]
+      {:subcat/:1/:cat subcat1
+       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
+
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -58,9 +86,9 @@
                          {:head (copy head)})]
       (if (not (= :fail result))
         (do
-          (log/debug (str "overh: " (get-in parent [:rule]) " -> " (strip-refs head)))
+          (log/debug (str "overh: " (get-in parent [:rule]) " -> " (spec-info head)))
           (list result))
-        (log/debug (str "fail-path for rule: " (:rule parent) ":"
+        (log/debug (str "overh: fail-path for rule: " (:rule parent) ":"
                         (dag_unify.core/fail-path
                          (copy parent)
                          {:head (copy head)})))))))

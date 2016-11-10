@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in deref resolve find parents])
   (:require
    [babel.index :refer [intersection-with-identity]]
-   [babel.over :as over :refer [show-bolt truncate truncate-expressions]]
+   [babel.over :as over :refer [show-bolt spec-info truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.string :as string]
@@ -35,7 +35,6 @@
 (declare lightning-bolts)
 (declare generate-all)
 (declare not-fail?)
-(declare spec-info)
 
 ;; FIXME: truncate-children=false (the non-default option) is not propagated through all calls,
 ;; causing trees to be unexpectedly truncated.
@@ -121,7 +120,7 @@
                                    " : subset of candidate heads: "
                                    (count subset) " with spec: " (strip-refs spec)))
                    (log/debug (str "index returned a null set for spec:" (strip-refs spec))))
-                 (log/trace (str "lightning-bolts: " (get-in parent [:rule])
+                 (log/debug (str "lightning-bolts: " (get-in parent [:rule])
                                  " : head lexeme candidates: "
                                  (string/join ","
                                               (map #((:morph language-model) %)
@@ -130,7 +129,7 @@
                  (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
                  (let [result (over/overh parent (lazy-shuffle subset))]
                    (if (not (empty? subset))
-                     (log/debug (str "lightning-bolts:  surviving candidate heads: " (count result))))
+                     (log/debug (str "lightning-bolts:  surviving candidate heads: " (count subset) " -(unify)-> " (count result))))
 
                    (log/trace (str "lightning-bolts: surviving results: " 
                                    (string/join ","
@@ -145,6 +144,7 @@
                      ;; and candidate head must be copied.
                      (log/warn (str "tried: " (count subset) " lexical candidates with spec:"
                                     (strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
+                   (log/debug (str "returning bolts: count: " (count result)))
                    result)))
              (filter #(= false
                          (get-in % [:head :phrasal] false))
@@ -180,8 +180,10 @@
   sequence of having added all possible complements at each node in
   the bolt."
   [bolts language-model total-depth truncate-children max-total-depth top-level-spec]
+  (log/debug (str "add-all-comps: bolt count: " (count bolts)))
   (lazy-mapcat
    (fn [bolt]
+     (log/debug (str "adding all comps to bolt: " (show-bolt bolt language-model)))
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth
@@ -190,6 +192,9 @@
 
 (defn add-all-comps-with-paths [bolts language-model total-depth comp-paths
                                 truncate-children max-total-depth top-level-spec]
+  (log/debug (str "add-all-comps to bolts with paths to comps: "
+                  (string/join "," comp-paths)))
+                  
   (if (empty? comp-paths)
     bolts
     (add-all-comps-with-paths
@@ -233,7 +238,7 @@
             (do (log/warn (str "add-complement-to-bolt: no index-fn for model:" (:name language-model) ": using entire lexicon."))
                 (flatten (vals lexicon)))))
         debug 
-        (log/trace (str "lexical-complements (pre-over):"
+        (log/debug (str "lexical-complements (pre-over):"
                         (string/join ","
                                      (map #((:morph language-model) %)
                                           complement-candidate-lexemes))))
@@ -244,7 +249,7 @@
                                        (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
                                      complement-candidate-lexemes))]
-    (log/trace (str "lexical-complements (post-over):"
+    (log/debug (str "lexical-complements (post-over):"
                     (string/join ","
                                  (map #((:morph language-model) %)
                                       lexical-complements))))
@@ -308,15 +313,26 @@
         spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))
         complement-candidate-lexemes
-        (if (not (= true (get-in bolt (concat path [:phrasal]))))
-          (and
-           (:index-fn language-model)
-           ((:index-fn language-model) spec)))
+        (if (and
+             (not (= true (get-in bolt (concat path [:phrasal]))))
+             (:index-fn language-model))
+          ((:index-fn language-model) spec))
+        debug (log/debug (str "lexical complements: (pre unify) for bolt: " (show-bolt bolt language-model)
+                              " at path="  path ":" (count complement-candidate-lexemes) ":"
+                              (string/join ","
+                                           (map #((:morph language-model) %)
+                                                complement-candidate-lexemes))))
+
         bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
         lexical-complements (filter (fn [lexeme]
-                                      (and (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
-                                                             bolt-child-synsem))))
+                                      (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                                        bolt-child-synsem)))
                                     complement-candidate-lexemes)]
+    (log/debug (str "lexical complements: (post unify) for bolt: " (show-bolt bolt language-model)
+                    " at path="  path ":" (count lexical-complements) ":"
+                    (string/join ","
+                                 (map #((:morph language-model) %)
+                                      lexical-complements))))
     (or (not (empty? lexical-complements))
         (not (empty?
               (filter #(not-fail? %)
@@ -402,34 +418,6 @@
         (log/trace (str "P(c," depth ") = " prob " (c: probablity of choosing lexemes rather than phrases given a depth)."))
         (> (* 10 prob) (rand-int 10)))
       false)))
-
-(defn spec-info
-  "give a human-readable summary of _spec_."
-  [spec]
-  (strip-refs
-   (merge
-    (if-let [cat (get-in spec [:synsem :cat])]
-      {:cat cat})
-    (if-let [essere (get-in spec [:synsem :essere])]
-      {:essere essere})
-    (if-let [pred (get-in spec [:synsem :sem :pred])]
-      {:pred pred})
-    (if-let [agr (get-in spec [:synsem :agr])]
-      {:agr agr})
-    (if-let [def (get-in spec [:synsem :sem :spec :def])]
-      {:def def})
-    (if-let [pronoun (get-in spec [:synsem :pronoun])]
-      {:pronoun pronoun})
-    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
-    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
-      (if (not (= :not-found-by-spec-info mod))
-        {:mod mod}))
-    (if-let [modified (get-in spec [:modified])]
-      {:modified modified})
-    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
-                      (get-in spec [:synsem :subcat :1 :cat]))]
-      {:subcat/:1/:cat subcat1
-       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
 
 (defn not-fail? [arg]
   (not (= :fail arg)))

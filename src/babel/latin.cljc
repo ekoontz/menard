@@ -1,6 +1,7 @@
 (ns babel.latin
   (:refer-clojure :exclude [get-in])
   (:require
+   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.latin.morphology :as morph]
    [babel.lexiconfn :refer [default listify map-function-on-map-vals
                             verb-pred-defaults]]
@@ -9,6 +10,11 @@
    [clojure.repl :refer [doc]]
    [clojure.tools.logging :as log]
    [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
+
+(def index-lexicon-on-paths
+  [[:synsem :cat]
+   [:synsem :aux]
+   [:synsem :sem :pred]])
 
 (defn edn2lexicon [resource]
   (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
@@ -45,8 +51,10 @@
                                 :2 '()}
                        :sem {:obj :unspec}}})
             
-            (verb-pred-defaults encyc/verb-pred-defaults))]
+            (verb-pred-defaults encyc/verb-pred-defaults))
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:lexicon lexicon
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :morph morph
      :generate-fn generate}))
 

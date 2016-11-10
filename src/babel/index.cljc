@@ -162,7 +162,7 @@
     (let [val (first vals-at-path)]
       (merge {val
               (filter (fn [lexeme]
-                        (or (= :top (get-in lexeme path))
+                        (or (= :top (get-in lexeme path :top))
                             (= val
                                (get-in lexeme path))))
                       lexemes)}

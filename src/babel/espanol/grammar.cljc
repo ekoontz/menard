@@ -4,7 +4,7 @@
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
-   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]

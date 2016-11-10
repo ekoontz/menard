@@ -628,8 +628,9 @@
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        ]
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "small"
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -677,7 +678,6 @@
                     [k filtered-v]))))
         indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "medium"
-
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap

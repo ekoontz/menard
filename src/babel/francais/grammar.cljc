@@ -6,9 +6,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
-   [babel.index :refer (build-lex-sch-index
-                        create-index map-subset-by-path
-                        spec-to-phrases)]
+   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
@@ -17,6 +15,12 @@
                      subcat-2-2-principle subcat-5-principle]]
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in strip-refs unify)]))
+
+(def index-lexicon-on-paths
+  [[:synsem :cat]
+   [:synsem :aux]
+   [:synsem :sem :pred]])
+
 (declare against-pred)
 (declare matching-head-lexemes)
 
@@ -475,8 +479,10 @@
                                    (= (get-in % [:synsem :pronoun]) true))
                               v)]
                   (if (not (empty? filtered-v))
-                    [k filtered-v]))))]
+                    [k filtered-v]))))
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "small"
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
@@ -488,12 +494,6 @@
      :morph-ps fo-ps
      :enrich enrich
 
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-     
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])
-
      :grammar grammar
      ;; Will throw exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
@@ -502,8 +502,7 @@
                    grammar)
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
-     :morph fo
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)}))
+     :morph fo}))
 
 (defn analyze [arg]
   (morph/analyze arg lexicon))
@@ -533,8 +532,10 @@
                             (= (:rule %) "s-imperfect-nonphrasal")
                             (= (:rule %) "s-aux")
                             (= (:rule %) "vp-aux"))
-                          grammar)))]
+                          grammar)))
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "medium"
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :enrich enrich
      :grammar grammar
      ;; Will throw exception if more than 1 rule has the same :rule value:
@@ -544,18 +545,10 @@
                    grammar)
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon)) head-principle)
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-     
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])
-
      :morph-ps fo-ps
      :language "fr"
      :language-keyword :français

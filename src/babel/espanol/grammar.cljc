@@ -4,9 +4,7 @@
    [babel.espanol.lexicon :refer [lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
-   [babel.index :refer (build-lex-sch-index
-                        create-index map-subset-by-path
-                        spec-to-phrases)]
+   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.lexiconfn :refer [lexicon-for-generation]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
@@ -22,6 +20,11 @@
    #?(:cljs [babel.logjs :as log])
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (get-in unifyc)]))
+
+(def index-lexicon-on-paths
+  [[:synsem :cat]
+   [:synsem :aux]
+   [:synsem :sem :pred]])
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -440,8 +443,10 @@
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)]
+        lexicon-for-generation (lexicon-for-generation lexicon)
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "small"
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :language "es"
      :language-keyword :espanol
      :lookup (fn [arg]
@@ -452,12 +457,6 @@
                    (map #(keyword (get-in % [:rule]))
                         grammar)
                    grammar)
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-     
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])
      
      :grammar grammar
      :lexicon lexicon
@@ -467,9 +466,7 @@
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
-                                 (morph-walk-tree tree))))
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)}))
-
+                                 (morph-walk-tree tree))))}))
 (defn medium []
   (log/info (str "Español model: medium"))
   (let [lexicon-for-generation
@@ -478,8 +475,10 @@
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
-        lexicon-for-analysis lexicon]
+        lexicon-for-analysis lexicon
+        indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "medium"
+     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :lookup (fn [arg]
                (morph/analyze arg lexicon-for-analysis))
      :morph fo
@@ -488,17 +487,9 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
-
-     :pred2lex ;; map:<pred => subset of lexicon with that pred>
-     (map-subset-by-path lexicon [:synsem :sem :pred])
-
-     :cat2lex ;; map:<cat => subset of lexicon with that cat>
-     (map-subset-by-path lexicon [:synsem :cat])
-
      :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
-     :index (create-index grammar (flatten (vals lexicon-for-generation)) head-principle)
      }))
 
 (defn parse [surface]

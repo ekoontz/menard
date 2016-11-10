@@ -10,8 +10,27 @@ user> (require 'babel.english)
 nil
 
 ;; generate a random expression in English
-user> (-> babel.english/generate babel.english/morph)
+user> (babel.english/morph (babel.english/generate))
 "your womens' new cities will lose me"
+
+;; generate an infinite number of random expressions in English
+user> (repeatedly #(println (babel.english/morph (babel.english/generate))))
+Antonia and Luisa's first sigh
+Gianluca's first pizza
+you all turn a car down
+Juan's short car was knowing the short bicycle
+
+.. hit (control-c to stop) ..
+
+;; generate the first 5 of all the expressions possible
+user=> (map #(println (babel.english/morph %)) (take 5 (babel.english/generate-all)))
+my first books
+some first book
+your first book
+his first books
+that first book
+(nil nil nil nil nil)
+
 ```
 
 The function `babel.english/generate` generates an English expression

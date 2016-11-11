@@ -112,10 +112,15 @@
                                               (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
                                                 (doall (map (fn [person]
                                                               (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
-                                                                (println (str "  " (generate language (unify root-verb-spec
-                                                                                                             (get tenses tense)
-                                                                                                             number-spec
-                                                                                                             person-spec))))))
+                                                                (println
+                                                                 (str "  "
+                                                                      (let [pair
+                                                                            (generate language (unify root-verb-spec
+                                                                                                      (get tenses tense)
+                                                                                                      number-spec
+                                                                                                      person-spec))]
+                                                                        (str "\"" (:source pair) "\" -> \""
+                                                                             (:target pair) "\""))))))
                                                             persons))))
                                             numbers)))
                               (sort (keys tenses)))))
@@ -124,15 +129,25 @@
 
 (defn generate [language spec]
   (let [model @((-> models language))
-        generate-fn (:generate-fn model)
-        morph-fn (:morph model)]
+        generate (:generate-fn model)
+        morph-fn (:morph model)
+
+        source-model @((-> models :en))
+        source-generate (:generate-fn source-model)
+        source-morph (:morph source-model)]
+        
     (log/debug (str "generating with spec: " spec))
-    (let [result (generate-fn spec)]
-      (when (nil? result)
+    (let [expression (generate spec)]
+      (when (nil? expression)
         (let [err (str "could not generate an expression for spec: " spec " in language:" language)]
           (log/error err) 
           (throw (Exception. err))))
-      (morph-fn result))))
+      {:target
+       (morph-fn expression)
+       :source
+       (source-morph (source-generate {:synsem {:sem (get-in expression [:synsem :sem])}}))})))
+
+
 
 
 

@@ -104,21 +104,20 @@
         numbers [:sing :plur]]
     (doall
      (map (fn [root-verb]
-            (do (println (str "verb: " root-verb))
+            (do (println (str "" root-verb))
                 (let [root-verb-spec (get root-verb-specs root-verb)]
                   (doall (map (fn [tense]
-                                (println (str "tense:" tense))
+                                (println (str " " tense))
                                 (doall (map (fn [number]
                                               (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
                                                 (doall (map (fn [person]
                                                               (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
-                                                                (println (generate language (unify root-verb-spec
-                                                                                                   (get tenses tense)
-                                                                                                   number-spec
-                                                                                                   person-spec)))))
+                                                                (println (str "  " (generate language (unify root-verb-spec
+                                                                                                             (get tenses tense)
+                                                                                                             number-spec
+                                                                                                             person-spec))))))
                                                             persons))))
-                                            numbers))
-                                (println))
+                                            numbers)))
                               (sort (keys tenses)))))
                 (println)))
           (sort (keys root-verb-specs))))))
@@ -127,7 +126,15 @@
   (let [model @((-> models language))
         generate-fn (:generate-fn model)
         morph-fn (:morph model)]
-    (morph-fn (generate-fn spec))))
+    (log/debug (str "generating with spec: " spec))
+    (let [result (generate-fn spec)]
+      (when (nil? result)
+        (let [err (str "could not generate an expression for spec: " spec " in language:" language)]
+          (log/error err) 
+          (throw (Exception. err))))
+      (morph-fn result))))
+
+
 
 
 

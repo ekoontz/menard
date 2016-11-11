@@ -25,7 +25,30 @@
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (en/generate spec :model model))}))))))
-     
+     :es (fn []
+           (if (realized? es)
+             es
+             (deliver es
+                      (do (log/info (str "starting to load Español model.."))
+                          (let [model (babel.espanol.grammar/small)]
+                            (log/info (str "finished loading Espanol model."))
+                            (conj model
+                                  {:generate-fn (fn [spec]
+                                                  (es/generate spec :model model))
+                                   :tenses babel.espanol.grammar/tenses
+                                   :root-verb-specs
+                                   (into {}
+                                         (map (fn [root]
+                                                [root {:root {:espanol {:espanol root}}}])
+                                              (sort
+                                               (remove nil? (map (fn [val]
+                                                                   (dag_unify.core/get-in val [:espanol :espanol]))
+                                                                 (filter (fn [v]
+                                                                           (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                                                (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                                         (flatten (vals (:lexicon model)))))))))}))))))
+  
+                                   
      :fr (fn []
            (if (realized? fr)
              fr

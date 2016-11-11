@@ -7,7 +7,7 @@
    [babel.latin :as la]
    [babel.italiano :as it]
    [clojure.tools.logging :as log]
-   [dag_unify.core :refer [get-in]]))
+   [dag_unify.core :refer [get-in unify]]))
 
 (def models
   (let [en (promise)
@@ -53,7 +53,60 @@
                       (let [model (babel.italiano.grammar/small)]
                         (conj model
                               {:generate-fn (fn [spec]
-                                              (it/generate spec :model model))})))))}))
+                                              (it/generate spec :model model))
+                               :tenses babel.italiano.grammar/tenses
+                               :root-verb-specs
+                               (into {}
+                                     (map (fn [root]
+                                            [root {:root {:italiano {:italiano root}}}])
+                                          (sort
+                                           (remove nil? (map (fn [val]
+                                                               (dag_unify.core/get-in val [:italiano :italiano]))
+                                                             (filter (fn [v]
+                                                                       (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                                            (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                                     (flatten (vals (:lexicon model)))))))))})))))}))
+  
+(declare generate)
+
+(defn generate-all [language]
+  (let [language (if (string? language)
+                   (keyword language)
+                   language)
+        model @((-> models language))
+        root-verb-specs
+        (:root-verb-specs model)
+        tenses (:tenses model)
+        persons [:1st :2nd :3rd]
+        numbers [:sing :plur]]
+    (doall
+     (map (fn [root-verb]
+            (do (println (str "verb: " root-verb))
+                (let [root-verb-spec (get root-verb-specs root-verb)]
+                  (doall (map (fn [tense]
+                                (println (str "tense:" tense))
+                                (doall (map (fn [number]
+                                              (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
+                                                (doall (map (fn [person]
+                                                              (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
+                                                                (println (generate language (unify root-verb-spec
+                                                                                                   (get tenses tense)
+                                                                                                   number-spec
+                                                                                                   person-spec)))))
+                                                            persons))))
+                                            numbers))
+                                (println))
+                              (sort (keys tenses)))))
+                (println)))
+          (sort (keys root-verb-specs))))))
+
+(defn generate [language spec]
+  (let [model @((-> models language))
+        generate-fn (:generate-fn model)
+        morph-fn (:morph model)]
+    (morph-fn (generate-fn spec))))
+
+
 
 
 

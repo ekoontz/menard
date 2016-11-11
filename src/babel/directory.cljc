@@ -19,9 +19,9 @@
            (if (realized? en)
              en
              (deliver en 
-                      (do (log/info (str "starting to load english model.."))
+                      (do (log/debug (str "starting to load english model.."))
                           (let [model (babel.english.grammar/small)]
-                            (log/info (str "finished loading english model."))
+                            (log/debug (str "finished loading english model."))
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (en/generate spec :model model))}))))))
@@ -48,7 +48,6 @@
                                                                                 (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
                                                                          (flatten (vals (:lexicon model)))))))))}))))))
   
-                                   
      :fr (fn []
            (if (realized? fr)
              fr

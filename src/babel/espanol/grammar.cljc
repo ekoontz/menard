@@ -26,6 +26,15 @@
    [:synsem :aux]
    [:synsem :sem :pred]])
 
+(def tenses
+  {"present" {:synsem {:sem {:tense :present}}}
+   "conditional" {:synsem {:sem {:tense :conditional}}}
+   "future" {:synsem {:sem {:tense :future}}}
+   "imperfect" {:synsem {:sem {:aspect :progressive
+                                :tense :past}}}
+   "preterito" {:synsem {:sem {:aspect :perfect
+                             :tense :past}}}})
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 

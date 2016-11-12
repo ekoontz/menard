@@ -453,7 +453,7 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
         lexicon-for-generation (lexicon-for-generation lexicon)
-        indices (create-indices lexicon index-lexicon-on-paths)]
+        indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
     {:name "small"
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :language "es"
@@ -466,7 +466,7 @@
                    (map #(keyword (get-in % [:rule]))
                         grammar)
                    grammar)
-     
+     :generate {:lexicon lexicon-for-generation} ;; filter out null subjects.
      :grammar grammar
      :lexicon lexicon
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
@@ -487,6 +487,7 @@
         lexicon-for-analysis lexicon
         indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "medium"
+     :generate {:lexicon lexicon-for-generation} ;; filter out null subjects.
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :lookup (fn [arg]
                (morph/analyze arg lexicon-for-analysis))

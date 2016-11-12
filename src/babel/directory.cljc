@@ -9,6 +9,8 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :refer [get-in unify]]))
 
+(declare generate-pair)
+
 (def models
   (let [en (promise)
         es (promise)
@@ -138,16 +140,17 @@
                                               (println
                                                (str "  "
                                                     (let [pair
-                                                          (generate language (unify root-verb-spec
-                                                                                    (get tenses tense)
-                                                                                    number-spec
-                                                                                    person-spec))]
+                                                          (generate-pair
+                                                           language (unify root-verb-spec
+                                                                           (get tenses tense)
+                                                                           number-spec
+                                                                           person-spec))]
                                                       (str "\"" (:source pair) "\""
                                                            " -> "
                                                            "\""  (:target pair) "\"")))))))))))))))))))
                  (println))))))))
 
-(defn generate [language spec]
+(defn generate-pair [language spec]
   (let [model @((-> models language))
         generate (:generate-fn model)
         morph-fn (:morph model)
@@ -157,20 +160,15 @@
         source-morph (:morph source-model)]
         
     (log/debug (str "generating with spec: " spec))
-    (let [expression (generate spec)]
+    (let [expression (try (generate spec)
+                          (catch Exception e
+                            (let [err (str "generate-pair: exception hit when trying to generate "
+                                           "expression for spec: " spec " in target language: " language)]
+                              (log/error err))))]
       (when (nil? expression)
-        (let [err (str "could not generate an expression for spec: " spec " in language:" language)]
+        (let [err (str "generate-pair expression was nil for spec: " spec " in language:" language)]
           (log/error err) ))
       {:target
        (morph-fn expression)
        :source
        (source-morph (source-generate {:synsem {:sem (get-in expression [:synsem :sem])}}))})))
-
-
-
-
-
-
-
-
-

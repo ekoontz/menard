@@ -30,7 +30,6 @@
 (declare exception)
 (declare find-comp-paths-in)
 (declare lazy-mapcat)
-(declare lazy-shuffle)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare generate-all)
@@ -105,7 +104,7 @@
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
-        parents (lazy-shuffle (candidate-parents grammar spec))]
+        parents (shuffle (candidate-parents grammar spec))]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
@@ -127,7 +126,7 @@
                                                    subset))))
                                                      
                  (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
-                 (let [result (over/overh parent (lazy-shuffle subset))]
+                 (let [result (over/overh parent (shuffle subset))]
                    (when (not (empty? subset))
                      (log/trace (str "lightning-bolts:  surviving candidate heads: " (count subset) " -(unify)-> " (count result))))
 
@@ -244,7 +243,7 @@
                                           complement-candidate-lexemes))))
                
         bolt-child-synsem (get-in bolt (concat path [:synsem]))
-        lexical-complements (lazy-shuffle
+        lexical-complements (shuffle
                              (filter (fn [lexeme]
                                        (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
@@ -386,9 +385,6 @@
     (log/debug (str "candidate-parents for spec: " (strip-refs spec) " : "
                     (string/join "," (map :rule result))))
     result))
-
-(defn lazy-shuffle [seq]
-  (lazy-seq (shuffle seq)))
 
 (defn exception [error-string]
   #?(:clj

@@ -25,9 +25,14 @@
    [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
 
 (def index-lexicon-on-paths
-  [[:synsem :cat]
+  [[:synsem :agr :gender]
+   [:synsem :agr :number]
+   [:synsem :agr :person]
    [:synsem :aux]
-   [:synsem :sem :pred]])
+   [:synsem :cat]
+   [:synsem :pronoun]
+   [:synsem :sem :pred]
+   [:synsem :sem :human]])
 
 (declare cache)
 

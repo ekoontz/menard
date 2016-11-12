@@ -739,7 +739,7 @@
 
 (defn lexicon-for-generation [lexicon]
   "filter elements of a lexicon that are not intended for generation (:use-for-generation=false)"
-  (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] :true)))
+  (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] true)))
                                    (get lexicon k))])
                 (keys lexicon))))
 

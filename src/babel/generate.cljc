@@ -110,7 +110,7 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (let [lexicon (or (-> :generate :lexicon language-model) (:lexicon language-model))
+               (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
                               (index-fn (get-in parent [:head] :top))
                               (do (log/warn (str "lightning-bolts: no index-fn for model:" (:name language-model) ": using entire lexicon."))
@@ -221,7 +221,7 @@
   (log/debug (str "add-complement-to-bolt: complement-spec: (1) "
                   (strip-refs (get-in bolt path))))
 
-  (let [lexicon (or (-> :generate :lexicon language-model)
+  (let [lexicon (or (:lexicon (:generate language-model))
                     (:lexicon language-model))
         from-bolt bolt ;; so we can show what (add-complement-to-bolt) did to the input bolt, for logging.
         spec (strip-refs (get-in bolt path))
@@ -308,7 +308,7 @@
 (defn any-possible-complement? [bolt path language-model total-depth
                                 & {:keys [max-total-depth]
                                    :or {max-total-depth max-total-depth}}]
-  (let [lexicon (or (-> :generate :lexicon language-model)
+  (let [lexicon (or (:lexicon (:generate language-model))
                     (:lexicon language-model))
         spec (get-in bolt path)
         immediate-parent (get-in bolt (butlast path))

@@ -102,29 +102,38 @@
         persons [:1st :2nd :3rd]
         numbers [:sing :plur]]
     (doall
-     (map (fn [root-verb]
-            (do (println (str "" root-verb))
-                (let [root-verb-spec (get root-verb-specs root-verb)]
-                  (doall (map (fn [tense]
-                                (println (str " " tense))
-                                (doall (map (fn [number]
-                                              (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
-                                                (doall (map (fn [person]
-                                                              (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
-                                                                (println
-                                                                 (str "  "
-                                                                      (let [pair
-                                                                            (generate language (unify root-verb-spec
-                                                                                                      (get tenses tense)
-                                                                                                      number-spec
-                                                                                                      person-spec))]
-                                                                        (str "\"" (:source pair) "\" -> \""
-                                                                             (:target pair) "\""))))))
-                                                            persons))))
-                                            numbers)))
-                              (sort (keys tenses)))))
-                (println)))
-          (sort (keys root-verb-specs))))))
+     (->>
+      (sort (keys root-verb-specs))
+      (map (fn [root-verb]
+             (do (println (str "" root-verb))
+                 (let [root-verb-spec (get root-verb-specs root-verb)]
+                   (doall
+                    (->>
+                     (sort (keys tenses))
+                     (map (fn [tense]
+                            (println (str " " tense))
+                            (doall
+                             (->>
+                              numbers
+                              (map
+                               (fn [number]
+                                 (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
+                                   (doall
+                                    (->>
+                                     persons
+                                     (map (fn [person]
+                                            (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
+                                              (println
+                                               (str "  "
+                                                    (let [pair
+                                                          (generate language (unify root-verb-spec
+                                                                                    (get tenses tense)
+                                                                                    number-spec
+                                                                                    person-spec))]
+                                                      (str "\"" (:source pair) "\""
+                                                           " -> "
+                                                           "\""  (:target pair) "\"")))))))))))))))))))
+                 (println))))))))
 
 (defn generate [language spec]
   (let [model @((-> models language))

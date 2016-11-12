@@ -21,6 +21,15 @@
    [:synsem :aux]
    [:synsem :sem :pred]])
 
+(def tenses
+  {"present" {:synsem {:sem {:tense :present}}}
+   "conditional" {:synsem {:sem {:tense :conditional}}}
+   "future" {:synsem {:sem {:tense :future}}}
+   "imperfect" {:synsem {:sem {:aspect :progressive
+                                :tense :past}}}
+   "past perfect" {:synsem {:sem {:aspect :perfect
+                                  :tense :past}}}})
+
 (declare against-pred)
 (declare matching-head-lexemes)
 

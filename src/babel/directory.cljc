@@ -20,7 +20,7 @@
              en
              (deliver en 
                       (do (log/debug (str "starting to load english model.."))
-                          (let [model (babel.english.grammar/small)]
+                          (let [model (babel.english.grammar/medium)]
                             (log/debug (str "finished loading english model."))
                             (conj model
                                   {:generate-fn (fn [spec]
@@ -52,12 +52,24 @@
            (if (realized? fr)
              fr
              (deliver fr
-                      (do (log/info (str "starting to load French model.."))
+                      (do (log/debug (str "starting to load French model.."))
                           (let [model (babel.francais.grammar/medium)]
-                            (log/info (str "finished loading French model."))
+                            (log/debug (str "finished loading French model."))
                             (conj model
                                   {:generate-fn (fn [spec]
-                                                  (fr/generate spec :model model))}))))))
+                                                  (fr/generate spec :model model))
+                                   :tenses babel.francais.grammar/tenses
+                                   :root-verb-specs
+                                   (into {}
+                                         (map (fn [root]
+                                                [root {:root {:français {:français root}}}])
+                                              (sort
+                                               (remove nil? (map (fn [val]
+                                                                   (dag_unify.core/get-in val [:français :français]))
+                                                                 (filter (fn [v]
+                                                                           (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                                                (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                                         (flatten (vals (:lexicon model)))))))))}))))))
      :la (fn []
            (if (realized? la)
              la
@@ -148,8 +160,7 @@
     (let [expression (generate spec)]
       (when (nil? expression)
         (let [err (str "could not generate an expression for spec: " spec " in language:" language)]
-          (log/error err) 
-          (throw (Exception. err))))
+          (log/error err) ))
       {:target
        (morph-fn expression)
        :source

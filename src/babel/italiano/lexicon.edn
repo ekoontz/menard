@@ -464,12 +464,11 @@
 
 
  "cercare"  [{:synsem {:cat :verb
-            :essere false
-            :sem {:pred :look-for}}}
-  {:synsem {:cat :verb
-            :essere false
-            :sem {:pred :look-up}}}]
-
+                       :essere false
+                       :sem {:pred :look-for}}}
+             {:synsem {:cat :verb
+                       :essere false
+                       :sem {:pred :look-up}}}]
 
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}

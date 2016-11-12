@@ -35,20 +35,18 @@
      (if result
        (conj {:surface (fo result)}
              result))))
-  ([spec]
+  ([spec & {:keys [max-total-depth model truncate-children]
+            :or {max-total-depth generate/max-total-depth
+                 model (medium)
+                 truncate-children true}}]
    (let [result (generate/generate spec (medium))]
-     (if result
-       (conj {:surface (fo result)}
-             result))))
-  ([spec model]
-   (let [result (generate/generate spec model)]
      (if result
        (conj {:surface (fo result)}
              result)))))
 
 (defn parse
-  "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
-
+  "parse a string in French into zero or more (hopefully more) phrase structure trees"
+  
   ([input]
    (parse input (medium)))
 

@@ -89,28 +89,28 @@
     (is (= "j'avais" (fo result)))))
 
 (deftest être-as-aux
-  (let [lexicon (:lexicon (small))
+  (let [lexicon (:lexicon small)
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unifyc rule
                                {:head (last (get lexicon "être"))}))
-                     (:grammar (small))))]
+                     (:grammar small)))]
     (is (not (empty? result)))
     (is (= (get-in (first result) [:rule]) "vp-aux"))))
 
 (deftest vp-aux-test
   (let [rule (first (filter #(= (:rule %) "vp-aux")
-                            (:grammar (small))))]
+                            (:grammar small)))]
     (is (not (nil? rule)))))
 
 (def etre-test
   (is (not (nil? (first (filter #(= true (get-in % [:synsem :aux]))
-                                (get (:lexicon (small)) "être")))))))
+                                (get (:lexicon small) "être")))))))
 
 (deftest over-test
-  (let [lexicon (:lexicon (small))
-        grammar (:grammar (small))
+  (let [lexicon (:lexicon small)
+        grammar (:grammar small)
         result
         (over grammar
               (get lexicon "nous")

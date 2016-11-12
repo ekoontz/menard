@@ -29,9 +29,9 @@
            (if (realized? es)
              es
              (deliver es
-                      (do (log/info (str "starting to load Español model.."))
+                      (do (log/debug (str "starting to load Español model.."))
                           (let [model (babel.espanol.grammar/small)]
-                            (log/info (str "finished loading Espanol model."))
+                            (log/debug (str "finished loading Espanol model."))
                             (conj model
                                   {:generate-fn (fn [spec]
                                                   (es/generate spec :model model))

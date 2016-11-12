@@ -2,7 +2,7 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.francais :as fr :refer [generate parse small medium]]
+            [babel.francais :as fr :refer [generate parse medium]]
             [babel.francais.grammar :as grammar]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
@@ -16,6 +16,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
+
+(def small (fr/small))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
@@ -48,7 +50,7 @@
                                          :subj {:pred :I}
                                          :tense :present
                                          :aspect :progressive}}}
-                         (small))]
+                         :model small)]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-conditional
@@ -56,7 +58,7 @@
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         (small))]
+                         :model small)]
     (is (= "je dormirais" (fo result)))))
 
 (deftest generate-present-irregular
@@ -64,7 +66,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present}}}
-                         (small))]
+                         :model small)]
     (is (= "je suis" (fo result)))))
 
 (deftest generate-imperfect-irregular-être
@@ -72,8 +74,7 @@
                                    :infl :imperfect
                                    :sem {:pred :be
                                          :subj {:pred :I}}}}
-                         
-                         (small))]
+                         :model small)]
     (is (= "j'étais" (fo result)))))
 
 (deftest generate-imperfect-irregular-avoir
@@ -81,7 +82,7 @@
                                             :infl :imperfect
                                             :sem {:pred :have
                                                   :subj {:pred :I}}}}
-                                  (small)
+                                  small
                                   :truncate-children false)]
     (is (not (nil? result)))
     (is (= "av" (get-in result [:head :français :imperfect-stem])))
@@ -184,7 +185,7 @@
                                    :pred :go
                                    :aspect :perfect
                                    :tense :past}}})
-                  (small))]
+                  :model small)]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
 

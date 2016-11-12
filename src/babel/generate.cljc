@@ -388,8 +388,7 @@
     result))
 
 (defn lazy-shuffle [seq]
-  (if true seq
-      (lazy-seq (shuffle seq))))
+  (lazy-seq (shuffle seq)))
 
 (defn exception [error-string]
   #?(:clj

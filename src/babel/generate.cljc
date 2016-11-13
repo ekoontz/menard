@@ -98,7 +98,6 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  (log/debug (str "lightning-bolts: start: spec: " (spec-info spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
@@ -112,29 +111,8 @@
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
                               (index-fn (get-in parent [:head] :top))
-                              (do (log/warn (str "lightning-bolts: no index-fn for model:" (:name language-model) ": using entire lexicon."))
-                                  (flatten (vals lexicon))))]
-                 (if (not (empty? subset))
-                   (log/debug (str "lightning-bolts: " (get-in parent [:rule])
-                                   " : subset of candidate heads: "
-                                   (count subset) " with spec: " (strip-refs spec)))
-                   (log/debug (str "index returned a null set for spec:" (strip-refs spec))))
-                 (log/trace (str "lightning-bolts: " (get-in parent [:rule])
-                                 " : head lexeme candidates: "
-                                 (string/join ","
-                                              (map #((:morph language-model) %)
-                                                   subset))))
-                                                     
-                 (log/trace (str "trying overh with parent: " (:rule parent) " and head constraints: " (get-in parent [:head])))
+                              (flatten (vals lexicon)))]
                  (let [result (over/overh parent (shuffle subset))]
-                   (when (not (empty? subset))
-                     (log/trace (str "lightning-bolts:  surviving candidate heads: " (count subset) " -(unify)-> " (count result))))
-
-                   (log/trace (str "lightning-bolts: surviving results: " 
-                                   (string/join ","
-                                                (map #((:morph language-model) %)
-                                                     result))))
-
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))
@@ -143,7 +121,6 @@
                      ;; and candidate head must be copied.
                      (log/warn (str "tried: " (count subset) " lexical candidates with spec:"
                                     (strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
-                   (log/trace (str "returning bolts: count: " (count result)))
                    result)))
              (filter #(= false
                          (get-in % [:head :phrasal] false))
@@ -151,18 +128,15 @@
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< total-depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
-            (do
-              (lazy-mapcat (fn [parent]
-                             (log/debug (str "calling lightning-bolts recursively: parent: " (:rule parent) " with spec : "
-                                             (spec-info (get-in parent [:head]))))
-                             (over/overh
-                              parent
-                              (lightning-bolts language-model (get-in parent [:head])
-                                               (+ 1 depth) (+ 1 total-depth)
-                                               :max-total-depth max-total-depth)))
+            (lazy-mapcat (fn [parent]
+                           (over/overh
+                            parent
+                            (lightning-bolts language-model (get-in parent [:head])
+                                             (+ 1 depth) (+ 1 total-depth)
+                                             :max-total-depth max-total-depth)))
                          (filter #(= true
                                      (get-in % [:head :phrasal] true))
-                                 parents))))]
+                                 parents)))]
       (filter
        (fn [bolt]
          (any-possible-complement?

@@ -1,4 +1,4 @@
-(defproject babel "2.3.4"
+(defproject babel "2.4.0-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Eclipse Public License"
@@ -6,7 +6,7 @@
   :dependencies [[clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
-                 [dag_unify "1.4.1"]
+                 [dag_unify "1.4.2-SNAPSHOT"]
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]

@@ -16,37 +16,11 @@
 ;; Creating a language model is expensive so we'll do it once before running any benchmarks..
 (def small (grammar/small))
 
-;; .. and use this language model for all generation.
-(defn generate [spec]
-  (italiano/generate spec :model small))
-
 (defn exception [error-string]
   #?(:clj
      (throw (Exception. error-string)))
   #?(:cljs
      (throw (js/Error. error-string))))
-
-(defn run-benchmark
-  ([]
-   (run-benchmark 10))
-
-  ([times]
-   (count (take (Integer/parseInt times)
-                (repeatedly #(let [debug (println "starting generation..")
-                                   expr (time (generate {:comp {:synsem {:agr {:person :3rd}}}
-                                                         :synsem {:cat :verb}}))]
-                               (println (str "generated: " (fo expr)))
-                               (println (str "starting parsing.."))
-                               ;; take the first parse in order to force evaluation of parsing so that (time ..)'s return value is meaningful.
-                               (let [parses (time (take 1 (reduce concat (map :parses (parse (fo expr))))))]
-                                 (if (empty? parses)
-                                   (throw (exception (str "could not parse: " (fo expr) " with semantics:"
-                                                          (strip-refs (get-in expr [:synsem :sem]))))))
-                                 
-                                 (println (str "parsed: " (fo (first parses))))
-                                 (println ""))))))))
-(defn -main [times]
-  (run-benchmark times))
 
 ;; lein run -m babel.italiano.benchmark/parse-mark 20 "i gatti neri hanno bevuto il vino rosso"
 ;; lein run -m babel.italiano.benchmark/parse-mark 20 "gli uomini alti hanno bevuto il vino rosso alla casa rossa"

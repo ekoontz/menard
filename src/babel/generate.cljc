@@ -172,6 +172,36 @@
          (lazy-cat lexical phrasal)
          (lazy-cat phrasal lexical))))))
 
+;; TODO: was copied from (defn add-complement-to-bolt) and then modified:
+;; refactor both above and below so that commonalities are shared.
+(defn any-possible-complement? [bolt path language-model total-depth
+                                & {:keys [max-total-depth]
+                                   :or {max-total-depth max-total-depth}}]
+  (let [lexicon (or (:lexicon (:generate language-model))
+                    (:lexicon language-model))
+        spec (get-in bolt path)
+        immediate-parent (get-in bolt (butlast path))
+        complement-candidate-lexemes
+        (if (and
+             (not (= true (get-in bolt (concat path [:phrasal]))))
+             (:index-fn language-model))
+          ((:index-fn language-model) spec))
+        bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
+        lexical-complements (filter (fn [lexeme]
+                                      (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
+                                                        bolt-child-synsem)))
+                                    complement-candidate-lexemes)]
+    (or (not (empty? lexical-complements))
+        (not (empty?
+              (filter #(not-fail? %)
+                      (mapfn (fn [complement]
+                               (unify (strip-refs (get-in bolt [:synsem]))
+                                      (assoc-in {} (concat path [:synsem])
+                                                complement)))
+                             (if (and (> max-total-depth total-depth)
+                                      (= true (get-in spec [:phrasal] true)))
+                               (generate-all spec language-model (+ (count path) total-depth)
+                                             :max-total-depth max-total-depth)))))))))
 (defn add-all-comps
   "At each point in each bolt in the list of list of bolts,
   _bolt-groups_, add all possible complements at all open nodes in the
@@ -301,48 +331,6 @@
                            true
                            (take max-generated-complements
                                  (lazy-cat phrasal-complements lexical-complements))))))))
-
-;; TODO: was copied from (defn add-complement-to-bolt) and then modified:
-;; refactor both above and below so that commonalities are shared.
-(defn any-possible-complement? [bolt path language-model total-depth
-                                & {:keys [max-total-depth]
-                                   :or {max-total-depth max-total-depth}}]
-  (let [lexicon (or (:lexicon (:generate language-model))
-                    (:lexicon language-model))
-        spec (get-in bolt path)
-        immediate-parent (get-in bolt (butlast path))
-        complement-candidate-lexemes
-        (if (and
-             (not (= true (get-in bolt (concat path [:phrasal]))))
-             (:index-fn language-model))
-          ((:index-fn language-model) spec))
-        debug (log/trace (str "lexical complements: (pre unify) for bolt: " (show-bolt bolt language-model)
-                              " at path="  path ":" (count complement-candidate-lexemes) ":"
-                              (string/join ","
-                                           (map #((:morph language-model) %)
-                                                complement-candidate-lexemes))))
-
-        bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
-        lexical-complements (filter (fn [lexeme]
-                                      (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
-                                                        bolt-child-synsem)))
-                                    complement-candidate-lexemes)]
-    (log/trace (str "lexical complements: (post unify) for bolt: " (show-bolt bolt language-model)
-                    " at path="  path ":" (count lexical-complements) ":"
-                    (string/join ","
-                                 (map #((:morph language-model) %)
-                                      lexical-complements))))
-    (or (not (empty? lexical-complements))
-        (not (empty?
-              (filter #(not-fail? %)
-                      (mapfn (fn [complement]
-                               (unify (strip-refs (get-in bolt [:synsem]))
-                                      (assoc-in {} (concat path [:synsem])
-                                                complement)))
-                             (if (and (> max-total-depth total-depth)
-                                      (= true (get-in spec [:phrasal] true)))
-                               (generate-all spec language-model (+ (count path) total-depth)
-                                             :max-total-depth max-total-depth)))))))))
   
 (defn bolt-depth [bolt]
   (if-let [head (get-in bolt [:head] nil)]
@@ -378,7 +366,7 @@
                                   (not-fail? (unify (get-in rule [:synsem :sem :tense] :top)
                                                     (get-in spec [:synsem :sem :tense] :top)))
                                   (not-fail? (unify (get-in rule [:synsem :modified] :top)
-                                                   (get-in spec [:synsem :modified] :top))))
+                                                    (get-in spec [:synsem :modified] :top))))
                            (unify spec rule)
                            :fail))
                        rules))]

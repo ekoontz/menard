@@ -21,10 +21,14 @@
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
 (def index-lexicon-on-paths
-  [[:italiano :italiano]
+  [
+   [:italiano :italiano]
    [:synsem :aux]
    [:synsem :cat]
-   [:synsem :sem :pred]])
+   [:synsem :essere]
+   [:synsem :infl]
+   [:synsem :sem :pred]
+   ])
 
 (def tenses
   {"present" {:synsem {:sem {:tense :present}}}

@@ -1,7 +1,7 @@
 (ns babel.ug
   (:refer-clojure :exclude [get-in resolve])
   (:require [clojure.string :as string]
-            [dag_unify.core :refer (fail? get-in unifyc)]))
+            [dag_unify.core :refer (fail? get-in unify)]))
 
 (def phrasal {:phrasal true})
 
@@ -14,7 +14,7 @@
         head-essere (atom :top)
         head-is-pronoun (atom :top)
         head-sem (atom :top)]
-    (unifyc phrasal
+    (unify phrasal
             {:synsem {:cat head-cat
                       :essere head-essere
                       :pronoun head-is-pronoun
@@ -29,7 +29,7 @@
 ;;  /     \
 ;; H[1]    C
 (def head-principle
-  (unifyc head-principle-no-infl
+  (unify head-principle-no-infl
           phrasal
           (let [head-infl (atom :top)
                 agr (atom :top)]
@@ -219,7 +219,7 @@
                                   {:synsem {:infl :present}})))))]
        (let [merged
              (if (= input :fail) :fail
-                 (unifyc input finitize))]
+                 (unify input finitize))]
          (do
            merged)))))) ;; for now, no recursive call.
 
@@ -264,7 +264,7 @@
      (throw (js/Error. error-string))))
 
 (defn unify-check [ & vals]
-  (let [result (apply unifyc vals)]
+  (let [result (apply unify vals)]
     (if (fail? result)
       (exception (str "failed to unify grammar rule with values: " vals))
       result)))

@@ -5,6 +5,18 @@
 
 (def phrasal {:phrasal true})
 
+(defn exception [error-string]
+  #?(:clj
+     (throw (Exception. (str ": " error-string))))
+  #?(:cljs
+     (throw (js/Error. error-string))))
+
+(defn unify-check [ & vals]
+  (let [result (apply unify vals)]
+    (if (fail? result)
+      (exception (str "failed to unify grammar rule with values: " vals))
+      result)))
+
 ;;    [1]
 ;;   /   \
 ;;  /     \
@@ -185,6 +197,25 @@
     {:head {:synsem {:sem head-semantics}}
      :comp {:synsem {:sem comp-semantics}}}))
 
+(def schema-10
+  (unify-check
+   subcat-1-principle
+   head-principle
+   {:first :comp
+    :comp {:synsem {:subcat '()}}}))
+
+(def c10
+  (unify-check
+   schema-10
+   {:comment "c10"
+    ;; TODO: using :schema-symbol below - cannot use :schema for some reason; need to figure out why.
+    ;; if you try to use :schema, I get:
+    ;; java.util.concurrent.ExecutionException: java.lang.RuntimeException:
+    ;; Can't embed object in code, maybe print-dup not defined: clojure.lang.Ref@11819f3c
+    :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
+    :first :comp
+    :comp {:synsem {:subcat '()}}}))
+
 ;; -- END SCHEMA DEFINITIONS
 
 (defn sentence-impl [input]
@@ -256,15 +287,3 @@
   (let [root (atom :top)]
     {:root root
      :comp {:root root}}))
-
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. (str ": " error-string))))
-  #?(:cljs
-     (throw (js/Error. error-string))))
-
-(defn unify-check [ & vals]
-  (let [result (apply unify vals)]
-    (if (fail? result)
-      (exception (str "failed to unify grammar rule with values: " vals))
-      result)))

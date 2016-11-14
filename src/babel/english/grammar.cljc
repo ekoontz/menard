@@ -6,19 +6,20 @@
    [babel.index :refer [create-indices lookup-spec]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
-   [babel.ug :refer [comp-modifies-head
-                     comp-specs-head
-                     head-principle
-                     root-is-comp
-                     root-is-head root-is-head-root
-                     subcat-1-principle
-                     subcat-1-1-principle
-                     subcat-1-1-principle-comp-subcat-1
-                     subcat-2-principle
-                     subcat-2-2-principle
-                     subcat-5-principle
-                     unify-check
-                     ]]
+   [babel.ug :as ug
+    :refer [comp-modifies-head
+            comp-specs-head
+            head-principle
+            root-is-comp
+            root-is-head root-is-head-root
+            subcat-1-principle
+            subcat-1-1-principle
+            subcat-1-1-principle-comp-subcat-1
+            subcat-2-principle
+            subcat-2-2-principle
+            subcat-5-principle
+            unify-check
+            ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
@@ -69,26 +70,10 @@
                :b head-english}}))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
-;; <TODO: move to ug>
-(def schema-10
-  (unify-check
-   subcat-1-principle
-   head-principle
-   {:first :comp
-    :comp {:synsem {:subcat '()}}}))
-
 (def c10
   (unify-check
-   schema-10
-   head-last
-   {:comment "c10"
-    ;; TODO: using :schema-symbol below - cannot use :schema for some reason; need to figure out why.
-    ;; if you try to use :schema, I get:
-    ;; java.util.concurrent.ExecutionException: java.lang.RuntimeException:
-    ;; Can't embed object in code, maybe print-dup not defined: clojure.lang.Ref@11819f3c
-    :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
-    :first :comp
-    :comp {:synsem {:subcat '()}}}))
+   ug/c10
+   head-last))
 
 (def c00
   (unify-check

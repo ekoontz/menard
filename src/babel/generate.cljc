@@ -108,6 +108,7 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
+               (log/info (str "parent: " (:rule parent) " over lexical heads."))
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
                               (index-fn (get-in parent [:head] :top))

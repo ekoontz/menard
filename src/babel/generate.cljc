@@ -113,7 +113,9 @@
                      subset (if-let [index-fn (:index-fn language-model)]
                               (index-fn (get-in parent [:head] :top))
                               (flatten (vals lexicon)))]
-                 (let [result (over/overh parent (shuffle subset))]
+                 (let [result
+                       (mapcat #(over/overh parent %)
+                               (shuffle subset))]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))
@@ -131,11 +133,10 @@
                    (= true (get-in spec [:head :phrasal] true)))
             (lazy-mapcat (fn [parent]
                            (log/debug (str "parent: " (:rule parent) " over phrasal heads."))
-                           (over/overh
-                            parent
-                            (lightning-bolts language-model (get-in parent [:head])
-                                             (+ 1 depth) (+ 1 total-depth)
-                                             :max-total-depth max-total-depth)))
+                           (mapcat #(over/overh parent %)
+                                   (lightning-bolts language-model (get-in parent [:head])
+                                                    (+ 1 depth) (+ 1 total-depth)
+                                                    :max-total-depth max-total-depth)))
                            (filter #(= true
                                        (get-in % [:head :phrasal] true))
                                    parents)))]

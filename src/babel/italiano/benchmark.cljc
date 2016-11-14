@@ -1,6 +1,6 @@
 (ns babel.italiano.benchmark
   (:refer-clojure :exclude [get-in])
-  (:require [babel.italiano :as italiano :refer [analyze parse]]
+  (:require [babel.italiano :as italiano :refer [analyze generate morph parse]]
             [babel.italiano.grammar :as grammar]
             [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
             [babel.italiano.morphology.nouns :as nouns]
@@ -13,8 +13,9 @@
             [clojure.string :as string]
             [dag_unify.core :refer [get-in strip-refs]]))
 
-;; Creating a language model is expensive so we'll do it once before running any benchmarks..
+;; Creating language models is expensive so we'll create them before running any benchmarks..
 (def small (grammar/small))
+(def medium (grammar/medium))
 
 (defn exception [error-string]
   #?(:clj
@@ -88,5 +89,3 @@
                 :root {:italiano {:italiano "andare"}}}
                small
                do-this-many)))
-
-  

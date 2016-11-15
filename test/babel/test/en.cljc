@@ -270,10 +270,9 @@
 
 (deftest reflexive-furniture-sentence
   (let [expr (generate {:modified false
-                        :comp {:synsem {:agr {:person :3rd}}}
                         :synsem {:cat :verb
-                                 :sem {:aspect :progressive
-                                       :pred :in-front-of
+                                 :sem {:pred :in-front-of
+                                       :tense :present
                                        :reflexive true
                                        :subj {:pred :chair
                                               :mod '()

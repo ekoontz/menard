@@ -122,7 +122,7 @@
                               (flatten (vals lexicon)))]
                  (let [result
                        (mapcat #(do
-                                  (log/debug (str "trying parent: " (:rule parent) " with lexical head:"
+                                  (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
                                                   ((:morph language-model) %)))
                                   (over/overh parent %))
                                (shuffle subset))]

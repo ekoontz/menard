@@ -621,7 +621,7 @@
 (defn apply-default [original default]
   (let [result
         (unify original default)]
-    (if (not (fail? result))
+    (if (not (= :fail result))
       result
       original)))
 

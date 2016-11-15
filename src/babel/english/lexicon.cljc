@@ -2638,7 +2638,9 @@
        {:synsem {:cat :verb
                  :subcat {:2 {:cat :top}}}})
 
-      ;; prevent :modal-with :infinitive matching unless it's already set
+      ;; this key: :modal-with determines inflection of argument of a modal verb
+      ;; values can be :infinitive,:root, or false
+      ;; TODO: should be possible to do with a modal verb's subcat instead of a whole new key.
       (default
        {:modal-with false
         :synsem {:cat :verb}})

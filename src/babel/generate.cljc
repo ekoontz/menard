@@ -217,9 +217,13 @@
      language-model total-depth (rest comp-paths)
      truncate-children max-total-depth top-level-spec)))
 
-(defn do-defaults [expr]
-  (log/info (str "do-defaults.."))
-  expr)
+(defn do-defaults [tree language-model]
+  (if-let [default-fn (:default-fn language-model)]
+    (default-fn tree)
+    ;;
+    (do
+      (log/info (str "language-model has no default function."))
+      tree)))
 
 (defn add-complement-to-bolt [bolt path language-model total-depth top-level-spec
                               & {:keys [max-total-depth truncate-children]
@@ -263,55 +267,58 @@
                     (string/join ","
                                  (map #((:morph language-model) %)
                                       lexical-complements))))
-    (filter #(not-fail? %)
-            (mapfn (fn [complement]
-                     (let [unified
-                           (unify! (copy bolt)
-                                   (assoc-in {} path 
-                                             (copy complement)))]
-                       (if (and (not-fail? unified)
-                                truncate-children)
-                         (truncate unified [path] language-model)
-                         unified)))
-                   (let [phrasal-complements (if (and (> max-total-depth total-depth)
-                                                      (= true (get-in spec [:phrasal] true)))
-                                               (do
-                                                 (log/debug (str "calling (generate-all) from add-complement-to-bolt with bolt:"
-                                                                 (show-bolt bolt language-model)))
-                                                 (generate-all spec language-model (+ (count path) total-depth)
-                                                               :max-total-depth max-total-depth)))
-                         lexemes-before-phrases (lexemes-before-phrases total-depth max-total-depth)]
-                     (cond (and lexemes-before-phrases
-                                (empty? lexical-complements)
-                                (= false (get-in spec [:phrasal] true)))
-                           (log/warn (str "failed to generate any lexical complements with spec: "
-                                          (strip-refs spec)))
-                           
-                           (and lexemes-before-phrases
-                                (= true (get-in spec [:phrasal] false))
-                                (empty? phrasal-complements))
-                           (log/warn (str "failed to generate any phrasal complements with spec: "
-                                          (strip-refs spec)))
-                           
-                           (and (empty? lexical-complements)
-                                (empty? phrasal-complements))
-                           
-                           (let [message (str "add-complement-to-bolt: could generate neither phrasal "
-                                              "nor lexical complements for "
-                                      "bolt:" (show-bolt bolt language-model) "; immediate parent: "
-                                      (get-in bolt (concat (butlast path) [:rule]) :norule) " "
-                                      "while trying to create a complement: "
-                                      (spec-info spec)
-                                      )]
-                             (log/debug message)
-                             (if error-if-no-complements (exception message)))
-                           
-                           lexemes-before-phrases
-                           (take max-generated-complements
-                                 (lazy-cat lexical-complements phrasal-complements))
-                           true
-                           (take max-generated-complements
-                                 (lazy-cat phrasal-complements lexical-complements))))))))
+    (->>
+     (let [phrasal-complements (if (and (> max-total-depth total-depth)
+                                        (= true (get-in spec [:phrasal] true)))
+                                 (do
+                                   (log/debug (str "calling (generate-all) from add-complement-to-bolt with bolt:"
+                                                   (show-bolt bolt language-model)))
+                                   (generate-all spec language-model (+ (count path) total-depth)
+                                                 :max-total-depth max-total-depth)))
+           lexemes-before-phrases (lexemes-before-phrases total-depth max-total-depth)]
+       (cond (and lexemes-before-phrases
+                  (empty? lexical-complements)
+                  (= false (get-in spec [:phrasal] true)))
+             (log/warn (str "failed to generate any lexical complements with spec: "
+                            (strip-refs spec)))
+             
+             (and lexemes-before-phrases
+                  (= true (get-in spec [:phrasal] false))
+                  (empty? phrasal-complements))
+             (log/warn (str "failed to generate any phrasal complements with spec: "
+                            (strip-refs spec)))
+             
+             (and (empty? lexical-complements)
+                  (empty? phrasal-complements))
+             
+             (let [message (str "add-complement-to-bolt: could generate neither phrasal "
+                                "nor lexical complements for "
+                                "bolt:" (show-bolt bolt language-model) "; immediate parent: "
+                                (get-in bolt (concat (butlast path) [:rule]) :norule) " "
+                                "while trying to create a complement: "
+                                (spec-info spec)
+                                )]
+               (log/debug message)
+               (if error-if-no-complements (exception message)))
+             
+             lexemes-before-phrases
+             (take max-generated-complements
+                   (lazy-cat lexical-complements phrasal-complements))
+             true
+             (take max-generated-complements
+                   (lazy-cat phrasal-complements lexical-complements))))
+
+     (mapfn (fn [complement]
+              (let [unified
+                    (unify! (copy bolt)
+                            (assoc-in {} path 
+                                      (copy complement)))]
+                (if (and (not-fail? unified)
+                         truncate-children)
+                  (truncate unified [path] language-model)
+                  unified))))
+     (mapfn (fn [tree]
+              (do-defaults tree language-model))))))
   
 (defn bolt-depth [bolt]
   (if-let [head (get-in bolt [:head] nil)]

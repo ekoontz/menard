@@ -317,6 +317,9 @@
                          truncate-children)
                   (truncate unified [path] language-model)
                   unified))))
+
+     (filter #(not-fail? %))
+
      (mapfn (fn [tree]
               (do-defaults tree language-model))))))
   

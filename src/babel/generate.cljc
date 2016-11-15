@@ -217,6 +217,10 @@
      language-model total-depth (rest comp-paths)
      truncate-children max-total-depth top-level-spec)))
 
+(defn do-defaults [expr]
+  (log/info (str "do-defaults.."))
+  expr)
+
 (defn add-complement-to-bolt [bolt path language-model total-depth top-level-spec
                               & {:keys [max-total-depth truncate-children]
                                  :or {max-total-depth max-total-depth

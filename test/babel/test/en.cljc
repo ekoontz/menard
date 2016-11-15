@@ -23,6 +23,9 @@
   {:en (morph expr)
    :subj (get-in expr [:synsem :sem :subj :pred])
    :pred (get-in expr [:synsem :sem :pred])
+   :tense (get-in expr [:synsem :sem :tense])
+   :infl (get-in expr [:synsem :infl])
+   :aspect (get-in expr [:synsem :sem :aspect])
    :obj (get-in expr [:synsem :sem :obj :pred])})
 
 (deftest generate-irregular-present-1
@@ -124,19 +127,40 @@
               (= surface-form
                  "you all used to go downstairs"))))))
 
-(deftest simple-parse
-  (is (not (empty? (parse "she sleeps")))))
+(deftest present-tense-parse
+  (let [parses (parse "she sleeps")]
+    (is (not (empty? parses)))
+    (is (= (get-in (first parses) [:synsem :sem :tense])
+           :present))))
 
-(deftest future-parse
-  (is (not (empty? (parse "he will speak")))))
+(deftest future-tense-parse
+  (let [parses (parse "he will speak")]
+    (is (not (empty? parses)))
+    (is (= (get-in (first parses) [:synsem :sem :tense])
+           :future))))
 
 (deftest conditional-parse
   (is (not (empty? (parse "she would speak")))))
 
 (deftest imperfect-parse
-  (is (not (empty? (parse "she used to speak"))))
-  (is (not (empty? (parse "she was loving"))))
-  (is (not (empty? (parse "she was speaking")))))
+  (let [parses (parse "she used to speak")]
+    (is (not (empty? parses)))
+    (is (= (get-in (first parses) [:synsem :sem :tense])
+           :past))
+    (is (= (get-in (first parses) [:synsem :sem :aspect])
+           :progressive)))
+  (let [parses (parse "she was loving")]
+    (is (not (empty? parses)))
+    (is (= (get-in (first parses) [:synsem :sem :tense])
+           :past))
+    (is (= (get-in (first parses) [:synsem :sem :aspect])
+           :progressive)))
+  (let [parses (parse "she was speaking")]
+    (is (not (empty? parses)))
+    (is (= (get-in (first parses) [:synsem :sem :tense])
+           :past))
+    (is (= (get-in (first parses) [:synsem :sem :aspect])
+           :progressive))))
 
 (deftest parse-with-gender-symbols
   (is (not (empty? (parse "I (♀) speak"))))
@@ -171,9 +195,10 @@
   (let [result (generate {:modified false
                           :synsem {:cat :noun
                                    :sem {:pred :name
-                                         :mod '()}}})]
+                                         :mod '()
+                                         }}})]
     (is (= (get-in result [:synsem :sem :mod]
-                   :undefined-should-not-return-this)
+                   ::undefined-should-not-return-this)
            '()))))
 
 (deftest her-name-is-luisa
@@ -247,21 +272,19 @@
 
 (deftest furniture-sentence
   (let [expr (generate {:modified false
-                        :comp {:synsem {:agr {:person :3rd}}}
                         :synsem {:cat :verb
-                                 :sem {:aspect :progressive
-                                       :obj {:pred :table
+                                 :sem {:obj {:pred :table
                                              :mod '()
                                              :number :sing
                                              :spec {:def :def
                                                     :pred :definite}}
                                        :pred :in-front-of
+                                       :tense :present
                                        :subj {:pred :chair
                                               :mod '()
                                               :number :sing
                                               :spec {:def :def
-                                                     :pred :definite}}
-                                       :tense :present}}})]
+                                                     :pred :definite}}}}})]
     (log/info (str "furniture-sentence: " 
                    (display-expression expr)))
 

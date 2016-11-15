@@ -261,14 +261,14 @@
 
                    (unify-check h21
                                 root-is-head
-                                {:rule "transitive-vp"
+                                {:rule "transitive-vp-nonphrasal-head"
                                  :head {:phrasal false}
                                  :synsem {:aux false
                                           :cat :verb}})
 
                    (unify-check h21
                                 root-is-head-root
-                                {:rule "transitive-vp"
+                                {:rule "transitive-vp-phrasal-head"
                                  :head {:phrasal true}
                                  :synsem {:aux false
                                           :cat :verb}})

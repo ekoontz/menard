@@ -2771,6 +2771,18 @@
        {:synsem {:cat :verb
                  :subcat {:2 {:subcat '()}}}})
 
+      (default
+       {:synsem {:cat :verb
+                 :aux false
+                 :infl :past
+                 :sem {:tense :past}}})
+
+      (default
+       {:synsem {:cat :verb
+                 :aux false
+                 :sem {:aspect :perfect
+                       :tense :past}}})
+      
       ;; </verb default rules>
 
       ;; <prep default rules>

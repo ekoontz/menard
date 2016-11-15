@@ -277,12 +277,14 @@
                                 unmodified
                                 root-is-head
                                 {:rule "sentence-nonphrasal-head"
+                                 :default-fn #(default-fn % fo)
                                  :synsem {:cat :verb}})
 
                    (unify-check c10
                                 unmodified
                                 root-is-head-root
-                                {:head {:phrasal true} ;; reflexive: e.g. "he washed himself"
+                                {:head {:phrasal true}
+                                 :default-fn #(default-fn % fo)                                 
                                  :rule "sentence-phrasal-head"
                                  :synsem {:cat :verb}})
 
@@ -613,7 +615,6 @@
         indices (create-indices lexicon index-lexicon-on-paths)
         morph fo]
     {:name "medium"
-     :default-fn #(default-fn % morph)
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap

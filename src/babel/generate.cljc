@@ -229,7 +229,7 @@
 
 (defn do-defaults [tree language-model]
   (log/debug (str "calling do-defaults on tree:" ((:morph language-model) tree)))
-  (if-let [default-fn (:default-fn tree)]
+  (if-let [default-fn (:default-fn language-model)]
     (let [result
           (default-fn tree)]
       (log/debug (str "result of calling do-defaults on tree:" ((:morph language-model) result)))

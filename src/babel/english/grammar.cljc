@@ -36,32 +36,45 @@
    [:synsem :sem :pred]
    [:synsem :sem :human]])
 
-(defn default-fn [tree morph]
-  (log/debug (str "English: do-defaults (pre) on tree: " (morph tree)))
+(defn apply-default-if [tree
+                        test
+                        to-apply]
+  (if (test tree)
+    (apply-default tree to-apply)
+    tree))
+
+(defn verb-default? [tree]
+  (and (= :verb (get-in tree [:synsem :cat]))
+       (or (= :top (get-in tree [:synsem :sem :tense] :top))
+           (= :top (get-in tree [:synsem :infl] :top)))))
+
+(defn default-fn [tree]
+  (log/debug (str "English: do-defaults (pre) on tree: " (fo tree)))
   (let [result
         (-> tree
-            (apply-default
+            (apply-default-if
+             verb-default?
              {:synsem {:cat :verb
                        :sem {:tense :present
                              :aspect :progressive}
                        :infl :present}})
-            (apply-default
+            (apply-default-if
+             verb-default?
              {:synsem {:cat :verb
                        :sem {:tense :future}
                        :infl :future}})
-            (apply-default
+            (apply-default-if
+             verb-default?
              {:synsem {:cat :verb
                        :sem {:tense :conditional}
                        :infl :conditional}})
-            (apply-default
+            (apply-default-if
+             verb-default?
              {:synsem {:cat :verb
                        :sem {:aspect :progressive
                              :tense :past}
-                       :infl :imperfect}})
-            (apply-default
-             {:synsem {:cat :noun
-                       :sem {:number :singular}}}))]
-    (log/debug (str "English: do-defaults (post) on tree: " (morph result)))
+                       :infl :imperfect}}))]
+    (log/debug (str "English: do-defaults (post) on tree: " (fo result)))
     result))
 
 (declare cache)
@@ -277,14 +290,12 @@
                                 unmodified
                                 root-is-head
                                 {:rule "sentence-nonphrasal-head"
-                                 :default-fn #(default-fn % fo)
                                  :synsem {:cat :verb}})
 
                    (unify-check c10
                                 unmodified
                                 root-is-head-root
                                 {:head {:phrasal true}
-                                 :default-fn #(default-fn % fo)                                 
                                  :rule "sentence-phrasal-head"
                                  :synsem {:cat :verb}})
 
@@ -293,14 +304,12 @@
                                 {:rule "transitive-vp-nonphrasal-head"
                                  :synsem {:aux false
                                           :cat :verb}})
-
                    (unify-check h21
                                 root-is-head-root
                                 {:rule "transitive-vp-phrasal-head"
                                  :head {:phrasal true}
                                  :synsem {:aux false
                                           :cat :verb}})
-
                    (unify-check h32
                            root-is-head-root
                            {:rule "vp32"
@@ -615,6 +624,7 @@
         indices (create-indices lexicon index-lexicon-on-paths)
         morph fo]
     {:name "medium"
+     :default-fn default-fn
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
@@ -630,7 +640,6 @@
                (analyze arg lexicon))
      :morph fo
      :morph-ps fo-ps
-
      ;; TODO: remove: not used
      :morph-walk-tree (fn [tree]
                         (merge tree

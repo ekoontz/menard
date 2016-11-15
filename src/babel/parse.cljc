@@ -36,7 +36,7 @@
         (if (= cache-value :none) nil
             cache-value)))))
 
-(defn over [grammar left right morph]
+(defn over [grammar left right morph default-fn]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
   (log/debug (str "parse/over: "
@@ -44,8 +44,12 @@
                   "; right: " (vec (set (map morph right)))))
 
   (log/debug (str "over: rules: " (string/join ","
-                                               (map :rule grammar))))
-  (over/over grammar left right))
+                                               (map :rule grammar)) " with default-fn:" default-fn))
+  (if default-fn
+    (->>
+     (over/over grammar left right)
+     (map default-fn))
+    (over/over grammar left right)))
 
 (defn square-cross-product [x]
   (mapcat (fn [each-x]
@@ -175,8 +179,9 @@
                                                       (:morph model))
                                            ;; fallback to (:morph model) if
                                            ;; (:morph-ps is not available)
-                                           parents (over (:grammar model) left-signs right-signs morph-ps)
-                                           truncated-parents
+                                           trees (over (:grammar model) left-signs right-signs morph-ps
+                                                       (:default-fn model))
+                                           truncated-trees
                                            (if parse-with-truncate
                                              (map-fn (fn [parent]
                                                        (conj
@@ -185,19 +190,19 @@
                                                         (truncate parent [[:comp]
                                                                           [:head]]
                                                                   model)))
-                                                  parents))]
-                                       (if (not (empty? parents))
-                                         (log/debug (str "parse/parses: parents: "
+                                                  trees))]
+                                       (if (not (empty? trees))
+                                         (log/debug (str "parse/parses: trees: "
                                                          (string/join ","
-                                                                      (map #(morph-ps %) parents))))
-                                         (log/debug (str "no parents found for left/right:")))
+                                                                      (map #(morph-ps %) trees))))
+                                         (log/debug (str "no trees found for left/right:")))
                                        (log/debug (str " left: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) left-signs))))
                                        (log/debug (str " right: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) right-signs))))
-                                       (if parse-with-truncate truncated-parents parents)))
+                                       (if parse-with-truncate truncated-trees trees)))
                                    ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                    ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))

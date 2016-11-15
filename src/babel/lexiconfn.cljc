@@ -618,17 +618,20 @@
                                               v)]
                 k)))
 
+(defn apply-default [original default]
+  (let [result
+        (unify original default)]
+    (if (not (fail? result))
+      result
+      original)))
+
 (defn default [lexicon unify-with]
   (map-function-on-map-vals
    lexicon
    (fn [k vals]
      ;; TODO: consider using pmap.
      (map (fn [original-val]
-            (let [result
-                  (unify original-val unify-with)]
-              (if (not (fail? result))
-                result
-                original-val)))
+            (apply-default original-val unify-with))
           vals))))
 
 (defn new-entries [lexicon unify-with

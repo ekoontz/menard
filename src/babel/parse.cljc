@@ -36,20 +36,19 @@
         (if (= cache-value :none) nil
             cache-value)))))
 
-(defn over [grammar left right morph default-fn]
+(defn over [grammar left right morph]
   "opportunity for additional logging before calling the real (over)"
   (log/trace (str "parse/over: grammar size: " (count grammar)))
   (log/debug (str "parse/over: "
                   "left: " (vec (set (map morph left)))
                   "; right: " (vec (set (map morph right)))))
 
-  (log/debug (str "over: rules: " (string/join ","
-                                               (map :rule grammar)) " with default-fn:" default-fn))
-  (if default-fn
-    (->>
-     (over/over grammar left right)
-     (map default-fn))
-    (over/over grammar left right)))
+  (map (fn [result]
+         (let [default-fn (:default-fn result)]
+           (if default-fn
+             (default-fn result)
+             result)))
+       (over/over grammar left right)))
 
 (defn square-cross-product [x]
   (mapcat (fn [each-x]
@@ -179,8 +178,7 @@
                                                       (:morph model))
                                            ;; fallback to (:morph model) if
                                            ;; (:morph-ps is not available)
-                                           trees (over (:grammar model) left-signs right-signs morph-ps
-                                                       (:default-fn model))
+                                           trees (over (:grammar model) left-signs right-signs morph-ps)
                                            truncated-trees
                                            (if parse-with-truncate
                                              (map-fn (fn [parent]

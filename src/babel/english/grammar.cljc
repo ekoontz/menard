@@ -4,6 +4,7 @@
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.index :refer [create-indices lookup-spec]]
+   [babel.lexiconfn :refer [apply-default]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :as ug
@@ -23,7 +24,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer (fail? get-in remove-matching-keys unifyc)]))
+   [dag_unify.core :refer [fail? get-in remove-matching-keys unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]
@@ -659,6 +660,26 @@
                      (if (not (empty? filtered-v))
                        [k filtered-v]))))}}))
 
+(defn default-fn [tree morph]
+  (log/debug (str "English: do-defaults on tree: " (morph tree)))
+  (-> tree
+      (apply-default
+       {:synsem {:cat :verb
+                 :sem {:tense :present
+                       :aspect :progressive}
+                 :infl :present}})
+      (apply-default
+       {:synsem {:cat :verb
+                 :sem {:tense :future}
+                 :infl :future}})
+      (apply-default
+       {:synsem {:cat :verb
+                 :sem {:tense :conditional}
+                 :infl :conditional}})
+      (apply-default
+       {:synsem {:cat :noun
+                 :sem {:number :singular}}})))
+
 (defn medium []
   (let [lexicon
         (into {}
@@ -666,8 +687,10 @@
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))
-        indices (create-indices lexicon index-lexicon-on-paths)]
+        indices (create-indices lexicon index-lexicon-on-paths)
+        morph fo]
     {:name "medium"
+     :default-fn #(default-fn % morph)
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap
@@ -676,18 +699,19 @@
 
      :language-keyword :english
 
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
+     :grammar grammar
+     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+     :lexicon lexicon
      :lookup (fn [arg]
                (analyze arg lexicon))
-     :grammar grammar
      :morph fo
      :morph-ps fo-ps
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon}))
 
+     ;; TODO: remove: not used
+     :morph-walk-tree (fn [tree]
+                        (merge tree
+                               (morph-walk-tree tree)))}))
+    
 (defn np-grammar []
   (let [grammar
         (filter #(or (= (:rule %) "noun-phrase2")

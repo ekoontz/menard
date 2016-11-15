@@ -365,15 +365,16 @@
                 (mapfn (fn [rule]
                          (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
                          (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
-                                                    (get-in spec [:synsem :cat] :top)))
-                                  (not-fail? (unify (get-in rule [:synsem :infl] :top)
-                                                    (get-in spec [:synsem :infl] :top)))
-                                  (not-fail? (unify (get-in rule [:synsem :sem :tense] :top)
-                                                    (get-in spec [:synsem :sem :tense] :top)))
-                                  (not-fail? (unify (get-in rule [:synsem :modified] :top)
-                                                    (get-in spec [:synsem :modified] :top))))
-                           (unify spec rule)
-                           :fail))
+                                                    (get-in spec [:synsem :cat] :top))))
+                           ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
+                           (do
+                             (log/debug (str "rule: " (:rule rule) " *is* a head candidate for spec:"
+                                             (strip-refs spec)))
+                             (unify spec rule))
+                           (do
+                             (log/trace (str "rule: " (:rule rule) " *is not* a head candidate for spec:"
+                                             (strip-refs spec)))
+                             :fail)))
                        rules))]
     (log/debug (str "candidate-parents for spec: " (strip-refs spec) " : "
                     (string/join "," (map :rule result))))

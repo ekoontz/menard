@@ -36,6 +36,34 @@
    [:synsem :sem :pred]
    [:synsem :sem :human]])
 
+(defn default-fn [tree morph]
+  (log/debug (str "English: do-defaults (pre) on tree: " (morph tree)))
+  (let [result
+        (-> tree
+            (apply-default
+             {:synsem {:cat :verb
+                       :sem {:tense :present
+                             :aspect :progressive}
+                       :infl :present}})
+            (apply-default
+             {:synsem {:cat :verb
+                       :sem {:tense :future}
+                       :infl :future}})
+            (apply-default
+             {:synsem {:cat :verb
+                       :sem {:tense :conditional}
+                       :infl :conditional}})
+            (apply-default
+             {:synsem {:cat :verb
+                       :sem {:aspect :progressive
+                             :tense :past}
+                       :infl :imperfect}})
+            (apply-default
+             {:synsem {:cat :noun
+                       :sem {:number :singular}}}))]
+    (log/debug (str "English: do-defaults (post) on tree: " (morph result)))
+    result))
+
 (declare cache)
 
 (defn fo-ps [expr]
@@ -575,35 +603,6 @@
                                  v)]
                      (if (not (empty? filtered-v))
                        [k filtered-v]))))}}))
-
-(defn default-fn [tree morph]
-  (log/debug (str "English: do-defaults (pre) on tree: " (morph tree)))
-  (let [result
-        (-> tree
-            (apply-default
-             {:synsem {:cat :verb
-                       :sem {:tense :present
-                             :aspect :progressive}
-                       :infl :present}})
-            (apply-default
-             {:synsem {:cat :verb
-                       :sem {:tense :future}
-                       :infl :future}})
-            (apply-default
-             {:synsem {:cat :verb
-                       :sem {:tense :conditional}
-                       :infl :conditional}})
-            (apply-default
-             {:synsem {:cat :verb
-                       :sem {:aspect :progressive
-                             :tense :past}
-                       :infl :imperfect}})
-            (apply-default
-             {:synsem {:cat :noun
-                       :sem {:number :singular}}}))]
-    (log/debug (str "English: do-defaults (post) on tree: " (morph result)))
-    result))
-
 (defn medium []
   (let [lexicon
         (into {}

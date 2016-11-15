@@ -2774,14 +2774,20 @@
                  :subcat {:2 {:subcat '()}}}})
 
       (default
-       {:synsem {:cat :verb
+       {:english {:exception false}
+        :synsem {:cat :verb}})
+                 
+      (default
+       {:english {:exception true}
+        :synsem {:cat :verb
                  :aux false
                  :infl :past
                  :sem {:tense :past}}})
-
       (default
-       {:synsem {:cat :verb
+       {:english {:exception true}
+        :synsem {:cat :verb
                  :aux false
+                 :infl :past
                  :sem {:aspect :perfect
                        :tense :past}}})
       

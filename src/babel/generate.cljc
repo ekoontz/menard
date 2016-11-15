@@ -259,7 +259,7 @@
                                        (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
                                      complement-candidate-lexemes))]
-    (log/trace (str "lexical-complements (post-over):"
+    (log/debug (str "lexical-complements (post-over):"
                     (string/join ","
                                  (map #((:morph language-model) %)
                                       lexical-complements))))

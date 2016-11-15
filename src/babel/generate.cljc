@@ -189,7 +189,7 @@
   (log/trace (str "add-all-comps: bolt count: " (count bolts)))
   (lazy-mapcat
    (fn [bolt]
-     (log/debug (str "adding all comps to bolt: " (show-bolt bolt language-model)))
+     (log/trace (str "adding all comps to bolt: " (show-bolt bolt language-model)))
      (add-all-comps-with-paths [bolt] language-model total-depth
                                (find-comp-paths-in (bolt-depth bolt))
                                truncate-children max-total-depth

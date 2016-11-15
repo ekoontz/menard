@@ -98,12 +98,16 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
+  (log/debug (str "lightning-bolt with depth:" depth " and spec:" (strip-refs spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
-        parents (shuffle (candidate-parents grammar spec))]
+        parents
+        (let [parents (shuffle (candidate-parents grammar spec))]
+          (log/debug (str "candidate-parents:" (string/join "," (map :rule parents))))
+          parents)]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
@@ -111,10 +115,16 @@
                (log/debug (str "parent: " (:rule parent) " over lexical heads."))
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
-                              (index-fn (get-in parent [:head] :top))
+                              (do
+                                (log/debug (str "using index to find lexical heads for parent:"
+                                                (:rule parent)))
+                                (index-fn (get-in parent [:head] :top)))
                               (flatten (vals lexicon)))]
                  (let [result
-                       (mapcat #(over/overh parent %)
+                       (mapcat #(do
+                                  (log/debug (str "trying parent: " (:rule parent) " with lexical head:"
+                                                  ((:morph language-model) %)))
+                                  (over/overh parent %))
                                (shuffle subset))]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
@@ -218,11 +228,15 @@
      truncate-children max-total-depth top-level-spec)))
 
 (defn do-defaults [tree language-model]
+  (log/debug (str "calling do-defaults on tree:" ((:morph language-model) tree)))
   (if-let [default-fn (:default-fn language-model)]
-    (default-fn tree)
+    (let [result
+          (default-fn tree)]
+      (log/debug (str "result of calling do-defaults on tree:" ((:morph language-model) result)))
+      result)
     ;;
     (do
-      (log/info (str "language-model has no default function."))
+      (log/trace (str "language-model has no default function."))
       tree)))
 
 (defn add-complement-to-bolt [bolt path language-model total-depth top-level-spec
@@ -349,7 +363,7 @@
   (let [result
         (filter not-fail?
                 (mapfn (fn [rule]
-                         (log/trace (str "candidate-parents: rule: " (:rule rule)))
+                         (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
                          (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
                                                     (get-in spec [:synsem :cat] :top)))
                                   (not-fail? (unify (get-in rule [:synsem :infl] :top)
@@ -390,7 +404,7 @@
     (if (> max-total-depth 0)
       (let [prob (- 1.0 (/ (- max-total-depth depth)
                            max-total-depth))]
-        (log/trace (str "P(c," depth ") = " prob " (c: probablity of choosing lexemes rather than phrases given a depth)."))
+        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
         (> (* 10 prob) (rand-int 10)))
       false)))
 

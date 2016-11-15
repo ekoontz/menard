@@ -263,7 +263,7 @@
 ;;  [1] H          C
 (def root-is-head
   "'root' is used to generate and search for expressions that have a given lexeme as their root. e.g. the 'root' of 'io ho parlato' is 'parlare'"
-  (let [root (atom :top)]
+  (let [root (atom {:phrasal false})]
     {:root root
      :head root}))
 

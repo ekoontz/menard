@@ -248,21 +248,19 @@
                    (unify-check c10
                                 unmodified
                                 root-is-head
-                                {:head {:phrasal false} ;; non-auxiliary past: e.g. "he slept"
-                                 :rule "sentence-nonphrasal-head"
+                                {:rule "sentence-nonphrasal-head"
                                  :synsem {:cat :verb}})
 
                    (unify-check c10
                                 unmodified
                                 root-is-head-root
-                                {:head {:phrasal true} ;; reflexive past: e.g. "he washed himself"
+                                {:head {:phrasal true} ;; reflexive: e.g. "he washed himself"
                                  :rule "sentence-phrasal-head"
                                  :synsem {:cat :verb}})
 
                    (unify-check h21
                                 root-is-head
                                 {:rule "transitive-vp-nonphrasal-head"
-                                 :head {:phrasal false}
                                  :synsem {:aux false
                                           :cat :verb}})
 
@@ -274,7 +272,7 @@
                                           :cat :verb}})
 
                    (unify-check h32
-                           root-is-head
+                           root-is-head-root
                            {:rule "vp32"
                             :head {:phrasal-verb true}
                             :synsem {:aux false

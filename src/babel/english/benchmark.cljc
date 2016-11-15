@@ -54,7 +54,9 @@
   (let [do-this-many (Integer. do-this-many)]
     (benchmark {:modified false
                 :synsem {:cat :verb
-                         :sem {:pred :be-called}}}
+                         :sem {:pred :be-called
+                               :tense :present
+                               :aspect :progressive}}}
                medium
                do-this-many)))
 

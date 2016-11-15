@@ -280,6 +280,7 @@
                                               :spec {:def :def
                                                      :pred :definite}}
                                        :tense :present}}})]
+    (log/info (str "reflexive furniture expression:" (display-expression expr)))
     (is (= (fo expr)
            "the chair is in front of itself"))))
 

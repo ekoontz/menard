@@ -127,7 +127,8 @@
                                        :3sing "was"
                                        :1plur "were"
                                        :2plur "were"
-                                       :3plur "were"}}}]
+                                       :3plur "were"}
+                                :past-participle {been}}}]
           [;; intransitive
            (unify common
                   {:sense 1

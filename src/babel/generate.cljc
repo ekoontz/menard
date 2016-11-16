@@ -98,7 +98,7 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  (log/info (str "lightning-bolt with depth: (" total-depth "/" max-total-depth ") and spec-info:"
+  (log/debug (str "lightning-bolt with depth: (" total-depth "/" max-total-depth ") and spec-info:"
                  (spec-info spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)

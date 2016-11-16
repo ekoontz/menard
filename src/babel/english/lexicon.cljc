@@ -128,7 +128,7 @@
                                        :1plur "were"
                                        :2plur "were"
                                        :3plur "were"}
-                                :past-participle {been}}}]
+                                :past-participle "been"}}]
           [;; intransitive
            (unify common
                   {:sense 1
@@ -1755,7 +1755,7 @@
                          :sem {:pred :ricordare}}}
 
     "remove" {:synsem {:cat :verb
-                    :sem {:pred :remove}}}
+                       :sem {:pred :remove}}}
 
     "repeat"  {:synsem {:cat :verb
                         :sem {:pred :repeat}}}

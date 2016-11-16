@@ -98,7 +98,8 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  (log/debug (str "lightning-bolt with depth:" depth " and spec:" (strip-refs spec)))
+  (log/info (str "lightning-bolt with depth: (" total-depth "/" max-total-depth ") and spec-info:"
+                 (spec-info spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
         ;; this is the relative depth; that is, the depth from the top of the current lightning bolt.
@@ -150,45 +151,10 @@
                            (filter #(= true
                                        (get-in % [:head :phrasal] true))
                                    parents)))]
-      (filter
-       (fn [bolt]
-         (any-possible-complement?
-          bolt [:comp] language-model total-depth
-          :max-total-depth max-total-depth))
-       (if (lexemes-before-phrases total-depth max-total-depth)
-         (lazy-cat lexical phrasal)
-         (lazy-cat phrasal lexical))))))
+      (if (lexemes-before-phrases total-depth max-total-depth)
+        (lazy-cat lexical phrasal)
+        (lazy-cat phrasal lexical)))))
 
-;; TODO: was copied from (defn add-complement-to-bolt) and then modified:
-;; refactor both above and below so that commonalities are shared.
-(defn any-possible-complement? [bolt path language-model total-depth
-                                & {:keys [max-total-depth]
-                                   :or {max-total-depth max-total-depth}}]
-  (let [lexicon (or (:lexicon (:generate language-model))
-                    (:lexicon language-model))
-        spec (get-in bolt path)
-        immediate-parent (get-in bolt (butlast path))
-        complement-candidate-lexemes
-        (if (and
-             (not (= true (get-in bolt (concat path [:phrasal]))))
-             (:index-fn language-model))
-          ((:index-fn language-model) spec))
-        bolt-child-synsem (strip-refs (get-in bolt (concat path [:synsem]) :top))
-        lexical-complements (filter (fn [lexeme]
-                                      (not-fail? (unify (strip-refs (get-in lexeme [:synsem] :top))
-                                                        bolt-child-synsem)))
-                                    complement-candidate-lexemes)]
-    (or (not (empty? lexical-complements))
-        (not (empty?
-              (filter #(not-fail? %)
-                      (mapfn (fn [complement]
-                               (unify (strip-refs (get-in bolt [:synsem]))
-                                      (assoc-in {} (concat path [:synsem])
-                                                complement)))
-                             (if (and (> max-total-depth total-depth)
-                                      (= true (get-in spec [:phrasal] true)))
-                               (generate-all spec language-model (+ (count path) total-depth)
-                                             :max-total-depth max-total-depth)))))))))
 (defn add-all-comps
   "At each point in each bolt in the list of list of bolts,
   _bolt-groups_, add all possible complements at all open nodes in the

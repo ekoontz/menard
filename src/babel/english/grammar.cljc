@@ -36,9 +36,7 @@
    [:synsem :sem :pred]
    [:synsem :sem :human]])
 
-(defn apply-default-if [tree
-                        test
-                        to-apply]
+(defn apply-default-if [tree test to-apply]
   (if (test tree)
     (apply-default tree to-apply)
     tree))

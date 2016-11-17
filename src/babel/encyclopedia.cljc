@@ -116,7 +116,8 @@ as a map of implications"}
    {:living true}    {:artifact false
                       :place false}
 
-   {:machine true}   {:artifact true}
+   {:machine true}   {:artifact true
+                      :consumable false}
    
    {:part-of-human-body
     true}            {:consumable false

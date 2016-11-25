@@ -327,6 +327,23 @@
     (+ 1 (bolt-depth head))
     0))
 
+(defn find-end-of-bolt [bolt]
+  (cond (= true (get-in bolt [:phrasal]))
+        (cons :head
+              (find-end-of-bolt (get-in bolt [:head])))
+        true
+        []))
+
+(defn find-comp-paths [bolt & [path]]
+  (let [path (if (nil? path)
+               (rest (find-end-of-bolt bolt))
+               path)]
+    (if (not (empty? path))
+      (concat 
+       [(vec (concat path [:comp]))]
+       (find-comp-paths bolt (rest path)))
+      [[:comp]])))
+
 (defn find-comp-paths-in [depth]
   (cond
     ;; most-frequent cases done statically:

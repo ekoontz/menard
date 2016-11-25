@@ -1,5 +1,5 @@
 (ns babel.test.en
-  (:refer-clojure :exclude [get-in])
+  (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
             [babel.english :refer [analyze fo-ps generate medium morph parse sentences]]
             [babel.english.grammar :as grammar]
@@ -17,7 +17,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [fail? fail-path-between get-in strip-refs unify]]))
+            [dag_unify.core :refer [assoc-in fail? fail-path-between get-in strip-refs unify]]))
 
 (defn display-expression [expr]
   {:en (morph expr)
@@ -352,6 +352,58 @@
             (= "she turns on the radio"
                generated)))))
 
+;; cats cannot read: generating with this spec
+;; should quickly return with nil (rather than
+;; running indefinitely trying to generate a matching
+;; expression).
+(def spec1 {:synsem {:cat :verb
+                     :sem {:pred :read
+                           :subj {:pred :woman}}
+                     :subcat '()}})
+
+(def spec2 {:synsem {:cat :verb
+                     :sem {:pred :read
+                           :subj {:pred :cat}}
+                     :subcat '()}})
+
+(deftest rathole-check-1
+  (let [med (medium)
+        spec {:synsem {:cat :verb
+                       :sem {:pred :read
+                             :subj {:pred :cat}}
+                       :subcat '()}}
+        lbs (babel.generate/lightning-bolts med spec 0 0)
+        good-lb (first (filter #(and (= (get-in % [:head :rule])
+                                        "transitive-vp-nonphrasal-head")
+                                     (= (get-in % [:head :head :english :english])
+                                        "read"))
+                               lbs))
+
+        comp-comp-spec (get-in good-lb [:comp :comp])
+        comp-spec (get-in good-lb [:comp])]
+
+    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
+    (is (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0)))))
+
+
+(deftest rathole-check-2
+  (let [med (medium)
+        spec {:synsem {:cat :verb
+                       :sem {:pred :read
+                             :subj {:pred :woman}}
+                       :subcat '()}}
+        lbs (babel.generate/lightning-bolts med spec 0 0)
+        good-lb (first (filter #(and (= (get-in % [:head :rule])
+                                        "transitive-vp-nonphrasal-head")
+                                     (= (get-in % [:head :head :english :english])
+                                        "read"))
+                               lbs))
+
+        comp-comp-spec (get-in good-lb [:comp :comp])
+        comp-spec (get-in good-lb [:comp])]
+
+    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
+    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0))))))
 
 
 

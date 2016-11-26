@@ -2237,7 +2237,12 @@
               :sem {:pred :turn-down}
               :subcat {:2 {:cat :prep
                            :sem {:pred :down}}}}}
-    ;; TODO: add "turn down the radio"
+    ;; "turn down the radio"
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-down}
+              :subcat {:3 {:cat :prep
+                           :sem {:pred :down}}}}}
     
     ;; "turn the radio off"
     {:phrasal-verb true
@@ -2271,7 +2276,12 @@
               :sem {:pred :turn-up}
               :subcat {:2 {:cat :prep
                            :sem {:pred :up}}}}}
-    ;; TODO: add "turn up the radio"
+    ;; "turn up the radio"
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-up}
+              :subcat {:3 {:cat :prep
+                           :sem {:pred :up}}}}}
     ]
 
     "understand" (let [common {:english {:past "understood"}}]

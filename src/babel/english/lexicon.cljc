@@ -2231,45 +2231,48 @@
                     :subcat {:2 '()}}}]
 
    "turn"
-   [{:phrasal-verb true
+   [;; "turn the radio down"
+    {:phrasal-verb true
      :synsem {:cat :verb
               :sem {:pred :turn-down}
               :subcat {:2 {:cat :prep
                            :sem {:pred :down}}}}}
+    ;; TODO: add "turn down the radio"
+    
+    ;; "turn the radio off"
     {:phrasal-verb true
      :synsem {:cat :verb
               :sem {:pred :turn-off}
               :subcat {:2 {:cat :prep
                            :sem {:pred :off}}}}}
+
+    ;; "turn off the radio"
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-off}
+              :subcat {:3 {:cat :prep
+                           :sem {:pred :off}}}}}
+    
+    ;; "turn the radio on"
     {:phrasal-verb true
      :synsem {:cat :verb
               :sem {:pred :turn-on}
               :subcat {:2 {:cat :prep
                            :sem {:pred :on}}}}}
+    ;; "turn on the radio"
+    {:phrasal-verb true
+     :synsem {:cat :verb
+              :sem {:pred :turn-on}
+              :subcat {:3 {:cat :prep
+                           :sem {:pred :on}}}}}
+    ;; "turn the radio up"
     {:phrasal-verb true
      :synsem {:cat :verb
               :sem {:pred :turn-up}
               :subcat {:2 {:cat :prep
-                           :sem {:pred :up}}}}}]
-   "turn off"
-   {:synsem {:cat :verb
-             :sem {:pred :turn-off
-                   :reflexive false}
-             :subcat {:2 {:cat :noun}
-                      :3 '()}}
-    :english {:past "turned off"
-              :present {:3sing "turns off"}
-              :participle "turning off"}}
-   "turn on"
-   {:synsem {:cat :verb
-             :sem {:pred :turn-on
-                   :reflexive false}
-             :subcat {:2 {:cat :noun
-                          :pronoun false}
-                      :3 '()}}
-    :english {:past "turned on"
-               :present {:3sing "turns on"}
-              :participle "turning on"}}
+                           :sem {:pred :up}}}}}
+    ;; TODO: add "turn up the radio"
+    ]
 
     "understand" (let [common {:english {:past "understood"}}]
                   [(unify
@@ -2759,10 +2762,22 @@
          {:phrasal-verb true
           :synsem {:cat :verb
                    :sem {:obj object}
-                   :subcat {:3 {:cat :noun
+                   :subcat {:2 {:cat :prep}
+                            :3 {:cat :noun
                                 :pronoun false
                                 :subcat '()
                                 :sem object}}}}))
+      (default
+       (let [object (atom :top)]
+         {:phrasal-verb true
+          :synsem {:cat :verb
+                   :sem {:obj object}
+                   :subcat {:2 {:cat :noun
+                                :pronoun false
+                                :subcat '()
+                                :sem object}
+                            :3 {:cat :prep}}}}))
+
       ;; reflexive=false
       (default {:synsem {:cat :verb
                          :sem {:reflexive false}}})

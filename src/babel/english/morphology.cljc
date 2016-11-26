@@ -970,7 +970,6 @@
                                 :english {:infl :present
                                           :english (get-in val [:english :present :3plur])}})}
 
-
                             {:path [:english :present]
                              :merge-fn
                              (fn [val]

@@ -2424,10 +2424,10 @@
 
 
    "worry" {:english {:past "worried"
-                       :participle "worrying"
-                       :past-participle "worried"}
-             :synsem {:cat :verb
-                      :sem {:pred :worry}}}
+                      :participle "worrying"
+                      :past-participle "worried"}
+            :synsem {:cat :verb
+                     :sem {:pred :worry}}}
 
    "write"  {:english {:past "wrote"
                        :past-participle "written"}

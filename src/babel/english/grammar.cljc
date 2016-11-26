@@ -47,7 +47,7 @@
            (= :top (get-in tree [:synsem :infl] :top)))))
 
 (defn default-fn [tree]
-  (log/debug (str "English: do-defaults (pre) on tree: " (fo tree)))
+  (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
   (let [result
         (-> tree
             (apply-default-if

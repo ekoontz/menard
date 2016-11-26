@@ -378,11 +378,22 @@
                                         "read"))
                                lbs))
 
-        comp-comp-spec (get-in good-lb [:comp :comp])
-        comp-spec (get-in good-lb [:comp])]
+        comp-paths (babel.generate/find-comp-paths good-lb)
+        paths-to-specs (zipmap
+                        comp-paths
+                        (map #(get-in good-lb %)
+                             comp-paths))
+        paths-to-lbs
+        (zipmap
+         comp-paths
+         (map #(babel.generate/lightning-bolts
+                med
+                (get-in good-lb %)
+                0 0)
+              comp-paths))]
 
-    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
-    (is (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0)))))
+    (is (not (empty? (get paths-to-lbs [:head :comp]))))
+    (is (empty? (get paths-to-lbs [:comp])))))
 
 (deftest rathole-check-2
   (let [med (medium)
@@ -566,3 +577,20 @@
     (is (= "I am eating" (morph (generate progressive))))))
 
     
+(deftest lb1
+  (let [comp-paths (babel.generate/find-comp-paths good-lb)
+        paths-to-specs (zipmap
+                        comp-paths
+                        (map #(get-in good-lb %)
+                             comp-paths))
+        paths-to-lbs
+        (zipmap
+         comp-paths
+         (map #(babel.generate/lightning-bolts
+                med
+                (get-in good-lb %)
+                0 0)
+              comp-paths))]
+
+    (is (not (empty? (get paths-to-lbs [:head :comp]))))
+    (is (not (empty? (get paths-to-lbs [:comp]))))))

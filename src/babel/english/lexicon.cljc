@@ -1680,26 +1680,27 @@
                 :sem {:pred :delay}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :off}}}}}
+      ;; "put the shoes on"
       {:unify [common]
        :phrasal-verb true
        :synsem {:cat :verb
                 :sem {:pred :put-on}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :on}}}}}
+
+      ;; "put on the shoes"
+      {:phrasal-verb true
+       :synsem {:cat :verb
+                :sem {:pred :put-on}
+                :subcat {:3 {:cat :prep
+                             :sem {:pred :on}}}}}
+
       {:unify [common]
        :phrasal-verb true
        :synsem {:cat :verb
                 :sem {:pred :tolerate}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :up-with}}}}}])
-   "put on"
-   {:english {:participle "putting on"
-              :past "put on"
-              :present {:3sing "puts on"}
-              :note "past tense"}
-    :intransitivize false
-    :synsem {:cat :verb
-             :sem {:pred :put-on}}}
 
    "radio" {:synsem {:cat :noun
                      :sem {:pred :radio}}}

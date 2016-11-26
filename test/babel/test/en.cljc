@@ -385,7 +385,6 @@
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
     (is (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0)))))
 
-
 (deftest rathole-check-2
   (let [med (medium)
         spec {:synsem {:cat :verb

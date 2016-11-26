@@ -440,6 +440,7 @@
    "change" {:synsem {:cat :verb
                       :sem {:pred :change}}} ;; TODO: add reflexive sense
 
+   ;; TODO: move this to "change" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "change clothes" {:synsem {:cat :verb
                               :sem {:pred :change-clothes
                                     :reflexive true}
@@ -621,6 +622,7 @@
           :synsem {:cat :verb
                    :sem {:pred :eat}}}
 
+   ;; TODO: move this to "eat" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "eat dinner" {:synsem {:cat :verb
                           :sem {:pred :have-dinner}
                           :subcat {:2 '()}}
@@ -676,7 +678,8 @@
                     :sem {:pred :fall}}
            :english {:past "fell"}}
 
-    "fall asleep"
+   "fall asleep"
+   ;; TODO: move this to "fall" with a subcat argument, a la phrasal verbs e.g. "putting on"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
                :sem {:pred :fall-asleep
@@ -740,6 +743,7 @@
    "game" {:synsem {:cat :noun
                     :sem {:pred :game}}}
 
+   ;; TODO: move all "get Xs" to "get" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "get angry"
    (let [subject-semantics (atom :top)]
      {:synsem {:cat :verb
@@ -882,6 +886,7 @@
              :subcat {:2 {:cat :prep}}}
     :english {:past "went"}}
 
+   ;; TODO: move all "go X"s to "go" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "go around"
    {:synsem {:cat :verb
              :sem {:activity true
@@ -948,6 +953,7 @@
                       :past "had"}
             :modal-with :infinitive}]
 
+   ;; TODO: move all "have X"s to "have" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "have dinner" {:synsem {:cat :verb
                            :sem {:pred :have-dinner}
                            :subcat {:2 '()}}

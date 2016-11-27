@@ -1307,6 +1307,9 @@
 
    "learn" [
 
+           {:synsem {:cat :verb
+                     :sem {:pred :learn}}}
+
            {:english {:note "a-"}
             :synsem  {:cat :verb
                       :sem {:pred :learn-a}}}
@@ -2268,7 +2271,7 @@
               :sem {:pred :turn-down}
               :subcat {:3 {:cat :prep
                            :sem {:pred :down}}}}}
-    
+
     ;; "turn the radio off"
     {:phrasal-verb true
      :synsem {:cat :verb
@@ -2282,7 +2285,7 @@
               :sem {:pred :turn-off}
               :subcat {:3 {:cat :prep
                            :sem {:pred :off}}}}}
-    
+
     ;; "turn the radio on"
     {:phrasal-verb true
      :synsem {:cat :verb

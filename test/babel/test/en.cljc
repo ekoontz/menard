@@ -5,6 +5,10 @@
             [babel.english.grammar :as grammar]
             [babel.english.morphology :refer [fo get-string]]
 
+            [babel.generate :refer [add-comps
+                                    comp-paths-to-bolts-map
+                                    generate2]]
+            
             [babel.over :refer [overc overh]]
             
             ;; TODO: add parsing tests
@@ -378,22 +382,8 @@
                                         "read"))
                                lbs))
 
-        comp-paths (babel.generate/find-comp-paths good-lb)
-        paths-to-specs (zipmap
-                        comp-paths
-                        (map #(get-in good-lb %)
-                             comp-paths))
-        paths-to-lbs
-        (zipmap
-         comp-paths
-         (map #(babel.generate/lightning-bolts
-                med
-                (get-in good-lb %)
-                0 0)
-              comp-paths))]
-
-    (is (not (empty? (get paths-to-lbs [:head :comp]))))
-    (is (empty? (get paths-to-lbs [:comp])))))
+        comp-map (comp-paths-to-bolts-map good-lb med 0 0)]
+    (is (some empty? (vals comp-map)))))
 
 (deftest rathole-check-2
   (let [med (medium)
@@ -407,7 +397,6 @@
                                      (= (get-in % [:head :head :english :english])
                                         "read"))
                                lbs))
-
         comp-comp-spec (get-in good-lb [:comp :comp])
         comp-spec (get-in good-lb [:comp])]
 

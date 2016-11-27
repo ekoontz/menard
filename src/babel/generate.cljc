@@ -93,7 +93,9 @@
 
 (declare find-comp-paths)
 
-(defn comp-paths-for-comp-bolts [bolt model depth max-depth]
+(defn comp-paths-to-bolts-map
+  "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
+  [bolt model depth max-depth]
   (let [comp-paths (find-comp-paths bolt)]
     (zipmap
      comp-paths
@@ -103,38 +105,45 @@
             depth max-depth)
           comp-paths))))
 
-(defn add-comps [bolt model comp-paths bolts-at-paths depth max-depth]
+(defn add-comps
+  "return a bolt with a model and comp-paths."
+  [bolt model comp-paths bolts-at-paths depth max-depth]
   (if (empty? comp-paths)
-    bolt
-    (mapcat #(add-comps % (rest comp-paths)
+    bolt ;; done: we've added all the comps to the bolt, so just return the bolt.
+    (mapcat #(add-comps % model
+                        (rest comp-paths)
                         (rest bolts-at-paths))
             (let [path (first comp-paths)
                   bolts-at (first bolts-at-paths)]
-              (if (not (empty? bolts-at))
-                (mapcat (fn [bolt-at]
-                          (let [comp-map (comp-paths-for-comp-bolts bolt-at model depth max-depth)]
+              (mapcat (fn [bolt-at]
+                        (let [comps-map (comp-paths-to-bolts-map bolt-at model depth max-depth)
+                              comp-paths (sort (keys comps-map))]
+                          (if (not (some (empty? (vals comps-map))))
                             (add-comps bolt-at
                                        model
-                                       (sort (keys comp-map))
+                                       comp-paths
                                        (map (fn [path]
-                                              (get comp-map path))
-                                            (sort (keys comp-map)))
-                                       depth max-depth)))
-                        bolts-at))))))
-
-(defn generate2 [spec model depth max-depth]
+                                              (get comps-map path))
+                                            comp-paths)
+                                       depth max-depth))))
+                      bolts-at)))))
+(defn generate2
+  "Return all expressions matching spec _spec_ given the model _model_."
+  [spec model depth max-depth]
   (mapcat (fn [bolt]
-            (let [comps-map (comp-paths-for-comp-bolts bolt model depth max-depth)
-                  bolt-sets
-                  (map (fn [path]
-                         (get comps-map path))
-                       (sort (keys comps-map)))]
-              (if (not (some empty? bolt-sets))
+            (let [comps-map (comp-paths-to-bolts-map bolt model depth max-depth)
+                  comp-paths (sort (keys comps-map))]
+              ;; filter by the following constraint:
+              ;; that for every path that points to a complement of a bolt,
+              ;; there is a non-empty set of bolts that satisfies
+              ;; that complement's path.
+              (if (not (some empty? (vals comps-map)))
                 (add-comps bolt
-                           (sort (keys comps-map))
+                           model
+                           comp-paths
                            (map (fn [path]
                                   (get comps-map path))
-                                (sort (keys comps-map)))))))
+                                comp-paths)))))
           (lightning-bolts model spec depth max-depth)))
 
 (defn generate-n

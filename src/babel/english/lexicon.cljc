@@ -1177,7 +1177,7 @@
               :sem {:human true
                     :pred :I}
               :subcat '()}}]
-   
+
    "if"   (let [obj (atom :top)]
             {:synsem {:cat :comp
                       :comp-type :if
@@ -1186,7 +1186,7 @@
                       ;; {:pred :unspec} is to prevent unexpected
                       ;; use of this lexeme with specifications that
                       ;; as for a given {:pred}.
-                      
+
                       :subcat {:1 {:cat :verb
                                    :sem obj
                                    :subcat '()}
@@ -1286,18 +1286,36 @@
    "kill" {:synsem {:cat :verb
                     :sem {:pred :kill}}}
 
-   "learn" {:synsem {:cat :verb
-                     :sem {:pred :learn}}}
 
-  "know" [{:english {:past "knew"
-                    :past-participle "known"}
+  "know" [
+
+           {:english {:past "knew"
+                      :past-participle "known"
+                      :note "s-"}
             :synsem {:cat :verb
                      :sem {:pred :know-s}}}
-           {:english {:past "knew"
-                     :past-participle "known"}
-                     :synsem {:cat :verb
-                     :sem {:pred :know-c}}}]
 
+
+           {:english {:past "knew"
+                      :note "c-"
+                      :past-participle "known"}
+            :synsem {:cat :verb
+                     :sem {:pred :know-c}}}
+
+          ]
+
+
+   "learn" [
+
+           {:english {:note "a-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :learn-a}}}
+
+          {:english {:note "i-"}
+           :synsem  {:cat :verb
+                     :sem {:pred :learn-i}}}
+
+          ]
 
    "leave" [{:english {:past "left"}
              :synsem {:cat :verb
@@ -2812,7 +2830,7 @@
       (default
        {:english {:exception false}
         :synsem {:cat :verb}})
-                 
+
       (default
        {:english {:exception true}
         :synsem {:cat :verb
@@ -2826,7 +2844,7 @@
                  :infl :past
                  :sem {:aspect :perfect
                        :tense :past}}})
-      
+
       ;; </verb default rules>
 
       ;; <prep default rules>

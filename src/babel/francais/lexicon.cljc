@@ -50,9 +50,9 @@
    "annoncer" {:synsem {:cat :verb
                        :sem {:pred :announce}}}
 
-   "appeler" {:synsem {:cat :verb
-                       :boot-stem "appell"
-                       :future-stem "appell"
+   "appeler" {:français {:boot-stem "appell"
+                         :future-stem "appell"}
+              :synsem {:cat :verb
                        :sem {:pred :call}}}
 
    "apporter" [{:synsem {:cat :verb
@@ -61,8 +61,8 @@
                          :sem {:pred :carry}}}]
 
    ;;  CONJUGATES LIKE TENIR
-   "apprendre" {:synsem {:cat :verb
-                         :past-participle "appris"
+   "apprendre" {:français {:past-participle "appris"}
+                :synsem {:cat :verb
                          :sem {:pred :learn}}}
 
    "rester" {:synsem {:cat :verb

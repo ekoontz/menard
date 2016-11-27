@@ -93,16 +93,30 @@
 
 (declare find-comp-paths)
 
+;; TODO: lightning-bolts should use this.
+(defn get-lexemes [model spec]
+  (if (= false (get-in spec [:phrasal] false))
+    (filter #(not-fail? (unify % spec))
+            (if-let [index-fn (:index-fn model)]
+              (index-fn spec)
+              (flatten (vals
+                        (or (:lexicon (:generate model)) (:lexicon model))))))))
+
 (defn comp-paths-to-bolts-map
   "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
   [bolt model depth max-depth]
   (let [comp-paths (find-comp-paths bolt)]
     (zipmap
      comp-paths
-     (map #(lightning-bolts
-            model
-            (get-in bolt %)
-            depth max-depth)
+     (map #(let [spec (get-in bolt %)
+                 lexemes (get-lexemes model spec)
+                 bolts-at (lightning-bolts
+                           model
+                           (get-in bolt %)
+                           depth max-depth)]
+             (if (lexemes-before-phrases depth max-depth)
+               (concat lexemes bolts-at)
+               (concat bolts-at lexemes)))
           comp-paths))))
 
 (defn add-comps
@@ -118,7 +132,7 @@
               (mapcat (fn [bolt-at]
                         (let [comps-map (comp-paths-to-bolts-map bolt-at model depth max-depth)
                               comp-paths (sort (keys comps-map))]
-                          (if (not (some (empty? (vals comps-map))))
+                          (if (not (some empty? (vals comps-map)))
                             (add-comps bolt-at
                                        model
                                        comp-paths
@@ -132,7 +146,9 @@
   [spec model depth max-depth]
   (mapcat (fn [bolt]
             (let [comps-map (comp-paths-to-bolts-map bolt model depth max-depth)
-                  comp-paths (sort (keys comps-map))]
+                  comp-paths (sort (keys comps-map))
+                  comp-bolts (map #(get comps-map %)
+                                  comp-paths)]
               ;; filter by the following constraint:
               ;; that for every path that points to a complement of a bolt,
               ;; there is a non-empty set of bolts that satisfies
@@ -141,9 +157,8 @@
                 (add-comps bolt
                            model
                            comp-paths
-                           (map (fn [path]
-                                  (get comps-map path))
-                                comp-paths)))))
+                           comp-bolts
+                           0 0))))
           (lightning-bolts model spec depth max-depth)))
 
 (defn generate-n

@@ -7,7 +7,7 @@
 
             [babel.generate :refer [add-comps
                                     comp-paths-to-bolts-map
-                                    generate2]]
+                                    generate2 get-lexemes]]
             
             [babel.over :refer [overc overh]]
             

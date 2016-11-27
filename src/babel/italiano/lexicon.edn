@@ -158,7 +158,7 @@
                          :sem {:pred :support}}}
 
  "apprendere"  {:synsem {:cat :verb
-                         :sem {:pred :learn}}}
+                         :sem {:pred :learn-a}}}
 
  "approfittare"  {:synsem {:cat :verb
                            :sem {:pred :take-advantage-of}}}
@@ -1057,7 +1057,7 @@
                  :number :sing}}}
 
  "imparare"  {:synsem {:cat :verb
-                       :sem {:pred :learn}}}
+                       :sem {:pred :learn-i}}}
 
  "impegnare" {:synsem {:cat :verb
                        :sem {:pred :engage}}}

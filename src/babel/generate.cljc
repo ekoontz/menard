@@ -91,8 +91,10 @@
        (lightning-bolts language-model spec 0 total-depth :max-total-depth max-total-depth)
        (add-all-comps language-model total-depth false max-total-depth spec)))))
 
+(declare find-comp-paths)
+
 (defn comp-paths-for-comp-bolts [bolt model depth max-depth]
-  (let [comp-paths (babel.generate/find-comp-paths bolt)]
+  (let [comp-paths (find-comp-paths bolt)]
     (zipmap
      comp-paths
      (map #(lightning-bolts

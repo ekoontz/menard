@@ -105,47 +105,72 @@
 (defn comp-paths-to-bolts-map
   "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
   [bolt model depth max-depth]
-  (let [comp-paths (find-comp-paths bolt)]
-    (zipmap
-     comp-paths
-     (map #(let [spec (get-in bolt %)
-                 lexemes (get-lexemes model spec)
-                 bolts-at (lightning-bolts
-                           model
-                           (get-in bolt %)
-                           depth max-depth)]
-             (if (lexemes-before-phrases depth max-depth)
-               (concat lexemes bolts-at)
-               (concat bolts-at lexemes)))
-          comp-paths))))
+  (let [comp-paths (find-comp-paths bolt)
+        result
+        (zipmap
+         comp-paths
+         (map #(let [spec (get-in bolt %)
+                     lexemes (get-lexemes model spec)
+                     bolts-at (lightning-bolts
+                               model
+                               (get-in bolt %)
+                               depth max-depth)
+                     lexemes-before-phrases
+                     (lexemes-before-phrases depth max-depth)]
+                 (log/trace (str "comp-paths-to-bolts-map:"
+                                 ((:morph-ps model) bolt) "@" % " -> " 
+                                 (spec-info spec) " lexemes-before-phrases: "
+                                 lexemes-before-phrases))
+                 (if lexemes-before-phrases
+                   (concat lexemes bolts-at)
+                   (concat bolts-at lexemes)))
+              comp-paths))]
+    (log/debug
+     (str "comp-paths-to-bolts-map:"
+          (show-bolt bolt model) "(" depth "/" max-depth ")" ":"
+          (string/join ";"
+                       (map #(str "path:" % ":" (string/join "," (map (fn [bolt] (show-bolt bolt model))
+                                                                      (get result %))))
+                            (sort (keys result))))))
+    result))
 
 (defn add-comps
   "return a bolt with a model and comp-paths."
-  [bolt model comp-paths bolts-at-paths depth max-depth]
-  (if (empty? comp-paths)
-    bolt ;; done: we've added all the comps to the bolt, so just return the bolt.
-    (mapcat #(add-comps % model
-                        (rest comp-paths)
-                        (rest bolts-at-paths))
-            (let [path (first comp-paths)
-                  bolts-at (first bolts-at-paths)]
-              (mapcat (fn [bolt-at]
-                        (let [comps-map (comp-paths-to-bolts-map bolt-at model depth max-depth)
-                              comp-paths (sort (keys comps-map))]
-                          (if (not (some empty? (vals comps-map)))
-                            (add-comps bolt-at
+  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt path-from-top]]
+  (log/debug (str "add-comps:"
+                  " with depth: (" depth "/" max-depth ") and spec-info:"
+                  ((:morph-ps model) top-bolt)
+                  (if (not (= bolt top-bolt))
+                    (str " /" path-from-top "/ "
+                         ((:morph-ps model) bolt)))))
+  (let [top-bolt (or top-bolt bolt)]
+    (if (empty? comp-paths)
+      bolt ;; done: we've added all the comps to the bolt, so just return the bolt.
+      (mapcat #(add-comps % model
+                          (rest comp-paths)
+                          (rest bolts-at-paths))
+              (let [path (first comp-paths)
+                    bolts-at (first bolts-at-paths)]
+                (mapcat (fn [bolt-at]
+                          (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
+                                comp-paths (sort (keys comps-map))]
+                            (when (not (some empty? (vals comps-map)))
+                              (add-comps bolt-at
                                        model
                                        comp-paths
                                        (map (fn [path]
                                               (get comps-map path))
                                             comp-paths)
-                                       depth max-depth))))
-                      bolts-at)))))
+                                       (+ 1 depth)
+                                       max-depth top-bolt (str (if path-from-top (str path-from-top "/"))
+                                                               path)))))
+                        bolts-at))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
-  [spec model depth max-depth]
+  [spec model depth]
+  (log/debug (str "generate2: spec: " spec))
   (mapcat (fn [bolt]
-            (let [comps-map (comp-paths-to-bolts-map bolt model depth max-depth)
+            (let [comps-map (comp-paths-to-bolts-map bolt model depth max-total-depth)
                   comp-paths (sort (keys comps-map))
                   comp-bolts (map #(get comps-map %)
                                   comp-paths)]
@@ -153,13 +178,14 @@
               ;; that for every path that points to a complement of a bolt,
               ;; there is a non-empty set of bolts that satisfies
               ;; that complement's path.
-              (if (not (some empty? (vals comps-map)))
+              (when (not (some empty? (vals comps-map)))
                 (add-comps bolt
                            model
                            comp-paths
                            comp-bolts
-                           0 0))))
-          (lightning-bolts model spec depth max-depth)))
+                           depth max-total-depth
+                           bolt))))
+          (lightning-bolts model spec depth max-total-depth)))
 
 (defn generate-n
   "Returns all possible expressions generated by the given language model, constrained by the given spec.
@@ -187,7 +213,7 @@
   [language-model spec depth total-depth
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
-  (log/debug (str "lightning-bolt with depth: (" total-depth "/" max-total-depth ") and spec-info:"
+  (log/debug (str "lightning-bolt with depth: (" depth "/" max-total-depth ") and spec-info:"
                  (spec-info spec)))
   (let [grammar (:grammar language-model)
         depth (if depth depth 0)
@@ -196,8 +222,9 @@
         ;; expression, which might involve several parent lightning bolts.
         parents
         (let [parents (shuffle (candidate-parents grammar spec))]
-          (log/debug (str "candidate-parents:" (string/join "," (map :rule parents))))
+          (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
+    ;; TODO: use (defn get-lexemes) rather than this code which duplicates (get-lexemes)'s functionality.
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
@@ -448,16 +475,23 @@
                                                     (get-in spec [:synsem :cat] :top))))
                            ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
                            (do
-                             (log/trace (str "rule: " (:rule rule) " *is* a head candidate for spec:"
+                             (log/trace (str "candidate-parents: " (:rule rule) " is a head candidate for spec:"
                                              (strip-refs spec)))
                              (unify spec rule))
                            (do
-                             (log/trace (str "rule: " (:rule rule) " *is not* a head candidate for spec:"
+                             (log/trace (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
                                              (strip-refs spec)))
                              :fail)))
                        rules))]
-    (log/debug (str "candidate-parents for spec: " (strip-refs spec) " : "
-                    (string/join "," (map :rule result))))
+    (log/trace (str "candidate-parents: " 
+                    (string/join "," (map :rule result))
+                    " for spec: " (strip-refs spec)))
+    (if (empty? result)
+      (log/debug (str "candidate-parents: " 
+                      "no parents found for: " (spec-info spec)))
+      (log/debug (str "candidate-parents: " 
+                    (string/join "," (map :rule result))
+                    " for: " (spec-info spec))))
     result))
 
 (defn exception [error-string]
@@ -485,7 +519,7 @@
     (if (> max-total-depth 0)
       (let [prob (- 1.0 (/ (- max-total-depth depth)
                            max-total-depth))]
-        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
+        (log/debug (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
         (> (* 10 prob) (rand-int 10)))
       false)))
 

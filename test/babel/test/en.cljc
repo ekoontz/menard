@@ -376,14 +376,14 @@
                        :sem {:pred :read
                              :subj {:pred :cat}}
                        :subcat '()}}
-        lbs (babel.generate/lightning-bolts med spec 0 0)
+        lbs (babel.generate/lightning-bolts med spec 0 6)
         good-lb (first (filter #(and (= (get-in % [:head :rule])
                                         "transitive-vp-nonphrasal-head")
                                      (= (get-in % [:head :head :english :english])
                                         "read"))
                                lbs))
 
-        comp-map (comp-paths-to-bolts-map good-lb med 0 0)]
+        comp-map (comp-paths-to-bolts-map good-lb med 0 6)]
     (is (some empty? (vals comp-map)))))
 
 (deftest rathole-check-2
@@ -392,7 +392,7 @@
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}
-        lbs (babel.generate/lightning-bolts med spec 0 0)
+        lbs (babel.generate/lightning-bolts med spec 0 6)
         good-lb (first (filter #(and (= (get-in % [:head :rule])
                                         "transitive-vp-nonphrasal-head")
                                      (= (get-in % [:head :head :english :english])
@@ -584,3 +584,4 @@
 
     (is (not (empty? (get paths-to-lbs [:head :comp]))))
     (is (not (empty? (get paths-to-lbs [:comp]))))))
+

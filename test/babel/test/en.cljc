@@ -392,7 +392,7 @@
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}
-        lbs (babel.generate/lightning-bolts med spec 0 6)
+        lbs (lightning-bolts med spec 0 6)
         good-lb (first (filter #(and (= (get-in % [:head :rule])
                                         "transitive-vp-nonphrasal-head")
                                      (= (get-in % [:head :head :english :english])

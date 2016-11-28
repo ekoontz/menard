@@ -111,10 +111,11 @@
          comp-paths
          (map #(let [spec (get-in bolt %)
                      lexemes (get-lexemes model spec)
-                     bolts-at (lightning-bolts
-                               model
-                               (get-in bolt %)
-                               depth max-depth)
+                     bolts-at (if (< depth max-depth)
+                                (lightning-bolts
+                                 model
+                                 (get-in bolt %)
+                                 depth max-depth))
                      lexemes-before-phrases
                      (lexemes-before-phrases depth max-depth)]
                  (log/trace (str "comp-paths-to-bolts-map:"
@@ -125,13 +126,11 @@
                    (concat lexemes bolts-at)
                    (concat bolts-at lexemes)))
               comp-paths))]
-    (log/debug
-     (str "comp-paths-to-bolts-map:"
-          (show-bolt bolt model) "(" depth "/" max-depth ")" ":"
-          (string/join ";"
-                       (map #(str "path:" % ":" (string/join "," (map (fn [bolt] (show-bolt bolt model))
-                                                                      (get result %))))
-                            (sort (keys result))))))
+    (doall (map #(log/debug 
+                  (str "comp-paths-to-bolt-map: " (show-bolt bolt model) "@:" % ":"
+                       (string/join "," (map (fn [bolt] (show-bolt bolt model))
+                                             (get result %)))))
+                (sort (keys result))))
     result))
 
 (defn add-comps
@@ -233,7 +232,7 @@
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
                               (do
-                                (log/debug (str "using index to find lexical heads for parent:"
+                                (log/trace (str "using index to find lexical heads for parent:"
                                                 (:rule parent)))
                                 (index-fn (get-in parent [:head] :top)))
                               (flatten (vals lexicon)))]
@@ -488,7 +487,7 @@
                     " for spec: " (strip-refs spec)))
     (if (empty? result)
       (log/debug (str "candidate-parents: " 
-                      "no parents found for: " (spec-info spec)))
+                      "no parents found for spec: " spec))
       (log/debug (str "candidate-parents: " 
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))
@@ -519,7 +518,7 @@
     (if (> max-total-depth 0)
       (let [prob (- 1.0 (/ (- max-total-depth depth)
                            max-total-depth))]
-        (log/debug (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
+        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
         (> (* 10 prob) (rand-int 10)))
       false)))
 

@@ -229,7 +229,7 @@
           (when (= false (get-in spec [:head :phrasal] false))
             (lazy-mapcat
              (fn [parent]
-               (log/debug (str "parent: " (:rule parent) " over lexical heads."))
+               (log/debug (str "lightning-bolts: parent: " (:rule parent) " over lexical heads."))
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
                      subset (if-let [index-fn (:index-fn language-model)]
                               (do
@@ -260,7 +260,7 @@
                          (get-in % [:head :phrasal] false))
                      parents)))
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
-          (if (and (< total-depth max-total-depth)
+          (if (and (< depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
             (lazy-mapcat (fn [parent]
                            (log/debug (str "parent: " (:rule parent) " over phrasal heads."))
@@ -488,7 +488,7 @@
                     " for spec: " (strip-refs spec)))
     (if (empty? result)
       (log/debug (str "candidate-parents: " 
-                      "no parents found for spec: " spec))
+                      "no parents found for spec: " (spec-info spec)))
       (log/debug (str "candidate-parents: " 
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))

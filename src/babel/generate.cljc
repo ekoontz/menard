@@ -205,7 +205,7 @@
   (log/debug (str "generate2: spec: " spec))
   (mapcat (fn [bolt]
             (let [comps-map (comp-paths-to-bolts-map bolt model depth max-total-depth)
-                  comp-paths (sort (keys comps-map))
+                  comp-paths (keys comps-map)
                   comp-bolts (map #(get comps-map %)
                                   comp-paths)]
               ;; filter by the following constraint:

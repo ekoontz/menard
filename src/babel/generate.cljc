@@ -134,32 +134,31 @@
       [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
       ;; else, more comp-paths to go.
       (flatten
-       (mapfn
-        #(add-comps % model
-                    (rest comp-paths)
-                    (rest bolts-at-paths)
-                    depth max-depth top-bolt path-from-top)
-        (let [path (first comp-paths)
-              bolts-at (first bolts-at-paths)]
-          (flatten
-           (mapfn
-            (fn [bolt-at]
-              (if (= false (get-in bolt-at [:phrasal]))
-                [(assoc-in bolt path bolt-at)]
-                (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)]
-                  (when (not (some empty? (vals comps-map)))
-                    (let [comp-paths (keys comps-map)]
-                      (mapfn #(assoc-in bolt path %)
-                             (add-comps bolt-at
-                                        model
-                                        comp-paths
-                                        (mapfn (fn [path]
-                                                 (get comps-map path))
-                                               comp-paths)
-                                        (+ 1 depth)
-                                        max-depth
-                                        top-bolt)))))))
-            bolts-at))))))))
+       (mapfn #(add-comps % model
+                          (rest comp-paths)
+                          (rest bolts-at-paths)
+                          depth max-depth top-bolt path-from-top)
+              (let [path (first comp-paths)
+                    bolts-at (first bolts-at-paths)]
+                (flatten
+                 (mapfn
+                  (fn [bolt-at]
+                    (if (= false (get-in bolt-at [:phrasal]))
+                      [(assoc-in bolt path bolt-at)]
+                      (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)]
+                        (when (not (some empty? (vals comps-map)))
+                          (let [comp-paths (keys comps-map)
+                                comp-bolts (mapfn #(get comps-map %)
+                                                  comp-paths)]
+                            (mapfn #(assoc-in bolt path %)
+                                   (add-comps bolt-at
+                                              model
+                                              comp-paths
+                                              comp-bolts
+                                              (+ 1 depth)
+                                              max-depth
+                                              top-bolt)))))))
+                  bolts-at))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model]
@@ -168,8 +167,8 @@
    (mapfn (fn [bolt]
             (let [comps-map (comp-paths-to-bolts-map bolt model 0 max-total-depth)
                   comp-paths (keys comps-map)
-                  comp-bolts (map #(get comps-map %)
-                                  comp-paths)]
+                  comp-bolts (mapfn #(get comps-map %)
+                                    comp-paths)]
               ;; filter by the following constraint:
               ;; that for every path that points to a complement of a bolt,
               ;; there is a non-empty set of bolts that satisfies

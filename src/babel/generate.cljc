@@ -150,7 +150,7 @@
                           (let [comp-paths (keys comps-map)
                                 comp-bolts (mapfn #(get comps-map %)
                                                   comp-paths)]
-                            (mapfn #(assoc-in bolt path %)
+                            (mapfn #(do-defaults (assoc-in bolt path %) model)
                                    (add-comps bolt-at
                                               model
                                               comp-paths

@@ -169,25 +169,28 @@
                                           "; top-bolt:"
                                           ((:morph-ps model) top-bolt)))
                           (if (= false (get-in bolt-at [:phrasal]))
-                            [(assoc-in
-                              bolt
-                              path
-                              bolt-at)]
-                              
+                            (do
+                              (log/debug (str "(assoc-in (lexical) " ((:morph-ps model) bolt) " " path " "
+                                              ((:morph-ps model) bolt-at)))
+                              [(assoc-in bolt path bolt-at)])
                             (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
                                   comp-paths (sort (keys comps-map))]
                               (when (not (some empty? (vals comps-map)))
-                                (add-comps bolt-at
-                                           model
-                                           comp-paths
-                                           (map (fn [path]
-                                                  (get comps-map path))
-                                                comp-paths)
-                                           (+ 1 depth)
-                                           max-depth
-                                           top-bolt
-                                           (str (if path-from-top (str path-from-top "/"))
-                                              path))))))
+                                (let [result
+                                      (add-comps bolt-at
+                                                 model
+                                                 comp-paths
+                                                 (map (fn [path]
+                                                        (get comps-map path))
+                                                      comp-paths)
+                                                 (+ 1 depth)
+                                                 max-depth
+                                                 top-bolt
+                                                 (str (if path-from-top (str path-from-top "/"))
+                                                      path))]
+                                  (log/debug (str "(assoc-in (phrasal) " ((:morph-ps model) bolt) " " path " "
+                                                  ((:morph-ps model) bolt-at)))
+                                  result)))))
                         bolts-at))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."

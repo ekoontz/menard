@@ -466,7 +466,9 @@ as a map of implications"}
          :obj {:clothing true}}
         
         {:pred :read
-         :subj {:human true}
+         :subj {:human true}}
+
+        {:pred :read
          :obj {:legible true}}
 
         {:pred :say

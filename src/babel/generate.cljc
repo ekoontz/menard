@@ -105,8 +105,7 @@
 (defn comp-paths-to-bolts-map
   "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
   [bolt model depth max-depth]
-  (if (and (not (nil? bolt))
-           (< depth max-depth))
+  (if (and (not (nil? bolt)))
     (let [comp-paths (find-comp-paths bolt)]
       (if (not (empty? comp-paths))
         (let [debug (log/trace (str "comp-paths-to-bolts-map: start: "

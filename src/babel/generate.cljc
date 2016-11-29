@@ -145,18 +145,18 @@
                   (fn [bolt-at]
                     (if (= false (get-in bolt-at [:phrasal]))
                       [(do-defaults (assoc-in bolt path bolt-at) model)]
-                      (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)]
-                        (when (not (some empty? (vals comps-map)))
-                          (let [comp-paths (keys comps-map)
-                                comp-bolts (vals comps-map)]
-                            (mapfn #(do-defaults (assoc-in bolt path %) model)
-                                   (add-comps bolt-at
-                                              model
-                                              comp-paths
-                                              comp-bolts
-                                              (+ 1 depth)
-                                              max-depth
-                                              top-bolt)))))))
+                      (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
+                            comp-paths (keys comps-map)
+                            comp-bolts (vals comps-map)]
+                        (when (not (some empty? comp-bolts))
+                          (mapfn #(do-defaults (assoc-in bolt path %) model)
+                                 (add-comps bolt-at
+                                            model
+                                            comp-paths
+                                            comp-bolts
+                                            (+ 1 depth)
+                                            max-depth
+                                            top-bolt))))))
                   bolts-at))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
@@ -171,7 +171,7 @@
               ;; that for every path that points to a complement of a bolt,
               ;; there is a non-empty set of bolts that satisfies
               ;; that complement's path.
-              (when (not (some empty? (vals comps-map)))
+              (when (not (some empty? comp-bolts))
                 (mapfn #(do-defaults % model)
                        (add-comps bolt
                                   model

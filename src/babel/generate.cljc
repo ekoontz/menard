@@ -169,14 +169,17 @@
                                           "; top-bolt:"
                                           ((:morph-ps model) top-bolt)))
                           (if (= false (get-in bolt-at [:phrasal]))
-                            (do
+                            (let [result
+                                  [(assoc-in bolt path bolt-at)]]
                               (log/debug (str "(assoc-in (lexical) " ((:morph-ps model) bolt) " " path " "
-                                              ((:morph-ps model) bolt-at)))
-                              [(assoc-in bolt path bolt-at)])
-                            (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
-                                  comp-paths (sort (keys comps-map))]
+                                              ((:morph-ps model) bolt-at) " => "
+                                              (string/join "," (map #((:morph-ps model) %)
+                                                                    result))))
+                              result)
+                            (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)]
                               (when (not (some empty? (vals comps-map)))
-                                (let [result
+                                (let [comp-paths (sort (keys comps-map))
+                                      result
                                       (add-comps bolt-at
                                                  model
                                                  comp-paths
@@ -190,7 +193,8 @@
                                                       path))]
                                   (log/debug (str "(assoc-in (phrasal) " ((:morph-ps model) bolt) " " path " "
                                                   ((:morph-ps model) bolt-at)))
-                                  result)))))
+                                  (map #(assoc-in bolt path %)
+                                       result))))))
                         bolts-at))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."

@@ -27,6 +27,7 @@
 (declare any-possible-complement?)
 (declare bolt-depth)
 (declare candidate-parents)
+(declare do-defaults)
 (declare exception)
 (declare find-comp-paths-in)
 (declare lazy-mapcat)

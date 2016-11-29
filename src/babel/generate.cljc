@@ -111,19 +111,19 @@
       (if (not (empty? comp-paths))
         (zipmap
          comp-paths
-         (map #(let [spec (get-in bolt %)
-                     lexemes (get-lexemes model spec)
-                     bolts-at (if (< depth max-depth)
-                                (lightning-bolts
-                                 model
-                                 (get-in bolt %)
-                                 depth max-depth))
-                     lexemes-before-phrases
-                     (lexemes-before-phrases depth max-depth)]
-                 (if lexemes-before-phrases
-                   (concat lexemes bolts-at)
-                   (concat bolts-at lexemes)))
-              comp-paths))))))
+         (mapfn #(let [spec (get-in bolt %)
+                       lexemes (get-lexemes model spec)
+                       bolts-at (if (< depth max-depth)
+                                  (lightning-bolts
+                                   model
+                                   (get-in bolt %)
+                                   depth max-depth))
+                       lexemes-before-phrases
+                       (lexemes-before-phrases depth max-depth)]
+                   (if lexemes-before-phrases
+                     (lazy-cat lexemes bolts-at)
+                     (lazy-cat bolts-at lexemes)))
+                comp-paths))))))
 
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
@@ -144,7 +144,7 @@
                  (mapfn
                   (fn [bolt-at]
                     (if (= false (get-in bolt-at [:phrasal]))
-                      [(assoc-in bolt path bolt-at)]
+                      [(do-defaults (assoc-in bolt path bolt-at) model)]
                       (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)]
                         (when (not (some empty? (vals comps-map)))
                           (let [comp-paths (keys comps-map)

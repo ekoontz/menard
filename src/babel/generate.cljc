@@ -143,20 +143,21 @@
                   bolts-at))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
-  (if (= false (get-in bolt-at [:phrasal]))
-    [(do-defaults (assoc-in bolt path bolt-at) model)]
-    (let [comp-paths (find-comp-paths bolt-at)
-          comp-bolts (map #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                          comp-paths)]
-      (when (not (some empty? comp-bolts))
-        (mapfn #(do-defaults (assoc-in bolt path %) model)
-               (add-comps bolt-at
-                          model
-                          comp-paths
-                          comp-bolts
-                          (+ 1 depth)
-                          max-depth
-                          top-bolt))))))
+  (mapfn #(do-defaults % model)
+         (if (= false (get-in bolt-at [:phrasal]))
+           [(assoc-in bolt path bolt-at)]
+           (let [comp-paths (find-comp-paths bolt-at)
+                 comp-bolts (map #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                                 comp-paths)]
+             (when (not (some empty? comp-bolts))
+               (mapfn #(assoc-in bolt path %)
+                      (add-comps bolt-at
+                                 model
+                                 comp-paths
+                                 comp-bolts
+                                 (+ 1 depth)
+                                 max-depth
+                                 top-bolt)))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model]

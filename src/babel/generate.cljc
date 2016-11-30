@@ -105,25 +105,24 @@
   
 (defn comp-paths-to-bolts-map
   "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
-  [bolt model depth max-depth]
+  [bolt comp-paths model depth max-depth]
   (if (and (not (nil? bolt)))
-    (let [comp-paths (find-comp-paths bolt)]
-      (if (not (empty? comp-paths))
-        (zipmap
-         comp-paths
-         (mapfn #(let [spec (get-in bolt %)
-                       lexemes (get-lexemes model spec)
-                       bolts-at (if (< depth max-depth)
+    (if (not (empty? comp-paths))
+      (zipmap
+       comp-paths
+       (mapfn #(let [spec (get-in bolt %)
+                     lexemes (get-lexemes model spec)
+                     bolts-at (if (< depth max-depth)
                                   (lightning-bolts
                                    model
                                    (get-in bolt %)
                                    depth max-depth))
-                       lexemes-before-phrases
-                       (lexemes-before-phrases depth max-depth)]
-                   (if lexemes-before-phrases
-                     (lazy-cat lexemes bolts-at)
-                     (lazy-cat bolts-at lexemes)))
-                comp-paths))))))
+                     lexemes-before-phrases
+                     (lexemes-before-phrases depth max-depth)]
+                 (if lexemes-before-phrases
+                   (lazy-cat lexemes bolts-at)
+                   (lazy-cat bolts-at lexemes)))
+              comp-paths)))))
 
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
@@ -145,8 +144,8 @@
                   (fn [bolt-at]
                     (if (= false (get-in bolt-at [:phrasal]))
                       [(do-defaults (assoc-in bolt path bolt-at) model)]
-                      (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
-                            comp-paths (find-comp-paths bolt)
+                      (let [comp-paths (find-comp-paths bolt-at)
+                            comps-map (comp-paths-to-bolts-map bolt-at comp-paths model (+ 1 depth) max-depth)
                             comp-bolts (vals comps-map)]
                         (when (not (some empty? comp-bolts))
                           (mapfn #(do-defaults (assoc-in bolt path %) model)
@@ -164,8 +163,8 @@
   (log/debug (str "generate2: spec: " spec))
   (flatten
    (mapfn (fn [bolt]
-            (let [comps-map (comp-paths-to-bolts-map bolt model 0 max-total-depth)
-                  comp-paths (find-comp-paths bolt)
+            (let [comp-paths (find-comp-paths bolt)
+                  comps-map (comp-paths-to-bolts-map bolt comp-paths model 0 max-total-depth)
                   comp-bolts (vals comps-map)]
               ;; filter by the following constraint:
               ;; that for every path that points to a complement of a bolt,

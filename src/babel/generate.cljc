@@ -152,9 +152,7 @@
                   comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                                    comp-paths)]
               (when (not (some empty? comp-bolts))
-                (mapfn #(if (= bolt bolt-at)
-                          %
-                          (assoc-in bolt path %))
+                (mapfn #(assoc-in bolt path %)
                        (add-comps bolt-at
                                   model
                                   comp-paths

@@ -140,27 +140,27 @@
                  (lazy-seq
                   (flatten
                    (mapfn #(let [bolt (assoc-in bolt path %)]
-                             (add-bolt-at top-bolt bolt path % model depth max-depth))
+                             (if (= false (get-in % [:phrasal]))
+                               [bolt]
+                               (add-bolt-at top-bolt bolt path % model depth max-depth)))
                           bolts-at))))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
   (lazy-seq
    (mapfn #(do-defaults % model)
-          (if (= false (get-in bolt-at [:phrasal]))
-            [bolt]
-            (let [comp-paths (find-comp-paths bolt-at)
-                  comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                                   comp-paths)]
-              (when (not (some empty? comp-bolts))
-                (lazy-seq
-                 (mapfn #(assoc-in bolt path %)
-                        (add-comps bolt-at
-                                   model
-                                   comp-paths
-                                   comp-bolts
-                                   (+ 1 depth)
-                                   max-depth
-                                   top-bolt)))))))))
+          (let [comp-paths (find-comp-paths bolt-at)
+                comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                                 comp-paths)]
+            (when (not (some empty? comp-bolts))
+              (lazy-seq
+               (mapfn #(assoc-in bolt path %)
+                      (add-comps bolt-at
+                                 model
+                                 comp-paths
+                                 comp-bolts
+                                 (+ 1 depth)
+                                 max-depth
+                                 top-bolt))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model

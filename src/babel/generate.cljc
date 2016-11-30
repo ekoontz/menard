@@ -107,7 +107,7 @@
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
   (let [spec (get-in bolt path)
-        lexemes (get-lexemes model spec)
+        lexemes (lazy-seq (shuffle (get-lexemes model spec)))
         bolts-at (if (< depth max-depth)
                    (lightning-bolts
                     model

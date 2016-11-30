@@ -585,3 +585,11 @@
     (is (not (empty? (get paths-to-lbs [:head :comp]))))
     (is (not (empty? (get paths-to-lbs [:comp]))))))
 
+(deftest benchmark []
+  (let [med (medium)
+        to-run #(time (println (fo (first (generate2 
+                                           {:synsem {:cat :verb, :sem {:pred :read
+                                                                       :subj {:pred :woman}}
+                                                     :subcat '()}} med)))))]
+    (is (= 1 (count (take 1 (repeatedly to-run)))))))
+

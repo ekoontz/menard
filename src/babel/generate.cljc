@@ -158,28 +158,29 @@
                                  (+ 1 depth)
                                  max-depth
                                  top-bolt)))))))
+
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model]
   (log/debug (str "generate2: spec: " spec))
   (mapfn #(do-defaults % model)
          (flatten
-          (mapfn (fn [bolt]
-                   (let [comp-paths (find-comp-paths bolt)
+          (mapfn (fn [bolt-at]
+                   (let [comp-paths (find-comp-paths bolt-at)
                          comp-bolts
-                         (map #(comp-path-to-bolts bolt % model 0 max-total-depth)
+                         (map #(comp-path-to-bolts bolt-at % model 0 max-total-depth)
                               comp-paths)]
                      ;; filter by the following constraint:
                      ;; that for every path that points to a complement of a bolt,
                      ;; there is a non-empty set of bolts that satisfies
                      ;; that complement's path.
                      (when (not (some empty? comp-bolts))
-                       (add-comps bolt
+                       (add-comps bolt-at
                                   model
                                   comp-paths
                                   comp-bolts
                                   0 max-total-depth
-                                  bolt))))
+                                  bolt-at))))
                  (lightning-bolts model spec 0 max-total-depth)))))
 
 (defn generate-n

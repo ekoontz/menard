@@ -106,19 +106,18 @@
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
-  (when (and (not (nil? bolt)))
-    (let [spec (get-in bolt path)
-          lexemes (get-lexemes model spec)
-          bolts-at (if (< depth max-depth)
-                     (lightning-bolts
-                      model
-                      (get-in bolt path)
-                      depth max-depth))
-          lexemes-before-phrases
-          (lexemes-before-phrases depth max-depth)]
-      (if lexemes-before-phrases
-        (lazy-cat lexemes bolts-at)
-        (lazy-cat bolts-at lexemes)))))
+  (let [spec (get-in bolt path)
+        lexemes (get-lexemes model spec)
+        bolts-at (if (< depth max-depth)
+                   (lightning-bolts
+                    model
+                    (get-in bolt path)
+                    depth max-depth))
+        lexemes-before-phrases
+        (lexemes-before-phrases depth max-depth)]
+    (if lexemes-before-phrases
+      (lazy-cat lexemes bolts-at)
+      (lazy-cat bolts-at lexemes))))
 
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,

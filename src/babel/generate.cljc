@@ -139,16 +139,15 @@
                 (flatten
                  (mapfn
                   (fn [bolt-at]
-                    (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
+                    (let [bolt (assoc-in bolt path bolt-at)]
+                      (add-bolt-at top-bolt bolt path bolt-at model depth max-depth)))
                   bolts-at))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
   (lazy-seq
    (mapfn #(do-defaults % model)
           (if (= false (get-in bolt-at [:phrasal]))
-            [(if (= bolt bolt-at)
-               bolt
-               (assoc-in bolt path bolt-at))]
+            [bolt]
             (let [comp-paths (find-comp-paths bolt-at)
                   comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                                    comp-paths)]

@@ -124,9 +124,12 @@
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
-  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt path-from-top]]
+  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt path-from-top truncate?]]
   (lazy-seq
-   (let [top-bolt (or top-bolt bolt)]
+   (let [top-bolt (or top-bolt bolt)
+         truncate? (if (= truncate? false)
+                     false
+                     true)]
      (if (empty? comp-paths)
        [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
        ;; else, more comp-paths to go.
@@ -137,15 +140,17 @@
                            depth max-depth top-bolt path-from-top)
                (let [path (first comp-paths)
                      bolts-at (first bolts-at-paths)]
-                 (lazy-seq
-                  (flatten
-                   (mapfn #(let [bolt (assoc-in bolt path %)]
-                             (if (= false (get-in % [:phrasal]))
-                               [bolt]
-                               (add-bolt-at top-bolt bolt path % model depth max-depth)))
-                          bolts-at))))))))))
+                 (flatten
+                  (mapfn #(let [bolt (assoc-in bolt path %)]
+                            (if (= false (get-in % [:phrasal]))
+                              [bolt]
+                              (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate?)
+                                  ((fn [with-added-complement]
+                                     (if truncate? (truncate with-added-complement [path] model)
+                                         with-added-complement))))))
+                         bolts-at)))))))))
 
-(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
+(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate?]
   (lazy-seq
    (mapfn #(do-defaults % model)
           (let [comp-paths (find-comp-paths bolt-at)
@@ -160,7 +165,8 @@
                                  comp-bolts
                                  (+ 1 depth)
                                  max-depth
-                                 top-bolt))))))))
+                                 top-bolt
+                                 truncate?))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model
@@ -172,7 +178,7 @@
   (let [depth 0
         max-depth max-total-depth]
     (flatten
-     (mapfn #(add-bolt-at % % [] % model depth max-depth)
+     (mapfn #(add-bolt-at % % [] % model depth max-depth truncate-children)
             (lightning-bolts model spec 0 max-total-depth)))))
 
 (defn generate-n

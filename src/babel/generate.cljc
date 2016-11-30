@@ -10,7 +10,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 8)
+(def ^:const max-total-depth 6)
 
 ;; TODO support setting max-generated-complements to :unlimited
 (def ^:const max-generated-complements 20000)

@@ -102,7 +102,7 @@
               (index-fn spec)
               (flatten (vals
                         (or (:lexicon (:generate model)) (:lexicon model))))))))
-
+  
 (defn comp-paths-to-bolts-map
   "return a map between the set of all complements in the given _bolt_,and the lazy sequence of bolts for that spec."
   [bolt model depth max-depth]
@@ -146,7 +146,7 @@
                     (if (= false (get-in bolt-at [:phrasal]))
                       [(do-defaults (assoc-in bolt path bolt-at) model)]
                       (let [comps-map (comp-paths-to-bolts-map bolt-at model (+ 1 depth) max-depth)
-                            comp-paths (keys comps-map)
+                            comp-paths (find-comp-paths bolt)
                             comp-bolts (vals comps-map)]
                         (when (not (some empty? comp-bolts))
                           (mapfn #(do-defaults (assoc-in bolt path %) model)
@@ -165,7 +165,7 @@
   (flatten
    (mapfn (fn [bolt]
             (let [comps-map (comp-paths-to-bolts-map bolt model 0 max-total-depth)
-                  comp-paths (keys comps-map)
+                  comp-paths (find-comp-paths bolt)
                   comp-bolts (vals comps-map)]
               ;; filter by the following constraint:
               ;; that for every path that points to a complement of a bolt,
@@ -296,7 +296,6 @@
                                 truncate-children max-total-depth top-level-spec]
   (log/debug (str "add-all-comps to bolts with paths to comps: "
                   (string/join "," comp-paths)))
-                  
   (if (empty? comp-paths)
     bolts
     (add-all-comps-with-paths
@@ -314,11 +313,11 @@
      truncate-children max-total-depth top-level-spec)))
 
 (defn do-defaults [tree language-model]
-  (log/debug (str "calling do-defaults on tree:" ((:morph language-model) tree)))
+  (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))
   (if-let [default-fn (:default-fn language-model)]
     (let [result
           (default-fn tree)]
-      (log/debug (str "result of calling do-defaults on tree:" ((:morph language-model) result)))
+      (log/trace (str "result of calling do-defaults on tree:" ((:morph language-model) result)))
       result)
     ;;
     (do

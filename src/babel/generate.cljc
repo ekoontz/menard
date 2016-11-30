@@ -145,7 +145,9 @@
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
   (mapfn #(do-defaults % model)
          (if (= false (get-in bolt-at [:phrasal]))
-           [(assoc-in bolt path bolt-at)]
+           [(if (= bolt bolt-at)
+              bolt
+              (assoc-in bolt path bolt-at))]
            (let [comp-paths (find-comp-paths bolt-at)
                  comp-bolts (map #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                                  comp-paths)]
@@ -169,17 +171,20 @@
     (mapfn #(do-defaults % model)
            (flatten
             (mapfn (fn [bolt-at]
-                     (let [comp-paths (find-comp-paths bolt-at)
-                           comp-bolts (map #(comp-path-to-bolts bolt-at % model depth max-depth)
-                                           comp-paths)]
-                       (when (not (some empty? comp-bolts))
-                         (add-comps bolt-at
-                                    model
-                                    comp-paths
-                                    comp-bolts
-                                    (+ 1 depth)
-                                    max-depth
-                                    bolt-at))))
+                     (mapfn #(do-defaults % model)
+                            (if (= false (get-in bolt-at [:phrasal]))
+                              [bolt-at]
+                              (let [comp-paths (find-comp-paths bolt-at)
+                                    comp-bolts (map #(comp-path-to-bolts bolt-at % model depth max-depth)
+                                                    comp-paths)]
+                                (when (not (some empty? comp-bolts))
+                                  (add-comps bolt-at
+                                             model
+                                             comp-paths
+                                             comp-bolts
+                                             (+ 1 depth)
+                                             max-depth
+                                             bolt-at))))))
                    (lightning-bolts model spec 0 max-total-depth))))))
 
 (defn generate-n

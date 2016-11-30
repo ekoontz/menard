@@ -129,19 +129,18 @@
     (if (empty? comp-paths)
       [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
       ;; else, more comp-paths to go.
-      (lazy-seq
-       (flatten
-        (mapfn #(add-comps % model
-                           (rest comp-paths)
-                           (rest bolts-at-paths)
-                           depth max-depth top-bolt path-from-top)
-               (let [path (first comp-paths)
-                     bolts-at (first bolts-at-paths)]
-                 (flatten
-                  (mapfn
-                   (fn [bolt-at]
-                     (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
-                   bolts-at)))))))))
+      (flatten
+       (mapfn #(add-comps % model
+                          (rest comp-paths)
+                          (rest bolts-at-paths)
+                          depth max-depth top-bolt path-from-top)
+              (let [path (first comp-paths)
+                    bolts-at (first bolts-at-paths)]
+                (flatten
+                 (mapfn
+                  (fn [bolt-at]
+                    (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
+                  bolts-at))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
   (lazy-seq

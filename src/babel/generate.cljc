@@ -438,7 +438,7 @@
                  path)]
       (if (not (empty? path))
         (concat 
-         (concat path [:comp])
+         [(vec (concat path [:comp]))]
          (find-comp-paths bolt (rest path)))
         [[:comp]]))))
 

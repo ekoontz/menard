@@ -134,7 +134,11 @@
                           depth max-depth top-bolt path-from-top)
               (let [path (first comp-paths)
                     bolts-at (first bolts-at-paths)]
-                (log/debug (str "add-comps to: " ((:morph-ps model) bolt) "@" path))
+                (log/debug (str "add-comps to: "
+                                (if (not (= bolt top-bolt))
+                                  (str ((:morph-ps model) top-bolt)
+                                       "/"))
+                                ((:morph-ps model) bolt) "@" path))
                 (flatten
                  (mapfn
                   (fn [bolt-at]

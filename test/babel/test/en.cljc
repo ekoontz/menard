@@ -6,7 +6,6 @@
             [babel.english.morphology :refer [fo get-string]]
 
             [babel.generate :refer [add-comps
-                                    comp-paths-to-bolts-map
                                     generate2 get-lexemes
                                     lightning-bolts]]
             

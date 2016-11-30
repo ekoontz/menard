@@ -309,7 +309,7 @@
      truncate-children max-total-depth top-level-spec)))
 
 (defn do-defaults [tree language-model]
-  (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))
+  (log/debug (str "calling do-defaults on tree:" ((:morph language-model) tree)))
   (if-let [default-fn (:default-fn language-model)]
     (let [result
           (default-fn tree)]

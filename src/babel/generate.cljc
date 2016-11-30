@@ -10,7 +10,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 6)
+(def ^:const max-total-depth 8)
 
 ;; TODO support setting max-generated-complements to :unlimited
 (def ^:const max-generated-complements 20000)
@@ -213,7 +213,7 @@
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents
-        (let [parents (shuffle (candidate-parents grammar spec))]
+        (let [parents (lazy-seq (shuffle (candidate-parents grammar spec)))]
           (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
     ;; TODO: use (defn get-lexemes) rather than this code which duplicates (get-lexemes)'s functionality.
@@ -238,7 +238,7 @@
                                   (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
                                                   ((:morph language-model) %)))
                                   (over/overh parent %))
-                               shuffled-subset)]
+                               (lazy-seq (shuffle subset)))]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))
@@ -353,11 +353,12 @@
                                           complement-candidate-lexemes))))
                
         bolt-child-synsem (get-in bolt (concat path [:synsem]))
-        lexical-complements (shuffle
+        lexical-complements (lazy-seq
+                             (shuffle
                              (filter (fn [lexeme]
                                        (and (not-fail? (unify (get-in lexeme [:synsem] :top)
                                                               bolt-child-synsem))))
-                                     complement-candidate-lexemes))]
+                                     complement-candidate-lexemes)))]
     (log/debug (str "lexical-complements (post-over):"
                     (string/join ","
                                  (map #((:morph language-model) %)

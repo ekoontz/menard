@@ -119,6 +119,8 @@
       (lazy-cat lexemes bolts-at)
       (lazy-cat bolts-at lexemes))))
 
+(declare add-bolt-at)
+
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
@@ -134,29 +136,27 @@
                           depth max-depth top-bolt path-from-top)
               (let [path (first comp-paths)
                     bolts-at (first bolts-at-paths)]
-                (log/debug (str "add-comps to: "
-                                (if (not (= bolt top-bolt))
-                                  (str ((:morph-ps model) top-bolt)
-                                       "/"))
-                                ((:morph-ps model) bolt) "@" path))
                 (flatten
                  (mapfn
                   (fn [bolt-at]
-                    (if (= false (get-in bolt-at [:phrasal]))
-                      [(do-defaults (assoc-in bolt path bolt-at) model)]
-                      (let [comp-paths (find-comp-paths bolt-at)
-                            comp-bolts (map #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                                            comp-paths)]
-                        (when (not (some empty? comp-bolts))
-                          (mapfn #(do-defaults (assoc-in bolt path %) model)
-                                 (add-comps bolt-at
-                                            model
-                                            comp-paths
-                                            comp-bolts
-                                            (+ 1 depth)
-                                            max-depth
-                                            top-bolt))))))
+                    (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
                   bolts-at))))))))
+
+(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
+  (if (= false (get-in bolt-at [:phrasal]))
+    [(do-defaults (assoc-in bolt path bolt-at) model)]
+    (let [comp-paths (find-comp-paths bolt-at)
+          comp-bolts (map #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                          comp-paths)]
+      (when (not (some empty? comp-bolts))
+        (mapfn #(do-defaults (assoc-in bolt path %) model)
+               (add-comps bolt-at
+                          model
+                          comp-paths
+                          comp-bolts
+                          (+ 1 depth)
+                          max-depth
+                          top-bolt))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model]

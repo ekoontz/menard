@@ -166,7 +166,11 @@
                                   top-bolt))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
-  [spec model]
+  [spec model
+   & {:keys [max-total-depth truncate-children lexicon]
+      :or {max-total-depth max-total-depth
+           lexicon nil
+           truncate-children true}}]
   (log/debug (str "generate2: spec: " spec))
   (let [depth 0
         max-depth max-total-depth]

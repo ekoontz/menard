@@ -137,10 +137,8 @@
               (let [path (first comp-paths)
                     bolts-at (first bolts-at-paths)]
                 (flatten
-                 (mapfn
-                  (fn [bolt-at]
-                    (let [bolt (assoc-in bolt path bolt-at)]
-                      (add-bolt-at top-bolt bolt path bolt-at model depth max-depth)))
+                 (mapfn #(let [bolt (assoc-in bolt path %)]
+                           (add-bolt-at top-bolt bolt path % model depth max-depth))
                   bolts-at))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]

@@ -172,7 +172,7 @@
                                  comp-paths)]
              (when (not (some empty? comp-bolts))
                (mapfn #(if true
-                         bolt-at
+                         bolt
                          nil))
                (add-comps bolt-at
                           model

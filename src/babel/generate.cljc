@@ -171,6 +171,9 @@
                  comp-bolts (map #(comp-path-to-bolts bolt-at % model depth max-depth)
                                  comp-paths)]
              (when (not (some empty? comp-bolts))
+               (mapfn #(if true
+                         bolt-at
+                         nil))
                (add-comps bolt-at
                           model
                           comp-paths

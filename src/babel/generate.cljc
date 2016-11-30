@@ -145,8 +145,7 @@
                     (if (= false (get-in bolt-at [:phrasal]))
                       [(do-defaults (assoc-in bolt path bolt-at) model)]
                       (let [comp-paths (find-comp-paths bolt-at)
-                            comps-map (comp-paths-to-bolts-map bolt-at comp-paths model (+ 1 depth) max-depth)
-                            comp-bolts (vals comps-map)]
+                            comp-bolts (vals (comp-paths-to-bolts-map bolt-at comp-paths model (+ 1 depth) max-depth))]
                         (when (not (some empty? comp-bolts))
                           (mapfn #(do-defaults (assoc-in bolt path %) model)
                                  (add-comps bolt-at
@@ -164,8 +163,7 @@
   (flatten
    (mapfn (fn [bolt]
             (let [comp-paths (find-comp-paths bolt)
-                  comps-map (comp-paths-to-bolts-map bolt comp-paths model 0 max-total-depth)
-                  comp-bolts (vals comps-map)]
+                  comp-bolts (vals (comp-paths-to-bolts-map bolt comp-paths model 0 max-total-depth))]
               ;; filter by the following constraint:
               ;; that for every path that points to a complement of a bolt,
               ;; there is a non-empty set of bolts that satisfies

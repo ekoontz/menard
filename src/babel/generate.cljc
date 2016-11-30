@@ -140,7 +140,7 @@
                  (flatten
                   (mapfn
                    (fn [bolt-at]
-                    (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
+                     (add-bolt-at top-bolt bolt path bolt-at model depth max-depth))
                    bolts-at)))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth]
@@ -151,8 +151,8 @@
                bolt
                (assoc-in bolt path bolt-at))]
             (let [comp-paths (find-comp-paths bolt-at)
-                  comp-bolts (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                                    comp-paths)]
+                  comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                                   comp-paths)]
               (when (not (some empty? comp-bolts))
                 (mapfn #(if (= bolt bolt-at)
                           %
@@ -438,7 +438,7 @@
                  path)]
       (if (not (empty? path))
         (concat 
-         [(vec (concat path [:comp]))]
+         (concat path [:comp])
          (find-comp-paths bolt (rest path)))
         [[:comp]]))))
 

@@ -174,10 +174,11 @@
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model
-   & {:keys [max-total-depth truncate-children lexicon]
+   & {:keys [max-total-depth truncate-children lexicon take]
       :or {max-total-depth max-total-depth
            lexicon nil
-           truncate-children true}}]
+           truncate-children true
+           take false}}]
   (log/debug (str "generate2: spec: " spec))
   (let [depth 0
         spec (if (fail? (unify spec {:synsem {:subcat []}}))
@@ -187,7 +188,7 @@
      (flatten
       (mapfn #(do
                 (log/debug (str "top-level add-bolt-at: " ((:morph-ps model) %)))
-                (add-bolt-at % % [] % model depth max-depth truncate-children))
+                (add-bolt-at % % [] % model depth max-depth truncate-children take))
              (lightning-bolts model spec 0 max-total-depth)))))
 
 (defn generate-n

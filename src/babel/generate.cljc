@@ -97,11 +97,11 @@
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))
-    (filter #(not-fail? (unify % spec))
-            (if-let [index-fn (:index-fn model)]
-              (index-fn spec)
-              (flatten (vals
-                        (or (:lexicon (:generate model)) (:lexicon model))))))))
+    (lazy-seq (filter #(not-fail? (unify % spec))
+                      (if-let [index-fn (:index-fn model)]
+                        (index-fn spec)
+                        (flatten (vals
+                                  (or (:lexicon (:generate model)) (:lexicon model)))))))))
   
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
@@ -116,15 +116,15 @@
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
     (if lexemes-before-phrases
-      (lazy-cat lexemes bolts-at)
-      (lazy-cat bolts-at lexemes))))
+      (lazy-seq (concat lexemes bolts-at))
+      (lazy-seq (concat bolts-at lexemes)))))
 
 (declare add-bolt-at)
 
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
-  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt path-from-top truncate?]]
+  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
   (lazy-seq
    (let [top-bolt (or top-bolt bolt)
          truncate? (if (= truncate? false)
@@ -137,25 +137,28 @@
         (mapfn #(add-comps % model
                            (rest comp-paths)
                            (rest bolts-at-paths)
-                           depth max-depth top-bolt path-from-top)
+                           depth max-depth top-bolt truncate? take-n)
                (let [path (first comp-paths)
                      bolts-at (first bolts-at-paths)]
                  (flatten
                   (mapfn #(let [bolt (assoc-in bolt path %)]
                             (if (= false (get-in % [:phrasal]))
                               [bolt]
-                              (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate?)
+                              (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
                                   ((fn [with-added-complement]
                                      (if truncate? (truncate with-added-complement [path] model)
                                          with-added-complement))))))
                          bolts-at)))))))))
 
-(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate?]
+(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (lazy-seq
    (mapfn #(do-defaults % model)
           (let [comp-paths (find-comp-paths bolt-at)
-                comp-bolts (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                                 comp-paths)]
+                comp-bolts
+                (pmap #(if (or true take-n)
+                         (take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
+                         (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
+                       comp-paths)]
             (when (not (some empty? comp-bolts))
               (lazy-seq
                (mapfn #(assoc-in bolt path %)
@@ -166,7 +169,8 @@
                                  (+ 1 depth)
                                  max-depth
                                  top-bolt
-                                 truncate?))))))))
+                                 truncate?
+                                 take-n))))))))
 (defn generate2
   "Return all expressions matching spec _spec_ given the model _model_."
   [spec model
@@ -180,7 +184,7 @@
      (flatten
       (mapfn #(do
                 (log/debug (str "top-level add-bolt-at: " ((:morph-ps model) %)))
-                (add-bolt-at % % [] % model depth max-depth truncate-children))
+                (add-bolt-at % % [] % model depth max-depth truncate-children 1))
              (lightning-bolts model spec 0 max-total-depth)))))
 
 (defn generate-n

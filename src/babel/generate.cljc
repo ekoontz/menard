@@ -155,7 +155,7 @@
    (mapfn #(do-defaults % model)
           (let [comp-paths (find-comp-paths bolt-at)
                 comp-bolts
-                (pmap #(if (or true take-n)
+                (pmap #(if take-n
                          (take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
                          (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
                        comp-paths)]
@@ -180,11 +180,14 @@
            truncate-children true}}]
   (log/debug (str "generate2: spec: " spec))
   (let [depth 0
+        spec (if (fail? (unify spec {:synsem {:subcat []}}))
+               spec
+               (unify spec {:synsem {:subcat []}}))
         max-depth max-total-depth]
      (flatten
       (mapfn #(do
                 (log/debug (str "top-level add-bolt-at: " ((:morph-ps model) %)))
-                (add-bolt-at % % [] % model depth max-depth truncate-children 1))
+                (add-bolt-at % % [] % model depth max-depth truncate-children))
              (lightning-bolts model spec 0 max-total-depth)))))
 
 (defn generate-n

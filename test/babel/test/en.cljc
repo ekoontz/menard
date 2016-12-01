@@ -6,7 +6,7 @@
             [babel.english.morphology :refer [fo get-string]]
 
             [babel.generate :refer [add-comps
-                                    generate2 get-lexemes
+                                    get-lexemes
                                     lightning-bolts]]
             
             [babel.over :refer [overc overh]]
@@ -586,9 +586,10 @@
 
 (deftest benchmark []
   (let [med (medium)
-        to-run #(time (println (fo (first (generate2 
-                                           {:synsem {:cat :verb, :sem {:pred :read
-                                                                       :subj {:pred :woman}}
-                                                     :subcat '()}} med)))))]
-    (is (= 1 (count (take 1 (repeatedly to-run)))))))
+        to-run #(time (println (fo (generate
+                                    {:synsem {:cat :verb, :sem {:pred :read
+                                                                :subj {:pred :woman}}
+                                              :subcat '()}}))))]
+    (is (= 50 (count (take 50 (repeatedly to-run)))))))
+
 

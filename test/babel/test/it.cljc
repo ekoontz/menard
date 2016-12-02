@@ -117,7 +117,6 @@
                              :subj {:pred :I}
                              :tense :past
                              :aspect :perfect}}}]
-    (is (not (nil? (generate/generate-old spec small))))
     (is (not (nil? (generate/generate spec small))))))
 
 (deftest passato-prossimo-reflexive

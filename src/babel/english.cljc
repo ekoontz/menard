@@ -41,7 +41,8 @@
    (let [result (generate/generate spec model
                                    :max-total-depth max-total-depth
                                    :truncate-children truncate-children)]
-     (if result
+     (if (keyword? result)
+       (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
        (conj {:surface (morph result)}
              result)))))
 

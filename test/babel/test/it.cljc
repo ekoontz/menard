@@ -109,6 +109,17 @@
   (let [result (:parses (first (parse "lei è andato")))]
     (is (empty? result))))
 
+(deftest fix-regression
+  (let [spec {:synsem {:cat :verb
+                       :infl :present
+                       :subcat '()
+                       :sem {:pred :get-up
+                             :subj {:pred :I}
+                             :tense :past
+                             :aspect :perfect}}}]
+    (is (not (nil? (generate/generate-old spec small))))
+    (is (not (nil? (generate/generate spec small))))))
+
 (deftest passato-prossimo-reflexive
   (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
                           :synsem {:subcat '()

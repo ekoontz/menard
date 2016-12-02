@@ -101,7 +101,8 @@
                       (if-let [index-fn (:index-fn model)]
                         (index-fn spec)
                         (flatten (vals
-                                  (or (:lexicon (:generate model)) (:lexicon model)))))))))
+                                  (or (:lexicon (:generate model)) (:lexicon model)))))))
+    []))
   
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
@@ -153,24 +154,25 @@
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (lazy-seq
    (mapfn #(do-defaults % model)
-          (let [comp-paths (find-comp-paths bolt-at)
-                comp-bolts
-                (pmap #(if take-n
-                         (take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
-                         (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
-                       comp-paths)]
-            (when (not (some empty? comp-bolts))
-              (lazy-seq
-               (mapfn #(assoc-in bolt path %)
-                      (add-comps bolt-at
-                                 model
-                                 comp-paths
-                                 comp-bolts
-                                 (+ 1 depth)
-                                 max-depth
-                                 top-bolt
-                                 truncate?
-                                 take-n))))))))
+                  (let [comp-paths (find-comp-paths bolt-at)
+                        comp-bolts
+                        (pmap #(if take-n
+                                 (take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
+                                 (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
+                              comp-paths)]
+                    (when (not (some empty? comp-bolts))
+                      (lazy-seq
+                       (filter #(not (= :fail %))
+                               (mapfn #(assoc-in bolt path %)
+                                      (add-comps bolt-at
+                                                 model
+                                                 comp-paths
+                                                 comp-bolts
+                                                 (+ 1 depth)
+                                                 max-depth
+                                                 top-bolt
+                                                 truncate?
+                                                 take-n)))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
@@ -179,7 +181,7 @@
            lexicon nil
            truncate-children true
            take 1}}]
-  (log/debug (str "generate: spec: " spec))
+  (log/debug (str "generate: spec: " spec "; take: " take))
   (let [depth 0
         spec
         (->
@@ -192,16 +194,19 @@
     (->
      (clojure.core/take
       take
-      (filter #(not (= :fail %))
-              (flatten
-               (mapfn #(do
-                         (log/debug (str "top-level add-bolt-at: " ((:morph-ps language-model) %)))
-                         (add-bolt-at % % [] % language-model depth max-depth truncate-children take))
-                      (lightning-bolts language-model spec 0 max-total-depth)))))
+      (reduce concat
+              (pmap #(do
+                       (log/debug (str "add-bolt-at: " ((:morph-ps language-model) %)))
+                       (filter (fn [expr]
+                                 (cond
+                                   (not (= :fail expr)) true
+                                   true (do (log/debug (str "fail.")) false)))
+                               (add-bolt-at % % [] % language-model depth max-depth truncate-children 10)))
+                    (lightning-bolts language-model spec 0 max-total-depth))))
      ((fn [seq]
         (if (= take 1)
-          (first seq)
-          seq))))))
+          (first seq) ;; if caller only wants one, return just that one, rather than a singleton list.
+          seq)))))) ;; otherwise, return the lazy seq of expressions
 
 (defn generate-n
   ;; TODO: docs don't match: looks like this was copied from

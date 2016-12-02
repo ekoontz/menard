@@ -126,44 +126,50 @@
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
   [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
-  (lazy-seq
-   (let [top-bolt (or top-bolt bolt)
-         truncate? (if (= truncate? false)
-                     false
-                     true)]
-     (if (empty? comp-paths)
-       [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-       ;; else, more comp-paths to go.
-       (flatten
-        (mapfn #(add-comps % model
-                           (rest comp-paths)
-                           (rest bolts-at-paths)
-                           depth max-depth top-bolt truncate? take-n)
-               (let [path (first comp-paths)
-                     bolts-at (first bolts-at-paths)]
-                 (flatten
-                  (mapfn #(let [bolt (assoc-in bolt path %)]
-                            (if (= false (get-in % [:phrasal]))
-                              [bolt]
-                              (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
-                                  ((fn [with-added-complement]
-                                     (if truncate? (truncate with-added-complement [path] model)
-                                         with-added-complement))))))
-                         bolts-at)))))))))
+  (when (not (= :fail bolt))
+    (log/debug (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths)))
+    (lazy-seq
+     (let [top-bolt (or top-bolt bolt)
+           truncate? (if (= truncate? false)
+                       false
+                       true)]
+       (if (empty? comp-paths)
+         (do
+           (log/debug (str "complete tree: " ((:morph-ps model) bolt)))
+           [bolt]) ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+         ;; else, more comp-paths to go.
+         (flatten
+          (mapfn #(add-comps % model
+                             (rest comp-paths)
+                             (rest bolts-at-paths)
+                             depth max-depth top-bolt truncate? take-n)
+                 (let [path (first comp-paths)
+                       bolts-at (first bolts-at-paths)]
+                   (flatten
+                    (mapfn #(let [bolt (assoc-in bolt path %)]
+                              (if (= false (get-in % [:phrasal]))
+                                [bolt]
+                                (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
+                                    ((fn [with-added-complement]
+                                       (if truncate? (truncate with-added-complement [path] model)
+                                           with-added-complement))))))
+                           bolts-at))))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (lazy-seq
    (mapfn #(do-defaults % model)
-                  (let [comp-paths (find-comp-paths bolt-at)
-                        comp-bolts
-                        (pmap #(if take-n
-                                 (take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
-                                 (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
-                              comp-paths)]
-                    (when (not (some empty? comp-bolts))
-                      (lazy-seq
-                       (filter #(not (= :fail %))
-                               (mapfn #(assoc-in bolt path %)
+          (let [comp-paths (find-comp-paths bolt-at)
+                comp-bolts
+                (pmap #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                      comp-paths)]
+            (log/debug (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
+            (when (not (some empty? comp-bolts))
+              (lazy-seq
+               (filter #(not (= :fail %))
+                       (mapfn #(let [assoc (if (empty? path) %
+                                               (assoc-in bolt path %))]
+                                 assoc)
+                              (filter (fn [with-comps] (not (nil? with-comps)))
                                       (add-comps bolt-at
                                                  model
                                                  comp-paths
@@ -172,7 +178,7 @@
                                                  max-depth
                                                  top-bolt
                                                  truncate?
-                                                 take-n)))))))))
+                                                 take-n))))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
@@ -196,12 +202,10 @@
       take
       (reduce concat
               (pmap #(do
-                       (log/debug (str "add-bolt-at: " ((:morph-ps language-model) %)))
-                       (filter (fn [expr]
-                                 (cond
-                                   (not (= :fail expr)) true
-                                   true (do (log/debug (str "fail.")) false)))
-                               (add-bolt-at % % [] % language-model depth max-depth truncate-children 10)))
+                       (log/trace (str "add-bolt-at:" ((:morph-ps language-model) %)))
+                       (let [result (filter (fn [x] (not (= :fail x)))
+                                            (add-bolt-at % % [] % language-model depth max-depth truncate-children take))]
+                         result))
                     (lightning-bolts language-model spec 0 max-total-depth))))
      ((fn [seq]
         (if (= take 1)

@@ -45,22 +45,6 @@
        (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
        (conj {:surface (morph result)}
              result)))))
-
-(defn generate-all
-  ([]
-   (generate-all {:modified false}
-                 :max-total-depth generate/max-total-depth
-                 :truncate-children true
-                 :model (medium)))
-  ([spec & {:keys [max-total-depth model truncate-children]
-            :or {max-total-depth generate/max-total-depth
-                 truncate-children true
-                 model (medium)}}]
-   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-   (map #(conj {:surface (morph %)} %)
-        (generate/generate-all spec model 0
-                               :max-total-depth max-total-depth
-                               :truncate-children truncate-children))))
   
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]

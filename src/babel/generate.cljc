@@ -127,33 +127,35 @@
    at each supplied path in comp-paths, the bolts for that path."
   [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
   (when (not (= :fail bolt))
-    (log/debug (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths)))
-    (lazy-seq
-     (let [top-bolt (or top-bolt bolt)
-           truncate? (if (= truncate? false)
-                       false
-                       true)]
-       (if (empty? comp-paths)
-         (do
-           (log/debug (str "complete tree: " ((:morph-ps model) bolt)))
-           [bolt]) ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-         ;; else, more comp-paths to go.
-         (flatten
-          (mapfn #(add-comps % model
-                             (rest comp-paths)
-                             (rest bolts-at-paths)
-                             depth max-depth top-bolt truncate? take-n)
-                 (let [path (first comp-paths)
-                       bolts-at (first bolts-at-paths)]
-                   (flatten
-                    (mapfn #(let [bolt (assoc-in bolt path %)]
-                              (if (= false (get-in % [:phrasal]))
-                                [bolt]
-                                (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
-                                    ((fn [with-added-complement]
-                                       (if truncate? (truncate with-added-complement [path] model)
-                                           with-added-complement))))))
-                           bolts-at))))))))))
+    (do
+      (if (not (empty? comp-paths))
+        (log/debug (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths))))
+      (lazy-seq
+       (let [top-bolt (or top-bolt bolt)
+             truncate? (if (= truncate? false)
+                         false
+                         true)]
+         (if (empty? comp-paths)
+           (do
+             (log/debug (str "complete tree: " ((:morph-ps model) bolt)))
+             [bolt]) ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+           ;; else, more comp-paths to go.
+           (flatten
+            (mapfn #(add-comps % model
+                               (rest comp-paths)
+                               (rest bolts-at-paths)
+                               depth max-depth top-bolt truncate? take-n)
+                   (let [path (first comp-paths)
+                         bolts-at (first bolts-at-paths)]
+                     (flatten
+                      (mapfn #(let [bolt (assoc-in bolt path %)]
+                                (if (= false (get-in % [:phrasal]))
+                                  [bolt]
+                                  (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
+                                      ((fn [with-added-complement]
+                                         (if truncate? (truncate with-added-complement [path] model)
+                                             with-added-complement))))))
+                             bolts-at)))))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (lazy-seq
@@ -346,7 +348,7 @@
      truncate-children max-total-depth top-level-spec)))
 
 (defn do-defaults [tree language-model]
-  (log/debug (str "calling do-defaults on tree:" ((:morph language-model) tree)))
+  (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))
   (if-let [default-fn (:default-fn language-model)]
     (let [result
           (default-fn tree)]

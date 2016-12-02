@@ -153,11 +153,12 @@
     (->
      (clojure.core/take
       take
-      (flatten
-       (mapfn #(do
-                 (log/debug (str "top-level add-bolt-at: " ((:morph-ps language-model) %)))
-                 (add-bolt-at % % [] % language-model depth max-depth truncate-children take))
-              (lightning-bolts language-model spec 0 max-total-depth))))
+      (filter #(not (= :fail %))
+              (flatten
+               (mapfn #(do
+                         (log/debug (str "top-level add-bolt-at: " ((:morph-ps language-model) %)))
+                         (add-bolt-at % % [] % language-model depth max-depth truncate-children take))
+                      (lightning-bolts language-model spec 0 max-total-depth)))))
      ((fn [seq]
         (if (= take 1)
           (first seq)

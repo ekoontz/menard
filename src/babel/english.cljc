@@ -19,7 +19,11 @@
   (if (and (not (nil? medium-model))
            (realized? medium-model))
     @medium-model
-    @(deliver medium-model (grammar/medium))))
+    @(do
+       (print (str "creating model..(will be slow the first time).."))
+       (let [result (deliver medium-model (grammar/medium))]
+         (println (str "done."))
+         result))))
 
 (declare morph)
 

@@ -102,21 +102,21 @@
                       comp-paths)]
             (log/debug (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
             (when (not (some empty? comp-bolts))
-              (lazy-seq
-               (filter #(not (= :fail %))
-                       (mapfn #(let [assoc (if (empty? path) %
-                                               (assoc-in bolt path %))]
-                                 assoc)
-                              (filter (fn [with-comps] (not (nil? with-comps)))
-                                      (add-comps bolt-at
-                                                 model
-                                                 comp-paths
-                                                 comp-bolts
-                                                 (+ 1 depth)
-                                                 max-depth
-                                                 top-bolt
-                                                 truncate?
-                                                 take-n))))))))))
+              (take take-n
+                    (filter #(not (= :fail %))
+                            (mapfn #(let [assoc (if (empty? path) %
+                                                    (assoc-in bolt path %))]
+                                      assoc)
+                                   (filter (fn [with-comps] (not (nil? with-comps)))
+                                           (add-comps bolt-at
+                                                      model
+                                                      comp-paths
+                                                      comp-bolts
+                                                      (+ 1 depth)
+                                                      max-depth
+                                                      top-bolt
+                                                      truncate?
+                                                      take-n))))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

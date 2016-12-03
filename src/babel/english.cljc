@@ -20,7 +20,7 @@
            (realized? medium-model))
     @medium-model
     @(do
-       (print (str "creating model..(will be slow the first time).."))
+       (println (str "creating model..(will be slow the first time).."))
        (let [result (deliver medium-model (grammar/medium))]
          (println (str "done."))
          result))))

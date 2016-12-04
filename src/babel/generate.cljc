@@ -10,7 +10,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 6)
+(def ^:const max-total-depth 10)
 
 ;; TODO support setting max-generated-complements to :unlimited
 (def ^:const max-generated-complements 20000)
@@ -18,7 +18,20 @@
 ;; use map or pmap.
 (def ^:const mapfn map)
 
-(def ^:const randomize-lexemes-before-phrases true)
+;; should generation be deterministic or random?
+(def ^:const deterministic false)
+
+;; deterministic generation:
+(def shufflefn
+                                        ;  shuffle
+  (fn [x] x))
+;  (if deterministic
+;    (fn [x] x))
+;  (shuffle x))
+
+(def ^:const randomize-lexemes-before-phrases
+  false)
+
 (def ^:const error-if-no-complements false)
 
 (declare candidate-parents)
@@ -44,7 +57,7 @@
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
   (let [spec (get-in bolt path)
-        lexemes (lazy-seq (shuffle (get-lexemes model spec)))
+        lexemes (lazy-seq (shufflefn (get-lexemes model spec)))
         bolts-at (if (< depth max-depth)
                    (lightning-bolts
                     model
@@ -73,7 +86,7 @@
                          true)]
          (if (empty? comp-paths)
            (do
-             (log/debug (str "complete tree: " ((:morph-ps model) bolt)))
+             (log/trace (str "add-comps done with this bolt: " ((:morph-ps model) bolt)))
              [bolt]) ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
            ;; else, more comp-paths to go.
            (flatten
@@ -94,29 +107,32 @@
                              bolts-at)))))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
-  (lazy-seq
-   (mapfn #(do-defaults % model)
-          (let [comp-paths (find-comp-paths bolt-at)
-                comp-bolts
-                (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                       comp-paths)]
-            (log/debug (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
-            (when (not (some empty? comp-bolts))
-              (take take-n
-                    (filter #(not (= :fail %))
-                            (mapfn #(let [assoc (if (empty? path) %
-                                                    (assoc-in bolt path %))]
-                                      assoc)
-                                   (filter (fn [with-comps] (not (nil? with-comps)))
-                                           (add-comps bolt-at
-                                                      model
-                                                      comp-paths
-                                                      comp-bolts
-                                                      (+ 1 depth)
-                                                      max-depth
-                                                      top-bolt
-                                                      truncate?
-                                                      take-n))))))))))
+  (mapfn #(do-defaults % model)
+         (let [comp-paths (find-comp-paths bolt-at)
+               comp-bolts
+               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                      comp-paths)]
+           (log/debug (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
+           (when (not (some empty? comp-bolts))
+             (take take-n
+                   (filter #(not (= :fail %))
+                           (mapfn #(let [assoc (if (empty? path) %
+                                                   (assoc-in bolt path %))]
+                                     assoc)
+                                  (filter (fn [with-comps]
+                                            (do
+                                              (log/debug (str "add-bolt-at: added all comps to bolt: " ((:morph model)
+                                                                                                        with-comps)))
+                                              (not (nil? with-comps))))
+                                          (add-comps bolt-at
+                                                     model
+                                                     comp-paths
+                                                     comp-bolts
+                                                     (+ 1 depth)
+                                                     max-depth
+                                                     top-bolt
+                                                     truncate?
+                                                     take-n)))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
@@ -139,12 +155,12 @@
      (clojure.core/take
       take
       (reduce concat
-              (pmap #(do
-                       (log/trace (str "add-bolt-at:" ((:morph-ps language-model) %)))
-                       (let [result (filter (fn [x] (not (= :fail x)))
-                                            (add-bolt-at % % [] % language-model depth max-depth truncate-children take))]
-                         result))
-                    (lightning-bolts language-model spec 0 max-total-depth))))
+              (map #(do
+                      (log/trace (str "add-bolt-at:" ((:morph-ps language-model) %)))
+                      (let [result (filter (fn [x] (not (= :fail x)))
+                                           (add-bolt-at % % [] % language-model depth max-depth truncate-children take))]
+                        result))
+                   (lightning-bolts language-model spec 0 max-total-depth))))
      ((fn [seq]
         (if (= take 1)
           (first seq) ;; if caller only wants one, return just that one, rather than a singleton list.
@@ -167,7 +183,7 @@
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents
-        (let [parents (lazy-seq (shuffle (candidate-parents grammar spec)))]
+        (let [parents (lazy-seq (shufflefn (candidate-parents grammar spec)))]
           (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
     ;; TODO: use (defn get-lexemes) rather than this code which duplicates (get-lexemes)'s functionality.
@@ -192,7 +208,7 @@
                                   (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
                                                   ((:morph language-model) %)))
                                   (over/overh parent %))
-                               (lazy-seq (shuffle subset)))]
+                               (lazy-seq (shufflefn subset)))]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))

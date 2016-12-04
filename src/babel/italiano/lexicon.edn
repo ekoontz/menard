@@ -158,7 +158,8 @@
                          :sem {:pred :support}}}
 
  "apprendere"  {:synsem {:cat :verb
-                         :sem {:pred :learn-a}}}
+                         :sem {:pred :learn-a}}
+                       :italiano {:passato "appreso"}}
 
  "approfittare"  {:synsem {:cat :verb
                            :sem {:pred :take-advantage-of}}}

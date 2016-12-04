@@ -472,7 +472,7 @@
                 :synsem {:sem {:pred :look-for}}}
                {:unify common
                 :synsem {:sem {:pred :look-up}}}])
-                
+
 
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}
@@ -1976,7 +1976,8 @@
   :italiano {:initial true}}
 
  "vincere"  {:synsem {:cat :verb
-                      :sem {:pred :win}}}
+                      :sem {:pred :win}}
+                    :italiano {:passato "vinto"}}
 
  "vino" {:synsem {:agr {:gender :masc}
                   :cat :noun

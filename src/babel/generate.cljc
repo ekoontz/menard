@@ -22,12 +22,10 @@
 (def ^:const deterministic false)
 
 ;; deterministic generation:
-(def shufflefn
-                                        ;  shuffle
-  (fn [x] x))
-;  (if deterministic
-;    (fn [x] x))
-;  (shuffle x))
+(def ^:const shufflefn (fn [x] x))
+
+;; nondeterministic generation
+;; (def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
   false)

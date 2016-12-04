@@ -1649,12 +1649,12 @@
    "play" [{:comment "We are talking about playing games or sports."
             :english {:note "⚽"}
             :synsem {:cat :verb
-                     :sem {:pred :giocare}}}
+                     :sem {:pred :play-games}}}
 
            {:comment "We are talking about playing music or sounds."
             :english {:note "🎼"}
             :synsem {:cat :verb
-                     :sem {:pred :suonare}}}]
+                     :sem {:pred :play-music}}}]
 
    "praise" {:synsem {:cat :verb
                       :sem {:pred :praise}}}

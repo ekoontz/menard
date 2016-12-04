@@ -190,7 +190,7 @@
                {:synsem {:cat :verb
                          :sem {:pred :insure}}}]
 
- "attoro" {:synsem {:agr {:gender :masc}
+ "attore" {:synsem {:agr {:gender :masc}
                     :cat :noun
                     :sem {:pred :actor}}}
 
@@ -465,12 +465,14 @@
                     :sem {:pred :have-dinner}}}
 
 
- "cercare"  [{:synsem {:cat :verb
-                       :essere false
-                       :sem {:pred :look-for}}}
-             {:synsem {:cat :verb
-                       :essere false
-                       :sem {:pred :look-up}}}]
+ "cercare"  (let [common {:italiano {:future-stem "cercher"}
+                          :synsem {:cat :verb
+                                   :essere false}}]
+              [{:unify common
+                :synsem {:sem {:pred :look-for}}}
+               {:unify common
+                :synsem {:sem {:pred :look-up}}}])
+                
 
  "chiacchierare" {:synsem {:cat :verb
                            :sem {:pred :chat}}}

@@ -110,7 +110,7 @@
   (mapfn #(do-defaults % model)
          (let [comp-paths (find-comp-paths bolt-at)
                comp-bolts
-               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+               (mapfn #(take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
                       comp-paths)]
            (log/trace (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
            (when (not (some empty? comp-bolts))

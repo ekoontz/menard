@@ -368,8 +368,9 @@
 
 
 "cadere" {:synsem {:essere true
-                     :cat :verb
-                     :sem {:pred :fall}}}
+                     :cat :verb}
+                     :sem {:pred :fall}
+          :italiano {:future-stem "cadr"}}
 
 
  "caffè" [{:synsem {:agr {:gender :masc

@@ -110,30 +110,29 @@
   (mapfn #(do-defaults % model)
          (let [comp-paths (find-comp-paths bolt-at)
                comp-bolts
-               (mapfn #(take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
+               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                       comp-paths)]
            (log/trace (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
            (when (not (some empty? comp-bolts))
-             (take take-n
-                   (filter #(not (= :fail %))
-                           (mapfn #(let [assoc (if (empty? path) %
-                                                   (assoc-in bolt path %))]
-                                     assoc)
-                                  (filter (fn [with-comps]
-                                            (do
-                                              (log/debug (str "add-bolt-at: added all comps to bolt: '" ((:morph model)
-                                                                                                         with-comps)
-                                                              "'"))
-                                              with-comps))
-                                          (add-comps bolt-at
-                                                     model
-                                                     comp-paths
-                                                     comp-bolts
-                                                     (+ 1 depth)
-                                                     max-depth
-                                                     top-bolt
-                                                     truncate?
-                                                     take-n)))))))))
+             (filter #(not (= :fail %))
+                     (mapfn #(let [assoc (if (empty? path) %
+                                             (assoc-in bolt path %))]
+                               assoc)
+                            (filter (fn [with-comps]
+                                      (do
+                                        (log/debug (str "add-bolt-at: added all comps to bolt: '" ((:morph model)
+                                                                                                   with-comps)
+                                                        "'"))
+                                        with-comps))
+                                    (add-comps bolt-at
+                                               model
+                                               comp-paths
+                                               comp-bolts
+                                               (+ 1 depth)
+                                               max-depth
+                                               top-bolt
+                                               truncate?
+                                               take-n))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

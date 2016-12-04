@@ -78,7 +78,7 @@
   (when (not (= :fail bolt))
     (do
       (if (not (empty? comp-paths))
-        (log/debug (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths))))
+        (log/trace (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths))))
       (lazy-seq
        (let [top-bolt (or top-bolt bolt)
              truncate? (if (= truncate? false)
@@ -110,9 +110,9 @@
   (mapfn #(do-defaults % model)
          (let [comp-paths (find-comp-paths bolt-at)
                comp-bolts
-               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+               (mapfn #(take take-n (comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth))
                       comp-paths)]
-           (log/debug (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
+           (log/trace (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
            (when (not (some empty? comp-bolts))
              (take take-n
                    (filter #(not (= :fail %))
@@ -121,9 +121,10 @@
                                      assoc)
                                   (filter (fn [with-comps]
                                             (do
-                                              (log/debug (str "add-bolt-at: added all comps to bolt: " ((:morph model)
-                                                                                                        with-comps)))
-                                              (not (nil? with-comps))))
+                                              (log/debug (str "add-bolt-at: added all comps to bolt: '" ((:morph model)
+                                                                                                         with-comps)
+                                                              "'"))
+                                              with-comps))
                                           (add-comps bolt-at
                                                      model
                                                      comp-paths

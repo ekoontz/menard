@@ -10,8 +10,7 @@
          (take do-this-many
                (repeatedly 
                 #(with-out-str (time (log/info
-                                      (str "function-to-run output:"
-                                           (function-to-run)))))))
+                                      (str (function-to-run)))))))
          (map #(string/replace % #".*time:\s*([0-9.]+).*" "$1"))
          (map string/trim)
          (map #(Double. %))

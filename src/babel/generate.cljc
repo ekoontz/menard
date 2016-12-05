@@ -84,17 +84,16 @@
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
   [bolt model comp-paths bolts-at-paths depth max-depth top-bolt truncate? take-n]
-  (when (not (= :fail bolt))
-    (if (empty? comp-paths)
-      [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-      (mapfn #(add-comps % model
-                         (rest comp-paths)
-                         (rest bolts-at-paths)
-                         depth max-depth top-bolt truncate? take-n)
-             (flatten
-              (add-bolts-to-path
-               (first comp-paths) (first bolts-at-paths)
-               bolt top-bolt model depth max-depth truncate? take-n))))))
+  (if (empty? comp-paths)
+    [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+    (mapfn #(add-comps % model
+                       (rest comp-paths)
+                       (rest bolts-at-paths)
+                       depth max-depth top-bolt truncate? take-n)
+           (flatten
+            (add-bolts-to-path
+             (first comp-paths) (first bolts-at-paths)
+             bolt top-bolt model depth max-depth truncate? take-n)))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)

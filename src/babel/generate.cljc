@@ -80,12 +80,6 @@
                   result))))
          bolts-at))
 
-(defn add-comps-using [bolt model path comp-paths bolts-at-paths depth max-depth top-bolt truncate? take-n]
-  (if (empty? comp-paths)
-    [bolt]
-    (mapfn (fn [bolt-at]
-             (let [result (add-bolt-at top-bolt bolt path bolt-at model depth max-depth truncate? take-n)])))))
-
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."

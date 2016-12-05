@@ -85,27 +85,22 @@
    at each supplied path in comp-paths, the bolts for that path."
   [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
   (when (not (= :fail bolt))
-    (do
-      (if (not (empty? comp-paths))
-        (log/trace (str "add-comps: " ((:morph-ps model) bolt) ": comp-paths:" (string/join "," comp-paths))))
-      (lazy-seq
-       (let [top-bolt (or top-bolt bolt)
-             truncate? (if (= truncate? false)
-                         false
-                         true)]
-         (if (empty? comp-paths)
-           (do
-             (log/trace (str "add-comps done with this bolt: " ((:morph-ps model) bolt)))
-             [bolt]) ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-           ;; else, more comp-paths to go.
-           (flatten
-            (mapfn #(add-comps % model
-                               (rest comp-paths)
-                               (rest bolts-at-paths)
-                               depth max-depth top-bolt truncate? take-n)
-                   (add-bolts-to-path
-                    (first comp-paths) (first bolts-at-paths)
-                    bolt top-bolt model depth max-depth truncate? take-n)))))))))
+    (lazy-seq
+     (let [top-bolt (or top-bolt bolt)
+           truncate? (if (= truncate? false)
+                       false
+                       true)]
+       (if (empty? comp-paths)
+         [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+         ;; else, more comp-paths to go.
+         (flatten
+          (mapfn #(add-comps % model
+                             (rest comp-paths)
+                             (rest bolts-at-paths)
+                             depth max-depth top-bolt truncate? take-n)
+                 (add-bolts-to-path
+                  (first comp-paths) (first bolts-at-paths)
+                  bolt top-bolt model depth max-depth truncate? take-n))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)

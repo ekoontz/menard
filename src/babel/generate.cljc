@@ -102,16 +102,11 @@
            (mapfn #(assoc-in bolt path %)
                   (lazy-seq
                    (flatten
-                    (add-comps bolt-at
-                               model
+                    (add-comps bolt-at model
                                comp-paths
                                (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                                       comp-paths)
-                               (+ 1 depth)
-                               max-depth
-                               top-bolt
-                               truncate?
-                               take-n)))))))
+                               (+ 1 depth) max-depth top-bolt truncate? take-n)))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

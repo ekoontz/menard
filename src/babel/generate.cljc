@@ -69,6 +69,17 @@
 
 (declare add-bolt-at)
 
+(defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
+  (flatten
+   (mapfn #(let [bolt (assoc-in bolt path %)]
+             (if (= false (get-in % [:phrasal]))
+               [bolt]
+               (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
+                   ((fn [with-added-complement]
+                      (if truncate? (truncate with-added-complement [path] model)
+                          with-added-complement))))))
+            bolts-at)))
+
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
@@ -92,19 +103,9 @@
                                (rest comp-paths)
                                (rest bolts-at-paths)
                                depth max-depth top-bolt truncate? take-n)
-                   ((fn [comp-paths bolts-at-paths bolt top-bolt model depth max-depth]
-                      (let [path (first comp-paths)
-                            bolts-at (first bolts-at-paths)]
-                        (flatten
-                         (mapfn #(let [bolt (assoc-in bolt path %)]
-                                   (if (= false (get-in % [:phrasal]))
-                                     [bolt]
-                                     (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
-                                         ((fn [with-added-complement]
-                                            (if truncate? (truncate with-added-complement [path] model)
-                                                with-added-complement))))))
-                                bolts-at))))
-                    comp-paths bolts-at-paths bolt top-bolt model depth max-depth)))))))))
+                   (add-bolts-to-path
+                    (first comp-paths) (first bolts-at-paths)
+                    bolt top-bolt model depth max-depth truncate? take-n)))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)

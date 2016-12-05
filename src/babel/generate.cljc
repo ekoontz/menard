@@ -80,6 +80,12 @@
                   result))))
          bolts-at))
 
+(defn add-comps-using [bolt model path comp-paths bolts-at-paths depth max-depth top-bolt truncate? take-n]
+  (if (empty? comp-paths)
+    [bolt]
+    (mapfn (fn [bolt-at]
+             (let [result (add-bolt-at top-bolt bolt path bolt-at model depth max-depth truncate? take-n)])))))
+
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
@@ -96,6 +102,7 @@
              bolt top-bolt model depth max-depth truncate? take-n)))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
+  "at _path_ within _bolt_, add all complements derived from _bolt-at_"
   (mapfn #(do-defaults % model)
          (let [comp-paths (find-comp-paths bolt-at)]
            (mapfn #(assoc-in bolt path %)
@@ -114,12 +121,12 @@
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
-   & {:keys [max-total-depth truncate-children lexicon take]
+   & {:keys [max-total-depth truncate-children lexicon take-n]
       :or {max-total-depth max-total-depth
            lexicon nil
            truncate-children true
-           take 1}}]
-  (log/debug (str "generate: spec: " spec "; take: " take))
+           take-n 1}}]
+  (log/debug (str "generate: spec: " spec "; take-n: " take-n))
   (let [depth 0
         spec
         (->
@@ -130,17 +137,16 @@
          (dissoc :dag_unify.core/serialized))
         max-depth max-total-depth]
     (->
-     (clojure.core/take
-      take
-      (reduce concat
-              (map #(do
-                      (log/trace (str "add-bolt-at:" ((:morph-ps language-model) %)))
-                      (let [result (filter (fn [x] (not (= :fail x)))
-                                           (add-bolt-at % % [] % language-model depth max-depth truncate-children take))]
-                        result))
-                   (lightning-bolts language-model spec 0 max-total-depth))))
+     (take take-n
+           (reduce concat
+                   (map (fn [bolt]
+                          (log/trace (str "add-bolt-at:" ((:morph-ps language-model) bolt)))
+                          (filter #(not (= :fail %))
+                                  (add-bolt-at bolt bolt [] bolt language-model
+                                               depth max-depth truncate-children take)))
+                        (lightning-bolts language-model spec 0 max-total-depth))))
      ((fn [seq]
-        (if (= take 1)
+        (if (= take-n 1)
           (first seq) ;; if caller only wants one, return just that one, rather than a singleton list.
           seq)))))) ;; otherwise, return the lazy seq of expressions
 

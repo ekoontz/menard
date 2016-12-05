@@ -73,10 +73,11 @@
   (mapfn #(let [bolt (assoc-in bolt path %)]
             (if (= false (get-in % [:phrasal]))
               [bolt]
-              (if truncate
-                (truncate
-                 (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n) [path] model)
-                (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n))))
+              (let [result
+                    (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)]
+                (if truncate
+                  (truncate result [path] model)
+                  result))))
          bolts-at))
 
 (defn add-comps

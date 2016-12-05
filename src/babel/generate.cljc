@@ -86,12 +86,9 @@
   [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
   (when (not (= :fail bolt))
     (let [top-bolt (or top-bolt bolt)
-          truncate? (if (= truncate? false)
-                      false
-                      true)]
+          truncate? (if (= truncate? false) false true)]
       (if (empty? comp-paths)
         [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-        ;; else, more comp-paths to go.
         (flatten
          (mapfn #(add-comps % model
                             (rest comp-paths)
@@ -107,19 +104,17 @@
                comp-bolts
                (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                       comp-paths)]
-           (when (not (some empty? comp-bolts))
-             (filter #(not (= :fail %))
-                     (mapfn #(assoc-in bolt path %)
-                            (lazy-seq
-                             (add-comps bolt-at
-                                        model
-                                        comp-paths
-                                        comp-bolts
-                                        (+ 1 depth)
-                                        max-depth
-                                        top-bolt
-                                        truncate?
-                                        take-n))))))))
+           (mapfn #(assoc-in bolt path %)
+                  (lazy-seq
+                   (add-comps bolt-at
+                              model
+                              comp-paths
+                              comp-bolts
+                              (+ 1 depth)
+                              max-depth
+                              top-bolt
+                              truncate?
+                              take-n))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

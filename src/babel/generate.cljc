@@ -85,14 +85,14 @@
    at each supplied path in comp-paths, the bolts for that path."
   [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
   (when (not (= :fail bolt))
-    (lazy-seq
-     (let [top-bolt (or top-bolt bolt)
-           truncate? (if (= truncate? false)
-                       false
-                       true)]
-       (if (empty? comp-paths)
-         [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-         ;; else, more comp-paths to go.
+    (let [top-bolt (or top-bolt bolt)
+          truncate? (if (= truncate? false)
+                      false
+                      true)]
+      (if (empty? comp-paths)
+        [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+        ;; else, more comp-paths to go.
+        (lazy-seq
          (flatten
           (mapfn #(add-comps % model
                              (rest comp-paths)

@@ -100,16 +100,14 @@
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)
-         (let [comp-paths (find-comp-paths bolt-at)
-               comp-bolts
-               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
-                      comp-paths)]
+         (let [comp-paths (find-comp-paths bolt-at)]
            (mapfn #(assoc-in bolt path %)
                   (lazy-seq
                    (add-comps bolt-at
                               model
                               comp-paths
-                              comp-bolts
+                              (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                                     comp-paths)
                               (+ 1 depth)
                               max-depth
                               top-bolt

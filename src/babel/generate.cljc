@@ -70,32 +70,30 @@
 (declare add-bolt-at)
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
-  (flatten
-   (mapfn #(let [bolt (assoc-in bolt path %)]
-             (if (= false (get-in % [:phrasal]))
-               [bolt]
-               (-> (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)
-                   ((fn [with-added-complement]
-                      (if truncate? (truncate with-added-complement [path] model)
-                          with-added-complement))))))
-            bolts-at)))
+  (mapfn #(let [bolt (assoc-in bolt path %)]
+            (if (= false (get-in % [:phrasal]))
+              [bolt]
+              (if truncate
+                (truncate
+                 (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n) [path] model)
+                (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n))))
+         bolts-at))
 
 (defn add-comps
   "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
    at each supplied path in comp-paths, the bolts for that path."
-  [bolt model comp-paths bolts-at-paths depth max-depth & [top-bolt truncate? take-n]]
+  [bolt model comp-paths bolts-at-paths depth max-depth top-bolt truncate? take-n]
   (when (not (= :fail bolt))
-    (let [top-bolt (or top-bolt bolt)
-          truncate? (if (= truncate? false) false true)]
-      (if (empty? comp-paths)
-        [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-        (mapfn #(add-comps % model
-                           (rest comp-paths)
-                           (rest bolts-at-paths)
-                           depth max-depth top-bolt truncate? take-n)
-               (add-bolts-to-path
-                (first comp-paths) (first bolts-at-paths)
-                bolt top-bolt model depth max-depth truncate? take-n))))))
+    (if (empty? comp-paths)
+      [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
+      (mapfn #(add-comps % model
+                         (rest comp-paths)
+                         (rest bolts-at-paths)
+                         depth max-depth top-bolt truncate? take-n)
+             (flatten
+              (add-bolts-to-path
+               (first comp-paths) (first bolts-at-paths)
+               bolt top-bolt model depth max-depth truncate? take-n))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)

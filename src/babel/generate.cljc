@@ -92,7 +92,7 @@
                                (rest comp-paths)
                                (rest bolts-at-paths)
                                depth max-depth top-bolt truncate? take-n)
-                   ((fn [comp-paths]
+                   ((fn [comp-paths bolts-at-paths]
                       (let [path (first comp-paths)
                             bolts-at (first bolts-at-paths)]
                         (flatten
@@ -104,7 +104,7 @@
                                             (if truncate? (truncate with-added-complement [path] model)
                                                 with-added-complement))))))
                                 bolts-at))))
-                    comp-paths)))))))))
+                    comp-paths bolts-at-paths)))))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)

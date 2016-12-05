@@ -92,15 +92,14 @@
       (if (empty? comp-paths)
         [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
         ;; else, more comp-paths to go.
-        (lazy-seq
-         (flatten
-          (mapfn #(add-comps % model
-                             (rest comp-paths)
-                             (rest bolts-at-paths)
-                             depth max-depth top-bolt truncate? take-n)
-                 (add-bolts-to-path
-                  (first comp-paths) (first bolts-at-paths)
-                  bolt top-bolt model depth max-depth truncate? take-n))))))))
+        (flatten
+         (mapfn #(add-comps % model
+                            (rest comp-paths)
+                            (rest bolts-at-paths)
+                            depth max-depth top-bolt truncate? take-n)
+                (add-bolts-to-path
+                 (first comp-paths) (first bolts-at-paths)
+                 bolt top-bolt model depth max-depth truncate? take-n)))))))
 
 (defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
   (mapfn #(do-defaults % model)
@@ -108,27 +107,21 @@
                comp-bolts
                (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
                       comp-paths)]
-           (log/trace (str "add-bolt-at:" ((:morph-ps model) bolt-at) "; comp-paths: " (string/join "," comp-paths)))
            (when (not (some empty? comp-bolts))
              (filter #(not (= :fail %))
                      (mapfn #(let [assoc (if (empty? path) %
                                              (assoc-in bolt path %))]
                                assoc)
-                            (filter (fn [with-comps]
-                                      (do
-                                        (log/debug (str "add-bolt-at: added all comps to bolt: '" ((:morph model)
-                                                                                                   with-comps)
-                                                        "'"))
-                                        with-comps))
-                                    (add-comps bolt-at
-                                               model
-                                               comp-paths
-                                               comp-bolts
-                                               (+ 1 depth)
-                                               max-depth
-                                               top-bolt
-                                               truncate?
-                                               take-n))))))))
+                            (lazy-seq
+                             (add-comps bolt-at
+                                        model
+                                        comp-paths
+                                        comp-bolts
+                                        (+ 1 depth)
+                                        max-depth
+                                        top-bolt
+                                        truncate?
+                                        take-n))))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

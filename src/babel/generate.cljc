@@ -109,9 +109,7 @@
                       comp-paths)]
            (when (not (some empty? comp-bolts))
              (filter #(not (= :fail %))
-                     (mapfn #(let [assoc (if (empty? path) %
-                                             (assoc-in bolt path %))]
-                               assoc)
+                     (mapfn #(assoc-in bolt path %)
                             (lazy-seq
                              (add-comps bolt-at
                                         model

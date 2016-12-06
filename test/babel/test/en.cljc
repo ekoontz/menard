@@ -602,17 +602,31 @@
 (def bs [{:b 4}{:b 5}])
 (def cs [{:c 6}{:c 7}{:c 8}])
 
-(defn foo [n]
-  (take n
-        (->> as
+(defn foo [elems]
+  (let [[a-s b-s c-s] elems]
+    (if c-s
+      (->> a-s
+           (mapcat (fn [a] 
+                     (->> b-s
+                          (mapcat (fn [b]
+                                    (->> c-s
+                                         (map (fn [c]
+                                                (reduce merge [a b c]))))))))))
+      (if b-s
+        (->> a-s
              (mapcat (fn [a] 
-                       (->> bs
-                            (mapcat (fn [b]
-                                      (->> cs
-                                           (map (fn [c]
-                                                  (->> c
-                                                       (reduce merge b)
-                                                       (reduce merge a)))))))))))))
+                       (->> b-s
+                            (map (fn [b]
+                                   (reduce merge [a b])))))))
+        a-s))))
+
+                 
+
+
+
+
+  
+
 
 
 

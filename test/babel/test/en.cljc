@@ -592,4 +592,30 @@
                                               :subcat '()}}))))]
     (is (= 50 (count (take 50 (repeatedly to-run)))))))
 
+(defn over-vals [key vals]
+  (map (fn [val]
+         {key val})
+       vals))
 
+
+(def as [{:a 1}{:a 2}])
+(def bs [{:b 4}{:b 5}])
+(def cs [{:c 6}{:c 7}{:c 8}])
+
+(defn foo [n]
+  (take n
+        (->> as
+             (mapcat (fn [a] 
+                       (->> bs
+                            (mapcat (fn [b]
+                                      (->> cs
+                                           (map (fn [c]
+                                                  (->> c
+                                                       (reduce merge b)
+                                                       (reduce merge a)))))))))))))
+
+
+
+
+       
+    

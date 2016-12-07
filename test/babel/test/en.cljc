@@ -598,29 +598,11 @@
          {key val})
        vals))
 
-
 (def as [{:a 1}{:a 2}])
 (def bs [{:b 4}{:b 5}])
 (def cs [{:c 6}{:c 7}{:c 8}])
 
-(defn foo [elems]
-  (let [[a-s b-s c-s] elems]
-    (if c-s
-      (->> a-s
-           (mapcat (fn [a] 
-                     (->> b-s
-                          (mapcat (fn [b]
-                                    (->> c-s
-                                         (map (fn [c]
-                                                (reduce merge [a b c]))))))))))
-      (if b-s
-        (->> a-s
-             (mapcat (fn [a] 
-                       (->> b-s
-                            (map (fn [b]
-                                   (reduce merge [a b])))))))
-        a-s))))
-
+;; don't use: use combo/cartesian-product instead.
 ;; how to use:
 ;;(map flatten (cross-product [1 2 3][4 5 6 7][8 9 10]))
 ;;(count (map flatten (apply cross-product (take 5 (repeatedly #(range 0 10))))))
@@ -635,3 +617,33 @@
               [(first a) each-b])
             b)
        (cross-product (rest a) b)))))
+
+(def lbs (babel.generate/lightning-bolts model spec2 0 6))
+
+(def baz2 (map (fn [lb]
+                (babel.generate/create-mapping
+                 lb (babel.generate/find-comp-paths lb)
+                 model 0 6))
+              lbs))
+
+(defn baz3 [lb]
+  (babel.generate/create-mapping
+   lb (babel.generate/find-comp-paths lb)
+   model 0 6))
+
+
+(defn mapping [spec]
+  (map (fn [lb]
+         (babel.generate/create-mapping
+          lb (babel.generate/find-comp-paths lb)
+          model 0 6))
+       (babel.generate/lightning-bolts model spec 0 6)))
+
+;; usage: (show-mapping (mapping spec1))
+(defn show-mapping [mapping]
+  (map (fn [good-one]
+         (map (fn [path]
+                (map fo-ps (get good-one path)))
+              (keys good-one)))
+       mapping))
+

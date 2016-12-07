@@ -69,7 +69,7 @@
                    bolt path model depth max-depth))
                 comp-paths))
    {[]
-    [bolt]}))
+    (lazy-seq [bolt])}))
   
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

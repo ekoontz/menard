@@ -586,38 +586,13 @@
     (is (not (empty? (get paths-to-lbs [:head :comp]))))
     (is (not (empty? (get paths-to-lbs [:comp]))))))
 
-(deftest benchmark []
+(deftest benchmark-test []
   (let [med (medium)
         to-run #(time (println (fo (generate
                                     {:synsem {:cat :verb, :sem {:pred :read
                                                                 :subj {:pred :woman}}
                                               :subcat '()}}))))]
     (is (= 50 (count (take 50 (repeatedly to-run)))))))
-
-(defn over-vals [key vals]
-  (map (fn [val]
-         {key val})
-       vals))
-
-(def as [{:a 1}{:a 2}])
-(def bs [{:b 4}{:b 5}])
-(def cs [{:c 6}{:c 7}{:c 8}])
-
-;; don't use: use combo/cartesian-product instead.
-;; how to use:
-;;(map flatten (cross-product [1 2 3][4 5 6 7][8 9 10]))
-;;(count (map flatten (apply cross-product (take 5 (repeatedly #(range 0 10))))))
-(defn cross-product [a b & more]
-  (if (not (empty? more))
-    (reduce
-     (fn [x y] (cross-product x y))
-     (concat (list a b) more))
-    (if (not (empty? a))
-      (concat
-       (map (fn [each-b]
-              [(first a) each-b])
-            b)
-       (cross-product (rest a) b)))))
 
 ;; usage: (show-mapping (mapping spec1))
 (defn show-mapping [mapping]

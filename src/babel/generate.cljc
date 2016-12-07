@@ -5,6 +5,7 @@
    [babel.over :as over :refer [show-bolt spec-info truncate truncate-expressions]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
+   [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
    [dag_unify.core :refer [assoc-in copy fail-path get-in fail? strip-refs unify unify!]]))
                                         
@@ -84,6 +85,34 @@
       (lazy-seq (concat bolts-at lexemes)))))
 
 (declare add-bolt-at)
+
+
+(defn do-assocs [accum paths val-at-paths]
+  (if (empty? paths)
+    accum
+    (do-assocs
+     (assoc-in accum
+               (first paths)
+               (first val-at-paths))
+     (rest paths)
+     (rest val-at-paths))))
+
+(defn nugent [model spec & [max-depth take-n]]
+  (let [max-depth (or max-depth babel.generate/max-total-depth)
+        mapping1 (mapping spec model 0 max-depth)
+        take-n (or take-n 100)
+        all-of-them
+        (mapcat (fn [each-mapping]
+                  (let [trellis (apply combo/cartesian-product (vals each-mapping))]
+                    (pmap (fn [each-path-through-trellis]
+                            (zipmap (keys each-mapping)
+                                    each-path-through-trellis))
+                          trellis)))
+                mapping1)
+        good-one (first (shuffle (take take-n all-of-them)))]
+    (do-assocs (get good-one [])
+               (keys good-one)
+               (vals good-one))))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

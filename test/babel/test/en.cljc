@@ -8,14 +8,13 @@
             [babel.generate :refer [add-comps
                                     get-lexemes
                                     lightning-bolts
-                                    mapping]]
+                                    mapping nugent]]
             
             [babel.over :refer [overc overh]]
             
             ;; TODO: add parsing tests
             [babel.parse :as parse]
 
-            [clojure.math.combinatorics :as combo]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -624,30 +623,8 @@
 (defn benchmark2 []
   (benchmark spec2 5))
 
-(defn do-assocs [accum paths val-at-paths]
-  (if (empty? paths)
-    accum
-    (do-assocs
-     (assoc-in accum
-               (first paths)
-               (first val-at-paths))
-     (rest paths)
-     (rest val-at-paths))))
+;; (repeatedly #(println (fo (medium) (nugent spec1))))
+;; (repeatedly #(println (fo-ps (nugent (medium) spec1))))
+;; (repeatedly #(println (fo (nugent (medium) {:synsem {:cat :noun}}))))
 
-;; (repeatedly #(println (fo (nugent spec1))))
-;; (repeatedly #(println (fo-ps (nugent spec1))))
-(defn nugent [spec & [take-n]]
-  (let [mapping1 (mapping spec (medium) 0 6)
-        take-n (or take-n 100)
-        all-of-them
-        (mapcat (fn [each-mapping]
-                  (let [trellis (apply combo/cartesian-product (vals each-mapping))]
-                    (pmap (fn [each-path-through-trellis]
-                            (zipmap (keys each-mapping)
-                                    each-path-through-trellis))
-                          trellis)))
-                mapping1)
-        good-one (first (shuffle (take take-n all-of-them)))]
-    (do-assocs (get good-one [])
-               (keys good-one)
-               (vals good-one))))
+

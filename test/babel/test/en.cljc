@@ -14,6 +14,7 @@
             ;; TODO: add parsing tests
             [babel.parse :as parse]
 
+            [clojure.math.combinatorics :as combo]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -622,7 +623,7 @@
 
 ;; how to use:
 ;;(map flatten (cross-product [1 2 3][4 5 6 7][8 9 10]))
-;;(time (map flatten (apply cross-product (take 5 (repeatedly #(range 0 10))))))
+;;(count (map flatten (apply cross-product (take 5 (repeatedly #(range 0 10))))))
 (defn cross-product [a b & more]
   (if (not (empty? more))
     (reduce
@@ -634,11 +635,3 @@
               [(first a) each-b])
             b)
        (cross-product (rest a) b)))))
-
-
-
-
-
-
-       
-    

@@ -52,6 +52,14 @@
     []))
 
 (declare comp-path-to-bolts)
+(declare create-mapping)
+
+(defn mapping [spec model depth max-depth]
+  (map (fn [lb]
+         (create-mapping
+          lb (find-comp-paths lb)
+          model 0 6))
+       (lightning-bolts model spec depth max-depth)))
 
 (defn create-mapping [bolt comp-paths model depth max-depth]
   (merge

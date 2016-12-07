@@ -7,7 +7,8 @@
 
             [babel.generate :refer [add-comps
                                     get-lexemes
-                                    lightning-bolts]]
+                                    lightning-bolts
+                                    mapping]]
             
             [babel.over :refer [overc overh]]
             
@@ -618,13 +619,6 @@
             b)
        (cross-product (rest a) b)))))
 
-(defn mapping [spec model]
-  (map (fn [lb]
-         (babel.generate/create-mapping
-          lb (babel.generate/find-comp-paths lb)
-          model 0 6))
-       (babel.generate/lightning-bolts model spec 0 6)))
-
 ;; usage: (show-mapping (mapping spec1))
 (defn show-mapping [mapping]
   (map (fn [path-to-bolts-map]
@@ -644,20 +638,14 @@
                          (keys bolt-to-comps))})
        mapping))
 
-(defn benchmark1 []
-  (do
-    (doall (take 5 (repeatedly #(time (doall (do-counts (mapping spec1 (medium))))))))
+(defn benchmark [spec & [n]]
+  (let [n (or n 5)]
+    (doall (take n (repeatedly #(time (doall (do-counts (mapping spec (medium) 0 6)))))))
     nil))
+
+(defn benchmark1 []
+  (benchmark spec1 5))
 
 (defn benchmark2 []
-  (do
-    (doall (take 5 (repeatedly #(time (doall (do-counts (mapping spec2 (medium))))))))
-    nil))
-
-
-
-
-
-  
-
+  (benchmark spec2 5))
 

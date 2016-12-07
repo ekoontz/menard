@@ -649,3 +649,7 @@
 (defn benchmark2 []
   (benchmark spec2 5))
 
+(def mapping1 (mapping spec1  (medium) 0 6))
+(def good-one (nth mapping1 10))
+(def foo (clojure.math.combinatorics/cartesian-product (vals good-one)))
+

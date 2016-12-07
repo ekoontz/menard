@@ -618,21 +618,7 @@
             b)
        (cross-product (rest a) b)))))
 
-(def lbs (babel.generate/lightning-bolts model spec2 0 6))
-
-(def baz2 (map (fn [lb]
-                (babel.generate/create-mapping
-                 lb (babel.generate/find-comp-paths lb)
-                 model 0 6))
-              lbs))
-
-(defn baz3 [lb]
-  (babel.generate/create-mapping
-   lb (babel.generate/find-comp-paths lb)
-   model 0 6))
-
-
-(defn mapping [spec]
+(defn mapping [spec model]
   (map (fn [lb]
          (babel.generate/create-mapping
           lb (babel.generate/find-comp-paths lb)
@@ -641,9 +627,37 @@
 
 ;; usage: (show-mapping (mapping spec1))
 (defn show-mapping [mapping]
-  (map (fn [good-one]
-         (map (fn [path]
-                (map fo-ps (get good-one path)))
-              (keys good-one)))
+  (map (fn [path-to-bolts-map]
+         (reduce merge (map (fn [path]
+                              {path (map fo-ps (get path-to-bolts-map path))})
+                            ;; path-to-bolts map is a map from a set of paths to a set of
+                            ;; bolts for each such path in the set of paths.
+                            (keys path-to-bolts-map))))
        mapping))
+
+(defn do-counts [mapping]
+  (map (fn [bolt-to-comps]
+         {:paths (keys bolt-to-comps)
+                    :counts-per-path
+          (map (fn [path]
+                 (count (get bolt-to-comps path)))
+                         (keys bolt-to-comps))})
+       mapping))
+
+(defn benchmark1 []
+  (do
+    (doall (take 5 (repeatedly #(time (doall (do-counts (mapping spec1 (medium))))))))
+    nil))
+
+(defn benchmark2 []
+  (do
+    (doall (take 5 (repeatedly #(time (doall (do-counts (mapping spec2 (medium))))))))
+    nil))
+
+
+
+
+
+  
+
 

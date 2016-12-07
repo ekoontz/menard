@@ -649,7 +649,31 @@
 (defn benchmark2 []
   (benchmark spec2 5))
 
-(def mapping1 (mapping spec1  (medium) 0 6))
-(def good-one (nth mapping1 10))
-(def foo (clojure.math.combinatorics/cartesian-product (vals good-one)))
+;; (repeatedly #(println (print-out)))
+(defn print-out []
+  (let [mapping1 (mapping spec1 (medium) 0 6)
+        all-of-them
+        (mapcat (fn [each-mapping]
+                  (let [trellis (apply combo/cartesian-product (vals each-mapping))]
+                    (map (fn [each-path-through-trellis]
+                           (zipmap (keys each-mapping)
+                                   each-path-through-trellis))
+                         trellis)))
+                mapping1)
+        good-one (first (shuffle all-of-them))]
+    (fo-ps 
+     (->
+      (get good-one [])
+      (assoc-in [:comp] (get good-one [:comp]))
+      (assoc-in [:head :comp] (get good-one [:head :comp]))))))
+
+
+
+
+                   
+                 
+
+
+
+
 

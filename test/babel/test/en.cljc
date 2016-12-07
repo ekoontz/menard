@@ -624,9 +624,20 @@
 (defn benchmark2 []
   (benchmark spec2 5))
 
-;; (repeatedly #(println (print-out)))
-(defn print-out []
-  (let [mapping1 (mapping spec1 (medium) 0 6)
+(defn do-assocs [accum paths val-at-paths]
+  (if (empty? paths)
+    accum
+    (do-assocs
+     (assoc-in accum
+               (first paths)
+               (first val-at-paths))
+     (rest paths)
+     (rest val-at-paths))))
+
+;; (repeatedly #(println (fo (nugent spec1))))
+;; (repeatedly #(println (fo-ps (nugent spec1))))
+(defn nugent [spec]
+  (let [mapping1 (mapping spec (medium) 0 6)
         all-of-them
         (mapcat (fn [each-mapping]
                   (let [trellis (apply combo/cartesian-product (vals each-mapping))]
@@ -636,11 +647,12 @@
                          trellis)))
                 mapping1)
         good-one (first (shuffle all-of-them))]
-    (fo-ps 
-     (->
-      (get good-one [])
-      (assoc-in [:comp] (get good-one [:comp]))
-      (assoc-in [:head :comp] (get good-one [:head :comp]))))))
+    (do-assocs (get good-one [])
+               (keys good-one)
+               (vals good-one))))
+
+
+
 
 
 

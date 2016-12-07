@@ -56,20 +56,16 @@
 
 (defn mapping [spec model depth max-depth]
   (map (fn [lb]
-         (create-mapping
-          lb (find-comp-paths lb)
-          model 0 6))
+         (merge
+          (let [comp-paths (find-comp-paths lb)]
+            (zipmap comp-paths
+                    (map (fn [path]
+                           (comp-path-to-bolts
+                             lb path model depth max-depth))
+                         comp-paths)))
+          {[]
+           (lazy-seq [lb])}))
        (lightning-bolts model spec depth max-depth)))
-
-(defn create-mapping [bolt comp-paths model depth max-depth]
-  (merge
-   (zipmap comp-paths
-           (map (fn [path]
-                  (comp-path-to-bolts
-                   bolt path model depth max-depth))
-                comp-paths))
-   {[]
-    (lazy-seq [bolt])}))
   
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

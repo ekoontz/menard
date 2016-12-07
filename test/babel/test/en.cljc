@@ -636,31 +636,18 @@
 
 ;; (repeatedly #(println (fo (nugent spec1))))
 ;; (repeatedly #(println (fo-ps (nugent spec1))))
-(defn nugent [spec]
+(defn nugent [spec & [take-n]]
   (let [mapping1 (mapping spec (medium) 0 6)
+        take-n (or take-n 100)
         all-of-them
         (mapcat (fn [each-mapping]
                   (let [trellis (apply combo/cartesian-product (vals each-mapping))]
-                    (map (fn [each-path-through-trellis]
-                           (zipmap (keys each-mapping)
-                                   each-path-through-trellis))
-                         trellis)))
+                    (pmap (fn [each-path-through-trellis]
+                            (zipmap (keys each-mapping)
+                                    each-path-through-trellis))
+                          trellis)))
                 mapping1)
-        good-one (first (shuffle all-of-them))]
+        good-one (first (shuffle (take take-n all-of-them)))]
     (do-assocs (get good-one [])
                (keys good-one)
                (vals good-one))))
-
-
-
-
-
-
-
-                   
-                 
-
-
-
-
-

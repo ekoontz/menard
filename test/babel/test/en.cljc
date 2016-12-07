@@ -620,12 +620,20 @@
                                    (reduce merge [a b])))))))
         a-s))))
 
-                 
+;; how to use:
+;;(map flatten (cross-product [1 2 3][4 5 6 7][8 9 10]))
 
-
-
-
-  
+(defn cross-product [a b & more]
+  (if (not (empty? more))
+    (reduce
+     (fn [x y] (cross-product x y))
+     (concat (list a b) more))
+    (if (not (empty? a))
+      (concat
+       (map (fn [each-b]
+              [(first a) each-b])
+            b)
+       (f (rest a) b)))))
 
 
 

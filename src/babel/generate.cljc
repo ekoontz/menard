@@ -51,13 +51,18 @@
                                   (or (:lexicon (:generate model)) (:lexicon model)))))))
     []))
 
-(defn create-mapping [bolt comp-paths model depth max-depth]
-  (zipmap comp-paths
-          (map (fn [path]
-                 (babel.generate/comp-path-to-bolts
-                  bolt path model depth max-depth))
-               comp-paths)))
+(declare comp-path-to-bolts)
 
+(defn create-mapping [bolt comp-paths model depth max-depth]
+  (merge
+   (zipmap comp-paths
+           (map (fn [path]
+                  (comp-path-to-bolts
+                   bolt path model depth max-depth))
+                comp-paths))
+   {[]
+    [bolt]}))
+  
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]

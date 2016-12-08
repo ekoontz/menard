@@ -7,7 +7,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :refer [assoc-in copy fail-path get-in fail? strip-refs unify unify!]]))
+   [dag_unify.core :refer [assoc-in assoc-in! copy fail-path get-in fail? strip-refs unify unify!]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
@@ -89,16 +89,20 @@
 
 (declare add-bolt-at)
 
-
-(defn do-assocs [accum paths val-at-paths]
+(defn do-assocs [accum paths val-at-paths model]
   (if (empty? paths)
     accum
     (do-assocs
-     (assoc-in accum
-               (first paths)
-               (first val-at-paths))
+     (let [result
+           (assoc-in! accum
+                      (first paths)
+                      (first val-at-paths))]
+       (if (not (empty? (first paths)))
+         (dag_unify.core/dissoc-paths result [(first paths)] model)
+         result))
      (rest paths)
-     (rest val-at-paths))))
+     (rest val-at-paths)
+     model)))
 
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
@@ -113,9 +117,12 @@
                          trellis)))
                 mapping1)]
     (map (fn [good-one]
-           (do-assocs (get good-one [])
-                      (keys good-one)
-                      (vals good-one)))
+           (do-defaults
+            (do-assocs (get good-one [])
+                       (keys good-one)
+                       (vals good-one)
+                       model)
+            model))
          all-of-them)))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]

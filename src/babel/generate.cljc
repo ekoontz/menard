@@ -19,17 +19,14 @@
 ;; use map or pmap.
 (def ^:const mapfn map)
 
-;; should generation be deterministic or random?
-(def ^:const deterministic false)
-
 ;; deterministic generation:
-(def ^:const shufflefn (fn [x] x))
+;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-;;(def ^:const shufflefn shuffle)
+(def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
-  false)
+  true)
 
 (def ^:const error-if-no-complements false)
 

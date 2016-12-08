@@ -23,10 +23,10 @@
 (def ^:const deterministic false)
 
 ;; deterministic generation:
-(def ^:const shufflefn (fn [x] x))
+;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-;; (def ^:const shufflefn shuffle)
+(def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
   false)
@@ -67,14 +67,17 @@
           {[]
            (lazy-seq [lb])}))
        (lightning-bolts model spec depth max-depth)))
-  
+
+(declare nugent)
+(declare nugents)
+
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
   (let [spec (get-in bolt path)
         lexemes (lazy-seq (shufflefn (get-lexemes model spec)))
         bolts-at (if (< depth max-depth)
-                   (lightning-bolts
+                   (nugents
                     model
                     (get-in bolt path)
                     depth max-depth))
@@ -97,7 +100,7 @@
      (rest paths)
      (rest val-at-paths))))
 
-(defn nugent [model spec & [max-depth take-n]]
+(defn nugents [model spec & [max-depth take-n]]
   (let [max-depth (or max-depth babel.generate/max-total-depth)
         mapping1 (mapping spec model 0 max-depth)
         take-n (or take-n 100)
@@ -108,11 +111,12 @@
                             (zipmap (keys each-mapping)
                                     each-path-through-trellis))
                           trellis)))
-                mapping1)
-        good-one (first (shuffle (take take-n all-of-them)))]
-    (do-assocs (get good-one [])
-               (keys good-one)
-               (vals good-one))))
+                mapping1)]
+    (map (fn [good-one]
+           (do-assocs (get good-one [])
+                      (keys good-one)
+                      (vals good-one)))
+         (take take-n all-of-them))))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

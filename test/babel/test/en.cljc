@@ -8,7 +8,7 @@
             [babel.generate :refer [add-comps
                                     get-lexemes
                                     lightning-bolts
-                                    mapping nugent]]
+                                    mapping nugents]]
             
             [babel.over :refer [overc overh]]
             
@@ -623,8 +623,8 @@
 (defn benchmark2 []
   (benchmark spec2 5))
 
-;; (repeatedly #(println (fo (medium) (nugent spec1))))
-;; (repeatedly #(println (fo-ps (nugent (medium) spec1))))
-;; (repeatedly #(println (fo (nugent (medium) {:synsem {:cat :noun}}))))
+;; (repeatedly #(println (fo (first (nugents (medium) spec1)))))
+;; (repeatedly #(println (fo-ps (first (nugents (medium) spec1)))))
+;; (repeatedly #(println (fo (first (nugents (medium) {:synsem {:cat :noun}})))))
 
 

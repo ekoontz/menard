@@ -8,7 +8,7 @@
    [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :as unify :refer [deserialize get-in ref? strip-refs unify]]
+   [dag_unify.core :as unify :refer [deserialize dissoc-paths get-in ref? strip-refs unify]]
    [korma.core :as db]])
 
 ;; Configure database's 'expression' table to find the expressions.
@@ -148,21 +148,23 @@
                   ;; equivalent to this expression's semantics,
                   ;; and a single source expression whose semantics contain
                   ;; that same semantics.
-                  ;; TODO: consider selecting source where semantics contains
-                  ;; that semantics, OR is contained by that semantics.
-                  ;; Both possiblities might be necessary if the lexicon of
-                  ;; the source language and target language differ in how
-                  ;; much semantic information are encoded in entries for
-                  ;; specific lexemes. For example, 'to go' in English
-                  ;; specifies
-                  ;; {activity: true}, whereas 'andare' in English does
-                  ;; not. This might be a bug in the Italian lexicon, but
-                  ;; this database lookup should be able to handle bugs like this.
+                  ;; TODO: add language-specific semantic manipulations
+                  ;; that can modify how source-target semantic correspondence
+                  ;; is determined. For now we have some hard-wired modifications for
+                  ;; correspondence between Italian as target and English as source.
+                  ;; 
+                  ;; For example, subjects in Italian have a :null key, which is
+                  ;; set to true or false, while subjects in English, at present, lack this
+                  ;; (though this key might be added to the English lexicon later at
+                  ;;  some point).
                   (let [result (deserialize (read-string (:target target-expression)))
                         ;; TODO: allow queries that have refs - might be
                         ;; useful for modeling anaphora and binding.
+                        target-semantics (get-in result [:synsem :sem])
+                        source-semantics (dissoc-paths result [[:synsem :sem :subj :null]])
                         json-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
-                    (log/debug (str "semantics:" (strip-refs (get-in result [:synsem :sem]))))
+                    (log/debug (str "target semantics:" (strip-refs target-semantics)))
+                    (log/debug (str "source semantics:" (strip-refs source-semantics)))
                     (log/trace (str "json-semantics:" json-semantics))
                     (let [results
                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,

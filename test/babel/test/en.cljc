@@ -624,6 +624,7 @@
   (benchmark spec2 5))
 
 ;; (repeatedly #(println (fo (first (nugents (medium) spec1)))))
+;; (repeatedly #(time (println (fo (first (nugents (medium) spec1))))))
 ;; (repeatedly #(println (fo-ps (first (nugents (medium) spec1)))))
 ;; (repeatedly #(println (fo (first (nugents (medium) {:synsem {:cat :noun}})))))
 

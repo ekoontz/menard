@@ -23,10 +23,10 @@
 (def ^:const deterministic false)
 
 ;; deterministic generation:
-;;(def ^:const shufflefn (fn [x] x))
+(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-(def ^:const shufflefn shuffle)
+;;(def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
   false)
@@ -68,24 +68,24 @@
            (lazy-seq [lb])}))
        (lightning-bolts model spec depth max-depth)))
 
-(declare nugent)
 (declare nugents)
 
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
   (let [spec (get-in bolt path)
-        lexemes (lazy-seq (shufflefn (get-lexemes model spec)))
+        lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   (nugents
+                   ((if false nugents
+                        lightning-bolts)
                     model
                     (get-in bolt path)
                     depth max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
     (if lexemes-before-phrases
-      (lazy-seq (concat lexemes bolts-at))
-      (lazy-seq (concat bolts-at lexemes)))))
+      (lazy-seq (lazy-cat lexemes bolts-at))
+      (lazy-seq (lazy-cat bolts-at lexemes)))))
 
 (declare add-bolt-at)
 
@@ -100,23 +100,23 @@
      (rest paths)
      (rest val-at-paths))))
 
-(defn nugents [model spec & [max-depth take-n]]
+(defn nugents [model spec & [max-depth]]
+  (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
         mapping1 (mapping spec model 0 max-depth)
-        take-n (or take-n 100)
         all-of-them
         (mapcat (fn [each-mapping]
                   (let [trellis (apply combo/cartesian-product (vals each-mapping))]
-                    (pmap (fn [each-path-through-trellis]
-                            (zipmap (keys each-mapping)
-                                    each-path-through-trellis))
-                          trellis)))
+                    (map (fn [each-path-through-trellis]
+                           (zipmap (keys each-mapping)
+                                   each-path-through-trellis))
+                         trellis)))
                 mapping1)]
     (map (fn [good-one]
            (do-assocs (get good-one [])
                       (keys good-one)
                       (vals good-one)))
-         (take take-n all-of-them))))
+         all-of-them)))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

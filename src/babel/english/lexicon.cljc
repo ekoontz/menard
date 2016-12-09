@@ -2065,7 +2065,7 @@
                        :sem {:pred :support}}}
 
    "swim" {:synsem {:cat :verb
-                        :sem {:pred :break }}
+                        :sem {:pred :swim}}
            :english {:past "swam"
                      :participle "swimming"}}
 

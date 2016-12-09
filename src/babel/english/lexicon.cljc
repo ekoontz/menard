@@ -1691,7 +1691,8 @@
                            ;; :pred (i.e. :student) the more common case (c.f. "student")
                            :pred :student}}}
    "put"
-   (let [common {:english {:participle "putting"
+   (let [common {:synsem {:cat :verb}
+                 :english {:participle "putting"
                            :past "put"
                            :present {:3sing "put"}
                            :note "past tense"}}]
@@ -1700,35 +1701,30 @@
 
       {:unify [common]
        :phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :insult}
+       :synsem {:sem {:pred :insult}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :down}}}}}
       {:unify [common]
        :phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :delay}
+       :synsem {:sem {:pred :delay}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :off}}}}}
       ;; "put the shoes on"
       {:unify [common]
        :phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :put-on}
+       :synsem {:sem {:pred :put-on}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :on}}}}}
 
       ;; "put on the shoes"
       {:phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :put-on}
+       :synsem {:sem {:pred :put-on}
                 :subcat {:3 {:cat :prep
                              :sem {:pred :on}}}}}
 
       {:unify [common]
        :phrasal-verb true
-       :synsem {:cat :verb
-                :sem {:pred :tolerate}
+       :synsem {:sem {:pred :tolerate}
                 :subcat {:2 {:cat :prep
                              :sem {:pred :up-with}}}}}])
 

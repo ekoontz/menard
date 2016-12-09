@@ -41,7 +41,9 @@
         debug (log/debug (str "using root:" root))
         debug (log/debug (str "using spec:" (strip-refs spec)))
         
-        use-map-fn pmap
+;;        use-map-fn map ;; <- development
+        use-map-fn pmap ;; <- production
+
         model (-> ((-> models :en)) deref)
         type-of-model (type model)
         log-the-type (log/info (str "type of model is: " type-of-model))
@@ -85,7 +87,7 @@
                         ;; of what the (process) command did.
                         (log/debug (str "process result:" result)))
                       (catch Exception e
-                        (let [catch-and-log-error false]
+                        (let [catch-and-log-error true] ;; false: throw error and stop further generation; true: log/error and continue generation
                           (log/error (str "Could not translate source expression: "
                                           "'" (get source-expression :surface) "'"
                                           " from language: '" source-language-short-name 

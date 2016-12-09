@@ -2,10 +2,11 @@
   (:refer-clojure :exclude [get-in]))
 
 (require '[babel.config :refer [language-to-root-spec]])
-(require '[babel.generate :refer [generate]])
-(require '[babel.english.grammar :refer [small small-plus-vp-pronoun small-plus-plus-np]])
+(require '[babel.directory :refer [models]])
+(require '[babel.english.grammar :refer [small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
+(require '[babel.generate :refer [generate]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions
@@ -40,6 +41,9 @@
         debug (log/debug (str "using spec:" (strip-refs spec)))
         
         use-map-fn pmap
+        model (-> ((-> models :en)) deref)
+        type-of-model (type model)
+        log-the-type (log/info (str "type of model is: " type-of-model))
         source-expressions (read-all spec
                                      source-language-short-name)]
     (count
@@ -71,7 +75,7 @@
                             (process [{:fill-one-language
                                        {:count 1
                                         :spec spec
-                                        :model (small)
+                                        :model model
                                         }}]
                                      source-language-short-name)]
                         ;; TODO: 'result' is currently
@@ -79,7 +83,7 @@
                         ;; of what the (process) command did.
                         (log/debug (str "process result:" result)))
                       (catch Exception e
-                        (let [catch-and-log-error true]
+                        (let [catch-and-log-error false]
                           (log/error (str "Could not translate source expression: "
                                           "'" (get source-expression :surface) "'"
                                           " from language: '" source-language-short-name 
@@ -102,27 +106,28 @@
 
 (defn write-one [spec]
   (log/debug (str "generating from spec: " spec))
-  (try
-    (process [{:fill-one-language
-               {:count 1
-                :spec spec
-                :model small}}]
-             "en")
-    (catch Exception e
-      (cond
-        
-        ;; TODO: make this conditional on
-        ;; there being a legitimate reason for the exception -
-        ;; e.g. the verb is "works (nonhuman)" (which takes a non-human
-        ;; subject), but we're trying to generate with
-        ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
-        ;; are human.
-        true
-        
-        (log/warn (str "ignoring exception: " e))
-        false
-        (throw e))))
-  )
+  (let [model (-> ((-> models :en)) deref)]
+    (log/debug (str "type of model is:" (type model)))
+    (try
+      (process [{:fill-one-language
+                 {:count 1
+                  :spec spec
+                  :model model}}]
+               "en")
+      (catch Exception e
+        (cond
+          
+          ;; TODO: make this conditional on
+          ;; there being a legitimate reason for the exception -
+          ;; e.g. the verb is "works (nonhuman)" (which takes a non-human
+          ;; subject), but we're trying to generate with
+          ;; {:agr {:person :1st or :2nd}}, for which the only lexemes
+          ;; are human.
+          true
+          
+          (log/warn (str "ignoring exception: " e))
+          false
+          (throw e))))))
 
 (defn all [ & [count]]
   (let [count (if count (Integer. count) 10)

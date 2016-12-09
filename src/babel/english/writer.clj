@@ -12,6 +12,7 @@
            :refer [delete-from-expressions
                    fill-language-by-spec
                    process write-lexicon reload]])
+(require '[clojure.repl :refer (doc)])
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
@@ -48,6 +49,7 @@
                                      source-language-short-name)]
     (count
      (use-map-fn
+      ;; source-expression in the language that we want to translate into English.
       (fn [source-expression]
         (do (log/debug
              (str source-language-short-name ": "

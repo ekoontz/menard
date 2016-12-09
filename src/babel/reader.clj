@@ -97,16 +97,22 @@
                                 @((-> models :la))
                                 @((-> models :en)))
           true
-          (let [;; normalize for JSON lookup: convert a spec which is simply :top to be {}.
-                json-input-spec (if (= :top target-spec)
-                                  {}
-                                  target-spec)
-        
-                target-json-spec (json/write-str (strip-refs json-input-spec))
-                ]
-            (log/debug (str "looking for expressions in language: " target-language
+          (let [;; normalize for JSON lookup:
+                json-input-spec
+                (-> target-spec
+
+                    ;; convert a spec which is simply :top to be {}:
+                    ((fn [target-spec]
+                       (if (= :top target-spec)
+                         {}
+                         target-spec)))
+
+                    ;; remove dag_unify-specific metadata:
+                    (dissoc-paths [[:dag_unify.core/serialized]]))
+                target-json-spec (json/write-str (strip-refs json-input-spec))]
+            (log/debug (str "looking for expressions in target language: " target-language
                             " with spec: " target-spec))
-            (log/debug (str "looking for expressions in language: " target-language
+            (log/debug (str "looking for expressions in target language: " target-language
                             " with json-spec: " target-json-spec))
 
             ;; get the structure of a random expression in the target language that matches
@@ -161,11 +167,25 @@
                         ;; TODO: allow queries that have refs - might be
                         ;; useful for modeling anaphora and binding.
                         target-semantics (get-in result [:synsem :sem])
-                        source-semantics (dissoc-paths result [[:synsem :sem :subj :null]])
-                        json-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
-                    (log/debug (str "target semantics:" (strip-refs target-semantics)))
+                        source-language-keyword (keyword source-language)
+                        target-language-keyword (keyword target-language)
+                        log (log/debug (str "removing paths from semantics for source language '"
+                                            source-language "':"
+                                            (-> @((models source-language-keyword))
+                                                :semantic-correspondence
+                                                target-language-keyword)))
+                        source-semantics (-> result
+                                             (get-in [:synsem :sem])
+                                             (dissoc-paths (-> @((models source-language-keyword))
+                                                               :semantic-correspondence
+                                                               target-language-keyword))
+                                             strip-refs)
+                        json-target-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))
+                        json-source-semantics (json/write-str (strip-refs source-semantics))]
+                    (log/debug (str "target semantics:" (strip-refs (get-in result target-semantics)))
                     (log/debug (str "source semantics:" (strip-refs source-semantics)))
-                    (log/trace (str "json-semantics:" json-semantics))
+                    (log/debug (str "json target semantics:" json-target-semantics))
+                    (log/debug (str "json source:" json-source-semantics))
                     (let [results
                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,
@@ -178,30 +198,28 @@
                                                WHERE source.language=?
                                                  AND source.active=true
                                                  AND source.structure->'synsem'->'sem' @> '"
-                                             json-semantics "' LIMIT 1) AS source
+                                             json-source-semantics "' LIMIT 1) AS source
                                   INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
                                                               root,structure
                                                          FROM expression_with_root AS target
                                                         WHERE target.language=?
                                                           AND target.active=true
-                                                          AND target.structure->'synsem'->'sem' = '" json-semantics "') AS target 
+                                                          AND target.structure->'synsem'->'sem' = '" json-target-semantics "') AS target 
                                                            ON (source.surface IS NOT NULL) 
-                                                          AND (target.surface IS NOT NULL) 
-                                                          AND (source.sem @> target.sem)")
+                                                          AND (target.surface IS NOT NULL)
+                                                          AND (true)")
                                         [source-language target-language]]
                                        :results)]
                       (if (nil? (first (map :source results)))
-                        (do
-                          (log/error (str "no source expression found for semantics: "
-                                          (get-in (strip-refs (deserialize
+                        (let [sql (str "SELECT surface FROM expression_with_root AS source WHERE "
+                                       " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
+                              message (str "no source expression found for target semantics: "
+                                           (get-in (strip-refs (deserialize
                                                                (read-string (:target target-expression))))
-                                                  [:synsem :sem])))
-                          (throw (Exception.
-                                  (str "no source expression found for target expression: '"
-                                       (:surface target-expression) "' and semantics: " 
-                                       (get-in (strip-refs (deserialize
-                                                            (read-string (:target target-expression))))
-                                               [:synsem :sem])))))
+                                                   [:synsem :sem])
+                                           "; used source semantics:" source-semantics "; SQL:" sql)]
+                          (log/error message)
+                          (throw (Exception. message))))
                         (let [debug (log/trace (str "source-structure:"
                                                     (first (map :structure results))))
                               debug (log/trace (str "read from target_structure:"

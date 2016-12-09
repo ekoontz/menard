@@ -2033,7 +2033,11 @@
                                   :2 {:agr subject-agr
                                       :pronoun true
                                       :reflexive true
-                                      :sem subject-semantics}}}})])
+                                      :sem subject-semantics}}}})
+             ;; 2. intransitive sense of "stop"
+             {:unify [common]
+              :synsem {:sem {:pred :stop
+                             :subcat {:2 '()}}}}])
 
    "strike" {:english {:past "struck"}
              :synsem {:cat :verb

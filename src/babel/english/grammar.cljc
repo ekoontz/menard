@@ -629,9 +629,11 @@
                    (map #(keyword (get-in % [:rule])) grammar)
                    grammar)
 
+     :grammar grammar
+
+     :language "en"
      :language-keyword :english
 
-     :grammar grammar
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :lexicon lexicon
      :lookup (fn [arg]

@@ -1696,6 +1696,9 @@
                            :present {:3sing "put"}
                            :note "past tense"}}]
      [{:unify [common]
+       :synsem {:sem {:pred :put}}}
+
+      {:unify [common]
        :phrasal-verb true
        :synsem {:cat :verb
                 :sem {:pred :insult}

@@ -12,7 +12,7 @@
                    fill-language-by-spec
                    process write-lexicon reload]])
 (require '[clojure.tools.logging :as log])
-(require '[dag_unify.core :refer (fail? get-in strip-refs unifyc)])
+(require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
   (write-lexicon "en" @lexicon))
@@ -32,7 +32,7 @@
         ;; {:synsem {:sem {:pred :arrive}}}
 
         spec (if root
-               (unifyc spec
+               (unify spec
                       (language-to-root-spec source-language-short-name root))
                spec)
 
@@ -150,21 +150,21 @@
                    (let [root-form (get-in verb [:english :english])]
                      (log/debug (str "generating from root-form:" root-form))
                      (.size (map (fn [tense]
-                                   (let [spec (unifyc {:root {:english {:english root-form}}}
+                                   (let [spec (unify {:root {:english {:english root-form}}}
                                                      tense)]
                                      (.size
                                       (map (fn [gender]
-                                             (let [spec (unifyc spec
+                                             (let [spec (unify spec
                                                                {:comp {:synsem {:agr gender}}})]
                                                (log/trace (str "generating from gender: " gender))
                                                (.size
                                                 (map (fn [person]
-                                                       (let [spec (unifyc spec
+                                                       (let [spec (unify spec
                                                                          {:comp {:synsem {:agr {:person person}}}})]
                                                          (log/trace (str "generating from person: " person))
                                                          (.size
                                                           (map (fn [number]
-                                                                 (let [spec (unifyc spec
+                                                                 (let [spec (unify spec
                                                                                    {:comp {:synsem {:agr {:number number}}}})]
                                                                    (write-one spec)))
                                                                [:sing :plur]))))

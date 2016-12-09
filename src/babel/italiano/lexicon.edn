@@ -978,8 +978,7 @@
                      :sem {:pred :finish}}}
 
  "fermare"  {:synsem {:cat :verb
-            :sem {:pred :stop}}}
-
+                      :sem {:pred :stop}}}
 
  "formare"  {:synsem {:cat :verb
                       :sem {:pred :form}}}
@@ -1459,7 +1458,6 @@
 
  "nuotare"  {:synsem {:cat :verb
                        :sem {:pred :swim}}}
-
 
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}

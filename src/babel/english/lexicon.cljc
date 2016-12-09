@@ -2476,7 +2476,7 @@
    "write"  {:english {:past "wrote"
                        :past-participle "written"}
              :synsem {:cat :verb
-                      :sem {:pred :write}}}
+                      :sem {:pred :scrivere}}}
 
    "yell" {:synsem {:cat :verb
                     :sem {:pred :yell}

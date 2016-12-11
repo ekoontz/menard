@@ -703,7 +703,7 @@
                     :sem {:pred :fill}}}
 
    "find" {:synsem {:cat :verb
-                     :sem {:pred :break }}
+                     :sem {:pred :find}}
                      :english {:past "found"}}
 
 

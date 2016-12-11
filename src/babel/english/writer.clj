@@ -41,12 +41,11 @@
         debug (log/debug (str "using root:" root))
         debug (log/debug (str "using spec:" (strip-refs spec)))
         
-;;        use-map-fn map ;; <- development
-        use-map-fn pmap ;; <- production
+        use-map-fn map ;; <- development
+;;        use-map-fn pmap ;; <- production
 
         model (-> ((-> models :en)) deref)
         type-of-model (type model)
-        log-the-type (log/info (str "type of model is: " type-of-model))
         source-expressions (read-all spec
                                      source-language-short-name)]
     (count
@@ -71,9 +70,8 @@
                     existing-english-expression)
                   ;; else, no existing expression: generate a new one.
                   (do
-                    (log/debug (str "generating from spec: " spec))
-                    (log/info (str "generating using source expression: '"
-                                   (:surface source-expression) "'"))
+                    (log/debug (str "calling (process) with spec:" spec "; using source expression: '"
+                                    (:surface source-expression) "'"))
                     (try
                       (let [result
                             (process [{:fill-one-language
@@ -87,7 +85,7 @@
                         ;; of what the (process) command did.
                         (log/debug (str "process result:" result)))
                       (catch Exception e
-                        (let [catch-and-log-error true] ;; false: throw error and stop further generation; true: log/error and continue generation
+                        (let [allow-generation-error false] ;; false: throw error and stop further generation; true: log/error and continue generation
                           (log/error (str "Could not translate source expression: "
                                           "'" (get source-expression :surface) "'"
                                           " from language: '" source-language-short-name 
@@ -102,7 +100,7 @@
                                                               [:structure :synsem :sem]))
                                           "'" " ; exception: " e))
                           (cond
-                            catch-and-log-error
+                            allow-generation-error
                             (log/info (str "ignoring above error and continuing."))
                             true
                             (throw e)))))))))))
@@ -111,7 +109,6 @@
 (defn write-one [spec]
   (log/debug (str "generating from spec: " spec))
   (let [model (-> ((-> models :en)) deref)]
-    (log/debug (str "type of model is:" (type model)))
     (try
       (process [{:fill-one-language
                  {:count 1

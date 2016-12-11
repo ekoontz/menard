@@ -1018,7 +1018,7 @@
            :propernoun true}}
 
  "giocare"  {:synsem {:cat :verb
-                      :sem {:pred :giocare}}
+                      :sem {:pred :play-games}}
              :italiano {:future-stem "giocher"}}
 
  "Giovanni e io"
@@ -1796,7 +1796,7 @@
 
  "suonare"  {:synsem {:cat :verb
                       :sem {:subj {:human true}
-                            :pred :suonare}}}
+                            :pred :play-music}}}
 
  "svegliarsi" {:synsem {:cat :verb
                         :sem {:pred :wake-up

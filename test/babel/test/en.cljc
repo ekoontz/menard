@@ -410,7 +410,52 @@
                                          :obj :unspec
                                          :aspect :progressive
                                          :subj {:pred :I}}}})]
-    {:fo (fo result)
-     :tense (get-in result [:synsem :sem :tense] :wtf)}))
+    (not (nil? result))))
+
+(deftest generate-with-put
+  (let [result (generate {:synsem {:sem {:obj :unspec
+                                         :subj {:pred :gianluca}, 
+                                         :pred :put}
+                                   :cat :verb}})]
+    (is (not (nil? result)))))
+
+(deftest generate-with-sleep
+  (let [result (generate {:synsem {:sem {:obj :unspec
+                                         :subj {:pred :gianluca}, 
+                                         :pred :sleep}
+                                   :cat :verb}})]
+    (is (not (nil? result)))))
+
+(deftest generate-with-wash-oneself-1
+  (let [result (generate {:synsem {:sem {:subj {:pred :gianluca}, 
+                                         :pred :wash-oneself
+                                 ;;        :reflexive true
+                                         ;;:obj {:pred :gianluca}
+                                         }
+                                   :cat :verb}})]
+    (is (not (nil? result)))))
+
+(deftest generate-with-comb-oneself-1
+  (let [result (generate {:synsem {:sem {:subj {:pred :gianluca}, 
+                                         :pred :comb-oneself
+                                 ;;        :reflexive true
+                                         ;;:obj {:pred :gianluca}
+                                         }
+                                   :cat :verb}})]
+    (is (not (nil? result)))))
+
+(deftest generate-with-comb-oneself-2
+  (let [result (generate {:synsem {:sem {:subj {:gender :masc, :number :sing, :null false, :animate true, :pred :gianluca,
+                                                :human true},
+                                         :pred :comb-oneself,
+                                         :reflexive true,
+                                         :obj {:gender :masc, :number :sing, :null false,
+                                               :animate true, :pred :gianluca, :human true},
+                                         :aspect :progressive, :tense :past}}})]
+    (is (not (nil? result)))))
 
 
+
+
+
+    

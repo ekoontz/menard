@@ -404,8 +404,13 @@
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0))))))
 
-
-
-
+(deftest take-advantage-present
+  (let [result (generate {:synsem {:sem {:pred :take-advantage-of
+                                         :tense :present
+                                         :obj :unspec
+                                         :aspect :progressive
+                                         :subj {:pred :I}}}})]
+    {:fo (fo result)
+     :tense (get-in result [:synsem :sem :tense] :wtf)}))
 
 

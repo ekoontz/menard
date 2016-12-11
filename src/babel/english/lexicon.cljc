@@ -2772,6 +2772,8 @@
       (verb-pred-defaults encyc/verb-pred-defaults)
 
       ;; if a verb has a subject,
+      ;; and the subject is {:cat :noun},
+      ;; then the subject is {:synsem {:case :nom}}.
       (default {:synsem {:cat :verb
                          :subcat {:1 {:cat :noun
                                       :case :nom}}}})

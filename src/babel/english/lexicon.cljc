@@ -2473,7 +2473,8 @@
                       :participle "worrying"
                       :past-participle "worried"}
             :synsem {:cat :verb
-                     :sem {:pred :worry}}}
+                     :sem {:reflexive true
+                           :pred :worry}}}
 
    "write"  {:english {:past "wrote"
                        :past-participle "written"}

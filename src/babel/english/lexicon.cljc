@@ -1718,7 +1718,8 @@
                              :sem {:pred :on}}}}}
 
       ;; "put on the shoes"
-      {:phrasal-verb true
+      {:unify [common]
+       :phrasal-verb true
        :synsem {:sem {:pred :put-on}
                 :subcat {:3 {:cat :prep
                              :sem {:pred :on}}}}}

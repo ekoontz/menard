@@ -2827,8 +2827,8 @@
        (let [subject-agr (atom :top)]
          {:synsem {:sem {:reflexive true}
                    :cat :verb
-                   :subcat {:1 {:agr :subject-agr}
-                            :2 {:agr :subject-agr}}}}))
+                   :subcat {:1 {:agr subject-agr}
+                            :2 {:agr subject-agr}}}}))
       (default
        {:synsem {:cat :verb
                  :subcat {:2 {:subcat '()}}}})

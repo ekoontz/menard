@@ -487,6 +487,7 @@
                    subject-agr (atom :top)]
                {:unify [common]
                 :synsem {:sem {:pred :comb-oneself
+                               :reflexive true
                                :subj subject-semantics
                                :obj subject-semantics}
                          :subcat {:1 {:agr subject-agr
@@ -2768,6 +2769,11 @@
                            :subcat {:1 {:agr agr}}}}))
 
       (verb-pred-defaults encyc/verb-pred-defaults)
+
+      ;; if a verb has a subject,
+      (default {:synsem {:cat :verb
+                         :subcat {:1 {:cat :noun
+                                      :case :nom}}}})
 
       ;; if a verb has an object,
       ;; and the object is {:cat :noun},

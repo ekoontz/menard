@@ -146,7 +146,7 @@
     {:source source-language-sentence
      :target target-language-sentence}))
 
-(defn insert-expression [expression surface table language model-name]
+(defn insert-expression [expression surface spec table language model-name]
   "Insert an expression into the given table. The information to be added will be:
    1. the surface form of the expression
    2. The JSON representation of the expression (the structure)
@@ -160,14 +160,16 @@
    The serialized column allows loading a desired expression as a Clojure map into the runtime system, including
    the expression' internal structure-sharing."
 
+  (log/debug (str "inserting expression: spec=" spec))
   (try
-    (exec-raw [(str "INSERT INTO " table " (surface, structure, serialized, language, model) VALUES (?,"
-                    ;; TODO: dissoc the spec per immediately below TODO
-                    "$$" (json/write-str (strip-refs expression)) "$$" ;; TODO: store the :spec in a new column 'spec' within the given table.
-                    ","
-                    "$$[" (string/join "" (serialize expression)) "]$$" ;; TODO: check for presence of "$$" within (serialize expression).
-                    ","
-                    "?,?)")
+    (exec-raw [(let [insert
+                     (str "INSERT INTO " table " (surface, structure, spec, serialized, language, model) VALUES (?,"
+                          "$$" (json/write-str (strip-refs expression)) "$$,"
+                          "$$" (json/write-str (strip-refs spec)) "$$,"
+                          "$$[" (string/join "" (serialize expression)) "]$$," ;; TODO: check for presence of "$$" within (serialize expression).
+                          "?,?)")]
+                 (log/trace (str "INSERT IS : " insert))
+                 insert)
                [surface
                 language
                 model-name]])
@@ -175,7 +177,7 @@
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
-  (log/debug (str "insert-lexeme: canonical=" canonical ",lexeme=" lexeme ",language=" language))
+  (log/trace (str "insert-lexeme: canonical=" canonical ",lexeme=" (strip-refs lexeme) ",language=" language))
   (if (fail? lexeme)
     (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
       (log/error message)
@@ -214,6 +216,11 @@
   	      	      (if source-language
   	    	        (fo sentence :source-language source-language)
                        (fo sentence)))]
+        (if (nil? sentence)
+          (let [warn-mesg (str "No sentence could be generated in language: " language " with spec:"
+                               spec)]
+            (log/error warn-mesg)
+            (throw (Exception. (str warn-mesg)))))
         (if (empty? surface)
           (let [warn-mesg (str "Surface was empty for expression generated from spec: " spec)]
             (log/error (str "sentence: " sentence))
@@ -225,6 +232,7 @@
                        spec "'"))
         (insert-expression sentence ;; underlying structure
                            surface ;; text of expression
+                           spec
                            "expression" ;; table in database
                            language
                            (:name model)) ;; name of language model; e.g.: 'small','medium'
@@ -267,11 +275,10 @@
 
             ]
 
-        (log/info (str target-language ": '"
-                        target-sentence-surface
-                        "'"))
+        (log/info (str target-language ": '" target-sentence-surface "'"))
         (insert-expression target-sentence ;; underlying structure
                            target-sentence-surface ; surface string
+                           spec
                            "expression" ;; table
                            target-language
                            (:name target-language-model)) ;; name, like 'small','medium', etc.
@@ -281,6 +288,7 @@
                         "'"))
         (insert-expression source-sentence
                            source-sentence-surface
+                           spec
                            "expression"
                            source-language
                            (:name source-language-model))))))
@@ -516,6 +524,7 @@
                                                    (let [spec (unify spec
                                                                      {:comp {:synsem {:agr {:number number}}}})]
                                                      (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
+                                                     (log/error (str "PROCESS: FILL-ONE-LANGUAGE: SPEC:" spec))
                                                      (try
                                                        (process [{:fill-one-language
                                                                   {:count 1

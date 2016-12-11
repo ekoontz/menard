@@ -52,8 +52,8 @@
      (use-map-fn
       ;; source-expression in the language that we want to translate into English.
       (fn [source-expression]
-        (do (log/debug
-             (str source-language-short-name ": "
+        (do (log/info
+             (str "translating from:" source-language-short-name ": "
                   (:surface source-expression)))
             (log/debug (str source-language-short-name ": "
                             (get-in (:structure source-expression) [:synsem :sem])))

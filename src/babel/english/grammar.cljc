@@ -50,6 +50,10 @@
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
   (let [result
         (-> tree
+            (apply-default
+             {:synsem {:cat :verb
+                       :sem {:tense :present
+                             :aspect :progressive}}})
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb

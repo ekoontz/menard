@@ -2172,8 +2172,7 @@
                      :case :nom
                      :sem {:null true
                            :pred :existential}
-                     :agr {:person :3rd
-                           :number :sing}}}
+                     :agr {:person :3rd}}}
    "they"
    [;; human
     {:english {:note "♂"}

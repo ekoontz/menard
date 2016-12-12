@@ -2167,6 +2167,13 @@
               :subcat '()}}
     ]
 
+   "there" {:synsem {:cat :noun
+                     :pronoun true
+                     :case :nom
+                     :sem {:null true
+                           :pred :existential}
+                     :agr {:person :3rd
+                           :number :sing}}}
    "they"
    [;; human
     {:english {:note "♂"}
@@ -2475,7 +2482,8 @@
                       :past-participle "worried"}
             :synsem {:cat :verb
                      :sem {:reflexive true
-                           :pred :worry}}}
+                           :pred :worry}
+                     :subcat {:2 '()}}}
 
    "write"  {:english {:past "wrote"
                        :past-participle "written"}

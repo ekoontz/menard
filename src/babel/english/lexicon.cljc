@@ -511,7 +511,8 @@
                                     :sem {:pred :to}}}}}
 
    "complain" {:synsem {:cat :verb
-                        :sem {:pred :complain}}}
+                        :sem {:reflexive true
+                              :pred :complain}}}
 
    "consent" {:synsem {:cat :verb
                        :sem {:pred :consent}

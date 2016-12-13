@@ -468,9 +468,9 @@
  "cercare"  (let [common {:italiano {:future-stem "cercher"}
                           :synsem {:cat :verb
                                    :essere false}}]
-              [{:unify common
+              [{:unify [common]
                 :synsem {:sem {:pred :look-for}}}
-               {:unify common
+               {:unify [common]
                 :synsem {:sem {:pred :look-up}}}])
 
 

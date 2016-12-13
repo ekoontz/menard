@@ -524,7 +524,6 @@
                                                    (let [spec (unify spec
                                                                      {:comp {:synsem {:agr {:number number}}}})]
                                                      (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
-                                                     (log/error (str "PROCESS: FILL-ONE-LANGUAGE: SPEC:" spec))
                                                      (try
                                                        (process [{:fill-one-language
                                                                   {:count 1

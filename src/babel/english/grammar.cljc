@@ -634,6 +634,11 @@
         morph fo]
     {:name "medium"
      :default-fn default-fn
+     :semantic-correspondence {:it [[:obj :null]
+                                    [:obj :number]
+                                    [:shared-with-obj]
+                                    [:subj :null]
+                                    [:subj :number]]}
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
      :grammar-map (zipmap

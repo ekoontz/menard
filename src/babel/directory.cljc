@@ -26,12 +26,7 @@
                           (let [model (babel.english.grammar/medium)]
                             (log/debug (str "finished loading english model."))
                             (conj model
-                                  {:semantic-correspondence {:it [[:obj :null]
-                                                                  [:obj :number]
-                                                                  [:shared-with-obj]
-                                                                  [:subj :null]
-                                                                  [:subj :number]]}
-                                   :generate-fn (fn [spec]
+                                  {:generate-fn (fn [spec]
                                                   (en/generate spec :model model))}))))))
      :es (fn []
            (if (realized? es)

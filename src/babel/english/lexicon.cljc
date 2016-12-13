@@ -512,7 +512,8 @@
 
    "complain" {:synsem {:cat :verb
                         :sem {:reflexive true
-                              :pred :complain}}}
+                              :pred :complain}
+                        :subcat {:2 '()}}}
 
    "consent" {:synsem {:cat :verb
                        :sem {:pred :consent}

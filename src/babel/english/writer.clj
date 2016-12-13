@@ -41,8 +41,8 @@
         debug (log/debug (str "using root:" root))
         debug (log/debug (str "using spec:" (strip-refs spec)))
         
-        use-map-fn map ;; <- development
-;;        use-map-fn pmap ;; <- production
+;;        use-map-fn map ;; <- development
+        use-map-fn pmap ;; <- production
 
         model (-> ((-> models :en)) deref)
         type-of-model (type model)

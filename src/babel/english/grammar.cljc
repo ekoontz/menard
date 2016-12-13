@@ -298,7 +298,8 @@
                                 unmodified
                                 root-is-head
                                 {:rule "sentence-nonphrasal-head"
-                                 :synsem {:cat :verb}})
+                                 :synsem {:cat :verb}
+                                 :head {:synsem {:participle false}}})
 
                    (unify-check c10
                                 unmodified

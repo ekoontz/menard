@@ -2859,6 +2859,12 @@
       (default
        {:english {:exception true}
         :synsem {:cat :verb
+                 :participle true
+                 :infl :participle}})
+
+      (default
+       {:english {:exception true}
+        :synsem {:cat :verb
                  :aux false
                  :infl :past
                  :sem {:tense :past}}})

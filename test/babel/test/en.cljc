@@ -370,22 +370,6 @@
                            :subj {:pred :cat}}
                      :subcat '()}})
 
-(deftest rathole-check-1
-  (let [med (medium)
-        spec {:synsem {:cat :verb
-                       :sem {:pred :read
-                             :subj {:pred :cat}}
-                       :subcat '()}}
-        lbs (babel.generate/lightning-bolts med spec 0 6)
-        good-lb (first (filter #(and (= (get-in % [:head :rule])
-                                        "transitive-vp-nonphrasal-head")
-                                     (= (get-in % [:head :head :english :english])
-                                        "read"))
-                               lbs))
-
-        comp-map (comp-paths-to-bolts-map good-lb med 0 6)]
-    (is (some empty? (vals comp-map)))))
-
 (deftest rathole-check-2
   (let [med (medium)
         spec {:synsem {:cat :verb
@@ -398,11 +382,32 @@
                                      (= (get-in % [:head :head :english :english])
                                         "read"))
                                lbs))
-        comp-comp-spec (get-in good-lb [:comp :comp])
+        comp-comp-spec (get-in good-lb [:head :comp])
         comp-spec (get-in good-lb [:comp])]
 
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0))))))
+
+(deftest nugent-testing
+  (let [med (medium)
+        spec {:synsem {:cat :verb
+                       :sem {:pred :read
+                             :subj {:pred :woman}}
+                       :subcat '()}}
+        bolts-and-comps (mapping spec med 0 6)
+        ; (def
+        bolts-with-phrasal-head (filter #(and (not (nil? (get % [:head :comp])))
+                                              (not (empty? (get % [:head :comp])))
+                                              (not (empty? (get % [:comp]))))
+                                        bolts-and-comps)
+                                        ; )
+        ]
+    (is (not (empty? bolts-and-comps)))))
+
+        
+        
+    
+        
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of

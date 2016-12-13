@@ -52,7 +52,9 @@
 (declare comp-path-to-bolts)
 (declare create-mapping)
 
-(defn mapping [spec model depth max-depth]
+(defn mapping
+  "return a lazy sequence of maps. Each member in this lazy sequence associates a lightning bolt with the complements of that bolt. The sequence member is a map of paths within the bolt to to the lazy sequence of possible complements at the end of each such path. In addition, there is an key [] whose value is the bolt itself."
+  [spec model depth max-depth]
   (map (fn [lb]
          (merge
           (let [comp-paths (find-comp-paths lb)]
@@ -91,9 +93,9 @@
     accum
     (do-assocs
      (let [result
-           (assoc-in! accum
-                      (first paths)
-                      (first val-at-paths))]
+           (assoc-in accum
+                     (first paths)
+                     (first val-at-paths))]
        (if (not (empty? (first paths)))
          (dag_unify.core/dissoc-paths result [(first paths)] model)
          result))

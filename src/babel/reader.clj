@@ -163,42 +163,29 @@
                   ;; set to true or false, while subjects in English, at present, lack this
                   ;; (though this key might be added to the English lexicon later at
                   ;;  some point).
-                  (let [sanity (log/error (str "type of target-expression:" (type target-expression)))]
-                    (let [result (deserialize (read-string (:target target-expression)))]
+                  (let [result (deserialize (read-string (:target target-expression)))
                         ;; TODO: allow queries that have refs - might be
                         ;; useful for modeling anaphora and binding.
-                      (let [target-semantics (get-in result [:synsem :sem])]
-                        (let [source-language-keyword (keyword source-language)]
-                          (let [target-language-keyword (keyword target-language)]
-                            (let [semantic-correspondence
-                                  (if (or true (nil? @((:en models source-language-keyword))))
-                                    (do
-                                      (log/error (str "type of models:" (type models)))
-                                      (log/error (str "type of italian model:" (type (get models :it))))
-                                      (log/error (str "well it's too bad that dereferencing the model won't work. instead we'll used a hard-wired semantic-correspondence."))
-                                      [[:obj :null]
-                                       [:obj :number]
-                                       [:shared-with-obj]
-                                       [:subj :null]
-                                       [:subj :number]])
-                                    (do
-                                      (log/error (str "wow, for some reason the model is non-null as I would hope."))
-                                      (-> @((models source-language-keyword))
-                                          :semantic-correspondence
-                                          target-language-keyword)))]
-                              (let [source-semantics (-> result
-                                                         (get-in [:synsem :sem])
-                                                         (dissoc-paths semantic-correspondence)
-                                                         strip-refs)]
-                                (let [json-target-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))]
-                                  (let [json-source-semantics (json/write-str (strip-refs source-semantics))]
-                                    (log/debug (str "target expression:" (:surface result)))
-                                    (log/debug (str "target semantics:" (strip-refs (get-in result [:synsem :sem]))))
-                                    (log/debug (str "source semantics:" (strip-refs source-semantics)))
-                                    (log/debug (str "json target semantics:" json-target-semantics))
-                                    (log/debug (str "json source:" json-source-semantics))
-                                    (let [results
-                                          (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
+                        target-semantics (get-in result [:synsem :sem])
+                        source-language-keyword (keyword source-language)
+                        target-language-keyword (keyword target-language)
+                        semantic-correspondence
+                        (-> @((models source-language-keyword))
+                            :semantic-correspondence
+                            target-language-keyword)
+                        source-semantics (-> result
+                                             (get-in [:synsem :sem])
+                                             (dissoc-paths semantic-correspondence)
+                                             strip-refs)
+                        json-target-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))
+                        json-source-semantics (json/write-str (strip-refs source-semantics))]
+                    (log/debug (str "target expression:" (:surface result)))
+                    (log/debug (str "target semantics:" (strip-refs (get-in result [:synsem :sem]))))
+                    (log/debug (str "source semantics:" (strip-refs source-semantics)))
+                    (log/debug (str "json target semantics:" json-target-semantics))
+                    (log/debug (str "json source:" json-source-semantics))
+                    (let [results
+                          (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,
                                              source.structure AS structure,
                                              target.structure::text AS target_structure
@@ -209,7 +196,7 @@
                                                WHERE source.language=?
                                                  AND source.active=true
                                                  AND source.structure->'synsem'->'sem' @> '"
-                                                                        json-source-semantics "' LIMIT 1) AS source
+                                             json-source-semantics "' LIMIT 1) AS source
                                   INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
                                                               root,structure
                                                          FROM expression_with_root AS target
@@ -219,8 +206,8 @@
                                                            ON (source.surface IS NOT NULL) 
                                                           AND (target.surface IS NOT NULL)
                                                           AND (true)")
-                                                                   [source-language target-language]]
-                                                                  :results)]
+                                        [source-language target-language]]
+                                       :results)]
                       (if (nil? (first (map :source results)))
                         (let [sql (str "SELECT surface FROM expression_with_root AS source WHERE "
                                        " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
@@ -242,7 +229,7 @@
                         {:source-id (first (map :source_id results))
                          :source (first (map :source results))
                          :target-spec target-spec
-                         :targets (map :target results)}))))))))))))))))))
+                         :targets (map :target results)}))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a

@@ -21,7 +21,8 @@
 
 (def medium-model (promise))
 (defn medium []
-  (if (realized? medium-model)
+  (if (and (realized? medium-model)
+           (not (nil? medium-model)))
     @medium-model
     @(deliver medium-model (grammar/medium))))
 

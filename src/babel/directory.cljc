@@ -18,7 +18,8 @@
         la (promise)
         it (promise)]
     {:en (fn []
-           (if (realized? en)
+           (if (and (realized? en)
+                    (map? en))
              en
              (deliver en 
                       (do (log/debug (str "starting to load english model.."))

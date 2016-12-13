@@ -2852,6 +2852,8 @@
        {:synsem {:cat :verb
                  :subcat {:2 {:subcat '()}}}})
 
+      ;; note that {:english {:exception true}} is
+      ;; set by (babel.english.morphology/exception-generator)
       (default
        {:english {:exception false}
         :synsem {:cat :verb}})

@@ -53,7 +53,8 @@
             (apply-default
              {:synsem {:cat :verb
                        :sem {:tense :present
-                             :aspect :progressive}}})
+                             :aspect :progressive}
+                       :infl :present}})
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb

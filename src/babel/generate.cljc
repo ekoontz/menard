@@ -75,8 +75,9 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   ((if true nugents
-                        lightning-bolts)
+                   ((if false
+                      nugents ;; nugents is slow
+                      lightning-bolts) ;; lightning-bolts is fast
                     model
                     (get-in bolt path)
                     depth max-depth))

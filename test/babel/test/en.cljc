@@ -8,13 +8,14 @@
             [babel.generate :refer [add-comps
                                     get-lexemes
                                     lightning-bolts
-                                    mapping nugents]]
+                                    bolts-with-comps nugents]]
             
             [babel.over :refer [overc overh]]
             
             ;; TODO: add parsing tests
             [babel.parse :as parse]
 
+            [clojure.math.combinatorics :as combo]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -394,20 +395,30 @@
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}
-        bolts-and-comps (mapping spec med 0 6)
+        bolts-and-comps (bolts-with-comps spec med 0 6)
         ; (def
         bolts-with-phrasal-head (filter #(and (not (nil? (get % [:head :comp])))
                                               (not (empty? (get % [:head :comp])))
                                               (not (empty? (get % [:comp]))))
                                         bolts-and-comps)
                                         ; )
+
+;        (def
+        fb (first bolts-with-phrasal-head)
+        ; )
         ]
     (is (not (empty? bolts-and-comps)))))
 
-        
-        
-    
-        
+(defn bolts-with-comps-is-slow []
+  (let [med (medium)
+        spec {:synsem {:cat :verb
+                       :sem {:pred :read
+                             :subj {:pred :woman}}
+                       :subcat '()}}]
+    (println (repeatedly (fn [] (time (type (first (filter #(and (not (nil? (get % [:head :comp])))
+                                                                 (not (empty? (get % [:head :comp])))
+                                                                 (not (empty? (get % [:comp]))))
+                                                           (bolts-with-comps spec med 0 6))))))))))
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
@@ -598,28 +609,28 @@
                                               :subcat '()}}))))]
     (is (= 50 (count (take 50 (repeatedly to-run)))))))
 
-;; usage: (show-mapping (mapping spec1))
-(defn show-mapping [mapping]
+;; usage: (show-bolts-with-comps (bolts-with-comps spec1))
+(defn show-bolts-with-comps [bolts-with-comps]
   (map (fn [path-to-bolts-map]
          (reduce merge (map (fn [path]
                               {path (map fo-ps (get path-to-bolts-map path))})
                             ;; path-to-bolts map is a map from a set of paths to a set of
                             ;; bolts for each such path in the set of paths.
                             (keys path-to-bolts-map))))
-       mapping))
+       bolts-with-comps))
 
-(defn do-counts [mapping]
+(defn do-counts [bolts-with-comps]
   (map (fn [bolt-to-comps]
          {:paths (keys bolt-to-comps)
                     :counts-per-path
           (map (fn [path]
                  (count (get bolt-to-comps path)))
                          (keys bolt-to-comps))})
-       mapping))
+       bolts-with-comps))
 
 (defn benchmark [spec & [n]]
   (let [n (or n 5)]
-    (doall (take n (repeatedly #(time (doall (do-counts (mapping spec (medium) 0 6)))))))
+    (doall (take n (repeatedly #(time (doall (do-counts (bolts-with-comps spec (medium) 0 6)))))))
     nil))
 
 (defn benchmark1 []

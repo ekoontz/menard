@@ -52,7 +52,7 @@
 (declare comp-path-to-bolts)
 (declare create-mapping)
 
-(defn mapping
+(defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence associates a lightning bolt with the complements of that bolt. The sequence member is a map of paths within the bolt to to the lazy sequence of possible complements at the end of each such path. In addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
   (map (fn [lb]
@@ -106,15 +106,15 @@
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
-        mapping1 (mapping spec model 0 max-depth)
+        bolts-and-comps (bolts-with-comps spec model 0 max-depth)
         all-of-them
-        (mapcat (fn [each-mapping]
-                  (let [trellis (apply combo/cartesian-product (vals each-mapping))]
+        (mapcat (fn [each-bolt-and-comps]
+                  (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
                     (map (fn [each-path-through-trellis]
-                           (zipmap (keys each-mapping)
+                           (zipmap (keys each-bolt-and-comps)
                                    each-path-through-trellis))
                          trellis)))
-                mapping1)]
+                bolts-and-comps)]
     (map (fn [good-one]
            (do-defaults
             (do-assocs (get good-one [])

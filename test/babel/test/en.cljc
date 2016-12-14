@@ -415,8 +415,7 @@
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}]
-    (repeatedly (fn [] (time (type (first (filter #(and (not (nil? (get % [:head :comp])))
-                                                        (not (empty? (get % [:head :comp])))
+    (repeatedly (fn [] (time (type (first (filter #(and (not (empty? (get % [:head :comp])))
                                                         (not (empty? (get % [:comp]))))
                                                   (bolts-with-comps spec med 0 6)))))))))
 

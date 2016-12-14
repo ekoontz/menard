@@ -20,10 +20,10 @@
 (def ^:const mapfn map)
 
 ;; deterministic generation:
-;;(def ^:const shufflefn (fn [x] x))
+(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-(def ^:const shufflefn shuffle)
+;;(def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
   false)
@@ -42,14 +42,7 @@
 (declare not-fail?)
 
 ;; TODO: lightning-bolts should use this.
-
-(def filter-by #(do
-                  (and (not (empty? (get % [:head :comp])))
-                       (not (empty? (get % [:comp])))
-                       (not (empty? (get % []))))))
-
 (defn get-lexemes [model spec]
-  (log/debug (str "get-lexemes: " (strip-refs spec)))
   (if (= false (get-in spec [:phrasal] false))
     (if-let [index-fn (:index-fn model)]
       (lazy-seq (index-fn spec))
@@ -65,9 +58,7 @@
 (defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence associates a lightning bolt with the complements of that bolt. The sequence member is a map of paths within the bolt to to the lazy sequence of possible complements at the end of each such path. In addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
-  (log/debug (str "bolts-with-comps:" (strip-refs spec)))
   (map (fn [lb]
-         (log/debug (str " lb: " ((:morph model) lb)))
          (merge
           (let [comp-paths (find-comp-paths lb)]
             (zipmap comp-paths
@@ -86,7 +77,7 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   ((if false
+                   ((if true
                       nugents ;; nugents is slow
                       lightning-bolts) ;; lightning-bolts is fast
                     model

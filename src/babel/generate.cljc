@@ -26,7 +26,9 @@
 (def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
-  true)
+  false)
+;;(def ^:const randomize-lexemes-before-phrases
+;;  true)
 
 (def ^:const error-if-no-complements false)
 
@@ -40,13 +42,21 @@
 (declare not-fail?)
 
 ;; TODO: lightning-bolts should use this.
+
+(def filter-by #(do
+                  (and (not (empty? (get % [:head :comp])))
+                       (not (empty? (get % [:comp])))
+                       (not (empty? (get % []))))))
+
 (defn get-lexemes [model spec]
+  (log/debug (str "get-lexemes: " (strip-refs spec)))
   (if (= false (get-in spec [:phrasal] false))
-    (lazy-seq (filter #(not-fail? (unify % spec))
-                      (if-let [index-fn (:index-fn model)]
-                        (index-fn spec)
-                        (flatten (vals
-                                  (or (:lexicon (:generate model)) (:lexicon model)))))))
+    (if-let [index-fn (:index-fn model)]
+      (lazy-seq (index-fn spec))
+      (do
+        (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+        (flatten (vals
+                  (or (:lexicon (:generate model)) (:lexicon model))))))
     []))
 
 (declare comp-path-to-bolts)
@@ -55,16 +65,17 @@
 (defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence associates a lightning bolt with the complements of that bolt. The sequence member is a map of paths within the bolt to to the lazy sequence of possible complements at the end of each such path. In addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
+  (log/debug (str "bolts-with-comps:" (strip-refs spec)))
   (map (fn [lb]
+         (log/debug (str " lb: " ((:morph model) lb)))
          (merge
           (let [comp-paths (find-comp-paths lb)]
             (zipmap comp-paths
                     (map (fn [path]
-                           (comp-path-to-bolts
-                             lb path model depth max-depth))
+                           (comp-path-to-bolts lb path model depth max-depth))
                          comp-paths)))
           {[]
-           (lazy-seq [lb])}))
+           [lb]}))
        (lightning-bolts model spec depth max-depth)))
 
 (declare nugents)
@@ -75,7 +86,7 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   ((if true
+                   ((if false
                       nugents ;; nugents is slow
                       lightning-bolts) ;; lightning-bolts is fast
                     model
@@ -108,6 +119,7 @@
   (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
         bolts-and-comps (bolts-with-comps spec model 0 max-depth)
+        debug (str "nugents: bolts-and-comps:" (type bolts-and-comps))
         all-of-them
         (mapcat (fn [each-bolt-and-comps]
                   (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
@@ -125,7 +137,8 @@
                              model)
                   model))
                all-of-them)]
-      (log/debug (str "type of return value of nugents:" (type result)))
+      (log/trace (str "nugents: empty-ness: " (empty? result)))
+      (log/trace (str "nugents: realized-ness: " (realized? result)))
       result)))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
@@ -270,8 +283,8 @@
                                    (map #((:morph language-model) %)
                                         lexical))))
       (if (lexemes-before-phrases total-depth max-total-depth)
-        (lazy-cat lexical phrasal)
-        (lazy-cat phrasal lexical)))))
+        (concat lexical phrasal)
+        (concat phrasal lexical)))))
 
 (defn do-defaults [tree language-model]
   (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))

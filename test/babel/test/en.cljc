@@ -415,13 +415,14 @@
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}]
-    (println (repeatedly (fn [] (time (type (first (filter #(and (not (nil? (get % [:head :comp])))
-                                                                 (not (empty? (get % [:head :comp])))
-                                                                 (not (empty? (get % [:comp]))))
-                                                           (bolts-with-comps spec med 0 6))))))))))
+    (repeatedly (fn [] (time (type (first (filter #(and (not (nil? (get % [:head :comp])))
+                                                        (not (empty? (get % [:head :comp])))
+                                                        (not (empty? (get % [:comp]))))
+                                                  (bolts-with-comps spec med 0 6)))))))))
 
+;; lein test :only babel.test.en/bwc-slow
 (deftest bwc-slow
-  (is (not (nil? (bolts-with-comps-is-slow)))))
+  (is (= 1 (count (take 1 (bolts-with-comps-is-slow))))))
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
@@ -610,7 +611,7 @@
                                     {:synsem {:cat :verb, :sem {:pred :read
                                                                 :subj {:pred :woman}}
                                               :subcat '()}}))))]
-    (is (= 50 (count (take 50 (repeatedly to-run)))))))
+    (is (= 1 (count (take 1 (repeatedly to-run)))))))
 
 ;; usage: (show-bolts-with-comps (bolts-with-comps spec1))
 (defn show-bolts-with-comps [bolts-with-comps]

@@ -63,13 +63,15 @@
           (let [comp-paths (find-comp-paths lb)]
             (zipmap comp-paths
                     (map (fn [path]
-                           (comp-path-to-bolts lb path model depth max-depth))
+                           (filter not-fail? (comp-path-to-bolts lb path model depth max-depth)))
                          comp-paths)))
           {[]
-           [lb]}))
+           (filter not-fail? [lb])}))
        (lightning-bolts model spec depth max-depth)))
 
 (declare nugents)
+
+;;(def foo (map #(println (fo %)) (take 10000 (nugents med spec))))
 
 (defn comp-path-to-bolts
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
@@ -106,14 +108,10 @@
      (rest val-at-paths)
      model)))
 
-(defn filter-by [bolt-and-comps]
-  (and (not (empty? (get bolt-and-comps [:head :comp])))
-       (not (empty? (get bolt-and-comps [:comp])))))
-
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
-        bolts-and-comps (filter filter-by (bolts-with-comps spec model 0 max-depth))
+        bolts-and-comps (bolts-with-comps spec model 0 max-depth)
         debug (str "nugents: bolts-and-comps:" (type bolts-and-comps))
         all-of-them
         (mapcat (fn [each-bolt-and-comps]
@@ -123,18 +121,15 @@
                                    each-path-through-trellis))
                          trellis)))
                 bolts-and-comps)]
-    (let [result
-          (map (fn [good-one]
-                 (do-defaults
-                  (do-assocs (get good-one [])
-                             (keys good-one)
-                             (vals good-one)
-                             model)
-                  model))
-               all-of-them)]
-      (log/trace (str "nugents: empty-ness: " (empty? result)))
-      (log/trace (str "nugents: realized-ness: " (realized? result)))
-      result)))
+    (filter not-fail?
+            (map (fn [good-one]
+                   (do-defaults
+                    (do-assocs (get good-one [])
+                               (keys good-one)
+                               (vals good-one)
+                               model)
+                    model))
+                 all-of-them))))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

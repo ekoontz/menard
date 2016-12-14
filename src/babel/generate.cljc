@@ -75,7 +75,7 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   ((if false
+                   ((if true
                       nugents ;; nugents is slow
                       lightning-bolts) ;; lightning-bolts is fast
                     model
@@ -116,14 +116,17 @@
                                    each-path-through-trellis))
                          trellis)))
                 bolts-and-comps)]
-    (map (fn [good-one]
-           (do-defaults
-            (do-assocs (get good-one [])
-                       (keys good-one)
-                       (vals good-one)
-                       model)
-            model))
-         all-of-them)))
+    (let [result
+          (map (fn [good-one]
+                 (do-defaults
+                  (do-assocs (get good-one [])
+                             (keys good-one)
+                             (vals good-one)
+                             model)
+                  model))
+               all-of-them)]
+      (log/debug (str "type of return value of nugents:" (type result)))
+      result)))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

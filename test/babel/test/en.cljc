@@ -420,6 +420,9 @@
                                                                  (not (empty? (get % [:comp]))))
                                                            (bolts-with-comps spec med 0 6))))))))))
 
+(deftest bwc-slow
+  (is (not (nil? (bolts-with-comps-is-slow)))))
+
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
                                          :tense :present

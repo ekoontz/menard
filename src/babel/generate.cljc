@@ -106,10 +106,14 @@
      (rest val-at-paths)
      model)))
 
+(defn filter-by [bolt-and-comps]
+  (and (not (empty? (get bolt-and-comps [:head :comp])))
+       (not (empty? (get bolt-and-comps [:comp])))))
+
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
-        bolts-and-comps (bolts-with-comps spec model 0 max-depth)
+        bolts-and-comps (filter filter-by (bolts-with-comps spec model 0 max-depth))
         debug (str "nugents: bolts-and-comps:" (type bolts-and-comps))
         all-of-them
         (mapcat (fn [each-bolt-and-comps]

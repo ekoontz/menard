@@ -334,7 +334,7 @@
   (take n
         (repeatedly #(let [generated
                            (morph (generate {:synsem {:cat :verb
-                                                               :subcat '()}}))
+                                                      :subcat '()}}))
                            parsed (reduce concat (map :parses (parse generated medium)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "

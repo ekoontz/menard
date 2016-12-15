@@ -6,7 +6,7 @@
             [babel.english.morphology :refer [fo get-string]]
 
             [babel.generate :refer [get-lexemes lightning-bolts
-                                    bolts-with-comps nugents]]
+                                    bolts-with-comps]]
             
             [babel.over :refer [overc overh]]
             

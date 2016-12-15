@@ -36,22 +36,11 @@
 (declare do-defaults)
 (declare exception)
 (declare find-comp-paths)
+(declare get-lexemes)
 (declare lazy-mapcat)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare not-fail?)
-
-;; TODO: lightning-bolts should use this.
-(defn get-lexemes [model spec]
-  (if (= false (get-in spec [:phrasal] false))
-    (filter not-fail?
-            (map #(unify % spec)
-                 (if-let [index-fn (:index-fn model)]
-                   (lazy-seq (index-fn spec))
-                   (do
-                     (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-                     (flatten (vals
-                               (or (:lexicon (:generate model)) (:lexicon model))))))))))
 
 (declare comp-path-to-complements)
 (declare create-mapping)
@@ -213,6 +202,18 @@
            (do
              (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
              bolts)))))
+
+;; TODO: lightning-bolts should use this.
+(defn get-lexemes [model spec]
+  (if (= false (get-in spec [:phrasal] false))
+    (filter not-fail?
+            (map #(unify % spec)
+                 (if-let [index-fn (:index-fn model)]
+                   (lazy-seq (index-fn spec))
+                   (do
+                     (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+                     (flatten (vals
+                               (or (:lexicon (:generate model)) (:lexicon model))))))))))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

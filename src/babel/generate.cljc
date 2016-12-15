@@ -88,8 +88,8 @@
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
     (if lexemes-before-phrases
-      (lazy-seq (lazy-cat lexemes bolts-at))
-      (lazy-seq (lazy-cat bolts-at lexemes)))))
+      (lazy-cat lexemes bolts-at)
+      (lazy-cat bolts-at lexemes))))
 
 (declare add-bolt-at)
 
@@ -116,7 +116,6 @@
   (let [max-depth (or max-depth babel.generate/max-total-depth)
         bolts-and-comps (filter #(not (some empty? (vals %)))
                                 (bolts-with-comps spec model 0 max-depth))
-        debug (str "nugents: bolts-and-comps:" (type bolts-and-comps))
         all-of-them
         (mapcat (fn [each-bolt-and-comps]
                   (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]

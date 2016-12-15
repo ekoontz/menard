@@ -5,9 +5,7 @@
             [babel.english.grammar :as grammar]
             [babel.english.morphology :refer [fo get-string]]
 
-            [babel.generate :refer [add-comps
-                                    get-lexemes
-                                    lightning-bolts
+            [babel.generate :refer [get-lexemes lightning-bolts
                                     bolts-with-comps nugents]]
             
             [babel.over :refer [overc overh]]

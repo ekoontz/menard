@@ -57,7 +57,6 @@
 (declare create-mapping)
 
 (declare add-bolt-at)
-(declare do-assoc)
 
 (declare bolts-with-comps)
 
@@ -78,140 +77,28 @@
               (map (fn [bolt-and-comps]
                      (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
                      (do-defaults
-                      (do-assocs (get bolt-and-comps [])
-                                 (dissoc bolt-and-comps []) model)
+                      (apply unify
+                             (let [bolt (get bolt-and-comps [])
+                                   bolt-and-comps (dissoc bolt-and-comps [])]
+                               (cons bolt
+                                     (map (fn [path]
+                                            (assoc-in bolt path (get bolt-and-comps path)))
+                                          (keys bolt-and-comps)))))
                       model))
                    routes)))))
 
-;; TODO: use recur or reduce
-(defn do-assocs [accum paths-to-val model]
-  (if (empty? paths-to-val)
-    accum
-    (let [path (first (first paths-to-val))
-          val (second (first paths-to-val))]
-      (log/debug (str "do-assocs: path=" path "; val=" ((:morph-ps model) val)))
-      (do-assocs
-;       (dissoc-paths
-       (assoc-in accum path val)
-;        [path])
-       (dissoc paths-to-val path)
-       model))))
-
-(declare comp-path-to-complements)
-
-(defn bolts-with-comps
-  "return a lazy sequence of maps. Each member in this lazy sequence
-  associates a lightning bolt with the complements of that bolt. The
-  sequence member is a map of paths within the bolt to to the lazy
-  sequence of possible complements at the end of each such path. In
-  addition, there is an key [] whose value is the bolt itself."
-  [spec model depth max-depth]
-  (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
-  (map (fn [lb]
-         (merge
-          (let [comp-paths (find-comp-paths lb)]
-            (zipmap comp-paths
-                    (map (fn [path]
-                           (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
-                         comp-paths)))
-          {[]
-           (filter not-fail? [lb])}))
-       (let [bolts
-             (lightning-bolts model spec depth max-depth)]
-         (if (empty? bolts)
-           (do
-             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
-             nil)
-           (do
-             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
-             bolts)))))
-
-(defn comp-path-to-complements
-  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
-  [bolt path model depth max-depth]
-  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
-  (let [spec (get-in bolt path)
-        lexemes (shufflefn (get-lexemes model spec))
-        bolts-at (if (< depth max-depth)
-                   (nugents
-                    model
-                    (get-in bolt path)
-                    (+ 1 depth) max-depth))
-        lexemes-before-phrases
-        (lexemes-before-phrases depth max-depth)]
-    (if lexemes-before-phrases
-      (lazy-cat lexemes bolts-at)
-      (lazy-cat bolts-at lexemes))))
-
-(defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
-  (mapfn #(let [bolt (assoc-in bolt path %)]
-            (if (= false (get-in % [:phrasal]))
-              [bolt]
-              (let [result
-                    (add-bolt-at top-bolt bolt path % model depth max-depth truncate? take-n)]
-                (if truncate
-                  (truncate result [path] model)
-                  result))))
-         bolts-at))
-
-(defn add-comps
-  "given a bolt, return the lazy sequence of all bolts derived from this bolt after adding,
-   at each supplied path in comp-paths, the bolts for that path."
-  [bolt model comp-paths bolts-at-paths depth max-depth top-bolt truncate? take-n]
-  (if (empty? comp-paths)
-    [bolt] ;; done: we've added all the comps to the bolt, so just return the bolt as a singleton vector.
-    (mapfn #(add-comps % model
-                       (rest comp-paths)
-                       (rest bolts-at-paths)
-                       depth max-depth top-bolt truncate? take-n)
-           (flatten
-            (add-bolts-to-path
-             (first comp-paths) (first bolts-at-paths)
-             bolt top-bolt model depth max-depth truncate? take-n)))))
-
-(defn add-bolt-at [top-bolt bolt path bolt-at model depth max-depth truncate? & [take-n]]
-  "at _path_ within _bolt_, add all complements derived from _bolt-at_"
-  (mapfn #(do-defaults % model)
-         (let [comp-paths (find-comp-paths bolt-at)]
-           (mapfn #(assoc-in bolt path %)
-                  (lazy-seq
-                   (flatten
-                    (add-comps bolt-at model
-                               comp-paths
-                               (mapfn #(comp-path-to-complements bolt-at % model (+ 1 depth) max-depth)
-                                      comp-paths)
-                               (+ 1 depth) max-depth top-bolt truncate? take-n)))))))
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
    & {:keys [max-total-depth truncate-children lexicon take-n]
       :or {max-total-depth max-total-depth
            lexicon nil
-           truncate-children true
+           shuffle? nil
+           truncate-children? true
            take-n 1}}]
-  (log/debug (str "generate: spec: " spec "; take-n: " take-n))
-  (let [depth 0
-        spec
-        (->
-         (if (fail? (unify spec {:synsem {:subcat []}}))
-           spec
-           (unify spec {:synsem {:subcat []}}))
-         ;; remove metadata (if any) that's not relevant to generation:
-         (dissoc :dag_unify.core/serialized))
-        max-depth max-total-depth]
-    (->
-     (take take-n
-           (reduce concat
-                   (map (fn [bolt]
-                          (log/trace (str "add-bolt-at:" ((:morph-ps language-model) bolt)))
-                          (filter #(not (= :fail %))
-                                  (add-bolt-at bolt bolt [] bolt language-model
-                                               depth max-depth truncate-children take)))
-                        (lightning-bolts language-model spec 0 max-total-depth))))
-     ((fn [seq]
-        (if (= take-n 1)
-          (first seq) ;; if caller only wants one, return just that one, rather than a singleton list.
-          seq)))))) ;; otherwise, return the lazy seq of expressions
+  (first (nugents language-model spec)))
+
+(declare comp-path-to-complements)
 
 (defn lightning-bolts
   "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
@@ -300,6 +187,76 @@
       (log/trace (str "language-model has no default function."))
       tree)))
 
+(defn bolts-with-comps
+  "return a lazy sequence of maps. Each member in this lazy sequence
+  associates a lightning bolt with the complements of that bolt. The
+  sequence member is a map of paths within the bolt to to the lazy
+  sequence of possible complements at the end of each such path. In
+  addition, there is an key [] whose value is the bolt itself."
+  [spec model depth max-depth]
+  (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
+  (map (fn [lb]
+         (merge
+          (let [comp-paths (find-comp-paths lb)]
+            (zipmap comp-paths
+                    (map (fn [path]
+                           (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
+                         comp-paths)))
+          {[]
+           (filter not-fail? [lb])}))
+       (let [bolts
+             (lightning-bolts model spec depth max-depth)]
+         (if (empty? bolts)
+           (do
+             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
+             nil)
+           (do
+             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
+             bolts)))))
+
+(defn comp-path-to-complements
+  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
+  [bolt path model depth max-depth]
+  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
+  (let [spec (get-in bolt path)
+        lexemes (shufflefn (get-lexemes model spec))
+        bolts-at (if (< depth max-depth)
+                   (nugents
+                    model
+                    (get-in bolt path)
+                    (+ 1 depth) max-depth))
+        lexemes-before-phrases
+        (lexemes-before-phrases depth max-depth)]
+    (if lexemes-before-phrases
+      (lazy-cat lexemes bolts-at)
+      (lazy-cat bolts-at lexemes))))
+
+(defn lexemes-before-phrases
+  "returns true or false: true means generate by adding lexemes first;
+  otherwise, by adding phrases first. Takes depth as an argument,
+  which makes returning true (i.e. lexemes first) increasingly likely
+  as depth increases."
+  [depth max-total-depth]
+  (if (not randomize-lexemes-before-phrases)
+    false
+    (if (> max-total-depth 0)
+      (let [prob (- 1.0 (/ (- max-total-depth depth)
+                           max-total-depth))]
+        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
+        (> (* 10 prob) (rand-int 10)))
+      false)))
+
+(defn not-fail? [arg]
+  (not (= :fail arg)))
+
+-;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
+(defn lazy-mapcat  [f coll]
+  (lazy-seq
+   (if (not-empty coll)
+     (concat
+      (f (first coll))
+      (lazy-mapcat f (rest coll))))))
+
 (defn find-end-of-bolt [bolt]
   (cond (= true (get-in bolt [:phrasal]))
         (cons :head
@@ -313,7 +270,7 @@
                  (rest (find-end-of-bolt bolt))
                  path)]
       (if (not (empty? path))
-        (concat 
+        (concat
          [(vec (concat path [:comp]))]
          (find-comp-paths bolt (rest path)))
         [[:comp]]))))
@@ -338,45 +295,25 @@
                                              (strip-refs spec)))
                              :fail)))
                        rules))]
-    (log/trace (str "candidate-parents: " 
+    (log/trace (str "candidate-parents: "
                     (string/join "," (map :rule result))
                     " for spec: " (strip-refs spec)))
     (if (empty? result)
-      (log/trace (str "candidate-parents: " 
+      (log/trace (str "candidate-parents: "
                       "no parents found for spec: " (spec-info spec)))
-      (log/trace (str "candidate-parents: " 
+      (log/trace (str "candidate-parents: "
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))
     result))
 
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. (str ": " error-string))))
-  #?(:cljs
-     (throw (js/Error. error-string))))
+(defn find-comp-paths [bolt & [path]]
+  (if (not (= false (get-in bolt [:phrasal])))
+    (let [path (if (nil? path)
+                 (rest (find-end-of-bolt bolt))
+                 path)]
+      (if (not (empty? path))
+        (concat
+         [(vec (concat path [:comp]))]
+         (find-comp-paths bolt (rest path)))
+        [[:comp]]))))
 
-;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
-(defn lazy-mapcat  [f coll]
-  (lazy-seq
-   (if (not-empty coll)
-     (concat
-      (f (first coll))
-      (lazy-mapcat f (rest coll))))))
-
-(defn lexemes-before-phrases
-  "returns true or false: true means generate by adding lexemes first;
-  otherwise, by adding phrases first. Takes depth as an argument,
-  which makes returning true (i.e. lexemes first) increasingly likely
-  as depth increases."
-  [depth max-total-depth]
-  (if (not randomize-lexemes-before-phrases)
-    false
-    (if (> max-total-depth 0)
-      (let [prob (- 1.0 (/ (- max-total-depth depth)
-                           max-total-depth))]
-        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
-        (> (* 10 prob) (rand-int 10)))
-      false)))
-
-(defn not-fail? [arg]
-  (not (= :fail arg)))

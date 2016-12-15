@@ -60,10 +60,10 @@
 
 (declare bolts-with-comps)
 
-(defn nugents [model spec & [depth max-depth]]
+(defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
         max-depth (or max-depth max-total-depth)]
-    (log/debug (str "nugents:" depth "/" max-depth ":         " (strip-refs spec)))
+    (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (let [bolts-and-comps (filter #(not (some empty? (vals %)))
                                   (bolts-with-comps spec model depth max-depth))
           routes (mapcat (fn [each-bolt-and-comps]
@@ -96,7 +96,7 @@
            shuffle? nil
            truncate-children? true
            take-n 1}}]
-  (first (nugents language-model spec)))
+  (first (generate-all spec language-model)))
 
 (declare comp-path-to-complements)
 
@@ -221,9 +221,9 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   (nugents
-                    model
+                   (generate-all
                     (get-in bolt path)
+                    model
                     (+ 1 depth) max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]

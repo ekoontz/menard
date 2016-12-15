@@ -70,8 +70,16 @@
                                   (zipmap (keys each-bolt-and-comps)
                                           each-path-through-trellis))
                                 trellis)))
-                       (filter #(not (some empty? (vals %)))
-                               (bolts-with-comps spec model depth max-depth))))))))
+                       (remove nil?
+                               (pmap (fn [lb]
+                                       (let [cp2c
+                                             (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
+                                         (if (not (nil? cp2c))
+                                           (merge
+                                            {[]
+                                             (filter not-fail? [lb])}
+                                            cp2c))))
+                                     (lightning-bolts model spec depth max-depth)))))))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
@@ -182,11 +190,6 @@
          (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))))))
 
 (defn bolts-with-comps
-  "return a lazy sequence of maps. Each member in this lazy sequence
-  associates a lightning bolt with the complements of that bolt. The
-  sequence member is a map of paths within the bolt to to the lazy
-  sequence of possible complements at the end of each such path. In
-  addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
   (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
   ;; using pmap rather than map improves performance about 40% in some cases.

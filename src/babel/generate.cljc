@@ -66,14 +66,13 @@
     (log/debug (str "nugents:" depth "/" max-depth ":         " (strip-refs spec)))
     (let [bolts-and-comps (filter #(not (some empty? (vals %)))
                                   (bolts-with-comps spec model depth max-depth))
-          all-of-them
-          (mapcat (fn [each-bolt-and-comps]
-                    (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
-                      (map (fn [each-path-through-trellis]
-                             (zipmap (keys each-bolt-and-comps)
-                                     each-path-through-trellis))
-                           trellis)))
-                  bolts-and-comps)]
+          routes (mapcat (fn [each-bolt-and-comps]
+                           (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
+                             (map (fn [each-path-through-trellis]
+                                    (zipmap (keys each-bolt-and-comps)
+                                            each-path-through-trellis))
+                                  trellis)))
+                         bolts-and-comps)]
       (filter not-fail?
               (map (fn [bolt-and-comps]
                      (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
@@ -82,21 +81,23 @@
                                  (keys bolt-and-comps)))
                      (do-defaults
                       (do-assocs (get bolt-and-comps [])
-                                 (dissoc bolt-and-comps []))
+                                 (dissoc bolt-and-comps []) model)
                       model))
-                   all-of-them)))))
+                   routes)))))
 
 ;; TODO: use recur or reduce
-(defn do-assocs [accum paths-to-vals-at-path]
-  (if (empty? paths-to-vals-at-path)
+(defn do-assocs [accum paths-to-val model]
+  (if (empty? paths-to-val)
     accum
-    (let [path (first (first paths-to-vals-at-path))]
+    (let [path (first (first paths-to-val))
+          val (second (first paths-to-val))]
+      (log/debug (str "do-assocs: path=" path "; val=" ((:morph-ps model) val)))
       (do-assocs
-       (dissoc-paths (assoc-in accum
-                               path
-                               (second (first paths-to-vals-at-path)))
-                     [path])
-       (dissoc paths-to-vals-at-path path)))))
+;       (dissoc-paths
+       (assoc-in accum path val)
+;        [path])
+       (dissoc paths-to-val path)
+       model))))
 
 (declare comp-path-to-complements)
 
@@ -117,7 +118,15 @@
                          comp-paths)))
           {[]
            (filter not-fail? [lb])}))
-       (lightning-bolts model spec depth max-depth)))
+       (let [bolts
+             (lightning-bolts model spec depth max-depth)]
+         (if (empty? bolts)
+           (do
+             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
+             nil)
+           (do
+             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
+             bolts)))))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

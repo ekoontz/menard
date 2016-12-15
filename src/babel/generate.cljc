@@ -7,7 +7,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :refer [assoc-in assoc-in! copy fail-path get-in fail? strip-refs unify unify!]]))
+   [dag_unify.core :refer [assoc-in assoc-in! copy dissoc-paths fail-path get-in fail? strip-refs unify unify!]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
@@ -55,44 +55,13 @@
 (declare comp-path-to-bolts)
 (declare create-mapping)
 
-(defn bolts-with-comps
-  "return a lazy sequence of maps. Each member in this lazy sequence associates a lightning bolt with the complements of that bolt. The sequence member is a map of paths within the bolt to to the lazy sequence of possible complements at the end of each such path. In addition, there is an key [] whose value is the bolt itself."
-  [spec model depth max-depth]
-  (map (fn [lb]
-         (merge
-          (let [comp-paths (find-comp-paths lb)]
-            (zipmap comp-paths
-                    (map (fn [path]
-                           (filter not-fail? (comp-path-to-bolts lb path model depth max-depth)))
-                         comp-paths)))
-          {[]
-           (filter not-fail? [lb])}))
-       (lightning-bolts model spec depth max-depth)))
-
 (declare nugents)
 
 ;;(def foo (map #(println (fo %)) (take 10000 (nugents med spec))))
 
-(defn comp-path-to-bolts
-  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
-  [bolt path model depth max-depth]
-  (let [spec (get-in bolt path)
-        lexemes (shufflefn (get-lexemes model spec))
-        bolts-at (if (< depth max-depth)
-                   ((if true
-                      nugents ;; nugents is slow
-                      lightning-bolts) ;; lightning-bolts is fast
-                    model
-                    (get-in bolt path)
-                    depth max-depth))
-        lexemes-before-phrases
-        (lexemes-before-phrases depth max-depth)]
-    (if lexemes-before-phrases
-      (lazy-cat lexemes bolts-at)
-      (lazy-cat bolts-at lexemes))))
-
 (declare add-bolt-at)
 
+;; TODO: use recur or reduce
 (defn do-assocs [accum paths val-at-paths model]
   (if (empty? paths)
     accum
@@ -102,7 +71,7 @@
                      (first paths)
                      (first val-at-paths))]
        (if (not (empty? (first paths)))
-         (dag_unify.core/dissoc-paths result [(first paths)] model)
+         (dissoc-paths result [(first paths)] model)
          result))
      (rest paths)
      (rest val-at-paths)
@@ -110,6 +79,8 @@
 
 (defn filter-by [bolt-and-comps]
   (not (some empty? (vals bolt-and-comps))))
+
+(declare bolts-with-comps)
 
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
@@ -125,15 +96,51 @@
                          trellis)))
                 bolts-and-comps)]
     (filter not-fail?
-            (map (fn [good-one]
-                   (log/debug (str "good-one: " ((:morph-ps model) (get good-one []))))
+            (map (fn [bolt-and-comps]
+                   (log/debug (str "bolt-and-comps: " ((:morph-ps model) (get bolt-and-comps []))))
                    (do-defaults
-                    (do-assocs (get good-one [])
-                               (keys good-one)
-                               (vals good-one)
+                    (do-assocs (get bolt-and-comps [])
+                               (keys bolt-and-comps)
+                               (vals bolt-and-comps)
                                model)
                     model))
                  all-of-them))))
+
+(declare comp-path-to-bolts)
+
+(defn bolts-with-comps
+  "return a lazy sequence of maps. Each member in this lazy sequence
+  associates a lightning bolt with the complements of that bolt. The
+  sequence member is a map of paths within the bolt to to the lazy
+  sequence of possible complements at the end of each such path. In
+  addition, there is an key [] whose value is the bolt itself."
+  [spec model depth max-depth]
+  (map (fn [lb]
+         (merge
+          (let [comp-paths (find-comp-paths lb)]
+            (zipmap comp-paths
+                    (map (fn [path]
+                           (filter not-fail? (comp-path-to-bolts lb path model depth max-depth)))
+                         comp-paths)))
+          {[]
+           (filter not-fail? [lb])}))
+       (lightning-bolts model spec depth max-depth)))
+
+(defn comp-path-to-bolts
+  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
+  [bolt path model depth max-depth]
+  (let [spec (get-in bolt path)
+        lexemes (shufflefn (get-lexemes model spec))
+        bolts-at (if (< depth max-depth)
+                   (nugents
+                    model
+                    (get-in bolt path)
+                    depth max-depth))
+        lexemes-before-phrases
+        (lexemes-before-phrases depth max-depth)]
+    (if lexemes-before-phrases
+      (lazy-cat lexemes bolts-at)
+      (lazy-cat bolts-at lexemes))))
 
 (defn add-bolts-to-path [path bolts-at bolt top-bolt model depth max-depth truncate? take-n]
   (mapfn #(let [bolt (assoc-in bolt path %)]

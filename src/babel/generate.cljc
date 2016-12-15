@@ -171,6 +171,12 @@
       (log/trace (str "language-model has no default function."))
       tree)))
 
+(defn comp-paths-to-complements [bolt comp-paths model depth max-depth]
+  (zipmap comp-paths
+          (map (fn [path]
+                 (filter not-fail? (comp-path-to-complements bolt path model depth max-depth)))
+               comp-paths)))
+
 (defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence
   associates a lightning bolt with the complements of that bolt. The
@@ -184,11 +190,7 @@
           (merge
            {[]
             (filter not-fail? [lb])}
-           (let [comp-paths (find-comp-paths lb)]
-             (zipmap comp-paths
-                     (map (fn [path]
-                            (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
-                          comp-paths)))))
+           (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)))
         (let [bolts (lightning-bolts model spec depth max-depth)]
           (if (empty? bolts)
             (do
@@ -197,6 +199,8 @@
             (do
               (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
               bolts)))))
+
+
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

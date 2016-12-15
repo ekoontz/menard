@@ -34,7 +34,6 @@
 
 (declare candidate-parents)
 (declare do-defaults)
-(declare exception)
 (declare find-comp-paths)
 (declare get-lexemes)
 (declare lazy-mapcat)
@@ -99,7 +98,7 @@
                        & {:keys [max-total-depth]
                           :or {max-total-depth max-total-depth}}]
   (if (nil? spec)
-    (exception (str "given a null spec for lightning-bolts.")))
+    (throw (Exception. (str "given a null spec for lightning-bolts."))))
   (log/trace (str "lightning-bolts: depth: (" depth "/" max-total-depth ") and spec-info:"
                  (spec-info spec)))
   (let [grammar (:grammar language-model)

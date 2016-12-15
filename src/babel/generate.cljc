@@ -179,7 +179,8 @@
   addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
   (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
-  (map (fn [lb]
+  ;; using pmap rather than map improves performance about 40% in some cases.
+  (pmap (fn [lb]
           (merge
            (let [comp-paths (find-comp-paths lb)]
              (zipmap comp-paths
@@ -187,7 +188,7 @@
                             (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
                           comp-paths)))
            {[]
-           (filter not-fail? [lb])}))
+            (filter not-fail? [lb])}))
         (let [bolts
               (lightning-bolts model spec depth max-depth)]
           (if (empty? bolts)

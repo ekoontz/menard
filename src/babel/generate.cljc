@@ -79,7 +79,7 @@
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model
-   & {:keys [max-total-depth truncate-children lexicon take-n]
+   & {:keys [max-total-depth truncate-children? lexicon take-n]
       :or {max-total-depth max-total-depth
            lexicon nil
            shuffle? nil

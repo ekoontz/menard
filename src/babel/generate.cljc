@@ -44,13 +44,14 @@
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))
-    (if-let [index-fn (:index-fn model)]
-      (lazy-seq (index-fn spec))
-      (do
-        (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-        (flatten (vals
-                  (or (:lexicon (:generate model)) (:lexicon model))))))
-    []))
+    (filter not-fail?
+            (map #(unify % spec)
+                 (if-let [index-fn (:index-fn model)]
+                   (lazy-seq (index-fn spec))
+                   (do
+                     (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+                     (flatten (vals
+                               (or (:lexicon (:generate model)) (:lexicon model))))))))))
 
 (declare comp-path-to-complements)
 (declare create-mapping)
@@ -133,9 +134,7 @@
   [bolt path model depth max-depth]
   (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)
-        lexemes (shufflefn (filter not-fail? (map #(unify %
-                                                          (get-in bolt path))
-                                                  (get-lexemes model spec))))
+        lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
                    (nugents
                     model

@@ -70,9 +70,7 @@
            (assoc-in accum
                      (first paths)
                      (first val-at-paths))]
-       (if (not (empty? (first paths)))
-         (dissoc-paths result [(first paths)] model)
-         result))
+       (dissoc-paths result [(first paths)] model))
      (rest paths)
      (rest val-at-paths)
      model)))
@@ -99,10 +97,12 @@
             (map (fn [bolt-and-comps]
                    (log/debug (str "bolt-and-comps: " ((:morph-ps model) (get bolt-and-comps []))))
                    (do-defaults
-                    (do-assocs (get bolt-and-comps [])
-                               (keys bolt-and-comps)
-                               (vals bolt-and-comps)
-                               model)
+                    (let [bolt (get bolt-and-comps [])
+                          bolt-and-comps (dissoc bolt-and-comps [])]
+                      (do-assocs bolt
+                                 (keys bolt-and-comps)
+                                 (vals bolt-and-comps)
+                                 model))
                     model))
                  all-of-them))))
 

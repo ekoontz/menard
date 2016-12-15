@@ -108,10 +108,14 @@
      (rest val-at-paths)
      model)))
 
+(defn filter-by [bolt-and-comps]
+  (not (some empty? (vals bolt-and-comps))))
+
 (defn nugents [model spec & [max-depth]]
   (log/debug (str "nugents:" (strip-refs spec)))
   (let [max-depth (or max-depth babel.generate/max-total-depth)
-        bolts-and-comps (bolts-with-comps spec model 0 max-depth)
+        bolts-and-comps (filter #(not (some empty? (vals %)))
+                                (bolts-with-comps spec model 0 max-depth))
         debug (str "nugents: bolts-and-comps:" (type bolts-and-comps))
         all-of-them
         (mapcat (fn [each-bolt-and-comps]
@@ -123,6 +127,7 @@
                 bolts-and-comps)]
     (filter not-fail?
             (map (fn [good-one]
+                   (log/debug (str "good-one: " ((:morph-ps model) (get good-one []))))
                    (do-defaults
                     (do-assocs (get good-one [])
                                (keys good-one)

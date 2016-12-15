@@ -172,10 +172,13 @@
       tree)))
 
 (defn comp-paths-to-complements [bolt comp-paths model depth max-depth]
-  (zipmap comp-paths
-          (map (fn [path]
-                 (filter not-fail? (comp-path-to-complements bolt path model depth max-depth)))
-               comp-paths)))
+  (if (not (empty? comp-paths))
+    (let [path (first comp-paths)
+          comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
+      (if (or false (not (empty? comps)))
+        (merge
+         {path comps}
+         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))))))
 
 (defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence

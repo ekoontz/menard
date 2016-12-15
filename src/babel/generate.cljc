@@ -87,25 +87,22 @@
                     (let [bolt (get bolt-and-comps [])
                           bolt-and-comps (dissoc bolt-and-comps [])]
                       (do-assocs bolt
-                                 (keys bolt-and-comps)
-                                 (vals bolt-and-comps)
-                                 model))
+                                 bolt-and-comps))
                     model))
                  all-of-them))))
 
 ;; TODO: use recur or reduce
-(defn do-assocs [accum paths val-at-paths model]
-  (if (empty? paths)
+(defn do-assocs [accum paths-to-vals-at-path]
+  (if (empty? paths-to-vals-at-path)
     accum
-    (do-assocs
-     (let [result
-           (assoc-in accum
-                     (first paths)
-                     (first val-at-paths))]
-       (dissoc-paths result [(first paths)] model))
-     (rest paths)
-     (rest val-at-paths)
-     model)))
+    (let [path (first (first paths-to-vals-at-path))]
+      (do-assocs
+       (let [result
+             (assoc-in accum
+                       path
+                       (second (first paths-to-vals-at-path)))]
+         (dissoc-paths result [path]))
+       (dissoc paths-to-vals-at-path path)))))
 
 (declare comp-path-to-bolts)
 

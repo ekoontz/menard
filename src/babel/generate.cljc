@@ -175,7 +175,7 @@
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)
           comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
-      (if (or false (not (empty? comps)))
+      (if (not (empty? comps))
         (merge
          {path comps}
          (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))))))
@@ -189,21 +189,22 @@
   [spec model depth max-depth]
   (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
   ;; using pmap rather than map improves performance about 40% in some cases.
-  (pmap (fn [lb]
-          (merge
-           {[]
-            (filter not-fail? [lb])}
-           (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)))
-        (let [bolts (lightning-bolts model spec depth max-depth)]
-          (if (empty? bolts)
-            (do
-              (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
-              nil)
-            (do
-              (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
-              bolts)))))
-
-
+  (remove nil?
+          (pmap (fn [lb]
+                  (let [cp2c (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
+                    (if (not (nil? cp2c))
+                      (merge
+               {[]
+                (filter not-fail? [lb])}
+               cp2c))))
+                (let [bolts (lightning-bolts model spec depth max-depth)]
+                  (if (empty? bolts)
+                    (do
+                      (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
+                      nil)
+                    (do
+                      (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
+                      bolts))))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

@@ -32,7 +32,9 @@
 
 (def ^:const error-if-no-complements false)
 
+(declare bolts-with-comps)
 (declare candidate-parents)
+(declare comp-path-to-complements)
 (declare do-defaults)
 (declare find-comp-paths)
 (declare get-lexemes)
@@ -40,13 +42,6 @@
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare not-fail?)
-
-(declare comp-path-to-complements)
-(declare create-mapping)
-
-(declare add-bolt-at)
-
-(declare bolts-with-comps)
 
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
@@ -68,14 +63,15 @@
                                               result)))
                                         (keys bolt-and-comps)))))
                     model))
-                 (mapcat (fn [each-bolt-and-comps]
-                           (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
-                             (map (fn [each-path-through-trellis]
-                                    (zipmap (keys each-bolt-and-comps)
-                                            each-path-through-trellis))
-                                  trellis)))
-                         (filter #(not (some empty? (vals %)))
-                                 (bolts-with-comps spec model depth max-depth)))))))
+                 (flatten
+                  (map (fn [each-bolt-and-comps]
+                         (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
+                           (map (fn [each-path-through-trellis]
+                                  (zipmap (keys each-bolt-and-comps)
+                                          each-path-through-trellis))
+                                trellis)))
+                       (filter #(not (some empty? (vals %)))
+                               (bolts-with-comps spec model depth max-depth))))))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
@@ -87,8 +83,6 @@
            truncate-children? true
            take-n 1}}]
   (first (generate-all spec language-model)))
-
-(declare comp-path-to-complements)
 
 (defn lightning-bolts
   "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
@@ -186,23 +180,23 @@
   [spec model depth max-depth]
   (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
   (map (fn [lb]
-         (merge
-          (let [comp-paths (find-comp-paths lb)]
-            (zipmap comp-paths
-                    (map (fn [path]
-                           (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
-                         comp-paths)))
-          {[]
+          (merge
+           (let [comp-paths (find-comp-paths lb)]
+             (zipmap comp-paths
+                     (map (fn [path]
+                            (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
+                          comp-paths)))
+           {[]
            (filter not-fail? [lb])}))
-       (let [bolts
-             (lightning-bolts model spec depth max-depth)]
-         (if (empty? bolts)
-           (do
-             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
-             nil)
-           (do
-             (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
-             bolts)))))
+        (let [bolts
+              (lightning-bolts model spec depth max-depth)]
+          (if (empty? bolts)
+            (do
+              (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
+              nil)
+            (do
+              (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
+              bolts)))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

@@ -51,6 +51,7 @@
 
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
+        truncate true
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (filter not-fail?
@@ -62,7 +63,10 @@
                                  bolt-and-comps (dissoc bolt-and-comps [])]
                              (cons bolt
                                    (map (fn [path]
-                                          (assoc-in bolt path (get bolt-and-comps path)))
+                                          (let [result (assoc-in bolt path (get bolt-and-comps path))]
+                                            (if (= true truncate)
+                                              (dissoc-paths result [path])
+                                              result)))
                                         (keys bolt-and-comps)))))
                     model))
                  (mapcat (fn [each-bolt-and-comps]

@@ -11,7 +11,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 6)
+(def ^:const max-total-depth 2)
 
 ;; TODO support setting max-generated-complements to :unlimited
 (def ^:const max-generated-complements 20000)
@@ -52,42 +52,39 @@
                   (or (:lexicon (:generate model)) (:lexicon model))))))
     []))
 
-(declare comp-path-to-bolts)
+(declare comp-path-to-complements)
 (declare create-mapping)
-
-(declare nugents)
-
-;;(def foo (map #(println (fo %)) (take 10000 (nugents med spec))))
 
 (declare add-bolt-at)
 (declare do-assoc)
 
-(defn filter-by [bolt-and-comps]
-  (not (some empty? (vals bolt-and-comps))))
-
 (declare bolts-with-comps)
 
-(defn nugents [model spec & [max-depth]]
-  (log/debug (str "nugents:" (strip-refs spec)))
-  (let [max-depth (or max-depth babel.generate/max-total-depth)
-        bolts-and-comps (filter #(not (some empty? (vals %)))
-                                (bolts-with-comps spec model 0 max-depth))
-        all-of-them
-        (mapcat (fn [each-bolt-and-comps]
-                  (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
-                    (map (fn [each-path-through-trellis]
-                           (zipmap (keys each-bolt-and-comps)
-                                   each-path-through-trellis))
-                         trellis)))
-                bolts-and-comps)]
-    (filter not-fail?
-            (map (fn [bolt-and-comps]
-                   (log/debug (str "bolt-and-comps: " ((:morph-ps model) (get bolt-and-comps []))))
-                   (do-defaults
-                    (do-assocs (get bolt-and-comps [])
-                               (dissoc bolt-and-comps []))
-                    model))
-                 all-of-them))))
+(defn nugents [model spec & [depth max-depth]]
+  (let [depth (or depth 0)
+        max-depth (or max-depth max-total-depth)]
+    (log/debug (str "nugents:" depth "/" max-depth ":         " (strip-refs spec)))
+    (let [bolts-and-comps (filter #(not (some empty? (vals %)))
+                                  (bolts-with-comps spec model depth max-depth))
+          all-of-them
+          (mapcat (fn [each-bolt-and-comps]
+                    (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
+                      (map (fn [each-path-through-trellis]
+                             (zipmap (keys each-bolt-and-comps)
+                                     each-path-through-trellis))
+                           trellis)))
+                  bolts-and-comps)]
+      (filter not-fail?
+              (map (fn [bolt-and-comps]
+                     (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
+                     (doall (map (fn [k]
+                                   (log/debug (str "doing defaults with path:" k " => " (count (get bolt-and-comps k)))))
+                                 (keys bolt-and-comps)))
+                     (do-defaults
+                      (do-assocs (get bolt-and-comps [])
+                                 (dissoc bolt-and-comps []))
+                      model))
+                   all-of-them)))))
 
 ;; TODO: use recur or reduce
 (defn do-assocs [accum paths-to-vals-at-path]
@@ -101,7 +98,7 @@
                      [path])
        (dissoc paths-to-vals-at-path path)))))
 
-(declare comp-path-to-bolts)
+(declare comp-path-to-complements)
 
 (defn bolts-with-comps
   "return a lazy sequence of maps. Each member in this lazy sequence
@@ -110,27 +107,29 @@
   sequence of possible complements at the end of each such path. In
   addition, there is an key [] whose value is the bolt itself."
   [spec model depth max-depth]
+  (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
   (map (fn [lb]
          (merge
           (let [comp-paths (find-comp-paths lb)]
             (zipmap comp-paths
                     (map (fn [path]
-                           (filter not-fail? (comp-path-to-bolts lb path model depth max-depth)))
+                           (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
                          comp-paths)))
           {[]
            (filter not-fail? [lb])}))
        (lightning-bolts model spec depth max-depth)))
 
-(defn comp-path-to-bolts
+(defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
+  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
                    (nugents
                     model
                     (get-in bolt path)
-                    depth max-depth))
+                    (+ 1 depth) max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
     (if lexemes-before-phrases
@@ -172,7 +171,7 @@
                    (flatten
                     (add-comps bolt-at model
                                comp-paths
-                               (mapfn #(comp-path-to-bolts bolt-at % model (+ 1 depth) max-depth)
+                               (mapfn #(comp-path-to-complements bolt-at % model (+ 1 depth) max-depth)
                                       comp-paths)
                                (+ 1 depth) max-depth top-bolt truncate? take-n)))))))
 (defn generate

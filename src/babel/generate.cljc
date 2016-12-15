@@ -77,9 +77,6 @@
       (filter not-fail?
               (map (fn [bolt-and-comps]
                      (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
-                     (doall (map (fn [k]
-                                   (log/debug (str "doing defaults with path:" k " => " (count (get bolt-and-comps k)))))
-                                 (keys bolt-and-comps)))
                      (do-defaults
                       (do-assocs (get bolt-and-comps [])
                                  (dissoc bolt-and-comps []) model)

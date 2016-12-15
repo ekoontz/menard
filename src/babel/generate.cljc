@@ -182,15 +182,14 @@
   ;; using pmap rather than map improves performance about 40% in some cases.
   (pmap (fn [lb]
           (merge
+           {[]
+            (filter not-fail? [lb])}
            (let [comp-paths (find-comp-paths lb)]
              (zipmap comp-paths
                      (map (fn [path]
                             (filter not-fail? (comp-path-to-complements lb path model depth max-depth)))
-                          comp-paths)))
-           {[]
-            (filter not-fail? [lb])}))
-        (let [bolts
-              (lightning-bolts model spec depth max-depth)]
+                          comp-paths)))))
+        (let [bolts (lightning-bolts model spec depth max-depth)]
           (if (empty? bolts)
             (do
               (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))

@@ -53,28 +53,26 @@
   (let [depth (or depth 0)
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
-    (let [bolts-and-comps (filter #(not (some empty? (vals %)))
-                                  (bolts-with-comps spec model depth max-depth))
-          routes (mapcat (fn [each-bolt-and-comps]
+    (filter not-fail?
+            (map (fn [bolt-and-comps]
+                   (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
+                   (do-defaults
+                    (apply unify
+                           (let [bolt (get bolt-and-comps [])
+                                 bolt-and-comps (dissoc bolt-and-comps [])]
+                             (cons bolt
+                                   (map (fn [path]
+                                          (assoc-in bolt path (get bolt-and-comps path)))
+                                        (keys bolt-and-comps)))))
+                    model))
+                 (mapcat (fn [each-bolt-and-comps]
                            (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
                              (map (fn [each-path-through-trellis]
                                     (zipmap (keys each-bolt-and-comps)
                                             each-path-through-trellis))
                                   trellis)))
-                         bolts-and-comps)]
-      (filter not-fail?
-              (map (fn [bolt-and-comps]
-                     (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
-                     (do-defaults
-                      (apply unify
-                             (let [bolt (get bolt-and-comps [])
-                                   bolt-and-comps (dissoc bolt-and-comps [])]
-                               (cons bolt
-                                     (map (fn [path]
-                                            (assoc-in bolt path (get bolt-and-comps path)))
-                                          (keys bolt-and-comps)))))
-                      model))
-                   routes)))))
+                         (filter #(not (some empty? (vals %)))
+                                 (bolts-with-comps spec model depth max-depth)))))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."

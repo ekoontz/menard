@@ -124,7 +124,9 @@
   [bolt path model depth max-depth]
   (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)
-        lexemes (shufflefn (get-lexemes model spec))
+        lexemes (shufflefn (filter not-fail? (map #(unify %
+                                                          (get-in bolt path))
+                                                  (get-lexemes model spec))))
         bolts-at (if (< depth max-depth)
                    (nugents
                     model

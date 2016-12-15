@@ -171,6 +171,7 @@
       (log/trace (str "language-model has no default function."))
       tree)))
 
+;; TODO: rewrite using (recur)
 (defn comp-paths-to-complements [bolt comp-paths model depth max-depth]
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)
@@ -194,17 +195,10 @@
                   (let [cp2c (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
                     (if (not (nil? cp2c))
                       (merge
-               {[]
-                (filter not-fail? [lb])}
-               cp2c))))
-                (let [bolts (lightning-bolts model spec depth max-depth)]
-                  (if (empty? bolts)
-                    (do
-                      (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": no bolts found."))
-                      nil)
-                    (do
-                      (log/debug (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec) ": one or more bolts found."))
-                      bolts))))))
+                       {[]
+                        (filter not-fail? [lb])}
+                       cp2c))))
+                (lightning-bolts model spec depth max-depth))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

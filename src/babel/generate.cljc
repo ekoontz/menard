@@ -60,20 +60,7 @@
 ;;(def foo (map #(println (fo %)) (take 10000 (nugents med spec))))
 
 (declare add-bolt-at)
-
-;; TODO: use recur or reduce
-(defn do-assocs [accum paths val-at-paths model]
-  (if (empty? paths)
-    accum
-    (do-assocs
-     (let [result
-           (assoc-in accum
-                     (first paths)
-                     (first val-at-paths))]
-       (dissoc-paths result [(first paths)] model))
-     (rest paths)
-     (rest val-at-paths)
-     model)))
+(declare do-assoc)
 
 (defn filter-by [bolt-and-comps]
   (not (some empty? (vals bolt-and-comps))))
@@ -105,6 +92,20 @@
                                  model))
                     model))
                  all-of-them))))
+
+;; TODO: use recur or reduce
+(defn do-assocs [accum paths val-at-paths model]
+  (if (empty? paths)
+    accum
+    (do-assocs
+     (let [result
+           (assoc-in accum
+                     (first paths)
+                     (first val-at-paths))]
+       (dissoc-paths result [(first paths)] model))
+     (rest paths)
+     (rest val-at-paths)
+     model)))
 
 (declare comp-path-to-bolts)
 

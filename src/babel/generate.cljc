@@ -84,10 +84,8 @@
             (map (fn [bolt-and-comps]
                    (log/debug (str "bolt-and-comps: " ((:morph-ps model) (get bolt-and-comps []))))
                    (do-defaults
-                    (let [bolt (get bolt-and-comps [])
-                          bolt-and-comps (dissoc bolt-and-comps [])]
-                      (do-assocs bolt
-                                 bolt-and-comps))
+                    (do-assocs (get bolt-and-comps [])
+                               (dissoc bolt-and-comps []))
                     model))
                  all-of-them))))
 
@@ -97,11 +95,10 @@
     accum
     (let [path (first (first paths-to-vals-at-path))]
       (do-assocs
-       (let [result
-             (assoc-in accum
-                       path
-                       (second (first paths-to-vals-at-path)))]
-         (dissoc-paths result [path]))
+       (dissoc-paths (assoc-in accum
+                               path
+                               (second (first paths-to-vals-at-path)))
+                     [path])
        (dissoc paths-to-vals-at-path path)))))
 
 (declare comp-path-to-bolts)

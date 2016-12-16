@@ -51,12 +51,11 @@
      (map (fn [bolt]
             (let [comp-paths-to-complements
                   (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)]
-              (if (not (nil? comp-paths-to-complements))
+              (if (not (some empty? comp-paths-to-complements))
                 (merge
                  {[]
                   (filter not-fail? [bolt])}
                  comp-paths-to-complements)))))
-     (remove nil?)
      (map (fn [each-bolt-and-comps]
             (map (fn [each-path-through-trellis]
                    (zipmap (keys each-bolt-and-comps)
@@ -185,7 +184,8 @@
       (if (not (empty? comps))
         (merge
          {path comps}
-         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))))))
+         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))
+        {path []}))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

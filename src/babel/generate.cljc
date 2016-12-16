@@ -61,11 +61,10 @@
                   cp2c)))))
      (remove nil?)
      (map (fn [each-bolt-and-comps]
-            (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
-              (map (fn [each-path-through-trellis]
-                     (zipmap (keys each-bolt-and-comps)
-                             each-path-through-trellis))
-                   trellis))))
+            (map (fn [each-path-through-trellis]
+                   (zipmap (keys each-bolt-and-comps)
+                           each-path-through-trellis))
+                 (apply combo/cartesian-product (vals each-bolt-and-comps)))))
      flatten
      (map (fn [bolt-and-comps]
             (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))

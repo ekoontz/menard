@@ -211,7 +211,8 @@
                                        :iobj {:pred :luisa}
                                        :pred :be-called
                                        :subj {:pred :lei}
-                                       :tense :present}}}
+                                       :tense :present}
+                                 :subcat '()}}
                        :truncate false)))))
                                        
 (deftest jean-s

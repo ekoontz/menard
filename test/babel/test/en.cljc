@@ -1,7 +1,7 @@
 (ns babel.test.en
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
-            [babel.english :refer [analyze fo-ps generate medium morph parse sentences]]
+            [babel.english :refer [analyze fo-ps generate generate-all medium morph parse sentences]]
             [babel.english.grammar :as grammar]
             [babel.english.morphology :refer [fo get-string]]
 

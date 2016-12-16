@@ -11,7 +11,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 2)
+(def ^:const max-total-depth 10)
 
 ;; use map or pmap.
 (def ^:const mapfn map)
@@ -76,7 +76,10 @@
                                        result)))
                                  (keys bolt-and-comps)))))
              model)))
-     (filter not-fail?))))
+     (filter not-fail?)
+     (map (fn [final]
+            (log/info (str "final: " ((:morph-ps model) final)))
+            final)))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."

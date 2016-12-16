@@ -48,14 +48,14 @@
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (->>
      (lightning-bolts model spec depth max-depth)
-     (pmap (fn [bolt]
-             (let [comp-paths-to-complements
-                   (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)]
-               (if (not (nil? comp-paths-to-complements))
-                 (merge
-                  {[]
-                   (filter not-fail? [bolt])}
-                  comp-paths-to-complements)))))
+     (map (fn [bolt]
+            (let [comp-paths-to-complements
+                  (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)]
+              (if (not (nil? comp-paths-to-complements))
+                (merge
+                 {[]
+                  (filter not-fail? [bolt])}
+                 comp-paths-to-complements)))))
      (remove nil?)
      (map (fn [each-bolt-and-comps]
             (map (fn [each-path-through-trellis]

@@ -13,22 +13,19 @@
 ;; TODO: should also be possible to override per-language.
 (def ^:const max-total-depth 2)
 
-;; TODO support setting max-generated-complements to :unlimited
-(def ^:const max-generated-complements 20000)
-
 ;; use map or pmap.
 (def ^:const mapfn map)
 
 ;; deterministic generation:
-(def ^:const shufflefn (fn [x] x))
+;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-;;(def ^:const shufflefn shuffle)
+(def ^:const shufflefn shuffle)
 
-(def ^:const randomize-lexemes-before-phrases
-  false)
 ;;(def ^:const randomize-lexemes-before-phrases
-;;  true)
+;;  false)
+(def ^:const randomize-lexemes-before-phrases
+  true)
 
 (def ^:const error-if-no-complements false)
 
@@ -46,7 +43,7 @@
 
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
-        truncate true
+        truncate false
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (->>

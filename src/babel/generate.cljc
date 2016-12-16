@@ -35,6 +35,7 @@
 (declare bolts-with-comps)
 (declare candidate-parents)
 (declare comp-path-to-complements)
+(declare comp-paths-to-complements)
 (declare do-defaults)
 (declare find-comp-paths)
 (declare get-lexemes)
@@ -48,38 +49,39 @@
         truncate true
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
-    (filter not-fail?
-            (map (fn [bolt-and-comps]
-                   (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
-                   (do-defaults
-                    (apply unify
-                           (let [bolt (get bolt-and-comps [])
-                                 bolt-and-comps (dissoc bolt-and-comps [])]
-                             (cons bolt
-                                   (map (fn [path]
-                                          (let [result (assoc-in bolt path (get bolt-and-comps path))]
-                                            (if (= true truncate)
-                                              (dissoc-paths result [path])
-                                              result)))
-                                        (keys bolt-and-comps)))))
-                    model))
-                 (flatten
-                  (map (fn [each-bolt-and-comps]
-                         (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
-                           (map (fn [each-path-through-trellis]
-                                  (zipmap (keys each-bolt-and-comps)
-                                          each-path-through-trellis))
-                                trellis)))
-                       (remove nil?
-                               (pmap (fn [lb]
-                                       (let [cp2c
-                                             (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
-                                         (if (not (nil? cp2c))
-                                           (merge
-                                            {[]
-                                             (filter not-fail? [lb])}
-                                            cp2c))))
-                                     (lightning-bolts model spec depth max-depth)))))))))
+    (->>
+     (lightning-bolts model spec depth max-depth)
+     (pmap (fn [lb]
+             (let [cp2c
+                   (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
+               (if (not (nil? cp2c))
+                 (merge
+                  {[]
+                   (filter not-fail? [lb])}
+                  cp2c)))))
+     (remove nil?)
+     (map (fn [each-bolt-and-comps]
+            (let [trellis (apply combo/cartesian-product (vals each-bolt-and-comps))]
+              (map (fn [each-path-through-trellis]
+                     (zipmap (keys each-bolt-and-comps)
+                             each-path-through-trellis))
+                   trellis))))
+     flatten
+     (map (fn [bolt-and-comps]
+            (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
+            (do-defaults
+             (apply unify
+                    (let [bolt (get bolt-and-comps [])
+                          bolt-and-comps (dissoc bolt-and-comps [])]
+                      (cons bolt
+                            (map (fn [path]
+                                   (let [result (assoc-in bolt path (get bolt-and-comps path))]
+                                     (if (= true truncate)
+                                       (dissoc-paths result [path])
+                                       result)))
+                                 (keys bolt-and-comps)))))
+             model)))
+     (filter not-fail?))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."

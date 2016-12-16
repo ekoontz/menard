@@ -242,7 +242,8 @@
                                   :number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :dog}}})]
+                                  :pred :dog}
+                            :subcat '()}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (fo result)))))
 
@@ -305,7 +306,8 @@
                                               :mod '()
                                               :number :sing
                                               :spec {:def :def
-                                                     :pred :definite}}}}})]
+                                                     :pred :definite}}}
+                                 :subcat '()}})]
     (log/info (str "reflexive furniture expression:" (display-expression expr)))
     (is (= (fo expr)
            "the chair is in front of itself"))))

@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [assoc-in get-in deref resolve find parents])
   (:require
    [babel.index :refer [intersection-with-identity]]
-   [babel.over :as over :refer [show-bolt spec-info truncate truncate-expressions]]
+   [babel.over :as over :refer [show-bolt spec-info]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
@@ -27,7 +27,7 @@
 (def ^:const randomize-lexemes-before-phrases
   true)
 
-(def ^:const error-if-no-complements false)
+(def ^:const truncate true)
 
 (declare bolts-with-comps)
 (declare candidate-parents)
@@ -43,7 +43,7 @@
 
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
-        truncate false
+        truncate truncate
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (->>

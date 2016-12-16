@@ -191,20 +191,6 @@
          {path comps}
          (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))))))
 
-(defn bolts-with-comps
-  [spec model depth max-depth]
-  (log/debug  (str "bolts-with-comps:" depth "/" max-depth ":" (strip-refs spec)))
-  ;; using pmap rather than map improves performance about 40% in some cases.
-  (remove nil?
-          (pmap (fn [lb]
-                  (let [cp2c (comp-paths-to-complements lb (find-comp-paths lb) model depth max-depth)]
-                    (if (not (nil? cp2c))
-                      (merge
-                       {[]
-                        (filter not-fail? [lb])}
-                       cp2c))))
-                (lightning-bolts model spec depth max-depth))))
-
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))

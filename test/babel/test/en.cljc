@@ -287,7 +287,8 @@
                                               :mod '()
                                               :number :sing
                                               :spec {:def :def
-                                                     :pred :definite}}}}})]
+                                                     :pred :definite}}}
+                                 :subcat '()}})]
     (log/info (str "furniture-sentence: " 
                    (display-expression expr)))
 

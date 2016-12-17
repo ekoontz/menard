@@ -51,17 +51,15 @@
      (map (fn [bolt]
             (let [comp-paths-to-complements
                   (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)]
-              (if (not (some empty? comp-paths-to-complements))
-                (merge
-                 {[]
-                  (filter not-fail? [bolt])}
-                 comp-paths-to-complements)))))
-     (map (fn [each-bolt-and-comps]
-            (map (fn [each-path-through-trellis]
-                   (zipmap (keys each-bolt-and-comps)
-                           each-path-through-trellis))
-                 (apply combo/cartesian-product (vals each-bolt-and-comps)))))
-     flatten
+              (if (and (not-fail? bolt)
+                       (not (some empty? comp-paths-to-complements)))
+                (assoc comp-paths-to-complements
+                       [] [bolt])))))
+     (mapcat (fn [each-bolt-and-comps]
+               (map (fn [each-path-through-trellis]
+                      (zipmap (keys each-bolt-and-comps)
+                              each-path-through-trellis))
+                    (apply combo/cartesian-product (vals each-bolt-and-comps)))))
      (map (fn [bolt-and-comps]
             (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
             (do-defaults

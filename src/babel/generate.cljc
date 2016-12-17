@@ -102,7 +102,7 @@
         ;; total-depth, on the other hand, is the depth all the way to the top of the entire
         ;; expression, which might involve several parent lightning bolts.
         parents
-        (let [parents (lazy-seq (shufflefn (candidate-parents grammar spec)))]
+        (let [parents (shufflefn (candidate-parents grammar spec))]
           (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
@@ -112,11 +112,8 @@
                (log/trace (str "lightning-bolts: parent: " (:rule parent) " over lexical heads."))
                (let [subset (get-lexemes language-model (get-in parent [:head] :top))]
                  (let [result
-                       (mapcat #(do
-                                  (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
-                                                  ((:morph language-model) %)))
-                                  (over/overh parent %))
-                               (lazy-seq (shufflefn subset)))]
+                       (map #(assoc-in parent [:head] %)
+                            (shufflefn subset))]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))
@@ -133,18 +130,13 @@
           (if (and (< depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
             (mapcat (fn [parent]
-                           (log/trace (str "lightning-bolts: parent: " (:rule parent) " over phrasal heads."))
-                           (mapcat #(over/overh parent %)
-                                   (lightning-bolts language-model (get-in parent [:head])
-                                                    (+ 1 depth) (+ 1 total-depth)
-                                                    :max-total-depth max-total-depth)))
-                           (filter #(= true
-                                       (get-in % [:head :phrasal] true))
-                                   parents)))]
-      (log/debug (str "lexical-heads for parents:" (string/join "," (map :rule parents)) ":"
-                      (string/join ","
-                                   (map #((:morph language-model) %)
-                                        lexical))))
+                      (map #(assoc-in parent [:head] %)
+                           (lightning-bolts language-model (get-in parent [:head])
+                                            (+ 1 depth) (+ 1 total-depth)
+                                            :max-total-depth max-total-depth)))
+                    (filter #(= true
+                                (get-in % [:head :phrasal] true))
+                            parents)))]
       (if (lexemes-before-phrases total-depth max-total-depth)
         (concat lexical phrasal)
         (concat phrasal lexical)))))

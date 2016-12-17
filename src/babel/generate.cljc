@@ -111,18 +111,8 @@
              (fn [parent]
                (log/trace (str "lightning-bolts: parent: " (:rule parent) " over lexical heads."))
                (let [subset (get-lexemes language-model (get-in parent [:head] :top))]
-                 (let [result
-                       (map #(assoc-in parent [:head] %)
-                            (shufflefn subset))]
-                   (if (and (not (empty? subset)) (empty? result)
-                            (> (count subset)
-                               50))
-                     ;; log/warn because it's very expensive to run
-                     ;; over/overh: for every candidate, both parent
-                     ;; and candidate head must be copied.
-                     (log/warn (str "tried: " (count subset) " lexical candidates with spec:"
-                                    (strip-refs spec) " and all of them failed as heads of parent:" (get-in parent [:rule]))))
-                   result)))
+                 (map #(assoc-in parent [:head] %)
+                      (shufflefn subset))))
              (filter #(= false
                          (get-in % [:head :phrasal] false))
                      parents)))

@@ -105,24 +105,13 @@
         (let [parents (lazy-seq (shufflefn (candidate-parents grammar spec)))]
           (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
-    ;; TODO: use (defn get-lexemes) rather than this code which duplicates (get-lexemes)'s functionality.
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
             (mapcat
              (fn [parent]
                (log/trace (str "lightning-bolts: parent: " (:rule parent) " over lexical heads."))
-               (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
-                     subset (if-let [index-fn (:index-fn language-model)]
-                              (do
-                                (log/trace (str "using index to find lexical heads for parent:"
-                                                (:rule parent)))
-                                (index-fn (get-in parent [:head] :top)))
-                              (flatten (vals lexicon)))]
-                 (let [shuffled-subset (shuffle subset)
-                       log (log/debug (str "lexical head candidates:"
-                                           (string/join "," (sort (map #((:morph language-model) %)
-                                                                       subset)))))
-                       result
+               (let [subset (get-lexemes language-model (get-in parent [:head] :top))]
+                 (let [result
                        (mapcat #(do
                                   (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
                                                   ((:morph language-model) %)))

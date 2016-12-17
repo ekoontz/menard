@@ -29,14 +29,12 @@
 
 (def ^:const truncate true)
 
-(declare bolts-with-comps)
 (declare candidate-parents)
 (declare comp-path-to-complements)
 (declare comp-paths-to-complements)
 (declare do-defaults)
 (declare find-comp-paths)
 (declare get-lexemes)
-(declare lazy-mapcat)
 (declare lexemes-before-phrases)
 (declare lightning-bolts)
 (declare not-fail?)
@@ -88,7 +86,7 @@
   (first (generate-all spec language-model)))
 
 (defn lightning-bolts
-  "Returns a lazy-sequence of all possible bolts given a spec, where a bolt is a tree
+  "Returns a lazy sequence of all possible bolts given a spec, where a bolt is a tree
   such that only the head children are generated. This sequence is used by (generate (above))
   to generate expressions by adding complements using (add-all-comps)."
   [language-model spec depth total-depth
@@ -110,7 +108,7 @@
     ;; TODO: use (defn get-lexemes) rather than this code which duplicates (get-lexemes)'s functionality.
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
-            (lazy-mapcat
+            (mapcat
              (fn [parent]
                (log/trace (str "lightning-bolts: parent: " (:rule parent) " over lexical heads."))
                (let [lexicon (or (:lexicon (:generate language-model)) (:lexicon language-model))
@@ -145,7 +143,7 @@
           phrasal ;; 2. generate list of all phrases where the head child of each parent is itself a phrase.
           (if (and (< depth max-total-depth)
                    (= true (get-in spec [:head :phrasal] true)))
-            (lazy-mapcat (fn [parent]
+            (mapcat (fn [parent]
                            (log/trace (str "lightning-bolts: parent: " (:rule parent) " over phrasal heads."))
                            (mapcat #(over/overh parent %)
                                    (lightning-bolts language-model (get-in parent [:head])
@@ -231,14 +229,6 @@
 
 (defn not-fail? [arg]
   (not (= :fail arg)))
-
--;; Thanks to http://clojurian.blogspot.com.br/2012/11/beware-of-mapcat.html
-(defn lazy-mapcat  [f coll]
-  (lazy-seq
-   (if (not-empty coll)
-     (concat
-      (f (first coll))
-      (lazy-mapcat f (rest coll))))))
 
 (defn find-end-of-bolt [bolt]
   (cond (= true (get-in bolt [:phrasal]))

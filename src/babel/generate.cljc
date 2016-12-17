@@ -48,13 +48,11 @@
     (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (->>
      (lightning-bolts model spec depth max-depth)
+     (filter not-fail?)
      (map (fn [bolt]
-            (let [comp-paths-to-complements
-                  (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)]
-              (if (and (not-fail? bolt)
-                       (not (some empty? comp-paths-to-complements)))
-                (assoc comp-paths-to-complements
-                       [] [bolt])))))
+            (assoc
+             (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)
+             [] [bolt])))
      (mapcat (fn [each-bolt-and-comps]
                (map (fn [each-path-through-trellis]
                       (zipmap (keys each-bolt-and-comps)
@@ -65,12 +63,12 @@
                    (let [bolt (get bolt-and-comps [])
                          bolt-and-comps (dissoc bolt-and-comps [])]
                      (cons bolt
-                           (map (fn [path]
-                                  (let [result (assoc-in bolt path (get bolt-and-comps path))]
-                                    (if (= true truncate)
-                                      (dissoc-paths result [path])
-                                      result)))
-                                (keys bolt-and-comps)))))))
+                           (->> (keys bolt-and-comps)
+                                (map (fn [path]
+                                       (let [result (assoc-in bolt path (get bolt-and-comps path))]
+                                         (if (= true truncate)
+                                           (dissoc-paths result [path])
+                                           result))))))))))
      (map (fn [expression]
             (do-defaults expression model)))
      (filter not-fail?)

@@ -63,7 +63,7 @@
                      (cons bolt
                            (->> (keys bolt-and-comps)
                                 (map (fn [path]
-                                       (let [result (assoc-in! bolt path (get bolt-and-comps path))]
+                                       (let [result (assoc-in bolt path (get bolt-and-comps path))]
                                          (if (= true truncate)
                                            (dissoc-paths result [path])
                                            result))))))))))

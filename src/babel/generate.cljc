@@ -11,7 +11,7 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-total-depth 10)
+(def ^:const max-total-depth 2)
 
 ;; use map or pmap.
 (def ^:const mapfn map)
@@ -43,11 +43,11 @@
   (let [depth (or depth 0)
         truncate truncate
         max-depth (or max-depth max-total-depth)]
-    (log/debug (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
+    (log/trace (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
     (->>
      (lightning-bolts model spec depth max-depth)
      (filter not-fail?)
-     (map (fn [bolt]
+     (map (fn [bolt] ;; create a map of paths within the bolt to possible complements in the bolt.
             (assoc
              (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)
              [] [bolt])))
@@ -71,7 +71,7 @@
             (do-defaults expression model)))
      (filter not-fail?)
      (map (fn [final]
-            (log/info (str "final: " ((:morph-ps model) final)))
+            (log/trace (str "final: " ((:morph-ps model) final)))
             final)))))
 
 (defn generate
@@ -169,7 +169,7 @@
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
-  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
+  (log/trace (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)

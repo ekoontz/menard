@@ -61,19 +61,18 @@
                               each-path-through-trellis))
                     (apply combo/cartesian-product (vals each-bolt-and-comps)))))
      (map (fn [bolt-and-comps]
-            (log/debug (str "doing defaults on: " depth "/" max-depth ":" ((:morph-ps model) (get bolt-and-comps []))))
-            (do-defaults
-             (apply unify
-                    (let [bolt (get bolt-and-comps [])
-                          bolt-and-comps (dissoc bolt-and-comps [])]
-                      (cons bolt
-                            (map (fn [path]
-                                   (let [result (assoc-in bolt path (get bolt-and-comps path))]
-                                     (if (= true truncate)
-                                       (dissoc-paths result [path])
-                                       result)))
-                                 (keys bolt-and-comps)))))
-             model)))
+            (apply unify
+                   (let [bolt (get bolt-and-comps [])
+                         bolt-and-comps (dissoc bolt-and-comps [])]
+                     (cons bolt
+                           (map (fn [path]
+                                  (let [result (assoc-in bolt path (get bolt-and-comps path))]
+                                    (if (= true truncate)
+                                      (dissoc-paths result [path])
+                                      result)))
+                                (keys bolt-and-comps)))))))
+     (map (fn [expression]
+            (do-defaults expression model)))
      (filter not-fail?)
      (map (fn [final]
             (log/info (str "final: " ((:morph-ps model) final)))

@@ -159,9 +159,9 @@
     (let [path (first comp-paths)
           comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
       (if (not (empty? comps))
-        (merge
-         {path comps}
-         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth))
+        (assoc
+         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth)
+         path comps)
         {path []}))))
 
 ;; TODO: lightning-bolts should use this.

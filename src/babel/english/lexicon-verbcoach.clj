@@ -638,7 +638,8 @@
                           :subcat {:2 '()}}
                  :english {:present {:3sing "eats dinner"}
                            :participle "eating dinner"
-                           :past "ate dinner"}}
+                           :past "ate dinner"
+                           :past-participle "eaten dinner"}}
 
    "embrace" {:synsem {:cat :verb
                        :sem {:pred :abbracciare}}}

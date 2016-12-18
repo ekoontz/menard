@@ -745,7 +745,8 @@
                :italiano {:drop-e false
                           :passato "detto"
                           :future-stem "dir"
-                          :present {:2plur "dite"}}}]
+                          :present {:2plur "dite"}
+                          :gerund "dicendo"}}]
           [{:unify [shared-part-of-dire]
             :synsem {:sem {:pred :say}}}
            {:unify [shared-part-of-dire]

@@ -616,6 +616,7 @@
    "do" {:synsem {:cat :verb
                   :sem {:pred :do}}
          :english {:past "did"
+                   :past-participle "done"
                    :present {:3sing "does"}}}
 
    "download" {:synsem {:cat :verb

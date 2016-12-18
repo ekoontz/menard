@@ -313,7 +313,8 @@
                                   :3sing "was missing"
                                   :1plur "were missing"
                                   :2plur "were missing"
-                                  :3plur "were missing"}}
+                                  :3plur "were missing"}
+                                :past-participle "been missed"}
                  :synsem {:cat :verb
                           :sem {:pred :to-be-missing}}}
 

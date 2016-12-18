@@ -269,7 +269,8 @@
                                   :3sing "is born"
                                   :1plur "are born"
                                   :2plur "are born"
-                                  :3plur "are born"}}}
+                                  :3plur "are born"}
+                                  :past-participle "been born}"}}
 
    "be missed" {:synsem {:cat :verb
                          :sem {:pred :mancare}

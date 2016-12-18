@@ -413,18 +413,18 @@
    "call" {:synsem {:cat :verb
                     :sem {:pred :call}}}
    "can"
-   {:english {:participle "being able to"
+   {:english {:participle "being able"
               :past "could"
-              :past-participle "been able to"
-              :imperfect {:1sing "used to be able to"
-                          :2sing "used to be able to"
-                          :3sing "used to be able to"
-                          :1plur "used to be able to"
-                          :2plur "used to be able to"
-                          :3plur "used to be able to"}
+              :past-participle "been able"
+              :imperfect {:1sing "used to be able"
+                          :2sing "used to be able"
+                          :3sing "used to be able"
+                          :1plur "used to be able"
+                          :2plur "used to be able"
+                          :3plur "used to be able"}
               :present {:3sing "can"}
-              :future "be able to"
-              :conditional "be able to"}
+              :future "be able"
+              :conditional "be able"}
     :modal-with :root
     :synsem {:cat :verb
              :sem {:pred :be-able-to}}}

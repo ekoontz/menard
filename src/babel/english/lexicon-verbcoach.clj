@@ -330,7 +330,8 @@
              {:synsem {:cat :verb
                        :sem {:pred :become}
                        :subcat {:2 '()}}
-              :english {:past "became"}}]
+              :english {:past "became"}
+              :past-participle "become"}]
 
    "begin" [{:synsem {:cat :verb
                       :sem {:pred :begin}

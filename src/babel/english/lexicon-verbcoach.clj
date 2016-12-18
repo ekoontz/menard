@@ -505,7 +505,8 @@
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}
                     :subcat {:2 '()}}
-           :english {:past "came"}}
+           :english {:past "came"}
+         {:past-participle "come"}}
 
    "comment" {:synsem {:cat :verb
                        :sem {:pred :comment}}}

@@ -236,7 +236,8 @@
                                             :3sing "was able"
                                             :1plur "were able"
                                             :2plur "were able"
-                                            :3plur "were able"}}}]
+                                            :3plur "were able"}
+                                            :past-participle "been able"}}}]
                [(unify common
                        {:modal-with :infinitive
                         :synsem {:cat :verb

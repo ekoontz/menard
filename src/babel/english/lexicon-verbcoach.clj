@@ -415,6 +415,7 @@
    "can"
    {:english {:participle "being able to"
               :past "could"
+              :past-participle "been able to"
               :imperfect {:1sing "used to be able to"
                           :2sing "used to be able to"
                           :3sing "used to be able to"

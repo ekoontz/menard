@@ -197,15 +197,15 @@
                                                  AND source.active=true
                                                  AND source.structure->'synsem'->'sem' @> '"
                                              json-source-semantics "' LIMIT 1) AS source
-                                  INNER JOIN (SELECT DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
-                                                              root,structure
-                                                         FROM expression_with_root AS target
-                                                        WHERE target.language=?
-                                                          AND target.active=true
-                                                          AND target.structure->'synsem'->'sem' = '" json-target-semantics "') AS target 
-                                                           ON (source.surface IS NOT NULL) 
-                                                          AND (target.surface IS NOT NULL)
-                                                          AND (true)")
+                                  INNER JOIN (SELECT 
+                                            DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
+                                                     root,structure
+                                                FROM expression_with_root AS target
+                                               WHERE target.language=?
+                                                 AND target.active=true
+                                                 AND target.structure->'synsem'->'sem' = '" json-target-semantics "') AS target 
+                                          ON (source.surface IS NOT NULL) 
+                                         AND (target.surface IS NOT NULL)")
                                         [source-language target-language]]
                                        :results)]
                       (if (nil? (first (map :source results)))

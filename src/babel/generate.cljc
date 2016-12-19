@@ -17,10 +17,10 @@
 (def ^:const mapfn map)
 
 ;; deterministic generation:
-(def ^:const shufflefn (fn [x] x))
+;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-;;(def ^:const shufflefn shuffle)
+(def ^:const shufflefn shuffle)
 
 (def ^:const randomize-lexemes-before-phrases
   false)
@@ -51,30 +51,35 @@
             (assoc
              (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)
              [] [bolt])))
-     (mapcat (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
-               ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
-               (map (fn [each-path-through-trellis]
-                      (zipmap (keys each-bolt-and-comps)
-                              each-path-through-trellis))
-                    (apply combo/cartesian-product (vals each-bolt-and-comps)))))
-     (map (fn [bolt-and-comps]
-            (apply unify
-                   (let [bolt (get bolt-and-comps [])
-                         paths-and-comps (dissoc bolt-and-comps [])
-                         paths (keys paths-and-comps)]
-                     (cons bolt
-                           (map (fn [path]
-                                  (let [result (assoc-in bolt path (get paths-and-comps path))]
-                                    (if (= true truncate)
-                                      (dissoc-paths result [path])
-                                      result)))
-                                paths))))))
-     (map (fn [expression]
-            (do-defaults expression model)))
-     (filter not-fail?)
-     (map (fn [final]
-            (log/trace (str "final: " ((:morph-ps model) final)))
-            final)))))
+     (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
+            ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
+            (map (fn [each-path-through-trellis]
+                   (zipmap (keys each-bolt-and-comps)
+                           each-path-through-trellis))
+                 (apply combo/cartesian-product (vals each-bolt-and-comps)))))
+     (filter #(not (empty? %)))
+     (map (fn [bolt-group]
+            (->> bolt-group
+                 (map (fn [bolt-and-comps]
+                        (apply unify
+                               (let [bolt (get bolt-and-comps [])
+                                     paths-and-comps (dissoc bolt-and-comps [])
+                                     paths (keys paths-and-comps)]
+                                 (cons bolt
+                                       (map (fn [path]
+                                              (let [result (assoc-in bolt path (get paths-and-comps path))]
+                                                (if (= true truncate)
+                                                  (dissoc-paths result [path])
+                                                  result)))
+                                            paths))))))
+                 (filter #(not (= :fail %))))))
+;     (map (fn [expression]
+;            (do-defaults expression model)))
+;     (filter not-fail?)
+;     (map (fn [final]
+;            (log/trace (str "final: " ((:morph-ps model) final)))
+;            final))
+     )))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
@@ -147,6 +152,7 @@
 
 ;; TODO: rewrite using (recur)
 (defn comp-paths-to-complements [bolt comp-paths model depth max-depth]
+  (log/info (str "comp-paths-to-complements: depth=" depth "; max-depth: " max-depth ":" ((:morph-ps model) bolt)))
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)
           comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
@@ -171,14 +177,13 @@
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
-  (log/info (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
+  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   (generate-all
-                    (get-in bolt path)
-                    model
-                    (+ 1 depth) max-depth))
+                           ;;                                   (generate-all (get-in bolt path) model
+                           (lightning-bolts model (get-in bolt path)
+                                            (+ 1 depth) max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
     (if lexemes-before-phrases

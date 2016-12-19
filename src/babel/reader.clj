@@ -121,14 +121,14 @@
             ;; one (random) expression.
             ;; instead, we should use the target.surface as an input to a hash function; that is,
             ;; ORDER BY the value of the hash function on each row.
-            (let [results (db/exec-raw [(str "SELECT target.serialized::text AS target,target.surface
-                                        FROM expression AS target
-                                       WHERE target.active=true
-                                         AND target.language=?
-                                         AND target.structure IS NOT NULL
-                                         AND target.surface != ''
-                                         AND target.structure @> '" target-json-spec "'
-                                         AND target.active=true")
+            (let [results (db/exec-raw [(str "SELECT serialized,surface "
+                                             "  FROM expression "
+                                             " WHERE active=true "
+                                             "   AND language=? "
+                                             "   AND structure IS NOT NULL "
+                                             "   AND surface != '' "
+                                             "   AND structure @> '" target-json-spec "' "
+                                             "   AND active=true")
                                         [target-language]]
                                        :results)]
               (if (empty? results)
@@ -163,21 +163,22 @@
                   ;; set to true or false, while subjects in English, at present, lack this
                   ;; (though this key might be added to the English lexicon later at
                   ;;  some point).
-                  (let [result (deserialize (read-string (:target target-expression)))
+                  (let [target-structure (deserialize (read-string (:serialized target-expression)))
                         ;; TODO: allow queries that have refs - might be
                         ;; useful for modeling anaphora and binding.
-                        target-semantics (get-in result [:synsem :sem])
                         source-language-keyword (keyword source-language)
                         target-language-keyword (keyword target-language)
-                        semantic-correspondence
-                        (-> @((models source-language-keyword))
-                            :semantic-correspondence
-                            target-language-keyword)
-                        source-semantics (-> result
-                                             (get-in [:synsem :sem])
-                                             (dissoc-paths semantic-correspondence)
-                                             strip-refs)
-                        json-target-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))
+                        target-semantics (get-in target-structure [:synsem :sem])
+                        ;; Removes certain parts of the target-semantics that are not expressed
+                        ;; in the source-semantics:
+                        semantic-correspondence (-> @((models source-language-keyword))
+                                                    :semantic-correspondence
+                                                    target-language-keyword)
+                        source-semantics (-> target-semantics
+                                             (dissoc-paths semantic-correspondence))
+
+                        ;; transform semantics to JSON so that we can search the expression database table.
+                        json-target-semantics (json/write-str (strip-refs target-semantics))
                         json-source-semantics (json/write-str (strip-refs source-semantics))]
                     (log/debug (str "target expression:" (:surface target-structure)))
                     (log/debug (str "target semantics:" (strip-refs target-semantics)))
@@ -213,7 +214,7 @@
                                        " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
                               message (str "no source expression found for target semantics: "
                                            (get-in (strip-refs (deserialize
-                                                                (read-string (:target target-expression))))
+                                                                (read-string (:structure target-expression))))
                                                    [:synsem :sem])
                                            "; used source semantics:" source-semantics "; SQL:" sql)]
                           (log/error message)

@@ -702,7 +702,8 @@
                         :2 '()}}
       :english {:participle "falling asleep"
                 :present {:3sing "falls asleep"}
-                :past "fell asleep"}})
+                :past "fell asleep"
+                :past-participle "fallen-asleep"}})
 
    "father" {:synsem {:cat :noun
                       :agr {:gender :masc}

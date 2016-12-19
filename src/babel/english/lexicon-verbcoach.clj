@@ -745,6 +745,7 @@
    "forget" {:synsem {:cat :verb
                       :sem {:pred :forget}}
              :english {:past "forgot"
+                       :past-participle "forgotten"
                        :participle "forgetting"}}
 
    "form" {:synsem {:cat :verb

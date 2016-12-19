@@ -932,7 +932,7 @@
                    :pred :go-out}
              :subcat {:2 '()}}
     :english {:past "went out"
-
+              :past-participle "gone out"
               :participle "going out"
               :present {:3sing "goes out"}}}
 

@@ -179,11 +179,11 @@
                                              strip-refs)
                         json-target-semantics (json/write-str (strip-refs (get-in result [:synsem :sem])))
                         json-source-semantics (json/write-str (strip-refs source-semantics))]
-                    (log/debug (str "target expression:" (:surface result)))
-                    (log/debug (str "target semantics:" (strip-refs (get-in result [:synsem :sem]))))
+                    (log/debug (str "target expression:" (:surface target-structure)))
+                    (log/debug (str "target semantics:" (strip-refs target-semantics)))
                     (log/debug (str "source semantics:" (strip-refs source-semantics)))
                     (log/debug (str "json target semantics:" json-target-semantics))
-                    (log/debug (str "json source:" json-source-semantics))
+                    (log/debug (str "json source semantics:" json-source-semantics))
                     (let [results
                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                              target.surface AS target,target.root AS target_root,

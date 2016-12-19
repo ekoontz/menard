@@ -943,6 +943,7 @@
                    :pred :go-upstairs}
              :subcat {:2 '()}}
     :english {:past "went upstairs"
+              :past-participle "gone upstairs"
               :participle "going upstairs"
               :present {:3sing "goes upstairs"}}}
 

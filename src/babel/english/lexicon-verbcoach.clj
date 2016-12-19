@@ -2088,6 +2088,7 @@
    "swim" {:synsem {:cat :verb
                         :sem {:pred :swim}}
            :english {:past "swam"
+                     :past-participle "swum"
                      :participle "swimming"}}
 
    "table" {:synsem {:cat :noun
@@ -2261,7 +2262,8 @@
                            :of :none}
                      :def :def}}
 
-   "throw" {:english {:past "threw"}
+   "throw" {:english {:past "threw"
+                      :past-participle "thrown"}
             :synsem {:cat :verb
                      :sem {:pred :throw}}}
 

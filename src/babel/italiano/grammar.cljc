@@ -352,7 +352,7 @@
                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
                                    :synsem {:aux true}}
                             :rule "s-aux-trapassato"
-                            :synsem {:infl :present
+                            :synsem {:infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :pluperfect
                                            :tense :past}}})

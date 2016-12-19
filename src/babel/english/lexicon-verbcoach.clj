@@ -910,7 +910,7 @@
                    :pred :go-around}
              :subcat {:2 '()}}
     :english {:past "went around"
-              
+              :past-participle "gone around"
               :participle "going around"
               :present {:3sing "goes around"}}}
 

@@ -2379,7 +2379,8 @@
                :subcat {:2 '()}}
       :english {:participle "waking up"
                 :present {:3sing "wakes up"}
-                :past "woke up"}})
+                :past "woke up"
+                :past-participle "woken up"}})
 
    "walk" {:synsem {:cat :verb
                 :sem {:pred :walk}}}

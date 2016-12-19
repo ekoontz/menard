@@ -891,7 +891,8 @@
    ;; TODO: account for "give" being ditransitive.
    "give" {:synsem {:cat :verb
                     :sem {:pred :give}}
-           :english {:past "gave"}}
+           :english {:past "gave"
+                     :past-participle "given"}}
    "go"
    {:synsem {:cat :verb
               :sem {:activity true
@@ -928,6 +929,7 @@
                    :pred :go-out}
              :subcat {:2 '()}}
     :english {:past "went out"
+
               :participle "going out"
               :present {:3sing "goes out"}}}
 

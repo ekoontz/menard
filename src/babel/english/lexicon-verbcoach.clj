@@ -899,7 +899,8 @@
                     :discrete false
                     :pred :go}
              :subcat {:2 {:cat :prep}}}
-    :english {:past "went"}}
+    :english {:past "went"
+              :past-participle "gone"}}
 
    ;; TODO: move all "go X"s to "go" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "go around"
@@ -909,6 +910,7 @@
                    :pred :go-around}
              :subcat {:2 '()}}
     :english {:past "went around"
+              
               :participle "going around"
               :present {:3sing "goes around"}}}
 

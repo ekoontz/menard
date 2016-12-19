@@ -56,8 +56,10 @@
              (str "translating from:" source-language-short-name ": "
                   (:surface source-expression)))
             (log/debug (str source-language-short-name ": "
-                            (get-in (:structure source-expression) [:synsem :sem])))
-            (let [spec {:synsem {:sem
+                            (get-in source-expression [:structure :synsem :sem])))
+            (let [source-cat (get-in source-expression [:structure :synsem :cat] :top)
+                  spec {:synsem {:cat source-cat
+                                 :sem
                                  (strip-refs (get-in
                                               (:structure source-expression)
                                               [:synsem :sem]))}}]

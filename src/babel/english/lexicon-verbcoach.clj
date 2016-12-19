@@ -687,7 +687,8 @@
    "fall" {:transitivize false
            :synsem {:cat :verb
                     :sem {:pred :fall}}
-           :english {:past "fell"}}
+           :english {:past "fell"
+                      :past-participle "fallen"}}
 
    "fall asleep"
    ;; TODO: move this to "fall" with a subcat argument, a la phrasal verbs e.g. "putting on"

@@ -83,6 +83,8 @@
            {:synsem {:sem {:aspect :progressive
                            :tense :past}}}
            {:synsem {:sem {:aspect :perfect
+                           :tense :past}}}
+           {:synsem {:sem {:aspect :pluperfect
                            :tense :past}}}])
 
    [{:gender :masc}

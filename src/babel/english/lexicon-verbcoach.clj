@@ -105,11 +105,6 @@
                      :subcat {:1 {:cat :noun}
                               :2 {:cat :noun}}}}
 
-   "backpack" {:synsem {:cat :noun
-                        :sem {:pred :backpack}}}
-
-   "bag" {:synsem {:cat :noun
-                   :sem {:pred :bag}}}
 
    "base" {:synsem {:cat :verb
                     :sem {:pred :support}}}
@@ -318,10 +313,6 @@
                  :synsem {:cat :verb
                           :sem {:pred :to-be-missing}}}
 
-   "beach" {:synsem {:cat :noun
-                     :sem {:place true
-                           :pred :beach
-                           :artifact false}}}
 
    "become" [{:synsem {:cat :verb
                        :sem {:pred :become}
@@ -356,46 +347,16 @@
                                               :comp-type :that
                                               :subcat '()}
                                           :3 '()}}})])
-   "bicycle" {:synsem {:cat :noun
-                       :sem {:pred :bicycle
-                             :artifact true
-                             :consumable false
-                             :place false}}}
 
-   "bird" {:synsem {:cat :noun
-                    :sem {:pred :bird}}}
-   "black"
-   {:synsem {:cat :adjective
-             :sem {:mod {:pred :black}
-                   :comparative false
-                   :physical-object true
-                   :human false}}}
 
    "boil" {:synsem {:cat :verb
                 :sem {:pred :boil}}}
-   "book"
-   {:synsem {:cat :noun
-             :sem {:artifact true
-                   :pred :book
-                   :legible true
-                   :speakable false
-                   :mass false
-                   :place false
-                   :consumable false}}}
+
 
    "break" {:english {:past "broke"
                        :past-participle "broken"}
              :synsem {:cat :verb
                       :sem {:pred :break}}}
-   "bread"
-   ;; inherently singular.
-   {:synsem {:agr {:number :sing}
-             :cat :noun
-             :sem {:pred :bread
-                   :edible true
-                   :artifact true}
-             :subcat {:1 {:cat :det
-                          :def :def}}}}
 
    "bring" {:synsem {:cat :verb
                      :sem {:pred :bring}}
@@ -429,18 +390,9 @@
     :synsem {:cat :verb
              :sem {:pred :be-able-to}}}
 
-   "car" {:synsem {:cat :noun
-                   :sem {:pred :car}}}
-
    "carry" {:synsem {:cat :verb
                      :sem {:pred :carry}}
             :english {:past "carried"}}
-
-   "cat" {:synsem {:cat :noun
-                   :sem {:pred :cat}}}
-
-   "chair" {:synsem {:cat :noun
-                     :sem {:pred :chair}}}
 
    "change" {:synsem {:cat :verb
                       :sem {:pred :change}}} ;; TODO: add reflexive sense
@@ -473,18 +425,11 @@
    "check" {:synsem {:cat :verb
                      :sem {:pred :check}}}
 
-   "city" {:synsem {:cat :noun
-                    :sem {:pred :city
-                          :city true}}}
-
    "clean" {:synsem {:cat :verb
                      :sem {:pred :clean}}}
 
    "close" {:synsem {:cat :verb
                      :sem {:pred :close}}}
-
-   "coffee" {:synsem {:cat :noun
-                      :sem {:pred :coffee}}}
 
    "comb" (let [common {:synsem {:cat :verb}}]
             ;; 1. reflexive sense of "comb"
@@ -622,9 +567,6 @@
    "download" {:synsem {:cat :verb
                         :sem {:pred :scaricare}}}
 
-   "dog" {:synsem {:cat :noun
-                   :sem {:pred :dog}}}
-
    "earn"  {:synsem {:cat :verb
                      :sem {:pred :earn}}}
 
@@ -722,10 +664,6 @@
    "finish" {:synsem {:cat :verb
                       :sem {:pred :finish}}}
 
-   "first" {:synsem {:cat :adjective
-                     :sem {:mod {:pred :first}
-                           :comparative false}}}
-
    "fit" {:english {:past "fit"
                     :participle "fitting"}
           :synsem {:cat :verb
@@ -754,8 +692,6 @@
    "furnish"  {:synsem {:cat :verb
                         :sem {:pred :furnish}}}
 
-   "game" {:synsem {:cat :noun
-                    :sem {:pred :game}}}
 
    ;; TODO: move all "get Xs" to "get" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "get angry"
@@ -1297,12 +1233,6 @@
      :english {:note "something safe"
                :past "kept"}}]
 
-   "key" {:synsem {:cat :noun
-                   :sem {:pred :key
-                         :artifact true
-                         :legible false
-                         :speakable false}}}
-
    "kill" {:synsem {:cat :verb
                     :sem {:pred :kill}}}
 
@@ -1460,13 +1390,6 @@
                     :sem {:pred :make}}
            :english {:past "made"}}
 
-   "man" {:english {:plur "men"}
-          :synsem {:agr {:gender :masc}
-                   :cat :noun
-                   :sem {:human true
-                         :pred :man
-                         :child false}}}
-
    "manage" {:synsem {:cat :verb
                 :sem {:pred :manage}}}
    "Matteo"
@@ -1511,12 +1434,6 @@
    "meeting" {:synsem {:cat :noun
                        :sem {:pred :meeting
                              :event true}}}
-
-   "mother" {:synsem {:agr {:gender :fem}
-                      :cat :noun
-                      :sem {:human true
-                            :pred :madre
-                            :child false}}}
 
    "move" {:synsem {:cat :verb
                     :sem {:pred :move}}}
@@ -1648,21 +1565,10 @@
                             :sem {:pred :participate}
                             :subcat {:2 '()}}}
 
-   "party" [{:synsem {:cat :noun
-                      :sem {:pred :party
-                            :place true}}}
-            {:synsem {:cat :noun
-                      :sem {:pred :party
-                            :event true}}}]
-
    "pay" {:synsem {:cat :verb
                     :sem {:pred :pay}}
                           :english {:past "paid"}}
 
-
-   "pizza"
-   {:synsem {:cat :noun
-             :sem {:pred :pizza}}}
 
    ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
    ;; the exceptional case is when "ys" is not used (e.g. "tries").
@@ -1699,17 +1605,6 @@
    "print"  {:synsem {:cat :verb
                       :sem {:pred :stampare}}}
 
-   "professor" {:synsem {:agr :top
-                         :cat :noun
-                         :sem {:human true
-                               :pred :professor}}}
-
-   "pupil" {:synsem {:agr :top
-                     :cat :noun
-                     :sem {:human true
-                           ;; example of a synonym, where we use the convention of making the
-                           ;; :pred (i.e. :student) the more common case (c.f. "student")
-                           :pred :student}}}
    "put"
    (let [common {:synsem {:cat :verb}
                  :english {:participle "putting"
@@ -1749,9 +1644,6 @@
                 :subcat {:2 {:cat :prep
                              :sem {:pred :up-with}}}}}])
 
-   "radio" {:synsem {:cat :noun
-                     :sem {:pred :radio}}}
-
    "read" ;; if this was a phonetic dictionary, there would be two
    ;; entries for each pronounciation - one pronounced as
    ;; like the word "reed" and one pronounced like the word "red".
@@ -1775,12 +1667,6 @@
 
    "recover" {:synsem {:cat :verb
                 :sem {:pred :recover}}}
-   "red"
-   {:synsem {:cat :adjective
-             :sem {:mod {:pred :rosso}
-                   :comparative false
-                   :physical-object true
-                   :human false}}}
 
    "remain" [{:synsem {:cat :verb
                        :subcat {:2 {:cat :prep
@@ -1837,30 +1723,6 @@
                    :sem {:pred :run}
                    :subcat {:2 '()}}}
 
-   "s" [(let [of (atom :top)]
-          {:synsem {:agr {:number :sing}
-                    :cat :det
-                    :def :genitive
-                    :subcat {:1 {:cat :noun
-                                 :pronoun false
-                                 :sem of
-                                 :subcat '()}}
-                    :sem {:pred :of
-                          :of of}}})
-        (let [of (atom :top)]
-          {:synsem {:agr {:number :plur}
-                    :cat :det
-                    :def :genitive
-                    :sem {:pred :of
-                          :of of}
-                    :subcat {:1 {:cat :noun
-                                 :pronoun false
-                                 :sem of
-                                 :subcat '()}}}})]
-
-   "salad" {:synsem {:cat :noun
-                     :sem {:pred :salad}}}
-
    "say" {:english {:past "said"}
           :synsem {:cat :verb
                    :sem {:pred :say}}}
@@ -1875,10 +1737,6 @@
                      :sem {:pred :scrub}}
              :english {:participle "scrubbing"
                        :past "scrubbed"}}
-
-   "second" {:synsem {:cat :adjective
-                      :sem {:mod {:pred :second}
-                            :comparative false}}}
 
    "see"  [{:synsem {:cat :verb
                      :sem {:pred :see
@@ -1936,19 +1794,6 @@
 
    "shoe" {:synsem {:cat :noun
                     :sem {:pred :shoe}}}
-   "short"
-   [{:synsem {:cat :adjective
-              :sem {:mod {:pred :short}
-                    :comparative false
-                    :physical-object true}
-              :subcat {:1 {:cat :det}
-                       :2 '()}}}
-    {:synsem {:cat :adjective
-              :sem {:mod {:pred :short}
-                    :comparative false
-                    :event true}
-              :subcat {:1 {:cat :det}
-                       :2 '()}}}]
 
    "show" {:synsem {:cat :verb
                     :sem {:pred :show
@@ -1981,12 +1826,6 @@
                      :sem {:pred :sleep}
                      :subcat {:2 '()}}
             :english {:past "slept"}}
-   "small"
-   {:synsem {:cat :adjective
-             :sem {:mod {:pred :small}
-                   :comparative false}
-             :subcat {:1 {:cat :det}
-                      :2 '()}}}
 
    "snap" {:synsem {:cat :verb
                     :sem {:pred :snap-pictures}
@@ -1994,17 +1833,7 @@
            :english {:past "snapped"
                      :participle "snapping"
                      :note "pictures"}}
-   "some"
-   [{:synsem {:cat :det
-              :def :partitivo
-              :sem {:pred :some-of
-                    :of {:pred nil}}
-              :agr {:number :plur}}}
-    {:synsem {:cat :det
-              :def :indef
-              :sem {:pred :some-one-of
-                    :of {:pred nil}}
-              :agr {:number :sing}}}]
+
 
    "smoke" {:synsem {:cat :verb
              :sem {:pred :smoke}}}
@@ -2064,21 +1893,10 @@
              :synsem {:cat :verb
                       :sem {:pred :strike}}}
 
-   "student" {:synsem {:agr :top
-                       :cat :noun
-                       :sem {:human true
-                             :pred :student}}}
-
    "study"  {:synsem {:cat :verb
                       :sem {:pred :study}}
              :english {:past "studied"}}
 
-   "stupid" {:synsem {:cat :adjective
-                      :sem {:mod {:pred :stupid}
-                            :human true
-                            :comparative false}
-                      :subcat {:1 {:cat :det}
-                               :2 '()}}}
    "supply" {:synsem {:cat :verb
                 :sem {:pred :supply}}}
 
@@ -2090,9 +1908,6 @@
            :english {:past "swam"
                      :past-participle "swum"
                      :participle "swimming"}}
-
-   "table" {:synsem {:cat :noun
-                     :sem {:pred :table}}}
 
    "take" (let [common {:synsem {:cat :verb}
                         :english {:past "took"
@@ -2114,13 +1929,6 @@
              :sem {:pred :talk}
              :subcat {:2 {:cat :prep
                           :sem {:pred :to}}}}}
-   "tall"
-   {:synsem {:cat :adjective
-             :sem {:mod {:pred :tall}
-                   :human true
-                   :comparative false}
-             :subcat {:1 {:cat :det}
-                      :2 '()}}}
 
    "teach"  {:synsem {:cat :verb
                       :sem {:pred :teach}}
@@ -2132,23 +1940,6 @@
    "tell" {:english {:past "told"}
            :synsem {:cat :verb
                     :sem {:pred :tell}}}
-
-   "that" [;; "that": complementizer, as in "she thinks that .."
-           (let [obj (atom :top)]
-             {:synsem {:cat :comp
-                       :comp-type :that
-                       :sem {:that obj
-                             :pred :unspec}
-                       :subcat {:1 {:cat :verb
-                                    :sem obj
-                                    :subcat '()}
-                                :2 '()}}})
-           ;; "that": demonstrative, as in "that woman"
-           {:synsem {:cat :det
-                     :agr {:number :sing}
-                     :sem {:pred :demonstrative
-                           :of :none}
-                     :def :def}}]
 
    "the" (map #(unify %
                       {:synsem {:cat :det
@@ -2186,12 +1977,6 @@
               :subcat '()}}
     ]
 
-   "there" {:synsem {:cat :noun
-                     :pronoun true
-                     :case :nom
-                     :sem {:null true
-                           :pred :existential}
-                     :agr {:person :3rd}}}
    "they"
    [;; human
     {:english {:note "♂"}
@@ -2418,8 +2203,6 @@
    "watch" {:synsem {:cat :verb
                      :sem {:pred :watch}}}
 
-   "water" {:synsem {:cat :noun
-                     :sem {:pred :water}}}
    "we"
    [{:english {:note "♀"}
      :synsem {:cat :noun
@@ -2462,28 +2245,11 @@
            :english {:past "won"
                      :participle "winning"}}
 
-   "wine" {:synsem {:cat :noun
-                    :sem {:pred :vino}}}
-
-   "with" {:synsem {:cat :prep
-                    :subcat {:1 {:cat :noun}}
-                    :sem {:pred :with}}}
-
-   "woman" {:english {:plur "women"}
-            :synsem {:agr {:gender :fem}
-                     :cat :noun
-                     :sem {:human true
-                           :pred :woman
-                           :child false}}}
-
    "wonder" {:synsem {:cat :verb
                       :sem {:pred :wonder}
                       :subcat {:1 {:cat :noun}
                                :2 {:cat :comp
                                    :comp-type :if
-                                   :subcat '()}}}}
-   "word" {:synsem {:cat :noun
-                    :sem {:pred :word}}}
 
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human}}
@@ -2514,12 +2280,6 @@
                     :sem {:pred :yell}
                     :subcat {:2 {:cat :prep
                                  :sem {:pred :at}}}}}
-   "yellow"
-   {:synsem {:cat :adjective
-             :sem {:mod {:pred :yellow}
-                   :comparative false
-                   :physical-object true
-                   :human false}}}
 
    "you"
    [{:english {:note "♂"}

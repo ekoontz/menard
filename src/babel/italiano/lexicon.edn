@@ -238,7 +238,6 @@
       {:unify [avere-common]
        :note "avere(aux): takes trans"
        :synsem {:aux true
-                :infl :present
                 :subcat {:2 {:agr agr
                              :sem {:reflexive false}
                              :subcat {:2 {:agr agr
@@ -254,7 +253,6 @@
     {:unify [avere-common]
      :note "avere(aux): takes intrans"
      :synsem {:aux true
-              :infl :present
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.

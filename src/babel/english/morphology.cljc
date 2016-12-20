@@ -338,6 +338,18 @@
         (string? (get-in word '(:past))))
    (get-in word '(:past))
 
+   ;; irregular past-perfect
+   (and (= :past-perfect (get-in word '(:infl)))
+        (string? (get-in word '(:past-perfect))))
+   (str "had " (get-in word '(:past-perfect)))
+
+   ;; regular past-perfect
+   (and (= :past-perfect (get-in word '(:infl)))
+        (nil? (get-in word '(:past-perfect))))
+   (str "had " (get-string {:english (get-in word [:english])
+                            :infl :past}
+                           :show-notes show-notes))
+
    (and (= :past (get-in word '(:infl)))
         (= :top (get-in word '(:agr :number)))
         (string? (get-in word '(:past :2sing))))

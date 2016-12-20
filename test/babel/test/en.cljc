@@ -454,7 +454,41 @@
                                          :aspect :progressive, :tense :past}}})]
     (is (not (nil? result)))))
 
+(deftest past-perfect
+  (let [result (generate {:root {:english {:english "drink"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :perfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (not (nil? result)))
+    (is (= "I drank" (morph result)))))
 
+(deftest pluperfect-irregular ;; c.f.: babel.test.it/trapassato-prossimo
+  (let [result (generate {:root {:english {:english "drink"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :pluperfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (not (nil? result)))
+    (is (= "I had drunk" (morph result)))))
+
+(deftest pluperfect-regular ;; c.f.: babel.test.it/trapassato-prossimo
+  (let [result (generate {:root {:english {:english "talk"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :pluperfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (not (nil? result)))
+    (is (= "I had talked" (morph result)))))
 
 
 

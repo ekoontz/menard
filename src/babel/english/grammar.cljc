@@ -82,7 +82,13 @@
              {:synsem {:cat :verb
                        :sem {:aspect :perfect
                              :tense :past}
-                       :infl :past}}))]
+                       :infl :past}})
+            (apply-default-if
+             verb-default?
+             {:synsem {:cat :verb
+                       :sem {:aspect :pluperfect
+                             :tense :past}
+                       :infl :past-perfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (fo result)))
     result))
 

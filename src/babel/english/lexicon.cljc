@@ -598,7 +598,8 @@
 
    "drink" {:synsem {:cat :verb
                      :sem {:pred :drink}}
-            :english {:past "drank"}}
+            :english {:past "drank"
+                      :past-perfect "drunk"}}
 
    "drive" {:synsem {:cat :verb
                      :sem {:pred :drive}}

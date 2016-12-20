@@ -466,7 +466,7 @@
     (is (not (nil? result)))
     (is (= "I drank" (morph result)))))
 
-(deftest pluperfect-irregular ;; c.f.: babel.test.it/trapassato-prossimo
+(deftest past-perfect-irregular ;; c.f.: babel.test.it/trapassato-prossimo
   (let [result (generate {:root {:english {:english "drink"}}
                           :modified false
                           :synsem {:cat :verb
@@ -478,7 +478,7 @@
     (is (not (nil? result)))
     (is (= "I had drunk" (morph result)))))
 
-(deftest pluperfect-regular ;; c.f.: babel.test.it/trapassato-prossimo
+(deftest past-perfect-regular ;; c.f.: babel.test.it/trapassato-prossimo
   (let [result (generate {:root {:english {:english "talk"}}
                           :modified false
                           :synsem {:cat :verb

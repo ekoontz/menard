@@ -320,25 +320,29 @@
                            :pred :beach
                            :artifact false}}}
 
-   "become" [{:synsem {:cat :verb
-                       :sem {:pred :become}
-                       :subcat {:2 {:cat :adjective}}}
-              :english {:past "became"}}
-             {:synsem {:cat :verb
-                       :sem {:pred :become}
-                       :subcat {:2 '()}}
-              :english {:past "became"}}]
+   "become" (let [common
+                  {:english {:past "became"
+                             :past-participle "become"}}]
+              [(unify common
+                      {:synsem {:cat :verb
+                                :sem {:pred :become}
+                                :subcat {:2 {:cat :adjective}}}})
+               (unify common {:synsem {:cat :verb
+                                       :sem {:pred :become}
+                                       :subcat {:2 '()}}})])
 
-   "begin" [{:synsem {:cat :verb
-                      :sem {:pred :begin}
-                      :subcat {:2 '()}}
-             :english {:past "began"
-                       :participle "beginning"}}
-            {:modal-with :infinitive
-             :synsem {:cat :verb
-                      :sem {:pred :begin}}
-             :english {:past "began"
-                       :participle "beginning"}}]
+   "begin" (let [common
+                 {:english {:past "began"
+                            :past-participle "begun"
+                            :participle "beginning"}}]
+             [(unify common
+                     {:synsem {:cat :verb
+                               :sem {:pred :begin}
+                               :subcat {:2 '()}}})
+              (unify common
+                     {:synsem {:cat :verb
+                               :sem {:pred :begin}}
+                      :model-with :infinitive})])
 
    "believe" (let [common {:synsem {:cat :verb
                                     :subcat {:1 {:cat :noun

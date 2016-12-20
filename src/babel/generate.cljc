@@ -51,6 +51,7 @@
             (assoc
              (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)
              [] [bolt])))
+     (filter #(not (some empty? (vals %))))
      (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
             ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
             (map (fn [each-path-through-trellis]
@@ -156,11 +157,9 @@
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)
           comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
-      (if (not (empty? comps))
-        (assoc
-         (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth)
-         path comps)
-        {path []}))))
+      (assoc
+       (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth)
+       path comps))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

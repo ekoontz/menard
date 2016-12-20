@@ -478,6 +478,19 @@
     (is (not (nil? result)))
     (is (= "I had drunk" (morph result)))))
 
+
+(deftest past-perfect-regular-with-irregular-past ;; c.f.: babel.test.it/trapassato-prossimo
+  (let [result (generate {:root {:english {:english "study"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :pluperfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (not (nil? result)))
+    (is (= "I had studied" (morph result)))))
+
 (deftest past-perfect-regular ;; c.f.: babel.test.it/trapassato-prossimo
   (let [result (generate {:root {:english {:english "talk"}}
                           :modified false

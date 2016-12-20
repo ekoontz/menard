@@ -346,8 +346,8 @@
    ;; regular past-perfect
    (and (= :past-perfect (get-in word '(:infl)))
         (nil? (get-in word '(:past-participle))))
-   (str "had " (get-string {:english (get-in word [:english])
-                            :infl :past}
+   (str "had " (get-string (merge word
+                                  {:infl :past})
                            :show-notes show-notes))
 
    (and (= :past (get-in word '(:infl)))

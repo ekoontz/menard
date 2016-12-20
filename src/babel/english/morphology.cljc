@@ -338,14 +338,14 @@
         (string? (get-in word '(:past))))
    (get-in word '(:past))
 
-   ;; irregular past-perfect
+   ;; irregular pluperfect
    (and (= :past-perfect (get-in word '(:infl)))
-        (string? (get-in word '(:past-perfect))))
-   (str "had " (get-in word '(:past-perfect)))
+        (string? (get-in word '(:past-participle))))
+   (str "had " (get-in word '(:past-participle)))
 
-   ;; regular past-perfect
+   ;; regular pluperfect
    (and (= :past-perfect (get-in word '(:infl)))
-        (nil? (get-in word '(:past-perfect))))
+        (nil? (get-in word '(:past-participle))))
    (str "had " (get-string {:english (get-in word [:english])
                             :infl :past}
                            :show-notes show-notes))

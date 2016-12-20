@@ -71,22 +71,32 @@
              {:synsem {:cat :verb
                        :sem {:tense :conditional}
                        :infl :conditional}})
+
+            ;; past progressive
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
                        :sem {:aspect :progressive
                              :tense :past}
                        :infl :imperfect}})
+
+            ;; simple past
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
-                       :sem {:aspect :perfect
+                       :sem {:aspect :perfect ;; TODO: this aspect value is confusing because of the next stanza
+                             ;; in the list of defaults (that is, the stanza beginning with ";; past-perfect" - 
+                             ;; change it to {:aspect :simple} or something similar, but will require
+                             ;; changing all other languages to conform to this usage, since semantics is language-independent.
                              :tense :past}
                        :infl :past}})
+
+            ;; past perfect
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
-                       :sem {:aspect :pluperfect
+                       :sem {:aspect :pluperfect ;; TODO: change this to {:aspect :perfect} once the above TODO is done, since
+                             ;; :perfect will be available to use after that.
                              :tense :past}
                        :infl :past-perfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (fo result)))

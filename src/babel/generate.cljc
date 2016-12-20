@@ -49,7 +49,7 @@
      (filter not-fail?)
      (map (fn [bolt] ;; for each bolt, create a map of complement positions within the bolt to possible complements for that position
             (assoc
-             (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth)
+             (comp-paths-to-complements bolt (find-comp-paths bolt) model depth max-depth nil)
              [] [bolt])))
      (filter #(not (some empty? (vals %))))
      (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
@@ -152,14 +152,14 @@
       tree)))
 
 ;; TODO: rewrite using (recur)
-(defn comp-paths-to-complements [bolt comp-paths model depth max-depth]
+(defn comp-paths-to-complements [bolt comp-paths model depth max-depth accum]
   (log/info (str "comp-paths-to-complements: depth=" depth "; max-depth: " max-depth ":" ((:morph-ps model) bolt)))
   (if (not (empty? comp-paths))
     (let [path (first comp-paths)
           comps (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))]
-      (assoc
-       (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth)
-       path comps))))
+      (comp-paths-to-complements bolt (rest comp-paths) model depth max-depth
+                                       (assoc accum
+                                        path comps)))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]

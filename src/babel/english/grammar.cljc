@@ -24,7 +24,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer [fail? get-in remove-matching-keys unify]]))
+   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]
@@ -42,12 +42,24 @@
     tree))
 
 (defn verb-default? [tree]
-  (and (= :verb (get-in tree [:synsem :cat]))
-       (or (= :top (get-in tree [:synsem :sem :tense] :top))
-           (= :top (get-in tree [:synsem :infl] :top)))))
+  (let [result
+        (and (= :verb (get-in tree [:synsem :cat]))
+             (or (= :top (get-in tree [:synsem :sem :tense] :top))
+                 (= :top (get-in tree [:synsem :infl] :top))))]
+    (log/debug (str "verb-default on this tree: => " result))
+    result))
 
 (defn default-fn [tree]
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
+  (log/debug (str "aspect (pre): " (strip-refs (get-in tree
+                                                       [:synsem :sem :aspect]
+                                                       ::unset))))
+  (log/debug (str "infl   (pre): " (strip-refs (get-in tree
+                                                       [:synsem :infl]
+                                                       ::unset))))  
+  (log/debug (str "tense  (pre): " (strip-refs (get-in tree
+                                                       [:synsem :sem :tense]
+                                                       ::unset))))
   (let [result
         (-> tree
             (apply-default-if
@@ -97,6 +109,15 @@
                              :tense :past}
                        :infl :past-perfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (fo result)))
+    (log/debug (str "aspect (post): " (strip-refs (get-in result
+                                                         [:synsem :sem :aspect]
+                                                         ::unset))))
+    (log/debug (str "infl   (post): " (strip-refs (get-in result
+                                                          [:synsem :infl]
+                                                          ::unset))))  
+    (log/debug (str "tense  (post): " (strip-refs (get-in result
+                                                          [:synsem :sem :tense]
+                                                          ::unset))))
     result))
 
 (declare cache)

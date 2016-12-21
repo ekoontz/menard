@@ -1450,6 +1450,24 @@
                            :physical-object false
                            :place false
                            :mass true}}}
+
+    "must"
+      {:english {:participle "having to"
+                 :past "had to"
+                 :past-participle "had to"
+                 :imperfect {:1sing "used to have to"
+                             :2sing "used to have to"
+                             :3sing "used to have to"
+                             :1plur "used to have to"
+                             :2plur "used to have to"
+                             :3plur "used to have to"}
+                :present {:3sing "must"}
+                :future "have to"
+                :conditional "have to"}
+      :modal-with :root
+      :synsem {:cat :verb
+               :sem {:pred :have-to}}}
+
    "my"
    (map #(unify %
                 {:synsem {:cat :det

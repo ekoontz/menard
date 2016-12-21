@@ -4,7 +4,7 @@
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [copy dissoc-paths fail? get-in ref? strip-refs unifyc]]))
+            [dag_unify.core :refer [copy dissoc-paths fail? get-in ref? strip-refs unify]]))
 
 (declare get-string)
 (declare plural-en)
@@ -765,7 +765,7 @@
                      (let [lexical-form (string/replace surface-form key
                                                         (:replace-with (get replace-pairs key)))
                            looked-up (get lexicon lexical-form)]
-                       (map #(unifyc % (:unify-with (get replace-pairs key)))
+                       (map #(unify % (:unify-with (get replace-pairs key)))
                             looked-up))))
                  (keys replace-pairs)))
 
@@ -776,7 +776,7 @@
                    (if (keyword? key)
                      (let [lexical-form surface-form
                            looked-up (get lexicon lexical-form)]
-                       (map #(unifyc % (:unify-with (get replace-pairs key)))
+                       (map #(unify % (:unify-with (get replace-pairs key)))
                             looked-up))))
                  (keys replace-pairs)))]
 
@@ -802,7 +802,7 @@
            (mapcat (fn [entry]
                      (map (fn [variant]
                             (let [result
-                                  (unifyc entry variant)]
+                                  (unify entry variant)]
                               (if (not (fail? result))
                                 result
                                 entry)))
@@ -845,12 +845,12 @@
                                                            (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))
                                                synsem-check
                                                (if (string? (get-in lexeme path :none))
-                                                 (unifyc (get-in lexeme [:synsem])
+                                                 (unify (get-in lexeme [:synsem])
                                                          (get-in (merge-fn lexeme) [:synsem] :top)))]
                                            (if (and (string? (get-in lexeme path :none))
                                                     (not (fail? synsem-check)))
                                              (list {(get-in lexeme path)
-                                                    (unifyc
+                                                    (unify
                                                      (dissoc-paths lexeme [path
                                                                            [:english :english]])
                                                      (merge-fn lexeme)
@@ -1014,8 +1014,8 @@
                a-map)
 
           true
-          (unifyc a-map
-                  {:english {:english a-string}}
-                  common))))
+          (unify a-map
+                 {:english {:english a-string}}
+                 common))))
 
 

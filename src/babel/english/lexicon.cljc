@@ -147,7 +147,8 @@
                  the-obj (atom {:number number
                                 :gender gender})] ;; prevents e.g. "Her name is John"
              (unify common
-                    {:sense 2 ;; used for debugging
+                    {:sense 2 ;; used for debugging suspected problems
+                     ;; with lexical compilation.
                      ;; TODO: remove (in)transtivize (false|true): should not
                      ;; need these explicit compiler directives; compilation
                      ;; should be able to manage on its own
@@ -2878,6 +2879,9 @@
                  :aux false
                  :infl :past
                  :sem {:tense :past}}})
+      ;; Not sure why or if this (default) rule is needed?
+      ;; Why set the :aspect to :perfect by default?
+      ;; TODO: remove if not needed.
       (default
        {:english {:exception true}
         :synsem {:cat :verb

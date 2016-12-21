@@ -300,19 +300,10 @@
            ;; unless overridden by :participle or :participle-suffix below,
            ;; ing-form or used-to-form (chosen randomly) will be used.
            ing-form 
-           (cond
-
-            (re-find #"ie$" stem)
-            (str (replace stem #"..$" "y") "ing")
-
-            true
-            (str stem "ing"))
+           (present-participle-of stem)
 
            used-to-form
-           (str "used to " root)
-           
-           ]
-
+           (str "used to " root)]
        (cond (= 0 (rand-int 2))
              used-to-form
 

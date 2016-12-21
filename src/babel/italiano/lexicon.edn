@@ -1416,7 +1416,8 @@
                           :sem {:pred :multiply}}}
 
  "muovere" {:synsem {:cat :verb
-                     :sem {:pred :move}}}
+                     :sem {:pred :move}}
+             :italiano {:passato "mosso"}}
 
  "nascere" {:synsem {:cat :verb
                      :essere true

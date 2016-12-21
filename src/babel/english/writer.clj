@@ -178,7 +178,7 @@
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
                                            (cond (= tense
-                                                    {:synsem {:sem {:aspect :perfect
+                                                    {:synsem {:sem {:aspect :simple
                                                                     :tense :past}}})
                                                  [{:gender :masc}
                                                   {:gender :fem}]
@@ -189,7 +189,7 @@
                                        {:synsem {:sem {:tense :present}}}
                                        {:synsem {:sem {:aspect :progressive
                                                        :tense :past}}}
-                                      {:synsem {:sem {:aspect :perfect
+                                      {:synsem {:sem {:aspect :simple
                                                       :tense :past}}})))))
                  (reduce concat
                          (map (fn [key]

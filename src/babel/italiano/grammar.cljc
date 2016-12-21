@@ -36,9 +36,9 @@
    "future" {:synsem {:sem {:tense :future}}}
    "imperfetto" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
-   "passato" {:synsem {:sem {:aspect :perfect
+   "passato" {:synsem {:sem {:aspect :simple
                              :tense :past}}}
-   "trapassato" {:synsem {:sem {:aspect :pluperfect
+   "trapassato" {:synsem {:sem {:aspect :perfect
                                 :tense :past}}}})
 
 (defn fo-ps [expr]
@@ -344,7 +344,7 @@
                             :rule "s-aux-passato"
                             :synsem {:infl :present
                                      :cat :verb
-                                     :sem {:aspect :perfect
+                                     :sem {:aspect :simple
                                            :tense :past}}})
 
                    (unify c10
@@ -354,7 +354,7 @@
                             :rule "s-aux-trapassato"
                             :synsem {:infl :imperfect
                                      :cat :verb
-                                     :sem {:aspect :pluperfect
+                                     :sem {:aspect :perfect
                                            :tense :past}}})
 
                    (unify c10
@@ -440,7 +440,7 @@
                             :synsem {:aux true
                                      :infl :present
                                      :sem {:tense :past
-                                           :aspect :perfect}
+                                           :aspect :simple}
                                      :cat :verb}})
 
                    (unify h21a
@@ -452,7 +452,7 @@
                             :synsem {:aux true
                                      :infl :present
                                      :sem {:tense :past
-                                           :aspect :perfect}
+                                           :aspect :simple}
                                      :cat :verb}})
                    (unify h21a
                            root-is-comp-root
@@ -463,7 +463,7 @@
                             :synsem {:aux true
                                      :infl :imperfect
                                      :sem {:tense :past
-                                           :aspect :pluperfect}
+                                           :aspect :perfect}
                                      :cat :verb}})
 
                    (unify h21a
@@ -475,7 +475,7 @@
                             :synsem {:aux true
                                      :infl :imperfect
                                      :sem {:tense :past
-                                           :aspect :pluperfect}
+                                           :aspect :perfect}
                                      :cat :verb}})
                    
                    ;; these two following rules are kind of complicated and made more so by
@@ -494,7 +494,7 @@
                                        :infl :present
                                        :sem {:reflexive true
                                              :tense :past
-                                             :aspect :perfect}
+                                             :aspect :simple}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))
 
@@ -510,7 +510,7 @@
                                        :infl :imperfect
                                        :sem {:reflexive true
                                              :tense :past
-                                             :aspect :pluperfect}
+                                             :aspect :perfect}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))
                    

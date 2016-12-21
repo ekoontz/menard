@@ -52,7 +52,7 @@
                           :synsem {:subcat ()
                                    :sem {:subj {:pred :I}
                                          :tense :past
-                                         :aspect :perfect}}}
+                                         :aspect :simple}}}
                          :model small)]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
@@ -62,7 +62,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :perfect
+                                   :sem {:aspect :simple
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -74,7 +74,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :pluperfect
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -104,7 +104,7 @@
                                    :sem {:pred :get-up
                                          :subj {:pred :I}
                                          :tense :past
-                                         :aspect :perfect}}}
+                                         :aspect :simple}}}
                          :model small)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (morph result)))))
@@ -226,7 +226,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :essere true
                                                 :sem {:tense :past
-                                                      :aspect :perfect}
+                                                      :aspect :simple}
                                                 :subcat '()}}
                                       :model small)))]
     (is (= do-this-many
@@ -534,10 +534,10 @@
 
 (deftest past-and-gender-agreement
   (is (= (morph (generate {:synsem {:sem {:pred :go
-                                       :aspect :perfect
-                                       :tense :past
-                                       :subj {:gender :fem
-                                              :pred :loro}}}}
+                                          :aspect :simple
+                                          :tense :past
+                                          :subj {:gender :fem
+                                                 :pred :loro}}}}
                        :model small))
      "loro sono andate")))
 

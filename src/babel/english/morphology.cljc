@@ -16,7 +16,7 @@
                   (and (or (= "it" from-language)
                            (= "fr" from-language))
                        (not (and (= :past (get-in input [:synsem :sem :tense]))
-                                 (= :perfect (get-in input [:synsem :sem :aspect]))))
+                                 (= :simple (get-in input [:synsem :sem :aspect]))))
                        (not (= :lui (get-in input [:synsem :sem :subj :pred])))
                        (not (= :lei (get-in input [:synsem :sem :subj :pred]))))
                 ;; remove :notes in these circumstances.

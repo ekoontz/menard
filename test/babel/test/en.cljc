@@ -454,12 +454,12 @@
                                          :aspect :progressive, :tense :past}}})]
     (is (not (nil? result)))))
 
-(deftest past-perfect
+(deftest past-simple
   (let [result (generate {:root {:english {:english "drink"}}
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :perfect
+                                   :sem {:aspect :simple
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -471,7 +471,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :pluperfect
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -484,7 +484,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :pluperfect
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -496,7 +496,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :pluperfect
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]

@@ -418,6 +418,8 @@
 
            true
            (str stem "ed"))) ;; "play"->"played"   
+
+   ;; simple present
    (and
     (= :present (get-in word '(:infl)))
     (string? (get-in word '(:english))))

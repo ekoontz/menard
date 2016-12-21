@@ -16,7 +16,7 @@
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]
-   [dag_unify.core :refer [copy fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
 (def medium (italiano/medium))
 (def np-grammar (italiano/np-grammar))
@@ -583,4 +583,24 @@
 (deftest bisogno
   (is (not (empty? (:parses (first (parse "io ho bisogno di il caffè")))))))
 
+(deftest present-progressive-vs-present-simple
+  (let [base-spec {:modified false
+                   :synsem {:cat :verb
+                            :subcat ()
+                            :sem {:pred :eat
+                                  :tense :present
+                                  :subj {:pred :I}
+                                  :obj :unspec}}}
+        progressive (unify base-spec
+                           {:synsem {:sem {:aspect :progressive}}})
+        simple (unify base-spec
+                      {:synsem {:sem {:aspect :simple}}})]
+    ;; default should be simple present:
+    (is (= "io mangio" (morph (generate base-spec))))
+
+    ;; explicitly set to simple present:
+    (is (= "io sto mangiando" (morph (generate simple)))) 
+
+    ;; explicitly set to progressive present:
+    (is (= "io sto mangiando" (morph (generate progressive))))))
 

@@ -31,7 +31,10 @@
    ])
 
 (def tenses
-  {"present" {:synsem {:sem {:tense :present}}}
+  {"present simple" {:synsem {:sem {:tense :present
+                                    :aspect :simple}}}
+   "present progressive" {:synsem {:sem {:tense :present
+                                    :aspect :progressive}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
    "future" {:synsem {:sem {:tense :future}}}
    "imperfetto" {:synsem {:sem {:aspect :progressive
@@ -414,7 +417,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unify c10
                            root-is-head-root
@@ -423,7 +426,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unify h21
                            root-is-head
@@ -543,7 +546,8 @@
                            {:rule "vp-present"
                             :synsem {:aux false
                                      :infl :present
-                                     :sem {:tense :present}
+                                     :sem {:tense :present
+                                           :aspect :simple}
                                      :cat :verb}}
                            vp-non-pronoun)
                    

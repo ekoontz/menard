@@ -76,10 +76,12 @@
    (cond
      (= (get-in spec [:root :italiano :italiano])
         "chiamarsi")
-     [{:synsem {:sem {:tense :present}}}]
+     [{:synsem {:sem {:tense :present
+                      :aspect :simple}}}]
      true [{:synsem {:sem {:tense :conditional}}}
            {:synsem {:sem {:tense :future}}}
-           {:synsem {:sem {:tense :present}}}
+           {:synsem {:sem {:tense :present
+                           :aspect :simple}}}
            {:synsem {:sem {:aspect :progressive
                            :tense :past}}}
            {:synsem {:sem {:aspect :simple

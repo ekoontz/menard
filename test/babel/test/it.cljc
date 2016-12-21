@@ -41,6 +41,7 @@
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :be
                                          :subj {:pred :I}
+                                         :aspect :simple
                                          :tense :present}}}
                          :model small
                          :do-enrich false)]
@@ -181,12 +182,13 @@
                               (is (not (empty? parsed)))))
                           expressions))))))
 
-(deftest roundtrip-present
+(deftest roundtrip-simple-present
   (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
-                                                :sem {:tense :present}
+                                                :sem {:tense :present
+                                                      :aspect :simple}
                                                 :subcat '()}}
                                       :model small)))]
     (is (= do-this-many
@@ -352,6 +354,7 @@
   (let [result
         (generate {:synsem {:sem {:subj {:pred :loro}
                                   :pred :manage
+                                  :aspect :simple
                                   :tense :present}}}
                   :model small)]
     (is (= "loro gestiscono" (morph result)))))
@@ -408,7 +411,8 @@
   (let [result (generate
                 {:modified false
                  :synsem {:cat :verb 
-                          :sem {:tense :present 
+                          :sem {:tense :present
+                                :aspect :simple
                                 :pred :a 
                                 :obj {:pred :house
                                       :spec {:def :none}} ;; "a casa", not "a tua casa", "a della casa", etc
@@ -517,7 +521,7 @@
                                                    :subj {:pred :chair :mod '() :spec {:def :def}
                                                           :number :sing}
                                                    :tense :present
-                                                   :aspect :progressive}
+                                                   :aspect :simple}
                                              :cat :verb}
                                     :comp {:synsem {:agr {:person :3rd}}}
                                     :modified false})]
@@ -566,10 +570,11 @@
 
 (deftest exists3
   (is (= (morph (generate {:synsem {:sem {:obj :unspec
-                                       :subj :top
-                                       :pred :exist
-                                       :reflexive false
-                                       :tense :present}}
+                                          :subj :top
+                                          :pred :exist
+                                          :reflexive false
+                                          :aspect :simple
+                                          :tense :present}}
                         :root {:italiano {:italiano "essere"}}
                         :comp {:synsem {:agr {:number :sing}}}}
                        :model small))

@@ -503,6 +503,17 @@
     (is (not (nil? result)))
     (is (= "I had talked" (morph result)))))
 
+(deftest past-perfect-born
+  (let [result (generate {:root {:english {:english "be born"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :perfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (not (nil? result)))
+    (is (= "I had been born" (morph result)))))
 
 
     

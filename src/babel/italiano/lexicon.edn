@@ -84,13 +84,8 @@
               :sem {:pred :affolato
                     :comparative false}}})]
 
-<<<<<<< HEAD
- "aggiungere" {:italiano {:passato "aggiunto"}}
-              {:synsem {:cat :verb
-=======
  "aggiungere" {:italiano {:passato "aggiunto"}
                :synsem {:cat :verb
->>>>>>> origin/master
                         :sem {:pred :add}}}
  "aiutare"
  {:synsem {:essere false

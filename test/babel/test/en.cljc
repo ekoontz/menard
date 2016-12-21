@@ -515,5 +515,25 @@
     (is (not (nil? result)))
     (is (= "I had been born" (morph result)))))
 
+(deftest present-progressive-vs-present-simple
+  (let [base-spec {:modified false
+                   :synsem {:cat :verb
+                            :subcat ()
+                            :sem {:pred :eat
+                                  :tense :present
+                                  :subj {:pred :I}
+                                  :obj :unspec}}}
+        progressive (unify base-spec
+                           {:synsem {:sem {:aspect :progressive}}})
+        simple (unify base-spec
+                      {:synsem {:sem {:aspect :simple}}})]
+    ;; default should be simple present:
+    (is (= "I eat" (morph (generate base-spec))))
+
+    ;; explicitly set to simple present:
+    (is (= "I eat" (morph (generate simple)))) 
+
+    ;; explicitly set to progressive present:
+    (is (= "I am eating" (morph (generate progressive))))))
 
     

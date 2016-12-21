@@ -511,6 +511,33 @@
 
       :else (str root)))
 
+   ;; conjugate present progressive ("be + Ving") e.g. "I am running"
+   (and
+    (= :verb (get-in word [:cat]))
+    (= :present-progressive (get-in word [:infl]))
+    (not (nil? lexicon)))
+   ;; take present tense of verb "be" and add the present participle of this word.
+   (let [to-be
+         (-> lexicon (get "be")
+             (nth 0) ;; there should be at least one, so take the first one.
+             (get-in [:english]))
+         to-be-present-tense-with-agreement
+         (-> to-be
+             (unify {:cat :verb
+                     :infl :present}
+                    {:agr (get-in word [:agr])}))]
+     (log/debug (str "lexical entry for be:" (strip-refs to-be)))
+     (log/debug (str "to-be-present-tense-with-agreement:" (strip-refs to-be-present-tense-with-agreement)))
+     (str
+      (get-string to-be-present-tense-with-agreement)
+      " " (present-participle-of (get-in word [:english]))))
+
+   (= :verb (get-in word [:cat]))
+   (let [result (get-in word [:english])]
+     (log/warn (str "catch-all for :cat=:verb : nothing more specific matches the input:"
+                    (strip-refs word) " : returning: " result))
+     result)
+   
    (and
     (get-in word '(:plur))
     (= (get-in word '(:agr :number)) :plur)

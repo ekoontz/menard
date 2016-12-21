@@ -155,7 +155,7 @@
                      :intransitivize false
                      :transitivize false
                      :synsem {:agr subj-agr
-                              :sem {:aspect :progressive
+                              :sem {:aspect :simple
                                     :pred :be-called
                                     :reflexive true
                                     :subj the-real-subj

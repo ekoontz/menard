@@ -70,7 +70,9 @@
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
                           show-notes false}}]
-  (fo expr :from-language from-language :show-notes show-notes))
+  (fo expr
+      :from-language from-language :show-notes show-notes
+      :lexicon (:lexicon (medium))))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

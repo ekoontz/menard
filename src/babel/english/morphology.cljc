@@ -9,8 +9,9 @@
 (declare get-string)
 (declare plural-en)
 
-(defn fo [input & {:keys [from-language show-notes]
+(defn fo [input & {:keys [from-language lexicon show-notes]
                    :or {from-language nil
+                        lexicon nil
                         show-notes true}}]
   (let [input (if
                   (and (or (= "it" from-language)
@@ -36,6 +37,7 @@
       (and (map? input)
            (map? (get-in input [:english])))
       (get-string (get-in input [:english])
+                  :lexicon lexicon
                   :show-notes show-notes)
       true
       "")))
@@ -46,13 +48,22 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-(defn get-string [word & {:keys [show-notes]
-                          :or {show-notes true}}]
-  (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
+(defn present-participle-of [stem]
   (cond
+    (re-find #"ie$" stem)
+    (str (replace stem #"..$" "y") "ing")
+    
+    true
+    (str stem "ing")))
+
+(defn get-string [word & {:keys [lexicon show-notes]
+                          :or {lexicon nil
+                               show-notes true}}]
+  (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
+  (cond ;; (get-string)
     
    (ref? word)
-   (get-string @word :show-notes show-notes)
+   (get-string @word :show-notes show-notes :lexicon lexicon)
 
    (= word :top)
    ".."
@@ -81,6 +92,7 @@
         (string? (get-in word '(:a :past))))
    (str (get-in word '(:a :past)) " "
         (get-string (get-in word '(:b))
+                    :lexicon lexicon
                     :show-notes show-notes))
 
    ;; :note is used for little annotations that are significant in italian but not in english
@@ -88,6 +100,7 @@
    (and (string? (get-in word '(:english)))
         (string? (get-in word '(:note))))
    (str (trim (get-string (dissoc word :note)
+                          :lexicon lexicon
                           :show-notes show-notes))
         (if (not (= false show-notes))
           (str " (" (trim (get-in word '(:note))) ")")))
@@ -95,12 +108,14 @@
    (= (get-in word '(:a)) :top)
    (str
     ".." " " (get-string (get-in word '(:b))
+                         :lexicon lexicon
                          :show-notes show-notes))
 
    ;; show elipsis (..) if :b is not specified.
    (and
     (= (get-in word '(:b)) :top)
     (string? (get-string (get-in word '(:a))
+                         :lexicon lexicon
                          :show-notes show-notes)))
    (str
     (get-string (get-in word '(:a))
@@ -113,6 +128,7 @@
     (string? (get-in word '(:a :english))))
    (str
     (get-string (get-in word '(:a :english))
+                :lexicon lexicon
                 :show-notes show-notes)
     " " "..")
 
@@ -153,6 +169,7 @@
    (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past-participle))
                       :b (get-in word '(:b :b))}}
+               :lexicon lexicon
                :show-notes show-notes)
 
    ;; (could have) + (make X) => "could have made X"
@@ -167,12 +184,13 @@
    (get-string {:a (get-in word '(:a))
                   :b {:a (get-in word '(:b :a :past))
                       :b (get-in word '(:b :b))}}
+               :lexicon lexicon
                :show-notes show-notes)
    (and
     (get-in word [:a])
     (get-in word [:b]))
-   (let [string-a (get-string (get-in word [:a]) :show-notes show-notes)
-         string-b (get-string (get-in word [:b]) :show-notes show-notes)]
+   (let [string-a (get-string (get-in word [:a]) :show-notes show-notes :lexicon lexicon)
+         string-b (get-string (get-in word [:b]) :show-notes show-notes :lexicon lexicon)]
      (log/debug (str "A AGR1: " (strip-refs (get-in word [:a]))))
      (log/debug (str "A AGR2: " (strip-refs (get-in word [:a :agr]))))
      (log/debug (str "A AGR3: " (strip-refs (get-in word [:a :agr :number]))))
@@ -196,9 +214,9 @@
 
        true
        (join " "
-             [(str (get-string (get-in word '(:a)) :show-notes show-notes)
+             [(str (get-string (get-in word '(:a)) :show-notes show-notes :lexicon lexicon)
                    (get-in word [:punctuation :middle]))
-              (get-string (get-in word '(:b)) :show-notes show-notes)])))
+              (get-string (get-in word '(:b)) :show-notes show-notes :lexicon lexicon)])))
 
    ;; TODO: this seems wrong: how could :infl == :english?
    (and (= :english (get-in word '(:infl)))
@@ -216,10 +234,10 @@
    ""
 
    (= true (get-in word '(:a :hidden)))
-   (get-string (get-in word '(:b)) :show-notes show-notes)
+   (get-string (get-in word '(:b)) :show-notes show-notes :lexicon lexicon)
 
    (= true (get-in word '(:b :hidden)))
-   (get-string (get-in word '(:a) :show-notes show-notes))
+   (get-string (get-in word '(:a) :show-notes show-notes :lexicon lexicon))
 
    (and (= (get-in word '(:infl)) :conditional)
         (get-in word '(:english))
@@ -348,6 +366,7 @@
         (nil? (get-in word '(:past-participle))))
    (str "had " (get-string (merge word
                                   {:infl :past})
+                           :lexicon lexicon
                            :show-notes show-notes))
 
    (and (= :past (get-in word '(:infl)))

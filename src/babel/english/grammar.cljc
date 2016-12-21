@@ -648,35 +648,40 @@
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))
         indices (create-indices lexicon index-lexicon-on-paths)
-        morph fo]
-    {:name "medium"
-     :default-fn default-fn
-     :semantic-correspondence {:it [[:obj :null]
-                                    [:obj :number]
-                                    [:shared-with-obj]
-                                    [:subj :null]
-                                    [:subj :number]]}
-     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-     ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
-     :grammar-map (zipmap
-                   (map #(keyword (get-in % [:rule])) grammar)
-                   grammar)
-
-     :grammar grammar
-
-     :language "en"
-     :language-keyword :english
-
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :lookup (fn [arg]
-               (analyze arg lexicon))
-     :morph fo
-     :morph-ps fo-ps
-     ;; TODO: remove: not used
-     :morph-walk-tree (fn [tree]
-                        (merge tree
-                               (morph-walk-tree tree)))}))
+        morph fo
+        model
+        {:name "medium"
+         :default-fn default-fn
+         :semantic-correspondence {:it [[:obj :null]
+                                        [:obj :number]
+                                        [:shared-with-obj]
+                                        [:subj :null]
+                                        [:subj :number]]}
+         :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+         ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
+         :grammar-map (zipmap
+                       (map #(keyword (get-in % [:rule])) grammar)
+                       grammar)
+         
+         :grammar grammar
+         
+         :language "en"
+         :language-keyword :english
+         
+         :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+         :lexicon lexicon
+         :lookup (fn [arg]
+                   (analyze arg lexicon))
+         :morph fo
+         :morph-ps fo-ps
+         ;; TODO: remove: not used
+         :morph-walk-tree (fn [tree]
+                            (merge tree
+                                   (morph-walk-tree tree)))}]
+    (assoc model
+          :generate-fn
+          (fn [spec]
+            (babel.generate/generate spec model)))))
     
 (defn np-grammar []
   (let [grammar

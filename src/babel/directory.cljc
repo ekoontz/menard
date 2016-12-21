@@ -23,10 +23,9 @@
              (deliver en 
                       (do (log/debug (str "starting to load english model.."))
                           (let [model (babel.english.grammar/medium)]
-                            (log/debug (str "finished loading english model."))
-                            (conj model
-                                  {:generate-fn (fn [spec]
-                                                  (en/generate spec :model model))}))))))
+                            (log/info (str "finished loading english model: "
+                                           "type: " (type model)))
+                            model)))))
      :es (fn []
            (if (realized? es)
              es

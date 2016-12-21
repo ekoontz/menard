@@ -1017,7 +1017,8 @@
 
    "hit" {:english {:past {:english "hit"
                           :note "past tense"}
-                   :participle "hitting"}
+                   :participle "hitting"
+                   :past-participle "hit"}
           :synsem {:cat :verb
                    :sem {:pred :hit}}}
 

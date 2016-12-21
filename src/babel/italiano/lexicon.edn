@@ -84,7 +84,7 @@
               :sem {:pred :affolato
                     :comparative false}}})]
 
- "aggiungere" {:italiano {:passato "aggiunto"} }
+ "aggiungere" {:italiano {:passato "aggiunto"}}
               {:synsem {:cat :verb
                         :sem {:pred :add}}}
  "aiutare"

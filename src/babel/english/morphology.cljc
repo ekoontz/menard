@@ -23,7 +23,7 @@
                 (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
                                      [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
                 input)]
-    (cond 
+    (cond ;; fo
       (= input :fail)
       (str input)
 
@@ -299,7 +299,7 @@
              used-to-form
 
              true
-       (cond
+       (cond ;; imperfect exception-handling: check for :participle
 
         ;; TODO: add support for per-agreement (by number or person) irregular participle;
         ;; for now, only support for a single participle irregular form for all agreements.
@@ -438,7 +438,7 @@
          last-stem-char-is-vowel (re-find #"[aeiou]$" stem)]
      (log/debug "+else")
      (log/debug (str "(english):word: " word))
-     (cond
+     (cond ;; :infl=:present
       (and (= person :1st) (= number :sing)
            (string? (get-in word '(:present :1sing))))
       (get-in word '(:present :1sing))
@@ -499,7 +499,7 @@
       (string? (get-in word '(:english)))
       (get-in word '(:english))
 
-      :else (str root )))
+      :else (str root)))
 
    (and
     (get-in word '(:plur))

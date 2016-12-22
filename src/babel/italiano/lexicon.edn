@@ -877,8 +877,11 @@
                                  :3plur "sarebbero"}}}
 
        essere-aux-subject-agreement
-       (let [subject-agreement (atom :top)]
-         {:synsem {:subcat {:1 {:agr subject-agreement}
+       (let [subject-agreement (atom :top)
+             infl (atom :top)]
+         {:italiano {:infl infl}
+          :synsem {:infl infl
+                   :subcat {:1 {:agr subject-agreement}
                             :2 {:subcat {:1 {:agr subject-agreement}}}}}})
 
        gender-and-number-agreement
@@ -948,7 +951,9 @@
     {:unify [essere-common essere-aux-subject-agreement]
      :notes "essere-aux"
      :synsem {:aux true
-              :infl :present}
+              :infl :present
+              :sem {:tense :past
+                    :aspect :simple}}
      :italiano {:notes "essere-aux"}}])
 
  "evitare"  {:synsem {:cat :verb

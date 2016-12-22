@@ -2249,7 +2249,8 @@
                    :pred :noi}
              :subcat '()}}]
 
-   "wear"  {:english {:past "wore"}
+   "wear"  {:english {:past "wore"
+                       :past-participle "worn"}
             :synsem {:cat :verb
                      :sem {:pred :wear}}}
    "whether"

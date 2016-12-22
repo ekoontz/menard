@@ -612,7 +612,8 @@
              :synsem {:cat :verb
                       :sem {:pred :run}}}
 
- "corrispondere"  {:synsem {:cat :verb
+ "corrispondere"  {:italiano {:passato "corrisposto"}
+                   :synsem {:cat :verb
                             :sem {:pred :correspond}}}
 
  "corto"

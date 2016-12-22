@@ -425,16 +425,18 @@
                                      :infl :infinitive
                                      :cat :verb}})
                    (unify h21a
-                           root-is-comp-root
-                           {:rule "vp-aux-phrasal-complement-passato"
-                            :head {:phrasal false
-                                   :synsem {:aux true}}
-                            :comp {:phrasal true}
-                            :synsem {:aux true
-                                     :infl :present
-                                     :sem {:tense :past
-                                           :aspect :simple}
-                                     :cat :verb}})
+                          root-is-comp-root
+                          (let [infl (atom :top)]
+                            {:rule "vp-aux-phrasal-complement-passato"
+                             :head {:phrasal false
+                                    :synsem {:aux true
+                                             :infl infl}}
+                             :comp {:phrasal true}
+                             :synsem {:aux true
+                                      :infl infl
+                                      :sem {:tense :past
+                                            :aspect :simple}
+                                      :cat :verb}}))
 
                    (unify h21a
                           root-is-comp

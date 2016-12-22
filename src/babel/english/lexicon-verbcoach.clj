@@ -1542,6 +1542,17 @@
 
    "organize" {:synsem {:cat :verb
                 :sem {:pred :organize}}}
+
+   "organize systematically"
+   {:synsem {:cat :verb
+             :sem {:activity true
+                   :discrete false
+                   :pred :organize-systematically}
+             :subcat {:2 '()}}
+     :english {:past "organized systematically"
+               :participle "organizing systematically"
+               :present {:3sing "organizes systematically"}}}
+
    "our"
    (map #(unify %
                 {:synsem {:cat :det

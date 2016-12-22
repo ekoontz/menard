@@ -55,6 +55,8 @@
       {:agr agr})
     (if-let [def (get-in spec [:synsem :sem :spec :def])]
       {:def def})
+    (if-let [infl (get-in spec [:synsem :infl])]
+      {:infl infl})
     (if-let [pronoun (get-in spec [:synsem :pronoun])]
       {:pronoun pronoun})
     ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it

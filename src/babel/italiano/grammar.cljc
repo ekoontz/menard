@@ -345,9 +345,8 @@
                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
                                    :synsem {:aux true}}
                             :rule "s-aux"
-                            :synsem {:cat :verb
-                                     :sem {:aspect :top
-                                           :tense :past}}})
+                            :synsem {:cat :verb}})
+
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"

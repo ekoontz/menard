@@ -341,11 +341,14 @@
 ;                            :synsem {:cat :prep}})
                    
                    (unify c10
-                           root-is-head-root
-                           {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
-                                   :synsem {:aux true}}
-                            :rule "s-aux"
-                            :synsem {:cat :verb}})
+                          root-is-head-root
+                          (let [infl (atom :top)]
+                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
+                                    :synsem {:aux true
+                                             :infl infl}}
+                             :rule "s-aux"
+                             :synsem {:cat :verb
+                                      :infl infl}}))
 
                    (unify c10
                            root-is-head-root
@@ -434,39 +437,31 @@
                                      :cat :verb}})
 
                    (unify h21a
-                           root-is-comp
-                           {:rule "vp-aux-nonphrasal-complement-passato"
-                            :head {:phrasal false
-                                   :synsem {:aux true}}
-                            :comp {:phrasal false}
-                            :synsem {:aux true
-                                     :infl :present
-                                     :sem {:tense :past
-                                           :aspect :simple}
-                                     :cat :verb}})
+                          root-is-comp
+                          (let [infl (atom :top)]
+                            {:rule "vp-aux-nonphrasal-complement-passato"
+                             :head {:phrasal false
+                                    :synsem {:aux true
+                                             :infl infl}}
+                             :comp {:phrasal false}
+                             :synsem {:aux true
+                                      :infl infl
+                                      :sem {:tense :past
+                                            :aspect :simple}
+                                      :cat :verb}}))
                    (unify h21a
-                           root-is-comp-root
-                           {:rule "vp-aux-phrasal-complement-trapassato"
-                            :head {:phrasal false
-                                   :synsem {:aux true}}
-                            :comp {:phrasal true}
-                            :synsem {:aux true
-                                     :infl :imperfect
-                                     :sem {:tense :past
-                                           :aspect :perfect}
-                                     :cat :verb}})
-
-                   (unify h21a
-                           root-is-comp
-                           {:rule "vp-aux-nonphrasal-complement-trapassato"
-                            :head {:phrasal false
-                                   :synsem {:aux true}}
-                            :comp {:phrasal false}
-                            :synsem {:aux true
-                                     :infl :imperfect
-                                     :sem {:tense :past
-                                           :aspect :perfect}
-                                     :cat :verb}})
+                          root-is-comp
+                          (let [infl (atom :imperfect)]
+                            {:rule "vp-aux-nonphrasal-complement-trapassato"
+                             :head {:phrasal false
+                                    :synsem {:aux true
+                                             :infl infl}}
+                             :comp {:phrasal false}
+                             :synsem {:aux true
+                                      :infl infl
+                                      :sem {:tense :past
+                                            :aspect :perfect}
+                                      :cat :verb}}))
                    
                    ;; these two following rules are kind of complicated and made more so by
                    ;; dependence on auxilary sense of "avere" which supplies the

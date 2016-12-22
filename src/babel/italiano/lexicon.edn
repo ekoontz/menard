@@ -255,8 +255,9 @@
     ;; 1. subject that is the same as the subject of 2.
     ;; 2. an intransitive verb.
     {:unify [avere-common]
-     :note "avere(aux): takes intrans"
+     :note "avere(aux): takes intrans (infl=present)"
      :synsem {:aux true
+              :infl :present
               :subcat {:2 {:sem {:reflexive false
                                  :tense :past
                                  :aspect :simple}
@@ -266,8 +267,9 @@
                           ;; but is expected to reduce fails during generation.
                           :subcat {:2 '()}}}}}
     {:unify [avere-common]
-     :note "avere(aux): takes intrans"
+     :note "avere(aux): takes intrans (infl=imperfect)"
      :synsem {:aux true
+              :infl :imperfect
               :subcat {:2 {:sem {:reflexive false
                                  :tense :past
                                  :aspect :perfect}
@@ -945,7 +947,8 @@
                     :discrete false}}}
     {:unify [essere-common essere-aux-subject-agreement]
      :notes "essere-aux"
-     :synsem {:aux true}
+     :synsem {:aux true
+              :infl :present}
      :italiano {:notes "essere-aux"}}])
 
  "evitare"  {:synsem {:cat :verb

@@ -254,7 +254,20 @@
     {:unify [avere-common]
      :note "avere(aux): takes intrans"
      :synsem {:aux true
-              :subcat {:2 {:sem {:reflexive false}
+              :subcat {:2 {:sem {:reflexive false
+                                 :tense :past
+                                 :aspect :simple}
+                           :essere false
+                           :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                           ;; this additional qualification here (:reflexive false) is not necessary
+                          ;; but is expected to reduce fails during generation.
+                          :subcat {:2 '()}}}}}
+    {:unify [avere-common]
+     :note "avere(aux): takes intrans"
+     :synsem {:aux true
+              :subcat {:2 {:sem {:reflexive false
+                                 :tense :past
+                                 :aspect :perfect}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary

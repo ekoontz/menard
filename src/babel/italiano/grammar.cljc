@@ -344,22 +344,10 @@
                            root-is-head-root
                            {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
                                    :synsem {:aux true}}
-                            :rule "s-aux-passato"
-                            :synsem {:infl :present
-                                     :cat :verb
-                                     :sem {:aspect :simple
+                            :rule "s-aux"
+                            :synsem {:cat :verb
+                                     :sem {:aspect :top
                                            :tense :past}}})
-
-                   (unify c10
-                           root-is-head-root
-                           {:head {:phrasal true ;; only a vp-aux may be the head child, not simply a lexical auxiliary verb.
-                                   :synsem {:aux true}}
-                            :rule "s-aux-trapassato"
-                            :synsem {:infl :imperfect
-                                     :cat :verb
-                                     :sem {:aspect :perfect
-                                           :tense :past}}})
-
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -715,8 +703,7 @@
                      (= (:rule %) "s-future-nonphrasal")
                      (= (:rule %) "s-imperfect-phrasal")
                      (= (:rule %) "s-imperfect-nonphrasal")
-                     (= (:rule %) "s-aux-passato")
-                     (= (:rule %) "s-aux-trapassato")
+                     (= (:rule %) "s-aux")
                      (= (:rule %) "vp-32")
                      (= (:rule %) "vp-aux-nonphrasal-complement-passato")
                      (= (:rule %) "vp-aux-phrasal-complement-passato")

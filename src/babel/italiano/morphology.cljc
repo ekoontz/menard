@@ -1325,10 +1325,10 @@
 (defn exception-generator [lexicon]
   (reduce
    concat
-   (map (fn [lexeme-kv]
-          (let [k (first lexeme-kv)
-                lexemes (second lexeme-kv)]
-            (if lexeme-kv
+   (map (fn [k]
+          (let [lexemes (get lexicon k)
+                lexeme-kv [k lexemes]]
+            (if lexemes
               (let [result (mapcat (fn [path-and-merge-fn]
                                      (let [path (:path path-and-merge-fn)
                                            surface-form-fn (if (:surface-form path-and-merge-fn)
@@ -1338,6 +1338,7 @@
                                            merge-fn (:merge-fn path-and-merge-fn)]
                                        ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                        ;; and the value is a list of lexemes for that string.
+                                       (log/debug (str "lexeme key:" k))
                                        (log/debug (str (first lexeme-kv) " generating exception for path: " path))
                                        (mapcat (fn [lexeme]
                                                  ;; this is where a unify/dissoc that supported
@@ -1617,7 +1618,7 @@
                                         :italiano {:agr {:number :plur}}})}
                                     ])]
                 result))))
-        lexicon)))
+        (sort (keys lexicon)))))
 
 (defn phonize2 [lexicon]
   (into {}

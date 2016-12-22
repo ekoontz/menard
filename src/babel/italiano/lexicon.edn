@@ -202,15 +202,12 @@
  "aumentare"   {:synsem {:cat :verb
                          :sem {:pred :increase}}}
  "avere"
- (let [infl (atom :top)
-       avere-common {:synsem {:essere false
-                              :infl infl
+ (let [avere-common {:synsem {:essere false
                               :cat :verb
                               :sem {:reflexive false}}
                      :italiano {:italiano "avere"
                                 :future-stem "avr"
                                 :drop-e true
-                                :infl infl
                                 :present {:1sing "ho"
                                           :2sing "hai"
                                           :3sing "ha"
@@ -877,11 +874,8 @@
                                  :3plur "sarebbero"}}}
 
        essere-aux-subject-agreement
-       (let [subject-agreement (atom :top)
-             infl (atom :top)]
-         {:italiano {:infl infl}
-          :synsem {:infl infl
-                   :subcat {:1 {:agr subject-agreement}
+       (let [subject-agreement (atom :top)]
+         {:synsem {:subcat {:1 {:agr subject-agreement}
                             :2 {:subcat {:1 {:agr subject-agreement}}}}}})
 
        gender-and-number-agreement

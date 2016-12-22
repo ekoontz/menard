@@ -191,7 +191,7 @@
       ;; </noun default rules>            
 
       ;; <verb default rules>
-      (default ;; aux defaults to false..
+      (default ;; aux defaults to false:
        {:synsem {:cat :verb
                  :aux false}})
 
@@ -202,10 +202,13 @@
              pred (atom :top)
              sem (atom {:tense :past
                         :pred pred})
-             subject (atom :top)]
-         {:synsem {:aux true
+             subject (atom :top)
+             infl (atom :top)]
+         {:italiano {:infl infl}
+          :synsem {:aux true
                    :cat :verb
                    :essere essere-binary-categorization
+                   :infl infl
                    :sem sem
                    :subcat {:1 subject
                             :2 {:cat :verb

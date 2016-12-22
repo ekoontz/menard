@@ -1599,7 +1599,8 @@
                         :sem {:pred :giveback-return}}}
 
  "riconoscere" {:synsem {:cat :verb
-                         :sem {:pred :recognize}}}
+                         :sem {:pred :recognize}}
+                :italiano {:passato "riconosciuto"}}
 
  "ricevere"  {:synsem {:cat :verb
                        :sem {:pred :receive}}}

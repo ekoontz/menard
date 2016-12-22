@@ -2119,6 +2119,9 @@
     {:phrasal-verb true
      :synsem {:cat :verb
               :sem {:pred :turn-off}
+              :english {:past "turned off"
+                        :present {:3sing "turns off"}
+                        :participle "turning off"}
               :subcat {:3 {:cat :prep
                            :sem {:pred :off}}}}}
 

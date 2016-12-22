@@ -202,12 +202,15 @@
  "aumentare"   {:synsem {:cat :verb
                          :sem {:pred :increase}}}
  "avere"
- (let [avere-common {:synsem {:essere false
+ (let [infl (atom :top)
+       avere-common {:synsem {:essere false
+                              :infl infl
                               :cat :verb
                               :sem {:reflexive false}}
                      :italiano {:italiano "avere"
                                 :future-stem "avr"
                                 :drop-e true
+                                :infl infl
                                 :present {:1sing "ho"
                                           :2sing "hai"
                                           :3sing "ha"

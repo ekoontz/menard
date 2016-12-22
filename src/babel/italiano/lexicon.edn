@@ -1685,6 +1685,7 @@
 
 
  "scappare"  {:synsem {:cat :verb
+                       :essere true
                        :sem {:pred :escape}}}
 
  "scarpa" {:synsem {:agr {:gender :fem}

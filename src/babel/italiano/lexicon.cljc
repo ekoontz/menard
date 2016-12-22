@@ -399,6 +399,9 @@
                      (= false (get-in % [:synsem :pronoun] false))))
            (and (log/warn (str "ignoring common noun with no gender specified: " %))
                 false)))
+
+      (filter-vals
+       #(not (= :fail %)))
      
       ;; filter out entries with no :cat.
       (filter-vals

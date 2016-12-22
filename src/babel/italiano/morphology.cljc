@@ -19,7 +19,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? unify)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
 ;; TODO: convert all morphology rules to this format used for prepositions:
 (def preposition-plus-article
@@ -1355,15 +1355,28 @@
                                                    (if (not (= :none (get-in lexeme path :none)))
                                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
                                                          (list {(surface-form-fn lexeme)
-                                                                [(unify
-                                                                  (dissoc-paths lexeme [[:italiano :italiano]])
-                                                                  (merge-fn lexeme)
-                                                                  {:italiano {:infinitive k
-                                                                              :exception true}})]})))))
+                                                                [(reduce
+                                                                  (fn [a b]
+                                                                    (cond
+                                                                      (= a :fail)
+                                                                      (do
+                                                                        (log/warn (str ":fail in generate exception: exception rule:" (:label path-and-merge-fn) "; lexeme:" (strip-refs lexeme)))
+                                                                        :fail)
+                                                                      (= b :fail)
+                                                                      (do
+                                                                        (log/warn (str ":fail in generate exception: exception rule:" (:label path-and-merge-fn) "; lexeme:" (strip-refs lexeme)))
+                                                                        :fail)
+                                                                      true
+                                                                      (unify a b)))
+                                                                  [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                                   (merge-fn lexeme)
+                                                                   {:italiano {:infinitive k
+                                                                               :exception true}}])]})))))
                                                lexemes)))
                                    [
                                     ;; 1. past-tense exceptions
                                     {:path [:italiano :passato]
+                                     :label "past-tense exception"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :past
@@ -1371,6 +1384,7 @@
 
                                     ;; 1.5 imperfect
                                     {:path [:italiano :imperfect :1sing]
+                                     :label "imperfect 1sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1378,6 +1392,7 @@
                                                    :agr {:number :sing
                                                          :person :1st}}})}
                                     {:path [:italiano :imperfect :2sing]
+                                     :label "imperfect 2sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1386,6 +1401,7 @@
                                                          :person :2nd}}})}
                                     
                                     {:path [:italiano :imperfect :3sing]
+                                     :label "imperfect 3sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1394,6 +1410,7 @@
                                                          :person :3rd}}})}
                                     
                                     {:path [:italiano :imperfect :1plur]
+                                     :label "imperfect 1plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1402,6 +1419,7 @@
                                                          :person :1st}}})}
                                     
                                     {:path [:italiano :imperfect :2plur]
+                                     :label "imperfect 2plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1410,6 +1428,7 @@
                                                          :person :2nd}}})}
                                     
                                     {:path [:italiano :imperfect :3plur]
+                                     :label "imperfect 3plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :imperfect
@@ -1419,6 +1438,7 @@
                                     
                                     ;; 2. present-tense exceptions
                                     {:path [:italiano :present :1sing]
+                                     :label "present 1sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1426,6 +1446,7 @@
                                                    :agr {:number :sing
                                                          :person :1st}}})}
                                     {:path [:italiano :present :2sing]
+                                     :label "present 2sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1434,6 +1455,7 @@
                                                          :person :2nd}}})}
                                     
                                     {:path [:italiano :present :3sing]
+                                     :label "present 3sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1442,6 +1464,7 @@
                                                          :person :3rd}}})}
                                     
                                     {:path [:italiano :present :1plur]
+                                     :label "present 1plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1450,6 +1473,7 @@
                                                          :person :1st}}})}
                                     
                                     {:path [:italiano :present :2plur]
+                                     :label "present 2plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1458,6 +1482,7 @@
                                                          :person :2nd}}})}
                                     
                                     {:path [:italiano :present :3plur]
+                                     :label "present 3plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :present
@@ -1468,6 +1493,7 @@
                                     ;; 2.1. present tense boot-stem
                                     (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "o"))]
                                       {:path [:italiano :boot-stem1]
+                                       :label "present boot-stem1: o"
                                        :surface-form surface-form
                                        :merge-fn
                                        (fn [val]
@@ -1478,6 +1504,7 @@
 
                                     (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "i"))]
                                       {:path [:italiano :boot-stem1]
+                                       :label "present boot-stem1: i"
                                        :surface-form surface-form
                                        :merge-fn
                                        (fn [val]
@@ -1488,6 +1515,7 @@
 
                                     (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "e"))]
                                       {:path [:italiano :boot-stem1]
+                                       :label "present boot-stem1: e"
                                        :surface-form surface-form
                                        :merge-fn
                                        (fn [val]
@@ -1498,6 +1526,7 @@
 
                                     (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "ono"))]
                                       {:path [:italiano :boot-stem1]
+                                       :label "present boot-stem1: ono"
                                        :surface-form surface-form
                                        :merge-fn
                                        (fn [val]
@@ -1508,6 +1537,7 @@
 
                                     ;; 3. future-tense exceptions
                                     {:path [:italiano :future :1sing]
+                                     :label "future 1sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1515,6 +1545,7 @@
                                                    :agr {:number :sing
                                                          :person :1st}}})}
                                     {:path [:italiano :future :2sing]
+                                     :label "future 2sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1522,6 +1553,7 @@
                                                    :agr {:number :sing
                                                          :person :2nd}}})}
                                     {:path [:italiano :future :3sing]
+                                     :label "future 3sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1529,6 +1561,7 @@
                                                    :agr {:number :sing
                                                          :person :3rd}}})}
                                     {:path [:italiano :future :1plur]
+                                     :label "future 1plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1536,6 +1569,7 @@
                                                    :agr {:number :plur
                                                          :person :1st}}})}
                                     {:path [:italiano :future :2plur]
+                                     :label "future 2plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1543,6 +1577,7 @@
                                                    :agr {:number :plur
                                                          :person :2nd}}})}
                                     {:path [:italiano :future :3plur]
+                                     :label "future 3plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :future
@@ -1552,6 +1587,7 @@
                                     
                                     ;; 4. conditional-tense exceptions
                                     {:path [:italiano :conditional :1sing]
+                                     :label "conditional 1sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional
@@ -1559,6 +1595,7 @@
                                                    :agr {:number :sing
                                                          :person :1st}}})}
                                     {:path [:italiano :conditional :2sing]
+                                     :label "conditional 2sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional
@@ -1566,6 +1603,7 @@
                                                    :agr {:number :sing
                                                          :person :2nd}}})}
                                     {:path [:italiano :conditional :3sing]
+                                     :label "conditional 3sing"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional
@@ -1573,6 +1611,7 @@
                                                    :agr {:number :sing
                                                          :person :3rd}}})}
                                     {:path [:italiano :conditional :1plur]
+                                     :label "conditional 1plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional
@@ -1580,6 +1619,7 @@
                                                    :agr {:number :plur
                                                          :person :1st}}})}
                                     {:path [:italiano :conditional :2plur]
+                                     :label "conditional 2plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional
@@ -1587,6 +1627,7 @@
                                                    :agr {:number :plur
                                                          :person :2nd}}})}
                                     {:path [:italiano :conditional :3plur]
+                                     :label "conditional 3plur"
                                      :merge-fn
                                      (fn [val]
                                        {:italiano {:infl :conditional

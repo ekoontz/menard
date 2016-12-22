@@ -1727,9 +1727,9 @@
                 :sem {:pred :rest}}}
 
    "return" [{:synsem {:cat :verb
-                       :sem {:pred :ritornare}}}
+                       :sem {:pred :return-r}}}
              {:synsem {:cat :verb
-                       :sem {:pred :tornare}}}
+                       :sem {:pred :return-t}}}
              {:synsem {:cat :verb
                        :sem {:pred :giveback-return}}
               :english {:note "give back"}}]

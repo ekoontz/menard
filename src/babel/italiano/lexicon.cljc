@@ -9,7 +9,7 @@
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.italiano.morphology :refer [agreement essere-default exception-generator
+   [babel.italiano.morphology :refer [agreement exception-generator
                                       phonize2]]
 
    [clojure.edn :as edn]

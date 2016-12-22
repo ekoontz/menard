@@ -19,7 +19,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? unifyc)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? unify)]))
 
 ;; TODO: convert all morphology rules to this format used for prepositions:
 (def preposition-plus-article
@@ -1281,8 +1281,8 @@
              (filter (fn [result] (not (= :fail result)))
                      (let [map-fn #?(:clj pmap) #?(:cljs map)]
                        (map-fn (fn [lexical-entry]
-                                 (let [result (unifyc unify-with lexical-entry)]
-                                   (log/debug (str "unifyc result:" result))
+                                 (let [result (unify unify-with lexical-entry)]
+                                   (log/debug (str "unify result:" result))
                                    result))
                              (get lexicon potential-lexical-form)))))))))
    replace-patterns))
@@ -1310,13 +1310,13 @@
           (cond (and (= :verb (get-in lexeme [:synsem :cat]))
                      (= :top (get-in lexeme [:synsem :infl])))
                 ;; if a verb has no infl, it's :infinitive.
-                (unifyc lexeme
+                (unify lexeme
                         {:synsem {:infl :infinitive}})
 
                 (and (= :noun (get-in lexeme [:synsem :cat]))
                      (= :top (get-in lexeme [:synsem :agr :number])))
                 ;; if a noun has no number, it's singular.
-                (unifyc lexeme
+                (unify lexeme
                         {:synsem {:agr {:number :sing}}})
                 true
                 lexeme))
@@ -1355,7 +1355,7 @@
                                                    (if (not (= :none (get-in lexeme path :none)))
                                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
                                                          (list {(surface-form-fn lexeme)
-                                                                [(unifyc
+                                                                [(unify
                                                                   (dissoc-paths lexeme [[:italiano :italiano]])
                                                                   (merge-fn lexeme)
                                                                   {:italiano {:infinitive k
@@ -1625,7 +1625,7 @@
         (for [[k vals] lexicon]
           [k 
            (map (fn [v]
-                  (unifyc v
+                  (unify v
                           {:italiano {:italiano k}}))
                 vals)])))
 
@@ -1639,12 +1639,12 @@
 
           (and (map? a-map)
                (not (= :no-italiano (get-in a-map [:italiano] :no-italiano))))
-          (unifyc {:italiano {:italiano a-string}}
+          (unify {:italiano {:italiano a-string}}
                   common
                   a-map)
 
           true
-          (unifyc a-map
+          (unify a-map
                   {:italiano a-string}
                   common))))
 
@@ -1661,7 +1661,7 @@
    (let [agr (atom :top)
          cat (atom :top)
          infl (atom :top)]
-     (unifyc lexical-entry
+     (unify lexical-entry
              {:italiano {:agr agr
                          :cat cat
                          :infl infl}
@@ -1671,13 +1671,13 @@
 
    (and (= (get-in lexical-entry [:synsem :cat]) :noun)
         (= (get-in lexical-entry [:synsem :pronoun]) true))
-   (unifyc lexical-entry
+   (unify lexical-entry
            pronoun-semantic-gender-agreement)
 
    (and (= (get-in lexical-entry [:synsem :cat]) :noun)
         (= (get-in lexical-entry [:synsem :subcat :1]) :top))
    ;; nouns which select articles that match in gender and number.
-   (unifyc lexical-entry
+   (unify lexical-entry
            (let [number (atom :top)
                  gender (atom :top)
                  person (atom :top)
@@ -1694,13 +1694,4 @@
    true
    lexical-entry))
 
-;; TODO: remove: dead code
-(defn essere-default [lexical-entry]
-  "if :essere is not set, then it's false."
-  (cond
-    (and (not (= (get-in lexical-entry [:top]) true))
-         (= (get-in lexical-entry [:synsem :essere] :top) :top))
-    (unifyc lexical-entry
-            {:synsem {:essere false}})
-    true lexical-entry))
 

@@ -170,6 +170,10 @@
                            (filter #(= true
                                        (get-in % [:head :phrasal] true))
                                    parents)))]
+      (log/debug (str "lexical-heads for parents:" (string/join "," (map :rule parents)) ":"
+                      (string/join ","
+                                   (map #((:morph language-model) %)
+                                        lexical))))
       (if (lexemes-before-phrases total-depth max-total-depth)
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))

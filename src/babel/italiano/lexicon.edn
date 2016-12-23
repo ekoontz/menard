@@ -1791,7 +1791,6 @@
  "spiegare" {:synsem {:cat :verb
                       :sem {:pred :explain}}}
 
-
  "spostare" {:synsem {:cat :verb
                       :sem {:pred :displace}}}
 
@@ -1801,12 +1800,18 @@
  "stampare"  {:synsem {:cat :verb
                        :sem {:pred :stampare}}}
 
- "stare"  {:synsem {:cat :verb
-                    :essere true
-                    :sem {:pred :stay}}
-           :italiano {:present {:2sing "stai"
-                                :3plur "stanno"}
-                      :future-stem "star"}}
+ "stare"  (let [common {:synsem {:cat :verb
+                                 :essere true}
+                        :italiano {:future-stem "star"}}]
+            [{:unify [common]
+              :synsem {:sem {:pred :stay}}}
+             {:unify [common]
+              :synsem {:aux true
+                       :sem {:tense :present
+                             :aspect :progressive}
+                       :subcat {:2 {:cat :verb
+                                    :infl :participle
+                                    }}}}])
 
  "studiare"  {:synsem {:cat :verb
                        :sem {:pred :study}}}

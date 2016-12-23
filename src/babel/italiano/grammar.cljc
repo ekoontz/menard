@@ -441,7 +441,7 @@
                            :synsem {:aux true
                                     :cat :verb}})
                    
-                   ;; these two following rules are kind of complicated and made more so by
+                   ;; this rule is kind of complicated and made more so by
                    ;; dependence on auxilary sense of "avere" which supplies the
                    ;; obj-agr agreement between the object and the main (non-auxilary) verb.
                    ;; Note use of :reflexive below.

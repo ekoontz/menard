@@ -218,7 +218,7 @@
                        (fo sentence)))]
         (if (nil? sentence)
           (let [warn-mesg (str "No sentence could be generated in language: " language " with spec:"
-                               spec)]
+                               (strip-refs spec))]
             (log/error warn-mesg)
             (throw (Exception. (str warn-mesg)))))
         (if (empty? surface)

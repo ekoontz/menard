@@ -88,7 +88,7 @@
                          {:head (copy head)})]
       (if (not (= :fail result))
         (do
-          (log/debug (str "overh: " (get-in parent [:rule]) " -> " (spec-info head) " : "
+          (log/debug (str "overh success: " (get-in parent [:rule]) " -> " (spec-info head) " : "
                           (strip-refs
                            (dissoc
                             head :dag_unify.core/serialized))))
@@ -120,10 +120,14 @@
          is-fail? (= :fail result)]
      (if (not is-fail?)
        (do
-         (log/debug (str "overc: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
+         (log/debug (str "overc success: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
                                                                           (get-in comp [:synsem :sem :pred]
                                                                                   "(no pred for comp)"))))
-         (list result))))))
+         (list result))
+       (log/debug (str "overc: fail-path for rule: " (:rule parent) ":"
+                       (dag_unify.core/fail-path
+                        (copy parent)
+                        {:comp (copy comp)})))))))
 
 (declare show-bolt)
 (declare subpath?)

@@ -282,7 +282,7 @@
        (cond (and lexemes-before-phrases
                   (empty? lexical-complements)
                   (= false (get-in spec [:phrasal] true)))
-             (log/warn (str "failed to generate any lexical complements with spec: "
+             (log/warn (str "failed to generate any lexical complements at path:" path " with spec: "
                             (strip-refs spec)))
              
              (and lexemes-before-phrases
@@ -374,7 +374,7 @@
                                                     (get-in spec [:synsem :cat] :top))))
                            ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
                            (do
-                             (log/debug (str "rule: " (:rule rule) " *is* a head candidate for spec:"
+                             (log/trace (str "rule: " (:rule rule) " *is* a head candidate for spec:"
                                              (strip-refs spec)))
                              (unify spec rule))
                            (do

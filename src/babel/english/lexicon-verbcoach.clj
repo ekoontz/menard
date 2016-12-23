@@ -2378,7 +2378,45 @@
              :sem {:human true
                    :reflexive false
                    :pred :voi}
-             :subcat '()}}]
+             :subcat '()}}
+
+             {:english {:note "v ♂"}
+               :synsem {:cat :noun
+                        :pronoun true
+                        :reflexive false
+                        :case :top ;; see comment in "it" about :case.
+                        :agr {:person :2nd
+                              :gender :masc
+                              :number :plur}
+                        :sem {:human true
+                              :reflexive false
+                              :pred :voi}
+                        :subcat '()}}
+
+              {:english {:note "v ♀"}
+                :synsem {:cat :noun
+                          :pronoun true
+                          :reflexive false
+                          :case :top ;; see comment in "it" about :case.
+                          :agr {:person :2nd
+                                :gender :fem
+                                :number :plur}
+                          :sem {:human true
+                                :reflexive false
+                                :pred :voi}
+                          :subcat '()}}
+
+              {:english {:note "u"}
+               :synsem {:cat :noun
+                       :pronoun true
+                       :reflexive false
+                       :case :top ;; see comment in "it" about :case.
+                       :agr {:person :2nd
+                             :number :plur}
+                       :sem {:human true
+                             :reflexive false
+                             :pred :voi}
+                       :subcat '()}}]
 
    "your"
    (map #(unify %

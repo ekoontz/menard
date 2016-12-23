@@ -900,11 +900,20 @@
      (and
       (= (get-in word [:infl]) :participle)
       (string? (get-in word [:italiano])))
-      (let [infinitive (if (get-in word [:infinitive]) ;; present participle
-                        (get-in word [:infinitive])
-                        (get-in word [:italiano]))]
-        (log/debug (str "conjugating present participle from infinitive form: " infinitive))
-        "mangiando") ;; TODO: stub that passes test: complete actual participle conjugation
+     (let [stem-analysis (stem-analysis word)
+           infinitive (:infinitive stem-analysis)
+           stem (:stem stem-analysis)]
+        (log/debug (str "conjugating present participle; analysis:" stem-analysis))
+        (cond (= "are" (:are-type stem-analysis))
+              (str stem "ando")
+              (= "ere" (:ere-type stem-analysis))
+              (str stem "endo")
+              (= "ire" (:ire-type stem-analysis))
+              (str stem "endo")
+              true
+              (do
+                (log/warn (str "no specific conjugation found for word with stem-analysis:" stem-analysis " - returning infinitive"))
+                infinitive)))
      
      (and
       (string? (get-in word '(:italiano)))

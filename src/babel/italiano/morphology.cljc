@@ -408,7 +408,7 @@
      (and
       (= (get-in word '(:infl)) :future)
       (map? (get-in word '(:future))))
-     (let [infinitive (get-in word '(:italiano))
+     (let [infinitive (get-in word '(:italiano)) ;; future irregular
            ;; e.g.: lavarsi => lavare
            infinitive (if (re-find #"[aei]rsi$" infinitive)
                         (string/replace infinitive #"si$" "e")
@@ -603,7 +603,7 @@
      ;; regular imperfect sense
      (and (= (get-in word '(:infl)) :imperfect)
           (get-in word '(:italiano)))
-     (let [infinitive (if (get-in word [:infinitive])
+     (let [infinitive (if (get-in word [:infinitive]) ;; imperfect
                         (get-in word [:infinitive])
                         (get-in word [:italiano]))
            ;; e.g.: lavarsi => lavare
@@ -694,7 +694,7 @@
      ;; conjugate regular passato
      (and (= :past (get-in word '(:infl)))
           (string? (get-in word '(:italiano))))
-     (let [infinitive (get-in word [:italiano])
+     (let [infinitive (get-in word [:italiano]) ;; regular passato
            ;; e.g.: lavarsi => lavare
            infinitive (if (re-find #"[aei]rsi$" infinitive)
                         (string/replace infinitive #"si$" "e")
@@ -757,7 +757,7 @@
      (and
       (= (get-in word '(:infl)) :present)
       (string? (get-in word '(:italiano))))
-     (let [infinitive (if (get-in word [:infinitive])
+     (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
                         (get-in word [:infinitive])
                         (get-in word [:italiano]))
            ;; e.g.: lavarsi => lavare
@@ -1322,6 +1322,7 @@
                 lexeme))
         (get lexicon surface-form))))
 
+;; TODO: move this to babel.italiano.lexicon, since it is part of lexicon compilation
 (defn exception-generator [lexicon]
   (reduce
    concat

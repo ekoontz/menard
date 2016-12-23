@@ -423,13 +423,12 @@
                                      :cat :verb}})
                    (unify h21a
                           root-is-comp-root
-                          {:rule "vp-aux-phrasal-complement-passato"
+                          {:rule "vp-aux-phrasal-complement"
                            :head {:phrasal false
                                   :synsem {:aux true}}
                            :comp {:phrasal true}
                            :synsem {:aux true
-                                    :sem {:tense :past
-                                          :aspect :simple}
+                                    :sem {:tense :past}
                                     :cat :verb}})
                    (unify h21a
                           root-is-comp
@@ -660,11 +659,9 @@
                      (= (:rule %) "s-imperfect-nonphrasal")
                      (= (:rule %) "s-aux")
                      (= (:rule %) "vp-32")
-                     (= (:rule %) "vp-aux-nonphrasal-complement-passato")
-                     (= (:rule %) "vp-aux-phrasal-complement-passato")
+                     (= (:rule %) "vp-aux-phrasal-complement")
                      (= (:rule %) "vp-aux-22")
                      (= (:rule %) "vp-aux-nonphrasal-complement")
-                     (= (:rule %) "vp-aux-phrasal-complement-trapassato")
                      (= (:rule %) "vp-present")
                      (= (:rule %) "vp-pronoun-nonphrasal")
                      (= (:rule %) "vp-pronoun-phrasal")

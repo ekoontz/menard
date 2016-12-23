@@ -347,6 +347,9 @@
                              :rule "s-aux"
                              :synsem {:cat :verb}})
 
+                   ;; TODO: consolidate s-future-(non)phrasal,s-conditional-(non)phrasal,etc
+                   ;; into fewer rules and use a default rule to choose among them.
+                   ;; (see babel.english.grammar/default-fn)
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"

@@ -255,7 +255,8 @@
       (default ;; ..but if a verb *is* reflexive:
        (let [subject-semantics (atom {:animate true})
              subject-agr (atom :top)]
-         {:synsem {:cat :verb
+         {:synsem {:aux false
+                   :cat :verb
                    :essere true
                    :sem {:subj subject-semantics
                          :obj subject-semantics

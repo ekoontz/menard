@@ -193,6 +193,45 @@
      true
      infinitive)))
 
+(defn stem-analysis [word]
+  (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
+                     (get-in word [:infinitive])
+                     (get-in word [:italiano]))
+        ;; e.g.: lavarsi => lavare
+        infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)
+        are-type (try (re-find #"are$" infinitive)
+                      (catch Exception e
+                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+        ere-type (re-find #"ere$" infinitive)
+        ire-type (re-find #"ire$" infinitive)
+        stem (cond (and (get-in word [:boot-stem1])
+                        (or (= (get-in word [:agr :number])
+                               :sing)
+                            (and (= (get-in word [:agr :person])
+                                    :3rd)
+                                 (= (get-in word [:agr :number])
+                                    :plur))))
+                   (get-in word [:boot-stem1])
+                   true
+                   (string/replace infinitive #"[iae]re$" ""))
+        last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
+        last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
+        is-care-or-gare? (re-find #"[cg]are$" infinitive)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))]
+    {:infinitive infinitive
+     :are-type are-type
+     :ere-type ere-type
+     :ire-type ire-type
+     :stem stem
+     :last-stem-char-is-i last-stem-char-is-i
+     :last-stem-char-is-e last-stem-char-is-e
+     :is-care-or-gare? is-care-or-gare?
+     :person person
+     :number number}))
+
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 ;; TODO: use replace patterns instead (as with French)
 (defn get-string-1 [word]
@@ -757,6 +796,7 @@
      (and
       (= (get-in word '(:infl)) :present)
       (string? (get-in word '(:italiano))))
+     ;; TODO: use (defn stem-analysis [word])
      (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
                         (get-in word [:infinitive])
                         (get-in word [:italiano]))

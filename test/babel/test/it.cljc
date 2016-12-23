@@ -88,10 +88,10 @@
                           :synsem {:cat :verb
                                    :subcat ()
                                    :sem {:aspect :pluperfect
-                                         :obj :unspec
-                                         :subj {:pred :I}
+                                         :subj {:pred :I
+                                                :gender :fem}
                                          :tense :past}}})]
-    (is (= "io mi ero addormentato" (morph result)))))
+    (is (= "io mi ero addormentata" (morph result)))))
 
 (deftest parse-ci-before-vowel
   (let [result (:parses (first (parse "c'è stato")))]

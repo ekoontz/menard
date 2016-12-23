@@ -451,32 +451,15 @@
                            (let [obj-agr (atom :top)]
                              {:head {:phrasal false
                                      :synsem {:aux true}}
-                              :rule "vp-aux-22-passato"
+                              :rule "vp-aux-22"
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
                                        :sem {:reflexive true
-                                             :tense :past
-                                             :aspect :simple}
+                                             :tense :past}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))
 
-                   (unify h22
-                           root-is-comp
-                           vp-non-pronoun
-                           (let [obj-agr (atom :top)]
-                             {:head {:phrasal false
-                                     :synsem {:aux true}}
-                              :rule "vp-aux-22-trapassato"
-                              :synsem {:aux true
-                                       :cat :verb
-                                       :infl :imperfect
-                                       :sem {:reflexive true
-                                             :tense :past
-                                             :aspect :perfect}
-                                       :subcat {:2 {:agr obj-agr}}}
-                              :italiano {:b {:obj-agr obj-agr}}}))
-                   
                    (unify h21
                            root-is-head
                            {:rule "vp-future"
@@ -679,10 +662,9 @@
                      (= (:rule %) "vp-32")
                      (= (:rule %) "vp-aux-nonphrasal-complement-passato")
                      (= (:rule %) "vp-aux-phrasal-complement-passato")
-                     (= (:rule %) "vp-aux-22-passato")
+                     (= (:rule %) "vp-aux-22")
                      (= (:rule %) "vp-aux-nonphrasal-complement")
                      (= (:rule %) "vp-aux-phrasal-complement-trapassato")
-                     (= (:rule %) "vp-aux-22-trapassato")
                      (= (:rule %) "vp-present")
                      (= (:rule %) "vp-pronoun-nonphrasal")
                      (= (:rule %) "vp-pronoun-phrasal")

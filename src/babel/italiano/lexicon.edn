@@ -1811,6 +1811,7 @@
               :synsem {:sem {:pred :stay}}}
              {:unify [common]
               :synsem {:aux true
+                       :infl :present
                        :sem {:tense :present
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb

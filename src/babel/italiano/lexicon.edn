@@ -1822,7 +1822,9 @@
 
  "stare"  (let [common {:synsem {:cat :verb
                                  :essere true}
-                        :italiano {:future-stem "star"}}]
+                        :italiano {:future-stem "star"
+                                   :present {:2sing "stai"
+                                             :3plur "stanno"}}}]
             [{:unify [common]
               :synsem {:sem {:pred :stay}}}
 

@@ -200,8 +200,7 @@
              ;; auxiliary to form its past form:
              essere-binary-categorization (atom :top)
              pred (atom :top)
-             sem (atom {:tense :past
-                        :pred pred})
+             sem (atom :top)
              subject (atom :top)
              infl (atom :top)]
          {:italiano {:infl infl}

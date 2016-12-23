@@ -949,7 +949,8 @@
               :infl :present
               :sem {:tense :present
                     :aspect :perfect}
-              :subcat {:2 {:infl :past}}}
+              :subcat {:2 {:essere true
+                           :infl :past}}}
      :italiano {:notes "essere-aux"}}])
 
  "evitare"  {:synsem {:cat :verb

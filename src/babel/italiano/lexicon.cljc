@@ -198,7 +198,6 @@
       (default ;; ..but if aux is true:
        (let [;; whether a verb has essere or avere as its
              ;; auxiliary to form its past form:
-             essere-binary-categorization (atom :top)
              pred (atom :top)
              sem (atom :top)
              subject (atom :top)
@@ -206,12 +205,10 @@
          {:italiano {:infl infl}
           :synsem {:aux true
                    :cat :verb
-                   :essere essere-binary-categorization
                    :infl infl
                    :sem sem
                    :subcat {:1 subject
                             :2 {:cat :verb
-                                :essere essere-binary-categorization
                                 :aux false
                                 :subcat {:1 subject}
                                 :sem sem}}}}))

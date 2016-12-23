@@ -263,7 +263,7 @@
      :synsem {:aux true
               :infl :imperfect
               :sem {:tense :past
-                    :aspect :perfect}
+                    :aspect :pluperfect}
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.

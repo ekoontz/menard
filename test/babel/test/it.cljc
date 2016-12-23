@@ -75,7 +75,7 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :perfect
+                                   :sem {:aspect :pluperfect
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]

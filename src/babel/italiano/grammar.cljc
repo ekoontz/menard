@@ -428,7 +428,6 @@
                                   :synsem {:aux true}}
                            :comp {:phrasal true}
                            :synsem {:aux true
-                                    :sem {:tense :past}
                                     :cat :verb}})
                    (unify h21a
                           root-is-comp
@@ -437,7 +436,6 @@
                                   :synsem {:aux true}}
                            :comp {:phrasal false}
                            :synsem {:aux true
-                                    :sem {:tense :past}
                                     :cat :verb}})
                    
                    ;; these two following rules are kind of complicated and made more so by
@@ -454,8 +452,7 @@
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
-                                       :sem {:reflexive true
-                                             :tense :past}
+                                       :sem {:reflexive true}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))
 

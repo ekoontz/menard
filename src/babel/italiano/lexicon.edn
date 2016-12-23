@@ -233,11 +233,10 @@
      :note "avere (possess): unspecified object"
      :synsem {:sem {:pred :have}}}
 
-    ;; 4. "avere" auxiliary that takes a transitive verb:
-    ;; e.g. "io l'ho vista (i saw her)"
+    ;; 4. passato transitive
     (let [agr (atom :top)]
       {:unify [avere-common]
-       :note "avere(aux): takes trans"
+       :note "passato prossimo transitive"
        :synsem {:aux true
                 :subcat {:2 {:agr agr
                              :sem {:reflexive false}
@@ -245,38 +244,36 @@
                                           :pronoun true}}
                              :essere false}}}})
 
-    ;; 5. "avere" auxiliary that takes an intransitive verb or a
-    ;; transitive verb within a VP with the object (e.g. "io ho
-    ;; dormito (i slept)" or "io ho [mangiato la pizza] (i ate the pizza)"
-    ;; Takes 2 args:
-    ;; 1. subject that is the same as the subject of 2.
-    ;; 2. an intransitive verb.
+    ;; 5. passato prossimo intransitive
     {:unify [avere-common]
-     :note "avere(aux): takes intrans (infl=present)"
+     :note "passato prossimo intransitive"
      :synsem {:aux true
               :infl :present
-              :subcat {:2 {:sem {:reflexive false
-                                 :tense :past
-                                 :aspect :simple}
+              :sem {:tense :past
+                    :aspect :simple}
+              :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                          ;; but is expected to reduce fails during generation.
-                          :subcat {:2 '()}}}}}
+                           ;; but is expected to reduce fails during generation.
+                           :subcat {:2 '()}}}}}
+    ;; 6. trapassato intransitive
     {:unify [avere-common]
-     :note "avere(aux): takes intrans (infl=imperfect)"
+     :note "trapassato intransitive"
      :synsem {:aux true
               :infl :imperfect
-              :subcat {:2 {:sem {:reflexive false
-                                 :tense :past
-                                 :aspect :perfect}
+              :sem {:tense :past
+                    :aspect :perfect}
+              :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                          ;; but is expected to reduce fails during generation.
-                          :subcat {:2 '()}}}}}
+                           ;; but is expected to reduce fails during generation.
+                           :subcat {:2 '()}}}}}
 
-   ;; 6. avere bisogno di
+    ;; TODO: add trapassato transitive
+
+   ;; 7. avere bisogno di
    (let [need-obj (atom :top)]
      {:unify [avere-common]
       :allow-intransitivize false ;; don't generate "ho bisogno di".

@@ -1814,6 +1814,7 @@
                        :sem {:tense :present
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
+                                    :infl :participle
                                     }}}}])
 
  "studiare"  {:synsem {:cat :verb

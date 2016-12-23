@@ -431,26 +431,14 @@
                                     :sem {:tense :past
                                           :aspect :simple}
                                     :cat :verb}})
-
                    (unify h21a
                           root-is-comp
-                          {:rule "vp-aux-nonphrasal-complement-passato"
+                          {:rule "vp-aux-nonphrasal-complement"
                            :head {:phrasal false
                                   :synsem {:aux true}}
                            :comp {:phrasal false}
                            :synsem {:aux true
-                                    :sem {:tense :past
-                                          :aspect :simple}
-                                    :cat :verb}})
-                   (unify h21a
-                          root-is-comp
-                          {:rule "vp-aux-nonphrasal-complement-trapassato"
-                           :head {:phrasal false
-                                  :synsem {:aux true}}
-                           :comp {:phrasal false}
-                           :synsem {:aux true
-                                    :sem {:tense :past
-                                          :aspect :perfect}
+                                    :sem {:tense :past}
                                     :cat :verb}})
                    
                    ;; these two following rules are kind of complicated and made more so by
@@ -692,7 +680,7 @@
                      (= (:rule %) "vp-aux-nonphrasal-complement-passato")
                      (= (:rule %) "vp-aux-phrasal-complement-passato")
                      (= (:rule %) "vp-aux-22-passato")
-                     (= (:rule %) "vp-aux-nonphrasal-complement-trapassato")
+                     (= (:rule %) "vp-aux-nonphrasal-complement")
                      (= (:rule %) "vp-aux-phrasal-complement-trapassato")
                      (= (:rule %) "vp-aux-22-trapassato")
                      (= (:rule %) "vp-present")

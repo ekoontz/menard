@@ -140,12 +140,16 @@
                                                 (:rule parent)))
                                 (index-fn (get-in parent [:head] :top)))
                               (flatten (vals lexicon)))]
-                 (let [result
+                 (let [shuffled-subset (shuffle subset)
+                       log (log/debug (str "lexical head candidates:"
+                                           (string/join "," (sort (map #((:morph language-model) %)
+                                                                       subset)))))
+                       result
                        (mapcat #(do
                                   (log/trace (str "trying parent: " (:rule parent) " with lexical head:"
                                                   ((:morph language-model) %)))
                                   (over/overh parent %))
-                               (shuffle subset))]
+                               shuffled-subset)]
                    (if (and (not (empty? subset)) (empty? result)
                             (> (count subset)
                                50))

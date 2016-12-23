@@ -177,7 +177,8 @@
                                                                    (write-one spec)))
                                                                [:sing :plur]))))
                                                      [:1st :2nd :3rd]))))
-                                           (cond (= tense
+                                           (cond (= tense ;; TODO: what is this conditional accomplishing?
+                                                    ;; look at `git blame` to try to understand.
                                                     {:synsem {:sem {:aspect :simple
                                                                     :tense :past}}})
                                                  [{:gender :masc}

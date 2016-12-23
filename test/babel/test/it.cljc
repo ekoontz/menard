@@ -596,11 +596,10 @@
         simple (unify base-spec
                       {:synsem {:sem {:aspect :simple}}})]
     ;; simple present:
-;    (is (= "io mangio" (morph (generate simple)))) 
+    (is (= "io mangio" (morph (generate simple)))) 
 
     ;; progressive present:
-    (is (= "io sto mangiando" (morph (generate progressive))))
-    ))
+    (is (= "io sto mangiando" (morph (generate progressive))))))
 
 
 

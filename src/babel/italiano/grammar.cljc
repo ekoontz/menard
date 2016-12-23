@@ -454,7 +454,6 @@
                               :rule "vp-aux-22"
                               :synsem {:aux true
                                        :cat :verb
-                                       :infl :present
                                        :sem {:reflexive true}
                                        :subcat {:2 {:agr obj-agr}}}
                               :italiano {:b {:obj-agr obj-agr}}}))

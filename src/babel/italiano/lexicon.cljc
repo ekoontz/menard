@@ -200,12 +200,13 @@
              ;; auxiliary to form its past form:
              pred (atom :top)
              sem (atom :top)
-             subject (atom :top)
-             infl (atom :top)]
-         {:italiano {:infl infl}
+             subject (atom :top)]
+         {;; useful for diagnostics: can check for
+          ;; this being set within a parse or generation tree.
+          :applied {:aux-is-true-1 true}
+
           :synsem {:aux true
                    :cat :verb
-                   :infl infl
                    :sem sem
                    :subcat {:1 subject
                             :2 {:cat :verb

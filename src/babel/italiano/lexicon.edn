@@ -213,7 +213,10 @@
                                           :3sing "ha"
                                           :1plur "abbiamo"
                                           :2plur "avete"
-                                          :3plur "hanno"}}}]
+                                          :3plur "hanno"}}}
+       avere-aux (let [infl (atom :top)]
+                   {:italiano {:infl infl}
+                    :synsem {:infl infl}})]
    ;; 1. "avere": to possess something buyable
    [{:unify [avere-common]
      :note "avere (possess)"
@@ -235,7 +238,7 @@
 
     ;; 4. passato transitive
     (let [agr (atom :top)]
-      {:unify [avere-common]
+      {:unify [avere-common avere-aux]
        :note "passato prossimo transitive"
        :synsem {:aux true
                 :sem {:tense :present
@@ -247,7 +250,7 @@
                              :essere false}}}})
 
     ;; 5. passato prossimo intransitive
-    {:unify [avere-common]
+    {:unify [avere-common avere-aux]
      :note "passato prossimo intransitive"
      :synsem {:aux true
               :infl :present
@@ -261,7 +264,7 @@
                            ;; but is expected to reduce fails during generation.
                            :subcat {:2 '()}}}}}
     ;; 6. trapassato intransitive
-    {:unify [avere-common]
+    {:unify [avere-common avere-aux]
      :note "trapassato intransitive"
      :synsem {:aux true
               :infl :imperfect
@@ -875,8 +878,11 @@
                                  :3plur "sarebbero"}}}
 
        essere-aux-subject-agreement
-       (let [subject-agreement (atom :top)]
-         {:synsem {:subcat {:1 {:agr subject-agreement}
+       (let [subject-agreement (atom :top)
+             infl (atom :top)]
+         {:italiano {:infl infl}
+          :synsem {:infl infl
+                   :subcat {:1 {:agr subject-agreement}
                             :2 {:subcat {:1 {:agr subject-agreement}}}}}})
 
        gender-and-number-agreement
@@ -950,6 +956,7 @@
               :sem {:tense :present
                     :aspect :perfect}
               :subcat {:2 {:essere true
+                           :cat :verb
                            :infl :past}}}}
 
     {:unify [essere-common essere-aux-subject-agreement]
@@ -959,6 +966,7 @@
               :sem {:tense :past
                     :aspect :pluperfect}
               :subcat {:2 {:essere true
+                           :cat :verb
                            :infl :past}}}}])
 
  "evitare"  {:synsem {:cat :verb

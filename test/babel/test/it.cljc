@@ -101,7 +101,6 @@
 (deftest passato-prossimo-reflexive
   (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
                           :synsem {:subcat '()
-                                   :infl :present
                                    :sem {:pred :get-up
                                          :subj {:pred :I}
                                          :tense :present
@@ -112,8 +111,9 @@
 
 (deftest present-ditransitive
   (let [result (generate {:synsem {:subcat '()
-                                   :infl :present
                                    :sem {:pred :be-called
+                                         :tense :present
+                                         :aspect :simple
                                          :subj {:pred :I}
                                          :iobj {:pred :luisa}}}}
                          :model small)]

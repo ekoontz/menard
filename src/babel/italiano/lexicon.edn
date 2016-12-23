@@ -1809,6 +1809,7 @@
                         :italiano {:future-stem "star"}}]
             [{:unify [common]
               :synsem {:sem {:pred :stay}}}
+
              {:unify [common]
               :synsem {:aux true
                        :infl :present
@@ -1816,7 +1817,18 @@
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
                                     :infl :participle
-                                    }}}}])
+                                    }}}}
+
+;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"             
+;             {:unify [common]
+;              :synsem {:aux true
+;                       :infl :imperfect
+;                       :sem {:tense :past
+;                             :aspect :progressive}
+;                       :subcat {:2 {:cat :verb
+;                                    :infl :participle}}}}
+             ])
+             
 
  "studiare"  {:synsem {:cat :verb
                        :sem {:pred :study}}}

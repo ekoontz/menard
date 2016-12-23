@@ -41,7 +41,7 @@
                                 :tense :past}}}
    "passato" {:synsem {:sem {:aspect :simple
                              :tense :past}}}
-   "trapassato" {:synsem {:sem {:aspect :perfect
+   "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
 
 (defn fo-ps [expr]

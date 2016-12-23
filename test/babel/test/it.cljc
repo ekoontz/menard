@@ -70,7 +70,7 @@
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
 
-(deftest trapassato-prossimo
+(deftest trapassato
   (let [result (generate {:root {:italiano {:italiano "bere"}}
                           :modified false
                           :synsem {:cat :verb
@@ -81,6 +81,17 @@
                                          :tense :past}}})]
     (is (not (nil? result)))
     (is (= "io avevo bevuto" (morph result)))))
+
+(deftest trapassato-reflexive
+  (let [result (generate {:root {:italiano {:italiano "addormentarsi"}}
+                          :modified false
+                          :synsem {:cat :verb
+                                   :subcat ()
+                                   :sem {:aspect :pluperfect
+                                         :obj :unspec
+                                         :subj {:pred :I}
+                                         :tense :past}}})]
+    (is (= "io mi ero addormentato" (morph result)))))
 
 (deftest parse-ci-before-vowel
   (let [result (:parses (first (parse "c'è stato")))]

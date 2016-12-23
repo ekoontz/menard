@@ -950,8 +950,16 @@
               :sem {:tense :present
                     :aspect :perfect}
               :subcat {:2 {:essere true
-                           :infl :past}}}
-     :italiano {:notes "essere-aux"}}])
+                           :infl :past}}}}
+
+    {:unify [essere-common essere-aux-subject-agreement]
+     :notes "essere-aux-trapassato"
+     :synsem {:aux true
+              :infl :imperfect
+              :sem {:tense :past
+                    :aspect :pluperfect}
+              :subcat {:2 {:essere true
+                           :infl :past}}}}])
 
  "evitare"  {:synsem {:cat :verb
                       :sem {:pred :avoid}}}

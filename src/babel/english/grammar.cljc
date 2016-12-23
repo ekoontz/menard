@@ -101,13 +101,13 @@
                              :tense :past}
                        :infl :past}})
 
-            ;; past perfect
+            ;; pluperfect
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
-                       :sem {:aspect :perfect
+                       :sem {:aspect :pluperfect
                              :tense :past}
-                       :infl :past-perfect}}))]
+                       :infl :pluperfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (fo result)))
     (log/debug (str "aspect (post): " (strip-refs (get-in result
                                                          [:synsem :sem :aspect]

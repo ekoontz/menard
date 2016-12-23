@@ -321,7 +321,7 @@
 (deftest past-and-gender-agreement
   (= (fo (generate {:synsem {:sem {:pred :go
                                    :aspect :perfect
-                                   :tense :past
+                                   :tense :present
                                    :subj {:gender :fem
                                           :pred :loro}}}}))
      "they (♀) went"))
@@ -459,10 +459,10 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :simple
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
-                                         :tense :past}}})]
+                                         :tense :present}}})]
     (is (not (nil? result)))
     (is (= "I drank" (morph result)))))
 

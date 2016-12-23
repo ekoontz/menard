@@ -186,14 +186,18 @@
                                                  [:top])))))
                                  (list {:synsem {:sem {:tense :conditional}}}
                                        {:synsem {:sem {:tense :future}}}
+
                                        {:synsem {:sem {:tense :present
                                                        :aspect :simple}}}
+
                                        {:synsem {:sem {:tense :present
                                                        :aspect :progressive}}}
+
                                        {:synsem {:sem {:aspect :progressive
                                                        :tense :past}}}
-                                      {:synsem {:sem {:aspect :simple
-                                                      :tense :past}}})))))
+
+                                       {:synsem {:sem {:aspect :perfect
+                                                      :tense :present}}})))))
                  (reduce concat
                          (map (fn [key]
                                 (get root-verbs key))

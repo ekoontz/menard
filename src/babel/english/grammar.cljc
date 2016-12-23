@@ -97,8 +97,8 @@
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
-                       :sem {:aspect :simple
-                             :tense :past}
+                       :sem {:aspect :perfect
+                             :tense :present}
                        :infl :past}})
 
             ;; pluperfect

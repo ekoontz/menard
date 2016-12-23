@@ -938,13 +938,13 @@
      :synsem {:cat :verb
               :subcat {:1 {:cat :noun}
                        :2 {:cat :noun
-                           :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present)
+                           :pronoun {:not true} ;; accusative pronouns cause unbounded depth-first searches on the subject side. (TODO: not sure if this problem is still present: test for problem and if it doesn't exist, then remove this constraint)
                            :def {:not :demonstrativo}}}
               :sem {:pred :be
                     :activity false
                     :discrete false}}}
     {:unify [essere-common essere-aux-subject-agreement]
-     :notes "essere-aux"
+     :notes "essere-aux-passato"
      :synsem {:aux true
               :infl :present
               :sem {:tense :present

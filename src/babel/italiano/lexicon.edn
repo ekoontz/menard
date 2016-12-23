@@ -255,6 +255,7 @@
                     :aspect :perfect}
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
+                           :infl :past
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
@@ -267,6 +268,7 @@
               :sem {:tense :past
                     :aspect :pluperfect}
               :subcat {:2 {:sem {:reflexive false}
+                           :infl :past
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
@@ -946,7 +948,8 @@
      :synsem {:aux true
               :infl :present
               :sem {:tense :present
-                    :aspect :perfect}}
+                    :aspect :perfect}
+              :subcat {:2 {:infl :past}}}
      :italiano {:notes "essere-aux"}}])
 
  "evitare"  {:synsem {:cat :verb
@@ -1810,7 +1813,6 @@
                        :sem {:tense :present
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
-                                    :infl :participle
                                     }}}}])
 
  "studiare"  {:synsem {:cat :verb

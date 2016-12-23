@@ -213,7 +213,6 @@
                             :2 {:cat :verb
                                 :essere essere-binary-categorization
                                 :aux false
-                                :infl :past
                                 :subcat {:1 subject}
                                 :sem sem}}}}))
 

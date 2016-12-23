@@ -858,6 +858,15 @@
         (str infinitive )))
 
      (and
+      (= (get-in word [:infl]) :participle)
+      (string? (get-in word [:italiano])))
+      (let [infinitive (if (get-in word [:infinitive]) ;; present participle
+                        (get-in word [:infinitive])
+                        (get-in word [:italiano]))]
+        (log/debug (str "conjugating present participle from infinitive form: " infinitive))
+        "mangiando") ;; TODO: stub that passes test: complete actual participle conjugation
+     
+     (and
       (string? (get-in word '(:italiano)))
       (= :top (get-in word '(:agr :sing) :top)))
      (str (get-in word '(:italiano)))

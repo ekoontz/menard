@@ -52,8 +52,8 @@
   (let [result (generate {:root {:italiano {:italiano "bere"}}
                           :synsem {:subcat ()
                                    :sem {:subj {:pred :I}
-                                         :tense :past
-                                         :aspect :simple}}}
+                                         :tense :present
+                                         :aspect :perfect}}}
                          :model small)]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
@@ -63,10 +63,10 @@
                           :modified false
                           :synsem {:cat :verb
                                    :subcat ()
-                                   :sem {:aspect :simple
+                                   :sem {:aspect :perfect
                                          :obj :unspec
                                          :subj {:pred :I}
-                                         :tense :past}}})]
+                                         :tense :present}}})]
     (is (not (nil? result)))
     (is (= "io ho bevuto" (morph result)))))
 
@@ -104,8 +104,8 @@
                                    :infl :present
                                    :sem {:pred :get-up
                                          :subj {:pred :I}
-                                         :tense :past
-                                         :aspect :simple}}}
+                                         :tense :present
+                                         :aspect :perfect}}}
                          :model small)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (morph result)))))
@@ -227,8 +227,8 @@
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :essere true
-                                                :sem {:tense :past
-                                                      :aspect :simple}
+                                                :sem {:tense :present
+                                                      :aspect :perfect}
                                                 :subcat '()}}
                                       :model small)))]
     (is (= do-this-many
@@ -538,8 +538,8 @@
 
 (deftest past-and-gender-agreement
   (is (= (morph (generate {:synsem {:sem {:pred :go
-                                          :aspect :simple
-                                          :tense :past
+                                          :aspect :perfect
+                                          :tense :present
                                           :subj {:gender :fem
                                                  :pred :loro}}}}
                        :model small))
@@ -595,13 +595,10 @@
                            {:synsem {:sem {:aspect :progressive}}})
         simple (unify base-spec
                       {:synsem {:sem {:aspect :simple}}})]
-    ;; default should be simple present:
-    (is (= "io mangio" (morph (generate base-spec))))
-
-    ;; explicitly set to simple present:
+    ;; simple present:
     (is (= "io mangio" (morph (generate simple)))) 
 
-    ;; explicitly set to progressive present:
+    ;; progressive present:
 ;;    (is (= "io sto mangiando" (morph (generate progressive))))
     ))
 

@@ -39,8 +39,8 @@
    "future" {:synsem {:sem {:tense :future}}}
    "imperfetto" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
-   "passato" {:synsem {:sem {:aspect :simple
-                             :tense :past}}}
+   "passato" {:synsem {:sem {:aspect :perfect
+                             :tense :present}}}
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
 

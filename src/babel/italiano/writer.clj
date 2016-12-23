@@ -76,18 +76,36 @@
    (cond
      (= (get-in spec [:root :italiano :italiano])
         "chiamarsi")
+     ;; for this verb, generate only present
      [{:synsem {:sem {:tense :present
                       :aspect :simple}}}]
-     true [{:synsem {:sem {:tense :conditional}}}
+     true [;; conditional
+           {:synsem {:sem {:tense :conditional}}}
+
+           ;; future
            {:synsem {:sem {:tense :future}}}
+
+           ;; simple present
            {:synsem {:sem {:tense :present
                            :aspect :simple}}}
+
+           ;; imperfetto
            {:synsem {:sem {:aspect :progressive
                            :tense :past}}}
-           {:synsem {:sem {:aspect :simple
-                           :tense :past}}}
+
+           ;; passato prossimo
            {:synsem {:sem {:aspect :perfect
-                           :tense :past}}}])
+                           :tense :present}}}
+
+           ;; trapassato
+           {:synsem {:sem {:aspect :pluperfect
+                           :tense :past}}}
+
+           ;; present progressive
+           ;; TODO
+           ])
+   
+   
 
    [{:gender :masc}
     {:gender :fem}]

@@ -238,6 +238,8 @@
       {:unify [avere-common]
        :note "passato prossimo transitive"
        :synsem {:aux true
+                :sem {:tense :present
+                      :aspect :perfect}
                 :subcat {:2 {:agr agr
                              :sem {:reflexive false}
                              :subcat {:2 {:agr agr
@@ -249,8 +251,8 @@
      :note "passato prossimo intransitive"
      :synsem {:aux true
               :infl :present
-              :sem {:tense :past
-                    :aspect :simple}
+              :sem {:tense :present
+                    :aspect :perfect}
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
@@ -943,8 +945,8 @@
      :notes "essere-aux"
      :synsem {:aux true
               :infl :present
-              :sem {:tense :past
-                    :aspect :simple}}
+              :sem {:tense :present
+                    :aspect :perfect}}
      :italiano {:notes "essere-aux"}}])
 
  "evitare"  {:synsem {:cat :verb

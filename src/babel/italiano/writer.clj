@@ -102,7 +102,8 @@
                            :tense :past}}}
 
            ;; present progressive
-           ;; TODO
+           {:synsem {:sem {:aspect :progressive
+                           :tense :present}}}
            ])
    
    

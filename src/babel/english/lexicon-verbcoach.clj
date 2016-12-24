@@ -1,4 +1,4 @@
-(ns babel.english.lexicon
+(ns babel.english.lexicon-verbcoach
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
@@ -232,7 +232,7 @@
                                             :1plur "were able"
                                             :2plur "were able"
                                             :3plur "were able"}
-                                            :past-participle "been able"}}}]
+                                            :past-participle "been able"}}]
                [(unify common
                        {:modal-with :infinitive
                         :synsem {:cat :verb
@@ -242,7 +242,6 @@
                                  :sem {:pred :be-able-to}
                                  :subcat {:1 {:cat :top}
                                           :2 '()}}})])
-
    "be born" {:synsem {:cat :verb
                        :sem {:pred :be-born}
                        :subcat {:2 '()}}
@@ -446,12 +445,11 @@
                                       :pronoun true
                                       :reflexive true
                                       :sem subject-semantics}}}})])
-
    "come" {:synsem {:cat :verb
                     :sem {:pred :come}
                     :subcat {:2 '()}}
-           :english {:past "came"}
-         {:past-participle "come"}}
+           :english {:past "came"
+                     :past-participle "come"}}
 
    "comment" {:synsem {:cat :verb
                        :sem {:pred :comment}}}
@@ -906,7 +904,7 @@
            {:synsem {:cat :verb
             :english {:present {:3sing "has"}
                       :past "had"}
-            :modal-with :infinitive}]
+            :modal-with :infinitive}}]
 
    ;; TODO: move all "have X"s to "have" with a subcat argument, a la phrasal verbs e.g. "putting on"
    "have dinner" {:synsem {:cat :verb
@@ -2284,7 +2282,7 @@
                       :subcat {:1 {:cat :noun}
                                :2 {:cat :comp
                                    :comp-type :if
-
+                                   :subcat '()}}}}
    "work" [{:synsem {:cat :verb
                      :sem {:pred :work-human}}
             :english {:note "human"}}
@@ -2378,46 +2376,45 @@
              :sem {:human true
                    :reflexive false
                    :pred :voi}
-             :subcat '()}}
+              :subcat '()}}
 
-             {:english {:note "v ♂"}
-               :synsem {:cat :noun
-                        :pronoun true
-                        :reflexive false
-                        :case :top ;; see comment in "it" about :case.
-                        :agr {:person :2nd
-                              :gender :masc
-                              :number :plur}
-                        :sem {:human true
-                              :reflexive false
-                              :pred :voi}
-                        :subcat '()}}
-
-              {:english {:note "v ♀"}
-                :synsem {:cat :noun
-                          :pronoun true
-                          :reflexive false
-                          :case :top ;; see comment in "it" about :case.
-                          :agr {:person :2nd
-                                :gender :fem
-                                :number :plur}
-                          :sem {:human true
-                                :reflexive false
-                                :pred :voi}
-                          :subcat '()}}
-
-              {:english {:note "u"}
-               :synsem {:cat :noun
-                       :pronoun true
-                       :reflexive false
-                       :case :top ;; see comment in "it" about :case.
-                       :agr {:person :2nd
-                             :number :plur}
-                       :sem {:human true
-                             :reflexive false
-                             :pred :voi}
-                       :subcat '()}}]
-
+    {:english {:note "v ♂"}
+     :synsem {:cat :noun
+              :pronoun true
+              :reflexive false
+              :case :top ;; see comment in "it" about :case.
+              :agr {:person :2nd
+                    :gender :masc
+                    :number :plur}
+              :sem {:human true
+                    :reflexive false
+                    :pred :voi}
+              :subcat '()}}
+    
+    {:english {:note "v ♀"}
+     :synsem {:cat :noun
+              :pronoun true
+              :reflexive false
+              :case :top ;; see comment in "it" about :case.
+              :agr {:person :2nd
+                    :gender :fem
+                    :number :plur}
+              :sem {:human true
+                    :reflexive false
+                    :pred :voi}
+              :subcat '()}}
+    
+    {:english {:note "u"}
+     :synsem {:cat :noun
+              :pronoun true
+              :reflexive false
+              :case :top ;; see comment in "it" about :case.
+              :agr {:person :2nd
+                    :number :plur}
+              :sem {:human true
+                    :reflexive false
+                    :pred :voi}
+              :subcat '()}}]
    "your"
    (map #(unify %
                 {:synsem {:cat :det
@@ -2471,12 +2468,8 @@
               :sem {:human true
                     :pred :voi}
               :subcat '()}}]
-   })
+  })
 
-
-(declare lexicon)
-
-;; TODO: allow a filter of lexemes
 (defn- deliver-lexicon []
   (-> (compile-lex lexicon-source
                    morph/exception-generator
@@ -2744,7 +2737,6 @@
                    :sem {:obj obj-sem}}}))
 
       ;; </prep default rules>
-
 ))
 
 (def lexicon-promise (promise))

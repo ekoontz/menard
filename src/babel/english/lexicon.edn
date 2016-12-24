@@ -2270,6 +2270,8 @@
           :synsem {:cat :verb
                    :sem {:pred :throw}}}
  
+ ;; TODO: convert to :phrasal-verb true;
+ ;; see "turn" +off,+up,etc for how to do.
  "throw out"
  {:synsem {:cat :verb
            :sem {:pred :throw-out}}

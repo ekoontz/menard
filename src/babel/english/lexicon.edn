@@ -215,6 +215,7 @@
                                    ;; TODO: improve this. Currently sounds pretty awkward:
                                    ;; "he was being able"
                                    :participle "being able"
+                                   :past-participle "been able"
                                    
                                    :present {:1sing "am able"
                                              :2sing "are able"

@@ -2277,7 +2277,8 @@
            :sem {:pred :throw-out}}
   :english {:past "threw out"
             :present {:3sing "throws out"}
-            :participle "throwing out"}}
+            :participle "throwing out"
+            :past-participle "thrown out"}}
  
  "to" {:synsem {:cat :prep
                 :subcat {:1 {:cat :noun}}

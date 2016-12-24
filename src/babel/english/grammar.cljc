@@ -696,7 +696,7 @@
          :lexicon lexicon
          :lookup (fn [arg]
                    (analyze arg lexicon))
-         :morph fo
+         :morph morph
          :morph-ps fo-ps
          ;; TODO: remove: not used
          :morph-walk-tree (fn [tree]

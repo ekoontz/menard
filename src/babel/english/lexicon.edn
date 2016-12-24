@@ -1833,7 +1833,7 @@
                   :sem {:pred :rest}}}
  
  "return" [{:synsem {:cat :verb
-                     :sem {:pred :ritornare}}}
+                     :sem {:pred :return-r}}}
            {:synsem {:cat :verb
                      :sem {:pred :tornare}}}
            {:synsem {:cat :verb

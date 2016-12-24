@@ -8,6 +8,7 @@
                       subcat0 subcat1
                       transitive-but-object-cat-not-set
                       verb-subjective]]
+   [clojure.java.io :refer [reader]]
    [clojure.set :as set]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -768,3 +769,29 @@
                                        (:unify v))))
                     true v))
                 vals)])))
+
+
+(declare evaluate)
+
+;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
+(defn edn2lexicon [resource]
+  (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
+      evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
+      listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
+
+      apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values)).
+      ;; the operation of apply-unify-key is language-independent, but
+      ;; the values of :unify may be symbols that refer to language-dependent values.
+
+      (default ;; all lexemes are phrasal=false by default.
+       {:phrasal false})
+
+      ))
+
+;; TODO: dangerous to (eval) code that we don't directly control:
+;; replace with a DSL that accomplishes the same thing without
+;; security problems.
+(defn evaluate [lexicon]
+  (into {}
+        (for [[k v] lexicon]
+          [k (eval v)])))

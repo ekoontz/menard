@@ -3,9 +3,10 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer [apply-unify-key default
-                            filter-vals listify map-function-on-map-vals
-                            new-entries rewrite-keys verb-pred-defaults]]
+   [babel.lexiconfn :as lexiconfn
+    :refer [apply-unify-key default evaluate
+            filter-vals listify map-function-on-map-vals
+            new-entries rewrite-keys verb-pred-defaults]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -50,14 +51,6 @@
                :essere essere
                :infl infl}})})
 
-;; TODO: dangerous to (eval) code that we don't directly control:
-;; replace with a DSL that accomplishes the same thing without
-;; security problems.
-(defn evaluate [lexicon]
-  (into {}
-        (for [[k v] lexicon]
-          [k (eval v)])))
-
 ;; TODO rename without confusing "2"
 (defn exception-generator2 [lexicon]
   (let [exception-maps (exception-generator lexicon)]
@@ -69,22 +62,9 @@
                           (exception-generator lexicon)))
       lexicon)))
 
-;; TODO: factor out Italian-specific parts and promote to babel.lexiconfn.
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
-  (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
-      evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
-      listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
-
-      ;; end language-independent operations.
-
-      ;; begin language-dependent operations.
-      apply-unify-key ;; turn any :unify [..] key-value pairs with (reduce unify (:unify values)).
-      ;; the operation of apply-unify-key is language-independent, but
-      ;; the values of :unify may be symbols that refer to language-dependent values.
-
-      (default ;; all lexemes are phrasal=false by default.
-       {:phrasal false})
+  (-> (lexiconfn/edn2lexicon resource)
 
       exception-generator2 ;; add new keys to the map for all exceptions found.
 

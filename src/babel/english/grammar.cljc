@@ -666,7 +666,7 @@
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))
         indices (create-indices lexicon index-lexicon-on-paths)
-        morph fo
+        morph babel.english/morph
         model
         {:name "medium"
          :default-fn default-fn

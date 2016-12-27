@@ -103,6 +103,7 @@
    ug/h11
    head-first))
 
+;; <TODO: move most of the content to babel.ug as the above examples (c10,c21,h11) do.>
 (def c11-comp-subcat-1
   (let [subcat (atom :top)]
     (unify
@@ -194,7 +195,7 @@
     :comp {:synsem {:subcat '()}}
     :head {:synsem {:subcat '()}}}))
 
-;; </TODO: move to ug>
+;; </TODO: move most of the content to babel.ug>
 ;; -- END SCHEMA DEFINITIONS
 
 (def vp-non-pronoun

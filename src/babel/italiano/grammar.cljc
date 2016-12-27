@@ -5,7 +5,7 @@
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
-   [babel.ug :refer [comp-modifies-head comp-specs-head
+   [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
                      head-principle
                      root-is-comp root-is-comp-root
                      root-is-head root-is-head-root
@@ -13,7 +13,7 @@
                      subcat-1-1-principle subcat-2-principle
                      subcat-1-1-principle-comp-subcat-1 
                      subcat-2-2-principle
-                     subcat-5-principle]
+                     subcat-5-principle verb-default?]
     :as ug]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -744,6 +744,43 @@
     (clojure.core/merge small
                         {:lexicon micro-lexicon})))
 
+(defn default-fn [tree]
+  (log/debug (str "Italiano: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
+  (log/debug (str "aspect (pre): " (strip-refs (get-in tree
+                                                       [:synsem :sem :aspect]
+                                                       ::unset))))
+  (log/debug (str "infl   (pre): " (strip-refs (get-in tree
+                                                       [:synsem :infl]
+                                                       ::unset))))  
+  (log/debug (str "tense  (pre): " (strip-refs (get-in tree
+                                                       [:synsem :sem :tense]
+                                                       ::unset))))
+  (let [result
+        (-> tree
+            (apply-default-if
+             verb-default?
+             {:synsem {:cat :verb
+                       :sem {:tense :present
+                             :aspect :simple}
+                       :infl :present}})
+            (apply-default-if
+             verb-default?
+             {:synsem {:cat :verb
+                       :sem {:tense :present
+                             :aspect :progressive}
+                       :infl :present-progressive}})
+            (apply-default-if
+             verb-default?
+             {:synsem {:cat :verb
+                       :sem {:tense :future}
+                       :infl :future}})
+            (apply-default-if
+             verb-default?
+             {:synsem {:cat :verb
+                       :sem {:tense :conditional}
+                       :infl :conditional}}))]
+    result))
+
 (defn medium []
   (deliver-lexicon)
   ;; TODO: remove parse-lexicon.
@@ -773,6 +810,7 @@
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
         
     {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+     :default-fn default-fn
      :name "medium"
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar

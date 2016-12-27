@@ -341,10 +341,15 @@
                                  :head {:phrasal true}
                                  :synsem {:aux false
                                           :cat :verb}})
+
+                   ;; TODO: enforce the facts that:
+                   ;; 1. {:head {:phrasal true}} => root-is-head-root
+                   ;; 2. {:head {:phrasal false}} => root-is-head
                    (unify-check h32
-                           root-is-head-root
+                           root-is-head
                            {:rule "vp32"
-                            :head {:phrasal-verb true}
+                            :head {:phrasal false
+                                   :phrasal-verb true}
                             :synsem {:aux false
                                      :cat :verb}})
 

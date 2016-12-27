@@ -511,6 +511,27 @@
 
       :else (str root)))
 
+   ;; conjugate irregular present progressive e.g. "I am getting dressed"
+   (and
+    (= :verb (get-in word [:cat]))
+    (= :present-progressive (get-in word [:infl]))
+    (not (nil? lexicon))
+    (not (nil? (get-in word [:participle]))))
+   (let [to-be
+         (-> lexicon (get "be")
+             (nth 0) ;; there should be at least one, so take the first one.
+             (get-in [:english]))
+         to-be-present-tense-with-agreement
+         (-> to-be
+             (unify {:cat :verb
+                     :infl :present}
+                    {:agr (get-in word [:agr])}))]
+     (log/debug (str "lexical entry for be:" (strip-refs to-be)))
+     (log/debug (str "to-be-present-tense-with-agreement:" (strip-refs to-be-present-tense-with-agreement)))
+     (str
+      (get-string to-be-present-tense-with-agreement)
+      " " (get-in word [:participle])))
+
    ;; conjugate present progressive ("be + Ving") e.g. "I am running"
    (and
     (= :verb (get-in word [:cat]))

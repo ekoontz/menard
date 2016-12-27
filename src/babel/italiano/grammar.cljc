@@ -96,25 +96,12 @@
 
 (def c21
   (unify
-   subcat-2-principle
-   head-principle
-   head-last
-   {:comp {:synsem {:subcat '()}}
-    :schema-symbol 'c21 ;; used by over-each-parent to know where to put children.
-    :first :comp
-    :comment "c21"}))
+   ug/c21 head-last))
 
 (def h11
   (unify
-   subcat-1-1-principle
-   hc-agreement
-   head-principle
-   comp-modifies-head
-   head-first
-   {
-    :schema-symbol 'h11 ;; used by over-each-parent to know where to put children.
-    :first :head
-    :comment "h11"}))
+   ug/h11
+   head-first))
 
 (def c11-comp-subcat-1
   (let [subcat (atom :top)]

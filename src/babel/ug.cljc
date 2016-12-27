@@ -287,3 +287,12 @@
   (let [root (atom :top)]
     {:root root
      :comp {:root root}}))
+
+(def c10
+  (unify schema-10
+         {:comment "c10"
+          :first :comp
+          :schema-symbol 'c10}))
+
+
+        

@@ -136,7 +136,7 @@
                         :sem {:pred :increase}}}
 
    "ayudar" {:synsem {:cat :verb
-                      :sem {:pred :aiutare
+                      :sem {:pred :help
                             :obj {:human true}}}}
 
    "bailar" {:synsem {:cat :verb

@@ -1,6 +1,8 @@
 (ns babel.ug
   (:refer-clojure :exclude [get-in resolve])
-  (:require [clojure.string :as string]
+  (:require [babel.lexiconfn :refer [apply-default]]
+            [clojure.string :as string]
+            #?(:clj [clojure.tools.logging :as log])
             [dag_unify.core :refer (fail? get-in unify)]))
 
 (def phrasal {:phrasal true})
@@ -16,6 +18,19 @@
     (if (fail? result)
       (exception (str "failed to unify grammar rule with values: " vals))
       result)))
+
+(defn verb-default? [tree]
+  (let [result
+        (and (= :verb (get-in tree [:synsem :cat]))
+             (or (= :top (get-in tree [:synsem :sem :tense] :top))
+                 (= :top (get-in tree [:synsem :infl] :top))))]
+    (log/debug (str "verb-default on this tree: => " result))
+    result))
+
+(defn apply-default-if [tree test to-apply]
+  (if (test tree)
+    (apply-default tree to-apply)
+    tree))
 
 ;;    [1]
 ;;   /   \
@@ -311,6 +326,3 @@
          {:comment "c10"
           :first :comp
           :schema-symbol 'c10}))
-
-
-        

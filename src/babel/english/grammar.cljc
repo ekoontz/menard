@@ -4,11 +4,11 @@
    [babel.english.lexicon :refer [lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexiconfn :refer [apply-default]]
    [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :as ug
-    :refer [comp-modifies-head
+    :refer [apply-default-if
+            comp-modifies-head
             comp-specs-head
             head-principle
             root-is-comp
@@ -19,7 +19,7 @@
             subcat-2-principle
             subcat-2-2-principle
             subcat-5-principle
-            unify-check
+            unify-check verb-default?
             ]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -35,19 +35,6 @@
    [:synsem :pronoun]
    [:synsem :sem :pred]
    [:synsem :sem :human]])
-
-(defn apply-default-if [tree test to-apply]
-  (if (test tree)
-    (apply-default tree to-apply)
-    tree))
-
-(defn verb-default? [tree]
-  (let [result
-        (and (= :verb (get-in tree [:synsem :cat]))
-             (or (= :top (get-in tree [:synsem :sem :tense] :top))
-                 (= :top (get-in tree [:synsem :infl] :top))))]
-    (log/debug (str "verb-default on this tree: => " result))
-    result))
 
 (defn default-fn [tree]
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))

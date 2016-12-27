@@ -14,11 +14,6 @@
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
 
-(def small-model (promise))
-(defn small [] (if (realized? small-model)
-                 @small-model
-                 @(deliver small-model (grammar/small))))
-
 (def medium-model (promise))
 (defn medium []
   (if (and (not (nil? medium-model))

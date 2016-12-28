@@ -901,9 +901,9 @@
   (->>
    (sort (keys lexicon))
    (mapcat
-    (fn [root-form]
-      (let [lexemes (get lexicon root-form)]
-        (log/debug (str "exception generator: " root-form))
+    (fn [root]
+      (let [lexemes (get lexicon root)]
+        (log/debug (str "exception generator: " root))
         (mapcat (fn [path-and-merge-fn]
                   (let [path (:path path-and-merge-fn)
                         merge-fn (:merge-fn path-and-merge-fn)]
@@ -936,7 +936,8 @@
                                                                      [:english :english]])
                                                (merge-fn lexeme)
                                                {:synsem synsem-check}
-                                               {:english {:exception true}})}))))))))
+                                               {:english {:root root
+                                                          :exception true}})}))))))))
                 [
                  ;; 1. plural exceptions: e.g. "men","women":
                  {:path [:english :plur]

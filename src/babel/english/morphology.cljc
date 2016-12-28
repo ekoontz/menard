@@ -895,7 +895,7 @@
                                                         :person :3rd}}}}}]))))))))
 
 (defn exception-generator
-  "lexicon is a map where each key is a root form string mapped to a set of lexical entries for that root form. 
+  "_lexicon_ is a map where each key is a root form (a string) mapped to a set of lexical entries (maps) for that root form. 
   For each such lexical entry, generate all possible exceptions, where the exception-generation rules are given below as 'path-and-merge-fn' tuples."
   [lexicon]
   (->>
@@ -920,8 +920,7 @@
                                                       :fail
                                                       (= lexeme :top)
                                                       :top
-                                                      true 
-                                                      (copy lexeme)) ;; TODO: don't need to (copy)
+                                                      true lexeme)
                                          debug (if (string? (get-in lexeme path :none))
                                                  (do (log/trace (str "lexeme:" (strip-refs lexeme)))
                                                      (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))

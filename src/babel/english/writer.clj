@@ -3,7 +3,6 @@
 
 (require '[babel.config :refer [language-to-root-spec]])
 (require '[babel.directory :refer [models]])
-(require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
 (require '[babel.generate :refer [generate]])
 (require '[babel.reader :refer [read-all read-one]])
@@ -15,8 +14,10 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
+(def lexicon (-> (-> ((-> models :en)) deref) :lexicon))
+
 (defn rewrite-lexicon []
-  (write-lexicon "en" @lexicon))
+  (write-lexicon "en" lexicon))
 
 (defn translate [source-language-short-name & [root]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.

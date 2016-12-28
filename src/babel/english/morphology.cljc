@@ -50,22 +50,26 @@
 
 (defn present-participle-of [stem]
   (cond
+
     (re-find #"ie$" stem)
     (str (replace stem #"..$" "y") "ing")
 
     (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
     (str (replace stem #"e$" "") "ing")
 
-    (re-find #"m$" stem)
+    (re-find #"[eu]m$" stem)
     (str (replace stem #"m$" "mm") "ing")
+
+    (re-find #"[ou]p$" stem)
+    (str (replace stem #"p$" "pp") "ing")
     
-    (re-find #"up$" stem)
-    (str (replace stem #"up$" "upp") "ing")
-    
-    (re-find #"n$" stem)
+    (re-find #"[a]n$" stem)
     (str (replace stem #"n$" "nn") "ing")
 
-    (re-find #"t$" stem)
+    (re-find #"[ou]b$" stem)
+    (str (replace stem #"b$" "bb") "ing")
+
+    (re-find #"[eou]t$" stem)
     (str (replace stem #"t$" "tt") "ing")
 
     true

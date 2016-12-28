@@ -515,17 +515,25 @@
     (is (not (nil? result)))
     (is (= "I had been born" (morph result)))))
 
-
 (deftest irregular-present-progressive
   (let [spec {:modified false
               :root {:english {:english "get dressed"}}
               :synsem {:cat :verb
                        :subcat ()
                        :sem {:tense :present
-                             :pred :get-dressed
                              :aspect :progressive
                              :subj {:pred :I}}}}]
     (is (= "I am getting dressed" (morph (generate spec))))))
+
+(deftest present-progressive-ends-with-e
+  (let [spec {:modified false
+              :root {:english {:english "participate"}}
+              :synsem {:cat :verb
+                       :subcat ()
+                       :sem {:tense :present
+                             :aspect :progressive
+                             :subj {:pred :I}}}}]
+    (is (= "I am participating" (morph (generate spec))))))
   
 (deftest present-progressive-vs-present-simple
   (let [base-spec {:modified false

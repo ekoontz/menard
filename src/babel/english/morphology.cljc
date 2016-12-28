@@ -52,7 +52,22 @@
   (cond
     (re-find #"ie$" stem)
     (str (replace stem #"..$" "y") "ing")
+
+    (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
+    (str (replace stem #"e$" "") "ing")
+
+    (re-find #"m$" stem)
+    (str (replace stem #"m$" "mm") "ing")
     
+    (re-find #"up$" stem)
+    (str (replace stem #"up$" "upp") "ing")
+    
+    (re-find #"n$" stem)
+    (str (replace stem #"n$" "nn") "ing")
+
+    (re-find #"t$" stem)
+    (str (replace stem #"t$" "tt") "ing")
+
     true
     (str stem "ing")))
 
@@ -532,7 +547,7 @@
       (get-string to-be-present-tense-with-agreement)
       " " (get-in word [:participle])))
 
-   ;; conjugate present progressive ("be + Ving") e.g. "I am running"
+   ;; conjugate present progressive ("be + Ving") e.g. "I am eating"
    (and
     (= :verb (get-in word [:cat]))
     (= :present-progressive (get-in word [:infl]))

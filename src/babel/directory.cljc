@@ -24,7 +24,7 @@
                       (do (log/debug (str "starting to load english model.."))
                           (let [model (babel.english.grammar/medium)]
                             (log/info (str "finished loading english model: "
-                                           "type: " (type model)))
+                                           (:name model)))
                             model)))))
      :es (fn []
            (if (realized? es)

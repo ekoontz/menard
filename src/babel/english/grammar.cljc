@@ -1,7 +1,7 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.english.lexicon :refer [lexicon]]
+   [babel.english.lexicon :refer [deliver-lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.over :refer (over)]
@@ -395,7 +395,7 @@
 (defn medium []
   (let [lexicon
         (into {}
-              (for [[k v] @lexicon]
+              (for [[k v] (deliver-lexicon)]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))

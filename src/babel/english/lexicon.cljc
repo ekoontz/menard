@@ -9,7 +9,7 @@
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 ;; TODO: allow a filter of lexemes
-(defn- deliver-lexicon []
+(defn deliver-lexicon []
   (->
    (edn2lexicon (resource "babel/english/lexicon.edn"))
    (compile-lex morph/exception-generator
@@ -282,10 +282,3 @@
    ;; </prep default rules>
    
    ))
-
-(def lexicon-promise (promise))
-(def lexicon
-  (future
-    (if (realized? lexicon-promise)
-      @lexicon-promise
-      @(deliver lexicon-promise (deliver-lexicon)))))

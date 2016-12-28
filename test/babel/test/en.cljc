@@ -3,7 +3,6 @@
   (:require [babel.directory :refer [models]]
             [babel.english :refer [analyze fo-ps generate medium morph parse sentences]]
             [babel.english.grammar :as grammar]
-            [babel.english.lexicon :refer [lexicon]]
             [babel.english.morphology :refer [fo get-string]]
 
             [babel.over :refer [overc overh]]

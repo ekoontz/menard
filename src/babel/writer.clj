@@ -451,7 +451,11 @@
         (recur (rest canonical) result))
       result)))
 
-(defn process [units target-language]
+;; TODO: more documentation for the command language that (defn process) understands.
+(defn process
+  "Take one or more 'units' composed of a command and arguments and perform the command on the arguments. A command is one of:
+    {:fill,:fill-one-language,:fill-verb}."
+  [units target-language]
   (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
 
   (let []

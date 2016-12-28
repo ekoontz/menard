@@ -3,7 +3,6 @@
 
 (require '[babel.config :refer [language-to-root-spec]])
 (require '[babel.directory :refer [models]])
-(require '[babel.english.grammar :refer [small-plus-vp-pronoun small-plus-plus-np]])
 (require '[babel.english.lexicon :refer [lexicon]])
 (require '[babel.english.morphology :refer [fo]])
 (require '[babel.generate :refer [generate]])
@@ -18,10 +17,6 @@
 
 (defn rewrite-lexicon []
   (write-lexicon "en" @lexicon))
-
-(defn expression [spec]
-  (let [spec (if spec spec :top)]
-    (generate small-plus-plus-np spec)))
 
 (defn translate [source-language-short-name & [root]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.

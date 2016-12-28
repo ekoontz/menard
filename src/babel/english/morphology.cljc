@@ -894,191 +894,189 @@
                                      :subcat {:1 {:agr {:number :plur
                                                         :person :3rd}}}}}]))))))))
 
-;; TODO: rewrite with recur or map or similar, rather than recursively.
 (defn exception-generator [lexicon]
-  (if (not (empty? lexicon))
-    (let [lexeme-kv (first lexicon)
-          lexemes (second lexeme-kv)]
-      (let [result (mapcat (fn [path-and-merge-fn]
-                             (let [path (:path path-and-merge-fn)
-                                   merge-fn (:merge-fn path-and-merge-fn)]
-                               ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
-                               ;; and the value is a list of lexemes for that string.
-                               (log/trace (str "'" (first lexeme-kv) "' looking at path: " path))
-                               (mapcat (fn [lexeme]
-                                         ;; this is where a unify/dissoc that supported
-                                         ;; non-maps like :top and :fail, would be useful:
-                                         ;; would not need the (if (not (fail? lexeme)..)) check
-                                         ;; to avoid a difficult-to-understand error:
-                                         ;; "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap"
-                                         (let [lexeme (cond (= lexeme :fail)
-                                                            :fail
-                                                            (= lexeme :top)
-                                                            :top
-                                                            true
-                                                            (copy lexeme))
-                                               debug (if (string? (get-in lexeme path :none))
-                                                       (do (log/trace (str "lexeme:" (strip-refs lexeme)))
-                                                           (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))
-                                               synsem-check
-                                               (if (string? (get-in lexeme path :none))
-                                                 (unify (get-in lexeme [:synsem])
-                                                         (get-in (merge-fn lexeme) [:synsem] :top)))]
-                                           (if (and (string? (get-in lexeme path :none))
-                                                    (not (fail? synsem-check)))
-                                             (list {(get-in lexeme path)
-                                                    (unify
-                                                     (dissoc-paths lexeme [path
-                                                                           [:english :english]])
-                                                     (merge-fn lexeme)
-                                                     {:synsem synsem-check}
-                                                     {:english {:exception true}})}))))
-                                       lexemes)))
-                           [
-                            ;; 1. plural exceptions: e.g. "men","women":
-                            {:path [:english :plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :noun}
-                                :english {:agr {:number :plur}
-                                          :english (get-in val [:english :plur])}})}
+  (->>
+   lexicon
+   (mapcat
+    (fn [lexeme-kv]
+      (let [lexemes (second lexeme-kv)]
+        (mapcat (fn [path-and-merge-fn]
+                  (let [path (:path path-and-merge-fn)
+                        merge-fn (:merge-fn path-and-merge-fn)]
+                    ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
+                    ;; and the value is a list of lexemes for that string.
+                    (log/trace (str "'" (first lexeme-kv) "' looking at path: " path))
+                    (->> lexemes
+                         (mapcat (fn [lexeme]
+                                   ;; this is where a unify/dissoc that supported
+                                   ;; non-maps like :top and :fail, would be useful:
+                                   ;; would not need the (if (not (fail? lexeme)..)) check
+                                   ;; to avoid a difficult-to-understand error:
+                                   ;; "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap"
+                                   (let [lexeme (cond (= lexeme :fail)
+                                                      :fail
+                                                      (= lexeme :top)
+                                                      :top
+                                                      true 
+                                                      (copy lexeme)) ;; TODO: don't need to (copy)
+                                         debug (if (string? (get-in lexeme path :none))
+                                                 (do (log/trace (str "lexeme:" (strip-refs lexeme)))
+                                                     (log/trace (str "merge-fn: " (strip-refs (merge-fn lexeme))))))
+                                         synsem-check
+                                         (if (string? (get-in lexeme path :none))
+                                           (unify (get-in lexeme [:synsem])
+                                                  (get-in (merge-fn lexeme) [:synsem] :top)))]
+                                     (if (and (string? (get-in lexeme path :none))
+                                              (not (fail? synsem-check))) ;; TODO: (not (= :fail))
+                                       (list {(get-in lexeme path)
+                                              (unify
+                                               (dissoc-paths lexeme [path
+                                                                     [:english :english]])
+                                               (merge-fn lexeme)
+                                               {:synsem synsem-check}
+                                               {:english {:exception true}})}))))))))
+                [
+                 ;; 1. plural exceptions: e.g. "men","women":
+                 {:path [:english :plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :noun}
+                     :english {:agr {:number :plur}
+                               :english (get-in val [:english :plur])}})}
+                 
+                 ;; <2. past exceptions: e.g. "sleep" -> "slept">
+                 {:path [:english :past :1sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :1st}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :1sing])}})}
+                 
+                 {:path [:english :past :2sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :2nd}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :2sing])}})}
+                 
+                 {:path [:english :past :3sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :3rd}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :3sing])}})}
+                 
+                 {:path [:english :past :1plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :1st}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :1plur])}})}
+                 
+                 {:path [:english :past :2plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :2nd}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :2plur])}})}
+                 
+                 {:path [:english :past :3plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :3rd}}}}
+                     :english {:infl :past
+                               :english (get-in val [:english :past :3plur])}})}
+                 
+                 {:path [:english :past]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb}
+                     :english {:infl :past
+                               :english (get-in val [:english :past])}})}
+                 ;; </2. past exceptions: e.g. "sleep" -> "slept">
+                 
+                 ;; <3. present exceptions: e.g. "be" -> "am">
+                 {:path [:english :present :1sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :1st}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :1sing])}})}
+                 
+                 {:path [:english :present :2sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :2nd}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :2sing])}})}
+                 
+                 {:path [:english :present :3sing]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :sing
+                                                 :person :3rd}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :3sing])}})}
+                 
+                 {:path [:english :present :1plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :1st}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :1plur])}})}
+                 
+                 {:path [:english :present :2plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :2nd}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :2plur])}})}
+                 
+                 {:path [:english :present :3plur]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb
+                              :subcat {:1 {:agr {:number :plur
+                                                 :person :3rd}}}}
+                     :english {:infl :present
+                               :english (get-in val [:english :present :3plur])}})}
+                 
+                 {:path [:english :present]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb}
+                     :english {:infl :present
+                               :english (get-in val [:english :present])}})}
+                 ;; </3. present exceptions: e.g. "be" -> "am"
+                 
+                 {:path [:english :participle]
+                  :merge-fn
+                  (fn [val]
+                    {:synsem {:cat :verb}
+                     :english {:infl :participle
+                               :english (get-in val [:english :participle])}})}]))))))
 
-                            ;; <2. past exceptions: e.g. "sleep" -> "slept">
-                            {:path [:english :past :1sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :1st}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :1sing])}})}
-
-                            {:path [:english :past :2sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :2nd}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :2sing])}})}
-
-                            {:path [:english :past :3sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :3rd}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :3sing])}})}
-
-                            {:path [:english :past :1plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :1st}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :1plur])}})}
-
-                            {:path [:english :past :2plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :2nd}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :2plur])}})}
-
-                            {:path [:english :past :3plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :3rd}}}}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past :3plur])}})}
-
-                            {:path [:english :past]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb}
-                                :english {:infl :past
-                                          :english (get-in val [:english :past])}})}
-                            ;; </2. past exceptions: e.g. "sleep" -> "slept">
-
-                            ;; <3. present exceptions: e.g. "be" -> "am">
-                            {:path [:english :present :1sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :1st}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :1sing])}})}
-
-                            {:path [:english :present :2sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :2nd}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :2sing])}})}
-
-                            {:path [:english :present :3sing]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :sing
-                                                            :person :3rd}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :3sing])}})}
-
-                            {:path [:english :present :1plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :1st}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :1plur])}})}
-
-                            {:path [:english :present :2plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :2nd}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :2plur])}})}
-
-                            {:path [:english :present :3plur]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb
-                                         :subcat {:1 {:agr {:number :plur
-                                                            :person :3rd}}}}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present :3plur])}})}
-
-                            {:path [:english :present]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb}
-                                :english {:infl :present
-                                          :english (get-in val [:english :present])}})}
-                            ;; </3. present exceptions: e.g. "be" -> "am"
-
-                            {:path [:english :participle]
-                             :merge-fn
-                             (fn [val]
-                               {:synsem {:cat :verb}
-                                :english {:infl :participle
-                                          :english (get-in val [:english :participle])}})}
-
-
-                            ])]
-        (concat result (exception-generator (rest lexicon)))))))
 
 (defn phonize [a-map a-string]
   (let [common {:phrasal false}]

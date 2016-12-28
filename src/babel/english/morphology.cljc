@@ -54,7 +54,7 @@
     (re-find #"ie$" stem)
     (str (replace stem #"..$" "y") "ing")
 
-    (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
+    (re-find #".[^aeiou]e$" stem) ;; "..": avoid matching two-letter word "be"
     (str (replace stem #"e$" "") "ing")
 
     (re-find #"[eu]m$" stem)
@@ -63,13 +63,13 @@
     (re-find #"[ou]p$" stem)
     (str (replace stem #"p$" "pp") "ing")
     
-    (re-find #"[a]n$" stem)
+    (re-find #"[^e][a]n$" stem)
     (str (replace stem #"n$" "nn") "ing")
 
     (re-find #"[ou]b$" stem)
     (str (replace stem #"b$" "bb") "ing")
 
-    (re-find #"[eou]t$" stem)
+    (re-find #"[^aeiou][eou]t$" stem)
     (str (replace stem #"t$" "tt") "ing")
 
     true

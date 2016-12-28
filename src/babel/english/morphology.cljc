@@ -894,18 +894,21 @@
                                      :subcat {:1 {:agr {:number :plur
                                                         :person :3rd}}}}}]))))))))
 
-(defn exception-generator [lexicon]
+(defn exception-generator
+  "lexicon is a map where each key is a root form string mapped to a set of lexical entries for that root form. 
+  For each such lexical entry, generate all possible exceptions, where the exception-generation rules are given below as 'path-and-merge-fn' tuples."
+  [lexicon]
   (->>
-   lexicon
+   (sort (keys lexicon))
    (mapcat
-    (fn [lexeme-kv]
-      (let [lexemes (second lexeme-kv)]
+    (fn [root-form]
+      (let [lexemes (get lexicon root-form)]
+        (log/debug (str "exception generator: " root-form))
         (mapcat (fn [path-and-merge-fn]
                   (let [path (:path path-and-merge-fn)
                         merge-fn (:merge-fn path-and-merge-fn)]
                     ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                     ;; and the value is a list of lexemes for that string.
-                    (log/trace (str "'" (first lexeme-kv) "' looking at path: " path))
                     (->> lexemes
                          (mapcat (fn [lexeme]
                                    ;; this is where a unify/dissoc that supported

@@ -467,25 +467,25 @@
                         (exec-raw (:sql member-of-unit))))
                     
                     (if (:fill member-of-unit)
-                      (let [count (or (->> member-of-unit :fill :count) 10)]
-                        (log/debug (str "doing fill-by-spec: " (->> member-of-unit :fill :spec)
+                      (let [count (or (-> member-of-unit :fill :count) 10)]
+                        (log/debug (str "doing fill-by-spec: " (-> member-of-unit :fill :spec)
                                         "; count=" count))
                         (fill-by-spec
-                         (->> member-of-unit :fill :spec)
+                         (-> member-of-unit :fill :spec)
                          count
                          "expression"
-                         (->> member-of-unit :fill :source-model)
-                         (->> member-of-unit :fill :target-model))))
+                         (-> member-of-unit :fill :source-model)
+                         (-> member-of-unit :fill :target-model))))
                     (if (:fill-one-language member-of-unit)
-                      (let [count (or (->> member-of-unit :fill-one-language :count) 10)]
+                      (let [count (or (-> member-of-unit :fill-one-language :count) 10)]
                         (log/debug (str "doing fill-one-language: "
-                                        (->> member-of-unit :fill-one-language :spec)
+                                        (-> member-of-unit :fill-one-language :spec)
                                         "; count=" count))
                         (fill-language-by-spec
-                         (->> member-of-unit :fill-one-language :spec)
+                         (-> member-of-unit :fill-one-language :spec)
                          count
                          "expression"
-                         (->> member-of-unit :fill-one-language :model))))
+                         (-> member-of-unit :fill-one-language :model))))
                     (if (:fill-verb member-of-unit)
                       (do
                         (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
@@ -495,8 +495,8 @@
                                   (if (:count member-of-unit)
                                     (:count member-of-unit)
                                     1)
-                                  (->> member-of-unit :fill-verb :source-model)
-                                  (->> member-of-unit :fill-verb :target-model))))))))
+                                  (-> member-of-unit :fill-verb :source-model)
+                                  (-> member-of-unit :fill-verb :target-model))))))))
                 units))
     
     ))

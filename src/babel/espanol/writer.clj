@@ -235,13 +235,5 @@
                                                         {:comp {:synsem {:agr {:person :3rd
                                                                                :number :sing}
                                                                          :pronoun false}}}))))
-                                (list {:synsem {:sem {:tense :conditional}}}
-                                      {:synsem {:sem {:tense :future}}}
-                                      {:synsem {:sem {:tense :present}}}
-                                      {:synsem {:sem {:aspect :progressive
-                                                      :tense :past}}}
-                                      {:synsem {:sem {:aspect :perfect
-                                                      :tense :past}}}
-                                      
-                                      ))
-                        )))))))))
+                                (vals babel.espanol.grammar/tenses)))))))))))
+

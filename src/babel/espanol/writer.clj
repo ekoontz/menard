@@ -79,12 +79,12 @@
               (doall (use-map-fn
                       (fn [tense]
                         (let [debug (log/debug (str "{:root {:espanol {:espanol " root-form))
-                              spec (unify/unifyc {:root {:espanol {:espanol root-form}}}
+                              spec (unify {:root {:espanol {:espanol root-form}}}
                                                 tense)]
                           (doall
                            (use-map-fn
                             (fn [gender]
-                              (let [spec (unify/unifyc spec
+                              (let [spec (unify spec
                                                       {:comp {:synsem {:agr gender}}})]
                                   (log/debug (str "generating from gender: " gender " with spec: " spec))
                                   (doall
@@ -92,7 +92,7 @@
                                     (fn [person]
                                       (let [debug (log/debug (str "generating from spec(pre-person):" spec))
                                             unify-with {:comp {:synsem {:agr {:person person}}}}
-                                            unified (unify/unifyc spec unify-with)
+                                            unified (unify spec unify-with)
                                             debug (if (fail? unified)
                                                     (do
                                                       (log/warn (str "spec=fail:tried to generate with spec(pre-person):" spec))
@@ -121,7 +121,7 @@
                                          (use-map-fn
                                           (fn [number]
                                             (let [debug (log/debug (str "generating from spec(1): " spec))
-                                                  spec (unify/unifyc spec
+                                                  spec (unify spec
                                                                     {:comp {:synsem {:agr {:number number}}}})]
                                               (log/debug (str "generating from spec(2): " spec))
                                               (try
@@ -225,13 +225,13 @@
                                   (filter #(not (= :fail %))
                                           (list
                                            ;; don't generate with null-pronouns - too confusing and inconsistent.
-;                                           (unify/unifyc tense
+;                                           (unify tense
 ;                                                        {:comp {:synsem {:pronoun true
 ;                                                                         :null-pronoun true}}})
-                                           (unify/unifyc tense
+                                           (unify tense
                                                         {:comp {:synsem {:pronoun true
                                                                          :null-pronoun false}}})
-                                           (unify/unifyc tense
+                                           (unify tense
                                                         {:comp {:synsem {:agr {:person :3rd
                                                                                :number :sing}
                                                                          :pronoun false}}}))))

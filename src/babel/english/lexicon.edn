@@ -1312,6 +1312,9 @@
 
          ]
 
+"lead" {:synsem {:cat :verb
+          :sem {:pred :lead}}
+ :english {:past "led"}}
 
  "learn" [
 

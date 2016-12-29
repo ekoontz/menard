@@ -14,6 +14,9 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
+;; false: throw error and stop further generation; true: tolerate errors: log/error and continue generation.
+(def ^:const allow-generation-error true)
+
 (def lexicon (-> (-> ((-> models :en)) deref) :lexicon))
 
 (defn rewrite-lexicon []
@@ -83,7 +86,7 @@
                         ;; of what the (process) command did.
                         (log/debug (str "process result:" result)))
                       (catch Exception e
-                        (let [allow-generation-error false] ;; false: throw error and stop further generation; true: log/error and continue generation
+                        (do
                           (log/error (str "Could not translate source expression: "
                                           "'" (get source-expression :surface) "'"
                                           " from language: '" source-language-short-name 

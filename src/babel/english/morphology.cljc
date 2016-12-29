@@ -54,7 +54,7 @@
     (re-find #"ie$" stem)
     (str (replace stem #"..$" "y") "ing")
 
-    (re-find #".[^aeiou]e$" stem) ;; "..": avoid matching two-letter word "be"
+    (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
     (str (replace stem #"e$" "") "ing")
 
     (re-find #"[eu]m$" stem)

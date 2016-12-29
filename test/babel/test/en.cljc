@@ -525,14 +525,22 @@
     (is (= "I am getting dressed" (morph (generate spec))))))
 
 (deftest present-progressive-ends-with-e
-  (let [spec {:modified false
+  (let [spec1 {:modified false
               :root {:english {:english "participate"}}
               :synsem {:cat :verb
                        :subcat ()
                        :sem {:tense :present
                              :aspect :progressive
-                             :subj {:pred :I}}}}]
-    (is (= "I am participating" (morph (generate spec))))))
+                             :subj {:pred :I}}}}
+        spec2 {:modified false
+               :root {:english {:english "hope"}}
+               :synsem {:cat :verb
+                        :subcat ()
+                        :sem {:tense :present
+                              :aspect :progressive
+                              :subj {:pred :I}}}}]
+    (is (= "I am participating" (morph (generate spec1))))
+    (is (= "I am hoping" (morph (generate spec2))))))
   
 (deftest present-progressive-vs-present-simple
   (let [base-spec {:modified false

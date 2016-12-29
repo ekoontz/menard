@@ -605,9 +605,11 @@
           :english {:past "drank"
                     :past-participle "drunk"}}
 
- "drive" {:synsem {:cat :verb
+ "drive" [{:synsem {:cat :verb
                    :sem {:pred :drive}}
-          :english {:past "drove"}}
+          {:synsem {:cat :verb
+                   :sem {:pred :drive-c}}}
+          :english {:past "drove"}}]
 
  "disappoint" {:synsem {:cat :verb
                         :sem {:pred :deludere}}}

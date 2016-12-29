@@ -606,9 +606,11 @@
                     :past-participle "drunk"}}
 
  "drive" (let [common {:english {:past "drove"}}]
-           [{:synsem {:cat :verb
+           [{:unify [common]
+             :synsem {:cat :verb
                       :sem {:pred :drive}}}
-            {:synsem {:cat :verb
+            {:unify [common]
+             :synsem {:cat :verb
                       :sem {:pred :drive-c}}}])
 
  "disappoint" {:synsem {:cat :verb

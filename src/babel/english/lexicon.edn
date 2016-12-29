@@ -1086,12 +1086,16 @@
           [{:unify [common]
             :synsem {:sem {:pred :hope}
                      :subcat {:2 '()}}} ;; intransitive
-          {:unify [common]
-           :synsem {:sem {:pred :hope}
-                    :subcat {:2 {:cat :comp
-                                 :comp-type :that
-                                 :subcat '()}
-                             :3 '()}}}])
+
+           (let [obj (atom :top)]
+             {:unify [common]
+              :synsem {:sem {:pred :hope
+                             :obj obj}
+                       :subcat {:2 {:cat :comp  ;; transitive: "hope that .."
+                                    :sem {:obj obj}
+                                    :comp-type :that
+                                    :subcat '()}
+                                :3 '()}}})])
  "house" {:synsem {:cat :noun
                    :sem {:pred :house}}}
  "hug"
@@ -2153,8 +2157,8 @@
          (let [obj (atom :top)]
            {:synsem {:cat :comp
                      :comp-type :that
-                     :sem {:that obj
-                           :pred :unspec}
+                     :sem {:obj obj
+                           :pred :that}
                      :subcat {:1 {:cat :verb
                                   :sem obj
                                   :subcat '()}

@@ -538,7 +538,9 @@
                         :subcat ()
                         :sem {:tense :present
                               :aspect :progressive
-                              :subj {:pred :I}}}}]
+                              :subj {:pred :I}
+                              :obj :unspec}}}]
+                                     
     (is (= "I am participating" (morph (generate spec1))))
     (is (= "I am hoping" (morph (generate spec2))))))
   

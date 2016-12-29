@@ -249,7 +249,7 @@
 
    "conocer" {:espanol {:present {:1sing "conozco"}}
               :synsem {:cat :verb
-                       :sem {:pred :know}}}
+                       :sem {:pred :know-c}}}
 
    "consentir" {:espanol {:boot-stem "consient"}
                 :synsem {:cat :verb

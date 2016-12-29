@@ -17,12 +17,15 @@
                            copy]]))
 
 (def small-model (promise))
-(defn small [] (if (realized? small-model)
+(defn small [] (if (and (not (nil? small-model))
+                        (realized? small-model))
                  @small-model
                  @(deliver small-model (grammar/small))))
 
 (def medium-model (promise))
-(defn medium [] (if (realized? medium-model)
+(defn medium [] (if (and (realized? medium-model)
+                         (not (nil? medium-model))
+                         (not (nil? @medium-model)))
                   @medium-model
                   @(deliver medium-model (grammar/medium))))
 

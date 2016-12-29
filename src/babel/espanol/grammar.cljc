@@ -33,7 +33,7 @@
    "imperfect" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
    "preterito" {:synsem {:sem {:aspect :perfect
-                             :tense :past}}}})
+                               :tense :present}}}})
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -273,7 +273,7 @@
                                      :infl :preterito
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :past}}})
+                                           :tense :present}}})
                    (unifyc c10
                            root-is-head
                            {:rule "s-preterito-nonphrasal"
@@ -282,7 +282,7 @@
                                      :infl :preterito
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :past}}})
+                                           :tense :present}}})
                    (unifyc c10
                            root-is-head-root
                            {:rule "s-imperfect-phrasal"

@@ -52,76 +52,76 @@
      (get-in word [:condicional number-and-person])
 
      (and (= person :1st) (= number :sing) ar-type)
-     (str stem "aría")
+     (str stem "ía")
      (and (= person :1st) (= number :sing) er-type)
-     (str stem "ería")
+     (str stem "ía")
      (and (= person :1st) (= number :sing) ir-type)
-     (str stem "iría")
+     (str stem "ía")
 
      (and (= person :2nd) (= number :sing) ar-type)
-     (str stem "arías")
+     (str stem "ías")
      (and (= person :2nd) (= number :sing) er-type)
-     (str stem "erías")
+     (str stem "ías")
      (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "irías")
+     (str stem "ías")
 
      (and (= person :2nd) (= number :sing) ar-type (= usted true))
-     (str stem "aría")
+     (str stem "ía")
      (and (= person :2nd) (= number :sing) er-type (= usted true))
-     (str stem "ería")
+     (str stem "ía")
      (and (= person :2nd) (= number :sing) ir-type (= usted true))
-     (str stem "iría")
+     (str stem "ía")
 
      (and (= person :3rd) (= number :sing) ar-type)
-     (str stem "aría")
+     (str stem "ía")
      (and (= person :3rd) (= number :sing) er-type)
-     (str stem "ería")
+     (str stem "ía")
      (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "iría")
+     (str stem "ía")
 
      (and (= person :1st) (= number :plur) ar-type)
-     (str stem "aríamos")
+     (str stem "íamos")
 
      (and (= person :1st) (= number :plur) er-type)
-     (str stem "eríamos")
+     (str stem "íamos")
 
      (and (= person :1st) (= number :plur) ir-type)
-     (str stem "iríamos")
+     (str stem "íamos")
 
      ;; <second person plural conditional>
 
      (and (= person :2nd) (= number :plur) ar-type vosotros)
-     (str stem "aríais")
+     (str stem "íais")
 
      (and (= person :2nd) (= number :plur) er-type vosotros)
-     (str stem "eríais")
+     (str stem "íais")
 
      (and (= person :2nd) (= number :plur) ir-type vosotros)
-     (str stem "iríais")
+     (str stem "íais")
 
      (and (= person :2nd) (= number :plur) ar-type ustedes)
-     (str stem "arían")
+     (str stem "ían")
 
      (and (= person :2nd) (= number :plur) er-type ustedes)
-     (str stem "erían")
+     (str stem "ían")
 
      (and (= person :2nd) (= number :plur) ir-type ustedes)
-     (str stem "irían")
+     (str stem "ían")
 
      ;; </second person plural conditional>
 
      ;; <third person plural conditional>
      (and (= person :3rd) (= number :plur)
           ar-type)
-     (str stem "arían")
+     (str stem "ían")
 
      (and (= person :3rd) (= number :plur)
           er-type)
-     (str stem "erían")
+     (str stem "ían")
 
      (and (= person :3rd) (= number :plur)
           ir-type)
-     (str stem "irían")
+     (str stem "ían")
 
      ;; </third person plural conditional>
 
@@ -129,7 +129,7 @@
      (and (= (get-in word [:agr]) :top)
           (string? (get-in word [:espanol])))
      (get-in word [:espanol])
-     
+
      :else
      (exception (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))))))
 
@@ -160,84 +160,84 @@
      (get-in word [:futuro number-and-person])
 
      (and (= person :1st) (= number :sing) ar-type)
-     (str stem "aré")
+     (str stem "é")
      (and (= person :1st) (= number :sing) er-type)
-     (str stem "eré")
+     (str stem "é")
      (and (= person :1st) (= number :sing) ir-type)
-     (str stem "iré")
+     (str stem "é")
 
      (and (= person :2nd) (= number :sing) ar-type)
-     (str stem "aras")
+     (str stem "as")
      (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "iras")
+     (str stem "as")
      (and (= person :2nd) (= number :sing) er-type)
-     (str stem "eras")
-     
+     (str stem "as")
+
      (and (= person :2nd) (= number :sing) ar-type (= usted true))
-     (str stem "ará")
+     (str stem "á")
      (and (= person :2nd) (= number :sing) ir-type (= usted true))
-     (str stem "irá")
+     (str stem "á")
      (and (= person :2nd) (= number :sing) er-type (= usted true))
-     (str stem "erá")
+     (str stem "á")
 
      (and (= person :3rd) (= number :sing) ar-type)
-     (str stem "ará")
+     (str stem "á")
      (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "irá")
+     (str stem "á")
      (and (= person :3rd) (= number :sing) er-type)
-     (str stem "erá")
+     (str stem "á")
 
      (and (= person :1st) (= number :plur) ar-type)
-     (str stem "aremos")
+     (str stem "emos")
 
      (and (= person :1st) (= number :plur) er-type)
-     (str stem "eremos")
+     (str stem "emos")
 
      (and (= person :1st) (= number :plur) ir-type)
-     (str stem "iremos")
+     (str stem "emos")
 
      ;; <second person plural future>
 
      (and (= person :2nd) (= number :plur) ar-type vosotros)
-     (str stem "arais")
+     (str stem "ais")
 
      (and (= person :2nd) (= number :plur) er-type vosotros)
-     (str stem "erais")
+     (str stem "ais")
 
      (and (= person :2nd) (= number :plur) ir-type vosotros)
-     (str stem "irais")
+     (str stem "ais")
 
      (and (= person :2nd) (= number :plur) ar-type ustedes)
-     (str stem "aran")
+     (str stem "an")
 
      (and (= person :2nd) (= number :plur) er-type ustedes)
-     (str stem "eran")
-     
+     (str stem "an")
+
      (and (= person :2nd) (= number :plur) ir-type ustedes)
-     (str stem "iran")
+     (str stem "an")
 
      ;; </second person plural future>
 
      ;; <third person plural future>
      (and (= person :3rd) (= number :plur)
           ar-type)
-     (str stem "aran")
+     (str stem "an")
 
      (and (= person :3rd) (= number :plur)
           er-type)
-     (str stem "eran")
+     (str stem "an")
 
      (and (= person :3rd) (= number :plur)
           ir-type)
-     (str stem "iran")
-     
+     (str stem "an")
+
      ;; </third person plural future>
 
      ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
      (and (= (get-in word [:agr]) :top)
           (string? (get-in word [:espanol])))
      (get-in word [:espanol])
-     
+
      :else
      (let [message (str "get-string-1: future regular inflection: don't know what to do with input argument: " (strip-refs word))]
        (if (= suppress-morph-exceptions true)
@@ -330,7 +330,7 @@
      (and (= person :3rd) (= number :plur)
           ir-type)
      (str stem "ían")
-     
+
      ;; </third person plural imperfecto>
 
      ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
@@ -363,7 +363,7 @@
                        (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        
+
         stem (cond (and (get-in word [:boot-stem])
                         (or (= (get-in word [:agr :number])
                                :sing)
@@ -374,7 +374,7 @@
                    (get-in word [:boot-stem])
                    true
                    (string/replace infinitive #"[iae]r$" ""))
-        
+
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
@@ -384,7 +384,7 @@
     (cond
      (get-in word [:present number-and-person])
      (get-in word [:present number-and-person])
-     
+
      (and (= person :1st) (= number :sing))
      (str stem "o")
 
@@ -393,7 +393,7 @@
 
      (and (= person :2nd) (= number :sing) ar-type usted)
      (str stem "a")
-     
+
      (and (= person :2nd) (= number :sing) (or ir-type er-type) (= false usted))
      (str stem "es")
 
@@ -413,7 +413,7 @@
 
      (and (= person :1st) (= number :plur) ir-type)
      (str stem "imos")
-       
+
      ;; <second person plural present>
 
      (and (= person :2nd) (= number :plur) ar-type vosotros)
@@ -448,7 +448,7 @@
      (str stem "en")
 
      ;; </third person plural present>
-        
+
      ;; agreement is underspecified, but an infinitive form (the :espanol key) exists, so just return that infinitive form.
      (and (= (get-in word [:agr]) :top)
           (string? (get-in word [:espanol])))
@@ -510,7 +510,7 @@
    true (regular-preterito word {:usted usted
                                  :vosotros vosotros
                                  :ustedes ustedes})))
-   
+
 (defn regular-preterito [word {usted :usted
                                vosotros :vosotros
                                ustedes :ustedes}]
@@ -524,10 +524,10 @@
         ir-type (re-find #"ir$" infinitive)
 
         zar-type (re-find #"zar$" infinitive)
-        
+
         ;; default stem: will be used except under certain conditions, as described in next check.
         stem (string/replace infinitive #"[iae]r$" "")
-        
+
         stem (if (get-in word [:preterito-stem])
                (get-in word [:preterito-stem])
                stem)
@@ -537,29 +537,29 @@
                       (= number :sing))
                (string/replace infinitive #"zar$" "c")
                stem)
-        
+
         last-stem-char-is-i (re-find #"ir$" infinitive)
         last-stem-char-is-e (re-find #"er$" infinitive)
         is-care-or-gare? (re-find #"[cg]ar$" infinitive)
         vosotros (if vosotros vosotros true)
         ustedes (if ustedes ustedes false)]
-    
+
     (cond
      (and (= person :1st) (= number :sing) ar-type)
      (str stem "é")
-     
+
      (and (= person :1st) (= number :sing) (or ir-type er-type))
      (str stem "í")
-     
+
      (and (= person :2nd) (= number :sing) ar-type (= usted false))
      (str stem "aste")
-     
+
      (and (= person :2nd) (= number :sing) (or ir-type er-type) (= usted false))
      (str stem "iste")
-     
+
      (and (= person :2nd) (= number :sing) ar-type (= usted true))
      (str stem "ó")
-     
+
      (and (= person :2nd) (= number :sing) (or ir-type er-type) (= usted true))
      (str stem "ió")
 
@@ -582,10 +582,10 @@
 
      (and (= person :2nd) (= number :plur) ar-type vosotros)
      (str stem "asteis")
-     
+
      (and (= person :2nd) (= number :plur) er-type vosotros)
      (str stem "isteis")
-     
+
      (and (= person :2nd) (= number :plur) ir-type vosotros)
      (str stem "isteis")
 
@@ -617,7 +617,7 @@
      (and (= (get-in word [:agr]) :top)
           (string? (get-in word [:espanol])))
      (get-in word [:espanol])
-     
+
      :else
      (let [message (str "get-string-1: conditional regular inflection: don't know what to do with input argument: " (strip-refs word))]
        (if (= suppress-morph-exceptions true)

@@ -54,9 +54,14 @@
 (defn generate
   [spec & {:keys [max-total-depth model truncate-children]
            :or {max-total-depth generate/max-total-depth
-                model (medium)
+                model nil
                 truncate-children true}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
+  (if (nil? model)
+    (let [error-message
+          (str "you must supply a model to do generation.")]
+      (log/error error-message)
+      (throw (Exception. error-message))))
   (let [result (generate/generate spec model
                                   :max-total-depth max-total-depth
                                   :truncate-children truncate-children)]

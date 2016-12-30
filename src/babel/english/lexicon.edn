@@ -2616,7 +2616,7 @@
                   :number :plur}
             :sem {:human true
                   :reflexive false
-                  :pred :voi}
+                  :pred :vosotros} ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat '()}}
 
   {:english {:note "v ♀"}
@@ -2629,7 +2629,7 @@
                   :number :plur}
             :sem {:human true
                   :reflexive false
-                  :pred :voi}
+                  :pred :vosotros}  ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat '()}}
 
   {:english {:note "u"}
@@ -2641,7 +2641,7 @@
                   :number :plur}
             :sem {:human true
                   :reflexive false
-                  :pred :voi}
+                  :pred :ustedes}  ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat '()}}]
 
  "your"

@@ -1145,9 +1145,8 @@
              :agr {:person :3rd
                    :number :plur}
              :sem {:human true
-                   :pred :voi}
+                   :pred :ustedes}
              :subcat '()}}
-
 
    "valer" {}
    "vender" {}
@@ -1184,7 +1183,7 @@
                    :number :plur}
              :sem {:human true
                    :gender :fem
-                   :pred :voi}
+                   :pred :vosotros} ;; note that :pred value (:vosotros) is same for :fem and :masc.
              :subcat '()}}
 
    "vosotros"
@@ -1196,7 +1195,7 @@
                    :number :plur}
              :sem {:human true
                    :gender :masc
-                   :pred :voi}
+                   :pred :vosotros} ;; note that :pred value (:vosotros) is same for :fem and :masc.
              :subcat '()}}
 
    "yo"

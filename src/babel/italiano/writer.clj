@@ -9,16 +9,16 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
-(def small (grammar/small))
+(def small (grammar/small))  ;; TODO use medium consistently
 
 (defn expression [spec]
-  (generate/generate small spec))
+  (generate/generate small spec))  ;; TODO use medium consistently
 
 (defn fo [spec]
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (let [lexicon (:lexicon small)]
+  (let [lexicon (:lexicon small)] ;; TODO use medium consistently
     (write-lexicon "it" lexicon)))
 
 (declare generate-one-verb)
@@ -27,7 +27,7 @@
   (let [count (if count (Integer. count) 10)
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-        lexicon (:lexicon small)
+        lexicon (:lexicon small) ;; TODO use medium consistently
         lexemes (if lexeme (list (get lexicon lexeme))
                     (vals lexicon))
         root-verbs 

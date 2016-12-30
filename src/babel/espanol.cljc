@@ -17,10 +17,14 @@
                            copy]]))
 
 (def small-model (promise))
-(defn small [] (if (and (not (nil? small-model))
-                        (realized? small-model))
-                 @small-model
-                 @(deliver small-model (grammar/small))))
+(defn small []
+  (log/debug (str "resolving model: small."))
+  (if (and (not (nil? small-model))
+           (realized? small-model))
+    @small-model
+    (do
+      (log/debug (str "model:small does not exist yet."))
+      @(deliver small-model (grammar/small)))))
 
 (def medium-model (promise))
 (defn medium [] (if (and (realized? medium-model)

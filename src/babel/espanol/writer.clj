@@ -211,7 +211,7 @@
                                                   (do
                                                     (log/error (str "Stopping further generation: unexpectedly "
                                                                     "couldn't generate any expression for spec:"
-                                                                    spec))
+                                                                    spec "; exception:" e))
                                                     (throw e)))))
                                             ))
                                         [:sing :plur]))))

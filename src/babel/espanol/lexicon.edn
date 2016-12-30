@@ -920,8 +920,6 @@
                     :pret-stem "pud"}
           :synsem {:cat :verb}}]
      [{:unify [shared-part-of-poder]
-       :synsem {:sem {:pred :can}}}
-      {:unify [shared-part-of-poder]
        :synsem {:sem {:pred :may}}}
       {:unify [shared-part-of-poder]
        :synsem {:sem {:pred :be-able-to}}}])

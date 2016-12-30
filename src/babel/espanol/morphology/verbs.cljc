@@ -34,7 +34,8 @@
                        (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (string/replace infinitive #"[iae]r$" "")
+        stem infinitive ;; stem is simply the same as the infinitive for conditional.
+
         ;; conditional shares usage of :futuro-stem with future.
         stem (if (get-in word [:futuro-stem])
                (get-in word [:futuro-stem])
@@ -143,7 +144,7 @@
                        (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
         er-type (re-find #"er$" infinitive)
         ir-type (re-find #"ir$" infinitive)
-        stem (string/replace infinitive #"[iae]r$" "")
+        stem infinitive ;; stem is simply the same as the infinitive for future.
         stem (if (get-in word [:futuro-stem])
                (get-in word [:futuro-stem])
                stem)

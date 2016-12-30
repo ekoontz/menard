@@ -359,6 +359,7 @@
                             :pronoun true
                             :reflexive true
                             :sem subject-semantics}}}})
+
    "dibujar" {:synsem {:cat :verb
                       :sem {:pred :draw}}}
 
@@ -465,7 +466,7 @@
 
    "encender" {:espanol {:boot-stem "enciend"}
              :synsem {:cat :verb
-                      :sem {:pred :light}}}
+                      :sem {:pred :turn-on}}}
 
    "encontrar" (let [shared-part-of-encontrar
                   {:synsem {:cat :verb}}]

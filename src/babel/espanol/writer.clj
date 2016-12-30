@@ -23,8 +23,6 @@
 ;; TODO: using pmap fails: cannot generate sentences; figure out why.
 (def use-map-fn pmap)
 
-(def lexicon (-> (-> ((-> models :es)) deref) :lexicon))
-
 (defn root-verbs [lexicon]
   (let [lexemes (vals lexicon)]
     (zipmap
@@ -42,12 +40,11 @@
 
 (defn todos [ & [count lexeme]]
   (let [count (if count (Integer. count) 10)
-        lexemes (if lexeme (list (get lexicon lexeme))
-                    (vals lexicon))
-
         model (-> ((-> models :es)) deref)
         type-of-model (type model)
-
+        lexicon (:lexicon model)
+        lexemes (if lexeme (list (get lexicon lexeme))
+                    (vals lexicon))
         root-verbs (root-verbs lexicon)
 
         root-verb-array
@@ -61,7 +58,6 @@
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))
-
     (.size
      (->> root-verb-array
           (use-map-fn

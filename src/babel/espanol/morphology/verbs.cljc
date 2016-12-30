@@ -55,69 +55,31 @@
      (and (= person :1st) (= number :sing))
      (str stem "ía")
 
-     (and (= person :2nd) (= number :sing) ar-type)
-     (str stem "ías")
-     (and (= person :2nd) (= number :sing) er-type)
-     (str stem "ías")
-     (and (= person :2nd) (= number :sing) ir-type)
+     (and (= person :2nd) (= number :sing))
      (str stem "ías")
 
-     (and (= person :2nd) (= number :sing) ar-type (= usted true))
-     (str stem "ía")
-     (and (= person :2nd) (= number :sing) er-type (= usted true))
-     (str stem "ía")
-     (and (= person :2nd) (= number :sing) ir-type (= usted true))
+     (and (= person :2nd) (= number :sing) (= usted true))
      (str stem "ía")
 
-     (and (= person :3rd) (= number :sing) ar-type)
-     (str stem "ía")
-     (and (= person :3rd) (= number :sing) er-type)
-     (str stem "ía")
-     (and (= person :3rd) (= number :sing) ir-type)
+
+     (and (= person :3rd) (= number :sing))
      (str stem "ía")
 
-     (and (= person :1st) (= number :plur) ar-type)
-     (str stem "íamos")
-
-     (and (= person :1st) (= number :plur) er-type)
-     (str stem "íamos")
-
-     (and (= person :1st) (= number :plur) ir-type)
+     (and (= person :1st) (= number :plur))
      (str stem "íamos")
 
      ;; <second person plural conditional>
 
-     (and (= person :2nd) (= number :plur) ar-type vosotros)
+     (and (= person :2nd) (= number :plur) vosotros)
      (str stem "íais")
 
-     (and (= person :2nd) (= number :plur) er-type vosotros)
-     (str stem "íais")
-
-     (and (= person :2nd) (= number :plur) ir-type vosotros)
-     (str stem "íais")
-
-     (and (= person :2nd) (= number :plur) ar-type ustedes)
-     (str stem "ían")
-
-     (and (= person :2nd) (= number :plur) er-type ustedes)
-     (str stem "ían")
-
-     (and (= person :2nd) (= number :plur) ir-type ustedes)
+     (and (= person :2nd) (= number :plur) ustedes)
      (str stem "ían")
 
      ;; </second person plural conditional>
 
      ;; <third person plural conditional>
-     (and (= person :3rd) (= number :plur)
-          ar-type)
-     (str stem "ían")
-
-     (and (= person :3rd) (= number :plur)
-          er-type)
-     (str stem "ían")
-
-     (and (= person :3rd) (= number :plur)
-          ir-type)
+     (and (= person :3rd) (= number :plur))
      (str stem "ían")
 
      ;; </third person plural conditional>
@@ -156,76 +118,33 @@
      (get-in word [:futuro number-and-person])
      (get-in word [:futuro number-and-person])
 
-     (and (= person :1st) (= number :sing) ar-type)
-     (str stem "é")
-     (and (= person :1st) (= number :sing) er-type)
-     (str stem "é")
-     (and (= person :1st) (= number :sing) ir-type)
+     (and (= person :1st) (= number :sing))
      (str stem "é")
 
-     (and (= person :2nd) (= number :sing) ar-type)
-     (str stem "as")
-     (and (= person :2nd) (= number :sing) ir-type)
-     (str stem "as")
-     (and (= person :2nd) (= number :sing) er-type)
+     (and (= person :2nd) (= number :sing))
      (str stem "as")
 
-     (and (= person :2nd) (= number :sing) ar-type (= usted true))
-     (str stem "á")
-     (and (= person :2nd) (= number :sing) ir-type (= usted true))
-     (str stem "á")
-     (and (= person :2nd) (= number :sing) er-type (= usted true))
+     (and (= person :2nd) (= number :sing)(= usted true))
      (str stem "á")
 
-     (and (= person :3rd) (= number :sing) ar-type)
-     (str stem "á")
-     (and (= person :3rd) (= number :sing) ir-type)
-     (str stem "á")
-     (and (= person :3rd) (= number :sing) er-type)
+     (and (= person :3rd) (= number :sing))
      (str stem "á")
 
-     (and (= person :1st) (= number :plur) ar-type)
-     (str stem "emos")
-
-     (and (= person :1st) (= number :plur) er-type)
-     (str stem "emos")
-
-     (and (= person :1st) (= number :plur) ir-type)
+     (and (= person :1st) (= number :plur))
      (str stem "emos")
 
      ;; <second person plural future>
 
-     (and (= person :2nd) (= number :plur) ar-type vosotros)
+     (and (= person :2nd) (= number :plur) vosotros)
      (str stem "ais")
 
-     (and (= person :2nd) (= number :plur) er-type vosotros)
-     (str stem "ais")
-
-     (and (= person :2nd) (= number :plur) ir-type vosotros)
-     (str stem "ais")
-
-     (and (= person :2nd) (= number :plur) ar-type ustedes)
-     (str stem "an")
-
-     (and (= person :2nd) (= number :plur) er-type ustedes)
-     (str stem "an")
-
-     (and (= person :2nd) (= number :plur) ir-type ustedes)
+     (and (= person :2nd) (= number :plur) ustedes)
      (str stem "an")
 
      ;; </second person plural future>
 
      ;; <third person plural future>
-     (and (= person :3rd) (= number :plur)
-          ar-type)
-     (str stem "an")
-
-     (and (= person :3rd) (= number :plur)
-          er-type)
-     (str stem "an")
-
-     (and (= person :3rd) (= number :plur)
-          ir-type)
+     (and (= person :3rd) (= number :plur))
      (str stem "an")
 
      ;; </third person plural future>

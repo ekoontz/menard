@@ -52,11 +52,7 @@
      (get-in word [:condicional number-and-person])
      (get-in word [:condicional number-and-person])
 
-     (and (= person :1st) (= number :sing) ar-type)
-     (str stem "ía")
-     (and (= person :1st) (= number :sing) er-type)
-     (str stem "ía")
-     (and (= person :1st) (= number :sing) ir-type)
+     (and (= person :1st) (= number :sing))
      (str stem "ía")
 
      (and (= person :2nd) (= number :sing) ar-type)

@@ -14,7 +14,7 @@
 
 (def small (espanol/small))
 
-(deftest generate-conditional
+(deftest generate-regular-conditional
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
@@ -25,6 +25,16 @@
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
     (is (or (= "yo dormiría" (fo result))
             (= "dormiría" (fo result))))))
+
+(deftest generate-irregular-future
+  (let [result (fo (generate {:synsem {:sem {:tense :future
+                                             :subj {:pred :I}}}
+                              :root {:espanol {:espanol "venir"}}}
+                             :model small))]
+    (is (or (= result
+               "yo vendré")
+            (= result
+               "vendré")))))
 
 (deftest zar-preterito
   (let [result (generate 
@@ -50,3 +60,5 @@
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))
+
+    

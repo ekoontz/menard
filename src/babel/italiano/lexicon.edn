@@ -1746,7 +1746,7 @@
               :italiano {:passato "sceso"}}]
 
  "scrivere"  {:synsem {:cat :verb
-                       :sem {:pred :scrivere}}
+                       :sem {:pred :write}}
               :italiano {:passato "scritto"}}
 
  "sedersi" {:synsem {:cat :verb
@@ -1837,7 +1837,7 @@
                                     :infl :participle
                                     }}}}
 
-;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"             
+;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"
 ;             {:unify [common]
 ;              :synsem {:aux true
 ;                       :infl :imperfect
@@ -1846,7 +1846,7 @@
 ;                       :subcat {:2 {:cat :verb
 ;                                    :infl :participle}}}}
              ])
-             
+
 
  "studiare"  {:synsem {:cat :verb
                        :sem {:pred :study}}}

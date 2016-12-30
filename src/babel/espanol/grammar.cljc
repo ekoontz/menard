@@ -423,7 +423,7 @@
        grammar))
 
 (defn small []
-  (log/info (str "Español model: small"))
+  (log/info (str "Creating language model for Español: small"))
   (let [grammar
         (filter #(or (= (get-in % [:rule]) "s-conditional-nonphrasal")
                      (= (get-in % [:rule]) "s-conditional-phrasal")
@@ -478,7 +478,7 @@
                           (merge tree
                                  (morph-walk-tree tree))))}))
 (defn medium []
-  (log/info (str "Español model: medium"))
+  (log/debug (str "Creating language model for Español: medium"))
   (let [lexicon (deliver-lexicon)
         lexicon-for-generation
         (into {}

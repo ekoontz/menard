@@ -59,7 +59,7 @@
   [spec & {:keys [max-total-depth model truncate-children]
            :or {max-total-depth generate/max-total-depth
                 model nil
-                truncate-children true}}]
+                truncate-children false}}]
   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
   (if (nil? model)
     (let [error-message

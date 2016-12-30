@@ -1,19 +1,4 @@
-(ns babel.espanol.lexicon
-  (:refer-clojure :exclude [get-in])
-  (:require
-   [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :refer [compile-lex if-then
-                            map-function-on-map-vals
-                            verb-pred-defaults]]
-   [babel.espanol.morphology :as morph]
-   [babel.espanol.pos :refer [agreement-noun cat-of-pronoun common-noun determiner
-                              feminine-noun intransitivize masculine-noun transitivize]]
-   [babel.pos :as pos :refer [pronoun-acc]]
-   [clojure.tools.logging :as log]
-   [dag_unify.core :refer [fail? get-in unify]]))
-
-(def lexicon-source
-  {""
+{""
    [{:use-for-generation false
      :synsem {:cat :noun
               :pronoun true
@@ -328,10 +313,10 @@
                                      :2plur "decís"
                                      :3plur "dicen"}
                            :preterito-stem "dij"}}]
-            [(unify common
-                    {:synsem {:sem {:pred :say}}})
-             (unify common
-                    {:synsem {:sem {:pred :tell}}})])
+            [{:unify [common]
+              :synsem {:sem {:pred :say}}}
+             {:unify [common]
+              :synsem {:sem {:pred :tell}}}])
 
    "dejar" {:synsem {:cat :verb
                      :sem {:pred :leave-behind}}}
@@ -346,19 +331,19 @@
    "desear" {:synsem {:cat :verb
                       :sem {:pred :desire}}}
 
-   "despertarse" (let [subject-semantics (atom {:human true})
-         subject-agr (atom :top)]
-     {:synsem {:cat :verb
-               :sem {:pred :wake-up
-                     :reflexive true
-                     :subj subject-semantics
-                     :obj subject-semantics}
-               :subcat {:1 {:agr subject-agr
-                            :sem subject-semantics}
-                        :2 {:agr subject-agr
-                            :pronoun true
-                            :reflexive true
-                            :sem subject-semantics}}}})
+ "despertarse" (let [subject-semantics (atom {:human true})
+                     subject-agr (atom :top)]
+                 {:synsem {:cat :verb
+                           :sem {:pred :wake-up
+                                 :reflexive true
+                                 :subj subject-semantics
+                                 :obj subject-semantics}
+                           :subcat {:1 {:agr subject-agr
+                                        :sem subject-semantics}
+                                    :2 {:agr subject-agr
+                                        :pronoun true
+                                        :reflexive true
+                                        :sem subject-semantics}}}})
 
    "dibujar" {:synsem {:cat :verb
                       :sem {:pred :draw}}}
@@ -402,14 +387,12 @@
 
    "echar" {:synsem {:cat :verb
                      :sem {:pred :throw-out}}}
-   "el"
-   (unify determiner
-          {:synsem {:cat :det
-                    :def :def
-                    :gender :masc
-                    :number :sing}})
+   "el" {:synsem {:cat :det
+                  :def :def
+                  :gender :masc
+                  :number :sing}}
 
-   "él" [{:synsem {:cat cat-of-pronoun
+   "él" [{:synsem {:cat :noun
                    :pronoun true
                    :case :nom
                    :agr {:person :3rd
@@ -419,7 +402,7 @@
                          :gender :masc
                          :pred :lui}
                    :subcat '()}}
-         {:synsem {:cat cat-of-pronoun
+         {:synsem {:cat :noun
                    :pronoun true
                    :case :nom
                    :agr {:person :3rd
@@ -430,7 +413,7 @@
                          :pred :lui}
                    :subcat '()}}]
    "ella"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
@@ -440,7 +423,7 @@
                    :pred :lei}
              :subcat '()}}
    "ellos"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
@@ -450,7 +433,7 @@
                    :pred :loro}
              :subcat '()}}
    "ellas"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
@@ -468,12 +451,10 @@
              :synsem {:cat :verb
                       :sem {:pred :turn-on}}}
 
-   "encontrar" (let [shared-part-of-encontrar
-                  {:synsem {:cat :verb}}]
-              [(unify shared-part-of-encontrar
-                      {:synsem {:sem {:pred :find}}})
-               (unify shared-part-of-encontrar
-                      {:synsem {:sem {:pred :drive}}})])
+ "encontrar" [{:synsem {:cat :verb
+                        :sem {:pred :find}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :drive}}}]
 
    "enojarse"
    (let [subject-semantics (atom {:human true})
@@ -589,10 +570,10 @@
                                        :1plur "hicimos"
                                        :2plur "hicisteis"
                                        :3plur "hicieron"}}}]
-     [(unify common
-             {:synsem {:sem {:pred :do}}})
-      (unify common
-             {:synsem {:sem {:pred :make}}})])
+     [{:unify [common]
+       :synsem {:sem {:pred :do}}}
+      {:unify [common]
+       :synsem {:sem {:pred :make}}}])
 
    "herir" {:espanol {:boot-stem "hier"}
             :synsem {:cat :verb
@@ -659,12 +640,11 @@
 
    "jugar" {}
 
-   "la"
-   (unify determiner
-          {:synsem {:cat :det
-                    :def :def
-                    :gender :fem
-                    :number :sing}})
+   "la" {:synsem {:cat :det
+                  :def :def
+                  :gender :fem
+                  :number :sing}}
+ 
    "lastimarse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
@@ -759,12 +739,10 @@
    "llenar" {:synsem {:cat :verb
                       :sem {:pred :fill}}}
 
-   "llevar" (let [shared-part-of-llevar
-                  {:synsem {:cat :verb}}]
-              [(unify shared-part-of-llevar
-                      {:synsem {:sem {:pred :carry}}})
-               (unify shared-part-of-llevar
-                      {:synsem {:sem {:pred :bring}}})])
+ "llevar" [{:synsem {:cat :verb
+                     :sem {:pred :carry}}}
+           {:synsem {:cat :verb
+                     :sem {:pred :bring}}}]
 
    "llorar" {:synsem {:cat :verb
                       :sem {:pred :cry}}}
@@ -775,7 +753,7 @@
    "me" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
-                  :case pronoun-acc
+                  :case :acc
                   :agr {:person :1st
                         :number :sing}
                   :subcat '()}}
@@ -792,20 +770,17 @@
                       :sem {:pred :show}}}
 
    "mujer"
-   (unify agreement-noun
-          common-noun
-          feminine-noun
-          {:synsem {:sem {:pred :donna
-                          :human true}
-                    :subcat {:1 {:cat :det
-                                 :number :sing
-                                 :def :def}}}})
+ {:synsem {:agr {:gender :fem}
+           :sem {:pred :donna
+                 :human true}
+           :subcat {:1 {:cat :det
+                        :number :sing
+                        :def :def}}}}
 
-   "nacer" {:espanol  {:present {:1sing "nazco"}}
+   "nacer" {:espanol {:present {:1sing "nazco"}}
             :synsem {:cat :verb
-                      :sem {:pred :be-born}}}
-
-
+                     :sem {:pred :be-born}}}
+ 
    "nadar" {:synsem {:cat :verb
                       :sem {:pred :swim}}}
 
@@ -819,14 +794,14 @@
    "nos" {:synsem {:cat :noun
                    :pronoun true
                    :reflexive true
-                   :case pronoun-acc
+                   :case :acc
                    :agr {:person :1st
                          :number :plur}
                    :sem {:pred :noi
                          :human true}
                    :subcat '()}}
    "nosotras"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :1st
@@ -837,7 +812,7 @@
                    :pred :noi}
              :subcat '()}}
    "nosotros"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :1st
@@ -912,23 +887,21 @@
                                        :reflexive true
                                        :sem subject-semantics}}}})
    "os"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :reflexive true
-             :case pronoun-acc
+             :case :acc
              :agr {:person :2nd
                    :number :plur}
              :sem {:human true
                    :pred :voi}
              :subcat '()}}
-   "pan"
-   (unify agreement-noun
-          common-noun
-          masculine-noun
-          {:synsem {:sem {:pred :bread}
-                    :subcat {:1 {:cat :det
-                                 :number :sing
-                                 :def :def}}}})
+
+ "pan" {:synsem {:agr {:gender :masc}
+                 :sem {:pred :bread}
+                 :subcat {:1 {:cat :det
+                              :number :sing
+                              :def :def}}}}
 
    "pensar" {:espanol {:boot-stem "piens"}
              :synsem {:cat :verb
@@ -946,12 +919,12 @@
          {:espanol {:boot-stem "pued"
                     :pret-stem "pud"}
           :synsem {:cat :verb}}]
-     [(unify shared-part-of-poder
-             {:synsem {:sem {:pred :can}}})
-      (unify shared-part-of-poder
-             {:synsem {:sem {:pred :may}}})
-      (unify shared-part-of-poder
-             {:synsem {:sem {:pred :be-able-to}}})])
+     [{:unify [shared-part-of-poder]
+       :synsem {:sem {:pred :can}}}
+      {:unify [shared-part-of-poder]
+       :synsem {:sem {:pred :may}}}
+      {:unify [shared-part-of-poder]
+       :synsem {:sem {:pred :be-able-to}}}])
 
    "poner" {:espanol {:futuro-stem "pondr"
                       :present {:1sing "pongo"
@@ -1020,10 +993,10 @@
                    :espanol {:boot-stem "quier"
                              :preterito-stem "quis"
                              :futuro-stem "querr"}}]
-              [(unify shared-part-of-querer
-                      {:synsem {:sem {:pred :want}}})
-               (unify shared-part-of-querer
-                      {:synsem {:sem {:pred :love}}})])
+              [{:unify [shared-part-of-querer]
+                :synsem {:sem {:pred :want}}}
+               {:unify [shared-part-of-querer]
+                :synsem {:sem {:pred :love}}}])
 
    "reparar" {:synsem {:cat :verb
                       :sem {:pred :repair}}}
@@ -1055,7 +1028,7 @@
     {:synsem {:cat :noun
               :pronoun true
               :reflexive true
-              :case pronoun-acc
+              :case :acc
               :agr {:person :3rd}
               :subcat '()}}
 
@@ -1063,7 +1036,7 @@
     {:synsem {:cat :noun
               :pronoun true
               :reflexive true
-              :case pronoun-acc
+              :case :acc
               :agr {:person :2nd
                     :number :plur}
               :subcat '()}}]
@@ -1078,7 +1051,7 @@
    "te" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
-                  :case pronoun-acc
+                  :case :acc
                   :agr {:person :2nd
                         :number :sing}
                   :subcat '()}}
@@ -1139,7 +1112,7 @@
    "usar" {}
 
    "ustedes"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :3rd
@@ -1175,7 +1148,7 @@
    "volver" {}
 
    "vosotras"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :2nd
@@ -1187,7 +1160,7 @@
              :subcat '()}}
 
    "vosotros"
-   {:synsem {:cat cat-of-pronoun
+   {:synsem {:cat :noun
              :pronoun true
              :case :nom
              :agr {:person :2nd
@@ -1206,54 +1179,6 @@
                    :number :sing}
              :sem {:human true
                    :pred :I}
-             :subcat '()}}})
+             :subcat '()}}}
 
-;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a
-;; argument-position-sensitive function.
-(def lexicon
-  (-> (compile-lex lexicon-source morph/exception-generator morph/phonize)
 
-      ;; if a non-auxiliary, non-reflexive verb has no :obj,
-      ;; then its {:obj is :unspec}.
-      (if-then {:synsem {:cat :verb
-                         :aux false
-                         :sem {:reflexive false
-                               :obj :unspec}}}
-               {:synsem {:sem {:obj :unspec}}})
-
-      ;; make an intransitive version of every verb which has an
-      ;; [:sem :obj] path.
-      intransitivize
-
-      ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
-      transitivize
-
-      (verb-pred-defaults encyc/verb-pred-defaults)
-
-      ;; if verb has no :aux, it's {:aux false}
-      (if-then {:synsem {:cat :verb
-                         :aux false}}
-               {:synsem {:aux false}})
-
-      (if-then {:synsem {:cat :verb
-                         :subcat {:2 {:reflexive false}}}}
-               {:synsem {:subcat {:2 {:reflexive false}}}})
-
-      (if-then {:synsem {:cat :noun
-                         :pronoun true
-                         :null-pronoun false}}
-               {:synsem {:null-pronoun false}})
-
-      (if-then {:synsem {:cat :verb
-                         :subcat {:3 '()}}}
-               {:synsem {:subcat {:3 '()}}})
-
-      ;; Cleanup functions can go here. Number them for ease of reading.
-      ;; 1. this filters out any verbs without an inflection: infinitive verbs
-      ;; should have inflection ':infinitive',
-      ;; rather than not having any inflection.
-      (map-function-on-map-vals
-       (fn [k vals]
-         (filter #(or (not (= :verb (get-in % [:synsem :cat])))
-                      (not (= :none (get-in % [:synsem :infl] :none))))
-                 vals)))))

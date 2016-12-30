@@ -1,7 +1,7 @@
 (ns babel.espanol.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require 
-   [babel.espanol.lexicon :refer [lexicon]]
+   [babel.espanol.lexicon :refer [deliver-lexicon]]
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
    [babel.index :refer [create-indices lookup-spec]]
@@ -441,6 +441,7 @@
                      (= (get-in % [:rule]) "vp-32")
                      (= (get-in % [:rule]) "vp-aux"))
                 grammar)
+        lexicon (deliver-lexicon)
         lexicon-for-analysis lexicon
         lexicon
         (into {}
@@ -478,7 +479,8 @@
                                  (morph-walk-tree tree))))}))
 (defn medium []
   (log/info (str "Español model: medium"))
-  (let [lexicon-for-generation
+  (let [lexicon (deliver-lexicon)
+        lexicon-for-generation
         (into {}
               (for [[k v] lexicon]
                 (let [filtered-v v]

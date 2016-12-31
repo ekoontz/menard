@@ -1985,9 +1985,17 @@
             :subcat {:1 {:cat :det}
                      :2 '()}}}]
 
- "show" {:synsem {:cat :verb
-                  :sem {:pred :show
-                        :past-participle "shown"}}}
+ "show" [{:synsem {:cat :verb
+                  :sem {:pred :show}}
+         :english {:past-participle "shown"}}
+        {:synsem {:cat :verb
+                  :sem {:pred :show-m}}
+         :english {:past-participle "shown"
+                   :note "m"}}
+        {:synsem {:cat :verb
+                  :sem {:pred :show-e}}
+          :english {:past-participle "shown"
+                    :note "e"}}]
 
  "sigh" [{:synsem {:cat :verb
                    :sem {:pred :sigh}

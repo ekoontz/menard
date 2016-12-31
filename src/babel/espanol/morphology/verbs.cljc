@@ -136,16 +136,16 @@
      ;; <second person plural future>
 
      (and (= person :2nd) (= number :plur) vosotros)
-     (str stem "ais")
+     (str stem "éis")
 
      (and (= person :2nd) (= number :plur) ustedes)
-     (str stem "an")
+     (str stem "án")
 
      ;; </second person plural future>
 
      ;; <third person plural future>
      (and (= person :3rd) (= number :plur))
-     (str stem "an")
+     (str stem "án")
 
      ;; </third person plural future>
 

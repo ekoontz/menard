@@ -1,4 +1,7 @@
-(ns babel.latin.morphology (:require [babel.morphology :as morph :refer [conjugation]]))
+(ns babel.latin.morphology
+  (:require [babel.morphology :as morph :refer [conjugation]]
+            [clojure.tools.logging :as log]
+            [dag_unify.core :refer [strip-refs]]))
 
 ;; Present indicative
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
@@ -10,25 +13,25 @@
     :common present
     :forms
     [["o"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["as"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["at"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["at"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["amus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["atis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-bar-present-indicative
   (conjugation 
@@ -36,25 +39,25 @@
     :common present
     :forms
     [["eo"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["es"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["et"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["et"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["emus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["etis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ent"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-present-indicative
   (conjugation 
@@ -62,25 +65,25 @@
     :common present
     :forms
     [["o"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["is"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["it"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["it"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["imus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["itis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["unt"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-i-present-indicative
   (conjugation 
@@ -88,25 +91,25 @@
     :common present
     :forms
     [["io"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["is"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["it"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["it"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["imus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["itis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["iunt"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ire-present-indicative
   (conjugation 
@@ -114,25 +117,25 @@
     :common present
     :forms
     [["o"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["is"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["it"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["it"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["imus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["itis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["unt"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 ;;IMPERFECT BEGINS HERE
 (def imperfect {:synsem {:sem {:tense :past
@@ -144,25 +147,25 @@
     :common imperfect
     :forms
     [["abam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["abas"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["abat"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["abat"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
 
      ["abamus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["abatis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["abant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :1st :number :plur}}}]]}))
 
 (def ere-bar-imperfect-indicative
   (conjugation 
@@ -170,25 +173,25 @@
     :common imperfect
     :forms
     [["ebam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["ebas"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["ebat"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["ebat"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["ebamus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["ebatis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ebant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-imperfect-indicative
   (conjugation 
@@ -196,25 +199,25 @@
     :common imperfect
     :forms
     [["ebam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["ebas"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["ebat"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
      
      ["ebat"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
 
      ["ebamus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["ebatis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ebant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-i-imperfect-indicative
   (conjugation 
@@ -222,25 +225,25 @@
     :common imperfect
     :forms
     [["iebam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["iebas"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["iebat"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["iebat"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["iebamus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["iebatis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["iebant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ire-imperfect-indicative
   (conjugation 
@@ -248,25 +251,25 @@
     :common imperfect
     :forms
     [["iebam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["iebas"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["iebat"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["iebat"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["iebamus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["iebatis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["iebant"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 ;;FUTURE BEGINS HERE
 
@@ -278,25 +281,25 @@
     :common future-tense
     :forms
     [["abo"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["abis"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["abit"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["abit"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["abimus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["abitis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["abunt"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-bar-future-indicative
   (conjugation 
@@ -304,25 +307,25 @@
     :common future-tense
     :forms
     [["ebo"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["ebis"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["ebit"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["ebit"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["ebimus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["ebitis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ebunt"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-future-indicative
   (conjugation 
@@ -330,25 +333,25 @@
     :common future-tense
     :forms
     [["am"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["es"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["et"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["et"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["emus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["etis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ent"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ere-i-future-indicative
   (conjugation 
@@ -356,25 +359,25 @@
     :common future-tense
     :forms
     [["iam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["ies"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["iet"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["iet"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["iemus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["ietis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ient"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def ire-future-indicative
   (conjugation 
@@ -382,25 +385,25 @@
     :common future-tense
     :forms
     [["iam"
-      {:synsem {:sem {:subj {:pred :I}}}}]
+      {:synsem {:agr {:person :1st :number :sing}}}]
 
      ["ies"
-      {:synsem {:sem {:subj {:pred :tu}}}}]
+      {:synsem {:agr {:person :2nd :number :sing}}}]
      
      ["iet"
-      {:synsem {:sem {:subj {:pred :lui}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :masc}}}]
 
      ["iet"
-      {:synsem {:sem {:subj {:pred :lei}}}}]
+      {:synsem {:agr {:person :3rd :number :sing :gender :fem}}}]
      
      ["iemus"
-      {:synsem {:sem {:subj {:pred :noi}}}}]
+      {:synsem {:agr {:person :1st :number :plur}}}]
      
      ["ietis"
-      {:synsem {:sem {:subj {:pred :voi}}}}]
+      {:synsem {:agr {:person :2nd :number :plur}}}]
      
      ["ient"
-      {:synsem {:sem {:subj {:pred :loro}}}}]]}))
+      {:synsem {:agr {:person :3rd :number :plur}}}]]}))
 
 (def replace-patterns (concat are-present-indicative
                               ere-bar-present-indicative
@@ -421,6 +424,8 @@
   "find the lexical structure for a surface form given a lexicon"
   (morph/analyze surface-form lexicon replace-patterns))
 
-(defn conjugate [structure lexicon]
-  "reverse of analyze: find the surface form given a lexical structure and a lexicon"
-  (morph/conjugate structure lexicon replace-patterns))
+(defn conjugate [infinitive structure]
+  "reverse of analyze: find the surface form given an infinitive form and a structure"
+  (log/debug (str "latin morphology: infinitive:" infinitive))
+  (log/debug (str "latin morphology: structure:" (dissoc (strip-refs structure) :dag_unify.core/serialized)))
+  (morph/conjugate infinitive structure replace-patterns))

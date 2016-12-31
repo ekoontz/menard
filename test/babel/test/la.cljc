@@ -12,10 +12,10 @@
 
 (def source-language :en)
 
-(defn model [] (-> ((-> models :la)) deref))
+(defn latin-model [] (-> ((-> models :la)) deref))
 
 (defn generate [spec]
-  ((-> (model) :generate-fn) spec))
+  ((-> (latin-model) :generate-fn) spec))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
@@ -79,40 +79,37 @@
   (let [source-model (-> ((-> models :en)) deref)
 
         ;; use a specific :root and verb conjugation so that we can test
-        result (read-one {:root "ardēre"
-                          :synsem {:sem {:tense :past
-                                         :aspect :progressive}}}
-                         (model) source-model)
         ;; for specific literal strings in the result.
-        subj (get-in result [:semantics :subj :pred])
-        possible-answer (first (get result :targets))]
-    (log/debug (str "reader2 test: keys of result:" (keys result)))
-    (log/debug (str "reader2 subj: " subj))
-    (log/debug (str "reader2 possible-answer:" possible-answer))
-    (is
-     (or
-      (and
-       (= subj :I)
-       (= "ardebam"
-          possible-answer))
-      (and
-       (= subj :tu)
-       (= "ardebas"
-          possible-answer))
-      (and
-       (= subj :noi)
-       (= "ardebamus"
-          possible-answer))
-      (and
-       (= subj :voi)
-       (= "ardebatis"
-          possible-answer))
-      (and
-       (or (= subj :lui)
-           (= subj :lei))
-       (= "ardebat"
-          possible-answer))
-      (and
-       (= subj :loro)
-       (= "ardebant"
-          possible-answer))))))
+        results (take 1 (repeatedly #(read-one {:root "ardēre"
+                                                :synsem {:sem {:tense :past
+                                                               :aspect :progressive}}}
+                                                (latin-model) source-model)))]
+    (doall
+     (->> results
+          (map (fn [result]
+                 (let [possible-answer (first (shuffle (get result :targets)))]
+                   (log/debug (str "reader2 possible-answer:" possible-answer))
+                   (is
+                    (or
+                     (and
+                      (= "ardebam"
+                         possible-answer))
+                     (and
+                      (= "ardebas"
+                         possible-answer))
+                     (and
+                      (= "ardebamus"
+                         possible-answer))
+                     (and
+                      (= "ardebatis"
+                         possible-answer))
+                     (and
+                      (= "ardebat"
+                         possible-answer))
+                     (and
+                      (= "ardebant"
+                         possible-answer))
+                     (or
+                      (log/info (str "failsafe: result:" result))
+                      (log/info (str "failsafe: possible-answer:" possible-answer))
+                      false))))))))))

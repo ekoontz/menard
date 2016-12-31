@@ -740,9 +740,9 @@
                       :sem {:pred :fill}}}
 
  "llevar" [{:synsem {:cat :verb
-                     :sem {:pred :carry-l}}}
+                     :sem {:pred :carry}}}
            {:synsem {:cat :verb
-                     :sem {:pred :bring-l}}}]
+                     :sem {:pred :wear-l}}}]
 
    "llorar" {:synsem {:cat :verb
                       :sem {:pred :cry}}}

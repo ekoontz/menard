@@ -9,7 +9,7 @@
    [clojure.java.io :refer [resource]]
    [clojure.repl :refer [doc]]
    [clojure.tools.logging :as log]
-   [dag_unify.core :refer [fail? get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [fail? get-in strip-refs unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :cat]
@@ -90,7 +90,7 @@
         (first (shuffle
                 (filter #(not (fail? %))
                         (map (fn [val]
-                               (unifyc spec val))
+                               (unify spec val))
                              (flatten (vals lexicon))))))]
     (if expr
       (conj {:surface (fo expr)}
@@ -129,10 +129,10 @@
 
 (defn intersection [spec curriculum model]
   (cond false ;; TODO implement this stub and set to true
-        (unifyc spec
-                ;; e.g. support curriculum was
-                ;; drilling on imperfect, we would have:
-                {:synsem {:sem {:tense :past
+        (unify spec
+               ;; e.g. support curriculum was
+               ;; drilling on imperfect, we would have:
+               {:synsem {:sem {:tense :past
                                :aspect :imperfect}}})
         true
         spec))

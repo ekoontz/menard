@@ -64,12 +64,6 @@
     :aspect :progressive}
    {:tense :future}])
 
-(def verb-agreement
-  [{:agr {:person :1st
-          :number :sing}}
-   {:agr {:person :2nd
-          :number :sing}}])
-
 (defn preds [lexicon]
   (vec
    (set
@@ -100,8 +94,21 @@
   "return a spec that is more specific than base-spec, specific enough to conjugate."
   [base-spec model]
   (log/debug (str "get-spec:base-spec:" base-spec))
-  (let [retval
-        (unifyc
+  (let [verb-agreement-alternatives
+        [{:agr {:person :1st
+                :number :sing}}
+         {:agr {:person :2nd
+                :number :sing}}
+         {:agr {:person :3rd
+                :number :sing}}
+         {:agr {:person :1st
+                :number :plur}}
+         {:agr {:person :2nd
+                :number :plur}}
+         {:agr {:person :3rd
+                :number :plur}}]
+        retval
+        (unify
          base-spec
 
          ;; Read 'em their rights:
@@ -116,7 +123,7 @@
          ;; get-spec will appoint some for you.
          (or (and (get-in base-spec [:synsem :agr :number])
                   base-spec)
-             {:synsem (first (shuffle verb-agreement))})
+             {:synsem (first (shuffle verb-agreement-alternatives))})
          
          ;; 3. You have the right to a root. If you do not have one,
          ;; get-spec will appoint one for you.

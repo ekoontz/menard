@@ -24,7 +24,7 @@
 
    "acheter" {:synsem {:cat :verb
                        :sem {:subj {:human true}
-                             :pred :comprare}}}
+                             :pred :buy}}}
 
    "aider" {:synsem {:cat :verb
                      :sem {:pred :help}}}

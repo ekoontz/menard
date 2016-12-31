@@ -390,11 +390,7 @@
            :subcat {:1 {:cat :det
                         :def :def}}}}
 
- "bring" {:synsem {:cat :verb
-                   :sem {:pred :bring}}
-          :english {:past "brought"}}
-
-          (let [common {:english {:past "brought"}}]
+ "bring" (let [common {:english {:past "brought"}}]
                     [{:unify [common]
                       :synsem {:cat :verb
                                :sem {:pred :bring}}}

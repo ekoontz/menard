@@ -52,11 +52,14 @@
                :synsem {:agr {:person :3rd :number :plur}
                         :sem {:tense :future}}})))))
 (deftest reader1
-  (let [spec {:synsem {:agr {:person :3rd :number :sing :gender :masc}
-                       :sem {:obj :unspec
-                             :tense :past
-                             :aspect :progressive
-                             :pred :answer}}}
+  (let [spec (let [agreement (atom {:person :3rd :number :sing :gender :masc})]
+               {:synsem {:agr agreement
+                         :sem {:obj :unspec
+                               :tense :past
+                               :subj {:pred :lui}
+                               :aspect :progressive
+                               :pred :answer}}
+                :comp {:synsem {:agr agreement}}})
         source-format-fn (-> ((-> models source-language)) deref :morph)
         source-generate-fn (-> ((-> models source-language)) deref :generate-fn)
         target-format-fn (-> ((-> models :la)) deref :morph)
@@ -69,6 +72,8 @@
                 spec
                 generate
                 target-format-fn)]
+    (log/info (str "source: " source))
+    (log/info (str "target: " target))
     (is (or (= source "he used to answer")
             (= source "he was answering")
             (= source "he used to respond")

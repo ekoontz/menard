@@ -5,6 +5,7 @@
    [babel.test.it :as it]
    [babel.test.en :as en]
    [clojure.test :refer [deftest is]]
+   [clojure.tools.logging :as log]
    [dag_unify.core :refer [get-in strip-refs]]))
 
 ;; In Italian, certain verbs, called "essere" verbs, when conjugated
@@ -67,7 +68,7 @@
 
     (= "they (♂) went" english)))
 
-(deftest latin
+(deftest latin-to-english
   (let [latin "ardebam"
         latin-model (-> ((-> models :la)) deref)
         latin-structure
@@ -83,12 +84,15 @@
             strip-refs)
         
         english-structure
-        (->  {:synsem {:sem semantics}}
+        (->  {:comp {:synsem {:agr (get-in latin-structure [:synsem :agr])}}
+              :synsem {:sem semantics}}
              (babel.english/generate :model (-> ((-> models :en)) deref)))
         
         english (babel.english.morphology/fo english-structure
                                              :show-notes false)]
-
+    
+    (log/debug (str "babel.translate/latin-to-english: english-structure" english-structure))
+    (log/debug (str "babel.translate/latin-to-english: english:" english))
     (is (or (= "I was burning" english)
             (= "I used to burn" english)))))
 

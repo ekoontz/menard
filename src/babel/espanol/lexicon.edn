@@ -172,7 +172,7 @@
 
 
    "caminar" {:synsem {:cat :verb
-                        :sem {:pred :walk}}}
+                        :sem {:pred :walk-c}}}
    "cancelar" {:synsem {:cat :verb
                         :sem {:pred :cancel}}}
    "cantar" {:synsem {:cat :verb
@@ -644,7 +644,7 @@
                   :def :def
                   :gender :fem
                   :number :sing}}
- 
+
    "lastimarse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
@@ -780,7 +780,7 @@
    "nacer" {:espanol {:present {:1sing "nazco"}}
             :synsem {:cat :verb
                      :sem {:pred :be-born}}}
- 
+
    "nadar" {:synsem {:cat :verb
                       :sem {:pred :swim}}}
 
@@ -1178,5 +1178,3 @@
              :sem {:human true
                    :pred :I}
              :subcat '()}}}
-
-

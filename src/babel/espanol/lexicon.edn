@@ -212,7 +212,7 @@
                          :sem {:pred :share}}}
 
    "comprar" {:synsem {:cat :verb
-                       :sem {:pred :comprare
+                       :sem {:pred :buy
                              :subj {:human true}
                              :obj {:buyable true}}}}
 

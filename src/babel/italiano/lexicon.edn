@@ -596,7 +596,7 @@
 
  "comprare" {:synsem {:cat :verb
                       :essere false
-                      :sem {:pred :comprare}}}
+                      :sem {:pred :buy}}}
 
  "condividere"  {:synsem {:cat :verb
                           :sem {:pred :share}}

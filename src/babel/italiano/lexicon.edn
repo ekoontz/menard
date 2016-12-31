@@ -1111,7 +1111,7 @@
                          :sem {:pred :incontrare}}}
 
  "indossare"  {:synsem {:cat :verb
-                        :sem {:pred :wear}}}
+                        :sem {:pred :wear-i}}}
 
  "insegnare"  {:synsem {:cat :verb
                         :sem {:pred :teach}}}
@@ -1566,7 +1566,7 @@
  "portare"  [{:synsem {:cat :verb
                          :sem {:pred :carry}}}
                {:synsem {:cat :verb
-                         :sem {:pred :wear}}}]
+                         :sem {:pred :wear-p}}}]
  "potere"
  (let [shared-part-of-potere
        {:synsem {:cat :verb}

@@ -399,7 +399,7 @@
          :english {:past "burnt"}}
 
  "buy" {:synsem {:cat :verb
-                 :sem {:pred :comprare}}
+                 :sem {:pred :buy}}
         :english {:past "bought"
                   :present {:3sing "buys"}}}
 

@@ -28,32 +28,32 @@
 (deftest conjugate-ere
   (is (= "ardemus"
          (conjugate "ardēre"
-                    {:synsem {:sem {:subj {:pred :noi}}}}))))
+                    {:synsem {:agr {:person :1st :number :plur}}}))))
 
 (deftest generate-present
   (is (= "ardetis"
          (fo (generate
               {:root "ardēre"
-               :synsem {:sem {:subj {:pred :voi}
-                              :tense :present}}})))))
+               :synsem {:agr {:person :2nd :number :plur}
+                        :sem {:tense :present}}})))))
 
 (deftest generate-imperfect
   (is (= "ardebam"
          (fo (generate
               {:root "ardēre"
-               :synsem {:sem {:subj {:pred :I}
-                              :tense :past
+               :synsem {:agr {:person :1st :number :sing}
+                        :sem {:tense :past
                               :aspect :progressive}}})))))
 
 (deftest generate-future
   (is (= "ardebunt"
          (fo (generate
               {:root "ardēre"
-               :synsem {:sem {:subj {:pred :loro}
-                              :tense :future}}})))))
+               :synsem {:agr {:person :3rd :number :plur}
+                        :sem {:tense :future}}})))))
 (deftest reader1
-  (let [spec {:synsem {:sem {:subj {:pred :lui}
-                             :obj :unspec
+  (let [spec {:synsem {:agr {:person :3rd :number :sing :gender :masc}
+                       :sem {:obj :unspec
                              :tense :past
                              :aspect :progressive
                              :pred :answer}}}

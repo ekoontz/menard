@@ -2407,14 +2407,10 @@
             :present {:3sing "wakes up"}
             :past "woke up"}}
 
- "walk" (let [common {:english}]
-           [{:unify [common]
-             :synsem {:cat :verb
-                      :sem {:pred :walk}}}
-            {:unify [common]
-             :synsem {:cat :verb
-                      :sem {:pred :walk-c}}}])
-
+ "walk" [{:synsem {:cat :verb
+                   :sem {:pred :walk}}}
+         {:synsem {:cat :verb
+                   :sem {:pred :walk-c}}}]
 
  "want" [{:modal-with :infinitive
           :synsem {:cat :verb

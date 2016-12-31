@@ -8,7 +8,7 @@
  "laudāre" {:synsem {:cat :verb
                      :sem {:pred :praise}}}
  "legere" {:synsem {:cat :verb
-                      :sem {:pred :read}}}
+                    :sem {:pred :read}}}
 
  ;; use square brackets [ .. ] to indicate multiple meanings, e.g.:
  "portāre" [{:conjugation 1

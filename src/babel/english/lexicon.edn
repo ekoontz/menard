@@ -394,6 +394,17 @@
                    :sem {:pred :bring}}
           :english {:past "brought"}}
 
+          (let [common {:english {:past "brought"}}]
+                    [{:unify [common]
+                      :synsem {:cat :verb
+                               :sem {:pred :bring}}}
+                     {:unify [common]
+                      :synsem {:cat :verb
+                               :sem {:pred :bring-l}}}
+                     {:unify [common]
+                      :synsem {:cat :verb
+                               :sem {:pred :bring-t}}}])
+
  "burn" {:synsem {:cat :verb
                   :sem {:pred :burn}}
          :english {:past "burnt"}}

@@ -80,9 +80,9 @@
 
         ;; use a specific :root and verb conjugation so that we can test
         ;; for specific literal strings in the result.
-        results (take 1 (repeatedly #(read-one {:root "ardēre"
-                                                :synsem {:sem {:tense :past
-                                                               :aspect :progressive}}}
+        results (take 10 (repeatedly #(read-one {:root "ardēre"
+                                                 :synsem {:sem {:tense :past
+                                                                :aspect :progressive}}}
                                                 (latin-model) source-model)))]
     (doall
      (->> results

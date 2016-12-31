@@ -86,7 +86,9 @@
         ;; for specific literal strings in the result.
         subj (get-in result [:semantics :subj :pred])
         possible-answer (first (get result :targets))]
-    (log/info (str "reader2 test: result:" result))
+    (log/debug (str "reader2 test: keys of result:" (keys result)))
+    (log/debug (str "reader2 subj: " subj))
+    (log/debug (str "reader2 possible-answer:" possible-answer))
     (is
      (or
       (and

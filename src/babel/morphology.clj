@@ -1,7 +1,7 @@
 (ns babel.morphology
   (:require [clojure.tools.logging :as log]
             [clojure.string :as string]
-            [dag_unify.core :refer [fail? unifyc]]))
+            [dag_unify.core :refer [fail? strip-refs unifyc]]))
 
 (defn conjugation [specification]
   "compile a high-level conjugation pattern into 
@@ -54,6 +54,8 @@
   "Conjugate an infinitive into a surface form by taking the first 
    element of replace-patterns where the element's :u unifies successfully with
    unify-with."
+  (log/debug (str "conjugate: infinitive=" infinitive "; unify-with=" (dissoc (strip-refs unify-with)
+                                                                              :dag_unify.core/serialized)))
   (first
    (take 1
          (remove #(nil? %)
@@ -66,5 +68,7 @@
                                (re-matches from infinitive)
                                (not (fail? (unifyc unify-against
                                                    unify-with))))
-                        (string/replace infinitive from to))))
+                        (do
+                          (log/debug (str "found match: replace-pattern=" replace-pattern))
+                          (string/replace infinitive from to)))))
                   replace-patterns)))))

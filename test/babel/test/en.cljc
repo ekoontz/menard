@@ -390,40 +390,6 @@
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0))))))
 
-(deftest nugent-testing
-  (let [med (medium)
-        spec {:synsem {:cat :verb
-                       :sem {:pred :read
-                             :subj {:pred :woman}}
-                       :subcat '()}}
-        bolts-and-comps (bolts-with-comps spec med 0 6)
-        ; (def
-        bolts-with-phrasal-head (filter #(and (not (nil? (get % [:head :comp])))
-                                              (not (empty? (get % [:head :comp])))
-                                              (not (empty? (get % [:comp]))))
-                                        bolts-and-comps)
-                                        ; )
-
-;        (def
-        fb (first bolts-with-phrasal-head)
-        ; )
-        ]
-    (is (not (empty? bolts-and-comps)))))
-
-(defn bolts-with-comps-is-slow []
-  (let [med (medium)
-        spec {:synsem {:cat :verb
-                       :sem {:pred :read
-                             :subj {:pred :woman}}
-                       :subcat '()}}]
-    (repeatedly (fn [] (time (type (first (filter #(and (not (empty? (get % [:head :comp])))
-                                                        (not (empty? (get % [:comp]))))
-                                                  (bolts-with-comps spec med 0 6)))))))))
-
-;; lein test :only babel.test.en/bwc-slow
-(deftest bwc-slow
-  (is (= 1 (count (take 1 (bolts-with-comps-is-slow))))))
-
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
                                          :tense :present
@@ -586,25 +552,6 @@
     ;; explicitly set to progressive present:
     (is (= "I am eating" (morph (generate progressive))))))
 
-    
-(deftest lb1
-  (let [comp-paths (babel.generate/find-comp-paths good-lb)
-        paths-to-specs (zipmap
-                        comp-paths
-                        (map #(get-in good-lb %)
-                             comp-paths))
-        paths-to-lbs
-        (zipmap
-         comp-paths
-         (map #(babel.generate/lightning-bolts
-                med
-                (get-in good-lb %)
-                0 0)
-              comp-paths))]
-
-    (is (not (empty? (get paths-to-lbs [:head :comp]))))
-    (is (not (empty? (get paths-to-lbs [:comp]))))))
-
 (deftest benchmark-test []
   (let [med (medium)
         to-run #(time (println (fo (generate
@@ -631,11 +578,6 @@
                  (count (get bolt-to-comps path)))
                          (keys bolt-to-comps))})
        bolts-with-comps))
-
-(defn benchmark [spec & [n]]
-  (let [n (or n 5)]
-    (doall (take n (repeatedly #(time (doall (do-counts (bolts-with-comps spec (medium) 0 6)))))))
-    nil))
 
 (defn benchmark1 []
   (benchmark spec1 5))

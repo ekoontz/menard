@@ -5,7 +5,7 @@
             [babel.english.grammar :as grammar]
             [babel.english.morphology :refer [fo get-string]]
 
-            [babel.generate :refer [get-lexemes lightning-bolts]]
+            [babel.generate :refer [get-lexemes lightning-bolts not-fail?]]
             
             [babel.over :refer [overc overh]]
             
@@ -583,5 +583,37 @@
 ;; (repeatedly #(time (println (fo (first (nugents (medium) spec1))))))
 ;; (repeatedly #(println (fo-ps (first (nugents (medium) spec1)))))
 ;; (repeatedly #(println (fo (first (nugents (medium) {:synsem {:cat :noun}})))))
+
+(deftest lbs
+  (let [spec
+        {:modified false
+                   :synsem {:cat :verb
+                            :subcat ()
+                            :sem {:pred :eat
+                                  :tense :present
+                                  :subj {:pred :I}
+                                  :obj :unspec}}}
+
+        lbs (babel.generate/lightning-bolts (medium) spec 0 6)]
+    (is (not (empty? lbs)))))
+
+(def works-ok
+  (map morph (babel.generate/generate-all
+              {:modified false,
+               :synsem {:cat :verb, :subcat (),
+                        :sem {:pred :sleep,
+                              :subj {:pred :tu},
+                              :obj :unspec}}}
+              (medium) 0 6)))
+                               
+(defn runs-forever []
+  (map morph (babel.generate/generate-all
+              {:modified false,
+               :synsem {:cat :verb, :subcat (),
+                        :sem {:pred :sleep,
+                              :subj {:pred :top},
+                              :obj :unspec}}}
+              (medium) 0 6)))
+
 
 

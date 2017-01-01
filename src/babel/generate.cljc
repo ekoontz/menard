@@ -63,7 +63,7 @@
              (comp-paths-to-complements bolt model depth max-depth)
              [] [bolt])))
      
-     (filter #(not (some empty? (vals %))))
+;     (filter #(not (some empty? (vals %))))
 
      (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
             ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
@@ -72,7 +72,7 @@
                            each-path-through-trellis))
                  (apply combo/cartesian-product (vals each-bolt-and-comps)))))
 
-     (filter #(not (empty? %)))
+ ;    (filter #(not (empty? %)))
 
      (mapcat (fn [bolt-group]
                (->> bolt-group
@@ -186,8 +186,7 @@
                                  (+ 1 depth) max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]
-    (log/info (str "type of bolts-at:" (type bolts-at)))
-    (log/info (str "nil? of bolts-at:" (nil? bolts-at)))
+    (if (not (nil? bolts-at)) (log/info (str "realized? of bolts-at:" (realized? bolts-at))))
     (cond (nil? bolts-at)
           (lazy-seq lexemes)
           lexemes-before-phrases

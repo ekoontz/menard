@@ -2479,17 +2479,20 @@
                   :pred :noi}
             :subcat '()}}]
 
- "wear"  [{:english {:past "wore"
-                    :past-participle "worn"}
-          :synsem {:cat :verb
-                   :sem {:pred :wear}}}
-         {:synsem {:cat :verb
-                   :sem {:pred :wear-l}}}
-         {:synsem {:cat :verb
-                   :sem {:pred :wear-i}}}
-         {:synsem {:cat :verb
-                   :sem {:pred :wear-p}}}]
-
+ "wear" (let [common {:english {:past "wore"
+                                :past-participle "worn"}}]
+          [{:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :wear}}}
+           {:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :wear-l}}}
+           {:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :wear-i}}}
+           {:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :wear-p}}}])
  "whether"
  (let [obj (atom :top)]
    {:synsem {:cat :comp

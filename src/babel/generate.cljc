@@ -180,8 +180,8 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                           ;;                                   (generate-all (get-in bolt path) model
-                           (lightning-bolts model (get-in bolt path)
+                   (generate-all (get-in bolt path) model
+;;                           (lightning-bolts model (get-in bolt path)
                                             (+ 1 depth) max-depth))
         lexemes-before-phrases
         (lexemes-before-phrases depth max-depth)]

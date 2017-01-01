@@ -606,14 +606,21 @@
                               :obj :unspec}}}
               (medium) 0 6)))
                                
-(defn runs-forever []
-  (map morph (babel.generate/generate-all
-              {:modified false,
-               :synsem {:cat :verb, :subcat (),
-                        :sem {:pred :sleep,
-                              :subj {:pred :top},
-                              :obj :unspec}}}
-              (medium) 0 6)))
+(deftest runs-very-slow
+  (let [ga
+        (babel.generate/generate-all
+         {:modified false,
+          :synsem {:cat :verb, :subcat (),
+                   :sem {:pred :top,
+                         :subj {:pred :top},
+                         :obj :unspec}}}
+         (medium) 0 2)]
+    (is (not (nil? ga)))))
+
+
+
+
+
 
 
 

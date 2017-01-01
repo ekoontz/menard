@@ -17,10 +17,10 @@
 (def ^:const mapfn map)
 
 ;; deterministic generation:
-;;(def ^:const shufflefn (fn [x] x))
+(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-(def ^:const shufflefn (fn [x] (lazy-seq (shuffle x))))
+;;(def ^:const shufflefn (fn [x] (lazy-seq (shuffle x))))
 
 (def ^:const randomize-lexemes-before-phrases
   false)
@@ -43,22 +43,37 @@
   (let [depth (or depth 0)
         truncate truncate
         max-depth (or max-depth max-total-depth)]
-    (log/trace (str "generate-all:" depth "/" max-depth ":         " (strip-refs spec)))
+    (log/debug (str "generate-all:" depth "/" max-depth ";pred=" (get-in spec [:synsem :sem :pred])))
     (->>
+
      (lightning-bolts model spec depth max-depth)
+     
      (filter not-fail?)
-     (map (fn [bolt] ;; for each bolt, create a map of complement positions within the bolt to possible complements for that position
+
+     (filter #(not (nil? %)))
+
+     (map (fn [bolt]
+            (log/info (str "generate-all: bolt:" ((:morph-ps model) bolt)))
+            bolt))
+
+     ;; for each bolt, create a map of complement positions
+     ;; within the bolt to possible complements for that position
+     (map (fn [bolt]
             (assoc
              (comp-paths-to-complements bolt model depth max-depth)
              [] [bolt])))
+     
      (filter #(not (some empty? (vals %))))
+
      (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
             ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
             (map (fn [each-path-through-trellis]
                    (zipmap (keys each-bolt-and-comps)
                            each-path-through-trellis))
                  (apply combo/cartesian-product (vals each-bolt-and-comps)))))
+
      (filter #(not (empty? %)))
+
      (mapcat (fn [bolt-group]
                (->> bolt-group
                     (map (fn [bolt-and-comps]
@@ -74,9 +89,11 @@
                                                      result)))
                                                paths))))))
                     (filter #(not (= :fail %))))))
-     (map (fn [expression]
-            (do-defaults expression model)))
-     (filter not-fail?)
+
+;     (map (fn [expression]
+;            (do-defaults expression model)))
+
+;     (filter not-fail?)
 ;     (map (fn [final]
 ;            (log/trace (str "final: " ((:morph-ps model) final)))
 ;            final))
@@ -151,13 +168,32 @@
       (log/trace (str "language-model has no default function."))
       tree)))
 
-;; TODO: rewrite using (recur)
 (defn comp-paths-to-complements [bolt model depth max-depth]
-  (log/info (str "comp-paths-to-complements: depth=" depth "; max-depth: " max-depth ":" ((:morph-ps model) bolt)))
+  (log/info (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
   (into {}
         (map (fn [path]
                [path (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))])
              (find-comp-paths bolt))))
+
+(defn comp-path-to-complements
+  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
+  [bolt path model depth max-depth]
+  (log/info (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
+  (let [spec (get-in bolt path)
+        lexemes (shufflefn (get-lexemes model spec))
+        bolts-at (if (< depth max-depth)
+                   (generate-all (get-in bolt path) model
+                                 (+ 1 depth) max-depth))
+        lexemes-before-phrases
+        (lexemes-before-phrases depth max-depth)]
+    (log/info (str "type of bolts-at:" (type bolts-at)))
+    (log/info (str "nil? of bolts-at:" (nil? bolts-at)))
+    (cond (nil? bolts-at)
+          (lazy-seq lexemes)
+          lexemes-before-phrases
+          (lazy-cat lexemes bolts-at)
+          true
+          (lazy-cat bolts-at lexemes))))
 
 ;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]
@@ -171,21 +207,6 @@
                      (flatten (vals
                                (or (:lexicon (:generate model)) (:lexicon model))))))))))
 
-(defn comp-path-to-complements
-  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
-  [bolt path model depth max-depth]
-  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
-  (let [spec (get-in bolt path)
-        lexemes (shufflefn (get-lexemes model spec))
-        bolts-at (if (< depth max-depth)
-                   (generate-all (get-in bolt path) model
-;;                           (lightning-bolts model (get-in bolt path)
-                                            (+ 1 depth) max-depth))
-        lexemes-before-phrases
-        (lexemes-before-phrases depth max-depth)]
-    (if lexemes-before-phrases
-      (lazy-cat lexemes bolts-at)
-      (lazy-cat bolts-at lexemes))))
 
 (defn lexemes-before-phrases
   "returns true or false: true means generate by adding lexemes first;

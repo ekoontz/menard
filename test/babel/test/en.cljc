@@ -579,12 +579,6 @@
                          (keys bolt-to-comps))})
        bolts-with-comps))
 
-(defn benchmark1 []
-  (benchmark spec1 5))
-
-(defn benchmark2 []
-  (benchmark spec2 5))
-
 ;; (repeatedly #(println (fo (first (nugents (medium) spec1)))))
 ;; (repeatedly #(time (println (fo (first (nugents (medium) spec1))))))
 ;; (repeatedly #(println (fo-ps (first (nugents (medium) spec1)))))

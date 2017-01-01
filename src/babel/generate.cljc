@@ -59,24 +59,24 @@
                            each-path-through-trellis))
                  (apply combo/cartesian-product (vals each-bolt-and-comps)))))
      (filter #(not (empty? %)))
-     (map (fn [bolt-group]
-            (->> bolt-group
-                 (map (fn [bolt-and-comps]
-                        (apply unify
-                               (let [bolt (get bolt-and-comps [])
-                                     paths-and-comps (dissoc bolt-and-comps [])
-                                     paths (keys paths-and-comps)]
-                                 (cons bolt
-                                       (map (fn [path]
-                                              (let [result (assoc-in bolt path (get paths-and-comps path))]
-                                                (if (= true truncate)
-                                                  (dissoc-paths result [path])
-                                                  result)))
-                                            paths))))))
-                 (filter #(not (= :fail %))))))
-;     (map (fn [expression]
-;            (do-defaults expression model)))
-;     (filter not-fail?)
+     (mapcat (fn [bolt-group]
+               (->> bolt-group
+                    (map (fn [bolt-and-comps]
+                           (apply unify
+                                  (let [bolt (get bolt-and-comps [])
+                                        paths-and-comps (dissoc bolt-and-comps [])
+                                        paths (keys paths-and-comps)]
+                                    (cons bolt
+                                          (map (fn [path]
+                                                 (let [result (assoc-in bolt path (get paths-and-comps path))]
+                                                   (if (= true truncate)
+                                                     (dissoc-paths result [path])
+                                                     result)))
+                                               paths))))))
+                    (filter #(not (= :fail %))))))
+     (map (fn [expression]
+            (do-defaults expression model)))
+     (filter not-fail?)
 ;     (map (fn [final]
 ;            (log/trace (str "final: " ((:morph-ps model) final)))
 ;            final))

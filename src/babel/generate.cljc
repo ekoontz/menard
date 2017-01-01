@@ -20,7 +20,7 @@
 ;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-(def ^:const shufflefn shuffle)
+(def ^:const shufflefn (fn [x] (lazy-seq (shuffle x))))
 
 (def ^:const randomize-lexemes-before-phrases
   false)

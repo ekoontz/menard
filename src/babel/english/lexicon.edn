@@ -637,7 +637,8 @@
  "earn"  {:synsem {:cat :verb
                    :sem {:pred :earn}}}
 
- "eat" {:english {:past "ate"}
+ "eat" {:english {:past "ate"
+                  :past-participle "eaten"}
         :synsem {:cat :verb
                  :sem {:pred :eat}}}
 
@@ -647,6 +648,7 @@
                         :subcat {:2 '()}}
                :english {:present {:3sing "eats dinner"}
                          :participle "eating dinner"
+                         :past-participle "eaten dinner"
                          :past "ate dinner"}}
 
  "embrace" {:synsem {:cat :verb

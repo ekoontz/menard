@@ -56,26 +56,43 @@
      ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
      ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
      (map (fn [each-bolt-and-comps]
-            (map (fn [each-path-through-trellis]
-                   (zipmap (keys each-bolt-and-comps)
-                           each-path-through-trellis))
-                 (apply combo/cartesian-product (vals each-bolt-and-comps)))))
+            (let [paths-to-comps (keys each-bolt-and-comps)
+                  vals (vals each-bolt-and-comps)]
+              (map (fn [each-path-through-trellis]
+                     (zipmap paths-to-comps
+                             each-path-through-trellis))
+                   (apply combo/cartesian-product vals)))))
 
      (mapcat (fn [bolt-group]
                (->> bolt-group
                     (map (fn [bolt-and-comps]
                            (let [bolt (get bolt-and-comps [])
                                  paths-and-comps (dissoc bolt-and-comps [])
-                                 paths (keys paths-and-comps)]
+                                 paths-to-comps (keys paths-and-comps)]
                              (apply unify
                                     (cons bolt
-                                          (map (fn [path]
-                                                 (let [result (assoc-in bolt path (get paths-and-comps path))]
+                                          (map (fn [path-to-comp]
+                                                 (let [complement (get paths-and-comps path-to-comp)
+                                                       result (assoc-in bolt path-to-comp complement)]
                                                    (if (= true truncate)
-                                                     (dissoc-paths result [path])
+                                                     (dissoc-paths result [path-to-comp])
                                                      result)))
-                                               paths)))))))))
+                                               paths-to-comps)))))))))
      (map #(do-defaults % model)))))
+
+(defn generate-all2 [spec model & [depth max-depth]]
+  (let [depth (or depth 0)
+        truncate truncate
+        max-depth (or max-depth max-total-depth)]
+    (log/debug (str "generate-all:" depth "/" max-depth ";pred=" (get-in spec [:synsem :sem :pred])))
+    (->>
+     (lightning-bolts model spec depth max-depth)
+
+     ;; for each bolt, create a map of complement positions
+     ;; within the bolt to possible complements for that position
+     (map #(assoc
+            (comp-paths-to-complements % model depth max-depth)
+            [] (list %))))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
@@ -150,7 +167,7 @@
   (log/info (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
   (into {}
         (map (fn [path]
-               [path (filter not-fail? (comp-path-to-complements bolt path model depth max-depth))])
+               [path (comp-path-to-complements bolt path model depth max-depth)])
              (find-comp-paths bolt))))
 
 (defn comp-path-to-complements
@@ -163,7 +180,7 @@
                    (generate-all (get-in bolt path) model
                                  (+ 1 depth) max-depth))
         lexemes-before-phrases
-        (lexemes-before-phrases depth max-depth)]
+        (or true (lexemes-before-phrases depth max-depth))]
     (if (not (nil? bolts-at)) (log/info (str "realized? of bolts-at:" (realized? bolts-at))))
     (cond (nil? bolts-at)
           (lazy-seq lexemes)

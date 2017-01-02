@@ -17,15 +17,15 @@
 (def ^:const mapfn map)
 
 ;; deterministic generation:
-(def ^:const shufflefn (fn [x] x))
+;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-;;(def ^:const shufflefn (fn [x] (lazy-seq (shuffle x))))
+(def ^:const shufflefn (fn [x] (lazy-seq (shuffle x))))
 
 (def ^:const randomize-lexemes-before-phrases
-  false)
+;;  false)
 ;;(def ^:const randomize-lexemes-before-phrases
-;;  true)
+  true)
 
 (def ^:const truncate true)
 
@@ -45,59 +45,37 @@
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ";pred=" (get-in spec [:synsem :sem :pred])))
     (->>
-
      (lightning-bolts model spec depth max-depth)
-     
-     (filter not-fail?)
-
-     (filter #(not (nil? %)))
-
-     (map (fn [bolt]
-            (log/info (str "generate-all: bolt:" ((:morph-ps model) bolt)))
-            bolt))
 
      ;; for each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
-     (map (fn [bolt]
-            (assoc
-             (comp-paths-to-complements bolt model depth max-depth)
-             [] [bolt])))
-     
-;     (filter #(not (some empty? (vals %))))
+     (map #(assoc
+            (comp-paths-to-complements % model depth max-depth)
+            [] (list %)))
 
-     (map (fn [each-bolt-and-comps] ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
-            ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
+     ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
+     ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
+     (map (fn [each-bolt-and-comps]
             (map (fn [each-path-through-trellis]
                    (zipmap (keys each-bolt-and-comps)
                            each-path-through-trellis))
                  (apply combo/cartesian-product (vals each-bolt-and-comps)))))
 
- ;    (filter #(not (empty? %)))
-
      (mapcat (fn [bolt-group]
                (->> bolt-group
                     (map (fn [bolt-and-comps]
-                           (apply unify
-                                  (let [bolt (get bolt-and-comps [])
-                                        paths-and-comps (dissoc bolt-and-comps [])
-                                        paths (keys paths-and-comps)]
+                           (let [bolt (get bolt-and-comps [])
+                                 paths-and-comps (dissoc bolt-and-comps [])
+                                 paths (keys paths-and-comps)]
+                             (apply unify
                                     (cons bolt
                                           (map (fn [path]
                                                  (let [result (assoc-in bolt path (get paths-and-comps path))]
                                                    (if (= true truncate)
                                                      (dissoc-paths result [path])
                                                      result)))
-                                               paths))))))
-                    (filter #(not (= :fail %))))))
-
-;     (map (fn [expression]
-;            (do-defaults expression model)))
-
-;     (filter not-fail?)
-;     (map (fn [final]
-;            (log/trace (str "final: " ((:morph-ps model) final)))
-;            final))
-     )))
+                                               paths)))))))))
+     (map #(do-defaults % model)))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."

@@ -597,25 +597,27 @@
         lbs (babel.generate/lightning-bolts (medium) spec 0 6)]
     (is (not (empty? lbs)))))
 
-(def works-ok
-  (map morph (babel.generate/generate-all
-              {:modified false,
-               :synsem {:cat :verb, :subcat (),
-                        :sem {:pred :sleep,
-                              :subj {:pred :tu},
-                              :obj :unspec}}}
-              (medium) 0 6)))
                                
+(deftest runs-acceptably-fast
+  (let [ga
+        (babel.generate/generate-all
+         {:modified false,
+          :synsem {:cat :verb,
+                   :subcat (),
+                   :sem {:pred :eat}}}
+         (medium) 0 2)]
+    (is (not (empty? ga)))))
+
 (deftest runs-very-slow
   (let [ga
         (babel.generate/generate-all
          {:modified false,
           :synsem {:cat :verb, :subcat (),
-                   :sem {:pred :top,
-                         :subj {:pred :top},
-                         :obj :unspec}}}
+                   :sem {:pred :top
+                         :subj {:pred :dog}}}}
          (medium) 0 2)]
-    (is (not (nil? ga)))))
+    (is (not (empty? ga)))))
+
 
 
 

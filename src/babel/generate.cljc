@@ -253,15 +253,3 @@
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))
     result))
-
-(defn find-comp-paths [bolt & [path]]
-  (if (not (= false (get-in bolt [:phrasal])))
-    (let [path (if (nil? path)
-                 (rest (find-end-of-bolt bolt))
-                 path)]
-      (if (not (empty? path))
-        (concat
-         [(vec (concat path [:comp]))]
-         (find-comp-paths bolt (rest path)))
-        [[:comp]]))))
-

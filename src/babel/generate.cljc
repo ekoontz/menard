@@ -153,7 +153,7 @@
   (log/info (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
   (into {}
         (map (fn [path]
-               [path (comp-path-to-complements bolt path model depth max-depth)])
+               [path (lazy-seq (comp-path-to-complements bolt path model depth max-depth))])
              (find-comp-paths bolt))))
 
 (defn comp-path-to-complements
@@ -163,8 +163,8 @@
   (let [spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
-                   (generate-all (get-in bolt path) model
-                                 (+ 1 depth) max-depth))
+                   (lazy-seq (generate-all (get-in bolt path) model
+                                           (+ 1 depth) max-depth)))
         lexemes-before-phrases
         (or true (lexemes-before-phrases depth max-depth))]
     (if (not (nil? bolts-at)) (log/info (str "realized? of bolts-at:" (realized? bolts-at))))

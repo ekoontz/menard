@@ -150,7 +150,7 @@
       tree)))
 
 (defn comp-paths-to-complements [bolt model depth max-depth]
-  (log/info (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
+  (log/debug (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
   (into {}
         (map (fn [path]
                [path (lazy-seq (comp-path-to-complements bolt path model depth max-depth))])

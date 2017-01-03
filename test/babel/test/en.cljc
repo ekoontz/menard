@@ -344,7 +344,8 @@
   (is (not (empty? (parse "I turned the radio on"))))
   (is (not (empty? (parse "I turned off the radio"))))
   (is (not (empty? (parse "I turned the radio off"))))
-  (let [generated (morph (generate {:synsem {:sem {:pred :turn-on
+  (let [generated (morph (generate {:synsem {:subcat '()
+                                             :sem {:pred :turn-on
                                                    :tense :present
                                                    :obj {:mod '()
                                                          :number :sing

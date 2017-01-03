@@ -55,14 +55,13 @@
 
      ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
      ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
-     (map (fn [each-bolt-and-comps]
-            (let [paths-to-comps (keys each-bolt-and-comps)
-                  vals (vals each-bolt-and-comps)]
-              (map (fn [each-path-through-trellis]
-                     (zipmap paths-to-comps
-                             each-path-through-trellis))
-                   (apply combo/cartesian-product vals)))))
-
+     (pmap (fn [each-bolt-and-comps]
+             (let [paths-to-comps (keys each-bolt-and-comps)
+                   vals (vals each-bolt-and-comps)]
+               (map (fn [each-path-through-trellis]
+                      (zipmap paths-to-comps each-path-through-trellis))
+                    (apply combo/cartesian-product vals)))))
+     
      (mapcat (fn [bolt-group]
                (->> bolt-group
                     (map (fn [bolt-and-comps]

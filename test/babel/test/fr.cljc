@@ -190,7 +190,8 @@
          (is (= (fo result) "nous sommes allées")))))
 
 (deftest generate-passe-compose
-  (let [result (generate {:synsem {:sem {:pred :go
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :go
                                          :subj {:pred :noi
                                                 :gender :fem}
                                          :aspect :perfect
@@ -236,7 +237,8 @@
 (deftest generate-named-sentence
   (let [result
         (generate
-         {:synsem {:sem {:pred :be-called
+         {:synsem {:subcat '()
+                   :sem {:pred :be-called
                          :subj {:pred :lui}
                          :obj {:pred :Jean}}}})]
     (is (= (fo result) "il l'appele Jean"))))
@@ -376,7 +378,8 @@
 (deftest have-fun
   (let [have-fun-expression
         (generate
-         {:synsem {:sem {:subj {:pred :lui}
+         {:synsem {:subcat '()
+                   :sem {:subj {:pred :lui}
                          :pred :have-fun
                          :tense :present}}})]
     (is (not (empty? have-fun-expression)))

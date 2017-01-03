@@ -51,7 +51,8 @@
     (is (not (empty? (fo result))))))
 
 (deftest llamo
-  (let [result (fo (generate {:synsem {:sem {:tense :present
+  (let [result (fo (generate {:synsem {:subcat '()
+                                       :sem {:tense :present
                                              :aspect :progressive
                                              :subj {:pred :I}
                                              :pred :be-called

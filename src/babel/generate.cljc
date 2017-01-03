@@ -80,20 +80,6 @@
                                                paths-to-comps)))))))))
      (map #(do-defaults % model)))))
 
-(defn generate-all2 [spec model & [depth max-depth]]
-  (let [depth (or depth 0)
-        truncate truncate
-        max-depth (or max-depth max-total-depth)]
-    (log/debug (str "generate-all:" depth "/" max-depth ";pred=" (get-in spec [:synsem :sem :pred])))
-    (->>
-     (lightning-bolts model spec depth max-depth)
-
-     ;; for each bolt, create a map of complement positions
-     ;; within the bolt to possible complements for that position
-     (map #(assoc
-            (comp-paths-to-complements % model depth max-depth)
-            [] (list %))))))
-
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
   [spec language-model

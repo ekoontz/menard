@@ -431,7 +431,8 @@
 (deftest a-casa-generate-2
   (let [result (generate
                 {:modified false
-                 :synsem {:cat :verb 
+                 :synsem {:subcat '()
+                          :cat :verb 
                           :sem {:tense :present
                                 :aspect :simple
                                 :pred :a 

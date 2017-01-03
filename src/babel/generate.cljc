@@ -167,7 +167,6 @@
                                            (+ 1 depth) max-depth)))
         lexemes-before-phrases
         (or true (lexemes-before-phrases depth max-depth))]
-    (if (not (nil? bolts-at)) (log/info (str "realized? of bolts-at:" (realized? bolts-at))))
     (cond (nil? bolts-at)
           (lazy-seq lexemes)
           lexemes-before-phrases

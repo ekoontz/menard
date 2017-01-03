@@ -74,9 +74,9 @@
                                           (map (fn [path-to-comp]
                                                  (let [complement (get paths-and-comps path-to-comp)
                                                        result (assoc-in bolt path-to-comp complement)]
-                                                   (if (= true truncate)
-                                                     (dissoc-paths result [path-to-comp])
-                                                     result)))
+                                                    (if (= true truncate)
+                                                      (dissoc-paths result [path-to-comp])
+                                                      result)))
                                                paths-to-comps)))))))))
      (map #(do-defaults % model))
      (remove #(= :fail %)))))

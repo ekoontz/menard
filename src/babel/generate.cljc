@@ -78,7 +78,8 @@
                                                      (dissoc-paths result [path-to-comp])
                                                      result)))
                                                paths-to-comps)))))))))
-     (map #(do-defaults % model)))))
+     (map #(do-defaults % model))
+     (remove #(= :fail %)))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."

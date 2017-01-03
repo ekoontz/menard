@@ -49,9 +49,9 @@
 
      ;; for each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
-     (map #(assoc
-            (comp-paths-to-complements % model depth max-depth)
-            [] (list %)))
+     (pmap #(assoc
+             (comp-paths-to-complements % model depth max-depth)
+             [] (list %)))
 
      ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
      ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.

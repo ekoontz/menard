@@ -27,7 +27,7 @@
 ;;(def ^:const randomize-lexemes-before-phrases
   true)
 
-(def ^:const truncate true)
+(def ^:const truncate false)
 
 (declare candidate-parents)
 (declare comp-path-to-complements)

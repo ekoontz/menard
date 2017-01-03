@@ -496,14 +496,14 @@
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))
         gen-result (generate {:synsem {:cat :prep 
-                                                   :sem {:pred :in-front-of
-                                                         :obj {:pred :table
-                                                               :number :sing
-                                                               :mod '()
-                                                               :spec {:def :def}}}}
-                                          :comp {:synsem {:cat :noun
-                                                          :pronoun false
-                                                          :subcat '()}}})]
+                                       :sem {:pred :in-front-of
+                                             :obj {:pred :table
+                                                   :number :sing
+                                                   :mod '()
+                                                   :spec {:def :def}}}}
+                              :comp {:synsem {:cat :noun
+                                              :pronoun false
+                                              :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti il tavolo"
            (morph gen-result)))))
@@ -511,27 +511,27 @@
 (deftest davanti-lo-studente
   (let [parse-result (mapcat :parses (parse "davanti lo studente"))
         gen-result (generate {:synsem {:cat :prep 
-                                                   :sem {:pred :in-front-of
-                                                         :obj {:pred :student
-                                                               :number :sing
-                                                               :mod '()
-                                                               :spec {:def :def}}}}
-                                          :comp {:synsem {:cat :noun
-                                                          :pronoun false
-                                                          :subcat '()}}})]
+                                       :sem {:pred :in-front-of
+                                             :obj {:pred :student
+                                                   :number :sing
+                                                   :mod '()
+                                                   :spec {:def :def}}}}
+                              :comp {:synsem {:cat :noun
+                                              :pronoun false
+                                              :subcat '()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
            (morph gen-result)))))
 
 (deftest davanti-il-tavolo
   (let [expr (generate {:synsem {:cat :prep
-                                             :sem {:pred :in-front-of
-                                                   :reflexive false
-                                                   :obj {:pred :table
-                                                         :mod '()
-                                                         :number :sing
-                                                         :spec {:def :def
-                                                                :pred :definite}}}}})]
+                                 :sem {:pred :in-front-of
+                                       :reflexive false
+                                       :obj {:pred :table
+                                             :mod '()
+                                             :number :sing
+                                             :spec {:def :def
+                                                    :pred :definite}}}}})]
     (is (= (morph expr)
            "davanti il tavolo"))))
 

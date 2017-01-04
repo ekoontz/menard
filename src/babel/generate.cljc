@@ -39,6 +39,7 @@
 (declare lightning-bolts)
 (declare not-fail?)
 
+;; TODO: demote 'depth' and 'max-depth' down to lower level functions
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
         truncate truncate
@@ -47,14 +48,14 @@
     (->>
      (lightning-bolts model spec depth max-depth)
 
-     ;; for each bolt, create a map of complement positions
+     ;; For each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
-     (pmap #(assoc
-             (comp-paths-to-complements % model depth max-depth)
-             [] (list %)))
+     (pmap (fn [bolt] (assoc
+                       (comp-paths-to-complements bolt model depth max-depth)
+                       [] (list bolt))))
 
-     ;; for each such map in each bolt, find all possible combinations of complements, taking one complement per path.
-     ;; the result is a trellis for each bolt, and a path through this trellis is one complement for each complement position.
+     ;; For each such map:complement-position -> complements, find all possible combinations of complements, taking one complement per position.
+     ;; The result is a trellis for each bolt, and a path through this trellis is a generated expression, with one complement for each complement position.
      (pmap (fn [each-bolt-and-comps]
              (let [paths-to-comps (keys each-bolt-and-comps)
                    vals (vals each-bolt-and-comps)]
@@ -62,22 +63,37 @@
                       (zipmap paths-to-comps each-path-through-trellis))
                     (apply combo/cartesian-product vals)))))
      
-     (mapcat (fn [bolt-group]
-               (->> bolt-group
-                    (map (fn [bolt-and-comps]
-                           (let [bolt (get bolt-and-comps [])
-                                 paths-and-comps (dissoc bolt-and-comps [])
-                                 paths-to-comps (keys paths-and-comps)]
-                             (apply unify
-                                    (cons bolt
-                                          (map (fn [path-to-comp]
-                                                 (let [complement (get paths-and-comps path-to-comp)
-                                                       result (assoc-in bolt path-to-comp complement)]
-                                                    (if (= true truncate)
-                                                      (dissoc-paths result [path-to-comp])
-                                                      result)))
-                                               paths-to-comps)))))))))
-     (map #(do-defaults % model))
+     ;; for each such path through each such trellis, unify the bolt with all of its complements to create a final expression tree.
+     (mapcat (fn [bolt-groups] ;; TODO: explain what a 'bolt group' is: (a map from complement positions to a complement for each such position)
+               (map (fn [bolt-and-comps]
+                      (let [bolt (get bolt-and-comps [])
+                            paths-and-comps (dissoc bolt-and-comps [])
+                            paths-to-comps (keys paths-and-comps)]
+                        (log/debug (str "generate-all paths: " (clojure.string/join "," paths-to-comps)))
+                        (log/debug (str "generate-all vals: " (clojure.string/join "," (map #((:morph model) %) (vals paths-and-comps)))))
+                        (let [result
+                              (reduce (fn [a b]
+                                        (let [result (unify a b)]
+                                          (when (and (not (= :fail a)) (not (= :fail b)))
+                                            (if (= :fail result)
+                                              (log/debug (str "unify(" ((:morph-ps model) a) "," ((:morph-ps model) b) ") => fail@"
+                                                              (fail-path a b)))
+                                              (log/debug (str "unify(" ((:morph-ps model) a) "," ((:morph-ps model) b) ") => "
+                                                              ((:morph-ps model) result)))))
+                                          result))
+                                      (cons bolt
+                                            (map (fn [path-to-comp]
+                                                   (let [complement (get paths-and-comps path-to-comp)
+                                                         result (assoc-in bolt path-to-comp complement)]
+                                                     (if (= true truncate)
+                                                       (dissoc-paths result [path-to-comp])
+                                                       result)))
+                                                 paths-to-comps)))]
+                          (log/debug (str "generate-all: result: " ((:morph model) result)))
+                          result)))
+                    bolt-groups)))
+     (map #(do-defaults % model)) ;; for each tree, run model defaults.
+     ;; TODO: move truncate here
      (remove #(= :fail %)))))
 
 (defn generate

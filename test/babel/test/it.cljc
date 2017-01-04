@@ -111,11 +111,10 @@
 
 (deftest fix-regression
   (let [spec {:synsem {:cat :verb
-                       :infl :present
                        :subcat '()
                        :sem {:pred :get-up
                              :subj {:pred :I}
-                             :tense :past
+                             :tense :present
                              :aspect :perfect}}}]
     (is (not (nil? (generate/generate spec small))))))
 

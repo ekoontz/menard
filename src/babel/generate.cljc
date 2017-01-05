@@ -81,8 +81,8 @@
                                                 (log/warn (str "failed to unify("))
                                                 (log/warn (str "  a: " ((:morph-ps model) a) ","))
                                                 (log/warn (str "  b: " ((:morph-ps model) b)))
-                                                (log/warn (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
-                                                (log/warn (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
+                                                (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
+                                                (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
                                                 (log/warn (str ") => fail@" (fail-path a b))))
                                               (log/debug (str "unify(" ((:morph-ps model) a) " , " ((:morph-ps model) b) ") => "
                                                               ((:morph-ps model) result)))))

@@ -75,7 +75,10 @@
                         (log/debug (str "generate-all vals: " (clojure.string/join "," (map #((:morph model) %) (vals paths-and-comps)))))
                         (let [result
                               (reduce (fn [a b]
-                                        (let [result (unify a b)]
+                                        (let [result
+                                              (cond (or (= :fail a)
+                                                        (= :fail b)) :fail
+                                                    true (unify a b))]
                                           (when (and (not (= :fail a)) (not (= :fail b)))
                                             (if (= :fail result)
                                               ;; warn because fails are expensive and should be filtered out before hitting this.

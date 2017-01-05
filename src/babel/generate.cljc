@@ -27,6 +27,8 @@
 ;;(def ^:const randomize-lexemes-before-phrases
   true)
 
+;; whether to remove [:head] and [:comp] paths from generated trees after generation:
+;; for performance.
 (def ^:const truncate false)
 
 (declare candidate-parents)
@@ -89,17 +91,18 @@
                                           result))
                                       (cons bolt
                                             (map (fn [path-to-comp]
-                                                   (let [complement (get paths-and-comps path-to-comp)
-                                                         result (assoc-in bolt path-to-comp complement)]
-                                                     (if (= true truncate)
-                                                       (dissoc-paths result [path-to-comp])
-                                                       result)))
+                                                   (let [complement (get paths-and-comps path-to-comp)]
+                                                     (assoc-in bolt path-to-comp complement)))
                                                  paths-to-comps)))]
                           (log/debug (str "generate-all: result: " ((:morph model) result)))
                           result)))
                     bolt-groups)))
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
-     ;; TODO: move truncate here
+     
+     (map #(if (= true truncate)
+             (dissoc-paths % [[:head][:comp]])
+             %))
+     
      (remove #(= :fail %)))))
 
 (defn generate

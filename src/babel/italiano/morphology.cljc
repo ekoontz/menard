@@ -1419,11 +1419,19 @@
                                                                     (cond
                                                                       (= a :fail)
                                                                       (do
-                                                                        (log/warn (str ":fail in generate exception: exception rule:" (:label path-and-merge-fn) "; lexeme:" (strip-refs lexeme)))
+                                                                        (log/warn (str ":fail in exception rule:"
+                                                                                       (:label path-and-merge-fn)
+                                                                                       "; lexeme:"
+                                                                                       (or (strip-refs (get-in lexeme [:italiano :italiano]))
+                                                                                           (strip-refs (get-in lexeme [:italiano])))))
                                                                         :fail)
                                                                       (= b :fail)
                                                                       (do
-                                                                        (log/warn (str ":fail in generate exception: exception rule:" (:label path-and-merge-fn) "; lexeme:" (strip-refs lexeme)))
+                                                                        (log/warn (str ":fail in exception rule:"
+                                                                                       (:label path-and-merge-fn)
+                                                                                       "; lexeme:"
+                                                                                       (or (strip-refs (get-in lexeme [:italiano :italiano]))
+                                                                                           (strip-refs (get-in lexeme [:italiano])))))
                                                                         :fail)
                                                                       true
                                                                       (unify a b)))

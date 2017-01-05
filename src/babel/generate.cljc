@@ -76,9 +76,15 @@
                                         (let [result (unify a b)]
                                           (when (and (not (= :fail a)) (not (= :fail b)))
                                             (if (= :fail result)
-                                              (log/debug (str "unify(" ((:morph-ps model) a) "," ((:morph-ps model) b) ") => fail@"
-                                                              (fail-path a b)))
-                                              (log/debug (str "unify(" ((:morph-ps model) a) "," ((:morph-ps model) b) ") => "
+                                              ;; warn because fails are expensive and should be filtered out before hitting this.
+                                              (do
+                                                (log/warn (str "failed to unify("))
+                                                (log/warn (str "  a: " ((:morph-ps model) a) ","))
+                                                (log/warn (str "  b: " ((:morph-ps model) b)))
+                                                (log/warn (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
+                                                (log/warn (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
+                                                (log/warn (str ") => fail@" (fail-path a b))))
+                                              (log/debug (str "unify(" ((:morph-ps model) a) " , " ((:morph-ps model) b) ") => "
                                                               ((:morph-ps model) result)))))
                                           result))
                                       (cons bolt

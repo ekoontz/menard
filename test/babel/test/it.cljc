@@ -565,30 +565,30 @@
                                           :tense :present
                                           :subj {:gender :fem
                                                  :pred :loro}}}}
-                       :model small))
-     "loro sono andate")))
+                          :model small))
+         "loro sono andate")))
 
 (deftest exists1
   (is (= (morph (generate {:synsem {:sem {:obj :unspec
-                                       :subj :top
-                                       :pred :exist
-                                       :reflexive false
-                                       :tense :conditional}}
-                        :root {:italiano {:italiano "essere"}}
-                        :comp {:synsem {:agr {:number :sing}}}}
-                       :model small))
+                                          :subj :top
+                                          :pred :exist
+                                          :reflexive false
+                                          :tense :conditional}}
+                           :root {:italiano {:italiano "essere"}}
+                           :comp {:synsem {:agr {:number :sing}}}}
+                          :model small))
          "ci sarebbe")))
 
 (deftest exists2
   (is (= (morph (generate {:synsem {:sem {:obj :unspec
-                                       :subj :top
-                                       :pred :exist
-                                       :reflexive false
-                                       :aspect :progressive
-                                       :tense :past}}
-                        :root {:italiano {:italiano "essere"}}
-                        :comp {:synsem {:agr {:number :sing}}}}
-                       :model small))
+                                          :subj :top
+                                          :pred :exist
+                                          :reflexive false
+                                          :aspect :progressive
+                                          :tense :past}}
+                           :root {:italiano {:italiano "essere"}}
+                           :comp {:synsem {:agr {:number :sing}}}}
+                          :model small))
          "c'era")))
 
 (deftest exists3
@@ -598,8 +598,8 @@
                                           :reflexive false
                                           :aspect :simple
                                           :tense :present}}
-                        :root {:italiano {:italiano "essere"}}
-                        :comp {:synsem {:agr {:number :sing}}}}
+                           :root {:italiano {:italiano "essere"}}
+                           :comp {:synsem {:agr {:number :sing}}}}
                        :model small))
          "c'è")))
 

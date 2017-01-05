@@ -559,7 +559,8 @@
 ;          not)))
 
 (deftest past-and-gender-agreement
-  (is (= (morph (generate {:synsem {:sem {:pred :go
+  (is (= (morph (generate {:synsem {:subcat '()
+                                    :sem {:pred :go
                                           :aspect :perfect
                                           :tense :present
                                           :subj {:gender :fem

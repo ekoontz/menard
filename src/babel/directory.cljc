@@ -11,6 +11,8 @@
 
 (declare generate-pair)
 
+;; TODO: understand promises, futures, (deliver), etc, better: this code is susceptible to
+;; race conditions when used with pmap (e.g. with generate)
 (def models
   (let [en (promise)
         es (promise)

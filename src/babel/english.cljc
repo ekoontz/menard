@@ -115,7 +115,8 @@
         spec (or (and spec
                       (unifyc spec {:modified false}))
                  {:modified false
-                  :synsem {:cat :verb}})]
+                  :synsem {:subcat '()
+                           :cat :verb}})]
     (println (str "count: " count))
     (println (str "spec:" spec))
     (doall (pmap

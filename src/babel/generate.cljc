@@ -52,13 +52,13 @@
 
      ;; For each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
-     (pmap (fn [bolt] (assoc
+     (map (fn [bolt] (assoc
                        (comp-paths-to-complements bolt model depth max-depth)
                        [] (list bolt))))
 
      ;; For each such map:complement-position -> complements, find all possible combinations of complements, taking one complement per position.
      ;; The result is a trellis for each bolt, and a path through this trellis is a generated expression, with one complement for each complement position.
-     (pmap (fn [each-bolt-and-comps]
+     (map (fn [each-bolt-and-comps]
              (let [paths-to-comps (keys each-bolt-and-comps)
                    vals (vals each-bolt-and-comps)]
                (map (fn [each-path-through-trellis]

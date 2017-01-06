@@ -232,13 +232,14 @@
                       :sem {:reflexive false}
                       :subcat {:2 {:reflexive false}}}})
    
-   ;; for transitive, reflexive verbs, the 2nd arg is reflexive by default.
+   ;; for transitive, reflexive verbs, the 2nd arg is a reflexive pronoun by default.
    (default
     (let [subject-agr (atom :top)]
       {:synsem {:sem {:reflexive true}
                 :cat :verb
                 :subcat {:1 {:agr subject-agr}
                          :2 {:reflexive true
+                             :pronoun true
                              :agr subject-agr}}}}))
    (default
     {:synsem {:cat :verb

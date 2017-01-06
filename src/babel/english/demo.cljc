@@ -1,12 +1,12 @@
 (ns babel.english.demo
   (:require
    [babel.english :refer [generate]]
-   [babel.english.grammar :refer [few-rules medium small-lexicon]]
+   [babel.english.grammar :refer [medium]]
    [babel.english.morphology :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
-   [dag_unify.core :refer [unifyc]]))
+   [dag_unify.core :refer [unify]]))
 
 (declare run-demo-with)
 
@@ -35,7 +35,8 @@
                    :sem {:subj {:pred :cat
                                 :mod {:pred :yellow}
                                 :spec {:def :genitive
-                                       :of {:pred :luisa}}}}}}
+                                       :of {:pred :luisa}}}
+                         :obj {:pred :top}}}}
 
          {:demo "Women who read books"
           :synsem {:cat :verb
@@ -45,7 +46,8 @@
 
          {:demo "Thinking"
           :synsem {:cat :verb
-                   :sem {:pred :think}}}
+                   :sem {:pred :think
+                         :obj {:pred :top}}}}
 
          ]]
          
@@ -76,8 +78,8 @@
   "print out _n_ generated sentences to stdout."
   (let [n (if n (Integer. n)
               10)
-        spec (if spec (unifyc spec
-                              {:modified false})
+        spec (if spec (unify spec
+                             {:modified false})
                  {:modified false})]
     (filter #(not (nil? %))
             (if timings?

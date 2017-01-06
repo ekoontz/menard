@@ -13,7 +13,6 @@
             [dag_unify.core :refer [get-in strip-refs]]))
 
 ;; Creating language models is expensive so we'll create them before running any benchmarks..
-(def small (grammar/small))
 (def medium (grammar/medium))
 
 (defn parse-mark [times expr]
@@ -29,7 +28,7 @@
               :synsem {:cat :verb
                        :sem {:pred :be-called
                              :tense :present
-                             :aspect :progressive}}}]
+                             :aspect :simple}}}]
     (benchmark
      #((:morph medium) (babel.generate/generate spec medium))
      do-this-many)))

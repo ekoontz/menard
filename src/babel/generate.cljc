@@ -29,7 +29,7 @@
 
 ;; whether to remove [:head] and [:comp] paths from generated trees after generation:
 ;; for performance.
-(def ^:const truncate true)
+(def ^:const truncate false)
 
 (declare candidate-parents)
 (declare comp-path-to-complements)

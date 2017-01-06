@@ -38,6 +38,7 @@
 (declare find-comp-paths)
 (declare get-lexemes)
 (declare lexemes-before-phrases)
+(declare log-unification-failure)
 (declare lightning-bolts)
 (declare not-fail?)
 
@@ -70,35 +71,26 @@
                (map (fn [bolt-and-comps]
                       (let [bolt (get bolt-and-comps [])
                             paths-and-comps (dissoc bolt-and-comps [])
-                            paths-to-comps (keys paths-and-comps)]
-                        (log/debug (str "generate-all paths: " (clojure.string/join "," paths-to-comps)))
-                        (log/debug (str "generate-all vals: " (clojure.string/join "," (map #((:morph model) %) (vals paths-and-comps)))))
-                        (let [result
-                              (reduce (fn [a b]
-                                        (let [result
-                                              (cond (or (= :fail a)
-                                                        (= :fail b)) :fail
-                                                    true (unify a b))]
-                                          (when (and (not (= :fail a)) (not (= :fail b)))
-                                            (if (= :fail result)
-                                              ;; warn because fails are expensive and should be filtered out before hitting this.
-                                              (do
-                                                (log/warn (str "failed to unify("))
-                                                (log/warn (str "  a: " ((:morph-ps model) a) ","))
-                                                (log/warn (str "  b: " ((:morph-ps model) b)))
-                                                (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
-                                                (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
-                                                (log/warn (str ") => fail@" (fail-path a b))))
-                                              (log/debug (str "unify(" ((:morph-ps model) a) " , " ((:morph-ps model) b) ") => "
-                                                              ((:morph-ps model) result)))))
-                                          result))
-                                      (cons bolt
-                                            (map (fn [path-to-comp]
-                                                   (let [complement (get paths-and-comps path-to-comp)]
-                                                     (assoc-in bolt path-to-comp complement)))
-                                                 paths-to-comps)))]
-                          (log/debug (str "generate-all: result: " ((:morph model) result)))
-                          result)))
+                            paths-to-comps (keys paths-and-comps)
+                            result (reduce (fn [a b]
+                                             (let [result
+                                                   (cond (or (= :fail a)
+                                                             (= :fail b)) :fail
+                                                         true (unify a b))]
+                                               (when (and (not (= :fail a)) (not (= :fail b)))
+                                                 (if (= :fail result)
+                                                   (log-unification-failure a b model)
+                                                   (log/debug (str "unify(" ((:morph-ps model) a)
+                                                                   " , " ((:morph-ps model) b) ") => "
+                                                                   ((:morph-ps model) result)))))
+                                               result))
+                                           (cons bolt
+                                                 (map (fn [path-to-comp]
+                                                        (let [complement (get paths-and-comps path-to-comp)]
+                                                          (assoc-in bolt path-to-comp complement)))
+                                                      paths-to-comps)))]
+                        (log/debug (str "generate-all: result: " ((:morph model) result)))
+                        result))
                     bolt-groups)))
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      
@@ -281,3 +273,13 @@
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))
     result))
+
+(defn log-unification-failure [a b model]
+  ;; warn because fails are expensive and should be filtered out before hitting this.
+  (log/warn (str "failed to unify("))
+  (log/warn (str "  a: " ((:morph-ps model) a) ","))
+  (log/warn (str "  b: " ((:morph-ps model) b)))
+  (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
+  (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
+  (log/warn (str ") => fail@" (fail-path a b))))
+

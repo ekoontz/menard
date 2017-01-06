@@ -1421,9 +1421,7 @@
                                                                       (do
                                                                         (log/warn (str ":fail in exception rule:"
                                                                                        (:label path-and-merge-fn)
-                                                                                       "; lexeme:"
-                                                                                       (or (strip-refs (get-in lexeme [:italiano :italiano]))
-                                                                                           (strip-refs (get-in lexeme [:italiano])))))
+                                                                                       "; lexeme type:" (type lexeme)))
                                                                         :fail)
                                                                       (= b :fail)
                                                                       (do

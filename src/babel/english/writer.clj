@@ -22,6 +22,9 @@
 (defn rewrite-lexicon []
   (write-lexicon "en" lexicon))
 
+;; TODO: database becomes a bottleneck due to multiple concurrent queries that return a single row.
+;; These queries should be combined into fewer queries where we iterate over the rows in that
+;; this smaller set of queries.
 (defn translate [source-language-short-name & [root]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.
    Optionally takes a root form of a verb in the source language."

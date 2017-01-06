@@ -156,7 +156,7 @@
                                                           :1st)
                                                        (= (get-in spec [:comp :synsem :agr :person])
                                                           :2nd)))
-                                                  (log/info (str "ignoring exception(funcionar-is-only-nonhuman): " e))
+                                                  (log/info (str "ignoring exception: allowed by rule 'funcionar-is-only-nonhuman'."))
                                                   
                                                   
                                                   ;; The verb is "funcionar" (which takes a non-human
@@ -170,7 +170,7 @@
                                                       "funcionar")
                                                    (= (get-in spec [:comp :synsem :pronoun])
                                                       false))
-                                                  (log/info (str "ignoring exception(funcionar-is-only-pronoun): " e))
+                                                  (log/info (str "ignoring exception: allowed by rule 'funcionar-is-only-pronoun'."))
                                                   
                                                   ;; "llamarse": there is currently only singular
                                                   ;; proper singular names, so any attempt to use

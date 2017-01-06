@@ -193,7 +193,6 @@
           true
           (lazy-cat bolts-at lexemes))))
 
-;; TODO: lightning-bolts should use this.
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))
     (filter not-fail?

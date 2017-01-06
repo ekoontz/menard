@@ -38,7 +38,7 @@
 (declare find-comp-paths)
 (declare get-lexemes)
 (declare lexemes-before-phrases)
-(declare log-unification-failure)
+(declare log-unification-result)
 (declare lightning-bolts)
 (declare not-fail?)
 
@@ -79,12 +79,7 @@
                               (cond (or (= :fail a)
                                         (= :fail b)) :fail
                                     true (unify a b))]
-                          (when (and (not (= :fail a)) (not (= :fail b)))
-                            (if (= :fail result)
-                              (log-unification-failure a b model)
-                              (log/debug (str "unify(" ((:morph-ps model) a)
-                                              " , " ((:morph-ps model) b) ") => "
-                                              ((:morph-ps model) result)))))
+                          (log-unification-result a b result model)
                           result))
                       (cons bolt
                             (map (fn [path-to-comp]
@@ -274,12 +269,20 @@
                     " for: " (spec-info spec))))
     result))
 
-(defn log-unification-failure [a b model]
-  ;; warn because fails are expensive and should be filtered out before hitting this.
-  (log/warn (str "failed to unify("))
-  (log/warn (str "  a: " ((:morph-ps model) a) ","))
-  (log/warn (str "  b: " ((:morph-ps model) b)))
-  (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
-  (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
-  (log/warn (str ") => fail@" (fail-path a b))))
+(defn log-unification-result [a b result model]
+  (when (and (not (= :fail a)) (not (= :fail b)))
+    (if (= :fail result)
+      (do
+        ;; warn because fails are expensive and should be filtered out before hitting this.
+        (log/warn (str "failed to unify("))
+        (log/warn (str "  a: " ((:morph-ps model) a) ","))
+        (log/warn (str "  b: " ((:morph-ps model) b)))
+        (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
+        (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
+        (log/warn (str ") => fail@" (fail-path a b))))
+      (log/debug (str "unify(" ((:morph-ps model) a)
+                      " , " ((:morph-ps model) b) ") => "
+                      ((:morph-ps model) result))))))
+
+
 

@@ -226,13 +226,20 @@
    ;; reflexive=false
    (default {:synsem {:cat :verb
                       :sem {:reflexive false}}})
+
+   ;; for transitive, non-reflexive verbs, the 2nd arg is non-reflexive by default.
+   (default {:synsem {:cat :verb
+                      :sem {:reflexive false}
+                      :subcat {:2 {:reflexive false}}}})
    
+   ;; for transitive, reflexive verbs, the 2nd arg is reflexive by default.
    (default
     (let [subject-agr (atom :top)]
       {:synsem {:sem {:reflexive true}
                 :cat :verb
                 :subcat {:1 {:agr subject-agr}
-                         :2 {:agr subject-agr}}}}))
+                         :2 {:reflexive true
+                             :agr subject-agr}}}}))
    (default
     {:synsem {:cat :verb
               :subcat {:2 {:subcat '()}}}})

@@ -46,7 +46,10 @@
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
         truncate truncate
-        max-depth (or max-depth max-total-depth)]
+        max-depth (or max-depth max-total-depth)
+        spec (if (= ::none (get-in spec [:synsem :subcat] ::none))
+               (unify spec {:synsem {:subcat '()}}) ;; add subcat '() if not supplied
+               spec)]
     (log/debug (str "generate-all:" depth "/" max-depth ";pred=" (get-in spec [:synsem :sem :pred])))
     (->>
      (lightning-bolts model spec depth max-depth)
@@ -92,6 +95,7 @@
                         (log/debug (str "generate-all: result: " ((:morph model) result)))
                         result))
                     bolt-groups)))
+     
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      
      (map #(if (= true truncate)

@@ -62,39 +62,35 @@
 
      ;; For each such map:complement-position -> complements, find all possible combinations of complements, taking one complement per position.
      ;; The result is a trellis for each bolt, and a path through this trellis is a generated expression, with one complement for each complement position.
-     (map (fn [each-bolt-and-comps]
-             (let [paths-to-comps (keys each-bolt-and-comps)
-                   vals (vals each-bolt-and-comps)]
-               (map (fn [each-path-through-trellis]
-                      (zipmap paths-to-comps each-path-through-trellis))
-                    (apply combo/cartesian-product vals)))))
+     (mapcat (fn [each-bolt-and-comps]
+               (let [paths-to-comps (keys each-bolt-and-comps)
+                     vals (vals each-bolt-and-comps)]
+                 (map (fn [each-path-through-trellis]
+                        (zipmap paths-to-comps each-path-through-trellis))
+                      (apply combo/cartesian-product vals)))))
      
-     ;; for each such path through each such trellis, unify the bolt with all of its complements to create a final expression tree.
-     (mapcat (fn [bolt-groups] ;; TODO: explain what a 'bolt group' is: (a map from complement positions to a complement for each such position)
-               (map (fn [bolt-and-comps]
-                      (let [bolt (get bolt-and-comps [])
-                            paths-and-comps (dissoc bolt-and-comps [])
-                            paths-to-comps (keys paths-and-comps)
-                            result (reduce (fn [a b]
-                                             (let [result
-                                                   (cond (or (= :fail a)
-                                                             (= :fail b)) :fail
-                                                         true (unify a b))]
-                                               (when (and (not (= :fail a)) (not (= :fail b)))
-                                                 (if (= :fail result)
-                                                   (log-unification-failure a b model)
-                                                   (log/debug (str "unify(" ((:morph-ps model) a)
-                                                                   " , " ((:morph-ps model) b) ") => "
-                                                                   ((:morph-ps model) result)))))
-                                               result))
-                                           (cons bolt
-                                                 (map (fn [path-to-comp]
-                                                        (let [complement (get paths-and-comps path-to-comp)]
-                                                          (assoc-in bolt path-to-comp complement)))
-                                                      paths-to-comps)))]
-                        (log/debug (str "generate-all: result: " ((:morph model) result)))
-                        result))
-                    bolt-groups)))
+     ;; for each such path through a trellis, unify the bolt with all of its complements to create a final expression tree.
+     (map (fn [bolt-and-comps]
+            (let [bolt (get bolt-and-comps [])
+                  paths-and-comps (dissoc bolt-and-comps [])
+                  paths-to-comps (keys paths-and-comps)]
+              (reduce (fn [a b]
+                        (let [result
+                              (cond (or (= :fail a)
+                                        (= :fail b)) :fail
+                                    true (unify a b))]
+                          (when (and (not (= :fail a)) (not (= :fail b)))
+                            (if (= :fail result)
+                              (log-unification-failure a b model)
+                              (log/debug (str "unify(" ((:morph-ps model) a)
+                                              " , " ((:morph-ps model) b) ") => "
+                                              ((:morph-ps model) result)))))
+                          result))
+                      (cons bolt
+                            (map (fn [path-to-comp]
+                                   (let [complement (get paths-and-comps path-to-comp)]
+                                     (assoc-in bolt path-to-comp complement)))
+                                 paths-to-comps))))))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      

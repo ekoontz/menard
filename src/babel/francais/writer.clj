@@ -50,7 +50,8 @@
                     medium (medium)]
                 (log/info (str "generating with verb: '" root-form "'"))
                 (.size (map (fn [tense]
-                              (let [spec (unify {:root {:français {:français root-form}}}
+                              (let [spec (unify {:root {:français {:français root-form}}
+                                                 :synsem {:subcat '()}}
                                                 tense)]
                                 (.size
                                  (map (fn [gender]

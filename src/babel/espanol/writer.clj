@@ -228,7 +228,8 @@
                                         ;                                                        {:comp {:synsem {:pronoun true
                                         ;                                                                         :null-pronoun true}}})
                                          (unify tense
-                                                {:comp {:synsem {:pronoun true
+                                                {:synsem {:subcat '()}
+                                                 :comp {:synsem {:pronoun true
                                                                  :null-pronoun false}}})
 ;                                         (unify tense
 ;                                                {:comp {:synsem {:agr {:person :3rd

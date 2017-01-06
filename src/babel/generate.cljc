@@ -69,6 +69,7 @@
      (map (fn [each-bolt-and-comps]
             (let [paths-to-comps (keys each-bolt-and-comps)
                   vals (vals each-bolt-and-comps)]
+              ;; TODO: further flatten this into the overall ->> pipeline
               (map (fn [each-path-through-trellis]
                      (zipmap paths-to-comps each-path-through-trellis))
                    (apply combo/cartesian-product vals)))))
@@ -80,6 +81,7 @@
             (let [bolt (get bolt-and-comps [])
                   paths-and-comps (dissoc bolt-and-comps [])
                   paths-to-comps (keys paths-and-comps)]
+              ;; TODO: further flatten this into the overall ->> pipeline
               (reduce (fn [a b]
                         (let [result
                               (cond (or (= :fail a)
@@ -88,6 +90,7 @@
                           (log-unification-result a b result model)
                           result))
                       (cons bolt
+                            ;; TODO: further flatten this into the overall ->> pipeline
                             (map (fn [path-to-comp]
                                    (let [complement (get paths-and-comps path-to-comp)]
                                      (assoc-in bolt path-to-comp complement)))

@@ -66,12 +66,11 @@
                            paths)})))
      
      (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
-               (let [comps-at-paths comps]
-                 ;; TODO: further flatten this into the overall ->> pipeline
-                 (map (fn [each-path-through-trellis]
-                        {:bolt bolt
-                         :comps (zipmap paths each-path-through-trellis)})
-                      (apply combo/cartesian-product comps-at-paths)))))
+               ;; TODO: further flatten this into the overall ->> pipeline
+               (map (fn [each-path-through-trellis]
+                      {:bolt bolt
+                       :comps (zipmap paths each-path-through-trellis)})
+                    (apply combo/cartesian-product comps))))
      
      (map (fn [{bolt :bolt comps :comps}]
             ;; TODO: further flatten this into the overall ->> pipeline

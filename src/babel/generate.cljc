@@ -57,19 +57,23 @@
      ;; For each bolt, create a map. This map is from paths in a bolt
      ;; to possible complements at that path for that bolt.
      (map (fn [bolt]
-            {:bolt bolt
-             :comps (comp-paths-to-complements bolt model depth max-depth)}))
+            (let [paths (find-comp-paths bolt)]
+              {:bolt bolt
+               :paths paths
+               :comps (map (fn [path]
+                             (lazy-seq (comp-path-to-complements
+                                        bolt path model depth max-depth)))
+                           paths)})))
      
-     (mapcat (fn [{bolt :bolt comps :comps}]
-               (let [paths (keys comps)
-                     comps-at-paths (vals comps)]
+     (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
+               (let [comps-at-paths comps]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
                         {:bolt bolt
                          :comps (zipmap paths each-path-through-trellis)})
                       (apply combo/cartesian-product comps-at-paths)))))
      
-     (map (fn [{bolt :bolt comps :comps}]
+     (map (fn [{bolt :bolt comps :comps paths :paths}]
             ;; TODO: further flatten this into the overall ->> pipeline
             (reduce (fn [a b]
                       (let [result
@@ -92,6 +96,24 @@
              %))
      
      (remove #(= :fail %)))))
+
+(defn comp-path-to-complements
+  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
+  [bolt path model depth max-depth]
+  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
+  (let [spec (get-in bolt path)
+        lexemes (shufflefn (get-lexemes model spec))
+        bolts-at (if (< depth max-depth)
+                   (lazy-seq (generate-all (get-in bolt path) model
+                                           (+ 1 depth) max-depth)))
+        lexemes-before-phrases
+        (or true (lexemes-before-phrases depth max-depth))]
+    (cond (nil? bolts-at)
+          (lazy-seq lexemes)
+          lexemes-before-phrases
+          (lazy-cat lexemes bolts-at)
+          true
+          (lazy-cat bolts-at lexemes))))
 
 (defn generate
   "Return one (by default) or _n_ (using :take _n_) expressions matching spec _spec_ given the model _model_."
@@ -161,31 +183,6 @@
     (do
       (log/trace (str "language-model has no default function."))
       tree)))
-
-(defn comp-paths-to-complements [bolt model depth max-depth]
-  (log/debug (str "comp-paths-to-complements: bolt:" ((:morph-ps model) bolt)))
-  (into {}
-        (map (fn [path]
-               [path (lazy-seq (comp-path-to-complements bolt path model depth max-depth))])
-             (find-comp-paths bolt))))
-
-(defn comp-path-to-complements
-  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
-  [bolt path model depth max-depth]
-  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
-  (let [spec (get-in bolt path)
-        lexemes (shufflefn (get-lexemes model spec))
-        bolts-at (if (< depth max-depth)
-                   (lazy-seq (generate-all (get-in bolt path) model
-                                           (+ 1 depth) max-depth)))
-        lexemes-before-phrases
-        (or true (lexemes-before-phrases depth max-depth))]
-    (cond (nil? bolts-at)
-          (lazy-seq lexemes)
-          lexemes-before-phrases
-          (lazy-cat lexemes bolts-at)
-          true
-          (lazy-cat bolts-at lexemes))))
 
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))

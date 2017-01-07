@@ -56,13 +56,9 @@
 
      ;; For each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
-     (map (fn [bolt] (assoc
-                       (comp-paths-to-complements bolt model depth max-depth)
-                       [] (list bolt))))
-
-     (map (fn [bolt-and-comps]
-            {:bolt (get bolt-and-comps [])
-             :comps (dissoc bolt-and-comps [])}))
+     (map (fn [bolt]
+            {:bolt (list bolt)
+             :comps (comp-paths-to-complements bolt model depth max-depth)}))
      
      ;; For each such map:complement-position -> complements, find all
      ;; possible combinations of complements, taking one complement

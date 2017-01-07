@@ -71,12 +71,14 @@
                      vals (cons [bolt] (vals comps))]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
-                        (zipmap keys each-path-through-trellis))
+                        {:bolt bolt
+                         :comps (dissoc (zipmap keys each-path-through-trellis)
+                                        [])})
                       (apply combo/cartesian-product vals)))))
 
-     (map (fn [bolt-and-comps]
-            {:bolt (get bolt-and-comps [])
-             :comps (dissoc bolt-and-comps [])}))
+     (map (fn [{bolt :bolt comps :comps}]
+            {:bolt bolt
+             :comps comps}))
      
      ;; for each such path through a trellis, unify the bolt with all of its complements to create a final expression tree.
      (map (fn [{bolt :bolt comps :comps}]

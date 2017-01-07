@@ -69,11 +69,13 @@
      (mapcat (fn [{bolt :bolt comps :comps}]
                (let [each-bolt-and-comps
                      (merge {[] [bolt]}
-                            comps)]
+                            comps)
+                     keys (keys each-bolt-and-comps)
+                     vals (vals each-bolt-and-comps)]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
-                        (zipmap (keys each-bolt-and-comps) each-path-through-trellis))
-                      (apply combo/cartesian-product (vals each-bolt-and-comps))))))
+                        (zipmap keys each-path-through-trellis))
+                      (apply combo/cartesian-product vals)))))
 
      (map (fn [bolt-and-comps]
             {:bolt (get bolt-and-comps [])

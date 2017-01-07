@@ -57,7 +57,7 @@
      ;; For each bolt, create a map of complement positions
      ;; within the bolt to possible complements for that position
      (map (fn [bolt]
-            {:bolt (list bolt)
+            {:bolt bolt
              :comps (comp-paths-to-complements bolt model depth max-depth)}))
      
      ;; For each such map:complement-position -> complements, find all
@@ -68,7 +68,7 @@
      ;; each complement position.
      (mapcat (fn [{bolt :bolt comps :comps}]
                (let [each-bolt-and-comps
-                     (merge {[] bolt}
+                     (merge {[] [bolt]}
                             comps)]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]

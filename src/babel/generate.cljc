@@ -67,14 +67,13 @@
      ;; trellis is a generated expression, with one complement for
      ;; each complement position.
      (mapcat (fn [{bolt :bolt comps :comps}]
-               (let [keys (cons [] (keys comps))
-                     vals (cons [bolt] (vals comps))]
+               (let [keys (keys comps)
+                     vals (vals comps)]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
                         {:bolt bolt
-                         :comps (dissoc (zipmap (rest keys) each-path-through-trellis)
-                                        [])})
-                      (apply combo/cartesian-product (rest vals))))))
+                         :comps (zipmap keys each-path-through-trellis)})
+                      (apply combo/cartesian-product vals)))))
 
      (map (fn [{bolt :bolt comps :comps}]
             {:bolt bolt

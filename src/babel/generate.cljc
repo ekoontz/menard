@@ -7,7 +7,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :refer [assoc-in assoc-in! copy dissoc-paths fail-path get-in fail? strip-refs unify unify!]]))
+   [dag_unify.core :refer [assoc-in assoc-in! copy create-path-in
+                           dissoc-paths fail-path get-in fail? strip-refs unify unify!]]))
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
@@ -86,7 +87,7 @@
                           ;; TODO: further flatten this into the overall ->> pipeline
                           (map (fn [path-to-comp]
                                  (let [complement (get comps path-to-comp)]
-                                   (assoc-in bolt path-to-comp complement)))
+                                   (create-path-in path-to-comp complement)))
                                paths)))))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.

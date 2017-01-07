@@ -69,6 +69,7 @@
                ;; TODO: further flatten this into the overall ->> pipeline
                (map (fn [each-path-through-trellis]
                       {:bolt bolt
+                       :paths paths
                        :comps (zipmap paths each-path-through-trellis)})
                     (apply combo/cartesian-product comps))))
      
@@ -86,7 +87,7 @@
                           (map (fn [path-to-comp]
                                  (let [complement (get comps path-to-comp)]
                                    (assoc-in bolt path-to-comp complement)))
-                               (keys comps))))))
+                               paths)))))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      

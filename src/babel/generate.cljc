@@ -74,12 +74,9 @@
                         {:bolt bolt
                          :comps (zipmap keys each-path-through-trellis)})
                       (apply combo/cartesian-product vals)))))
-
-     (map (fn [{bolt :bolt comps :comps}]
-            {:bolt bolt
-             :comps comps}))
      
-     ;; for each such path through a trellis, unify the bolt with all of its complements to create a final expression tree.
+     ;; for each such path through a trellis, unify the bolt with all
+     ;; of its complements to create a final expression tree.
      (map (fn [{bolt :bolt comps :comps}]
             ;; TODO: further flatten this into the overall ->> pipeline
             (reduce (fn [a b]

@@ -60,17 +60,24 @@
                        (comp-paths-to-complements bolt model depth max-depth)
                        [] (list bolt))))
 
+     (map (fn [bolt-and-comps]
+            {:bolt (get bolt-and-comps [])
+             :comps (dissoc bolt-and-comps [])}))
+     
      ;; For each such map:complement-position -> complements, find all
      ;; possible combinations of complements, taking one complement
      ;; per position.
      ;; The result is a trellis for each bolt, and a path through this
      ;; trellis is a generated expression, with one complement for
      ;; each complement position.
-     (mapcat (fn [each-bolt-and-comps]
-               ;; TODO: further flatten this into the overall ->> pipeline
-               (map (fn [each-path-through-trellis]
-                      (zipmap (keys each-bolt-and-comps) each-path-through-trellis))
-                    (apply combo/cartesian-product (vals each-bolt-and-comps)))))
+     (mapcat (fn [{bolt :bolt comps :comps}]
+               (let [each-bolt-and-comps
+                     (merge {[] bolt}
+                            comps)]
+                 ;; TODO: further flatten this into the overall ->> pipeline
+                 (map (fn [each-path-through-trellis]
+                        (zipmap (keys each-bolt-and-comps) each-path-through-trellis))
+                      (apply combo/cartesian-product (vals each-bolt-and-comps))))))
 
      (map (fn [bolt-and-comps]
             {:bolt (get bolt-and-comps [])

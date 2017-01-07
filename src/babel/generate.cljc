@@ -72,9 +72,9 @@
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
                         {:bolt bolt
-                         :comps (dissoc (zipmap keys each-path-through-trellis)
+                         :comps (dissoc (zipmap (rest keys) each-path-through-trellis)
                                         [])})
-                      (apply combo/cartesian-product vals)))))
+                      (apply combo/cartesian-product (rest vals))))))
 
      (map (fn [{bolt :bolt comps :comps}]
             {:bolt bolt

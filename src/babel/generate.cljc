@@ -54,29 +54,21 @@
     (->>
      (lightning-bolts model spec depth max-depth)
 
-     ;; For each bolt, create a map of complement positions
-     ;; within the bolt to possible complements for that position
+     ;; For each bolt, create a map. This map is from paths in a bolt
+     ;; to possible complements at that path for that bolt.
      (map (fn [bolt]
             {:bolt bolt
              :comps (comp-paths-to-complements bolt model depth max-depth)}))
      
-     ;; For each such map:complement-position -> complements, find all
-     ;; possible combinations of complements, taking one complement
-     ;; per position.
-     ;; The result is a trellis for each bolt, and a path through this
-     ;; trellis is a generated expression, with one complement for
-     ;; each complement position.
      (mapcat (fn [{bolt :bolt comps :comps}]
-               (let [keys (keys comps)
-                     vals (vals comps)]
+               (let [paths (keys comps)
+                     comps-at-paths (vals comps)]
                  ;; TODO: further flatten this into the overall ->> pipeline
                  (map (fn [each-path-through-trellis]
                         {:bolt bolt
-                         :comps (zipmap keys each-path-through-trellis)})
-                      (apply combo/cartesian-product vals)))))
+                         :comps (zipmap paths each-path-through-trellis)})
+                      (apply combo/cartesian-product comps-at-paths)))))
      
-     ;; for each such path through a trellis, unify the bolt with all
-     ;; of its complements to create a final expression tree.
      (map (fn [{bolt :bolt comps :comps}]
             ;; TODO: further flatten this into the overall ->> pipeline
             (reduce (fn [a b]

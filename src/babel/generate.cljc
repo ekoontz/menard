@@ -73,7 +73,7 @@
                          :comps (zipmap paths each-path-through-trellis)})
                       (apply combo/cartesian-product comps-at-paths)))))
      
-     (map (fn [{bolt :bolt comps :comps paths :paths}]
+     (map (fn [{bolt :bolt comps :comps}]
             ;; TODO: further flatten this into the overall ->> pipeline
             (reduce (fn [a b]
                       (let [result

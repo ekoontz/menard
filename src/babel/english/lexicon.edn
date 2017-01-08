@@ -1442,28 +1442,6 @@
                   :pred :luisa-and-i}
             :subcat '()}}]
 
- "Luisa and I (♂)"
- {:synsem {:cat :noun
-           :pronoun true
-           :case :nom
-           :agr {:gender :masc
-                 :person :1st
-                 :number :plur}
-           :sem {:human true
-                 :pred :luisa-and-i}
-           :subcat '()}}
-
- "Luisa and I (♀)"
- {:synsem {:cat :noun
-           :pronoun true
-           :case :nom
-           :agr {:gender :fem
-                 :person :1st
-                 :number :plur}
-           :sem {:human true
-                 :pred :luisa-and-i}
-           :subcat '()}}
-
  "make" {:synsem {:cat :verb
                   :sem {:pred :make}}
          :english {:past "made"}}

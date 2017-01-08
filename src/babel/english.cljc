@@ -112,21 +112,28 @@
                              (= as-numbered-list "true"))
         count (or (Integer. count) 100)
         model (or model (medium))
-        spec (or (and spec
-                      (unifyc spec {:modified false}))
-                 {:modified false
-                  :synsem {:subcat '()
-                           :cat :verb}})]
+        spec-fn (or (and spec (fn [] spec))
+                    (fn []
+                      (let [preds
+                            (vec (set (filter #(not (= :top %))
+                                              (map #(get-in % [:synsem :sem :pred] :top)
+                                                   (filter #(= (get-in % [:synsem :cat]) :verb)
+                                                           (flatten (vals (:lexicon (medium)))))))))]
+                        {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
+                                  :cat :verb}
+                         :head {:phrasal true
+                                :comp {:phrasal true}}
+                         :comp {:phrasal true}})))]
     (println (str "count: " count))
-    (println (str "spec:" spec))
     (doall (pmap
             (fn [num]
-              (let [expr (generate spec
+              (let [spec (spec-fn)
+                    expr (generate (spec-fn)
                                    :model model)
                     fo (morph expr :show-notes false)]
                 (let [to-print
                       (cond
-                        (empty? fo) (str "(failed)")
+                        (empty? fo) (str "(failed: spec=" spec ")")
                         true
                         (str (string/capitalize (nth fo 0))
                              (string/join "" (rest (vec fo)))

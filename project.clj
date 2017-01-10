@@ -1,4 +1,4 @@
-(defproject babel "2.5.4"
+(defproject babel "2.6.0-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Eclipse Public License"
@@ -10,7 +10,7 @@
                  [environ "1.0.0"]
                  [hiccup "1.0.5"]
                  [javax.servlet/servlet-api "2.5"]
-                 [korma "0.4.1"]
+                 [korma "0.4.3"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/core.cache "0.6.5"]
                  [org.clojure/clojure "1.8.0"]

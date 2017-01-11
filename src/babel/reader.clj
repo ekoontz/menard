@@ -232,7 +232,7 @@
                          :source (first (map :source results))
                          :target-spec target-spec
                          :targets-with-roots (map (fn [result]
-                                                    {:target-root (:target_root result)
+                                                    {:root (:target_root result)
                                                      :target (:target result)})
                                                   results)
                          :targets (map :target results)}))))))))))

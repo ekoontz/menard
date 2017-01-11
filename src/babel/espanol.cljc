@@ -56,22 +56,30 @@
   ((:lookup (medium)) lexeme))
 
 (defn generate
-  [spec & {:keys [max-total-depth model truncate-children]
-           :or {max-total-depth generate/max-total-depth
-                model nil
-                truncate-children false}}]
-  (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-  (if (nil? model)
-    (let [error-message
-          (str "you must supply a model to do generation.")]
-      (log/error error-message)
-      (throw (Exception. error-message))))
-  (let [result (generate/generate spec model
-                                  :max-total-depth max-total-depth
-                                  :truncate-children truncate-children)]
-    (if result
-      (conj {:surface (fo result)}
-            result))))
+  ([]
+   (let [max-total-depth generate/max-total-depth
+         truncate-children true
+         model (medium)]
+     (generate {:modified false}
+               :max-total-depth max-total-depth
+               :truncate-children true
+               :model model)))
+  ([spec & {:keys [max-total-depth model truncate-children]
+            :or {max-total-depth generate/max-total-depth
+                 model nil
+                 truncate-children false}}]
+   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
+   (if (nil? model)
+     (let [error-message
+           (str "you must supply a model to do generation.")]
+       (log/error error-message)
+       (throw (Exception. error-message))))
+   (let [result (generate/generate spec model
+                                   :max-total-depth max-total-depth
+                                   :truncate-children truncate-children)]
+     (if result
+       (conj {:surface (fo result)}
+             result)))))
 
 (defn preprocess [input]
   "arbitrary regexp replacements to convert Spanish orthography into a parsable whitespace-delimited expression"

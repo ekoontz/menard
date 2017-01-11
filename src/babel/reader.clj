@@ -210,6 +210,7 @@
                                         [source-language target-language]]
                                        :results)]
                       (if (nil? (first (map :source results)))
+                        ;; TODO: use real sql (from above) rather than this fake string:
                         (let [sql (str "SELECT surface FROM expression_with_root AS source WHERE "
                                        " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
                               message (str "no source expression found for target semantics: "
@@ -230,6 +231,10 @@
                         {:source-id (first (map :source_id results))
                          :source (first (map :source results))
                          :target-spec target-spec
+                         :targets-with-roots (map (fn [result]
+                                                    {:target_root (:target_root result)
+                                                     :target (:target result)})
+                                                  results)
                          :targets (map :target results)}))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]

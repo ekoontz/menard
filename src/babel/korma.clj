@@ -6,10 +6,9 @@
 ;; (e.g. classes,students,etc).
 (ns babel.korma
   (:refer-clojure :exclude [test update])
-  (:require [clj-time.coerce :as c]
+  (:require [clojure.data.json :as json]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
-            [dag_unify.core :refer (unify fail?)]
             [korma.db :refer [default-connection defdb postgres]]))
 
 (require '[environ.core :refer [env]])
@@ -32,13 +31,16 @@
                 :datasource .getConnection)))
   ;; infer type of input sequence based on first element, if any.
   (let [sql-type
-        (cond (= java.lang.String (type (first sequence)))
-              "text"
-
+        (cond (string? (first sequence))
+              "string"
+              
+              (map? (first sequence))
+              "json"
+                    
               ;; TODO: support other types, in particular, JSON.
               true
               (do
-                (log/warn (str "using default of 'text' as seql type for"
+                (log/warn (str "using default of 'text' as SQL type for"
                                " sequence of type:" (type sequence)
                                (if (not (empty? sequence))
                                  (str " whose first member is of type:"
@@ -47,7 +49,7 @@
                 "text"))]
     (.createArrayOf
      @_direct_connection
-     sql-type (into-array sequence))))
+     sql-type (into-array (map json/write-str sequence)))))
 
 (defn init-db []
   (defdb korma-db 
@@ -90,7 +92,3 @@
           :password password
           :host host
           :port (or port "5432")})))))
-
-  
-  
-  

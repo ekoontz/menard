@@ -4,6 +4,7 @@
   (:refer-clojure :exclude [test update])
   (:require [babel.korma :refer [init-db prepare-array]]
             [clj-time.coerce :as c]
+            [clojure.data.json :as json :refer [write-str]]
             [clojure.string :as string]
             [clojure.test :refer :all]
             [clojure.tools.logging :as log]
@@ -23,3 +24,17 @@
         output-array (prepare-array input-vector)]
     (is (= (vec (.getArray output-array))
            input-vector))))
+
+(deftest prepare-json
+  (let [input [{:foo 42}]]
+    (= {"foo" 42}
+       (clojure.data.json/read-str
+        (first
+         (vec
+          (.getArray
+           (:retval
+            (first
+             (exec-raw [(str "SELECT ?::jsonb[] AS retval")
+                        [(prepare-array [{:foo 42}])]] :results))))))))))
+
+

@@ -4,6 +4,7 @@
 (require '[babel.generate :as generate])
 (require '[babel.italiano.grammar :as grammar :refer [create-model-for-spec]])
 (require '[babel.italiano.morphology :as morph])
+(require '[babel.korma :refer [init-db]])
 (require '[babel.writer :as writer :refer [process write-lexicon]])
 (require '[clojure.string :refer [join]])
 (require '[clojure.tools.logging :as log])
@@ -50,6 +51,7 @@
                      (sort (keys root-verbs))))]
 
     ;; TODO: lexicon-writing should be moved out of (defn tutti []).
+    (init-db)
     (write-lexicon "it" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"

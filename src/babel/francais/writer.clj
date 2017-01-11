@@ -7,6 +7,7 @@
 (require '[babel.francais.morphology :refer [analyze exception-generator
                                              fo]])
 (require '[babel.francais.pos :refer [intransitivize transitivize]])
+(require '[babel.korma :refer [init-db]])
 (require '[babel.writer :as writer :refer [process reload write-lexicon]])
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
@@ -36,6 +37,7 @@
                 (use-map-fn (fn [key]
                               (get root-verbs key))
                             (sort (keys root-verbs))))]
+    (init-db)
     (write-lexicon "fr" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"

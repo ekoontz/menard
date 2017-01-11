@@ -153,7 +153,7 @@
                            (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                         lexeme-set))
               (vals lexicon)))]
-
+    (init-db)
     (write-lexicon "en" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating with this many verbs: " (.size (reduce concat (vals root-verbs)))))

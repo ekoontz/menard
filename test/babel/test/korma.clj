@@ -2,7 +2,7 @@
 ;; - it uses korma, but it is not itself korma, nor does it test korma per-se.
 (ns babel.test.korma
   (:refer-clojure :exclude [test update])
-  (:require [babel.korma :refer [init-db prepare-array]]
+  (:require [babel.korma :refer [init-db prepare-array read-array]]
             [clj-time.coerce :as c]
             [clojure.data.json :as json :refer [write-str]]
             [clojure.string :as string]
@@ -19,30 +19,16 @@
   (let [result (exec-raw ["SELECT 1 AS retval"] :results)]
     (is (= 1 (:retval (first result))))))
 
-(deftest prepare-vector
-  (let [input-vector ["a" "b" "c"]
-        output-array (prepare-array input-vector)]
-    (is (= (vec (.getArray output-array))
-           input-vector))))
+(deftest prepare-vector-of-strings
+  (let [input ["a" "b" "c"]]
+    (is (= input
+           (read-array (prepare-array input))))))
 
-(deftest prepare-json
-  (let [input [{:foo 42}]]
+(deftest prepare-vector-of-maps
+  (let [input [{:foo 42}
+               {:bar 43}
+               {:foo 44, :bar 45}]]
     (is
-     (= [{"foo" 42}{"bar" 43}{"foo" 44, "bar" 45}]
-        (map
-         clojure.data.json/read-str
-         (vec
-          (.getArray
-           (:retval
-            (first
-             (exec-raw [(str "SELECT ?::jsonb[] AS retval")
-                        [(prepare-array [{:foo 42}{:bar 43}{:foo 44, :bar 45}])]] :results))))))))))
-
-
-
-
-
-
-
-
+     (= input
+        (read-array (prepare-array input))))))
 

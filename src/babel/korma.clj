@@ -15,14 +15,23 @@
 
 (defonce _direct_connection (atom nil))
 
+(declare convert-keys-from-string-to-keyword)
+
 (defn prepare-array
-  "Convert an array into (some implementation of) java.sql.Array. 
-   For example, if _direct_connection is to a PostgreSQL database via org.postgresql.jdbc, 
-   then the implementation type will be org.postgresql.jdbc.PgArray 
+  "Convert a Clojure sequence into (some implementation of) java.sql.Array.
+
+   e.g. convert [{:a 42}] 
+        into: #object[org.postgresql.jdbc.PgArray 0x3d73de4b '{'{'a':42}'}']
+
+  Uses an implementation of java.sql.Connection.createArrayOf provided
+  by the database driver.  For example, if _direct_connection is to a
+  PostgreSQL database via org.postgresql.jdbc, then the implementation
+  type will be org.postgresql.jdbc.PgArray
     (https://jdbc.postgresql.org/development/privateapi/org/postgresql/jdbc/PgArray.html).
    An implementation of java.sql.Connection.createArrayOf
     (https://docs.oracle.com/javase/7/docs/api/java/sql/Connection.html)
    will be used to do the actual conversion."
+
   [sequence]
   (if (nil? @_direct_connection)
     (reset! _direct_connection
@@ -47,13 +56,43 @@
                                  (str " whose first member is of type:"
                                       (type (first sequence))))
                                "."))
-                {:type "string"
+                {:type "text"
                  :map-fn (fn [x] x)}))
         sql-type (:type sql-type-and-map-fn)
         map-fn (:map-fn sql-type-and-map-fn)]
     (.createArrayOf
      @_direct_connection
      sql-type (into-array (map map-fn sequence)))))
+
+(defn read-array [sql-array]
+    "Convert a Clojure sequence into (some implementation of) java.sql.Array. 
+
+     e.g. turn: #object[org.postgresql.jdbc.PgArray 0x3d73de4b '{{'a':42},{'b':43}}'] 
+          into: {:a 42}.
+
+  Uses an implementation of java.sql.Connection.createArrayOf provided
+  by the database driver.  For example, if _direct_connection is to a
+  PostgreSQL database via org.postgresql.jdbc, then the implementation
+  type will be org.postgresql.jdbc.PgArray
+    (https://jdbc.postgresql.org/development/privateapi/org/postgresql/jdbc/PgArray.html).
+   An implementation of java.sql.Connection.createArrayOf
+    (https://docs.oracle.com/javase/7/docs/api/java/sql/Connection.html)
+   will be used to do the actual conversion."
+
+  (->> (-> sql-array ;; (type = implementation of SqlArray (e.g. org.postgresql.jdbc.PgArray)
+           .getArray ;; java array: (type %) = #object["Ljava.lang.String;" .."
+           vec) ;; clojure.lang.PersistentVector
+
+       (map #(try
+               ;; if input elements are parseable as JSON, read them, each of which will be a Clojure map.
+               ;; otherwise, return the input elements unmodified.
+               (json/read-str %) ;; rely on json/read-str to throw an error if input is not JSON
+               (catch Exception e %))) ;; % is not JSON-parseable: just return it as-is.
+
+       ;; Input is now a sequence of Clojure-native elements such as maps, but, if an
+       ;; element is a map, then its keys are strings.
+       ;; Final step, convert the keys from strings e.g. convert "foo" to :foo.
+       (map convert-keys-from-string-to-keyword)))
 
 (defn init-db []
   (defdb korma-db 
@@ -96,3 +135,13 @@
           :password password
           :host host
           :port (or port "5432")})))))
+
+(defn convert-keys-from-string-to-keyword [input]
+  (cond (map? input)
+        (let [keys (map keyword
+                        (keys input))
+              vals (map convert-keys-from-string-to-keyword
+                        (vals input))]
+          (zipmap keys vals))
+        true input))
+

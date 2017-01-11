@@ -163,21 +163,28 @@
   (log/debug (str "inserting expression: spec=" spec))
   (try
     (exec-raw [(let [insert
-                     (str "INSERT INTO " table " (surface, structure, spec, serialized, language, model) VALUES (?,"
-                          "$$" (json/write-str (strip-refs expression)) "$$,"
-                          "$$" (json/write-str (strip-refs spec)) "$$,"
-                          "$$[" (string/join "" (serialize expression)) "]$$," ;; TODO: check for presence of "$$" within (serialize expression).
-                          "?,?)")]
+                     (str "INSERT INTO " table
+                          "(surface, structure, spec, "
+                          " serialized, language, model)"
+                          " VALUES (?,?::jsonb,?::jsonb,?,?,?)")]
                  (log/trace (str "INSERT IS : " insert))
                  insert)
                [surface
-                language
-                model-name]])
+                (-> expression
+                    (dissoc :dag_unify.core/serialized)
+                    strip-refs
+                    json/write-str)
+                (-> spec
+                    (dissoc :dag_unify.core/serialized)
+                    strip-refs
+                    json/write-str)
+                (-> expression serialize vec str)
+                language model-name]])
     (catch Exception e
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
-  (log/trace (str "insert-lexeme: canonical=" canonical ",lexeme=" (strip-refs lexeme) ",language=" language))
+  (log/info (str "insert-lexeme: canonical=" canonical ",lexeme=" (strip-refs lexeme) ",language=" language))
   (if (fail? lexeme)
     (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
       (log/error message)
@@ -185,11 +192,10 @@
     ;; else, lexeme is valid for insertion
     (exec-raw [(str "INSERT INTO lexeme 
                                  (canonical, structure, serialized, language) 
-                          VALUES (?,"
-                    "$$" (json/write-str (strip-refs lexeme)) "$$"
-                    ",?,?)")
-               [canonical (str "[" (string/join " " (serialize lexeme)) ;; TODO: remove unneeded whitespace: string/join "" should work fine.
-                               "]")
+                          VALUES (?,?::jsonb,?,?)")
+               [canonical
+                (json/write-str (strip-refs lexeme))
+                (-> lexeme serialize vec str)
                 language]])))
 
 ;; TODO: change all calls to populate-with-language to set source-language if needed

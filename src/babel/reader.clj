@@ -3,12 +3,12 @@
   [:require
    [babel.directory :refer [models]]
    [babel.generate :refer [generate]]
-   [babel.korma :as korma]
+   [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db]]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :as unify :refer [deserialize dissoc-paths get-in ref? strip-refs unify]]
+   [dag_unify.core :as unify :refer [dissoc-paths get-in ref? strip-refs unify]]
    [korma.core :as db]])
 
 ;; Configure database's 'expression' table to find the expressions.
@@ -63,13 +63,13 @@
     (generate spec source-language target-language)))
 
 (defn id2expression [id]
-  (let [results (db/exec-raw [(str "SELECT serialized::text AS structure 
+  (let [results (db/exec-raw [(str "SELECT struture
                                       FROM expression 
                                      WHERE id=?")
                               [id]]
                              :results)]
     (if (not (empty? results))
-      (deserialize (read-string (:structure (first results)))))))
+      (json-read-str (.getValue (:structure (first results)))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
                                                  target-language target-locale
@@ -121,7 +121,7 @@
             ;; one (random) expression.
             ;; instead, we should use the target.surface as an input to a hash function; that is,
             ;; ORDER BY the value of the hash function on each row.
-            (let [results (db/exec-raw [(str "SELECT serialized,surface "
+            (let [results (db/exec-raw [(str "SELECT structure,surface "
                                              "  FROM expression "
                                              " WHERE active=true "
                                              "   AND language=? "
@@ -163,7 +163,7 @@
                   ;; set to true or false, while subjects in English, at present, lack this
                   ;; (though this key might be added to the English lexicon later at
                   ;;  some point).
-                  (let [target-structure (deserialize (read-string (:serialized target-expression)))
+                  (let [target-structure (json-read-str (.getValue (:structure target-expression)))
                         ;; TODO: allow queries that have refs - might be
                         ;; useful for modeling anaphora and binding.
                         source-language-keyword (keyword source-language)
@@ -214,41 +214,32 @@
                         (let [sql (str "SELECT surface FROM expression_with_root AS source WHERE "
                                        " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
                               message (str "no source expression found for target semantics: "
-                                           (get-in (strip-refs (deserialize
-                                                                (read-string (:structure target-expression))))
+                                           (get-in target-structure
                                                    [:synsem :sem])
                                            "; used source semantics:" source-semantics "; SQL:" sql)]
                           (log/error message)
                           (throw (Exception. message))))
-                      (let [debug (log/trace (str "source-structure:"
-                                                  (first (map :structure results))))
-                            debug (log/trace (str "read from target_structure:"
-                                                  (first (map :target_structure results))))
-                            debug (log/trace (str "target structures: (via read-str)" 
-                                                  (read-str (first (map :target_structure results)))))
-                            debug (log/trace (str "target-structures (via json-read-str):" 
-                                                  (json-read-str (first (map :target_structure results)))))]
-                        {:source-id (first (map :source_id results))
-                         :source (first (map :source results))
-                         :target-spec target-spec
-                         :targets-with-roots (map (fn [result]
-                                                    {:root (:target_root result)
-                                                     :target (:target result)})
-                                                  results)
-                         :targets (map :target results)}))))))))))
+                      {:source-id (first (map :source_id results))
+                       :source (first (map :source results))
+                       :target-spec target-spec
+                       :targets-with-roots (map (fn [result]
+                                                  {:root (:target_root result)
+                                                   :target (:target result)})
+                                                results)
+                       :targets (map :target results)})))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a
   language and optionally additional filter specification"
   ;; TODO: does not support filter yet.
-  (let [results (db/exec-raw [(str "SELECT serialized 
+  (let [results (db/exec-raw [(str "SELECT structure
                                       FROM lexeme
                                      WHERE canonical=?
                                        AND language=?")
                               [canonical language]]
                              :results)]
     (map (fn [result]
-           (deserialize (read-string (:serialized result))))
+           (json-read-str (.getValue (:structure result))))
          results)))
 
 (defn generate-all [spec language]
@@ -268,7 +259,7 @@
                    (str "SELECT surface FROM expression WHERE language='" language "' AND structure @> "
                         "'" json-spec "'")))
 
-    (let [results (db/exec-raw [(str "SELECT serialized::text 
+    (let [results (db/exec-raw [(str "SELECT structure
                                         FROM expression 
                                        WHERE language=? 
                                          AND active=true
@@ -277,7 +268,7 @@
                                 [language]]
                                :results)]
       (map (fn [result]
-             (deserialize (read-string (:serialized result))))
+             (json-read-str (.getValue (:structure result))))
            results))))
 
 (defn read-all [spec language]
@@ -293,7 +284,7 @@
         json-spec (json/write-str (strip-refs json-input-spec))
         ]
     (log/debug (str "looking for expressions in language: " language " with spec: " spec))
-    (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
+    (let [results (db/exec-raw [(str "SELECT DISTINCT surface,structure
                                         FROM expression 
                                        WHERE active=true 
                                          AND language=? 
@@ -304,7 +295,7 @@
       (log/debug (str "Number of expressions that that need to be translated: " (.size results)))
       (map (fn [result]
              {:surface (:surface result)
-              :structure (deserialize (read-string (:serialized result)))})
+              :structure (json-read-str (.getValue (:structure result)))})
            results))))
 
 (defn read-one [spec language]
@@ -319,7 +310,7 @@
         json-spec (json/write-str (strip-refs json-input-spec))
         ]
     (log/debug (str "looking for expressions in language: " language " with spec: " spec))
-    (let [results (db/exec-raw [(str "SELECT surface,serialized::text 
+    (let [results (db/exec-raw [(str "SELECT surface,structure
                                         FROM expression 
                                        WHERE language=? 
                                          AND active=true
@@ -329,7 +320,7 @@
                                :results)]
       (first (map (fn [result]
                     {:surface (:surface result)
-                     :structure (deserialize (read-string (:serialized result)))})
+                     :structure (read-str (:structure result))})
                   results)))))
 
 (defn contains [spec]
@@ -388,13 +379,13 @@
                   {}))
 
 (defn read-lexicon [language]
-  (let [results (db/exec-raw [(str "SELECT canonical,serialized FROM lexeme WHERE language=?")
+  (let [results (db/exec-raw [(str "SELECT canonical,structure FROM lexeme WHERE language=?")
                               [language]]
                              :results)]
     (group-by-canonical-form
      (map (fn [x]
             {:surface (:canonical x)
-             :structure (deserialize (read-string (:serialized x)))})
+             :structure (json-read-str (.getValue (:structure x)))})
           results))))
 
 ;; TODO: document why we need this

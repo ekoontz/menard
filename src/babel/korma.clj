@@ -30,14 +30,15 @@
                 :pool deref
                 :datasource .getConnection)))
   ;; infer type of input sequence based on first element, if any.
-  (let [sql-type
+  (let [sql-type-and-map-fn
         (cond (string? (first sequence))
-              "string"
+              {:type "text"
+               :map-fn (fn [x] x)}
               
               (map? (first sequence))
-              "json"
-                    
-              ;; TODO: support other types, in particular, JSON.
+              {:type "jsonb"
+               :map-fn json/write-str}
+
               true
               (do
                 (log/warn (str "using default of 'text' as SQL type for"
@@ -46,10 +47,13 @@
                                  (str " whose first member is of type:"
                                       (type (first sequence))))
                                "."))
-                "text"))]
+                {:type "string"
+                 :map-fn (fn [x] x)}))
+        sql-type (:type sql-type-and-map-fn)
+        map-fn (:map-fn sql-type-and-map-fn)]
     (.createArrayOf
      @_direct_connection
-     sql-type (into-array (map json/write-str sequence)))))
+     sql-type (into-array (map map-fn sequence)))))
 
 (defn init-db []
   (defdb korma-db 

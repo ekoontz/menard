@@ -27,14 +27,22 @@
 
 (deftest prepare-json
   (let [input [{:foo 42}]]
-    (= {"foo" 42}
-       (clojure.data.json/read-str
-        (first
+    (is
+     (= [{"foo" 42}{"bar" 43}{"foo" 44, "bar" 45}]
+        (map
+         clojure.data.json/read-str
          (vec
           (.getArray
            (:retval
             (first
              (exec-raw [(str "SELECT ?::jsonb[] AS retval")
-                        [(prepare-array [{:foo 42}])]] :results))))))))))
+                        [(prepare-array [{:foo 42}{:bar 43}{:foo 44, :bar 45}])]] :results))))))))))
+
+
+
+
+
+
+
 
 

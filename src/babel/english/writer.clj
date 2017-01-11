@@ -5,6 +5,7 @@
 (require '[babel.directory :refer [models]])
 (require '[babel.english.morphology :refer [fo]])
 (require '[babel.generate :refer [generate]])
+(require '[babel.korma :refer [init-db]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer
            :refer [delete-from-expressions
@@ -30,6 +31,7 @@
    Optionally takes a root form of a verb in the source language."
   ;; Example usage: (translate \"es\" \"abrazar\"
   (log/info (str "calling (rewrite-lexicon)"))
+  (init-db)
   (rewrite-lexicon)
   (log/info (str "finished calling (rewrite-lexicon)"))
   (let [spec :top

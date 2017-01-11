@@ -6,6 +6,7 @@
 (require '[babel.espanol.morphology :as morph])
 (require '[babel.espanol.pos :refer :all])
 (require '[babel.generate :refer [generate]])
+(require '[babel.korma :refer [init-db]])
 (require '[babel.lexiconfn :refer (compile-lex map-function-on-map-vals)])
 (require '[babel.log :refer [log4j!]])
 (require '[babel.parse :as parse])
@@ -54,6 +55,7 @@
                             (if lexeme
                               [lexeme]
                               (sort (keys root-verbs)))))]
+    (init-db)
     (write-lexicon "es" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"

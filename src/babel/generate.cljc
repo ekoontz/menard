@@ -93,7 +93,7 @@
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      
      (map #(if (= true truncate)
-             (dissoc-paths % [[:head][:comp]])
+             (dag_unify.core/strip-refs (dissoc-paths % [[:head][:comp]]))
              %))
      
      (remove #(= :fail %)))))

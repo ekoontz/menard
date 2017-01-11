@@ -183,7 +183,7 @@
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
 (defn insert-lexeme [canonical lexeme language]
-  (log/info (str "insert-lexeme: canonical=" canonical ",lexeme=" (strip-refs lexeme) ",language=" language))
+  (log/debug (str "insert-lexeme: canonical=" canonical ", language=" language))
   (if (fail? lexeme)
     (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
       (log/error message)

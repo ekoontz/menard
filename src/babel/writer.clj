@@ -165,8 +165,8 @@
     (exec-raw [(let [insert
                      (str "INSERT INTO " table
                           "(surface, structure, spec, "
-                          " serialized, language, model)"
-                          " VALUES (?,?::jsonb,?::jsonb,?,?,?)")]
+                          " language, model)"
+                          " VALUES (?,?::jsonb,?::jsonb,?,?)")]
                  (log/trace (str "INSERT IS : " insert))
                  insert)
                [surface
@@ -178,7 +178,6 @@
                     (dissoc :dag_unify.core/serialized)
                     strip-refs
                     json/write-str)
-                (-> expression serialize vec str)
                 language model-name]])
     (catch Exception e
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
@@ -191,11 +190,10 @@
       (throw (Exception. message)))
     ;; else, lexeme is valid for insertion
     (exec-raw [(str "INSERT INTO lexeme 
-                                 (canonical, structure, serialized, language) 
-                          VALUES (?,?::jsonb,?,?)")
+                                 (canonical, structure, language) 
+                          VALUES (?,?::jsonb,?)")
                [canonical
-                (json/write-str (strip-refs lexeme))
-                (-> lexeme serialize vec str)
+                (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized))
                 language]])))
 
 ;; TODO: change all calls to populate-with-language to set source-language if needed

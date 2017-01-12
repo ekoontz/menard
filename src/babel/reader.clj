@@ -187,8 +187,7 @@
                           (first
                            (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
                                               ARRAY_AGG(target.surface) AS target,ARRAY_AGG(target.root) AS target_root,
-                                              ARRAY_AGG(source.structure::jsonb) AS target_structure,
-                                              ARRAY_AGG(target.id) AS target_id
+                                              ARRAY_AGG(source.structure::jsonb) AS target_structure
                                         FROM (SELECT surface, source.structure->'synsem'->'sem' 
                                                      AS sem,
                                                      source.structure AS structure, source.id
@@ -199,7 +198,7 @@
                                              LIMIT 1) AS source
                                   INNER JOIN (SELECT 
                                             DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
-                                                     root, structure, target.id
+                                                     root, structure
                                                 FROM expression_with_root AS target
                                                WHERE target.language=?
                                                  AND target.active=true
@@ -222,16 +221,16 @@
                                 (dissoc :target) ;; aggregate 'target' values into 'targets'
                                 (assoc :targets (read-array (:target result)))
                                 
-                                (dissoc :target_id) ;; aggregate targets' ids into 'target_ids'
-                                (assoc :target_ids (read-array (:target_id result)))
-                                
                                 (dissoc :target_root) ;; targets' roots -> 'target_roots'
                                 (assoc :target_roots (read-array (:target_root result)))
                                 
                                 (dissoc :target_structure) ;; targets' structures -> 'target structures'
 
-                                (and show-target-structures
-                                     (assoc :target_structures (read-array (:target_structure result))))
+                                ((fn [retval]
+                                   (or 
+                                    (and show-target-structures
+                                         (assoc :target_structures (read-array (:target_structure result))))
+                                    retval)))
 
                                 )]
                         retval))))))))))

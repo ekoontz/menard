@@ -13,6 +13,8 @@
 
 ;; TODO: understand promises, futures, (deliver), etc, better: this code is susceptible to
 ;; race conditions when used with pmap (e.g. with generate)
+;; TODO: make finer-grained distinction between things that are slow to load (lexicon and indices)
+;; vs fast to load: e.g. simple constant values and simple maps of the same.
 (def models
   (let [en (promise)
         es (promise)

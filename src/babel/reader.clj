@@ -3,7 +3,7 @@
   [:require
    [babel.directory :refer [models]]
    [babel.generate :refer [generate]]
-   [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db]]
+   [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db read-array]]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.tools.logging :as log]
@@ -90,9 +90,10 @@
    To rephrase, the set of expressions in the target language share an identical semantics, 
    and the single expression in the source language contains that semantics."
   (log/debug (str "generate target language set with target-language:" target-language " ;spec: " target-spec))
-  (let [target-spec (unify target-spec
-                           {:synsem {:subcat '()}})]
-    (cond (= target-language "la")
+  (let [target-spec (-> target-spec
+                        (unify {:synsem {:subcat '()}})
+                        (dissoc-paths [[:dag_unify.core/serialized]]))]
+    (cond (= target-language "la") ;; TODO: should not have a special case for one language.
           (babel.latin/read-one :top  ;; TODO: use target-spec
                                 @((-> models :la))
                                 @((-> models :en)))
@@ -105,10 +106,7 @@
                     ((fn [target-spec]
                        (if (= :top target-spec)
                          {}
-                         target-spec)))
-
-                    ;; remove dag_unify-specific metadata:
-                    (dissoc-paths [[:dag_unify.core/serialized]]))
+                         target-spec))))
                 target-json-spec (json/write-str (strip-refs json-input-spec))]
             (log/debug (str "looking for expressions in target language: " target-language
                             " with spec: " target-spec))
@@ -146,7 +144,7 @@
                       debug (log/debug (str "number of target results:" size-of-results))
                       debug (log/debug (str "index of target result:" index-of-result))
                       target-expression (nth results index-of-result)
-                      debug (log/debug (str "target-expression is nil?" (nil? target-expression)))
+                      debug (log/debug (str "target-expression is nil? " (nil? target-expression)))
                       debug (log/trace (str "target-expression is: " target-expression))
                       ]
             
@@ -183,50 +181,63 @@
                     (log/debug (str "target expression:" (:surface target-structure)))
                     (log/debug (str "target semantics:" (strip-refs target-semantics)))
                     (log/debug (str "source semantics:" (strip-refs source-semantics)))
-                    (log/debug (str "json target semantics:" json-target-semantics))
-                    (log/debug (str "json source semantics:" json-source-semantics))
-                    (let [results
-                          (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
-                                             target.surface AS target,target.root AS target_root,
-                                             source.structure AS structure,
-                                             target.structure::text AS target_structure
+                    (log/trace (str "json target semantics:" json-target-semantics))
+                    (log/trace (str "json source semantics:" json-source-semantics))
+                    (let [result
+                          (first
+                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
+                                              ARRAY_AGG(target.surface) AS target,ARRAY_AGG(target.root) AS target_root,
+                                              ARRAY_AGG(source.structure::jsonb) AS target_structure,
+                                              ARRAY_AGG(target.id) AS target_id
                                         FROM (SELECT surface, source.structure->'synsem'->'sem' 
                                                      AS sem,
                                                      source.structure AS structure, source.id
                                                 FROM expression AS source
                                                WHERE source.language=?
                                                  AND source.active=true
-                                                 AND source.structure->'synsem'->'sem' @> '"
-                                             json-source-semantics "' LIMIT 1) AS source
+                                                 AND source.structure->'synsem'->'sem' @> ?::jsonb
+                                             LIMIT 1) AS source
                                   INNER JOIN (SELECT 
                                             DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
-                                                     root,structure
+                                                     root, structure, target.id
                                                 FROM expression_with_root AS target
                                                WHERE target.language=?
                                                  AND target.active=true
-                                                 AND target.structure->'synsem'->'sem' = '" json-target-semantics "') AS target 
+                                                 AND target.structure->'synsem'->'sem' = ?::jsonb) AS target 
                                           ON (source.surface IS NOT NULL) 
-                                         AND (target.surface IS NOT NULL)")
-                                        [source-language target-language]]
-                                       :results)]
-                      (if (nil? (first (map :source results)))
-                        ;; TODO: use real sql (from above) rather than this fake string:
-                        (let [sql (str "SELECT surface FROM expression_with_root AS source WHERE "
-                                       " source.structure->'synsem'->'sem' @> '" json-source-semantics "'")
-                              message (str "no source expression found for target semantics: "
-                                           (get-in target-structure
-                                                   [:synsem :sem])
-                                           "; used source semantics:" source-semantics "; SQL:" sql)]
+                                         AND (target.surface IS NOT NULL) "
+                                              " GROUP BY source.surface,source.id")
+                                         [source-language json-source-semantics target-language json-target-semantics]]
+                                        :results))]
+                      (if (nil? result)
+                        (let [message (str "no source expression found for target semantics: "
+                                           (get-in target-structure [:synsem :sem])
+                                           "; used source semantics:" source-semantics ".")]
                           (log/error message)
                           (throw (Exception. message))))
-                      {:source-id (first (map :source_id results))
-                       :source (first (map :source results))
-                       :target-spec target-spec
-                       :targets-with-roots (map (fn [result]
-                                                  {:root (:target_root result)
-                                                   :target (:target result)})
-                                                results)
-                       :targets (map :target results)})))))))))
+                      (log/info (str "RESULT: " result))
+                      (log/info (str "TYPE OF target_structure:"
+                                     (type (get result :target_structure))))
+                      (let [show-target-structures false ;; true for debugging
+                            retval
+                            (-> result
+                                
+                                (dissoc :target) ;; aggregate 'target' values into 'targets'
+                                (assoc :targets (read-array (:target result)))
+                                
+                                (dissoc :target_id) ;; aggregate targets' ids into 'target_ids'
+                                (assoc :target_ids (read-array (:target_id result)))
+                                
+                                (dissoc :target_root) ;; targets' roots -> 'target_roots'
+                                (assoc :target_roots (read-array (:target_root result)))
+                                
+                                (dissoc :target_structure) ;; targets' structures -> 'target structures'
+
+                                (and show-target-structures
+                                     (assoc :target_structures (read-array (:target_structure result))))
+
+                                )]
+                        retval))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a

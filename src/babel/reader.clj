@@ -215,9 +215,6 @@
                                            "; used source semantics:" source-semantics ".")]
                           (log/error message)
                           (throw (Exception. message))))
-                      (log/info (str "RESULT: " result))
-                      (log/info (str "TYPE OF target_structure:"
-                                     (type (get result :target_structure))))
                       (let [show-target-structures false ;; true for debugging
                             retval
                             (-> result

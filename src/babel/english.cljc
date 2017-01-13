@@ -133,18 +133,17 @@
                              (= as-numbered-list "true"))
         count (or (Integer. count) 100)
         model (or model (medium))
+        preds (vec (set (filter #(not (= :top %))
+                                (map #(get-in % [:synsem :sem :pred] :top)
+                                     (filter #(= (get-in % [:synsem :cat]) :verb)
+                                             (flatten (vals (:lexicon (medium)))))))))
         spec-fn (or (and spec (fn [] [spec]))
                     (fn []
-                      (let [preds
-                            (vec (set (filter #(not (= :top %))
-                                              (map #(get-in % [:synsem :sem :pred] :top)
-                                                   (filter #(= (get-in % [:synsem :cat]) :verb)
-                                                           (flatten (vals (:lexicon (medium)))))))))]
-                        (map (fn [variant]
-                               (merge {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
-                                                :cat :verb}}
-                                      variant))
-                             (shuffle tree-variants)))))]
+                      (map (fn [variant]
+                             (merge {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
+                                              :cat :verb}}
+                                    variant))
+                           (shuffle tree-variants))))]
     (println (str "count: " count))
     (doall (map
             (fn [num]

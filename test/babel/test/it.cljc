@@ -624,6 +624,22 @@
     ;; progressive present:
     (is (= "io sto mangiando" (morph (generate progressive))))))
 
-
-
+(deftest fornendo
+  (is (= "io sto fornendo" (morph (generate {:synsem {:cat :verb
+                                          :subcat ()
+                                          :sem {:tense :present
+                                                :aspect :progressive
+                                                :subj {:pred :I}
+                                                :obj :unspec}}
+                                             :modified false
+                                             :root {:italiano {:italiano "fornire"}}}))))
+  (is (= "tu stai fornendo" (morph (generate {:synsem {:cat :verb
+                                                       :subcat ()
+                                                       :sem {:tense :present
+                                                             :aspect :progressive
+                                                             :obj :unspec}
+                                                       :agr {:number :sing
+                                                             :person :2nd}}
+                                              :modified false
+                                              :root {:italiano {:italiano "fornire"}}})))))
 

@@ -770,7 +770,6 @@
                            :3plur "dicono"}
                           :passato "detto"
                           :future-stem "dir"
-                          :present {:2plur "dite"}
                           :gerund "dicendo"}}]
           [{:unify [shared-part-of-dire]
             :synsem {:sem {:pred :say}}}

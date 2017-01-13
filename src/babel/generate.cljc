@@ -75,7 +75,14 @@
                     (apply combo/cartesian-product comps))))
      
      (map (fn [{bolt :bolt comps :comps paths :paths}]
-            ;; TODO: further flatten this into the overall ->> pipeline
+            (cons bolt
+                  ;; TODO: further flatten this into the overall ->> pipeline
+                  (map (fn [path-to-comp]
+                         (let [complement (get comps path-to-comp)]
+                           (create-path-in path-to-comp complement)))
+                       paths))))
+
+     (map (fn [tree-parts]
             (reduce (fn [a b]
                       (let [result
                             (cond (or (= :fail a)
@@ -83,12 +90,7 @@
                                   true (unify a b))]
                         (log-unification-result a b result model)
                         result))
-                    (cons bolt
-                          ;; TODO: further flatten this into the overall ->> pipeline
-                          (map (fn [path-to-comp]
-                                 (let [complement (get comps path-to-comp)]
-                                   (create-path-in path-to-comp complement)))
-                               paths)))))
+                    tree-parts)))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      

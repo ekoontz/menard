@@ -107,33 +107,60 @@
   ([input model truncate?]
    (parse/parse (preprocess input) model truncate?)))
 
+(def tree-variants
+  [
+   {:head {:phrasal true}}
+
+   {:comp {:phrasal true}}
+
+   {:head {:phrasal true}
+    :comp {:phrasal true}}
+
+   {:head {:phrasal true}
+    :comp {:phrasal true
+           :head {:phrasal true}}}
+   
+   {:comp {:phrasal true
+           :head {:phrasal true}}
+    :head {:phrasal true}}
+
+   ;; failsafe
+   {:comp {:phrasal :top
+           :head :top}}])
+
 (defn sentences [ & [count as-numbered-list spec model]]
   (let [as-numbered-list (or (nil? as-numbered-list)
                              (= as-numbered-list "true"))
         count (or (Integer. count) 100)
         model (or model (medium))
-        spec-fn (or (and spec (fn [] spec))
+        spec-fn (or (and spec (fn [] [spec]))
                     (fn []
                       (let [preds
                             (vec (set (filter #(not (= :top %))
                                               (map #(get-in % [:synsem :sem :pred] :top)
                                                    (filter #(= (get-in % [:synsem :cat]) :verb)
                                                            (flatten (vals (:lexicon (medium)))))))))]
-                        {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
-                                  :cat :verb}
-                         :head {:phrasal true
-                                :comp {:phrasal true}}
-                         :comp {:phrasal true}})))]
+                        (map (fn [variant]
+                               (merge {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
+                                                :cat :verb}}
+                                      variant))
+                             (shuffle tree-variants)))))]
     (println (str "count: " count))
-    (doall (pmap
+    (doall (map
             (fn [num]
-              (let [spec (spec-fn)
-                    expr (generate (spec-fn)
-                                   :model model)
+              (let [specs (spec-fn)
+                    expr (-> (->> (lazy-seq specs)
+                                  (map (fn [spec]
+                                         (println (str "trying spec: " spec))
+                                         (generate spec :model model)))
+                                  (remove #(= :fail %))
+                                  (take 1))
+                             first)
                     fo (morph expr :show-notes false)]
                 (let [to-print
                       (cond
-                        (empty? fo) (str "(failed: spec=" spec ")")
+                        (nil? expr) (str " expr: specs=" (string/join "," specs))
+                        (empty? fo) (str " failed: specs=" (string/join "," specs))
                         true
                         (str (string/capitalize (nth fo 0))
                              (string/join "" (rest (vec fo)))

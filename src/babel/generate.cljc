@@ -34,7 +34,6 @@
 
 (declare candidate-parents)
 (declare comp-path-to-complements)
-(declare comp-paths-to-complements)
 (declare do-defaults)
 (declare find-comp-paths)
 (declare get-lexemes)

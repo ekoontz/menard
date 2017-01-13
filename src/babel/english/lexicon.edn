@@ -1840,9 +1840,11 @@
                   :sem {:pred :rest}}}
 
  "return" [{:synsem {:cat :verb
-                     :sem {:pred :return-r}}}
+                     :sem {:pred :return-r}}
+                     :english {:note "r-"}}
            {:synsem {:cat :verb
-                     :sem {:pred :return-t}}}
+                     :sem {:pred :return-t}}
+                     :english {:note "t-"}}
            {:synsem {:cat :verb
                      :sem {:pred :giveback-return}}
             :english {:note "give back"}}]

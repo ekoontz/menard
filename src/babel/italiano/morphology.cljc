@@ -216,6 +216,12 @@
                    (get-in word [:boot-stem1])
                    true
                    (string/replace infinitive #"[iae]re$" ""))
+
+        ;; stem2 is stem without regard to :boot-stem1. It is
+        ;; used for gerunds, e.g.: fornire -> 'io fornisco'
+        ;; but 'io fornendo', not 'io forniscendo'.
+        stem2 (string/replace infinitive #"[iae]re$" "")
+
         last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
         last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
         is-care-or-gare? (re-find #"[cg]are$" infinitive)
@@ -226,6 +232,7 @@
      :ere-type ere-type
      :ire-type ire-type
      :stem stem
+     :stem2 stem2
      :last-stem-char-is-i last-stem-char-is-i
      :last-stem-char-is-e last-stem-char-is-e
      :is-care-or-gare? is-care-or-gare?
@@ -902,7 +909,7 @@
       (string? (get-in word [:italiano])))
      (let [stem-analysis (stem-analysis word)
            infinitive (:infinitive stem-analysis)
-           stem (:stem stem-analysis)]
+           stem (:stem2 stem-analysis)]
         (log/debug (str "conjugating present participle; analysis:" stem-analysis))
         (cond (= "are" (:are-type stem-analysis))
               (str stem "ando")

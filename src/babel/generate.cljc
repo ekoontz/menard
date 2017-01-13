@@ -83,10 +83,15 @@
                            (create-path-in path-to-comp complement)))
                        paths))))
 
+     (remove (fn [tree-parts]
+               (some #(= :fail %) tree-parts)))
+     
      (map (fn [tree-parts]
             (reduce (fn [a b]
                       (unify-and-log a b model))
                     tree-parts)))
+
+     (remove #(= :fail %))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
      

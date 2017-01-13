@@ -1379,9 +1379,11 @@
                         :present {:3sing "listens to"}}}
 
  "live" [{:synsem {:cat :verb
-                   :sem {:pred :live-somewhere}}}
+                   :sem {:pred :live-a}}
+                   :english {:note "a-"}}
          {:synsem {:cat :verb
-                   :sem {:pred :live}}}]
+                   :sem {:pred :live-v}}
+                   :english {:note "v-"}}]
 
  "look at" {:synsem {:cat :verb
                      :sem {:pred :look-at}}

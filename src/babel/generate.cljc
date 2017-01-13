@@ -61,26 +61,22 @@
             (let [paths (find-comp-paths bolt)]
               {:bolt bolt
                :paths paths
-               :comps (map (fn [path]
-                             (lazy-seq (comp-path-to-complements
-                                        bolt path model depth max-depth)))
-                           paths)})))
+               :comps (map #(comp-path-to-complements bolt % model depth max-depth) paths)})))
      
      (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
                ;; TODO: further flatten this into the overall ->> pipeline
                (map (fn [each-path-through-trellis]
                       {:bolt bolt
                        :paths paths
-                       :comps (zipmap paths each-path-through-trellis)})
+                       :trellis each-path-through-trellis})
                     (apply combo/cartesian-product comps))))
      
-     (map (fn [{bolt :bolt comps :comps paths :paths}]
+     (map (fn [{bolt :bolt paths :paths trellis :trellis}]
             (cons bolt
                   ;; TODO: further flatten this into the overall ->> pipeline
-                  (map (fn [path-to-comp]
-                         (let [complement (get comps path-to-comp)]
-                           (create-path-in path-to-comp complement)))
-                       paths))))
+                  (map (fn [[path trellis]]
+                         (create-path-in path trellis))
+                       (zipmap paths trellis)))))
 
      (remove (fn [tree-parts]
                (some #(= :fail %) tree-parts)))

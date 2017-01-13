@@ -69,7 +69,7 @@
                       {:bolt bolt
                        :paths paths
                        :trellis each-path-through-trellis})
-                    (apply combo/cartesian-product comps))))
+                    (lazy-seq (apply combo/cartesian-product comps)))))
      
      (map (fn [{bolt :bolt paths :paths trellis :trellis}]
             (cons bolt

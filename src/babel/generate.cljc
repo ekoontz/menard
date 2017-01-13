@@ -42,6 +42,7 @@
 (declare log-unification-result)
 (declare lightning-bolts)
 (declare not-fail?)
+(declare unify-and-log)
 
 ;; TODO: demote 'depth' and 'max-depth' down to lower level functions
 (defn generate-all [spec model & [depth max-depth]]
@@ -84,12 +85,7 @@
 
      (map (fn [tree-parts]
             (reduce (fn [a b]
-                      (let [result
-                            (cond (or (= :fail a)
-                                      (= :fail b)) :fail
-                                  true (unify a b))]
-                        (log-unification-result a b result model)
-                        result))
+                      (unify-and-log a b model))
                     tree-parts)))
      
      (map #(do-defaults % model)) ;; for each tree, run model defaults.
@@ -99,6 +95,9 @@
              %))
      
      (remove #(= :fail %)))))
+
+(defn unify-and-log [a b model]
+  (log-unification-result a b (unify a b) model))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

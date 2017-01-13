@@ -102,7 +102,9 @@
      (remove #(= :fail %)))))
 
 (defn unify-and-log [a b model]
-  (log-unification-result a b (unify a b) model))
+  (let [result (unify a b)]
+    (log-unification-result a b result model)
+    result))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."

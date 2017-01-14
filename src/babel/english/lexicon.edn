@@ -1275,24 +1275,14 @@
                   :human false}
             :subcat '()}}]
  "itself"
- [{:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :3rd
-                  :gender :masc
-                  :number :sing}
-            :sem {:human false}
-            :subcat '()}}
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :3rd
-                  :gender :fem
-                  :number :sing}
-            :sem {:human false}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :reflexive true
+           :agr {:person :3rd
+                 :number :sing}
+           :sem {:human false}
+           :subcat '()}}
  "keep"
  [{:synsem {:cat :verb
             :sem {:pred :keep}}
@@ -1635,29 +1625,16 @@
      :synsem {:agr {:number :plur}}}])
 
  "ourselves"
- [{:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :1st
-                  :number :plur
-                  :gender :fem}
-            :sem {:human true}
-            ;; TODO: remove: should be derived from
-            ;; :pronoun=true.
-            :subcat '()}}
-
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :1st
-                  :number :plur
-                  :gender :masc}
-            :sem {:human true}
-            ;; TODO: remove: should be derived from
-            ;; :pronoun=true.
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :reflexive true
+           :agr {:person :1st
+                 :number :plur}
+           :sem {:human true}
+           ;; TODO: remove: should be derived from
+           ;; :pronoun=true.
+           :subcat '()}}
 
  "paint"  {:synsem {:cat :verb
                     :sem {:pred :paint}}}
@@ -2668,47 +2645,24 @@
      :synsem {:agr {:number :plur}}}])
 
  "yourself"
- [{:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :2nd
-                  :number :sing
-                  :gender :fem}
-            :sem {:human true
-                  :pred :tu}
-            :subcat '()}}
-
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :2nd
-                  :number :sing
-                  :gender :masc}
-            :sem {:human true
-                  :pred :tu}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :reflexive true
+           :agr {:person :2nd
+                 :number :sing}
+           :sem {:human true
+                 :pred :tu}
+           :subcat '()}}
 
  "yourselves"
- [{:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :2nd
-                  :number :plur
-                  :gender :fem}
-            :sem {:human true
-                  :pred :voi}
-            :subcat '()}}
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :reflexive true
+           :agr {:person :2nd
+                 :number :plur}
+           :sem {:human true
+                 :pred :voi}
+           :subcat '()}}}
 
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :2nd
-                  :number :plur
-                  :gender :masc}
-            :sem {:human true
-                  :pred :voi}
-            :subcat '()}}]}

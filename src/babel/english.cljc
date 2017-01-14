@@ -143,7 +143,7 @@
                              (merge {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
                                               :cat :verb}}
                                     variant))
-                           (shuffle tree-variants))))]
+                           (lazy-seq (shuffle tree-variants)))))]
     (println (str "count: " count))
     (doall (map
             (fn [num]

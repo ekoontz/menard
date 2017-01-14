@@ -906,6 +906,12 @@
 
      (and
       (= (get-in word [:infl]) :participle)
+      (string? (get-in word [:italiano]))
+      (string? (get-in word [:gerund])))
+     (get-in word [:gerund])
+
+     (and
+      (= (get-in word [:infl]) :participle)
       (string? (get-in word [:italiano])))
      (let [stem-analysis (stem-analysis word)
            infinitive (:infinitive stem-analysis)

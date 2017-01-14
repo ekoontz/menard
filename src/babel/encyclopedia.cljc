@@ -549,6 +549,9 @@ as a map of implications"}
         {:pred :wash
          :subj {:human true}}
 
+        {:pred :wash-oneself
+         :subj {:living true}}
+
         {:pred :win
          :subj {:human true}
          :obj {:human false}}

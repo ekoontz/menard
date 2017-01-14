@@ -64,11 +64,12 @@
      @_direct_connection
      sql-type (into-array (map map-fn sequence)))))
 
-(defn read-array [sql-array]
-    "Convert a Clojure sequence into (some implementation of) java.sql.Array. 
+(defn read-array [sql-array & {:keys [value-fn]
+                               :or {value-fn (fn [k v] v)}}]
+    "Convert (some implementation of) of java.sql.Array into a Clojure map.
 
      e.g. turn: #object[org.postgresql.jdbc.PgArray 0x3d73de4b '{{'a':42},{'b':43}}'] 
-          into: {:a 42}.
+          into: [{:a 42}{:b 43}]
 
   Uses an implementation of java.sql.Connection.createArrayOf provided
   by the database driver.  For example, if _direct_connection is to a
@@ -82,13 +83,13 @@
   (->> (-> sql-array ;; (type = implementation of SqlArray (e.g. org.postgresql.jdbc.PgArray)
            .getArray ;; java array: (type %) = #object["Ljava.lang.String;" .."
            vec) ;; clojure.lang.PersistentVector
-
+       
        (map #(try
                ;; if input elements are parseable as JSON, read them, each of which will be a Clojure map.
-               ;; otherwise, return the input elements unmodified.
-               (json/read-str %) ;; rely on json/read-str to throw an error if input is not JSON
-               (catch Exception e %))) ;; % is not JSON-parseable: just return it as-is.
-
+                 ;; otherwise, return the input elements unmodified.
+               (json/read-str % :value-fn value-fn) ;; rely on json/read-str to throw an error if input is not JSON
+                 (catch Exception e %))) ;; % is not JSON-parseable: just return it as-is.
+       
        ;; Input is now a sequence of Clojure-native elements such as maps, but, if an
        ;; element is a map, then its keys are strings.
        ;; Final step, convert the keys from strings e.g. convert "foo" to :foo.

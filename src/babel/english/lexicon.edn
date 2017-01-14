@@ -1908,7 +1908,8 @@
                                 :reflexive false
                                 :sem {:physical-object true}}}}
           :english {:past "saw"
-                    :past-participle "seen"}}
+                    :past-participle "seen"
+                    :participle "seeing"}}
          (let [obj (atom {:animate true
                           :physical-object true})
                agr (atom :top)]

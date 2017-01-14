@@ -2451,13 +2451,16 @@
                      :sem {:pred :wear}}}
            {:unify [common]
             :synsem {:cat :verb
-                     :sem {:pred :wear-l}}}
+                     :sem {:pred :wear-l}}
+                     :english {:note "l-"}}
            {:unify [common]
             :synsem {:cat :verb
-                     :sem {:pred :wear-i}}}
+                     :sem {:pred :wear-i}}
+                     :english {:note "i-"}}
            {:unify [common]
             :synsem {:cat :verb
-                     :sem {:pred :wear-p}}}])
+                     :sem {:pred :wear-p}}
+                     :english {:note "p-"}}])
  "whether"
  (let [obj (atom :top)]
    {:synsem {:cat :comp

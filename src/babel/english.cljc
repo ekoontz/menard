@@ -148,13 +148,14 @@
     (doall (map
             (fn [num]
               (let [specs (spec-fn)
-                    expr (-> (->> (lazy-seq specs)
-                                  (map (fn [spec]
-                                         (println (str "trying spec: " spec))
-                                         (generate spec :model model)))
-                                  (remove #(= :fail %))
-                                  (take 1))
-                             first)
+                    expr (first (->> (lazy-seq specs)
+                                     (map (fn [spec]
+                                            (generate spec :model model)))
+                                     (filter #(if (empty? (morph % :show-notes false))
+                                                (do (log/info (str "failed to generate with spec: " spec))
+                                                    false)
+                                                true))
+                                     (take 1)))
                     fo (morph expr :show-notes false)]
                 (let [to-print
                       (cond

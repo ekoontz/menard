@@ -762,27 +762,18 @@
  "dire" (let [shared-part-of-dire
               {:synsem {:cat :verb}
                :italiano {:drop-e false
-<<<<<<< HEAD
-                 :present {:1sing "dico"
-                           :2sing "dici"
-                           :3sing "dice"
-                           :1plur "diciamo"
-                           :2plur "dite"
-                           :3plur "dicono"}
-                           :imperfect {:1sing "dicevo"
-                                       :2sing "dicevi"
-                                       :3sing "diceva"
-                                       :1plur "dicevamo"
-                                       :2plur "dicevate"
-                                       :3plur "dicevano"}
-=======
                           :present {:1sing "dico"
                                     :2sing "dici"
                                     :3sing "dice"
                                     :1plur "diciamo"
                                     :2plur "dite"
                                     :3plur "dicono"}
->>>>>>> origin/master
+                          :imperfect {:1sing "dicevo"
+                                      :2sing "dicevi"
+                                      :3sing "diceva"
+                                      :1plur "dicevamo"
+                                      :2plur "dicevate"
+                                      :3plur "dicevano"}
                           :passato "detto"
                           :future-stem "dir"
                           :gerund "dicendo"}}]

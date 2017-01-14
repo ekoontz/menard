@@ -398,22 +398,29 @@
 ;; TODO: document why we need this
 ;; TODO: verbcoach should use this, not config/json-read-str
 ;; TODO: move this to babel/globals.cljc or something similar
+(declare json-value-converter)
+
 (defn json-read-str [json]
   (json/read-str json
                  :key-fn keyword
-                 :value-fn (fn [k v]
-                             (cond
-                              (and (or (= k :english)
-                                       (= k :espanol)
-                                       (= k :français)
-                                       (= k :italiano))
-                                   (not (map? v)))
-                              (str v)
+                 :value-fn json-value-converter))
 
-                              (and (string? v)
-                                   (= (nth v 0) \:))
-                              (keyword (string/replace-first v ":" ""))
+(defn json-value-converter [k v]
+  (cond
+    (and (or (= k :english)
+             (= k :espanol)
+             (= k :français)
+             (= k :italiano)
+             (= k :latin))
+         (not (map? v)))
+    (str v)
+    
+    (and (string? v)
+         (= (nth v 0) \:))
+    (keyword (string/replace-first v ":" ""))
+    
+    (string? v)
+    (keyword v)
+    :else v))
 
-                              (string? v)
-                              (keyword v)
-                              :else v))))
+  

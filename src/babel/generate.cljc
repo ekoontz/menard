@@ -17,6 +17,9 @@
 ;; use map or pmap.
 (def ^:const mapfn map)
 
+(def ^:const exception-on-unify-fail
+  false)
+
 ;; deterministic generation:
 ;;(def ^:const shufflefn (fn [x] x))
 
@@ -277,10 +280,17 @@
         (log/warn (str "  b: " ((:morph-ps model) b)))
         (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
         (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
-        (log/warn (str ") => fail@" (fail-path a b))))
+        (log/warn (str ") => fail@" (fail-path a b)))
+        (let [message (str "failed to unify:( "
+                           "  a: " ((:morph-ps model) a) ","
+                           "  b: " ((:morph-ps model) b)
+                           "  morph a: " ((:morph model) a) ","
+                           "  b: " (keys b)
+                           ") => fail@" (fail-path a b))]
+          (if exception-on-unify-fail (throw (Exception. message))
+              (log/warn message))))
+            
       (log/debug (str "unify(" ((:morph-ps model) a)
                       " , " ((:morph-ps model) b) ") => "
                       ((:morph-ps model) result))))))
-
-
 

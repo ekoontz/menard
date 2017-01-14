@@ -762,12 +762,12 @@
  "dire" (let [shared-part-of-dire
               {:synsem {:cat :verb}
                :italiano {:drop-e false
-                 :present {:1sing "dico"
-                           :2sing "dici"
-                           :3sing "dice"
-                           :1plur "diciamo"
-                           :2plur "dite"
-                           :3plur "dicono"}
+                          :present {:1sing "dico"
+                                    :2sing "dici"
+                                    :3sing "dice"
+                                    :1plur "diciamo"
+                                    :2plur "dite"
+                                    :3plur "dicono"}
                           :passato "detto"
                           :future-stem "dir"
                           :gerund "dicendo"}}]

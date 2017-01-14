@@ -176,8 +176,8 @@
                                 (get-in % [:head :phrasal] true))
                             parents)))]
       (if (lexemes-before-phrases total-depth max-total-depth)
-        (concat lexical phrasal)
-        (concat phrasal lexical)))))
+        (lazy-cat lexical phrasal)
+        (lazy-cat phrasal lexical)))))
 
 (defn do-defaults [tree language-model]
   (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))

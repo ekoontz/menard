@@ -17,8 +17,8 @@
 ;; use map or pmap.
 (def ^:const mapfn map)
 
-(def ^:const exception-on-unify-fail
-  false)
+(def ^:const handle-unify-fail #(log/debug %))
+(def ^:const throw-exception-on-unify-fail false)
 
 ;; deterministic generation:
 ;;(def ^:const shufflefn (fn [x] x))
@@ -41,12 +41,11 @@
 (declare find-comp-paths)
 (declare get-lexemes)
 (declare lexemes-before-phrases)
-(declare log-unification-result)
 (declare lightning-bolts)
 (declare not-fail?)
 (declare unify-and-log)
 
-;; TODO: demote 'depth' and 'max-depth' down to lower level functions
+;; TODO: demote 'depth' and 'max-depth' down to lower-level functions.
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
         truncate truncate
@@ -101,7 +100,21 @@
 
 (defn unify-and-log [a b model]
   (let [result (unify a b)]
-    (log-unification-result a b result model)
+    (when (and (not (= :fail a)) (not (= :fail b)))
+      (if (= :fail result)
+        (let [message (str "failed to unify:( "
+                           "  a: " ((:morph-ps model) a) ","
+                           "  b: " ((:morph-ps model) b)
+                           "  morph a: " ((:morph model) a) ","
+                           "  b: " (keys b)
+                           ") => fail@" (fail-path a b))]
+          (handle-unify-fail message)
+          (if (= true throw-exception-on-unify-fail)
+            (throw (Exception. message))))
+        
+        (log/debug (str "unify(" ((:morph-ps model) a)
+                        " , " ((:morph-ps model) b) ") => "
+                        ((:morph-ps model) result)))))
     result))
 
 (defn comp-path-to-complements
@@ -269,28 +282,3 @@
                     (string/join "," (map :rule result))
                     " for: " (spec-info spec))))
     result))
-
-(defn log-unification-result [a b result model]
-  (when (and (not (= :fail a)) (not (= :fail b)))
-    (if (= :fail result)
-      (do
-        ;; warn because fails are expensive and should be filtered out before hitting this.
-        (log/warn (str "failed to unify("))
-        (log/warn (str "  a: " ((:morph-ps model) a) ","))
-        (log/warn (str "  b: " ((:morph-ps model) b)))
-        (log/debug (str "  ser a: (def a (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized a)) ")))"))
-        (log/debug (str "  ser b: (def b (dag_unify.core/deserialize '(" (string/join "" (:dag_unify.core/serialized b)) ")))"))
-        (log/warn (str ") => fail@" (fail-path a b)))
-        (let [message (str "failed to unify:( "
-                           "  a: " ((:morph-ps model) a) ","
-                           "  b: " ((:morph-ps model) b)
-                           "  morph a: " ((:morph model) a) ","
-                           "  b: " (keys b)
-                           ") => fail@" (fail-path a b))]
-          (if exception-on-unify-fail (throw (Exception. message))
-              (log/warn message))))
-            
-      (log/debug (str "unify(" ((:morph-ps model) a)
-                      " , " ((:morph-ps model) b) ") => "
-                      ((:morph-ps model) result))))))
-

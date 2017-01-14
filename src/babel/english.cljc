@@ -150,11 +150,12 @@
               (let [specs (spec-fn)
                     expr (first (->> (lazy-seq specs)
                                      (map (fn [spec]
-                                            (generate spec :model model)))
-                                     (filter #(if (empty? (morph % :show-notes false))
+                                            (let [result (generate spec :model model)]
+                                              (if (empty? (morph result :show-notes false))
                                                 (do (log/info (str "failed to generate with spec: " spec))
-                                                    false)
-                                                true))
+                                                    nil)
+                                                result))))
+                                     (remove nil?)
                                      (take 1)))
                     fo (morph expr :show-notes false)]
                 (let [to-print

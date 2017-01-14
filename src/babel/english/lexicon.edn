@@ -1899,33 +1899,36 @@
                     :sem {:mod {:pred :second}
                           :comparative false}}}
 
- "see"  [{:synsem {:cat :verb
+ "see" (let [common {:english {:past "saw"
+                               :past-participle "seen"
+                               ;; TODO: should be a morphological
+                               ;; generalization, not a lexical exception.
+                               ;; e.g. "flee" => "fleeing"
+                               :participle "seeing"}}]
+         [{:unify [common]
+           :synsem {:cat :verb
                    :sem {:pred :see
                          :reflexive false}
                    :subcat {:1 {:cat :noun
                                 :sem {:animate true}}
                             :2 {:cat :noun
                                 :reflexive false
-                                :sem {:physical-object true}}}}
-          :english {:past "saw"
-                    :past-participle "seen"
-                    :participle "seeing"}}
-         (let [obj (atom {:animate true
-                          :physical-object true})
-               agr (atom :top)]
-           {:synsem {:cat :verb
-                     :sem {:pred :see
-                           :reflexive true}
-                     :subcat {:1 {:cat :noun
-                                  :agr agr
-                                  :sem obj}
-                              :2 {:cat :noun
-                                  :pronoun true
-                                  :agr agr
-                                  :sem obj
-                                  :reflexive true}}}
-            :english {:past "saw"
-                      :past-participle "seen"}})]
+                                :sem {:physical-object true}}}}}
+          (let [obj (atom {:animate true
+                           :physical-object true})
+                agr (atom :top)]
+            {:unify [common]
+             :synsem {:cat :verb
+                      :sem {:pred :see
+                            :reflexive true}
+                      :subcat {:1 {:cat :noun
+                                   :agr agr
+                                   :sem obj}
+                               :2 {:cat :noun
+                                   :pronoun true
+                                   :agr agr
+                                   :sem obj
+                                   :reflexive true}}}})])
 
  "sell" {:synsem {:cat :verb
                   :sem {:pred :vendere}}

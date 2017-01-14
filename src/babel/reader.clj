@@ -411,7 +411,11 @@
              (= k :espanol)
              (= k :français)
              (= k :italiano)
-             (= k :latin))
+             (= k "english")
+             (= k "espanol")
+             (= k "français")
+             (= k "italiano")
+             (= k "latin"))
          (not (map? v)))
     (str v)
     

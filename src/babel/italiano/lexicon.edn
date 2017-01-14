@@ -983,6 +983,7 @@
                    :drop-e false
                    :passato "fatto"
                    :future-stem "far"
+                   :gerund "facendo"
                    :imperfect {:1sing "facevo"
                                :2sing "facevi"
                                :3sing "faceva"

@@ -9,6 +9,8 @@
 (declare get-string)
 (declare plural-en)
 
+(def ^:const present-participle-note "right now")
+
 (defn fo [input & {:keys [from-language lexicon show-notes]
                    :or {from-language nil
                         lexicon nil
@@ -49,33 +51,30 @@
      (throw (js/Error. error-string))))
 
 (defn present-participle-of [stem]
-  (let [pre-note
-        (cond
+  (cond
+    (re-find #"ie$" stem)
+    (str (replace stem #"..$" "y") "ing")
           
-          (re-find #"ie$" stem)
-          (str (replace stem #"..$" "y") "ing")
+    (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
+    (str (replace stem #"e$" "") "ing")
           
-          (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
-          (str (replace stem #"e$" "") "ing")
+    (re-find #"[eu]m$" stem)
+    (str (replace stem #"m$" "mm") "ing")
           
-          (re-find #"[eu]m$" stem)
-          (str (replace stem #"m$" "mm") "ing")
+    (re-find #"[ou]p$" stem)
+    (str (replace stem #"p$" "pp") "ing")
           
-          (re-find #"[ou]p$" stem)
-          (str (replace stem #"p$" "pp") "ing")
+    (re-find #"[^e][a]n$" stem)
+    (str (replace stem #"n$" "nn") "ing")
           
-          (re-find #"[^e][a]n$" stem)
-          (str (replace stem #"n$" "nn") "ing")
+    (re-find #"[ou]b$" stem)
+    (str (replace stem #"b$" "bb") "ing")
           
-          (re-find #"[ou]b$" stem)
-          (str (replace stem #"b$" "bb") "ing")
+    (re-find #"[^aeiou][eou]t$" stem)
+    (str (replace stem #"t$" "tt") "ing")
           
-          (re-find #"[^aeiou][eou]t$" stem)
-          (str (replace stem #"t$" "tt") "ing")
-          
-          true
-          (str stem "ing"))]
-    (str pre-note " (right now)")))
+    true
+    (str stem "ing")))
 
 (defn get-string [word & {:keys [lexicon show-notes]
                           :or {lexicon nil
@@ -317,11 +316,9 @@
                   stem-minus-one
                   stem)
 
-
            ;; unless overridden by :participle or :participle-suffix below,
            ;; ing-form or used-to-form (chosen randomly) will be used.
-           ing-form 
-           (present-participle-of stem)
+           ing-form (present-participle-of stem)
 
            used-to-form
            (str "used to " root)]
@@ -329,45 +326,45 @@
              used-to-form
 
              true
-       (cond ;; imperfect exception-handling: check for :participle
-
-        ;; TODO: add support for per-agreement (by number or person) irregular participle;
-        ;; for now, only support for a single participle irregular form for all agreements.
-        ;; (might not be needed for english)
-
-        ;; 2) use irregular that is the same for all number and person if there is one.
-        (and (string? (get-in word '(:participle)))
-             (= :sing (get-in word '(:agr :number)))
-             (or (= :1st (get-in word '(:agr :person)))
-                 (= :3rd (get-in word '(:agr :person))))
-             (string? (get-in word '(:participle))))
-        (str "was " (get-in word '(:participle)))
-
-        (string? (get-in word '(:participle)))
-        (str "were " (get-in word '(:participle)))
-
-        (and (= :sing (get-in word '(:agr :number)))
-             (or (= :1st (get-in word '(:agr :person)))
-                 (= :3rd (get-in word '(:agr :person))))
-             (string? (get-in word '(:participle-suffix))))
-        (str "was " (get-in word '(:participle-suffix)))
-
-        (string? (get-in word '(:participle-suffix)))
-        (str "were " (get-in word '(:participle-suffix)))
-
-        (and (= :sing (get-in word '(:agr :number)))
-             (or (= :1st (get-in word '(:agr :person)))
-                 (= :3rd (get-in word '(:agr :person)))))
-        (str "was " ing-form (if to-final to-final ""))
-
-        true
-        (str "were " ing-form (if to-final to-final ""))))))
-
+             (cond ;; imperfect exception-handling: check for :participle
+               
+               ;; TODO: add support for per-agreement (by number or person) irregular participle;
+               ;; for now, only support for a single participle irregular form for all agreements.
+               ;; (might not be needed for english)
+               
+               ;; 2) use irregular that is the same for all number and person if there is one.
+               (and (string? (get-in word '(:participle)))
+                    (= :sing (get-in word '(:agr :number)))
+                    (or (= :1st (get-in word '(:agr :person)))
+                        (= :3rd (get-in word '(:agr :person))))
+                    (string? (get-in word '(:participle))))
+               (str "was " (get-in word '(:participle)))
+               
+               (string? (get-in word '(:participle)))
+               (str "were " (get-in word '(:participle)))
+               
+               (and (= :sing (get-in word '(:agr :number)))
+                    (or (= :1st (get-in word '(:agr :person)))
+                        (= :3rd (get-in word '(:agr :person))))
+                    (string? (get-in word '(:participle-suffix))))
+               (str "was " (get-in word '(:participle-suffix)))
+               
+               (string? (get-in word '(:participle-suffix)))
+               (str "were " (get-in word '(:participle-suffix)))
+               
+               (and (= :sing (get-in word '(:agr :number)))
+                    (or (= :1st (get-in word '(:agr :person)))
+                        (= :3rd (get-in word '(:agr :person)))))
+               (str "was " ing-form (if to-final to-final ""))
+               
+               true
+               (str "were " ing-form (if to-final to-final ""))))))
+   
    ;; irregular past (1): a single inflection for all persons/numbers.
    (and (= :past (get-in word '(:infl)))
         (string? (get-in word '(:past))))
    (get-in word '(:past))
-
+   
    ;; irregular pluperfect
    (and (= :pluperfect (get-in word '(:infl)))
         (string? (get-in word '(:past-participle))))
@@ -551,9 +548,10 @@
      (log/debug (str "to-be-present-tense-with-agreement:" (strip-refs to-be-present-tense-with-agreement)))
      (str
       (get-string to-be-present-tense-with-agreement)
-      " " (get-in word [:participle])))
+      " " (get-in word [:participle])
+      (if show-notes (str " (" present-participle-note ")"))))
 
-   ;; conjugate present progressive ("be + Ving") e.g. "I am eating"
+   ;; conjugate regular present progressive ("be + Ving") e.g. "I am eating"
    (and
     (= :verb (get-in word [:cat]))
     (= :present-progressive (get-in word [:infl]))
@@ -572,8 +570,9 @@
      (log/debug (str "to-be-present-tense-with-agreement:" (strip-refs to-be-present-tense-with-agreement)))
      (str
       (get-string to-be-present-tense-with-agreement)
-      " " (present-participle-of (get-in word [:english]))))
-
+      " " (present-participle-of (get-in word [:english]))
+      (if show-notes (str " (" present-participle-note ")"))))
+      
    (= :verb (get-in word [:cat]))
    (let [result (get-in word [:english])]
      (log/warn (str "catch-all for :cat=:verb : nothing more specific matches the input:"

@@ -505,12 +505,20 @@
 (deftest irregular-present-progressive
   (let [spec {:modified false
               :root {:english {:english "get dressed"}}
+              :comp {:synsem {:agr {:gender :fem}}}
               :synsem {:cat :verb
                        :subcat ()
                        :sem {:tense :present
                              :aspect :progressive
                              :subj {:pred :I}}}}]
-    (is (= "I am getting dressed" (morph (generate spec))))))
+    (is (= "I am getting dressed"
+           (morph (generate spec)
+                  :show-notes false)))
+    (is (= "I (♀) am getting dressed (right now)"
+           (morph (generate spec)
+                  :show-notes true)))
+    (is (= "I am getting dressed"
+           (morph (generate spec))))))
 
 (deftest present-progressive-ends-with-e
   (let [spec1 {:modified false

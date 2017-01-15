@@ -3,7 +3,7 @@
   (:require [babel.directory :refer [models]]
             [babel.english :refer [analyze fo-ps generate generate-all medium morph parse sentences]]
             [babel.english.grammar :as grammar]
-            [babel.english.morphology :refer [fo get-string]]
+            [babel.english.morphology :refer [get-string]]
 
             [babel.generate :refer [get-lexemes lightning-bolts not-fail?]]
             
@@ -55,7 +55,7 @@
                             :english "Antonio",
                             :cat :noun,
                             :pronoun false}}}]
-    (is (= (fo form)
+    (is (= (morph form)
            "is Antonio"))))
 
 (deftest generate-irregular-present-2
@@ -78,7 +78,7 @@
                                   :2plur "are",
                                   :3sing "is",
                                   :2sing "are"}}}]
-    (is (= (fo form)
+    (is (= (morph form)
            "is"))))
 
 (deftest generate-irregular-present-3
@@ -106,7 +106,7 @@
                                   :number :sing},
                             :cat :noun,
                             :english "Juan"}}}]
-    (is (= (fo form)
+    (is (= (morph form)
            "is Juan"))))
 
 (deftest generate-irregular-imperfect
@@ -123,7 +123,7 @@
                    :agr {:person :2nd, :gender
                          :fem, :number
                          :plur}}}}]
-    (let [surface-form (fo form)]
+    (let [surface-form (morph form)]
       (is (or (= surface-form
                  "you all were going downstairs")
               (= surface-form
@@ -189,9 +189,9 @@
                    (repeatedly #(let [expression (generate {:modified false
                                                             :synsem {:cat :verb
                                                                      :sem {:pred :be-called}}})]
-                                  (is (not (= "" (fo expression))))
+                                  (is (not (= "" (morph expression))))
                                   (log/info (display-expression expression))
-                                  (fo expression)))))))))
+                                  (morph expression)))))))))
 
 (deftest mod-is-empty-list
   (let [result (generate {:modified false
@@ -205,7 +205,7 @@
 
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
-         (fo (generate {:modified false
+         (morph (generate {:modified false
                         :synsem {:cat :verb
                                  :sem {:mod '()
                                        :iobj {:pred :luisa}
@@ -233,7 +233,7 @@
                                          :of {:pred :Juana}}
                                   :pred :dog}}})]
     (is (not (nil? result)))
-    (is (= "Juana's dog" (fo result)))))
+    (is (= "Juana's dog" (morph result)))))
 
 (deftest generate-with-possessive-2
   (let [result
@@ -245,7 +245,7 @@
                                   :pred :dog}
                             :subcat '()}})]
     (is (not (nil? result)))
-    (is (= "Juana's red dog" (fo result)))))
+    (is (= "Juana's red dog" (morph result)))))
 
 (deftest no-failed-bolts
   (let [result
@@ -257,7 +257,7 @@
                               :synsem {:sem {:pred :wash
                                              :mod nil
                                              :reflexive true}}})]
-                        {:f (fo generated :from-language "it")
+                        {:f (morph generated :from-language "it")
                          :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
@@ -271,7 +271,7 @@
                                              :number :sing
                                              :spec {:def :def
                                                     :pred :definite}}}}})]
-    (is (= (fo expr)
+    (is (= (morph expr)
            "in front of the table"))))
 
 (deftest furniture-sentence
@@ -293,7 +293,7 @@
     (log/info (str "furniture-sentence: " 
                    (display-expression expr)))
 
-    (is (= (fo expr)
+    (is (= (morph expr)
            "the chair is in front of the table"))))
 
 (deftest reflexive-furniture-sentence
@@ -309,7 +309,7 @@
                                                      :pred :definite}}}
                                  :subcat '()}})]
     (log/info (str "reflexive furniture expression:" (display-expression expr)))
-    (is (= (fo expr)
+    (is (= (morph expr)
            "the chair is in front of itself"))))
 
 (deftest infinitive-vp
@@ -325,7 +325,7 @@
     (is true)))
 
 (deftest past-and-gender-agreement
-  (= (fo (generate {:synsem {:sem {:pred :go
+  (= (morph (generate {:synsem {:sem {:pred :go
                                    :aspect :perfect
                                    :tense :present
                                    :subj {:gender :fem
@@ -333,7 +333,7 @@
      "they (♀) went"))
 
 (deftest noun-number-agreement
-  (= (fo (generate {:synsem {:agr {:number :plur}
+  (= (morph (generate {:synsem {:agr {:number :plur}
                              :cat :noun
                              :sem {:pred :cat :spec {:def :def}
                                    :mod '()}}}))
@@ -555,8 +555,8 @@
 
 (deftest benchmark-test []
   (let [med (medium)
-        to-run #(time (println (fo (generate
-                                    {:synsem {:cat :verb, :sem {:pred :read
-                                                                :subj {:pred :woman}}
-                                              :subcat '()}}))))]
+        to-run #(time (println (morph (generate
+                                       {:synsem {:cat :verb, :sem {:pred :read
+                                                                   :subj {:pred :woman}}
+                                                 :subcat '()}}))))]
     (is (= 1 (count (take 1 (repeatedly to-run)))))))

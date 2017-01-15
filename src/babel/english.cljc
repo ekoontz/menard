@@ -4,6 +4,7 @@
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.generate :as generate]
    [babel.english.grammar :as grammar]
+   [babel.english.morphology :as morph]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]

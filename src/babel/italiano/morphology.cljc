@@ -206,21 +206,21 @@
                         (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         ere-type (re-find #"ere$" infinitive)
         ire-type (re-find #"ire$" infinitive)
-        stem (cond (and (get-in word [:boot-stem1])
-                        (or (= (get-in word [:agr :number])
-                               :sing)
-                            (and (= (get-in word [:agr :person])
-                                    :3rd)
-                                 (= (get-in word [:agr :number])
-                                    :plur))))
-                   (get-in word [:boot-stem1])
-                   true
-                   (string/replace infinitive #"[iae]re$" ""))
-
-        ;; stem2 is stem without regard to :boot-stem1. It is
+        boot-stem (cond (and (get-in word [:boot-stem1])
+                             (or (= (get-in word [:agr :number])
+                                    :sing)
+                                 (and (= (get-in word [:agr :person])
+                                         :3rd)
+                                      (= (get-in word [:agr :number])
+                                         :plur))))
+                        (get-in word [:boot-stem1])
+                        true
+                        (string/replace infinitive #"[iae]re$" ""))
+        
+        ;; stem is stem without regard to :boot-stem1. It is
         ;; used for gerunds, e.g.: fornire -> 'io fornisco'
         ;; but 'io fornendo', not 'io forniscendo'.
-        stem2 (string/replace infinitive #"[iae]re$" "")
+        stem (string/replace infinitive #"[iae]re$" "")
 
         last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
         last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
@@ -231,8 +231,8 @@
      :are-type are-type
      :ere-type ere-type
      :ire-type ire-type
+     :boot-stem boot-stem
      :stem stem
-     :stem2 stem2
      :last-stem-char-is-i last-stem-char-is-i
      :last-stem-char-is-e last-stem-char-is-e
      :is-care-or-gare? is-care-or-gare?
@@ -904,18 +904,21 @@
         :else
         (str infinitive )))
 
+     ;; <irregular gerund inflection>
      (and
       (= (get-in word [:infl]) :participle)
       (string? (get-in word [:italiano]))
       (string? (get-in word [:gerund])))
      (get-in word [:gerund])
+     ;; </irregular gerund inflection>
 
+     ;; <default gerund inflection>
      (and
       (= (get-in word [:infl]) :participle)
       (string? (get-in word [:italiano])))
      (let [stem-analysis (stem-analysis word)
            infinitive (:infinitive stem-analysis)
-           stem (:stem2 stem-analysis)]
+           stem (:stem stem-analysis)]
         (log/debug (str "conjugating present participle; analysis:" stem-analysis))
         (cond (= "are" (:are-type stem-analysis))
               (str stem "ando")
@@ -927,6 +930,7 @@
               (do
                 (log/warn (str "no specific conjugation found for word with stem-analysis:" stem-analysis " - returning infinitive"))
                 infinitive)))
+     ;; </default gerund inflection>
      
      (and
       (string? (get-in word '(:italiano)))

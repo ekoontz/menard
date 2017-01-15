@@ -4,7 +4,7 @@
    [babel.directory :refer [models]]
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
-   [babel.latin :as target :refer [fo read-one]]
+   [babel.latin :as target :refer [morph read-one]]
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
@@ -32,22 +32,21 @@
 
 (deftest generate-present
   (is (= "ardetis"
-         (fo (generate
-              {:root "ardēre"
-               :synsem {:agr {:person :2nd :number :plur}
-                        :sem {:tense :present}}})))))
+         (morph (generate
+                 {:root "ardēre"
+                  :synsem {:agr {:person :2nd :number :plur}
+                           :sem {:tense :present}}})))))
 
 (deftest generate-imperfect
   (is (= "ardebam"
-         (fo (generate
-              {:root "ardēre"
-               :synsem {:agr {:person :1st :number :sing}
-                        :sem {:tense :past
+         (morph (generate
+                 {:root "ardēre"
+                  :synsem {:agr {:person :1st :number :sing}
+                           :sem {:tense :past
                               :aspect :progressive}}})))))
-
 (deftest generate-future
   (is (= "ardebunt"
-         (fo (generate
+         (morph (generate
               {:root "ardēre"
                :synsem {:agr {:person :3rd :number :plur}
                         :sem {:tense :future}}})))))

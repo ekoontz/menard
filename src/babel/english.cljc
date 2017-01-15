@@ -79,7 +79,7 @@
             :lexicon (:lexicon (medium))))
 
 (defn fo-ps [expr]
-  (parse/fo-ps expr fo))
+  (parse/fo-ps expr morph/fo))
 
 (defn analyze
   ([surface-form]

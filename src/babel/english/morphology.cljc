@@ -49,31 +49,33 @@
      (throw (js/Error. error-string))))
 
 (defn present-participle-of [stem]
-  (cond
-
-    (re-find #"ie$" stem)
-    (str (replace stem #"..$" "y") "ing")
-
-    (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
-    (str (replace stem #"e$" "") "ing")
-
-    (re-find #"[eu]m$" stem)
-    (str (replace stem #"m$" "mm") "ing")
-
-    (re-find #"[ou]p$" stem)
-    (str (replace stem #"p$" "pp") "ing")
-    
-    (re-find #"[^e][a]n$" stem)
-    (str (replace stem #"n$" "nn") "ing")
-
-    (re-find #"[ou]b$" stem)
-    (str (replace stem #"b$" "bb") "ing")
-
-    (re-find #"[^aeiou][eou]t$" stem)
-    (str (replace stem #"t$" "tt") "ing")
-
-    true
-    (str stem "ing")))
+  (let [pre-note
+        (cond
+          
+          (re-find #"ie$" stem)
+          (str (replace stem #"..$" "y") "ing")
+          
+          (re-find #"..e$" stem) ;; "..": avoid matching two-letter word "be"
+          (str (replace stem #"e$" "") "ing")
+          
+          (re-find #"[eu]m$" stem)
+          (str (replace stem #"m$" "mm") "ing")
+          
+          (re-find #"[ou]p$" stem)
+          (str (replace stem #"p$" "pp") "ing")
+          
+          (re-find #"[^e][a]n$" stem)
+          (str (replace stem #"n$" "nn") "ing")
+          
+          (re-find #"[ou]b$" stem)
+          (str (replace stem #"b$" "bb") "ing")
+          
+          (re-find #"[^aeiou][eou]t$" stem)
+          (str (replace stem #"t$" "tt") "ing")
+          
+          true
+          (str stem "ing"))]
+    (str pre-note " (right now)")))
 
 (defn get-string [word & {:keys [lexicon show-notes]
                           :or {lexicon nil

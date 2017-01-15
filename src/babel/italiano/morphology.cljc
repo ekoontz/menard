@@ -1438,7 +1438,7 @@
                                                                       (do
                                                                         (log/warn (str ":fail in exception rule:"
                                                                                        (:label path-and-merge-fn)
-                                                                                       "; lexeme type:" (type lexeme)))
+                                                                                       "; lexeme keys:" (keys lexeme)))
                                                                         :fail)
                                                                       (= b :fail)
                                                                       (do

@@ -4,7 +4,6 @@
    [dag_unify.core :refer (fail-path get-in unifyc)]
    [babel.generate :as generate]
    [babel.english.grammar :as grammar]
-   [babel.english.morphology :as morph :refer [fo]]
    [babel.over :refer [over truncate]]
    [babel.parse :as parse]
    [clojure.repl :refer [doc]]
@@ -74,9 +73,9 @@
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
                           show-notes false}}]
-  (fo expr
-      :from-language from-language :show-notes show-notes
-      :lexicon (:lexicon (medium))))
+  (morph/fo expr
+            :from-language from-language :show-notes show-notes
+            :lexicon (:lexicon (medium))))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

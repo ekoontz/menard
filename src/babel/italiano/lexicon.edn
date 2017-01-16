@@ -39,7 +39,7 @@
 
 
  "abitare" {:synsem {:cat :verb
-                         :sem {:pred :live-somewhere}}}
+                         :sem {:pred :live-a}}}
 
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
@@ -2057,7 +2057,7 @@
  "vivere"
  [{:synsem {:cat :verb
             :sem {:subj {:living true}
-                  :pred :live}
+                  :pred :live-v}
             :essere true}
    :italiano {:passato "vissuto"
               :future-stem "vivr"}}]

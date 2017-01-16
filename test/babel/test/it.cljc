@@ -643,3 +643,13 @@
                                               :modified false
                                               :root {:italiano {:italiano "fornire"}}})))))
 
+
+(deftest present-progressive-reflexive
+  (is (= "loro si stanno addormentando" (morph (generate {:synsem {:cat :verb
+                                                                   :subcat ()
+                                                                   :sem {:tense :present
+                                                                         :aspect :progressive
+                                                                         :subj {:pred :loro}}}
+                                                          :modified false
+                                                          :root {:italiano {:italiano "addormentarsi"}}})))))
+

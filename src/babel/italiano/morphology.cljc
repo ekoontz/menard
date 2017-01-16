@@ -1438,7 +1438,8 @@
                                                                       (do
                                                                         (log/warn (str ":fail in exception rule:"
                                                                                        (:label path-and-merge-fn)
-                                                                                       "; lexeme keys:" (keys lexeme)))
+                                                                                       "; lexeme's italiano:"
+                                                                                       (strip-refs (get-in lexeme [:italiano]))))
                                                                         :fail)
                                                                       (= b :fail)
                                                                       (do

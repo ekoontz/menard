@@ -273,6 +273,14 @@
               :infl :past
               :sem {:aspect :perfect
                     :tense :past}}})
+
+   (default
+    {:english {:exception true}
+     :synsem {:cat :verb
+              :aux false
+              :infl :present
+              :sem {:aspect :simple
+                    :tense :present}}})
    
    ;; </verb default rules>
    

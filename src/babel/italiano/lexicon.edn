@@ -1840,6 +1840,7 @@
             [{:unify [common]
               :synsem {:sem {:pred :stay}}}
 
+             ;; reflexive 'stare' e.g. 'io mi sto addormentando'
              {:unify [common]
               :synsem {:aux true
                        :infl :present
@@ -1847,8 +1848,22 @@
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
                                     :infl :participle
-                                    }}}}
+                                    :sem {:reflexive true}
+                                    :subcat {:1 :top
+                                             :2 {:reflexive true}}}}}}
 
+             ;; non reflexive 'stare' e.g. 'io mi dormendo'
+             {:unify [common]
+              :synsem {:aux true
+                       :infl :present
+                       :sem {:tense :present
+                             :aspect :progressive}
+                       :subcat {:2 {:cat :verb
+                                    :infl :participle
+                                    :sem {:reflexive false}
+                                    :subcat {:1 {:reflexive false}
+                                             :2 '()}}}}}
+             
 ;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"
 ;             {:unify [common]
 ;              :synsem {:aux true

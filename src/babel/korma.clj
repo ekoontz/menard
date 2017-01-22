@@ -80,20 +80,21 @@
     (https://docs.oracle.com/javase/7/docs/api/java/sql/Connection.html)
    will be used to do the actual conversion."
 
-  (->> (-> sql-array ;; (type = implementation of SqlArray (e.g. org.postgresql.jdbc.PgArray)
-           .getArray ;; java array: (type %) = #object["Ljava.lang.String;" .."
-           vec) ;; clojure.lang.PersistentVector
-       
-       (map #(try
-               ;; if input elements are parseable as JSON, read them, each of which will be a Clojure map.
+  (if (not (nil? sql-array))
+    (->> (-> sql-array ;; (type = implementation of SqlArray (e.g. org.postgresql.jdbc.PgArray)
+             .getArray ;; java array: (type %) = #object["Ljava.lang.String;" .."
+             vec) ;; clojure.lang.PersistentVector
+         
+         (map #(try
+                 ;; if input elements are parseable as JSON, read them, each of which will be a Clojure map.
                  ;; otherwise, return the input elements unmodified.
-               (json/read-str % :value-fn value-fn) ;; rely on json/read-str to throw an error if input is not JSON
+                 (json/read-str % :value-fn value-fn) ;; rely on json/read-str to throw an error if input is not JSON
                  (catch Exception e %))) ;; % is not JSON-parseable: just return it as-is.
        
-       ;; Input is now a sequence of Clojure-native elements such as maps, but, if an
-       ;; element is a map, then its keys are strings.
-       ;; Final step, convert the keys from strings e.g. convert "foo" to :foo.
-       (map convert-keys-from-string-to-keyword)))
+         ;; Input is now a sequence of Clojure-native elements such as maps, but, if an
+         ;; element is a map, then its keys are strings.
+         ;; Final step, convert the keys from strings e.g. convert "foo" to :foo.
+         (map convert-keys-from-string-to-keyword))))
 
 (defn init-db []
   (defdb korma-db 

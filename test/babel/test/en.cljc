@@ -1,17 +1,20 @@
 (ns babel.test.en
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
-            [babel.english :refer [analyze fo-ps generate generate-all medium morph parse sentences]]
-            [babel.english.grammar :as grammar]
+            [babel.english :refer [analyze fo-ps lookup generate generate-all
+                                   medium morph parse sentences]]
+            [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
 
             [babel.generate :refer [get-lexemes lightning-bolts not-fail?]]
             
-            [babel.over :refer [overc overh]]
+            [babel.over :refer [over overc overh]]
             
             ;; TODO: add parsing tests
             [babel.parse :as parse]
 
+            [babel.ug :refer [head-principle unify-check]]
+            
             [clojure.math.combinatorics :as combo]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]

@@ -176,3 +176,7 @@
                     true
                     (print (str to-print " "))))))
             (range 0 count)))))
+
+(defn lookup [surface]
+  (get (:lexicon (medium)) surface))
+

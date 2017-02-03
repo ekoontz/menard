@@ -57,7 +57,13 @@
                 :agr {:gender gender
                       :number number}
                 :sem {:gender gender
-                         :number number}}}))
+                      :number number}}}))
+
+   ;; pronouns take no arguments: e.g. "she", not "the she".
+   (default
+    {:synsem {:cat :noun
+              :pronoun true
+              :subcat '()}})
    
    ;; propernouns have semantic number and gender.
    (default

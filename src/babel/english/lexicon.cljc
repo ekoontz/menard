@@ -25,6 +25,15 @@
        :synsem {:cat cat}}))
    
    ;; </category-independent rules>
+
+   ;; <adjective default rules>
+   (default
+    {:synsem {:cat :adjective
+              :subcat {:1 {:cat :det}
+                       :2 '()}
+              :sem {:comparative false}}})
+   
+   ;; </adjective default rules>
    
    ;; <noun default rules>
    

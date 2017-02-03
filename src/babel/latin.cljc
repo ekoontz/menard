@@ -171,7 +171,9 @@
                                       :dag_unify.core/serialized)))
         semantics-of-target-expression (get-in target-expression [:synsem :sem])
         debug (log/debug (str "read-one: semantics-of-target-expression:" semantics-of-target-expression))
-        source-specification {:synsem {:sem semantics-of-target-expression}
+        source-specification {:synsem {:subcat '()
+                                       :cat :verb
+                                       :sem semantics-of-target-expression}
                               :comp {:synsem {:pronoun true
                                               :agr (get-in spec [:synsem :agr])}}}
         debug (log/debug (str "read-one: source-specification:" source-specification))
@@ -180,7 +182,9 @@
                                                      :model source-model
                                                      :truncate-children false)
                              :show-notes false) ;; TODO: use {:from-language :la}
-        parses (babel.english/parse question-to-pose-to-user false) ;; false: don't truncate
+        parses (filter #(empty? (get-in % [:synsem :subcat]))
+                       (babel.english/parse
+                        question-to-pose-to-user false)) ;; false: don't truncate
         source-expressions parses
         target-specs
         (map (fn [parse]
@@ -192,6 +196,10 @@
                                                   parses))))
     (log/debug (str "target-specs:"
                     (clojure.string/join "," (strip-refs target-specs))))
+
+    (log/debug (str "source-expressions:"
+                    (clojure.string/join "," (map #(println (babel.english/fo-ps %))
+                                                  source-expressions))))
                     
     {:source question-to-pose-to-user
      :semantics (strip-refs semantics-of-target-expression)

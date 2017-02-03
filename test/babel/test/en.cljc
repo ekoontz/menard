@@ -241,8 +241,8 @@
 (deftest generate-with-possessive-2
   (let [result
         (generate {:synsem {:cat :noun
-                            :sem {:mod {:pred :rosso}
-                                  :number :sing
+                            :mod {:first {:pred :rosso}}
+                            :sem {:number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
                                   :pred :dog}
@@ -571,3 +571,18 @@
                                                                    :subj {:pred :woman}}
                                                  :subcat '()}}))))]
     (is (= 1 (count (take 1 (repeatedly to-run)))))))
+
+(deftest relative-clause []
+  (let [parse (first (parse "the man you see"))]
+    (is (not (nil? parse)))
+    (is (= (get-in parse [:synsem :cat])
+           :noun))
+    (is (= (get-in parse [:synsem :mod :first :obj :pred])
+           :man))
+    (is (= (get-in parse [:synsem :mod :first :subj :pred])
+           :tu))
+    (is (= (get-in parse [:synsem :mod :first :pred])
+           :see))))
+
+
+

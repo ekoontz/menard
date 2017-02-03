@@ -52,7 +52,9 @@
    (default
     (let [gender (atom :top)
           number (atom :top)]
-      {:synsem {:cat :noun
+      {:english {:number number
+                 :gender gender}
+       :synsem {:cat :noun
                 :pronoun true
                 :agr {:gender gender
                       :number number}

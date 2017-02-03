@@ -2517,43 +2517,13 @@
                         :human false}}}}
 
  "you"
- [{:english {:note "♂"}
-   :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
-   :synsem {:cat :noun
-            :pronoun true
-            :reflexive false
-            :case :top ;; see comment in "it" about :case.
-            :agr {:person :2nd
-                  :gender :masc
-                  :number :sing}
-            :sem {:human true
-                  :pred :tu}
-            :subcat '()}}
-  {:english {:note "♀"}
-   :target :it ;; Italian makes gender distinction for agreement with verbs and adjectives..
-   :synsem {:cat :noun
-            :pronoun true
-            :case :top ;; see comment in "it" about :case.
-            :reflexive false
-            :agr {:person :2nd
-                  :gender :fem
-                  :number :sing}
-            :sem {:human true
-                  :pred :tu}
-            :subcat '()}}
-
-  {:english {:note "♀"}
-   :target :es ;; ..but Spanish does not.
-   :synsem {:cat :noun
-            :pronoun true
-            :case :top ;; see comment in "it" about :case.
-            :reflexive false
-            :agr {:person :2nd
-                  :gender :fem
-                  :number :sing}
-            :sem {:human true
-                  :pred :tu}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :reflexive false
+           :agr {:person :2nd
+                 :number :sing}
+           :sem {:human true
+                 :pred :tu}}}
 
  "you all"
  [{:english {:note "♂"}

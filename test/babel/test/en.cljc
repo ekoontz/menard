@@ -566,6 +566,23 @@
     (is (= (get-in parse [:synsem :mod :first :pred])
            :see))))
 
+(deftest generate-for-italian
+  (let [p (first
+           (filter #(= :verb (get-in % [:synsem :cat]))
+                   (parse "I speak")))
+        spec (strip-refs (unify
+                          {:synsem {:cat :verb}}
+                          {:synsem {:sem (get-in p [:synsem :sem])}}
+                          {:synsem {:sem {:subj {:gender :masc}}}}))
+        generated (generate spec)
+        surface-1 (morph generated)
+        surface-2 (morph generated :from-language "it")]
+    (is (not (nil? p)))
+    (is (not (fail? spec)))
+    (is (not (nil? generated)))
+    (is (= "I speak" surface-1))
+    (is (= "I (♂) speak" surface-2))))
+
 (deftest irregular-present-progressive
   (let [spec {:modified false
               :root {:english {:english "get dressed"}}

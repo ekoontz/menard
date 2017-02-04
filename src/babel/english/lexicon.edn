@@ -1180,27 +1180,14 @@
                   :pred :Juan-and-i}
             :subcat '()}}]
  "I"
- [{:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:gender :masc
-                  :person :1st
-                  :number :sing}
-            :sem {:human true
-                  :pred :I}
-            :subcat '()}}
-
-  {:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:gender :fem
-                  :person :1st
-                  :number :sing}
-            :sem {:human true
-                  :pred :I}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :nom
+           :agr {:person :1st
+                 :number :sing}
+           :sem {:human true
+                 :pred :I}
+           :subcat '()}}
 
  "if"   (let [obj (atom :top)]
           {:synsem {:cat :comp
@@ -1245,32 +1232,19 @@
  "interrupt" {:synsem {:cat :verb
                        :sem {:pred :interrupt}}}
  "it"
- [{:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :top ;; we could just omit this kv, but we explicitly
-            ;; set it to :top to show how it's different than other
-            ;; pronouns: like 'you' the nominative and accusative
-            ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
-            :agr {:person :3rd
-                  :number :sing}
-            :reflexive false
-            :sem {:pred :lui
-                  :gender :masc
-                  :human false}
-            :subcat '()}}
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :top ;; we could just omit this kv, but we explicitly
+           ;; set it to :top to show how it's different than other
+           ;; pronouns: like 'you' the nominative and accusative
+           ;; are the same (compare versus 'I'/'me', 'she'/'her', etc)
+           :agr {:person :3rd
+                 :number :sing}
+           :reflexive false
+           :sem {:pred :lui
+                 :human false}
+           :subcat '()}}
 
-  {:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :top ;; see above comment
-            :agr {:person :3rd
-                  :number :sing}
-            :reflexive false
-            :sem {:pred :lei
-                  :gender :fem
-                  :human false}
-            :subcat '()}}]
  "itself"
  {:synsem {:cat :noun
            :pronoun true
@@ -1410,26 +1384,15 @@
            :propernoun true}}
 
  "Luisa and I"
- [{:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:gender :masc
-                  :person :1st
-                  :number :plur}
-            :sem {:human true
-                  :pred :luisa-and-i}
-            :subcat '()}}
-  {:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:gender :fem
-                  :person :1st
-                  :number :plur}
-            :sem {:human true
-                  :pred :luisa-and-i}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :nom
+           :agr {:gender :masc
+                 :person :1st
+                 :number :plur}
+           :sem {:human true
+                 :pred :luisa-and-i}
+           :subcat '()}}
 
  "make" {:synsem {:cat :verb
                   :sem {:pred :make}}
@@ -2154,23 +2117,14 @@
      :synsem {:agr {:number :plur}}}])
 
  "themselves"
- [{:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :3rd
-                  :number :plur
-                  :gender :fem}
-            :subcat '()}}
-
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :acc
-            :reflexive true
-            :agr {:person :3rd
-                  :number :plur
-                  :gender :masc}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :acc
+           :reflexive true
+           :agr {:person :3rd
+                 :number :plur
+                 :gender :fem}
+           :subcat '()}}
 
  "there" {:synsem {:cat :noun
                    :pronoun true
@@ -2179,54 +2133,13 @@
                          :pred :existential}
                    :agr {:person :3rd}}}
  "they"
- [;; human
-  {:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :masc
-                  :number :plur}
-            :sem {:gender :masc
-                  :human true
-                  :pred :loro}
-            :subcat '()}}
-  ;; non-human
-  {:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :masc
-                  :number :plur}
-            :sem {:gender :masc
-                  :human false
-                  :pred :loro}
-            :subcat '()}}
-  ;; human
-  {:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :fem
-                  :number :plur}
-            :sem {:gender :fem
-                  :human true
-                  :pred :loro}
-            :subcat '()}}
-  ;; non-human
-  {:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :fem
-                  :number :plur}
-            :sem {:gender :fem
-                  :human false
-                  :pred :loro}
-            :subcat '()}}]
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :nom
+           :agr {:person :3rd
+                 :number :plur}
+           :sem {:pred :loro}
+           :subcat '()}}
 
  "think" (let [common {:synsem {:cat :verb
                                 :subcat {:1 {:cat :noun
@@ -2403,28 +2316,14 @@
  "water" {:synsem {:cat :noun
                    :sem {:pred :water}}}
  "we"
- [{:english {:note "♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :1st
-                  :gender :fem
-                  :number :plur}
-            :sem {:human true
-                  :gender :fem
+ {:synsem {:cat :noun
+           :pronoun true
+           :case :nom
+           :agr {:person :1st
+                 :number :plur}
+           :sem {:human true
                   :pred :noi}
-            :subcat '()}}
-  {:english {:note "♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :1st
-                  :gender :masc
-                  :number :plur}
-            :sem {:human true
-                  :gender :masc
-                  :pred :noi}
-            :subcat '()}}]
+           :subcat '()}}
 
  "wear" (let [common {:english {:past "wore"
                                 :past-participle "worn"}}]
@@ -2524,58 +2423,28 @@
                  :number :sing}
            :sem {:human true
                  :pred :tu}}}
-
  "you all"
- [{:english {:note "♂"}
-   :synsem {:cat :noun
+ [{:synsem {:cat :noun
             :pronoun true
             :reflexive false
             :case :top ;; see comment in "it" about :case.
             :agr {:person :2nd
-                  :gender :masc
                   :number :plur}
             :sem {:human true
                   :reflexive false
                   :pred :voi}
             :subcat '()}}
-
-  {:english {:note "♀"}
+  
+  {:english {:note "v"}
    :synsem {:cat :noun
             :pronoun true
             :reflexive false
             :case :top ;; see comment in "it" about :case.
             :agr {:person :2nd
-                  :gender :fem
-                  :number :plur}
-            :sem {:human true
-                  :reflexive false
-                  :pred :voi}
-            :subcat '()}}
-
-  {:english {:note "v ♂"}
-   :synsem {:cat :noun
-            :pronoun true
-            :reflexive false
-            :case :top ;; see comment in "it" about :case.
-            :agr {:person :2nd
-                  :gender :masc
                   :number :plur}
             :sem {:human true
                   :reflexive false
                   :pred :vosotros} ;; for Spanish, vosotros/ustedes a semantic distinction
-            :subcat '()}}
-
-  {:english {:note "v ♀"}
-   :synsem {:cat :noun
-            :pronoun true
-            :reflexive false
-            :case :top ;; see comment in "it" about :case.
-            :agr {:person :2nd
-                  :gender :fem
-                  :number :plur}
-            :sem {:human true
-                  :reflexive false
-                  :pred :vosotros}  ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat '()}}
 
   {:english {:note "u"}

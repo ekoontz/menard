@@ -124,7 +124,11 @@
                                        source-language-sentence))
 
         source-fo (:morph source-language-model)
-        source-language-surface (source-fo source-language-sentence)
+
+        ;; c.f. babel.test.en/generate-as-writer-does
+        source-language-surface (source-fo source-language-sentence
+                                           :from-language source-language)
+
         debug (log/debug (str "source surface: " source-language-surface))
 
         error (if (or (nil? source-language-surface)

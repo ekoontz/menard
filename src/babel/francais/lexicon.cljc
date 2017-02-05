@@ -964,6 +964,12 @@
                                }}}
                {:synsem {:sem {:obj :unspec}}})
 
+      ;; default: reflexive=false.
+      (if-then {:synsem {:cat :verb
+                         :aux false
+                         :sem {:reflexive false}}}
+               {:synsem {:sem {:reflexive false}}})
+      
       ;; TODO: use lexiconfn/if-then here, like espanol/lexicon does.
       ;; default: essere=false
       (map-function-on-map-vals

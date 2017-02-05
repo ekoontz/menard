@@ -441,7 +441,7 @@
                      (= (get-in % [:rule]) "vp-32")
                      (= (get-in % [:rule]) "vp-aux"))
                 grammar)
-        lexicon (deliver-lexicon)
+        lexicon @(deliver-lexicon)
         lexicon-for-analysis lexicon
         lexicon
         (into {}

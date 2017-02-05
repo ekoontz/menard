@@ -1,7 +1,7 @@
 (ns babel.test.es
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.espanol :as espanol :refer [analyze generate parse]]
+            [babel.espanol :as espanol :refer [analyze generate parse small]]
             [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
             [clojure.repl :refer [doc]]
@@ -12,14 +12,12 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
-(def small (espanol/small))
-
 (deftest generate-regular-conditional
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         :model small
+                         :model (small)
                          :truncate-children false)]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
@@ -30,7 +28,7 @@
   (let [result (fo (generate {:synsem {:sem {:tense :future
                                              :subj {:pred :I}}}
                               :root {:espanol {:espanol "venir"}}}
-                             :model small))]
+                             :model (small)))]
     (is (or (= result
                "yo vendré")
             (= result
@@ -41,13 +39,13 @@
                 {:root {:espanol {:espanol "abrazar"}}
                  :synsem {:sem {:subj {:pred :I}}
                           :infl :preterito}}
-                :model small
+                :model (small)
                 :truncate-children false)]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (generate {:synsem {:sem {:pred :be-called}}} :model small)]
+  (let [result (generate {:synsem {:sem {:pred :be-called}}} :model (small))]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
@@ -57,7 +55,7 @@
                                              :subj {:pred :I}
                                              :pred :be-called
                                              :obj {:pred :Juan}}}}
-                             :model small))]
+                             :model (small)))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

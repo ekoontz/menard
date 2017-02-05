@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
             [babel.francais :as fr :refer [generate parse medium]]
-            [babel.francais.grammar :as grammar]
+            [babel.francais.grammar :as grammar :refer [fo-ps]]
             [babel.francais.lexicon :refer [lexicon]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string
                                                replace-patterns]]

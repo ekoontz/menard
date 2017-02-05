@@ -387,7 +387,8 @@
                               :synsem {:aux true
                                        :cat :verb
                                        :infl :present
-                                       :sem {:tense :past}}}))
+                                       :sem {:reflexive true
+                                             :tense :past}}}))
                    (unify h21
                            {:rule "vp-future"
                             :synsem {:aux false

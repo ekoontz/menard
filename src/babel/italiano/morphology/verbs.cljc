@@ -1,5 +1,5 @@
 (ns babel.italiano.morphology.verbs
-  (:require 
+  (:require
    [dag_unify.core :refer [unify]]))
 
 (defn group-by-two [remaining]
@@ -104,7 +104,7 @@
          #"(.*)ivano$"  "$1irsi"
          ]
      }
-    
+
     ]))
 
 (def replace-patterns-future-tense
@@ -135,7 +135,7 @@
          #"(.*)gherò"   "$1gare" ;; piegherò -> piegare
          #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
          ]}
-           
+
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :2nd}}}}}
      :p [
@@ -321,7 +321,7 @@
           #"(.*)uti" "$1ersi"
           #"(.*)uti" "$1ire"
           ]}
-     
+
      {:agr {:synsem {:essere false}}
       :p [
           #"(.*)ato" "$1are"
@@ -343,7 +343,7 @@
           #"(.*)uto" "$1ere"
           #"(.*)uto" "$1ersi"
           ]}
-     
+
      ])))
 
 (def replace-patterns-present-tense
@@ -375,11 +375,11 @@
          #"(.*)i$"         "$1irsi" ;; diverti -> divertirsi
          #"(.*)ici$"       "$1ire" ;; dici -> dire
          #"(.*)hi$"        "$1are" ;; pieghi -> piegare
-         ]}  
+         ]}
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :3rd}}}}}
-     
+
      :p [
          #"(.*)a$"         "$1are"
          #"(.*)e$"         "$1ere"
@@ -411,7 +411,7 @@
          #"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
          #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
          ]}
-    
+
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :3rd}}}}}
      :p [
@@ -453,7 +453,7 @@
          #"(.*)gherei"   "$1gare" ;; piegherei -> piegare
          #"(.*)rrei"     "$1nere" ;; rimarrei -> rimanere
          ]}
-           
+
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :2nd}}}}}
      :p [
@@ -588,5 +588,87 @@
         replace-patterns-past-tense
         replace-patterns-present-tense)))
 
+;; here is my attempt to do present subjunctive - Franco
 
-  
+(def replace-patterns-present-subjunctive
+  (expand-replace-patterns
+   {:synsem {:infl :present}}
+   [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :1st}}}}}
+     :p [
+         #"(.*)i$"         "$1are"
+         #"(.*)a$"         "$1ere"
+         #"(.*)isca$"      "$1ire"
+         #"(.*)a$"         "$1ire"
+         #"(.*)i$"         "$1arsi" ;; alzi -> alzarsi
+         #"(.*)a$"         "$1irsi" ;; diverta -> divertirso
+         #"(.*)ica$"       "$1ire" ;; dica -> dire
+         ]}
+    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :2nd}}}}}
+     :p [
+         #"(.*)i$"         "$1are" ;; lavi -> lavare
+         #"(.*)i$"         "$1iare" ;; studi -> studiare
+         #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
+         #"(.*)cci$"       "$1cciare" ;; abbracci -> abbracciare
+         #"(.*)a$"         "$1ere" ;;scriva -> scrivere
+         #"(.*)a$"         "$1ire" ;; senta -> sentire
+         #"(.*c)hi$"       "$1are" ;; cerchi -> cercare
+         #"(.*)i$"         "$1iarsi" ;; arrabbi -> arrabbiarsi
+         #"(.*)sca$"       "$1re" ;; finisca -> finire
+         #"(.*)a$"         "$1irsi" ;; diverta -> divertirsi
+         #"(.*)ica$"       "$1ire" ;; dica -> dire
+         #"(.*)hi$"        "$1are" ;; pieghi -> piegare
+         ]}
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                       :person :3rd}}}}}
+
+     :p [
+         #"(.*)i$"         "$1are"
+         #"(.*)a$"         "$1ere"
+         #"(.*)a$"         "$1ire"
+         #"(.*)i$"         "$1arsi" ;; prepari -> preperarsi
+         #"(.*)sca$"       "$1re" ;; finisca -> finire
+         #"(.*)ta$"        "$1tirsi" ;; diverta -> divertirsi
+         #"(.*)ica$"       "$1ire" ;; dica -> dire
+         ]}
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :1st}}}}}
+     :p [
+         #"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
+         #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
+         #"(.*)iamo$"      "$1ere"
+         #"(.*)iamo$"      "$1ire"
+         #"(.*c)hiamo$"    "$1are" ;; sprechiamo -> sprecare
+         #"(.*)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
+         #"(.*)iamo$"      "$1arsi" ;; chiamiamo -> chiamarsi
+         #"(.*)iamo$"      "$1irsi" ;; divertiamo -> divertirsi
+         #"(.*)ciamo$"     "$1re" ;; diciamo -> dire
+         #"(.*)hiamo$"     "$1are" ;; pieghiamo -> piegare
+         ]}
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :2nd}}}}}
+     :p [
+         #"(.*)iate$"  "$1are" ;; parliate -> parlare
+         #"(.*)iate$"  "$1ere" ;; scriviate -> scrivere
+         #"(.*)iate$"  "$1ire" ;; dormiate -> dormire
+         #"(.*)iate$"  "$1arsi" ;; chiamate -> chiamarsi
+         #"(.*)iate$"  "$1ersi" ;; mettiate -> metterrsi
+         #"(.*)iate$"  "$1irsi" ;; divertiate -> divertirsi
+         ]}
+
+    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                       :person :3rd}}}}}
+     :p [
+         #"(.*)ino$"       "$1are"
+         #"(.*)ano$"       "$1ere"
+         #"(.*)ano$"       "$1ire"
+         #"(.*)ino$"       "$1arsi" ;; alzino -> alzarsi
+         #"(.*)scano$"     "$1re" ;; finiscano -> finire
+         #"(.*)ano$"       "$1irsi" ;; divertano -> divertirsi
+         #"(.*)cano$"      "$1re" ;; dicano -> dire
+         #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
+         ]}]))

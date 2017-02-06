@@ -218,7 +218,9 @@
 (defn embed-phon [lexical-entry]
   (cond (string? (get-in lexical-entry '(:english)))
         (unify {:english {:english (get-in lexical-entry '(:english))}}
-                (embed-phon (dissoc lexical-entry ':english)))
+               (embed-phon (-> lexical-entry
+                               (dissoc :dag_unify.core/serialized)
+                               (dissoc :english))))
 
         (and (string? (get-in lexical-entry '(:italiano)))
              (= :verb (get-in lexical-entry '(:synsem :cat))))

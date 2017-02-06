@@ -496,14 +496,14 @@
                                               (let [result (rule result)]
                                                 (if (fail? result)
                                                   (do (log/error (str "merge-type lexical rule: " rule " caused lexical-entry: " lexical-entry 
-                                                                      " to fail; fail path was: " (fail-path result)))
+                                                                      " to fail."))
                                                       :fail)
                                                   result)))
                                             modifying-rules))
                            :fail)]
             (if (fail? result) 
               (do
-                (log/error (str "lexical entry cannot be added: " (strip-refs result) ";fail-path: " (fail-path result)))
+                (log/error (str "lexical entry cannot be added: " (strip-refs result) "."))
                 ;; TODO: throw exception here
                 :fail)
               (if (isomorphic? result lexical-entry)

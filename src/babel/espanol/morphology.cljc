@@ -599,105 +599,105 @@
        (lookup-fn surface-form)))))
 
 (defn exception-generator [lexicon]
-  (let [lexeme-kv (first lexicon)
-        lexemes (second lexeme-kv)]
-    (if lexeme-kv
-      (let [result (mapcat (fn [path-and-merge-fn]
-                             (let [path (:path path-and-merge-fn)
-                                   merge-fn (:merge-fn path-and-merge-fn)]
-                               ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
-                               ;; and the value is a list of lexemes for that string.
-                               (log/trace (str (first lexeme-kv) ": looking at path: " path))
-                               (mapcat (fn [lexeme]
-                                         ;; this is where a unify/dissoc that supported
-                                         ;; non-maps like :top and :fail, would be useful:
-                                         ;; would not need the (if (not (fail? lexeme)..)) check
-                                         ;; to avoid a difficult-to-understand "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
-                                         (let [lexeme (cond (= lexeme :fail)
-                                                            :fail
-                                                            (= lexeme :top)
-                                                            :top
-                                                            true
-                                                            (copy lexeme))]
-                                           (if (not (= :none (get-in lexeme path :none)))
-                                             (list {(get-in lexeme path :none)
-                                                    (merge
-                                                     lexeme
-                                                     (unifyc (apply merge-fn (list lexeme))
-                                                             {:espanol {:exception true}}))}))))
-                                       lexemes)))
-                           [
-                            ;; 1. past-tense exceptions
-                            {:path [:espanol :passato]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :past
-                                           :espanol (get-in val [:espanol :passato] :nothing)}})}
-
-                            ;; 2. present-tense exceptions
-                            {:path [:espanol :present :1sing]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :1sing] :nothing)
-                                           :agr {:number :sing
-                                                 :person :1st}}})}
-                            {:path [:espanol :present :2sing]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :2sing] :nothing)
-                                           :agr {:number :sing
-                                                 :person :2nd}}})}
-
-                            {:path [:espanol :present :3sing]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :3sing] :nothing)
-                                           :agr {:number :sing
-                                                 :person :3rd}}})}
-
-                            {:path [:espanol :present :1plur]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :1plur] :nothing)
-                                           :agr {:number :plur
-                                                 :person :1st}}})}
-
-                            {:path [:espanol :present :2plur]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :2plur] :nothing)
-                                           :agr {:number :plur
-                                                 :person :2nd}}})}
-
-                            {:path [:espanol :present :3plur]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:infl :present
-                                           :espanol (get-in val [:espanol :present :3plur] :nothing)
-                                           :agr {:number :plur
-                                                 :person :3rd}}})}
-
-                            ;; adjectives
-                            {:path [:espanol :masc :plur]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:agr {:gender :masc
-                                                 :number :plur}}})}
-
-                            {:path [:espanol :fem :plur]
-                             :merge-fn
-                             (fn [val]
-                               {:espanol {:agr {:gender :fem
-                                                 :number :plur}}})}
-                            ])]
-        (if (not (empty? result))
-          (concat result (exception-generator (rest lexicon)))
-          (exception-generator (rest lexicon)))))))
+  (mapcat
+   (fn [lexeme-kv]
+     (let [lexemes (second lexeme-kv)]
+       (if lexeme-kv
+         (let [result (mapcat (fn [path-and-merge-fn]
+                                (let [path (:path path-and-merge-fn)
+                                      merge-fn (:merge-fn path-and-merge-fn)]
+                                  ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
+                                  ;; and the value is a list of lexemes for that string.
+                                  (log/trace (str (first lexeme-kv) ": looking at path: " path))
+                                  (mapcat (fn [lexeme]
+                                            ;; this is where a unify/dissoc that supported
+                                            ;; non-maps like :top and :fail, would be useful:
+                                            ;; would not need the (if (not (fail? lexeme)..)) check
+                                            ;; to avoid a difficult-to-understand "java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
+                                            (let [lexeme (cond (= lexeme :fail)
+                                                               :fail
+                                                               (= lexeme :top)
+                                                               :top
+                                                               true
+                                                               (copy lexeme))]
+                                              (if (not (= :none (get-in lexeme path :none)))
+                                                (list {(get-in lexeme path :none)
+                                                       (merge
+                                                        lexeme
+                                                        (unifyc (apply merge-fn (list lexeme))
+                                                                {:espanol {:exception true}}))}))))
+                                          lexemes)))
+                              [
+                               ;; 1. past-tense exceptions
+                               {:path [:espanol :passato]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :past
+                                             :espanol (get-in val [:espanol :passato] :nothing)}})}
+                               
+                               ;; 2. present-tense exceptions
+                               {:path [:espanol :present :1sing]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :1sing] :nothing)
+                                             :agr {:number :sing
+                                                   :person :1st}}})}
+                               {:path [:espanol :present :2sing]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :2sing] :nothing)
+                                             :agr {:number :sing
+                                                   :person :2nd}}})}
+                               
+                               {:path [:espanol :present :3sing]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :3sing] :nothing)
+                                             :agr {:number :sing
+                                                   :person :3rd}}})}
+                               
+                               {:path [:espanol :present :1plur]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :1plur] :nothing)
+                                             :agr {:number :plur
+                                                   :person :1st}}})}
+                               
+                               {:path [:espanol :present :2plur]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :2plur] :nothing)
+                                             :agr {:number :plur
+                                                   :person :2nd}}})}
+                               
+                               {:path [:espanol :present :3plur]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:infl :present
+                                             :espanol (get-in val [:espanol :present :3plur] :nothing)
+                                             :agr {:number :plur
+                                                   :person :3rd}}})}
+                               
+                               ;; adjectives
+                               {:path [:espanol :masc :plur]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:agr {:gender :masc
+                                                   :number :plur}}})}
+                               
+                               {:path [:espanol :fem :plur]
+                                :merge-fn
+                                (fn [val]
+                                  {:espanol {:agr {:gender :fem
+                                                   :number :plur}}})}
+                               ])]
+           result))))
+   lexicon))
 
 (defn phonize [a-map a-string]
   (let [common {:phrasal false}]

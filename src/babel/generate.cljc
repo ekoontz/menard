@@ -256,33 +256,25 @@
 (defn candidate-parents
   "find subset of _rules_ for which each member unifies successfully with _spec_"
   [rules spec]
-  (log/trace (str "candidate-parents: spec: " (strip-refs spec)))
-  (let [result
-        (filter not-fail?
-                (mapfn (fn [rule]
-                         (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
-                         (if (and (not-fail? (unify (get-in rule [:synsem :cat] :top)
-                                                    (get-in spec [:synsem :cat] :top))))
-                           ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
-                           (do
-                             (log/trace (str "candidate-parents: " (:rule rule) " is a head candidate for spec:"
-                                             (strip-refs spec)))
-                             (unify spec rule))
-                           (do
-                             (log/trace (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
-                                             (strip-refs spec)))
-                             :fail)))
-                       rules))]
-    (log/trace (str "candidate-parents: "
-                    (string/join "," (map :rule result))
-                    " for spec: " (strip-refs spec)))
-    (if (empty? result)
-      (log/trace (str "candidate-parents: "
-                      "no parents found for spec: " (spec-info spec)))
-      (log/trace (str "candidate-parents: "
-                    (string/join "," (map :rule result))
-                    " for: " (spec-info spec))))
-    result))
+  (filter not-fail?
+          (mapfn (fn [rule]
+                   (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
+                   (if (not-fail? (unify (get-in rule [:synsem :cat] :top)
+                                         (get-in spec [:synsem :cat] :top)))
+                     ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
+                     (do
+                       (log/trace (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
+                                       (strip-refs spec)))
+                       (let [unified (unify spec rule)]
+                         (if (= :fail unified)
+                           (log/trace (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
+                           (log/trace (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
+                         unified))
+                     (do
+                       (log/trace (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
+                                       spec))
+                       :fail)))
+                 rules)))
 (defn show-bolt [bolt language-model]
   (if (nil? bolt)
     (throw (Exception. (str "don't call show-bolt with bolt=null.")))

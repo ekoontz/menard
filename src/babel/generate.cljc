@@ -58,6 +58,10 @@
     (->>
      (lightning-bolts model spec depth max-depth)
 
+     (map (fn [bolt]
+            (do (log/debug (str "bolt:" (show-bolt bolt model)))
+                bolt)))
+     
      ;; For each bolt, create a map. This map is from paths in a bolt
      ;; to possible complements at that path for that bolt.
      (map (fn [bolt]

@@ -94,7 +94,7 @@
                        :sem {:aspect :pluperfect
                              :tense :past}
                        :infl :pluperfect}}))]
-    (log/debug (str "English: do-defaults (post) on tree: " (fo result)))
+    (log/debug (str "English: do-defaults (post) on tree: " (parse/fo-ps result fo)))
     (log/debug (str "aspect (post): " (strip-refs (get-in result
                                                          [:synsem :sem :aspect]
                                                          ::unset))))
@@ -392,29 +392,40 @@
                     head-principle
                     head-first
                     (let [head-sem (atom :top)
+                          agr (atom :top)
                           cat (atom :noun)
                           comp-sem (atom {:obj head-sem})
                           head-mod (atom :top)]
                       {:phrasal true
                        :synsem {:cat cat
+                                :agr agr
                                 :sem head-sem
                                 :mod {:first comp-sem
                                       :rest head-mod}}
-                       :head {:synsem {:cat cat
+                       :head {:rule "noun-phrase2"
+                              :phrasal true
+                              :synsem {:agr agr
+                                       :cat cat
                                        :subcat '()
                                        :mod head-mod
                                        :sem head-sem}}
                        :comp {:phrasal true
                               :rule "relative-clause-complement"
-                              :synsem {:sem comp-sem}}}))
-                   
+                              :synsem {:cat :verb
+                                       :sem comp-sem}}})
+
+                    (let [head-modified-by-comp (atom :top)]
+                      {:comp {:synsem {:subcat {:1 head-modified-by-comp}}}
+                       :head {:synsem head-modified-by-comp}}))
+                       
                    (unify-check
                     (let [first-arg (atom :top)
                           second-arg (atom {:reflexive false})]
                       {:rule "relative-clause-complement"
                        :phrasal true
                        :slash true
-                       :synsem {:subcat {:1 second-arg
+                       :synsem {:cat :verb
+                                :subcat {:1 second-arg
                                          :2 '()}}
                        :comp {:synsem first-arg}
                        :head {:synsem {:subcat {:1 first-arg
@@ -424,16 +435,26 @@
                        :head {:synsem {:sem head-sem}}})
                     
                     (let [cat (atom :verb)]
-                      {:synsem {:cat cat}
-                       :head {:synsem {:cat cat}}})
+                      {:synsem {:cat cat
+                                :aux false}
+                       :head {:synsem {:aux false
+                                       :cat cat}}})
                     
                     head-last
                     
-                    {:head {:phrasal false} ;; for debugging
-                     :comp {:phrasal false}})
-                   
-                   ))
-                   
+                    {:comp {:phrasal false}}
+
+                    {:comp {:synsem {:pronoun true
+                                     :case :nom
+                                     :cat :noun}}}
+
+                    (let [infl (atom :top)
+                          participle (atom false)]
+                      {:synsem {:infl infl
+                                :participle participle}
+                       :head {:synsem {:infl infl
+                                       :participle participle}}}))))
+
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unify-check phrase

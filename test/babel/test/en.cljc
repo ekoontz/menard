@@ -22,7 +22,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [assoc-in fail? fail-path-between get-in strip-refs unify]]))
+            [dag_unify.core :refer [assoc-in dissoc-paths fail? fail-path-between get-in strip-refs unify]]))
 
 (defn display-expression [expr]
   {:en (morph expr)
@@ -229,7 +229,11 @@
 
 (deftest generate-with-possessive-1
   (let [result
-        (generate {:synsem {:cat :noun
+        (generate {:synsem {
+                            ;; TODO: subcat '() should be part of language model's top-level generate defaults;
+                            ;; c.f. TODO on babel.test.translate/latin-to-english
+                            :subcat '()
+                            :cat :noun
                             :sem {:number :sing
                                   :mod '()
                                   :spec {:pred :of
@@ -616,6 +620,22 @@
                                                 model
                                                 :truncate-children false)
         :from-language "it"))))
+
+
+
+;; generate "the woman she sees"
+(def spec-for-the-woman-she-sees
+  {:synsem {:agr {:number :sing}
+            :cat :noun
+            :sem {:pred :woman
+                  :spec {:def :def}}
+            :mod {:first {:pred :see
+                          :tense :present
+                          :subj {:pred :lei}}}}})
+
+(deftest generate-with-relative-clause
+  (is (= "the woman she sees"
+         (morph (generate spec-for-the-woman-she-sees)))))
 
 
 

@@ -33,5 +33,19 @@
      #((:morph medium) (babel.generate/generate spec medium))
      do-this-many)))
 
-
+(defn gen-mark4 [do-this-many]
+  (let [do-this-many (Integer. do-this-many)
+        spec {:rule "noun-phrase3"
+              :head {:rule "noun-phrase2" :synsem {:agr {:number :sing}}
+                     :comp {:synsem {:def :def}}}
+              :comp {:rule "relative-clause-complement"}
+              :synsem {:cat :noun
+                       :agr {:number :sing}
+                       :subcat '()
+                       :sem {:pred :man}
+                       :mod {:first {:pred :see
+                                     :subj {:pred :lui}}}}}]
+    (benchmark
+     #((:morph medium) (babel.generate/generate spec medium))
+     do-this-many)))
 

@@ -203,17 +203,9 @@
                          morph :morph}]
   (if (not (fn? morph))
     (throw (Exception. (str "(do-defaults) was unexpectedly called without a 'morph' function."))))
-
-  (log/trace (str "calling do-defaults on tree:" (morph tree)))
-  (if default-fn
-    (let [result
-          (default-fn tree)]
-      (log/trace (str "result of calling do-defaults on tree:" (morph result)))
-      result)
-    ;;
-    (do
-      (log/trace (str "language-model has no default function."))
-      tree)))
+  (or (and (fn? default-fn)
+           (default-fn tree))
+      tree))
 
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))

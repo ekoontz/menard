@@ -123,7 +123,8 @@
     result))
 
 (defn comp-path-to-complements
-  "return a lazy sequence of bolts for all possible complements that can be added to the end of the _path_ within _bolt_."
+  "return a lazy sequence of bolts for all possible complements 
+  that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
   (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
   (let [spec (get-in bolt path)

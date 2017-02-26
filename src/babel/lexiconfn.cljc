@@ -710,11 +710,9 @@
 (defn filter-vals [lexicon filter-fn]
   (into {}
         (map (fn [k]
-               [k
-                (filter
-                 (fn [val]
-                   (filter-fn val))
-                 (get lexicon k))])
+               [k (filter filter-fn (get lexicon k))])
+             (keys lexicon))))
+
              (keys lexicon))))
 
 (defn rewrite-keys [lexicon rewrite-fn]

@@ -237,6 +237,8 @@ as a map of implications"}
    
    {:pred :note}     {:animate false
                       :clothing false
+                      :drinkable false
+                      :edible false
                       :legible true}
 
    {:pred :party}    {:clothing false

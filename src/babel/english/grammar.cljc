@@ -4,7 +4,6 @@
    [babel.english.lexicon :refer [deliver-lexicon]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.over :refer (over)]
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if

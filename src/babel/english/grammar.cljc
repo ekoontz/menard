@@ -3,6 +3,7 @@
   (:require 
    [babel.english.lexicon :refer [deliver-lexicon]]
    [babel.english.morphology :refer (analyze fo)]
+   [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.parse :as parse]
    [babel.ug :as ug
@@ -537,4 +538,4 @@
     (assoc model
           :generate-fn
           (fn [spec]
-            (babel.generate/generate spec model)))))
+            (generate/generate spec model)))))

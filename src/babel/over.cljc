@@ -47,6 +47,12 @@
    (merge
     (if-let [cat (get-in spec [:synsem :cat])]
       {:cat cat})
+    (if-let [subcat (get-in spec [:synsem :subcat])]
+      {:subcat subcat})
+    (if-let [rule (get-in spec [:rule])]
+      {:rule rule})
+    (if-let [mod (get-in spec [:synsem :mod])]
+      {:mod mod})
     (if-let [essere (get-in spec [:synsem :essere])]
       {:essere essere})
     (if-let [pred (get-in spec [:synsem :sem :pred])]

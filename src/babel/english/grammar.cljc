@@ -231,229 +231,230 @@
 (def modified {:modified true})
 (def unmodified {:modified false})
 
-(def grammar (list (unify-check h21
-                                {:rule "adjective-phrase"
-                                 :synsem {:cat :adjective}})
-                   
-                   (unify-check h21
-                                (let [head-synsem {:cat :intensifier}]
-                                  {:rule "intensifier-phrase"
-                                   :synsem head-synsem}))
-                   
-                   (unify-check h10
-                                (let [semantics (atom :top)
-                                      comp-type (atom :top)]
-                                  {:rule "complementizer-phrase"
-                                   :synsem {:cat :comp
-                                            :comp-type comp-type
-                                            :sem semantics}
-                                   :head {:synsem {:comp-type comp-type
-                                                   :sem semantics}}}))
-                   (unify-check c10
-                           {:rule "determiner-phrase"
-                            :synsem {:cat :det}})
-
-                   (unify-check c11-comp-subcat-1
-                           (let [propernoun (atom :top)
-                                 head-sem (atom :top)
-                                 mod-sem (atom {:subj head-sem})
-                                 rest-mod '()]
-                             {:rule "nbar1"
-                              :synsem {:reflexive false
-                                       :propernoun propernoun
-                                       :mod {:first mod-sem
-                                             :rest rest-mod}}
-                              :comp {:synsem {:cat :adjective
-                                              :sem mod-sem}}
-                              :head {:phrasal false
-                                     :synsem {:cat :noun
-                                              :mod rest-mod
-                                              :propernoun propernoun
-                                              :sem head-sem}}}))
-
-                   (unify-check c11-comp-subcat-1
-                           (let [propernoun (atom :top)
-                                 head-sem (atom :top)
-                                 mod-sem (atom {:subj head-sem})
-                                 rest-mod (atom :top)]
-                             {:rule "nbar2"
-                              :synsem {:reflexive false
-                                       :propernoun propernoun
-                                       :mod {:first mod-sem
-                                             :rest rest-mod}}
-                              :comp {:synsem {:cat :adjective
-                                              :sem mod-sem}}
-                              :head {:phrasal true
-                                     :synsem {:cat :noun
-                                              :mod rest-mod
-                                              :propernoun propernoun
-                                              :sem head-sem}}}))
-
-                   ;; np1 -> det nbar
-                   (unify-check c10
-                           comp-specs-head
-                           (let [number-agreement (atom :top)
-                                 propernoun (atom :top)
-                                 mod (atom :top)]
-                             {:rule "noun-phrase1"
-                              :aliases (list "np1")
-                              :synsem {:agr {:number number-agreement}
-                                       :reflexive false
-                                       :cat :noun
-                                       :mod mod
-                                       :propernoun propernoun
-                                       :sem {:number number-agreement}}
-                              :head {:phrasal true
-                                     :synsem {:mod mod
-                                              :propernoun propernoun}}}))
-                   ;; np2 -> det noun
-                   (unify-check c10
-                           comp-specs-head
-                           (let [number-agreement (atom :top)
-                                 propernoun (atom :top)]
-                             {:rule "noun-phrase2"
-                              :aliases (list "np2")
-                              :synsem {:agr {:number number-agreement}
-                                       :reflexive false
-                                       :cat :noun
-                                       :mod '()
-                                       :propernoun propernoun
-                                       :sem {:number number-agreement}}
-                              :head {:phrasal false
-                                     :synsem {:propernoun propernoun}}}))
-                   
-                   (let [sem (atom :top)
-                         agr (atom :top)
-                         reflexive (atom :top)]
-                     (unify-check h10
-                      subcat-1-principle
-                      head-first
-                      {:comment "h10"
-                       :schema-symbol 'h10
-                       :first :head
-                       :rule "prepositional-phrase"
-                       :synsem {:agr agr
-                                :cat :prep
-                                :reflexive reflexive
-                                :sem sem}
-                       :head {:synsem {:sem sem
-                                       :subcat {:1 {:agr agr
-                                                    :reflexive reflexive}}}}}))
-                   (unify-check c10
-                                unmodified
-                                root-is-head
-                                {:rule "sentence-nonphrasal-head"
-                                 :synsem {:cat :verb}
-                                 :head {:phrasal false
-                                        :slash false
-                                        :synsem {:participle false}}})
-                   (unify-check c10
-                                unmodified
-                                root-is-head-root
-                                {:head {:phrasal true
-                                        :slash false}
-                                 :rule "sentence-phrasal-head"
-                                 :synsem {:cat :verb}})
-
-                   (unify-check h21
-                                root-is-head
-                                {:rule "transitive-vp-nonphrasal-head"
-                                 :synsem {:aux false
-                                          :cat :verb}})
-                   (unify-check h21
-                                root-is-head-root
-                                {:rule "transitive-vp-phrasal-head"
-                                 :head {:phrasal true}
-                                 :synsem {:aux false
-                                          :cat :verb}})
-
-                   ;; TODO: enforce the facts that:
-                   ;; 1. {:head {:phrasal true}} => root-is-head-root
-                   ;; 2. {:head {:phrasal false}} => root-is-head
-                   (unify-check h32
-                           root-is-head
-                           {:rule "vp32"
-                            :head {:phrasal false
-                                   :phrasal-verb true}
-                            :synsem {:aux false
-                                     :cat :verb}})
-
-                   (unify-check h10
-                           {:head {:phrasal false
-                                   :synsem {:cat :sent-modifier}}
-                            :rule "s-modifier"})
-
-                   ;;      noun-phrase3      ->  noun-phrase[1,2] relative-clause-complement
-                   ;; e.g. "the man you saw" ->  "the man"        "you saw"
-                   (unify-check
-                    {:rule "noun-phrase3"
-                     :synsem {:cat :noun
-                              :subcat '()}}
-                    head-principle
-                    head-first
-                    (let [head-sem (atom :top)
-                          agr (atom :top)
-                          cat (atom :noun)
-                          comp-sem (atom {:obj head-sem})
-                          head-mod (atom :top)]
-                      {:phrasal true
-                       :synsem {:cat cat
-                                :agr agr
-                                :sem head-sem
-                                :mod {:first comp-sem
-                                      :rest head-mod}}
-                       :head {:rule "noun-phrase2"
-                              :phrasal true
-                              :synsem {:agr agr
-                                       :cat cat
-                                       :subcat '()
-                                       :mod head-mod
-                                       :sem head-sem}}
-                       :comp {:phrasal true
-                              :rule "relative-clause-complement"
-                              :synsem {:cat :verb
-                                       :sem comp-sem}}})
-
-                    (let [head-modified-by-comp (atom :top)]
-                      {:comp {:synsem {:subcat {:1 head-modified-by-comp}}}
-                       :head {:synsem head-modified-by-comp}}))
-                       
-                   (unify-check
-                    (let [first-arg (atom :top)
-                          second-arg (atom {:reflexive false})]
-                      {:rule "relative-clause-complement"
-                       :phrasal true
-                       :slash true
-                       :synsem {:cat :verb
-                                :subcat {:1 second-arg
-                                         :2 '()}}
-                       :comp {:synsem first-arg}
-                       :head {:synsem {:subcat {:1 first-arg
-                                                :2 second-arg}}}})
-                    (let [head-sem (atom :top)]
-                      {:synsem {:sem head-sem}
-                       :head {:synsem {:sem head-sem}}})
-                    
-                    (let [cat (atom :verb)]
-                      {:synsem {:cat cat
-                                :aux false}
-                       :head {:synsem {:aux false
-                                       :cat cat}}})
-                    
-                    head-last
-                    
-                    {:comp {:phrasal false}}
-
-                    {:comp {:synsem {:pronoun true
-                                     :case :nom
-                                     :cat :noun}}}
-
-                    (let [infl (atom :top)
-                          participle (atom false)]
-                      {:synsem {:infl infl
-                                :participle participle}
-                       :head {:synsem {:infl infl
-                                       :participle participle}}}))))
+(def grammar
+  [(unify-check h21
+                {:rule "adjective-phrase"
+                 :synsem {:cat :adjective}})
+   
+   (unify-check h21
+                (let [head-synsem {:cat :intensifier}]
+                  {:rule "intensifier-phrase"
+                   :synsem head-synsem}))
+   
+   (unify-check h10
+                (let [semantics (atom :top)
+                      comp-type (atom :top)]
+                  {:rule "complementizer-phrase"
+                   :synsem {:cat :comp
+                            :comp-type comp-type
+                            :sem semantics}
+                   :head {:synsem {:comp-type comp-type
+                                   :sem semantics}}}))
+   (unify-check c10
+                {:rule "determiner-phrase"
+                 :synsem {:cat :det}})
+   
+   (unify-check c11-comp-subcat-1
+                (let [propernoun (atom :top)
+                      head-sem (atom :top)
+                      mod-sem (atom {:subj head-sem})
+                      rest-mod '()]
+                  {:rule "nbar1"
+                   :synsem {:reflexive false
+                            :propernoun propernoun
+                            :mod {:first mod-sem
+                                  :rest rest-mod}}
+                   :comp {:synsem {:cat :adjective
+                                   :sem mod-sem}}
+                   :head {:phrasal false
+                          :synsem {:cat :noun
+                                   :mod rest-mod
+                                   :propernoun propernoun
+                                   :sem head-sem}}}))
+   
+   (unify-check c11-comp-subcat-1
+                (let [propernoun (atom :top)
+                      head-sem (atom :top)
+                      mod-sem (atom {:subj head-sem})
+                      rest-mod (atom :top)]
+                  {:rule "nbar2"
+                   :synsem {:reflexive false
+                            :propernoun propernoun
+                            :mod {:first mod-sem
+                                  :rest rest-mod}}
+                   :comp {:synsem {:cat :adjective
+                                   :sem mod-sem}}
+                   :head {:phrasal true
+                          :synsem {:cat :noun
+                                   :mod rest-mod
+                                   :propernoun propernoun
+                                   :sem head-sem}}}))
+   
+   ;; np1 -> det nbar
+   (unify-check c10
+                comp-specs-head
+                (let [number-agreement (atom :top)
+                      propernoun (atom :top)
+                      mod (atom :top)]
+                  {:rule "noun-phrase1"
+                   :aliases (list "np1")
+                   :synsem {:agr {:number number-agreement}
+                            :reflexive false
+                            :cat :noun
+                            :mod mod
+                            :propernoun propernoun
+                            :sem {:number number-agreement}}
+                   :head {:phrasal true
+                          :synsem {:mod mod
+                                   :propernoun propernoun}}}))
+   ;; np2 -> det noun
+   (unify-check c10
+                comp-specs-head
+                (let [number-agreement (atom :top)
+                      propernoun (atom :top)]
+                  {:rule "noun-phrase2"
+                   :aliases (list "np2")
+                   :synsem {:agr {:number number-agreement}
+                            :reflexive false
+                            :cat :noun
+                            :mod '()
+                            :propernoun propernoun
+                            :sem {:number number-agreement}}
+                   :head {:phrasal false
+                          :synsem {:propernoun propernoun}}}))
+   
+   (let [sem (atom :top)
+         agr (atom :top)
+         reflexive (atom :top)]
+     (unify-check h10
+                  subcat-1-principle
+                  head-first
+                  {:comment "h10"
+                   :schema-symbol 'h10
+                   :first :head
+                   :rule "prepositional-phrase"
+                   :synsem {:agr agr
+                            :cat :prep
+                            :reflexive reflexive
+                            :sem sem}
+                   :head {:synsem {:sem sem
+                                   :subcat {:1 {:agr agr
+                                                :reflexive reflexive}}}}}))
+   (unify-check c10
+                unmodified
+                root-is-head
+                {:rule "sentence-nonphrasal-head"
+                 :synsem {:cat :verb}
+                 :head {:phrasal false
+                        :slash false
+                        :synsem {:participle false}}})
+   (unify-check c10
+                unmodified
+                root-is-head-root
+                {:head {:phrasal true
+                        :slash false}
+                 :rule "sentence-phrasal-head"
+                 :synsem {:cat :verb}})
+   
+   (unify-check h21
+                root-is-head
+                {:rule "transitive-vp-nonphrasal-head"
+                 :synsem {:aux false
+                          :cat :verb}})
+   (unify-check h21
+                root-is-head-root
+                {:rule "transitive-vp-phrasal-head"
+                 :head {:phrasal true}
+                 :synsem {:aux false
+                          :cat :verb}})
+   
+   ;; TODO: enforce the facts that:
+   ;; 1. {:head {:phrasal true}} => root-is-head-root
+   ;; 2. {:head {:phrasal false}} => root-is-head
+   (unify-check h32
+                root-is-head
+                {:rule "vp32"
+                 :head {:phrasal false
+                        :phrasal-verb true}
+                 :synsem {:aux false
+                          :cat :verb}})
+   
+   (unify-check h10
+                {:head {:phrasal false
+                        :synsem {:cat :sent-modifier}}
+                 :rule "s-modifier"})
+   
+   ;;      noun-phrase3      ->  noun-phrase[1,2] relative-clause-complement
+   ;; e.g. "the man you saw" ->  "the man"        "you saw"
+   (unify-check
+    {:rule "noun-phrase3"
+     :synsem {:cat :noun
+              :subcat '()}}
+    head-principle
+    head-first
+    (let [head-sem (atom :top)
+          agr (atom :top)
+          cat (atom :noun)
+          comp-sem (atom {:obj head-sem})
+          head-mod (atom :top)]
+      {:phrasal true
+       :synsem {:cat cat
+                :agr agr
+                :sem head-sem
+                :mod {:first comp-sem
+                      :rest head-mod}}
+       :head {:rule "noun-phrase2"
+              :phrasal true
+              :synsem {:agr agr
+                       :cat cat
+                       :subcat '()
+                       :mod head-mod
+                       :sem head-sem}}
+       :comp {:phrasal true
+              :rule "relative-clause-complement"
+              :synsem {:cat :verb
+                       :sem comp-sem}}})
+    
+    (let [head-modified-by-comp (atom :top)]
+      {:comp {:synsem {:subcat {:1 head-modified-by-comp}}}
+       :head {:synsem head-modified-by-comp}}))
+   
+   (unify-check
+    (let [first-arg (atom :top)
+          second-arg (atom {:reflexive false})]
+      {:rule "relative-clause-complement"
+       :phrasal true
+       :slash true
+       :synsem {:cat :verb
+                :subcat {:1 second-arg
+                         :2 '()}}
+       :comp {:synsem first-arg}
+       :head {:synsem {:subcat {:1 first-arg
+                                :2 second-arg}}}})
+    (let [head-sem (atom :top)]
+      {:synsem {:sem head-sem}
+       :head {:synsem {:sem head-sem}}})
+    
+    (let [cat (atom :verb)]
+      {:synsem {:cat cat
+                :aux false}
+       :head {:synsem {:aux false
+                       :cat cat}}})
+    
+    head-last
+    
+    {:comp {:phrasal false}}
+    
+    {:comp {:synsem {:pronoun true
+                     :case :nom
+                     :cat :noun}}}
+    
+    (let [infl (atom :top)
+          participle (atom false)]
+      {:synsem {:infl infl
+                :participle participle}
+       :head {:synsem {:infl infl
+                       :participle participle}}}))])
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

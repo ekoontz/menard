@@ -123,8 +123,11 @@
   "return a lazy sequence of bolts for all possible complements 
   that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
-  (log/debug (str "comp-path-to-complements:" depth "/" max-depth ":" ((:morph-ps model) bolt) "@" path))
-  (let [spec (get-in bolt path)
+  (let [log-message-prefix
+        (str "comp-path-to-complements:" depth "/" max-depth ":"
+             ((:morph-ps model) bolt) "@" path)
+        debug (log/trace (str log-message-prefix ": start."))
+        spec (get-in bolt path)
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
                    (lazy-seq (generate-all (get-in bolt path) model

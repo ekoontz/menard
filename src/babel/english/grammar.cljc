@@ -7,20 +7,14 @@
    [babel.index :refer [create-indices lookup-spec]]
    [babel.parse :as parse]
    [babel.ug :as ug
-    :refer [apply-default-if
-            comp-modifies-head
-            comp-specs-head
-            head-principle
-            root-is-comp
+    :refer [apply-default-if comp-modifies-head
+            comp-specs-head head-principle root-is-comp
             root-is-head root-is-head-root
-            subcat-1-principle
-            subcat-1-1-principle
+            subcat-1-principle subcat-1-1-principle
             subcat-1-1-principle-comp-subcat-1
-            subcat-2-principle
-            subcat-2-2-principle
-            subcat-5-principle
-            unify-check verb-default?
-            ]]
+            subcat-2-principle subcat-2-2-principle
+            subcat-5-principle unify-check
+            verb-default?]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
@@ -36,6 +30,10 @@
    [:synsem :sem :pred]
    [:synsem :sem :human]])
 
+(defn noun-default? [tree]
+  (and (= :noun (get-in tree [:synsem :cat]))
+       (= :top (get-in tree [:synsem :agr :number] :top))))
+
 (defn default-fn [tree]
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
   (log/debug (str "aspect (pre): " (strip-refs (get-in tree
@@ -49,6 +47,10 @@
                                                        ::unset))))
   (let [result
         (-> tree
+            (apply-default-if
+             noun-default?
+             {:synsem {:agr {:number :sing}}})
+            
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb

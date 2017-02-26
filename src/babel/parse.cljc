@@ -23,29 +23,29 @@
       (swap! lexical-cache #(cache/hit % k)))
     (swap! lexical-cache #(cache/miss % k (if-miss-do k)))))
 
-(defn lookup [{lookup :lookup lexical-cache :lexical-cache} k]
-  (if (or (= false parse-with-lexical-caching)
-          (nil? lexical-cache))
-    (lookup k)
-    (let [lookup-fn (fn [k]
-                      (do (log/debug (str "cache miss for " k))
-                          (let [looked-up (lookup k)]
-                            (if (not (empty? looked-up)) looked-up :none))))]
-      (deal-with-cache k lookup-fn lexical-cache)
-      (let [cache-value (get @lexical-cache k)]
-        (if (= cache-value :none) nil
-            cache-value)))))
+(defn lookup [{lookup :lookup
+               lexical-cache :lexical-cache
+               default-fn :default-fn} k]
+  (let [pre-default
+        (if (or (= false parse-with-lexical-caching)
+                (nil? lexical-cache))
+          (lookup k)
+          (let [lookup-fn (fn [k]
+                            (do (log/debug (str "cache miss for " k))
+                                (let [looked-up (lookup k)]
+                                  (if (not (empty? looked-up)) looked-up :none))))]
+            (deal-with-cache k lookup-fn lexical-cache)
+            (let [cache-value (get @lexical-cache k)]
+              (if (= cache-value :none) nil
+                  cache-value))))]
+    (cond (nil? default-fn)
+          pre-default
+          true
+          (map default-fn pre-default))))
 
+;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
 (defn over [grammar left right morph default-fn]
   "opportunity for additional logging before calling the real (over)"
-  (log/trace (str "parse/over: grammar size: " (count grammar)))
-  (log/debug (str "parse/over: "
-                  "left: " (vec (set (map morph left)))
-                  "; right: " (vec (set (map morph right)))))
-
-  (log/debug (str "over: rules: " (string/join ","
-                                               (map :rule grammar)) " with default-fn:" default-fn))
-  ;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
   (if default-fn
     (->>
      (over/over grammar left right)

@@ -199,12 +199,16 @@
         (lazy-cat lexical phrasal)
         (lazy-cat phrasal lexical)))))
 
-(defn do-defaults [tree language-model]
-  (log/trace (str "calling do-defaults on tree:" ((:morph language-model) tree)))
-  (if-let [default-fn (:default-fn language-model)]
+(defn do-defaults [tree {default-fn :default-fn
+                         morph :morph}]
+  (if (not (fn? morph))
+    (throw (Exception. (str "(do-defaults) was unexpectedly called without a 'morph' function."))))
+
+  (log/trace (str "calling do-defaults on tree:" (morph tree)))
+  (if default-fn
     (let [result
           (default-fn tree)]
-      (log/trace (str "result of calling do-defaults on tree:" ((:morph language-model) result)))
+      (log/trace (str "result of calling do-defaults on tree:" (morph result)))
       result)
     ;;
     (do

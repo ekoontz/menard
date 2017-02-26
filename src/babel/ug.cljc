@@ -33,12 +33,9 @@
       result)))
 
 (defn verb-default? [tree]
-  (let [result
-        (and (= :verb (get-in tree [:synsem :cat]))
-             (or (= :top (get-in tree [:synsem :sem :tense] :top))
-                 (= :top (get-in tree [:synsem :infl] :top))))]
-    (log/debug (str "verb-default on this tree: => " result))
-    result))
+  (and (= :verb (get-in tree [:synsem :cat]))
+       (or (= :top (get-in tree [:synsem :sem :tense] :top))
+           (= :top (get-in tree [:synsem :infl] :top)))))
 
 (defn apply-default-if [tree test to-apply]
   (if (test tree)

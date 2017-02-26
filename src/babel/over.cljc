@@ -57,16 +57,7 @@
     (let [result (unify! (copy parent)
                          {:head (copy head)})]
       (if (not (= :fail result))
-        (do
-          (log/debug (str "overh success: " (get-in parent [:rule]) " -> " (spec-info head) " : "
-                          (strip-refs
-                           (dissoc
-                            head :dag_unify.core/serialized))))
-          (list result))
-        (log/debug (str "overh: fail-path for rule: " (:rule parent) " with head:" (spec-info head) ":"
-                        (dag_unify.core/fail-path
-                         (copy parent)
-                         {:head (copy head)})))))))
+        (list result)))))
 
 (defn overc [parent comp]
   "add given child as the complement of the parent"

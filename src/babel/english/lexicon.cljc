@@ -4,16 +4,27 @@
    [babel.encyclopedia :as encyc]
    [babel.english.morphology :as morph]
    [babel.lexiconfn :refer [apply-unify-key compile-lex default edn2lexicon
-                            new-entries verb-pred-defaults]]
+                            new-entries remove-vals verb-pred-defaults]]
    [clojure.java.io :refer [resource]]
+   [clojure.tools.logging :as log]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
+
+(declare exception-generator)
+(declare phonize)
 
 ;; TODO: allow a filter of lexemes
 (defn deliver-lexicon []
   (->
    (edn2lexicon (resource "babel/english/lexicon.edn"))
-   (compile-lex morph/exception-generator
-                morph/phonize)
+   (compile-lex exception-generator
+                phonize)
+
+   ;; for nouns with exceptional plural forms (e.g. "men","women"),
+   ;; exception-generator has generated both the plural and the singular forms
+   ;; as separate lexemes, so remove original lexeme.
+   (remove-vals #(and (= :top (get-in % [:synsem :agr :number]))
+                      (= :noun (get-in % [:synsem :cat]))
+                      (string? (get-in % [:english :plur]))))
 
    apply-unify-key
    
@@ -85,6 +96,7 @@
       {:english {:agr agr}
        :synsem {:cat :noun
                 :agr agr}}))
+   
    ;; A pronoun is either reflexive or not reflexive, but
    ;; a non-pronoun is never reflexive.
    (default

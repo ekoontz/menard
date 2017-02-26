@@ -1399,8 +1399,7 @@
          :english {:past "made"}}
 
  "man" {:english {:plur "men"}
-        :synsem {:agr {:gender :masc
-                       :number :sing}
+        :synsem {:agr {:gender :masc}
                  :cat :noun
                  :sem {:human true
                        :child false
@@ -2391,7 +2390,6 @@
  "wound" {:synsem {:cat :verb
                    :sem {:pred :wound}}}
 
-
  "worry" {:english {:past "worried"
                     :participle "worrying"
                     :past-participle "worried"}
@@ -2414,7 +2412,6 @@
            :sem {:pred :yellow
                  :subj {:physical-object true
                         :human false}}}}
-
  "you"
  {:synsem {:cat :noun
            :pronoun true

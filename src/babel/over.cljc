@@ -40,42 +40,6 @@
       (overh head)
       (overc comp)))
 
-(defn spec-info
-  "give a human-readable summary of _spec_."
-  [spec]
-  (strip-refs
-   (merge
-    (if-let [cat (get-in spec [:synsem :cat])]
-      {:cat cat})
-    (if-let [subcat (get-in spec [:synsem :subcat])]
-      {:subcat subcat})
-    (if-let [rule (get-in spec [:rule])]
-      {:rule rule})
-    (if-let [mod (get-in spec [:synsem :mod])]
-      {:mod mod})
-    (if-let [essere (get-in spec [:synsem :essere])]
-      {:essere essere})
-    (if-let [pred (get-in spec [:synsem :sem :pred])]
-      {:pred pred})
-    (if-let [agr (get-in spec [:synsem :agr])]
-      {:agr agr})
-    (if-let [def (get-in spec [:synsem :sem :spec :def])]
-      {:def def})
-    (if-let [infl (get-in spec [:synsem :infl])]
-      {:infl infl})
-    (if-let [pronoun (get-in spec [:synsem :pronoun])]
-      {:pronoun pronoun})
-    ;; :synsem/:sem/:mod is sometimes used with nil explicitly, so need to have a special test for it
-    (let [mod (get-in spec [:synsem :sem :mod] :not-found-by-spec-info)]
-      (if (not (= :not-found-by-spec-info mod))
-        {:mod mod}))
-    (if-let [modified (get-in spec [:modified])]
-      {:modified modified})
-    (if-let [subcat1 (if (not (empty? (get-in spec [:synsem :subcat])))
-                      (get-in spec [:synsem :subcat :1 :cat]))]
-      {:subcat/:1/:cat subcat1
-       :subcat/:1/:agr (get-in spec [:synsem :subcat :1 :agr])}))))
-
 (defn overh
   "add given head as the head child of the phrase: parent."
   [parent head]
@@ -135,11 +99,9 @@
                         (copy parent)
                         {:comp (copy comp)})))))))
 
-(declare show-bolt)
 (declare subpath?)
 
 (defn truncate [input truncate-paths language-model]
-  (log/debug (str "truncating@" truncate-paths ":" (show-bolt input language-model)))
   (let [serialized (if (:dag_unify.core/serialized input)
                      (:dag_unify.core/serialized input)
                      (serialize input))
@@ -165,22 +127,6 @@
 (defn truncate-expressions [expressions truncate-paths language-model]
   (map #(truncate % truncate-paths language-model)
        expressions))
-
-
-(defn show-bolt [bolt language-model]
-  (if (nil? bolt)
-    (exception (str "don't call show-bolt with bolt=null."))
-    (let [morph (:morph language-model)]
-      (if (nil? morph)
-        (exception (str "don't call show-bolt with morph=null."))
-        (str (if (get-in bolt [:rule]) (str "[" (get-in bolt [:rule]) " "))
-             (let [head-bolt (get-in bolt [:head])]
-               (if (nil? head-bolt)
-                 (morph bolt)
-                 (let [rest-str (show-bolt (get-in bolt [:head]) language-model)]
-                   (if (not (nil? rest-str))
-                     (str "-> " rest-str)))))
-             (if (get-in bolt [:rule]) "]"))))))
 
 (defn subpath? [path1 path2]
   "return true if path1 is subpath of path2."

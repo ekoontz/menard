@@ -45,6 +45,7 @@
 
   (log/debug (str "over: rules: " (string/join ","
                                                (map :rule grammar)) " with default-fn:" default-fn))
+  ;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
   (if default-fn
     (->>
      (over/over grammar left right)

@@ -1,9 +1,11 @@
 (ns babel.ug
   (:refer-clojure :exclude [get-in resolve])
   (:require [babel.lexiconfn :refer [apply-default]]
+            [babel.over :refer [spec-info]]
+            [clojure.math.combinatorics :as combo]
             [clojure.string :as string]
             #?(:clj [clojure.tools.logging :as log])
-            [dag_unify.core :refer (fail? get-in unify)]))
+            [dag_unify.core :refer [fail? fail-path get-in strip-refs unify]]))
 
 (def phrasal {:phrasal true})
 
@@ -16,7 +18,19 @@
 (defn unify-check [ & vals]
   (let [result (apply unify vals)]
     (if (fail? result)
-      (exception (str "failed to unify grammar rule with values: " vals))
+      (exception (str "failed to unify components of grammar rule: "
+                      (first  ;; there may be other failed components, but showing
+                       ;; only one should be enough to help the grammarian without
+                       ;; overwhelming them.
+                       (filter #(not (nil? %))
+                               (map (fn [[a b]]
+                                      (let [fp (fail-path a b)]
+                                        (if (not (nil? fp))
+                                          {:path (:fail-path fp)
+                                           :a (strip-refs a)
+                                           :b (strip-refs b)})))
+                                    (filter #(= (count %) 2)
+                                            (clojure.math.combinatorics/subsets vals)))))))
       result)))
 
 (defn verb-default? [tree]

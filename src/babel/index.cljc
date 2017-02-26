@@ -8,18 +8,13 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [fail? dissoc-paths get-in label-of
                            remove-top-values-log strip-refs
-                           unifyc]]
-
-   [babel.over :as over]))
+                           unifyc]]))
 
 (defn exception [error-string]
   #?(:clj
      (throw (Exception. error-string)))
   #?(:cljs
      (throw (js/Error. error-string))))
-
-;; For now, this index is just a stub; no actual caching is done; it simply calls 
-;; the over/ equivalents of each of the defined functions.
 
 (def head-index {})
 (def comp-index {})
@@ -111,12 +106,6 @@
     (if (empty? result)
       (log/trace (str "comp-phrases of parent: " (label-of parent) " is empty.")))
     result))
-
-(defn overc-with-index-1 [parent lex]
-  (if (not (empty? lex))
-    (do
-      (lazy-cat (over/overc parent (first lex))
-                (overc-with-index-1 parent (rest lex))))))
 
 ;; TODO: remove this: has already been removed in favor of (map-subset-by-path)
 ;; TODO: document how this works and especially what 'phrase-constraint' means.

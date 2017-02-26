@@ -132,12 +132,13 @@
         bolts-at (if (< depth max-depth)
                    (lazy-seq (generate-all (get-in bolt path) model
                                            (+ 1 depth) max-depth)))
-        lexemes-before-phrases
-        (or true (lexemes-before-phrases depth max-depth))]
+        lexemes-before-phrases true]
     (cond (nil? bolts-at)
           (lazy-seq lexemes)
+
           lexemes-before-phrases
           (lazy-cat lexemes bolts-at)
+
           true
           (lazy-cat bolts-at lexemes))))
 

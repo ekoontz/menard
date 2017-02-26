@@ -904,7 +904,8 @@
                  :discrete false
                  :pred :go}
            :subcat {:2 {:cat :prep}}}
-  :english {:past "went"}}
+  :english {:past "went"
+            :past-participle "gone"}}
 
  ;; TODO: move all "go X"s to "go" with a subcat argument, a la phrasal verbs e.g. "putting on"
  "go around"
@@ -915,6 +916,7 @@
            :subcat {:2 '()}}
   :english {:past "went around"
             :participle "going around"
+            :past-participle "gone around"
             :present {:3sing "goes around"}}}
 
  "go downstairs"
@@ -925,6 +927,7 @@
            :subcat {:2 '()}}
   :english {:past "went downstairs"
             :participle "going downstairs"
+            :past-participle "gone downstairs"
             :present {:3sing "goes downstairs"}}}
 
  "go out"
@@ -935,6 +938,7 @@
            :subcat {:2 '()}}
   :english {:past "went out"
             :participle "going out"
+            :past-participle "gone out"
             :present {:3sing "goes out"}}}
 
  "go upstairs"
@@ -945,6 +949,7 @@
            :subcat {:2 '()}}
   :english {:past "went upstairs"
             :participle "going upstairs"
+            :past-participle "gone upstairs"
             :present {:3sing "goes upstairs"}}}
 
  "grab"  {:synsem {:cat :verb
@@ -2160,7 +2165,7 @@
                    :def :def}}
 
  "throw" (let [common {:english {:past "threw"
-                                 :past-participle "thrown"}}                                 
+                                 :past-participle "thrown"}}
                throw-out {:phrasal-verb true
                           :synsem {:cat :verb
                                    :sem {:pred :throw-out}}}]
@@ -2431,7 +2436,7 @@
                   :reflexive false
                   :pred :voi}
             :subcat '()}}
-  
+
   {:english {:note "v"}
    :synsem {:cat :noun
             :pronoun true
@@ -2486,4 +2491,3 @@
            :sem {:human true
                  :pred :voi}
            :subcat '()}}}
-

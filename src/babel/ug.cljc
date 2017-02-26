@@ -1,7 +1,6 @@
 (ns babel.ug
   (:refer-clojure :exclude [get-in resolve])
   (:require [babel.lexiconfn :refer [apply-default]]
-            [babel.over :refer [spec-info]]
             [clojure.math.combinatorics :as combo]
             [clojure.string :as string]
             #?(:clj [clojure.tools.logging :as log])

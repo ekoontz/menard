@@ -713,6 +713,10 @@
                [k (filter filter-fn (get lexicon k))])
              (keys lexicon))))
 
+(defn remove-vals [lexicon remove-fn]
+  (into {}
+        (map (fn [k]
+               [k (remove remove-fn (get lexicon k))])
              (keys lexicon))))
 
 (defn rewrite-keys [lexicon rewrite-fn]

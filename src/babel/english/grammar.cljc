@@ -387,7 +387,7 @@
                         :synsem {:cat :sent-modifier}}
                  :rule "s-modifier"})
    
-   ;;      noun-phrase3      ->  noun-phrase[1,2] relative-clause-complement
+   ;;      noun-phrase3      ->  noun-phrase[1,2] slash-obj
    ;; e.g. "the man you saw" ->  "the man"        "you saw"
    (unify-check
     {:rule "noun-phrase3"
@@ -414,7 +414,7 @@
                        :mod head-mod
                        :sem head-sem}}
        :comp {:phrasal true
-              :rule "relative-clause-complement"
+              :rule "slash-obj"
               :synsem {:cat :verb
                        :sem comp-sem}}})
     
@@ -425,7 +425,7 @@
    (unify-check
     (let [first-arg (atom :top)
           second-arg (atom {:reflexive false})]
-      {:rule "relative-clause-complement"
+      {:rule "slash-obj"
        :phrasal true
        :slash true
        :synsem {:cat :verb
@@ -446,9 +446,8 @@
     
     head-last
     
-    {:comp {:phrasal false}}
-    
-    {:comp {:synsem {:pronoun true
+    {:comp {:phrasal false
+            :synsem {:pronoun true
                      :case :nom
                      :cat :noun}}}
     

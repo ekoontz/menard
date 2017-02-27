@@ -631,7 +631,8 @@
                   :spec {:def :def}}
             :mod {:first {:pred :see
                           :tense :present
-                          :subj {:pred :lei}}}}})
+                          :subj {:pred :lei
+                                 :human true}}}}})
 
 (deftest generate-with-relative-clause
   (is (= "the woman she sees"

@@ -423,10 +423,11 @@
        :head {:synsem head-modified-by-comp}}))
    
    (unify-check
+    head-last
+    {:rule "slash-obj"}
     (let [first-arg (atom :top)
           second-arg (atom {:reflexive false})]
-      {:rule "slash-obj"
-       :phrasal true
+      {:phrasal true
        :slash true
        :synsem {:cat :verb
                 :subcat {:1 second-arg
@@ -442,15 +443,12 @@
       {:synsem {:cat cat
                 :aux false}
        :head {:synsem {:aux false
-                       :cat cat}}})
-    
-    head-last
-    
-    {:comp {:phrasal false
-            :synsem {:pronoun true
-                     :case :nom
-                     :cat :noun}}}
-    
+                       :cat cat}}
+       :comp {:phrasal false
+              :synsem {:pronoun true
+                       :case :nom
+                       :cat :noun}}})
+
     (let [infl (atom :top)
           participle (atom false)]
       {:synsem {:infl infl

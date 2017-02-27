@@ -415,9 +415,8 @@
                        :mod head-mod
                        :sem head-sem}}
        :comp {:phrasal true
-              :rule "slash-obj"
-              :synsem {:cat :verb
-                       :sem comp-sem}}})
+              :slash true
+              :synsem {:sem comp-sem}}})
     
     (let [head-modified-by-comp (atom :top)]
       {:comp {:synsem {:subcat {:1 head-modified-by-comp}}}
@@ -450,7 +449,8 @@
       {:synsem {:infl infl
                 :participle participle}
        :head {:synsem {:infl infl
-                       :participle participle}}}))])
+                       :participle participle}}})
+    )])
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))

@@ -426,28 +426,27 @@
     head-last
     {:rule "slash-obj"}
     (let [first-arg (atom :top)
+          cat (atom :verb)
           second-arg (atom {:reflexive false})]
       {:phrasal true
        :slash true
-       :synsem {:cat :verb
+       :synsem {:cat cat
                 :subcat {:1 second-arg
                          :2 '()}}
        :comp {:synsem first-arg}
-       :head {:synsem {:subcat {:1 first-arg
+       :head {:synsem {:cat cat
+                       :subcat {:1 first-arg
                                 :2 second-arg}}}})
     (let [head-sem (atom :top)]
       {:synsem {:sem head-sem}
        :head {:synsem {:sem head-sem}}})
     
-    (let [cat (atom :verb)]
-      {:synsem {:cat cat
-                :aux false}
-       :head {:synsem {:aux false
-                       :cat cat}}
-       :comp {:phrasal false
-              :synsem {:pronoun true
-                       :case :nom
-                       :cat :noun}}})
+    {:synsem {:aux false}
+     :head {:synsem {:aux false}}
+     :comp {:phrasal false
+            :synsem {:pronoun true
+                     :case :nom
+                     :cat :noun}}}
 
     (let [infl (atom :top)
           participle (atom false)]

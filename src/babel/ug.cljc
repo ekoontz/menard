@@ -208,6 +208,11 @@
                        :2 subcat-2
                        :3 '()}}}))
 
+(def head-semantics
+  (let [semantics (atom :top)]
+    {:head {:synsem {:sem semantics}}
+     :synsem {:sem semantics}}))
+
 (def comp-modifies-head
   (let [human (atom :top)
         animate (atom :top)

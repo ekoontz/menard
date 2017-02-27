@@ -8,7 +8,8 @@
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if comp-modifies-head
-            comp-specs-head head-principle root-is-comp
+            comp-specs-head head-semantics
+            head-principle root-is-comp
             root-is-head root-is-head-root
             subcat-1-principle subcat-1-1-principle
             subcat-1-1-principle-comp-subcat-1
@@ -423,8 +424,8 @@
        :head {:synsem head-modified-by-comp}}))
    
    (unify-check
-    head-last
     {:rule "slash-obj"}
+    head-last head-semantics
     (let [first-arg (atom :top)
           cat (atom :verb)
           second-arg (atom {:reflexive false})]
@@ -437,10 +438,6 @@
        :head {:synsem {:cat cat
                        :subcat {:1 first-arg
                                 :2 second-arg}}}})
-    (let [head-sem (atom :top)]
-      {:synsem {:sem head-sem}
-       :head {:synsem {:sem head-sem}}})
-    
     {:synsem {:aux false}
      :head {:synsem {:aux false}}
      :comp {:phrasal false

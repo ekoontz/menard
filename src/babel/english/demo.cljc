@@ -79,6 +79,7 @@
   (let [n (if n (Integer. n)
               10)
         spec (if spec (unify spec
+                             {:synsem {:subcat '()}}
                              {:modified false})
                  {:modified false})]
     (filter #(not (nil? %))

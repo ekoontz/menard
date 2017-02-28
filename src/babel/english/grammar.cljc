@@ -348,6 +348,7 @@
                 unmodified
                 root-is-head
                 {:rule "sentence-nonphrasal-head"
+                 :slash false
                  :synsem {:cat :verb}
                  :head {:phrasal false
                         :slash false
@@ -357,17 +358,20 @@
                 root-is-head-root
                 {:head {:phrasal true
                         :slash false}
+                 :slash false
                  :rule "sentence-phrasal-head"
                  :synsem {:cat :verb}})
    
    (unify-check h21
                 root-is-head
                 {:rule "transitive-vp-nonphrasal-head"
+                 :slash false
                  :synsem {:aux false
                           :cat :verb}})
    (unify-check h21
                 root-is-head-root
                 {:rule "transitive-vp-phrasal-head"
+                 :slash false
                  :head {:phrasal true}
                  :synsem {:aux false
                           :cat :verb}})

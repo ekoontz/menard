@@ -2111,7 +2111,17 @@
                    :agr {:number :sing}
                    :sem {:pred :demonstrative
                          :of :none}
-                   :def :def}}]
+                   :def :def}}
+
+         ;; "that": complementizer of relative clause as in "the woman that she saw"
+         (let [sem (atom :top)
+               obj-synsem (atom {:cat :verb
+                                 :slash true
+                                 :sem sem})]
+           {:synsem {:cat :comp
+                     :sem sem
+                     :subcat {:1 obj-synsem
+                              :2 '()}}})]
 
  "the" (let [common {:synsem {:cat :det
                               :sem {:pred :definite

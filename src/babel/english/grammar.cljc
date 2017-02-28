@@ -248,10 +248,11 @@
    (unify-check h10
                 (let [semantics (atom :top)
                       comp-type (atom :top)]
-                  {:rule "complementizer-phrase"
+                  {:rule "complementizer-phrase-nonslash"
                    :synsem {:cat :comp
                             :comp-type comp-type
                             :sem semantics}
+                   :comp {:synsem {:slash false}}
                    :head {:synsem {:comp-type comp-type
                                    :sem semantics}}}))
    (unify-check c10

@@ -395,37 +395,31 @@
    ;;      noun-phrase3      ->  noun-phrase[1,2] slash-obj
    ;; e.g. "the man you saw" ->  "the man"        "you saw"
    (unify-check
-    {:rule "noun-phrase3"
-     :synsem {:cat :noun
-              :subcat '()}}
+    {:rule "noun-phrase3"}
     head-principle
     head-first
     (let [head-sem (atom :top)
-          agr (atom :top)
           cat (atom :noun)
-          comp-sem (atom {:obj head-sem})
-          head-mod (atom :top)]
+          comp-sem (atom :top)
+          head-mod (atom :top)
+          head-synsem (atom {:cat cat
+                             :subcat '()
+                             :mod head-mod
+                             :sem head-sem})]
       {:phrasal true
        :synsem {:cat cat
-                :agr agr
                 :sem head-sem
                 :mod {:first comp-sem
-                      :rest head-mod}}
+                      :rest head-mod}
+                :subcat '()}
        :head {:rule "noun-phrase2"
               :phrasal true
-              :synsem {:agr agr
-                       :cat cat
-                       :subcat '()
-                       :mod head-mod
-                       :sem head-sem}}
+              :synsem head-synsem}
        :comp {:phrasal true
               :slash true
-              :synsem {:sem comp-sem}}})
-    
-    (let [head-modified-by-comp (atom :top)]
-      {:comp {:synsem {:subcat {:1 head-modified-by-comp}}}
-       :head {:synsem head-modified-by-comp}}))
-   
+              :synsem {:subcat {:1 head-synsem
+                                :2 '()}
+                       :sem comp-sem}}}))
    (unify-check
     {:rule "slash-obj"}
     head-last head-semantics

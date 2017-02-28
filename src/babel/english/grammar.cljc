@@ -348,8 +348,8 @@
                 unmodified
                 root-is-head
                 {:rule "sentence-nonphrasal-head"
-                 :slash false
-                 :synsem {:cat :verb}
+                 :synsem {:cat :verb
+                          :slash false}
                  :head {:phrasal false
                         :slash false
                         :synsem {:participle false}}})
@@ -357,16 +357,16 @@
                 unmodified
                 root-is-head-root
                 {:head {:phrasal true
-                        :slash false}
-                 :slash false
+                        :synsem {:slash false}}
                  :rule "sentence-phrasal-head"
-                 :synsem {:cat :verb}})
+                 :synsem {:cat :verb
+                          :slash false}})
    
    (unify-check h21
                 root-is-head
                 {:rule "transitive-vp-nonphrasal-head"
-                 :slash false
                  :synsem {:aux false
+                          :slash false
                           :cat :verb}})
    (unify-check h21
                 root-is-head-root
@@ -385,8 +385,8 @@
                  :head {:phrasal false
                         :phrasal-verb true}
                  :synsem {:aux false
-                          :cat :verb}})
-   
+                          :cat :verb
+                          :slash false}})
    (unify-check h10
                 {:head {:phrasal false
                         :synsem {:cat :sent-modifier}}
@@ -408,9 +408,10 @@
                              :sem head-sem})]
       {:phrasal true
        :synsem {:cat cat
-                :sem head-sem
                 :mod {:first comp-sem
                       :rest head-mod}
+                :sem head-sem
+                :slash false
                 :subcat '()}
        :head {:rule "noun-phrase2"
               :phrasal true
@@ -427,8 +428,8 @@
           cat (atom :verb)
           second-arg (atom {:reflexive false})]
       {:phrasal true
-       :slash true
        :synsem {:cat cat
+                :slash true
                 :subcat {:1 second-arg
                          :2 '()}}
        :comp {:synsem first-arg}

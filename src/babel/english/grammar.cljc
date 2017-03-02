@@ -255,6 +255,33 @@
                    :comp {:synsem {:slash false}}
                    :head {:synsem {:comp-type comp-type
                                    :sem semantics}}}))
+   (unify-check
+    head-first
+    (let [semantics (atom :top)
+          comp-type (atom :top)
+          argument (atom :top)
+          mod (atom :top)
+          cat (atom :comp)]
+      {:rule "complementizer-phrase-slash"
+       :phrasal true
+       :synsem {:slash true
+                :cat cat
+                :mod mod
+                :subcat {:1 argument
+                         :2 '()}
+                :sem semantics}
+       :comp {:phrasal true
+              :synsem {:cat :verb
+                       :mod mod
+                       :sem semantics
+                       :slash true
+                       :subcat {:1 argument
+                                :2 '()}}}
+       :head {:phrasal false
+              :synsem {:cat cat
+                       :sem semantics}}
+       }))
+   
    (unify-check c10
                 {:rule "determiner-phrase"
                  :synsem {:cat :det}})

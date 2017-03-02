@@ -635,8 +635,10 @@
                                  :human true}}}}})
 
 (deftest generate-with-relative-clause
-  (is (= "the woman she sees"
-         (morph (generate spec-for-the-woman-she-sees)))))
-
-
+  (let [result (generate spec-for-the-woman-she-sees)]
+    (is (or
+         (= "the woman she sees"
+            (morph result))
+         (= "the woman that she sees"
+            (morph result))))))
 

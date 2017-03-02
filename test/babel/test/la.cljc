@@ -52,8 +52,7 @@
                         :sem {:tense :future}}})))))
 (deftest reader1
   (let [spec (let [agreement (atom {:person :3rd :number :sing :gender :masc})]
-               {:slash false ;; TODO: {:slash false, :synsem {:subcat '()}} should be part of default spec.
-                :synsem {:subcat '()
+               {:synsem {:slash false
                          :agr agreement
                          :sem {:obj :unspec
                                :tense :past

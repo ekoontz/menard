@@ -445,8 +445,8 @@
               :phrasal true
               :synsem head-synsem}
        :comp {:phrasal true
-              :slash true
-              :synsem {:subcat {:1 head-synsem
+              :synsem {:slash true
+                       :subcat {:1 head-synsem
                                 :2 '()}
                        :sem comp-sem}}}))
    (unify-check

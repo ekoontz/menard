@@ -554,6 +554,18 @@ as a map of implications"}
         {:pred :wash-oneself
          :subj {:living true}}
 
+        {:pred :wear
+         :subj {:clothing true}}
+
+        {:pred :wear-i
+         :subj {:clothing true}}
+
+        {:pred :wear-l
+         :subj {:clothing true}}
+
+        {:pred :wear-p
+         :subj {:clothing true}}
+
         {:pred :win
          :subj {:human true}
          :obj {:human false}}

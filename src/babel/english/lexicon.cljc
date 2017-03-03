@@ -222,6 +222,14 @@
       {:synsem {:cat :verb
                 :sem {:subj subject}
                 :subcat {:1 {:sem subject}}}}))
+
+   ;; by default, subjects cannot be null: e.g.
+   ;; "he eats" but
+   ;; not *"there eats"
+   (default
+    (let [subject (atom {:null false})]
+      {:synsem {:cat :verb
+                :sem {:subj subject}}}))
    
    (default
     (let [object (atom :top)]

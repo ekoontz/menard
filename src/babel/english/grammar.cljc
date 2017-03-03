@@ -466,8 +466,7 @@
                                 :2 second-arg}}}})
     {:synsem {:aux false}
      :head {:synsem {:aux false}}
-     :comp {:phrasal false
-            :synsem {:pronoun true
+     :comp {:synsem {:subcat '()
                      :case :nom
                      :cat :noun}}}
 

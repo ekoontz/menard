@@ -555,16 +555,16 @@ as a map of implications"}
          :subj {:living true}}
 
         {:pred :wear
-         :subj {:clothing true}}
+         :obj {:clothing true}}
 
         {:pred :wear-i
-         :subj {:clothing true}}
+         :obj {:clothing true}}
 
         {:pred :wear-l
-         :subj {:clothing true}}
+         :obj {:clothing true}}
 
         {:pred :wear-p
-         :subj {:clothing true}}
+         :obj {:clothing true}}
 
         {:pred :win
          :subj {:human true}

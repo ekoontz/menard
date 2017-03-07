@@ -52,7 +52,7 @@
         type-of-model (type model)
         source-expressions (read-all spec
                                      source-language-short-name)]
-    (count
+    (doall
      (use-map-fn
       ;; source-expression in the language that we want to translate into English.
       (fn [source-expression]

@@ -322,12 +322,14 @@
                                        WHERE language=? 
                                          AND active=true
                                          AND structure @> "
+                                     ;; TODO: use '?' here, not string concatenation
                                      "'" json-spec "' LIMIT 1")
                                 [language]]
                                :results)]
+      (log/debug (str (string/join "," results)))
       (first (map (fn [result]
                     {:surface (:surface result)
-                     :structure (read-str (:structure result))})
+                     :structure (json-read-str (.getValue (:structure result)))})
                   results)))))
 
 (defn contains [spec]
@@ -336,6 +338,7 @@
                  {}
                  spec)
           json-spec (json/write-str (strip-refs spec))
+          ;; TODO: use '?' below, not string concatenation
           results (db/exec-raw [(str "SELECT DISTINCT * 
                                         FROM (SELECT english.surface   AS en,
                                                       italiano.surface AS it,               

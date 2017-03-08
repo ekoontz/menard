@@ -1403,7 +1403,7 @@
  {:synsem {:cat :noun
            :pronoun true
            :case :nom
-           :agr {:gender :masc
+           :agr {:gender :top
                  :person :1st
                  :number :plur}
            :sem {:human true

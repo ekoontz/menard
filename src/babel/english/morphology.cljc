@@ -317,8 +317,48 @@
          stem (replace infinitive #"^to " "")]
      (str "will " stem))
 
-   ;; irregular imperfect
-   ;; TODO
+   ;; <irregular imperfect>
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :1sing]))
+          (and (= person :1st) (= number :sing))))
+   (get-in word [:imperfect :1sing])
+
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :2sing]))
+          (and (= person :2nd) (= number :sing))))
+   (get-in word [:imperfect :2sing])
+
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :3plur]))
+          (and (= person :3rd) (= number :plur))))
+   (get-in word [:imperfect :3plur])
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :1plur]))
+          (and (= person :1st) (= number :plur))))
+   (get-in word [:imperfect :1plur])
+
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :2plur]))
+          (and (= person :2nd) (= number :plur))))
+   (get-in word [:imperfect :2plur])
+
+   (let [number (get-in word '(:agr :number))
+         person (get-in word '(:agr :person))]
+     (and (= (get-in word [:infl]) :imperfect)
+          (string? (get-in word [:imperfect :3plur]))
+          (and (= person :3rd) (= number :plur))))
+   (get-in word [:imperfect :3plur])
+   ;; </irregular imperfect>
    
    ;; regular imperfect
    (and (= (get-in word '(:infl)) :imperfect)

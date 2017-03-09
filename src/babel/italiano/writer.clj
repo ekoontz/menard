@@ -60,6 +60,7 @@
                    (log/debug (str "tutti: verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
                      (generate-one-verb (unify
+                                         {:synsem {:subcat '()}}
                                          {:synsem {:sem
                                                    (get-in verb [:synsem :sem] :top)}}
                                          {:root {:italiano {:italiano root-form}}})

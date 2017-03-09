@@ -63,7 +63,7 @@
     (generate spec source-language target-language)))
 
 (defn id2expression [id]
-  (let [results (db/exec-raw [(str "SELECT struture
+  (let [results (db/exec-raw [(str "SELECT structure
                                       FROM expression 
                                      WHERE id=?")
                               [id]]

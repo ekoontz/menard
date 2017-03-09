@@ -305,8 +305,10 @@
               :structure (json-read-str (.getValue (:structure result)))})
            results))))
 
-(defn read-one [spec language]
-  (let [spec (unify spec
+(defn read-one [spec language {no-older-than :no-older-than}]
+  (log/debug (str "read-one: no-older-than: " no-older-than))
+  (let [no-older-than (or no-older-than nil)
+        spec (unify spec
                     {:synsem {:subcat '()}})
 
         ;; normalize for JSON lookup
@@ -314,17 +316,28 @@
                           {}
                           spec)
         
-        json-spec (json/write-str (strip-refs json-input-spec))
-        ]
+        json-spec (json/write-str (strip-refs json-input-spec))]
     (log/debug (str "looking for expressions in language: " language " with spec: " spec))
+
+    (let [results (db/exec-raw [(str "SELECT count(*)
+                                        FROM expression 
+                                       WHERE language=? 
+                                         AND ((? IS NULL) OR (expression.created > ?::timestamp))
+                                         AND active=true
+                                         AND structure @> ?::jsonb "
+                                     " LIMIT 1 ")
+                                [language no-older-than no-older-than (json/write-str spec)]]
+                               :results)]
+      (log/debug (str "RESULTS: " (string/join "," results))))
+
     (let [results (db/exec-raw [(str "SELECT surface,structure
                                         FROM expression 
                                        WHERE language=? 
+                                         AND ((? IS NULL) OR (expression.created > ?::timestamp))
                                          AND active=true
-                                         AND structure @> "
-                                     ;; TODO: use '?' here, not string concatenation
-                                     "'" json-spec "' LIMIT 1")
-                                [language]]
+                                         AND structure @> ?::jsonb "
+                                     " LIMIT 1 ")
+                                [language no-older-than no-older-than (json/write-str spec)]]
                                :results)]
       (log/debug (str (string/join "," results)))
       (first (map (fn [result]

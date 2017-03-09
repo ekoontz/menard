@@ -26,7 +26,7 @@
 ;; TODO: database becomes a bottleneck due to multiple concurrent queries that return a single row.
 ;; These queries should be combined into fewer queries where we iterate over the rows in that
 ;; this smaller set of queries.
-(defn translate [source-language-short-name & [root]]
+(defn translate [source-language-short-name & [root no-older-than]]
   "Generate translations from source language (e.g. 'it' for Italian) into English.
    Optionally takes a root form of a verb in the source language."
   ;; Example usage: (translate \"es\" \"abrazar\"
@@ -37,7 +37,7 @@
   (let [spec :top
         ;; {:synsem {:sem {:pred :arrive}}}
 
-        spec (if root
+        spec (if (and root (not (= root "all")))
                (unify spec
                       (language-to-root-spec source-language-short-name root))
                spec)
@@ -67,7 +67,7 @@
                                  (strip-refs (get-in
                                               (:structure source-expression)
                                               [:synsem :sem]))}}]
-              (let [existing-english-expression (read-one spec "en")]
+              (let [existing-english-expression (read-one spec "en" {:no-older-than (or no-older-than nil)})]
                 (if existing-english-expression
                   ;; found existing expression: return that.
                   (do

@@ -24,13 +24,17 @@
 
 (declare generate-one-verb)
 
-(defn tutti [ & [count lexeme]]
-  (let [count (if count (Integer. count) 10)
+(defn tutti [ & [count lexeme no-older-than]]
+  (let [count (cond (nil? count) 10
+                    (= "all" count) 10
+                    true (Integer. count))
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
         lexicon (:lexicon small) ;; TODO use medium consistently
-        lexemes (if lexeme (list (get lexicon lexeme))
-                    (vals lexicon))
+        lexemes
+        (cond (nil? lexeme) (vals lexicon)
+              (= "all" lexeme) (vals lexicon)
+              true (list (get lexicon lexeme)))
         root-verbs 
         (zipmap
          (keys lexicon)
@@ -64,10 +68,10 @@
                                          {:synsem {:sem
                                                    (get-in verb [:synsem :sem] :top)}}
                                          {:root {:italiano {:italiano root-form}}})
-                                        count)))
+                                        count no-older-than)))
                  tutti))))
 
-(defn generate-one-verb [spec & [count]]
+(defn generate-one-verb [spec & [count no-older-than]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
   (writer/generate-from-spec
    (let [model (create-model-for-spec spec)]
@@ -107,8 +111,6 @@
            {:synsem {:sem {:aspect :progressive
                            :tense :present}}}
            ])
-   
-   
 
    [{:gender :masc}
     {:gender :fem}]
@@ -132,6 +134,6 @@
          true
          [:sing :plur])
    
-   count))
-
+   count
+   no-older-than))
 

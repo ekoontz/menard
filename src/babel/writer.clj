@@ -313,21 +313,23 @@
         grammar-spec (nth target-grammar-set (rand-int (.size target-grammar-set)))]
     (populate 1 source-language-model target-language-model (unify lex-spec grammar-spec))))
 
-(defn fill-by-spec [spec count table source-model target-model]
+(defn fill-by-spec [spec count table source-model target-model & [no-older-than]]
   (if (nil? source-model)
     (throw (Exception. "No source language model was supplied.")))
   (if (nil? target-model)
     (throw (Exception. "No target language model was supplied.")))
   (let [target-language (:language target-model)
         json-spec (json/write-str spec)
+        no-older-than (or no-older-than nil)
         current-target-count
         (:count
          (first
           (exec-raw [(str
                       "SELECT count(*) FROM " table " 
-                        WHERE structure @> ?::jsonb
-                          AND language=?")
-                       [(json/write-str spec) target-language]]
+                        WHERE structure @> ?::jsonb "
+                      "   AND ((? IS NULL) OR (expression.created > ?::timestamp)) "
+                      "   AND language=?")
+                       [(json/write-str spec) no-older-than no-older-than target-language]]
                       :results)))]
     (log/info (str "current-target-count for spec: " spec "=" current-target-count))
     (let [count (- count current-target-count)]
@@ -348,10 +350,12 @@
           (fill-by-spec spec (- count 1) table source-model target-model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
-(defn fill-language-by-spec [spec count table model]
+(defn fill-language-by-spec [spec count table model & [no-older-than]]
   (let [language (:language model)
         debug (log/debug (str "fill-language-by-spec: language: " language))
         debug (log/debug (str "fill-language-by-spec: spec: " spec))
+        debug (if (not (nil? no-older-than))
+                (log/debug (str "fill-language-by-spec: no-older-than:" no-older-than)))
         ;; remove metadata (if any)
         ;; that's not relevant to query:
         spec (dissoc spec
@@ -362,11 +366,20 @@
          ;; TODO: move this block to babel.reader/checking-for-existing-expressions
          ;; and then call that.
          (first
-          (exec-raw ["SELECT count(*) FROM expression 
-                       WHERE structure @> ?::jsonb
-                         AND active=true
-                         AND language=?"
-                       [json-spec language]]
+          (exec-raw [(str
+                       "SELECT count(*) FROM expression 
+                        WHERE structure @> ?::jsonb
+                         AND active=true "
+                       "   AND ((? = 'yes-it-is-null') OR (expression.created > ?::timestamp)) "
+                       "   AND language=?")
+                     [json-spec
+
+                      ;; TODO: figure out why no-older-than can't simply be
+                      ;; nil and have it work to say "...AND (( ? IS NULL .. ") no-older-than ..]
+                      (if (nil? no-older-than)
+                        "yes-it-is-null"
+                        "no-older-than-is-not-nil")
+                      no-older-than language]]
                       :results)))]
     (log/debug (str "current-count for json-spec: " json-spec "=" current-count))
     (let [count (- count current-count)]
@@ -382,7 +395,8 @@
           (fill-language-by-spec spec (- count 1) table model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
-(defn fill-verb [verb count source-model target-model & [spec table]] ;; spec is for additional constraints on generation.
+;; TODO: no-older-than is not supported yet.
+(defn fill-verb [verb count source-model target-model & [spec table no-older-than]] ;; spec is for additional constraints on generation.
   (let [spec (if spec spec :top)
         target-language-keyword (:language-keyword target-model)
         tenses [{:synsem {:sem {:tense :conditional}}}
@@ -399,7 +413,7 @@
                                       count
                                       table
                                       source-model
-                                      target-model))
+                                      target-model no-older-than))
             tenses))))
 
 (defn truncate-lexicon [language]
@@ -460,19 +474,18 @@
       result)))
 
 ;; TODO: more documentation for the command language that (defn process) understands.
+;; TODO: Every unit contains the entire language model: should instead pass a name
+;;   that can be resolved into a language model. Otherwise we risk triggering
+;;   a massive i/o hit when we inadvertently dump an entire language model to the logger.
 (defn process
   "Take one or more 'units' composed of a command and arguments and perform the command on the arguments. A command is one of:
     {:fill,:fill-one-language,:fill-verb}."
-  [units target-language]
+  [units target-language & [no-older-than]]
   (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
-
   (let []
     (log/debug (str "Units: " (.size units)))
-    (.size (map (fn [unit]
-                  (log/trace (str "processing unit's type: " (type unit)))
-                  (log/trace (str "processing unit's keys: " (keys unit)))
+    (doall (map (fn [unit]
                   (let [member-of-unit unit] ;; TODO: s/member-of-unit/unit/
-                    (log/debug (str "keys of member-of-unit:" (keys member-of-unit)))
                     (if (:sql member-of-unit)
                       (do
                         (log/debug (str "doing sql: " (:sql member-of-unit)))
@@ -487,7 +500,8 @@
                          count
                          "expression"
                          (-> member-of-unit :fill :source-model)
-                         (-> member-of-unit :fill :target-model))))
+                         (-> member-of-unit :fill :target-model)
+                         no-older-than)))
                     (if (:fill-one-language member-of-unit)
                       (let [count (or (-> member-of-unit :fill-one-language :count) 10)]
                         (log/debug (str "doing fill-one-language: "
@@ -497,7 +511,8 @@
                          (-> member-of-unit :fill-one-language :spec)
                          count
                          "expression"
-                         (-> member-of-unit :fill-one-language :model))))
+                         (-> member-of-unit :fill-one-language :model)
+                         no-older-than)))
                     (if (:fill-verb member-of-unit)
                       (do
                         (log/info (str "Doing fill-verb: " (:fill-verb member-of-unit)))
@@ -508,21 +523,22 @@
                                     (:count member-of-unit)
                                     1)
                                   (-> member-of-unit :fill-verb :source-model)
-                                  (-> member-of-unit :fill-verb :target-model))))))))
+                                  (-> member-of-unit :fill-verb :target-model)
+                                  no-older-than)))))))
                 units))
-    
     ))
 
-(defn generate-from-spec [model spec tenses genders persons numbers & [count]]
+(defn generate-from-spec [model spec tenses genders persons numbers & [count no-older-than]]
   (log/debug (str "generate-from-spec: input: " spec))
   ;; TODO: count is not being used: remove or support it.
   (let [input-spec spec
-        count (if count (Integer. count) 10)]
-    (.size (pmap (fn [tense]
+        count (if count (Integer. count) 10)
+        mapfn map]
+    (.size (mapfn (fn [tense]
                    (let [spec (unify spec
                                      tense)]
                      (.size
-                      (pmap (fn [gender]
+                      (mapfn (fn [gender]
                               (let [spec (unify spec
                                                 {:comp {:synsem {:agr gender}}})]
                                 (log/trace (str "generating from gender: " gender))
@@ -532,7 +548,7 @@
                                                           {:comp {:synsem {:agr {:person person}}}})]
                                           (log/trace (str "generating from person: " person))
                                           (.size
-                                           (pmap (fn [number]
+                                           (mapfn (fn [number]
                                                    (let [spec (unify spec
                                                                      {:comp {:synsem {:agr {:number number}}}})]
                                                      (log/debug (str "generating from spec: " spec "; input-spec was:" input-spec))
@@ -542,7 +558,8 @@
                                                                    :spec spec
                                                                    :model model
                                                                    }}]
-                                                                "it")
+                                                                "it"
+                                                                no-older-than)
                                                        (catch Exception e
                                                          (cond
                                                            

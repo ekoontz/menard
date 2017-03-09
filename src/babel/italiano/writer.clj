@@ -69,8 +69,7 @@
 (defn generate-one-verb [spec & [count]]
   (log/debug (str "generate-one-verb with spec:" spec "; count=" count))
   (writer/generate-from-spec
-   (let [model
-         (create-model-for-spec spec)]
+   (let [model (create-model-for-spec spec)]
      (log/debug (str "created custom model from spec: " spec "; new model: " (keys model)))
      model)
    (strip-refs spec)

@@ -322,7 +322,8 @@
     (let [results (db/exec-raw [(str "SELECT count(*)
                                         FROM expression 
                                        WHERE language=? 
-                                         AND ((? IS NULL) OR (expression.created > ?::timestamp))
+                                         AND ((?::timestamp IS NULL) OR 
+                                              (expression.created > ?::timestamp))
                                          AND active=true
                                          AND structure @> ?::jsonb "
                                      " LIMIT 1 ")
@@ -333,7 +334,8 @@
     (let [results (db/exec-raw [(str "SELECT surface,structure
                                         FROM expression 
                                        WHERE language=? 
-                                         AND ((? IS NULL) OR (expression.created > ?::timestamp))
+                                         AND ((?::timestamp IS NULL) OR 
+                                              (expression.created > ?::timestamp))
                                          AND active=true
                                          AND structure @> ?::jsonb "
                                      " LIMIT 1 ")

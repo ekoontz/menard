@@ -159,7 +159,8 @@
                       :sem {:obj {:pred :top}}}})
    
    (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
-    {:synsem {:cat :verb
+    {:intransitivize false
+     :synsem {:cat :verb
               :aux false
               :sem {:obj {:top :top}
                     :shared-with-obj false

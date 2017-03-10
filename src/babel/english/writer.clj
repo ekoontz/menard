@@ -50,8 +50,8 @@
 
         model (-> ((-> models :en)) deref)
         type-of-model (type model)
-        source-expressions (read-all spec
-                                     source-language-short-name)]
+        ;; TODO: use :no-older-than here.
+        source-expressions (read-all spec source-language-short-name)]
     (doall
      (use-map-fn
       ;; source-expression in the language that we want to translate into English.

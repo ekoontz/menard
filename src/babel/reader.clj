@@ -317,7 +317,7 @@
                           spec)
         
         json-spec (json/write-str (strip-refs json-input-spec))]
-    (log/debug (str "looking for expressions in language: " language " with spec: " spec))
+    (log/debug (str "looking for all expressions in language: " language " with spec: " spec))
 
     (let [results (db/exec-raw [(str "SELECT count(*)
                                         FROM expression 
@@ -329,7 +329,7 @@
                                      " LIMIT 1 ")
                                 [language no-older-than no-older-than (json/write-str spec)]]
                                :results)]
-      (log/debug (str "RESULTS: " (string/join "," results))))
+      (log/debug (str "results for spec:" spec " : " (string/join "," results))))
 
     (let [results (db/exec-raw [(str "SELECT surface,structure
                                         FROM expression 
@@ -341,7 +341,8 @@
                                      " LIMIT 1 ")
                                 [language no-older-than no-older-than (json/write-str spec)]]
                                :results)]
-      (log/debug (str (string/join "," results)))
+      (if (not (empty? results))
+        (log/debug (str "existing results:" (string/join "," results))))
       (first (map (fn [result]
                     {:surface (:surface result)
                      :structure (json-read-str (.getValue (:structure result)))})

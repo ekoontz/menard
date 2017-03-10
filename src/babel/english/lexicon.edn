@@ -167,12 +167,13 @@
                               :3 '()
                               } ;; subcat {
                      } ;; synsem {
-            } ;; end of map
-           )
-
+            }) ;; end of map
          (let [pred (atom :top)
-               obj (atom :top)]
+               ;; Needed because {:pred :top} to prevent matching of {:obj :unspec}
+               ;; yielding incorrect translations.
+               obj (atom {:top :top})]
            {:unify [common]
+            :intransitivize false
             :sense 3
             :synsem {:cat :verb
                      :sem {:obj obj
@@ -185,10 +186,14 @@
                                   :sem {:obj obj
                                         :pred pred}}
                               :3 '()}}})
-        (let [pred (atom :top)
-              obj (atom :top)
-              agr (atom :top)]
+         ;; "be + PP": "I am at the beach"
+         (let [pred (atom :top)
+               obj (atom :top)
+               ;; Needed because {:pred :top} to prevent matching of {:obj :unspec}
+               ;; yielding incorrect translations.
+               agr (atom {:top :top})]
           {:unify [common]
+           :intransitivize false
            :sense 4
            :synsem {:cat :verb
                     :sem {:subj obj ;; reflexive: subj=obj

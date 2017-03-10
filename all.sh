@@ -15,8 +15,13 @@ if [ "${CHECK_EXISTING}" != "false" ]; then
     lein run -m babel.italiano.writer/tutti
     lein run -m babel.english.writer/translate "it"
 else
-    lein run -m babel.italiano.writer/tutti "all" "all" "$(date)"
-    lein run -m babel.english.writer/translate "it" "all" "$(date)"
+    START_DATE=$(date)
+
+    # generate all-new Italian
+    lein run -m babel.italiano.writer/tutti "all" "all" "${START_DATE}"
+
+    # generate all-new translations of those Italian sentences.
+    lein run -m babel.english.writer/translate "it" "all" "${START_DATE}"
 fi
 
 

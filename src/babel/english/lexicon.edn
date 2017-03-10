@@ -1440,6 +1440,7 @@
                             :2plur "may"
                             :3plur "may"}
                   :future "be able to"
+                  :imperfect "be able to"
                   :conditional "be able to"}
         :modal-with :root
         :synsem {:cat :verb

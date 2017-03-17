@@ -1949,7 +1949,8 @@
 
  "sing" {:synsem {:cat :verb
                   :sem {:pred :sing}}
-         :english {:past "sang"}}
+         :english {:past "sang"
+                   :past-participle "sung"}}
 
  "sit down" {:english {:past "sat down"
                        :participle "sitting down"

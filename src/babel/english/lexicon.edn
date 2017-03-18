@@ -2014,7 +2014,8 @@
 
  "steal" {:synsem {:cat :verb
                    :sem {:pred :steal}}
-          :english {:past "stole"}}
+          :english {:past "stole"
+                    :past-participle "stolen"}}
 
  "stop" (let [common {:english {:participle "stopping"
                                 :past "stopped"}

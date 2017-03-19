@@ -1368,7 +1368,7 @@
            :synsem {:sem {:human true}}}])
 
  "Luisa"
- {:synsem {:sem {:pred :luisa
+ {:synsem {:sem {:pred :Luisa
                  :human true}
            :agr {:gender :fem}
            :propernoun true}}
@@ -1863,7 +1863,7 @@
                                     :sem {:reflexive false}
                                     :subcat {:1 {:reflexive false}
                                              :2 '()}}}}}
-             
+
 ;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"
 ;             {:unify [common]
 ;              :synsem {:aux true

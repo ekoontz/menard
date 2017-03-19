@@ -1317,9 +1317,7 @@
           :sem {:pred :lead}}
  :english {:past "led"}}
 
- "learn" [
-
-          {:synsem {:cat :verb
+ "learn" [{:synsem {:cat :verb
                     :sem {:pred :learn}}}
 
           {:english {:note "a-"}
@@ -1328,9 +1326,7 @@
 
           {:english {:note "i-"}
            :synsem  {:cat :verb
-                     :sem {:pred :learn-i}}}
-
-          ]
+                     :sem {:pred :learn-i}}}]
 
  "leave" [{:english {:past "left"}
            :synsem {:cat :verb
@@ -1893,9 +1889,17 @@
                   :sem {:pred :vendere}}
          :english {:past "sold"}}
 
- "send" {:synsem {:cat :verb
-                  :sem {:pred :send}}
-         :english {:past "sent"}}
+ "send" (let [common {:english {:past "sent"}}]
+            {:synsem {:cat :verb
+                      :sem {:pred :send}}}
+
+            {:english {:note "m-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :send-m}}}
+
+            {:english {:note "s-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :send-s}}})
 
  "set" {:synsem {:cat :verb
                  :sem {:pred :set}}

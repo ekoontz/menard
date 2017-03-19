@@ -1811,6 +1811,12 @@
  "sospirare" {:synsem {:cat :verb
                        :sem {:pred :sigh}}}
 
+ "spedire" {:italiano {:boot-stem1 "spedisc"}
+            :synsem {:cat :verb
+                     :sem {:pred :send-s}}}
+
+
+
  "spegnere" {:synsem {:cat :verb :sem {:pred :turn-off}}
              :italiano {:passato "spento"
                         :present {:1sing "spengo"

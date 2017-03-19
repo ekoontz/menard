@@ -1776,6 +1776,10 @@
                    :agr {:gender :fem}
                    :sem {:pred :chair}}}
 
+ "sentire"
+         {:synsem {:cat :verb
+                   :sem {:pred :hear}}}
+
  "sgridare" {:synsem {:cat :verb
                       :sem {:pred :scold}}}
 

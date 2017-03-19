@@ -419,6 +419,7 @@
  "can"
  {:english {:participle "being able to"
             :past "could"
+            :past-participle "been able to"
             :imperfect {:1sing "used to be able to"
                         :2sing "used to be able to"
                         :3sing "used to be able to"
@@ -1435,6 +1436,7 @@
            :propernoun true}}
 
  "may" {:english {:past "might"
+                  :past-participle "been able to"
                   :participle "able to"
                   :present {:1sing "may"
                             :2sing "may"

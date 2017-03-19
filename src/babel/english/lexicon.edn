@@ -561,7 +561,8 @@
                  :sem {:pred :cry}
                  :subcat {:2 '()}}}
 
- "cut" {:english {:past "cut"
+ "cut" {:english {:past {:english "cut"
+                         :note "past tense"}
                   :participle "cutting"}
         :synsem {:cat :verb
                  :sem {:pred :cut}}}

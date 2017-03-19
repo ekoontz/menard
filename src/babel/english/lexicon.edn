@@ -2237,6 +2237,21 @@
                 :present {:3sing "turnss off"}
                 :past "turned off"}})
 
+    "turn on"
+    (let [subject-semantics (atom :top)]
+      {:synsem {:cat :verb
+                :sem {:pred :turn-on
+                      :reflexive true
+                      :subj subject-semantics
+                      :obj subject-semantics}
+                :subcat {:1 {:sem subject-semantics}
+                         :2 '()}}
+        :english {:participle "turning on"
+                  :present {:3sing "turnss on"}
+                  :past "turned on"}})
+
+
+
  "understand" (let [common {:english {:past "understood"}}]
                 [{:unify [common]
                   :synsem {:cat :verb

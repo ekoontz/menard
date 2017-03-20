@@ -1689,7 +1689,7 @@
  "put"
  (let [common {:synsem {:cat :verb}
                :english {:participle "putting"
-                         :past {english "put"
+                         :past {:english "put"
                                 :note "past tense"}
                          :present {:3sing "put"}}}]
    [{:unify [common]

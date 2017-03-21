@@ -2209,12 +2209,25 @@
            [{:unify [common]
              :synsem {:cat :verb
                       :sem {:pred :throw}}}
+             {:english {:note "t-"}
+              :synsem  {:cat :verb
+                      :sem {:pred :throw-t}}}
+
+             {:english {:note "g-"}
+              :synsem  {:cat :verb
+                        :sem {:pred :throw-g}}}
+
+              {:english {:note "b-"}
+               :synsem  {:cat :verb
+                        :sem {:pred :throw-b}}}
+
             {:unify [common throw-out]
              :synsem {:subcat {:2 {:cat :prep
                                    :sem {:pred :out}}}}}
             {:unify [common throw-out]
              :synsem {:subcat {:3 {:cat :prep
                                    :sem {:pred :out}}}}}])
+
  "to" {:synsem {:cat :prep
                 :subcat {:1 {:cat :noun}}
                 :sem {:pred :to}}}

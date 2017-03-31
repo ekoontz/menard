@@ -1763,12 +1763,12 @@
                      :sem {:pred :remain}}} ;; for other than italian
 
            ;; these two below are for Italian.
-           {:english {:note "ri-"}}
+           {:english {:note "ri-"}
             :synsem {:cat :verb
                      :sem {:pred :remain-ri}
                      :subcat {:2 {:cat :prep
                                   :sem {:pred :with}}}}}
-           {:english {:note "re-"}}
+           {:english {:note "re-"}
             :synsem {:cat :verb
                      :sem {:pred :remain-re}
                      :subcat {:2 {:cat :prep

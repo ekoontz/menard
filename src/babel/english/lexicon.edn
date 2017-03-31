@@ -2243,19 +2243,59 @@
         {:synsem {:cat :verb
                   :sem {:pred :try}
                   :subcat {:2 '()}}}]
+ "turn" ;; TODO: factor out a 'common' and a 'turn down/up/off/on' as we do above for "throw out".
+ [;; "turn the radio down"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-down}
+            :subcat {:2 {:cat :prep
+                         :sem {:pred :down}}}}}
+  ;; "turn down the radio"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-down}
+            :subcat {:3 {:cat :prep
+                         :sem {:pred :down}}}}}
 
-  "turn off"
-  (let [subject-semantics (atom :top)]
-    {:synsem {:cat :verb
-              :sem {:pred :turn-off
-                    :reflexive true
-                    :subj subject-semantics
-                    :obj subject-semantics}
-              :subcat {:1 {:sem subject-semantics}
-                       :2 '()}}
-      :english {:participle "turning off"
-                :present {:3sing "turnss off"}
-                :past "turned off"}})
+  ;; "turn the radio off"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-off}
+            :subcat {:2 {:cat :prep
+                         :sem {:pred :off}}}}}
+
+  ;; "turn off the radio"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-off}
+            :subcat {:3 {:cat :prep
+                         :sem {:pred :off}}}}}
+
+  ;; "turn the radio on"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-on}
+            :subcat {:2 {:cat :prep
+                         :sem {:pred :on}}}}}
+  ;; "turn on the radio"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-on}
+            :subcat {:3 {:cat :prep
+                         :sem {:pred :on}}}}}
+  ;; "turn the radio up"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-up}
+            :subcat {:2 {:cat :prep
+                         :sem {:pred :up}}}}}
+  ;; "turn up the radio"
+  {:phrasal-verb true
+   :synsem {:cat :verb
+            :sem {:pred :turn-up}
+            :subcat {:3 {:cat :prep
+                         :sem {:pred :up}}}}}
+  ]
 
  "understand" (let [common {:english {:past "understood"}}]
                 [{:unify [common]

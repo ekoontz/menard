@@ -1368,7 +1368,7 @@
            :synsem {:sem {:human true}}}])
 
  "Luisa"
- {:synsem {:sem {:pred :Luisa
+ {:synsem {:sem {:pred :luisa
                  :human true}
            :agr {:gender :fem}
            :propernoun true}}

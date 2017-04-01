@@ -779,7 +779,9 @@
 
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
-  (-> (read-string (slurp resource)) ;; read .edn file into a Clojure map.
+  (-> resource
+      slurp
+      read-string ;; read .edn file into a Clojure map.
       evaluate ;; evaluate all expressions within this map (e.g. grep for "(let") in the .edn file.
       listify ;; if any value of the map is not a sequence, make it a sequence with one element: the original value.
 

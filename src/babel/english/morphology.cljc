@@ -536,7 +536,7 @@
          last-stem-char-is-vowel (re-find #"[aeiou]$" stem)]
      (log/debug "+else")
      (log/debug (str "(english):word: " word))
-     (cond ;; :infl=:present
+     (cond
       (and (= person :1st) (= number :sing)
            (string? (get-in word '(:present :1sing))))
       (get-in word '(:present :1sing))

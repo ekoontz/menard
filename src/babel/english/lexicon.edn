@@ -1774,7 +1774,7 @@
                                   :sem {:pred :with}}}}}]
 
  "remember"  {:synsem {:cat :verb
-                       :sem {:pred :ricordare}}}
+                       :sem {:pred :remember}}}
 
  "remove" {:synsem {:cat :verb
                     :sem {:pred :remove}}}

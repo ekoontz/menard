@@ -1803,8 +1803,10 @@
                      :sem {:pred :return-t}}
                      :english {:note "t-"}}
            {:synsem {:cat :verb
-                     :sem {:pred :giveback-return}}
-            :english {:note "give back"}}]
+                     :sem {:pred :give-back-return}}
+            :english {:note "give back"
+                      :past "gave back"
+                      :past-participle "given back"}}]
 
  "run" {:english {:past "ran"
                   :participle "running"

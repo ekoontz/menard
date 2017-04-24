@@ -1929,16 +1929,16 @@
                          :sem {:pred :telephone}}}
 
  "tenere"  (let [common {:italiano {:passato "tenuto"
-                                   :present {:1sing "tengo"
-                                             :2sing "tieni"
-                                             :3sing "tiene"
-                                             :3plur "tengono"}
-                                   :future-stem "terr"}
-                         :synsem {:cat :verb}]
-                  [{:synsem {:sem {:pred :hold}}
-                   {:synsem {:sem {:pred :keep}}}])
-
-
+                                    :present {:1sing "tengo"
+                                              :2sing "tieni"
+                                              :3sing "tiene"
+                                              :3plur "tengono"}
+                                    :future-stem "terr"}
+                         :synsem {:cat :verb}}]
+             [{:unify [common]
+               :synsem {:sem {:pred :hold}}}
+              {:unify [common]
+               :synsem {:sem {:pred :keep}}}])
  "ti"
  {:synsem {:cat :noun
            :pronoun true

@@ -1887,7 +1887,6 @@
                                    :agr agr
                                    :sem obj
                                    :reflexive true}}}})])
-
  "sell" {:synsem {:cat :verb
                   :sem {:pred :sell}}
          :english {:past "sold"}}

@@ -2071,6 +2071,7 @@
  "swim" {:synsem {:cat :verb
                   :sem {:pred :swim}}
          :english {:past "swam"
+                   :past-participle "swum"
                    :participle "swimming"}}
 
  "table" {:synsem {:cat :noun

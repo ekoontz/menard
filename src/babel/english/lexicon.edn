@@ -2343,9 +2343,24 @@
          {:synsem {:cat :verb
                    :sem {:pred :want}}}]
 
- "warm" {:synsem {:cat :verb
-                  :sem {:pred :warm}}}
-
+ "warm" (let [common {:english {:past "warmed up"
+                                :participle "warming up"}}]
+          [;; 1. non-reflexive
+           {:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :warm-up}}}
+           ;; 2. reflexive
+           (let [subject-semantics (atom :top)]
+             {:unify [common]
+              :synsem {:cat :verb
+                       :sem {:pred :warm-up
+                             :reflexive true
+                             :subj subject-semantics
+                             :obj subject-semantics}
+                       :subcat {:1 {:sem subject-semantics}
+                                :2 {:pronoun true
+                                  :reflexive true
+                                    :sem subject-semantics}}}})])
  "warn" {:synsem {:cat :verb
                   :sem {:pred :warn}}}
 

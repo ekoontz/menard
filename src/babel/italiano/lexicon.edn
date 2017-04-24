@@ -35,7 +35,7 @@
 
  "abbracciare" {:synsem {:cat :verb
                          :essere false
-                         :sem {:pred :abbracciare}}}
+                         :sem {:pred :hug}}}
 
 
  "abitare" {:synsem {:cat :verb
@@ -443,7 +443,7 @@
 
  "caricare" {:italiano {:future-stem "caricher"}
              :synsem {:cat :verb
-                      :sem {:pred :caricare}}}
+                      :sem {:pred :charge}}}
  "casa"
  [{:synsem {:agr {:gender :fem}
             :cat :noun
@@ -690,7 +690,7 @@
  "deludere"
  {:italiano {:passato "deluso"}
   :synsem {:cat :verb
-           :sem {:pred :deludere}}}
+           :sem {:pred :disappoint}}}
 
  "dentista"
  {:synsem {:cat :noun
@@ -1120,7 +1120,7 @@
                       :obj {:place true}}}}
 
  "incontrare"  {:synsem {:cat :verb
-                         :sem {:pred :incontrare}}}
+                         :sem {:pred :meet}}}
 
  "indossare"  {:synsem {:cat :verb
                         :sem {:pred :wear-i}}}
@@ -1641,11 +1641,11 @@
 
  "restare" {:synsem {:essere true
                      :cat :verb
-                     :sem {:pred :remain2}}}
+                     :sem {:pred :remain-re}}}
 
  "restituire" {:italiano {:boot-stem1 "restituisc"}
                :synsem {:cat :verb
-                        :sem {:pred :giveback-return}}}
+                        :sem {:pred :give-back-return}}}
 
  "riconoscere" {:synsem {:cat :verb
                          :sem {:pred :recognize}}
@@ -1654,7 +1654,7 @@
  "ricevere"  {:synsem {:cat :verb
                        :sem {:pred :receive}}}
  "ricordare"  {:synsem {:cat :verb
-                        :sem {:pred :ricordare}}}
+                        :sem {:pred :remember}}}
 
  "riempire"  {:synsem {:cat :verb
                         :sem {:pred :fill}}
@@ -1681,7 +1681,7 @@
                       :sem {:pred :rest}}}
 
  "riscaldare" {:synsem {:cat :verb
-                        :sem {:pred :warm}}}
+                        :sem {:pred :warm-up}}}
 
  "rispondere" {:synsem {:cat :verb
                         :essere false
@@ -1746,7 +1746,7 @@
                       :sem {:pred :snap-pictures}}}
 
  "scaricare" {:synsem {:cat :verb
-                       :sem {:pred :scaricare}}}
+                       :sem {:pred :download}}}
 
  "scendere" [{:synsem {:cat :verb
                        :essere true
@@ -1840,7 +1840,7 @@
                       :sem {:pred :waste}}}
 
  "stampare"  {:synsem {:cat :verb
-                       :sem {:pred :stampare}}}
+                       :sem {:pred :print}}}
 
  "stare"  (let [common {:synsem {:cat :verb
                                  :essere true}
@@ -1926,16 +1926,19 @@
 
  "telefonare"  {:synsem {:cat :verb
                          :essere false
-                         :sem {:pred :telefonare}}}
+                         :sem {:pred :telephone}}}
 
- "tenere"  {:synsem {:cat :verb
-                     :sem {:pred :hold}}
-            :italiano {:passato "tenuto"
-                       :present {:1sing "tengo"
-                                 :2sing "tieni"
-                                 :3sing "tiene"
-                                 :3plur "tengono"}
-                       :future-stem "terr"}}
+ "tenere"  (let [common {:italiano {:passato "tenuto"
+                                   :present {:1sing "tengo"
+                                             :2sing "tieni"
+                                             :3sing "tiene"
+                                             :3plur "tengono"}
+                                   :future-stem "terr"}
+                         :synsem {:cat :verb}]
+                  [{:synsem {:sem {:pred :hold}}
+                   {:synsem {:sem {:pred :keep}}}])
+
+
  "ti"
  {:synsem {:cat :noun
            :pronoun true
@@ -1949,7 +1952,7 @@
 
  "tirare"
  {:synsem {:cat :verb
-           :sem {:pred :throw}}}
+           :sem {:pred :throw-t}}}
 
  "tornare"
  {:synsem {:cat :verb
@@ -2024,7 +2027,7 @@
                  :child false}}}
 
  "usare"  {:synsem {:cat :verb
-                    :sem {:pred :usare}}}
+                    :sem {:pred :use}}}
 
  "uscire" (let [common {:synsem {:cat :verb
                                  :essere true}
@@ -2041,7 +2044,7 @@
              :future-stem "vedr"}}
 
  "vendere"  {:synsem {:cat :verb
-                      :sem {:pred :vendere}}}
+                      :sem {:pred :sell}}}
 
  "venire" {:synsem {:cat :verb
                     :essere true

@@ -2315,7 +2315,7 @@
                      :sem {:pred :caricare}}}
 
  "use"  {:synsem {:cat :verb
-                  :sem {:pred :usare}}}
+                  :sem {:pred :use}}}
 
  "wait"  {:synsem {:cat :verb
                    :sem {:pred :wait-for}

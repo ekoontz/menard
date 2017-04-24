@@ -637,7 +637,7 @@
                  :present {:3sing "does"}}}
 
  "download" {:synsem {:cat :verb
-                      :sem {:pred :scaricare}}}
+                      :sem {:pred :download}}}
 
  "dog" {:synsem {:cat :noun
                  :sem {:pred :dog}}}

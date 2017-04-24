@@ -1509,7 +1509,6 @@
          :modal-with :root
          :synsem {:cat :verb
                   :sem {:pred :have-to}}}
-
  "my"
  (let [common {:synsem {:cat :det
                         :sem {:of {:pred :I}}

@@ -1672,7 +1672,7 @@
                       :sem {:pred :preserve}}}
 
  "print"  {:synsem {:cat :verb
-                    :sem {:pred :stampare}}}
+                    :sem {:pred :print}}}
 
  "professor" {:synsem {:agr :top
                        :cat :noun

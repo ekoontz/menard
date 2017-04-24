@@ -618,7 +618,8 @@
           :english {:past "drank"
                     :past-participle "drunk"}}
 
- "drive" (let [common {:english {:past "drove"}}]
+ "drive" (let [common {:english {:past-participle "driven"
+                                 :past "drove"}}]
            [{:unify [common]
              :synsem {:cat :verb
                       :sem {:pred :drive}}}

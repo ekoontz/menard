@@ -1464,8 +1464,9 @@
                      :sem {:pred :measure}}}
 
  "meet"  {:synsem {:cat :verb
-                   :sem {:pred :incontrare}}
-          :english {:past "met"}}
+                   :sem {:pred :meet}}
+          :english {:past "met"
+                    :past-participle "met"}}
 
  "meeting" {:synsem {:cat :noun
                      :sem {:pred :meeting

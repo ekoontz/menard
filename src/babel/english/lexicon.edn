@@ -628,7 +628,7 @@
                       :sem {:pred :drive-c}}}])
 
  "disappoint" {:synsem {:cat :verb
-                        :sem {:pred :deludere}}}
+                        :sem {:pred :disappoint}}}
 
  "do" {:synsem {:cat :verb
                 :sem {:pred :do}}

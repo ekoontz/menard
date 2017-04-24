@@ -694,7 +694,6 @@
  "explain" {:synsem {:cat :verb
                      :sem {:pred :explain}}}
 
-
  "express" {:synsem {:cat :verb
                      :sem {:pred :express}}}
 
@@ -733,7 +732,6 @@
  "find" {:synsem {:cat :verb
                   :sem {:pred :find}}
          :english {:past "found"}}
-
 
  "finish" {:synsem {:cat :verb
                     :sem {:pred :finish}}}
@@ -1315,9 +1313,9 @@
 
          ]
 
-"lead" {:synsem {:cat :verb
-          :sem {:pred :lead}}
- :english {:past "led"}}
+ "lead" {:synsem {:cat :verb
+                  :sem {:pred :lead}}
+         :english {:past "led"}}
 
  "learn" [{:synsem {:cat :verb
                     :sem {:pred :learn}}}

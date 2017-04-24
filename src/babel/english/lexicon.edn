@@ -610,8 +610,8 @@
 
  "draw" {:synsem {:cat :verb
                   :sem {:pred :draw}}
-         :english {:past "drew"}}
-
+         :english {:past "drew"
+                   :past-participle "drawn"}}
 
  "drink" {:synsem {:cat :verb
                    :sem {:pred :drink}}

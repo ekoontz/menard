@@ -2107,7 +2107,7 @@
            :english {:past "taught"}}
 
  "telephone" {:synsem {:cat :verb
-                       :sem {:pred :telefonare}}}
+                       :sem {:pred :telephone}}}
 
  "tell" {:english {:past "told"}
          :synsem {:cat :verb

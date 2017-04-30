@@ -1892,14 +1892,17 @@
          :english {:past "sold"}}
 
  "send" (let [common {:english {:past "sent"}}]
-          [{:synsem {:cat :verb
+          [{:unify [common]
+            :synsem {:cat :verb
                      :sem {:pred :send}}}
            
-           {:english {:note "m-"}
+           {:unify [common]
+            :english {:note "m-"}
             :synsem  {:cat :verb
                       :sem {:pred :send-m}}}
            
-           {:english {:note "s-"}
+           {:unify [common]
+            :english {:note "s-"}
             :synsem  {:cat :verb
                       :sem {:pred :send-s}}}])
 

@@ -660,7 +660,7 @@
                          :past "ate dinner"}}
 
  "embrace" {:synsem {:cat :verb
-                     :sem {:pred :abbracciare}}}
+                     :sem {:pred :embrace}}}
 
  "endure" {:synsem {:cat :verb
                     :sem {:pred :endure}}}
@@ -1437,12 +1437,6 @@
  "may" {:english {:past "might"
                   :past-participle "been able to"
                   :participle "able to"
-                  :imperfect {:1sing "used to be able to"
-                              :2sing "used to be able to"
-                              :3sing "used to be able to"
-                              :1plur "used to be able to"
-                              :2plur "used to be able to"
-                              :3plur "used to be able to"}
                   :present {:1sing "may"
                             :2sing "may"
                             :3sing "may"
@@ -1450,6 +1444,7 @@
                             :2plur "may"
                             :3plur "may"}
                   :future "be able to"
+                  :imperfect "be able to"
                   :conditional "be able to"}
         :modal-with :root
         :synsem {:cat :verb
@@ -1897,19 +1892,16 @@
          :english {:past "sold"}}
 
  "send" (let [common {:english {:past "sent"}}]
-          [{:unify [common]
-            :synsem {:cat :verb
-                     :sem {:pred :send}}}
-           
-           {:unify [common]
-            :english {:note "m-"}
-            :synsem  {:cat :verb
-                      :sem {:pred :send-m}}}
-           
-           {:unify [common]
-            :english {:note "s-"}
-            :synsem  {:cat :verb
-                      :sem {:pred :send-s}}}])
+            {:synsem {:cat :verb
+                      :sem {:pred :send}}}
+
+            {:english {:note "m-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :send-m}}}
+
+            {:english {:note "s-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :send-s}}})
 
  "set" {:synsem {:cat :verb
                  :sem {:pred :set}}

@@ -218,12 +218,12 @@
             ;; for example, (defn fill-language-by-spec) is passed a
             ;; _spec_ param which, depending on the language's
             ;; writer implementation (e.g. babel.italiano/writer searches based on :comp and :head).
-            fo (:morph model)
+            morph (:morph model)
 
             surface (if sentence
   	      	      (if source-language
-  	    	        (fo sentence :source-language source-language)
-                       (fo sentence)))]
+  	    	        (morph sentence :from-language source-language)
+                       (morph sentence)))]
         (if (nil? sentence)
           (let [warn-mesg (str "No sentence could be generated in language: " language " with spec:"
                                (strip-refs spec))]

@@ -1892,16 +1892,16 @@
          :english {:past "sold"}}
 
  "send" (let [common {:english {:past "sent"}}]
-            {:synsem {:cat :verb
-                      :sem {:pred :send}}}
-
-            {:english {:note "m-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :send-m}}}
-
-            {:english {:note "s-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :send-s}}})
+          [{:synsem {:cat :verb
+                     :sem {:pred :send}}}
+           
+           {:english {:note "m-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :send-m}}}
+           
+           {:english {:note "s-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :send-s}}}])
 
  "set" {:synsem {:cat :verb
                  :sem {:pred :set}}

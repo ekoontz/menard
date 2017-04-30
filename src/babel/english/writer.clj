@@ -63,6 +63,7 @@
                             (get-in source-expression [:structure :synsem :sem])))
             (let [source-cat (get-in source-expression [:structure :synsem :cat] :top)
                   spec {:synsem {:cat source-cat
+                                 :subcat (get-in source-expression [:structure :synsem :subcat])
                                  :sem
                                  (strip-refs (get-in
                                               (:structure source-expression)

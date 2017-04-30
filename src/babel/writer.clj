@@ -350,9 +350,10 @@
           (fill-by-spec spec (- count 1) table source-model target-model))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
-(defn fill-language-by-spec [spec count table model & [no-older-than]]
+(defn fill-language-by-spec [spec count table model & [source-language no-older-than]]
   (let [language (:language model)
         debug (log/debug (str "fill-language-by-spec: language: " language))
+        debug (log/debug (str "fill-language-by-spec: source-language: " source-language))
         debug (log/debug (str "fill-language-by-spec: spec: " spec))
         debug (if (not (nil? no-older-than))
                 (log/debug (str "fill-language-by-spec: no-older-than:" no-older-than)))
@@ -391,8 +392,8 @@
                          count
                          (if (> current-count 0) " more")
                          " expressions for spec: " spec))
-          (populate-with-language 1 model spec)
-          (fill-language-by-spec spec (- count 1) table model))
+          (populate-with-language 1 model spec source-language)
+          (fill-language-by-spec spec (- count 1) table model source-language no-older-than))
         (log/debug (str "Since no more are required, not generating any for this spec."))))))
 
 ;; TODO: no-older-than is not supported yet.
@@ -480,8 +481,8 @@
 (defn process
   "Take one or more 'units' composed of a command and arguments and perform the command on the arguments. A command is one of:
     {:fill,:fill-one-language,:fill-verb}."
-  [units target-language & [no-older-than]]
-  (log/debug "Starting processing with: " (.size units) " instruction(s) for language " target-language)
+  [units source-language & [no-older-than]]
+  (log/debug "Starting processing with: " (.size units) " instruction(s) with source language " source-language)
   (let []
     (log/debug (str "Units: " (.size units)))
     (doall (map (fn [unit]
@@ -512,6 +513,7 @@
                          count
                          "expression"
                          (-> member-of-unit :fill-one-language :model)
+                         source-language
                          no-older-than)))
                     (if (:fill-verb member-of-unit)
                       (do

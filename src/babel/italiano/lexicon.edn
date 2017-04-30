@@ -33,7 +33,14 @@
  "abbassare" {:synsem {:cat :verb
                        :sem {:pred :lower}}}
 
- "abbracciare" {:synsem {:cat :verb
+ "abbracciare" (let [shared-part-of-abbracciare
+                     {:synsem {:cat :verb}
+                    [{:unify [shared-part-of-abbracciare]
+                      :synsem {:sem {:pred :hug}}}
+                  {:unify [shared-part-of-abbracciare]
+                      :synsem {:sem {:pred :embrace'}}}
+
+ {:synsem {:cat :verb
                          :essere false
                          :sem {:pred :hug}}}
 

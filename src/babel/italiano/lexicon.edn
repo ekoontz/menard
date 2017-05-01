@@ -392,12 +392,10 @@
                  :speakable false}
            :subcat {:1 {:def :def}}}}
 
-
 "cadere" {:synsem {:essere true
-                     :cat :verb}
-                     :sem {:pred :fall}
+                   :cat :verb
+                   :sem {:pred :fall}}
           :italiano {:future-stem "cadr"}}
-
 
  "caffè" [{:synsem {:agr {:gender :masc
                           :number :sing}

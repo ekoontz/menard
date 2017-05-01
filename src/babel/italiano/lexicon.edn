@@ -34,16 +34,11 @@
                        :sem {:pred :lower}}}
 
  "abbracciare" (let [shared-part-of-abbracciare
-                     {:synsem {:cat :verb}
-                    [{:unify [shared-part-of-abbracciare]
-                      :synsem {:sem {:pred :hug}}}
+                     {:synsem {:cat :verb}}]
+                 [{:unify [shared-part-of-abbracciare]
+                   :synsem {:sem {:pred :hug}}}
                   {:unify [shared-part-of-abbracciare]
-                      :synsem {:sem {:pred :embrace'}}}
-
- {:synsem {:cat :verb
-                         :essere false
-                         :sem {:pred :hug}}}
-
+                   :synsem {:sem {:pred :embrace}}}])
 
  "abitare" {:synsem {:cat :verb
                          :sem {:pred :live-a}}}

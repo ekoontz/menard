@@ -1014,6 +1014,7 @@
                 :case :nom
                 :agr {:person :3rd
                       :gender :masc
+                      :gendered true
                       :number :sing}
                 :sem {:human true
                       :pred :lui}
@@ -1917,6 +1918,7 @@
            :case :nom
            :agr {:person :3rd
                  :gender :fem
+                 :gendered true
                  :number :sing}
            :sem {:human true
                  :pred :lei}

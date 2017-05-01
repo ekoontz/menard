@@ -62,12 +62,15 @@
    ;; pronouns have semantic number and gender.
    (default
     (let [gender (atom :top)
-          number (atom :top)]
+          number (atom :top)
+          gendered (atom :top)]
       {:english {:number number
-                 :gender gender}
+                 :gender gender
+                 :gendered gendered}
        :synsem {:cat :noun
                 :pronoun true
                 :agr {:gender gender
+                      :gendered gendered
                       :number number}
                 :sem {:gender gender
                       :number number}}}))

@@ -131,9 +131,23 @@
    (and (string? (get-in word [:english]))
         (= :masc (get-in word [:gender]))
         (= true (get-in word [:pronoun]))
+        (= true (get-in word [:gendered]))
+        (= "it" from-language))
+   (get-in word [:english])
+
+   (and (string? (get-in word [:english]))
+        (= :masc (get-in word [:gender]))
+        (= true (get-in word [:pronoun]))
         (= "it" from-language))
    (trim (str (get-in word [:english]) " (♂)"))
 
+   (and (string? (get-in word [:english]))
+        (= :fem (get-in word [:gender]))
+        (= true (get-in word [:pronoun]))
+        (= true (get-in word [:gendered]))
+        (= "it" from-language))
+   (get-in word [:english])
+   
    (and (string? (get-in word [:english]))
         (= :fem (get-in word [:gender]))
         (= true (get-in word [:pronoun]))

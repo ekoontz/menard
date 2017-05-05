@@ -322,7 +322,8 @@
                        :3sing "beve"
                        :1plur "beviamo"
                        :2plur "bevete"
-                       :3plur "bevono"}}
+                       :3plur "bevono"}
+             :gerund "bevendo"}
   :synsem {:cat :verb
            :essere false
            :sem {:pred :drink

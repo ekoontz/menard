@@ -161,8 +161,10 @@
                       :subcat {:2 {:cat :noun}}
                       :sem {:obj {:pred :top}}}})
    
-   (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
+   ;; inttransitivize:  remove the second argument and semantic object to make verbs intransitive.
+   (new-entries
     {:intransitivize false
+     :phrasal-verb false
      :synsem {:cat :verb
               :aux false
               :sem {:obj {:top :top}
@@ -175,8 +177,26 @@
       (unify
        (dissoc-paths lexeme [[:synsem :sem :obj]
                              [:synsem :subcat :2]])
-       {:applied {:1 true}
+       {:applied {:intransitivize true}
         :synsem {:subcat {:2 '()}}})))
+
+   ;; phrasal-verb-intransitivize: remove the third argument,
+   ;; but not the second, to make it intransitive.
+   (new-entries
+    {:intransitivize false
+     :phrasal-verb true
+     :synsem {:cat :verb
+              :aux false
+              :subcat {:2 {:cat :prep}}}}
+    (fn [lexeme]
+      (unify
+       (dissoc-paths
+       (unify lexeme {:applied {:phrasal-verb-intransitivize true}})
+       [[:synsem :subcat :3]])
+
+       ;; prevent filling-in this
+       ;; in a later processing step below.
+       {:synsem {:subcat {:3 '()}}})))
    
    (default ;; intransitive verbs' :obj is :unspec.
     {:modal-with false

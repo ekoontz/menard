@@ -192,11 +192,13 @@
       (unify
        (dissoc-paths
        (unify lexeme {:applied {:phrasal-verb-intransitivize true}})
-       [[:synsem :subcat :3]])
+       [[:synsem :subcat :3]
+        [:synsem :sem :obj]])
 
        ;; prevent filling-in this
        ;; in a later processing step below.
-       {:synsem {:subcat {:3 '()}}})))
+       {:synsem {:subcat {:3 '()}
+                 :sem {:obj :unspec}}})))
    
    (default ;; intransitive verbs' :obj is :unspec.
     {:modal-with false

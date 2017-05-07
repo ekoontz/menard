@@ -66,8 +66,15 @@
 
         source (->
                 spec
+
+                ;; This is required for English in order
+                ;; to generate complete sentences with both a subject
+                ;; and a verb.
+                (unify {:synsem {:subcat '()}})
+
                 source-generate-fn
                 source-format-fn)
+
         target (->
                 spec
                 generate

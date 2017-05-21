@@ -185,7 +185,7 @@
                                                        (and (not (= (get-in spec [:synsem :sem :tense])
                                                                     :present))
                                                             (not (= (get-in spec [:synsem :sem :aspect])
-                                                                    :progressive)))
+                                                                    :simple)))
                                                        (and (= (get-in spec [:synsem :sem :tense])
                                                                :past)
                                                             (= (get-in spec [:synsem :sem :aspect])

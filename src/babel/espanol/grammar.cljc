@@ -501,9 +501,8 @@
                           (merge tree
                                  (morph-walk-tree tree))))
      :grammar grammar
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     }))
+     :lexical-cache (cache/fifo-cache-factory {} :threshold 1024)
+     :lexicon lexicon}))
 
 (defn parse [surface]
   (parse/parse surface

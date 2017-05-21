@@ -309,7 +309,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unifyc c10
                            root-is-head
@@ -318,7 +318,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unifyc h21
                            {:rule "vp-infinitive"
@@ -471,7 +471,7 @@
      :generate {:lexicon lexicon-for-generation} ;; filter out null subjects.
      :grammar grammar
      :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+     :lexical-cache (cache/fifo-cache-factory {} :threshold 1024)
      :morph fo
      :morph-ps fo-ps
      :morph-walk-tree (fn [tree]

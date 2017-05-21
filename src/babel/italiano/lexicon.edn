@@ -1818,8 +1818,6 @@
             :synsem {:cat :verb
                      :sem {:pred :send-s}}}
 
-
-
  "spegnere" {:synsem {:cat :verb :sem {:pred :turn-off}}
              :italiano {:passato "spento"
                         :present {:1sing "spengo"

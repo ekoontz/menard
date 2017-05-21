@@ -27,7 +27,8 @@
    [:synsem :sem :pred]])
 
 (def tenses
-  {"present" {:synsem {:sem {:tense :present}}}
+  {"present" {:synsem {:sem {:tense :present
+                             :aspect :simple}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
    "future" {:synsem {:sem {:tense :future}}}
    "imperfect" {:synsem {:sem {:aspect :progressive

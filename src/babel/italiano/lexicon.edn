@@ -783,10 +783,8 @@
            {:unify [shared-part-of-dire]
             :synsem {:sem {:pred :tell}}}])
 
-"disegnare"  {:synsem {:cat :verb
-                         :sem {:pred :draw}}}
-
-
+ "disegnare"  {:synsem {:cat :verb
+                        :sem {:pred :draw}}}
 
  "diventare" {:synsem {:essere true
                        :cat :verb
@@ -1829,7 +1827,6 @@
 
  "spendere" {:synsem {:cat :verb :sem {:pred :spend}}
              :italiano {:passato "speso"}}
-
 
  "spiegare" {:synsem {:cat :verb
                       :sem {:pred :explain}}}

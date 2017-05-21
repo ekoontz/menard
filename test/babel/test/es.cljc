@@ -51,7 +51,7 @@
 (deftest llamo
   (let [result (fo (generate {:synsem {:subcat '()
                                        :sem {:tense :present
-                                             :aspect :progressive
+                                             :aspect :simple
                                              :subj {:pred :I}
                                              :pred :be-called
                                              :obj {:pred :Juan}}}}

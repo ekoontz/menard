@@ -151,6 +151,7 @@
            shuffle? nil
            truncate-children? true
            take-n 1}}]
+  (log/debug (str "(generate)with model named: " (:name language-model)))
   (first (generate-all spec language-model)))
 
 (defn lightning-bolts
@@ -171,7 +172,7 @@
         ;; expression, which might involve several parent lightning bolts.
         parents
         (let [parents (shufflefn (candidate-parents grammar spec))]
-          (log/trace (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
+          (log/debug (str "lightning-bolts: candidate-parents:" (string/join "," (map :rule parents))))
           parents)]
     (let [lexical ;; 1. generate list of all phrases where the head child of each parent is a lexeme.
           (when (= false (get-in spec [:head :phrasal] false))
@@ -260,23 +261,24 @@
   [rules spec]
   (filter not-fail?
           (mapfn (fn [rule]
-                   (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
+                   (log/debug (str "candidate-parents: testing rule: " @(:rule rule)))
                    (if (not-fail? (unify (get-in rule [:synsem :cat] :top)
                                          (get-in spec [:synsem :cat] :top)))
                      ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
                      (do
-                       (log/trace (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
+                       (log/debug (str "candidate-parents: " @(:rule rule) " is a cat-wise candidate for spec:"
                                        (strip-refs spec)))
                        (let [unified (unify spec rule)]
                          (if (= :fail unified)
-                           (log/trace (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
-                           (log/trace (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
+                           (log/debug (str "candidate parent: " @(:rule rule) " failed at:" (fail-path spec rule)))
+                           (log/debug (str "candidate parent: " @(:rule rule) " unified successfully with spec:" (strip-refs spec))))
                          unified))
                      (do
-                       (log/trace (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
+                       (log/debug (str "candidate-parents: " @(:rule rule) " is *not* a head candidate for spec:"
                                        spec))
                        :fail)))
                  rules)))
+
 (defn show-bolt [bolt language-model]
   (if (nil? bolt)
     (throw (Exception. (str "don't call show-bolt with bolt=null.")))

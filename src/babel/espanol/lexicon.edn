@@ -711,7 +711,7 @@
          subject-person (atom :top)
          subject-number (atom :top)]
      {:synsem {:cat :verb
-               :sem {:aspect :progressive
+               :sem {:aspect :simple
                      :pred :be-called
                      :reflexive true
                      :tense :present

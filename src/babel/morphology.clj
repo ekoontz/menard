@@ -1,7 +1,7 @@
 (ns babel.morphology
   (:require [clojure.tools.logging :as log]
             [clojure.string :as string]
-            [dag_unify.core :refer [fail? strip-refs unifyc]]))
+            [dag_unify.core :refer [fail? strip-refs unify unifyc]]))
 
 (defn conjugation [specification]
   "compile a high-level conjugation pattern into 
@@ -72,3 +72,23 @@
                           (log/debug (str "found match: replace-pattern=" replace-pattern))
                           (string/replace infinitive from to)))))
                   replace-patterns)))))
+
+(defn group-by-two [remaining]
+  (if (> (count remaining) 1)
+    (cons
+     [(nth remaining 0)
+      (nth remaining 1)]
+     (group-by-two (rest (rest remaining))))))
+
+(defn expand-replace-patterns [unify-with patterns]
+  (mapcat (fn [x]
+            (map (fn [pair]
+                   {:u (unify unify-with
+                              (:agr x))
+                    :p (:p pair)})
+                 (map (fn [p]
+                        {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                                           :person :1st}}}}}
+                         :p p})
+                      (group-by-two (:p x)))))
+          patterns))

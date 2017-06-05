@@ -1,9 +1,7 @@
 (ns babel.italiano.morphology.verbs
   (:require
-   [dag_unify.core :refer [unify]]))
-
-(declare group-by-two)
-(declare expand-replace-patterns)
+   [dag_unify.core :refer [unify]]
+   [babel.morphology :refer [expand-replace-patterns group-by-two]]))
 
 (def replace-patterns-imperfect-tense
   (expand-replace-patterns
@@ -656,22 +654,3 @@
          #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
          ]}]))
 
-(defn group-by-two [remaining]
-  (if (> (count remaining) 1)
-    (cons
-     [(nth remaining 0)
-      (nth remaining 1)]
-     (group-by-two (rest (rest remaining))))))
-
-(defn expand-replace-patterns [unify-with patterns]
-  (mapcat (fn [x]
-            (map (fn [pair]
-                   {:u (unify unify-with
-                              (:agr x))
-                    :p (:p pair)})
-                 (map (fn [p]
-                        {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                                           :person :1st}}}}}
-                         :p p})
-                      (group-by-two (:p x)))))
-          patterns))

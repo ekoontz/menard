@@ -223,6 +223,7 @@
                                       ;; TODO: add checks for other -stem features, like :imperfect-stem.
                                       true
                                       (get-in word [:français]))]
+                 (log/info (str "conjugate: infinitive=" infinitive "; word=" word))
                  (conjugate infinitive word))))
            
            (and

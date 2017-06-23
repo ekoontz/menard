@@ -22,67 +22,28 @@
 (declare rules)
 (declare transform)
 
-;; TODO: compile-lex should simply be a pipeline rather than an argument-position-sensitive function.
-;; The current form is too complex because each argument has a slightly different signature.
-;; Instead, it should be a pipeline where each argument is fn(lexicon) => lexicon (i.e. it takes a lexicon, 
-;; and a lexicon is returned, where a lexicon is a map<string,vector>.
-;; Or, perhaps more conveniently, fn(lexeme) => lexeme, where a lexeme is a vector of maps,
-;; or fn(lexeme) => lexeme, where a lexeme is simply a map.
-(defn compile-lex [lexicon-source exception-generator phonize-fn & [language-specific-rules]]
-  (let [;; take source lexicon (declared above) and compile it.
-        ;; 1. canonicalize all lexical entries
-        ;; (i.e. vectorize the values of the map).
-        lexicon-stage-1 (listify lexicon-source)
-
-        remove-disable (map-function-on-map-vals
-                        lexicon-stage-1
-                        (fn [k v]
-                          (remove #(= :fail %)
-                                  (map (fn [lexeme]
-                                         (if (= true (get-in lexeme [:disable]))
-                                           :fail
-                                           lexeme))
-                                       v))))
-
-        phon-lexicon (map-function-on-map-vals
-                      remove-disable
-                      (fn [lexical-string lexical-val]
-                        (phonize-fn lexical-val lexical-string)))
-
-        ;; 2. apply grammatical-category and semantic rules to each element in the lexicon
-        lexicon-stage-2 (map-function-on-map-vals 
-                         phon-lexicon
-                         (fn [lexical-string lexeme]
-                           (map (fn [lexeme]
-                                  (transform lexeme rules))
-                                lexeme)))
-
-        ;; 3. apply language-specific grammatical rules to each element in the lexicon
-        ;; for an example of a language-specific rule,
-        ;; see italiano/morphology.clj:(defn agreement [lexical-entry]).
-        lexicon-stage-3 (if language-specific-rules
-                          (map-function-on-map-vals
-                           lexicon-stage-2
-                           (fn [lexical-string lexemes]
-                             (map (fn [lexeme]
-                                    (transform lexeme language-specific-rules))
-                                  lexemes)))
-                          ;; no language-specific rules: lexicon-stage-3 == lexicon-stage-2
-                          lexicon-stage-2)
-
-        ;; 4. generate exceptions
-        ;; problem: merge is overwriting values: use a collator that accumulates values.
-        exceptions (listify 
-                    (let [tmp (map #(listify %)
-                                   (exception-generator lexicon-stage-3))]
-                      (if (empty? tmp)
-                        nil
-                        (reduce #(merge-with concat %1 %2)
-                                tmp))))
-
-        lexicon
-        (merge-with concat lexicon-stage-3 exceptions)]
-    lexicon))
+(defn compile-lex [lexicon-source]
+  (-> lexicon-source
+      
+      ;; 1. canonicalize all lexical entries
+      ;; (i.e. vectorize the values of the map).
+      listify
+      
+      (map-function-on-map-vals
+       (fn [k v]
+         (remove #(= :fail %)
+                 (map (fn [lexeme]
+                        (if (= true (get-in lexeme [:disable]))
+                          :fail
+                          lexeme))
+                            v))))
+            
+      ;; 2. apply grammatical-category and semantic rules to each element in the lexicon
+      (map-function-on-map-vals 
+       (fn [lexical-string lexeme]
+         (map (fn [lexeme]
+                (transform lexeme rules))
+              lexeme)))))
 
 (declare get-fail-path)
 
@@ -233,19 +194,6 @@
         true
         lexical-entry))
 
-(defn intransitive-verb-rule [lexical-entry]
-  (cond (and (= (get-in lexical-entry '(:synsem :cat))
-                :verb)
-             (= :none (get-in lexical-entry '(:synsem :sem :obj) :none))
-             (= :none (get-in lexical-entry '(:synsem :sem :location) :none))
-             (= :none (get-in lexical-entry '(:synsem :subcat :2) :none))
-             (not (= true (get-in lexical-entry '(:synsem :aux)))))
-        (unify
-         lexical-entry
-         intransitive)
-        true
-        lexical-entry))
-
 (defn modality-rule [lexical-entry]
   "prevent ratholes like 'Potere ... potere dormire (To be able...to be able to sleep)'"
   (cond (= true (get-in lexical-entry '(:synsem :modal)))
@@ -319,7 +267,7 @@
                                                  :2 '()}}}))]
           (if (fail? result)
             (throw (exception (str "fail when trying to create common-noun from lexical-entry: " lexical-entry
-                                   "subcat: " (get-in lexical-entry [:synsem :subcat])
+                                   "subcat: " (get-in lexical-entry [:synsem :subcat]) "; "
                                    "subcat emptyness: " (empty? (get-in lexical-entry [:synsem :subcat])))))
 
             result))
@@ -416,7 +364,6 @@
 ;; In other words, their function signature is map => seq(map).
 (defn apply-multi-rules [lexeme]
   (make-intransitive-variant lexeme))
-
 
 ;; This set of rules is monotonic and deterministic in the sense that
 ;; iterative application of the set of rules will result in the input

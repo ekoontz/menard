@@ -3,7 +3,7 @@
   (:require
    [babel.encyclopedia :as encyc]
    [babel.lexiconfn :as lexiconfn
-    :refer [compile-lex if-then
+    :refer [compile-lex if-then listify
             map-function-on-map-vals
             verb-pred-defaults]]
    [babel.espanol.morphology :as morph]
@@ -16,9 +16,23 @@
 
 (defn edn2lexicon [resource]
   (-> (lexiconfn/edn2lexicon resource)
-      ;; see TODOs in lexiconfn/compile-lex (should be more of a pipeline as opposed to a
-      ;; argument-position-sensitive function.
-      (compile-lex morph/exception-generator morph/phonize)
+
+      (compile-lex)
+
+      (map-function-on-map-vals
+       (fn [lexical-string lexical-val]
+         (morph/phonize lexical-val lexical-string)))
+
+      ((fn [lexicon]
+         (merge-with concat lexicon
+                     (listify 
+                      (let [tmp (map #(listify %)
+                                     (morph/exception-generator lexicon))]
+                        (if (empty? tmp)
+                          nil
+                          (reduce #(merge-with concat %1 %2)
+                                  tmp)))))))
+
       
       ;; if a non-auxiliary, non-reflexive verb has no :obj,
       ;; then its {:obj is :unspec}.

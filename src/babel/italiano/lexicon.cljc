@@ -3,15 +3,16 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.encyclopedia :as encyc]
-   [babel.lexiconfn :as lexiconfn
+   [babel.lexiconfn
+    :as lexfn
     :refer [apply-unify-key default evaluate
             filter-vals listify map-function-on-map-vals
             new-entries rewrite-keys verb-pred-defaults]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.italiano.morphology :refer [agreement exception-generator
-                                      phonize2]]
+   [babel.italiano.morphology :as morph
+    :refer [phonize2]]
 
    [clojure.edn :as edn]
    [clojure.java.io :refer [reader resource]]
@@ -51,22 +52,21 @@
                :essere essere
                :infl infl}})})
 
-;; TODO rename without confusing "2"
-(defn exception-generator2 [lexicon]
-  (let [exception-maps (exception-generator lexicon)]
+(defn exception-generator [lexicon]
+  (let [exception-maps (morph/exception-generator lexicon)]
     (if (not (empty? exception-maps))
       (merge-with concat
                   lexicon
                   (reduce (fn [m1 m2]
                             (merge-with concat m1 m2))
-                          (exception-generator lexicon)))
+                          (morph/exception-generator lexicon)))
       lexicon)))
 
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
-  (-> (lexiconfn/edn2lexicon resource)
+  (-> (lexfn/edn2lexicon resource)
 
-      exception-generator2 ;; add new keys to the map for all exceptions found.
+      exception-generator ;; add new keys to the map for all exceptions found.
 
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.

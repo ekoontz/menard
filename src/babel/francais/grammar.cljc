@@ -4,7 +4,7 @@
    [clojure.set :refer [union]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.francais.lexicon :refer [lexicon]]
+   [babel.francais.lexicon :refer [deliver-lexicon lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.parse :as parse]
@@ -472,6 +472,7 @@
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
 (defn small []
+  (log/info (str "french small grammar.."))
   (let [grammar
         (filter #(or (= (:rule %) "s-conditional-nonphrasal")
                      (= (:rule %) "s-present-nonphrasal")
@@ -480,16 +481,20 @@
                      (= (:rule %) "s-aux")
                      (= (:rule %) "vp-aux"))
                 grammar)
+        debug (log/info (str "  lexicon.."))
+        deliver (deliver-lexicon)
         lexicon
         (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
+              (for [[k v] @lexicon]
+                (let [debug (log/debug (str "   lexeme=" k))
+                      filtered-v
                       (filter #(or (= (get-in % [:synsem :cat]) :verb)
                                    (= (get-in % [:synsem :propernoun]) true)
                                    (= (get-in % [:synsem :pronoun]) true))
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))
+        debug (log/info (str "  creating-indices.."))        
         indices (create-indices lexicon index-lexicon-on-paths)]
     {:name "small"
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
@@ -515,12 +520,13 @@
      :morph fo}))
 
 (defn analyze [arg]
-  (morph/analyze arg lexicon))
+  (morph/analyze arg @lexicon))
 
 (defn medium []
-  (let [lexicon
+  (let [deliver (deliver-lexicon)
+        lexicon
         (into {}
-              (for [[k v] lexicon]
+              (for [[k v] @lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))

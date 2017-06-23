@@ -375,6 +375,14 @@
                                                  :number :sing}}}}})
          "blesses")))
 
+(deftest conjugate-irregular
+  (is (= (conjugate "boire"
+                    {:synsem {:infl :present
+                              :subcat {:1 {:agr {:person :1st
+                                                 :number :plur}}}}}
+                    @lexicon)
+         "buvons")))
+
 (deftest have-fun
   (let [have-fun-expression
         (generate

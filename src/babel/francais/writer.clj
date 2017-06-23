@@ -16,7 +16,7 @@
   (write-lexicon "fr" lexicon))
 
 (defn tout [ & [count]]
-  (let [use-map-fn map
+  (let [use-map-fn pmap
         count (if count (Integer. count) 10)
         root-verbs 
         (zipmap

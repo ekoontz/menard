@@ -261,20 +261,20 @@
   [rules spec]
   (filter not-fail?
           (mapfn (fn [rule]
-                   (log/debug (str "candidate-parents: testing rule: " @(:rule rule)))
+                   (log/debug (str "candidate-parents: testing rule: " (:rule rule)))
                    (if (not-fail? (unify (get-in rule [:synsem :cat] :top)
                                          (get-in spec [:synsem :cat] :top)))
                      ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
                      (do
-                       (log/debug (str "candidate-parents: " @(:rule rule) " is a cat-wise candidate for spec:"
+                       (log/debug (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
                                        (strip-refs spec)))
                        (let [unified (unify spec rule)]
                          (if (= :fail unified)
-                           (log/debug (str "candidate parent: " @(:rule rule) " failed at:" (fail-path spec rule)))
-                           (log/debug (str "candidate parent: " @(:rule rule) " unified successfully with spec:" (strip-refs spec))))
+                           (log/debug (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
+                           (log/debug (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
                          unified))
                      (do
-                       (log/debug (str "candidate-parents: " @(:rule rule) " is *not* a head candidate for spec:"
+                       (log/debug (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
                                        spec))
                        :fail)))
                  rules)))

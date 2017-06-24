@@ -13,14 +13,15 @@
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
 (defn rewrite-lexicon []
-  (write-lexicon "fr" lexicon))
+  (write-lexicon "fr" @lexicon))
 
 (defn tout [ & [count]]
   (let [use-map-fn pmap
         count (if count (Integer. count) 10)
+        foo (babel.francais.lexicon/deliver-lexicon)
         root-verbs 
         (zipmap
-         (keys lexicon)
+         (keys @lexicon)
          (use-map-fn
           (fn [lexeme-set]
             (filter (fn [lexeme]
@@ -31,14 +32,14 @@
                        (= (get-in lexeme [:synsem :infl]) :top)
                        (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
                     lexeme-set))
-          (vals lexicon)))
+          (vals @lexicon)))
         root-verb-array
         (reduce concat
                 (use-map-fn (fn [key]
                               (get root-verbs key))
                             (sort (keys root-verbs))))]
     (init-db)
-    (write-lexicon "fr" lexicon)
+    (write-lexicon "fr" @lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
                    (.size root-verb-array)))

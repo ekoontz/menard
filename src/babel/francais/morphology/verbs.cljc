@@ -907,6 +907,61 @@
                   :français (get-in val [:français :imperfect :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
+
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ais")
+                   :agr {:number :sing
+                         :person :1st}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ais")
+                   :agr {:number :sing
+                         :person :2nd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ait")
+                   :agr {:number :sing
+                         :person :3rd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ions")
+                   :agr {:number :plur
+                         :person :1st}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "iez")
+                   :agr {:number :plur
+                         :person :2nd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "aient")
+                   :agr {:number :plur
+                         :person :3rd}}}])}
+   
    ;; 3. present-tense boot-stem exception: :boot-stem1.
    {:path [:français :boot-stem1]
     :merge-fn

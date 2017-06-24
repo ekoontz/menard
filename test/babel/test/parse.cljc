@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.francais.grammar :refer [small medium]]
             [babel.francais.lexicon :refer [lexicon]]
-            [babel.francais.morphology :refer [analyze fo]
+            [babel.francais.morphology :refer [analyze fo]]
             [babel.over :as over]
             [babel.parse :refer [parse tokenizer]]
             [clojure.string :as string]

@@ -5,8 +5,7 @@
             [babel.francais :as fr :refer [generate parse medium]]
             [babel.francais.grammar :as grammar :refer [fo-ps]]
             [babel.francais.lexicon :refer [lexicon]]
-            [babel.francais.morphology :refer [analyze conjugate fo get-string
-                                               replace-patterns]]
+            [babel.francais.morphology :refer [analyze conjugate fo get-string]]
             [babel.generate :as generate]
             [babel.over :as over]
             [babel.parse :as parse]

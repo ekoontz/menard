@@ -779,7 +779,7 @@
    ]
   )
 
-(def replace-patterns-source
+(def regular-patterns-source
   (apply concat
          [
           conditional
@@ -797,7 +797,7 @@
 ;; this (map..) is needed because a word within a syntactic tree will be conjugated
 ;; as a part of :a or :b within the tree, and with its :infl and :agr as keys within
 ;; the :francais part of the verb.
-(def replace-patterns
+(def regular-patterns
   (map (fn [pattern]
          {:p (:p pattern)
           :comment (:comment pattern)
@@ -812,7 +812,139 @@
                         :essere essere
                         :infl infl
                         :agr agr}))})
-       replace-patterns-source))
+       regular-patterns-source))
+
+(def irregular-patterns
+  [;; 1. past-tense exceptions
+   {:path [:français :past-participle]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :past-p
+                  :français (get-in val [:français :past-participle] :nothing)}})}
+   ;; 2. present-tense exceptions
+   {:path [:français :present :1sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :1sing] :nothing)
+                  :agr {:number :sing
+                        :person :1st}}})}
+   {:path [:français :present :2sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :2sing] :nothing)
+                  :agr {:number :sing
+                        :person :2nd}}})}
+   {:path [:français :present :3sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :3sing] :nothing)
+                  :agr {:number :sing
+                        :person :3rd}}})}
+   {:path [:français :present :1plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :1plur] :nothing)
+                  :agr {:number :plur
+                        :person :1st}}})}
+   {:path [:français :present :2plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :2plur] :nothing)
+                  :agr {:number :plur
+                        :person :2nd}}})}
+   {:path [:français :present :3plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :present
+                  :français (get-in val [:français :present :3plur] :nothing)
+                  :agr {:number :plur
+                        :person :3rd}}})}
+   ;; 3. imperfect-tense exceptions
+   {:path [:français :imperfect :1sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :1sing] :nothing)
+                  :agr {:number :sing
+                        :person :1st}}})}
+   {:path [:français :imperfect :2sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :2sing] :nothing)
+                  :agr {:number :sing
+                        :person :2nd}}})}
+   {:path [:français :imperfect :3sing]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :3sing] :nothing)
+                  :agr {:number :sing
+                        :person :3rd}}})}
+   {:path [:français :imperfect :1plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :1plur] :nothing)
+                  :agr {:number :plur
+                        :person :1st}}})}
+   {:path [:français :imperfect :2plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :2plur] :nothing)
+                  :agr {:number :plur
+                        :person :2nd}}})}
+   {:path [:français :imperfect :3plur]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :imperfect
+                  :français (get-in val [:français :imperfect :3plur] :nothing)
+                  :agr {:number :plur
+                        :person :3rd}}})}
+   ;; 3. present-tense boot-stem exception: :boot-stem1.
+   {:path [:français :boot-stem1]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem1])
+                                  "s")
+                   :agr {:number :sing
+                         :person :1st}}}
+       {:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem1])
+                                  "s")
+                   :agr {:number :sing
+                         :person :2nd}}}
+       {:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem1])
+                                  "t")
+                   :agr {:number :sing
+                         :person :3rd}}}
+       {:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem1])
+                                  "vent")
+                   :agr {:number :plur
+                         :person :3rd}}}])}
+   
+   {:path [:français :boot-stem2]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem2])
+                                  "ons")
+                   :agr {:number :plur
+                         :person :1st}}}
+       {:français {:infl :present
+                   :français (str (get-in val [:français :boot-stem2])
+                                  "ez")
+                   :agr {:number :plur
+                         :person :2nd}}}])}])
 
 (defn exception [error-string]
   #?(:clj

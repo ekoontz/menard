@@ -1,6 +1,7 @@
 (ns babel.francais.morphology
   (:refer-clojure :exclude [get-in resolve])
   (:require
+   [babel.francais.morphology.adjectives :as adjectives]
    [babel.francais.morphology.nouns :as nouns]
    [babel.francais.morphology.verbs :as verbs]
    [clojure.string :as string]
@@ -9,10 +10,16 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify unifyc)]))
 
-(def replace-patterns
+(def regular-patterns
   (concat
-   nouns/replace-patterns
-   verbs/replace-patterns))
+   nouns/regular-patterns
+   verbs/regular-patterns))
+
+(def irregular-patterns
+  (concat
+   adjectives/irregular-patterns
+   ;; TODO: noun/irregular-patterns
+   verbs/irregular-patterns))
 
 (defn analyze [surface-form lexicon]
   "Analyze a single surface form into a set of lexical forms."
@@ -39,7 +46,7 @@
                            (map (fn [lexical-entry]
                                   (unifyc unify-with lexical-entry))
                                 (get lexicon lex)))))))
-           replace-patterns)))
+           regular-patterns)))
 
 (defn lookup-in [lexicon {spec :spec}]
   (let [infinitive (get-in spec [:français :infinitive])
@@ -55,7 +62,7 @@
 
 (defn conjugate [infinitive unify-with & [lexicon]]
   "Conjugate an infinitive into a surface form by taking the first 
-   element of replace-patterns where the element's :u unifies successfully with
+   element of regular-patterns where the element's :u unifies successfully with
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
   (log/debug (str "conjugate: infinitive= " infinitive "; unify-with= " unify-with))
@@ -87,7 +94,7 @@
                          (log/debug (str "input spec: " (strip-refs unify-with)))
                          (log/debug (str "pattern spec:"  (strip-refs unify-against)))
                          (string/replace infinitive from to)))))
-                 replace-patterns))
+                 regular-patterns))
 
         diagnostics (log/debug (str "emptyness of exceptions:" (empty? exceptional-surface-forms)))
 
@@ -453,150 +460,7 @@
                                                              exceptional-lexeme}))
                                                         exceptional-lexemes)))))
                                            lexemes)))
-                               [;; 1. past-tense exceptions
-                                {:path [:français :past-participle]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :past-p
-                                               :français (get-in val [:français :past-participle] :nothing)}})}
-                                ;; 2. present-tense exceptions
-                                {:path [:français :present :1sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :1sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :1st}}})}
-                                {:path [:français :present :2sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :2sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :2nd}}})}
-                                {:path [:français :present :3sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :3sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :3rd}}})}
-                                {:path [:français :present :1plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :1plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :1st}}})}
-                                {:path [:français :present :2plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :2plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :2nd}}})}
-                                {:path [:français :present :3plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :present
-                                               :français (get-in val [:français :present :3plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :3rd}}})}
-                                ;; 3. imperfect-tense exceptions
-                                {:path [:français :imperfect :1sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :1sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :1st}}})}
-                                {:path [:français :imperfect :2sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :2sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :2nd}}})}
-                                {:path [:français :imperfect :3sing]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :3sing] :nothing)
-                                               :agr {:number :sing
-                                                     :person :3rd}}})}
-                                {:path [:français :imperfect :1plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :1plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :1st}}})}
-                                {:path [:français :imperfect :2plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :2plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :2nd}}})}
-                                {:path [:français :imperfect :3plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:infl :imperfect
-                                               :français (get-in val [:français :imperfect :3plur] :nothing)
-                                               :agr {:number :plur
-                                                     :person :3rd}}})}
-                                ;; 3. present-tense boot-stem exception: :boot-stem1.
-                                {:path [:français :boot-stem1]
-                                 :merge-fn
-                                 (fn [val]
-                                   [{:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem1])
-                                                               "s")
-                                                :agr {:number :sing
-                                                      :person :1st}}}
-                                    {:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem1])
-                                                               "s")
-                                                :agr {:number :sing
-                                                      :person :2nd}}}
-                                    {:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem1])
-                                                               "t")
-                                                :agr {:number :sing
-                                                      :person :3rd}}}
-                                    {:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem1])
-                                                               "vent")
-                                                :agr {:number :plur
-                                                      :person :3rd}}}])}
-
-                                {:path [:français :boot-stem2]
-                                 :merge-fn
-                                 (fn [val]
-                                   [{:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem2])
-                                                               "ons")
-                                                :agr {:number :plur
-                                                      :person :1st}}}
-                                    {:français {:infl :present
-                                                :français (str (get-in val [:français :boot-stem2])
-                                                               "ez")
-                                                :agr {:number :plur
-                                                      :person :2nd}}}])}
-
-                                
-                                ;; 4. adjectives
-                                {:path [:français :masc :plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:agr {:gender :masc
-                                                     :number :plur}}})}
-                                {:path [:français :fem :plur]
-                                 :merge-fn
-                                 (fn [val]
-                                   {:français {:agr {:gender :fem
-                                                     :number :plur}}})}
-                                ])]
+                               irregular-patterns)]
             result))
    lexicon))
 

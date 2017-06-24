@@ -7,7 +7,7 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
-(def replace-patterns
+(def regular-patterns
   [
    ;; pronouns: e.g.: "t'" => "te". The apostrophe (')
    ;; is already removed by the tokenizer.

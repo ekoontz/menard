@@ -966,6 +966,7 @@
     true
     reflexive-infinitive))
 
+;; TODO: pull out stuff that can be made declarative into a data structure inside a (def ..)
 (defn imperfect [word]           
   (let [infinitive (reflexive-to-infinitive (get-in word [:français]))
         ar-type (try (re-find #"ar$" infinitive)

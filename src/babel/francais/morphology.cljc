@@ -22,8 +22,9 @@
            (fn [replace-pattern]
              (let [ ;; regular expression that matches the surface form
                    from (nth (:p replace-pattern) 0)]
-               (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
-               (if (re-matches from surface-form)
+               (log/trace (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
+               (when (re-matches from surface-form)
+                 (log/debug (str "matched replace-pattern:" replace-pattern " against surface-form: " surface-form))
                  (let [;; expression that is used by string/replace along with the first regexp and the surface form,
                        ;; to create the lexical string
                        to (nth (:p replace-pattern) 1)
@@ -40,124 +41,73 @@
                                 (get lexicon lex)))))))
            replace-patterns)))
 
+(defn lookup-in [lexicon {spec :spec}]
+  (let [infinitive (get-in spec [:français :infinitive])
+        lexemes (reduce concat (vals lexicon))]
+    (log/debug (str "lookup-in: spec=" (strip-refs spec)))
+    (filter (fn [lexeme]
+              (and
+               (= infinitive (get-in lexeme [:français :infinitive] ::none))
+               (not (fail? (unify spec lexeme)))
+               (or (log/debug (str "lookup-in: matched: " (strip-refs lexeme)))
+                   true)))
+            lexemes)))
+
 (defn conjugate [infinitive unify-with & [lexicon]]
   "Conjugate an infinitive into a surface form by taking the first 
    element of replace-patterns where the element's :u unifies successfully with
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
-  (let [exception (let [exception (first (get lexicon infinitive))
-                        boot-stem1 (get-in exception [:français :boot-stem])
-                        boot-stem2 (get-in exception [:français :boot-stem2])
-                        present-1-sing (get-in exception [:français :present :1sing])
-                        present-2-sing (get-in exception [:français :present :2sing])
-                        present-3-sing (get-in exception [:français :present :3sing])]
-                    (if exception
-                      [(cond
-                         (and present-1-sing
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :1st
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         present-1-sing
+  (log/debug (str "conjugate: infinitive= " infinitive "; unify-with= " unify-with))
+  (let [exceptional-lexemes
+        (lookup-in lexicon
+                   {:spec (unify unify-with
+                                 {:français {:infinitive infinitive
+                                             :exception true}})})
+        exceptional-surface-forms
+        (map #(get-in % [:français :français])
+             exceptional-lexemes)
+        regulars
+        (remove #(nil? %)
+                (map
+                 (fn [replace-pattern]
+                   (let [from (nth (:g replace-pattern) 0)
+                         to (nth (:g replace-pattern) 1)
+                         unify-against (if (:u replace-pattern)
+                                         (:u replace-pattern)
+                                         :top)]
+                     (if (and from to
+                              (re-matches from infinitive)
+                              (not (fail? (unify unify-against
+                                                 unify-with))))
+                       (do
+                         (log/debug (str "matched infinitive: " infinitive))
+                         (log/debug (str "from: " from))
+                         (log/debug (str "to: " to))
+                         (log/debug (str "input spec: " (strip-refs unify-with)))
+                         (log/debug (str "pattern spec:"  (strip-refs unify-against)))
+                         (string/replace infinitive from to)))))
+                 replace-patterns))
 
-                         (and present-2-sing
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :2nd
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         present-2-sing
+        diagnostics (log/debug (str "emptyness of exceptions:" (empty? exceptional-surface-forms)))
 
-                         (and present-3-sing
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :3rd
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         present-3-sing
-
-                         (and boot-stem1
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :1st
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         (str boot-stem1 "s")
-
-                         (and boot-stem1
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :2nd
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         (str boot-stem1 "s")
-
-                         (and boot-stem1
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :3rd
-                                                                        :number :sing}}}}}
-                                           unify-with))))
-                         (str boot-stem1 "t")
-
-                         (and boot-stem2
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :1st
-                                                                        :number :plur}}}}}
-                                           unify-with))))
-                         (str boot-stem2 "ons")
-
-                         (and boot-stem2
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :2nd
-                                                                        :number :plur}}}}}
-                                           unify-with))))
-                         (str boot-stem2 "ez")
-
-                         (and boot-stem1
-                              (not (fail?
-                                    (unify {:synsem {:infl :present
-                                                     :subcat {:1 {:agr {:person :3rd
-                                                                        :number :plur}}}}}
-                                           unify-with))))
-                         (str boot-stem1 "ent")
-
-                         true nil)]))
-        result
-        (or exception
-            (take 1
-                  (remove #(nil? %)
-                          (map
-                           (fn [replace-pattern]
-                             (let [from (nth (:g replace-pattern) 0)
-                                   to (nth (:g replace-pattern) 1)
-                                   unify-against (if (:u replace-pattern)
-                                                   (:u replace-pattern)
-                                                   :top)]
-                            (if (and from to
-                                     (re-matches from infinitive)
-                                     (not (fail? (unifyc unify-against
-                                                         unify-with))))
-                              (do
-                                (log/debug (str "matched infinitive: " infinitive))
-                                (log/debug (str "from: " from))
-                                (log/debug (str "to: " to))
-                                (log/debug (str "input spec: " (strip-refs unify-with)))
-                                (log/debug (str "pattern spec:"  (strip-refs unify-against)))
-                                (string/replace infinitive from to)))))
-                           replace-patterns))))]
-    (if (empty? result)
-      (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
-                              " unify-with: " (strip-refs unify-with) ".")))
-      (first result))))
+        diagnostics (log/debug (str "emptyness of regulars:" (empty? regulars)))
+        ;; Take the first of any exceptions found; if not, take the first regular conjugation.
+        ;; if neither, it's an error in this implementation of French morphology so throw so it can be
+        ;; detected and fixed.
+        results (take 1 (concat exceptional-surface-forms regulars))]
+  (or (and (empty? results)
+           (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
+                                   " unify-with: " (strip-refs unify-with) "."))))
+      (do
+        (log/debug (str "conjugated: " infinitive " => " (first results)))
+        (first results)))))
 
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
 ;; 
 (defn get-string [word & [b lexicon]]
+  (log/debug (str "get-string:" word))
   (cond (and (nil? b)
              (seq? word))
         (let [result (get-string word)]
@@ -473,7 +423,8 @@
                                              (if-let [value (get-in lexeme path)]
                                                (log/debug " value@" path ": " value))
                                              (if (not (= ::none (get-in lexeme path ::none)))
-                                               (let [exceptional-lexeme
+                                               (let [infinitive (get-in lexeme [:français :français])
+                                                     exceptional-lexeme
                                                      (apply merge-fn (list lexeme))]
                                                  (log/debug " exceptional-lexeme: " exceptional-lexeme)
                                                  (let [exceptional-lexemes
@@ -482,7 +433,7 @@
                                                              exceptional-lexeme
                                                              true [exceptional-lexeme])]
                                                    (when (not (empty? exceptional-lexemes))
-                                                     (log/debug "infinitive: " (get-in lexeme [:français :français]))
+                                                     (log/debug "infinitive: " infinitive)
                                                      (log/debug " path: " path))
                                                    (map (fn [exceptional-lexeme]
                                                           (log/debug "   conjugated:"
@@ -493,7 +444,8 @@
                                                                  exceptional-lexeme
                                                                  (dissoc-paths lexeme [path
                                                                                        [:français :français]])
-                                                                 {:français {:exception true}})
+                                                                 {:français {:infinitive infinitive
+                                                                             :exception true}})
                                                                 surface
                                                                 (get-in exceptional-lexeme [:français :français])]
                                                             (log/debug (str "  surface: " surface " => " (strip-refs exceptional-lexeme)))

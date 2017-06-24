@@ -658,7 +658,10 @@
                         :number :plur}
                   :subcat '()}}
 
-   "s'amuser" (let [subject-semantics (atom {:human true})
+ ;; TODO: complicated stuff like subject-object agreement
+ ;; for reflexives should be done in a lexical complilation rule in
+ ;; babel.francais.lexicon, not in individual lexemes.
+ "s'amuser" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
                           :essere true
@@ -672,7 +675,8 @@
                                        :pronoun true
                                        :reflexive true
                                        :sem subject-semantics}}}})
-   "s'appeler"
+ ;; TODO: same as last comment
+ "s'appeler"
    (let [subject-semantics (atom :top)
          called-semantics (atom :top)
          subject-gender (atom :top)

@@ -76,8 +76,11 @@
    element of regular-patterns where the element's :u unifies successfully with
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
-  (log/debug (str "conjugate: infinitive= " infinitive "; unify-with= " unify-with))
-  (let [exceptional-lexemes
+  (log/debug (str "conjugate1: infinitive= " infinitive "; unify-with= " unify-with))
+  (let [unify-with (dissoc-paths unify-with [[:français]])
+        diagnostics
+        (log/debug (str "conjugate2: infinitive= " infinitive "; unify-with= " unify-with))
+        exceptional-lexemes
         (lookup-in lexicon
                    {:spec (unify unify-with
                                  {:français {:infinitive infinitive

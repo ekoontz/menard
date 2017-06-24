@@ -909,7 +909,8 @@
      (get-in word [:français])
 
      :else
-     (let [message (str "get-string-1: imperfecto regular inflection: don't know what to do with input argument: " (strip-refs word))]
+     (let [message (str "get-string-1: imperfect regular inflection: "
+                        " don't know what to do with input argument: " (strip-refs word))]
        (if (= true suppress-incomplete-morphology-errors)
          (do (log/warn message)
              "(" (get-in word [:francais]) ")")

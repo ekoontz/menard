@@ -51,6 +51,8 @@
 (defn lookup-in [lexicon {spec :spec}]
   (let [infinitive (get-in spec [:français :infinitive])
         lexemes (reduce concat (vals lexicon))]
+    (if (fail? spec)
+      (throw (Exception. (str "lookup-in was given spec=fail."))))
     (log/debug (str "lookup-in: spec=" (strip-refs spec)))
     (filter (fn [lexeme]
               (and

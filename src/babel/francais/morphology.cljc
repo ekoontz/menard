@@ -277,7 +277,7 @@
                                       true
                                       (get-in word [:français]))]
                  (log/debug (str "conjugate: infinitive=" infinitive "; word=" (strip-refs word)))
-                 (conjugate infinitive word))))
+                 (conjugate infinitive {:français word}))))
            
            (and
             (= (get-in word '(:infl)) :imperfect)
@@ -288,7 +288,7 @@
            (cond (get-in word [:past-participle])
                  (get-in word [:past-participle])
                  true
-                 (conjugate (get-in word [:français]) word))
+                 (conjugate (get-in word [:français]) {:français word}))
 
            (and
             (get-in word '(:a))

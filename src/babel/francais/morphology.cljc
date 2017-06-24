@@ -210,11 +210,11 @@
               info (log/debug "get-string: input word: " word)]
 
           (log/trace (str "get-string: word: " word))
-          (log/debug (str "get-string: word (stripped-refs): " (strip-refs word)))
-          (log/debug (str "word's :a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-          (log/debug (str "word's :b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
+          (log/trace (str "get-string: word (stripped-refs): " (strip-refs word)))
+          (log/trace (str "word's :a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
+          (log/trace (str "word's :b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
           
-          (log/debug (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
+          (log/trace (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
 
           (cond
             (= word :top) ".."
@@ -470,59 +470,36 @@
                                    ;; and the value is a list of lexemes for that string.
                                    (log/trace (str (first lexeme-kv) ": looking at path: " path))
                                    (mapcat (fn [lexeme]
-                                             ;; this is where a unify/dissoc that supported
-                                             ;; non-maps like :top and :fail, would be useful:
-                                             ;; would not need the (if (not (fail? lexeme)..)) check
-                                             ;; to avoid a difficult-to-understand
-                                             ;; "java.lang.ClassCastException: clojure.lang.Keyword
-                                             ;; cannot be cast to clojure.lang.IPersistentMap" error.
-                                             (log/debug "lexeme: " (get-in lexeme [:français :français]))
-                                             (log/debug " path: " path)
                                              (if-let [value (get-in lexeme path)]
                                                (log/debug " value@" path ": " value))
                                              (if (not (= ::none (get-in lexeme path ::none)))
                                                (let [exceptional-lexeme
                                                      (apply merge-fn (list lexeme))]
                                                  (log/debug " exceptional-lexeme: " exceptional-lexeme)
-                                                 (cond (or (seq? exceptional-lexeme)
-                                                           (vector? exceptional-lexeme))
-                                                       (map (fn [exceptional-lexeme]
-                                                              (log/debug " RESULT(in-list): " exceptional-lexeme)
-                                                              (log/debug "   conjugated:"
-                                                                         (get-in exceptional-lexeme
-                                                                                 [:français :français]))
-                                                              (let [exceptional-lexeme
-                                                                    (unify
-                                                                     exceptional-lexeme
-                                                                     (dissoc-paths lexeme [path
-                                                                                           [:français :français]])
-                                                                     {:français {:exception true}})]
-                                                                (log/debug " RESULT(in-list)1: "
-                                                                           (dissoc
-                                                                            exceptional-lexeme
-                                                                            :dag_unify.core/serialized))
-                                                                {(get-in exceptional-lexeme [:français :français])
-                                                                 exceptional-lexeme}))
-                                                            exceptional-lexeme)
-                                                       
-                                                       true
-                                                       (let [exceptional-lexeme
-                                                             (unify
-                                                              exceptional-lexeme
-                                                              (dissoc-paths lexeme [path
-                                                                                    [:français :français]])
-                                                              {:français {:exception true}})]
-                                                         (log/debug " RESULT1: "
-                                                                    (unify
-                                                                     exceptional-lexeme
-                                                                     (dissoc-paths lexeme [path
-                                                                                           [:français :français]])))
-                                                         (log/debug " RESULT2: "
-                                                                    (dissoc
-                                                                     exceptional-lexeme
-                                                                     :dag_unify.core/serialized))
-                                                         (list {(get-in exceptional-lexeme [:français :français])
-                                                                exceptional-lexeme}))))))
+                                                 (let [exceptional-lexemes
+                                                       (cond (or (seq? exceptional-lexeme)
+                                                                 (vector? exceptional-lexeme))
+                                                             exceptional-lexeme
+                                                             true [exceptional-lexeme])]
+                                                   (when (not (empty? exceptional-lexemes))
+                                                     (log/debug "infinitive: " (get-in lexeme [:français :français]))
+                                                     (log/debug " path: " path))
+                                                   (map (fn [exceptional-lexeme]
+                                                          (log/debug "   conjugated:"
+                                                                     (get-in exceptional-lexeme
+                                                                             [:français :français]))
+                                                          (let [exceptional-lexeme
+                                                                (unify
+                                                                 exceptional-lexeme
+                                                                 (dissoc-paths lexeme [path
+                                                                                       [:français :français]])
+                                                                 {:français {:exception true}})
+                                                                surface
+                                                                (get-in exceptional-lexeme [:français :français])]
+                                                            (log/debug (str "  surface: " surface " => " (strip-refs exceptional-lexeme)))
+                                                            {surface
+                                                             exceptional-lexeme}))
+                                                        exceptional-lexemes)))))
                                            lexemes)))
                                [;; 1. past-tense exceptions
                                 {:path [:français :past-participle]

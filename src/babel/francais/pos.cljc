@@ -1,12 +1,12 @@
 (ns babel.francais.pos
   (:require [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)]
             [babel.pos :as pos]
-            [dag_unify.core :refer (unifyc)]))
+            [dag_unify.core :refer (unify)]))
 
 (def verb-aux
   (let [sem (atom {:aspect :perfect
                   :tense :past})]
-    (unifyc {:synsem {:sem sem
+    (unify {:synsem {:sem sem
                       :subcat {:2 {:infl :past-p}}}}
             (let [aux (atom true)
                   pred (atom :top)
@@ -30,45 +30,45 @@
     {:français {:agr agr}
      :synsem {:agr agr}}))
 
-(def feminine-noun (unifyc
+(def feminine-noun (unify
                     noun-agreement (:feminine pos/noun)))
 
-(def masculine-noun (unifyc
+(def masculine-noun (unify
                      noun-agreement (:masculine pos/noun)))
 
 (def adjective
-  (unifyc pos/adjective
-          (let [agr (atom :top)
-                cat (atom :top)]
-            {:français {:agr agr
-                        :cat cat}
-             :synsem {:agr agr
-                      :cat cat}})))
+  (unify pos/adjective
+         (let [agr (atom :top)
+               cat (atom :top)]
+           {:français {:agr agr
+                       :cat cat}
+            :synsem {:agr agr
+                     :cat cat}})))
 
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
 (def verb-subjective
-  (unifyc pos/verb-subjective
-          (let [infl (atom :top)
-                agr (atom :top)
-                essere-type (atom :top)]
-            {:français {:agr agr
-                        :essere essere-type
-                        :infl infl}
-             :synsem {:infl infl
-                      :essere essere-type
-                      :subcat {:1 {:agr agr}}}})))
+  (unify pos/verb-subjective
+         (let [infl (atom :top)
+               agr (atom :top)
+               essere-type (atom :top)]
+           {:français {:agr agr
+                       :essere essere-type
+                       :infl infl}
+            :synsem {:infl infl
+                     :essere essere-type
+                     :subcat {:1 {:agr agr}}}})))
 (def transitive
-  (unifyc verb-subjective
-          pos/transitive))
+  (unify verb-subjective
+         pos/transitive))
 
 (def intransitive-unspecified-obj
-  (unifyc verb-subjective
-          pos/intransitive-unspecified-obj))
+  (unify verb-subjective
+         pos/intransitive-unspecified-obj))
 
 (def intransitive
-  (unifyc verb-subjective
-          pos/intransitive))
+  (unify verb-subjective
+         pos/intransitive))
 
 (defn intransitivize [lexicon]
   (lexiconfn/intransitivize lexicon intransitive transitive intransitive-unspecified-obj))

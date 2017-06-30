@@ -97,31 +97,55 @@
 (def hc-agreement
   (let [agr (atom :top)]
     {:synsem {:agr agr}
-     :head {:synsem {:agr agr}}
+     :head {:français {:agr agr}
+            :synsem {:agr agr}}
      :comp {:français {:agr agr}
             :synsem {:agr agr}}}))
 
 (def head-first
   (let [head-français (atom :top)
-        comp-français (atom :top)]
+        comp-français (atom :top)
+        head-cat (atom :top)
+        comp-cat (atom :top)]
     (unify
-     {:comp {:français {:initial false}}
-      :head {:français {:initial true}}}
-     {:head {:français head-français}
-      :comp {:français comp-français}
+     {:comp {:français {:cat comp-cat
+                        :initial false}}
+      :head {:français {:cat head-cat
+                        :initial true}
+             :synsem {:cat head-cat}}
+      :synsem {:cat head-cat}}
+     
+     {:head {:synsem {:cat head-cat}
+             :français head-français}
+      :comp {:synsem {:cat comp-cat}
+             :français comp-français}
       :français {:a head-français
-                :b comp-français}})))
+                 :b comp-français}}
+     {:français {:a {:cat head-cat}
+                 :b {:cat comp-cat}}})))
 
 (def head-last
   (let [head-français (atom :top)
-        comp-français (atom :top)]
+        comp-français (atom :top)
+        head-cat (atom :top)
+        comp-cat (atom :top)]
     (unify
-     {:comp {:français {:initial true}}
-      :head {:français {:initial false}}}
-     {:head {:français head-français}
-      :comp {:français comp-français}
+     {:comp {:français {:cat comp-cat
+                        :initial true}
+             :synsem {:cat comp-cat}}
+      :head {:français {:cat head-cat
+                        :initial false}
+             :synsem {:cat head-cat}}
+      :synsem {:cat head-cat}}
+      
+     {:head {:synsem {:cat head-cat}
+             :français head-français}
+      :comp {:synsem {:cat comp-cat}
+             :français comp-français}
       :français {:a comp-français
-                :b head-français}})))
+                 :b head-français}}
+     {:français {:a {:cat comp-cat}
+                 :b {:cat head-cat}}})))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
 (def schema-10
@@ -331,7 +355,8 @@
                    (unify c10
                            root-is-head
                            {:rule "s-imperfect-nonphrasal"
-                            :head {:phrasal false}
+                            :head {:phrasal false
+                                   :français {:present {:conjugated true}}}
                             :synsem {:aux false
                                      :infl :imperfect
                                      :cat :verb

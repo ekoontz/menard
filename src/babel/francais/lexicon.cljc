@@ -32,7 +32,63 @@
    (map-function-on-map-vals
     (fn [lexical-string lexical-val]
       (phonize lexical-val lexical-string)))
+
+   (map-function-on-map-vals
+    (fn [lexical-string lexical-vals]
+      (map (fn [lexical-val]
+             (if (or (= (string? (get-in lexical-val [:français :present :1sing])))
+                     (= (string? (get-in lexical-val [:français :boot-stem1]))))
+               (unify {:français {:present {:regular false}}}
+                      lexical-val)
+               lexical-val))
+           lexical-vals)))
+
+   (default {:synsem {:cat :verb}
+             :d1 true
+             :français {:present {:regular true}}})
+   
+   (map-function-on-map-vals
+    (fn [lexical-string lexical-vals]
+      (map (fn [lexical-val]
+             (if (and (= (string? (get-in lexical-val [:français :imperfect :1sing])))
+                      (= :verb (get-in lexical-val [:synsem :cat])))
+               (unify {:français {:imperfect {:regular false}}}
+                      lexical-val)
+               lexical-val))
+           lexical-vals)))
+
+   (default {:synsem {:cat :verb}
+             :français {:imperfect {:regular true}}
+             :d2 true})
+
+   (map-function-on-map-vals
+    (fn [lexical-string lexical-vals]
+      (map (fn [lexical-val]
+             (if (and (= (string? (get-in lexical-val [:français :future :1sing])))
+                      (= :verb (get-in lexical-val [:synsem :cat])))
+               (unify {:français {:future {:regular false}}}
+                      lexical-val)
+               lexical-val))
+           lexical-vals)))
+   
+   ;; Mark lexemes with no :cat with their own :cat to avoid matching any rules after this.
+   (default {:gender-pronoun-agreement false
+             :synsem {:cat :lexeme-with-an-unspecified-category}
+             :d-no-cat true})
       
+   ;; Agreement between subject pronouns and verbs.
+   (default {:gender-pronoun-agreement true
+             :synsem {:cat :noun
+                      :pronoun true
+                      :agr {:gender gender}
+                      :sem {:gender gender}
+                      :subcat '()}
+             :d-gpa true})
+
+   (default {:synsem {:cat :verb}
+             :français {:future {:regular true}}
+             :d-future true})
+   
    ((fn [lexicon]
       (let [exceptions (apply merge-with concat
                               (map (fn [x]
@@ -41,22 +97,19 @@
                                    (morph/exception-generator lexicon)))]
         (apply merge-with concat
                [exceptions lexicon]))))
-      
-   ;; Mark lexemes with no :cat with their own :cat to avoid matching any rules after this.
-   (default {:gender-pronoun-agreement false
-             :synsem {:cat :lexeme-with-an-unspecified-category}})
-      
-   ;; Agreement between subject pronouns and verbs
-   (default {:gender-pronoun-agreement true
-             :synsem {:cat :noun
-                      :pronoun true
-                      :agr {:gender gender}
-                      :sem {:gender gender}
-                      :subcat '()}})
+
+   ;; Prevent irregular infinitives ({:present :regular false})
+   ;; from matching phrase structure rules intended for non-infinitives.
+   (default {:synsem {:cat :verb}
+             :français {:exception false
+                        :present {:regular false
+                                  :conjugated false}}
+             :d-verb-irreg true})
       
    ;; Verbs are *not* aux unless explicitly stated as such..
    (default {:synsem {:cat :verb
-                      :aux false}})
+                      :aux false}
+             :d-verb-aux false})
    
    ;; ..but for verbs that *are* aux, then:
    (default {:synsem {:sem verb-aux-sem
@@ -66,11 +119,14 @@
                                    :sem verb-aux-sem
                                    :cat :verb
                                    :aux false
-                                   :subcat {:1 verb-aux-subject}}}}})
+                                   :subcat {:1 verb-aux-subject}}}}
+             :d-verb-aux true})
+   
    ;; All pronouns are nouns.
    (default {:synsem {:cat :noun
-                      :pronoun true}})
-      
+                      :pronoun true}
+             :d-noun true})
+     
    ;; Make an intransitive version of every verb which has a path [:sem :obj].
    intransitivize
    

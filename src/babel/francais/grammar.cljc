@@ -30,6 +30,16 @@
    "past perfect" {:synsem {:sem {:aspect :perfect
                                   :tense :past}}}})
 
+(def head-is-conjugated-and-imperfect-infl
+  {:head {:français {:imperfect {:conjugated true}}
+          :phrasal false
+          :synsem {:infl :imperfect}}})
+
+(def head-is-conjugated-and-present-infl
+  {:head {:français {:present {:conjugated true}}
+          :phrasal false
+          :synsem {:infl :present}}})
+
 (declare against-pred)
 (declare matching-head-lexemes)
 
@@ -353,12 +363,10 @@
                                      :sem {:aspect :progressive
                                            :tense :past}}})
                    (unify c10
-                           root-is-head
+                          root-is-head
+                          head-is-conjugated-and-imperfect-infl
                            {:rule "s-imperfect-nonphrasal"
-                            :head {:phrasal false
-                                   :français {:present {:conjugated true}}}
                             :synsem {:aux false
-                                     :infl :imperfect
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
@@ -373,11 +381,9 @@
                                            :tense :present}}})
                    (unify c10
                           root-is-head
+                          head-is-conjugated-and-present-infl
                           {:rule "s-present-nonphrasal"
-                           :head {:phrasal false
-                                  :français {:present {:conjugated true}}}
                            :synsem {:aux false
-                                    :infl :present
                                     :cat :verb
                                     :sem {:aspect :progressive
                                           :tense :present}}})
@@ -396,14 +402,13 @@
                                      :infl :infinitive
                                      :cat :verb}})
                    (unify h21a
-                           root-is-comp
-                           {:rule "vp-aux"
-                            :head {:phrasal false}
-                            :synsem {:aux true
-                                     :infl :present
-                                     :sem {:tense :past}
-                                     :cat :verb}})
-
+                          root-is-comp
+                          head-is-conjugated-and-present-infl
+                          {:rule "vp-aux"
+                           :synsem {:aux true
+                                    :sem {:tense :past}
+                                    :cat :verb}})
+                   
                    ;; [nous [être + naître]] => nous somme nées
                    (unify h22
                            root-is-comp

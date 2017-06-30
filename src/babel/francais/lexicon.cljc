@@ -11,6 +11,7 @@
    [dag_unify.core :refer [get-in unify]]))
 
 (def lexicon (promise))
+(def cat (atom :top))
 (def gender (atom :top))
 (def verb-aux-sem (atom {:aspect :perfect
                          :tense :past}))
@@ -76,7 +77,11 @@
    (default {:gender-pronoun-agreement false
              :synsem {:cat :lexeme-with-an-unspecified-category}
              :d-no-cat true})
-      
+
+   ;; Morphology only sees :français, but needs :cat to know how to conjugate words.
+   (default {:français {:cat cat}
+             :synsem {:cat cat}})
+   
    ;; Agreement between subject pronouns and verbs.
    (default {:gender-pronoun-agreement true
              :synsem {:cat :noun

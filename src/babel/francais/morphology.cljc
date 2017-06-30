@@ -53,21 +53,18 @@
         lexemes (reduce concat (vals lexicon))]
     (if (fail? spec)
       (throw (Exception. (str "lookup-in was given spec=fail."))))
-    (log/debug (str "lookup-in: spec=" (strip-refs spec)))
     (filter (fn [lexeme]
               (and
                (= infinitive (get-in lexeme [:français :infinitive] ::none))
-               (or (log/debug (str " found an infinitive match:" (strip-refs lexeme))) true)
-
+               
                ;; add other (get-in) constraints here, if necessary:
                ;; ..
-
+               
                ;; (unify) with spec should be last since it is expensive:
                (not (fail? (unify spec lexeme)))
                
                (or (log/debug (str " found a unify match:" (strip-refs lexeme))) true)
-
-
+               
                (or (log/debug (str "lookup-in: matched: " (strip-refs lexeme))) true)))
             lexemes)))
 

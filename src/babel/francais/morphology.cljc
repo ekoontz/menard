@@ -74,8 +74,11 @@
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
   (if (nil? infinitive)
-    "" ;; TODO: throw error here
-    (let [exceptional-lexemes
+    (throw (Exception. (str "conjugate passed null infinitive.")))
+    (let [diag
+          (log/debug (str "conjugate: infinitive=" infinitive "; unify-with: "
+                          (strip-refs unify-with)))
+          exceptional-lexemes
           (lookup-in lexicon
                      {:spec {:français {:infinitive infinitive
                                         :exception true}}})
@@ -197,11 +200,15 @@
             (let [foo (log/debug (str "exception word:" (strip-refs word)))
                   bar (log/debug (str "exception word1:" (get-in word [:français])))]
               (get-in word [:français]))
-            
+
+            (nil? (get-in word [:français]))
+            ""
+              
             true
-            (let [infinitive (get-in word [:français])]
-              (log/debug (str "calling: conjugate: infinitive=" infinitive "; word=" (strip-refs word)))
-              (conjugate infinitive {:synsem word}))))))
+            (let [infinitive (get-in word [:français])
+                  result (conjugate infinitive {:synsem word})]
+              (log/debug (str "result of conjugate: " result))
+              result)))))
   
 (defn fo [input &
           {:keys [from-language show-notes]

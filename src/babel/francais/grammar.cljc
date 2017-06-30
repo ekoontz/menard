@@ -347,14 +347,15 @@
                                      :sem {:aspect :progressive
                                            :tense :present}}})
                    (unify c10
-                           root-is-head
-                           {:rule "s-present-nonphrasal"
-                            :head {:phrasal false}
-                            :synsem {:aux false
-                                     :infl :present
-                                     :cat :verb
-                                     :sem {:aspect :progressive
-                                           :tense :present}}})
+                          root-is-head
+                          {:rule "s-present-nonphrasal"
+                           :head {:phrasal false
+                                  :français {:present {:conjugated true}}}
+                           :synsem {:aux false
+                                    :infl :present
+                                    :cat :verb
+                                    :sem {:aspect :progressive
+                                          :tense :present}}})
                    (unify c21
                            root-is-head-root
                            {:head {:phrasal true

@@ -104,7 +104,13 @@
              :français {:exception false
                         :present {:regular false
                                   :conjugated false}}
-             :d-verb-irreg true})
+             :d-verb-irreg-present true})
+   
+   (default {:synsem {:cat :verb}
+             :français {:exception false
+                        :imperfect {:regular false
+                                    :conjugated false}}
+             :d-verb-irreg-imperfect true})
       
    ;; Verbs are *not* aux unless explicitly stated as such..
    (default {:synsem {:cat :verb

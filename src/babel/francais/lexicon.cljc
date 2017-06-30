@@ -36,8 +36,9 @@
    (map-function-on-map-vals
     (fn [lexical-string lexical-vals]
       (map (fn [lexical-val]
-             (if (or (= (string? (get-in lexical-val [:français :present :1sing])))
-                     (= (string? (get-in lexical-val [:français :boot-stem1]))))
+             (if (and (or (= (string? (get-in lexical-val [:français :present :1sing])))
+                          (= (string? (get-in lexical-val [:français :boot-stem1]))))
+                      (= :verb (get-in lexical-val [:synsem :cat])))
                (unify {:français {:present {:regular false}}}
                       lexical-val)
                lexical-val))

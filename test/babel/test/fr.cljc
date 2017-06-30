@@ -88,12 +88,12 @@
     (is (= "j'avais" (fo result)))))
 
 (deftest être-as-aux
-  (let [lexicon (:lexicon (small))
+  (let [lex (:lexicon (small))
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unify rule
-                               {:head (last (get lexicon "être"))}))
+                               {:head (last (get lex "être"))}))
                      (:grammar (small))))]
     (is (not (empty? result)))
     (is (= (get-in (first result) [:rule]) "vp-aux"))))

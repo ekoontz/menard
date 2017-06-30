@@ -129,6 +129,7 @@
   (let [result
         {:français
          {:a {:initial true,
+              :cat :noun
               :français "nous"},
           :b {:b {:future-stem "ir",
                   :agr {:number :plur,

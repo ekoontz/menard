@@ -267,9 +267,12 @@
                                                  :2 '()}}}))]
           (if (fail? result)
             (throw (exception (str "fail when trying to create common-noun from lexical-entry: " lexical-entry
-                                   "subcat: " (get-in lexical-entry [:synsem :subcat]) "; "
-                                   "subcat emptyness: " (empty? (get-in lexical-entry [:synsem :subcat])))))
-
+                                   "fail-path: "
+                                   (dag_unify.core/fail-path lexical-entry
+                                                             (unify agreement-noun
+                                                                    common-noun
+                                                                    {:synsem {:pronoun false
+                                                                              :subcat {:1 {:cat :det}}}})))))
             result))
         true
         lexical-entry))

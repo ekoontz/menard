@@ -76,53 +76,55 @@
    element of regular-patterns where the element's :u unifies successfully with
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
-  (log/debug (str "conjugate1: infinitive= " infinitive "; unify-with= " unify-with))
-  (let [unify-with (dissoc-paths unify-with [[:français]])
-        diagnostics
-        (log/debug (str "conjugate2: infinitive= " infinitive "; unify-with= " unify-with))
-        exceptional-lexemes
-        (lookup-in lexicon
-                   {:spec (unify unify-with
-                                 {:français {:infinitive infinitive
-                                             :exception true}})})
-        exceptional-surface-forms
-        (map #(get-in % [:français :français])
-             exceptional-lexemes)
-        regulars
-        (remove #(nil? %)
-                (map
-                 (fn [replace-pattern]
-                   (let [from (nth (:g replace-pattern) 0)
-                         to (nth (:g replace-pattern) 1)
-                         unify-against (if (:u replace-pattern)
-                                         (:u replace-pattern)
-                                         :top)]
-                     (if (and from to
-                              (re-matches from infinitive)
-                              (not (fail? (unify unify-against
-                                                 unify-with))))
-                       (do
-                         (log/debug (str "matched infinitive: " infinitive))
-                         (log/debug (str "from: " from))
-                         (log/debug (str "to: " to))
-                         (log/debug (str "input spec: " (strip-refs unify-with)))
-                         (log/debug (str "pattern spec:"  (strip-refs unify-against)))
-                         (string/replace infinitive from to)))))
-                 regular-patterns))
-
-        diagnostics (log/debug (str "emptyness of exceptions:" (empty? exceptional-surface-forms)))
-
-        diagnostics (log/debug (str "emptyness of regulars:" (empty? regulars)))
-        ;; Take the first of any exceptions found; if not, take the first regular conjugation.
-        ;; if neither, it's an error in this implementation of French morphology so throw so it can be
-        ;; detected and fixed.
-        results (take 1 (concat exceptional-surface-forms regulars))]
-  (or (and (empty? results)
-           (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
-                                   " unify-with: " (strip-refs unify-with) "."))))
-      (do
-        (log/debug (str "conjugated: " infinitive " => " (first results)))
-        (first results)))))
+  (if (nil? infinitive)
+    ""
+    (do
+      (log/debug (str "conjugate1: infinitive=" infinitive "; unify-with=" unify-with))
+      (let [exceptional-lexemes
+            (lookup-in lexicon
+                       {:spec {:français {:infinitive infinitive
+                                          :exception true}}})
+            exceptional-surface-forms
+            (map #(get-in % [:français :français])
+                 exceptional-lexemes)
+            regulars
+            (remove nil?
+                    (map
+                     (fn [replace-pattern]
+                       (log/trace (str " replace-pattern: " (strip-refs replace-pattern)))
+                       (let [from (nth (:g replace-pattern) 0)
+                             to (nth (:g replace-pattern) 1)
+                             unify-against (if (:u replace-pattern)
+                                             (:u replace-pattern)
+                                             :top)
+                             unified (unify unify-against
+                                            unify-with)]
+                         (when (and from to infinitive (not (= :fail unified)))
+                           (re-matches from infinitive)
+                           (log/debug (str " cat: " (get-in unify-with [:synsem :cat])))
+                           (log/debug (str " infinitive: " infinitive))
+                           (log/debug (str " from: " from))
+                           (log/debug (str " to: " to))
+                           (log/debug (str " input spec: " (strip-refs unify-with)))
+                           (log/debug (str " unified: " (strip-refs unified)))
+                           (let [output (string/replace infinitive from to)]
+                             (log/debug (str  "output: " output))
+                             output))))
+                     regular-patterns))
+            
+            diagnostics (log/debug (str "emptyness of exceptions:" (empty? exceptional-surface-forms)))
+            
+            diagnostics (log/debug (str "emptyness of regulars:" (empty? regulars)))
+            ;; Take the first of any exceptions found; if not, take the first regular conjugation.
+            ;; if neither, it's an error in this implementation of French morphology so throw so it can be
+            ;; detected and fixed.
+            results (take 1 (concat exceptional-surface-forms regulars))]
+        (or (and (empty? results)
+                 (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
+                                         " unify-with: " (strip-refs unify-with) "."))))
+            (do
+              (log/debug (str "conjugated: " infinitive " => " (first results)))
+              (first results)))))))
 
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
@@ -215,106 +217,16 @@
             (get-string
              (get-in word '(:a))
              (get-in word '(:b)))
+
+            (= true (get-in word [:exception]))
+            (let [foo (log/debug (str "exception word:" (strip-refs word)))
+                  bar (log/debug (str "exception word1:" (get-in word [:français])))]
+              (get-in word [:français]))
             
-            ;; TODO: this rule is pre-empting all of the following rules
-            ;; that look in :a and :b. Either remove those following rules
-            ;; if they are redundant and not needed, or move this general rule
-            ;; below the following rules.
-           (and (not (= :none (get-in word '(:a) :none)))
-                (not (= :none (get-in word '(:b) :none))))
-           (get-string (get-in word '(:a))
-                       (get-in word '(:b)))
-           
-           (and
-            (string? (get-in word '(:a :français)))
-            (string? (get-in word '(:b :français)))
-            (or (= :none (get-in word '(:b :agr :number) :none))
-                (= :top (get-in word '(:b :agr :number) :none)))
-            )
-           (str (string/trim (get-in word '(:a :français)))
-                " "
-                (string/trim (get-in word '(:b :français))))
-
-           (and
-            (string? (get-in word '(:a)))
-            (string? (get-in word '(:b :français)))
-            (or (= :none (get-in word '(:b :agr :number) :none))
-                (= :top (get-in word '(:b :agr :number) :none)))
-            )
-           (str (string/trim (get-in word '(:a)))
-                " "
-                (string/trim (get-in word '(:b :français))))
-
-           (and
-            (string? (get-in word '(:a :français)))
-            (get-in word '(:a :français))
-            (or (= :none (get-in word '(:b :agr :number) :none))
-                (= :top (get-in word '(:b :agr :number) :none)))
-            (= (get-in word '(:a :infl)) :top))
-           (string/trim (str (get-in word '(:a :français))
-                             " " (get-string (get-in word '(:b)))))
-
-           (= true (get-in word [:exception]))
-           (get-in word [:français])
-
-           (and
-            (or (= (get-in word [:infl]) :conditional)
-                (= (get-in word [:infl]) :future)
-                (= (get-in word [:infl]) :present))
-            (string? (get-in word [:français])))
-           (let [number-and-person (verbs/number-and-person number person)
-                 infl (get-in word [:infl])]
-             (cond
-               (and number-and-person
-                    (get-in word [infl number-and-person]))
-               (get-in word [infl number-and-person])
-
-               true
-               (let [infinitive (cond (and (= :future (get-in word [:infl]))
-                                           (get-in word [:future-stem]))
-                                      (get-in word [:future-stem])
-                                      ;; TODO: add checks for other -stem features, like :imperfect-stem.
-                                      true
-                                      (get-in word [:français]))]
-                 (log/debug (str "conjugate: infinitive=" infinitive "; word=" (strip-refs word)))
-                 (conjugate infinitive {:français word}))))
-           
-           (and
-            (= (get-in word '(:infl)) :imperfect)
-            (string? (get-in word '(:français))))
-           (verbs/imperfect word)
-           
-           (= (get-in word '(:infl)) :past-p)
-           (cond (get-in word [:past-participle])
-                 (get-in word [:past-participle])
-                 true
-                 (conjugate (get-in word [:français]) {:français word}))
-
-           (and
-            (get-in word '(:a))
-            (get-in word '(:b)))
-           (get-string
-            (get-in word '(:a))
-            (get-in word '(:b)))
-           
-           (= (get-in word '(:a)) :top)
-           (str
-            ".." " " (get-string (get-in word '(:b))))
-           
-           (and
-            (= (get-in word '(:b)) :top)
-            (string? (get-string (get-in word '(:a)))))
-           (str
-            (get-string (get-in word '(:a)))
-            " " "..")
-           
-           (string? (get-in word [:français]))
-           (get-in word [:français])
-           
-           true
-           (throw (Exception. (str "get-string: don't know what to do with input argument " word ";français="
-                                   (get-in word [:français]) "; stringness: "
-                                   (string? (get-in word [:français])))))))))
+            true
+            (let [infinitive (get-in word [:français])]
+              (log/debug (str "calling: conjugate: infinitive=" infinitive "; word=" (strip-refs word)))
+              (conjugate infinitive {:synsem word}))))))
   
 (defn fo [input &
           {:keys [from-language show-notes]

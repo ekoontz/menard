@@ -14,7 +14,7 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [fail-path fail? get-in strip-refs unifyc]]))
+            [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
 (defn small [] (fr/small))
 
@@ -92,7 +92,7 @@
         result
         (filter #(not (fail? %))
                 (map (fn [rule]
-                       (unifyc rule
+                       (unify rule
                                {:head (last (get lexicon "être"))}))
                      (:grammar (small))))]
     (is (not (empty? result)))
@@ -177,7 +177,7 @@
 
 (deftest generate-passe-compose-1
   (let [result
-        (generate (unifyc
+        (generate (unify
                    {:synsem {:subcat '()}}
                    {:synsem {:sem {:subj {:pred :noi
                                           :gender :fem}

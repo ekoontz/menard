@@ -461,13 +461,14 @@
      {:unify [common]
       :synsem {:agr {:gender :masc}}}])
 
-   "Jean" {:synsem {:sem {:pred :Jean
-                          :human true}
-                    :propernoun true
-                    :agr {:number :sing
-                          :person :3rd
-                          :gender :masc}}}
-
+ "Jean" {:synsem {:sem {:pred :Jean
+                        :human true}
+                  :propernoun true
+                  :cat :noun
+                  :agr {:number :sing
+                        :person :3rd
+                        :gender :masc}}}
+ 
    "la" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true

@@ -1,7 +1,6 @@
 (ns babel.francais.writer
   (:refer-clojure :exclude [get-in]))
 
-(require '[babel.generate :as generate])
 (require '[babel.francais.grammar :refer [small medium]])
 (require '[babel.francais.lexicon :refer [lexicon]])
 (require '[babel.francais.morphology :refer [analyze exception-generator

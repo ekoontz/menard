@@ -88,7 +88,6 @@
             (remove nil?
                     (map
                      (fn [replace-pattern]
-                       (log/trace (str " replace-pattern: " (strip-refs replace-pattern)))
                        (let [from (nth (:g replace-pattern) 0)
                              to (nth (:g replace-pattern) 1)
                              unify-against (if (:u replace-pattern)
@@ -96,14 +95,11 @@
                                              :top)
                              unified (unify unify-against
                                             unify-with)]
-                         (when (and from to infinitive (not (= :fail unified)))
-                           (re-matches from infinitive)
-                           (log/debug (str " cat: " (get-in unify-with [:synsem :cat])))
-                           (log/debug (str " infinitive: " infinitive))
-                           (log/debug (str " from: " from))
-                           (log/debug (str " to: " to))
-                           (log/debug (str " input spec: " (strip-refs unify-with)))
-                           (log/debug (str " unified: " (strip-refs unified)))
+                         (when (and from to infinitive
+                                    (not (= :fail unified))
+                                    (re-matches from infinitive))
+                           (log/debug (str "infinitive: " infinitive " matched pattern: "
+                                           (strip-refs replace-pattern)))
                            (let [output (string/replace infinitive from to)]
                              (log/debug (str  "output: " output))
                              output))))
@@ -116,12 +112,14 @@
             ;; if neither, it's an error in this implementation of French morphology so throw so it can be
             ;; detected and fixed.
             results (take 1 (concat exceptional-surface-forms regulars))]
-        (or (and (empty? results)
-                 (throw (Exception. (str "nothing found to match infinitive: " infinitive " ; "
-                                         " unify-with: " (strip-refs unify-with) "."))))
-            (do
-              (log/debug (str "conjugated: " infinitive " => " (first results)))
-              (first results)))))))
+        (not (empty? results))
+        (first results)
+
+        true
+        (do
+          (log/warn (str "no conjugation (irregular nor regular) was found for: " infinitive "; "
+                         "simply returning infinitive unconjugated."))
+          infinitive)))))
 
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)

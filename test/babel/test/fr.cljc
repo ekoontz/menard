@@ -394,14 +394,14 @@
            "il l'amuse"))))
 
 (deftest se-plaindre
-  (let [to-conjugate {:français "se plaindre", :initial false,
-                      :agr {:number :sing,
-                            :person :1st,
-                            :gender :masc},
-                      :essere true,
-                      :infl :present}]
-    (is (= "plains"
-           (babel.francais.morphology/get-string to-conjugate)))))
+  (is (= (conjugate "se plaindre"
+                    {:synsem {:agr {:number :sing,
+                                    :person :1st,
+                                    :gender :masc},
+                              :essere true,
+                              :infl :present}}
+                    @lexicon)
+         "plains")))
 
 (deftest nous-acheterons
   (let [spec {:synsem {:sem {:tense :future}, :subcat ()},

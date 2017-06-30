@@ -399,8 +399,7 @@
                                     :person :1st,
                                     :gender :masc},
                               :essere true,
-                              :infl :present}}
-                    @lexicon)
+                              :infl :present}})
          "plains")))
 
 (deftest nous-acheterons

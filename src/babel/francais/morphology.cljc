@@ -74,53 +74,33 @@
    unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
   (if (nil? infinitive)
-    ""
-    (do
-      (log/debug (str "conjugate1: infinitive=" infinitive "; unify-with=" unify-with))
-      (let [exceptional-lexemes
-            (lookup-in lexicon
-                       {:spec {:français {:infinitive infinitive
-                                          :exception true}}})
-            exceptional-surface-forms
-            (map #(get-in % [:français :français])
-                 exceptional-lexemes)
-            regulars
-            (remove nil?
-                    (map
-                     (fn [replace-pattern]
-                       (let [from (nth (:g replace-pattern) 0)
-                             to (nth (:g replace-pattern) 1)
-                             unify-against (if (:u replace-pattern)
-                                             (:u replace-pattern)
-                                             :top)
-                             unified (unify unify-against
-                                            unify-with)]
-                         (when (and from to infinitive
-                                    (not (= :fail unified))
-                                    (re-matches from infinitive))
-                           (log/debug (str "infinitive: " infinitive " matched pattern: "
-                                           (strip-refs replace-pattern)))
-                           (let [output (string/replace infinitive from to)]
-                             (log/debug (str  "output: " output))
-                             output))))
-                     regular-patterns))
-            
-            diagnostics (log/debug (str "emptyness of exceptions:" (empty? exceptional-surface-forms)))
-            
-            diagnostics (log/debug (str "emptyness of regulars:" (empty? regulars)))
-            ;; Take the first of any exceptions found; if not, take the first regular conjugation.
-            ;; if neither, it's an error in this implementation of French morphology so throw so it can be
-            ;; detected and fixed.
-            results (take 1 (concat exceptional-surface-forms regulars))]
-        (not (empty? results))
-        (first results)
-
-        true
-        (do
-          (log/warn (str "no conjugation (irregular nor regular) was found for: " infinitive "; "
-                         "simply returning infinitive unconjugated."))
-          infinitive)))))
-
+    "" ;; TODO: throw error here
+    (let [exceptional-lexemes
+          (lookup-in lexicon
+                     {:spec {:français {:infinitive infinitive
+                                        :exception true}}})
+          exceptional-surface-forms
+          (map #(get-in % [:français :français])
+               exceptional-lexemes)
+          
+          regulars
+          (remove nil?
+                  (map
+                   (fn [replace-pattern]
+                     (let [from (nth (:g replace-pattern) 0)
+                           to (nth (:g replace-pattern) 1)
+                           unify-against (if (:u replace-pattern)
+                                           (:u replace-pattern)
+                                           :top)
+                           unified (unify unify-against
+                                          unify-with)]
+                       (if (and from to infinitive
+                                (not (= :fail unified))
+                                (re-matches from infinitive))
+                         (string/replace infinitive from to))))
+                   regular-patterns))]
+      (first (take 1 (concat exceptional-surface-forms regulars [infinitive]))))))
+  
 ;; TODO: separate part-of-speech -related functionality (e.g. the word is a verb) from
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
 ;; 

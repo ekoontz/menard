@@ -106,15 +106,14 @@
 (def etre-test
   (is (not (nil? (first (filter #(= true (get-in % [:synsem :aux]))
                                 (get (:lexicon (small)) "être")))))))
-
 (deftest over-test
-  (let [lexicon (:lexicon (small))
+  (let [lex (:lexicon (small))
         grammar (:grammar (small))
         result
         (over grammar
-              (get lexicon "nous")
+              (get lex "nous")
               (over grammar
-                    (get lexicon "sommes") (get lexicon "aller")))]
+                    (get lex "sommes") (get lex "aller")))]
     (is (= 2 (count result)))
     (is (or (= (fo (nth result 0))
                "nous sommes allées")

@@ -309,38 +309,38 @@
                           :past-participle "étreint"
                           :imperfect-stem "éteign"}}
 
-    "être"
-   (let [common
-         {:synsem {:cat :verb
-                   :essere false}
-          :français {:future-stem "ser"
-                     :infinitive "être"
-                     :present {:1sing "suis"
-                               :2sing "es"
-                               :3sing "est"
-                               :1plur "sommes"
-                               :2plur "êtes"
-                               :3plur "sont"}
-                     :past-participle "été"
-                     :imperfect {:1sing "étais"
-                                 :2sing "étais"
-                                 :3sing "était"
-                                 :1plur "étions"
-                                 :2plur "étiez"
-                                 :3plur "étaient"}
-                     :future {:1sing "serai"
-                              :2sing "seras"
-                              :3sing "sera"
-                              :1plur "serons"
-                              :2plur "serez"
-                              :3plur "seront"}}}]
-     [{:unify [common]
-       :synsem {:sem {:pred :be}}}
-      {:unify [common]
-       :synsem {:aux true
-                :subcat {:2 {:essere true}}}}])
-   ;; ^^ in auxiliary form, "être" only allows essere=true verbs.
-   ;; compare with "avoir", which only allows essere=false verbs.
+ "être"
+ (let [common
+       {:synsem {:cat :verb
+                 :essere false}
+        :français {:future-stem "ser"
+                   :infinitive "être"
+                   :present {:1sing "suis"
+                             :2sing "es"
+                             :3sing "est"
+                             :1plur "sommes"
+                             :2plur "êtes"
+                             :3plur "sont"}
+                   :past-participle "été"
+                   :imperfect {:1sing "étais"
+                               :2sing "étais"
+                               :3sing "était"
+                               :1plur "étions"
+                               :2plur "étiez"
+                               :3plur "étaient"}
+                   :future {:1sing "serai"
+                            :2sing "seras"
+                            :3sing "sera"
+                            :1plur "serons"
+                            :2plur "serez"
+                            :3plur "seront"}}}]
+   [{:unify [common]
+     :synsem {:sem {:pred :be}}}
+    {:unify [common]
+     :synsem {:aux true
+              :subcat {:2 {:essere true}}}}])
+ ;; ^^ in auxiliary form, "être" only allows essere=true verbs.
+ ;; compare with "avoir", which only allows essere=false verbs.
 
    "étreindre" {:synsem {:cat :verb
                          :sem {:pred :hug}
@@ -447,15 +447,15 @@
 ;;                         :sem {:pred :interest??}}}
 
   "je"
- (let [common {:gender-agreement-common true
+ (let [common {:gender-pronoun-agreement true
                :synsem {:cat :noun
-                         :pronoun true
-                         :case :nom
-                         :agr {:person :1st
-                               :number :sing}
-                         :sem {:human true
-                               :pred :I}
-                         :subcat '()}}]
+                        :pronoun true
+                        :case :nom
+                        :agr {:person :1st
+                              :number :sing}
+                        :sem {:human true
+                              :pred :I}
+                        :subcat '()}}]
     [{:unify [common]
       :synsem {:agr {:gender :fem}}}
      {:unify [common]
@@ -540,7 +540,8 @@
   "nous"
  (let [common {:gender-pronoun-agreement true
                :synsem {:case :top
-;                        :cat :noun
+                        :cat :noun
+                        :pronoun true
                         :agr {:person :1st
                               :number :plur}
                         :sem {:human true
@@ -924,11 +925,12 @@
 
   "vous"
  (let [common {:gender-pronoun-agreement true
-               :synsem {:case :top
-                         :agr {:person :2nd
-                               :number :plur}
-                         :sem {:human true
-                               :pred :voi}}}]
+               :synsem {:agr {:person :2nd
+                              :number :plur}
+                        :cat :noun
+                        :pronoun true
+                        :sem {:human true
+                              :pred :voi}}}]
     [{:unify [common]
       :synsem {:agr {:gender :fem}}}
      {:unify [common]

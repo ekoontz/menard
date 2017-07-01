@@ -8,7 +8,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify unifyc)]))
+   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
 (def regular-patterns
   (concat
@@ -44,7 +44,7 @@
                        lex (string/replace surface-form from to)]
                    (filter (fn [result] (not (= :fail result)))
                            (map (fn [lexical-entry]
-                                  (unifyc unify-with lexical-entry))
+                                  (unify unify-with lexical-entry))
                                 (get lexicon lex)))))))
            regular-patterns)))
 
@@ -381,11 +381,10 @@
 
           (and (map? a-map)
                (not (= :no-français (get-in a-map [:français] :no-français))))
-          (unifyc {:français {:français a-string}}
-                  common
-                  a-map)
-
+          (unify {:français {:français a-string}}
+                 common
+                 a-map)
         true
-        (unifyc a-map
-                {:français {:français a-string}}
-                common))))
+        (unify a-map
+               {:français {:français a-string}}
+               common))))

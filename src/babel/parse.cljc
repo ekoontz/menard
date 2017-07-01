@@ -26,6 +26,7 @@
 (defn lookup [{lookup :lookup
                lexical-cache :lexical-cache
                default-fn :default-fn} k]
+  (log/debug (str "lookup: k=" k))
   (let [pre-default
         (if (or (= false parse-with-lexical-caching)
                 (nil? lexical-cache))
@@ -38,6 +39,8 @@
             (let [cache-value (get @lexical-cache k)]
               (if (= cache-value :none) nil
                   cache-value))))]
+    (log/debug (str "default-fn: nil? " (nil? default-fn)))
+    (log/debug (str "pre-default: count: " (count pre-default)))
     (cond (nil? default-fn)
           pre-default
           true
@@ -138,6 +141,7 @@
     (= n 1) input
     (> n 1)
     (let [minus-1 (parses input (- n 1) model span-map parse-with-truncate)]
+      (log/debug (str "parses: input=" input))
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))

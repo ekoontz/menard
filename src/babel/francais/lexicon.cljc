@@ -37,21 +37,6 @@
    (map-function-on-map-vals
     (fn [lexical-string lexical-vals]
       (map (fn [lexical-val]
-             (if (and (or (= (string? (get-in lexical-val [:français :present :1sing])))
-                          (= (string? (get-in lexical-val [:français :boot-stem1]))))
-                      (= :verb (get-in lexical-val [:synsem :cat])))
-               (unify {:français {:present {:regular false}}}
-                      lexical-val)
-               lexical-val))
-           lexical-vals)))
-
-   (default {:synsem {:cat :verb}
-             :d1 true
-             :français {:present {:regular true}}})
-   
-   (map-function-on-map-vals
-    (fn [lexical-string lexical-vals]
-      (map (fn [lexical-val]
              (if (and (= (string? (get-in lexical-val [:français :imperfect :1sing])))
                       (= :verb (get-in lexical-val [:synsem :cat])))
                (unify {:français {:imperfect {:regular false}}}
@@ -104,18 +89,25 @@
         (apply merge-with concat
                [exceptions lexicon]))))
 
+
+   (default {:synsem {:cat :verb}
+             :d-verb-reg-present true
+             :français {:present {:regular true}}})
+   ;; TODO: as with {:d-verb-reg-present true}, add {:d-verb-reg-imperfect,-future, etc}
+
+   
    ;; Prevent irregular infinitives ({:present :regular false})
    ;; from matching phrase structure rules intended for non-infinitives.
    (default {:synsem {:cat :verb}
-             :français {:exception false
-                        :present {:regular false
-                                  :conjugated false}}
+             :français {:conjugated false
+                        :exception false
+                        :present {:regular false}}
              :d-verb-irreg-present true})
    
    (default {:synsem {:cat :verb}
-             :français {:exception false
-                        :imperfect {:regular false
-                                    :conjugated false}}
+             :français {:conjugated false
+                        :exception false
+                        :imperfect {:regular false}}
              :d-verb-irreg-imperfect true})
       
    ;; Verbs are *not* aux unless explicitly stated as such..

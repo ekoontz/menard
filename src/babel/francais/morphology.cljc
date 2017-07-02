@@ -23,30 +23,40 @@
 
 (defn analyze [surface-form lexicon]
   "Analyze a single surface form into a set of lexical forms."
-  (concat (if (get lexicon surface-form)
-            (get lexicon surface-form))
-          (mapcat
-           (fn [replace-pattern]
-             (let [ ;; regular expression that matches the surface form
-                   from (nth (:p replace-pattern) 0)]
-               (log/trace (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
-               (when (re-matches from surface-form)
-                 (log/debug (str "matched replace-pattern:" replace-pattern " against surface-form: " surface-form))
-                 (let [;; expression that is used by string/replace along with the first regexp and the surface form,
-                       ;; to create the lexical string
-                       to (nth (:p replace-pattern) 1)
-
-                       ;; unifies with the lexical entry to create the inflected form.
-                       unify-with (if (:u replace-pattern)
-                                    (:u replace-pattern)
-                                    :top) ;; default unify-with
-                     
-                       lex (string/replace surface-form from to)]
-                   (filter (fn [result] (not (= :fail result)))
-                           (map (fn [lexical-entry]
-                                  (unify unify-with lexical-entry))
-                                (get lexicon lex)))))))
-           regular-patterns)))
+  (log/debug (str "analyze: " surface-form))
+  (let [retval 
+        (concat (if (get lexicon surface-form)
+                  (get lexicon surface-form))
+                (mapcat
+                 (fn [replace-pattern]
+                   (let [ ;; regular expression that matches the surface form
+                         from (nth (:p replace-pattern) 0)]
+                     (log/trace (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
+                     (when (re-matches from surface-form)
+                       (log/debug (str "matched replace-pattern:" (strip-refs replace-pattern)
+                                       " against surface-form: " surface-form))
+                       (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+                             ;; to create the lexical string
+                             to (nth (:p replace-pattern) 1)
+                             
+                             ;; unifies with the lexical entry to create the inflected form.
+                             unify-with (if (:u replace-pattern)
+                                          (:u replace-pattern)
+                                          :top) ;; default unify-with
+                             
+                             lex (string/replace surface-form from to)]
+                         (map #(-> %
+                                   (dissoc-paths [[:français :conjugated]])
+                                   (unify {:français {:conjugated true}}))
+                              (filter (fn [result] (not (= :fail result)))
+                                      (map (fn [lexical-entry]
+                                             (unify unify-with lexical-entry))
+                                           (get lexicon lex))))))))
+                 regular-patterns))]
+    (if (not (empty? retval))
+      (log/info (str "analyze '" surface-form "': " (string/join "," (map strip-refs retval))))
+      (log/warn (str " analyze: could not analyze surface-form: " surface-form)))
+    retval))
 
 (defn lookup-in [lexicon {spec :spec}]
   (let [infinitive (get-in spec [:français :infinitive])
@@ -108,7 +118,6 @@
 ;; compositional functionality (e.g. the word has an :a and :b, so combine by concatenation, etc)
 ;; 
 (defn get-string [word & [b lexicon]]
-  (log/debug (str "get-string:" word))
   (cond (and (nil? b)
              (seq? word))
         (let [result (get-string word)]
@@ -157,9 +166,8 @@
         
         true
         (let [person (get-in word '(:agr :person))
-              number (get-in word '(:agr :number))
-              info (log/debug "get-string: input word: " word)]
-
+              number (get-in word '(:agr :number))]
+          (log/debug "get-string: input word: " (strip-refs word))
           (log/trace (str "get-string: word: " word))
           (log/trace (str "get-string: word (stripped-refs): " (strip-refs word)))
           (log/trace (str "word's :a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
@@ -197,9 +205,9 @@
              (get-in word '(:b)))
 
             (= true (get-in word [:exception]))
-            (let [foo (log/debug (str "exception word:" (strip-refs word)))
-                  bar (log/debug (str "exception word1:" (get-in word [:français])))]
-              (get-in word [:français]))
+            (do (log/debug (str "exception word:" (strip-refs word)))
+                (log/debug (str "exception word1:" (get-in word [:français])))
+                (get-in word [:français]))
 
             (nil? (get-in word [:français]))
             ""
@@ -325,51 +333,51 @@
 (defn exception-generator [lexicon]
   (mapcat
    (fn [lexeme-kv]
-          (let [lexemes (second lexeme-kv)
-                result (mapcat (fn [path-and-merge-fn]
-                                 (let [path (:path path-and-merge-fn)
-                                       merge-fn (:merge-fn path-and-merge-fn)]
-                                   ;; a lexeme-kv is a pair of a key
-                                   ;; and value. The key is a
-                                   ;; string (the word's surface form)
-                                   ;; and the value is a list of lexemes for that string.
-                                   (log/trace (str (first lexeme-kv) ": looking at path: " path))
-                                   (mapcat (fn [lexeme]
-                                             (if-let [value (get-in lexeme path)]
+     (let [lexemes (second lexeme-kv)
+           result (mapcat (fn [path-and-merge-fn]
+                            (let [path (:path path-and-merge-fn)
+                                  merge-fn (:merge-fn path-and-merge-fn)]
+                              ;; a lexeme-kv is a pair of a key
+                              ;; and value. The key is a
+                              ;; string (the word's surface form)
+                              ;; and the value is a list of lexemes for that string.
+                              (log/trace (str (first lexeme-kv) ": looking at path: " path))
+                              (mapcat (fn [lexeme]
+                                        (if-let [value (get-in lexeme path)]
                                                (log/debug " value@" path ": " value))
-                                             (if (not (= ::none (get-in lexeme path ::none)))
-                                               (let [infinitive (get-in lexeme [:français :français])
-                                                     exceptional-lexeme
-                                                     (apply merge-fn (list lexeme))]
-                                                 (log/debug " exceptional-lexeme: " exceptional-lexeme)
-                                                 (let [exceptional-lexemes
-                                                       (cond (or (seq? exceptional-lexeme)
-                                                                 (vector? exceptional-lexeme))
-                                                             exceptional-lexeme
-                                                             true [exceptional-lexeme])]
-                                                   (when (not (empty? exceptional-lexemes))
-                                                     (log/debug "infinitive: " infinitive)
-                                                     (log/debug " path: " path))
-                                                   (map (fn [exceptional-lexeme]
-                                                          (log/debug "   conjugated:"
-                                                                     (get-in exceptional-lexeme
-                                                                             [:français :français]))
-                                                          (let [exceptional-lexeme
-                                                                (unify
-                                                                 exceptional-lexeme
-                                                                 (dissoc-paths lexeme [path
-                                                                                       [:français :français]])
-                                                                 {:français {:infinitive infinitive
-                                                                             :exception true}})
-                                                                surface
-                                                                (get-in exceptional-lexeme [:français :français])]
-                                                            (log/debug (str "  surface: " surface " => " (strip-refs exceptional-lexeme)))
-                                                            {surface
-                                                             exceptional-lexeme}))
-                                                        exceptional-lexemes)))))
-                                           lexemes)))
-                               irregular-patterns)]
-            result))
+                                        (if (not (= ::none (get-in lexeme path ::none)))
+                                          (let [infinitive (get-in lexeme [:français :français])
+                                                exceptional-lexeme
+                                                (apply merge-fn (list lexeme))]
+                                            (log/debug " exceptional-lexeme: " exceptional-lexeme)
+                                            (let [exceptional-lexemes
+                                                  (cond (or (seq? exceptional-lexeme)
+                                                            (vector? exceptional-lexeme))
+                                                        exceptional-lexeme
+                                                        true [exceptional-lexeme])]
+                                              (when (not (empty? exceptional-lexemes))
+                                                (log/debug "infinitive: " infinitive)
+                                                (log/debug " path: " path))
+                                              (map (fn [exceptional-lexeme]
+                                                     (log/debug "   conjugated:"
+                                                                (get-in exceptional-lexeme
+                                                                        [:français :français]))
+                                                     (let [exceptional-lexeme
+                                                           (unify
+                                                            exceptional-lexeme
+                                                            (dissoc-paths lexeme [path
+                                                                                  [:français :français]])
+                                                            {:français {:infinitive infinitive
+                                                                        :exception true}})
+                                                           surface
+                                                           (get-in exceptional-lexeme [:français :français])]
+                                                       (log/debug (str "  surface: " surface " => " (strip-refs exceptional-lexeme)))
+                                                       {surface
+                                                        exceptional-lexeme}))
+                                                   exceptional-lexemes)))))
+                                      lexemes)))
+                          irregular-patterns)]
+       result))
    lexicon))
 
 (defn phonize [a-map a-string]

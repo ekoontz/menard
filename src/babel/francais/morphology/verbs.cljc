@@ -861,12 +861,14 @@
     :merge-fn
     (fn [val]
       {:français {:infl :past-p
+                  :conjugated true                   
                   :français (get-in val [:français :past-participle] :nothing)}})}
    ;; 2. present-tense exceptions
    {:path [:français :present :1sing]
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :1sing] :nothing)
                   :agr {:number :sing
                         :person :1st}}})}
@@ -874,6 +876,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :2sing] :nothing)
                   :agr {:number :sing
                         :person :2nd}}})}
@@ -881,6 +884,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :3sing] :nothing)
                   :agr {:number :sing
                         :person :3rd}}})}
@@ -888,6 +892,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :1plur] :nothing)
                   :agr {:number :plur
                         :person :1st}}})}
@@ -895,6 +900,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :2plur] :nothing)
                   :agr {:number :plur
                         :person :2nd}}})}
@@ -902,6 +908,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
+                  :conjugated true                   
                   :français (get-in val [:français :present :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
@@ -910,6 +917,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :imperfect
+                  :conjugated true                   
                   :français (get-in val [:français :imperfect :1sing] :nothing)
                   :agr {:number :sing
                         :person :1st}}})}
@@ -917,6 +925,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :imperfect
+                  :conjugated true                   
                   :français (get-in val [:français :imperfect :2sing] :nothing)
                   :agr {:number :sing
                         :person :2nd}}})}
@@ -924,6 +933,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :imperfect
+                   :conjugated true                   
                   :français (get-in val [:français :imperfect :3sing] :nothing)
                   :agr {:number :sing
                         :person :3rd}}})}
@@ -938,6 +948,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :imperfect
+                   :conjugated true                   
                   :français (get-in val [:français :imperfect :2plur] :nothing)
                   :agr {:number :plur
                         :person :2nd}}})}
@@ -945,6 +956,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :imperfect
+                  :conjugated true                   
                   :français (get-in val [:français :imperfect :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
@@ -953,6 +965,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
@@ -962,6 +975,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
@@ -971,6 +985,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ait")
                    :agr {:number :sing
@@ -980,6 +995,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ions")
                    :agr {:number :plur
@@ -989,6 +1005,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "iez")
                    :agr {:number :plur
@@ -998,6 +1015,7 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
+                   :conjugated true                   
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "aient")
                    :agr {:number :plur
@@ -1008,21 +1026,25 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :present
+                   :conjugated true                   
                    :français (str (get-in val [:français :boot-stem1])
                                   "s")
                    :agr {:number :sing
                          :person :1st}}}
        {:français {:infl :present
+                   :conjugated true                   
                    :français (str (get-in val [:français :boot-stem1])
                                   "s")
                    :agr {:number :sing
                          :person :2nd}}}
        {:français {:infl :present
+                   :conjugated true                   
                    :français (str (get-in val [:français :boot-stem1])
                                   "t")
                    :agr {:number :sing
                          :person :3rd}}}
        {:français {:infl :present
+                   :conjugated true                   
                    :français (str (get-in val [:français :boot-stem1])
                                   "vent")
                    :agr {:number :plur
@@ -1032,11 +1054,13 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :present
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem2])
                                   "ons")
                    :agr {:number :plur
                          :person :1st}}}
        {:français {:infl :present
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem2])
                                   "ez")
                    :agr {:number :plur

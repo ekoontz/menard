@@ -31,12 +31,12 @@
                                   :tense :past}}}})
 
 (def head-is-conjugated-and-imperfect-infl
-  {:head {:français {:imperfect {:conjugated true}}
+  {:head {:français {:conjugated true}
           :phrasal false
           :synsem {:infl :imperfect}}})
 
 (def head-is-conjugated-and-present-infl
-  {:head {:français {:present {:conjugated true}}
+  {:head {:français {:conjugated true}
           :phrasal false
           :synsem {:infl :present}}})
 

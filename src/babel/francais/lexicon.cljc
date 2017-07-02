@@ -89,7 +89,6 @@
         (apply merge-with concat
                [exceptions lexicon]))))
 
-
    (default {:synsem {:cat :verb}
              :d-verb-reg-present true
              :français {:present {:regular true}}})

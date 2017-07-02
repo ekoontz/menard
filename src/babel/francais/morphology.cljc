@@ -54,7 +54,7 @@
                                            (get lexicon lex))))))))
                  regular-patterns))]
     (if (not (empty? retval))
-      (log/info (str "analyze '" surface-form "': " (string/join "," (map strip-refs retval))))
+      (log/info (str "analyze '" surface-form "': count=" (count retval) ";" (string/join "," (map strip-refs retval))))
       (log/warn (str " analyze: could not analyze surface-form: " surface-form)))
     retval))
 

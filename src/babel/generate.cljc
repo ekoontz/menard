@@ -275,7 +275,7 @@
                          unified))
                      (do
                        (log/debug (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
-                                       spec))
+                                       (strip-refs spec)))
                        :fail)))
                  rules)))
 

@@ -89,10 +89,32 @@
         (apply merge-with concat
                [exceptions lexicon]))))
 
+   ;; set {<tense> {:regular false}} if {<tense> {:1sing}} exists for
+   ;; <tense> is any of {:present,:future,:imperfect}.
+   (if-then {:synsem {:cat :verb}
+             :français {:future {:1sing :top}}}
+            {:français {:future {:regular false}}})
+
+   (if-then {:synsem {:cat :verb}
+             :français {:imperfect {:1sing :top}}}
+            {:français {:imperfect {:regular false}}})
+
+   (if-then {:synsem {:cat :verb}
+             :français {:present {:1sing :top}}}
+            {:français {:present {:regular false}}})
+
+
+   ;; set {<tense> {:regular true}} otherwise for
+   ;; <tense> is any of {:present,:future,:imperfect}.
+   (default {:synsem {:cat :verb}
+             :d-verb-reg-future true
+             :français {:future {:regular true}}})
+   (default {:synsem {:cat :verb}
+             :d-verb-reg-imperfect true
+             :français {:imperfect {:regular true}}})
    (default {:synsem {:cat :verb}
              :d-verb-reg-present true
              :français {:present {:regular true}}})
-   ;; TODO: as with {:d-verb-reg-present true}, add {:d-verb-reg-imperfect,-future, etc}
 
    
    ;; Prevent irregular infinitives ({:present :regular false})

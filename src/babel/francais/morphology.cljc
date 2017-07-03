@@ -54,7 +54,7 @@
                                            (get lexicon lex))))))))
                  regular-patterns))]
     (if (not (empty? retval))
-      (log/info (str "analyze '" surface-form "': count=" (count retval) ";" (string/join "," (map strip-refs retval))))
+      (log/debug (str "analyze '" surface-form "': count=" (count retval) ";" (string/join "," (map strip-refs retval))))
       (log/warn (str " analyze: could not analyze surface-form: " surface-form)))
     retval))
 
@@ -71,27 +71,26 @@
                ;; ..
                
                ;; (unify) with spec should be last since it is expensive:
-               (not (fail? (unify spec lexeme)))
-               
-               (or (log/debug (str " found a unify match:" (strip-refs lexeme))) true)
+               (not (= :fail (unify spec lexeme)))
                
                (or (log/debug (str "lookup-in: matched: " (strip-refs lexeme))) true)))
             lexemes)))
 
-(defn conjugate [infinitive unify-with & [lexicon]]
+(defn conjugate [infinitive conjugate-with & [lexicon]]
   "Conjugate an infinitive into a surface form by taking the first 
    element of regular-patterns where the element's :u unifies successfully with
-   unify-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
+   conjugate-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
    first return value, if any."
   (if (nil? infinitive)
     (throw (Exception. (str "conjugate passed null infinitive.")))
     (let [diag
-          (log/debug (str "conjugate: infinitive=" infinitive "; unify-with: "
-                          (strip-refs unify-with)))
+          (log/debug (str "conjugate: infinitive=" infinitive "; conjugate-with: "
+                          (strip-refs conjugate-with)))
           exceptional-lexemes
           (lookup-in lexicon
-                     {:spec {:français {:infinitive infinitive
-                                        :exception true}}})
+                     {:spec (unify conjugate-with
+                                   {:français {:infinitive infinitive
+                                               :exception true}})})
           exceptional-surface-forms
           (map #(get-in % [:français :français])
                exceptional-lexemes)
@@ -106,7 +105,7 @@
                                            (:u replace-pattern)
                                            :top)
                            unified (unify unify-against
-                                          unify-with)]
+                                          conjugate-with)]
                        (if (and from to infinitive
                                 (not (= :fail unified))
                                 (re-matches from infinitive))

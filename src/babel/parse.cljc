@@ -298,6 +298,10 @@
   (let [head-first? (get-in tree [:first] :none)
         pred (get-in tree [:synsem :sem :pred])
         cat (str (get-in tree [:synsem :cat]) "")]
+    (if (= true (get-in tree [:phrasal]))
+      (do (log/debug (str "fo-ps: rule at top of tree: " (get-in tree [:rule])))
+          (log/debug (str "fo-ps: " (strip-refs tree))))
+      (log/debug (str "fo-ps: leaf: " (strip-refs tree))))
     (cond
       (and (= :none (get-in tree [:head] :none))
            (= :none (get-in tree [:comp] :none))

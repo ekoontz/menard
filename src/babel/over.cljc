@@ -24,7 +24,7 @@
 ;;    should be treated the same as empty list.
 (defn over [parents child1 & [child2]]
   (cond (map? parents)
-        (over (list parents) child1 child2)
+        (over [parents] child1 child2)
 
         true
         (mapcat
@@ -57,7 +57,10 @@
     (let [result (unify! (copy parent)
                          {:head (copy head)})]
       (if (not (= :fail result))
-        (list result)
+        (do
+          (log/debug (str "overh success: " (get-in parent [:rule]) "-> cat=" (get-in head [:synsem :cat])))
+          (log/debug (str "overh success: " (get-in parent [:rule]) "-> pred=" (get-in head [:synsem :sem :pred]))) 
+          [result])
         (log/debug (str "overh: fail-path for rule: " (:rule parent) ":"
                         (fail-path (copy parent) {:head (copy head)})))))))
 
@@ -86,7 +89,7 @@
          (log/debug (str "overc success: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
                                                                           (get-in comp [:synsem :sem :pred]
                                                                                   "(no pred for comp)"))))
-         (list result))
+         [result])
        (log/debug (str "overc: fail-path for rule: " (:rule parent) ":"
                        (fail-path (copy parent) {:comp (copy comp)})))))))
 

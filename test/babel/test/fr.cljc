@@ -130,7 +130,8 @@
          {:a {:initial true,
               :cat :noun
               :français "nous"},
-          :b {:b {:future-stem "ir",
+          :b {:b {:cat :verb
+                  :future-stem "ir",
                   :agr {:number :plur,
                         :gender :fem
                         :person :1st},
@@ -145,7 +146,8 @@
                   :essere true,
                   :initial false},
               :initial false,
-              :a {:infl :present,
+              :a {:cat :verb
+                  :infl :present,
                   :infinitive "être",
                   :initial true,
                   :agr {:number :plur,
@@ -298,29 +300,34 @@
 
 (deftest conjugate-present-er
   (is (= "parlons" (conjugate "parler"
-                               {:synsem {:infl :present
+                              {:synsem {:cat :verb
+                                        :infl :present
                                          :subcat {:1 {:agr {:number :plur
                                                             :person :1st}}}}}))))
 (deftest conjugate-present-er-with-g
   (is (= "mangeons" (conjugate "manger"
-                               {:synsem {:infl :present
+                               {:synsem {:cat :verb
+                                         :infl :present
                                          :subcat {:1 {:agr {:number :plur
                                                             :person :1st}}}}}))))
 (deftest conjugate-present-re-with-d
   (is (= "apprenons" (conjugate "apprendre"
-                                  {:synsem {:infl :present
-                                            :subcat {:1 {:agr {:number :plur
-                                                               :person :1st}}}}}))))
+                                {:synsem {:cat :verb
+                                          :infl :present
+                                          :subcat {:1 {:agr {:number :plur
+                                                             :person :1st}}}}}))))
 (deftest conjugate-conditional
   (is (= "parlerions"
          (conjugate "parler"
-                    {:synsem {:infl :conditional
+                    {:synsem {:cat :verb
+                              :infl :conditional
                               :subcat {:1 {:agr {:number :plur
                                                  :person :1st}}}}}))))
 (deftest conjugate-future
   (is (= "parleront"
          (conjugate "parler"
-                    {:synsem {:infl :future
+                    {:synsem {:cat :verb
+                              :infl :future
                               :subcat {:1 {:agr {:number :plur
                                                  :person :3rd}}}}}))))
 (deftest conjugate1
@@ -330,53 +337,63 @@
     (is (= "amusé" (string/replace infinitive from to)))))
 
 (deftest conjugate2
-  (is (= "amusé" (conjugate "s'amuser"
-                            {:synsem {:infl :past-p
-                                      :subcat {:1 {:agr {:number :sing}}}}}))))
+  (is (= (conjugate "s'amuser"
+                    {:synsem {:cat :verb
+                              :infl :past-p
+                              :subcat {:1 {:agr {:number :sing}}}}})
+         "amusé")))
+         
 (deftest conjugate3
   (is (= (conjugate "s'amuser"
-                    {:synsem {:infl :past-p
+                    {:synsem {:cat :verb
+                              :infl :past-p
                               :subcat {:1 {:agr {:number :plur}}}}})
          "amusés")))
 
 (deftest conjugate4
   (is (= (conjugate "s'amuser"
-                    {:synsem {:infl :past-p
+                    {:synsem {:cat :verb
+                              :infl :past-p
                               :subcat {:1 {:agr {:gender :masc
                                                  :number :plur}}}}})
          "amusés")))
 
 (deftest conjugate5
   (is (= (conjugate "s'amuser"
-                    {:synsem {:infl :past-p
+                    {:synsem {:cat :verb
+                              :infl :past-p
                               :subcat {:1 {:agr {:gender :fem
                                                  :number :plur}}}}})
          "amusées")))
 
 (deftest conjugate6
   (is (= (conjugate "se blesser"
-                    {:synsem {:infl :past-p
+                    {:synsem {:cat :verb
+                              :infl :past-p
                               :subcat {:1 {:agr {:gender :masc
                                                  :number :sing}}}}})
          "blessé")))
 
 (deftest conjugate7
   (is (= (conjugate "se blesser"
-                    {:synsem {:infl :past-p
+                    {:synsem {:cat :verb
+                              :infl :past-p
                               :subcat {:1 {:agr {:gender :fem
                                                  :number :plur}}}}})
          "blessées")))
 
 (deftest conjugate7
   (is (= (conjugate "se blesser"
-                    {:synsem {:infl :present
+                    {:synsem {:cat :verb
+                              :infl :present
                               :subcat {:1 {:agr {:person :2nd
                                                  :number :sing}}}}})
          "blesses")))
 
 (deftest conjugate-irregular
   (is (= (conjugate "boire"
-                    {:synsem {:infl :present
+                    {:synsem {:cat :verb
+                              :infl :present
                               :subcat {:1 {:agr {:person :1st
                                                  :number :plur}}}}}
                     @lexicon)
@@ -395,7 +412,8 @@
 
 (deftest se-plaindre
   (is (= (conjugate "se plaindre"
-                    {:synsem {:agr {:number :sing,
+                    {:synsem {:cat :verb
+                              :agr {:number :sing,
                                     :person :1st,
                                     :gender :masc},
                               :essere true,

@@ -93,7 +93,10 @@
         (filter #(not (fail? %))
                 (map (fn [rule]
                        (unify rule
-                               {:head (last (get lex "être"))}))
+                              ;; TODO: instead of using "suis", use
+                              ;; (francais.morphology/lookup-in)
+                              ;; with {:agr {:person :1st :number :sing}}.
+                              {:head (last (get lex "suis"))}))
                      (:grammar (small))))]
     (is (not (empty? result)))
     (is (= (get-in (first result) [:rule]) "vp-aux"))))

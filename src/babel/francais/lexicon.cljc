@@ -115,7 +115,6 @@
    (default {:synsem {:cat :verb}
              :d-verb-reg-present true
              :français {:present {:regular true}}})
-
    
    ;; Prevent irregular infinitives ({:present :regular false})
    ;; from matching phrase structure rules intended for non-infinitives.

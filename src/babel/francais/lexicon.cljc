@@ -63,7 +63,8 @@
              :synsem {:cat :lexeme-with-an-unspecified-category}
              :d-no-cat true})
 
-   ;; Morphology only sees :français, but needs :cat to know how to conjugate words.
+   ;; Morphology only sees :français, but needs :cat to know how to conjugate words:
+   ;; see also (defn babel.francais.morphology/pre-conjugate)
    (default {:français {:cat cat1}
              :synsem {:cat cat1}})
    

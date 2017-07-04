@@ -411,15 +411,16 @@
                    
                    ;; [nous [être + naître]] => nous somme nées
                    (unify h22
-                           root-is-comp
-                           (let [obj-agr (atom :top)] ;; TODO: Remove: this obj-agr is not used.
-                             {:head {:phrasal false}
-                              :rule "vp-aux-22"
-                              :synsem {:aux true
-                                       :cat :verb
-                                       :infl :present
-                                       :sem {:reflexive true
-                                             :tense :past}}}))
+                          root-is-comp
+                          head-is-conjugated-and-present-infl
+                          (let [obj-agr (atom :top)] ;; TODO: Remove: this obj-agr is not used.
+                            {:head {:phrasal false}
+                             :rule "vp-aux-22"
+                             :synsem {:aux true
+                                      :cat :verb
+                                      :infl :present
+                                      :sem {:reflexive true
+                                            :tense :past}}}))
                    (unify h21
                            {:rule "vp-future"
                             :synsem {:aux false

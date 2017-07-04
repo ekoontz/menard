@@ -446,13 +446,16 @@
                    ;; e.g. used as: "je m'appelle Jean" -
                    ;; [s-present-phrasal 'je' [vp-pronoun-phrasal 'm'' [vp32 'se appeler' 'Jean']]]
                    (unify h32
-                           root-is-head
-                           {:rule "vp-32"
-                            :head {:phrasal false}
-                            :synsem {:aux false
-                                     :infl {:not :past}
-                                     :cat :verb}})
-
+                          root-is-head
+                          ;; TODO: why does adding head-is-conjugated-and-present-infl
+                          ;; cause the test 'generate-named-sentence' to fail?
+                          ;;                          head-is-conjugated-and-present-infl
+                          {:rule "vp-32"
+                           :head {:phrasal false}
+                           :synsem {:aux false
+                                    :infl {:not :past}
+                                    :cat :verb}})
+                   
                    ;; [s-present "je" [vp-pronoun "m'" "amuse"]]
                    (unify c21
                            root-is-head

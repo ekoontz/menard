@@ -464,6 +464,7 @@
                             :rule "vp-pronoun-nonphrasal"
                             :synsem {:aux false
                                      :cat :verb}})
+
                    (unify h10
                            {:head {:phrasal false
                                    :synsem {:cat :sent-modifier}}

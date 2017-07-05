@@ -117,17 +117,17 @@
         (log/debug (str "unify(" ((:morph-ps model) a)
                         " , " ((:morph-ps model) b) ") => "
                         ((:morph-ps model) result)))))
-    result))
+      result))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements 
   that can be added to the end of the _path_ within _bolt_."
   [bolt path model depth max-depth]
-  (let [debug (let [log-message-prefix
-                    (str "comp-path-to-complements:" depth "/" max-depth ":"
-                         ((:morph-ps model) bolt) "@" path)]
-                (log/trace (str log-message-prefix ": start.")))
-        spec (get-in bolt path)
+  (let [spec (get-in bolt path)
+        log-message-prefix
+        (str "comp-path-to-complements:" depth "/" max-depth ":"
+             ((:morph-ps model) bolt) "@" path ":spec:" spec)
+        debug (log/debug (str log-message-prefix ": start."))
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)
                    (lazy-seq (generate-all (get-in bolt path) model
@@ -151,7 +151,7 @@
            shuffle? nil
            truncate-children? true
            take-n 1}}]
-  (log/debug (str "(generate)with model named: " (:name language-model)))
+  (log/debug (str "(generate) with model named: " (:name language-model)))
   (first (generate-all spec language-model)))
 
 (defn lightning-bolts
@@ -211,7 +211,7 @@
 (defn get-lexemes [model spec]
   (if (= false (get-in spec [:phrasal] false))
     (filter not-fail?
-            (map #(unify % spec)
+            (map #(unify-and-log % spec model)
                  (if-let [index-fn (:index-fn model)]
                    (lazy-seq (index-fn spec))
                    (do
@@ -261,16 +261,16 @@
   [rules spec]
   (filter not-fail?
           (mapfn (fn [rule]
-                   (log/debug (str "candidate-parents: testing rule: " (:rule rule)))
+                   (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
                    (if (not-fail? (unify (get-in rule [:synsem :cat] :top)
                                          (get-in spec [:synsem :cat] :top)))
                      ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
                      (do
-                       (log/debug (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
+                       (log/trace (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
                                        (strip-refs spec)))
                        (let [unified (unify spec rule)]
                          (if (= :fail unified)
-                           (log/debug (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
+                           (log/trace (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
                            (log/debug (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
                          unified))
                      (do

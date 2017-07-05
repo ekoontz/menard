@@ -43,7 +43,36 @@
          true
          (over/over grammar arg1 arg2))))
 
-(deftest generate-present
+(deftest generate-present-by-root-regular-1
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :top
+                                         :subj {:pred :I}
+                                         :tense :present
+                                         :aspect :progressive}}
+                          :root {:français {:français "parler"}}
+                          :rule "s-present-nonphrasal"}
+                         :model (small))]
+    (is (= "je parle" (fo result)))))
+
+(deftest generate-present-by-semantics-regular-1
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :abandon
+                                         :subj {:pred :I}
+                                         :tense :present
+                                         :aspect :progressive}}}
+                         :model (small))]
+    (is (= "j'abandone" (fo result)))))
+
+(deftest generate-present-by-root-regular-2
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:aspect :progressive
+                                         :tense :present}}
+                          :root {:français {:français "abandoner"}}
+                          :comp {:synsem {:agr {:person :1st, :number :sing}}}}
+                         :model (small))]
+    (is (= "j'abandone" (fo result)))))
+
+(deftest generate-present-by-semantics-irregular-1
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
@@ -51,6 +80,24 @@
                                          :aspect :progressive}}}
                          :model (small))]
     (is (= "je dors" (fo result)))))
+
+(deftest generate-present-by-root-irregular-1
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:aspect :progressive
+                                         :tense :present}}
+                          :root {:français {:français "dormir"}}
+                          :comp {:synsem {:agr {:person :1st, :number :sing}}}}
+                         :model (small))]
+    (is (= "je dors" (fo result)))))
+
+(deftest generate-present-by-root-with-boot-stem
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :noi}
+                                         :tense :present
+                                         :aspect :progressive}}
+                          :root {:français {:français "boire"}}}
+                         :model (small))]
+    (is (= "nous buvons" (fo result)))))
 
 (deftest generate-conditional
   (let [result (generate {:synsem {:subcat '()
@@ -60,7 +107,7 @@
                          :model (small))]
     (is (= "je dormirais" (fo result)))))
 
-(deftest generate-present-irregular
+(deftest generate-present-irregular-2
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :be
                                          :subj {:pred :I}
@@ -303,19 +350,22 @@
 
 (deftest conjugate-present-er
   (is (= "parlons" (conjugate "parler"
-                              {:synsem {:cat :verb
+                              {:français {:present :regular}
+                               :synsem {:cat :verb
                                         :infl :present
                                          :subcat {:1 {:agr {:number :plur
                                                             :person :1st}}}}}))))
 (deftest conjugate-present-er-with-g
   (is (= "mangeons" (conjugate "manger"
-                               {:synsem {:cat :verb
+                               {:français {:present :regular}
+                                :synsem {:cat :verb
                                          :infl :present
                                          :subcat {:1 {:agr {:number :plur
                                                             :person :1st}}}}}))))
 (deftest conjugate-present-re-with-d
   (is (= "apprenons" (conjugate "apprendre"
-                                {:synsem {:cat :verb
+                                {:français {:present :regular}
+                                 :synsem {:cat :verb
                                           :infl :present
                                           :subcat {:1 {:agr {:number :plur
                                                              :person :1st}}}}}))))
@@ -385,20 +435,24 @@
                                                  :number :plur}}}}})
          "blessées")))
 
-(deftest conjugate7
+(deftest conjugate8
   (is (= (conjugate "se blesser"
-                    {:synsem {:cat :verb
+                    {:français {:present :regular}
+                     :synsem {:cat :verb
                               :infl :present
-                              :subcat {:1 {:agr {:person :2nd
-                                                 :number :sing}}}}})
+                              :agr {:person :2nd
+                                    :number :sing}}})
          "blesses")))
 
 (deftest conjugate-irregular
   (is (= (conjugate "boire"
-                    {:synsem {:cat :verb
+                    {:français {:boot-stem2 "buv"
+                                :present {:boot-stem2 true}
+                                :français "boire"}
+                     :synsem {:cat :verb
                               :infl :present
-                              :subcat {:1 {:agr {:person :1st
-                                                 :number :plur}}}}}
+                              :agr {:person :1st
+                                    :number :plur}}}
                     @lexicon)
          "buvons")))
 
@@ -415,7 +469,8 @@
 
 (deftest se-plaindre
   (is (= (conjugate "se plaindre"
-                    {:synsem {:cat :verb
+                    {:français {:present :regular}
+                     :synsem {:cat :verb
                               :agr {:number :sing,
                                     :person :1st,
                                     :gender :masc},

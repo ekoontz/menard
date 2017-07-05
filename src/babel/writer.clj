@@ -189,7 +189,7 @@
 (defn insert-lexeme [canonical lexeme language]
   (log/debug (str "insert-lexeme: canonical=" canonical ", language=" language))
   (if (fail? lexeme)
-    (let [message (str "Refusing to enter a :fail for canonical form: " canonical)] 
+    (let [message (str "Lexeme with canonical surface form: '" canonical "' should not have (fail?=true) for its structure: " lexeme)]
       (log/error message)
       (throw (Exception. message)))
     ;; else, lexeme is valid for insertion

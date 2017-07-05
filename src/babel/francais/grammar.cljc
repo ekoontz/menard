@@ -30,13 +30,14 @@
    "past perfect" {:synsem {:sem {:aspect :perfect
                                   :tense :past}}}})
 
+;; TODO: remove 'conjugated' mentions from grammar
 (def head-is-conjugated-and-imperfect-infl
-  {:head {:français {:conjugated true}
+  {:head {:français {:conjugated :top}
           :phrasal false
           :synsem {:infl :imperfect}}})
 
 (def head-is-conjugated-and-present-infl
-  {:head {:français {:conjugated true}
+  {:head {:français {:conjugated :top}
           :phrasal false
           :synsem {:infl :present}}})
 
@@ -442,7 +443,6 @@
                                      :infl :present
                                      :sem {:tense :present}
                                      :cat :verb}})
-
 
                    ;; e.g. used as: "je m'appelle Jean" -
                    ;; [s-present-phrasal 'je' [vp-pronoun-phrasal 'm'' [vp32 'se appeler' 'Jean']]]

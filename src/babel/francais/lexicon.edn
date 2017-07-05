@@ -579,10 +579,10 @@
                                  :3plur "peignent"}
                        :passé "peint"
                        :future-stem "paindr"
-                       :imperfect "peign"}
-              :synsem {:cat :verb
-                       :sem {:pred :paint}}}
-
+                       :imperfect-stem "peign"}
+            :synsem {:cat :verb
+                     :sem {:pred :paint}}}
+ 
    "profiter (de)" {:synsem {:cat :verb
                              :sem {:pred :take-advantage-of}}}
 

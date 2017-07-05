@@ -1066,6 +1066,128 @@
                    :agr {:number :plur
                          :person :2nd}}}])}])
 
+
+(def irregular-conjugations
+  (concat
+   [{:surface-fn #(str (get-in % [:français :imperfect-stem]) "ais")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :sing}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:surface-fn #(str (get-in % [:français :imperfect-stem]) "ais")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :sing}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:surface-fn #(str (get-in % [:français :imperfect-stem]) "ait")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :sing}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:surface-fn #(str (get-in % [:français :imperfect-stem]) "ions")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :plur}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:surface-fn #(str (get-in % [:français :imperfect-stem]) "iez")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :plur}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:surface-fn #(str (get-in % [:français :imperfect-stem]) "aient")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :plur}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+
+
+    {:surface-fn #(str (get-in % [:français :boot-stem1]) "s")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :sing}
+                           :infl :present}
+                  :français {:present {:boot-stem1 true}}}}
+
+    {:surface-fn #(str (get-in % [:français :boot-stem1]) "s")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :sing}
+                           :infl :present}
+                  :français {:present {:boot-stem1 true}}}}
+
+    {:surface-fn #(str (get-in % [:français :boot-stem1]) "t")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :sing}
+                           :infl :present}
+                  :français {:present {:boot-stem1 true}}}}
+    
+    {:surface-fn #(str (get-in % [:français :boot-stem2]) "ons")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :plur}
+                           :infl :present}
+                  :français {:present {:boot-stem2 true}}}}
+
+    {:surface-fn #(str (get-in % [:français :boot-stem2]) "ez")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :plur}
+                           :infl :present}
+                  :français {:present {:boot-stem2 true}}}}
+
+    {:surface-fn #(str (get-in % [:français :boot-stem1]) "ent")
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :plur}
+                           :infl :present}
+                  :français {:present {:boot-stem1 true}}}}]
+    
+   (mapcat (fn [infl]
+             [{:surface-fn #(get-in % [:français infl :1sing])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :1st
+                                             :number :sing}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}
+              {:surface-fn #(get-in % [:français infl :2sing])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :2nd
+                                             :number :sing}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}
+              {:surface-fn #(get-in % [:français infl :3sing])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :3rd
+                                             :number :sing}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}
+              {:surface-fn #(get-in % [:français infl :1plur])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :1st
+                                             :number :plur}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}
+              {:surface-fn #(get-in % [:français infl :2plur])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :2nd
+                                             :number :plur}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}
+              {:surface-fn #(get-in % [:français infl :3plur])
+               :unify-with {:français {infl {:regular false}
+                                       :agr {:person :3rd
+                                             :number :plur}}
+                            :synsem {:cat :verb
+                                     :infl infl}}}])
+           [:conditional :future :imperfect :present])))
+
 (defn exception [error-string]
   #?(:clj
      (throw (Exception. error-string)))

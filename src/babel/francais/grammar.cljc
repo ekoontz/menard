@@ -30,15 +30,12 @@
    "past perfect" {:synsem {:sem {:aspect :perfect
                                   :tense :past}}}})
 
-;; TODO: remove 'conjugated' mentions from grammar
-(def head-is-conjugated-and-imperfect-infl
-  {:head {:français {:conjugated :top}
-          :phrasal false
+(def head-imperfect-infl
+  {:head {:phrasal false
           :synsem {:infl :imperfect}}})
 
-(def head-is-conjugated-and-present-infl
-  {:head {:français {:conjugated :top}
-          :phrasal false
+(def head-present-infl
+  {:head {:phrasal false
           :synsem {:infl :present}}})
 
 (declare against-pred)
@@ -365,7 +362,7 @@
                                            :tense :past}}})
                    (unify c10
                           root-is-head
-                          head-is-conjugated-and-imperfect-infl
+                          head-imperfect-infl
                            {:rule "s-imperfect-nonphrasal"
                             :synsem {:aux false
                                      :cat :verb
@@ -382,7 +379,7 @@
                                            :tense :present}}})
                    (unify c10
                           root-is-head
-                          head-is-conjugated-and-present-infl
+                          head-present-infl
                           {:rule "s-present-nonphrasal"
                            :synsem {:aux false
                                     :cat :verb
@@ -404,7 +401,7 @@
                                      :cat :verb}})
                    (unify h21a
                           root-is-comp
-                          head-is-conjugated-and-present-infl
+                          head-present-infl
                           {:rule "vp-aux"
                            :synsem {:aux true
                                     :sem {:tense :past}
@@ -413,7 +410,7 @@
                    ;; [nous [être + naître]] => nous somme nées
                    (unify h22
                           root-is-comp
-                          head-is-conjugated-and-present-infl
+                          head-present-infl
                           (let [obj-agr (atom :top)] ;; TODO: Remove: this obj-agr is not used.
                             {:head {:phrasal false}
                              :rule "vp-aux-22"
@@ -448,9 +445,9 @@
                    ;; [s-present-phrasal 'je' [vp-pronoun-phrasal 'm'' [vp32 'se appeler' 'Jean']]]
                    (unify h32
                           root-is-head
-                          ;; TODO: why does adding head-is-conjugated-and-present-infl
+                          ;; TODO: why does adding head-present-infl
                           ;; cause the test 'generate-named-sentence' to fail?
-                          ;;                          head-is-conjugated-and-present-infl
+                          ;;                          head-present-infl
                           {:rule "vp-32"
                            :head {:phrasal false}
                            :synsem {:aux false

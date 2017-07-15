@@ -76,12 +76,10 @@
                (or (log/debug (str "lookup-in: matched: " (strip-refs lexeme))) true)))
             lexemes)))
 
-;; TODO: remove optional '& [lexicon]'
-(defn conjugate [infinitive conjugate-with & [lexicon]]
+(defn conjugate [infinitive conjugate-with]
   "Conjugate an infinitive into a surface form by taking the first 
    element of regular-patterns where the element's :u unifies successfully with
-   conjugate-with. If lexicon is supplied, look up infinitive in lexicon and use exceptional form of
-   first return value, if any."
+   conjugate-with."
   (if (nil? infinitive)
     (throw (Exception. (str "conjugate passed null infinitive."))))
 

@@ -452,8 +452,7 @@
                      :synsem {:cat :verb
                               :infl :present
                               :agr {:person :1st
-                                    :number :plur}}}
-                    @lexicon)
+                                    :number :plur}}})
          "buvons")))
 
 (deftest have-fun

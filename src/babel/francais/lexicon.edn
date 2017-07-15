@@ -120,8 +120,10 @@
  "couper" {:synsem {:cat :verb
                     :sem {:pred :cut}}}
  
- ;; TODO: with 'courir', *everything* is an exception: this can probably be done better via
- ;; morphology (francais/morphology/verbs.clj). Surely there are some regularities that we are missing.
+ ;; With 'courir', *everything* is an exception:
+ ;; TODO: this can probably be done better via
+ ;; morphology (francais/morphology/verbs.clj).
+ ;; Surely there are some regularities that we are missing.
  "courir" {:français {:past-participle "couru"
                       :present {:1sing "cours"
                                 :2sing "cours"

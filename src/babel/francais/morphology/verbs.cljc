@@ -340,77 +340,67 @@
 (def past
   (map
    #(merge %
-           {:u (unify agr
+           {:u (unify {:synsem {:cat :verb
+                                :infl :past-p}}
                       (:u %))})
    [{:comment "past participle non-reflexive plural; essere=true"
      :p [#"^(\S+)és$"           "$1er"]
      :g [#"^([^' ]+)er$"        "$1és"]
-     :u {:synsem {:infl :past-p
-                  :essere true
+     :u {:synsem {:essere true
                   :agr {:gender :masc
                         :number :plur}}}}
     ;; singular feminine
     {:comment "past participle non-reflexive singular feminine; essere=true"
      :p [#"^(\S+)ée$"           "$1er"]
      :g [#"^([^' ]+)er$"        "$1ée"]
-     :u {:synsem {:infl :past-p
-                  :essere true
+     :u {:synsem {:essere true
                   :agr {:number :sing
                         :gender :fem}}}}
     ;; plural feminine
     {:comment "past participle non-reflexive plural feminine; essere=true"
      :p [#"^(\S+)ées$"          "$1er"]
      :g [#"^([^' ]+)er$"        "$1ées"]
-     :u {:synsem {:infl :past-p
-                  :essere true
+     :u {:synsem {:essere true
                   :agr {:number :plur
                         :gender :fem}}}}
     
     {:comment "past participle non-reflexive singular -er; essere=false"
      :p [#"^(\S+)é$"            "$1er"]
      :g [#"^([^' ]+)er$"        "$1é"]
-     :u {:synsem {:infl :past-p
-                  :essere false}}}
+     :u {:synsem {:essere false}}}
     
     {:comment "past participle non-reflexive -re"
      :p [#"^(\S+)u$"            "$1re"]
      :g [#"^([^' ]+)re$"        "$1u"]
-     :u {:synsem {:infl :past-p}}}
+     :u {}}
     
     {:comment "past participle non-reflexive -ir"
      :p [#"^(\S+)i$"            "$1ir"]
      :g [#"^([^' ]+)ir$"        "$1i"]
-     :u {:synsem {:infl :past-p}}}
+     :u {}}
     ]))
 
 (def conditional
   (map
    #(merge %
-           {:u (unify agr
+           {:u (unify {:synsem {:infl :conditional
+                                :cat :verb}}
                       (:u %))})
   [{:p [#"^(\S+)ais$"       "$1"]
     :g [#"^(\S+)$"          "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)ais$"       "s'$1"]
     :g [#"^s'(\S+)$"        "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)ais$"       "se $1"]
     :g [#"^se (\S+)$"       "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)ais$"       "$1"]
     :g [#"^(\S+)$"          "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)ais$"       "s'$1"]
     :g [#"^s'(\S+)$"        "$1ais"]
@@ -420,189 +410,127 @@
                        :person :2nd}}}}
    {:p [#"^(\S+)ais$"       "se $1"]
     :g [#"^se (\S+)$"       "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)rais$"      "$1re"]
     :g [#"^(\S+)$"          "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)rais$"      "s'$1re"]
     :g [#"^s'(\S+)$"        "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)rais$"      "se $1re"]
     :g [#"^se (\S+)re$"     "$1rais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)rais$"      "$1"]
     :g [#"^(\S+)re$"        "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)rais$"      "s'$1"]
     :g [#"^s'(\S+)re$"      "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)rais$"      "se $1"]
     :g [#"^se (\S+)$"       "$1ais"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)ait$"       "$1"]
     :g [#"^(\S+)$"          "$1ait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)ait$"       "s'$1"]
     :g [#"^s'(\S+)$"        "$1ait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)ait$"       "se $1"]
     :g [#"^se (\S+)$"       "$1ait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)rait$"      "$1re"]
     :g [#"^(\S+)re$"        "$1rait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)rait$"      "s'$1re"]
     :g [#"^s'(\S+)$"        "$1rait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)rait$"      "se $1re"]
     :g [#"^se (\S+)$"       "$1ait"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :sing
+    :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)ions$"      "$1"]
     :g [#"^(\S+)$"          "$1ions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)ions$"      "s'$1"]
     :g [#"^s' (\S+)$"       "$1ions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)ions$"      "se $1"]
     :g [#"^se (\S+)$"       "$1ions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)rions$"     "$1re"]
     :g [#"^(\S+)re$"        "$1rions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)rions$"     "s'$1re"]
     :g [#"^s'(\S+)$"        "$1ions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)rions$"     "se $1re"]
     :g [#"^se (\S+)$"       "$1rions"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)iez$"       "$1"]
     :g [#"^(\S+)$"          "$1iez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)iez$"       "s'$1"]
     :g [#"^s'(\S+)$"        "$1iez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)iez$"       "se $1"]
     :g [#"^se (\S+)$"       "$1iez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)riez$"      "$1re"]
     :g [#"^(\S+)re$"        "$1riez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)riez$"      "s'$1re"]
     :g [#"^s'(\S+)re$"      "$1riez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)riez$"      "se $1re"]
     :g [#"^se (\S+)re$"     "$1riez"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)aient$"     "$1"]
     :g [#"^(\S+)$"          "$1aient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)aient$"     "s'$1"]
     :g [#"^s'(\S+)$"        "$1aient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)aient$"     "se $1"]
     :g [#"^se (\S+)$"       "$1aient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)raient$"    "$1re"]
     :g [#"^(\S+)$"          "$1aient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)raient$"    "s'$1re"]
     :g [#"^s'(\S+)$"        "$1aient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)raient$"    "se $1re"]
     :g [#"^se (\S+)re$"     "$1raient"]
-    :u {:synsem {:infl :conditional
-                 :cat :verb
-                 :agr {:number :plur
+    :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    ]
   ))
@@ -610,8 +538,7 @@
 (def future
   (map
    #(merge %
-           {:u (unify agr
-                      (:u %)
+           {:u (unify (:u %)
                       {:synsem {:cat :verb
                                 :infl :future}})})
    [

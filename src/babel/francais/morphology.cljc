@@ -80,6 +80,7 @@
   "Conjugate an infinitive into a surface form by taking the first 
    element of regular-patterns where the element's :u unifies successfully with
    conjugate-with."
+  (log/debug (str "conjugate(" (string/join "," [infinitive (strip-refs conjugate-with)]) ")"))
   (let [underspecified?
         (or 
          (= :top (get-in conjugate-with [:synsem :cat] :top))
@@ -104,17 +105,17 @@
                 (log/debug (str "conjugate: infinitive=" infinitive "; conjugate-with: "
                                 (strip-refs conjugate-with)))
                 
-                lookup-spec (strip-refs
+                spec (strip-refs
                              (unify
                               (dissoc-paths
                                conjugate-with [[:français :exception]])
                               {:français {:infinitive infinitive
                                           :exception true}}))
                 diag
-                (log/debug (str "conjugate: lookup-spec: " lookup-spec))
+                (log/debug (str "conjugate: spec: " spec))
                 
                 diag
-                (if (= :fail lookup-spec)
+                (if (= :fail spec)
                   (log/debug (str "fail-path for conjugate-with:"
                                   (strip-refs conjugate-with) "; "
                                   {:français {:infinitive infinitive
@@ -124,7 +125,7 @@
                                    {:français {:infinitive infinitive
                                                :exception true}}))))
                 
-                error (if (= :fail lookup-spec)
+                error (if (= :fail spec)
                         (throw (Exception. (str "conjugate was given conjugate-with=:fail; "
                                               "arg1="
                                               (strip-refs (dissoc-paths
@@ -139,13 +140,13 @@
                                      prefix :prefix
                                      suffix :suffix
                                      unify-with :unify-with} %]
-                                (if (not (= :fail (unify unify-with lookup-spec)))
+                                (if (not (= :fail (unify unify-with spec)))
                                   (cond (and (not (nil? prefix))
                                              (not (nil? suffix)))
-                                        (str (get-in lookup-spec [:français prefix]) suffix)
+                                        (str (get-in spec [:français prefix]) suffix)
 
                                         (not (nil? path))
-                                        (get-in lookup-spec path)
+                                        (get-in spec path)
                                         
                                         true (throw (Exception. (str "problem with irregular pattern:" %))))))
                              verbs/irregular-conjugations))
@@ -156,6 +157,14 @@
                          (fn [replace-pattern]
                            (let [from (nth (:g replace-pattern) 0)
                                  to (nth (:g replace-pattern) 1)]
+                             (when (and from to infinitive)
+                               (log/debug (str "from: " from "; infinitive: " infinitive " => "
+                                               (re-matches from infinitive)))
+                               (log/debug (if (re-matches from infinitive)
+                                            (str "matched: from: " from "; infinitive: "
+                                                 infinitive " with "
+                                                 "unify-against: " (strip-refs (:u replace-pattern)) ";"
+                                                 "conjugate-with:" (strip-refs conjugate-with)))))
                              (if (and from to infinitive
                                       (re-matches from infinitive)
                                       (not (= :fail
@@ -168,6 +177,10 @@
                                (string/replace infinitive from to))))
                          regular-patterns))]
             (let [results (concat exceptional-surface-forms regulars [infinitive])]
+              (log/debug (if (not (empty? exceptional-surface-forms))
+                           (str "conjugate: exceptional conjugation: " (first exceptional-surface-forms))
+                           (if (not (empty? regulars))
+                             (str "conjugate: regular conjugation: " (first regulars)))))
               (first results))))))
   
 (defn pre-conjugate [spec]

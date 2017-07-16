@@ -100,9 +100,12 @@
      
      (remove #(= :fail %)))))
 
+(def expensive-logging false)
+
 (defn unify-and-log [a b model]
   (let [result (unify a b)]
-    (when (and (not (= :fail a)) (not (= :fail b)))
+    (when (and (not (= :fail a)) (not (= :fail b))
+               expensive-logging)
       (if (= :fail result)
         (let [message (str "failed to unify:( "
                            "  a: " ((:morph-ps model) a) ","
@@ -117,7 +120,7 @@
         (log/debug (str "unify(" ((:morph-ps model) a)
                         " , " ((:morph-ps model) b) ") => "
                         ((:morph-ps model) result)))))
-      result))
+    result))
 
 (defn comp-path-to-complements
   "return a lazy sequence of bolts for all possible complements 

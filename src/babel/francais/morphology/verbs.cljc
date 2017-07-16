@@ -1044,7 +1044,7 @@
 
 (def irregular-conjugations
   (concat
-   [;; conditional
+   [;; irregular conditional with :future-stem
     {:prefix :future-stem :suffix "ais"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
@@ -1081,7 +1081,7 @@
                                  :number :plur}
                            :infl :conditional}
                   :français {:conditional {:stem true}}}}
-    ;; future
+    ;; irregular future with :future-stem
     {:prefix :future-stem :suffix "ai"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
@@ -1119,7 +1119,7 @@
                            :infl :future}
                   :français {:future {:stem true}}}}
 
-    ;; imperfect
+    ;; imperfect with :imperfect-stem
     {:prefix :imperfect-stem :suffix "ais"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
@@ -1157,6 +1157,9 @@
                            :infl :imperfect}
                   :français {:imperfect {:stem true}}}}
 
+    ;; present with :boot-stem1 and :boot-stem2.
+    ;; :boot-stem1 is the "boot" itself (1sing,2sing,3sing,3plur)
+    ;; whereas :boot-stem2 is the remainder besides the "boot" (1plur,2plur)
     {:prefix :boot-stem1 :suffix "s"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st

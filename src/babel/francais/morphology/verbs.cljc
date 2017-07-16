@@ -10,10 +10,7 @@
 
 ;; TODO: convert to (babel.morphology/conjugation) (see babel.latin.morphology for an example of how to use conjugation)
 
-(def agr
-  (let [agr (atom :top)]
-    {:synsem {:agr agr
-              :subcat {:1 {:agr agr}}}}))
+(def agr :top)
 
 (def present-nonreflexive-er-verb
   (map
@@ -250,108 +247,95 @@
 (def past-reflexive
   (map
    #(merge %
-           {:u (unify agr
+           {:u (unify {:synsem {:infl :past-p}}
                       (:u %))})
   [
    {:comment "past participle reflexive singular masculine -er where stem begins with a vowel"
     :p [#"^([aeéiou]\S+)é$"    "s'$1er"]
     :g [#"^s'([aeéiou]\S+)er$" "$1é"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :sing
-                                    :gender :masc}}}}
+    :u {:synsem {:agr {:number :sing
+                       :gender :masc}}}}
 
    {:comment "past participle reflexive plural masculine -er where stem begins with a vowel"
     :p [#"^([aeéiou]\S+)és$"   "s'$1er"]
     :g [#"^s'([aeéiou]\S+)er$" "$1és"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :plur
-                                    :gender :masc}}}}
+    :u {:synsem {:agr {:number :plur
+                       :gender :masc}}}}
 
    {:comment "past participle reflexive singular feminine -er where stem begins with a vowel"
     :p [#"^([aeéiou]\S+)ée$"   "s'$1er"]
     :g [#"^s'([aeéiou]\S+)er$" "$1ée"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :sing
-                                    :gender :fem}}}}
+    :u {:synsem {:agr {:number :sing
+                       :gender :fem}}}}
 
    {:comment "past participle reflexive plural feminine -er where stem begins with a vowel"
     :p [#"^([aeéiou]\S+)ées$"  "s'$1er"]
     :g [#"^s'([aeéiou]\S+)er$" "$1ées"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :plur
-                                    :gender :fem}}}}
+    :u {:synsem {:agr {:number :plur
+                       :gender :fem}}}}
 
    {:comment "past participle reflexive singular masculine -er where stem does not begin with a vowel"
     :p [#"^([^aeéiou]\S+)é$"   "se $1er"]
     :g [#"^se (\S+)er$"        "$1é"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :sing
-                                    :gender :masc}}}}
+    :u {:synsem {:agr {:number :sing
+                       :gender :masc}}}}
 
    {:comment "past participle reflexive plural masculine -er where stem does not begin with a vowel"
     :p [#"^([^aeéiou]\S+)és$"  "se $1er"]
     :g [#"^se (\S+)er$"        "$1és"]
     :u {:synsem {:infl :past-p
                  :agr {:number :plur
-                                    :gender :masc}}}}
+                       :gender :masc}}}}
 
    {:comment "past participle reflexive singular feminine -er where stem does not begin with a vowel"
     :p [#"^([^aeéiou]\S+)ée$"    "se $1er"]
     :g [#"^se ([^aeéiou]\S+)er$" "$1é"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :sing
-                                    :gender :fem}}}}
+    :u {:synsem {:agr {:number :sing
+                       :gender :fem}}}}
 
    {:comment "past participle reflexive plural feminine -er where stem does not begin with a vowel"
     :p [#"^([^aeéiou]\S+)ées$"   "se $1er"]
     :g [#"^se ([^aeéiou]\S+)er$" "$1ées"]
-    :u {:synsem {:infl :past-p
-                 :agr {:number :plur
-                                    :gender :fem}}}}]))
+    :u {:synsem {:agr {:number :plur
+                       :gender :fem}}}}]))
 
 (def past-reflexive-re-verb
   (map
    #(merge %
-           {:u (unify agr
+           {:u (unify {:synsem {:infl :past-p}}
                       (:u %))})
   [
    {:p [#"^([^' ]+)t$"       "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1t"]
     :u {:synsem {:agr {:number :sing
-                       :person :1st}
-                 :infl :past-p}}}
+                       :person :1st}}}}
   
    {:p [#"^([^' ]+)t$"       "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1t"]
     :u {:synsem {:agr {:number :sing
-                       :person :2nd}
-                 :infl :past-p}}}
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)ts$"      "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1ts"]
     :u {:synsem {:agr {:number :sing
-                       :person :3rd}
-                 :infl :past-p}}}
+                       :person :3rd}}}}
 
    ;; e.g. se plaindre => se plaindrons
    {:p [#"^([^' ]+)ts$"      "se $1dre"]
     :g [#"^se ([^' ]+)ndre$" "se $1ts"]
     :u {:synsem {:agr {:number :plur
-                       :person :1st}
-                 :infl :past-p}}}
+                       :person :1st}}}}
 
    {:p [#"^([^' ]+)ts$"   "se $1ndre"]
     :g [#"^se ([^' ]+)ndre$" "$1ts"]
     :u {:synsem {:agr {:number :plur
-                       :person :2nd}
-                 :infl :past-p}}}
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)ts$"   "se $1ndre"]
     :g [#"^se ([^' ]+)ndre$" "$1ts"]
     :u {:synsem {:agr {:number :plur
-                       :person :3rd}
-                 :infl :past-p}}}
-]))
+                       :person :3rd}}}}
+   ]))
 
 (def past
   (map

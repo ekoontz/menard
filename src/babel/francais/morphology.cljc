@@ -138,7 +138,6 @@
                         (map #(let [{path :path
                                      prefix :prefix
                                      suffix :suffix
-                                     surface-fn :surface-fn
                                      unify-with :unify-with} %]
                                 (if (not (= :fail (unify unify-with lookup-spec)))
                                   (cond (and (not (nil? prefix))
@@ -156,15 +155,16 @@
                         (map
                          (fn [replace-pattern]
                            (let [from (nth (:g replace-pattern) 0)
-                                 to (nth (:g replace-pattern) 1)
-                                 unify-against (if (:u replace-pattern)
-                                                 (:u replace-pattern)
-                                                 :top)
-                                 unified (unify unify-against
-                                                conjugate-with)]
+                                 to (nth (:g replace-pattern) 1)]
                              (if (and from to infinitive
-                                      (not (= :fail unified))
-                                      (re-matches from infinitive))
+                                      (re-matches from infinitive)
+                                      (not (= :fail
+                                              (let [unify-against (if (:u replace-pattern)
+                                                                    (:u replace-pattern)
+                                                                    :top)]
+                                                (unify unify-against
+                                                       conjugate-with)))))
+                                              
                                (string/replace infinitive from to))))
                          regular-patterns))]
             (let [results (concat exceptional-surface-forms regulars [infinitive])]

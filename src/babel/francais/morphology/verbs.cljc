@@ -1247,20 +1247,6 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-(declare number-and-person)
-
-(def suppress-incomplete-morphology-errors true)
-
-(defn reflexive-to-infinitive [reflexive-infinitive]
-  "e.g.: se amuser -> amuser"
-  (cond
-    (re-find #"^se " reflexive-infinitive)
-    (string/replace reflexive-infinitive #"^se " "")
-    (re-find #"^s'" reflexive-infinitive)
-    (string/replace reflexive-infinitive #"^s'" "")
-    true
-    reflexive-infinitive))
-
 (defn number-and-person [number person]
   (cond (and (= person :1st) (= number :sing))
         :1sing

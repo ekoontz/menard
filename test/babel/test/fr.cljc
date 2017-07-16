@@ -175,6 +175,21 @@
                               :agr {:person :1st
                                     :number :plur}}}))))
 
+(deftest conjugate-conditional-reflexive
+  (is (= "amuserais"
+         (conjugate "s'amuser"
+                    {:synsem {:cat :verb,
+                              :infl :conditional,
+                              :agr {:gender :fem, :person :1st, :number :sing}},
+                     :français {:cat :verb, :essere true,
+                                :future :regular, :present :regular,
+                                :imperfect :regular, :infl :conditional,
+                                :infinitive "s'amuser",
+                                :agr {:gender :fem, :person :1st, :number :sing},
+                                :français "s'amuser",
+                                :initial false, :exception true,
+                                :conditional :regular}}))))
+
 (deftest generate-present-by-root-regular-1
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :top
@@ -246,6 +261,14 @@
                           :root {:français {:français "dormir"}}}
                          :model (small))]
     (is (= "je dormirais" (fo result)))))
+
+(deftest generate-regular-conditional-reflexive
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :I}
+                                         :tense :conditional}}
+                          :root {:français {:français "s'amuser"}}}
+                         :model (small))]
+    (is (= "je m'amuserais" (fo result)))))
 
 (deftest generate-present-irregular-2
   (let [result (generate {:synsem {:subcat '()

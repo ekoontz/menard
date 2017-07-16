@@ -128,8 +128,11 @@
   [bolt path model depth max-depth]
   (let [spec (get-in bolt path)
         log-message-prefix
-        (str "comp-path-to-complements:" depth "/" max-depth ":"
-             ((:morph-ps model) bolt) "@" path ":spec:" spec)
+        (if expensive-logging
+          (str "comp-path-to-complements:" depth "/" max-depth ":"
+               ((:morph-ps model) bolt) "@" path ":spec:" spec)
+          (str "comp-path-to-complements:" depth "/" max-depth ":"
+               spec "@path: " path))
         debug (log/debug (str log-message-prefix ": start."))
         lexemes (shufflefn (get-lexemes model spec))
         bolts-at (if (< depth max-depth)

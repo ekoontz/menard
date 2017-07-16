@@ -382,6 +382,21 @@
                               :infl :future
                               :agr {:number :plur
                                     :person :3rd}}}))))
+(deftest conjugate-future-stem
+  (is (= "irez"
+         (conjugate "aller"
+                    {:français {:future-stem "ir"}
+                     :synsem {:cat :verb
+                              :infl :future
+                              :agr {:number :plur
+                                    :person :2nd}}}))))
+
+(deftest analyze-aller
+  (is (not (empty? (analyze "aller" (:lexicon (small)))))))
+
+(deftest analyze-irez
+  (is (not (empty? (analyze "irez" (:lexicon (small)))))))
+
 (deftest conjugate1
   (let [from #"s'([aeéiou].*)er$"
         infinitive "s'amuser"

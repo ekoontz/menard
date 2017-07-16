@@ -912,52 +912,53 @@
                   :français (get-in val [:français :present :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
+
    ;; 3. imperfect-tense exceptions
-   {:path [:français :imperfect :1sing]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
+      {:français {:infl :future
                   :conjugated true                   
-                  :français (get-in val [:français :imperfect :1sing] :nothing)
+                  :français (get-in val [:français :future-stem] "ai")
                   :agr {:number :sing
                         :person :1st}}})}
-   {:path [:français :imperfect :2sing]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
+      {:français {:infl :future
                   :conjugated true                   
-                  :français (get-in val [:français :imperfect :2sing] :nothing)
+                  :français (get-in val [:français :future-stem] "as")
                   :agr {:number :sing
                         :person :2nd}}})}
-   {:path [:français :imperfect :3sing]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
-                   :conjugated true                   
-                  :français (get-in val [:français :imperfect :3sing] :nothing)
+      {:français {:infl :future
+                  :conjugated true                   
+                  :français (get-in val [:français :future-stem] "a")
                   :agr {:number :sing
                         :person :3rd}}})}
-   {:path [:français :imperfect :1plur]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
-                  :français (get-in val [:français :imperfect :1plur] :nothing)
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "ons")
                   :agr {:number :plur
                         :person :1st}}})}
-   {:path [:français :imperfect :2plur]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
-                   :conjugated true                   
-                  :français (get-in val [:français :imperfect :2plur] :nothing)
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "ez")
+                  :conjugated true                   
                   :agr {:number :plur
                         :person :2nd}}})}
-   {:path [:français :imperfect :3plur]
+   {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :imperfect
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "ont")
                   :conjugated true                   
-                  :français (get-in val [:français :imperfect :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
 
@@ -1020,8 +1021,69 @@
                    :français (str (get-in val [:français :imperfect-stem]) "aient")
                    :agr {:number :plur
                          :person :3rd}}}])}
+
+
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ais")
+                   :agr {:number :sing
+                         :person :1st}}}])}
    
-   ;; 3. present-tense boot-stem exception: :boot-stem1.
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ais")
+                   :agr {:number :sing
+                         :person :2nd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ait")
+                   :agr {:number :sing
+                         :person :3rd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "ions")
+                   :agr {:number :plur
+                         :person :1st}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "iez")
+                   :agr {:number :plur
+                         :person :2nd}}}])}
+   
+   {:path [:français :imperfect-stem]
+    :merge-fn
+    (fn [val]
+      [{:français {:infl :imperfect
+                   :conjugated true                   
+                   :imperfect-stem (get-in val [:français :imperfect-stem])
+                   :français (str (get-in val [:français :imperfect-stem]) "aient")
+                   :agr {:number :plur
+                         :person :3rd}}}])}
+   
+   ;; 4. present-tense boot-stem exception: :boot-stem1.
    {:path [:français :boot-stem1]
     :merge-fn
     (fn [val]
@@ -1068,7 +1130,44 @@
 
 (def irregular-conjugations
   (concat
-   [{:prefix :imperfect-stem :suffix "ais"
+   [{:prefix :future-stem :suffix "ai"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :sing}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
+    {:prefix :future-stem :suffix "as"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :sing}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
+    {:prefix :future-stem :suffix "a"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :sing}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+    {:prefix :future-stem :suffix "ons"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :plur}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
+    {:prefix :future-stem :suffix "ez"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :plur}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
+    {:prefix :future-stem :suffix "ont"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :plur}
+                           :infl :imperfect}
+                  :français {:imperfect {:stem true}}}}
+
+    {:prefix :imperfect-stem :suffix "ais"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
                                  :number :sing}

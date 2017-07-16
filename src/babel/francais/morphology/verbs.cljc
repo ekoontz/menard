@@ -9,9 +9,6 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
 ;; TODO: convert to (babel.morphology/conjugation) (see babel.latin.morphology for an example of how to use conjugation)
-
-(def agr :top)
-
 (def present-nonreflexive-er-verb
   (map
    #(merge %

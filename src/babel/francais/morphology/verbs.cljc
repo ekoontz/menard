@@ -8,7 +8,8 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-;; TODO: convert to (babel.morphology/conjugation) (see babel.latin.morphology for an example of how to use conjugation)
+;; TODO: convert to (babel.morphology/conjugation)
+;; (see babel.latin.morphology for an example of how to use babel.morphology/conjugation)
 (def present-nonreflexive-er-verb
   (map
    #(merge %
@@ -384,7 +385,7 @@
                                 :cat :verb}}
                       (:u %))})
   [{:p [#"^(\S+)ais$"       "$1"]
-    :g [#"^(\S+)$"          "$1ais"]
+    :g [#"^([^' ]+)$"        "$1ais"]
     :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)ais$"       "s'$1"]
@@ -396,7 +397,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)ais$"       "$1"]
-    :g [#"^(\S+)$"          "$1ais"]
+    :g [#"^([^' ]+)$"       "$1ais"]
     :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)ais$"       "s'$1"]
@@ -410,7 +411,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)rais$"      "$1re"]
-    :g [#"^(\S+)$"          "$1ais"]
+    :g [#"^([^' ]+)$"       "$1ais"]
     :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)rais$"      "s'$1re"]
@@ -422,7 +423,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
    {:p [#"^(\S+)rais$"      "$1"]
-    :g [#"^(\S+)re$"        "$1ais"]
+    :g [#"^([^' ]+)re$"     "$1ais"]
     :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)rais$"      "s'$1"]
@@ -434,7 +435,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
    {:p [#"^(\S+)ait$"       "$1"]
-    :g [#"^(\S+)$"          "$1ait"]
+    :g [#"^([^' ]+)$"       "$1ait"]
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)ait$"       "s'$1"]
@@ -446,7 +447,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)rait$"      "$1re"]
-    :g [#"^(\S+)re$"        "$1rait"]
+    :g [#"^([^' ]+)re$"     "$1rait"]
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)rait$"      "s'$1re"]
@@ -458,7 +459,7 @@
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
    {:p [#"^(\S+)ions$"      "$1"]
-    :g [#"^(\S+)$"          "$1ions"]
+    :g [#"^([^' ]+)$"       "$1ions"]
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)ions$"      "s'$1"]
@@ -470,7 +471,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)rions$"     "$1re"]
-    :g [#"^(\S+)re$"        "$1rions"]
+    :g [#"^([^' ]+)re$"     "$1rions"]
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)rions$"     "s'$1re"]
@@ -482,7 +483,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
    {:p [#"^(\S+)iez$"       "$1"]
-    :g [#"^(\S+)$"          "$1iez"]
+    :g [#"^([^' ]+)$"        "$1iez"]
     :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)iez$"       "s'$1"]
@@ -494,7 +495,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)riez$"      "$1re"]
-    :g [#"^(\S+)re$"        "$1riez"]
+    :g [#"^([^' ]+)re$"        "$1riez"]
     :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)riez$"      "s'$1re"]
@@ -506,7 +507,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
    {:p [#"^(\S+)aient$"     "$1"]
-    :g [#"^(\S+)$"          "$1aient"]
+    :g [#"^([^' ]+)$"       "$1aient"]
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)aient$"     "s'$1"]
@@ -518,7 +519,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)raient$"    "$1re"]
-    :g [#"^(\S+)$"          "$1aient"]
+    :g [#"^([^' ]+)$"       "$1aient"]
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    {:p [#"^(\S+)raient$"    "s'$1re"]
@@ -540,7 +541,7 @@
                                 :infl :future}})})
    [
     {:p [#"^(\S+)ai$"     "$1"]
-     :g [#"^(\S+)$"       "$1ai"]
+     :g [#"^([^' ]+)$"    "$1ai"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)ai$"     "s'$1"]
@@ -552,7 +553,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)as$"     "$1"]
-     :g [#"^(\S+)$"       "$1as"]
+     :g [#"^([^' ]+)$"    "$1as"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)as$"     "s'$1"]
@@ -564,7 +565,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)rai$"    "$1re"]
-     :g [#"^(\S+)$"       "$1ai"]
+     :g [#"^([^' ]+)$"    "$1ai"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)rai$"    "s'$1re"]
@@ -576,7 +577,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)ras$"    "$1re"]
-     :g [#"^(\S+)re$"     "$1as"]
+     :g [#"^([^' ]+)re$"  "$1as"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)ras$"    "s'$1re"]
@@ -588,7 +589,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)a$"      "$1"]
-     :g [#"^(\S+)$"       "$1a"]
+     :g [#"^([^' ]+)$"       "$1a"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
     {:p [#"^(\S+)a$"      "s'$1"]
@@ -600,7 +601,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
     {:p [#"^(\S+)ra$"     "$1re"]
-     :g [#"^(\S+)re$"     "$1ra"]
+     :g [#"^([^' ]+)re$"  "$1ra"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
     {:p [#"^(\S+)ra$"     "s'$1re"]
@@ -612,7 +613,7 @@
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
     {:p [#"^(\S+)ons$"    "$1"]
-     :g [#"^(\S+)$"       "$1ons"]
+     :g [#"^([^' ]+)$"    "$1ons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
     {:p [#"^(\S+)ons$"    "s'$1"]
@@ -624,7 +625,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
     {:p [#"^(\S+)rons$"   "$1re"]
-     :g [#"^(\S+)re$"     "$1rons"]
+     :g [#"^([^' ]+)re$"  "$1rons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
     {:p [#"^(\S+)rons$"   "s'$1re"]
@@ -636,7 +637,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
     {:p [#"^(\S+)ez$"     "$1"]
-     :g [#"^(\S+)$"       "$1ez"]
+     :g [#"^([^' ]+)$"    "$1ez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
     {:p [#"^(\S+)ez$"     "s'$1"]
@@ -648,7 +649,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
     {:p [#"^(\S+)rez$"    "$1re"]
-     :g [#"^(\S+)re$"     "$1rez"]
+     :g [#"^([^' ]+)re$"  "$1rez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
     {:p [#"^(\S+)rez$"    "s'$1re"]
@@ -660,7 +661,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
     {:p [#"^(\S+)ont$"    "$1"]
-     :g [#"^(\S+)$"       "$1ont"]
+     :g [#"^([^' ]+)$"    "$1ont"]
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
     {:p [#"^(\S+)ont$"    "s'$1"]
@@ -672,7 +673,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
     {:p [#"^(\S+)ront$"   "$1re"]
-     :g [#"^(\S+)re$"     "$1ront"]
+     :g [#"^([^' ]+)re$"  "$1ront"]
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
     {:p [#"^(\S+)ront$"   "s'$1re"]
@@ -875,7 +876,7 @@
                   :agr {:number :plur
                         :person :3rd}}})}
 
-   ;; 5. imperfect tense
+   ;; 5. imperfect irregular with :imperfect-stem
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]

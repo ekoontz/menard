@@ -379,14 +379,16 @@
 (deftest conjugate-conditional
   (is (= "parlerions"
          (conjugate "parler"
-                    {:synsem {:cat :verb
+                    {:français {:conditional :regular}
+                     :synsem {:cat :verb
                               :infl :conditional
                               :agr {:number :plur
                                     :person :1st}}}))))
 (deftest conjugate-future
   (is (= "parleront"
          (conjugate "parler"
-                    {:synsem {:cat :verb
+                    {:français {:future :regular}
+                     :synsem {:cat :verb
                               :infl :future
                               :agr {:number :plur
                                     :person :3rd}}}))))

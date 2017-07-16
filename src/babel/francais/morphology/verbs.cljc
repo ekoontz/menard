@@ -18,272 +18,234 @@
 (def present-nonreflexive-er-verb
   (map
    #(merge %
-           {:u (unify agr
-                      (:u %))})
+           {:u (unify (:u %)
+                      {:synsem {:infl :present}})})
    [
     {:p [#"^([^' ]+)e$"         "$1er"]
      :g [#"^([^' ]+)er$"        "$1e"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     
     {:p [#"^([^' ]+)es$"        "$1er"]
      :g [#"^([^' ]+)er$"        "$1es"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     
     {:p [#"^([^' ]+)e$"         "$1er"]
      :g [#"^([^' ]+)er$"        "$1e"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     
     {:p [#"^([^' ]+)([^e])ons$" "$1$2er"]
      :g [#"^([^' ]+)([^g])er$"  "$1$2ons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     
     {:p [#"^([^' ]+)(g)eons$"   "$1$2er"]
      :g [#"^([^' ]+)(g)er$"     "$1$2eons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     
     {:p [#"^([^' ]+)ez$"        "$1er"]
      :g [#"^([^' ]+)er$"        "$1ez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     
     {:p [#"^([^' ]+)ent$"       "$1er"]
      :g [#"^([^' ]+)er$"        "$1ent"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     ]))
 
 (def present-nonreflexive-ir-verb
   (map
    #(merge %
-           {:u (unify agr
-                      (:u %))})
+           {:u (unify (:u %)
+                      {:synsem {:infl :present}})})
   [
    {:p [#"^([^' ]+)is$"         "$1ir"]
     :g [#"^([^' ]+)ir$"         "$1is"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :1st}}}}
 
    {:p [#"^([^' ]+)it$"        "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1it"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)e$"         "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :3rd}}}}
    
    {:p [#"^([^' ]+)issons$"    "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1issons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :1st}}}}
 
    {:p [#"^([^' ]+)issez$"     "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1issez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)issent$"    "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1issent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :3rd}}}}
    ]))
 
 (def present-nonreflexive-re-verb
   (map
    #(merge %
-           {:u (unify agr
-                      (:u %))})
+           {:u (unify (:u %)
+                      {:synsem {:infl :present}})})
   [
    {:p [#"^([^' ]+)$"          "$1re"]
     :g [#"^([^' ]+)re$"        "$1"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :1st}}}}
 
    {:p [#"^([^' ]+)s$"        "$1re"]
     :g [#"^([^' ]+)re$"       "$1s"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)$"         "$1re"]
     :g [#"^([^' ]+)re$"       "$1"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :3rd}}}}
 
    ;; e.g. apprendre => apprenons
    {:p [#"^([^' ]+)ons$"      "$1dre"]
     :g [#"^([^' ]+)dre$"      "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :1st}}}}
 
    {:p [#"^([^' ]+)ez$"       "$1dre"]
     :g [#"^([^' ]+)dre$"      "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :2nd}}}}
 
    {:p [#"^([^' ]+)nent$"     "$1dre"]
     :g [#"^([^' ]+)dre$"      "$1nent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
-]))
+    :u {:synsem {:agr {:number :plur
+                       :person :3rd}}}}]))
 
 (def present-reflexive-re-verb
   (map
    #(merge %
-           {:u (unify agr
-                      (:u %))})
+           {:u (unify (:u %)
+                      {:synsem {:infl :present}})})
    [
     {:p [#"^([^' ]+)s$"       "se $1dre"]
      :g [#"^se ([^' ]+)dre$"  "$1s"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     
     {:p [#"^([^' ]+)s$"       "se $1dre"]
      :g [#"^se ([^' ]+)dre$"  "$1s"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
 
     {:p [#"^([^' ]+)t$"       "se $1dre"]
      :g [#"^se ([^' ]+)dre$"  "$1t"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     
     ;; e.g. se plaindre => se plaindrons
     {:p [#"^([^' ]+)gnons$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "se $1gnons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     
     {:p [#"^([^' ]+)gniez$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "$1gnez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}
-                  :infl :present}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     
     {:p [#"^([^' ]+)gnent$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "$1gnent"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}
-                  :infl :present}}}]))
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}]))
 
 (def present-reflexive
   ;; reflexive present -er and -ir type verbs
   (map
    #(merge %
-           {:u (unify agr
+           {:u (unify {:synsem {:infl :present}}
                       (:u %))})
   [
    {:comment "present reflexive 1st person singular, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)e$"    "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :1st}}}}
 
    {:comment "present reflexive 2nd person singular, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)es$"   "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :2nd}}}}
 
    {:comment "present reflexive 3rd person singular, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)e$"    "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :3rd}}}}
 
    {:comment "present reflexive 1st person plural, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)ons$"  "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :1st}}}}
 
    {:comment "present reflexive 2nd person plural, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)ez$"   "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :2nd}}}}
 
    {:comment "present reflexive 3rd person plural, stem begins with a vowel"
     :p [#"^([aeéiou]\S+)ent$"  "s'$1er"]
     :g [#"^s'(\S+)[ie]r$"      "$1ent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :3rd}}}}
   
    {:comment "present reflexive 1st person singular, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)e$"   "se $1er"]
     :g [#"^se ([^aeéiou]\S+)er$"   "$1e"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :1st}}}}
 
    {:comment "present reflexive 2nd person singular, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)es$"  "se $1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :2nd}}}}
   
    {:comment "present reflexive 3rd person singular, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)e$"   "se $1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1es"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :3rd}}}}
 
    {:comment "present reflexive 1st person plural, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)ons$" "s'$1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1ons"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :1st}}}}
 
    {:comment "present reflexive 2nd person plural, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)ez$"  "s'$1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1ez"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
-                 :infl :present}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :2nd}}}}
 
    {:comment "present reflexive 3rd person plural, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)ent$" "s'$1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1ent"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
-                 :infl :present}}}]))
+    :u {:synsem {:agr {:number :plur
+                       :person :3rd}}}}]))
 
 (def past-reflexive
   (map
@@ -356,39 +318,39 @@
   [
    {:p [#"^([^' ]+)t$"       "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1t"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :1st}
                  :infl :past-p}}}
-
+  
    {:p [#"^([^' ]+)t$"       "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1t"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :2nd}
                  :infl :past-p}}}
 
    {:p [#"^([^' ]+)ts$"      "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1ts"]
-    :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}
+    :u {:synsem {:agr {:number :sing
+                       :person :3rd}
                  :infl :past-p}}}
 
    ;; e.g. se plaindre => se plaindrons
    {:p [#"^([^' ]+)ts$"      "se $1dre"]
     :g [#"^se ([^' ]+)ndre$" "se $1ts"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :1st}
                  :infl :past-p}}}
 
    {:p [#"^([^' ]+)ts$"   "se $1ndre"]
     :g [#"^se ([^' ]+)ndre$" "$1ts"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :2nd}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :2nd}
                  :infl :past-p}}}
 
    {:p [#"^([^' ]+)ts$"   "se $1ndre"]
     :g [#"^se ([^' ]+)ndre$" "$1ts"]
-    :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}
+    :u {:synsem {:agr {:number :plur
+                       :person :3rd}
                  :infl :past-p}}}
 ]))
 
@@ -676,154 +638,153 @@
    [
     {:p [#"^(\S+)ai$"     "$1"]
      :g [#"^(\S+)$"       "$1ai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)ai$"     "s'$1"]
      :g [#"^s'(\S+)$"     "$1ai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)ai$"     "se $1"]
      :g [#"^se (\S+)$"    "$1ai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)as$"     "$1"]
      :g [#"^(\S+)$"       "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)as$"     "s'$1"]
      :g [#"^s'(\S+)$"     "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)as$"     "se $1"]
      :g [#"^se (\S+)$"    "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)rai$"    "$1re"]
      :g [#"^(\S+)$"       "$1ai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)rai$"    "s'$1re"]
      :g [#"^s'(\S+)$"     "$1ai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)rai$"    "se $1re"]
      :g [#"^se (\S+)re$"  "$1rai"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
     {:p [#"^(\S+)ras$"    "$1re"]
      :g [#"^(\S+)re$"     "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)ras$"    "s'$1re"]
      :g [#"^s'(\S+)re$"   "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)ras$"    "se $1re"]
      :g [#"^se (\S+)$"    "$1as"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)a$"      "$1"]
      :g [#"^(\S+)$"       "$1a"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)a$"      "s'$1"]
      :g [#"^s'(\S+)$"     "$1a"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)a$"      "se $1"]
      :g [#"^se (\S+)$"    "$1a"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)ra$"     "$1re"]
      :g [#"^(\S+)re$"     "$1ra"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)ra$"     "s'$1re"]
      :g [#"^s'(\S+)$"     "$1ra"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)ra$"     "se $1re"]
      :g [#"^se (\S+)$"    "$1a"]
-     :u {:synsem {:subcat {:1 {:agr {:number :sing
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)ons$"    "$1"]
      :g [#"^(\S+)$"       "$1ons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)ons$"    "s'$1"]
      :g [#"^s' (\S+)$"    "$1ons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)ons$"    "se $1"]
      :g [#"^se (\S+)$"    "$1ons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)rons$"   "$1re"]
      :g [#"^(\S+)re$"     "$1rons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)rons$"   "s'$1re"]
      :g [#"^s'(\S+)$"     "$1ons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)rons$"   "se $1re"]
      :g [#"^se (\S+)$"    "$1rons"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :1st}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
     {:p [#"^(\S+)ez$"     "$1"]
      :g [#"^(\S+)$"       "$1ez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)ez$"     "s'$1"]
      :g [#"^s'(\S+)$"     "$1ez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)ez$"     "se $1"]
      :g [#"^se (\S+)$"    "$1ez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)rez$"    "$1re"]
      :g [#"^(\S+)re$"     "$1rez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)rez$"    "s'$1re"]
      :g [#"^s'(\S+)re$"   "$1rez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)rez$"    "se $1re"]
      :g [#"^se (\S+)re$"  "$1rez"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :2nd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
     {:p [#"^(\S+)ont$"    "$1"]
      :g [#"^(\S+)$"       "$1ont"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     {:p [#"^(\S+)ont$"    "s'$1"]
      :g [#"^s'(\S+)$"     "$1ont"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     {:p [#"^(\S+)ont$"    "se $1"]
      :g [#"^se (\S+)$"    "$1ont"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     {:p [#"^(\S+)ront$"   "$1re"]
      :g [#"^(\S+)re$"     "$1ront"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     {:p [#"^(\S+)ront$"   "s'$1re"]
      :g [#"^s'(\S+)re$"   "$1ont"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     {:p [#"^(\S+)ront$"   "se $1re"]
      :g [#"^se (\S+)re$"  "$1ront"]
-     :u {:synsem {:subcat {:1 {:agr {:number :plur
-                                     :person :3rd}}}}}}
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
     ]))
 
 (def regular-patterns-source
   (apply concat
-         [
-          conditional
+         [conditional
           past
           past-reflexive
           present-nonreflexive-er-verb

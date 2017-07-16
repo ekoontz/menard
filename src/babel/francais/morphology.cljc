@@ -147,7 +147,7 @@
                                         (not (nil? path))
                                         (get-in lookup-spec path)
                                         
-                                        true (surface-fn lookup-spec))))
+                                        true (throw (Exception. (str "problem with irregular pattern:" %))))))
                              verbs/irregular-conjugations))
                 
                 regulars

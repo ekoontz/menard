@@ -135,10 +135,20 @@
                 
                 exceptional-surface-forms
                 (remove nil?
-                        (map #(let [{surface-fn :surface-fn
+                        (map #(let [{path :path
+                                     prefix :prefix
+                                     suffix :suffix
+                                     surface-fn :surface-fn
                                      unify-with :unify-with} %]
                                 (if (not (= :fail (unify unify-with lookup-spec)))
-                                  (surface-fn lookup-spec)))
+                                  (cond (and (not (nil? prefix))
+                                             (not (nil? suffix)))
+                                        (str (get-in lookup-spec [:français prefix]) suffix)
+
+                                        (not (nil? path))
+                                        (get-in lookup-spec path)
+                                        
+                                        true (surface-fn lookup-spec))))
                              verbs/irregular-conjugations))
                 
                 regulars

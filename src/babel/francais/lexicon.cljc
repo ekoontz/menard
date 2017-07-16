@@ -62,8 +62,10 @@
         (apply merge-with concat
                [exceptions lexicon]))))
 
-   ;; set {<tense> {:regular true}} otherwise for
-   ;; <tense> is any of {:present,:future,:imperfect}.
+   (if-has [:français :future-stem] :top
+           {:français {:future {:stem true}
+                       :conditional {:stem true}}})
+   (default {:français {:conditional :regular}})
    (default {:français {:future :regular}})
    (default {:synsem {:cat :verb}
              :français {:future {:1sing :top

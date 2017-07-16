@@ -913,7 +913,56 @@
                   :agr {:number :plur
                         :person :3rd}}})}
 
-   ;; 3. imperfect-tense exceptions
+   ;; 3. conditional tense exceptions
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :conjugated true                   
+                  :français (get-in val [:français :future-stem] "ais")
+                  :agr {:number :sing
+                        :person :1st}}})}
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :conjugated true                   
+                  :français (get-in val [:français :future-stem] "ais")
+                  :agr {:number :sing
+                        :person :2nd}}})}
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :conjugated true                   
+                  :français (get-in val [:français :future-stem] "ait")
+                  :agr {:number :sing
+                        :person :3rd}}})}
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "ions")
+                  :agr {:number :plur
+                        :person :1st}}})}
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "iez")
+                  :conjugated true                   
+                  :agr {:number :plur
+                        :person :2nd}}})}
+   {:path [:français :future-stem]
+    :merge-fn
+    (fn [val]
+      {:français {:infl :future
+                  :français (get-in val [:français :future-stem] "aient")
+                  :conjugated true                   
+                  :agr {:number :plur
+                        :person :3rd}}})}
+
+   ;; 4. future-tense exceptions
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
@@ -962,6 +1011,7 @@
                   :agr {:number :plur
                         :person :3rd}}})}
 
+   ;; 5. imperfect tense
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
@@ -1130,7 +1180,45 @@
 
 (def irregular-conjugations
   (concat
-   [{:prefix :future-stem :suffix "ai"
+   [;; conditional
+    {:prefix :future-stem :suffix "ais"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :sing}
+                           :infl :conditional}
+                  :français {:conditional {:stem true}}}}
+    {:prefix :future-stem :suffix "ais"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :sing}
+                           :infl :conditional}
+                  :français {:conditional {:stem true}}}}
+    {:prefix :future-stem :suffix "ait"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :sing}
+                           :infl :imperfect}
+                  :français {:conditional {:stem true}}}}
+    {:prefix :future-stem :suffix "ions"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :1st
+                                 :number :plur}
+                           :infl :conditional}
+                  :français {:conditional {:stem true}}}}
+    {:prefix :future-stem :suffix "iez"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :2nd
+                                 :number :plur}
+                           :infl :conditional}
+                  :français {:conditional {:stem true}}}}
+    {:prefix :future-stem :suffix "aient"
+     :unify-with {:synsem {:cat :verb
+                           :agr {:person :3rd
+                                 :number :plur}
+                           :infl :conditional}
+                  :français {:conditional {:stem true}}}}
+    ;; future
+    {:prefix :future-stem :suffix "ai"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
                                  :number :sing}
@@ -1164,9 +1252,10 @@
      :unify-with {:synsem {:cat :verb
                            :agr {:person :3rd
                                  :number :plur}
-                           :infl :imperfect}
-                  :français {:imperfect {:stem true}}}}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
 
+    ;; imperfect
     {:prefix :imperfect-stem :suffix "ais"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st

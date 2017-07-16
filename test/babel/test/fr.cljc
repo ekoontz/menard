@@ -98,10 +98,17 @@
                          :model (small))]
     (is (= "nous buvons" (fo result)))))
 
-(deftest generate-conditional
+(deftest generate-irregular-conditional
   (let [result (generate {:synsem {:subcat '()
-                                   :sem {:pred :sleep
-                                         :subj {:pred :I}
+                                   :sem {:subj {:pred :I}
+                                         :tense :conditional}}
+                          :root {:français {:français "aller"}}}
+                         :model (small))]
+    (is (= "j'irais" (fo result)))))
+
+(deftest generate-regular-conditional
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :I}
                                          :tense :conditional}}}
                          :model (small))]
     (is (= "je dormirais" (fo result)))))
@@ -382,7 +389,7 @@
                               :infl :future
                               :agr {:number :plur
                                     :person :3rd}}}))))
-(deftest conjugate-future-stem
+(deftest conjugate-irregular-future
   (is (= "irez"
          (conjugate "aller"
                     {:français {:future-stem "ir"}
@@ -390,6 +397,15 @@
                               :infl :future
                               :agr {:number :plur
                                     :person :2nd}}}))))
+
+(deftest conjugate-irregular-conditional
+  (is (= "iraient"
+         (conjugate "aller"
+                    {:français {:future-stem "ir"}
+                     :synsem {:cat :verb
+                              :infl :conditional
+                              :agr {:number :plur
+                                    :person :3rd}}}))))
 
 (deftest analyze-aller
   (is (not (empty? (analyze "aller" (:lexicon (small)))))))

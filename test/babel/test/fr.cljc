@@ -109,7 +109,8 @@
 (deftest generate-regular-conditional
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:subj {:pred :I}
-                                         :tense :conditional}}}
+                                         :tense :conditional}}
+                          :root {:français {:français "dormir"}}}
                          :model (small))]
     (is (= "je dormirais" (fo result)))))
 

@@ -8,6 +8,8 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
+;; TODO: imperfect ({:synsem {:infl :imperfect, :sem {:aspect :progressive, :tense :past}}})
+
 ;; TODO: convert to (babel.morphology/conjugation)
 ;; (see babel.latin.morphology for an example of how to use babel.morphology/conjugation)
 (def present-nonreflexive-er-verb

@@ -245,16 +245,19 @@
       tree))
 
 (defn get-lexemes [model spec]
-  (if (= false (get-in spec [:phrasal] false))
-    (filter not-fail?
-            (map #(unify-and-log % spec model)
-                 (if-let [index-fn (:index-fn model)]
-                   (lazy-seq (index-fn spec))
-                   (do
-                     (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-                     (flatten (vals
-                               (or (:lexicon (:generate model)) (:lexicon model))))))))))
+  "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."
+  (->>
 
+   (if (= false (get-in spec [:phrasal] false))
+     (if-let [index-fn (:index-fn model)]
+       (lazy-seq (index-fn spec))
+       (do
+         (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+         (flatten (vals
+                   (or (:lexicon (:generate model)) (:lexicon model)))))))
+   
+   (map #(unify % spec))
+   (filter #(not (= :fail %)))))
 
 (defn lexemes-before-phrases
   "returns true or false: true means generate by adding lexemes first;

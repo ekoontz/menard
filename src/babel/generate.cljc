@@ -45,7 +45,6 @@
 (declare show-bolt)
 (declare spec-info)
 (declare unify-and-log)
-
 ;; TODO: demote 'depth' and 'max-depth' down to lower-level functions.
 (defn generate-all [spec model & [depth max-depth]]
   (let [depth (or depth 0)
@@ -55,18 +54,25 @@
     (->>
      (lightning-bolts model spec depth max-depth)
 
+     ;; 2. debug logging.
      (map (fn [bolt]
             (do (log/debug (str "bolt:" (show-bolt bolt model)))
                 bolt)))
-     
-     ;; For each bolt, create a map. This map is from paths in a bolt
-     ;; to possible complements at that path for that bolt.
+
+     ;; 3. For each bolt, create a map:
+     ;;
+     ;; P1 => C1_1,C1_2,C1_3,..
+     ;; P2 => C2_1,C2_2,C2_3,..
+     ;; ..
+     ;; from paths P to complements C at that path in the bolt.
      (map (fn [bolt]
             (let [paths (find-comp-paths bolt)]
               {:bolt bolt
                :paths paths
                :comps (map #(comp-path-to-complements bolt % model depth max-depth) paths)})))
+
      
+     ;; 4. Create all the possibilities of all complements at all paths within each bolt.
      (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
                ;; TODO: further flatten this into the overall ->> pipeline
                (map (fn [each-path-through-trellis]
@@ -74,30 +80,35 @@
                        :paths paths
                        :trellis each-path-through-trellis})
                     (lazy-seq (apply combo/cartesian-product comps)))))
-     
+
+     ;; 5. ...
      (map (fn [{bolt :bolt paths :paths trellis :trellis}]
             (cons bolt
                   ;; TODO: further flatten this into the overall ->> pipeline
                   (map (fn [[path trellis]]
-                         (create-path-in path trellis))
+                         (assoc-in {} path trellis))
                        (zipmap paths trellis)))))
 
      (remove (fn [tree-parts]
                (some #(= :fail %) tree-parts)))
-     
+
+     ;; 7. Combine each set of tree parts into a tree.
      (map (fn [tree-parts]
             (reduce (fn [a b]
                       (unify-and-log a b model))
                     tree-parts)))
 
      (remove #(= :fail %))
-     
-     (map #(do-defaults % model)) ;; for each tree, run model defaults.
-     
+
+     ;; 9. Apply model's defaults, if any, to each tree.
+     (map #(do-defaults % model))
+
+     ;; 10. If desired, truncate trees to just a root node with no children, for efficiency of future processing.
      (map #(if (= true truncate)
              (dag_unify.core/strip-refs (dissoc-paths % [[:head][:comp]]))
              %))
-     
+
+     ;; 11. Remove fails once more. (TODO: consider whether this can be removed)
      (remove #(= :fail %)))))
 
 (def expensive-logging false)

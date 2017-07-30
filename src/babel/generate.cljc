@@ -52,6 +52,23 @@
         max-depth (or max-depth max-total-depth)]
     (log/debug (str "generate-all:" depth "/" max-depth ":" (spec-info spec)))
     (->>
+
+     ;; 1. Generate 'lightning bolts':
+     ;; 
+     ;; 
+     ;;   H        H    H
+     ;;    \      /      \
+     ;;     H    H        H        ...
+     ;;    /      \        \
+     ;;   H       ..        ..
+     ;;    \
+     ;;     ..
+     ;; 
+     ;; Each bolt is a tree with only one child per parent: the head child.
+     ;; Each head child may be a leaf or
+     ;; otherwise has a child with the same two options (leaf or a head child),
+     ;; up to the maximum depth.
+     ;; Complements get filled in later, at step 3.
      (lightning-bolts model spec depth max-depth)
 
      ;; 2. debug logging.
@@ -89,6 +106,7 @@
                          (assoc-in {} path trellis))
                        (zipmap paths trellis)))))
 
+     ;; 6. Remove fails. (TODO: consider whether this can be removed)
      (remove (fn [tree-parts]
                (some #(= :fail %) tree-parts)))
 
@@ -98,6 +116,7 @@
                       (unify-and-log a b model))
                     tree-parts)))
 
+     ;; 8. Remove fails again. (TODO: consider whether this can be removed)
      (remove #(= :fail %))
 
      ;; 9. Apply model's defaults, if any, to each tree.

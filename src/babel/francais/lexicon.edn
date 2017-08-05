@@ -1,28 +1,28 @@
 {"abandoner" {:synsem {:cat :verb
                        :sem {:pred :abandon}}}
- 
- "abîmeer" {:synsem {:cat :verb
+
+ "abîmer" {:synsem {:cat :verb
                      :sem {:pred :damage}}}
- 
+
  "accepter" {:synsem {:cat :verb
                       :sem {:pred :accept}}}
- 
+
  "accompagner" {:synsem {:cat :verb
                          :sem {:pred :accompany}}}
- 
+
  "acheter" {:synsem {:cat :verb
                      :sem {:subj {:human true}
                            :pred :buy}}}
- 
+
  "aider" {:synsem {:cat :verb
                    :sem {:pred :help}}}
- 
+
  "aimer" {:synsem {:cat :verb
                    :sem {:pred :amare
                          :subj {:human true}}}}
  "ajouter" {:synsem {:cat :verb
                      :sem {:pred :add}}}
- 
+
  "aller" {:français {:future-stem "ir"
                      :present {:1sing "vais"
                                :2sing "vas"
@@ -34,33 +34,33 @@
                    :essere true
                    :sem {:subj {:animate true}
                          :pred :go}}}
- 
+
  "annoncer" {:synsem {:cat :verb
                       :sem {:pred :announce}}}
- 
+
  "appeler" {:français {:boot-stem "appell"
                        :future-stem "appell"}
             :synsem {:cat :verb
                      :sem {:pred :call}}}
- 
+
  "apporter" [{:synsem {:cat :verb
                        :sem {:pred :take}}}
              {:synsem {:cat :verb
                        :sem {:pred :carry}}}]
- 
+
  ;;  CONJUGATES LIKE TENIR
  "apprendre" {:français {:past-participle "appris"}
               :synsem {:cat :verb
                        :sem {:pred :learn}}}
- 
+
  "assurer" [{:synsem {:cat :verb
                       :sem {:pred :assure}}}
             {:synsem {:cat :verb
                       :sem {:pred :insure}}}]
- 
+
  "attendre" {:synsem {:cat :verb
                       :sem {:pred :wait-for}}}
- 
+
  "augmenter" {:synsem {:cat :verb
                          :sem {:pred :increase}}}
  "avoir"
@@ -86,40 +86,40 @@
 
  "baisser" {:synsem {:cat :verb
                      :sem {:pred :lower}}}
- 
+
  "boire" {:français {:past-participle "bu"
                      :boot-stem1 "boi"
                      :boot-stem2 "buv"}
           :synsem {:cat :verb
                    :sem {:pred :drink}}}
- 
+
  "changer" {:synsem {:cat :verb
                      :sem {:pred :change}}}
- 
+
  "chanter" {:synsem {:cat :verb
                      :sem {:pred :sing}}}
- 
+
  "commencer" {:synsem {:cat :verb
                        :sem {:pred :begin}}}
- 
+
  "commenter" {:synsem {:cat :verb
                        :sem {:pred :comment}}}
- 
+
  "comprendre" {:synsem {:cat :verb
                         :past-participle "compris"
                         :sem {:pred :understand}}}
- 
+
  "conserver" [{:synsem {:cat :verb
                         :sem {:pred :conserve}}}
               {:synsem {:cat :verb
                         :sem {:pred :preserve}}}]
- 
+
  "considérer" {:synsem {:cat :verb
                         :sem {:pred :consider}}}
 
  "couper" {:synsem {:cat :verb
                     :sem {:pred :cut}}}
- 
+
  ;; With 'courir', *everything* is an exception:
  ;; TODO: this can probably be done better via
  ;; morphology (francais/morphology/verbs.clj).
@@ -151,23 +151,23 @@
                                      :3plur "courraient"}}
            :synsem {:cat :verb
                     :sem {:pred :run}}}
- 
+
  "créer" {:synsem {:cat :verb
                    :sem {:pred :create}}}
- 
+
  "croire" {:synsem {:cat :verb
                     :sem {:pred :believe}}}
- 
+
  "danser" {:synsem {:cat :verb
                     :sem {:pred :dance}}}
- 
+
  "decider" {:synsem {:cat :verb
                      :sem {:pred :decide}}}
- 
+
  "demander" {:synsem {:cat :verb
                       :sem {:pred :ask-for}}}
- 
- 
+
+
  "developer" {:synsem {:cat :verb
                        :sem {:pred :develop}}}
  "devoir"
@@ -187,10 +187,10 @@
    {:unify [common]
     :synsem {:sem {:pred :have-to
                    :subj {:human true}}}})
- 
+
  "désirer" {:synsem {:cat :verb
                      :sem {:pred :desire}}}
- 
+
  "devenir"
  (let [common
          {:synsem {:essere true
@@ -208,8 +208,8 @@
    [{:unify [common]
      :synsem {:sem {:pred :become
                     :subj {:human true}}}}])
- 
- 
+
+
    "dire"
    (let [shared-part-of-dire
          {:synsem {:cat :verb}
@@ -470,7 +470,7 @@
                   :agr {:number :sing
                         :person :3rd
                         :gender :masc}}}
- 
+
    "la" {:synsem {:cat :noun
                   :pronoun true
                   :reflexive true
@@ -584,7 +584,7 @@
                        :imperfect-stem "peign"}
             :synsem {:cat :verb
                      :sem {:pred :paint}}}
- 
+
    "profiter (de)" {:synsem {:cat :verb
                              :sem {:pred :take-advantage-of}}}
 

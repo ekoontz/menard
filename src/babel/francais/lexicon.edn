@@ -392,39 +392,43 @@
          {:unify [shared-part-of-faire]
           :synsem {:sem {:pred :make}}}])
 
-   "former" {:synsem {:cat :verb
-                     :sem {:pred :form}}}
+ "finir" {:synsem {:cat :verb
+                    :sem {:pred :finish}}
+          :français {:imperfect-stem "finiss"}}
 
-   "gagner" [{:synsem {:cat :verb
-                       :sem {:pred :earn
-                             :subj {:human true}}}}
-             {:synsem {:cat :verb
-                       :sem {:pred :win
-                             :subj {:human true}}}}]
-
-   "gérer" {:synsem {:cat :verb
-                     :sem {:pred :manage}}}
-   "il"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :number :sing
-                    :gender :masc}
-              :sem {:human true
-                    :pred :lui}
-              :subcat
-              '()}}
-    {:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :number :sing
-                    :gender :masc}
-              :sem {:human false
-                    :pred :lui}
-              :subcat
-              '()}}]
+ "former" {:synsem {:cat :verb
+                    :sem {:pred :form}}}
+ 
+ "gagner" [{:synsem {:cat :verb
+                     :sem {:pred :earn
+                           :subj {:human true}}}}
+           {:synsem {:cat :verb
+                     :sem {:pred :win
+                           :subj {:human true}}}}]
+ 
+ "gérer" {:synsem {:cat :verb
+                   :sem {:pred :manage}}}
+ "il"
+ [{:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :3rd
+                  :number :sing
+                  :gender :masc}
+            :sem {:human true
+                  :pred :lui}
+            :subcat
+            '()}}
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :3rd
+                  :number :sing
+                  :gender :masc}
+            :sem {:human false
+                  :pred :lui}
+            :subcat
+            '()}}]
 
     "ils"
     {:synsem {:cat :noun

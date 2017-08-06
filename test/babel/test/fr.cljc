@@ -285,19 +285,19 @@
                                          :tense :past
                                          :aspect :progressive}}}
                          :model (small))]
-    (is (= :imperfect (get-in result [:head :synsem :infl])))
+    (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "j'étudiais" (fo result)))))
 
 (deftest generate-imparfait-regular-ir
-  (let [result (generate {:head {:agr {:gender :masc}}
-                          :synsem {:subcat '()
+  (let [result (generate {:synsem {:subcat '()
+                                   :agr {:gender :masc}
                                    :sem {:pred :sleep
-                                         :subj {:pred :loro}
+                                         :subj {:pred :loro
+                                                :gender :masc}
                                          :tense :past
                                          :aspect :progressive}}}
                          :model (small))]
-    (is (= :imperfect (get-in result [:head :synsem :infl])))
-    (is (= :masc (get-in result [:head :français :agr :gender])))
+    (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "ils dormaient" (fo result)))))
 
 (deftest generate-imparfait-regular-re
@@ -307,8 +307,7 @@
                                          :tense :past
                                          :aspect :progressive}}}
                          :model (small))]
-    (is (= :imperfect (get-in result [:head :synsem :infl])))
-    (is (= :masc (get-in result [:head :français :agr :gender])))
+    (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "vous vendiez" (fo result)))))
 
 (deftest generate-imparfait-finir

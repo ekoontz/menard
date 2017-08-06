@@ -123,9 +123,8 @@
                                   {:synsem {:sem {:aspect :progressive
                                                   :tense :present}}}
 
-                                  ;; TODO: imperfetto
-                                  ;;{:synsem {:sem {:aspect :progressive
-                                  ;; :tense :past}}}
+                                  {:synsem {:sem {:aspect :progressive
+                                                  :tense :past}}}
 
                                   {:synsem {:sem {:aspect :perfect
                                                   :tense :past}}})))))

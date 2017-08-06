@@ -535,6 +535,92 @@
    ]
   ))
 
+(def imperfect
+  (map
+   #(merge %
+           {:u (unify {:synsem {:infl :imperfect
+                                :cat :verb}}
+                      (:u %))})
+   [
+    ;; -er
+    {:p [#"^(\S+)ais$"       "$1er"]
+     :g [#"^([^' ]+)er$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
+    {:p [#"^(\S+)ais$"       "$1er"]
+     :g [#"^([^' ]+)er$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
+    {:p [#"^(\S+)ait$"       "$1er"]
+     :g [#"^([^' ]+)er$"     "$1ait"]
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
+    {:p [#"^(\S+)ions$"      "$1er"]
+     :g [#"^([^' ]+)er$"     "$1ions"]
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
+    {:p [#"^(\S+)iez$"       "$1er"]
+     :g [#"^([^' ]+)er$"     "$1iez"]
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
+    {:p [#"^(\S+)aient$"       "$1er"]
+     :g [#"^([^' ]+)er$"     "$1aient"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+
+    ;; -ir
+    {:p [#"^(\S+)ais$"       "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
+    {:p [#"^(\S+)ais$"       "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
+    {:p [#"^(\S+)ait$"       "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1ait"]
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
+    {:p [#"^(\S+)ions$"      "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1ions"]
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
+    {:p [#"^(\S+)iez$"       "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1iez"]
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
+    {:p [#"^(\S+)aient$"       "$1ir"]
+     :g [#"^([^' ]+)ir$"     "$1aient"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+    ;; -re
+    {:p [#"^(\S+)ais$"       "$1re"]
+     :g [#"^([^' ]+)re$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
+    {:p [#"^(\S+)ais$"       "$1re"]
+     :g [#"^([^' ]+)re$"     "$1ais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
+    {:p [#"^(\S+)ait$"       "$1re"]
+     :g [#"^([^' ]+)re$"     "$1ait"]
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
+    {:p [#"^(\S+)ions$"      "$1re"]
+     :g [#"^([^' ]+)re$"     "$1ions"]
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
+    {:p [#"^(\S+)iez$"       "$1re"]
+     :g [#"^([^' ]+)re$"     "$1iez"]
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
+    {:p [#"^(\S+)aient$"       "$1re"]
+     :g [#"^([^' ]+)re$"     "$1aient"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+
+    ]))
+
 (def future
   (map
    #(merge %
@@ -691,6 +777,7 @@
 (def regular-patterns-source
   (apply concat
          [conditional
+          imperfect
           past
           past-reflexive
           present-nonreflexive-er-verb

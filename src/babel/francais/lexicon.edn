@@ -909,7 +909,9 @@
       :synsem {:agr {:gender :fem}}}
      {:unify [common]
       :synsem {:agr {:gender :masc}}}])
-
+ 
+ "vendre" {:synsem {:cat :verb
+                    :sem {:pred :sell}}}
   "venir"
    (let [common
          {:synsem {:essere true

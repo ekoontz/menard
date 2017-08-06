@@ -527,20 +527,18 @@
 
                      :sem {:pred :put}}}
 
-  "naître" {:synsem {:cat :verb
-                     :future-stem "naîtr"
-                     :imperfect-stem "naiss"
-                     :passato "né"
-                     :present {:1sing "nais"
-                               :2sing "nais"
-                               :3sing "naît"
-                               :1plur "naissons"
-                               :2plur "naissez"
-                               :3plur "naissent"}
-
-                     :sem {:pred :be-born}}}
-
-  "nous"
+ "naître" {:synsem {:cat :verb
+                    :sem {:pred :be-born}}
+           :français {:future-stem "naîtr"
+                      :imperfect-stem "naiss"
+                      :passato "né"
+                      :present {:1sing "nais"
+                                :2sing "nais"
+                                :3sing "naît"
+                                :1plur "naissons"
+                                :2plur "naissez"
+                                :3plur "naissent"}}}
+ "nous"
  (let [common {:gender-pronoun-agreement true
                :synsem {:case :top
                         :cat :noun

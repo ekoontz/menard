@@ -528,6 +528,7 @@
                      :sem {:pred :put}}}
 
   "naître" {:synsem {:cat :verb
+                     :essere true
                      :future-stem "naîtr"
                      :imperfect-stem "naiss"
                      :passato "né"

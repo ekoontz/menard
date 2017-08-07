@@ -392,39 +392,43 @@
          {:unify [shared-part-of-faire]
           :synsem {:sem {:pred :make}}}])
 
-   "former" {:synsem {:cat :verb
-                     :sem {:pred :form}}}
+ "finir" {:synsem {:cat :verb
+                    :sem {:pred :finish}}
+          :français {:imperfect-stem "finiss"}}
 
-   "gagner" [{:synsem {:cat :verb
-                       :sem {:pred :earn
-                             :subj {:human true}}}}
-             {:synsem {:cat :verb
-                       :sem {:pred :win
-                             :subj {:human true}}}}]
-
-   "gérer" {:synsem {:cat :verb
-                     :sem {:pred :manage}}}
-   "il"
-   [{:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :number :sing
-                    :gender :masc}
-              :sem {:human true
-                    :pred :lui}
-              :subcat
-              '()}}
-    {:synsem {:cat :noun
-              :pronoun true
-              :case :nom
-              :agr {:person :3rd
-                    :number :sing
-                    :gender :masc}
-              :sem {:human false
-                    :pred :lui}
-              :subcat
-              '()}}]
+ "former" {:synsem {:cat :verb
+                    :sem {:pred :form}}}
+ 
+ "gagner" [{:synsem {:cat :verb
+                     :sem {:pred :earn
+                           :subj {:human true}}}}
+           {:synsem {:cat :verb
+                     :sem {:pred :win
+                           :subj {:human true}}}}]
+ 
+ "gérer" {:synsem {:cat :verb
+                   :sem {:pred :manage}}}
+ "il"
+ [{:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :3rd
+                  :number :sing
+                  :gender :masc}
+            :sem {:human true
+                  :pred :lui}
+            :subcat
+            '()}}
+  {:synsem {:cat :noun
+            :pronoun true
+            :case :nom
+            :agr {:person :3rd
+                  :number :sing
+                  :gender :masc}
+            :sem {:human false
+                  :pred :lui}
+            :subcat
+            '()}}]
 
     "ils"
     {:synsem {:cat :noun
@@ -527,6 +531,7 @@
 
                      :sem {:pred :put}}}
 
+<<<<<<< HEAD
   "naître" {:synsem {:cat :verb
                      :essere true
                      :future-stem "naîtr"
@@ -542,6 +547,20 @@
                      :sem {:pred :be-born}}}
 
   "nous"
+=======
+ "naître" {:synsem {:cat :verb
+                    :sem {:pred :be-born}}
+           :français {:future-stem "naîtr"
+                      :imperfect-stem "naiss"
+                      :passato "né"
+                      :present {:1sing "nais"
+                                :2sing "nais"
+                                :3sing "naît"
+                                :1plur "naissons"
+                                :2plur "naissez"
+                                :3plur "naissent"}}}
+ "nous"
+>>>>>>> origin/master
  (let [common {:gender-pronoun-agreement true
                :synsem {:case :top
                         :cat :noun
@@ -908,7 +927,9 @@
       :synsem {:agr {:gender :fem}}}
      {:unify [common]
       :synsem {:agr {:gender :masc}}}])
-
+ 
+ "vendre" {:synsem {:cat :verb
+                    :sem {:pred :sell}}}
   "venir"
    (let [common
          {:synsem {:essere true

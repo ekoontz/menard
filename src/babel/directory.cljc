@@ -13,8 +13,48 @@
 
 ;; TODO: understand promises, futures, (deliver), etc, better: this code is susceptible to
 ;; race conditions when used with pmap (e.g. with generate)
-;; TODO: make finer-grained distinction between things that are slow to load (lexicon and indices)
-;; vs fast to load: e.g. simple constant values and simple maps of the same.
+
+
+(def models2
+;; make finer-grained distinction between things that are slow to load (lexicon and indices)
+  ;; vs fast to load: e.g. simple constant values and simple maps of the same.
+  (let [en (promise)
+        es (promise)
+        fr (promise)
+        la (promise)
+        it (promise)]
+    {:en (fn []
+           (if (realized? en)
+             en
+             (deliver en {})))
+     :es (fn []
+           (if (realized? es)
+             es
+             (deliver es
+                      (let [model {}]
+                        (conj model
+                              {:tenses babel.espanol.grammar/tenses})))))
+     :fr (fn []
+           (if (realized? fr)
+             fr
+             (deliver fr
+                      (let [model {}]
+                        (conj model
+                              {:tenses babel.francais.grammar/tenses})))))
+     :la (fn []
+           (if (realized? la)
+             la
+             (deliver la
+                      (let [model {}]
+                        (conj model)))))
+     :it (fn []
+           (if (realized? it)
+             it
+             (deliver it
+                      (let [model {}]
+                        (conj model
+                              {:tenses babel.italiano.grammar/tenses})))))}))
+
 (def models
   (let [en (promise)
         es (promise)

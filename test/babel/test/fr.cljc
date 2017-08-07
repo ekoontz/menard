@@ -278,6 +278,47 @@
                          :model (small))]
     (is (= "je suis" (fo result)))))
 
+(deftest generate-imparfait-regular-er
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :study
+                                         :subj {:pred :I}
+                                         :tense :past
+                                         :aspect :progressive}}}
+                         :model (small))]
+    (is (= :imperfect (get-in result [:synsem :infl])))
+    (is (= "j'étudiais" (fo result)))))
+
+(deftest generate-imparfait-regular-ir
+  (let [result (generate {:synsem {:subcat '()
+                                   :agr {:gender :masc}
+                                   :sem {:pred :sleep
+                                         :subj {:pred :loro
+                                                :gender :masc}
+                                         :tense :past
+                                         :aspect :progressive}}}
+                         :model (small))]
+    (is (= :imperfect (get-in result [:synsem :infl])))
+    (is (= "ils dormaient" (fo result)))))
+
+(deftest generate-imparfait-regular-re
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :sell
+                                         :subj {:pred :voi}
+                                         :tense :past
+                                         :aspect :progressive}}}
+                         :model (small))]
+    (is (= :imperfect (get-in result [:synsem :infl])))
+    (is (= "vous vendiez" (fo result)))))
+
+(deftest generate-imparfait-finir
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :noi}
+                                         :tense :past
+                                         :aspect :progressive}}
+                          :root {:français {:français "finir"}}}
+                         :model (small))]
+    (is (= "nous finissions" (fo result)))))
+
 (deftest generate-imperfect-irregular-être
   (let [result (generate {:synsem {:subcat '()
                                    :infl :imperfect

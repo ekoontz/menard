@@ -22,7 +22,8 @@
    [:synsem :sem :pred]])
 
 (def tenses
-  {"present" {:synsem {:sem {:tense :present}}}
+  {"present" {:synsem {:sem {:tense :present
+                             :aspect :simple}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
    "future" {:synsem {:sem {:tense :future}}}
    "imperfect" {:synsem {:sem {:aspect :progressive
@@ -375,7 +376,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unify c10
                           root-is-head
@@ -383,7 +384,7 @@
                           {:rule "s-present-nonphrasal"
                            :synsem {:aux false
                                     :cat :verb
-                                    :sem {:aspect :progressive
+                                    :sem {:aspect :simple
                                           :tense :present}}})
                    (unify c21
                            root-is-head-root
@@ -440,7 +441,8 @@
                            {:rule "vp-present"
                             :synsem {:aux false
                                      :infl :present
-                                     :sem {:tense :present}
+                                     :sem {:aspect :simple
+                                           :tense :present}
                                      :cat :verb}})
 
                    ;; e.g. used as: "je m'appelle Jean" -

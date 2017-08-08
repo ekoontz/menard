@@ -456,19 +456,6 @@
                   :français "sommes"}}}}]
     (is (= (fo result) "nous sommes allées"))))
 
-(deftest generate-passe-compose-1
-  (let [result
-        (generate (unify
-                   {:synsem {:subcat '()}}
-                   {:synsem {:sem {:subj {:pred :noi
-                                          :gender :fem}
-                                   :pred :go
-                                   :aspect :perfect
-                                   :tense :present}}})
-                  :model (small))]
-    (and (is (not (nil? result)))
-         (is (= (fo result) "nous sommes allées")))))
-
 (deftest generate-passe-compose
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :go

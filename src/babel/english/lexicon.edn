@@ -1365,7 +1365,7 @@
           {:english {:note "on a trip"
                      :past "left"}
            :synsem {:cat :verb
-                    :sem {:pred :leave}}}]
+                    :sem {:pred :leave-trip}}}]
 
  "lend" {:synsem {:cat :verb
                   :sem {:pred :lend}}

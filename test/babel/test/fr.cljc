@@ -464,7 +464,7 @@
                                           :gender :fem}
                                    :pred :go
                                    :aspect :perfect
-                                   :tense :past}}})
+                                   :tense :present}}})
                   :model (small))]
     (and (is (not (nil? result)))
          (is (= (fo result) "nous sommes allées")))))
@@ -475,7 +475,7 @@
                                          :subj {:pred :noi
                                                 :gender :fem}
                                          :aspect :perfect
-                                         :tense :past}}})]
+                                         :tense :present}}})]
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
 
@@ -484,7 +484,7 @@
                                    :sem {:subj {:pred :tu
                                                 :gender :fem}
                                          :aspect :perfect
-                                         :tense :past}}
+                                         :tense :present}}
                           :root {:français {:français "couper"}}})]
     (is (not (nil? result)))
     (is (= (fo result) "tu as coupé"))))
@@ -496,7 +496,7 @@
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:subj {:pred :noi}
                                          :aspect :perfect
-                                         :tense :past}}
+                                         :tense :present}}
                           :root {:français {:français "prendre"}}}
                          :model (small))]
 
@@ -528,7 +528,9 @@
         (generate
          {:synsem {:subcat '()
                    :sem {:subj {:pred :lei}
-                         :pred :have-fun :tense :past}}})]
+                         :pred :have-fun
+                         :tense :present
+                         :aspect :perfect}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
 (deftest generate-vp-present-reflexive

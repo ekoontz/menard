@@ -318,7 +318,7 @@
                             :synsem {:infl :present
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :past}}})
+                                           :tense :present}}})
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -404,7 +404,8 @@
                           head-present-infl
                           {:rule "vp-aux"
                            :synsem {:aux true
-                                    :sem {:tense :past}
+                                    :sem {:aspect :perfect
+                                          :tense :present}
                                     :cat :verb}})
                    
                    ;; [nous [être + naître]] => nous somme nées
@@ -418,7 +419,8 @@
                                       :cat :verb
                                       :infl :present
                                       :sem {:reflexive true
-                                            :tense :past}}}))
+                                            :aspect :perfect
+                                            :tense :present}}}))
                    (unify h21
                            {:rule "vp-future"
                             :synsem {:aux false

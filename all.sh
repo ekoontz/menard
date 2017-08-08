@@ -1,11 +1,5 @@
 #!/bin/sh
 
-lein run -m babel.espanol.writer/todos
-lein run -m babel.english.writer/translate "es"
-
-lein run -m babel.francais.writer/tout
-lein run -m babel.english.writer/translate "fr"
-
 # If you set CHECK_EXISTING="false" then generate no matter what
 # (ignore existing expressions, if any.
 # Otherwise, only generate if needed (if no existing expressions
@@ -19,9 +13,13 @@ else
 
     # generate all-new Italian
     lein run -m babel.italiano.writer/tutti "all" "all" "${START_DATE}"
-
-    # generate all-new translations of those Italian sentences.
     lein run -m babel.english.writer/translate "it" "all" "${START_DATE}"
+
+    lein run -m babel.espanol.writer/todos "all" "all"  "${START_DATE}"
+    lein run -m babel.english.writer/translate "es" "all" "${START_DATE}"
+
+    lein run -m babel.francais.writer/tout "all" "all"  "${START_DATE}"
+    lein run -m babel.english.writer/translate "fr" "all" "${START_DATE}"
 fi
 
 

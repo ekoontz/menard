@@ -170,7 +170,6 @@
                             :reflexive true
                             :sem subject-semantics}}}})
 
-
    "caminar" {:synsem {:cat :verb
                         :sem {:pred :walk-c}}}
    "cancelar" {:synsem {:cat :verb

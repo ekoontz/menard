@@ -294,6 +294,24 @@
     (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "j'étudiais" (fo result)))))
 
+(deftest imparfait-insert-e-before-g
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :I}
+                                         :tense :past
+                                         :aspect :progressive}}
+                          :root {:français {:français "manger"}}})]
+    (is (= "je mangeais" (fo result)))))
+
+(deftest imparfait-insert-cedilla-before-c
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :loro
+                                                :gender :fem}
+                                         :tense :past
+                                         :aspect :progressive}}
+                          :root {:français {:français "commencer"}}})]
+    (is (= "elles commençaient" (fo result)))))
+
+
 (deftest generate-imparfait-regular-ir
   (let [result (generate {:synsem {:subcat '()
                                    :agr {:gender :masc}

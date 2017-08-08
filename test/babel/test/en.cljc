@@ -526,8 +526,8 @@
                               :subj {:pred :I}
                               :obj :unspec}}}]
                                      
-    (is (= "I am participating" (morph (generate spec1))))
-    (is (= "I am hoping" (morph (generate spec2))))))
+    (is (= "I am participating (right now)" (morph (generate spec1))))
+    (is (= "I am hoping (right now)" (morph (generate spec2))))))
   
 (deftest present-progressive-vs-present-simple
   (let [base-spec {:modified false
@@ -548,7 +548,7 @@
     (is (= "I eat" (morph (generate simple)))) 
 
     ;; explicitly set to progressive present:
-    (is (= "I am eating" (morph (generate progressive))))))
+    (is (= "I am eating (right now)" (morph (generate progressive))))))
 
 (deftest benchmark-test []
   (let [med (medium)

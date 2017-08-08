@@ -108,7 +108,12 @@
                         :exception false
                         :imperfect {:regular false}}
              :d-verb-irreg-imperfect true})
-      
+
+   (if-has [:français :past-participle] :top
+           {:français {:past-p {:regular false}}})
+
+   (default {:français {:past-p {:regular true}}})
+   
    ;; Verbs are *not* aux unless explicitly stated as such..
    (default {:synsem {:cat :verb
                       :aux false}

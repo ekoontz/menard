@@ -372,7 +372,7 @@
     {:comment "past participle non-reflexive -re"
      :p [#"^(\S+)u$"            "$1re"]
      :g [#"^([^' ]+)re$"        "$1u"]
-     :u {}}
+     :u {:synsem {:français {:past-p {:regular true}}}}}
     
     {:comment "past participle non-reflexive -ir"
      :p [#"^(\S+)i$"            "$1ir"]
@@ -1291,7 +1291,13 @@
                                  :number :plur}
                            :infl :present}
                   :français {:present {:boot-stem1 true}}}}]
-    
+
+   [{:path [:français :past-participle]
+     :comment "irregular past participle"
+     :unify-with {:français {:past-p {:regular false}}
+                  :synsem {:cat :verb
+                           :infl :past-p}}}]
+
    (mapcat (fn [infl]
              [{:path [:français infl :1sing]
                :unify-with {:français {infl {:regular false}

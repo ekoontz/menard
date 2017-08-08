@@ -144,14 +144,18 @@
                                        unify-with :unify-with} %]
                                   (log/debug (str "irregular: trying unify-with: " unify-with))
                                   (if (not (= :fail (unify unify-with spec)))
-                                    (cond (and (not (nil? prefix))
-                                               (not (nil? suffix)))
-                                          (str (get-in spec [:français prefix]) suffix)
+                                    (do
+                                      (log/debug (str "irregular succeeded with: " %))
+                                      (cond (and (not (nil? prefix))
+                                                 (not (nil? suffix)))
+                                            (str (get-in spec [:français prefix]) suffix)
+                                            
+                                            (and (not (nil? path))
+                                                 (not (nil? (get-in spec path nil))))
+                                            (do (log/debug (str "path:" path "; value: " (get-in spec path)))
+                                                (get-in spec path))
                                           
-                                          (not (nil? path))
-                                          (get-in spec path)
-                                          
-                                          true (throw (Exception. (str "problem with irregular pattern:" %))))
+                                            true (throw (Exception. (str "problem with irregular pattern:" %)))))
                                     (do (log/debug (str "irregular: unify failed: fail-path: "
                                                         (dag_unify.core/fail-path unify-with spec)))
                                         nil)))
@@ -191,11 +195,14 @@
   (unify spec
          (let [cat (atom :top)
                agr (atom :top)
-               infl (atom :top)]
+               infl (atom :top)
+               essere (atom :top)]
            {:synsem {:cat cat
+                     :essere essere
                      :infl infl
                      :agr agr}
             :français {:cat cat
+                       :essere essere
                        :infl infl
                        :agr agr}})))
 
@@ -305,6 +312,7 @@
                                         (strip-refs word)))
                   synsemize ;; convert _word_ back into what (defn conjugate) can deal with.
                   (pre-conjugate {:français word})
+                  debug (log/debug (str "synsemized: " (strip-refs synsemize)))
                   result (conjugate infinitive synsemize)]
               (log/debug (str "result of conjugate: " result))
               result)))))

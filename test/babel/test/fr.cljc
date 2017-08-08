@@ -111,21 +111,24 @@
 
 (deftest conjugate2
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:number :sing}}})
          "amusé")))
          
 (deftest conjugate3
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:number :plur}}})
          "amusés")))
 
 (deftest conjugate4
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :masc
                                     :number :plur}}})
@@ -133,7 +136,8 @@
 
 (deftest conjugate5
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :fem
                                     :number :plur}}})
@@ -141,7 +145,8 @@
 
 (deftest conjugate6
   (is (= (conjugate "se blesser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :masc
                                     :number :sing}}})
@@ -149,7 +154,8 @@
 
 (deftest conjugate7
   (is (= (conjugate "se blesser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :fem
                                     :number :plur}}})
@@ -385,6 +391,7 @@
               :cat :noun
               :français "nous"},
           :b {:b {:cat :verb
+                  :past-p {:regular true}
                   :future-stem "ir",
                   :agr {:number :plur,
                         :gender :fem
@@ -453,6 +460,30 @@
                                          :tense :past}}})]
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
+
+(deftest generate-passe-compose-essere-false
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :tu
+                                                :gender :fem}
+                                         :aspect :perfect
+                                         :tense :past}}
+                          :root {:français {:français "couper"}}})]
+    (is (not (nil? result)))
+    (is (= (fo result) "tu as coupé"))))
+
+(deftest generate-passe-compose-irregular
+  (is (not (empty? (get (:lexicon (small)) "pris"))))
+  (is (= false (get-in (first (get (:lexicon (small)) "prendre"))
+                       [:français :past-p :regular])))
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :noi}
+                                         :aspect :perfect
+                                         :tense :past}}
+                          :root {:français {:français "prendre"}}}
+                         :model (small))]
+
+    (is (not (nil? result)))
+    (is (= (fo result) "nous avons pris"))))
 
 (deftest generate-reflexive-present
   (let [rules {:s-present-phrasal

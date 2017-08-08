@@ -40,8 +40,10 @@
     (zipmap (map first verbs)
             (map second verbs))))
 
-(defn todos [ & [count lexeme]]
-  (let [count (if count (Integer. count) 10)
+(defn todos [ & [count lexeme no-older-than]]
+  (let [count (cond (nil? count) 10
+                    (= "all" count) 10
+                    true (Integer. count))
         model (-> ((-> models :es)) deref)
         type-of-model (type model)
         lexicon (:lexicon model)
@@ -74,5 +76,6 @@
                 (vals babel.espanol.grammar/tenses)
                 [{:gender :masc} {:gender :fem}]
                 [:1st :2nd :3rd]
-                [:sing :plur]))))))))
-
+                [:sing :plur]
+                count
+                no-older-than))))))))

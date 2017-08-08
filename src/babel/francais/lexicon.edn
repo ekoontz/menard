@@ -594,10 +594,11 @@
 
   "prendre" [{:synsem {:cat :verb
                        :past-participle "pris"
-                       :sem {:pred :grab}}}
+                       :sem {:pred :grab}}
+              :français {:français {:past-participle "pris"}}}
              {:synsem {:cat :verb
-                       :past-participle "pris"
-                       :sem {:pred :take}}}]
+                       :sem {:pred :take}}
+              :français {:français {:past-participle "pris"}}}]
 
   "prêter" {:synsem {:cat :verb
                       :sem {:pred :lend}}}

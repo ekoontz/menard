@@ -1358,7 +1358,8 @@
            :synsem  {:cat :verb
                      :sem {:pred :learn-i}}}]
 
- "leave" [{:english {:past "left"}
+ "leave" [{:english {:note "behind"
+                     :past "left"}
            :synsem {:cat :verb
                     :sem {:pred :leave-behind}}}
 

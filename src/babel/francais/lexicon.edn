@@ -521,7 +521,7 @@
                   :subcat '()}}
 
   "mettre" {:synsem {:cat :verb
-                     :passato "mis"
+                     :past-participle "mis"
                      :present {:1sing "mets"
                                :2sing "mets"
                                :3sing "met"
@@ -535,7 +535,7 @@
                      :essere true
                      :future-stem "naîtr"
                      :imperfect-stem "naiss"
-                     :passato "né"
+                     :past-participle "né"
                      :present {:1sing "nais"
                                :2sing "nais"
                                :3sing "naît"

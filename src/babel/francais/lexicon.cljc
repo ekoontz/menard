@@ -14,7 +14,7 @@
 (def cat1 (atom :top))
 (def gender (atom :top))
 (def verb-aux-sem (atom {:aspect :perfect
-                         :tense :past}))
+                         :tense :present}))
 (def verb-aux-subject (atom :top))
 (declare compile-lexicon)
 

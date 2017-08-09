@@ -57,16 +57,16 @@
                 (medium) (strip-refs spec)
 
                 [ ;; tenses
-;                 {:synsem {:sem {:tense :conditional}}}
+                 {:synsem {:sem {:tense :conditional}}}
                  
-;                 {:synsem {:sem {:tense :future}}}
+                 {:synsem {:sem {:tense :future}}}
                  
-;                 {:synsem {:sem {:tense :present
-;                                 :aspect :simple}}}
+                 {:synsem {:sem {:tense :present
+                                 :aspect :simple}}}
                  
                  ;; imparfait
- ;                {:synsem {:sem {:aspect :progressive
-;                                 :tense :past}}}
+                 {:synsem {:sem {:aspect :progressive
+                                 :tense :past}}}
                  
                  ;; passé composé
                  {:synsem {:sem {:aspect :perfect

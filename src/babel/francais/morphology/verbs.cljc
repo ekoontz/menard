@@ -1231,8 +1231,8 @@
      :unify-with {:synsem {:cat :verb
                            :agr {:person :3rd
                                  :number :sing}
-                           :infl :imperfect}
-                  :français {:imperfect {:stem true}}}}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
     {:prefix :future-stem :suffix "ons"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st

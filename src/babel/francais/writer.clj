@@ -50,7 +50,8 @@
            (fn [verb]
              (log/debug (str "verb: " (strip-refs verb)))
              (let [root-form (get-in verb [:français :français])
-                   spec {:root {:français {:français root-form}}}]
+                   spec {:root {:français {:français root-form}}
+                         :synsem {:subcat '()}}]
                (log/info (str "generating with verb: '" root-form "'"))
                (writer/generate-from-spec
                 (medium) (strip-refs spec)

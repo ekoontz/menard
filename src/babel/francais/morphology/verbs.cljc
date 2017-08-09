@@ -1194,7 +1194,7 @@
      :unify-with {:synsem {:cat :verb
                            :agr {:person :3rd
                                  :number :sing}
-                           :infl :imperfect}
+                           :infl :conditional}
                   :français {:conditional {:stem true}}}}
     {:prefix :future-stem :suffix "ions"
      :unify-with {:synsem {:cat :verb

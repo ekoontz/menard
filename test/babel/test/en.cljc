@@ -511,12 +511,12 @@
 
 (deftest present-progressive-ends-with-e
   (let [spec1 {:modified false
-              :root {:english {:english "participate"}}
-              :synsem {:cat :verb
-                       :subcat ()
-                       :sem {:tense :present
-                             :aspect :progressive
-                             :subj {:pred :I}}}}
+               :root {:english {:english "participate"}}
+               :synsem {:cat :verb
+                        :subcat ()
+                        :sem {:tense :present
+                              :aspect :progressive
+                              :subj {:pred :I}}}}
         spec2 {:modified false
                :root {:english {:english "hope"}}
                :synsem {:cat :verb

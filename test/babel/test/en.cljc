@@ -529,6 +529,12 @@
     (is (= "I am participating (right now)" (morph (generate spec1))))
     (is (= "I am hoping (right now)" (morph (generate spec2))))))
   
+(deftest past-participle-orthography
+  (is (= (babel.english.morphology/present-participle-of "hope") "hoping"))
+  (is (= (babel.english.morphology/present-participle-of "hop") "hopping"))
+  (is (= (babel.english.morphology/present-participle-of "knot") "knotting"))
+  (is (= (babel.english.morphology/present-participle-of "note") "noting")))
+
 (deftest present-progressive-vs-present-simple
   (let [base-spec {:modified false
                    :synsem {:cat :verb

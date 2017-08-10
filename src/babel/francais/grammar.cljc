@@ -29,7 +29,7 @@
    "imperfect" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
    "past perfect" {:synsem {:sem {:aspect :perfect
-                                  :tense :past}}}})
+                                  :tense :present}}}})
 
 (def head-imperfect-infl
   {:head {:phrasal false

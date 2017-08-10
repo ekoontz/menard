@@ -53,24 +53,25 @@
 
         root-verb-array
         (reduce concat
-                (use-map-fn (fn [key]
-                              (get root-verbs key))
-                            (if lexeme
-                              [lexeme]
-                              (sort (keys root-verbs)))))]
+                (map (fn [key]
+                       (get root-verbs key))
+                     (if (and lexeme
+                              (not (= lexeme "all")))
+                       [lexeme]
+                       (sort (keys root-verbs)))))]
     (init-db)
     (write-lexicon "es" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
-                   (.size root-verb-array)))
-    (.size
+                   (clojure.core/count root-verb-array)))
+    (doall
      (->> root-verb-array
           (use-map-fn
            (fn [verb]
              (log/debug (str "verb: " (strip-refs verb)))
-             (let [root-form (get-in verb [:espanol :espanol])
-                   spec {:root {:espanol {:espanol root-form}}}]
-               (log/info (str "generating with verb: '" root-form "'"))
+            (let [root-form (get-in verb [:espanol :espanol])
+                  spec {:root {:espanol {:espanol root-form}}}]
+              (log/info (str "generating with verb: '" root-form "'"))
                (writer/generate-from-spec
                 model (strip-refs spec)
                 (vals babel.espanol.grammar/tenses)

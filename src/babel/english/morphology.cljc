@@ -393,14 +393,9 @@
          last-stem-char-is-e (re-find #"e$" stem)]
      ;; remove final "e", if any, before adding "e": e.g. "write" => "writing"
      (let [root stem ;; save this since we don't remove final 'e' for "used to" form.
-           stem (if (and last-stem-char-is-e
-                         (> (.length stem) 2) ;; don't apply this to "be".
-                         (not penultimate-stem-char-is-vowel))
-                  stem-minus-one
-                  stem)
 
            ;; unless overridden by :participle or :participle-suffix below,
-           ;; ing-form or used-to-form (chosen randomly) will be used.
+           ;; ing-form or used-to-form (chosen randomly) will be used: see the (rand-int) below
            ing-form (present-participle-of stem)
 
            used-to-form

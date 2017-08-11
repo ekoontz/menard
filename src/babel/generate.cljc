@@ -81,7 +81,7 @@
      ;; P1 => C1_1,C1_2,C1_3,..
      ;; P2 => C2_1,C2_2,C2_3,..
      ;; ..
-     ;; from paths P to complements C at that path in the bolt.
+     ;; from paths P to possible complements C at that path in the bolt.
      (map (fn [bolt]
             (let [paths (find-comp-paths bolt)]
               {:bolt bolt
@@ -89,7 +89,7 @@
                :comps (map #(comp-path-to-complements bolt % model depth max-depth) paths)})))
 
      
-     ;; 4. Create all the possibilities of all complements at all paths within each bolt.
+     ;; 4. Create the cartesian product of all the possibile complements at all paths within each bolt.
      (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
                ;; TODO: further flatten this into the overall ->> pipeline
                (map (fn [each-path-through-trellis]

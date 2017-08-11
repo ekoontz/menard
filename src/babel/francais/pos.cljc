@@ -1,49 +1,7 @@
 (ns babel.francais.pos
-  (:require [babel.lexiconfn :as lexiconfn :refer (map-function-on-map-vals)]
+  (:require [babel.lexiconfn :as lexiconfn]
             [babel.pos :as pos]
             [dag_unify.core :refer (unify)]))
-
-(def verb-aux
-  (let [sem (atom {:aspect :perfect
-                  :tense :past})]
-    (unify {:synsem {:sem sem
-                      :subcat {:2 {:infl :past-p}}}}
-            (let [aux (atom true)
-                  pred (atom :top)
-                  sem (atom {:pred pred})
-                  subject (atom :top)]
-              {:synsem {:aux aux
-                        :sem sem
-                        :subcat {:1 subject
-                                 :2 {:cat :verb
-                                     :aux false
-                                     :subcat {:1 subject}
-                                     :sem sem}}}}))))
-
-(def agreement-noun pos/agreement-noun)
-(def cat-of-pronoun pos/cat-of-pronoun)
-(def common-noun pos/common-noun)
-(def determiner pos/determiner)
-
-(def noun-agreement
-  (let [agr (atom :top)]
-    {:français {:agr agr}
-     :synsem {:agr agr}}))
-
-(def feminine-noun (unify
-                    noun-agreement (:feminine pos/noun)))
-
-(def masculine-noun (unify
-                     noun-agreement (:masculine pos/noun)))
-
-(def adjective
-  (unify pos/adjective
-         (let [agr (atom :top)
-               cat (atom :top)]
-           {:français {:agr agr
-                       :cat cat}
-            :synsem {:agr agr
-                     :cat cat}})))
 
 ;; A generalization of intransitive and transitive:
 ;; they both have a subject, thus "subjective".
@@ -75,11 +33,3 @@
 
 (defn transitivize [lexicon]
   (lexiconfn/transitivize lexicon transitive verb-subjective))
-
-(def gender-pronoun-agreement
-  (let [gender (atom :top)]
-    {:synsem {:cat :noun
-              :pronoun true
-              :agr {:gender gender}
-              :sem {:gender gender}
-              :subcat '()}}))

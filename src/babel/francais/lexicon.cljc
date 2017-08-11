@@ -2,8 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.francais.morphology :as morph :refer [phonize]]
-   [babel.francais.pos :refer [gender-pronoun-agreement intransitivize
-                               transitivize verb-aux]]
+   [babel.francais.pos :refer [intransitivize transitivize]]
    [babel.lexiconfn :as lexiconfn :refer [compile-lex default edn2lexicon if-has
                                           if-then listify map-function-on-map-vals]]
    [clojure.java.io :refer [reader resource]]

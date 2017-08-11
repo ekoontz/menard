@@ -15,7 +15,7 @@
 ;; TODO: more fine-grained approach to dealing with exceptions:
 ;; should be sensitive to environment -
 ;; e.g. do not throw exception in production; but *do* throw in dev.
-(def mask-populate-errors false)
+(def mask-populate-errors true)
 
 (declare populate)
 (defn -main [& args]

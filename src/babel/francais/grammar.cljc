@@ -26,9 +26,9 @@
                              :aspect :simple}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
    "future" {:synsem {:sem {:tense :future}}}
-   "imperfect" {:synsem {:sem {:aspect :progressive
+   "imparfait" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
-   "past perfect" {:synsem {:sem {:aspect :perfect
+   "passé composé" {:synsem {:sem {:aspect :perfect
                                   :tense :present}}}})
 
 (def head-imperfect-infl

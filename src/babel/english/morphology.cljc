@@ -24,7 +24,33 @@
                 ;; remove :notes in these circumstances.
                 (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
                                      [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
-                input)]
+                input)
+
+        input (cond (and (= "fr" from-language)
+                         (= "they" (get-in input [:english :a :english]))
+                         (= :fem (get-in input [:english :a :agr :gender])))
+                    (assoc-in
+                     input [:english :a :note] "♀")
+                    (and (= "fr" from-language)
+                         (= "they" (get-in input [:english :a :english]))
+                         (= :masc (get-in input [:english :a :agr :gender])))
+                    (assoc-in
+                     input [:english :a :note] "♂")
+
+                    (and (= "fr" from-language)
+                         (= "it" (get-in input [:english :a :english]))
+                         (= :fem (get-in input [:english :a :agr :gender])))
+                    (assoc-in
+                     input [:english :a :note] "♀")
+                    (and (= "fr" from-language)
+                         (= "it" (get-in input [:english :a :english]))
+                         (= :masc (get-in input [:english :a :agr :gender])))
+                    (assoc-in
+                     input [:english :a :note] "♂")
+                    
+                    true input)]
+                    
+        
     (cond ;; fo
       (= input :fail)
       (str input)

@@ -26,31 +26,23 @@
                                      [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
                 input)
 
-        input (cond (and (= "fr" from-language)
-                         (= "they" (get-in input [:english :a :english]))
-                         (= :fem (get-in input [:english :a :agr :gender])))
-                    (assoc-in
-                     input [:english :a :note] "♀")
-                    (and (= "fr" from-language)
-                         (= "they" (get-in input [:english :a :english]))
-                         (= :masc (get-in input [:english :a :agr :gender])))
-                    (assoc-in
-                     input [:english :a :note] "♂")
+        input (cond (and (some #(= from-language %) ["es" "fr"])
+                         (some #(= (get-in input [:english :a :english]) %) ["they"]))
+                    (cond (= :fem (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♀")
+                          (= :masc (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♂")
+                          true input)
 
-                    (and (= "fr" from-language)
-                         (= "it" (get-in input [:english :a :english]))
-                         (= :fem (get-in input [:english :a :agr :gender])))
-                    (assoc-in
-                     input [:english :a :note] "♀")
-                    (and (= "fr" from-language)
-                         (= "it" (get-in input [:english :a :english]))
-                         (= :masc (get-in input [:english :a :agr :gender])))
-                    (assoc-in
-                     input [:english :a :note] "♂")
-                    
+                    (and (some #(= from-language %) ["es" "fr" "it"])
+                         (some #(= (get-in input [:english :a :english]) %) ["it"]))
+                    (cond (= :fem (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♀")
+                          (= :masc (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♂")
+                          true input)
+
                     true input)]
-                    
-        
     (cond ;; fo
       (= input :fail)
       (str input)

@@ -22,32 +22,32 @@
      :g [#"^([^' ]+)er$"        "$1e"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
-    
+
     {:p [#"^([^' ]+)es$"        "$1er"]
      :g [#"^([^' ]+)er$"        "$1es"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
-    
+
     {:p [#"^([^' ]+)e$"         "$1er"]
      :g [#"^([^' ]+)er$"        "$1e"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
-    
+
     {:p [#"^([^' ]+)([^e])ons$" "$1$2er"]
      :g [#"^([^' ]+)([^g])er$"  "$1$2ons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    
+
     {:p [#"^([^' ]+)(g)eons$"   "$1$2er"]
      :g [#"^([^' ]+)(g)er$"     "$1$2eons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    
+
     {:p [#"^([^' ]+)ez$"        "$1er"]
      :g [#"^([^' ]+)er$"        "$1ez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    
+
     {:p [#"^([^' ]+)ent$"       "$1er"]
      :g [#"^([^' ]+)er$"        "$1ent"]
      :u {:synsem {:agr {:number :plur
@@ -74,7 +74,7 @@
     :g [#"^([^' ]+)ir$"        "$1e"]
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
-   
+
    {:p [#"^([^' ]+)issons$"    "$1ir"]
     :g [#"^([^' ]+)ir$"        "$1issons"]
     :u {:synsem {:agr {:number :plur
@@ -138,7 +138,7 @@
      :g [#"^se ([^' ]+)dre$"  "$1s"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
-    
+
     {:p [#"^([^' ]+)s$"       "se $1dre"]
      :g [#"^se ([^' ]+)dre$"  "$1s"]
      :u {:synsem {:agr {:number :sing
@@ -148,18 +148,18 @@
      :g [#"^se ([^' ]+)dre$"  "$1t"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
-    
+
     ;; e.g. se plaindre => se plaindrons
     {:p [#"^([^' ]+)gnons$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "se $1gnons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    
+
     {:p [#"^([^' ]+)gniez$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "$1gnez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    
+
     {:p [#"^([^' ]+)gnent$"   "se $1ndre"]
      :g [#"^se ([^' ]+)ndre$" "$1gnent"]
      :u {:synsem {:agr {:number :plur
@@ -207,7 +207,7 @@
     :g [#"^s'(\S+)[ie]r$"      "$1ent"]
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
-  
+
    {:comment "present reflexive 1st person singular, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)e$"   "se $1er"]
     :g [#"^se ([^aeéiou]\S+)er$"   "$1e"]
@@ -219,7 +219,7 @@
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1es"]
     :u {:synsem {:agr {:number :sing
                        :person :2nd}}}}
-  
+
    {:comment "present reflexive 3rd person singular, stem begins with a non-vowel"
     :p [#"^([^aeéiou]\S+)e$"   "se $1er"]
     :g [#"^se ([^aeéiou]\S+)[ie]r$"     "$1es"]
@@ -309,7 +309,7 @@
     :g [#"^se ([^' ]+)dre$"  "$1t"]
     :u {:synsem {:agr {:number :sing
                        :person :1st}}}}
-  
+
    {:p [#"^([^' ]+)t$"       "se $1dre"]
     :g [#"^se ([^' ]+)dre$"  "$1t"]
     :u {:synsem {:agr {:number :sing
@@ -363,17 +363,17 @@
      :u {:synsem {:essere true
                   :agr {:number :plur
                         :gender :fem}}}}
-    
+
     {:comment "past participle non-reflexive singular -er; essere=false"
      :p [#"^(\S+)é$"            "$1er"]
      :g [#"^([^' ]+)er$"        "$1é"]
      :u {:synsem {:essere false}}}
-    
+
     {:comment "past participle non-reflexive -re"
      :p [#"^(\S+)u$"            "$1re"]
      :g [#"^([^' ]+)re$"        "$1u"]
      :u {}}
-    
+
     {:comment "past participle non-reflexive -ir"
      :p [#"^(\S+)i$"            "$1ir"]
      :g [#"^([^' ]+)ir$"        "$1i"]
@@ -628,150 +628,171 @@
                       {:synsem {:cat :verb
                                 :infl :future}})})
    [
-    {:p [#"^(\S+)ai$"     "$1"]
-     :g [#"^([^' ]+)$"    "$1ai"]
+;; rule for the -re verbs that need to drop the e to form the future
+    {:p [#"^(\S+)ai$"     "$1re"]
+     :g [#"^([^' ]+r)e$"    "$1ai"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)ai$"     "s'$1"]
-     :g [#"^s'(\S+)$"     "$1ai"]
+     :g [#"^s'(\S+r)e$"     "$1ai"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
     {:p [#"^(\S+)ai$"     "se $1"]
-     :g [#"^se (\S+)$"    "$1ai"]
+     :g [#"^se (\S+r)e$"    "$1ai"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
+
+;; non -re verbs
+
+                        {:p [#"^(\S+)ai$"     "$1"]
+                         :g [#"^([^' ]+)$"    "$1ai"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :1st}}}}
+                        {:p [#"^(\S+)ai$"     "s'$1"]
+                         :g [#"^s'(\S+)$"     "$1ai"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :1st}}}}
+                        {:p [#"^(\S+)ai$"     "se $1"]
+                         :g [#"^se (\S+)$"    "$1ai"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :1st}}}}
+
     {:p [#"^(\S+)as$"     "$1"]
-     :g [#"^([^' ]+)$"    "$1as"]
+     :g [#"^([^' ]+r)e$"    "$1as"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)as$"     "s'$1"]
-     :g [#"^s'(\S+)$"     "$1as"]
+     :g [#"^s'(\S+r)e$"     "$1as"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
     {:p [#"^(\S+)as$"     "se $1"]
-     :g [#"^se (\S+)$"    "$1as"]
+     :g [#"^se (\S+r)e$"    "$1as"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
-    {:p [#"^(\S+)rai$"    "$1re"]
-     :g [#"^([^' ]+)$"    "$1ai"]
-     :u {:synsem {:agr {:number :sing
-                        :person :1st}}}}
-    {:p [#"^(\S+)rai$"    "s'$1re"]
-     :g [#"^s'(\S+)$"     "$1ai"]
-     :u {:synsem {:agr {:number :sing
-                        :person :1st}}}}
-    {:p [#"^(\S+)rai$"    "se $1re"]
-     :g [#"^se (\S+)re$"  "$1rai"]
-     :u {:synsem {:agr {:number :sing
-                        :person :1st}}}}
-    {:p [#"^(\S+)ras$"    "$1re"]
-     :g [#"^([^' ]+)re$"  "$1as"]
-     :u {:synsem {:agr {:number :sing
-                        :person :2nd}}}}
-    {:p [#"^(\S+)ras$"    "s'$1re"]
-     :g [#"^s'(\S+)re$"   "$1as"]
-     :u {:synsem {:agr {:number :sing
-                        :person :2nd}}}}
-    {:p [#"^(\S+)ras$"    "se $1re"]
-     :g [#"^se (\S+)$"    "$1as"]
-     :u {:synsem {:agr {:number :sing
-                        :person :2nd}}}}
-    {:p [#"^(\S+)a$"      "$1"]
-     :g [#"^([^' ]+)$"       "$1a"]
+
+                        {:p [#"^(\S+)as$"     "$1"]
+                         :g [#"^([^' ]+)$"    "$1as"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :2nd}}}}
+                        {:p [#"^(\S+)as$"     "s'$1"]
+                         :g [#"^s'(\S+)$"     "$1as"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :2nd}}}}
+                        {:p [#"^(\S+)as$"     "se $1"]
+                         :g [#"^se (\S+)$"    "$1as"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :2nd}}}}
+
+
+
+    {:p [#"^(\S+)a$"      "$1re"]
+     :g [#"^([^' ]+r)e$"       "$1a"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
-    {:p [#"^(\S+)a$"      "s'$1"]
-     :g [#"^s'(\S+)$"     "$1a"]
+    {:p [#"^(\S+)a$"      "s'$1re"]
+     :g [#"^s'(\S+r)e$"     "$1a"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
-    {:p [#"^(\S+)a$"      "se $1"]
-     :g [#"^se (\S+)$"    "$1a"]
+    {:p [#"^(\S+)a$"      "se $1re"]
+     :g [#"^se (\S+r)e$"    "$1a"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
-    {:p [#"^(\S+)ra$"     "$1re"]
-     :g [#"^([^' ]+)re$"  "$1ra"]
-     :u {:synsem {:agr {:number :sing
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ra$"     "s'$1re"]
-     :g [#"^s'(\S+)$"     "$1ra"]
-     :u {:synsem {:agr {:number :sing
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ra$"     "se $1re"]
-     :g [#"^se (\S+)$"    "$1a"]
-     :u {:synsem {:agr {:number :sing
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ons$"    "$1"]
-     :g [#"^([^' ]+)$"    "$1ons"]
+
+                        {:p [#"^(\S+)a$"      "$1"]
+                         :g [#"^([^' ]+)$"       "$1a"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :3rd}}}}
+                        {:p [#"^(\S+)a$"      "s'$1"]
+                         :g [#"^s'(\S+)$"     "$1a"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :3rd}}}}
+                        {:p [#"^(\S+)a$"      "se $1"]
+                         :g [#"^se (\S+)$"    "$1a"]
+                         :u {:synsem {:agr {:number :sing
+                                            :person :3rd}}}}
+
+
+    {:p [#"^(\S+)ons$"    "$1re"]
+     :g [#"^([^' ]+r)e$"    "$1ons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    {:p [#"^(\S+)ons$"    "s'$1"]
-     :g [#"^s' (\S+)$"    "$1ons"]
+    {:p [#"^(\S+)ons$"    "s'$1re"]
+     :g [#"^s' (\S+r)e$"    "$1ons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    {:p [#"^(\S+)ons$"    "se $1"]
-     :g [#"^se (\S+)$"    "$1ons"]
+    {:p [#"^(\S+)ons$"    "se $1re"]
+     :g [#"^se (\S+r)e$"    "$1ons"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
-    {:p [#"^(\S+)rons$"   "$1re"]
-     :g [#"^([^' ]+)re$"  "$1rons"]
-     :u {:synsem {:agr {:number :plur
-                        :person :1st}}}}
-    {:p [#"^(\S+)rons$"   "s'$1re"]
-     :g [#"^s'(\S+)$"     "$1ons"]
-     :u {:synsem {:agr {:number :plur
-                        :person :1st}}}}
-    {:p [#"^(\S+)rons$"   "se $1re"]
-     :g [#"^se (\S+)$"    "$1rons"]
-     :u {:synsem {:agr {:number :plur
-                        :person :1st}}}}
-    {:p [#"^(\S+)ez$"     "$1"]
-     :g [#"^([^' ]+)$"    "$1ez"]
-     :u {:synsem {:agr {:number :plur
-                        :person :2nd}}}}
-    {:p [#"^(\S+)ez$"     "s'$1"]
-     :g [#"^s'(\S+)$"     "$1ez"]
-     :u {:synsem {:agr {:number :plur
-                        :person :2nd}}}}
-    {:p [#"^(\S+)ez$"     "se $1"]
-     :g [#"^se (\S+)$"    "$1ez"]
+
+                        {:p [#"^(\S+)ons$"    "$1"]
+                         :g [#"^([^' ]+)$"    "$1ons"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :1st}}}}
+                        {:p [#"^(\S+)ons$"    "s'$1"]
+                         :g [#"^s' (\S+)$"    "$1ons"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :1st}}}}
+                        {:p [#"^(\S+)ons$"    "se $1"]
+                         :g [#"^se (\S+)$"    "$1ons"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :1st}}}}
+
+
+    {:p [#"^(\S+)ez$"     "$1re"]
+     :g [#"^([^' ]+r)e$"    "$1ez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    {:p [#"^(\S+)rez$"    "$1re"]
-     :g [#"^([^' ]+)re$"  "$1rez"]
+    {:p [#"^(\S+)ez$"     "s'$1re"]
+     :g [#"^s'(\S+r)e$"     "$1ez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    {:p [#"^(\S+)rez$"    "s'$1re"]
-     :g [#"^s'(\S+)re$"   "$1rez"]
+    {:p [#"^(\S+)ez$"     "se $1re"]
+     :g [#"^se (\S+r)e$"    "$1ez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    {:p [#"^(\S+)rez$"    "se $1re"]
-     :g [#"^se (\S+)re$"  "$1rez"]
-     :u {:synsem {:agr {:number :plur
-                        :person :2nd}}}}
-    {:p [#"^(\S+)ont$"    "$1"]
-     :g [#"^([^' ]+)$"    "$1ont"]
-     :u {:synsem {:agr {:number :plur
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ont$"    "s'$1"]
-     :g [#"^s'(\S+)$"     "$1ont"]
-     :u {:synsem {:agr {:number :plur
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ont$"    "se $1"]
-     :g [#"^se (\S+)$"    "$1ont"]
-     :u {:synsem {:agr {:number :plur
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ront$"   "$1re"]
-     :g [#"^([^' ]+)re$"  "$1ront"]
-     :u {:synsem {:agr {:number :plur
-                        :person :3rd}}}}
-    {:p [#"^(\S+)ront$"   "s'$1re"]
-     :g [#"^s'(\S+)re$"   "$1ont"]
+
+                        {:p [#"^(\S+)ez$"     "$1"]
+                         :g [#"^([^' ]+)$"    "$1ez"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :2nd}}}}
+                        {:p [#"^(\S+)ez$"     "s'$1"]
+                         :g [#"^s'(\S+)$"     "$1ez"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :2nd}}}}
+                        {:p [#"^(\S+)ez$"     "se $1"]
+                         :g [#"^se (\S+)$"    "$1ez"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :2nd}}}}
+
+
+    {:p [#"^(\S+)ont$"    "$1re"]
+     :g [#"^([^' ]+r)e$"    "$1ont"]
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
-    {:p [#"^(\S+)ront$"   "se $1re"]
-     :g [#"^se (\S+)re$"  "$1ront"]
+    {:p [#"^(\S+)ont$"    "s'$1re"]
+     :g [#"^s'(\S+r)e$"     "$1ont"]
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
+    {:p [#"^(\S+)ont$"    "se $1re"]
+     :g [#"^se (\S+r)e$"    "$1ont"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+
+                        {:p [#"^(\S+)ont$"    "$1"]
+                         :g [#"^([^' ]+)$"    "$1ont"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :3rd}}}}
+                        {:p [#"^(\S+)ont$"    "s'$1"]
+                         :g [#"^s'(\S+)$"     "$1ont"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :3rd}}}}
+                        {:p [#"^(\S+)ont$"    "se $1"]
+                         :g [#"^se (\S+)$"    "$1ont"]
+                         :u {:synsem {:agr {:number :plur
+                                            :person :3rd}}}}
+
+
     ]))
 
 (def regular-patterns-source
@@ -815,14 +836,14 @@
     :merge-fn
     (fn [val]
       {:français {:infl :past-p
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :past-participle] :nothing)}})}
    ;; 2. present-tense exceptions
    {:path [:français :present :1sing]
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :1sing] :nothing)
                   :agr {:number :sing
                         :person :1st}}})}
@@ -830,7 +851,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :2sing] :nothing)
                   :agr {:number :sing
                         :person :2nd}}})}
@@ -838,7 +859,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :3sing] :nothing)
                   :agr {:number :sing
                         :person :3rd}}})}
@@ -846,7 +867,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :1plur] :nothing)
                   :agr {:number :plur
                         :person :1st}}})}
@@ -854,7 +875,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :2plur] :nothing)
                   :agr {:number :plur
                         :person :2nd}}})}
@@ -862,7 +883,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :present
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :present :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
@@ -872,7 +893,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "ais")
                   :agr {:number :sing
                         :person :1st}}})}
@@ -880,7 +901,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "ais")
                   :agr {:number :sing
                         :person :2nd}}})}
@@ -888,7 +909,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "ait")
                   :agr {:number :sing
                         :person :3rd}}})}
@@ -904,7 +925,7 @@
     (fn [val]
       {:français {:infl :future
                   :français (get-in val [:français :future-stem] "iez")
-                  :conjugated true                   
+                  :conjugated true
                   :agr {:number :plur
                         :person :2nd}}})}
    {:path [:français :future-stem]
@@ -912,7 +933,7 @@
     (fn [val]
       {:français {:infl :future
                   :français (get-in val [:français :future-stem] "aient")
-                  :conjugated true                   
+                  :conjugated true
                   :agr {:number :plur
                         :person :3rd}}})}
 
@@ -921,7 +942,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "ai")
                   :agr {:number :sing
                         :person :1st}}})}
@@ -929,7 +950,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "as")
                   :agr {:number :sing
                         :person :2nd}}})}
@@ -937,7 +958,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :conjugated true                   
+                  :conjugated true
                   :français (get-in val [:français :future-stem] "a")
                   :agr {:number :sing
                         :person :3rd}}})}
@@ -953,7 +974,7 @@
     (fn [val]
       {:français {:infl :future
                   :français (get-in val [:français :future-stem] "ez")
-                  :conjugated true                   
+                  :conjugated true
                   :agr {:number :plur
                         :person :2nd}}})}
    {:path [:français :future-stem]
@@ -961,7 +982,7 @@
     (fn [val]
       {:français {:infl :future
                   :français (get-in val [:français :future-stem] "ont")
-                  :conjugated true                   
+                  :conjugated true
                   :agr {:number :plur
                         :person :3rd}}})}
 
@@ -970,57 +991,57 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
                          :person :1st}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
                          :person :2nd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ait")
                    :agr {:number :sing
                          :person :3rd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ions")
                    :agr {:number :plur
                          :person :1st}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "iez")
                    :agr {:number :plur
                          :person :2nd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "aient")
                    :agr {:number :plur
@@ -1031,91 +1052,91 @@
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
                          :person :1st}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ais")
                    :agr {:number :sing
                          :person :2nd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ait")
                    :agr {:number :sing
                          :person :3rd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "ions")
                    :agr {:number :plur
                          :person :1st}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "iez")
                    :agr {:number :plur
                          :person :2nd}}}])}
-   
+
    {:path [:français :imperfect-stem]
     :merge-fn
     (fn [val]
       [{:français {:infl :imperfect
-                   :conjugated true                   
+                   :conjugated true
                    :imperfect-stem (get-in val [:français :imperfect-stem])
                    :français (str (get-in val [:français :imperfect-stem]) "aient")
                    :agr {:number :plur
                          :person :3rd}}}])}
-   
+
    ;; 4. present-tense boot-stem exception: :boot-stem1.
    {:path [:français :boot-stem1]
     :merge-fn
     (fn [val]
       [{:français {:infl :present
-                   :conjugated true                   
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem1])
                                   "s")
                    :agr {:number :sing
                          :person :1st}}}
        {:français {:infl :present
-                   :conjugated true                   
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem1])
                                   "s")
                    :agr {:number :sing
                          :person :2nd}}}
        {:français {:infl :present
-                   :conjugated true                   
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem1])
                                   "t")
                    :agr {:number :sing
                          :person :3rd}}}
        {:français {:infl :present
-                   :conjugated true                   
+                   :conjugated true
                    :français (str (get-in val [:français :boot-stem1])
                                   "vent")
                    :agr {:number :plur
                          :person :3rd}}}])}
-   
+
    {:path [:français :boot-stem2]
     :merge-fn
     (fn [val]
@@ -1270,7 +1291,7 @@
                                  :number :sing}
                            :infl :present}
                   :français {:present {:boot-stem1 true}}}}
-    
+
     {:prefix :boot-stem2 :suffix "ons"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
@@ -1291,7 +1312,7 @@
                                  :number :plur}
                            :infl :present}
                   :français {:present {:boot-stem1 true}}}}]
-    
+
    (mapcat (fn [infl]
              [{:path [:français infl :1sing]
                :unify-with {:français {infl {:regular false}

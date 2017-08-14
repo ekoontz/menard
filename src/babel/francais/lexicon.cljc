@@ -2,8 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.francais.morphology :as morph :refer [phonize]]
-   [babel.francais.pos :refer [gender-pronoun-agreement intransitivize
-                               transitivize verb-aux]]
+   [babel.francais.pos :refer [intransitivize transitivize]]
    [babel.lexiconfn :as lexiconfn :refer [compile-lex default edn2lexicon if-has
                                           if-then listify map-function-on-map-vals]]
    [clojure.java.io :refer [reader resource]]
@@ -14,7 +13,7 @@
 (def cat1 (atom :top))
 (def gender (atom :top))
 (def verb-aux-sem (atom {:aspect :perfect
-                         :tense :past}))
+                         :tense :present}))
 (def verb-aux-subject (atom :top))
 (declare compile-lexicon)
 
@@ -108,7 +107,12 @@
                         :exception false
                         :imperfect {:regular false}}
              :d-verb-irreg-imperfect true})
-      
+
+   (if-has [:français :past-participle] :top
+           {:français {:past-p {:regular false}}})
+
+   (default {:français {:past-p {:regular true}}})
+   
    ;; Verbs are *not* aux unless explicitly stated as such..
    (default {:synsem {:cat :verb
                       :aux false}

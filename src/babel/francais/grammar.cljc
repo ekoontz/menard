@@ -22,13 +22,14 @@
    [:synsem :sem :pred]])
 
 (def tenses
-  {"present" {:synsem {:sem {:tense :present}}}
+  {"present" {:synsem {:sem {:tense :present
+                             :aspect :simple}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
    "future" {:synsem {:sem {:tense :future}}}
-   "imperfect" {:synsem {:sem {:aspect :progressive
+   "imparfait" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
-   "past perfect" {:synsem {:sem {:aspect :perfect
-                                  :tense :past}}}})
+   "passé composé" {:synsem {:sem {:aspect :perfect
+                                  :tense :present}}}})
 
 (def head-imperfect-infl
   {:head {:phrasal false
@@ -318,7 +319,7 @@
                             :synsem {:infl :present
                                      :cat :verb
                                      :sem {:aspect :perfect
-                                           :tense :past}}})
+                                           :tense :present}}})
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -375,7 +376,7 @@
                             :synsem {:aux false
                                      :infl :present
                                      :cat :verb
-                                     :sem {:aspect :progressive
+                                     :sem {:aspect :simple
                                            :tense :present}}})
                    (unify c10
                           root-is-head
@@ -383,7 +384,7 @@
                           {:rule "s-present-nonphrasal"
                            :synsem {:aux false
                                     :cat :verb
-                                    :sem {:aspect :progressive
+                                    :sem {:aspect :simple
                                           :tense :present}}})
                    (unify c21
                            root-is-head-root
@@ -404,7 +405,8 @@
                           head-present-infl
                           {:rule "vp-aux"
                            :synsem {:aux true
-                                    :sem {:tense :past}
+                                    :sem {:aspect :perfect
+                                          :tense :present}
                                     :cat :verb}})
                    
                    ;; [nous [être + naître]] => nous somme nées
@@ -418,7 +420,8 @@
                                       :cat :verb
                                       :infl :present
                                       :sem {:reflexive true
-                                            :tense :past}}}))
+                                            :aspect :perfect
+                                            :tense :present}}}))
                    (unify h21
                            {:rule "vp-future"
                             :synsem {:aux false
@@ -438,7 +441,8 @@
                            {:rule "vp-present"
                             :synsem {:aux false
                                      :infl :present
-                                     :sem {:tense :present}
+                                     :sem {:aspect :simple
+                                           :tense :present}
                                      :cat :verb}})
 
                    ;; e.g. used as: "je m'appelle Jean" -

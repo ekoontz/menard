@@ -26,7 +26,8 @@
     {:en (fn []
            (if (realized? en)
              en
-             (deliver en {})))
+             (deliver en
+                      {:morph babel.english.morphology/fo})))
      :es (fn []
            (if (realized? es)
              es

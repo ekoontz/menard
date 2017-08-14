@@ -40,8 +40,10 @@
     (zipmap (map first verbs)
             (map second verbs))))
 
-(defn todos [ & [count lexeme]]
-  (let [count (if count (Integer. count) 10)
+(defn todos [ & [count lexeme no-older-than]]
+  (let [count (cond (nil? count) 10
+                    (= "all" count) 10
+                    true (Integer. count))
         model (-> ((-> models :es)) deref)
         type-of-model (type model)
         lexicon (:lexicon model)
@@ -51,28 +53,31 @@
 
         root-verb-array
         (reduce concat
-                (use-map-fn (fn [key]
-                              (get root-verbs key))
-                            (if lexeme
-                              [lexeme]
-                              (sort (keys root-verbs)))))]
+                (map (fn [key]
+                       (get root-verbs key))
+                     (if (and lexeme
+                              (not (= lexeme "all")))
+                       [lexeme]
+                       (sort (keys root-verbs)))))]
     (init-db)
     (write-lexicon "es" lexicon)
     (log/info (str "done writing lexicon."))
     (log/info (str "generating examples with this many verbs:"
-                   (.size root-verb-array)))
-    (.size
+                   (clojure.core/count root-verb-array)))
+    (doall
      (->> root-verb-array
           (use-map-fn
            (fn [verb]
              (log/debug (str "verb: " (strip-refs verb)))
-             (let [root-form (get-in verb [:espanol :espanol])
-                   spec {:root {:espanol {:espanol root-form}}}]
-               (log/info (str "generating with verb: '" root-form "'"))
+            (let [root-form (get-in verb [:espanol :espanol])
+                  spec {:root {:espanol {:espanol root-form}}
+                        :synsem {:subcat '()}}]
+              (log/info (str "generating with verb: '" root-form "'"))
                (writer/generate-from-spec
                 model (strip-refs spec)
                 (vals babel.espanol.grammar/tenses)
                 [{:gender :masc} {:gender :fem}]
                 [:1st :2nd :3rd]
-                [:sing :plur]))))))))
-
+                [:sing :plur]
+                count
+                no-older-than))))))))

@@ -106,8 +106,8 @@
                        :sem {:pred :comment}}}
 
  "comprendre" {:synsem {:cat :verb
-                        :past-participle "compris"
-                        :sem {:pred :understand}}}
+                        :sem {:pred :understand}}
+               :français {:past-participle "compris"}}
 
  "conserver" [{:synsem {:cat :verb
                         :sem {:pred :conserve}}}
@@ -520,30 +520,28 @@
                         :number :sing}
                   :subcat '()}}
 
-  "mettre" {:synsem {:cat :verb
-                     :past-participle "mis"
-                     :present {:1sing "mets"
-                               :2sing "mets"
-                               :3sing "met"
-                               :1plur "mettons"
-                               :2plur "mettez"
-                               :3plur "mettent"}
-
-                     :sem {:pred :put}}}
+ "mettre" {:synsem {:cat :verb
+                    :sem {:pred :put}}
+           :français {:past-participle "mis"
+                      :present {:1sing "mets"
+                                :2sing "mets"
+                                :3sing "met"
+                                :1plur "mettons"
+                                :2plur "mettez"
+                                :3plur "mettent"}}}
 
   "naître" {:synsem {:cat :verb
                      :essere true
-                     :future-stem "naîtr"
-                     :imperfect-stem "naiss"
-                     :past-participle "né"
-                     :present {:1sing "nais"
-                               :2sing "nais"
-                               :3sing "naît"
-                               :1plur "naissons"
-                               :2plur "naissez"
-                               :3plur "naissent"}
-                     :sem {:pred :be-born}}}
-
+                     :sem {:pred :be-born}}
+            :français {:future-stem "naîtr"
+                       :imperfect-stem "naiss"
+                       :past-participle "né"
+                       :present {:1sing "nais"
+                                 :2sing "nais"
+                                 :3sing "naît"
+                                 :1plur "naissons"
+                                 :2plur "naissez"
+                                 :3plur "naissent"}}}
   "nous"
  (let [common {:gender-pronoun-agreement true
                :synsem {:case :top
@@ -593,11 +591,11 @@
                              :sem {:pred :take-advantage-of}}}
 
   "prendre" [{:synsem {:cat :verb
-                       :past-participle "pris"
-                       :sem {:pred :grab}}}
+                       :sem {:pred :grab}}
+              :français {:past-participle "pris"}}
              {:synsem {:cat :verb
-                       :past-participle "pris"
-                       :sem {:pred :take}}}]
+                       :sem {:pred :take}}
+              :français {:past-participle "pris"}}]
 
   "prêter" {:synsem {:cat :verb
                       :sem {:pred :lend}}}
@@ -642,8 +640,8 @@
                        :sem {:pred :answer}}}
 
   "rompre" {:synsem {:cat :verb
-                       :past-participle "rompu"
-                       :sem {:pred :break}}}
+                     :sem {:pred :break}}
+            :français {:past-participle "rompu"}}
 
   "savoir" {:synsem {:essere false
                      :cat :verb
@@ -691,7 +689,7 @@
          subject-person (atom :top)
          subject-number (atom :top)]
      {:synsem {:cat :verb
-               :sem {:aspect :progressive
+               :sem {:aspect :simple
                      :pred :be-called
                      :reflexive true
                      :tense :present

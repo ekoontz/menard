@@ -8,8 +8,6 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-;; TODO: imperfect ({:synsem {:infl :imperfect, :sem {:aspect :progressive, :tense :past}}})
-
 ;; TODO: convert to (babel.morphology/conjugation)
 ;; (see babel.latin.morphology for an example of how to use babel.morphology/conjugation)
 (def present-nonreflexive-er-verb
@@ -372,8 +370,13 @@
     {:comment "past participle non-reflexive -re"
      :p [#"^(\S+)u$"            "$1re"]
      :g [#"^([^' ]+)re$"        "$1u"]
+<<<<<<< HEAD
      :u {}}
 
+=======
+     :u {:synsem {:français {:past-p {:regular true}}}}}
+
+>>>>>>> origin/master
     {:comment "past participle non-reflexive -ir"
      :p [#"^(\S+)i$"            "$1ir"]
      :g [#"^([^' ]+)ir$"        "$1i"]
@@ -542,28 +545,73 @@
                                 :cat :verb}}
                       (:u %))})
    [
-    ;; -er
+    ;; -ger (e.g. manger -> mangeais)
+    {:p [#"^(\S+)eais$"      "$1er"]
+     :g [#"^([^' ]+)ger$"    "$1geais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
+    ;; -cer (e.g. commencer -> commençais)
+    {:p [#"^(\S+)eais$"      "$1er"]
+     :g [#"^([^' ]+)cer$"    "$1çais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :1st}}}}
+    ;; -er (e.g. parler -> parlais)
     {:p [#"^(\S+)ais$"       "$1er"]
      :g [#"^([^' ]+)er$"     "$1ais"]
      :u {:synsem {:agr {:number :sing
                         :person :1st}}}}
+
+    ;; -ger (e.g. manger -> mangeais)
+    {:p [#"^(\S+)eais$"      "$1er"]
+     :g [#"^([^' ]+)ger$"    "$1geais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
+    ;; -cer (e.g. commencer -> commençais)
+    {:p [#"^(\S+)eais$"      "$1er"]
+     :g [#"^([^' ]+)cer$"    "$1çais"]
+     :u {:synsem {:agr {:number :sing
+                        :person :2nd}}}}
     {:p [#"^(\S+)ais$"       "$1er"]
      :g [#"^([^' ]+)er$"     "$1ais"]
      :u {:synsem {:agr {:number :sing
                         :person :2nd}}}}
+
+    ;; -ger (e.g. manger -> mangeait)
+    {:p [#"^(\S+)eait$"      "$1er"]
+     :g [#"^([^' ]+)ger$"    "$1geait"]
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
+    ;; -cer (e.g. commencer -> commençait)
+    {:p [#"^(\S+)eait$"      "$1er"]
+     :g [#"^([^' ]+)cer$"    "$1çait"]
+     :u {:synsem {:agr {:number :sing
+                        :person :3rd}}}}
     {:p [#"^(\S+)ait$"       "$1er"]
      :g [#"^([^' ]+)er$"     "$1ait"]
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
+
     {:p [#"^(\S+)ions$"      "$1er"]
      :g [#"^([^' ]+)er$"     "$1ions"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
+
     {:p [#"^(\S+)iez$"       "$1er"]
      :g [#"^([^' ]+)er$"     "$1iez"]
      :u {:synsem {:agr {:number :plur
                         :person :2nd}}}}
-    {:p [#"^(\S+)aient$"       "$1er"]
+
+    ;; -ger (e.g. manger -> mangeaient)
+    {:p [#"^(\S+)eaint$"     "$1er"]
+     :g [#"^([^' ]+)ger$"    "$1geaient"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+    ;; -cer (e.g. commencer -> commençaient)
+    {:p [#"^(\S+)eaint$"     "$1er"]
+     :g [#"^([^' ]+)cer$"    "$1çaient"]
+     :u {:synsem {:agr {:number :plur
+                        :person :3rd}}}}
+    {:p [#"^(\S+)aient$"     "$1er"]
      :g [#"^([^' ]+)er$"     "$1aient"]
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}
@@ -1172,7 +1220,7 @@
      :unify-with {:synsem {:cat :verb
                            :agr {:person :3rd
                                  :number :sing}
-                           :infl :imperfect}
+                           :infl :conditional}
                   :français {:conditional {:stem true}}}}
     {:prefix :future-stem :suffix "ions"
      :unify-with {:synsem {:cat :verb
@@ -1209,8 +1257,8 @@
      :unify-with {:synsem {:cat :verb
                            :agr {:person :3rd
                                  :number :sing}
-                           :infl :imperfect}
-                  :français {:imperfect {:stem true}}}}
+                           :infl :future}
+                  :français {:future {:stem true}}}}
     {:prefix :future-stem :suffix "ons"
      :unify-with {:synsem {:cat :verb
                            :agr {:person :1st
@@ -1312,6 +1360,12 @@
                                  :number :plur}
                            :infl :present}
                   :français {:present {:boot-stem1 true}}}}]
+
+   [{:path [:français :past-participle]
+     :comment "irregular past participle"
+     :unify-with {:français {:past-p {:regular false}}
+                  :synsem {:cat :verb
+                           :infl :past-p}}}]
 
    (mapcat (fn [infl]
              [{:path [:français infl :1sing]

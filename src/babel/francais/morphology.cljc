@@ -135,21 +135,31 @@
                                                           :exception true}}))))
                 
                 exceptional-surface-forms
-                (remove nil?
-                        (map #(let [{path :path
-                                     prefix :prefix
-                                     suffix :suffix
-                                     unify-with :unify-with} %]
-                                (if (not (= :fail (unify unify-with spec)))
-                                  (cond (and (not (nil? prefix))
-                                             (not (nil? suffix)))
-                                        (str (get-in spec [:français prefix]) suffix)
-
-                                        (not (nil? path))
-                                        (get-in spec path)
-                                        
-                                        true (throw (Exception. (str "problem with irregular pattern:" %))))))
-                             verbs/irregular-conjugations))
+                (do
+                  (log/debug (str "unifying spec: " spec " against irregular-conjugations."))
+                  (remove nil?
+                          (map #(let [{path :path
+                                       prefix :prefix
+                                       suffix :suffix
+                                       unify-with :unify-with} %]
+                                  (log/debug (str "irregular: trying unify-with: " unify-with))
+                                  (if (not (= :fail (unify unify-with spec)))
+                                    (do
+                                      (log/debug (str "irregular succeeded with: " %))
+                                      (cond (and (not (nil? prefix))
+                                                 (not (nil? suffix)))
+                                            (str (get-in spec [:français prefix]) suffix)
+                                            
+                                            (and (not (nil? path))
+                                                 (not (nil? (get-in spec path nil))))
+                                            (do (log/debug (str "path:" path "; value: " (get-in spec path)))
+                                                (get-in spec path))
+                                          
+                                            true (throw (Exception. (str "problem with irregular pattern:" %)))))
+                                    (do (log/debug (str "irregular: unify failed: fail-path: "
+                                                        (dag_unify.core/fail-path unify-with spec)))
+                                        nil)))
+                               verbs/irregular-conjugations)))
                 
                 regulars
                 (remove nil?
@@ -157,14 +167,7 @@
                          (fn [replace-pattern]
                            (let [from (nth (:g replace-pattern) 0)
                                  to (nth (:g replace-pattern) 1)]
-                             (when (and from to infinitive)
-                               (log/debug (str "from: " from "; infinitive: " infinitive " => "
-                                               (re-matches from infinitive)))
-                               (log/debug (if (re-matches from infinitive)
-                                            (str "matched: from: " from "; infinitive: "
-                                                 infinitive " with "
-                                                 "unify-against: " (strip-refs (:u replace-pattern)) ";"
-                                                 "conjugate-with:" (strip-refs conjugate-with)))))
+                             (when (and from to infinitive (re-matches from infinitive))
                              (if (and from to infinitive
                                       (re-matches from infinitive)
                                       (not (= :fail
@@ -173,8 +176,12 @@
                                                                     :top)]
                                                 (unify unify-against
                                                        conjugate-with)))))
-                                              
-                               (string/replace infinitive from to))))
+                               (do
+                                 (log/debug (str "regular: matched: from: " from "; infinitive: "
+                                                 infinitive " with "
+                                                 "unify-against: " (strip-refs (:u replace-pattern)) ";"
+                                                 "conjugate-with:" (strip-refs conjugate-with)))
+                                 (string/replace infinitive from to))))))
                          regular-patterns))]
             (let [results (concat exceptional-surface-forms regulars [infinitive])]
               (log/debug (if (not (empty? exceptional-surface-forms))
@@ -188,11 +195,14 @@
   (unify spec
          (let [cat (atom :top)
                agr (atom :top)
-               infl (atom :top)]
+               infl (atom :top)
+               essere (atom :top)]
            {:synsem {:cat cat
+                     :essere essere
                      :infl infl
                      :agr agr}
             :français {:cat cat
+                       :essere essere
                        :infl infl
                        :agr agr}})))
 
@@ -302,6 +312,7 @@
                                         (strip-refs word)))
                   synsemize ;; convert _word_ back into what (defn conjugate) can deal with.
                   (pre-conjugate {:français word})
+                  debug (log/debug (str "synsemized: " (strip-refs synsemize)))
                   result (conjugate infinitive synsemize)]
               (log/debug (str "result of conjugate: " result))
               result)))))

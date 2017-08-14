@@ -111,21 +111,24 @@
 
 (deftest conjugate2
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:number :sing}}})
          "amusé")))
          
 (deftest conjugate3
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:number :plur}}})
          "amusés")))
 
 (deftest conjugate4
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :masc
                                     :number :plur}}})
@@ -133,7 +136,8 @@
 
 (deftest conjugate5
   (is (= (conjugate "s'amuser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :fem
                                     :number :plur}}})
@@ -141,7 +145,8 @@
 
 (deftest conjugate6
   (is (= (conjugate "se blesser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :masc
                                     :number :sing}}})
@@ -149,7 +154,8 @@
 
 (deftest conjugate7
   (is (= (conjugate "se blesser"
-                    {:synsem {:cat :verb
+                    {:français {:past-p {:regular true}}
+                     :synsem {:cat :verb
                               :infl :past-p
                               :agr {:gender :fem
                                     :number :plur}}})
@@ -195,7 +201,7 @@
                                    :sem {:pred :top
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :progressive}}
+                                         :aspect :simple}}
                           :root {:français {:français "parler"}}
                           :rule "s-present-nonphrasal"}
                          :model (small))]
@@ -206,13 +212,13 @@
                                    :sem {:pred :abandon
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :progressive}}}
+                                         :aspect :simple}}}
                          :model (small))]
     (is (= "j'abandone" (fo result)))))
 
 (deftest generate-present-by-root-regular-2
   (let [result (generate {:synsem {:subcat '()
-                                   :sem {:aspect :progressive
+                                   :sem {:aspect :simple
                                          :tense :present}}
                           :root {:français {:français "abandoner"}}
                           :comp {:synsem {:agr {:person :1st, :number :sing}}}}
@@ -224,13 +230,13 @@
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :progressive}}}
+                                         :aspect :simple}}}
                          :model (small))]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-present-by-root-irregular-1
   (let [result (generate {:synsem {:subcat '()
-                                   :sem {:aspect :progressive
+                                   :sem {:aspect :simple
                                          :tense :present}}
                           :root {:français {:français "dormir"}}
                           :comp {:synsem {:agr {:person :1st, :number :sing}}}}
@@ -241,7 +247,7 @@
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:subj {:pred :noi}
                                          :tense :present
-                                         :aspect :progressive}}
+                                         :aspect :simple}}
                           :root {:français {:français "boire"}}}
                          :model (small))]
     (is (= "nous buvons" (fo result)))))
@@ -274,7 +280,8 @@
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :be
                                          :subj {:pred :I}
-                                         :tense :present}}}
+                                         :tense :present
+                                         :aspect :simple}}}
                          :model (small))]
     (is (= "je suis" (fo result)))))
 
@@ -287,6 +294,24 @@
                          :model (small))]
     (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "j'étudiais" (fo result)))))
+
+(deftest imparfait-insert-e-before-g
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :I}
+                                         :tense :past
+                                         :aspect :progressive}}
+                          :root {:français {:français "manger"}}})]
+    (is (= "je mangeais" (fo result)))))
+
+(deftest imparfait-insert-cedilla-before-c
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :loro
+                                                :gender :fem}
+                                         :tense :past
+                                         :aspect :progressive}}
+                          :root {:français {:français "commencer"}}})]
+    (is (= "elles commençaient" (fo result)))))
+
 
 (deftest generate-imparfait-regular-ir
   (let [result (generate {:synsem {:subcat '()
@@ -385,6 +410,7 @@
               :cat :noun
               :français "nous"},
           :b {:b {:cat :verb
+                  :past-p {:regular true}
                   :future-stem "ir",
                   :agr {:number :plur,
                         :gender :fem
@@ -431,28 +457,39 @@
                   :français "sommes"}}}}]
     (is (= (fo result) "nous sommes allées"))))
 
-(deftest generate-passe-compose-1
-  (let [result
-        (generate (unify
-                   {:synsem {:subcat '()}}
-                   {:synsem {:sem {:subj {:pred :noi
-                                          :gender :fem}
-                                   :pred :go
-                                   :aspect :perfect
-                                   :tense :past}}})
-                  :model (small))]
-    (and (is (not (nil? result)))
-         (is (= (fo result) "nous sommes allées")))))
-
 (deftest generate-passe-compose
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:pred :go
                                          :subj {:pred :noi
                                                 :gender :fem}
                                          :aspect :perfect
-                                         :tense :past}}})]
+                                         :tense :present}}})]
     (is (not (nil? result)))
     (is (= (fo result) "nous sommes allées"))))
+
+(deftest generate-passe-compose-essere-false
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :tu
+                                                :gender :fem}
+                                         :aspect :perfect
+                                         :tense :present}}
+                          :root {:français {:français "couper"}}})]
+    (is (not (nil? result)))
+    (is (= (fo result) "tu as coupé"))))
+
+(deftest generate-passe-compose-irregular
+  (is (not (empty? (get (:lexicon (small)) "pris"))))
+  (is (= false (get-in (first (get (:lexicon (small)) "prendre"))
+                       [:français :past-p :regular])))
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :noi}
+                                         :aspect :perfect
+                                         :tense :present}}
+                          :root {:français {:français "prendre"}}}
+                         :model (small))]
+
+    (is (not (nil? result)))
+    (is (= (fo result) "nous avons pris"))))
 
 (deftest generate-reflexive-present
   (let [rules {:s-present-phrasal
@@ -479,14 +516,18 @@
         (generate
          {:synsem {:subcat '()
                    :sem {:subj {:pred :lei}
-                         :pred :have-fun :tense :past}}})]
+                         :pred :have-fun
+                         :tense :present
+                         :aspect :perfect}}})]
     (is (= (fo result) "elle l'est amusée"))))
 
 (deftest generate-vp-present-reflexive
   (let [result
         (generate
          {:synsem {:subcat '() :sem {:subj {:pred :lei}
-                                     :pred :have-fun :tense :present}}})]
+                                     :pred :have-fun
+                                     :aspect :simple
+                                     :tense :present}}})]
   (is (= (fo result) "elle l'amuse"))))
 
 (deftest generate-named-sentence
@@ -494,6 +535,8 @@
         (generate
          {:synsem {:subcat '()
                    :sem {:pred :be-called
+                         :aspect :simple
+                         :tense :present
                          :subj {:pred :lui}
                          :obj {:pred :Jean}}}})]
     (is (= (fo result) "il l'appele Jean"))))
@@ -523,7 +566,9 @@
             (= (get-in (first result) [:synsem :sem :pred])
                :speak)))
     (is (= (get-in (first result) [:synsem :sem :tense])
-           :past))))
+           :present))
+    (is (= (get-in (first result) [:synsem :sem :aspect])
+           :perfect))))
 
 (deftest parse-reflexive-past
   (let [result (first (parse "tu t'es amusé"))]
@@ -558,7 +603,8 @@
          {:synsem {:subcat '()
                    :sem {:subj {:pred :lui}
                          :pred :have-fun
-                         :tense :present}}})]
+                         :tense :present
+                         :aspect :simple}}})]
     (is (not (empty? have-fun-expression)))
     (is (= (fo have-fun-expression)
            "il l'amuse"))))

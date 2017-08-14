@@ -73,7 +73,7 @@
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
-                          show-notes false}}]
+                          show-notes true}}]
   (morph/fo expr
             :from-language from-language :show-notes show-notes
             :lexicon (:lexicon (medium))))

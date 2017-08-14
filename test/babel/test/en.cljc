@@ -511,12 +511,12 @@
 
 (deftest present-progressive-ends-with-e
   (let [spec1 {:modified false
-              :root {:english {:english "participate"}}
-              :synsem {:cat :verb
-                       :subcat ()
-                       :sem {:tense :present
-                             :aspect :progressive
-                             :subj {:pred :I}}}}
+               :root {:english {:english "participate"}}
+               :synsem {:cat :verb
+                        :subcat ()
+                        :sem {:tense :present
+                              :aspect :progressive
+                              :subj {:pred :I}}}}
         spec2 {:modified false
                :root {:english {:english "hope"}}
                :synsem {:cat :verb
@@ -526,9 +526,15 @@
                               :subj {:pred :I}
                               :obj :unspec}}}]
                                      
-    (is (= "I am participating" (morph (generate spec1))))
-    (is (= "I am hoping" (morph (generate spec2))))))
+    (is (= "I am participating (right now)" (morph (generate spec1))))
+    (is (= "I am hoping (right now)" (morph (generate spec2))))))
   
+(deftest past-participle-orthography
+  (is (= (babel.english.morphology/present-participle-of "hope") "hoping"))
+  (is (= (babel.english.morphology/present-participle-of "hop") "hopping"))
+  (is (= (babel.english.morphology/present-participle-of "knot") "knotting"))
+  (is (= (babel.english.morphology/present-participle-of "note") "noting")))
+
 (deftest present-progressive-vs-present-simple
   (let [base-spec {:modified false
                    :synsem {:cat :verb
@@ -548,7 +554,7 @@
     (is (= "I eat" (morph (generate simple)))) 
 
     ;; explicitly set to progressive present:
-    (is (= "I am eating" (morph (generate progressive))))))
+    (is (= "I am eating (right now)" (morph (generate progressive))))))
 
 (deftest benchmark-test []
   (let [med (medium)

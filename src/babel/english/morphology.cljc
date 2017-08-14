@@ -24,7 +24,25 @@
                 ;; remove :notes in these circumstances.
                 (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
                                      [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
-                input)]
+                input)
+
+        input (cond (and (some #(= from-language %) ["es" "fr"])
+                         (some #(= (get-in input [:english :a :english]) %) ["they"]))
+                    (cond (= :fem (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♀")
+                          (= :masc (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♂")
+                          true input)
+
+                    (and (some #(= from-language %) ["es" "fr" "it"])
+                         (some #(= (get-in input [:english :a :english]) %) ["it"]))
+                    (cond (= :fem (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♀")
+                          (= :masc (get-in input [:english :a :agr :gender]))
+                          (assoc-in input [:english :a :note] "♂")
+                          true input)
+
+                    true input)]
     (cond ;; fo
       (= input :fail)
       (str input)
@@ -393,14 +411,9 @@
          last-stem-char-is-e (re-find #"e$" stem)]
      ;; remove final "e", if any, before adding "e": e.g. "write" => "writing"
      (let [root stem ;; save this since we don't remove final 'e' for "used to" form.
-           stem (if (and last-stem-char-is-e
-                         (> (.length stem) 2) ;; don't apply this to "be".
-                         (not penultimate-stem-char-is-vowel))
-                  stem-minus-one
-                  stem)
 
            ;; unless overridden by :participle or :participle-suffix below,
-           ;; ing-form or used-to-form (chosen randomly) will be used.
+           ;; ing-form or used-to-form (chosen randomly) will be used: see the (rand-int) below
            ing-form (present-participle-of stem)
 
            used-to-form

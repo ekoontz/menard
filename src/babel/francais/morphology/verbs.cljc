@@ -370,13 +370,8 @@
     {:comment "past participle non-reflexive -re"
      :p [#"^(\S+)u$"            "$1re"]
      :g [#"^([^' ]+)re$"        "$1u"]
-<<<<<<< HEAD
-     :u {}}
-
-=======
      :u {:synsem {:français {:past-p {:regular true}}}}}
 
->>>>>>> origin/master
     {:comment "past participle non-reflexive -ir"
      :p [#"^(\S+)i$"            "$1ir"]
      :g [#"^([^' ]+)ir$"        "$1i"]

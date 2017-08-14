@@ -27,7 +27,12 @@
            (if (realized? en)
              en
              (deliver en
-                      {:morph babel.english.morphology/fo})))
+                      {:morph babel.english.morphology/fo
+                       :semantic-correspondence {:it [[:obj :null]
+                                                      [:obj :number]
+                                                      [:shared-with-obj]
+                                                      [:subj :null]
+                                                      [:subj :number]]}})))
      :es (fn []
            (if (realized? es)
              es

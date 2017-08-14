@@ -185,8 +185,10 @@
                     (log/trace (str "json source semantics:" json-source-semantics))
                     (let [result
                           (first
-                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,
-                                              ARRAY_AGG(target.surface) AS target,ARRAY_AGG(target.root) AS target_root,
+                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,  "
+                                              " source.structure AS source_structure, "
+                                              " ARRAY_AGG(target.surface) AS target, "
+                                              " ARRAY_AGG(target.root) AS target_root,
                                               ARRAY_AGG(source.structure::jsonb) AS target_structure
                                         FROM (SELECT surface, source.structure->'synsem'->'sem' 
                                                      AS sem,
@@ -205,7 +207,7 @@
                                                  AND target.structure->'synsem'->'sem' = ?::jsonb) AS target 
                                           ON (source.surface IS NOT NULL) 
                                          AND (target.surface IS NOT NULL) "
-                                              " GROUP BY source.surface,source.id")
+                                              " GROUP BY source.surface,source.id,source.structure")
                                          [source-language json-source-semantics target-language json-target-semantics]]
                                         :results))]
                       (if (nil? result)
@@ -223,9 +225,17 @@
                                 
                                 (dissoc :target_root) ;; targets' roots -> 'target_roots'
                                 (assoc :target_roots (read-array (:target_root result)))
-                                
+
                                 (dissoc :target_structure) ;; targets' structures -> 'target structures'
 
+                                (dissoc :source_structure)
+                                
+                                (dissoc :source)
+                                (assoc :source
+                                       (let [morph (get @((get babel.directory/models2 source-language-keyword)) :morph)]
+                                         (morph (json-read-str (str (:source_structure result)))
+                                                :from-language target-language)))
+                                
                                 ((fn [retval]
                                    (or 
                                     (and show-target-structures

@@ -145,8 +145,7 @@
                       debug (log/debug (str "index of target result:" index-of-result))
                       target-expression (nth results index-of-result)
                       debug (log/debug (str "target-expression is nil? " (nil? target-expression)))
-                      debug (log/trace (str "target-expression is: " target-expression))
-                      ]
+                      debug (log/trace (str "target-expression is: " target-expression))]
             
                   ;; Now get all the target expressions that are semantically
                   ;; equivalent to this expression's semantics,
@@ -243,6 +242,7 @@
                                     retval)))
 
                                 )]
+                        (log/debug (str "generate-question-and-correct-set [target-spec:" target-spec "] => retval: " retval))
                         retval))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]

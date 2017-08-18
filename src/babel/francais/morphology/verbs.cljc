@@ -606,10 +606,22 @@
      :u {:synsem {:agr {:number :sing
                         :person :3rd}}}}
 
+    ;; étudier -> étudions
+    {:p [#"^(\S+)ions$"      "$1ier"]
+     :g [#"^([^' ]+)ier$"    "$1ions"]
+     :u {:synsem {:agr {:number :plur
+                        :person :1st}}}}
+    
     {:p [#"^(\S+)ions$"      "$1er"]
      :g [#"^([^' ]+)er$"     "$1ions"]
      :u {:synsem {:agr {:number :plur
                         :person :1st}}}}
+
+    ;; étudier -> étudiez
+    {:p [#"^(\S+)iez$"       "$1er"]
+     :g [#"^([^' ]+)ier$"    "$1iez"]
+     :u {:synsem {:agr {:number :plur
+                        :person :2nd}}}}
 
     {:p [#"^(\S+)iez$"       "$1er"]
      :g [#"^([^' ]+)er$"     "$1iez"]

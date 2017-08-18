@@ -10,7 +10,7 @@
    [babel.stringutils :refer [show-as-tree]]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-head
-                     root-is-head-root
+                     root-is-head-root schema-10
                      subcat-1-principle subcat-1-1-principle
                      subcat-1-1-principle-comp-subcat-1
                      subcat-2-principle subcat-2-2-principle
@@ -67,12 +67,6 @@
                 :b head-espanol}})))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
-(def schema-10
-  (unifyc
-   subcat-1-principle
-   head-principle
-   {:first :comp
-    :comp {:synsem {:subcat '()}}}))
 
 (def c10
   (unifyc

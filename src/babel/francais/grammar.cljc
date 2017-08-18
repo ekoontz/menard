@@ -10,6 +10,7 @@
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
+                     schema-10
                      subcat-1-principle subcat-1-1-principle
                      subcat-1-1-principle-comp-subcat-1 subcat-2-principle
                      subcat-2-2-principle subcat-5-principle]]
@@ -157,12 +158,6 @@
                  :b {:cat head-cat}}})))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
-(def schema-10
-  (unify
-   subcat-1-principle
-   head-principle
-   {:first :comp
-    :comp {:synsem {:subcat '()}}}))
 
 (def c10
   (unify

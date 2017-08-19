@@ -23,7 +23,7 @@
 ;;(def ^:const shufflefn (fn [x] x))
 
 ;; nondeterministic generation
-(def ^:const shufflefn (fn [x] (and x (lazy-seq (shuffle x)))))
+(def ^:const shufflefn (fn [x] (shuffle x)))
 
 (def ^:const randomize-lexemes-before-phrases
 ;;  false)

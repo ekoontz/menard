@@ -643,7 +643,7 @@
     (is (= "nous acheterons" (fo generated)))))
 
 
-(deftest speed-test
+(deftest speed-test-1
   ;; these should all take relatively the same time, but
   ;; for now, the more general the spec, the longer it takes to generate
   (is (= 10
@@ -654,8 +654,9 @@
                                                                      :subj {:pred :noi}
                                                                      :tense :past
                                                                      :aspect :progressive}}}
-                                                     :model (medium))))))))))
-  (is (nil? (println "------")))
+                                                     :model (medium)))))))))))
+
+(deftest speed-test-2
   (is (= 10
          (count
           (take 10
@@ -665,8 +666,9 @@
                                                  :sem {:pred :speak
                                                        :subj {:pred :noi}
                                                        :tense :conditional}}}
-                                       :model (medium))))))))))
-  (is (nil? (println "------")))
+                                       :model (medium)))))))))))
+
+(deftest speed-test-3
   (is (= 10
          (count
           (take
@@ -676,8 +678,9 @@
                     (fo (generate {:synsem {:subcat '()
                                             :sem {:pred :speak
                                                   :tense :conditional}}}
-                                  :model (medium))))))))))
-  (is (nil? (println "------")))
+                                  :model (medium)))))))))))
+
+(deftest speed-test-4
   (is (= 10
          (count
           (take
@@ -686,8 +689,8 @@
             #(time (println
                     (fo (generate {:synsem {:subcat '()
                                             :sem {:pred :speak}}}
-                                  :model (medium))))))))))
-  (is (nil? (println "------")))
+                                  :model (medium)))))))))))
+(deftest speed-test-5
   (is (= 10
          (count
           (take
@@ -696,16 +699,16 @@
             #(time (println
                     (fo (generate {:synsem {:subcat '()
                                             :sem {:tense :conditional}}}
-                                  :model (medium))))))))))
-  (is (nil? (println "------")))
+                                  :model (medium)))))))))))
+(deftest speed-test-6
   (is (= 10
          (count
           (take 10
                 (repeatedly
                  #(time (println
                          (fo (generate {:synsem {:subcat '()}}
-                                       :model (medium))))))))))
-  (is (nil? (println "------")))
+                                       :model (medium)))))))))))
+(deftest speed-test-7
   (is (= 10
          (count
           (take 10
@@ -716,8 +719,9 @@
                                                        :subj {:pred :noi}
                                                        :tense :present
                                                        :aspect :perfect}}}
-                                       :model (medium))))))))))
-  (is (nil? (println "------")))
+                                       :model (medium)))))))))))
+
+(deftest speed-test-8
   (is (= 10
          (count
           (take 10
@@ -727,8 +731,8 @@
                                                  :sem {:pred :speak
                                                        :tense :present
                                                        :aspect :perfect}}}
-                                       :model (medium))))))))))
-  (is (nil? (println "------")))
+                                       :model (medium)))))))))))
+(deftest speed-test-9
   (is (= 10
          (count
           (take 10
@@ -737,7 +741,8 @@
                          (fo (generate {:synsem {:subcat '()
                                                  :sem {:tense :present
                                                        :aspect :perfect}}}
-                                       :model (medium)))))))))))
+                                         :model (medium)))))))))))
+
 
 
   

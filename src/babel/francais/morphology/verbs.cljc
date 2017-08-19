@@ -905,6 +905,7 @@
                        :agr agr}))})
        regular-patterns-source))
 
+;; TODO: unify irregular-patterns and irregular-conjugations.
 (def irregular-patterns
   [;; 1. past-tense exceptions
    {:path [:français :past-participle]
@@ -1233,6 +1234,7 @@
                    :agr {:number :plur
                          :person :2nd}}}])}])
 
+;; TODO: unify irregular-patterns (above) and irregular-conjugations.
 (def irregular-conjugations
   (concat
    [;; irregular conditional with :future-stem

@@ -38,8 +38,7 @@
  "annoncer" {:synsem {:cat :verb
                       :sem {:pred :announce}}}
 
- "appeler" {:français {:boot-stem "appell"
-                       :future-stem "appell"}
+ "appeler" {:français {:future-stem "appel"}
             :synsem {:cat :verb
                      :sem {:pred :call}}}
 

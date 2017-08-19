@@ -78,9 +78,13 @@
 
      ;; 3. For each bolt, create a map:
      ;;
-     ;; P1 => C1_1,C1_2,C1_3,..
-     ;; P2 => C2_1,C2_2,C2_3,..
+     ;; B1:P1_1 => C1_1_1,C1_1_2,C1_1_3,..
+     ;; B1:P1_2 => C1_2_1,C1_2_2,C1_2_3,..
      ;; ..
+     ;; B2:P2_1 => C2_1_1,C2_1_2,C2_1_3,..
+     ;; B2:P2_2 => C2_2_1,...
+     ;; ..
+     ;;
      ;; from paths P to possible complements C at that path in the bolt.
      (map (fn [bolt]
             (let [paths (find-comp-paths bolt)]

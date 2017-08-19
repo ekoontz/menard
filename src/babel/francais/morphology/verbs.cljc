@@ -967,47 +967,48 @@
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
+      {:français {:infl :conditional
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "ais")
+                  :français (str (get-in val [:français :future-stem]) "ais")
                   :agr {:number :sing
                         :person :1st}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
+      {:français {:infl :conditional
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "ais")
+                  :français (str (get-in val [:français :future-stem]) "ais")
                   :agr {:number :sing
                         :person :2nd}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
+      {:français {:infl :conditional
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "ait")
+                  :français (str (get-in val [:français :future-stem]) "ait")
                   :agr {:number :sing
                         :person :3rd}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "ions")
+      {:français {:infl :conditional
+                  :français (str (get-in val [:français :future-stem]) "ions")
                   :agr {:number :plur
                         :person :1st}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "iez")
+      {:français {:infl :conditional
+                  :français (str (get-in val [:français :future-stem]) "iez")
                   :conjugated true
                   :agr {:number :plur
                         :person :2nd}}})}
+
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
-      {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "aient")
+      {:français {:infl :conditional
+                  :français (str (get-in val [:français :future-stem]) "aient")
                   :conjugated true
                   :agr {:number :plur
                         :person :3rd}}})}
@@ -1018,37 +1019,41 @@
     (fn [val]
       {:français {:infl :future
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "ai")
+                  :français (str (get-in val [:français :future-stem]) "ai")
                   :agr {:number :sing
                         :person :1st}}})}
+
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
       {:français {:infl :future
+                  :val val
+                  :got-here true
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "as")
+                  :français (str (get-in val [:français :future-stem]) "as")
                   :agr {:number :sing
                         :person :2nd}}})}
+
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
       {:français {:infl :future
                   :conjugated true
-                  :français (get-in val [:français :future-stem] "a")
+                  :français (str (get-in val [:français :future-stem]) "a")
                   :agr {:number :sing
                         :person :3rd}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "ons")
+                  :français (str (get-in val [:français :future-stem]) "ons")
                   :agr {:number :plur
                         :person :1st}}})}
    {:path [:français :future-stem]
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "ez")
+                  :français (str (get-in val [:français :future-stem]) "ez")
                   :conjugated true
                   :agr {:number :plur
                         :person :2nd}}})}
@@ -1056,7 +1061,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :français (get-in val [:français :future-stem] "ont")
+                  :français (str (get-in val [:français :future-stem] "ont"))
                   :conjugated true
                   :agr {:number :plur
                         :person :3rd}}})}

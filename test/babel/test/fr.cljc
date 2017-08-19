@@ -268,6 +268,22 @@
                          :model (small))]
     (is (= "je dormirais" (fo result)))))
 
+(deftest generate-future-with-irregular-future-stem-1
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:pred :call
+                                         :subj {:pred :tu}
+                                         :tense :future}}}
+                         :model (medium))]
+    (is (= "tu appelas" (fo result)))))
+
+(deftest generate-future-with-irregular-future-stem-2
+  (let [result (generate {:synsem {:subcat '()
+                                   :sem {:subj {:pred :tu}
+                                         :tense :future}}
+                          :root {:français {:français "appeler"}}}
+                         :model (medium))]
+    (is (= "tu appelas" (fo result)))))
+
 (deftest generate-regular-conditional-reflexive
   (let [result (generate {:synsem {:subcat '()
                                    :sem {:subj {:pred :I}

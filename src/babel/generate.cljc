@@ -96,7 +96,8 @@
                        :paths paths
                        :trellis each-path-through-trellis})
                     (lazy-seq (apply combo/cartesian-product comps)))))
-     ;; 5. ...
+
+     ;; 5. TODO: explain what this step is doing.
      (map (fn [{bolt :bolt paths :paths trellis :trellis}]
             (cons bolt
                   ;; TODO: further flatten this into the overall ->> pipeline
@@ -104,29 +105,23 @@
                          (assoc-in {} path trellis))
                        (zipmap paths trellis)))))
 
-     ;; 6. Remove fails. (TODO: consider whether this can be removed)
-     (remove (fn [tree-parts]
-               (some #(= :fail %) tree-parts)))
-
-     ;; 7. Combine each set of tree parts into a tree.
+     ;; 6. Combine each set of tree parts into a tree.
      (map (fn [tree-parts]
             (reduce (fn [a b]
                       (unify-and-log a b model))
                     tree-parts)))
 
-     ;; 8. Remove fails again. (TODO: consider whether this can be removed)
-     (remove #(= :fail %))
-
-     ;; 9. Apply model's defaults, if any, to each tree.
+     ;; 7. Apply model's defaults, if any, to each tree.
      (map #(do-defaults % model))
 
-     ;; 10. If desired, truncate trees to just a root node with no children, for efficiency of future processing.
+     ;; 8. If desired, truncate trees to just a root node with no children, for efficiency of future processing.
      (map #(if (= true truncate)
              (dag_unify.core/strip-refs (dissoc-paths % [[:head][:comp]]))
              %))
 
-     ;; 11. Remove fails once more. (TODO: consider whether this can be removed)
-     (remove #(= :fail %)))))
+     ;; 11. Remove fails.
+     (remove #(= :fail %))
+     )))
 
 (def expensive-logging false)
 

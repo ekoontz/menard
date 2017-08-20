@@ -643,129 +643,69 @@
     (is (= "nous acheterons" (fo generated)))))
 
 
+(defn speed-test [spec]
+  (is (= 10
+         (count (take 10
+                      (repeatedly
+                       #(time (println (fo (generate spec
+                                                     :model (medium)))))))))))
 (deftest speed-test-1
   ;; these should all take relatively the same time, but
   ;; for now, the more general the spec, the longer it takes to generate.
   (log/info (str "speed-test-1"))
-  (is (= 10
-         (count (take 10
-                      (repeatedly
-                       #(time (println (fo (generate {:synsem {:subcat '()
-                                                               :sem {:pred :speak
-                                                                     :subj {:pred :noi}
-                                                                     :tense :past
-                                                                     :aspect :progressive}}}
-                                                     :model (medium)))))))))))
-
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak
+                              :subj {:pred :noi}
+                              :tense :past
+                              :aspect :progressive}}}))
 (deftest speed-test-2
   (log/info (str "speed-test-2"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:pred :speak
-                                                       :subj {:pred :noi}
-                                                       :tense :conditional}}}
-                                       :model (medium)))))))))))
-
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak
+                              :subj {:pred :noi}
+                              :tense :conditional}}}))
 (deftest speed-test-3
   (log/info (str "speed-test-3"))
-  (is (= 10
-         (count
-          (take
-           10
-           (repeatedly
-            #(time (println
-                    (fo (generate {:synsem {:subcat '()
-                                            :sem {:pred :speak
-                                                  :tense :conditional}}}
-                                  :model (medium)))))))))))
-
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak
+                              :tense :conditional}}}))
 (deftest speed-test-4
   (log/info (str "speed-test-4"))
-  (is (= 10
-         (count
-          (take
-           10
-           (repeatedly
-            #(time (println
-                    (fo (generate {:synsem {:subcat '()
-                                            :sem {:pred :speak}}}
-                                  :model (medium)))))))))))
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak}}}))
 (deftest speed-test-5
   (log/info (str "speed-test-5"))
-  (is (= 10
-         (count
-          (take
-           10
-           (repeatedly
-            #(time (println
-                    (fo (generate {:synsem {:subcat '()
-                                            :sem {:tense :conditional}}}
-                                  :model (medium)))))))))))
+  (speed-test {:synsem {:subcat '()
+                        :sem {:tense :conditional}}}))
 (deftest speed-test-6
   (log/info (str "speed-test-6"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:pred :speak
-                                                       :subj {:pred :noi}
-                                                       :tense :present
-                                                       :aspect :perfect}}}
-                                       :model (medium)))))))))))
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak
+                              :subj {:pred :noi}
+                              :tense :present
+                              :aspect :perfect}}}))
 (deftest speed-test-7
   (log/info (str "speed-test-7"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:pred :speak
-                                                       :tense :present
-                                                       :aspect :perfect}}}
-                                       :model (medium)))))))))))
-
+  (speed-test {:synsem {:subcat '()
+                        :sem {:pred :speak
+                              :tense :present
+                              :aspect :perfect}}}))
 (deftest speed-test-8
   (log/info (str "speed-test-8"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:tense :present
-                                                       :reflexive false
-                                                       :aspect :perfect}}}
-                                         :model (medium)))))))))))
+  (speed-test {:synsem {:subcat '()
+                        :sem {:tense :present
+                              :reflexive false
+                              :aspect :perfect}}}))
 (deftest speed-test-9
   (log/info (str "speed-test-9"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()}}
-                                       :model (medium)))))))))))
+  (speed-test {:synsem {:subcat '()}}))
 
 (deftest speed-test-10
   (log/info (str "speed-test-10"))
-  (is (= 10
-         (count
-          (take 10
-                (repeatedly
-                 #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:tense :present
-                                                       :reflexive true
-                                                       :aspect :perfect}}}
-                                         :model (medium)))))))))))
-
+  (speed-test {:synsem {:subcat '()
+                        :sem {:tense :present
+                              :reflexive true
+                              :aspect :perfect}}}))
 
 
   

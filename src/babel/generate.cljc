@@ -19,16 +19,20 @@
 (def ^:const handle-unify-fail #(log/debug %))
 (def ^:const throw-exception-on-unify-fail false)
 
-;; deterministic generation:
-;;(def ^:const shufflefn (fn [x] x))
 
-;; nondeterministic generation
-(def ^:const shufflefn (fn [x] (shuffle x)))
+(def ^:const shufflefn
+  (fn [x]
+    ;; deterministic generation:
+;;    x
+    ;; nondeterministic generation
+    (lazy-seq (shuffle x))
+
+    ))
 
 (def ^:const randomize-lexemes-before-phrases
-;;  false)
-;;(def ^:const randomize-lexemes-before-phrases
-  true)
+;;  false
+  true
+  )
 
 ;; whether to remove [:head] and [:comp] paths from generated trees after generation:
 ;; for performance.
@@ -126,7 +130,7 @@
              (dag_unify.core/strip-refs (dissoc-paths % [[:head][:comp]]))
              %))
 
-     ;; 11. Remove fails.
+     ;; 9. Remove fails.
      (remove #(= :fail %))
      )))
 
@@ -265,14 +269,12 @@
   which makes returning true (i.e. lexemes first) increasingly likely
   as depth increases."
   [depth max-total-depth]
-  (if (not randomize-lexemes-before-phrases)
-    false
-    (if (> max-total-depth 0)
-      (let [prob (- 1.0 (/ (- max-total-depth depth)
-                           max-total-depth))]
-        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
-        (> (* 10 prob) (rand-int 10)))
-      false)))
+  (and (not randomize-lexemes-before-phrases)
+       (> max-total-depth 0)
+       (let [prob (- 1.0 (/ (- max-total-depth depth)
+                            max-total-depth))]
+         (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
+         (> (* 10 prob) (rand-int 10)))))
 
 (defn not-fail? [arg]
   (not (= :fail arg)))
@@ -301,21 +303,11 @@
   (filter not-fail?
           (mapfn (fn [rule]
                    (log/trace (str "candidate-parents: testing rule: " (:rule rule)))
-                   (if (not-fail? (unify (get-in rule [:synsem :cat] :top)
-                                         (get-in spec [:synsem :cat] :top)))
-                     ;; TODO: add checks for [:synsem :subcat] valence as well as [:synsem :cat].
-                     (do
-                       (log/trace (str "candidate-parents: " (:rule rule) " is a cat-wise candidate for spec:"
-                                       (strip-refs spec)))
-                       (let [unified (unify spec rule)]
-                         (if (= :fail unified)
-                           (log/trace (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
-                           (log/debug (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
-                         unified))
-                     (do
-                       (log/debug (str "candidate-parents: " (:rule rule) " is *not* a head candidate for spec:"
-                                       (strip-refs spec)))
-                       :fail)))
+                   (let [unified (unify spec rule)]
+                     (if (= :fail unified)
+                       (log/debug (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
+                       (log/debug (str "candidate parent: " (:rule rule) " unified successfully with spec:" (strip-refs spec))))
+                     unified))
                  rules)))
 
 (defn show-bolt [bolt language-model]

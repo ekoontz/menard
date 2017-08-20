@@ -645,7 +645,8 @@
 
 (deftest speed-test-1
   ;; these should all take relatively the same time, but
-  ;; for now, the more general the spec, the longer it takes to generate
+  ;; for now, the more general the spec, the longer it takes to generate.
+  (log/info (str "speed-test-1"))
   (is (= 10
          (count (take 10
                       (repeatedly
@@ -657,6 +658,7 @@
                                                      :model (medium)))))))))))
 
 (deftest speed-test-2
+  (log/info (str "speed-test-2"))
   (is (= 10
          (count
           (take 10
@@ -669,6 +671,7 @@
                                        :model (medium)))))))))))
 
 (deftest speed-test-3
+  (log/info (str "speed-test-3"))
   (is (= 10
          (count
           (take
@@ -681,6 +684,7 @@
                                   :model (medium)))))))))))
 
 (deftest speed-test-4
+  (log/info (str "speed-test-4"))
   (is (= 10
          (count
           (take
@@ -691,6 +695,7 @@
                                             :sem {:pred :speak}}}
                                   :model (medium)))))))))))
 (deftest speed-test-5
+  (log/info (str "speed-test-5"))
   (is (= 10
          (count
           (take
@@ -701,6 +706,7 @@
                                             :sem {:tense :conditional}}}
                                   :model (medium)))))))))))
 (deftest speed-test-6
+  (log/info (str "speed-test-6"))
   (is (= 10
          (count
           (take 10
@@ -709,6 +715,7 @@
                          (fo (generate {:synsem {:subcat '()}}
                                        :model (medium)))))))))))
 (deftest speed-test-7
+  (log/info (str "speed-test-7"))
   (is (= 10
          (count
           (take 10
@@ -722,6 +729,7 @@
                                        :model (medium)))))))))))
 
 (deftest speed-test-8
+  (log/info (str "speed-test-8"))
   (is (= 10
          (count
           (take 10
@@ -733,6 +741,7 @@
                                                        :aspect :perfect}}}
                                        :model (medium)))))))))))
 (deftest speed-test-9
+  (log/info (str "speed-test-9"))
   (is (= 10
          (count
           (take 10
@@ -745,6 +754,7 @@
                                          :model (medium)))))))))))
 
 (deftest speed-test-10
+  (log/info (str "speed-test-10"))
   (is (= 10
          (count
           (take 10

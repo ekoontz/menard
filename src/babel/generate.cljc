@@ -269,12 +269,13 @@
   which makes returning true (i.e. lexemes first) increasingly likely
   as depth increases."
   [depth max-total-depth]
-  (and (not randomize-lexemes-before-phrases)
-       (> max-total-depth 0)
-       (let [prob (- 1.0 (/ (- max-total-depth depth)
-                            max-total-depth))]
-         (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
-         (> (* 10 prob) (rand-int 10)))))
+  (if (not randomize-lexemes-before-phrases)
+    false
+    (if (> max-total-depth 0)
+      (let [prob (- 1.0 (/ (- max-total-depth depth)
+                           max-total-depth))]
+        (log/trace (str "P(c," depth ") = " prob " (c: probability of choosing lexemes rather than phrases given depth " depth ")"))
+        (> (* 10 prob) (rand-int 10))))))
 
 (defn not-fail? [arg]
   (not (= :fail arg)))

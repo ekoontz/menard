@@ -712,7 +712,11 @@
           (take 10
                 (repeatedly
                  #(time (println
-                         (fo (generate {:synsem {:subcat '()}}
+                         (fo (generate {:synsem {:subcat '()
+                                                 :sem {:pred :speak
+                                                       :subj {:pred :noi}
+                                                       :tense :present
+                                                       :aspect :perfect}}}
                                        :model (medium)))))))))))
 (deftest speed-test-7
   (log/info (str "speed-test-7"))
@@ -723,7 +727,6 @@
                  #(time (println
                          (fo (generate {:synsem {:subcat '()
                                                  :sem {:pred :speak
-                                                       :subj {:pred :noi}
                                                        :tense :present
                                                        :aspect :perfect}}}
                                        :model (medium)))))))))))
@@ -736,10 +739,10 @@
                 (repeatedly
                  #(time (println
                          (fo (generate {:synsem {:subcat '()
-                                                 :sem {:pred :speak
-                                                       :tense :present
+                                                 :sem {:tense :present
+                                                       :reflexive false
                                                        :aspect :perfect}}}
-                                       :model (medium)))))))))))
+                                         :model (medium)))))))))))
 (deftest speed-test-9
   (log/info (str "speed-test-9"))
   (is (= 10
@@ -747,11 +750,8 @@
           (take 10
                 (repeatedly
                  #(time (println
-                         (fo (generate {:synsem {:subcat '()
-                                                 :sem {:tense :present
-                                                       :reflexive false
-                                                       :aspect :perfect}}}
-                                         :model (medium)))))))))))
+                         (fo (generate {:synsem {:subcat '()}}
+                                       :model (medium)))))))))))
 
 (deftest speed-test-10
   (log/info (str "speed-test-10"))

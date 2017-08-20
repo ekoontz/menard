@@ -92,7 +92,7 @@
                :paths paths
                :comps (map #(comp-path-to-complements bolt % model depth max-depth) paths)})))
 
-     ;; 4. Create the cartesian product of all the possibile complements at all paths within each bolt.
+     ;; 4. Create the cartesian product of all the possible complements at all paths within each bolt.
      (mapcat (fn [{bolt :bolt comps :comps paths :paths}]
                ;; TODO: further flatten this into the overall ->> pipeline
                (map (fn [each-path-through-trellis]
@@ -101,12 +101,12 @@
                        :trellis each-path-through-trellis})
                     (lazy-seq (apply combo/cartesian-product comps)))))
 
-     ;; 5. TODO: explain what this step is doing.
+     ;; 5. For each bold, create tree parts for each path-complement pair of the bolt.
      (map (fn [{bolt :bolt paths :paths trellis :trellis}]
             (cons bolt
                   ;; TODO: further flatten this into the overall ->> pipeline
-                  (map (fn [[path trellis]]
-                         (assoc-in {} path trellis))
+                  (map (fn [[path complement]]
+                         (assoc-in {} path complement))
                        (zipmap paths trellis)))))
 
      ;; 6. Combine each set of tree parts into a tree.

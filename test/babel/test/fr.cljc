@@ -740,6 +740,19 @@
                  #(time (println
                          (fo (generate {:synsem {:subcat '()
                                                  :sem {:tense :present
+                                                       :reflexive false
+                                                       :aspect :perfect}}}
+                                         :model (medium)))))))))))
+
+(deftest speed-test-10
+  (is (= 10
+         (count
+          (take 10
+                (repeatedly
+                 #(time (println
+                         (fo (generate {:synsem {:subcat '()
+                                                 :sem {:tense :present
+                                                       :reflexive true
                                                        :aspect :perfect}}}
                                          :model (medium)))))))))))
 

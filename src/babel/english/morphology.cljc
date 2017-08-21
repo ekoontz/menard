@@ -141,7 +141,7 @@
    (and (string? (get-in word [:english]))
         (= :masc (get-in word [:gender]))
         (= true (get-in word [:pronoun]))
-        (= "it" from-language)
+        (some #(= from-language %) ["fr" "it"])
         ;; If a pronoun is 'gendered', it means that the gender
         ;; is implicit in the word, e.g. "he" and "she".
         ;; An example of a non-gendered pronoun in English is "they",
@@ -153,7 +153,7 @@
    (and (string? (get-in word [:english]))
         (= :fem (get-in word [:gender]))
         (= true (get-in word [:pronoun]))
-        (= "it" from-language)
+        (some #(= from-language %) ["fr" "it"])
         (= false (unify false (get-in word [:agr :gendered] false))))
    (trim (str (get-in word [:english]) " (♀)"))
    
@@ -269,7 +269,6 @@
      (log/debug (str "A STRING-A: " string-a))
      (log/debug (str "B STRING-B: " string-b))
      (cond
-
        (and (= string-b "s")
             (nil? (re-find #"s$" string-a)) ;; plural noun phrase does *not* end with 's' (e.g. "the women"
             (= :plur (get-in word [:a :agr :number]))
@@ -294,7 +293,7 @@
    (and (= :english (get-in word '(:infl)))
         (string? (get-in word '(:english))))
    (get-in word '(:english))
-
+   
    (= true (get-in word '(:hidden)))
    ;;   "Ø"
    ""
@@ -693,7 +692,7 @@
     (= (get-in word '(:cat) :noun))
     (string? (get-in word '(:root))))
    (get-in word '(:root))
-
+   
    (and
     (= (get-in word '(:agr :number)) :sing)
     (= (get-in word '(:cat) :noun))
@@ -702,14 +701,14 @@
               (if (and (get-in word '(:note))
                        (not (= false show-notes)))
                 (get-in word '(:note)))))
-
+   
    ;; TODO: remove support for deprecated :root - use :sing instead.
    (and
     (= (get-in word '(:agr :number)) :sing)
     (= (get-in word '(:cat) :noun))
     (string? (get-in word '(:root :english))))
    (get-in word '(:root :english))
-
+   
    (and
     (= (get-in word '(:agr :number)) :sing)
     (= (get-in word '(:cat) :noun))

@@ -447,6 +447,7 @@
              (= k "latin")
              (= k :participle)
              (= k :past)
+             (= k :past-participle)
              (= k :present)
              (= k :1sing)
              (= k :2sing)

@@ -272,6 +272,31 @@
     :u {:synsem {:agr {:number :plur
                        :gender :fem}}}}
 
+   {:comment "past participle reflexive singular masculine -ir where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)é$"    "s'$1ir"]
+    :g [#"^s'([aeéiou]\S+)ir$" "$1é"]
+    :u {:synsem {:agr {:number :sing
+                       :gender :masc}}}}
+
+   {:comment "past participle reflexive plural masculine -ir where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)és$"   "s'$1ir"]
+    :g [#"^s'([aeéiou]\S+)ir$" "$1és"]
+    :u {:synsem {:agr {:number :plur
+                       :gender :masc}}}}
+
+   {:comment "past participle reflexive singular feminine -ir where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)ée$"   "s'$1ir"]
+    :g [#"^s'([aeéiou]\S+)ir$" "$1ée"]
+    :u {:synsem {:agr {:number :sing
+                       :gender :fem}}}}
+
+   {:comment "past participle reflexive plural feminine -ir where stem begins with a vowel"
+    :p [#"^([aeéiou]\S+)ées$"  "s'$1ir"]
+    :g [#"^s'([aeéiou]\S+)ir$" "$1ées"]
+    :u {:synsem {:agr {:number :plur
+                       :gender :fem}}}}
+
+   
    {:comment "past participle reflexive singular masculine -er where stem does not begin with a vowel"
     :p [#"^([^aeéiou]\S+)é$"   "se $1er"]
     :g [#"^se (\S+)er$"        "$1é"]

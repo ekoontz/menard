@@ -141,13 +141,20 @@
    (and (string? (get-in word [:english]))
         (= :masc (get-in word [:gender]))
         (= true (get-in word [:pronoun]))
-        (= "it" from-language))
+        (= "it" from-language)
+        ;; If a pronoun is 'gendered', it means that the gender
+        ;; is implicit in the word, e.g. "he" and "she".
+        ;; An example of a non-gendered pronoun in English is "they",
+        ;; or "loro" in Italian, but in contrast, in French, "ils"
+        ;; and "elles" *are* gendered.
+        (= false (get-in word [:agr :gendered] false)))
    (trim (str (get-in word [:english]) " (♂)"))
    
    (and (string? (get-in word [:english]))
         (= :fem (get-in word [:gender]))
         (= true (get-in word [:pronoun]))
-        (= "it" from-language))
+        (= "it" from-language)
+        (= false (get-in word [:agr :gendered] false)))
    (trim (str (get-in word [:english]) " (♀)"))
    
    ;; :note is used for little annotations that are significant in italian but not in english

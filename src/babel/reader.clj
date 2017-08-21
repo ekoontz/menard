@@ -444,7 +444,12 @@
              (= k "espanol")
              (= k "français")
              (= k "italiano")
-             (= k "latin"))
+             (= k "latin")
+             (= k :participle)
+             (= k :past)
+             (= k :present)
+             (= k :1sing)
+             (= k :2sing))
          (not (map? v)))
     (str v)
     

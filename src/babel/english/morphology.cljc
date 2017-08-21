@@ -94,11 +94,14 @@
     true
     (str stem "ing")))
 
-(defn get-string [word & {:keys [from-language lexicon show-notes]
-                          :or {from-language nil
-                               lexicon nil
-                               show-notes true}}]
-  (log/debug (if (map? word) (str "get-string: " (strip-refs word))))
+;; TODO: (defn get-string) is a big unmaintainable mess!
+(defn get-string
+  "transform _word_ as a map into a string"
+  [word & {:keys [from-language lexicon show-notes]
+           :or {from-language nil
+                lexicon nil
+                show-notes true}}]
+  (log/debug (if (map? word) (str "get-string: " (strip-refs word) "; from-language: " from-language "; show-notes:" show-notes)))
   (cond ;; (get-string)
     
    (ref? word)

@@ -449,7 +449,8 @@
              (= k :past)
              (= k :present)
              (= k :1sing)
-             (= k :2sing))
+             (= k :2sing)
+             (= k :3sing))
          (not (map? v)))
     (str v)
     

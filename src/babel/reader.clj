@@ -242,7 +242,7 @@
                                     retval)))
 
                                 )]
-                        (log/debug (str "generate-question-and-correct-set [target-spec:" target-spec "] => retval: " retval))
+                        (log/info (str "generate-question-and-correct-set [target-spec:" target-spec "] => retval: " retval))
                         retval))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]

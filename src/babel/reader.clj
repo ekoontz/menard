@@ -451,7 +451,8 @@
              (= k :present)
              (= k :1sing)
              (= k :2sing)
-             (= k :3sing))
+             (= k :3sing)
+             (= k :note))
          (not (map? v)))
     (str v)
     

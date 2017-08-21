@@ -138,6 +138,18 @@
                     :lexicon lexicon
                     :show-notes show-notes))
 
+   (and (string? (get-in word [:english]))
+        (= :masc (get-in word [:gender]))
+        (= true (get-in word [:pronoun]))
+        (= "it" from-language))
+   (trim (str (get-in word [:english]) " (♂)"))
+   
+   (and (string? (get-in word [:english]))
+        (= :fem (get-in word [:gender]))
+        (= true (get-in word [:pronoun]))
+        (= "it" from-language))
+   (trim (str (get-in word [:english]) " (♀)"))
+   
    ;; :note is used for little annotations that are significant in italian but not in english
    ;; e.g. gender signs (♂,♀) on nouns like "professore" and "professoressa".
    (and (string? (get-in word '(:english)))
@@ -148,32 +160,6 @@
                           :show-notes show-notes))
         (if (not (= false show-notes))
           (str " (" (trim (get-in word '(:note))) ")")))
-
-   (and (string? (get-in word [:english]))
-        (= :masc (get-in word [:gender]))
-        (= true (get-in word [:pronoun]))
-        (= true (get-in word [:gendered]))
-        (= "it" from-language))
-   (get-in word [:english])
-
-   (and (string? (get-in word [:english]))
-        (= :masc (get-in word [:gender]))
-        (= true (get-in word [:pronoun]))
-        (= "it" from-language))
-   (trim (str (get-in word [:english]) " (♂)"))
-
-   (and (string? (get-in word [:english]))
-        (= :fem (get-in word [:gender]))
-        (= true (get-in word [:pronoun]))
-        (= true (get-in word [:gendered]))
-        (= "it" from-language))
-   (get-in word [:english])
-   
-   (and (string? (get-in word [:english]))
-        (= :fem (get-in word [:gender]))
-        (= true (get-in word [:pronoun]))
-        (= "it" from-language))
-   (trim (str (get-in word [:english]) " (♀)"))
 
    (= (get-in word '(:a)) :top)
    (str

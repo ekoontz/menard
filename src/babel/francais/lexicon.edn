@@ -235,7 +235,7 @@
 
    "dormir" {:synsem {:cat :verb
                       :sem {:pred :sleep}}
-             :français {:past-participle "dit"
+             :français {:past-participle "dormi"
                         :present {:1sing "dors"
                                   :2sing "dors"
                                   :3sing "dort"

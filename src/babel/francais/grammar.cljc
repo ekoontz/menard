@@ -404,7 +404,7 @@
                                           :tense :present}
                                     :cat :verb}})
                    
-                   ;; [nous [être + naître]] => nous somme nées
+                   ;; [nous [être + naître]] => nous sommes nées
                    (unify h22
                           root-is-comp
                           head-present-infl

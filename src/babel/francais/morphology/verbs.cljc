@@ -1086,7 +1086,7 @@
     :merge-fn
     (fn [val]
       {:français {:infl :future
-                  :français (str (get-in val [:français :future-stem] "ont"))
+                  :français (str (get-in val [:français :future-stem]) "ont")
                   :conjugated true
                   :agr {:number :plur
                         :person :3rd}}})}

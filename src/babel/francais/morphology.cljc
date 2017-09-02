@@ -132,8 +132,13 @@
                                                            conjugate-with [[:français :exception]])) "; "
                                               "arg2="
                                               {:français {:infinitive infinitive
-                                                          :exception true}}))))
-                
+                                                          :exception true}}
+                                              "; fail-path:"
+                                              (dag_unify.core/fail-path
+                                               (strip-refs (dissoc-paths
+                                                            conjugate-with [[:français :exception]]))
+                                               {:français {:infinitive infinitive
+                                                           :exception true}})))))
                 exceptional-surface-forms
                 (do
                   (log/debug (str "unifying spec: " spec " against irregular-conjugations."))

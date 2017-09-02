@@ -1054,7 +1054,6 @@
     (fn [val]
       {:français {:infl :future
                   :val val
-                  :got-here true
                   :conjugated true
                   :français (str (get-in val [:français :future-stem]) "as")
                   :agr {:number :sing

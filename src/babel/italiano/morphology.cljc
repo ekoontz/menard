@@ -1704,45 +1704,33 @@
                           (log/trace (str "lexeme key:" k))
                           (log/trace (str (first lexeme-kv) " generating exception for path: " path))
                           (mapcat (fn [lexeme]
-                                    ;; this is where a unify/dissoc that supported
-                                    ;; non-maps like :top and :fail, would be useful:
-                                    ;; would not need the (if (not (fail? lexeme)..)) check
-                                    ;; to avoid a difficult-to-understand "java.lang.ClassCastException:
-                                    ;; clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
-                                    (let [debug (log/debug (str "lexeme: " lexeme))
-                                          lexeme (cond (= lexeme :fail)
-                                                       :fail
-                                                       (= lexeme :top)
-                                                       :top
+                                    (if (not (= :none (get-in lexeme path :none)))
+                                      (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                          (list {(surface-form-fn lexeme)
+                                                 [(reduce
+                                                   (fn [a b]
+                                                     (cond
+                                                       (= a :fail)
+                                                       (do
+                                                         (log/warn (str ":fail in exception rule:"
+                                                                        (:label path-and-merge-fn)
+                                                                        "; lexeme's italiano:"
+                                                                        (strip-refs (get-in lexeme [:italiano]))))
+                                                         :fail)
+                                                       (= b :fail)
+                                                       (do
+                                                         (log/warn (str ":fail in exception rule:"
+                                                                        (:label path-and-merge-fn)
+                                                                        "; lexeme:"
+                                                                        (or (strip-refs (get-in lexeme [:italiano :italiano]))
+                                                                            (strip-refs (get-in lexeme [:italiano])))))
+                                                         :fail)
                                                        true
-                                                       lexeme)]
-                                      (if (not (= :none (get-in lexeme path :none)))
-                                        (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
-                                            (list {(surface-form-fn lexeme)
-                                                   [(reduce
-                                                     (fn [a b]
-                                                       (cond
-                                                         (= a :fail)
-                                                         (do
-                                                           (log/warn (str ":fail in exception rule:"
-                                                                          (:label path-and-merge-fn)
-                                                                          "; lexeme's italiano:"
-                                                                          (strip-refs (get-in lexeme [:italiano]))))
-                                                           :fail)
-                                                         (= b :fail)
-                                                         (do
-                                                           (log/warn (str ":fail in exception rule:"
-                                                                          (:label path-and-merge-fn)
-                                                                          "; lexeme:"
-                                                                          (or (strip-refs (get-in lexeme [:italiano :italiano]))
-                                                                              (strip-refs (get-in lexeme [:italiano])))))
-                                                           :fail)
-                                                         true
-                                                         (unify a b)))
-                                                     [(dissoc-paths lexeme [[:italiano :italiano]])
-                                                      (merge-fn lexeme)
-                                                      {:italiano {:infinitive k
-                                                                  :exception true}}])]})))))
+                                                       (unify a b)))
+                                                   [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                    (merge-fn lexeme)
+                                                    {:italiano {:infinitive k
+                                                                :exception true}}])]}))))
                                   lexemes)))
                       exceptions-rules))))
         (sort (keys lexicon)))))

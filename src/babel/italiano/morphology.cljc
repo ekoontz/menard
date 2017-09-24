@@ -1404,52 +1404,50 @@
 
 ;; TODO: move this to babel.italiano.lexicon, since it is part of lexicon compilation
 (defn exception-generator [lexicon]
-  (flatten
-   (->>
-    (sort (keys lexicon))
-    (map (fn [k]
-           (let [lexemes (get lexicon k)
-                 lexeme-kv [k lexemes]]
-             (if lexemes
-               (->> exceptions-rules
-                    (mapcat (fn [{path :path
-                                  label :label
-                                  surface-form :surface-form
-                                  merge-fn :merge-fn}]
-                              (let [surface-form-fn (or surface-form
-                                                        (fn [lexeme]
-                                                          (get-in lexeme path :none)))]
-                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
-                                ;; and the value is a list of lexemes for that string.
-                                (->> lexemes
-                                     (mapcat (fn [lexeme]
-                                               (if (not (= :none (get-in lexeme path :none)))
-                                                 (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
-                                                     (list {(surface-form-fn lexeme)
-                                                            [(reduce
-                                                              (fn [a b]
-                                                                (cond
-                                                                  (= a :fail)
-                                                                  (do
-                                                                    (log/warn (str ":fail in exception rule:"
-                                                                                   label
-                                                                                   "; lexeme's italiano:"
-                                                                                   (strip-refs (get-in lexeme [:italiano]))))
-                                                                    :fail)
-                                                                  (= b :fail)
-                                                                  (do
-                                                                    (log/warn (str ":fail in exception rule:"
-                                                                                   label
-                                                                                   "; lexeme:"
-                                                                                   (or (strip-refs (get-in lexeme [:italiano :italiano]))
-                                                                                       (strip-refs (get-in lexeme [:italiano])))))
-                                                                    :fail)
-                                                                  true
-                                                                  (unify a b)))
-                                                              [(dissoc-paths lexeme [[:italiano :italiano]])
-                                                               (merge-fn lexeme)
-                                                               {:italiano {:infinitive k
-                                                                           :exception true}}])]})))))))))))))))))
+  (->>
+   (sort (keys lexicon))
+   (mapcat (fn [k]
+          (let [lexemes (get lexicon k)
+                lexeme-kv [k lexemes]]
+            (->> exceptions-rules
+                 (mapcat (fn [{path :path
+                               label :label
+                               surface-form :surface-form
+                               merge-fn :merge-fn}]
+                           (let [surface-form-fn (or surface-form
+                                                     (fn [lexeme]
+                                                       (get-in lexeme path :none)))]
+                             ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
+                             ;; and the value is a list of lexemes for that string.
+                             (->> lexemes
+                                  (mapcat (fn [lexeme]
+                                            (if (not (= :none (get-in lexeme path :none)))
+                                              (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                                  (list {(surface-form-fn lexeme)
+                                                         [(reduce
+                                                           (fn [a b]
+                                                             (cond
+                                                               (= a :fail)
+                                                               (do
+                                                                 (log/warn (str ":fail in exception rule:"
+                                                                                label
+                                                                                "; lexeme's italiano:"
+                                                                                (strip-refs (get-in lexeme [:italiano]))))
+                                                                 :fail)
+                                                               (= b :fail)
+                                                               (do
+                                                                 (log/warn (str ":fail in exception rule:"
+                                                                                label
+                                                                                "; lexeme:"
+                                                                                (or (strip-refs (get-in lexeme [:italiano :italiano]))
+                                                                                    (strip-refs (get-in lexeme [:italiano])))))
+                                                                 :fail)
+                                                               true
+                                                               (unify a b)))
+                                                           [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                            (merge-fn lexeme)
+                                                            {:italiano {:infinitive k
+                                                                        :exception true}}])]})))))))))))))))
 (defn phonize2 [lexicon]
   (into {}
         (for [[k vals] lexicon]

@@ -1405,346 +1405,346 @@
           (let [lexemes (get lexicon k)
                 lexeme-kv [k lexemes]]
             (if lexemes
-              (let [result (mapcat (fn [path-and-merge-fn]
-                                     (let [path (:path path-and-merge-fn)
-                                           surface-form-fn (if (:surface-form path-and-merge-fn)
-                                                             (:surface-form path-and-merge-fn)
-                                                             (fn [lexeme]
-                                                               (get-in lexeme path :none)))
-                                           merge-fn (:merge-fn path-and-merge-fn)]
-                                       ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
-                                       ;; and the value is a list of lexemes for that string.
-                                       (log/trace (str "lexeme key:" k))
-                                       (log/trace (str (first lexeme-kv) " generating exception for path: " path))
-                                       (mapcat (fn [lexeme]
-                                                 ;; this is where a unify/dissoc that supported
-                                                 ;; non-maps like :top and :fail, would be useful:
-                                                 ;; would not need the (if (not (fail? lexeme)..)) check
-                                                 ;; to avoid a difficult-to-understand "java.lang.ClassCastException:
-                                                 ;; clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
-                                                 (let [debug (log/debug (str "lexeme: " lexeme))
-                                                       lexeme (cond (= lexeme :fail)
-                                                                    :fail
-                                                                    (= lexeme :top)
-                                                                    :top
-                                                                    true
-                                                                    lexeme)]
-                                                                    ;; not copying this time
-;;                                                                    (dissoc (copy lexeme) :serialized))]
-                                                   (if (not (= :none (get-in lexeme path :none)))
-                                                     (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
-                                                         (list {(surface-form-fn lexeme)
-                                                                [(reduce
-                                                                  (fn [a b]
-                                                                    (cond
-                                                                      (= a :fail)
-                                                                      (do
-                                                                        (log/warn (str ":fail in exception rule:"
-                                                                                       (:label path-and-merge-fn)
-                                                                                       "; lexeme's italiano:"
-                                                                                       (strip-refs (get-in lexeme [:italiano]))))
-                                                                        :fail)
-                                                                      (= b :fail)
-                                                                      (do
-                                                                        (log/warn (str ":fail in exception rule:"
-                                                                                       (:label path-and-merge-fn)
-                                                                                       "; lexeme:"
-                                                                                       (or (strip-refs (get-in lexeme [:italiano :italiano]))
-                                                                                           (strip-refs (get-in lexeme [:italiano])))))
-                                                                        :fail)
-                                                                      true
-                                                                      (unify a b)))
-                                                                  [(dissoc-paths lexeme [[:italiano :italiano]])
-                                                                   (merge-fn lexeme)
-                                                                   {:italiano {:infinitive k
-                                                                               :exception true}}])]})))))
-                                               lexemes)))
-                                   [
-                                    ;; 1. past-tense exceptions
-                                    {:path [:italiano :passato]
-                                     :label "past-tense exception"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :past
-                                                   :italiano (get-in val [:italiano :passato] :nothing)}})}
-
-                                    ;; 1.5 imperfect
-                                    {:path [:italiano :imperfect :1sing]
-                                     :label "imperfect 1sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :1sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :1st}}})}
-                                    {:path [:italiano :imperfect :2sing]
-                                     :label "imperfect 2sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :2sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :2nd}}})}
-                                    
-                                    {:path [:italiano :imperfect :3sing]
-                                     :label "imperfect 3sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :3sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :3rd}}})}
-                                    
-                                    {:path [:italiano :imperfect :1plur]
-                                     :label "imperfect 1plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :1plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :1st}}})}
-                                    
-                                    {:path [:italiano :imperfect :2plur]
-                                     :label "imperfect 2plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :2plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :2nd}}})}
-                                    
-                                    {:path [:italiano :imperfect :3plur]
-                                     :label "imperfect 3plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :imperfect
-                                                   :italiano (get-in val [:italiano :imperfect :3plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :3rd}}})}
-                                    
-                                    ;; 2. present-tense exceptions
-                                    {:path [:italiano :present :1sing]
-                                     :label "present 1sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :1sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :1st}}})}
-                                    {:path [:italiano :present :2sing]
-                                     :label "present 2sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :2sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :2nd}}})}
-                                    
-                                    {:path [:italiano :present :3sing]
-                                     :label "present 3sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :3sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :3rd}}})}
-                                    
-                                    {:path [:italiano :present :1plur]
-                                     :label "present 1plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :1plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :1st}}})}
-                                    
-                                    {:path [:italiano :present :2plur]
-                                     :label "present 2plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :2plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :2nd}}})}
-                                    
-                                    {:path [:italiano :present :3plur]
-                                     :label "present 3plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :present
-                                                   :italiano (get-in val [:italiano :present :3plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :3rd}}})}
-
-                                    ;; 2.1. present tense boot-stem
-                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "o"))]
-                                      {:path [:italiano :boot-stem1]
-                                       :label "present boot-stem1: o"
-                                       :surface-form surface-form
-                                       :merge-fn
-                                       (fn [val]
-                                         {:italiano {:infl :present
-                                                     :italiano (surface-form val)
-                                                     :agr {:number :sing
-                                                           :person :1st}}})})
-
-                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "i"))]
-                                      {:path [:italiano :boot-stem1]
-                                       :label "present boot-stem1: i"
-                                       :surface-form surface-form
-                                       :merge-fn
-                                       (fn [val]
-                                         {:italiano {:infl :present
-                                                     :italiano (surface-form val)
-                                                     :agr {:number :sing
-                                                           :person :2nd}}})})
-
-                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "e"))]
-                                      {:path [:italiano :boot-stem1]
-                                       :label "present boot-stem1: e"
-                                       :surface-form surface-form
-                                       :merge-fn
-                                       (fn [val]
-                                         {:italiano {:infl :present
-                                                     :italiano (surface-form val)
-                                                     :agr {:number :sing
-                                                           :person :3rd}}})})
-
-                                    (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "ono"))]
-                                      {:path [:italiano :boot-stem1]
-                                       :label "present boot-stem1: ono"
-                                       :surface-form surface-form
-                                       :merge-fn
-                                       (fn [val]
-                                         {:italiano {:infl :present
-                                                     :italiano (surface-form val)
-                                                     :agr {:number :plur
-                                                           :person :3rd}}})})
-
-                                    ;; 3. future-tense exceptions
-                                    {:path [:italiano :future :1sing]
-                                     :label "future 1sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :1sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :1st}}})}
-                                    {:path [:italiano :future :2sing]
-                                     :label "future 2sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :2sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :2nd}}})}
-                                    {:path [:italiano :future :3sing]
-                                     :label "future 3sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :3sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :3rd}}})}
-                                    {:path [:italiano :future :1plur]
-                                     :label "future 1plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :1plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :1st}}})}
-                                    {:path [:italiano :future :2plur]
-                                     :label "future 2plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :2plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :2nd}}})}
-                                    {:path [:italiano :future :3plur]
-                                     :label "future 3plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :3plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :3rd}}})}
-                                    
-                                    ;; 4. conditional-tense exceptions
-                                    {:path [:italiano :conditional :1sing]
-                                     :label "conditional 1sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :1sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :1st}}})}
-                                    {:path [:italiano :conditional :2sing]
-                                     :label "conditional 2sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :2sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :2nd}}})}
-                                    {:path [:italiano :conditional :3sing]
-                                     :label "conditional 3sing"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :3sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :3rd}}})}
-                                    {:path [:italiano :conditional :1plur]
-                                     :label "conditional 1plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :1plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :1st}}})}
-                                    {:path [:italiano :conditional :2plur]
-                                     :label "conditional 2plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :2plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :2nd}}})}
-                                    {:path [:italiano :conditional :3plur]
-                                     :label "conditional 3plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :conditional
-                                                   :italiano (get-in val [:italiano :conditional :3plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :3rd}}})}
-                                    ;; adjectives
-                                    {:path [:italiano :masc :plur]
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:agr {:gender :masc
-                                                         :number :plur}}})}
-                                    
-                                    {:path [:italiano :fem :plur]
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:agr {:gender :fem
-                                                         :number :plur}}})}
-                                    {:path [:italiano :fem :sing]
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:agr {:gender :fem
-                                                         :number :sing}}})}
-                                    ;; nouns
-                                    {:path [:italiano :plur]
-                                     :merge-fn
-                                     (fn [val]
-                                       {:synsem {:cat :noun}
-                                        :italiano {:agr {:number :plur}}})}
-                                    ])]
-                result))))
+              (->> lexemes
+                   (mapcat (fn [path-and-merge-fn]
+                             (let [path (:path path-and-merge-fn)
+                                   surface-form-fn (if (:surface-form path-and-merge-fn)
+                                                     (:surface-form path-and-merge-fn)
+                                                     (fn [lexeme]
+                                                       (get-in lexeme path :none)))
+                                   merge-fn (:merge-fn path-and-merge-fn)]
+                               ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
+                               ;; and the value is a list of lexemes for that string.
+                               (log/trace (str "lexeme key:" k))
+                               (log/trace (str (first lexeme-kv) " generating exception for path: " path))
+                               (mapcat (fn [lexeme]
+                                         ;; this is where a unify/dissoc that supported
+                                         ;; non-maps like :top and :fail, would be useful:
+                                         ;; would not need the (if (not (fail? lexeme)..)) check
+                                         ;; to avoid a difficult-to-understand "java.lang.ClassCastException:
+                                         ;; clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
+                                         (let [debug (log/debug (str "lexeme: " lexeme))
+                                               lexeme (cond (= lexeme :fail)
+                                                            :fail
+                                                            (= lexeme :top)
+                                                            :top
+                                                            true
+                                                            lexeme)]
+                                           ;; not copying this time
+                                           ;;                                                                    (dissoc (copy lexeme) :serialized))]
+                                           (if (not (= :none (get-in lexeme path :none)))
+                                             (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                                 (list {(surface-form-fn lexeme)
+                                                        [(reduce
+                                                          (fn [a b]
+                                                            (cond
+                                                              (= a :fail)
+                                                              (do
+                                                                (log/warn (str ":fail in exception rule:"
+                                                                               (:label path-and-merge-fn)
+                                                                               "; lexeme's italiano:"
+                                                                               (strip-refs (get-in lexeme [:italiano]))))
+                                                                :fail)
+                                                              (= b :fail)
+                                                              (do
+                                                                (log/warn (str ":fail in exception rule:"
+                                                                               (:label path-and-merge-fn)
+                                                                               "; lexeme:"
+                                                                               (or (strip-refs (get-in lexeme [:italiano :italiano]))
+                                                                                   (strip-refs (get-in lexeme [:italiano])))))
+                                                                :fail)
+                                                              true
+                                                              (unify a b)))
+                                                          [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                           (merge-fn lexeme)
+                                                           {:italiano {:infinitive k
+                                                                       :exception true}}])]})))))
+                                       lexemes)))
+                           [
+                            ;; 1. past-tense exceptions
+                            {:path [:italiano :passato]
+                             :label "past-tense exception"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :past
+                                           :italiano (get-in val [:italiano :passato] :nothing)}})}
+                            
+                            ;; 1.5 imperfect
+                            {:path [:italiano :imperfect :1sing]
+                             :label "imperfect 1sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :imperfect :2sing]
+                             :label "imperfect 2sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            
+                            {:path [:italiano :imperfect :3sing]
+                             :label "imperfect 3sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            
+                            {:path [:italiano :imperfect :1plur]
+                             :label "imperfect 1plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            
+                            {:path [:italiano :imperfect :2plur]
+                             :label "imperfect 2plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            
+                            {:path [:italiano :imperfect :3plur]
+                             :label "imperfect 3plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :imperfect
+                                           :italiano (get-in val [:italiano :imperfect :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+                            
+                            ;; 2. present-tense exceptions
+                            {:path [:italiano :present :1sing]
+                             :label "present 1sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :present :2sing]
+                             :label "present 2sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            
+                            {:path [:italiano :present :3sing]
+                             :label "present 3sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            
+                            {:path [:italiano :present :1plur]
+                             :label "present 1plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            
+                            {:path [:italiano :present :2plur]
+                             :label "present 2plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            
+                            {:path [:italiano :present :3plur]
+                             :label "present 3plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :present
+                                           :italiano (get-in val [:italiano :present :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+                            
+                            ;; 2.1. present tense boot-stem
+                            (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "o"))]
+                              {:path [:italiano :boot-stem1]
+                               :label "present boot-stem1: o"
+                               :surface-form surface-form
+                               :merge-fn
+                               (fn [val]
+                                 {:italiano {:infl :present
+                                             :italiano (surface-form val)
+                                             :agr {:number :sing
+                                                   :person :1st}}})})
+                            
+                            (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "i"))]
+                              {:path [:italiano :boot-stem1]
+                               :label "present boot-stem1: i"
+                               :surface-form surface-form
+                               :merge-fn
+                               (fn [val]
+                                 {:italiano {:infl :present
+                                             :italiano (surface-form val)
+                                             :agr {:number :sing
+                                                   :person :2nd}}})})
+                            
+                            (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "e"))]
+                              {:path [:italiano :boot-stem1]
+                               :label "present boot-stem1: e"
+                               :surface-form surface-form
+                               :merge-fn
+                               (fn [val]
+                                 {:italiano {:infl :present
+                                             :italiano (surface-form val)
+                                             :agr {:number :sing
+                                                   :person :3rd}}})})
+                            
+                            (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "ono"))]
+                              {:path [:italiano :boot-stem1]
+                               :label "present boot-stem1: ono"
+                               :surface-form surface-form
+                               :merge-fn
+                               (fn [val]
+                                 {:italiano {:infl :present
+                                             :italiano (surface-form val)
+                                             :agr {:number :plur
+                                                   :person :3rd}}})})
+                            
+                            ;; 3. future-tense exceptions
+                            {:path [:italiano :future :1sing]
+                             :label "future 1sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :future :2sing]
+                             :label "future 2sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            {:path [:italiano :future :3sing]
+                             :label "future 3sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            {:path [:italiano :future :1plur]
+                             :label "future 1plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            {:path [:italiano :future :2plur]
+                             :label "future 2plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            {:path [:italiano :future :3plur]
+                             :label "future 3plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :future
+                                           :italiano (get-in val [:italiano :future :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+                            
+                            ;; 4. conditional-tense exceptions
+                            {:path [:italiano :conditional :1sing]
+                             :label "conditional 1sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :1sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :1st}}})}
+                            {:path [:italiano :conditional :2sing]
+                             :label "conditional 2sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :2sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :2nd}}})}
+                            {:path [:italiano :conditional :3sing]
+                             :label "conditional 3sing"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :3sing] :nothing)
+                                           :agr {:number :sing
+                                                 :person :3rd}}})}
+                            {:path [:italiano :conditional :1plur]
+                             :label "conditional 1plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :1plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :1st}}})}
+                            {:path [:italiano :conditional :2plur]
+                             :label "conditional 2plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :2plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :2nd}}})}
+                            {:path [:italiano :conditional :3plur]
+                             :label "conditional 3plur"
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:infl :conditional
+                                           :italiano (get-in val [:italiano :conditional :3plur] :nothing)
+                                           :agr {:number :plur
+                                                 :person :3rd}}})}
+                            ;; adjectives
+                            {:path [:italiano :masc :plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:agr {:gender :masc
+                                                 :number :plur}}})}
+                            
+                            {:path [:italiano :fem :plur]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:agr {:gender :fem
+                                                 :number :plur}}})}
+                            {:path [:italiano :fem :sing]
+                             :merge-fn
+                             (fn [val]
+                               {:italiano {:agr {:gender :fem
+                                                 :number :sing}}})}
+                            ;; nouns
+                            {:path [:italiano :plur]
+                             :merge-fn
+                             (fn [val]
+                               {:synsem {:cat :noun}
+                                :italiano {:agr {:number :plur}}})}
+                            ])))))
         (sort (keys lexicon)))))
 
 (defn phonize2 [lexicon]

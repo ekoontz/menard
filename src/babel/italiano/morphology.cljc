@@ -1695,17 +1695,15 @@
                  lexeme-kv [k lexemes]]
              (if lexemes
                (->> exceptions-rules
-                    (mapcat (fn [path-and-merge-fn]
-                              (let [path (:path path-and-merge-fn)
-                                    surface-form-fn (if (:surface-form path-and-merge-fn)
-                                                      (:surface-form path-and-merge-fn)
-                                                      (fn [lexeme]
-                                                        (get-in lexeme path :none)))
-                                    merge-fn (:merge-fn path-and-merge-fn)]
+                    (mapcat (fn [{path :path
+                                  label :label
+                                  surface-form :surface-form
+                                  merge-fn :merge-fn}]
+                              (let [surface-form-fn (or surface-form
+                                                        (fn [lexeme]
+                                                          (get-in lexeme path :none)))]
                                 ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
                                 ;; and the value is a list of lexemes for that string.
-                                (log/trace (str "lexeme key:" k))
-                                (log/trace (str (first lexeme-kv) " generating exception for path: " path))
                                 (->> lexemes
                                      (mapcat (fn [lexeme]
                                                (if (not (= :none (get-in lexeme path :none)))
@@ -1717,14 +1715,14 @@
                                                                   (= a :fail)
                                                                   (do
                                                                     (log/warn (str ":fail in exception rule:"
-                                                                                   (:label path-and-merge-fn)
+                                                                                   label
                                                                                    "; lexeme's italiano:"
                                                                                    (strip-refs (get-in lexeme [:italiano]))))
                                                                     :fail)
                                                                   (= b :fail)
                                                                   (do
                                                                     (log/warn (str ":fail in exception rule:"
-                                                                                   (:label path-and-merge-fn)
+                                                                                   label
                                                                                    "; lexeme:"
                                                                                    (or (strip-refs (get-in lexeme [:italiano :italiano]))
                                                                                        (strip-refs (get-in lexeme [:italiano])))))

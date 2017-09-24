@@ -1422,7 +1422,8 @@
                                                  ;; would not need the (if (not (fail? lexeme)..)) check
                                                  ;; to avoid a difficult-to-understand "java.lang.ClassCastException:
                                                  ;; clojure.lang.Keyword cannot be cast to clojure.lang.IPersistentMap" error.
-                                                 (let [lexeme (cond (= lexeme :fail)
+                                                 (let [debug (log/debug (str "lexeme: " lexeme))
+                                                       lexeme (cond (= lexeme :fail)
                                                                     :fail
                                                                     (= lexeme :top)
                                                                     :top

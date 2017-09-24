@@ -77,3 +77,14 @@
    {:replace-with "e"
     :unify-with {:synsem {:cat :noun
                           :agr {:number :plur}}}}})
+
+(def exceptions-rules
+  [
+   {:path [:italiano :plur]
+    :merge-fn
+    (fn [val]
+      {:synsem {:cat :noun}
+       :italiano {:agr {:number :plur}}})}])
+
+   
+

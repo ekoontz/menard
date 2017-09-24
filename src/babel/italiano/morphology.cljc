@@ -1404,8 +1404,7 @@
 
 ;; TODO: move this to babel.italiano.lexicon, since it is part of lexicon compilation
 (defn exception-generator [lexicon]
-  (reduce
-   concat
+  (flatten
    (->>
     (sort (keys lexicon))
     (map (fn [k]

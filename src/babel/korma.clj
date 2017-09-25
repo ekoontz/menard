@@ -129,9 +129,6 @@
          
          (log/info (str "scanned DATABASE_URL:" redacted-database-url "; found:"
                         "(user,host,db)=(" user "," host "," db ")"))
-;         (reset! _direct_connection
-;                 (.getConnection (:datasource (korma.db/get-connection korma-db))))
-         
          {:db db
           :user user
           :password password

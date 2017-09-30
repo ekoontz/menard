@@ -122,7 +122,7 @@
      (str stem "é")
 
      (and (= person :2nd) (= number :sing))
-     (str stem "as")
+     (str stem "ás")
 
      (and (= person :2nd) (= number :sing)(= usted true))
      (str stem "á")

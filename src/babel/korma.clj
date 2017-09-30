@@ -50,12 +50,12 @@
 
               true
               (do
-                (log/warn (str "using default of 'text' as SQL type for"
-                               " sequence of type:" (type sequence)
-                               (if (not (empty? sequence))
+                (if (not (empty? sequence))
+                  (log/warn (str "using default of 'text' as SQL type for"
+                                 " sequence of type:" (type sequence)
                                  (str " whose first member is of type:"
-                                      (type (first sequence))))
-                               "."))
+                                      (type (first sequence)))
+                                 ".")))
                 {:type "text"
                  :map-fn (fn [x] x)}))
         sql-type (:type sql-type-and-map-fn)

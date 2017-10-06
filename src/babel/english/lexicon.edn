@@ -749,6 +749,20 @@
               :present {:3sing "falls asleep"}
               :past "fell asleep"}})
 
+  "fall in love"
+  (let [subject-semantics (atom :top)]
+    {:synsem {:cat :verb
+              :sem {:pred :fall-in love
+                    :reflexive true
+                    :subj subject-semantics
+                    :obj subject-semantics}
+              :subcat {:1 {:sem subject-semantics}
+                       :2 '()}}
+      :english {:participle "falling in love"
+                :present {:3sing "falls in love"}
+                :past "fell in love"}})
+
+
  "father" {:synsem {:cat :noun
                     :agr {:gender :masc}
                     :sem {:human true

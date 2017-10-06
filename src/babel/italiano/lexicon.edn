@@ -1128,6 +1128,11 @@
  "indossare"  {:synsem {:cat :verb
                         :sem {:pred :wear-i}}}
 
+ "innamorarsi" {:synsem {:cat :verb
+                        :sem {:pred :fall-in-love
+                              :reflexive true}}}
+
+
  "insegnare"  {:synsem {:cat :verb
                         :sem {:pred :teach}}}
 

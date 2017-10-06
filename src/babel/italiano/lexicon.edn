@@ -1634,6 +1634,10 @@
  "raccontare" {:synsem {:cat :verb
                         :sem {:pred :recount}}}
 
+ "radersi" {:synsem {:cat :verb
+                        :sem {:pred :shave
+                              :reflexive true}}}
+
  "recuperare" {:synsem {:cat :verb
                         :sem {:pred :recover}}}
  "ragazza"

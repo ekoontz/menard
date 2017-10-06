@@ -200,6 +200,9 @@
                           :obj obj
                           :reflexive true
                           :pred pred
+                          ;; TODO: this should be a default
+                          ;; lexical rule: should not need to
+                          ;; do it per-verb.
                           :shared-with-obj true}
                     :subcat {:1 {:cat :noun
                                  :agr agr}
@@ -2422,6 +2425,7 @@
            {:synsem {:cat :verb
                      :sem {:pred :wash-oneself
                            :reflexive true
+                           :shared-with-obj true
                            :subj subject-semantics
                            :obj subject-semantics}
                      :subcat {:1 {:sem subject-semantics}

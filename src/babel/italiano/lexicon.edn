@@ -1029,6 +1029,10 @@
  "fermare"  {:synsem {:cat :verb
                       :sem {:pred :stop}}}
 
+ "fermarsi" {:synsem {:cat :verb
+                      :sem {:pred :stop-oneself
+                            :reflexive true}}}
+
  "formare"  {:synsem {:cat :verb
                       :sem {:pred :form}}}
 

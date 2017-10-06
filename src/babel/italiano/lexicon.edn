@@ -1556,7 +1556,7 @@
 
  "partire" {:synsem {:essere true
                      :cat :verb
-                     :sem {:pred :leave}}}
+                     :sem {:pred :leave-trip}}}
 
  "pensare"
  {:synsem {:cat :verb

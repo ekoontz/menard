@@ -2077,6 +2077,7 @@
                  subject-agr (atom :top)]
              {:unify [common]
               :synsem {:sem {:pred :stop-oneself
+                             :reflexive true
                              :subj subject-semantics
                              :obj subject-semantics}
                        :subcat {:1 {:agr subject-agr

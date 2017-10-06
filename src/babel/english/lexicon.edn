@@ -1955,6 +1955,10 @@
 
  "share" {:synsem {:cat :verb
                    :sem {:pred :share}}}
+
+ "shave" {:synsem {:cat :verb
+                   :sem {:pred :shave}}}
+
  "she"
  {:synsem {:cat :noun
            :pronoun true

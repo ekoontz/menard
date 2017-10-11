@@ -364,14 +364,14 @@
                             :sem subject-semantics}}}})
 
    "dormir" {:espanol {:boot-stem "duerm"
-                       :pret-stem "durm"}
+                       :preterito-stem "durm"}
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
    "dormirse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
      {:espanol {:boot-stem "duerm"
-                :pret-stem "durm"}
+                :preterito-stem "durm"}
       :synsem {:cat :verb
                :sem {:pred :fall-asleep
                      :reflexive true
@@ -916,7 +916,7 @@
    "poder"
    (let [shared-part-of-poder
          {:espanol {:boot-stem "pued"
-                    :pret-stem "pud"}
+                    :preterito-stem-stem "pud"}
           :synsem {:cat :verb}}]
      [{:unify [shared-part-of-poder]
        :synsem {:sem {:pred :may}}}

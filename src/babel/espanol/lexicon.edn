@@ -364,14 +364,16 @@
                             :sem subject-semantics}}}})
 
    "dormir" {:espanol {:boot-stem "duerm"
-                       :preterito-stem "durm"}
+                       :preterito {:3sing "durmió"
+                                    :3plur "durmieron"}
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
    "dormirse"
    (let [subject-semantics (atom {:human true})
          subject-agr (atom :top)]
      {:espanol {:boot-stem "duerm"
-                :preterito-stem "durm"}
+                       :preterito {:3sing "durmió"
+                                   :3plur "durmieron"}}
       :synsem {:cat :verb
                :sem {:pred :fall-asleep
                      :reflexive true

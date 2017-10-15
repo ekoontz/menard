@@ -365,7 +365,7 @@
 
    "dormir" {:espanol {:boot-stem "duerm"
                        :preterito {:3sing "durmió"
-                                    :3plur "durmieron"}
+                                    :3plur "durmieron"}}
              :synsem {:cat :verb
                       :sem {:pred :sleep}}}
    "dormirse"
@@ -511,7 +511,7 @@
    "existir" {:synsem {:cat :verb
                        :sem {:pred :exist}}}
 
-   "explicar" {:espanol {::preterito {:1sing "expliqué"}
+   "explicar" {:espanol {:preterito {:1sing "expliqué"}}
                :synsem {:cat :verb
                         :sem {:pred :explain}}}
 

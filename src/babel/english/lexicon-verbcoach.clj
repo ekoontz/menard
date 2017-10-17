@@ -1879,6 +1879,9 @@
     "start" {:synsem {:cat :verb
                      :sem {:pred :start}}}
 
+    "spread" {:synsem {:cat :verb
+                     :sem {:pred :spread-food}}}
+
    "stay" {:synsem {:cat :verb
                     :sem {:pred :stay}
                     :subcat {:2 {:cat :prep
@@ -2386,7 +2389,7 @@
                     :reflexive false
                     :pred :voi}
               :subcat '()}}
-    
+
     {:english {:note "v ♀"}
      :synsem {:cat :noun
               :pronoun true
@@ -2399,7 +2402,7 @@
                     :reflexive false
                     :pred :voi}
               :subcat '()}}
-    
+
     {:english {:note "u"}
      :synsem {:cat :noun
               :pronoun true

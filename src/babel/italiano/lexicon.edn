@@ -1839,6 +1839,9 @@
  "sospirare" {:synsem {:cat :verb
                        :sem {:pred :sigh}}}
 
+ "spalmare" {:synsem {:cat :verb
+                       :sem {:pred :spread-food}}}
+
  "spedire" {:italiano {:boot-stem1 "spedisc"}
             :synsem {:cat :verb
                      :sem {:pred :send-s}}}

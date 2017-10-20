@@ -631,6 +631,11 @@
                   :sem {:pred :cenare}
                   :subcat {:2 '()}}}
 
+ "disappear" {:synsem {:cat :verb
+                      :sem {:pred :disappear-sp}
+                      :sem {:pred :disappear-sc}
+                      :sem {:pred :disappear}}}
+
  "displace" {:synsem {:cat :verb
                       :sem {:pred :displace}}}
 
@@ -1291,6 +1296,9 @@
 
  "increase" {:synsem {:cat :verb
                       :sem {:pred :increase}}}
+
+"inform" {:synsem {:cat :verb
+                   :sem {:pred :inform}}}
 
  "insist" {:synsem {:cat :verb
                     :sem {:pred :insist}}}

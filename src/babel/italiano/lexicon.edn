@@ -43,6 +43,10 @@
  "abitare" {:synsem {:cat :verb
                          :sem {:pred :live-a}}}
 
+ "abituarsi" {:synsem {:cat :verb
+                         :sem {:pred :get-used-to
+                               :reflexive true}}}
+
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}
 
@@ -1618,6 +1622,9 @@
  "prendere" {:synsem {:cat :verb :sem {:pred :grab}}
              :italiano {:passato "preso"}}
 
+ "preparare" {:synsem {:cat :verb
+                        :sem {:pred :prepare}}}
+
  "prepararsi" {:synsem {:cat :verb
                         :sem {:pred :get-ready
                               :reflexive true}}}
@@ -1725,6 +1732,9 @@
  "rompere" {:synsem {:cat :verb
                      :sem {:pred :break}}
             :italiano {:passato "rotto"}}
+
+ "rovinare" {:synsem {:cat :verb
+                      :sem {:pred :ruin}}}
 
  "rubare" {:synsem {:cat :verb
                     :sem {:pred :steal}}}

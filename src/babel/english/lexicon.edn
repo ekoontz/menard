@@ -911,6 +911,20 @@
     :english {:participle "getting up"
               :present {:3sing "gets up"}
               :past "got up"}})
+
+  "get used"
+  (let [subject-semantics (atom :top)]
+    {:synsem {:cat :verb
+              :sem {:pred :get-used
+                    :reflexive true
+                    :subj subject-semantics
+                    :obj subject-semantics}
+              :subcat {:1 {:sem subject-semantics}
+                        :2 '()}}
+      :english {:participle "getting used"
+                :present {:3sing "gets used"}
+                :past "got used"}})
+
  "Gianluca"
  {:synsem {:agr {:number :sing
                  :person :3rd
@@ -1854,6 +1868,10 @@
             :english {:note "give back"
                       :past "gave back"
                       :past-participle "given back"}}]
+
+  "ruin" {:synsem {:cat :verb
+                      :sem {:pred :ruin}}}
+
 
  "run" {:english {:past "ran"
                   :participle "running"

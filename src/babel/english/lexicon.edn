@@ -1808,7 +1808,6 @@
                               :pronoun true
                               :reflexive true
                               :sem subject-semantics}}}})
-
     {:unify [common]
      :synsem {:sem {:pred :put
                     :subcat {:2 '()}}}}])

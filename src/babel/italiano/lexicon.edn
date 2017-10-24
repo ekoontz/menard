@@ -170,6 +170,10 @@
                   :sem {:pred :year
                         :time true}}}
 
+ "annoiarsi" {:synsem {:cat :verb
+                     :sem {:pred :get-bored
+                     :reflexive true}}}
+
  "annunciare"  {:synsem {:cat :verb
                          :sem {:pred :announce}}}
 
@@ -1459,6 +1463,9 @@
                       :sem {:pred :put}}
              :italiano {:passato "messo"}}
 
+ "mettersi" {:synsem {:cat :verb
+                     :sem {:pred :put-oneself
+                           :reflexive true}}}
 
  "mezzogiorno"
  {:synsem {:agr {:gender :masc}

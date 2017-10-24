@@ -64,18 +64,6 @@
                  :reflexive true
                  :subj {:animate true}}}}
 
-  "riposarsi"
-  {:synsem {:cat :verb
-            :sem {:pred :rest-oneself
-                  :reflexive true
-                  :subj {:animate true}}}}
-
-  "addormentarsi"
-    {:synsem {:cat :verb
-            :sem {:pred :fall-asleep
-                  :reflexive true
-                  :subj {:animate true}}}}
-
  "aereo" {:synsem {:agr {:gender :masc}
                    :cat :noun
                    :sem {:physical-object true
@@ -1721,6 +1709,12 @@
  "riposare" {:synsem {:cat :verb
                       :sem {:pred :rest}}}
 
+  "riposarsi"
+  {:synsem {:cat :verb
+            :sem {:pred :rest-oneself
+                  :reflexive true
+                  :subj {:animate true}}}}
+ 
  "riscaldare" {:synsem {:cat :verb
                         :sem {:pred :warm-up}}}
 

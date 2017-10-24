@@ -631,10 +631,12 @@
                   :sem {:pred :cenare}
                   :subcat {:2 '()}}}
 
- "disappear" {:synsem {:cat :verb
-                      :sem {:pred :disappear-sp}
-                      :sem {:pred :disappear-sc}
-                      :sem {:pred :disappear}}}
+ "disappear" [{:synsem {:cat :verb
+                        :sem {:pred :disappear-sp}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :disappear-sc}}}
+              {:synsem {:cat :verb
+                        :sem {:pred :disappear}}}]
 
  "displace" {:synsem {:cat :verb
                       :sem {:pred :displace}}}

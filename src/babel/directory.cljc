@@ -27,7 +27,7 @@
            (if (realized? en)
              en
              (deliver en
-                      {:morph babel.english.morphology/fo
+                      {:morph en/morph
                        :semantic-correspondence {:it [[:obj :null]
                                                       [:obj :number]
                                                       [:shared-with-obj]

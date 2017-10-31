@@ -1764,6 +1764,10 @@
                          ;; example of a synonym, where we use the convention of making the
                          ;; :pred (i.e. :student) the more common case (c.f. "student")
                          :pred :student}}}
+
+  "punish" {:synsem {:cat :verb
+                     :sem {:pred :punish}}}
+
  "put"
  (let [common {:synsem {:cat :verb}
                :english {:participle "putting"

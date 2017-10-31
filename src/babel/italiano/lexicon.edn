@@ -1646,6 +1646,10 @@
                :synsem {:cat :verb
                        :sem {:pred :clean}}}
 
+ "punire" {:italiano {:boot-stem1 "punisc"}
+               :synsem {:cat :verb
+                       :sem {:pred :punish}}}
+
  "qualche"
  {:synsem {:cat :det
            :def :indef

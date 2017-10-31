@@ -1637,6 +1637,10 @@
  "prestare" {:synsem {:cat :verb
                        :sem {:pred :lend}}}
 
+ "preferire" {:italiano {:boot-stem1 "preferisc"}
+                :synsem {:cat :verb
+                        :sem {:pred :prefer}}}
+
 
  "pulire" {:italiano {:boot-stem1 "pulisc"}
                :synsem {:cat :verb
@@ -1714,7 +1718,7 @@
             :sem {:pred :rest-oneself
                   :reflexive true
                   :subj {:animate true}}}}
- 
+
  "riscaldare" {:synsem {:cat :verb
                         :sem {:pred :warm-up}}}
 

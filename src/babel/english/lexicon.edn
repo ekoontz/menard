@@ -1726,6 +1726,12 @@
  "praise" {:synsem {:cat :verb
                     :sem {:pred :praise}}}
 
+ "prefer" {:english {:past "preferred"
+                    :past-participle "preferred"}
+          :synsem {:cat :verb
+                   :sem {:pred :prefer}}}
+
+
  ;; TODO: all reflexive verbs should have this subject-object agreement like this one does:
  "prepare" (let [subject-semantics (atom :top)
                  subject-agreement (atom :top)]

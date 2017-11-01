@@ -183,6 +183,11 @@
                                :reflexive true
                                :subj {:animate true}}}}
 
+  "arrampicarsi" {:synsem {:cat :verb
+                         :sem {:pred :climb
+                               :reflexive true
+                               :subj {:animate true}}}}
+
  "arrivare" {:synsem {:essere true
                       :cat :verb
                       :sem {:pred :arrive}

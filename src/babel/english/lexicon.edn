@@ -520,6 +520,9 @@
  "clean" {:synsem {:cat :verb
                    :sem {:pred :clean}}}
 
+ "climb" {:synsem {:cat :verb
+                   :sem {:pred :climb}}}
+
  "close" {:synsem {:cat :verb
                    :sem {:pred :close}}}
 

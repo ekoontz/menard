@@ -168,6 +168,7 @@
                               } ;; subcat {
                      } ;; synsem {
             }) ;; end of map
+         ;; "be + PP": "I am at the beach"
          (let [pred (atom :top)
                ;; Needed because {:pred :top} to prevent matching of {:obj :unspec}
                ;; yielding incorrect translations.
@@ -186,7 +187,7 @@
                                   :sem {:obj obj
                                         :pred pred}}
                               :3 '()}}})
-         ;; "be + PP": "I am at the beach"
+         ;; "be + PP": reflexive
          (let [pred (atom :top)
                obj (atom :top)
                ;; Needed because {:pred :top} to prevent matching of {:obj :unspec}

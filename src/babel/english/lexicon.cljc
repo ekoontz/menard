@@ -425,6 +425,7 @@
                                                (dissoc-paths lexeme [path
                                                                      [:english :english]])
                                                merge
+                                               {:exception true}
                                                {:synsem synsem-check}
                                                {:english {:root root
                                                           :exception true}})}))))))))

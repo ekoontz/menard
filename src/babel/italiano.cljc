@@ -65,17 +65,10 @@
                  model (medium)
                  truncate true}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-   (let [result (generate/generate spec model
-                                   :do-enrich do-enrich
-                                   :max-total-depth max-total-depth
-                                   :truncate-children truncate)]
+   (let [result (generate/generate spec model)]
      (if result
        (conj {:surface (fo result)}
              result)))))
-
-(defn lightning-bolts [spec]
-  (let [medium medium]
-    (generate/lightning-bolts (:grammar medium) (:lexicon medium) spec 0 (:index medium) nil (:morph medium))))
 
 (def tokenizer #"[ '\n,’».]")
 
@@ -142,7 +135,7 @@
                 (analyze-tokens (string/trim input)))
 
            (or (seq? input) (vector? input))
-           (parse/parse input model original-input)
+           (parse/parse input model :original-input original-input)
         
            true
            (str "don't know how to parse input: " (type input))))))

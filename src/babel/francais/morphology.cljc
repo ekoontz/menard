@@ -475,7 +475,8 @@
                                                             exceptional-lexeme
                                                             (dissoc-paths lexeme [path
                                                                                   [:français :français]])
-                                                            {:français {:infinitive infinitive
+                                                            {:exception true
+                                                             :français {:infinitive infinitive
                                                                         :exception true}})
                                                            surface
                                                            (get-in exceptional-lexeme [:français :français])]

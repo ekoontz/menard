@@ -42,33 +42,11 @@
                  truncate-children true
                  model (medium)}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-   (let [result (generate/generate spec model
-                                   :max-total-depth max-total-depth
-                                   :truncate truncate-children)]
+   (let [result (generate/generate spec model)]
      (if (keyword? result)
        (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
        (conj {:surface (morph result)}
              result)))))
-
-(defn generate-all
-  ([]
-   (let [max-total-depth generate/max-total-depth
-         truncate-children true
-         model (medium)]
-     (generate-all {:modified false
-                    :synsem {:subcat '()}}
-                   :max-total-depth max-total-depth
-                   :truncate-children true
-                   :model model)))
-   
-  ([spec & {:keys [max-total-depth model truncate-children]
-            :or {max-total-depth generate/max-total-depth
-                 truncate-children true
-                 model (medium)}}]
-   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-   (let [result (generate/generate-all spec model 0 max-total-depth)]
-     (map #(conj % {:surface (morph %)})
-          result))))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
@@ -105,7 +83,7 @@
    (parse (preprocess input) (medium) truncate?))
 
   ([input model truncate?]
-   (parse/parse (preprocess input) model truncate?)))
+   (parse/parse (preprocess input) model :parse-with-truncate truncate?)))
 
 (def tree-variants
   [

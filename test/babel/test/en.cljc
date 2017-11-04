@@ -1,12 +1,12 @@
 (ns babel.test.en
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
-            [babel.english :refer [analyze fo-ps lookup generate generate-all
+            [babel.english :refer [analyze fo-ps lookup generate
                                    medium morph parse sentences]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
 
-            [babel.generate :refer [get-lexemes lightning-bolts not-fail?]]
+            [babel.generate :refer [get-lexemes lightning-bolts]]
             
             [babel.over :refer [over overc overh]]
             
@@ -209,14 +209,14 @@
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
          (morph (generate {:modified false
-                        :synsem {:cat :verb
-                                 :sem {:mod '()
-                                       :iobj {:pred :luisa}
-                                       :pred :be-called
-                                       :subj {:pred :lei}
-                                       :tense :present}
-                                 :subcat '()}}
-                       :truncate false)))))
+                           :synsem {:cat :verb
+                                    :sem {:mod '()
+                                          :iobj {:pred :luisa}
+                                          :pred :be-called
+                                          :subj {:pred :lei}
+                                          :tense :present}
+                                    :subcat '()}}
+                          :truncate false)))))
                                        
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
@@ -229,7 +229,7 @@
 
 (deftest generate-with-possessive-1
   (let [result
-        (generate {:synsem {
+        (generate {:synsem {:pronoun false
                             ;; TODO: subcat '() should be part of language model's top-level generate defaults;
                             ;; c.f. TODO on babel.test.translate/latin-to-english
                             :subcat '()
@@ -245,6 +245,7 @@
 (deftest generate-with-possessive-2
   (let [result
         (generate {:synsem {:cat :noun
+                            :pronoun false
                             :mod {:first {:pred :rosso}}
                             :sem {:number :sing
                                   :spec {:pred :of
@@ -271,6 +272,7 @@
 
 (deftest in-front-of
   (let [expr (generate {:synsem {:cat :prep
+                                 :subcat '()
                                  :reflexive false
                                  :sem {:pred :in-front-of
                                        :obj {:pred :table
@@ -333,7 +335,7 @@
 
 (deftest past-and-gender-agreement
   (= (morph (generate {:synsem {:sem {:pred :go
-                                   :aspect :perfect
+                                      :aspect :perfect
                                    :tense :present
                                    :subj {:gender :fem
                                           :pred :loro}}}}))
@@ -380,13 +382,16 @@
                            :subj {:pred :cat}}
                      :subcat '()}})
 
+;; TODO: consider removing this test: generation is
+;; less susceptible to the problems for which it was
+;; added.
 (deftest rathole-check-2
   (let [med (medium)
         spec {:synsem {:cat :verb
                        :sem {:pred :read
                              :subj {:pred :woman}}
                        :subcat '()}}
-        lbs (lightning-bolts med spec 0 6)
+        lbs (lightning-bolts med spec 0 2)
         good-lb (first (filter #(and (= (get-in % [:head :rule])
                                         "transitive-vp-nonphrasal-head")
                                      (= (get-in % [:head :head :english :english])
@@ -396,7 +401,7 @@
         comp-spec (get-in good-lb [:comp])]
 
     (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
-    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 0))))))
+    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 1))))))
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
@@ -581,7 +586,8 @@
            (filter #(= :verb (get-in % [:synsem :cat]))
                    (parse "I speak")))
         spec (strip-refs (unify
-                          {:synsem {:cat :verb}}
+                          {:synsem {:subcat '()
+                                    :cat :verb}}
                           {:synsem {:sem (get-in p [:synsem :sem])}}
                           {:synsem {:sem {:subj {:gender :masc}}}}))
         generated (generate spec)
@@ -623,8 +629,7 @@
                                                                 :tense :present}}
                                                  :comp {:synsem {:agr {:gender :fem}
                                                                  :sem {:pred :I}}}}
-                                                model
-                                                :truncate-children false)
+                                                model)
         :from-language "it"))))
 
 
@@ -632,7 +637,9 @@
 ;; generate "the woman she sees"
 (def spec-for-the-woman-she-sees
   {:synsem {:agr {:number :sing}
+            :pronoun false
             :cat :noun
+            :subcat '()
             :sem {:pred :woman
                   :spec {:def :def}}
             :mod {:first {:pred :see
@@ -648,3 +655,57 @@
          (= "the woman that she sees"
             (morph result))))))
 
+(def model (medium))
+
+(def spec
+  {:synsem {:cat :verb
+            :sem {:pred :sleep
+                  :subj {:pred :cat}}
+            :subcat '()}})
+
+(def cspec {:modified false
+            :synsem {:cat :verb
+                     :sem {:mod ()
+                           :iobj {:pred :luisa}
+                           :pred :be-called
+                           :subj {:pred :lei
+                                  :human true
+                                  :number :sing} :tense :present}
+                     :subcat ()}})
+
+;; (map #(println (morph %)) (take 100 (repeatedly #(generate spec :model model))))
+;; (morph (generate cspec :model model))
+
+;; An expensive and also one with a wide
+;; divergence in timing: e.g. could be
+;; as fast as 0.433 sec or as slow as 1.7 sec.
+(def foo
+  (take 
+   10 
+   (repeatedly 
+    #(println 
+      (morph 
+       (time (generate 
+              {:synsem {:subcat '()
+                        :cat :verb
+                        :sem {:pred :be-called
+                              :subj {:pred :tu}
+                              :obj {:top :top}}}})))))))
+
+;; might run in 450ms or forever...
+(def rathole
+  (take 
+   1
+   (repeatedly 
+    #(println 
+      (morph 
+       (time (generate 
+              {:synsem {:subcat '()
+                        :cat :verb
+                        :sem {:pred :be-called
+                              :subj {:pred :top}
+                              :obj {:top :top}}}}))
+       :show-notes false)))))
+
+
+       

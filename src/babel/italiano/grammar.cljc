@@ -67,10 +67,19 @@
      :comp {:italiano {:agr agr}
             :synsem {:agr agr}}}))
 
+(def cat-sharing
+  (let [head-cat (atom :top)
+        comp-cat (atom :top)]
+    {:comp {:synsem {:cat comp-cat}
+            :italiano {:cat comp-cat}}
+     :head {:synsem {:cat head-cat}
+            :italiano {:cat head-cat}}}))
+
 (def head-first
   (let [head-italian (atom :top)
         comp-italian (atom :top)]
     (unify
+     cat-sharing
      {:comp {:italiano {:initial false}}
       :head {:italiano {:initial true}}}
      {:head {:italiano head-italian}
@@ -79,8 +88,11 @@
                  :b comp-italian}})))
 (def head-last
   (let [head-italian (atom :top)
-        comp-italian (atom :top)]
+        comp-italian (atom :top)
+        head-cat (atom :top)
+        comp-cat (atom :top)]
     (unify
+     cat-sharing
      {:comp {:italiano {:initial true}}
       :head {:italiano {:initial false}}}
      {:head {:italiano head-italian}

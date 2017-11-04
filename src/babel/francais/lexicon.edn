@@ -81,6 +81,7 @@
                     :subj {:human true}}}}
     {:unify [common]
      :synsem {:aux true
+              :sem {:reflexive false}
               :subcat {:2 {:essere false}}}}])
 
  "baisser" {:synsem {:cat :verb
@@ -714,7 +715,6 @@
                       subject-agr (atom :top)]
                   {
                    :synsem {:cat :verb
-                            :essere true
                             :sem {:pred :hurt-oneself
                                   :reflexive true
                                   :subj subject-semantics
@@ -730,7 +730,6 @@
                       subject-agr (atom :top)]
                   {
                    :synsem {:cat :verb
-                            :essere true
                             :sem {:pred :change-clothes
                                   :reflexive true
                                   :subj subject-semantics
@@ -746,6 +745,8 @@
    ;;                                     :3 {:cat :adverb
    ;;                                         :sem {:pred :bad}}}}})
 
+
+ ;; TODO: remove :essere=true from these: handled by lexical default rule instead.
   "s'endormir" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb

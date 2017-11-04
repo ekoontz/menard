@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze fo-ps generate lightning-bolts medium morph np-grammar parse preprocess small]]
+   [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]
    [babel.italiano.morphology :as morph :refer [analyze-regular replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]
@@ -34,7 +34,8 @@
   (is (not (empty? (analyze "svegliata")))))
 
 (deftest present-irregular
-  (let [result (generate {:synsem {:subcat '()
+  (let [result (generate {:synsem {:subcat ()
+                                   :cat :verb
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :aspect :simple
@@ -107,7 +108,7 @@
 
 (deftest fix-regression
   (let [spec {:synsem {:cat :verb
-                       :subcat '()
+                       :subcat ()
                        :sem {:pred :get-up
                              :subj {:pred :I}
                              :tense :present
@@ -116,7 +117,8 @@
 
 (deftest passato-prossimo-reflexive
   (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
-                          :synsem {:subcat '()
+                          :synsem {:subcat ()
+                                   :cat :verb
                                    :sem {:pred :get-up
                                          :subj {:pred :I}
                                          :tense :present
@@ -126,7 +128,8 @@
     (is (= "io mi sono alzata" (morph result)))))
 
 (deftest present-ditransitive
-  (let [result (generate {:synsem {:subcat '()
+  (let [result (generate {:synsem {:subcat ()
+                                   :cat :verb
                                    :sem {:pred :be-called
                                          :tense :present
                                          :aspect :simple
@@ -142,7 +145,8 @@
     (is (= "io parlo") (morph (first (:parses (first result)))))))
         
 (deftest round-trip-1
-  (let [expr (generate {:synsem {:subcat '()
+  (let [expr (generate {:synsem {:subcat ()
+                                 :cat :noun
                                  :sem {:spec {:def :def} 
                                        :mod {:pred :difficile}
                                        :number :sing
@@ -178,7 +182,8 @@
   (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly #(generate
-                                        {:synsem {:sem {:mod {:pred :top}
+                                        {:synsem {:subcat ()
+                                                  :sem {:mod {:pred :top}
                                                         :number :top
                                                         :pred :top
                                                         :spec {:def :top}}}}
@@ -205,7 +210,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present
                                                       :aspect :simple}
-                                                :subcat '()}}
+                                                :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
@@ -225,7 +230,7 @@
                                                 :infl :imperfect
                                                 :sem {:tense :past
                                                       :aspect :progressive}
-                                                :subcat '()}}
+                                                :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -245,7 +250,7 @@
                                                 :essere true
                                                 :sem {:tense :present
                                                       :aspect :perfect}
-                                                :subcat '()}}
+                                                :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -263,7 +268,7 @@
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
-                                                :subcat '()}}
+                                                :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -281,7 +286,7 @@
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
-                                                :subcat '()}}
+                                                :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -330,7 +335,7 @@
   (take n
         (repeatedly #(let [generated
                            (morph (generate {:synsem {:cat :verb
-                                                      :subcat '()}}))
+                                                      :subcat ()}}))
                            parsed (reduce concat (map :parses (parse generated (medium))))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
@@ -357,7 +362,8 @@
 ;; should fail fast: instead seems to run forever.
 (deftest difficult-generate
   (let [synsem
-        {:synsem {:sem {:pred :be
+        {:synsem {:subcat ()
+                  :sem {:pred :be
                         :subj {:pred :città}
                         :obj {:pred :calzoni}}}}]
     (is (or true ;; test won't complete (yet) without disabling with this 'or true'.
@@ -369,7 +375,9 @@
 
 (deftest gestiscono
   (let [result
-        (generate {:synsem {:sem {:subj {:pred :loro}
+        (generate {:synsem {:subcat ()
+                            :cat :verb
+                            :sem {:subj {:pred :loro}
                                   :pred :manage
                                   :aspect :simple
                                   :tense :present}}}
@@ -377,22 +385,26 @@
     (is (= "loro gestiscono" (morph result)))))
 
 (deftest casa-generate
-  (let [result (generate {:synsem {:cat :noun
+  (let [result (generate {:synsem {:subcat ()
+                                   :pronoun false
+                                   :cat :noun
                                    :agr {:number :sing}
                                    :sem {:pred :house
-                                         :mod '()
+                                         :mod ()
                                          :spec {:def :def}}}})]
     (is (= (morph result) "la casa"))
-    (is (= (get-in result [:synsem :sem :mod]) '()))))
+    (is (= (get-in result [:synsem :sem :mod]) ()))))
 
 (deftest case-generate
-  (let [result (generate {:synsem {:cat :noun
-                                               :agr {:number :plur}
-                                               :sem {:pred :house
-                                                     :mod '()
-                                                     :spec {:def :def}}}})]
+  (let [result (generate {:synsem {:subcat ()
+                                   :pronoun false
+                                   :cat :noun
+                                   :agr {:number :plur}
+                                   :sem {:pred :house
+                                         :mod ()
+                                         :spec {:def :def}}}})]
     (is (= (morph result) "le case"))
-    (is (= (get-in result [:synsem :sem :mod]) '()))))
+    (is (= (get-in result [:synsem :sem :mod]) ()))))
 
 (deftest alla-casa-generate
   (let [result (generate
@@ -401,10 +413,11 @@
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
                  ;; eliminate this need.
                  :synsem {:cat :prep
+                          :subcat ()
                           :sem {:pred :a
                                 :obj {:pred :house
                                       :spec {:def :def}
-                                      :mod '()}}}})]
+                                      :mod ()}}}})]
     (is (= (morph result) "alla casa"))))
 
 (deftest a-casa-generate
@@ -413,9 +426,10 @@
                  ;; TODO: the above is needed to prevent "a" + reflexive pronoun:
                  ;; eliminate this need.
                  :synsem {:cat :prep
+                          :subcat ()
                           :sem {:pred :a
                                 :obj {:pred :house
-                                      :mod '() ;; if :mod '() is specified:
+                                      :mod () ;; if :mod () is specified:
                                       ;; test will run faster since there will
                                       ;; be less futile bolts checked
                                       ;; (less bolts where no complement can
@@ -427,7 +441,7 @@
 (deftest a-casa-generate-2
   (let [result (generate
                 {:modified false
-                 :synsem {:subcat '()
+                 :synsem {:subcat ()
                           :cat :verb 
                           :sem {:tense :present
                                 :aspect :simple
@@ -492,40 +506,43 @@
 
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))
-        gen-result (generate {:synsem {:cat :prep 
+        gen-result (generate {:synsem {:subcat ()
+                                       :cat :prep 
                                        :sem {:pred :in-front-of
                                              :obj {:pred :table
                                                    :number :sing
-                                                   :mod '()
+                                                   :mod ()
                                                    :spec {:def :def}}}}
                               :comp {:synsem {:cat :noun
                                               :pronoun false
-                                              :subcat '()}}})]
+                                              :subcat ()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti il tavolo"
            (morph gen-result)))))
 
 (deftest davanti-lo-studente
   (let [parse-result (mapcat :parses (parse "davanti lo studente"))
-        gen-result (generate {:synsem {:cat :prep 
+        gen-result (generate {:synsem {:subcat ()
+                                       :cat :prep 
                                        :sem {:pred :in-front-of
                                              :obj {:pred :student
                                                    :number :sing
-                                                   :mod '()
+                                                   :mod ()
                                                    :spec {:def :def}}}}
                               :comp {:synsem {:cat :noun
                                               :pronoun false
-                                              :subcat '()}}})]
+                                              :subcat ()}}})]
     (is (not (empty? parse-result)))
     (is (= "davanti lo studente"
            (morph gen-result)))))
 
 (deftest davanti-il-tavolo
-  (let [expr (generate {:synsem {:cat :prep
+  (let [expr (generate {:synsem {:subcat ()
+                                 :cat :prep
                                  :sem {:pred :in-front-of
                                        :reflexive false
                                        :obj {:pred :table
-                                             :mod '()
+                                             :mod ()
                                              :number :sing
                                              :spec {:def :def
                                                     :pred :definite}}}}})]
@@ -533,15 +550,15 @@
            "davanti il tavolo"))))
 
 (deftest furniture-sentence
-  (let [expr (generate {:synsem {:sem {:obj {:pred :table :mod '() :spec {:def :def}
+  (let [expr (generate {:synsem {:sem {:obj {:pred :table :mod () :spec {:def :def}
                                              :number :sing}
                                        :pred :in-front-of
-                                       :subj {:pred :chair :mod '() :spec {:def :def}
+                                       :subj {:pred :chair :mod () :spec {:def :def}
                                               :number :sing}
                                        :tense :present
                                        :aspect :simple}
                                  :cat :verb
-                                 :subcat '()}
+                                 :subcat ()}
                         :comp {:synsem {:agr {:person :3rd}}}
                         :modified false})]
     (is (= (morph expr)
@@ -556,7 +573,8 @@
 ;          not)))
 
 (deftest past-and-gender-agreement
-  (is (= (morph (generate {:synsem {:subcat '()
+  (is (= (morph (generate {:synsem {:subcat ()
+                                    :cat :verb
                                     :sem {:pred :go
                                           :aspect :perfect
                                           :tense :present
@@ -566,7 +584,9 @@
          "loro sono andate")))
 
 (deftest exists1
-  (is (= (morph (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:cat :verb
+                                    :subcat ()
+                                    :sem {:obj :unspec
                                           :subj :top
                                           :pred :exist
                                           :reflexive false
@@ -577,7 +597,9 @@
          "ci sarebbe")))
 
 (deftest exists2
-  (is (= (morph (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:cat :verb
+                                    :subcat ()
+                                    :sem {:obj :unspec
                                           :subj :top
                                           :pred :exist
                                           :reflexive false
@@ -589,7 +611,9 @@
          "c'era")))
 
 (deftest exists3
-  (is (= (morph (generate {:synsem {:sem {:obj :unspec
+  (is (= (morph (generate {:synsem {:cat :verb
+                                    :subcat ()
+                                    :sem {:obj :unspec
                                           :subj :top
                                           :pred :exist
                                           :reflexive false
@@ -597,7 +621,7 @@
                                           :tense :present}}
                            :root {:italiano {:italiano "essere"}}
                            :comp {:synsem {:agr {:number :sing}}}}
-                       :model (small)))
+                          :model (small)))
          "c'è")))
 
 (deftest bisogno

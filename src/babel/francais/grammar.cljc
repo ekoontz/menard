@@ -6,6 +6,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [babel.francais.lexicon :refer [deliver-lexicon lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
+   [babel.generate :refer [lightning-bolts]]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
@@ -178,7 +179,8 @@
    subcat-2-principle
    head-principle
    head-last
-   {:comp {:synsem {:subcat '()
+   {:comp {:phrasal false
+           :synsem {:subcat '()
                     :pronoun true}}
     :schema-symbol 'c21 ;; used by over-each-parent to know where to put children.
     :first :comp
@@ -385,7 +387,8 @@
                            root-is-head-root
                            {:head {:phrasal true
                                    :infl {:not :past-p}}
-                            :comp {:synsem {:cat :noun
+                            :comp {:phrasal false
+                                   :synsem {:cat :noun
                                             :pronoun true}}
                             :rule "vp-pronoun-phrasal"
                             :synsem {:cat :verb}})
@@ -401,6 +404,7 @@
                           {:rule "vp-aux"
                            :synsem {:aux true
                                     :sem {:aspect :perfect
+                                          :reflexive false
                                           :tense :present}
                                     :cat :verb}})
                    
@@ -582,28 +586,36 @@
                             (= (:rule %) "vp-aux"))
                           grammar)))
         indices (create-indices lexicon index-lexicon-on-paths)]
-    {:name "medium"
-     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-     :enrich enrich
-     :grammar grammar
-     ;; Will throw exception if more than 1 rule has the same :rule value:
-     :grammar-map (zipmap
-                   (map #(keyword (get-in % [:rule]))
-                        grammar)
-                   grammar)
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
-     :morph-ps fo-ps
-     :language "fr"
-     :language-keyword :français
-     :lookup (fn [arg]
-               (morph/analyze arg lexicon))
-     :morph fo
-     }))
+    (let [retval
+          {:name "medium"
+           :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+           :enrich enrich
+           :grammar grammar
+           ;; Will throw exception if more than 1 rule has the same :rule value:
+           :grammar-map (zipmap
+                         (map #(keyword (get-in % [:rule]))
+                              grammar)
+                         grammar)
+           :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+           :lexicon lexicon
+           :morph-walk-tree (fn [tree]
+                              (do
+                                (merge tree
+                                       (morph-walk-tree tree))))
+           :morph-ps fo-ps
+           :language "fr"
+           :language-keyword :français
+           :lookup (fn [arg]
+                     (morph/analyze arg lexicon))
+           :morph fo}]
+      (merge retval
+             {:reflexive-bolts (lightning-bolts retval
+                                                {:synsem {:subcat ()
+                                                          :cat :verb
+                                                          :sem {:tense :present
+                                                                :reflexive true
+                                                                :aspect :perfect}}}
+                                                0 3)}))))
 
 (defn parse [surface]
   (parse/parse surface

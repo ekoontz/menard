@@ -37,18 +37,21 @@
              result))))
   ([spec & {:keys [max-total-depth model truncate-children]
             :or {max-total-depth generate/max-total-depth
-                 model (medium)
-                 truncate-children true}}]
-   (let [result (generate/generate spec (medium))]
-     (if result
-       (conj {:surface (fo result)}
+                 truncate-children true
+                 model (medium)}}]
+   (let [result (generate/generate spec model)]
+     (if (keyword? result)
+       (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
+       (conj {:surface (morph result)}
              result)))))
 
 (defn parse
   "parse a string in French into zero or more (hopefully more) phrase structure trees"
   
-  ([input]
-   (parse input (medium)))
+  ([input & {:keys [parse-with-truncate model]}]
+   (parse/parse input (or model (medium))
+                :parse-with-truncate (if (nil? parse-with-truncate)
+                                       true
+                                       parse-with-truncate))))
 
-  ([input model]
-   (parse/parse input model)))
+

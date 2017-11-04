@@ -4,7 +4,6 @@
 (require '[babel.config :refer [language-to-root-spec]])
 (require '[babel.directory :refer [models]])
 (require '[babel.english.morphology :refer [fo]])
-(require '[babel.generate :refer [generate]])
 (require '[babel.korma :refer [init-db]])
 (require '[babel.reader :refer [read-all read-one]])
 (require '[babel.writer :as writer

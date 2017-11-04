@@ -51,9 +51,8 @@
 
         ;; 1. generate sentence in target language.
         ;; resolve future
-        target-language-sentence (generate spec target-language-model
-                                           :enrich true
-                                           :truncate-children false)
+        target-language-sentence (generate spec target-language-model)
+
         ;; we don't want to truncate because we want to store the entire tree in the _structure_ and _serialized_ columns of the database,
         ;; so that we can search for them with specifications that might include :comp and :head search keys.
         ;; for example, (defn fill-language-by-spec) is passed a _spec_ param which, depending on the language's
@@ -113,7 +112,7 @@
         ;; probably not what the caller expected. Rather it should be something more
         ;; specific, like {:pred :eat :subj {:pred :antonio}} ..etc.
         source-language-sentence (generate {:synsem {:sem semantics}}
-                                           source-language-model :truncate-children false)
+                                           source-language-model)
         
         source-language-sentence (if (:morph-walk-tree source-language-model)
                                    (clojure.core/merge ((:morph-walk-tree source-language-model) source-language-sentence)
@@ -205,10 +204,13 @@
   "generate(model,spec) and insert _num_ expressions into the _expression_ database table. source-language may be used to affect how source expression appears in the _expression_ table's _surface_ column."
   [num model spec & [source-language]]
   (let [spec (if spec spec :top)
+        spec (if spec (unify spec
+                             {:synsem {:cat :verb
+                                       :subcat ()}}))
         language (:language model)
         debug (log/debug (str "populate-with-language: spec: " spec "; language: " language))]
     (dotimes [n num]
-      (let [sentence (generate spec model :truncate-children false)
+      (let [sentence (generate spec model)
             ;; In the (generate) call above, we don't want to
             ;; truncate because we want to store the entire tree in
             ;; the _structure_ and _serialized_ columns of the

@@ -53,6 +53,7 @@
 (deftest reader1
   (let [spec (let [agreement (atom {:person :3rd :number :sing :gender :masc})]
                {:synsem {:slash false
+                         :cat :verb
                          :agr agreement
                          :sem {:obj :unspec
                                :tense :past

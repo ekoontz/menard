@@ -87,6 +87,7 @@
         (->  {:comp {:synsem {:agr (get-in latin-structure [:synsem :agr])}}
               :slash false ;; TODO: {:slash false,:synsem {:subcat '()}} should be defaults of English language model.
               :synsem {:sem semantics
+                       :cat :verb
                        :subcat '()}}
              (babel.english/generate :model (-> ((-> models :en)) deref)))
         

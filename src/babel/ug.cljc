@@ -115,8 +115,8 @@
 ;;    /           \
 ;; H subcat<1,3>  3:C<1,2>
 (def subcat-2-2-principle
-  (let [subcat1 (atom :top)
-        subcat2 (atom :top)
+  (let [subcat1 (atom {:cat :top})
+        subcat2 (atom {:cat :top})
         subcat3 (atom {:subcat {:1 subcat1
                                :2 subcat2
                                :3 '()}})]

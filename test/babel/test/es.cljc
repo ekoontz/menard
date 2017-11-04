@@ -14,21 +14,23 @@
 
 (deftest generate-regular-conditional
   (let [result (generate {:synsem {:subcat '()
+                                   :cat :verb
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         :model (small)
-                         :truncate-children false)]
+                         (small))]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
     (is (or (= "yo dormiría" (fo result))
             (= "dormiría" (fo result))))))
 
 (deftest generate-irregular-future
-  (let [result (fo (generate {:synsem {:sem {:tense :future
+  (let [result (fo (generate {:synsem {:cat :verb
+                                       :subcat '()
+                                       :sem {:tense :future
                                              :subj {:pred :I}}}
                               :root {:espanol {:espanol "venir"}}}
-                             :model (small)))]
+                             (small)))]
     (is (or (= result
                "yo vendré")
             (= result
@@ -37,25 +39,27 @@
 (deftest zar-preterito
   (let [result (generate 
                 {:root {:espanol {:espanol "abrazar"}}
-                 :synsem {:sem {:subj {:pred :I}}
+                 :synsem {:cat :verb
+                          :subcat '()
+                          :sem {:subj {:pred :I}}
                           :infl :preterito}}
-                :model (small)
-                :truncate-children false)]
+                (small))]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (generate {:synsem {:sem {:pred :be-called}}} :model (small))]
+  (let [result (generate {:synsem {:subcat '() :cat :verb :sem {:pred :be-called}}} (small))]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
   (let [result (fo (generate {:synsem {:subcat '()
+                                       :cat :verb
                                        :sem {:tense :present
                                              :aspect :simple
                                              :subj {:pred :I}
                                              :pred :be-called
                                              :obj {:pred :Juan}}}}
-                             :model (small)))]
+                             (small)))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

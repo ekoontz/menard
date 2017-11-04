@@ -462,6 +462,12 @@
     
     (string? v)
     (keyword v)
+
+    (= (type v)
+       org.postgresql.jdbc.PgArray)
+    (vec (.getArray v))
+
+    
     :else v))
 
   

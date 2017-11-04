@@ -343,19 +343,18 @@
     :u {:synsem {:agr {:number :sing
                        :person :3rd}}}}
 
-   ;; e.g. se plaindre => se plaindrons
-   {:p [#"^([^' ]+)ts$"      "se $1dre"]
-    :g [#"^se ([^' ]+)ndre$" "se $1ts"]
+   {:p [#"^([^' ]+)nts$"     "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "se $1ts"]
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
 
-   {:p [#"^([^' ]+)ts$"   "se $1ndre"]
-    :g [#"^se ([^' ]+)ndre$" "$1ts"]
+   {:p [#"^([^' ]+)ts$"      "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1ts"]
     :u {:synsem {:agr {:number :plur
                        :person :2nd}}}}
 
-   {:p [#"^([^' ]+)ts$"   "se $1ndre"]
-    :g [#"^se ([^' ]+)ndre$" "$1ts"]
+   {:p [#"^([^' ]+)ts$"      "se $1dre"]
+    :g [#"^se ([^' ]+)dre$"  "$1ts"]
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}
    ]))

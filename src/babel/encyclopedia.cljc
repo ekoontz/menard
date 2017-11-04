@@ -410,6 +410,9 @@ as a map of implications"}
         {:pred :get-dressed
          :subj {:human true}}
 
+        {:pred :get-married
+         :subj {:human true}}
+        
         {:pred :get-off
          :subj {:animate true}}
 
@@ -484,6 +487,9 @@ as a map of implications"}
 
         {:pred :sigh
          :subj {:human true}}
+
+        {:pred :sit-down
+         :subj {:animate true}}
         
         {:pred :sleep
          :subj {:animate true}}
@@ -579,6 +585,9 @@ as a map of implications"}
         {:pred :work-nonhuman
          :subj {:human false}}
 
+        {:pred :worry
+         :subj {:human true}}
+        
         {:pred :yell
          :subj {:human true}}]))
 

@@ -41,11 +41,11 @@
                    :synsem {:sem {:pred :embrace}}}])
 
  "abitare" {:synsem {:cat :verb
-                         :sem {:pred :live-a}}}
-
+                     :sem {:pred :live-a}}}
+ 
  "abituarsi" {:synsem {:cat :verb
-                         :sem {:pred :get-used-to
-                               :reflexive true}}}
+                       :sem {:pred :get-used-to
+                             :reflexive true}}}
 
  "accettare" {:synsem {:cat :verb
                        :sem {:pred :accept}}}

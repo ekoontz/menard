@@ -319,9 +319,11 @@
                       :obj subject-semantics}
                 :cat :verb
                 :subcat {:1 {:agr subject-agr
+                             :cat :noun
                              :sem subject-semantics}
                          :2 {:reflexive true
                              :pronoun true
+                             :cat :noun
                              :sem subject-semantics
                              :agr subject-agr}}}}))
    (default

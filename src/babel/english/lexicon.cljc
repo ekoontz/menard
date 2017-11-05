@@ -326,6 +326,19 @@
                              :cat :noun
                              :sem subject-semantics
                              :agr subject-agr}}}}))
+
+   ;; some English verbs e.g. "climb" are reflexive, but without an
+   ;; explicit object, so they have a [:sem :obj], but no [:subcat :2]
+   ;; we want to add a semantic object so that the semantics
+   ;; are the same compared to Italian.
+   (default
+    (let [subject-semantics (atom :top)]
+      {:synsem {:sem {:reflexive true
+                      :subj subject-semantics
+                      :obj subject-semantics}
+                :subcat {:2 '()}}}))
+
+   ;; by default, verbs are intransitive.
    (default
     {:synsem {:cat :verb
               :subcat {:2 {:subcat '()}}}})

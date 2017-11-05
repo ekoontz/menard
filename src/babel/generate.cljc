@@ -55,7 +55,7 @@
   "Return a lazy sequence of every possible tree given a specification and a model."
   [spec model depth & [from-bolts at-path]]
   (log/debug (str "gen@" depth "; spec=" (show-spec spec)))
-  (if (< depth 5)
+  (if (< depth max-depth)
     (let [bolts (or from-bolts
                     (get-bolts-for model spec 
                                    depth))]

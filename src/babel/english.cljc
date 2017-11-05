@@ -20,9 +20,9 @@
            (realized? medium-model))
     @medium-model
     @(do
-       (log/info (str "creating model..(will be slow the first time).."))
+       (println (str "creating model..(will be slow the first time).."))
        (let [result (deliver medium-model (grammar/medium))]
-         (log/info (str "done."))
+         (println (str "done."))
          result))))
 
 (declare morph)

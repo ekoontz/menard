@@ -821,7 +821,8 @@
  "game" {:synsem {:cat :noun
                   :sem {:pred :game}}}
 
- ;; TODO: move all "get Xs" to "get" with a subcat argument, a la phrasal verbs e.g. "putting on"
+ ;; TODO: move all "get Xs" to "get" with a subcat argument,
+ ;; à la phrasal verbs e.g. "putting on".
  "get angry"
  {:synsem {:cat :verb
            :sem {:pred :get-angry

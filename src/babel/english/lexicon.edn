@@ -892,7 +892,7 @@
 
  "get used"
  {:synsem {:cat :verb
-           :sem {:pred :get-used
+           :sem {:pred :get-used-to
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting used"

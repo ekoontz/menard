@@ -2121,6 +2121,12 @@
                    :sem {:pred :spend}}
           :english {:past "spent"}}
 
+ "spread food" {:synsem {:cat :verb
+                         :sem {:pred :spread-food}}
+                :english {:past "spreaded food"
+                          :participle "spreading food"
+                          :past-particple "spreaded food"}}
+ 
  "start" {:synsem {:cat :verb
                    :sem {:pred :start}}}
 

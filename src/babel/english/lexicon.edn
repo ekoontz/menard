@@ -1896,8 +1896,10 @@
                       :sem {:pred :answer}
                       :subcat {:2 {:cat :prep
                                    :sem {:pred :to}}}}}
- "rest" {:synsem {:cat :verb
-                  :sem {:pred :rest}}}
+ "rest" [{:synsem {:cat :verb
+                   :subcat {:2 '()}
+                   :sem {:pred :rest-oneself
+                         :reflexive true}}}]
 
  "return" [{:synsem {:cat :verb
                      :sem {:pred :return-r}}

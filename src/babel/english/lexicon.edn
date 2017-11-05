@@ -1025,15 +1025,14 @@
                           :past "had dinner"
                           :participle "having dinner"}}
  "have fun"
- (let [subject-semantics (atom :top)]
-   {:synsem {:cat :verb
-             :sem {:pred :have-fun
-                   :reflexive true}
-             :subcat {:1 :top
-                      :2 '()}}
-    :english {:participle "having fun"
-              :present {:3sing "has fun"}
-              :past "had fun"}})
+ {:synsem {:cat :verb
+           :sem {:pred :have-fun
+                 :reflexive true}
+           :subcat {:1 :top
+                    :2 '()}}
+  :english {:participle "having fun"
+            :present {:3sing "has fun"}
+            :past "had fun"}}
 
  "have lunch" {:synsem {:cat :verb
                         :sem {:pred :have-lunch}

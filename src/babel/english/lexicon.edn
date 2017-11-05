@@ -521,8 +521,10 @@
  "clean" {:synsem {:cat :verb
                    :sem {:pred :clean}}}
 
- "climb" {:synsem {:cat :verb
-                   :sem {:pred :climb}}}
+ "climb" {:synsem {:cat :verb}
+                   :subcat {:2 '()}
+                   :sem {:pred :climb
+                         :reflexive true}}}
 
  "close" {:synsem {:cat :verb
                    :sem {:pred :close}}}

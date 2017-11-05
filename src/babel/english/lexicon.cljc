@@ -312,12 +312,17 @@
    
    ;; for transitive, reflexive verbs, the 2nd arg is a reflexive pronoun by default.
    (default
-    (let [subject-agr (atom :top)]
-      {:synsem {:sem {:reflexive true}
+    (let [subject-agr (atom :top)
+          subject-semantics (atom :top)]
+      {:synsem {:sem {:reflexive true
+                      :subj subject-semantics
+                      :obj subject-semantics}
                 :cat :verb
-                :subcat {:1 {:agr subject-agr}
+                :subcat {:1 {:agr subject-agr
+                             :sem subject-semantics}
                          :2 {:reflexive true
                              :pronoun true
+                             :sem subject-semantics
                              :agr subject-agr}}}}))
    (default
     {:synsem {:cat :verb

@@ -1201,18 +1201,9 @@
  "hurt" (let [common {:english {:past "hurt"}
                       :synsem {:cat :verb}}]
           ;; 1. reflexive sense of "hurt"
-          [(let [subject-semantics (atom :top)
-                 subject-agr (atom :top)]
-             {:unify [common]
-              :synsem {:sem {:pred :hurt-oneself
-                             :subj subject-semantics
-                             :obj subject-semantics}
-                       :subcat {:1 {:agr subject-agr
-                                    :sem subject-semantics}
-                                :2 {:agr subject-agr
-                                    :pronoun true
-                                    :reflexive true
-                                    :sem subject-semantics}}}})
+          [{:unify [common]
+            :synsem {:sem {:pred :hurt-oneself
+                           :reflexive true}}}
 
            ;; 2. transitive sense of "hurt"
            {:unify [common]
@@ -1737,20 +1728,12 @@
                     :sem {:pred :prefer}}}
 
 
- ;; TODO: all reflexive verbs should have this subject-object agreement like this one does:
- "prepare" (let [subject-semantics (atom :top)
-                 subject-agreement (atom :top)]
-             {:synsem {:cat :verb
-                       :sem {:pred :get-ready
-                             :subj subject-semantics
-                             :obj subject-semantics}
-                       :subcat {:1 {:sem subject-semantics
-                                    :agr subject-agreement
-                                    }
-                                :2 {:pronoun true
-                                    :reflexive true
-                                    :agr subject-agreement
-                                    :sem subject-semantics}}}})
+ "prepare" [{:synsem {:cat :verb
+                      :sem {:pred :get-ready
+                            :reflexive true}}}
+            {:synsem {:cat :verb
+                      :sem {:pred :prepare}}}]
+
  "preserve" {:synsem {:cat :verb
                       :sem {:pred :preserve}}}
 

@@ -14,7 +14,7 @@
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
 
-(def medium-model (promise))
+(defonce medium-model (promise))
 (defn medium []
   (if (and (not (nil? medium-model))
            (realized? medium-model))

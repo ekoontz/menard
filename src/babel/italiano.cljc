@@ -14,18 +14,18 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(def small-model (promise))
+(defonce small-model (promise))
 (defn small [] (if (realized? small-model)
                  @small-model
                  @(deliver small-model (grammar/small))))
 
-(def medium-model (promise))
+(defonce medium-model (promise))
 (defn medium []
   (if (realized? medium-model)
     @medium-model
     @(deliver medium-model (grammar/medium))))
 
-(def np-grammar-model (promise))
+(defonce np-grammar-model (promise))
 (defn np-grammar []
   (if (realized? np-grammar-model)
     @np-grammar-model
@@ -70,7 +70,7 @@
        (conj {:surface (fo result)}
              result)))))
 
-(def tokenizer #"[ '\n,’».]")
+(defonce tokenizer #"[ '\n,’».]")
 
 (defn tokenize [input]
   (string/split input tokenizer))

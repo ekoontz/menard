@@ -26,9 +26,9 @@
   (if (not (realized? lexicon))
     (deliver lexicon (edn2lexicon (resource "babel/italiano/lexicon.edn")))))
 
-;; The values in this map in (def defaults) are used for lexical
-;; compilation but also available for external usages.
-(def defaults
+;; The values in this map in (defonce defaults) are used for lexical
+;; compilation but also available for external use.
+(defonce defaults
   {:adjective
    {:non-comparative
     (let [subject (atom :top)]

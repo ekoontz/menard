@@ -360,7 +360,7 @@
 
      (verbs/handle3? word)
      (verbs/handle3 word)
-     
+
      ;; regular inflection of conditional
      (and (= (get-in word '(:infl)) :conditional)
           (string? (get-in word '(:future-stem) :none)))

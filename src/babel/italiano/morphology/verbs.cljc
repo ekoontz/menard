@@ -1,10 +1,11 @@
 (ns babel.italiano.morphology.verbs
+  (:refer-clojure :exclude [get-in])
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [babel.morphology :refer [expand-replace-patterns group-by-two]]
    [clojure.string :as string]
-   [dag_unify.core :refer [unify]]
+   [dag_unify.core :refer [get-in unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])))
 

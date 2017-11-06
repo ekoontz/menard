@@ -3,7 +3,7 @@
    [dag_unify.core :refer [unify]]
    [babel.morphology :refer [expand-replace-patterns group-by-two]]))
 
-(def replace-patterns-imperfect-tense
+(def replace-patterns-imperfect-past-tense
   (expand-replace-patterns
    {:synsem {:infl :imperfect}}
    [
@@ -565,7 +565,7 @@
        (concat
         replace-patterns-conditional-tense
         replace-patterns-future-tense
-        replace-patterns-imperfect-tense
+        replace-patterns-imperfect-past-tense
         replace-patterns-past-tense
         replace-patterns-present-tense)))
 

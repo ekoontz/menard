@@ -21,7 +21,7 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
-(def index-lexicon-on-paths
+(defonce index-lexicon-on-paths
   [
    [:italiano :italiano]
    [:synsem :aux]
@@ -31,7 +31,7 @@
    [:synsem :sem :pred]
    ])
 
-(def tenses
+(defonce tenses
   {"present simple" {:synsem {:sem {:tense :present
                                     :aspect :simple}}}
    "present progressive" {:synsem {:sem {:tense :present
@@ -60,14 +60,14 @@
       (exception (str "failed to unify grammar rule with values: " vals))
       result)))
 
-(def hc-agreement
+(defonce hc-agreement
   (let [agr (atom :top)]
     {:synsem {:agr agr}
      :head {:synsem {:agr agr}}
      :comp {:italiano {:agr agr}
             :synsem {:agr agr}}}))
 
-(def cat-sharing
+(defonce cat-sharing
   (let [head-cat (atom :top)
         comp-cat (atom :top)]
     {:comp {:synsem {:cat comp-cat}

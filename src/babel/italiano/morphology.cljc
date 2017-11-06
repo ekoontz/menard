@@ -1329,7 +1329,7 @@
      concat)))
 
 (defn analyze-regular [surface-form lexicon]
-  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form"
+  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form, using the (defonce replace-patterns) defined above."
   (mapcat
    (fn [replace-pattern]
      (let [ ;; regular expression that matches the surface form
@@ -1364,7 +1364,11 @@
 
 (declare analyze-capitalization-variant)
 
-(defn analyze [surface-form lexicon]
+(defn analyze
+  "take the union of: 
+      - analyzing _surface-form_ according to the (defonce replace-patterns) above
+      - looking up _surface-form_ in the supplied lexicon."
+  [surface-form lexicon]
   (mapcat (fn [each-variant]
             (analyze-capitalization-variant each-variant lexicon))
           (set

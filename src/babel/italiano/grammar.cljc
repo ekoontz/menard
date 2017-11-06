@@ -21,7 +21,7 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
-(def index-lexicon-on-paths
+(defonce index-lexicon-on-paths
   [
    [:italiano :italiano]
    [:synsem :aux]
@@ -31,7 +31,7 @@
    [:synsem :sem :pred]
    ])
 
-(def tenses
+(defonce tenses
   {"present simple" {:synsem {:sem {:tense :present
                                     :aspect :simple}}}
    "present progressive" {:synsem {:sem {:tense :present
@@ -60,14 +60,14 @@
       (exception (str "failed to unify grammar rule with values: " vals))
       result)))
 
-(def hc-agreement
+(defonce hc-agreement
   (let [agr (atom :top)]
     {:synsem {:agr agr}
      :head {:synsem {:agr agr}}
      :comp {:italiano {:agr agr}
             :synsem {:agr agr}}}))
 
-(def cat-sharing
+(defonce cat-sharing
   (let [head-cat (atom :top)
         comp-cat (atom :top)]
     {:comp {:synsem {:cat comp-cat}
@@ -75,7 +75,7 @@
      :head {:synsem {:cat head-cat}
             :italiano {:cat head-cat}}}))
 
-(def head-first
+(defonce head-first
   (let [head-italian (atom :top)
         comp-italian (atom :top)]
     (unify
@@ -86,7 +86,7 @@
       :comp {:italiano comp-italian}
       :italiano {:a head-italian
                  :b comp-italian}})))
-(def head-last
+(defonce head-last
   (let [head-italian (atom :top)
         comp-italian (atom :top)
         head-cat (atom :top)
@@ -101,22 +101,22 @@
                  :b head-italian}})))
 
 ;; -- BEGIN SCHEMA DEFINITIONS
-(def c10
+(defonce c10
   (unify
    ug/c10
    head-last))
 
-(def c21
+(defonce c21
   (unify
    ug/c21 head-last))
 
-(def h11
+(defonce h11
   (unify
    ug/h11
    head-first))
 
 ;; <TODO: move most of the content to babel.ug as the above examples (c10,c21,h11) do.>
-(def c11-comp-subcat-1
+(defonce c11-comp-subcat-1
   (let [subcat (atom :top)]
     (unify
      {:head {:synsem {:subcat {:1 subcat}}}
@@ -130,7 +130,7 @@
       :first :head
       :comment "c11-comp-subcat-1"})))
 
-(def h11-comp-subcat-1
+(defonce h11-comp-subcat-1
   (let [subcat (atom :top)]
     (unify
      {:head {:synsem {:subcat {:1 subcat}}}
@@ -144,7 +144,7 @@
       :first :comp
       :comment "h11-comp-subcat-1"})))
 
-(def h10
+(defonce h10
   (unify
    subcat-1-principle
    head-principle
@@ -153,7 +153,7 @@
     :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def h21
+(defonce h21
   (unify
    subcat-2-principle
    head-principle
@@ -163,7 +163,7 @@
     :first :head}))
 
 ;; h21a is a specialization of h21. it's used for vp-aux to prevent over-generation.
-(def h21a
+(defonce h21a
   (merge
    (unify
     h21
@@ -171,7 +171,7 @@
    {:comment "h21a"
     :schema-symbol 'h21a}))
 
-(def h22
+(defonce h22
   (unify
    subcat-2-2-principle
    head-principle
@@ -180,7 +180,7 @@
     :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def h32
+(defonce h32
   (unify
    subcat-5-principle
    head-principle
@@ -189,7 +189,7 @@
     :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def c00
+(defonce c00
   (unify-check
    head-last
    {:comment "c00"
@@ -198,7 +198,7 @@
     :comp {:synsem {:subcat '()}}
     :head {:synsem {:subcat '()}}}))
 
-(def h00
+(defonce h00
   (unify-check
    head-first
    {:comment "h00"
@@ -210,13 +210,13 @@
 ;; </TODO: move most of the content to babel.ug>
 ;; -- END SCHEMA DEFINITIONS
 
-(def vp-non-pronoun
+(defonce vp-non-pronoun
   {:comp {:synsem {:pronoun false}}})
 
-(def modified {:modified true})
-(def unmodified {:modified false})
+(defonce modified {:modified true})
+(defonce unmodified {:modified false})
 
-(def grammar (list (unify h21
+(defonce grammar (list (unify h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
 
@@ -572,7 +572,7 @@
         true phrase))
 
 ;; TODO: warn about failures.
-(def grammar
+(defonce grammar
   (map (fn [phrase]
          (modal-is-head-feature
           (aux-is-head-feature phrase)))

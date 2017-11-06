@@ -22,7 +22,7 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
 ;; TODO: convert all morphology rules to this format used for prepositions:
-(def preposition-plus-article
+(defonce preposition-plus-article
   [["a il"   "al"]
    ["a lo"   "allo"]
    ["a la"   "alla"]
@@ -1307,14 +1307,14 @@
    true
    ""))
 
-(def ppa-tokens-to-surface
+(defonce ppa-tokens-to-surface
   (map (fn [pair]
          [(re-pattern
            (str "\\b" (first pair) "\\b"))
           (second pair)])
        preposition-plus-article))
 
-(def ppa-surface-to-tokens
+(defonce ppa-surface-to-tokens
   (map (fn [pair]
          [(re-pattern
            (str "\\b" (second pair) "\\b"))
@@ -1402,7 +1402,7 @@
                 lexeme))
         (get lexicon surface-form))))
 
-(def exceptions-rules
+(defonce exceptions-rules
   (concat verbs/exceptions-rules
           adjectives/exceptions-rules
           nouns/exceptions-rules))

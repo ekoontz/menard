@@ -665,6 +665,23 @@
          #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
          ]}]))
 
+(defonce replace-patterns
+  (map (fn [each]   ;; unify with {:synsem {:cat :verb}} for all rules.
+         {:p (:p each)
+          :u (unify (:u each)
+                    {:synsem {:cat :verb}})
+          :g (:g each)})
+       
+       (concat
+        ;; if more are added in the future, please
+        ;; preserve alphabetical ordering.
+        replace-patterns-conditional-tense
+        replace-patterns-future-tense
+        replace-patterns-gerund
+        replace-patterns-imperfect-past-tense
+        replace-patterns-past-tense
+        replace-patterns-present-subjunctive
+        replace-patterns-present-tense)))
 
 (def exceptions-rules
   [;; 1. past-tense exceptions

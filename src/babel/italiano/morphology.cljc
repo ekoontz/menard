@@ -352,39 +352,12 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-     ;; future 1) irregular
-     (and
-      (= (get-in word '(:infl)) :future)
-      (map? (get-in word '(:future))))
-     (let [infinitive (get-in word '(:italiano)) ;; future irregular
-           ;; e.g.: lavarsi => lavare
-           infinitive (if (re-find #"[aei]rsi$" infinitive)
-                        (string/replace infinitive #"si$" "e")
-                        infinitive)
-           person (get-in word '(:agr :person))
-           number (get-in word '(:agr :number))]
-       (cond
-        (and (= person :1st) (= number :sing))
-        (get-in word '(:future :1sing))
-        (and (= person :2nd) (= number :sing))
-        (get-in word '(:future :2sing))
-        (and (= person :3rd) (= number :sing))
-        (get-in word '(:future :3sing))
-        (and (= person :1st) (= number :plur))
-        (get-in word '(:future :1plur))
-        (and (= person :2nd) (= number :plur))
-        (get-in word '(:future :2plur))
-        (and (= person :3rd) (= number :plur))
-        (get-in word '(:future :3plur))
-
-        (and (= (get-in word '(:infl)) :future)
-             (string? (get-in word '(:italiano))))
-        (str (get-in word '(:italiano)) " (future)")
-
-        true ;; failthrough: should usually not get here:
-        ;; TODO: describe when it might be ok, i.e. why log/warn not log/error.
-        (do (log/warn (str "get-string-1 could not match: " word))
-        word)))
+     (and (= :verb (get-in word [:cat]))
+          ;; future 1) irregular
+          (and
+           (= (get-in word '(:infl)) :future)
+           (map? (get-in word '(:future)))))
+     (verbs/handle-this word)
 
      ;; future: 2) futueo-stem specified
      (and (= (get-in word '(:infl)) :future)

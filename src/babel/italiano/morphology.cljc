@@ -241,6 +241,7 @@
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 ;; TODO: use replace patterns instead (as with French)
+;; TODO: split into morphology/verb function, morphology/noun function, etc.
 (defn get-string-1 [word]
   (if (seq? word)
     (map (string/join " " #(get-string-1 %))

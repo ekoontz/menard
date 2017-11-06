@@ -3,6 +3,14 @@
    [dag_unify.core :refer [unify]]
    [babel.morphology :refer [expand-replace-patterns group-by-two]]))
 
+
+(def replace-patterns-gerund
+  (expand-replace-patterns
+   {:synsem {:infl :participle}}
+   [{:agr :top
+     :p ["#(.*)ando$" "$1are"
+         "#(.*)ando$" "$1arsi"]}]))
+  
 (def replace-patterns-imperfect-past-tense
   (expand-replace-patterns
    {:synsem {:infl :imperfect}}
@@ -562,9 +570,13 @@
           :u (unify (:u each)
                     {:synsem {:cat :verb}})
           :g (:g each)})
+
        (concat
+        ;; if more are added in the future, please
+        ;; preserve alphabetical ordering.
         replace-patterns-conditional-tense
         replace-patterns-future-tense
+        replace-patterns-gerund
         replace-patterns-imperfect-past-tense
         replace-patterns-past-tense
         replace-patterns-present-tense)))

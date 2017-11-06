@@ -1480,9 +1480,3 @@
           (unify a-map
                   {:italiano a-string}
                   common))))
-
-;; TODO: remove this; dead code
-(def pronoun-semantic-gender-agreement
-  (let [gender (atom :top)]
-    {:synsem {:sem {:gender gender}
-              :agr {:gender gender}}}))

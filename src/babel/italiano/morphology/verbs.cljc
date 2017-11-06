@@ -1098,18 +1098,18 @@
 
 (defn handle3? [word]
   ;; future 3) regular inflection of future.
-  (and (= (get-in word '(:infl)) :future)
-       (get-in word '(:italiano))))
+  (and (= (get-in word [:infl]) :future)
+       (get-in word [:italiano])))
 
 (defn handle3 [word]
-  (let [infinitive (get-in word '(:italiano))
+  (let [infinitive (get-in word [:italiano])
         ;; e.g.: lavarsi => lavare
         infinitive (if (re-find #"[aei]rsi$" infinitive)
                      (string/replace infinitive #"si$" "e")
                      infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        drop-e (get-in word '(:italiano :drop-e) false)
+        person (get-in word [:agr :person])
+        number (get-in word [:agr :number])
+        drop-e (get-in word [:italiano :drop-e] false)
         stem (stem-for-future infinitive drop-e)]
     (cond
       (and (= person :1st) (= number :sing))
@@ -1131,4 +1131,76 @@
       (str stem "anno")
       
       :else
+      (get-in word [:italiano]))))
+
+(defn handle4? [word]
+  ;; regular inflection of conditional with :future-stem
+  (and (= (get-in word [:infl]) :conditional)
+       (string? (get-in word '(:future-stem) :none))))
+
+(defn handle4 [word]
+  (let [stem (get-in word '(:future-stem))
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        drop-e (get-in word '(:italiano :drop-e) false)]
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "ei")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "esti")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "ebbe")
+      
+      (and (= person :1st) (= number :plur))
+      (str stem "emmo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "este")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "ebbero"))))
+
+(defn handle5? [word]
+  ;; regular inflection of conditional without :future-stem
+  (and (= (get-in word '(:infl)) :conditional)
+       (get-in word '(:italiano))))
+
+(defn handle5 [word]
+  (let [infinitive (get-in word '(:italiano))
+        ;; e.g.: lavarsi => lavare
+        infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                        infinitive)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        drop-e (get-in word '(:italiano :drop-e) false)
+        stem (stem-for-future infinitive drop-e)]
+    
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "ei")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "esti")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "ebbe")
+      
+      (and (= person :1st) (= number :plur))
+      (str stem "emmo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "este")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "ebbero")
+      
+      :else
       (get-in word '(:italiano)))))
+
+  
+  
+  
+

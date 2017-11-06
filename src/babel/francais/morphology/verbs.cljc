@@ -10,7 +10,7 @@
 
 ;; TODO: convert to (babel.morphology/conjugation)
 ;; (see babel.latin.morphology for an example of how to use babel.morphology/conjugation)
-(def present-nonreflexive-er-verb
+(defonce present-nonreflexive-er-verb
   (map
    #(merge %
            {:u (unify (:u %)
@@ -52,7 +52,7 @@
                         :person :3rd}}}}
     ]))
 
-(def present-nonreflexive-ir-verb
+(defonce present-nonreflexive-ir-verb
   (map
    #(merge %
            {:u (unify (:u %)
@@ -89,7 +89,7 @@
                        :person :3rd}}}}
    ]))
 
-(def present-nonreflexive-re-verb
+(defonce present-nonreflexive-re-verb
   (map
    #(merge %
            {:u (unify (:u %)
@@ -126,7 +126,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}]))
 
-(def present-reflexive-re-verb
+(defonce present-reflexive-re-verb
   (map
    #(merge %
            {:u (unify (:u %)
@@ -163,7 +163,7 @@
      :u {:synsem {:agr {:number :plur
                         :person :3rd}}}}]))
 
-(def present-reflexive
+(defonce present-reflexive
   ;; reflexive present -er and -ir type verbs
   (map
    #(merge %
@@ -242,7 +242,7 @@
     :u {:synsem {:agr {:number :plur
                        :person :3rd}}}}]))
 
-(def past-reflexive
+(defonce past-reflexive
   (map
    #(merge %
            {:u (unify {:synsem {:infl :past-p}}
@@ -322,7 +322,7 @@
     :u {:synsem {:agr {:number :plur
                        :gender :fem}}}}]))
 
-(def past-reflexive-re-verb
+(defonce past-reflexive-re-verb
   (map
    #(merge %
            {:u (unify {:synsem {:infl :past-p}}
@@ -359,7 +359,7 @@
                        :person :3rd}}}}
    ]))
 
-(def past
+(defonce past
   (map
    #(merge %
            {:u (unify {:synsem {:cat :verb
@@ -403,7 +403,7 @@
     ]))
 
 
-(def future
+(defonce future
   (map
    #(merge %
            {:u (unify (:u %)
@@ -577,7 +577,7 @@
 
     ]))
 
-(def imperfect
+(defonce imperfect
   (map
    #(merge %
            {:u (unify {:synsem {:infl :imperfect
@@ -720,7 +720,7 @@
 
     ]))
 
-(def conditional
+(defonce conditional
   (map
    #(merge %
            {:u (unify (:u %)
@@ -894,7 +894,7 @@
 
     ]))
 
-(def regular-patterns-source
+(defonce regular-patterns-source
   (apply concat
          [conditional
           imperfect
@@ -912,7 +912,7 @@
 ;; this (map..) is needed because a word within a syntactic tree will be conjugated
 ;; as a part of :a or :b within the tree, and with its :infl and :agr as keys within
 ;; the :francais part of the verb.
-(def regular-patterns
+(defonce regular-patterns
   (map (fn [pattern]
          {:p (:p pattern)
           :comment (:comment pattern)
@@ -930,7 +930,7 @@
        regular-patterns-source))
 
 ;; TODO: unify irregular-patterns and irregular-conjugations.
-(def irregular-patterns
+(defonce irregular-patterns
   [;; 1. past-tense exceptions
    {:path [:français :past-participle]
     :merge-fn
@@ -1258,7 +1258,7 @@
                          :person :2nd}}}])}])
 
 ;; TODO: unify irregular-patterns (above) and irregular-conjugations.
-(def irregular-conjugations
+(defonce irregular-conjugations
   (concat
    [;; irregular conditional with :future-stem
     {:prefix :future-stem :suffix "ais"

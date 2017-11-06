@@ -18,12 +18,12 @@
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in strip-refs unify)]))
 
-(def index-lexicon-on-paths
+(defonce index-lexicon-on-paths
   [[:synsem :cat]
    [:synsem :aux]
    [:synsem :sem :pred]])
 
-(def tenses
+(defonce tenses
   {"present" {:synsem {:sem {:tense :present
                              :aspect :simple}}}
    "conditional" {:synsem {:sem {:tense :conditional}}}
@@ -33,11 +33,11 @@
    "passé composé" {:synsem {:sem {:aspect :perfect
                                   :tense :present}}}})
 
-(def head-imperfect-infl
+(defonce head-imperfect-infl
   {:head {:phrasal false
           :synsem {:infl :imperfect}}})
 
-(def head-present-infl
+(defonce head-present-infl
   {:head {:phrasal false
           :synsem {:infl :present}}})
 
@@ -77,7 +77,7 @@
                         lexemes))
               (vals lexicon)))))
 
-(def head-first
+(defonce head-first
   (let [head-french (atom :top)
         comp-french (atom :top)]
     (unify
@@ -87,7 +87,7 @@
       :comp {:français comp-french}
       :français {:a head-french
                  :b comp-french}})))
-(def h21
+(defonce h21
   (unify
    subcat-2-principle
    head-principle
@@ -97,7 +97,7 @@
     :first :head}))
 
 ;; h21a is a specialization of h21. it's used for vp-aux to prevent over-generation.
-(def h21a
+(defonce h21a
   (merge
    (unify
     h21
@@ -105,7 +105,7 @@
    {:comment "h21a"
     :schema-symbol 'h21a}))
 
-(def hc-agreement
+(defonce hc-agreement
   (let [agr (atom :top)]
     {:synsem {:agr agr}
      :head {:français {:agr agr}
@@ -113,7 +113,7 @@
      :comp {:français {:agr agr}
             :synsem {:agr agr}}}))
 
-(def head-first
+(defonce head-first
   (let [head-français (atom :top)
         comp-français (atom :top)
         head-cat (atom :top)
@@ -135,7 +135,7 @@
      {:français {:a {:cat head-cat}
                  :b {:cat comp-cat}}})))
 
-(def head-last
+(defonce head-last
   (let [head-français (atom :top)
         comp-français (atom :top)
         head-cat (atom :top)
@@ -160,7 +160,7 @@
 
 ;; -- BEGIN SCHEMA DEFINITIONS
 
-(def c10
+(defonce c10
   (unify
    schema-10
    head-last
@@ -174,7 +174,7 @@
     :first :comp
     :comp {:synsem {:subcat '()}}}))
 
-(def c21
+(defonce c21
   (unify
    subcat-2-principle
    head-principle
@@ -186,7 +186,7 @@
     :first :comp
     :comment "c21"}))
 
-(def h11
+(defonce h11
   (unify
    subcat-1-1-principle
    hc-agreement
@@ -199,7 +199,7 @@
     :comment "h11"}))
 
 
-(def h11-comp-subcat-1
+(defonce h11-comp-subcat-1
   (let [subcat (atom :top)]
     (unify
      {:head {:synsem {:subcat {:1 subcat}}}
@@ -213,7 +213,7 @@
       :first :head
       :comment "h11-comp-subcat-1"})))
 
-(def h10
+(defonce h10
   (unify
    subcat-1-principle
    head-principle
@@ -222,7 +222,7 @@
     :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def h21
+(defonce h21
   (unify
    subcat-2-principle
    head-principle
@@ -231,7 +231,7 @@
     :schema-symbol 'h21 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def h22
+(defonce h22
   (unify
    subcat-2-2-principle
    head-principle
@@ -240,7 +240,7 @@
     :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
-(def h32
+(defonce h32
   (unify
    subcat-5-principle
    head-principle
@@ -251,7 +251,7 @@
 
 ;; -- END SCHEMA DEFINITIONS
 
-(def grammar (list (unify h21
+(defonce grammar (list (unify h21
                            {:rule "adjective-phrase"
                             :synsem {:cat :adjective}})
 
@@ -491,7 +491,7 @@
                    :head {:synsem {:modal ref}}}))
         true phrase))
 
-(def grammar
+(defonce grammar
   (map (fn [phrase]
          (modal-is-head-feature
           (aux-is-head-feature phrase)))

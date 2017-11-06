@@ -3,14 +3,14 @@
    [dag_unify.core :refer [unify]]
    [babel.morphology :refer [expand-replace-patterns group-by-two]]))
 
-(def replace-patterns-gerund
+(defonce replace-patterns-gerund
  (expand-replace-patterns
   {:synsem {:infl :participle}}
   [{:agr :top
     :p [#"(.*)ando$" "$1are"
         #"(.*)ando$" "$1arsi"]}]))
 
-(def replace-patterns-imperfect-past-tense
+(defonce replace-patterns-imperfect-past-tense
   (expand-replace-patterns
    {:synsem {:infl :imperfect}}
    [
@@ -95,7 +95,7 @@
 
     ]))
 
-(def replace-patterns-future-tense
+(defonce replace-patterns-future-tense
   (expand-replace-patterns
    {:synsem {:infl :future}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -245,7 +245,7 @@
 
          ]}]))
 
-(def replace-patterns-past-tense
+(defonce replace-patterns-past-tense
   (concat
    (expand-replace-patterns
     {:synsem {:infl :past}}
@@ -334,7 +334,7 @@
 
      ])))
 
-(def replace-patterns-present-tense
+(defonce replace-patterns-present-tense
   (expand-replace-patterns
    {:synsem {:infl :present}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -413,7 +413,7 @@
          #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
          ]}]))
 
-(def replace-patterns-conditional-tense
+(defonce replace-patterns-conditional-tense
   (expand-replace-patterns
    {:synsem {:infl :conditional}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -562,27 +562,7 @@
          #"(.*)rrebbero"     "$1lere"  ;; vorrebbero -> volere
 
          ]}]))
-
-(def replace-patterns
-  (map (fn [each]   ;; unify with {:synsem {:cat :verb}} for all rules.
-         {:p (:p each)
-          :u (unify (:u each)
-                    {:synsem {:cat :verb}})
-          :g (:g each)})
-
-       (concat
-        ;; if more are added in the future, please
-        ;; preserve alphabetical ordering.
-        replace-patterns-conditional-tense
-        replace-patterns-future-tense
-        replace-patterns-gerund
-        replace-patterns-imperfect-past-tense
-        replace-patterns-past-tense
-        replace-patterns-present-tense)))
-
-;; here is my attempt to do present subjunctive - Franco
-
-(def replace-patterns-present-subjunctive
+(defonce replace-patterns-present-subjunctive
   (expand-replace-patterns
    {:synsem {:infl :present}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -683,7 +663,7 @@
         replace-patterns-present-subjunctive
         replace-patterns-present-tense)))
 
-(def exceptions-rules
+(defonce exceptions-rules
   [;; 1. past-tense exceptions
    {:path [:italiano :passato]
     :label "past-tense exception"

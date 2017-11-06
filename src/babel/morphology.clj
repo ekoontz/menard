@@ -87,8 +87,7 @@
                               (:agr x))
                     :p (:p pair)})
                  (map (fn [p]
-                        {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                                           :person :1st}}}}}
+                        {:agr :top
                          :p p})
                       (group-by-two (:p x)))))
           patterns))

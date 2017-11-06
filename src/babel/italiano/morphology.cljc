@@ -355,28 +355,8 @@
      (verbs/handle1? word)
      (verbs/handle1 word)
 
-     ;; future: 2) futueo-stem specified
-     (and (= (get-in word '(:infl)) :future)
-          (get-in word '(:future-stem)))
-     (let [stem (get-in word '(:future-stem))]
-       (cond
-        (and (= person :1st) (= number :sing))
-        (str stem "ò")
-
-        (and (= person :2nd) (= number :sing))
-        (str stem "ai")
-
-        (and (= person :3rd) (= number :sing))
-        (str stem "à")
-
-        (and (= person :1st) (= number :plur))
-        (str stem "emo")
-
-        (and (= person :2nd) (= number :plur))
-        (str stem "ete")
-
-        (and (= person :3rd) (= number :plur))
-        (str stem "anno")))
+     (verbs/handle2? word)
+     (verbs/handle2 word)
 
      ;; future 3) regular inflection of future.
      (and (= (get-in word '(:infl)) :future)

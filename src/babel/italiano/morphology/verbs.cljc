@@ -1067,3 +1067,30 @@
       (do (log/warn (str "get-string-1 could not match: " word))
           word))))
 
+;; future: 2) future-stem specified
+(defn handle2? [word]
+  (and (= (get-in word '(:infl)) :future)
+       (get-in word '(:future-stem))))
+
+(defn handle2 [word]
+  (let [stem (get-in word '(:future-stem))
+        number (get-in word [:agr :number])
+        person (get-in word [:agr :person])]
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "ò")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "ai")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "à")
+      
+      (and (= person :1st) (= number :plur))
+      (str stem "emo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "ete")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "anno"))))

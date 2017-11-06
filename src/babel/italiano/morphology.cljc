@@ -95,7 +95,7 @@
   string)
   
 ;; replace-patterns are declarative data that determine how analysis (and soon conjugation) are performed.
-(def replace-patterns
+(defonce replace-patterns
   (concat
    adjectives/replace-patterns
    determiners/replace-patterns

@@ -1,7 +1,8 @@
 (ns babel.italiano.morphology.verbs
   (:require
-   [dag_unify.core :refer [unify]]
-   [babel.morphology :refer [expand-replace-patterns group-by-two]]))
+   [babel.morphology :refer [expand-replace-patterns group-by-two]]
+   [clojure.string :as string]
+   [dag_unify.core :refer [unify]]))
 
 (defonce replace-patterns-gerund
  (expand-replace-patterns
@@ -924,3 +925,103 @@
                   :italiano (get-in val [:italiano :conditional :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}])
+
+(defn stem-for-future [infinitive drop-e]
+  "turn an infinitive form into a stem that can be conjugated in the future tense."
+
+  ;; e.g.: lavarsi => lavare
+  (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)]
+    (cond
+     (re-find #"giare$" infinitive)
+     (string/replace infinitive #"giare$" "ger")
+
+     (re-find #"ciare$" infinitive)
+     (string/replace infinitive #"ciare$" "cer")
+
+     (re-find #"gare$" infinitive)
+     (string/replace infinitive #"gare$" "gher")
+
+     (re-find #"care$" infinitive)
+     (string/replace infinitive #"care$" "cher")
+
+     (and
+      (= true drop-e)
+      (re-find #"are$" infinitive))
+     (string/replace infinitive #"are$" "r")
+
+     (re-find #"are$" infinitive)
+     (string/replace infinitive #"are$" "er")
+
+     (and
+      (= true drop-e)
+      (re-find #"ere$" infinitive))
+     (string/replace infinitive #"ere$" "r")
+
+     (re-find #"ere$" infinitive)
+     (string/replace infinitive #"ere$" "er")
+
+     (re-find #"ire$" infinitive)
+     (string/replace infinitive #"ire$" "ir")
+
+     true
+     infinitive)))
+
+(defn stem-for-imperfect [infinitive]
+  "_infinitive_ should be a string (italian verb infinitive form)"
+  ;; e.g.: lavarsi => lavare
+  (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)]
+    (cond
+     (re-find #"re$" infinitive)
+     (string/replace infinitive #"re$" "")
+     true
+     infinitive)))
+
+(defn stem-analysis [word]
+  (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
+                     (get-in word [:infinitive])
+                     (get-in word [:italiano]))
+        ;; e.g.: lavarsi => lavare
+        infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)
+        are-type (try (re-find #"are$" infinitive)
+                      (catch Exception e
+                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
+        ere-type (re-find #"ere$" infinitive)
+        ire-type (re-find #"ire$" infinitive)
+        boot-stem (cond (and (get-in word [:boot-stem1])
+                             (or (= (get-in word [:agr :number])
+                                    :sing)
+                                 (and (= (get-in word [:agr :person])
+                                         :3rd)
+                                      (= (get-in word [:agr :number])
+                                         :plur))))
+                        (get-in word [:boot-stem1])
+                        true
+                        (string/replace infinitive #"[iae]re$" ""))
+        
+        ;; stem is stem without regard to :boot-stem1. It is
+        ;; used for gerunds, e.g.: fornire -> 'io fornisco'
+        ;; but 'io fornendo', not 'io forniscendo'.
+        stem (string/replace infinitive #"[iae]re$" "")
+
+        last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
+        last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
+        is-care-or-gare? (re-find #"[cg]are$" infinitive)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))]
+    {:infinitive infinitive
+     :are-type are-type
+     :ere-type ere-type
+     :ire-type ire-type
+     :boot-stem boot-stem
+     :stem stem
+     :last-stem-char-is-i last-stem-char-is-i
+     :last-stem-char-is-e last-stem-char-is-e
+     :is-care-or-gare? is-care-or-gare?
+     :person person
+     :number number}))

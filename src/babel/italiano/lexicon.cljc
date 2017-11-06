@@ -21,7 +21,7 @@
 
 (declare edn2lexicon)
 
-(def lexicon (promise))
+(defonce lexicon (promise))
 (defn deliver-lexicon []
   (if (not (realized? lexicon))
     (deliver lexicon (edn2lexicon (resource "babel/italiano/lexicon.edn")))))

@@ -352,12 +352,8 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-     (and (= :verb (get-in word [:cat]))
-          ;; future 1) irregular
-          (and
-           (= (get-in word '(:infl)) :future)
-           (map? (get-in word '(:future)))))
-     (verbs/handle-this word)
+     (verbs/handle1? word)
+     (verbs/handle1 word)
 
      ;; future: 2) futueo-stem specified
      (and (= (get-in word '(:infl)) :future)

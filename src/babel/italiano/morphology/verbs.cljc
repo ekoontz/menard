@@ -1094,3 +1094,43 @@
       
       (and (= person :3rd) (= number :plur))
       (str stem "anno"))))
+
+(defn handle3? [word]
+  ;; future 3) regular inflection of future.
+  (and (= (get-in word '(:infl)) :future)
+       (get-in word '(:italiano))))
+
+(defn handle3 [word]
+  (let [infinitive (get-in word '(:italiano))
+        ;; e.g.: lavarsi => lavare
+        infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        drop-e (get-in word '(:italiano :drop-e) false)
+        stem (stem-for-future infinitive drop-e)]
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "ò")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "ai")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "à")
+      
+      (and (= person :1st) (= number :plur))
+      (str stem "emo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "ete")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "anno")
+      
+      :else
+      (get-in word '(:italiano)))))
+
+
+

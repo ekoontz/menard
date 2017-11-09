@@ -369,84 +369,23 @@
 
      ;; irregular imperfect sense:
      ;; 1) use irregular based on number and person.
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :sing (get-in word '(:agr :number)))
-      (= :1st (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :1sing))))
-     (get-in word '(:imperfect :1sing))
+     (verbs/handle6? word)
+     (verbs/handle6 word)
 
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :sing (get-in word '(:agr :number)))
-      (= :2nd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :2sing))))
-     (get-in word '(:imperfect :2sing))
+     (verbs/handle7? word)
+     (verbs/handle7 word)
 
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :sing (get-in word '(:agr :number)))
-      (= :3rd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :3sing))))
-     (get-in word '(:imperfect :3sing))
+     (verbs/handle8? word)
+     (verbs/handle8 word)
 
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :plur (get-in word '(:agr :number)))
-      (= :1st (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :1plur))))
-     (get-in word '(:imperfect :1plur))
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :plur (get-in word '(:agr :number)))
-      (= :2nd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :2plur))))
-     (get-in word '(:imperfect :2plur))
-     (and
-      (= (get-in word '(:infl)) :imperfect)
-      (= :plur (get-in word '(:agr :number)))
-      (= :3rd (get-in word '(:agr :person)))
-      (string? (get-in word '(:imperfect :3plur))))
-     (get-in word '(:imperfect :3plur))
+     (verbs/handle9? word)
+     (verbs/handle9 word)
 
-     ;; regular imperfect sense
-     (and (= (get-in word '(:infl)) :imperfect)
-          (get-in word '(:italiano)))
-     (let [infinitive (if (get-in word [:infinitive]) ;; imperfect
-                        (get-in word [:infinitive])
-                        (get-in word [:italiano]))
-           ;; e.g.: lavarsi => lavare
-           infinitive (if (re-find #"[aei]rsi$" infinitive)
-                        (string/replace infinitive #"si$" "e")
-                        infinitive)
-           person (get-in word '(:agr :person))
-           number (get-in word '(:agr :number))
-           stem (verbs/stem-for-imperfect infinitive)]
-       (cond
-        (and (= person :1st) (= number :sing))
-        (str stem "vo")
+     (verbs/handle10? word)
+     (verbs/handle10 word)
 
-        (and (= person :2nd) (= number :sing))
-        (str stem "vi")
-
-        (and (= person :3rd) (= number :sing))
-        (str stem "va")
-
-        (and (= person :1st) (= number :plur))
-        (str stem "vamo")
-
-        (and (= person :2nd) (= number :plur))
-        (str stem "vate")
-
-        (and (= person :3rd) (= number :plur))
-        (str stem "vano")
-
-        (string? infinitive)
-        (str infinitive )
-
-        :else
-        (clojure.core/merge word
-                            {:error 1})))
+     (verbs/handle11? word)
+     (verbs/handle11 word)
 
      (and
       (get-in word '(:a))
@@ -455,13 +394,12 @@
              (trim (get-string-1 (get-in word '(:a)))) " "
              (trim (get-string-1 (get-in word '(:b)))))
 
-     ;; "fare [past]" + "bene" => "fatto bene"
-     (and (= (get-in word '(:cat)) :verb)
-          (= (get-in word '(:infl)) :past)
-          (string? (get-in word '(:a :passato))))
-     (str (get-in word '(:a :passato)) " "
-          (get-string-1 (get-in word '(:b))))
+     (verbs/handle12? word)
+     (verbs/handle12 word)
 
+     (verbs/handle13? word)
+     (verbs/handle13 word)
+     
      ;; TODO: do not use brackets: if there's an error about there being
      ;; not enough information, throw an exception explicitly.
      ;; return the irregular form in square brackets, indicating that there's

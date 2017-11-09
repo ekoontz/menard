@@ -1200,7 +1200,123 @@
       :else
       (get-in word '(:italiano)))))
 
-  
+(defn handle6? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :sing (get-in word '(:agr :number)))
+   (= :1st (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :1sing)))))
+
+(defn handle6 [word]
+  (get-in word [:imperfect :1sing]))
+
+(defn handle7? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :sing (get-in word '(:agr :number)))
+   (= :2nd (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :2sing)))))
+
+(defn handle7 [word]
+  (get-in word [:imperfect :2sing]))
+
+(defn handle8? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :sing (get-in word '(:agr :number)))
+   (= :3rd (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :3sing)))))
+
+(defn handle8 [word]
+  (get-in word [:imperfect :3sing]))
+
+(defn handle9? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :sing (get-in word '(:agr :number)))
+   (= :1st (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :1plur)))))
+
+(defn handle9 [word]
+  (get-in word [:imperfect :1plur]))
+
+(defn handle10? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :plur (get-in word '(:agr :number)))
+   (= :2nd (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :2plur)))))
+
+(defn handle10 [word]
+  (get-in word [:imperfect :2plur]))
+
+(defn handle11? [word]
+  (and
+   (= (get-in word '(:infl)) :imperfect)
+   (= :plur (get-in word '(:agr :number)))
+   (= :3rd (get-in word '(:agr :person)))
+   (string? (get-in word '(:imperfect :3plur)))))
+
+(defn handle11 [word]
+  (get-in word [:imperfect :3plur]))
+
+(defn handle12? [word]
+  ;; regular imperfect sense
+  (and (= (get-in word '(:infl)) :imperfect)
+       (get-in word '(:italiano))))
+
+(defn handle12 [word]
+  (let [infinitive (if (get-in word [:infinitive]) ;; imperfect
+                     (get-in word [:infinitive])
+                     (get-in word [:italiano]))
+        ;; e.g.: lavarsi => lavare
+        infinitive (if (re-find #"[aei]rsi$" infinitive)
+                     (string/replace infinitive #"si$" "e")
+                     infinitive)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        stem (stem-for-imperfect infinitive)]
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "vo")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "vi")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "va")
+      
+      (and (= person :1st) (= number :plur))
+
+      (str stem "vamo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "vate")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "vano")
+      
+      (string? infinitive)
+      (str infinitive )
+      
+      :else
+      (clojure.core/merge word
+                          {:error 1}))))
+(defn handle13? [word]
+  ;; "fare [past]" + "bene" => "fatto bene"
+  (and (= (get-in word '(:cat)) :verb)
+       (= (get-in word '(:infl)) :past)
+       (string? (get-in word '(:a :passato)))))
+
+(defn handle13 [word]
+  (str (get-in word '(:a :passato)) " "
+       (get-in word '(:b))))
+
+
+
+
+
+
   
   
 

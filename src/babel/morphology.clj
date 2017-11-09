@@ -81,13 +81,13 @@
      (group-by-two (rest (rest remaining))))))
 
 (defn expand-replace-patterns [unify-with patterns]
-  (mapcat (fn [x]
+  (mapcat (fn [pattern]
             (map (fn [pair]
                    {:u (unify unify-with
-                              (:agr x))
+                              (:agr pattern))
                     :p (:p pair)})
                  (map (fn [p]
                         {:agr :top
                          :p p})
-                      (group-by-two (:p x)))))
+                      (group-by-two (:p pattern)))))
           patterns))

@@ -331,8 +331,6 @@
      (verbs/handle5? word)
      (verbs/handle5 word)
 
-     ;; irregular imperfect sense:
-     ;; 1) use irregular based on number and person.
      (verbs/handle6? word)
      (verbs/handle6 word)
 
@@ -350,13 +348,6 @@
 
      (verbs/handle11? word)
      (verbs/handle11 word)
-
-     (and
-      (get-in word '(:a))
-      (get-in word '(:b))
-      true) (str
-             (trim (get-string-1 (get-in word '(:a)))) " "
-             (trim (get-string-1 (get-in word '(:b)))))
 
      (verbs/handle12? word)
      (verbs/handle12 word)
@@ -406,6 +397,13 @@
      (verbs/handle27? word)
      (verbs/handle27 word)
 
+     (and
+      (get-in word '(:a))
+      (get-in word '(:b)))
+     (str
+      (trim (get-string-1 (get-in word '(:a)))) " "
+      (trim (get-string-1 (get-in word '(:b)))))
+     
      (and
       (string? (get-in word '(:italiano)))
       (= :top (get-in word '(:agr :sing) :top)))

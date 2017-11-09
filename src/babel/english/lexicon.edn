@@ -890,14 +890,14 @@
             :present {:3sing "gets up"}
             :past "got up"}}
 
- "get used"
+ "get used to"
  {:synsem {:cat :verb
            :sem {:pred :get-used-to
                  :reflexive true}
            :subcat {:2 '()}}
-  :english {:participle "getting used"
-            :present {:3sing "gets used"}
-            :past "got used"}}
+  :english {:participle "getting used to"
+            :present {:3sing "gets used to"}
+            :past "got used to"}}
 
  "Gianluca"
  {:synsem {:agr {:number :sing

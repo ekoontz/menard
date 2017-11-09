@@ -1454,7 +1454,7 @@
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
-         (= person :2nd) (= number :sing)
+         (= person :3rd) (= number :sing)
          (string? (get-in word '(:present :3sing))))))
 
 (defn handle21 [word]
@@ -1485,7 +1485,7 @@
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
-         (= person :2nd) (= number :plur)
+         (= person :3rd) (= number :plur)
          (string? (get-in word '(:present :3plur))))))
 
 (defn handle24 [word]

@@ -128,7 +128,14 @@
          #"(.*)rrò"     "$1nire" ;; verrò -> venire
          #"(.*)gherò"   "$1gare" ;; piegherò -> piegare
          #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
-         ]}
+         ]
+
+     :g [
+         #"^(.*)are$"   "$1ò"
+         #"^(.*)ere$"   "$1ò"
+         #"^(.*)ire$"   "$1ò"
+         ]
+     }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :2nd}}}}}
@@ -1109,9 +1116,16 @@
        (get-in word '(:future-stem))))
 
 (defn handle2 [word]
+  (log/error (str "handle2: " (dag_unify.core/strip-refs word)))
   (let [stem (get-in word '(:future-stem))
         number (get-in word [:agr :number])
-        person (get-in word [:agr :person])]
+        person (get-in word [:agr :person])
+        patterns replace-patterns-future-tense]
+    (-> patterns
+        (map (fn [pattern]
+               (let [[from to] (nth (:g pattern))]
+                 from)))
+        (remove nil?))
     (cond
       (and (= person :1st) (= number :sing))
       (str stem "ò")
@@ -1242,6 +1256,8 @@
    (= :1st (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :1sing)))))
 
+;; irregular imperfect sense:
+;; 1) use irregular based on number and person.
 (defn handle6 [word]
   (get-in word [:imperfect :1sing]))
 

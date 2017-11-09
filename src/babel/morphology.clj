@@ -85,9 +85,6 @@
             (map (fn [pair]
                    {:u (unify unify-with
                               (:agr pattern))
-                    :p (:p pair)})
-                 (map (fn [p]
-                        {:agr :top
-                         :p p})
-                      (group-by-two (:p pattern)))))
+                    :p pair})
+                 (group-by-two (:p pattern))))
           patterns))

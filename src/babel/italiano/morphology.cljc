@@ -102,43 +102,7 @@
    nouns/replace-patterns
    verbs/replace-patterns))
 
-(defn suffix-of [word]
-  "compute the final character given a lexical entry and agreement info in :agr."
-  (let [suffix (cond
-
-                (and (= (get-in word '(:obj-agr :gender)) :fem)
-                     (= (get-in word '(:obj-agr :number)) :sing))
-                "a"
-
-                (and (= (get-in word '(:obj-agr :gender)) :fem)
-                     (= (get-in word '(:obj-agr :number)) :plur))
-                "e"
-
-                (= (get-in word '(:obj-agr :number)) :plur)
-                "i"
-
-                (and (= (get-in word '(:agr :gender)) :fem)
-                     (= (get-in word '(:agr :number)) :sing)
-                     (= (get-in word '(:essere)) true))
-                "a"
-
-                (and (= (get-in word '(:agr :gender)) :fem)
-                     (= (get-in word '(:agr :number)) :plur)
-                     (= (get-in word '(:essere)) true))
-                "e"
-
-                (and (= (get-in word '(:agr :number)) :plur)
-                     (= (get-in word '(:essere)) true))
-                "i"
-
-                true
-                "o"
-
-                )]
-    suffix))
-
 (declare get-string)
-
 
 ;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
 ;; TODO: use replace patterns instead (as with French)
@@ -399,240 +363,49 @@
 
      (verbs/handle13? word)
      (verbs/handle13 word)
+
+     (verbs/handle14? word)
+     (verbs/handle14 word)
+
+     (verbs/handle15? word)
+     (verbs/handle15 word)
      
-     ;; TODO: do not use brackets: if there's an error about there being
-     ;; not enough information, throw an exception explicitly.
-     ;; return the irregular form in square brackets, indicating that there's
-     ;; not enough information to conjugate the verb.
-     (and (= :past (get-in word '(:infl)))
-          (get-in word '(:passato))
-          (get-in word '(:essere) true)
-          (or (= :notfound (get-in word '(:agr :number) :notfound))
-              (= :top (get-in word '(:agr :number)))))
-     ;; not enough information.
-     (do
-       (log/debug (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
-       (get-in word '(:passato)))
+     (verbs/handle16? word)
+     (verbs/handle16 word)
 
-     ;; TODO: do not use brackets: if there's an error about there being
-     ;; regular passato prossimo and essere-verb => NEI (not enough information): defer conjugation and keep as a map.
-     (and (= :past (get-in word '(:infl)))
-          (= (get-in word '(:essere)) true)
-          (or (= :notfound (get-in word '(:agr :number) :notfound))
-              (= :top (get-in word '(:agr :number)))))
-     ;; 'nei': not enough information.
-     (do
-       (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (past)]"))
-       (str (get-in word [:italiano]) " (past)"))
+     (verbs/handle17? word)
+     (verbs/handle17 word)
 
-     ;; conjugate irregular passato: option 1) using :passato-stem
-     (and (= :past (get-in word '(:infl)))
-          (get-in word '(:passato-stem)))
-     (let [irregular-passato (get-in word '(:passato-stem))]
-       (str irregular-passato (suffix-of word)))
+     (verbs/handle18? word)
+     (verbs/handle18 word)
 
-     ;; conjugate irregular passato: option 2) using :passato
-     (and (= :past (get-in word '(:infl)))
-          (get-in word '(:passato)))
-     (let [irregular-passato (get-in word '(:passato))
-           butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
-       (str butlast (suffix-of word)))
+     (verbs/handle19? word)
+     (verbs/handle19 word)
 
-     ;; conjugate regular passato
-     (and (= :past (get-in word '(:infl)))
-          (string? (get-in word '(:italiano))))
-     (let [infinitive (get-in word [:italiano]) ;; regular passato
-           ;; e.g.: lavarsi => lavare
-           infinitive (if (re-find #"[aei]rsi$" infinitive)
-                        (string/replace infinitive #"si$" "e")
-                        infinitive)
+     (verbs/handle20? word)
+     (verbs/handle20 word)
 
-           are-type (try (re-find #"are$" infinitive)
-                         (catch Exception e
-                           (throw (Exception. (str "Can't regex-find on non-string: " infinitive)))))
-           ere-type (re-find #"ere$" infinitive)
-           ire-type (re-find #"ire$" infinitive)
-           stem (string/replace infinitive #"[iae]re$" "")
+     (verbs/handle21? word)
+     (verbs/handle21 word)
 
-           ;; for passato prossimo, the last char depends on gender and number, if an essere-verb.
-           suffix (suffix-of word)]
-       (cond
-        ere-type
-        (str stem "ut" suffix) ;; "uto","uti","uta" or "ute"
+     (verbs/handle22? word)
+     (verbs/handle22 word)
 
-        are-type
-        (str stem "at" suffix) ;; "ato","ati","ata", or "ate"
+     (verbs/handle23? word)
+     (verbs/handle23 word)
 
-        (or are-type ire-type)
-        (str stem "it" suffix) ;; "ito","iti","ita", or "ite"
+     (verbs/handle24? word)
+     (verbs/handle24 word)
 
-        true
-        (str "(regpast:TODO):" stem)))
+     (verbs/handle25? word)
+     (verbs/handle25 word)
 
-     ;; <irregular present tense>
-     (and (= (get-in word '(:infl)) :present)
-          (= person :1st) (= number :sing)
-          (string? (get-in word '(:present :1sing))))
-     (get-in word '(:present :1sing))
+     (verbs/handle26? word)
+     (verbs/handle26 word)
 
-     (and (= (get-in word '(:infl)) :present)
-          (= person :2nd) (= number :sing)
-          (string? (get-in word '(:present :2sing))))
-     (get-in word '(:present :2sing))
+     (verbs/handle27? word)
+     (verbs/handle27 word)
 
-     (and (= (get-in word '(:infl)) :present)
-          (= person :3rd) (= number :sing)
-          (string? (get-in word '(:present :3sing))))
-     (get-in word '(:present :3sing))
-
-     (and (= (get-in word '(:infl)) :present)
-          (= person :1st) (= number :plur)
-          (string? (get-in word '(:present :1plur))))
-     (get-in word '(:present :1plur))
-
-     (and (= (get-in word '(:infl)) :present)
-          (= person :2nd) (= number :plur)
-          (string? (get-in word '(:present :2plur))))
-     (get-in word '(:present :2plur))
-
-     (and (= (get-in word '(:infl)) :present)
-          (= person :3rd) (= number :plur)
-          (string? (get-in word '(:present :3plur))))
-     (get-in word '(:present :3plur))
-     ;; </irregular present tense>
-
-     (and
-      (= (get-in word '(:infl)) :present)
-      (string? (get-in word '(:italiano))))
-     ;; TODO: use (defn stem-analysis [word])
-     (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
-                        (get-in word [:infinitive])
-                        (get-in word [:italiano]))
-           ;; e.g.: lavarsi => lavare
-           infinitive (if (re-find #"[aei]rsi$" infinitive)
-                        (string/replace infinitive #"si$" "e")
-                        infinitive)
-           are-type (try (re-find #"are$" infinitive)
-                         (catch Exception e
-                           (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
-           ere-type (re-find #"ere$" infinitive)
-           ire-type (re-find #"ire$" infinitive)
-           stem (cond (and (get-in word [:boot-stem1])
-                           (or (= (get-in word [:agr :number])
-                                  :sing)
-                               (and (= (get-in word [:agr :person])
-                                       :3rd)
-                                    (= (get-in word [:agr :number])
-                                       :plur))))
-                      (get-in word [:boot-stem1])
-                      true
-                      (string/replace infinitive #"[iae]re$" ""))
-           last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
-           last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
-           is-care-or-gare? (re-find #"[cg]are$" infinitive)
-           person (get-in word '(:agr :person))
-           number (get-in word '(:agr :number))]
-       (cond
-
-        (and (= person :1st) (= number :sing)
-             (get-in word [:boot-stem1]))
-        (str (get-in word [:boot-stem1]) "o")
-
-        (and (= person :2nd) (= number :sing)
-             (get-in word [:boot-stem1]))
-        (str (get-in word [:boot-stem1]) "i")
-
-        (and (= person :3rd) (= number :sing)
-             (get-in word [:boot-stem1]))
-        (str (get-in word [:boot-stem1]) "e")
-         
-        (and (= person :1st) (= number :sing))
-        (str stem "o")
-
-        (and (= person :2nd) (= number :sing)
-             last-stem-char-is-i)
-        ;; do not add 'i' at the end here to prevent double i:
-        (str stem "")
-
-        (and is-care-or-gare? 
-             (= person :2nd) (= number :sing))
-        (str stem "hi")
-
-        (and (= person :2nd) (= number :sing))
-        (str stem "i")
-
-        (and (= person :3rd) (= number :sing) (or ire-type ere-type))
-        (str stem "e")
-
-        (and (= person :3rd) (= number :sing) are-type)
-        (str stem "a")
-
-        (and (= person :1st) (= number :plur)
-             last-stem-char-is-i)
-        (str stem "amo")
-
-        (and is-care-or-gare?
-             (= person :1st) (= number :plur))
-        (str stem "hiamo")
-
-        (and (= person :1st) (= number :plur))
-        (str stem "iamo")
-
-        (and (= person :2nd) (= number :plur) are-type)
-        (str stem "ate")
-
-        (and (= person :2nd) (= number :plur) ere-type)
-        (str stem "ete")
-
-        (and (= person :2nd) (= number :plur) ire-type)
-        (str stem "ite")
-
-        (and (= person :3rd) (= number :plur)
-             (get-in word [:boot-stem1]))
-        (str (get-in word [:boot-stem1]) "ono")
-
-        (and (= person :3rd) (= number :plur)
-             ire-type)
-        (str stem "ono")
-
-        (and (= person :3rd) (= number :plur)
-             ere-type)
-        (str stem "ono")
-
-        (and (= person :3rd) (= number :plur))
-        (str stem "ano")
-
-        :else
-        (str infinitive )))
-
-     ;; <irregular gerund inflection>
-     (and
-      (= (get-in word [:infl]) :participle)
-      (string? (get-in word [:italiano]))
-      (string? (get-in word [:gerund])))
-     (get-in word [:gerund])
-     ;; </irregular gerund inflection>
-
-     ;; <default gerund inflection>
-     (and
-      (= (get-in word [:infl]) :participle)
-      (string? (get-in word [:italiano])))
-     (let [stem-analysis (verbs/stem-analysis word)
-           infinitive (:infinitive stem-analysis)
-           stem (:stem stem-analysis)]
-        (log/debug (str "conjugating present participle; analysis:" stem-analysis))
-        (cond (= "are" (:are-type stem-analysis))
-              (str stem "ando")
-              (= "ere" (:ere-type stem-analysis))
-              (str stem "endo")
-              (= "ire" (:ire-type stem-analysis))
-              (str stem "endo")
-              true
-              (do
-                (log/warn (str "no specific conjugation found for word with stem-analysis:" stem-analysis " - returning infinitive"))
-                infinitive)))
-     ;; </default gerund inflection>
-     
      (and
       (string? (get-in word '(:italiano)))
       (= :top (get-in word '(:agr :sing) :top)))

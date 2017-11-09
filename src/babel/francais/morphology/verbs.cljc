@@ -782,8 +782,6 @@
                          :u {:synsem {:agr {:number :sing
                                             :person :2nd}}}}
 
-
-
     {:p [#"^(\S+)ait$"      "$1re"]
      :g [#"^([^' ]+r)e$"       "$1ait"]
      :u {:synsem {:agr {:number :sing

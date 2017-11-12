@@ -328,26 +328,26 @@
      (verbs/regular-conditional-with-future-stem? word)
      (verbs/regular-conditional-with-future-stem word)
 
-     (verbs/handle5? word)
-     (verbs/handle5 word)
+     (verbs/regular-conditional? word)
+     (verbs/regular-conditional word)
 
-     (verbs/handle6? word)
-     (verbs/handle6 word)
+     (verbs/irregular-imperfect-1sing? word)
+     (verbs/irregular-imperfect-1sing word)
 
-     (verbs/handle7? word)
-     (verbs/handle7 word)
+     (verbs/irregular-imperfect-2sing? word)
+     (verbs/irregular-imperfect-2sing word)
 
-     (verbs/handle8? word)
-     (verbs/handle8 word)
+     (verbs/irregular-imperfect-3sing? word)
+     (verbs/irregular-imperfect-3sing word)
 
-     (verbs/handle9? word)
-     (verbs/handle9 word)
+     (verbs/irregular-imperfect-1plur? word)
+     (verbs/irregular-imperfect-1plur word)
 
-     (verbs/handle10? word)
-     (verbs/handle10 word)
+     (verbs/irregular-imperfect-2plur? word)
+     (verbs/irregular-imperfect-2plur word)
 
-     (verbs/handle11? word)
-     (verbs/handle11 word)
+     (verbs/irregular-imperfect-3plur? word)
+     (verbs/irregular-imperfect-3plur word)
 
      (verbs/handle12? word)
      (verbs/handle12 word)

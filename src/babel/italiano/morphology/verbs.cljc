@@ -1212,12 +1212,12 @@
       (and (= person :3rd) (= number :plur))
       (str stem "ebbero"))))
 
-(defn handle5? [word]
+(defn regular-conditional? [word]
   ;; regular inflection of conditional without :future-stem
   (and (= (get-in word '(:infl)) :conditional)
        (get-in word '(:italiano))))
 
-(defn handle5 [word]
+(defn regular-conditional [word]
   (let [infinitive (get-in word '(:italiano))
         ;; e.g.: lavarsi => lavare
         infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -1250,66 +1250,64 @@
       :else
       (get-in word '(:italiano)))))
 
-(defn handle6? [word]
+(defn irregular-imperfect-1sing? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :sing (get-in word '(:agr :number)))
    (= :1st (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :1sing)))))
 
-;; irregular imperfect sense:
-;; 1) use irregular based on number and person.
-(defn handle6 [word]
+(defn irregular-imperfect-1sing [word]
   (get-in word [:imperfect :1sing]))
 
-(defn handle7? [word]
+(defn irregular-imperfect-2sing? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :sing (get-in word '(:agr :number)))
    (= :2nd (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :2sing)))))
 
-(defn handle7 [word]
+(defn irregular-imperfect-2sing [word]
   (get-in word [:imperfect :2sing]))
 
-(defn handle8? [word]
+(defn irregular-imperfect-3sing? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :sing (get-in word '(:agr :number)))
-   (= :3rd (get-in word '(:agr :person)))
+   (= :2nd (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :3sing)))))
 
-(defn handle8 [word]
+(defn irregular-imperfect-3sing [word]
   (get-in word [:imperfect :3sing]))
 
-(defn handle9? [word]
+(defn irregular-imperfect-1plur? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
-   (= :sing (get-in word '(:agr :number)))
+   (= :plur (get-in word '(:agr :number)))
    (= :1st (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :1plur)))))
 
-(defn handle9 [word]
+(defn irregular-imperfect-1plur [word]
   (get-in word [:imperfect :1plur]))
 
-(defn handle10? [word]
+(defn irregular-imperfect-2plur? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :plur (get-in word '(:agr :number)))
    (= :2nd (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :2plur)))))
 
-(defn handle10 [word]
+(defn irregular-imperfect-2plur [word]
   (get-in word [:imperfect :2plur]))
 
-(defn handle11? [word]
+(defn irregular-imperfect-3plur? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :plur (get-in word '(:agr :number)))
-   (= :3rd (get-in word '(:agr :person)))
+   (= :2nd (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :3plur)))))
 
-(defn handle11 [word]
+(defn irregular-imperfect-3plur [word]
   (get-in word [:imperfect :3plur]))
 
 (defn handle12? [word]

@@ -101,6 +101,55 @@
 
     ]))
 
+(defn do-replace-on [infinitive patterns]
+  (if (not (empty? patterns))
+    (let [[from to] patterns]
+      (if (re-find from infinitive)
+        (cons (string/replace infinitive from to)
+              (do-replace-on infinitive (rest (rest patterns))))
+        (do-replace-on infinitive (rest (rest patterns)))))))
+
+;; TODO: unify with regular-patterns-future-tense (below).
+(defonce regular-future-generate-patterns
+  [
+   {:u {:agr {:person :1st
+              :number :sing}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
+        #"^(.*)ire$"    "$1irò" ;; dormire
+        ]}
+   {:u {:agr {:person :2nd
+              :number :sing}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
+        #"^(.*)ire$"    "$1irai" ;; dormire
+        ]}
+   {:u {:agr {:person :3rd
+              :number :sing}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
+        #"^(.*)ire$"    "$1irà" ;; dormire
+        ]}
+
+   {:u {:agr {:person :1st
+              :number :plur}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
+        #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+        ]}
+   {:u {:agr {:person :2nd
+              :number :plur}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
+        #"^(.*)ire$"    "$1irete" ;; finire => finiremo
+        ]}
+   {:u {:agr {:person :3rd
+              :number :plur}
+        :infl :future}
+    :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
+        #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+        ]}])
+
 (defonce replace-patterns-future-tense
   (expand-replace-patterns
    {:synsem {:infl :future}}
@@ -1148,39 +1197,13 @@
   (and (= (get-in word [:infl]) :future)
        (get-in word [:italiano])))
 
-(defn regular-future
-  "regular future"
-  [word]
-  (let [infinitive (get-in word [:italiano])
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        person (get-in word [:agr :person])
-        number (get-in word [:agr :number])
-        drop-e (get-in word [:italiano :drop-e] false)
-        stem (stem-for-future infinitive drop-e)]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "ò")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "ai")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "à")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "emo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "ete")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "anno")
-      
-      :else
-      (get-in word [:italiano]))))
+(defn regular-future [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             regular-future-generate-patterns))
+        infinitive (get-in word [:italiano])]
+    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 
 (defn regular-conditional-with-future-stem? [word]
   ;; regular inflection of conditional with :future-stem

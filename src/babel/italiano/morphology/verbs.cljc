@@ -107,7 +107,7 @@
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
      :p [
-         #"(.*)erò"     "$1are"
+         #"(.*)erò"     "$1are"  ;; parlerò -> parlare
          #"(.*)cherò"   "$1care" ;; cercherò -> cercare
          #"(.*)chò"     "$1care" ;; carichò -> caricare
          #"(.*)erò"     "$1arsi"
@@ -143,7 +143,7 @@
          #"(.*)ai"       "$1e" ;; farai -> fare
          #"(.*)erai"     "$1are"
          #"(.*)erai"     "$1arsi"
-         #"(.*)cherai"    "$1care" ;; cercherai -> cercare
+         #"(.*)cherai"   "$1care" ;; cercherai -> cercare
          #"(.*)drai"     "$1dare"
          #"(.*)erai"     "$1ersi"
          #"(.*)errai"    "$1enere" ;; otterrai -> ottenere

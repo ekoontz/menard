@@ -1073,13 +1073,13 @@
                  )]
     suffix))
 
-(defn handle1? [word]
+(defn irregular-future? [word]
   ;; future 1) irregular
   (and
    (= (get-in word '(:infl)) :future)
    (map? (get-in word '(:future)))))
 
-(defn handle1 [word]
+(defn irregular-future [word]
   (let [infinitive (get-in word '(:italiano)) ;; future irregular
         ;; e.g.: lavarsi => lavare
         infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -1111,12 +1111,11 @@
           word))))
 
 ;; future: 2) future-stem specified
-(defn handle2? [word]
+(defn regular-future-with-future-stem? [word]
   (and (= (get-in word '(:infl)) :future)
        (get-in word '(:future-stem))))
 
-(defn handle2 [word]
-  (log/error (str "handle2: " (dag_unify.core/strip-refs word)))
+(defn regular-future-with-future-stem [word]
   (let [stem (get-in word '(:future-stem))
         number (get-in word [:agr :number])
         person (get-in word [:agr :person])
@@ -1145,12 +1144,14 @@
       (and (= person :3rd) (= number :plur))
       (str stem "anno"))))
 
-(defn handle3? [word]
+(defn regular-future? [word]
   ;; future 3) regular inflection of future.
   (and (= (get-in word [:infl]) :future)
        (get-in word [:italiano])))
 
-(defn handle3 [word]
+(defn regular-future
+  "regular future"
+  [word]
   (let [infinitive (get-in word [:italiano])
         ;; e.g.: lavarsi => lavare
         infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -1182,12 +1183,12 @@
       :else
       (get-in word [:italiano]))))
 
-(defn handle4? [word]
+(defn regular-conditional-with-future-stem? [word]
   ;; regular inflection of conditional with :future-stem
   (and (= (get-in word [:infl]) :conditional)
        (string? (get-in word '(:future-stem) :none))))
 
-(defn handle4 [word]
+(defn regular-conditional-with-future-stem [word]
   (let [stem (get-in word '(:future-stem))
         person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))

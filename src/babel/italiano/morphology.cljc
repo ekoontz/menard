@@ -316,17 +316,17 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-     (verbs/handle1? word)
-     (verbs/handle1 word)
+     (verbs/irregular-future? word)
+     (verbs/irregular-future word)
 
-     (verbs/handle2? word)
-     (verbs/handle2 word)
+     (verbs/regular-future-with-future-stem? word)
+     (verbs/regular-future-with-future-stem word)
 
-     (verbs/handle3? word)
-     (verbs/handle3 word)
+     (verbs/regular-future? word)
+     (verbs/regular-future word)
 
-     (verbs/handle4? word)
-     (verbs/handle4 word)
+     (verbs/regular-conditional-with-future-stem? word)
+     (verbs/regular-conditional-with-future-stem word)
 
      (verbs/handle5? word)
      (verbs/handle5 word)

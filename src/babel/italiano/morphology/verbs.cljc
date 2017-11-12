@@ -109,46 +109,49 @@
               (do-replace-on infinitive (rest (rest patterns))))
         (do-replace-on infinitive (rest (rest patterns)))))))
 
+(defn expand-replace-patterns-2 [tense-spec patterns]
+  (map (fn [{g :g agr :agr}]
+         {:u {:agr (unify agr
+                          (get-in tense-spec [:synsem]))}
+          :g g})
+       patterns))
+
 ;; TODO: unify with regular-patterns-future-tense (below).
 (defonce regular-future-generate-patterns
-  [
-   {:u {:agr {:person :1st
-              :number :sing}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
-        #"^(.*)ire$"    "$1irò" ;; dormire
-        ]}
-   {:u {:agr {:person :2nd
-              :number :sing}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
-        #"^(.*)ire$"    "$1irai" ;; dormire
-        ]}
-   {:u {:agr {:person :3rd
-              :number :sing}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
-        #"^(.*)ire$"    "$1irà" ;; dormire
-        ]}
+  (expand-replace-patterns-2
+   {:synsem {:infl :future}}
+   [{:agr {:person :1st
+           :number :sing}
+     :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
+         #"^(.*)care$"   "$1cherò" ;; caricare
+         #"^(.*)ire$"    "$1irò" ;; dormire
+         ]}
+    {:agr {:person :2nd
+           :number :sing}
+     :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
+         #"^(.*)ire$"    "$1irai" ;; dormire
+         ]}
+    {:agr {:person :3rd
+           :number :sing}
+     :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
+         #"^(.*)ire$"    "$1irà" ;; dormire
+         ]}
 
-   {:u {:agr {:person :1st
-              :number :plur}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
-        #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
-        ]}
-   {:u {:agr {:person :2nd
-              :number :plur}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
-        #"^(.*)ire$"    "$1irete" ;; finire => finiremo
-        ]}
-   {:u {:agr {:person :3rd
-              :number :plur}
-        :infl :future}
-    :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
-        #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
-        ]}])
+    {:agr {:person :1st
+           :number :plur}
+     :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
+         #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+         ]}
+    {:agr {:person :2nd
+           :number :plur}
+     :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
+         #"^(.*)ire$"    "$1irete" ;; finire => finiremo
+         ]}
+    {:agr {:person :3rd
+           :number :plur}
+     :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
+         #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+         ]}]))
 
 (defonce replace-patterns-future-tense
   (expand-replace-patterns

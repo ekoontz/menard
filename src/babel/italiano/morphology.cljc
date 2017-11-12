@@ -361,38 +361,38 @@
      (verbs/passato-stem? word)
      (verbs/passato-stem word)
 
-     (verbs/handle17? word)
-     (verbs/handle17 word)
+     (verbs/irregular-passato? word)
+     (verbs/irregular-passato word)
 
-     (verbs/handle18? word)
-     (verbs/handle18 word)
+     (verbs/regular-passato? word)
+     (verbs/regular-passato word)
 
-     (verbs/handle19? word)
-     (verbs/handle19 word)
+     (verbs/irregular-present-1sing? word)
+     (verbs/irregular-present-1sing word)
 
-     (verbs/handle20? word)
-     (verbs/handle20 word)
+     (verbs/irregular-present-2sing? word)
+     (verbs/irregular-present-2sing word)
 
-     (verbs/handle21? word)
-     (verbs/handle21 word)
+     (verbs/irregular-present-3sing? word)
+     (verbs/irregular-present-3sing word)
 
-     (verbs/handle22? word)
-     (verbs/handle22 word)
+     (verbs/irregular-present-1plur? word)
+     (verbs/irregular-present-1plur word)
 
-     (verbs/handle23? word)
-     (verbs/handle23 word)
+     (verbs/irregular-present-2plur? word)
+     (verbs/irregular-present-2plur word)
 
-     (verbs/handle24? word)
-     (verbs/handle24 word)
+     (verbs/irregular-present-3plur? word)
+     (verbs/irregular-present-3plur word)
 
-     (verbs/handle25? word)
-     (verbs/handle25 word)
+     (verbs/regular-present? word)
+     (verbs/regular-present word)
 
-     (verbs/handle26? word)
-     (verbs/handle26 word)
+     (verbs/irregular-gerund? word)
+     (verbs/irregular-gerund word)
 
-     (verbs/handle27? word)
-     (verbs/handle27 word)
+     (verbs/regular-gerund? word)
+     (verbs/regular-gerund word)
 
      (and
       (get-in word '(:a))

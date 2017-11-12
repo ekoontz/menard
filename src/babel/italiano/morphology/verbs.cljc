@@ -1387,22 +1387,22 @@
   (let [irregular-passato (get-in word '(:passato-stem))]
     (str irregular-passato (suffix-of word))))
 
-(defn handle17? [word]
+(defn irregular-passato? [word]
   ;; conjugate irregular passato: option 2) using :passato
   (and (= :past (get-in word '(:infl)))
        (get-in word '(:passato))))
 
-(defn handle17 [word]
+(defn irregular-passato [word]
   (let [irregular-passato (get-in word '(:passato))
         butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
     (str butlast (suffix-of word))))
 
-(defn handle18? [word]
+(defn regular-passato? [word]
   ;; conjugate regular passato
   (and (= :past (get-in word '(:infl)))
        (string? (get-in word '(:italiano)))))
 
-(defn handle18 [word]
+(defn regular-passato [word]
   (let [infinitive (get-in word [:italiano]) ;; regular passato
         ;; e.g.: lavarsi => lavare
         infinitive (if (re-find #"[aei]rsi$" infinitive)
@@ -1431,7 +1431,7 @@
       true
       (str "(regpast:TODO):" stem))))
 
-(defn handle19? [word]
+(defn irregular-present-1sing? [word]
   ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
@@ -1439,30 +1439,32 @@
          (= person :1st) (= number :sing)
          (string? (get-in word '(:present :1sing))))))
 
-(defn handle19 [word]
+(defn irregular-present-1sing [word]
   (get-in word '(:present :1sing)))
 
-(defn handle20? [word]
+(defn irregular-present-2sing? [word]
+  ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
          (= person :2nd) (= number :sing)
          (string? (get-in word '(:present :2sing))))))
 
-(defn handle20 [word]
+(defn irregular-present-2sing [word]
   (get-in word '(:present :2sing)))
 
-(defn handle21? [word]
+(defn irregular-present-3sing? [word]
+  ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
          (= person :3rd) (= number :sing)
          (string? (get-in word '(:present :3sing))))))
 
-(defn handle21 [word]
+(defn irregular-present-3sing [word]
   (get-in word '(:present :3sing)))
 
-(defn handle22? [word]
+(defn irregular-present-1plur? [word]
   ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
@@ -1470,35 +1472,37 @@
          (= person :1st) (= number :plur)
          (string? (get-in word '(:present :1plur))))))
 
-(defn handle22 [word]
+(defn irregular-present-1plur [word]
   (get-in word '(:present :1plur)))
 
-(defn handle23? [word]
+(defn irregular-present-2plur? [word]
+  ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
          (= person :2nd) (= number :plur)
          (string? (get-in word '(:present :2plur))))))
 
-(defn handle23 [word]
+(defn irregular-present-2plur [word]
   (get-in word '(:present :2plur)))
 
-(defn handle24? [word]
+(defn irregular-present-3plur? [word]
+  ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (and (= (get-in word '(:infl)) :present)
          (= person :3rd) (= number :plur)
          (string? (get-in word '(:present :3plur))))))
 
-(defn handle24 [word]
+(defn irregular-present-3plur [word]
   (get-in word '(:present :3plur)))
 
-(defn handle25? [word]
+(defn regular-present? [word]
   (and
    (= (get-in word '(:infl)) :present)
    (string? (get-in word '(:italiano)))))
 
-(defn handle25 [word]
+(defn regular-present [word]
   ;; TODO: use (defn stem-analysis [word])
   (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
                      (get-in word [:infinitive])
@@ -1601,27 +1605,27 @@
       (str infinitive ))))
 
   ;; <irregular gerund inflection>
-(defn handle26? [word]
+(defn irregular-gerund? [word]
   (and
    (= (get-in word [:infl]) :participle)
    (string? (get-in word [:italiano]))
    (string? (get-in word [:gerund]))))
 
-(defn handle26 [word]
+(defn irregular-gerund [word]
   (get-in word [:gerund]))
 ;; </irregular gerund inflection>
 
 ;; <default gerund inflection>
-(defn handle27? [word]
+(defn regular-gerund? [word]
   (and
    (= (get-in word [:infl]) :participle)
    (string? (get-in word [:italiano]))))
 
-(defn handle27 [word]
+(defn regular-gerund [word]
   (let [stem-analysis (stem-analysis word)
         infinitive (:infinitive stem-analysis)
         stem (:stem stem-analysis)]
-    (log/debug (str "conjugating present participle; analysis:" stem-analysis))
+    (log/debug (str "cnonjugating present participle; analysis:" stem-analysis))
     (cond (= "are" (:are-type stem-analysis))
           (str stem "ando")
           (= "ere" (:ere-type stem-analysis))

@@ -1274,7 +1274,7 @@
   (and
    (= (get-in word '(:infl)) :imperfect)
    (= :sing (get-in word '(:agr :number)))
-   (= :2nd (get-in word '(:agr :person)))
+   (= :3rd (get-in word '(:agr :person)))
    (string? (get-in word '(:imperfect :3sing)))))
 
 (defn irregular-imperfect-3sing [word]

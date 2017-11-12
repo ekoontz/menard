@@ -349,20 +349,17 @@
      (verbs/irregular-imperfect-3plur? word)
      (verbs/irregular-imperfect-3plur word)
 
-     (verbs/handle12? word)
-     (verbs/handle12 word)
+     (verbs/regular-imperfect? word)
+     (verbs/regular-imperfect word)
 
-     (verbs/handle13? word)
-     (verbs/handle13 word)
+     (verbs/passato-as-head? word)
+     (verbs/passato-as-head word)
 
-     (verbs/handle14? word)
-     (verbs/handle14 word)
+     (verbs/irregular-passato? word)
+     (verbs/irregular-passato word)
 
-     (verbs/handle15? word)
-     (verbs/handle15 word)
-     
-     (verbs/handle16? word)
-     (verbs/handle16 word)
+     (verbs/passato-stem? word)
+     (verbs/passato-stem word)
 
      (verbs/handle17? word)
      (verbs/handle17 word)

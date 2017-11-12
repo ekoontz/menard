@@ -1310,12 +1310,12 @@
 (defn irregular-imperfect-3plur [word]
   (get-in word [:imperfect :3plur]))
 
-(defn handle12? [word]
+(defn regular-imperfect? [word]
   ;; regular imperfect sense
   (and (= (get-in word '(:infl)) :imperfect)
        (get-in word '(:italiano))))
 
-(defn handle12 [word]
+(defn regular-imperfect [word]
   (let [infinitive (if (get-in word [:infinitive]) ;; imperfect
                      (get-in word [:infinitive])
                      (get-in word [:italiano]))
@@ -1352,17 +1352,17 @@
       :else
       (clojure.core/merge word
                           {:error 1}))))
-(defn handle13? [word]
+(defn passato-as-head? [word]
   ;; "fare [past]" + "bene" => "fatto bene"
   (and (= (get-in word '(:cat)) :verb)
        (= (get-in word '(:infl)) :past)
        (string? (get-in word '(:a :passato)))))
 
-(defn handle13 [word]
+(defn passato-as-head [word]
   (str (get-in word '(:a :passato)) " "
        (get-in word '(:b))))
 
-(defn handle14? [word]
+(defn irregular-passato? [word]
   ;; TODO: do not use brackets: if there's an error about there being
   ;; not enough information, throw an exception explicitly.
   ;; return the irregular form in square brackets, indicating that there's
@@ -1373,29 +1373,16 @@
        (or (= :notfound (get-in word '(:agr :number) :notfound))
            (= :top (get-in word '(:agr :number))))))
 
-(defn handle14 [word]
+(defn irregular-passato [word]
   ;; not enough information.
   (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
   (get-in word '(:passato)))
 
-(defn handle15? [word]
-  (and (= :past (get-in word '(:infl)))
-       (= (get-in word '(:essere)) true)
-       (or (= :notfound (get-in word '(:agr :number) :notfound))
-           (= :top (get-in word '(:agr :number))))))
-  
-(defn handle15 [word]
-  ;; TODO: do not use brackets: if there's an error about there being
-  ;; regular passato prossimo and essere-verb => NEI (not enough information): defer conjugation and keep as a map.
-  ;; 'nei': not enough information.
-  (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (past)]"))
-  (str (get-in word [:italiano]) " (past)"))
-
-(defn handle16? [word]
+(defn passato-stem? [word]
   (and (= :past (get-in word '(:infl)))
        (get-in word '(:passato-stem))))
 
-(defn handle16 [word]
+(defn passato-stem [word]
   ;; conjugate irregular passato: option 1) using :passato-stem
   (let [irregular-passato (get-in word '(:passato-stem))]
     (str irregular-passato (suffix-of word))))

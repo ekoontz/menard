@@ -1074,7 +1074,6 @@
     suffix))
 
 (defn irregular-future? [word]
-  ;; future 1) irregular
   (and
    (= (get-in word '(:infl)) :future)
    (map? (get-in word '(:future)))))
@@ -1637,3 +1636,86 @@
             (log/warn (str "no specific conjugation found for word with stem-analysis:" stem-analysis " - returning infinitive"))
             infinitive))))
 ;; </default gerund inflection>
+
+(defn conjugate [word]
+  (cond
+    (irregular-future? word)
+    (irregular-future word)
+    
+    (regular-future-with-future-stem? word)
+    (regular-future-with-future-stem word)
+    
+    (regular-future? word)
+    (regular-future word)
+    
+    (regular-conditional-with-future-stem? word)
+    (regular-conditional-with-future-stem word)
+    
+    (regular-conditional? word)
+    (regular-conditional word)
+    
+    (irregular-imperfect-1sing? word)
+    (irregular-imperfect-1sing word)
+    
+    (irregular-imperfect-2sing? word)
+    (irregular-imperfect-2sing word)
+
+    (irregular-imperfect-3sing? word)
+    (irregular-imperfect-3sing word)
+    
+    (irregular-imperfect-1plur? word)
+    (irregular-imperfect-1plur word)
+    
+    (irregular-imperfect-2plur? word)
+    (irregular-imperfect-2plur word)
+    
+    (irregular-imperfect-3plur? word)
+    (irregular-imperfect-3plur word)
+    
+    (regular-imperfect? word)
+    (regular-imperfect word)
+    
+    (passato-as-head? word)
+    (passato-as-head word)
+    
+    (irregular-passato? word)
+    (irregular-passato word)
+    
+    (passato-stem? word)
+    (passato-stem word)
+    
+    (irregular-passato? word)
+    (irregular-passato word)
+    
+    (regular-passato? word)
+    (regular-passato word)
+    
+    (irregular-present-1sing? word)
+    (irregular-present-1sing word)
+    
+    (irregular-present-2sing? word)
+    (irregular-present-2sing word)
+    
+    (irregular-present-3sing? word)
+    (irregular-present-3sing word)
+    
+    (irregular-present-1plur? word)
+    (irregular-present-1plur word)
+    
+    (irregular-present-2plur? word)
+    (irregular-present-2plur word)
+    
+    (irregular-present-3plur? word)
+    (irregular-present-3plur word)
+    
+    (regular-present? word)
+    (regular-present word)
+    
+    (irregular-gerund? word)
+    (irregular-gerund word)
+    
+    (regular-gerund? word)
+    (regular-gerund word)
+
+    ))
+

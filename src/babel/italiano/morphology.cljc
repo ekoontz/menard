@@ -316,83 +316,9 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-     (verbs/irregular-future? word)
-     (verbs/irregular-future word)
 
-     (verbs/regular-future-with-future-stem? word)
-     (verbs/regular-future-with-future-stem word)
-
-     (verbs/regular-future? word)
-     (verbs/regular-future word)
-
-     (verbs/regular-conditional-with-future-stem? word)
-     (verbs/regular-conditional-with-future-stem word)
-
-     (verbs/regular-conditional? word)
-     (verbs/regular-conditional word)
-
-     (verbs/irregular-imperfect-1sing? word)
-     (verbs/irregular-imperfect-1sing word)
-
-     (verbs/irregular-imperfect-2sing? word)
-     (verbs/irregular-imperfect-2sing word)
-
-     (verbs/irregular-imperfect-3sing? word)
-     (verbs/irregular-imperfect-3sing word)
-
-     (verbs/irregular-imperfect-1plur? word)
-     (verbs/irregular-imperfect-1plur word)
-
-     (verbs/irregular-imperfect-2plur? word)
-     (verbs/irregular-imperfect-2plur word)
-
-     (verbs/irregular-imperfect-3plur? word)
-     (verbs/irregular-imperfect-3plur word)
-
-     (verbs/regular-imperfect? word)
-     (verbs/regular-imperfect word)
-
-     (verbs/passato-as-head? word)
-     (verbs/passato-as-head word)
-
-     (verbs/irregular-passato? word)
-     (verbs/irregular-passato word)
-
-     (verbs/passato-stem? word)
-     (verbs/passato-stem word)
-
-     (verbs/irregular-passato? word)
-     (verbs/irregular-passato word)
-
-     (verbs/regular-passato? word)
-     (verbs/regular-passato word)
-
-     (verbs/irregular-present-1sing? word)
-     (verbs/irregular-present-1sing word)
-
-     (verbs/irregular-present-2sing? word)
-     (verbs/irregular-present-2sing word)
-
-     (verbs/irregular-present-3sing? word)
-     (verbs/irregular-present-3sing word)
-
-     (verbs/irregular-present-1plur? word)
-     (verbs/irregular-present-1plur word)
-
-     (verbs/irregular-present-2plur? word)
-     (verbs/irregular-present-2plur word)
-
-     (verbs/irregular-present-3plur? word)
-     (verbs/irregular-present-3plur word)
-
-     (verbs/regular-present? word)
-     (verbs/regular-present word)
-
-     (verbs/irregular-gerund? word)
-     (verbs/irregular-gerund word)
-
-     (verbs/regular-gerund? word)
-     (verbs/regular-gerund word)
+     (= :verb (get-in word [:cat]))
+     (verbs/conjugate word)
 
      (and
       (get-in word '(:a))

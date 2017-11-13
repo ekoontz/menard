@@ -110,9 +110,10 @@
         (do-replace-on infinitive (rest (rest patterns)))))))
 
 (defn expand-replace-patterns-2 [tense-spec patterns]
-  (map (fn [{g :g agr :agr}]
-         {:u {:agr (unify agr
+  (map (fn [{g :g agr :agr p :p}]
+         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr])
                           (get-in tense-spec [:synsem]))}
+          :p p
           :g g})
        patterns))
 
@@ -120,35 +121,38 @@
 (defonce regular-future-generate-patterns
   (expand-replace-patterns-2
    {:synsem {:infl :future}}
-   [{:agr {:person :1st
-           :number :sing}
+   [{:agr {:synsem {:subcat {:1 {:agr {:person :1st
+                                       :number :sing}}}}}
      :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
          #"^(.*)care$"   "$1cherò" ;; caricare
          #"^(.*)ire$"    "$1irò" ;; dormire
-         ]}
-    {:agr {:person :2nd
-           :number :sing}
+         ]
+     }
+    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
+                                       :number :sing}}}}}
      :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
          #"^(.*)ire$"    "$1irai" ;; dormire
-         ]}
-    {:agr {:person :3rd
-           :number :sing}
+         ]
+     }
+    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
+                                       :number :sing}}}}}
      :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
          #"^(.*)ire$"    "$1irà" ;; dormire
-         ]}
+         ]
+     }
 
-    {:agr {:person :1st
-           :number :plur}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :1st
+                                       :number :plur}}}}}
      :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
          #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
          ]}
-    {:agr {:person :2nd
-           :number :plur}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
+                                       :number :plur}}}}}
      :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
          #"^(.*)ire$"    "$1irete" ;; finire => finiremo
          ]}
-    {:agr {:person :3rd
-           :number :plur}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
+                                       :number :plur}}}}}
      :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
          #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
          ]}]))
@@ -182,10 +186,9 @@
          #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
          ]
 
-     :g [
-         #"^(.*)are$"   "$1ò"
-         #"^(.*)ere$"   "$1ò"
-         #"^(.*)ire$"   "$1ò"
+     :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
+         #"^(.*)care$"   "$1cherò" ;; caricare
+         #"^(.*)ire$"    "$1irò" ;; dormire
          ]
      }
 
@@ -211,7 +214,12 @@
          #"(.*)vrai"     "$1vere"
          #"(.*)rrai"     "$1lere"  ;; vorrai -> volere
          #"(.*)rrai"     "$1nere"  ;; rimarrai -> rimanere
-         ]}
+         ]
+
+     :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
+         #"^(.*)ire$"    "$1irai" ;; dormire
+         ]
+     }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :3rd}}}}}
@@ -235,7 +243,12 @@
          #"(.*)rà"      "$1ere" ;; potrà -> potere
          #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
          #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
-         ]}
+         ]
+
+     :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
+         #"^(.*)ire$"    "$1irà" ;; dormire
+         ]
+     }
 
     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :1st}}}}}

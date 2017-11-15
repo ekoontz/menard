@@ -159,30 +159,30 @@
     {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
                                        :number :sing}}}}}
      :p [
-         #"(.*)ai"       "$1e" ;; farai -> fare
-         #"(.*)erai"     "$1are"
+         #"(.*)ai"       "$1e"     ;; farai -> fare
+         #"(.*)erai"     "$1are"   ;; mangere -> mangerai
          #"(.*)erai"     "$1arsi"
-         #"(.*)cherai"   "$1care" ;; cercherai -> cercare
+         #"(.*)cherai"   "$1care"  ;; cercherai -> cercare
          #"(.*)drai"     "$1dare"
          #"(.*)erai"     "$1ersi"
          #"(.*)errai"    "$1enere" ;; otterrai -> ottenere
          #"(.*)er[r]?ai" "$1ere"
          #"(.*)erai"     "$1iare"
          #"(.*)errai"    "$1edere" ;; verrà -> vedere
-         #"(.*)gherai"   "$1gare" ;; piegherai -> piegare
+         #"(.*)gherai"   "$1gare"  ;; piegherai -> piegare
          #"(.*)ichai"    "$1icare"
          #"(.*)irai"     "$1ire"
          #"(.*)irai"     "$1irsi"
          #"(.*)errai"    "$1enire" ;; sverrai -> svenire
-         #"(.*)rai"      "$1ere" ;; potrai -> potere
+         #"(.*)rai"      "$1ere"   ;; potrai -> potere
          #"(.*)vrai"     "$1vere"
          #"(.*)rrai"     "$1lere"  ;; vorrai -> volere
          #"(.*)rrai"     "$1nere"  ;; rimarrai -> rimanere
          ]
 
      
-     :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
-         #"^(.*)ire$"    "$1irai" ;; dormire
+     :g [#"^(.*)[ae]re$" "$1erai" ;; parlare -> parlerai
+         #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
          ]
      }
     {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
@@ -208,7 +208,8 @@
          #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
          #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
          ]
-     :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
+     :g [#"^(.*)cere$"   "$1chà" ;; carichere
+         #"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
          #"^(.*)ire$"    "$1irà" ;; dormire
          ]
      }

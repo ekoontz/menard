@@ -11,7 +11,7 @@
       #"(.*)erò"     "$1are"  ;; parlerò -> parlare
       #"(.*)cherò"   "$1care" ;; cercherò -> cercare
       #"(.*)chò"     "$1care" ;; carichò -> caricare
-      #"(.*)erò"     "$1arsi"
+      #"(.*)erò"     "$1arsi" ;; abituarsi -> abituerò
       #"(.*)er[r]?ò" "$1ere"
       #"(.*)erò"     "$1ersi"
       #"(.*)erò"     "$1iare"

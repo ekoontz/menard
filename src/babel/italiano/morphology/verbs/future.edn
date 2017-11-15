@@ -7,8 +7,11 @@
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [{:agr {:person :1st
         :number :sing}
-  :p [
-      #"(.*)erò"     "$1are"  ;; parlerò -> parlare
+  :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
+      #"^(.*)care$"   "$1cherò" ;; caricare
+      #"^(.*)ire$"    "$1irò" ;; dormire
+      ]
+  :p [#"(.*)erò"     "$1are"  ;; parlerò -> parlare
       #"(.*)cherò"   "$1care" ;; cercherò -> cercare
       #"(.*)chò"     "$1care" ;; carichò -> caricare
       #"(.*)erò"     "$1arsi" ;; abituarsi -> abituerò
@@ -31,16 +34,14 @@
       #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
       ]
   
-  :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
-      #"^(.*)care$"   "$1cherò" ;; caricare
-      #"^(.*)ire$"    "$1irò" ;; dormire
-      ]
   
   }
  {:agr {:person :2nd
         :number :sing}
-  :p [
-      #"(.*)ai"       "$1e"     ;; farai -> fare
+  :g [#"^(.*)[ae]re$" "$1erai" ;; parlare -> parlerai
+      #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
+      ]
+  :p [#"(.*)ai"       "$1e"     ;; farai -> fare
       #"(.*)erai"     "$1are"   ;; mangere -> mangerai
       #"(.*)erai"     "$1arsi"
       #"(.*)cherai"   "$1care"  ;; cercherai -> cercare
@@ -59,11 +60,6 @@
       #"(.*)vrai"     "$1vere"
       #"(.*)rrai"     "$1lere"  ;; vorrai -> volere
       #"(.*)rrai"     "$1nere"  ;; rimarrai -> rimanere
-      ]
-  
-  
-  :g [#"^(.*)[ae]re$" "$1erai" ;; parlare -> parlerai
-      #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
       ]
   }
  {:agr {:person :3rd
@@ -96,8 +92,10 @@
  
  {:agr {:person :1st
         :number :plur}
-  :p [
-      #"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
+  :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
+      #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+      ]
+  :p [#"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
       #"(.*)eramo"     "$1ere"
       #"(.*)eremo"     "$1are"
       #"(.*)erremo"    "$1enere" ;; otterremo -> ottenere
@@ -117,13 +115,13 @@
       #"(.*)rremo"     "$1lere"  ;; vorremo -> volere
       #"(.*)eremo"     "$1iare"
       ]
-  
-  :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
-      #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
-      ]}
+  }
  
  {:agr {:person :2nd
         :number :plur}
+  :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
+      #"^(.*)ire$"    "$1irete" ;; finire => finiremo
+      ]
   :p [
       #"(.*)arete"     "$1are"
       #"(.*)chete"     "$1care" ;; carichete -> caricare
@@ -145,12 +143,13 @@
       #"(.*)rrete"     "$1nere" ;; rimarrete -> rimanere
       #"(.*)rrete"     "$1nire" ;; verrete -> venire
       ]
-  
-  :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
-      #"^(.*)ire$"    "$1irete" ;; finire => finiremo
-      ]}
+ }
  {:agr {:person :3rd
         :number :plur}
+  
+  :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
+      #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+      ]
   :p [
       #"(.*)rranno"     "$1nere"
       #"(.*)channo"     "$1care"
@@ -171,8 +170,5 @@
       #"(.*)ranno"      "$1ere" ;; potranno -> potere
       #"(.*)vranno"     "$1vere"
       #"(.*)rranno"     "$1lere"  ;; vorranno -> volere
-      ]
-  
-  :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
-      #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
       ]}]
+  

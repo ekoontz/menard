@@ -15,7 +15,7 @@
     :refer [phonize2]]
 
    [clojure.edn :as edn]
-   [clojure.java.io :refer [reader resource]]
+   [clojure.java.io :refer [resource]]
    [clojure.repl :refer [doc]]
    [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
 

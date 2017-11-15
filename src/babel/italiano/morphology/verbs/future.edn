@@ -33,8 +33,6 @@
       #"(.*)gherò"   "$1gare" ;; piegherò -> piegare
       #"(.*)rrò"     "$1nere" ;; rimarrò -> rimanere
       ]
-  
-  
   }
  {:agr {:person :2nd
         :number :sing}
@@ -89,7 +87,6 @@
       #"^(.*)ire$"     "$1irà" ;; dormire
       ]
   }
- 
  {:agr {:person :1st
         :number :plur}
   :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo

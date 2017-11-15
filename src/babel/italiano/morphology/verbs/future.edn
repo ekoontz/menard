@@ -30,8 +30,8 @@
          ]
      
      }
-    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
-                                       :number :sing}}}}}
+    {:agr {:person :2nd
+           :number :sing}
      :p [
          #"(.*)ai"       "$1e"     ;; farai -> fare
          #"(.*)erai"     "$1are"   ;; mangere -> mangerai
@@ -59,8 +59,8 @@
          #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
          ]
      }
-    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
-                                       :number :sing}}}}}
+    {:agr {:person :3rd
+           :number :sing}
      :p [
          #"(.*)chà"     "$1care"
          #"(.*)cherà"   "$1care"
@@ -87,9 +87,9 @@
          #"^(.*)ire$"    "$1irà" ;; dormire
          ]
      }
-
-    {:agr {:synsem {:subcat {:1 {:agr {:person :1st
-                                       :number :plur}}}}}
+ 
+    {:agr {:person :1st
+           :number :plur}
      :p [
          #"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
          #"(.*)eramo"     "$1ere"
@@ -116,9 +116,8 @@
          #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
          ]}
     
-    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
-                                       :number :plur}}}}}
-
+    {:agr {:person :2nd
+           :number :plur}
      :p [
          #"(.*)arete"     "$1are"
          #"(.*)chete"     "$1care" ;; carichete -> caricare
@@ -144,8 +143,8 @@
      :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
          #"^(.*)ire$"    "$1irete" ;; finire => finiremo
          ]}
-    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
-                                       :number :plur}}}}}
+    {:agr {:person :3rd
+           :number :plur}
      :p [
          #"(.*)rranno"     "$1nere"
          #"(.*)channo"     "$1care"

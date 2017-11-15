@@ -109,7 +109,12 @@
               (do-replace-on infinitive (rest (rest patterns))))
         (do-replace-on infinitive (rest (rest patterns)))))))
 
-(defn expand-replace-patterns-2 [tense-spec patterns]
+;; TODO: use this locally-defined alternative
+;; to babel.morphology/expand-replace-patterns.
+;; Eventually this local variant will be promoted
+;; to babel.morphology/expand-replace-patterns
+;; to replace the existing variant.
+(defn compile-patterns [tense-spec patterns]
   (map (fn [{g :g agr :agr p :p}]
          {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr])
                           (get-in tense-spec [:synsem]))}
@@ -117,51 +122,10 @@
           :g g})
        patterns))
 
-;; TODO: unify with regular-patterns-future-tense (below).
-(defonce regular-future-generate-patterns
-  (expand-replace-patterns-2
-   {:synsem {:infl :future}}
+(defonce regular-future-source
+
    [{:agr {:synsem {:subcat {:1 {:agr {:person :1st
                                        :number :sing}}}}}
-     :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
-         #"^(.*)care$"   "$1cherò" ;; caricare
-         #"^(.*)ire$"    "$1irò" ;; dormire
-         ]
-     }
-    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
-                                       :number :sing}}}}}
-     :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
-         #"^(.*)ire$"    "$1irai" ;; dormire
-         ]
-     }
-    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
-                                       :number :sing}}}}}
-     :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
-         #"^(.*)ire$"    "$1irà" ;; dormire
-         ]
-     }
-
-    {:agr {:synsem {:subcat {:1 {:agr {:person :1st
-                                       :number :plur}}}}}
-     :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
-         #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
-         ]}
-    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
-                                       :number :plur}}}}}
-     :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
-         #"^(.*)ire$"    "$1irete" ;; finire => finiremo
-         ]}
-    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
-                                       :number :plur}}}}}
-     :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
-         #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
-         ]}]))
-
-(defonce replace-patterns-future-tense
-  (expand-replace-patterns
-   {:synsem {:infl :future}}
-   [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :1st}}}}}
      :p [
          #"(.*)erò"     "$1are"  ;; parlerò -> parlare
          #"(.*)cherò"   "$1care" ;; cercherò -> cercare
@@ -190,10 +154,10 @@
          #"^(.*)care$"   "$1cherò" ;; caricare
          #"^(.*)ire$"    "$1irò" ;; dormire
          ]
+     
      }
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :2nd}}}}}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
+                                       :number :sing}}}}}
      :p [
          #"(.*)ai"       "$1e" ;; farai -> fare
          #"(.*)erai"     "$1are"
@@ -216,13 +180,13 @@
          #"(.*)rrai"     "$1nere"  ;; rimarrai -> rimanere
          ]
 
+     
      :g [#"^(.*)[ae]re$" "$1erai" ;; parlare,ricevere
          #"^(.*)ire$"    "$1irai" ;; dormire
          ]
      }
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :3rd}}}}}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
+                                       :number :sing}}}}}
      :p [
          #"(.*)chà"     "$1care"
          #"(.*)cherà"   "$1care"
@@ -244,14 +208,13 @@
          #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
          #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
          ]
-
      :g [#"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
          #"^(.*)ire$"    "$1irà" ;; dormire
          ]
      }
 
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :1st}}}}}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :1st
+                                       :number :plur}}}}}
      :p [
          #"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
          #"(.*)eramo"     "$1ere"
@@ -272,10 +235,15 @@
          #"(.*)er[r]?emo" "$1ere"
          #"(.*)rremo"     "$1lere"  ;; vorremo -> volere
          #"(.*)eremo"     "$1iare"
-         ]}
+         ]
 
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :2nd}}}}}
+     :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
+         #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+         ]}
+    
+    {:agr {:synsem {:subcat {:1 {:agr {:person :2nd
+                                       :number :plur}}}}}
+
      :p [
          #"(.*)arete"     "$1are"
          #"(.*)chete"     "$1care" ;; carichete -> caricare
@@ -296,10 +264,13 @@
          #"(.*)rrete"     "$1lere"  ;; vorrete -> volere
          #"(.*)rrete"     "$1nere" ;; rimarrete -> rimanere
          #"(.*)rrete"     "$1nire" ;; verrete -> venire
+         ]
+     
+     :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
+         #"^(.*)ire$"    "$1irete" ;; finire => finiremo
          ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :3rd}}}}}
+    {:agr {:synsem {:subcat {:1 {:agr {:person :3rd
+                                       :number :plur}}}}}
      :p [
          #"(.*)rranno"     "$1nere"
          #"(.*)channo"     "$1care"
@@ -320,8 +291,21 @@
          #"(.*)ranno"      "$1ere" ;; potranno -> potere
          #"(.*)vranno"     "$1vere"
          #"(.*)rranno"     "$1lere"  ;; vorranno -> volere
+         ]
+     
+     :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
+         #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+         ]}])
 
-         ]}]))
+(defonce regular-future-generate-patterns
+  (compile-patterns
+   {:synsem {:infl :future}}
+   regular-future-source))
+
+(defonce replace-patterns-future-tense
+  (expand-replace-patterns
+   {:synsem {:infl :future}}
+   regular-future-source))
 
 (defonce replace-patterns-past-tense
   (concat

@@ -1,9 +1,10 @@
 ;; Format: a vector of tuples; each tuple has:
 ;; :agr   agreement
-;; :p     parsing rules
-;; :g     generation rules
+;; :p     parsing rules: pairs of (from:regex -> to:replacement pattern)
+;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
 ;;
-;; TODO: add examples for every pattern, both parsing (:p) and generation (:g)
+;; TODO: fill in uncommented blanks below:
+;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [{:agr {:person :1st
         :number :sing}
   :p [

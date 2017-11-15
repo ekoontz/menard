@@ -116,14 +116,15 @@
 ;; to replace the existing variant.
 (defn compile-patterns [tense-spec patterns]
   (map (fn [{g :g agr :agr p :p}]
-         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr])
+         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr] :top)
+                          agr
                           (get-in tense-spec [:synsem]))}
           :p p
           :g g})
        patterns))
 
 (defonce regular-future-source
-  (-> (clojure.java.io/resource "babel/italiano/morphology/verbs.edn")
+  (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
       slurp
       read-string))
 

@@ -1,5 +1,5 @@
-[{:agr {:synsem {:subcat {:1 {:agr {:person :1st
-                                    :number :sing}}}}}
+[{:agr {:person :1st
+        :number :sing}
   :p [
       #"(.*)erò"     "$1are"  ;; parlerò -> parlare
       #"(.*)cherò"   "$1care" ;; cercherò -> cercare

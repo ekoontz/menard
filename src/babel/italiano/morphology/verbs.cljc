@@ -1099,42 +1099,13 @@
        (get-in word '(:italiano))))
 
 (defn regular-imperfect [word]
-  (let [infinitive (if (get-in word [:infinitive]) ;; imperfect
-                     (get-in word [:infinitive])
-                     (get-in word [:italiano]))
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        stem (stem-for-imperfect infinitive)]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "vo")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "vi")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "va")
-      
-      (and (= person :1st) (= number :plur))
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             regular-imperfect-generate-patterns))
+        infinitive (get-in word [:italiano])]
+    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 
-      (str stem "vamo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "vate")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "vano")
-      
-      (string? infinitive)
-      (str infinitive )
-      
-      :else
-      (clojure.core/merge word
-                          {:error 1}))))
 (defn passato-as-head? [word]
   ;; "fare [past]" + "bene" => "fatto bene"
   (and (= (get-in word '(:cat)) :verb)

@@ -1,0 +1,113 @@
+;; Format: a vector of tuples; each tuple has:
+;; :agr   agreement
+;; :p     parsing rules: pairs of (from:regex -> to:replacement pattern)
+;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
+;;
+;; TODO: fill in uncommented blanks below:
+;;  add examples for every pattern, both parsing (:p) and generation (:g).
+[{:agr {:number :sing
+        :person :1st}
+  :g [
+      #"[aei]re$"  "[aei]vo"
+      #"[aei]rsi$" "[aei]vo"
+      ]
+  :p [
+      #"(.*)avo$"  "$1are"
+      #"(.*)avo$"  "$1arsi"
+      #"(.*)cevo$" "$1re"
+      #"(.*)evo$"  "$1ere"
+      #"(.*)evo$"  "$1ersi"
+      #"(.*)ivo$"  "$1ire"
+      #"(.*)ivo$"  "$1irsi"
+      ]
+  }
+ 
+ {:agr {:number :sing
+        :person :2nd}
+  :g [
+      #"[aei]re$"  "[aei]vi"
+      #"[aei]rsi$" "[aei]vi"
+      ]
+  :p [
+      #"(.*)avi$"  "$1are"
+      #"(.*)avi$"  "$1arsi"
+      #"(.*)cevi$" "$1re"
+      #"(.*)evi$"  "$1ere"
+      #"(.*)evi$"  "$1ersi"
+      #"(.*)ivi$"  "$1ire"
+      #"(.*)ivi$"  "$1irsi"
+      ]
+  }
+ 
+ {:agr {:number :sing
+        :person :3rd}
+  :g [
+      #"[aei]re$"  "[aei]va"
+      #"[aei]rsi$" "[aei]va"
+      ]
+  :p [
+      #"(.*)ava$"  "$1are"
+      #"(.*)ava$"  "$1arsi"
+      #"(.*)ceva$" "$1re"
+      #"(.*)eva$"  "$1ere"
+      #"(.*)eva$"  "$1ersi"
+      #"(.*)iva$"  "$1ire"
+      #"(.*)iva$"  "$1irsi"
+      ]
+  }
+ 
+ {:agr {:number :plur
+        :person :1st}
+  :g [
+      #"[aei]re$"  "[aei]vamo"
+      #"[aei]rsi$" "[aei]vamo"
+      ]
+  :p [
+      #"(.*)avamo$"  "$1are"
+      #"(.*)avamo$"  "$1arsi"
+      #"(.*)cevamo$" "$1re"
+      #"(.*)evamo$"  "$1ere"
+      #"(.*)evamo$"  "$1ersi"
+      #"(.*)ivamo$"  "$1ire"
+      #"(.*)ivamo$"  "$1irsi"
+      ]  
+  }
+ 
+ {:agr {:number :plur
+        :person :2nd}
+  :g [
+      #"[aei]re$"  "[aei]vate"
+      #"[aei]rsi$" "[aei]vate"
+      ]
+  :p [
+      #"(.*)avate$"  "$1are"
+      #"(.*)avate$"  "$1arsi"
+      #"(.*)cevate$" "$1re"
+      #"(.*)evate$"  "$1ere"
+      #"(.*)evate$"  "$1ersi"
+      #"(.*)ivate$"  "$1ire"
+      #"(.*)ivate$"  "$1irsi"
+      ]
+  }
+ 
+ {:agr {:number :plur
+        :person :3rd}
+  :g [
+      #"[aei]re$"  "[aei]vano"
+      #"[aei]rsi$" "[aei]vano"
+      ]
+  :p [
+      #"(.*)avano$"  "$1are"
+      #"(.*)avano$"  "$1arsi"
+      #"(.*)cevano$" "$1re"
+      #"(.*)evano$"  "$1ere"
+      #"(.*)evano$"  "$1ersi"
+      #"(.*)ivano$"  "$1ire"
+      #"(.*)ivano$"  "$1irsi"
+      ]
+  }
+ 
+ ]
+
+
+  

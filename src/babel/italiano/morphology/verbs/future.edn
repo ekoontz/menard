@@ -89,9 +89,8 @@
       #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
       #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
       ]
-  :g [#"^(.*)cere$"   "$1chà" ;; carichere
-      #"^(.*)[ae]re$" "$1erà" ;; parlare,ricevere
-      #"^(.*)ire$"    "$1irà" ;; dormire
+  :g [#"^(.*)[ae]re$"  "$1erà" ;; parlare,ricevere
+      #"^(.*)ire$"     "$1irà" ;; dormire
       ]
   }
  

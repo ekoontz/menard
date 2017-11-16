@@ -8,8 +8,8 @@
 [{:agr {:number :sing
         :person :1st}
   :g [
-      #"[aei]re$"  "[aei]vo"
-      #"[aei]rsi$" "[aei]vo"
+      #"([aei])re$"  "$1vo"
+      #"([aei])rsi$" "$1vo"
       ]
   :p [
       #"(.*)avo$"  "$1are"
@@ -25,8 +25,8 @@
  {:agr {:number :sing
         :person :2nd}
   :g [
-      #"[aei]re$"  "[aei]vi"
-      #"[aei]rsi$" "[aei]vi"
+      #"([aei])re$"  "$1vi"
+      #"([aei])rsi$" "$1vi"
       ]
   :p [
       #"(.*)avi$"  "$1are"
@@ -42,8 +42,8 @@
  {:agr {:number :sing
         :person :3rd}
   :g [
-      #"[aei]re$"  "[aei]va"
-      #"[aei]rsi$" "[aei]va"
+      #"([aei])re$"  "$1va"
+      #"([aei])rsi$" "$1va"
       ]
   :p [
       #"(.*)ava$"  "$1are"
@@ -59,8 +59,8 @@
  {:agr {:number :plur
         :person :1st}
   :g [
-      #"[aei]re$"  "[aei]vamo"
-      #"[aei]rsi$" "[aei]vamo"
+      #"([aei])re$"  "$1vamo"
+      #"([aei])rsi$" "$1vamo"
       ]
   :p [
       #"(.*)avamo$"  "$1are"
@@ -76,8 +76,8 @@
  {:agr {:number :plur
         :person :2nd}
   :g [
-      #"[aei]re$"  "[aei]vate"
-      #"[aei]rsi$" "[aei]vate"
+      #"([aei])re$"  "$1vate"
+      #"([aei])rsi$" "$1vate"
       ]
   :p [
       #"(.*)avate$"  "$1are"
@@ -93,8 +93,8 @@
  {:agr {:number :plur
         :person :3rd}
   :g [
-      #"[aei]re$"  "[aei]vano"
-      #"[aei]rsi$" "[aei]vano"
+      #"([aei])re$"  "$1vano"
+      #"([aei])rsi$" "$1vano"
       ]
   :p [
       #"(.*)avano$"  "$1are"

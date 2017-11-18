@@ -420,7 +420,7 @@
          ]}]))
 (defonce replace-patterns-present-subjunctive
   (expand-replace-patterns
-   {:synsem {:infl :present}}
+   {:synsem {:infl :subjunctive}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
      :p [

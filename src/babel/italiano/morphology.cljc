@@ -808,21 +808,9 @@
                                                          [(reduce
                                                            (fn [a b]
                                                              (cond
-                                                               (= a :fail)
-                                                               (do
-                                                                 (log/warn (str ":fail in exception rule:"
-                                                                                label
-                                                                                "; lexeme's italiano:"
-                                                                                (strip-refs (get-in lexeme [:italiano]))))
-                                                                 :fail)
-                                                               (= b :fail)
-                                                               (do
-                                                                 (log/warn (str ":fail in exception rule:"
-                                                                                label
-                                                                                "; lexeme:"
-                                                                                (or (strip-refs (get-in lexeme [:italiano :italiano]))
-                                                                                    (strip-refs (get-in lexeme [:italiano])))))
-                                                                 :fail)
+                                                               (or (= a :fail)
+                                                                   (= b :fail))
+                                                               :fail
                                                                true
                                                                (unify a b)))
                                                            [(dissoc-paths lexeme [[:italiano :italiano]])

@@ -1,0 +1,92 @@
+;; Format: a vector of tuples; each tuple has:
+;; :agr   agreement
+;; :p     parsing rules: pairs of (from:regex -> to:replacement pattern)
+;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
+;;
+;; TODO: fill in uncommented blanks below:
+;;  add examples for every pattern, both parsing (:p) and generation (:g).
+[
+ {:agr {:number :sing
+        :gender :fem}
+  :p [
+      #"(.*)esa"       "$1eso"
+      #"(.*)([aiu])ta" "$1$2to"
+      #"(.*)tita"      "$1tito"
+      #"(.*)asta"      "$1asto"
+      #"(.*)ata"       "$1are"
+      #"(.*)ata"       "$1arsi"
+      #"(.*)ita"       "$1ire"
+      #"(.*)ita"       "$1irsi"
+      #"(.*)uta"       "$1ere"
+      #"(.*)uta"       "$1ersi"
+      #"(.*)uta"       "$1uto"
+      ]
+  }
+ 
+ {:agr {:number :plur
+        :gender :fem}
+  :p [
+      #"(.*)ese"       "$1eso"
+      #"(.*)([aiu])te" "$1$2to"
+      #"(.*)tite"      "$1tito"
+      #"(.*)aste"      "$1asto"
+      #"(.*)ese"       "$1eso"           ;; scese -> sceso -> scendere
+      #"(.*)ate"       "$1are"
+      #"(.*)ate"       "$1arsi"
+      #"(.*)ite"       "$1ire"
+      #"(.*)ite"       "$1irsi"
+      #"(.*)ute"       "$1ere"
+      #"(.*)ute"       "$1ersi"
+      #"(.*)ute"       "$1irsi"
+      #"(.*)ute"       "$1ire"
+      #"(.*)ute"       "$1uto"
+      
+      ]
+  }
+ 
+ {:agr {:number :plur
+        :gender :masc}
+  :p [
+      #"(.*)esi"       "$1eso"
+      #"(.*)([aiu])ti" "$1$2to"
+      #"(.*)titi"      "$1tito"
+      #"(.*)asti"      "$1asto"
+      #"(.*)ati"       "$1are"
+      #"(.*)ati"       "$1arsi"
+      #"(.*)esi"       "$1eso"    ;; scesi -> sceso -> scendere
+      ]
+  }
+ 
+ {:agr {:number :plur}
+  :p [
+      #"(.*)iti" "$1ire"
+      #"(.*)iti" "$1irsi"
+      #"(.*)uti" "$1ere"
+      #"(.*)uti" "$1ersi"
+      #"(.*)uti" "$1ire"
+      ]}
+ 
+ {:essere false
+  :p [
+      #"(.*)ato" "$1are"
+      #"(.*)ato" "$1arsi"
+      #"(.*)ito" "$1ire"
+      #"(.*)ito" "$1irsi"
+      #"(.*)uto" "$1ere"
+      #"(.*)uto" "$1ersi"
+      ]}
+ 
+ {:essere true
+  :agr {:number :sing
+        :gender :masc}
+  :p [
+      #"(.*)ato" "$1are"
+      #"(.*)ato" "$1arsi"
+      #"(.*)ito" "$1ire"
+      #"(.*)ito" "$1irsi"
+      #"(.*)uto" "$1ere"
+      #"(.*)uto" "$1ersi"
+      ]}]
+
+
+

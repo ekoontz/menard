@@ -53,7 +53,6 @@
      {:synsem {:infl :imperfect}}
      regular-imperfect-source)))
 
-
 (defn regular-imperfect? [word]
   ;; regular imperfect sense
   (and (= (get-in word '(:infl)) :imperfect)
@@ -67,6 +66,40 @@
         infinitive (get-in word [:italiano])]
     (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 ;; </imperfect>
+
+;; <present>
+(let [regular-present-source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/present.edn")
+          slurp
+          read-string)]
+  (defonce regular-present-generate-patterns
+    (compile-patterns
+     {:synsem {:infl :present}}
+     regular-present-source))
+  
+  (defonce replace-present-imperfect-past-tense
+    (expand-replace-patterns
+     {:synsem {:infl :present}}
+     regular-present-source)))
+
+;; </present>
+
+;; <passato>
+(let [regular-past-source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/past.edn")
+          slurp
+          read-string)]
+  (defonce regular-imperfect-generate-patterns
+    (compile-patterns
+     {:synsem {:infl :past}}
+     regular-past-source))
+  
+  (defonce replace-patterns-imperfect-past-tense
+    (expand-replace-patterns
+     {:synsem {:infl :past}}
+     regular-past-source)))
+
+;; </passato>
 
 (defonce replace-patterns-past-tense
   (concat

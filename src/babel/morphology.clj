@@ -88,3 +88,21 @@
                     :p pair})
                  (group-by-two (:p pattern))))
           patterns))
+
+;; TODO: replace expand-replace-patterns with this: compile-patterns
+(defn compile-patterns [tense-spec patterns]
+  (map (fn [{g :g agr :agr p :p}]
+         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr] :top)
+                          agr
+                          (get-in tense-spec [:synsem]))}
+          :p p
+          :g g})
+       patterns))
+
+(defn do-replace-on [infinitive patterns]
+  (if (not (empty? patterns))
+    (let [[from to] patterns]
+      (if (re-find from infinitive)
+        (cons (string/replace infinitive from to)
+              (do-replace-on infinitive (rest (rest patterns))))
+        (do-replace-on infinitive (rest (rest patterns)))))))

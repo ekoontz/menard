@@ -3,70 +3,70 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.morphology :refer [expand-replace-patterns group-by-two]]
+   [babel.morphology :refer [compile-patterns do-replace-on expand-replace-patterns group-by-two]]
    [clojure.string :as string]
    [dag_unify.core :refer [get-in unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])))
 
-(defonce replace-patterns-gerund
- (expand-replace-patterns
-  {:synsem {:infl :participle}}
-  [{:agr :top
-    :p [#"(.*)ando$" "$1are"
-        #"(.*)ando$" "$1arsi"]}]))
+;; <future>
+(let [regular-future-source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
+          slurp
+          read-string)]
+  (defonce regular-future-generate-patterns
+    (compile-patterns
+     {:synsem {:infl :future}}
+     regular-future-source))
 
-(defn do-replace-on [infinitive patterns]
-  (if (not (empty? patterns))
-    (let [[from to] patterns]
-      (if (re-find from infinitive)
-        (cons (string/replace infinitive from to)
-              (do-replace-on infinitive (rest (rest patterns))))
-        (do-replace-on infinitive (rest (rest patterns)))))))
+  (defonce replace-patterns-future-tense
+    (expand-replace-patterns
+     {:synsem {:infl :future}}
+     regular-future-source)))
 
-;; TODO: use this locally-defined alternative
-;; to babel.morphology/expand-replace-patterns.
-;; Eventually this local variant will be promoted
-;; to babel.morphology/expand-replace-patterns
-;; to replace the existing variant.
-(defn compile-patterns [tense-spec patterns]
-  (map (fn [{g :g agr :agr p :p}]
-         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr] :top)
-                          agr
-                          (get-in tense-spec [:synsem]))}
-          :p p
-          :g g})
-       patterns))
+(defn regular-future? [word]
+  ;; future 3) regular inflection of future.
+  (and (= (get-in word [:infl]) :future)
+       (get-in word [:italiano])))
 
-(defonce regular-future-source
-  (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
-      slurp
-      read-string))
+(defn regular-future [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             regular-future-generate-patterns))
+        infinitive (get-in word [:italiano])]
+    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
+;; </future>
 
-(defonce regular-future-generate-patterns
-  (compile-patterns
-   {:synsem {:infl :future}}
-   regular-future-source))
+;; <imperfect>
+(let [regular-imperfect-source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
+          slurp
+          read-string)]
+  (defonce regular-imperfect-generate-patterns
+    (compile-patterns
+     {:synsem {:infl :imperfect}}
+     regular-imperfect-source))
+  
+  (defonce replace-patterns-imperfect-past-tense
+    (expand-replace-patterns
+     {:synsem {:infl :imperfect}}
+     regular-imperfect-source)))
 
-(defonce replace-patterns-future-tense
-  (expand-replace-patterns
-   {:synsem {:infl :future}}
-   regular-future-source))
 
-(defonce regular-imperfect-source
-  (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
-      slurp
-      read-string))
+(defn regular-imperfect? [word]
+  ;; regular imperfect sense
+  (and (= (get-in word '(:infl)) :imperfect)
+       (get-in word '(:italiano))))
 
-(defonce regular-imperfect-generate-patterns
-  (compile-patterns
-   {:synsem {:infl :imperfect}}
-   regular-imperfect-source))
-
-(defonce replace-patterns-imperfect-past-tense
-  (expand-replace-patterns
-   {:synsem {:infl :imperfect}}
-   regular-imperfect-source))
+(defn regular-imperfect [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             regular-imperfect-generate-patterns))
+        infinitive (get-in word [:italiano])]
+    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
+;; </imperfect>
 
 (defonce replace-patterns-past-tense
   (concat
@@ -467,6 +467,13 @@
          #"(.*)cano$"      "$1re"   ;; dicano -> dire
          #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
          ]}]))
+
+(defonce replace-patterns-gerund
+ (expand-replace-patterns
+  {:synsem {:infl :participle}}
+  [{:agr :top
+    :p [#"(.*)ando$" "$1are"
+        #"(.*)ando$" "$1arsi"]}]))
 
 (defonce replace-patterns
   (map (fn [each]   ;; unify with {:synsem {:cat :verb}} for all rules.
@@ -953,19 +960,6 @@
       (and (= person :3rd) (= number :plur))
       (str stem "anno"))))
 
-(defn regular-future? [word]
-  ;; future 3) regular inflection of future.
-  (and (= (get-in word [:infl]) :future)
-       (get-in word [:italiano])))
-
-(defn regular-future [word]
-  (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
-                                (:g %))
-                             regular-future-generate-patterns))
-        infinitive (get-in word [:italiano])]
-    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
-
 (defn regular-conditional-with-future-stem? [word]
   ;; regular inflection of conditional with :future-stem
   (and (= (get-in word [:infl]) :conditional)
@@ -1092,19 +1086,6 @@
 
 (defn irregular-imperfect-3plur [word]
   (get-in word [:imperfect :3plur]))
-
-(defn regular-imperfect? [word]
-  ;; regular imperfect sense
-  (and (= (get-in word '(:infl)) :imperfect)
-       (get-in word '(:italiano))))
-
-(defn regular-imperfect [word]
-  (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
-                                (:g %))
-                             regular-imperfect-generate-patterns))
-        infinitive (get-in word [:italiano])]
-    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 
 (defn passato-as-head? [word]
   ;; "fare [past]" + "bene" => "fatto bene"

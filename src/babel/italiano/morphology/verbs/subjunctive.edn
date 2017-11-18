@@ -1,0 +1,89 @@
+;; Format: a vector of tuples; each tuple has:
+;; :agr   agreement
+;; :p     parsing rules: pairs of (from:regex -> to:replacement pattern)
+;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
+;;
+;; TODO: fill in uncommented blanks below:
+;;  add examples for every pattern, both parsing (:p) and generation (:g).
+[
+ {:agr {:number :sing
+        :person :1st}
+  :p [
+      #"(.*)i$"         "$1are"
+      #"(.*)a$"         "$1ere"
+      #"(.*)isca$"      "$1ire"
+      #"(.*)a$"         "$1ire"
+      #"(.*)i$"         "$1arsi" ;; alzi -> alzarsi
+      #"(.*)a$"         "$1irsi" ;; diverta -> divertirso
+      #"(.*)ica$"       "$1ire"  ;; dica -> dire
+      ]}
+ {:agr {:number :sing
+        :person :2nd}
+  :p [
+      #"(.*)i$"         "$1are"     ;; lavi -> lavare
+      #"(.*)i$"         "$1iare"    ;; studi -> studiare
+      #"(.*)i$"         "$1arsi"    ;; lavi -> lavarsi
+      #"(.*)cci$"       "$1cciare"  ;; abbracci -> abbracciare
+      #"(.*)a$"         "$1ere"     ;; scriva -> scrivere
+      #"(.*)a$"         "$1ire"     ;; senta -> sentire
+      #"(.*c)hi$"       "$1are"     ;; cerchi -> cercare
+      #"(.*)i$"         "$1iarsi"   ;; arrabbi -> arrabbiarsi
+      #"(.*)sca$"       "$1re"      ;; finisca -> finire
+      #"(.*)a$"         "$1irsi"    ;; diverta -> divertirsi
+      #"(.*)ica$"       "$1ire"     ;; dica -> dire
+      #"(.*)hi$"        "$1are"     ;; pieghi -> piegare
+      ]}
+ 
+ {:agr {:number :sing
+        :person :3rd}
+  :p [
+      #"(.*)i$"         "$1are"
+      #"(.*)a$"         "$1ere"
+      #"(.*)a$"         "$1ire"
+      #"(.*)i$"         "$1arsi"  ;; prepari -> preperarsi
+      #"(.*)sca$"       "$1re"    ;; finisca -> finire
+      #"(.*)ta$"        "$1tirsi" ;; diverta -> divertirsi
+      #"(.*)ica$"       "$1ire"   ;; dica -> dire
+      ]}
+ 
+ {:agr {:number :plur
+        :person :1st}
+  :p [
+      #"(.*)iamo$"      "$1are"   ;; parliamo -> parlare
+      #"(.*)iamo$"      "$1iare"  ;; mangiamo -> mangiare
+      #"(.*)iamo$"      "$1ere"
+      #"(.*)iamo$"      "$1ire"
+      #"(.*c)hiamo$"    "$1are"   ;; sprechiamo -> sprecare
+      #"(.*)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
+      #"(.*)iamo$"      "$1arsi"  ;; chiamiamo -> chiamarsi
+      #"(.*)iamo$"      "$1irsi"  ;; divertiamo -> divertirsi
+      #"(.*)ciamo$"     "$1re"    ;; diciamo -> dire
+      #"(.*)hiamo$"     "$1are"   ;; pieghiamo -> piegare
+      ]}
+ 
+ {:agr {:number :plur
+        :person :2nd}
+  :p [
+      #"(.*)iate$"  "$1are"  ;; parliate -> parlare
+      #"(.*)iate$"  "$1ere"  ;; scriviate -> scrivere
+      #"(.*)iate$"  "$1ire"  ;; dormiate -> dormire
+      #"(.*)iate$"  "$1arsi" ;; chiamate -> chiamarsi
+      #"(.*)iate$"  "$1ersi" ;; mettiate -> metterrsi
+      #"(.*)iate$"  "$1irsi" ;; divertiate -> divertirsi
+      ]}
+ 
+ {:agr {:number :plur
+        :person :3rd}
+  :p [
+      #"(.*)ino$"       "$1are"
+      #"(.*)ano$"       "$1ere"
+      #"(.*)ano$"       "$1ire"
+      #"(.*)ino$"       "$1arsi" ;; alzino -> alzarsi
+      #"(.*)scano$"     "$1re"   ;; finiscano -> finire
+      #"(.*)ano$"       "$1irsi" ;; divertano -> divertirsi
+      #"(.*)cano$"      "$1re"   ;; dicano -> dire
+      #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
+      ]}]
+
+
+

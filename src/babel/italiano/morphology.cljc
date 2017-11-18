@@ -108,31 +108,9 @@
 ;; TODO: use replace patterns instead (as with French)
 ;; TODO: split into morphology/verb function, morphology/noun function, etc.
 (defn get-string-1 [word]
-  (if (seq? word)
-    (map (string/join " " #(get-string-1 %))
-         word)
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
-    (log/trace "get-string-1: input word: " word)
-
-    (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-    (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
-
-    (log/debug (str "word's a italian is a string? " (get-in word '(:a :italiano)) " => " (string? (get-in word '(:a :italiano)))))
-
     (cond
-
-     (= word :top) ".."
-
-     (ref? word)
-     (get-string-1 @word)
-
-     ;; TODO: this is a special case that should be handled below instead
-     ;; of forcing every input to go through this check.
-     (= word {:initial false})
-     ".."
-     (= word {:initial true})
-     ".."
 
      (and (string? (get-in word '(:a)))
           (string? (get-in word '(:b))))
@@ -149,6 +127,9 @@
      (get-string
       (get-in word '(:a))
       (get-in word '(:b)))
+
+     (= :verb (get-in word [:cat]))
+     (verbs/conjugate word)
 
      ;; TODO: this rule is pre-empting all of the following rules
      ;; that look in :a and :b. Either remove those following rules
@@ -316,10 +297,6 @@
           (string? (get-in word '(:italiano))))
      (get-in word '(:italiano))
 
-
-     (= :verb (get-in word [:cat]))
-     (verbs/conjugate word)
-
      (and
       (get-in word '(:a))
       (get-in word '(:b)))
@@ -414,7 +391,7 @@
      ;; in other words, if we've gotten this far, it's a bug.
      :else
      word)
-    )))
+    ))
 
 ;; TODO: replace 'a' and 'b' with 'left' and 'right': latter easier to talk about
 (defn get-string [a & [ b ]]

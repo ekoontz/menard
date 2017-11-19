@@ -802,22 +802,3 @@
                   (unify v
                           {:italiano {:italiano k}}))
                 vals)])))
-
-;; TODO: remove: using phonize2 now instead.
-(defn phonize [a-map a-string]
-  (let [common {:phrasal false}]
-    (cond (or (vector? a-map) (seq? a-map))
-          (map (fn [each-entry]
-                 (phonize each-entry a-string))
-               a-map)
-
-          (and (map? a-map)
-               (not (= :no-italiano (get-in a-map [:italiano] :no-italiano))))
-          (unify {:italiano {:italiano a-string}}
-                  common
-                  a-map)
-
-          true
-          (unify a-map
-                  {:italiano a-string}
-                  common))))

@@ -77,7 +77,7 @@
      {:synsem {:infl :present}}
      regular-present-source))
   
-  (defonce replace-present-imperfect-past-tense
+  (defonce replace-patterns-present-tense
     (expand-replace-patterns
      {:synsem {:infl :present}}
      regular-present-source)))
@@ -89,106 +89,17 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/past.edn")
           slurp
           read-string)]
-  (defonce regular-imperfect-generate-patterns
+  (defonce regular-past-generate-patterns
     (compile-patterns
      {:synsem {:infl :past}}
      regular-past-source))
   
-  (defonce replace-patterns-imperfect-past-tense
+  (defonce replace-patterns-past-tense
     (expand-replace-patterns
      {:synsem {:infl :past}}
      regular-past-source)))
 
 ;; </passato>
-
-(defonce replace-patterns-past-tense
-  (concat
-   (expand-replace-patterns
-    {:synsem {:infl :past}}
-    [
-     {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                        :gender :fem}}}}}
-      :p [
-          #"(.*)esa"       "$1eso"
-          #"(.*)([aiu])ta" "$1$2to"
-          #"(.*)tita"      "$1tito"
-          #"(.*)asta"      "$1asto"
-          #"(.*)ata"       "$1are"
-          #"(.*)ata"       "$1arsi"
-          #"(.*)ita"       "$1ire"
-          #"(.*)ita"       "$1irsi"
-          #"(.*)uta"       "$1ere"
-          #"(.*)uta"       "$1ersi"
-          #"(.*)uta"       "$1uto"
-          ]
-      }
-
-     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                        :gender :fem}}}}}
-      :p [
-          #"(.*)ese"       "$1eso"
-          #"(.*)([aiu])te" "$1$2to"
-          #"(.*)tite"      "$1tito"
-          #"(.*)aste"      "$1asto"
-          #"(.*)ese"       "$1eso"           ;; scese -> sceso -> scendere
-          #"(.*)ate"       "$1are"
-          #"(.*)ate"       "$1arsi"
-          #"(.*)ite"       "$1ire"
-          #"(.*)ite"       "$1irsi"
-          #"(.*)ute"       "$1ere"
-          #"(.*)ute"       "$1ersi"
-          #"(.*)ute"       "$1irsi"
-          #"(.*)ute"       "$1ire"
-          #"(.*)ute"       "$1uto"
-
-          ]
-      }
-
-     {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                        :gender :masc}}}}}
-      :p [
-          #"(.*)esi"       "$1eso"
-          #"(.*)([aiu])ti" "$1$2to"
-          #"(.*)titi"      "$1tito"
-          #"(.*)asti"      "$1asto"
-          #"(.*)ati"       "$1are"
-          #"(.*)ati"       "$1arsi"
-          #"(.*)esi"       "$1eso"    ;; scesi -> sceso -> scendere
-          ]
-      }
-
-     {:agr {:synsem {:subcat {:1 {:agr {:number :plur}}}}}
-      :p [
-          #"(.*)iti" "$1ire"
-          #"(.*)iti" "$1irsi"
-          #"(.*)uti" "$1ere"
-          #"(.*)uti" "$1ersi"
-          #"(.*)uti" "$1ire"
-          ]}
-
-     {:agr {:synsem {:essere false}}
-      :p [
-          #"(.*)ato" "$1are"
-          #"(.*)ato" "$1arsi"
-          #"(.*)ito" "$1ire"
-          #"(.*)ito" "$1irsi"
-          #"(.*)uto" "$1ere"
-          #"(.*)uto" "$1ersi"
-          ]}
-
-     {:agr {:synsem {:essere true
-                     :subcat {:1 {:agr {:number :sing
-                                        :gender :masc}}}}}
-      :p [
-          #"(.*)ato" "$1are"
-          #"(.*)ato" "$1arsi"
-          #"(.*)ito" "$1ire"
-          #"(.*)ito" "$1irsi"
-          #"(.*)uto" "$1ere"
-          #"(.*)uto" "$1ersi"
-          ]}
-
-     ])))
 
 (defonce replace-patterns-present-tense
   (expand-replace-patterns

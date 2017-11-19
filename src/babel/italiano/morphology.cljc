@@ -692,6 +692,7 @@
        (log/debug (str "trying replace-pattern:" replace-pattern " against surface-form: " surface-form))
        (if (re-matches from surface-form)
          (do
+           (println (str "rule matched: " from " => " surface-form " with u: " (:u replace-pattern)))
            (log/debug (str "found matching replace-pattern:" replace-pattern " for surface-form: " surface-form))
            (log/debug (str "using unify-with: " (:u replace-pattern)))
            (let [;; expression that is used by string/replace along with the first regexp and the surface form,

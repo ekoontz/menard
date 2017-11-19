@@ -19,7 +19,7 @@
      {:synsem {:infl :future}}
      regular-future-source))
 
-  (defonce replace-patterns-future-tense
+  (defonce analyze-patterns-future-tense
     (expand-replace-patterns
      {:synsem {:infl :future}}
      regular-future-source)))
@@ -48,7 +48,7 @@
      {:synsem {:infl :imperfect}}
      regular-imperfect-source))
   
-  (defonce replace-patterns-imperfect-past-tense
+  (defonce analyze-patterns-imperfect-past-tense
     (expand-replace-patterns
      {:synsem {:infl :imperfect}}
      regular-imperfect-source)))
@@ -77,7 +77,7 @@
      {:synsem {:infl :present}}
      regular-present-source))
   
-  (defonce replace-patterns-present-tense
+  (defonce analyze-patterns-present-tense
     (expand-replace-patterns
      {:synsem {:infl :present}}
      regular-present-source)))
@@ -94,14 +94,14 @@
      {:synsem {:infl :past}}
      regular-past-source))
   
-  (defonce replace-patterns-past-tense
+  (defonce analyze-patterns-past-tense
     (expand-replace-patterns
      {:synsem {:infl :past}}
      regular-past-source)))
 
 ;; </passato>
 
-(defonce replace-patterns-present-tense
+(defonce analyze-patterns-present-tense
   (expand-replace-patterns
    {:synsem {:infl :present}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -180,7 +180,7 @@
          #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
          ]}]))
 
-(defonce replace-patterns-conditional-tense
+(defonce analyze-patterns-conditional-tense
   (expand-replace-patterns
    {:synsem {:infl :conditional}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -329,7 +329,7 @@
          #"(.*)rrebbero"     "$1lere"  ;; vorrebbero -> volere
 
          ]}]))
-(defonce replace-patterns-present-subjunctive
+(defonce analyze-patterns-present-subjunctive
   (expand-replace-patterns
    {:synsem {:infl :subjunctive}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
@@ -412,14 +412,14 @@
          #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
          ]}]))
 
-(defonce replace-patterns-gerund
+(defonce analyze-patterns-gerund
  (expand-replace-patterns
   {:synsem {:infl :participle}}
   [{:agr :top
     :p [#"(.*)ando$" "$1are"
         #"(.*)ando$" "$1arsi"]}]))
 
-(defonce replace-patterns
+(defonce analyze-patterns
   (map (fn [each]   ;; unify with {:synsem {:cat :verb}} for all rules.
          {:p (:p each)
           :u (unify (:u each)
@@ -429,13 +429,13 @@
        (concat
         ;; if more are added in the future, please
         ;; preserve alphabetical ordering.
-        replace-patterns-conditional-tense
-        replace-patterns-future-tense
-        replace-patterns-gerund
-        replace-patterns-imperfect-past-tense
-        replace-patterns-past-tense
-        replace-patterns-present-subjunctive
-        replace-patterns-present-tense)))
+        analyze-patterns-conditional-tense
+        analyze-patterns-future-tense
+        analyze-patterns-gerund
+        analyze-patterns-imperfect-past-tense
+        analyze-patterns-past-tense
+        analyze-patterns-present-subjunctive
+        analyze-patterns-present-tense)))
 
 (defonce exceptions-rules
   [;; 1. past-tense exceptions
@@ -879,7 +879,7 @@
   (let [stem (get-in word '(:future-stem))
         number (get-in word [:agr :number])
         person (get-in word [:agr :person])
-        patterns replace-patterns-future-tense]
+        patterns analyze-patterns-future-tense]
     (-> patterns
         (map (fn [pattern]
                (let [[from to] (nth (:g pattern))]

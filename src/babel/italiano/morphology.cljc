@@ -94,7 +94,8 @@
 (defn tokenize-prepositions-in [string & [match-pairs]]
   string)
   
-;; replace-patterns are declarative data that determine how analysis (and soon conjugation) are performed.
+;; replace-patterns are declarative data that determine how analysis (inflected form ->root form)
+;; and conjugation (root form -> inflected form) are performed.
 (defonce replace-patterns
   (concat
    adjectives/replace-patterns

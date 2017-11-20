@@ -101,10 +101,11 @@
     (is (not (empty? result)))
     (is (= "lei è andata") (morph (first (:parses (first result)))))))
 
-;; ..whereas this should fail:
+;; ..whereas this should fail - that is, there
+;; should be no parses found, i.e. (= 0 (count parses))
 (deftest passato-prossimo-parsing-negative
-  (let [result (:parses (first (parse "lei è andato")))]
-    (is (empty? result))))
+  (let [result (mapcat :parses (parse "lei è andato"))]
+    (is (= 0 (count result)))))
 
 (deftest fix-regression
   (let [spec {:synsem {:cat :verb

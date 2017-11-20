@@ -1,7 +1,29 @@
 (ns babel.latin.morphology
-  (:require [babel.morphology :as morph :refer [conjugation]]
+  (:require [babel.morphology :as morph]
             [clojure.tools.logging :as log]
-            [dag_unify.core :refer [strip-refs]]))
+            [dag_unify.core :refer [strip-refs unify]]))
+
+(defn conjugation [specification]
+  "compile a high-level conjugation pattern into 
+  {:p/:g/:u} tuples, which are then useable by
+  (defn analyze) and (defn conjugate). At present only used by Latin
+  but may be promoted in the future."
+  (let [{infinitive :infinitive
+         common :common
+         forms :forms} specification]
+    (log/debug (str "conjugation for: " infinitive " with common:" common))
+
+    (map (fn [form]
+           (let [suffix (first form)
+                 info (unify (second form)
+                             common)]
+             ;; TODO: check for unifyc returning :fail.
+             {:p [(re-pattern (str "^(.+)" suffix "$"))
+                  (str "$1" infinitive)]
+              :g [(re-pattern (str "^(.+)" infinitive "$"))
+                  (str "$1" suffix)]
+              :u info}))
+         forms)))
 
 ;; Present indicative
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative

@@ -3,27 +3,6 @@
             [clojure.string :as string]
             [dag_unify.core :refer [fail? strip-refs unify unifyc]]))
 
-(defn conjugation [specification]
-  "compile a high-level conjugation pattern into 
-  {:p/:g/:u} tuples, which are then useable by
-  (defn analyze) and (defn conjugate)."
-  (let [{infinitive :infinitive
-         common :common
-         forms :forms} specification]
-    (log/debug (str "conjugation for: " infinitive " with common:" common))
-
-    (map (fn [form]
-           (let [suffix (first form)
-                 info (unifyc (second form)
-                              common)]
-             ;; TODO: check for unifyc returning :fail.
-             {:p [(re-pattern (str "^(.+)" suffix "$"))
-                  (str "$1" infinitive)]
-              :g [(re-pattern (str "^(.+)" infinitive "$"))
-                  (str "$1" suffix)]
-              :u info}))
-         forms)))
-
 (defn analyze [surface-form lexicon replace-patterns]
   "Analyze a single surface form into a set of lexical forms."
   (concat (if (get lexicon surface-form)
@@ -92,9 +71,10 @@
 
 ;; TODO: replace expand-replace-patterns with this: compile-patterns
 (defn compile-patterns [tense-spec patterns]
-  (map (fn [{g :g agr :agr p :p}]
+  (map (fn [{g :g agr :agr p :p u :u}]
          {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr] :top)
                           agr
+                          (or u :top)
                           (get-in tense-spec [:synsem]))}
           :p p
           :g g})

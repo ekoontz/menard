@@ -84,7 +84,8 @@
   (mapcat (fn [pattern]
             (map (fn [pair]
                    {:u (unify unify-with
-                              (:agr pattern))
+                              (get-in pattern [:agr] :top) ;; older convention: :agr
+                              (get-in pattern [:u] :top)) ;; newer convention: :u
                     :p pair})
                  (group-by-two (:p pattern))))
           patterns))

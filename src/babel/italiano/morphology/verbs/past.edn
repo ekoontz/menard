@@ -56,6 +56,7 @@
       #"(.*)asti"      "$1asto"
       #"(.*)([aiu])ti" "$1$2re" ;; (usc)(i)ti -> (usc)(i)re
       #"(.*)ati"       "$1arsi"
+      #"(.*)uti"       "$1ere" ;; (cad)uti -> (cad)ere
 
       ;; scesi -> sceso (convert to irregular passato 'sceso' rather than
       ;; infinitive "scendere":

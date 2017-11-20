@@ -6,8 +6,9 @@
 ;; TODO: fill in uncommented blanks below:
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [
- {:agr {:number :sing
-        :gender :fem}
+ {:u {:synsem {:essere true
+               :agr {:number :sing
+                     :gender :fem}}}
   :p [
       #"(.*)esa"       "$1eso"
       #"(.*)([aiu])ta" "$1$2to"
@@ -23,8 +24,9 @@
       ]
   }
  
- {:agr {:number :plur
-        :gender :fem}
+ {:u {:synsem {:essere true
+               :agr {:number :plur
+                     :gender :fem}}}
   :p [
       #"(.*)ese"       "$1eso"
       #"(.*)([aiu])te" "$1$2to"
@@ -44,8 +46,9 @@
       ]
   }
  
- {:agr {:number :plur
-        :gender :masc}
+ {:u {:synsem {:essere true
+               :agr {:number :plur
+                     :gender :masc}}}
   :p [
       #"(.*)esi"       "$1eso"
       #"(.*)([aiu])ti" "$1$2to"
@@ -57,16 +60,9 @@
       ]
   }
  
- {:agr {:number :plur}
-  :p [
-      #"(.*)iti" "$1ire"
-      #"(.*)iti" "$1irsi"
-      #"(.*)uti" "$1ere"
-      #"(.*)uti" "$1ersi"
-      #"(.*)uti" "$1ire"
-      ]}
- 
- {:essere false
+ {:u {:synsem {:essere true
+               :agr {:number :sing
+                     :gender :masc}}}
   :p [
       #"(.*)ato" "$1are"
       #"(.*)ato" "$1arsi"
@@ -75,10 +71,8 @@
       #"(.*)uto" "$1ere"
       #"(.*)uto" "$1ersi"
       ]}
- 
- {:essere true
-  :agr {:number :sing
-        :gender :masc}
+
+ {:u {:synsem {:essere false}}
   :p [
       #"(.*)ato" "$1are"
       #"(.*)ato" "$1arsi"
@@ -87,6 +81,3 @@
       #"(.*)uto" "$1ere"
       #"(.*)uto" "$1ersi"
       ]}]
-
-
-

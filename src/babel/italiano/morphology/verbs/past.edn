@@ -54,9 +54,12 @@
       #"(.*)([aiu])ti" "$1$2to"
       #"(.*)titi"      "$1tito"
       #"(.*)asti"      "$1asto"
-      #"(.*)ati"       "$1are"
+      #"(.*)([aiu])ti" "$1$2re" ;; (usc)(i)ti -> (usc)(i)re
       #"(.*)ati"       "$1arsi"
-      #"(.*)esi"       "$1eso"    ;; scesi -> sceso -> scendere
+
+      ;; scesi -> sceso (convert to irregular passato 'sceso' rather than
+      ;; infinitive "scendere":
+      #"(.*)esi"       "$1eso" 
       ]
   }
  

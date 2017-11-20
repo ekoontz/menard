@@ -18,7 +18,7 @@
       #"(.*)ata"       "$1arsi"
       #"(.*)ita"       "$1ire"
       #"(.*)ita"       "$1irsi"
-      #"(.*)uta"       "$1ere"
+      #"(.*)uta"       "$1ere" ;; (cad)uta -> (cad)ere
       #"(.*)uta"       "$1ersi"
       #"(.*)uta"       "$1uto"
       ]
@@ -37,7 +37,7 @@
       #"(.*)ate"       "$1arsi"
       #"(.*)ite"       "$1ire"
       #"(.*)ite"       "$1irsi"
-      #"(.*)ute"       "$1ere"
+      #"(.*)ute"       "$1ere" ;; (cad)ute -> (cad)ere
       #"(.*)ute"       "$1ersi"
       #"(.*)ute"       "$1irsi"
       #"(.*)ute"       "$1ire"
@@ -72,7 +72,7 @@
       #"(.*)ato" "$1arsi"
       #"(.*)ito" "$1ire"
       #"(.*)ito" "$1irsi"
-      #"(.*)uto" "$1ere"
+      #"(.*)uto" "$1ere" ;; (cad)uto -> (cad)ere
       #"(.*)uto" "$1ersi"
       ]}
 

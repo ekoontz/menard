@@ -101,7 +101,7 @@
    adjectives/replace-patterns
    determiners/replace-patterns
    nouns/replace-patterns
-   verbs/replace-patterns))
+   verbs/patterns))
 
 (declare get-string)
 

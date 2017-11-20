@@ -690,32 +690,30 @@
      (let [ ;; regular expression that matches the surface form
            from (nth (:p replace-pattern) 0)]
        (log/debug (str "trying replace-pattern:" replace-pattern " against surface-form: " surface-form))
-       (if (re-matches from surface-form)
-         (do
-           (println (str "rule matched: " from " => " surface-form " with u: " (:u replace-pattern)))
-           (log/debug (str "found matching replace-pattern:" replace-pattern " for surface-form: " surface-form))
-           (log/debug (str "using unify-with: " (:u replace-pattern)))
-           (let [;; expression that is used by string/replace along with the first regexp and the surface form,
-                 ;; to create the lexical string
-                 to (nth (:p replace-pattern) 1)
-                 ;; unifies with the lexical entry to create the inflected form.
-                 unify-with (if (:u replace-pattern)
-                              (:u replace-pattern)
-                              :top) ;; default unify-with
-                 debug (log/debug (str "surface-form: " surface-form "; from: " from "; to:" to))
-                 potential-lexical-form
-                 (try
-                   (string/replace surface-form from to)
-                   (catch Exception e
-                     (throw (Exception. (str "Can't string/replace on: "
-                                             "surface-form: " surface-form "; from: " from "; to:" to)))))]
-             (filter (fn [result] (not (= :fail result)))
-                     (let [map-fn #?(:clj pmap) #?(:cljs map)]
-                       (map-fn (fn [lexical-entry]
-                                 (let [result (unify unify-with lexical-entry)]
-                                   (log/debug (str "unify result:" result))
-                                   result))
-                             (get lexicon potential-lexical-form)))))))))
+       (when (re-matches from surface-form)
+         (log/debug (str "found matching replace-pattern:" replace-pattern " for surface-form: " surface-form))
+         (log/debug (str "using unify-with: " (:u replace-pattern)))
+         (let [;; expression that is used by string/replace along with the first regexp and the surface form,
+               ;; to create the lexical string
+               to (nth (:p replace-pattern) 1)
+               ;; unifies with the lexical entry to create the inflected form.
+               unify-with (if (:u replace-pattern)
+                            (:u replace-pattern)
+                            :top) ;; default unify-with
+               debug (log/debug (str "surface-form: " surface-form "; from: " from "; to:" to))
+               potential-lexical-form
+               (try
+                 (string/replace surface-form from to)
+                 (catch Exception e
+                   (throw (Exception. (str "Can't string/replace on: "
+                                           "surface-form: " surface-form "; from: " from "; to:" to)))))]
+           (filter (fn [result] (not (= :fail result)))
+                   (let [map-fn #?(:clj pmap) #?(:cljs map)]
+                     (map-fn (fn [lexical-entry]
+                               (let [result (unify unify-with lexical-entry)]
+                                 (log/debug (str "unify result:" result))
+                                 result))
+                             (get lexicon potential-lexical-form))))))))
    replace-patterns))
 
 (declare analyze-capitalization-variant)

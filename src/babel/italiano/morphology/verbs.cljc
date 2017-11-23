@@ -14,17 +14,7 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
           slurp
           read-string)]
-  (def regular-future-patterns
-    (compile-patterns
-     {:synsem {:infl :future}}
-     regular-future-source))
-  
-  (defonce regular-future-generate-patterns
-    (compile-patterns
-     {:synsem {:infl :future}}
-     regular-future-source))
-
-  (defonce patterns-future-tense
+  (defonce patterns-future
     (compile-patterns
      {:synsem {:infl :future}}
      regular-future-source)))
@@ -37,7 +27,7 @@
   (let [unifying-patterns
         (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
                                 (:g %))
-                             regular-future-generate-patterns))
+                             patterns-future))
         infinitive (get-in word [:italiano])]
     (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 ;; </future>
@@ -47,12 +37,7 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
           slurp
           read-string)]
-  (defonce regular-imperfect-generate-patterns
-    (compile-patterns
-     {:synsem {:infl :imperfect}}
-     regular-imperfect-source))
-  
-  (defonce patterns-imperfect-past-tense
+  (defonce patterns-imperfect
     (compile-patterns
      {:synsem {:infl :imperfect}}
      regular-imperfect-source)))
@@ -66,7 +51,7 @@
   (let [unifying-patterns
         (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
                                 (:g %))
-                             regular-imperfect-generate-patterns))
+                             patterns-imperfect))
         infinitive (get-in word [:italiano])]
     (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
 ;; </imperfect>
@@ -76,12 +61,7 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/present.edn")
           slurp
           read-string)]
-  (defonce regular-present-generate-patterns
-    (compile-patterns
-     {:synsem {:infl :present}}
-     regular-present-source))
-  
-  (defonce patterns-present-tense
+  (defonce patterns-present
     (compile-patterns
      {:synsem {:infl :present}}
      regular-present-source)))
@@ -435,9 +415,9 @@
         ;; if more are added in the future, please
         ;; preserve alphabetical ordering.
         patterns-conditional-tense
-        patterns-future-tense
+        patterns-future
         patterns-gerund
-        patterns-imperfect-past-tense
+        patterns-imperfect
         patterns-past-tense
         patterns-present-subjunctive
         patterns-present-tense)))
@@ -884,7 +864,7 @@
   (let [stem (get-in word '(:future-stem))
         number (get-in word [:agr :number])
         person (get-in word [:agr :person])
-        patterns patterns-future-tense]
+        patterns patterns-future]
     (-> patterns
         (map (fn [pattern]
                (let [[from to] (nth (:g pattern))]

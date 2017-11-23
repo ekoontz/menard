@@ -34,14 +34,14 @@
 ;; </conditional>
 
 ;; <future>
-(let [regular-future-source
+(let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
           slurp
           read-string)]
   (defonce patterns-future
     (compile-patterns
      {:synsem {:infl :future}}
-     regular-future-source)))
+     source)))
 
 (defn regular-future? [word]
   (and (= (get-in word [:infl]) :future)
@@ -57,14 +57,14 @@
 ;; </future>
 
 ;; <imperfect>
-(let [regular-imperfect-source
+(let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
           slurp
           read-string)]
   (defonce patterns-imperfect
     (compile-patterns
      {:synsem {:infl :imperfect}}
-     regular-imperfect-source)))
+     source)))
 
 (defn regular-imperfect? [word]
   ;; regular imperfect sense
@@ -81,32 +81,25 @@
 ;; </imperfect>
 
 ;; <present>
-(let [regular-present-source
+(let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/present.edn")
           slurp
           read-string)]
   (defonce patterns-present
     (compile-patterns
      {:synsem {:infl :present}}
-     regular-present-source)))
-
+     source)))
 ;; </present>
 
 ;; <passato>
-(let [regular-past-source
+(let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/past.edn")
           slurp
           read-string)]
-  (defonce regular-past-generate-patterns
-    (compile-patterns
-     {:synsem {:infl :past}}
-     regular-past-source))
-
   (def patterns-past
     (compile-patterns
      {:synsem {:infl :past}}
-     regular-past-source)))
-
+     source)))
 ;; </passato>
 
 ;; <subjunctive>

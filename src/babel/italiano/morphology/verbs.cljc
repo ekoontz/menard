@@ -85,85 +85,6 @@
 
 ;; </passato>
 
-(defonce patterns-present-tense
-  (compile-patterns
-   {:synsem {:infl :present}}
-   [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)o$"         "$1are"
-         #"(.*)o$"         "$1ere"
-         #"(.*)isco$"      "$1ire"
-         #"(.*)o$"         "$1ire"
-         #"(.*)o$"         "$1arsi" ;; alzo -> alzarsi
-         #"(.*)o$"         "$1irsi" ;; diverto -> divertirso
-         #"(.*)ico$"       "$1ire" ;; dico -> dire
-         ]}
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :2nd}}}}}
-     :p [
-         #"(.*)i$"         "$1are" ;; lavi -> lavare
-         #"(.*)i$"         "$1iare" ;; studi -> studiare
-         #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
-         #"(.*)cci$"       "$1cciare" ;; abbracci -> abbracciare
-         #"(.*)i$"         "$1ere"
-         #"(.*)i$"         "$1ire" ;; senti -> sentire
-         #"(.*c)hi$"       "$1are" ;; cerchi -> cercare
-         #"(.*)i$"         "$1iarsi" ;; arrabi -> arrabiarsi
-         #"(.*)sci$"       "$1re" ;; finisci -> finire
-         #"(.*)i$"         "$1irsi" ;; diverti -> divertirsi
-         #"(.*)ici$"       "$1ire" ;; dici -> dire
-         #"(.*)hi$"        "$1are" ;; pieghi -> piegare
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :3rd}}}}}
-
-     :p [
-         #"(.*)a$"         "$1are"
-         #"(.*)e$"         "$1ere"
-         #"(.*)e$"         "$1ire"
-         #"(.*)a$"         "$1arsi" ;; prepara -> preperarsi
-         #"(.*)sce$"       "$1re" ;; finisce -> finire
-         #"(.*)te$"        "$1tirsi" ;; diverte -> divertirsi
-         #"(.*)ice$"       "$1ire" ;; dice -> dire
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
-         #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
-         #"(.*)iamo$"      "$1ere"
-         #"(.*)iamo$"      "$1ire"
-         #"(.*c)hiamo$"    "$1are" ;; sprechiamo -> sprecare
-         #"(.*)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
-         #"(.*)iamo$"      "$1arsi" ;; chiamiamo -> chiamarsi
-         #"(.*)iamo$"      "$1irsi" ;; divertiamo -> divertirsi
-         #"(.*)ciamo$"     "$1re" ;; diciamo -> dire
-         #"(.*)hiamo$"     "$1are" ;; pieghiamo -> piegare
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :2nd}}}}}
-     :p [
-         #"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
-         #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :3rd}}}}}
-     :p [
-         #"(.*)ano$"       "$1are"
-         #"(.*)ono$"       "$1ere"
-         #"(.*)ono$"       "$1ire"
-         #"(.*)ano$"       "$1arsi" ;; alzano -> alzarsi
-         #"(.*)scono$"     "$1re" ;; finiscono -> finire
-         #"(.*)ono$"       "$1irsi" ;; divertono -> divertirsi
-         #"(.*)cono$"      "$1re" ;; dicono -> dire
-         #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
-         ]}]))
-
 (defonce patterns-conditional-tense
   (compile-patterns
    {:synsem {:infl :conditional}}
@@ -420,7 +341,7 @@
         patterns-imperfect
         patterns-past-tense
         patterns-present-subjunctive
-        patterns-present-tense)))
+        patterns-present)))
 
 (defonce exceptions-rules
   [;; 1. past-tense exceptions

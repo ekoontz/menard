@@ -93,10 +93,10 @@
 
 ;; <passato>
 (let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/past.edn")
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/passato.edn")
           slurp
           read-string)]
-  (def patterns-past
+  (def patterns-passato
     (compile-patterns
      {:synsem {:infl :past}}
      source)))
@@ -135,14 +135,14 @@
         patterns-future
         patterns-gerund
         patterns-imperfect
-        patterns-past
+        patterns-passato
         patterns-present
         patterns-subjunctive)))
 
 (defonce exceptions-rules
-  [;; 1. past-tense exceptions
+  [;; 1. passato exceptions
    {:path [:italiano :passato]
-    :label "past-tense exception"
+    :label "passato exception"
     :merge-fn
     (fn [val]
       {:italiano {:infl :past

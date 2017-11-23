@@ -61,14 +61,15 @@
 
 (defn compile-patterns [unify-with patterns]
   (mapcat (fn [{g :g agr :agr p :p u :u}]
-            (map (fn [pair]
-                   {:u (unify unify-with
+            (let [u (unify unify-with
                               (or agr :top)
-                              (or u :top))
-                    :g g
-                    :agr agr
-                    :p pair})
-                 (group-by-two p)))
+                              (or u :top))]
+              (map (fn [pair]
+                     {:u u
+                      :g g
+                      :agr agr
+                      :p pair})
+                   (group-by-two p))))
        patterns))
 
 (defn do-replace-on [infinitive patterns]

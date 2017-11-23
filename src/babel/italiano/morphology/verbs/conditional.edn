@@ -5,149 +5,150 @@
 ;;
 ;; TODO: fill in uncommented blanks below:
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
-  [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)erei"     "$1are"
-         #"(.*)cherei"   "$1care"   ;; cercherei -> cercare
-         #"(.*)chei"     "$1care"   ;; carichei -> caricare
-         #"(.*)erei"     "$1arsi"
-         #"(.*)er[r]?ei" "$1ere"
-         #"(.*)erei"     "$1ersi"
-         #"(.*)erei"     "$1iare"
-         #"(.*)errei"    "$1ere"
-         #"(.*)errei"    "$1enere"  ;; otterrei -> ottenere
-         #"(.*)irei"     "$1ire"
-         #"(.*)irei"     "$1irsi"
-         #"(.*)drei"     "$1dare"
-         #"(.*)drei"     "$1dere"
-         #"(.*)rei"      "$1re"
-         #"(.*)rei"      "$1ere"    ;; potrei -> potere
-         #"(.*)trei"     "$1tere"
-         #"(.*)vrei"     "$1vere"
-         #"(.*)rrei"     "$1lere"   ;; vorrei -> volere
-         #"(.*)rrei"     "$1nire"   ;; verrei -> venire
-         #"(.*)gherei"   "$1gare"   ;; piegherei -> piegare
-         #"(.*)rrei"     "$1nere"   ;; rimarrei -> rimanere
-         ]}
+[{:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :1st}}}}}
+  :p [
+      #"(.*)erei"     "$1are"
+      #"(.*)cherei"   "$1care"   ;; cercherei -> cercare
+      #"(.*)chei"     "$1care"   ;; carichei -> caricare
+      #"(.*)erei"     "$1arsi"
+      #"(.*)er[r]?ei" "$1ere"
+      #"(.*)erei"     "$1ersi"
+      #"(.*)erei"     "$1iare"
+      #"(.*)errei"    "$1ere"
+      #"(.*)errei"    "$1enere"  ;; otterrei -> ottenere
+      #"(.*)irei"     "$1ire"
+      #"(.*)irei"     "$1irsi"
+      #"(.*)drei"     "$1dare"
+      #"(.*)drei"     "$1dere"
+      #"(.*)rei"      "$1re"
+      #"(.*)rei"      "$1ere"    ;; potrei -> potere
+      #"(.*)trei"     "$1tere"
+      #"(.*)vrei"     "$1vere"
+      #"(.*)rrei"     "$1lere"   ;; vorrei -> volere
+      #"(.*)rrei"     "$1nire"   ;; verrei -> venire
+      #"(.*)gherei"   "$1gare"   ;; piegherei -> piegare
+      #"(.*)rrei"     "$1nere"   ;; rimarrei -> rimanere
+      ]}
 
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+ {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :2nd}}}}}
+  :p [
+      #"(.*)esti"       "$1e"     ;; faresti -> fare
+      #"(.*)eresti"     "$1are"
+      #"(.*)eresti"     "$1arsi"
+      #"(.*)cheresti"   "$1care"  ;; cercheresti -> cercare
+      #"(.*)dresti"     "$1dare"
+      #"(.*)eresti"     "$1ersi"
+      #"(.*)erresti"    "$1enere" ;; otterresti -> ottenere
+      #"(.*)er[r]?esti" "$1ere"
+      #"(.*)eresti"     "$1iare"
+      #"(.*)erresti"    "$1edere" ;; verrà -> vedere
+      #"(.*)gheresti"   "$1gare"  ;; piegheresti -> piegare
+      #"(.*)ichesti"    "$1icare"
+      #"(.*)iresti"     "$1ire"
+      #"(.*)iresti"     "$1irsi"
+      #"(.*)erresti"    "$1enire" ;; sverresti -> svenire
+      #"(.*)resti"      "$1ere"   ;; potresti -> potere
+      #"(.*)vresti"     "$1vere"
+      #"(.*)rresti"     "$1lere"  ;; vorresti -> volere
+      #"(.*)rresti"     "$1nere"  ;; rimarresti -> rimanere
+      ]}
+ 
+ {:agr {:synsem {:subcat {:1 {:agr {:number :sing
+                                    :person :3rd}}}}}
+  :p [
+      #"(.*)chebbe"     "$1care"
+      #"(.*)cherebbe"   "$1care"
+      #"(.*)drebbe"     "$1dare"
+      #"(.*)vrebbe"     "$1vere"
+      #"(.*)erebbe"     "$1are"
+      #"(.*)erebbe"     "$1arsi"
+      #"(.*)er[r]?ebbe" "$1ere"
+      #"(.*)erebbe"     "$1ersi"
+      #"(.*)erebbe"     "$1iare"
+      #"(.*)errebbe"    "$1edere" ;; verrebbe -> vedere
+      #"(.*)errebbe"    "$1enere" ;; otterrebbe -> ottenere
+      #"(.*)gherebbe"   "$1gare"  ;; piegherebbe -> piegare
+      #"(.*)irebbe"     "$1ire"
+      #"(.*)irebbe"     "$1irsi"
+      #"(.*)rebbe"      "$1re"
+      #"(.*)errebbe"    "$1enire" ;; sverrebbe -> svenire
+      #"(.*)rebbe"      "$1ere"   ;; potrebbe -> potere
+      #"(.*)rrebbe"     "$1lere"  ;; vorrebbe -> volere
+      #"(.*)rrebbe"     "$1nere"  ;; rimarrebbe -> rimanere
+      ]}
+ 
+ {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :1st}}}}}
+  :p [
+      #"(.*)cheremmo"   "$1care"   ;; giocheremmo -> giocare
+      #"(.*)eramo"     "$1ere"
+      #"(.*)eremmo"     "$1are"
+      #"(.*)erremmo"    "$1enere"  ;; otterremmo -> ottenere
+      #"(.*)ichemmo"     "$1icare" ;; carichemmo -> caricare
+      #"(.*)remmo"      "$1are"    ;; "andremmo" -> "andare"
+      #"(.*)remmo"      "$1ere"    ;; "avremmo" -> "avere"
+      #"(.*)rremmo"     "$1nere"   ;; "terremmo" -> "tenere"
+      #"(.*)emmo"       "$1e"      ;; "daremmo" -> "dare"
+      #"(.*)gheremmo"   "$1gare"   ;; piegherete -> piegare
+      #"(.*)iremmo"     "$1ire"
+      #"(.*)iremmo"     "$1irsi"
+      #"(.*)erremmo"    "$1edere"  ;; verremmo -> vedere
+      #"(.*)erremmo"    "$1enire"  ;; sverremmo -> svenire
+      #"(.*)eremmo"     "$1arsi"
+      #"(.*)eremmo"     "$1ersi"
+      #"(.*)er[r]?emmo" "$1ere"
+      #"(.*)rremmo"     "$1lere"   ;; vorremmo -> volere
+      #"(.*)eremmo"     "$1iare"
+      ]}
+ 
+ {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :2nd}}}}}
-     :p [
-         #"(.*)esti"       "$1e"     ;; faresti -> fare
-         #"(.*)eresti"     "$1are"
-         #"(.*)eresti"     "$1arsi"
-         #"(.*)cheresti"   "$1care"  ;; cercheresti -> cercare
-         #"(.*)dresti"     "$1dare"
-         #"(.*)eresti"     "$1ersi"
-         #"(.*)erresti"    "$1enere" ;; otterresti -> ottenere
-         #"(.*)er[r]?esti" "$1ere"
-         #"(.*)eresti"     "$1iare"
-         #"(.*)erresti"    "$1edere" ;; verrà -> vedere
-         #"(.*)gheresti"   "$1gare"  ;; piegheresti -> piegare
-         #"(.*)ichesti"    "$1icare"
-         #"(.*)iresti"     "$1ire"
-         #"(.*)iresti"     "$1irsi"
-         #"(.*)erresti"    "$1enire" ;; sverresti -> svenire
-         #"(.*)resti"      "$1ere"   ;; potresti -> potere
-         #"(.*)vresti"     "$1vere"
-         #"(.*)rresti"     "$1lere"  ;; vorresti -> volere
-         #"(.*)rresti"     "$1nere"  ;; rimarresti -> rimanere
-         ]}
+  :p [
+      #"(.*)areste"     "$1are"
+      #"(.*)cheste"     "$1care"  ;; caricheste -> caricare
+      #"(.*)chereste"   "$1care"  ;; giochereste -> giocare
+      #"(.*)dreste"     "$1dare"
+      #"(.*)ereste"     "$1are"
+      #"(.*)ereste"     "$1arsi"
+      #"(.*)ereste"     "$1ersi"
+      #"(.*)ereste"     "$1irsi"
+      #"(.*)ghereste"   "$1gare"  ;; pieghereste -> piegare
+      #"(.*)er[r]?este" "$1ere"
+      #"(.*)ereste"     "$1iare"
+      #"(.*)erreste"    "$1enere" ;; otterreste -> ottenere
+      #"(.*)ireste"     "$1ire"
+      #"(.*)ireste"     "$1irsi"
+      #"(.*)vreste"     "$1vere"
+      #"(.*)reste"      "$1ere"   ;; potreste -> potere
+      #"(.*)rreste"     "$1lere"  ;; vorreste -> volere
+      #"(.*)rreste"     "$1nere"  ;; rimarreste -> rimanere
+      #"(.*)rreste"     "$1nire"  ;; verreste -> venire
+      ]}
 
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :3rd}}}}}
-     :p [
-         #"(.*)chebbe"     "$1care"
-         #"(.*)cherebbe"   "$1care"
-         #"(.*)drebbe"     "$1dare"
-         #"(.*)vrebbe"     "$1vere"
-         #"(.*)erebbe"     "$1are"
-         #"(.*)erebbe"     "$1arsi"
-         #"(.*)er[r]?ebbe" "$1ere"
-         #"(.*)erebbe"     "$1ersi"
-         #"(.*)erebbe"     "$1iare"
-         #"(.*)errebbe"    "$1edere" ;; verrebbe -> vedere
-         #"(.*)errebbe"    "$1enere" ;; otterrebbe -> ottenere
-         #"(.*)gherebbe"   "$1gare"  ;; piegherebbe -> piegare
-         #"(.*)irebbe"     "$1ire"
-         #"(.*)irebbe"     "$1irsi"
-         #"(.*)rebbe"      "$1re"
-         #"(.*)errebbe"    "$1enire" ;; sverrebbe -> svenire
-         #"(.*)rebbe"      "$1ere"   ;; potrebbe -> potere
-         #"(.*)rrebbe"     "$1lere"  ;; vorrebbe -> volere
-         #"(.*)rrebbe"     "$1nere"  ;; rimarrebbe -> rimanere
-         ]}
+ {:agr {:synsem {:subcat {:1 {:agr {:number :plur
+                                    :person :3rd}}}}}
+  :p [
+      #"(.*)chebbero"     "$1care"
+      #"(.*)cherebbero"   "$1care"
+      #"(.*)drebbero"     "$1dare"
+      #"(.*)drebbero"     "$1edere" ;; vedrebbero -> vedere
+      #"(.*)erebbero"     "$1are"
+      #"(.*)erebbero"     "$1iare"
+      #"(.*)erebbero"     "$1arsi"
+      #"(.*)erebbero"     "$1ersi"
+      #"(.*)errebbero"    "$1enire"
+      #"(.*)errebbero"    "$1enere" ;; otterrebbero -> ottenere
+      #"(.*)er[r]?ebbero" "$1ere"
+      #"(.*)gherebbero"   "$1gare"  ;; piegherete -> piegare
+      #"(.*)irebbero"     "$1ire"
+      #"(.*)irebbero"     "$1irsi"
+      #"(.*)rebbero"      "$1re"
+      #"(.*)rebbero"      "$1ere"   ;; potrebbero -> potere
+      #"(.*)vrebbero"     "$1vere"
+      #"(.*)rrebbero"     "$1nere"  ;; rimarreste -> rimanere
+      #"(.*)rrebbero"     "$1lere"  ;; vorrebbero -> volere
+      
+      ]}]
 
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)cheremmo"   "$1care"   ;; giocheremmo -> giocare
-         #"(.*)eramo"     "$1ere"
-         #"(.*)eremmo"     "$1are"
-         #"(.*)erremmo"    "$1enere"  ;; otterremmo -> ottenere
-         #"(.*)ichemmo"     "$1icare" ;; carichemmo -> caricare
-         #"(.*)remmo"      "$1are"    ;; "andremmo" -> "andare"
-         #"(.*)remmo"      "$1ere"    ;; "avremmo" -> "avere"
-         #"(.*)rremmo"     "$1nere"   ;; "terremmo" -> "tenere"
-         #"(.*)emmo"       "$1e"      ;; "daremmo" -> "dare"
-         #"(.*)gheremmo"   "$1gare"   ;; piegherete -> piegare
-         #"(.*)iremmo"     "$1ire"
-         #"(.*)iremmo"     "$1irsi"
-         #"(.*)erremmo"    "$1edere"  ;; verremmo -> vedere
-         #"(.*)erremmo"    "$1enire"  ;; sverremmo -> svenire
-         #"(.*)eremmo"     "$1arsi"
-         #"(.*)eremmo"     "$1ersi"
-         #"(.*)er[r]?emmo" "$1ere"
-         #"(.*)rremmo"     "$1lere"   ;; vorremmo -> volere
-         #"(.*)eremmo"     "$1iare"
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :2nd}}}}}
-     :p [
-         #"(.*)areste"     "$1are"
-         #"(.*)cheste"     "$1care"  ;; caricheste -> caricare
-         #"(.*)chereste"   "$1care"  ;; giochereste -> giocare
-         #"(.*)dreste"     "$1dare"
-         #"(.*)ereste"     "$1are"
-         #"(.*)ereste"     "$1arsi"
-         #"(.*)ereste"     "$1ersi"
-         #"(.*)ereste"     "$1irsi"
-         #"(.*)ghereste"   "$1gare"  ;; pieghereste -> piegare
-         #"(.*)er[r]?este" "$1ere"
-         #"(.*)ereste"     "$1iare"
-         #"(.*)erreste"    "$1enere" ;; otterreste -> ottenere
-         #"(.*)ireste"     "$1ire"
-         #"(.*)ireste"     "$1irsi"
-         #"(.*)vreste"     "$1vere"
-         #"(.*)reste"      "$1ere"   ;; potreste -> potere
-         #"(.*)rreste"     "$1lere"  ;; vorreste -> volere
-         #"(.*)rreste"     "$1nere"  ;; rimarreste -> rimanere
-         #"(.*)rreste"     "$1nire"  ;; verreste -> venire
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :3rd}}}}}
-     :p [
-         #"(.*)chebbero"     "$1care"
-         #"(.*)cherebbero"   "$1care"
-         #"(.*)drebbero"     "$1dare"
-         #"(.*)drebbero"     "$1edere" ;; vedrebbero -> vedere
-         #"(.*)erebbero"     "$1are"
-         #"(.*)erebbero"     "$1iare"
-         #"(.*)erebbero"     "$1arsi"
-         #"(.*)erebbero"     "$1ersi"
-         #"(.*)errebbero"    "$1enire"
-         #"(.*)errebbero"    "$1enere" ;; otterrebbero -> ottenere
-         #"(.*)er[r]?ebbero" "$1ere"
-         #"(.*)gherebbero"   "$1gare"  ;; piegherete -> piegare
-         #"(.*)irebbero"     "$1ire"
-         #"(.*)irebbero"     "$1irsi"
-         #"(.*)rebbero"      "$1re"
-         #"(.*)rebbero"      "$1ere"   ;; potrebbero -> potere
-         #"(.*)vrebbero"     "$1vere"
-         #"(.*)rrebbero"     "$1nere"  ;; rimarreste -> rimanere
-         #"(.*)rrebbero"     "$1lere"  ;; vorrebbero -> volere
-
-         ]

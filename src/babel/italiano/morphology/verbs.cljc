@@ -3,7 +3,7 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.morphology :refer [compile-patterns do-replace-on expand-replace-patterns group-by-two]]
+   [babel.morphology :refer [compile-patterns do-replace-on group-by-two]]
    [clojure.string :as string]
    [dag_unify.core :refer [get-in unify]]
    #?(:clj [clojure.tools.logging :as log])
@@ -14,13 +14,18 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
           slurp
           read-string)]
+  (def regular-future-patterns
+    (compile-patterns
+     {:synsem {:infl :future}}
+     regular-future-source))
+  
   (defonce regular-future-generate-patterns
     (compile-patterns
      {:synsem {:infl :future}}
      regular-future-source))
 
   (defonce patterns-future-tense
-    (expand-replace-patterns
+    (compile-patterns
      {:synsem {:infl :future}}
      regular-future-source)))
 
@@ -48,7 +53,7 @@
      regular-imperfect-source))
   
   (defonce patterns-imperfect-past-tense
-    (expand-replace-patterns
+    (compile-patterns
      {:synsem {:infl :imperfect}}
      regular-imperfect-source)))
 
@@ -77,7 +82,7 @@
      regular-present-source))
   
   (defonce patterns-present-tense
-    (expand-replace-patterns
+    (compile-patterns
      {:synsem {:infl :present}}
      regular-present-source)))
 
@@ -92,16 +97,16 @@
     (compile-patterns
      {:synsem {:infl :past}}
      regular-past-source))
-  
-  (defonce patterns-past-tense
-    (expand-replace-patterns
+
+  (def patterns-past-tense
+    (compile-patterns
      {:synsem {:infl :past}}
      regular-past-source)))
 
 ;; </passato>
 
 (defonce patterns-present-tense
-  (expand-replace-patterns
+  (compile-patterns
    {:synsem {:infl :present}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
@@ -180,7 +185,7 @@
          ]}]))
 
 (defonce patterns-conditional-tense
-  (expand-replace-patterns
+  (compile-patterns
    {:synsem {:infl :conditional}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
@@ -329,7 +334,7 @@
 
          ]}]))
 (defonce patterns-present-subjunctive
-  (expand-replace-patterns
+  (compile-patterns
    {:synsem {:infl :subjunctive}}
    [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                        :person :1st}}}}}
@@ -412,7 +417,7 @@
          ]}]))
 
 (defonce patterns-gerund
- (expand-replace-patterns
+ (compile-patterns
   {:synsem {:infl :participle}}
   [{:agr :top
     :p [#"(.*)ando$" "$1are"

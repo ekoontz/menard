@@ -59,25 +59,16 @@
       (nth remaining 1)]
      (group-by-two (rest (rest remaining))))))
 
-(defn expand-replace-patterns [unify-with patterns]
-  (mapcat (fn [pattern]
+(defn compile-patterns [unify-with patterns]
+  (mapcat (fn [{g :g agr :agr p :p u :u}]
             (map (fn [pair]
                    {:u (unify unify-with
-                              (get-in pattern [:agr] :top) ;; older convention: :agr
-                              (get-in pattern [:u] :top)) ;; newer convention: :u
+                              (or agr :top)
+                              (or u :top))
+                    :g g
+                    :agr agr
                     :p pair})
-                 (group-by-two (:p pattern))))
-          patterns))
-
-;; TODO: replace expand-replace-patterns with this: compile-patterns
-(defn compile-patterns [tense-spec patterns]
-  (map (fn [{g :g agr :agr p :p u :u}]
-         {:u {:agr (unify (get-in agr [:synsem :subcat :1 :agr] :top)
-                          agr
-                          (or u :top)
-                          (get-in tense-spec [:synsem]))}
-          :p p
-          :g g})
+                 (group-by-two p)))
        patterns))
 
 (defn do-replace-on [infinitive patterns]

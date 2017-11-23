@@ -109,88 +109,16 @@
 
 ;; </passato>
 
-(defonce patterns-present-subjunctive
-  (compile-patterns
-   {:synsem {:infl :subjunctive}}
-   [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)i$"         "$1are"
-         #"(.*)a$"         "$1ere"
-         #"(.*)isca$"      "$1ire"
-         #"(.*)a$"         "$1ire"
-         #"(.*)i$"         "$1arsi" ;; alzi -> alzarsi
-         #"(.*)a$"         "$1irsi" ;; diverta -> divertirso
-         #"(.*)ica$"       "$1ire"  ;; dica -> dire
-         ]}
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :2nd}}}}}
-     :p [
-         #"(.*)i$"         "$1are"     ;; lavi -> lavare
-         #"(.*)i$"         "$1iare"    ;; studi -> studiare
-         #"(.*)i$"         "$1arsi"    ;; lavi -> lavarsi
-         #"(.*)cci$"       "$1cciare"  ;; abbracci -> abbracciare
-         #"(.*)a$"         "$1ere"     ;; scriva -> scrivere
-         #"(.*)a$"         "$1ire"     ;; senta -> sentire
-         #"(.*c)hi$"       "$1are"     ;; cerchi -> cercare
-         #"(.*)i$"         "$1iarsi"   ;; arrabbi -> arrabbiarsi
-         #"(.*)sca$"       "$1re"      ;; finisca -> finire
-         #"(.*)a$"         "$1irsi"    ;; diverta -> divertirsi
-         #"(.*)ica$"       "$1ire"     ;; dica -> dire
-         #"(.*)hi$"        "$1are"     ;; pieghi -> piegare
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                       :person :3rd}}}}}
-
-     :p [
-         #"(.*)i$"         "$1are"
-         #"(.*)a$"         "$1ere"
-         #"(.*)a$"         "$1ire"
-         #"(.*)i$"         "$1arsi"  ;; prepari -> preperarsi
-         #"(.*)sca$"       "$1re"    ;; finisca -> finire
-         #"(.*)ta$"        "$1tirsi" ;; diverta -> divertirsi
-         #"(.*)ica$"       "$1ire"   ;; dica -> dire
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :1st}}}}}
-     :p [
-         #"(.*)iamo$"      "$1are"   ;; parliamo -> parlare
-         #"(.*)iamo$"      "$1iare"  ;; mangiamo -> mangiare
-         #"(.*)iamo$"      "$1ere"
-         #"(.*)iamo$"      "$1ire"
-         #"(.*c)hiamo$"    "$1are"   ;; sprechiamo -> sprecare
-         #"(.*)iamo$"      "$1iarsi" ;; arrabiamo -> arrabiarsi
-         #"(.*)iamo$"      "$1arsi"  ;; chiamiamo -> chiamarsi
-         #"(.*)iamo$"      "$1irsi"  ;; divertiamo -> divertirsi
-         #"(.*)ciamo$"     "$1re"    ;; diciamo -> dire
-         #"(.*)hiamo$"     "$1are"   ;; pieghiamo -> piegare
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :2nd}}}}}
-     :p [
-         #"(.*)iate$"  "$1are"  ;; parliate -> parlare
-         #"(.*)iate$"  "$1ere"  ;; scriviate -> scrivere
-         #"(.*)iate$"  "$1ire"  ;; dormiate -> dormire
-         #"(.*)iate$"  "$1arsi" ;; chiamate -> chiamarsi
-         #"(.*)iate$"  "$1ersi" ;; mettiate -> metterrsi
-         #"(.*)iate$"  "$1irsi" ;; divertiate -> divertirsi
-         ]}
-
-    {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :3rd}}}}}
-     :p [
-         #"(.*)ino$"       "$1are"
-         #"(.*)ano$"       "$1ere"
-         #"(.*)ano$"       "$1ire"
-         #"(.*)ino$"       "$1arsi" ;; alzino -> alzarsi
-         #"(.*)scano$"     "$1re"   ;; finiscano -> finire
-         #"(.*)ano$"       "$1irsi" ;; divertano -> divertirsi
-         #"(.*)cano$"      "$1re"   ;; dicano -> dire
-         #"(.*)ano$"       "$1irsi" ;; vestano -> vestirsi
-         ]}]))
+;; <subjunctive>
+(let [source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/subjunctive.edn")
+          slurp
+          read-string)]
+  (def patterns-subjunctive
+    (compile-patterns
+     {:synsem {:infl :past}}
+     source)))
+;; </subjunctive>
 
 (defonce patterns-gerund
  (compile-patterns
@@ -215,8 +143,8 @@
         patterns-gerund
         patterns-imperfect
         patterns-past
-        patterns-present-subjunctive
-        patterns-present)))
+        patterns-present
+        patterns-subjunctive)))
 
 (defonce exceptions-rules
   [;; 1. past-tense exceptions

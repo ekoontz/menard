@@ -14,6 +14,7 @@
             plural-to-singular-noun-masc-1
             plural-to-singular-noun-masc-2)]
    [babel.italiano.morphology.verbs :as verbs]
+   [babel.morphology :as language-independent]
    [babel.stringutils :refer (replace-from-list)]
    [clojure.string :as string]
    [clojure.string :refer (trim)]
@@ -71,7 +72,6 @@
    ["su gli" "sugli"]
    ["su le"  "sulle"]
       ])
-
 
 ;; TODO: pre-compile these rules rather than building regexp objects at runtime.
 (defn apply-one-rule [string from-to-pair]
@@ -685,36 +685,7 @@
 
 (defn analyze-regular [surface-form lexicon]
   "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form, using the (defonce replace-patterns) defined above."
-  (mapcat
-   (fn [replace-pattern]
-     (let [ ;; regular expression that matches the surface form
-           from (nth (:p replace-pattern) 0)]
-       (log/debug (str "trying replace-pattern:" replace-pattern " against surface-form: " surface-form))
-       (when (re-matches from surface-form)
-         (log/debug (str "found matching replace-pattern:" replace-pattern " for surface-form: " surface-form))
-         (log/debug (str "using unify-with: " (:u replace-pattern)))
-         (let [;; expression that is used by string/replace along with the first regexp and the surface form,
-               ;; to create the lexical string
-               to (nth (:p replace-pattern) 1)
-               ;; unifies with the lexical entry to create the inflected form.
-               unify-with (if (:u replace-pattern)
-                            (:u replace-pattern)
-                            :top) ;; default unify-with
-               debug (log/debug (str "surface-form: " surface-form "; from: " from "; to:" to))
-               potential-lexical-form
-               (try
-                 (string/replace surface-form from to)
-                 (catch Exception e
-                   (throw (Exception. (str "Can't string/replace on: "
-                                           "surface-form: " surface-form "; from: " from "; to:" to)))))]
-           (filter (fn [result] (not (= :fail result)))
-                   (let [map-fn #?(:clj pmap) #?(:cljs map)]
-                     (map-fn (fn [lexical-entry]
-                               (let [result (unify unify-with lexical-entry)]
-                                 (log/debug (str "unify result:" result))
-                                 result))
-                             (get lexicon potential-lexical-form))))))))
-   replace-patterns))
+  (language-independent/analyze surface-form lexicon replace-patterns))
 
 (declare analyze-capitalization-variant)
 

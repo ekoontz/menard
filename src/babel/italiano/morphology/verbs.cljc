@@ -10,14 +10,22 @@
    #?(:cljs [babel.logjs :as log])))
 
 ;; <conditional>
-(let [source
+(let [patterns
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/conditional.edn")
           slurp
-          read-string)]
+          read-string)
+      patterns-with-agr
+      (map (fn [{g :g
+                 agr :agr
+                 p :p}]
+             {:g g
+              :p p
+              :agr {:agr agr}})
+           patterns)]
   (defonce patterns-conditional
     (compile-patterns
      {:synsem {:infl :conditional}}
-     source)))
+     patterns-with-agr)))
 
 (defn regular-conditional? [word]
   (and (= (get-in word [:infl]) :conditional)

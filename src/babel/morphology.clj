@@ -3,30 +3,25 @@
             [clojure.string :as string]
             [dag_unify.core :refer [fail? strip-refs unify]]))
 
+(declare group-by-two)
+
 (defn analyze [surface-form lexicon replace-patterns]
   "Analyze a single surface form into a set of lexical forms."
   (concat (if (get lexicon surface-form)
             (get lexicon surface-form))
           (mapcat
-           (fn [replace-pattern]
-             (let [ ;; regular expression that matches the surface form
-                   from (nth (:p replace-pattern) 0)]
-               (log/debug (str "matching replace-pattern:" replace-pattern " against surface-form: " surface-form))
-               (if (re-matches from surface-form)
-                 (let [;; expression that is used by string/replace along with the first regexp and the surface form,
-                       ;; to create the lexical string
-                       to (nth (:p replace-pattern) 1)
-
-                       ;; unifies with the lexical entry to create the inflected form.
-                       unify-with (if (:u replace-pattern)
-                                    (:u replace-pattern)
-                                    :top) ;; default unify-with
-                     
-                       lex (string/replace surface-form from to)]
-                   (filter (fn [result] (not (= :fail result)))
-                           (map (fn [lexical-entry]
-                                  (unify unify-with lexical-entry))
-                                (get lexicon lex)))))))
+           (fn [{g :g agr :agr p :p u :u}]
+             (mapcat
+              (fn [[from to]]
+                (if (re-matches from surface-form)
+                  (let [;; unifies with the lexical entry to create the inflected form.
+                        unify-with (or u :top)
+                        lex (string/replace surface-form from to)]
+                    (filter (fn [result] (not (= :fail result)))
+                            (map (fn [lexical-entry]
+                                   (unify unify-with lexical-entry))
+                                 (get lexicon lex))))))
+              (group-by-two p)))
            replace-patterns)))
 
 (defn conjugate [infinitive unify-with replace-patterns]
@@ -52,24 +47,15 @@
                           (string/replace infinitive from to)))))
                   replace-patterns)))))
 
-(defn group-by-two [remaining]
-  (if (> (count remaining) 1)
-    (cons
-     [(nth remaining 0)
-      (nth remaining 1)]
-     (group-by-two (rest (rest remaining))))))
-
 (defn compile-patterns [unify-with patterns]
-  (mapcat (fn [{g :g agr :agr p :p u :u}]
-            (let [u (unify unify-with
-                              (or agr :top)
-                              (or u :top))]
-              (map (fn [pair]
-                     {:u u
-                      :g g
-                      :agr agr
-                      :p pair})
-                   (group-by-two p))))
+  (map (fn [{g :g agr :agr p :p u :u}]
+         (let [u (unify unify-with
+                        (or agr :top)
+                        (or u :top))]
+           {:u u
+            :g g
+            :agr agr
+            :p p}))
        patterns))
 
 (defn do-replace-on [infinitive patterns]
@@ -79,3 +65,10 @@
         (cons (string/replace infinitive from to)
               (do-replace-on infinitive (rest (rest patterns))))
         (do-replace-on infinitive (rest (rest patterns)))))))
+
+(defn group-by-two [remaining]
+  (if (not (empty? (rest remaining)))
+    (cons
+     [(nth remaining 0)
+      (nth remaining 1)]
+     (group-by-two (rest (rest remaining))))))

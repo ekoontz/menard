@@ -641,37 +641,19 @@
        (get-in word '(:italiano))))
 
 (defn regular-conditional [word]
-  (let [infinitive (get-in word '(:italiano))
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                        infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        drop-e (get-in word '(:italiano :drop-e) false)
-        stem (stem-for-future infinitive drop-e)]
-    
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "ei")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "esti")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "ebbe")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "emmo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "este")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "ebbero")
-      
-      :else
-      (get-in word '(:italiano)))))
+  (let [unifying-patterns
+        (mapcat #(if (not (= :fail (unify (:u %) word)))
+                   (:g %))
+                patterns-conditional)
+        infinitive (get-in word [:italiano])]
+    (let [conjugations (do-replace-on infinitive unifying-patterns)]
+      (if (empty? conjugations)
+        (throw (Exception. (str "no conjugation found for infinitive: " infinitive))))
+      (if (not (empty? (rest conjugations)))
+        (log/warn (str "more than one conjugation found for infinitive:'" infinitive "': "
+                       (string/join "," (vec (set conjugations)))
+                       "; word: " (dag_unify.core/strip-refs word))))
+      (first conjugations))))
 
 (defn irregular-imperfect-1sing? [word]
   (and

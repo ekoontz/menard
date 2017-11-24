@@ -7,6 +7,7 @@
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [{:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :1st}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2rei"]
   :p [
       #"(.*)erei"     "$1are"
       #"(.*)cherei"   "$1care"   ;; cercherei -> cercare
@@ -33,6 +34,7 @@
 
  {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :2nd}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2resti"]
   :p [
       #"(.*)esti"       "$1e"     ;; faresti -> fare
       #"(.*)eresti"     "$1are"
@@ -57,6 +59,7 @@
  
  {:agr {:synsem {:subcat {:1 {:agr {:number :sing
                                     :person :3rd}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2rebbe"]
   :p [
       #"(.*)chebbe"     "$1care"
       #"(.*)cherebbe"   "$1care"
@@ -81,6 +84,7 @@
  
  {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :1st}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2remmo"]
   :p [
       #"(.*)cheremmo"   "$1care"   ;; giocheremmo -> giocare
       #"(.*)eramo"     "$1ere"
@@ -105,6 +109,7 @@
  
  {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                        :person :2nd}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2reste"]
   :p [
       #"(.*)areste"     "$1are"
       #"(.*)cheste"     "$1care"  ;; caricheste -> caricare
@@ -129,6 +134,7 @@
 
  {:agr {:synsem {:subcat {:1 {:agr {:number :plur
                                     :person :3rd}}}}}
+  :g [#"^(.*)([aei])re$" "$1$2rebbero"]
   :p [
       #"(.*)chebbero"     "$1care"
       #"(.*)cherebbero"   "$1care"

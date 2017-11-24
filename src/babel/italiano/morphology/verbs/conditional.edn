@@ -5,8 +5,8 @@
 ;;
 ;; TODO: fill in uncommented blanks below:
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
-[{:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :1st}}}}}
+[{:agr {:number :sing
+        :person :1st}
   :g [#"^(.*)([aei])re$" "$1$2rei"]
   :p [
       #"(.*)erei"     "$1are"
@@ -32,8 +32,8 @@
       #"(.*)rrei"     "$1nere"   ;; rimarrei -> rimanere
       ]}
 
- {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :2nd}}}}}
+ {:agr {:number :sing
+        :person :2nd}
   :g [#"^(.*)([aei])re$" "$1$2resti"]
   :p [
       #"(.*)esti"       "$1e"     ;; faresti -> fare
@@ -57,8 +57,8 @@
       #"(.*)rresti"     "$1nere"  ;; rimarresti -> rimanere
       ]}
  
- {:agr {:synsem {:subcat {:1 {:agr {:number :sing
-                                    :person :3rd}}}}}
+ {:agr {:number :sing
+        :person :3rd}
   :g [#"^(.*)([aei])re$" "$1$2rebbe"]
   :p [
       #"(.*)chebbe"     "$1care"
@@ -82,8 +82,8 @@
       #"(.*)rrebbe"     "$1nere"  ;; rimarrebbe -> rimanere
       ]}
  
- {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :1st}}}}}
+ {:agr {:number :plur
+        :person :1st}
   :g [#"^(.*)([aei])re$" "$1$2remmo"]
   :p [
       #"(.*)cheremmo"   "$1care"   ;; giocheremmo -> giocare
@@ -107,8 +107,8 @@
       #"(.*)eremmo"     "$1iare"
       ]}
  
- {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                       :person :2nd}}}}}
+ {:agr {:number :plur
+        :person :2nd}
   :g [#"^(.*)([aei])re$" "$1$2reste"]
   :p [
       #"(.*)areste"     "$1are"
@@ -132,8 +132,8 @@
       #"(.*)rreste"     "$1nire"  ;; verreste -> venire
       ]}
 
- {:agr {:synsem {:subcat {:1 {:agr {:number :plur
-                                    :person :3rd}}}}}
+ {:agr {:number :plur
+        :person :3rd}
   :g [#"^(.*)([aei])re$" "$1$2rebbero"]
   :p [
       #"(.*)chebbero"     "$1care"

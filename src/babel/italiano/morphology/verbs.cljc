@@ -650,9 +650,9 @@
       (if (empty? conjugations)
         (throw (Exception. (str "no conjugation found for infinitive: " infinitive))))
       (if (not (empty? (rest conjugations)))
-        (log/warn (str "more than one conjugation found for infinitive:'" infinitive "': "
-                       (string/join "," (vec (set conjugations)))
-                       "; word: " (dag_unify.core/strip-refs word))))
+        (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
+                                (string/join "," (vec (set conjugations)))
+                                "; word: " (dag_unify.core/strip-refs word)))))
       (first conjugations))))
 
 (defn irregular-imperfect-1sing? [word]

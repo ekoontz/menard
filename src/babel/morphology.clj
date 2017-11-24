@@ -1,7 +1,7 @@
 (ns babel.morphology
   (:require [clojure.tools.logging :as log]
             [clojure.string :as string]
-            [dag_unify.core :refer [fail? strip-refs unify unifyc]]))
+            [dag_unify.core :refer [fail? strip-refs unify]]))
 
 (defn analyze [surface-form lexicon replace-patterns]
   "Analyze a single surface form into a set of lexical forms."
@@ -25,7 +25,7 @@
                        lex (string/replace surface-form from to)]
                    (filter (fn [result] (not (= :fail result)))
                            (map (fn [lexical-entry]
-                                  (unifyc unify-with lexical-entry))
+                                  (unify unify-with lexical-entry))
                                 (get lexicon lex)))))))
            replace-patterns)))
 
@@ -45,8 +45,8 @@
                           unify-against (or (:u replace-pattern) :top)]
                       (if (and from to
                                (re-matches from infinitive)
-                               (not (fail? (unifyc unify-against
-                                                   unify-with))))
+                               (not (fail? (unify unify-against
+                                                  unify-with))))
                         (do
                           (log/debug (str "found match: replace-pattern=" replace-pattern))
                           (string/replace infinitive from to)))))

@@ -41,7 +41,7 @@
                                 (:g %))
                              patterns-conditional))
         infinitive (get-in word [:italiano])]
-    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
+    (first (do-replace-on infinitive unifying-patterns))))
 
 ;; </conditional>
 
@@ -66,7 +66,7 @@
                                 (:g %))
                              patterns-future))
         infinitive (get-in word [:italiano])]
-    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
+    (first (do-replace-on infinitive unifying-patterns))))
 ;; </future>
 
 ;; <imperfect>
@@ -91,7 +91,7 @@
                                 (:g %))
                              patterns-imperfect))
         infinitive (get-in word [:italiano])]
-    (first (remove nil? (do-replace-on infinitive unifying-patterns)))))
+    (first (do-replace-on infinitive unifying-patterns))))
 ;; </imperfect>
 
 ;; <present>

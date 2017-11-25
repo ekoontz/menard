@@ -883,108 +883,14 @@
    (string? (get-in word '(:italiano)))))
 
 (defn regular-present [word]
-  ;; TODO: use (defn stem-analysis [word])
-  (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
-                     (get-in word [:infinitive])
-                     (get-in word [:italiano]))
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        are-type (try (re-find #"are$" infinitive)
-                      (catch Exception e
-                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
-        ere-type (re-find #"ere$" infinitive)
-        ire-type (re-find #"ire$" infinitive)
-        stem (cond (and (get-in word [:boot-stem1])
-                        (or (= (get-in word [:agr :number])
-                               :sing)
-                            (and (= (get-in word [:agr :person])
-                                    :3rd)
-                                 (= (get-in word [:agr :number])
-                                    :plur))))
-                   (get-in word [:boot-stem1])
-                   true
-                   (string/replace infinitive #"[iae]re$" ""))
-        last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
-        last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
-        is-care-or-gare? (re-find #"[cg]are$" infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
-    (cond
-      
-      (and (= person :1st) (= number :sing)
-           (get-in word [:boot-stem1]))
-      (str (get-in word [:boot-stem1]) "o")
-      
-      (and (= person :2nd) (= number :sing)
-           (get-in word [:boot-stem1]))
-      (str (get-in word [:boot-stem1]) "i")
-      
-      (and (= person :3rd) (= number :sing)
-           (get-in word [:boot-stem1]))
-      (str (get-in word [:boot-stem1]) "e")
-      
-      (and (= person :1st) (= number :sing))
-      (str stem "o")
-      
-      (and (= person :2nd) (= number :sing)
-           last-stem-char-is-i)
-      ;; do not add 'i' at the end here to prevent double i:
-      (str stem "")
-      
-      (and is-care-or-gare? 
-           (= person :2nd) (= number :sing))
-      (str stem "hi")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "i")
-      
-      (and (= person :3rd) (= number :sing) (or ire-type ere-type))
-      (str stem "e")
-      
-      (and (= person :3rd) (= number :sing) are-type)
-      (str stem "a")
-      
-      (and (= person :1st) (= number :plur)
-           last-stem-char-is-i)
-      (str stem "amo")
-      
-      (and is-care-or-gare?
-           (= person :1st) (= number :plur))
-      (str stem "hiamo")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "iamo")
-      
-      (and (= person :2nd) (= number :plur) are-type)
-      (str stem "ate")
-      
-      (and (= person :2nd) (= number :plur) ere-type)
-      (str stem "ete")
-      
-      (and (= person :2nd) (= number :plur) ire-type)
-      (str stem "ite")
-      
-      (and (= person :3rd) (= number :plur)
-           (get-in word [:boot-stem1]))
-      (str (get-in word [:boot-stem1]) "ono")
-      
-      (and (= person :3rd) (= number :plur)
-           ire-type)
-      (str stem "ono")
-      
-      (and (= person :3rd) (= number :plur)
-           ere-type)
-      (str stem "ono")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "ano")
-      
-      :else
-      (str infinitive ))))
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             patterns-present))
+        infinitive (get-in word [:italiano])]
+    (first (do-replace-on infinitive unifying-patterns))))
 
-  ;; <irregular gerund inflection>
+;; <irregular gerund inflection>
 (defn irregular-gerund? [word]
   (and
    (= (get-in word [:infl]) :participle)

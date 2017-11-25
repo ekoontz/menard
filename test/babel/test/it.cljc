@@ -263,6 +263,26 @@
                             (is (not (empty? parsed)))))
                         expressions))))))
 
+(deftest roundtrip-present
+  (let [do-this-many 10
+        expressions (take do-this-many
+                          (repeatedly
+                           #(generate {:synsem {:cat :verb
+                                                :infl :present
+                                                :sem {:tense :present
+                                                      :aspect :progressive}
+                                                :subcat ()}}
+                                      :model (small))))]
+    (is (= do-this-many
+           (count (map-fn (fn [expr]
+                            (let [surface (morph expr)
+                                  parsed (reduce concat (map :parses (parse surface)))]
+                              (if (not (empty? parsed))
+                                (log/info (str "parse OK:" surface))
+                                (log/error (str "parse failed: " surface)))
+                              (is (not (empty? parsed)))))
+                          expressions))))))
+
 (deftest roundtrip-future
   (let [do-this-many 10
         expressions (take do-this-many

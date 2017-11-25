@@ -9,23 +9,27 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])))
 
+(defn patterns-with-agr [patterns]
+  (map (fn [{g :g
+             agr :agr
+             p :p
+             u :u}]
+         {:g g
+          :p p
+          :u u
+          :agr {:agr agr}})
+       patterns))
+
 ;; <conditional>
 (let [patterns
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/conditional.edn")
           slurp
-          read-string)
-      patterns-with-agr
-      (map (fn [{g :g
-                 agr :agr
-                 p :p}]
-             {:g g
-              :p p
-              :agr {:agr agr}})
-           patterns)]
+          read-string
+          patterns-with-agr)]
   (defonce patterns-conditional
     (compile-patterns
      {:synsem {:infl :conditional}}
-     patterns-with-agr)))
+     patterns)))
 
 (defn regular-conditional? [word]
   (and (= (get-in word [:infl]) :conditional)
@@ -45,7 +49,8 @@
 (let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
           slurp
-          read-string)]
+          read-string
+          patterns-with-agr)]
   (defonce patterns-future
     (compile-patterns
      {:synsem {:infl :future}}
@@ -68,7 +73,8 @@
 (let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
           slurp
-          read-string)]
+          read-string
+          patterns-with-agr)]
   (defonce patterns-imperfect
     (compile-patterns
      {:synsem {:infl :imperfect}}
@@ -92,7 +98,8 @@
 (let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/present.edn")
           slurp
-          read-string)]
+          read-string
+          patterns-with-agr)]
   (defonce patterns-present
     (compile-patterns
      {:synsem {:infl :present}}
@@ -103,7 +110,8 @@
 (let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/passato.edn")
           slurp
-          read-string)]
+          read-string
+          patterns-with-agr)]
   (def patterns-passato
     (compile-patterns
      {:synsem {:infl :past}}
@@ -114,7 +122,8 @@
 (let [source
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/subjunctive.edn")
           slurp
-          read-string)]
+          read-string
+          patterns-with-agr)]
   (def patterns-subjunctive
     (compile-patterns
      {:synsem {:infl :past}}

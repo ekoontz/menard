@@ -7,7 +7,8 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
-(def replace-patterns
+;; TODO: add :g as with babel.italiano.morphlogy.verbs/patterns.
+(defone patterns
   [
 
    {:p [#"^c$" "ci"] ;; "c'" -> "ce"

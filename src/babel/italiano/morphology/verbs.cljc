@@ -122,7 +122,7 @@
           slurp
           read-string
           patterns-with-agr)]
-  (def patterns-passato
+  (defonce patterns-passato
     (compile-patterns
      {:synsem {:infl :past}}
      source)))

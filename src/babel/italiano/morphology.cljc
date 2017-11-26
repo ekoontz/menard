@@ -95,13 +95,13 @@
 (defn tokenize-prepositions-in [string & [match-pairs]]
   string)
   
-;; replace-patterns are declarative data that determine how analysis (inflected form ->root form)
+;; analysis-patterns are declarative data that determine how analysis (inflected form ->root form)
 ;; and conjugation (root form -> inflected form) are performed.
-(defonce replace-patterns
+(defonce analysis-patterns
   (concat
-   adjectives/replace-patterns
-   determiners/replace-patterns
-   nouns/replace-patterns
+   adjectives/patterns
+   determiners/patterns
+   nouns/patterns
    verbs/patterns))
 
 (declare get-string)
@@ -684,14 +684,14 @@
      concat)))
 
 (defn analyze-regular [surface-form lexicon]
-  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form, using the (defonce replace-patterns) defined above."
-  (language-independent/analyze surface-form lexicon replace-patterns))
+  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form, using the (defonce analysis-patterns) defined above."
+  (language-independent/analyze surface-form lexicon analysis-patterns))
 
 (declare analyze-capitalization-variant)
 
 (defn analyze
   "take the union of: 
-      - analyzing _surface-form_ according to the (defonce replace-patterns) above
+      - analyzing _surface-form_ according to the (defonce analysis-patterns) above
       - looking up _surface-form_ in the supplied lexicon."
   [surface-form lexicon]
   (mapcat (fn [each-variant]

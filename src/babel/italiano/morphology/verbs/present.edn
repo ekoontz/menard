@@ -8,7 +8,7 @@
 [
  {:agr {:number :sing
         :person :1st}
-  :boot-stem-plus "o" ;; uscire -> esco
+  :boot-stem [#"^(.*i)re$" "$1sco"] ;; finire -> finisco
   :g [#"[aei]re$"  "o"
       #"[aei]rsi$" "o"]
   :p [#"(.*)o$"         "$1are"
@@ -21,7 +21,7 @@
       ]}
  {:agr {:number :sing
         :person :2nd}
-  :boot-stem-plus "i" ;; uscire -> esci 
+  :boot-stem [#"^(.*i)re$" "$1sci"] ;; finire -> finisci
   :g [#"care$"     "chi"
       #"carsi$"    "chi"
       #"[aei]re$"  "i"
@@ -42,7 +42,7 @@
  
  {:agr {:number :sing
         :person :3rd}
-  :boot-stem-plus "e" ;; uscire -> esce 
+  :boot-stem [#"^(.*i)re$" "$1sce"] ;; finire -> finisce
   :g [#"are$"     "a"
       #"arsi$"    "a"
       #"[ei]re$"  "e"
@@ -82,7 +82,7 @@
  
  {:agr {:number :plur
         :person :3rd}
-  :boot-stem-plus    "ono" ;; uscire -> escono 
+  :boot-stem [#"^(.*i)re$" "$1scono"] ;; finire -> finiscono
   :g  [#"are$"       "ano"
        #"[ei]re$"    "ono"
        #"arsi$"      "ano"

@@ -19,12 +19,12 @@
 
 (defn patterns-with-agr [patterns]
   (map (fn [{agr :agr
-             boot-stem-g :boot-stem-g
+             boot-stem-plus :boot-stem-plus
              g :g
              p :p
              u :u}]
          {:agr {:agr agr}
-          :boot-stem-g boot-stem-g
+          :boot-stem-plus boot-stem-plus
           :g g
           :p p
           :u u})
@@ -440,14 +440,14 @@
                         (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         ere-type (re-find #"ere$" infinitive)
         ire-type (re-find #"ire$" infinitive)
-        boot-stem (cond (and (get-in word [:boot-stem-g])
+        boot-stem (cond (and (get-in word [:boot-stem])
                              (or (= (get-in word [:agr :number])
                                     :sing)
                                  (and (= (get-in word [:agr :person])
                                          :3rd)
                                       (= (get-in word [:agr :number])
                                          :plur))))
-                        (get-in word [:boot-stem-g])
+                        (get-in word [:boot-stem])
                         true
                         (string/replace infinitive #"[iae]re$" ""))
         
@@ -842,11 +842,17 @@
   (let [unifying-patterns
         (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
                                 (cond
-                                  (and (string? (get-in word [:boot-stem-g]))
-                                       (:boot-stem-g %))
-                                  (:boot-stem-g %)
+                                  (and (string? (get-in word [:boot-stem]))
+                                       (:boot-stem-plus %))
+                                  [#"^.*$" (str (get-in word [:boot-stem])(:boot-stem-plus %))]
+                                  
+                                  (nil? (get-in word [:boot-stem]))
+                                  (:g %)
+
                                   true
-                                  (:g %)))
+                                  (throw (Exception. (str "should not get here: word="
+                                                          (dag_unify.core/strip-refs word)
+                                                          " and replace-pattern=" %)))))
                              patterns-present))
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))

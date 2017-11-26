@@ -8,7 +8,7 @@
 [
  {:agr {:number :sing
         :person :1st}
-  :boot-stem-g [#"ire$" "isco"]
+  :boot-stem-plus "o" ;; uscire -> esco
   :g [#"[aei]re$"  "o"
       #"[aei]rsi$" "o"]
   :p [#"(.*)o$"         "$1are"
@@ -21,7 +21,7 @@
       ]}
  {:agr {:number :sing
         :person :2nd}
-  :boot-stem-g [#"ire$" "isci"]
+  :boot-stem-plus "i" ;; uscire -> esci 
   :g [#"care$"     "chi"
       #"carsi$"    "chi"
       #"[aei]re$"  "i"
@@ -42,7 +42,7 @@
  
  {:agr {:number :sing
         :person :3rd}
-  :boot-stem-g [#"ire$" "isce"]
+  :boot-stem-plus "e" ;; uscire -> esce 
   :g [#"are$"     "a"
       #"arsi$"    "a"
       #"[ei]re$"  "e"
@@ -82,20 +82,20 @@
  
  {:agr {:number :plur
         :person :3rd}
-  :boot-stem-g [#"ire$" "iscono"]
-  :g [#"are$"     "ano"
-      #"[ei]re$"  "ono"
-      #"arsi$"    "ano"
-      #"[ei]rsi$" "ono"]
-  :p [#"(.*)ano$"       "$1are"
-      #"(.*)ono$"       "$1ere"
-      #"(.*)ono$"       "$1ire"
-      #"(.*)ano$"       "$1arsi" ;; alzano -> alzarsi
-      #"(.*)scono$"     "$1re" ;; finiscono -> finire
-      #"(.*)ono$"       "$1irsi" ;; divertono -> divertirsi
-      #"(.*)cono$"      "$1re" ;; dicono -> dire
-      #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
-      ]}
+  :boot-stem-plus "ono" ;; uscire -> escono 
+  :g           [#"are$"       "ano"
+                #"[ei]re$"    "ono"
+                #"arsi$"      "ano"
+                #"[ei]rsi$"   "ono"]
+  :p           [#"(.*)ano$"   "$1are"
+                #"(.*)ono$"   "$1ere"
+                #"(.*)ono$"   "$1ire"
+                #"(.*)ano$"   "$1arsi" ;; alzano -> alzarsi
+                #"(.*)scono$" "$1re" ;; finiscono -> finire
+                #"(.*)ono$"   "$1irsi" ;; divertono -> divertirsi
+                #"(.*)cono$"  "$1re" ;; dicono -> dire
+                #"(.*)ono$"   "$1irsi" ;; vestono -> vestirsi
+                ]}
 ]
 
 

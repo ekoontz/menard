@@ -48,7 +48,6 @@
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))
 
-
 (defn regular-conditional-with-future-stem? [word]
   ;; regular inflection of conditional with :future-stem
   (and (= (get-in word [:infl]) :conditional)
@@ -173,6 +172,15 @@
     (compile-patterns
      {:synsem {:infl :past}}
      source)))
+
+(defn regular-passato [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+                                (:g %))
+                             patterns-passato))
+        infinitive (get-in word [:italiano])]
+    (first (do-replace-on infinitive unifying-patterns))))
+
 ;; </passato>
 
 ;; <subjunctive>
@@ -731,38 +739,8 @@
     (str butlast (suffix-of word))))
 
 (defn regular-passato? [word]
-  ;; conjugate regular passato
   (and (= :past (get-in word '(:infl)))
        (string? (get-in word '(:italiano)))))
-
-(defn regular-passato [word]
-  (let [infinitive (get-in word [:italiano]) ;; regular passato
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        
-        are-type (try (re-find #"are$" infinitive)
-                      (catch Exception e
-                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive)))))
-        ere-type (re-find #"ere$" infinitive)
-        ire-type (re-find #"ire$" infinitive)
-        stem (string/replace infinitive #"[iae]re$" "")
-        
-        ;; for passato prossimo, the last char depends on gender and number, if an essere-verb.
-        suffix (suffix-of word)]
-    (cond
-      ere-type
-      (str stem "ut" suffix) ;; "uto","uti","uta" or "ute"
-      
-      are-type
-      (str stem "at" suffix) ;; "ato","ati","ata", or "ate"
-      
-      (or are-type ire-type)
-      (str stem "it" suffix) ;; "ito","iti","ita", or "ite"
-      
-      true
-      (str "(regpast:TODO):" stem))))
 
 (defn irregular-present-1sing? [word]
   ;; <irregular present tense>

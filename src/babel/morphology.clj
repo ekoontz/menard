@@ -52,11 +52,11 @@
          (merge pattern
                 (let [{g :g agr :agr p :p u :u} pattern]
                   (let [u (unify unify-with
-                                 (or agr :top)
+                                 (if agr {:synsem {:agr agr}} :top)
                                  (or u :top))]
                     {:u u
                      :g g
-              :agr agr
+                     :agr agr
                      :p p}))))
        patterns))
 

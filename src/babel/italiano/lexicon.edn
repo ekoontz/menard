@@ -2082,7 +2082,10 @@
 
  "uscire" (let [common {:synsem {:cat :verb
                                  :essere true}
-                        :italiano {:boot-stem "esc"}}]
+                        :italiano {:present {:1sing "esco"
+                                             :2sing "esci"
+                                             :3sing "esce"
+                                             :3plur "escono"}}}]
             [{:unify [common]
               :synsem {:sem {:pred :go-out}}}
              {:unify [common]

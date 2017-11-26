@@ -390,6 +390,11 @@
 
 ;; TODO: replace 'a' and 'b' with 'left' and 'right': latter easier to talk about
 (defn get-string [a & [ b ]]
+  (if (nil? a)
+    (throw (Exception. (str "get-string: given nil."))))
+  (if (= a "")
+    (throw (Exception. (str "get-string: given empty string."))))
+
   (let [a (if (nil? a) "" a)
         b (if (nil? b) "" b)
         a (get-string-1 a)

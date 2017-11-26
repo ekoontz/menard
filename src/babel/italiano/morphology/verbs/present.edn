@@ -11,8 +11,7 @@
   :boot-stem1 [#"ire$" "isco"]
   :g [#"[aei]re$"  "o"
       #"[aei]rsi$" "o"]
-  :p [
-      #"(.*)o$"         "$1are"
+  :p [#"(.*)o$"         "$1are"
       #"(.*)o$"         "$1ere"
       #"(.*)isco$"      "$1ire"
       #"(.*)o$"         "$1ire"
@@ -27,8 +26,7 @@
       #"carsi$"    "chi"
       #"[aei]re$"  "i"
       #"[aei]rsi$" "i"]
-  :p [
-      #"(.*)i$"         "$1are" ;; lavi -> lavare
+  :p [#"(.*)i$"         "$1are" ;; lavi -> lavare
       #"(.*)i$"         "$1iare" ;; studi -> studiare
       #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
       #"(.*)cci$"       "$1cciare" ;; abbracci -> abbracciare
@@ -49,8 +47,7 @@
       #"arsi$"    "a"
       #"[ei]re$"  "e"
       #"[ei]rsi$" "e"]
-  :p [
-      #"(.*)a$"         "$1are"
+  :p [#"(.*)a$"         "$1are"
       #"(.*)e$"         "$1ere"
       #"(.*)e$"         "$1ire"
       #"(.*)a$"         "$1arsi" ;; prepara -> preperarsi
@@ -63,8 +60,7 @@
         :person :1st}
   :g [#"[aei]re$"  "iamo"
       #"[aei]rsi$" "iamo"]
-  :p [
-      #"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
+  :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
       #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
       #"(.*)iamo$"      "$1ere"
       #"(.*)iamo$"      "$1ire"
@@ -80,8 +76,7 @@
         :person :2nd}
   :g [#"([aei])re$"  "$1te"
       #"([aei])rsi$" "$1te"]
-  :p [
-      #"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
+  :p [#"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
       #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
       ]}
  
@@ -92,8 +87,7 @@
       #"[ei]re$"  "ono"
       #"arsi$"    "ano"
       #"[ei]rsi$" "ono"]
-  :p [
-      #"(.*)ano$"       "$1are"
+  :p [#"(.*)ano$"       "$1are"
       #"(.*)ono$"       "$1ere"
       #"(.*)ono$"       "$1ire"
       #"(.*)ano$"       "$1arsi" ;; alzano -> alzarsi

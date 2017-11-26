@@ -8,24 +8,33 @@
 [
  {:agr {:number :sing
         :person :1st}
-  :boot-stem [#"^(.*i)re$" "$1sco"] ;; finire -> finisco
+  :boot-verb false
   :g [#"[aei]re$"  "o"
       #"[aei]rsi$" "o"]
   :p [#"(.*)o$"         "$1are"
       #"(.*)o$"         "$1ere"
-      #"(.*)isco$"      "$1ire"
       #"(.*)o$"         "$1ire"
       #"(.*)o$"         "$1arsi" ;; alzo -> alzarsi
       #"(.*)o$"         "$1irsi" ;; diverto -> divertirso
       #"(.*)ico$"       "$1ire" ;; dico -> dire
       ]}
+
+ {:agr {:number :sing
+        :person :1st}
+  :boot-verb true
+  :g [#"^(.*i)re$" "$1sco"] ;; finire -> finisco
+  :p [#"(.*i)sco$"      "$1re"
+      ]}
+
  {:agr {:number :sing
         :person :2nd}
-  :boot-stem [#"^(.*i)re$" "$1sci"] ;; finire -> finisci
+  :boot-stem false
   :g [#"care$"     "chi"
       #"carsi$"    "chi"
-      #"[aei]re$"  "i"
-      #"[aei]rsi$" "i"]
+      #"([^i])[aei]re$"  "$1i"
+      #"([^i])[aei]rsi$" "$1i"
+      #"(i)[aei]re$"     "$1" ;; studiare -> studi
+      #"(i)[aei]rsi$"    "$1"]
   :p [#"(.*)i$"         "$1are" ;; lavi -> lavare
       #"(.*)i$"         "$1iare" ;; studi -> studiare
       #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
@@ -39,10 +48,17 @@
       #"(.*)ici$"       "$1ire" ;; dici -> dire
       #"(.*)hi$"        "$1are" ;; pieghi -> piegare
       ]}
+
+ {:agr {:number :sing
+        :person :2nd}
+  :boot-verb true
+  :g [#"^(.*i)re$" "$1sci"] ;; finire -> finisci
+  :p [#"(.*i)sci$"       "$1re" ;; finisci -> finire
+      ]}
  
  {:agr {:number :sing
         :person :3rd}
-  :boot-stem [#"^(.*i)re$" "$1sce"] ;; finire -> finisce
+  :boot-verb false
   :g [#"are$"     "a"
       #"arsi$"    "a"
       #"[ei]re$"  "e"
@@ -51,15 +67,24 @@
       #"(.*)e$"         "$1ere"
       #"(.*)e$"         "$1ire"
       #"(.*)a$"         "$1arsi" ;; prepara -> preperarsi
-      #"(.*)sce$"       "$1re" ;; finisce -> finire
       #"(.*)te$"        "$1tirsi" ;; diverte -> divertirsi
       #"(.*)ice$"       "$1ire" ;; dice -> dire
+      ]}
+
+ {:agr {:number :sing
+        :person :3rd}
+  :boot-verb true
+  :g [#"^(.*i)re$" "$1sce"] ;; finire -> finisce
+  :p [#"(.*i)sce$"       "$1re" ;; finisce -> finire
       ]}
  
  {:agr {:number :plur
         :person :1st}
-  :g [#"[aei]re$"  "iamo"
-      #"[aei]rsi$" "iamo"]
+  :g [#"([^i])[aei]re$"  "$1iamo"    ;; parlare -> parliamo
+      #"([^i])[aei]rsi$" "$1iamo"
+      #"(i)[aei]re$"     "$1amo" ;; tagliare -> tagliamo
+      #"(i)[aei]rsi$"    "$1amo"]
+
   :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
       #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
       #"(.*)iamo$"      "$1ere"
@@ -82,7 +107,7 @@
  
  {:agr {:number :plur
         :person :3rd}
-  :boot-stem [#"^(.*i)re$" "$1scono"] ;; finire -> finiscono
+  :boot-verb false
   :g  [#"are$"       "ano"
        #"[ei]re$"    "ono"
        #"arsi$"      "ano"
@@ -91,10 +116,16 @@
        #"(.*)ono$"   "$1ere"
        #"(.*)ono$"   "$1ire"
        #"(.*)ano$"   "$1arsi" ;; alzano -> alzarsi
-       #"(.*)scono$" "$1re" ;; finiscono -> finire
        #"(.*)ono$"   "$1irsi" ;; divertono -> divertirsi
        #"(.*)cono$"  "$1re" ;; dicono -> dire
        #"(.*)ono$"   "$1irsi" ;; vestono -> vestirsi
+       ]}
+
+ {:agr {:number :plur
+        :person :3rd}
+  :boot-verb true
+  :g [#"^(.*i)re$" "$1scono"] ;; finire -> finiscono
+  :p  [#"(.*)scono$" "$1re" ;; finiscono -> finire
        ]}
  ]
 

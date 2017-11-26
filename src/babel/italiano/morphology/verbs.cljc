@@ -14,20 +14,15 @@
        (morph/compile-patterns unify-with)
        (map (fn [pattern]
               (merge pattern
-                     {:boot-stem
-                      (:boot-stem pattern)})))))
+                     {:boot-verb 
+                      (:boot-verb pattern :top)})))))
 
 (defn patterns-with-agr [patterns]
-  (map (fn [{agr :agr
-             boot-stem :boot-stem
-             g :g
-             p :p
-             u :u}]
-         {:agr {:agr agr}
-          :boot-stem boot-stem
-          :g g
-          :p p
-          :u u})
+  (map (fn [pattern]
+         (let [{agr :agr} pattern]
+           (merge pattern
+                  {:agr agr ;; {:agr agr}
+                   })))
        patterns))
 
 ;; <conditional>
@@ -72,7 +67,9 @@
 
 (defn regular-future [word]
   (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+        (remove nil? (mapcat #(when (not (= :fail
+                                            (unify word
+                                                   {:agr (:agr %)})))
                                 (:g %))
                              patterns-future))
         infinitive (get-in word [:italiano])]
@@ -97,7 +94,9 @@
 
 (defn regular-imperfect [word]
   (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+        (remove nil? (mapcat #(when (not (= :fail
+                                            (unify word
+                                                   {:agr (:agr %)})))
                                 (:g %))
                              patterns-imperfect))
         infinitive (get-in word [:italiano])]
@@ -614,7 +613,8 @@
 
 (defn regular-conditional [word]
   (let [unifying-patterns
-        (mapcat #(if (not (= :fail (unify (:u %) word)))
+        (mapcat #(when (not (= :fail (unify word
+                                            {:agr (:agr %)})))
                    (:g %))
                 patterns-conditional)
         infinitive (get-in word [:italiano])]
@@ -624,7 +624,9 @@
       (if (not (empty? (rest conjugations)))
         (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
                                 (string/join "," (vec (set conjugations)))
-                                "; word: " (dag_unify.core/strip-refs word)))))
+                                "; word: " (dag_unify.core/strip-refs word)
+                                "; unifying-patterns: " (string/join "," (map dag_unify.core/strip-refs
+                                                                              unifying-patterns))))))
       (first conjugations))))
 
 (defn irregular-imperfect-1sing? [word]
@@ -840,19 +842,12 @@
 (defn regular-present [word]
   (log/debug (str "(regular-present " (dag_unify.core/strip-refs word) ")"))
   (let [unifying-patterns
-        (remove nil? (mapcat #(when (not (= :fail (unify (:u %) word)))
-                                (cond
-                                  (and (= true (get-in word [:boot-verb]))
-                                       (:boot-stem %))
-                                  (:boot-stem %)
-                                  
-                                  (nil? (get-in word [:boot-stem]))
-                                  (:g %)
-                                  
-                                  true
-                                  (throw (Exception. (str "should not get here: word="
-                                                          (dag_unify.core/strip-refs word)
-                                                          " and replace-pattern=" %)))))
+        (remove nil? (mapcat #(when
+                                  (not (= :fail
+                                          (unify word
+                                                 {:agr (:agr %)
+                                                  :boot-verb (:boot-verb % :top)})))
+                                (:g %))
                              patterns-present))
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))

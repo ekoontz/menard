@@ -14,17 +14,17 @@
        (morph/compile-patterns unify-with)
        (map (fn [pattern]
               (merge pattern
-                     {:boot-stem1
-                      (:boot-stem1 pattern)})))))
+                     {:boot-stem-g
+                      (:boot-stem-g pattern)})))))
 
 (defn patterns-with-agr [patterns]
   (map (fn [{agr :agr
-             boot-stem1 :boot-stem1
+             boot-stem-g :boot-stem-g
              g :g
              p :p
              u :u}]
          {:agr {:agr agr}
-          :boot-stem1 boot-stem1
+          :boot-stem-g boot-stem-g
           :g g
           :p p
           :u u})
@@ -452,18 +452,18 @@
                         (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
         ere-type (re-find #"ere$" infinitive)
         ire-type (re-find #"ire$" infinitive)
-        boot-stem (cond (and (get-in word [:boot-stem1])
+        boot-stem (cond (and (get-in word [:boot-stem-g])
                              (or (= (get-in word [:agr :number])
                                     :sing)
                                  (and (= (get-in word [:agr :person])
                                          :3rd)
                                       (= (get-in word [:agr :number])
                                          :plur))))
-                        (get-in word [:boot-stem1])
+                        (get-in word [:boot-stem-g])
                         true
                         (string/replace infinitive #"[iae]re$" ""))
         
-        ;; stem is stem without regard to :boot-stem1. It is
+        ;; stem is stem without regard to :boot-stem-g. It is
         ;; used for gerunds, e.g.: fornire -> 'io fornisco'
         ;; but 'io fornendo', not 'io forniscendo'.
         stem (string/replace infinitive #"[iae]re$" "")
@@ -854,9 +854,9 @@
   (let [unifying-patterns
         (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
                                 (cond
-                                  (and (string? (get-in word [:boot-stem1]))
-                                       (:boot-stem1 %))
-                                  (:boot-stem1 %)
+                                  (and (string? (get-in word [:boot-stem-g]))
+                                       (:boot-stem-g %))
+                                  (:boot-stem-g %)
                                   true
                                   (:g %)))
                              patterns-present))

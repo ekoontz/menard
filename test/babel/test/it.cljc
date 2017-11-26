@@ -3,7 +3,8 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph np-grammar parse preprocess small]]
+   [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph
+                                        np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]
    [babel.italiano.morphology :as morph :refer [analyze-regular replace-patterns]]
    [babel.italiano.morphology.nouns :as nouns]

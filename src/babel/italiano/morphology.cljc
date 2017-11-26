@@ -82,6 +82,7 @@
       (string/replace string from-pattern to))))
 
 (defn replace-over [strings]
+  ;; TODO: use mapcat rather than (reduce concat) for speed.
   (let [result (set (reduce concat
                             (map (fn [string]
                                    (map #(apply-one-rule string %)

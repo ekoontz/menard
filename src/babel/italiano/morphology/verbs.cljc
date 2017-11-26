@@ -425,7 +425,7 @@
      true
      infinitive)))
 
-;; TODO: remove once gerund rules are converted to .edn:
+;; TODO: remove (defn stem-analysis) once gerund rules are converted to .edn:
 ;; gerunds are the only place where stem-analysis is used.
 (defn stem-analysis [word]
   (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense

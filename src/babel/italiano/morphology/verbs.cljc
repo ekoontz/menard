@@ -425,18 +425,6 @@
      true
      infinitive)))
 
-(defn stem-for-imperfect [infinitive]
-  "_infinitive_ should be a string (italian verb infinitive form)"
-  ;; e.g.: lavarsi => lavare
-  (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)]
-    (cond
-     (re-find #"re$" infinitive)
-     (string/replace infinitive #"re$" "")
-     true
-     infinitive)))
-
 ;; TODO: remove once gerund rules are converted to .edn:
 ;; gerunds are the only place where stem-analysis is used.
 (defn stem-analysis [word]

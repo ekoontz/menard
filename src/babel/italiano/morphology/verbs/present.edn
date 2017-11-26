@@ -22,11 +22,11 @@
       ]}
  {:agr {:number :sing
         :person :2nd}
+  :boot-stem1 [#"ire$" "isci"]
   :g [#"care$"     "chi"
       #"carsi$"    "chi"
       #"[aei]re$"  "i"
       #"[aei]rsi$" "i"]
-  :boot-stem1 [#"ire$" "isci"]
   :p [
       #"(.*)i$"         "$1are" ;; lavi -> lavare
       #"(.*)i$"         "$1iare" ;; studi -> studiare
@@ -44,11 +44,11 @@
  
  {:agr {:number :sing
         :person :3rd}
+  :boot-stem1 [#"ire$" "isce"]
   :g [#"are$"     "a"
       #"arsi$"    "a"
       #"[ei]re$"  "e"
       #"[ei]rsi$" "e"]
-  :boot-stem1 [#"ire$" "isce"]
   :p [
       #"(.*)a$"         "$1are"
       #"(.*)e$"         "$1ere"
@@ -87,11 +87,11 @@
  
  {:agr {:number :plur
         :person :3rd}
+  :boot-stem1 [#"ire$" "iscono"]
   :g [#"are$"     "ano"
       #"[ei]re$"  "ono"
       #"arsi$"    "ano"
       #"[ei]rsi$" "ono"]
-  :boot-stem1 [#"ire$" "iscono"]
   :p [
       #"(.*)ano$"       "$1are"
       #"(.*)ono$"       "$1ere"

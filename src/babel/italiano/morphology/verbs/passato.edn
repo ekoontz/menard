@@ -101,7 +101,7 @@
       #"(.*)uto" "$1ersi"
       ]}
 
-j {:u {:synsem {:essere false}}
+ {:u {:synsem {:essere false}}
   :g [#"are$"  "ato"
       #"arsi$" "ato"
       #"ere$"  "uto" 

@@ -48,6 +48,54 @@
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))
 
+
+(defn regular-conditional-with-future-stem? [word]
+  ;; regular inflection of conditional with :future-stem
+  (and (= (get-in word [:infl]) :conditional)
+       (string? (get-in word '(:future-stem) :none))))
+
+(defn regular-conditional-with-future-stem [word]
+  (let [stem (get-in word '(:future-stem))
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        drop-e (get-in word '(:italiano :drop-e) false)]
+    (cond
+      (and (= person :1st) (= number :sing))
+      (str stem "ei")
+      
+      (and (= person :2nd) (= number :sing))
+      (str stem "esti")
+      
+      (and (= person :3rd) (= number :sing))
+      (str stem "ebbe")
+      
+      (and (= person :1st) (= number :plur))
+      (str stem "emmo")
+      
+      (and (= person :2nd) (= number :plur))
+      (str stem "este")
+      
+      (and (= person :3rd) (= number :plur))
+      (str stem "ebbero"))))
+
+(defn regular-conditional [word]
+  (let [unifying-patterns
+        (mapcat #(when (not (= :fail (unify word
+                                            {:agr (:agr %)})))
+                   (:g %))
+                patterns-conditional)
+        infinitive (get-in word [:italiano])]
+    (let [conjugations (do-replace-on infinitive unifying-patterns)]
+      (if (empty? conjugations)
+        (throw (Exception. (str "no conjugation found for infinitive: " infinitive))))
+      (if (not (empty? (rest conjugations)))
+        (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
+                                (string/join "," (vec (set conjugations)))
+                                "; word: " (dag_unify.core/strip-refs word)
+                                "; unifying-patterns: " (string/join "," (map dag_unify.core/strip-refs
+                                                                              unifying-patterns))))))
+      (first conjugations))))
+
 ;; </conditional>
 
 ;; <future>
@@ -576,58 +624,6 @@
       
       (and (= person :3rd) (= number :plur))
       (str stem "anno"))))
-
-(defn regular-conditional-with-future-stem? [word]
-  ;; regular inflection of conditional with :future-stem
-  (and (= (get-in word [:infl]) :conditional)
-       (string? (get-in word '(:future-stem) :none))))
-
-(defn regular-conditional-with-future-stem [word]
-  (let [stem (get-in word '(:future-stem))
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        drop-e (get-in word '(:italiano :drop-e) false)]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "ei")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "esti")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "ebbe")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "emmo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "este")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "ebbero"))))
-
-(defn regular-conditional? [word]
-  ;; regular inflection of conditional without :future-stem
-  (and (= (get-in word '(:infl)) :conditional)
-       (get-in word '(:italiano))))
-
-(defn regular-conditional [word]
-  (let [unifying-patterns
-        (mapcat #(when (not (= :fail (unify word
-                                            {:agr (:agr %)})))
-                   (:g %))
-                patterns-conditional)
-        infinitive (get-in word [:italiano])]
-    (let [conjugations (do-replace-on infinitive unifying-patterns)]
-      (if (empty? conjugations)
-        (throw (Exception. (str "no conjugation found for infinitive: " infinitive))))
-      (if (not (empty? (rest conjugations)))
-        (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
-                                (string/join "," (vec (set conjugations)))
-                                "; word: " (dag_unify.core/strip-refs word)
-                                "; unifying-patterns: " (string/join "," (map dag_unify.core/strip-refs
-                                                                              unifying-patterns))))))
-      (first conjugations))))
 
 (defn irregular-imperfect-1sing? [word]
   (and

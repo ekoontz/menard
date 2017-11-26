@@ -283,51 +283,6 @@
                   :agr {:number :plur
                         :person :3rd}}})}
    
-   ;; 2.1. present tense boot-stem
-   (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "o"))]
-     {:path [:italiano :boot-stem1]
-      :label "present boot-stem1: o"
-      :surface-form surface-form
-      :merge-fn
-      (fn [val]
-        {:italiano {:infl :present
-                    :italiano (surface-form val)
-                    :agr {:number :sing
-                          :person :1st}}})})
-   
-   (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "i"))]
-     {:path [:italiano :boot-stem1]
-      :label "present boot-stem1: i"
-      :surface-form surface-form
-      :merge-fn
-      (fn [val]
-        {:italiano {:infl :present
-                    :italiano (surface-form val)
-                    :agr {:number :sing
-                          :person :2nd}}})})
-   
-   (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "e"))]
-     {:path [:italiano :boot-stem1]
-      :label "present boot-stem1: e"
-      :surface-form surface-form
-      :merge-fn
-      (fn [val]
-        {:italiano {:infl :present
-                    :italiano (surface-form val)
-                    :agr {:number :sing
-                          :person :3rd}}})})
-   
-   (let [surface-form (fn [val] (str (get-in val [:italiano :boot-stem1]) "ono"))]
-     {:path [:italiano :boot-stem1]
-      :label "present boot-stem1: ono"
-      :surface-form surface-form
-      :merge-fn
-      (fn [val]
-        {:italiano {:infl :present
-                    :italiano (surface-form val)
-                    :agr {:number :plur
-                          :person :3rd}}})})
-   
    ;; 3. future-tense exceptions
    {:path [:italiano :future :1sing]
     :label "future 1sing"

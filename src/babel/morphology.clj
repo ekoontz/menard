@@ -48,14 +48,16 @@
                   replace-patterns)))))
 
 (defn compile-patterns [unify-with patterns]
-  (map (fn [{g :g agr :agr p :p u :u}]
-         (let [u (unify unify-with
-                        (or agr :top)
-                        (or u :top))]
-           {:u u
-            :g g
-            :agr agr
-            :p p}))
+  (map (fn [pattern]
+         (merge pattern
+                (let [{g :g agr :agr p :p u :u} pattern]
+                  (let [u (unify unify-with
+                                 (or agr :top)
+                                 (or u :top))]
+                    {:u u
+                     :g g
+              :agr agr
+                     :p p}))))
        patterns))
 
 (defn do-replace-on [infinitive patterns]

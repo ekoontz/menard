@@ -4,10 +4,13 @@
 ;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
 ;;
 ;; TODO: fill in uncommented blanks below:
-;;  add examples for every pattern, both parsing (:p) and generation (:g).
+;;  add examples for every pattern, both parsing (:p) and generation (:g and :boot-stem1).
 [
  {:agr {:number :sing
         :person :1st}
+  :boot-stem1 [#"ire$" "isco"]
+  :g [#"[aei]re$"  "o"
+      #"[aei]rsi$" "o"]
   :p [
       #"(.*)o$"         "$1are"
       #"(.*)o$"         "$1ere"
@@ -19,6 +22,11 @@
       ]}
  {:agr {:number :sing
         :person :2nd}
+  :g [#"care$"     "chi"
+      #"carsi$"    "chi"
+      #"[aei]re$"  "i"
+      #"[aei]rsi$" "i"]
+  :boot-stem1 [#"ire$" "isci"]
   :p [
       #"(.*)i$"         "$1are" ;; lavi -> lavare
       #"(.*)i$"         "$1iare" ;; studi -> studiare
@@ -36,7 +44,11 @@
  
  {:agr {:number :sing
         :person :3rd}
-
+  :g [#"are$"     "a"
+      #"arsi$"    "a"
+      #"[ei]re$"  "e"
+      #"[ei]rsi$" "e"]
+  :boot-stem1 [#"ire$" "isce"]
   :p [
       #"(.*)a$"         "$1are"
       #"(.*)e$"         "$1ere"
@@ -49,6 +61,8 @@
  
  {:agr {:number :plur
         :person :1st}
+  :g [#"[aei]re$"  "iamo"
+      #"[aei]rsi$" "iamo"]
   :p [
       #"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
       #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare
@@ -64,6 +78,8 @@
 
  {:agr {:number :plur
         :person :2nd}
+  :g [#"([aei])re$"  "$1te"
+      #"([aei])rsi$" "$1te"]
   :p [
       #"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
       #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
@@ -71,6 +87,11 @@
  
  {:agr {:number :plur
         :person :3rd}
+  :g [#"are$"     "ano"
+      #"[ei]re$"  "ono"
+      #"arsi$"    "ano"
+      #"[ei]rsi$" "ono"]
+  :boot-stem1 [#"ire$" "iscono"]
   :p [
       #"(.*)ano$"       "$1are"
       #"(.*)ono$"       "$1ere"
@@ -81,7 +102,7 @@
       #"(.*)cono$"      "$1re" ;; dicono -> dire
       #"(.*)ono$"       "$1irsi" ;; vestono -> vestirsi
       ]}
- ]
+]
 
 
 

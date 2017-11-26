@@ -3,21 +3,31 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.morphology :refer [compile-patterns do-replace-on group-by-two]]
+   [babel.morphology :as morph :refer [do-replace-on group-by-two]]
    [clojure.string :as string]
    [dag_unify.core :refer [get-in unify]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])))
 
+(defn compile-patterns [unify-with patterns]
+  (->> patterns
+       (morph/compile-patterns unify-with)
+       (map (fn [pattern]
+              (merge pattern
+                     {:boot-stem1
+                      (:boot-stem1 pattern)})))))
+
 (defn patterns-with-agr [patterns]
-  (map (fn [{g :g
-             agr :agr
+  (map (fn [{agr :agr
+             boot-stem1 :boot-stem1
+             g :g
              p :p
              u :u}]
-         {:g g
+         {:agr {:agr agr}
+          :boot-stem1 boot-stem1
+          :g g
           :p p
-          :u u
-          :agr {:agr agr}})
+          :u u})
        patterns))
 
 ;; <conditional>
@@ -472,6 +482,8 @@
      true
      infinitive)))
 
+;; TODO: remove once gerund rules are converted to .edn:
+;; gerunds are the only place where stem-analysis is used.
 (defn stem-analysis [word]
   (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
                      (get-in word [:infinitive])
@@ -883,9 +895,15 @@
    (string? (get-in word '(:italiano)))))
 
 (defn regular-present [word]
+  (log/debug (str "(regular-present " (dag_unify.core/strip-refs word) ")"))
   (let [unifying-patterns
         (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
-                                (:g %))
+                                (cond
+                                  (and (string? (get-in word [:boot-stem1]))
+                                       (:boot-stem1 %))
+                                  (:boot-stem1 %)
+                                  true
+                                  (:g %)))
                              patterns-present))
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))

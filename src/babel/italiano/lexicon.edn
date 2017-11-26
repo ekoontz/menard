@@ -451,7 +451,7 @@
            :sem {:pet true
                  :pred :dog}}}
 
- "capire" {:italiano {:boot-stem1 "capisc"}
+ "capire" {:italiano {:boot-stem "capisc"}
            :synsem {:cat :verb
                     :sem {:pred :understand}}}
 
@@ -582,7 +582,7 @@
  "cittadino" {:synsem {:cat :adjective
                        :sem {:pred :local}}}
 
- "colpire" (let [common {:italiano {:boot-stem1 "colpisc"}}]
+ "colpire" (let [common {:italiano {:boot-stem "colpisc"}}]
              [{:unify [common]
                :synsem {:cat :verb
                         :sem {:pred :hit}}}
@@ -1027,7 +1027,7 @@
     ;;                        :sem {:pred :bad}}}}}
     ])
 
-"ferire"  {:italiano {:boot-stem1 "ferisc"}
+"ferire"  {:italiano {:boot-stem "ferisc"}
             :synsem {:cat :verb
                       :sem {:pred :wound}}}
 
@@ -1035,7 +1035,7 @@
                       :cat :noun
                       :sem {:pred :window}}}
 
- "finire"  {:italiano {:boot-stem1 "finisc"}
+ "finire"  {:italiano {:boot-stem "finisc"}
             :synsem {:cat :verb
                      :sem {:pred :finish}}}
 
@@ -1051,7 +1051,7 @@
 
  "fornire"  {:synsem {:cat :verb
                       :sem {:pred :furnish}}
-             :italiano {:boot-stem1 "fornisc"}}
+             :italiano {:boot-stem "fornisc"}}
 
  "frequentare"  {:synsem {:cat :verb
                       :sem {:pred :attend}}}
@@ -1068,7 +1068,7 @@
                     :sem {:pred :cat
                           :pet true}}}
 
- "gestire" {:italiano {:boot-stem1 "gestisc"}
+ "gestire" {:italiano {:boot-stem "gestisc"}
             :synsem {:sem {:pred :manage}
                      :cat :verb}}
  "giallo"
@@ -1642,16 +1642,16 @@
  "prestare" {:synsem {:cat :verb
                        :sem {:pred :lend}}}
 
- "preferire" {:italiano {:boot-stem1 "preferisc"}
+ "preferire" {:italiano {:boot-stem "preferisc"}
                 :synsem {:cat :verb
                         :sem {:pred :prefer}}}
 
 
- "pulire" {:italiano {:boot-stem1 "pulisc"}
+ "pulire" {:italiano {:boot-stem "pulisc"}
                :synsem {:cat :verb
                        :sem {:pred :clean}}}
 
- "punire" {:italiano {:boot-stem1 "punisc"}
+ "punire" {:italiano {:boot-stem "punisc"}
                :synsem {:cat :verb
                        :sem {:pred :punish}}}
 
@@ -1685,7 +1685,7 @@
                      :cat :verb
                      :sem {:pred :remain-re}}}
 
- "restituire" {:italiano {:boot-stem1 "restituisc"}
+ "restituire" {:italiano {:boot-stem "restituisc"}
                :synsem {:cat :verb
                         :sem {:pred :give-back-return}}}
 
@@ -1869,11 +1869,11 @@
  "spalmare" {:synsem {:cat :verb
                        :sem {:pred :spread-food}}}
 
- "sparire" {:italiano {:boot-stem1 "sparisc"}
+ "sparire" {:italiano {:boot-stem "sparisc"}
             :synsem {:cat :verb
                      :sem {:pred :disappear-sp}}}
 
-"spedire" {:italiano {:boot-stem1 "spedisc"}
+"spedire" {:italiano {:boot-stem "spedisc"}
             :synsem {:cat :verb
                      :sem {:pred :send-s}}}
 
@@ -2017,7 +2017,7 @@
  "trasferire"
  {:synsem {:cat :verb
            :sem {:pred :transfer}}
-  :italiano {:boot-stem1 "trasferisc"}}
+  :italiano {:boot-stem "trasferisc"}}
 
   "trovare"
   {:synsem {:cat :verb
@@ -2087,7 +2087,7 @@
  "uscire" (let [common {:synsem {:cat :verb
                                  :essere true}
                         :italiano {:italiano "uscire"
-                                   :boot-stem1 "esc"}}]
+                                   :boot-stem "esc"}}]
             [{:unify [common]
               :synsem {:sem {:pred :go-out}}}
              {:unify [common]

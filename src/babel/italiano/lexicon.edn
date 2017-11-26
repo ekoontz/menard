@@ -2086,8 +2086,7 @@
 
  "uscire" (let [common {:synsem {:cat :verb
                                  :essere true}
-                        :italiano {:italiano "uscire"
-                                   :boot-stem "esc"}}]
+                        :italiano {:boot-stem "esc"}}]
             [{:unify [common]
               :synsem {:sem {:pred :go-out}}}
              {:unify [common]

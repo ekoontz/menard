@@ -82,21 +82,21 @@
  
  {:agr {:number :plur
         :person :3rd}
-  :boot-stem-plus "ono" ;; uscire -> escono 
-  :g           [#"are$"       "ano"
-                #"[ei]re$"    "ono"
-                #"arsi$"      "ano"
-                #"[ei]rsi$"   "ono"]
-  :p           [#"(.*)ano$"   "$1are"
-                #"(.*)ono$"   "$1ere"
-                #"(.*)ono$"   "$1ire"
-                #"(.*)ano$"   "$1arsi" ;; alzano -> alzarsi
-                #"(.*)scono$" "$1re" ;; finiscono -> finire
-                #"(.*)ono$"   "$1irsi" ;; divertono -> divertirsi
-                #"(.*)cono$"  "$1re" ;; dicono -> dire
-                #"(.*)ono$"   "$1irsi" ;; vestono -> vestirsi
-                ]}
-]
+  :boot-stem-plus    "ono" ;; uscire -> escono 
+  :g  [#"are$"       "ano"
+       #"[ei]re$"    "ono"
+       #"arsi$"      "ano"
+       #"[ei]rsi$"   "ono"]
+  :p  [#"(.*)ano$"   "$1are"
+       #"(.*)ono$"   "$1ere"
+       #"(.*)ono$"   "$1ire"
+       #"(.*)ano$"   "$1arsi" ;; alzano -> alzarsi
+       #"(.*)scono$" "$1re" ;; finiscono -> finire
+       #"(.*)ono$"   "$1irsi" ;; divertono -> divertirsi
+       #"(.*)cono$"  "$1re" ;; dicono -> dire
+       #"(.*)ono$"   "$1irsi" ;; vestono -> vestirsi
+       ]}
+ ]
 
 
 

@@ -271,8 +271,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present
                                                       :aspect :simple}
-                                                :subcat ()}}
-                                      :model (small))))]
+                                                :subcat ()}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)
@@ -401,8 +400,7 @@
                             :sem {:subj {:pred :loro}
                                   :pred :manage
                                   :aspect :simple
-                                  :tense :present}}}
-                  :model (small))]
+                                  :tense :present}}})]
     (is (= "loro gestiscono" (morph result)))))
 
 (deftest casa-generate

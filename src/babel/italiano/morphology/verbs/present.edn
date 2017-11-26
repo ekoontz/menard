@@ -31,10 +31,12 @@
   :boot-stem false
   :g [#"care$"     "chi"
       #"carsi$"    "chi"
-      #"([^i])[aei]re$"  "$1i"
-      #"([^i])[aei]rsi$" "$1i"
+      #"([^ci])[aei]re$"  "$1i"
+      #"([^ci])[aei]rsi$" "$1i"
       #"(i)[aei]re$"     "$1" ;; studiare -> studi
-      #"(i)[aei]rsi$"    "$1"]
+      #"(i)[aei]rsi$"    "$1"
+      #"care$"           "$chi" ;; caricare -> carichi
+      #"carsi$"          "$chi"]
   :p [#"(.*)i$"         "$1are" ;; lavi -> lavare
       #"(.*)i$"         "$1iare" ;; studi -> studiare
       #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
@@ -80,10 +82,13 @@
  
  {:agr {:number :plur
         :person :1st}
-  :g [#"([^i])[aei]re$"  "$1iamo"    ;; parlare -> parliamo
-      #"([^i])[aei]rsi$" "$1iamo"
+  :g [#"([^ci])[aei]re$"  "$1iamo"    ;; parlare -> parliamo
+      #"([^ci])[aei]rsi$" "$1iamo"
       #"(i)[aei]re$"     "$1amo" ;; tagliare -> tagliamo
-      #"(i)[aei]rsi$"    "$1amo"]
+      #"(i)[aei]rsi$"    "$1amo"
+      #"care$"           "$chiamo" ;; caricare -> carichiamo
+      #"carsi$"          "$chiamo"
+      ]
 
   :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
       #"(.*)iamo$"      "$1iare" ;; mangiamo -> mangiare

@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.italiano :as italiano :refer [analyze generate morph parse]]
             [babel.italiano.grammar :as grammar]
-            [babel.italiano.morphology :as morph :refer [analyze-regular fo replace-patterns]]
+            [babel.italiano.morphology :as morph :refer [analyze-regular fo patterns]]
             [babel.italiano.morphology.nouns :as nouns]
             [babel.italiano.morphology.verbs :as verbs]
             [babel.parse :as parse]

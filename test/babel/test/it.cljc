@@ -6,7 +6,7 @@
    [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph
                                         np-grammar parse preprocess small]]
    [babel.italiano.grammar :as grammar :refer [model]]
-   [babel.italiano.morphology :as morph :refer [analyze-regular replace-patterns]]
+   [babel.italiano.morphology :as morph :refer [analyze-regular]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])

@@ -9,10 +9,13 @@
  {:agr {:number :sing
         :gender :fem}
   :u {:synsem {:essere true}}
-  :g [#"[ae]re$"  "ata"
-      #"[ae]rsi$" "ata"
-      #"ire$"     "ita"
-      #"irsi$"    "ita"]
+  :g [#"are$"  "ata"
+      #"arsi$" "ata"
+      #"ere$"  "uta" 
+      #"ersi$" "uta"
+      #"ire$"  "ita" 
+      #"irsi$" "ita"
+      ]
   :p [
       #"(.*)esa"       "$1eso"
       #"(.*)([aiu])ta" "$1$2to"
@@ -31,10 +34,12 @@
  {:u {:synsem {:essere true}}
   :agr {:number :plur
         :gender :fem}
-  :g [#"[ae]re$"  "ate"
-      #"[ae]rsi$" "ate"
-      #"ire$"     "ite"
-      #"irsi$"    "ite"]
+  :g [#"are$"  "ate"
+      #"arsi$" "ate"
+      #"ere$"  "ute" 
+      #"ersi$" "ute"
+      #"ire$"  "ite"
+      #"irsi$" "ite"]
   :p [
       #"(.*)ese"       "$1eso"
       #"(.*)([aiu])te" "$1$2to"
@@ -57,10 +62,12 @@
  {:u {:synsem {:essere true}}
   :agr {:number :plur
         :gender :masc}
-  :g [#"[ae]re$"  "ati"
-      #"[ae]rsi$" "ati"
-      #"ire$"     "iti"
-      #"irsi$"    "iti"]
+  :g [#"are$"  "ati"
+      #"arsi$" "ati"
+      #"ere$"  "uti" 
+      #"ersi$" "uti"
+      #"ire$"  "iti"
+      #"irsi$" "iti"]
   :p [
       #"(.*)esi"       "$1eso"
       #"(.*)([aiu])ti" "$1$2to"
@@ -77,10 +84,12 @@
   }
  
  {:u {:synsem {:essere true}}
-  :g [#"[ae]re$"  "ato"
-      #"[ae]rsi$" "ato"
-      #"ire$"     "ito"
-      #"irsi$"    "ito"]
+  :g [#"are$"  "ato"
+      #"arsi$" "ato"
+      #"ere$"  "uto" 
+      #"ersi$" "uto"
+      #"ire$"  "ito"
+      #"irsi$" "ito"]
   :agr {:number :sing
         :gender :masc}
   :p [
@@ -92,7 +101,13 @@
       #"(.*)uto" "$1ersi"
       ]}
 
- {:u {:synsem {:essere false}}
+j {:u {:synsem {:essere false}}
+  :g [#"are$"  "ato"
+      #"arsi$" "ato"
+      #"ere$"  "uto" 
+      #"ersi$" "uto"
+      #"ire$"  "ito"
+      #"irsi$" "ito"]
   :p [
       #"(.*)ato" "$1are"
       #"(.*)ato" "$1arsi"

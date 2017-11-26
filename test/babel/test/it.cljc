@@ -268,9 +268,8 @@
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
-                                                :infl :present
                                                 :sem {:tense :present
-                                                      :aspect :progressive}
+                                                      :aspect :simple}
                                                 :subcat ()}}
                                       :model (small))))]
     (is (= do-this-many

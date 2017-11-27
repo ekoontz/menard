@@ -39,8 +39,8 @@
             (let [cache-value (get @lexical-cache k)]
               (if (= cache-value :none) nil
                   cache-value))))]
-    (log/debug (str "default-fn: nil? " (nil? default-fn)))
-    (log/debug (str "pre-default: count: " (count pre-default)))
+    (log/trace (str "default-fn: nil? " (nil? default-fn)))
+    (log/trace (str "pre-default: count: " (count pre-default)))
     (cond (nil? default-fn)
           pre-default
           true
@@ -169,12 +169,6 @@
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))
-                                      debug (if (not (empty? left-lexemes))
-                                              (log/debug (str "#lexemes found for left:'" (string/join "','" left-strings) "':"
-                                                              (count left-lexemes))))
-                                      debug (if (not (empty? right-lexemes))
-                                              (log/debug (str "#lexemes found for right:'" (string/join "','" right-strings) "':"
-                                                              (count right-lexemes))))
                                       ]
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
@@ -197,14 +191,14 @@
                                                                   model)))
                                                   trees))]
                                        (if (not (empty? trees))
-                                         (log/debug (str "parse/parses: trees: "
+                                         (log/trace (str "parse/parses: trees: "
                                                          (string/join ","
                                                                       (map #(morph-ps %) trees))))
-                                         (log/debug (str "no trees found for left/right:")))
-                                       (log/debug (str " left: "
+                                         (log/trace (str "no trees found for left/right:")))
+                                       (log/trace (str " left: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) left-signs))))
-                                       (log/debug (str " right: "
+                                       (log/trace (str " right: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) right-signs))))
                                        (if parse-with-truncate truncated-trees trees)))
@@ -304,9 +298,9 @@
   (let [head-first? (get-in tree [:first] :none)
         cat (str (get-in tree [:synsem :cat]) "")]
     (if (= true (get-in tree [:phrasal]))
-      (do (log/debug (str "fo-ps: rule at top of tree: " (get-in tree [:rule])))
-          (log/debug (str "fo-ps: " (strip-refs tree))))
-      (log/debug (str "fo-ps: leaf: " (strip-refs tree))))
+      (do (log/trace (str "fo-ps: rule at top of tree: " (get-in tree [:rule])))
+          (log/trace (str "fo-ps: " (strip-refs tree))))
+      (log/trace (str "fo-ps: leaf: " (strip-refs tree))))
     (cond
       (and (= :none (get-in tree [:head] :none))
            (= :none (get-in tree [:comp] :none))

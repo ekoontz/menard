@@ -25,6 +25,12 @@
                    })))
        patterns))
 
+(defn patterns-with-essere [patterns]
+  (map (fn [pattern]
+         (merge pattern
+                {:essere (get-in pattern [:synsem :essere] :top)}))
+       patterns))
+
 ;; <conditional>
 (let [patterns
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/conditional.edn")
@@ -167,7 +173,8 @@
       (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/passato.edn")
           slurp
           read-string
-          patterns-with-agr)]
+          patterns-with-agr
+          patterns-with-essere)]
   (defonce patterns-passato
     (compile-patterns
      {:synsem {:infl :past}}
@@ -175,7 +182,10 @@
 
 (defn regular-passato [word]
   (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
+        (remove nil? (mapcat #(when (not (= :fail
+                                            (unify word
+                                                   {:agr (:agr %)
+                                                    :essere (:essere %)})))
                                 (:g %))
                              patterns-passato))
         infinitive (get-in word [:italiano])]

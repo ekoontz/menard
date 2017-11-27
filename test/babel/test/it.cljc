@@ -253,7 +253,8 @@
                                                 :sem {:tense :present
                                                       :aspect :perfect
                                                       :obj :unspec}
-                                                :subcat ()}})))]
+                                                :subcat ()}}
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [surface (morph expr)
@@ -271,7 +272,8 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present
                                                       :aspect :simple}
-                                                :subcat ()}})))]
+                                                :subcat ()}}
+                                      :model (small))))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)

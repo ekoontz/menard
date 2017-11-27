@@ -2129,7 +2129,7 @@
 
  "vincere"  {:synsem {:cat :verb
                       :sem {:pred :win}}
-                    :italiano {:passato "vinto"}}
+             :italiano {:passato "vinto"}}
 
  "vino" {:synsem {:agr {:gender :masc}
                   :cat :noun

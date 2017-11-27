@@ -251,9 +251,9 @@
                            #(generate {:synsem {:cat :verb
                                                 :essere true
                                                 :sem {:tense :present
-                                                      :aspect :perfect}
-                                                :subcat ()}}
-                                      :model (small))))]
+                                                      :aspect :perfect
+                                                      :obj :unspec}
+                                                :subcat ()}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [surface (morph expr)

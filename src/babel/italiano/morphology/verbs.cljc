@@ -536,12 +536,7 @@
    (map? (get-in word '(:future)))))
 
 (defn irregular-future [word]
-  (let [infinitive (get-in word '(:italiano)) ;; future irregular
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        person (get-in word '(:agr :person))
+  (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (cond
       (and (= person :1st) (= number :sing))

@@ -681,15 +681,6 @@
   (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
   (get-in word '(:passato)))
 
-(defn passato-stem? [word]
-  (and (= :past (get-in word '(:infl)))
-       (get-in word '(:passato-stem))))
-
-(defn passato-stem [word]
-  ;; conjugate irregular passato: option 1) using :passato-stem
-  (let [irregular-passato (get-in word '(:passato-stem))]
-    (str irregular-passato (suffix-of word))))
-
 (defn irregular-passato? [word]
   ;; conjugate irregular passato: option 2) using :passato
   (and (= :past (get-in word '(:infl)))
@@ -865,9 +856,6 @@
     
     (irregular-passato? word)
     (irregular-passato word)
-    
-    (passato-stem? word)
-    (passato-stem word)
     
     (irregular-passato? word)
     (irregular-passato word)

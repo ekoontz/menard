@@ -89,8 +89,8 @@
       #"([^ci])[aei]rsi$" "$1iamo"
       #"(i)[aei]re$"     "$1amo" ;; tagliare -> tagliamo
       #"(i)[aei]rsi$"    "$1amo"
-      #"care$"           "$chiamo" ;; caricare -> carichiamo
-      #"carsi$"          "$chiamo"
+      #"care$"           "chiamo" ;; caricare -> carichiamo
+      #"carsi$"          "chiamo"
       #"cere$"           "ciamo" ;; vincere -> vinciamo
       #"cersi$"          "ciamo"
       ]

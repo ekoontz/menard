@@ -11,51 +11,54 @@
   :boot-verb false
   :g [#"[aei]re$"  "o"
       #"[aei]rsi$" "o"]
-  :p [#"(.*)o$"         "$1are"
-      #"(.*)o$"         "$1ere"
-      #"(.*)o$"         "$1ire"
-      #"(.*)o$"         "$1arsi" ;; alzo -> alzarsi
-      #"(.*)o$"         "$1irsi" ;; diverto -> divertirso
-      #"(.*)ico$"       "$1ire" ;; dico -> dire
+  :p [#"(.*)o$"           "$1are"
+      #"(.*)o$"           "$1ere"
+      #"(.*)o$"           "$1ire"
+      #"(.*)o$"           "$1arsi" ;; alzo -> alzarsi
+      #"(.*)o$"           "$1irsi" ;; diverto -> divertirso
+      #"(.*)ico$"         "$1ire" ;; dico -> dire
       ]}
 
  {:agr {:number :sing
         :person :1st}
   :boot-verb true
-  :g [#"^(.*i)re$" "$1sco"] ;; finire -> finisco
-  :p [#"(.*i)sco$"      "$1re"
+  :g [#"^(.*i)re$"        "$1sco"] ;; finire -> finisco
+  :p [#"(.*i)sco$"        "$1re"
       ]}
 
  {:agr {:number :sing
         :person :2nd}
   :boot-stem false
-  :g [#"care$"     "chi"
-      #"carsi$"    "chi"
+  :g [#"care$"            "chi"
+      #"carsi$"           "chi"
       #"([^ci])[aei]re$"  "$1i"
       #"([^ci])[aei]rsi$" "$1i"
-      #"(i)[aei]re$"     "$1" ;; studiare -> studi
-      #"(i)[aei]rsi$"    "$1"
-      #"care$"           "$chi" ;; caricare -> carichi
-      #"carsi$"          "$chi"]
-  :p [#"(.*)i$"         "$1are" ;; lavi -> lavare
-      #"(.*)i$"         "$1iare" ;; studi -> studiare
-      #"(.*)i$"         "$1arsi" ;; lavi -> lavarsi
-      #"(.*)cci$"       "$1cciare" ;; abbracci -> abbracciare
-      #"(.*)i$"         "$1ere"
-      #"(.*)i$"         "$1ire" ;; senti -> sentire
-      #"(.*c)hi$"       "$1are" ;; cerchi -> cercare
-      #"(.*)i$"         "$1iarsi" ;; arrabi -> arrabiarsi
-      #"(.*)sci$"       "$1re" ;; finisci -> finire
-      #"(.*)i$"         "$1irsi" ;; diverti -> divertirsi
-      #"(.*)ici$"       "$1ire" ;; dici -> dire
-      #"(.*)hi$"        "$1are" ;; pieghi -> piegare
+      #"(i)[aei]re$"      "$1" ;; studiare -> studi
+      #"(i)[aei]rsi$"     "$1"
+      #"care$"            "chi" ;; caricare -> carichi
+      #"carsi$"           "chi"
+      #"cere$"            "ci" ;; vincere -> vinci
+      #"cersi$"           "ci"
+      ]
+  :p [#"(.*)i$"           "$1are" ;; lavi -> lavare
+      #"(.*)i$"           "$1iare" ;; studi -> studiare
+      #"(.*)i$"           "$1arsi" ;; lavi -> lavarsi
+      #"(.*)cci$"         "$1cciare" ;; abbracci -> abbracciare
+      #"(.*)i$"           "$1ere"
+      #"(.*)i$"           "$1ire" ;; senti -> sentire
+      #"(.*c)hi$"         "$1are" ;; cerchi -> cercare
+      #"(.*)i$"           "$1iarsi" ;; arrabi -> arrabiarsi
+      #"(.*)sci$"         "$1re" ;; finisci -> finire
+      #"(.*)i$"           "$1irsi" ;; diverti -> divertirsi
+      #"(.*)ici$"         "$1ire" ;; dici -> dire
+      #"(.*)hi$"          "$1are" ;; pieghi -> piegare
       ]}
 
  {:agr {:number :sing
         :person :2nd}
   :boot-verb true
-  :g [#"^(.*i)re$" "$1sci"] ;; finire -> finisci
-  :p [#"(.*i)sci$"       "$1re" ;; finisci -> finire
+  :g [#"^(.*i)re$"        "$1sci"] ;; finire -> finisci
+  :p [#"(.*i)sci$"        "$1re" ;; finisci -> finire
       ]}
  
  {:agr {:number :sing
@@ -65,18 +68,18 @@
       #"arsi$"    "a"
       #"[ei]re$"  "e"
       #"[ei]rsi$" "e"]
-  :p [#"(.*)a$"         "$1are"
-      #"(.*)e$"         "$1ere"
-      #"(.*)e$"         "$1ire"
-      #"(.*)a$"         "$1arsi" ;; prepara -> preperarsi
-      #"(.*)te$"        "$1tirsi" ;; diverte -> divertirsi
-      #"(.*)ice$"       "$1ire" ;; dice -> dire
+  :p [#"(.*)a$"           "$1are"
+      #"(.*)e$"           "$1ere"
+      #"(.*)e$"           "$1ire"
+      #"(.*)a$"           "$1arsi" ;; prepara -> preperarsi
+      #"(.*)te$"          "$1tirsi" ;; diverte -> divertirsi
+      #"(.*)ice$"         "$1ire" ;; dice -> dire
       ]}
 
  {:agr {:number :sing
         :person :3rd}
   :boot-verb true
-  :g [#"^(.*i)re$" "$1sce"] ;; finire -> finisce
+  :g [#"^(.*i)re$"       "$1sce"] ;; finire -> finisce
   :p [#"(.*i)sce$"       "$1re" ;; finisce -> finire
       ]}
  
@@ -88,6 +91,8 @@
       #"(i)[aei]rsi$"    "$1amo"
       #"care$"           "$chiamo" ;; caricare -> carichiamo
       #"carsi$"          "$chiamo"
+      #"cere$"           "ciamo" ;; vincere -> vinciamo
+      #"cersi$"          "ciamo"
       ]
 
   :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare

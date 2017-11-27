@@ -3,7 +3,7 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.morphology :as morph :refer [do-replace-on group-by-two]]
+   [babel.morphology :as morph :refer [do-replace-on]]
    [clojure.string :as string]
    [dag_unify.core :refer [get-in unify]]
    #?(:clj [clojure.tools.logging :as log])
@@ -21,8 +21,7 @@
   (map (fn [pattern]
          (let [{agr :agr} pattern]
            (merge pattern
-                  {:agr agr ;; {:agr agr}
-                   })))
+                  {:agr agr})))
        patterns))
 
 (defn patterns-with-essere [patterns]
@@ -447,48 +446,6 @@
                   :italiano (get-in val [:italiano :conditional :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}])
-
-(defn stem-for-future [infinitive drop-e]
-  "turn an infinitive form into a stem that can be conjugated in the future tense."
-
-  ;; e.g.: lavarsi => lavare
-  (let [infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)]
-    (cond
-     (re-find #"giare$" infinitive)
-     (string/replace infinitive #"giare$" "ger")
-
-     (re-find #"ciare$" infinitive)
-     (string/replace infinitive #"ciare$" "cer")
-
-     (re-find #"gare$" infinitive)
-     (string/replace infinitive #"gare$" "gher")
-
-     (re-find #"care$" infinitive)
-     (string/replace infinitive #"care$" "cher")
-
-     (and
-      (= true drop-e)
-      (re-find #"are$" infinitive))
-     (string/replace infinitive #"are$" "r")
-
-     (re-find #"are$" infinitive)
-     (string/replace infinitive #"are$" "er")
-
-     (and
-      (= true drop-e)
-      (re-find #"ere$" infinitive))
-     (string/replace infinitive #"ere$" "r")
-
-     (re-find #"ere$" infinitive)
-     (string/replace infinitive #"ere$" "er")
-
-     (re-find #"ire$" infinitive)
-     (string/replace infinitive #"ire$" "ir")
-
-     true
-     infinitive)))
 
 ;; TODO: remove (defn stem-analysis) once gerund rules are converted to .edn:
 ;; gerunds are the only place where stem-analysis is used.

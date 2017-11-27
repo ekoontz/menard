@@ -151,7 +151,7 @@
   [bolts path model]
   (if (not (empty? bolts))
     (do
-      (log/debug (str "add-comp-to-bolts: path=" (vec path) "; first bolt=" ((:morph-ps model) (first bolts))))
+      (log/trace (str "add-comp-to-bolts: path=" (vec path) "; first bolt=" ((:morph-ps model) (first bolts))))
       (lazy-cat
        (let [result
              (add-to-bolt-at-path (first bolts) path model)]

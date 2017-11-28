@@ -564,40 +564,6 @@
       (do (log/warn (str "get-string-1 could not match: " word))
           word))))
 
-;; future: 2) future-stem specified
-(defn regular-future-with-future-stem? [word]
-  (and false (= (get-in word '(:infl)) :future)
-       (get-in word '(:future-stem))))
-
-(defn regular-future-with-future-stem [word]
-  (let [stem (get-in word '(:future-stem))
-        number (get-in word [:agr :number])
-        person (get-in word [:agr :person])
-        patterns patterns-future]
-    (-> patterns
-        (map (fn [pattern]
-               (let [[from to] (nth (:g pattern))]
-                 from)))
-        (remove nil?))
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "ò")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "ai")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "à")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "emo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "ete")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "anno"))))
-
 (defn irregular-imperfect-1sing? [word]
   (and
    (= (get-in word '(:infl)) :imperfect)
@@ -820,9 +786,6 @@
   (cond
     (irregular-future? word)
     (irregular-future word)
-    
-    (regular-future-with-future-stem? word)
-    (regular-future-with-future-stem word)
     
     (regular-future? word)
     (regular-future word)

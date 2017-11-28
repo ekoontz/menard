@@ -124,7 +124,10 @@
                                                    {:agr (:agr %)})))
                                 (:g %))
                              patterns-future))
-        infinitive (get-in word [:italiano])]
+        ;; check for :future-stem - if so, use that for infinitive when calling (do-replace-on)
+        infinitive (get-in word [:future-stem]
+                           (get-in word [:italiano]))]
+    (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
     (first (do-replace-on infinitive unifying-patterns))))
 ;; </future>
 
@@ -563,7 +566,7 @@
 
 ;; future: 2) future-stem specified
 (defn regular-future-with-future-stem? [word]
-  (and (= (get-in word '(:infl)) :future)
+  (and false (= (get-in word '(:infl)) :future)
        (get-in word '(:future-stem))))
 
 (defn regular-future-with-future-stem [word]

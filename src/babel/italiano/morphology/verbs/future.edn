@@ -10,6 +10,9 @@
   :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
       #"^(.*)care$"   "$1cherò" ;; caricare
       #"^(.*)ire$"    "$1irò" ;; dormire
+
+      ;; :future-stem
+      #"^(.*r)$" "$1ò" ;; vivere -> vivrò
       ]
   :p [#"(.*)erò"     "$1are"  ;; parlerò -> parlare
       #"(.*)cherò"   "$1care" ;; cercherò -> cercare
@@ -38,6 +41,10 @@
         :number :sing}
   :g [#"^(.*)[ae]re$" "$1erai" ;; parlare -> parlerai
       #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
+
+      ;; :future-stem
+      #"^(.*r)$" "$1ai"
+
       ]
   :p [#"(.*)ai"       "$1e"     ;; farai -> fare
       #"(.*)erai"     "$1are"   ;; mangere -> mangerai
@@ -80,17 +87,25 @@
       #"(.*)rà"      "$1re"
       #"(.*)errà"    "$1enire" ;; sverrà -> svenire
       #"(.*)rà"      "$1ere" ;; potrà -> potere
+
+      ;; stem rules
       #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
       #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
       ]
   :g [#"^(.*)[ae]re$"  "$1erà" ;; parlare,ricevere
       #"^(.*)ire$"     "$1irà" ;; dormire
+
+      ;; :future-stem
+      #"^(.*r)$" "$1à"
+
       ]
   }
  {:agr {:person :1st
         :number :plur}
   :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
       #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+      ;; :future-stem
+      #"^(.*r)$" "$1emo"
       ]
   :p [#"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
       #"(.*)eramo"     "$1ere"
@@ -118,6 +133,8 @@
         :number :plur}
   :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
       #"^(.*)ire$"    "$1irete" ;; finire => finiremo
+      ;; :future-stem:
+      #"^(.*r)$" "$1ete"
       ]
   :p [
       #"(.*)arete"     "$1are"
@@ -146,6 +163,8 @@
   
   :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
       #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+      ;; :future-stem:
+      #"^(.*r)$" "$1anno"
       ]
   :p [
       #"(.*)rranno"     "$1nere"

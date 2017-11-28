@@ -47,51 +47,18 @@
 
 (defn regular-conditional [word]
   (let [unifying-patterns
-        (remove nil? (mapcat #(if (not (= :fail (unify (:u %) word)))
-                                (:g %))
-                             patterns-conditional))
-        infinitive (get-in word [:italiano])]
-    (first (do-replace-on infinitive unifying-patterns))))
-
-(defn regular-conditional-with-future-stem? [word]
-  ;; regular inflection of conditional with :future-stem
-  (and (= (get-in word [:infl]) :conditional)
-       (string? (get-in word '(:future-stem) :none))))
-
-(defn regular-conditional-with-future-stem [word]
-  (let [stem (get-in word '(:future-stem))
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))
-        drop-e (get-in word '(:italiano :drop-e) false)]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (str stem "ei")
-      
-      (and (= person :2nd) (= number :sing))
-      (str stem "esti")
-      
-      (and (= person :3rd) (= number :sing))
-      (str stem "ebbe")
-      
-      (and (= person :1st) (= number :plur))
-      (str stem "emmo")
-      
-      (and (= person :2nd) (= number :plur))
-      (str stem "este")
-      
-      (and (= person :3rd) (= number :plur))
-      (str stem "ebbero"))))
-
-(defn regular-conditional [word]
-  (let [unifying-patterns
         (mapcat #(when (not (= :fail (unify word
                                             {:agr (:agr %)})))
                    (:g %))
                 patterns-conditional)
-        infinitive (get-in word [:italiano])]
+        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
+        ;; is expected to be the infinitive for verbs.
+        infinitive (get-in word [:future-stem]
+                           (get-in word [:italiano]))]
     (let [conjugations (do-replace-on infinitive unifying-patterns)]
       (if (empty? conjugations)
-        (throw (Exception. (str "no conjugation found for infinitive: " infinitive))))
+        (throw (Exception. (str "no conjugation found for infinitive: " infinitive " with unifying patterns: "
+                                (string/join "," unifying-patterns)))))
       (if (not (empty? (rest conjugations)))
         (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
                                 (string/join "," (vec (set conjugations)))
@@ -124,7 +91,8 @@
                                                    {:agr (:agr %)})))
                                 (:g %))
                              patterns-future))
-        ;; check for :future-stem - if so, use that for infinitive when calling (do-replace-on)
+        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
+        ;; is expected to be the infinitive for verbs.
         infinitive (get-in word [:future-stem]
                            (get-in word [:italiano]))]
     (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
@@ -789,9 +757,6 @@
     
     (regular-future? word)
     (regular-future word)
-    
-    (regular-conditional-with-future-stem? word)
-    (regular-conditional-with-future-stem word)
     
     (regular-conditional? word)
     (regular-conditional word)

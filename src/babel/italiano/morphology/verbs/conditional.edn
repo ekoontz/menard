@@ -7,7 +7,12 @@
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [{:agr {:number :sing
         :person :1st}
-  :g [#"^(.*)([aei])re$" "$1$2rei"]
+  :g [#"^(.*)([aei])re$" "$1$2rei"
+
+      ;; :future-stem
+      #"^(.*r)$" "$1ei" ;; vivere -> vivrei
+
+      ]
   :p [
       #"(.*)erei"     "$1are"
       #"(.*)cherei"   "$1care"   ;; cercherei -> cercare
@@ -34,7 +39,11 @@
 
  {:agr {:number :sing
         :person :2nd}
-  :g [#"^(.*)([aei])re$" "$1$2resti"]
+  :g [#"^(.*)([aei])re$" "$1$2resti"
+      ;; :future-stem
+      #"^(.*r)$" "$1esti"
+      ]
+      
   :p [
       #"(.*)esti"       "$1e"     ;; faresti -> fare
       #"(.*)eresti"     "$1are"
@@ -59,7 +68,10 @@
  
  {:agr {:number :sing
         :person :3rd}
-  :g [#"^(.*)([aei])re$" "$1$2rebbe"]
+  :g [#"^(.*)([aei])re$" "$1$2rebbe"
+      ;; :future-stem
+      #"^(.*r)$" "$1ebbe"
+      ]      
   :p [
       #"(.*)chebbe"     "$1care"
       #"(.*)cherebbe"   "$1care"
@@ -84,7 +96,9 @@
  
  {:agr {:number :plur
         :person :1st}
-  :g [#"^(.*)([aei])re$" "$1$2remmo"]
+  :g [#"^(.*)([aei])re$" "$1$2remmo"
+      ;; :future-stem
+      #"^(.*r)$" "$1emmo"]
   :p [
       #"(.*)cheremmo"   "$1care"   ;; giocheremmo -> giocare
       #"(.*)eramo"     "$1ere"
@@ -109,7 +123,9 @@
  
  {:agr {:number :plur
         :person :2nd}
-  :g [#"^(.*)([aei])re$" "$1$2reste"]
+  :g [#"^(.*)([aei])re$" "$1$2reste"
+      ;; :future-stem
+      #"^(.*r)$" "$1este"]
   :p [
       #"(.*)areste"     "$1are"
       #"(.*)cheste"     "$1care"  ;; caricheste -> caricare
@@ -134,7 +150,9 @@
 
  {:agr {:number :plur
         :person :3rd}
-  :g [#"^(.*)([aei])re$" "$1$2rebbero"]
+  :g [#"^(.*)([aei])re$" "$1$2rebbero"
+      ;; :future-stem
+      #"^(.*r)$" "$1ebbero"]
   :p [
       #"(.*)chebbero"     "$1care"
       #"(.*)cherebbero"   "$1care"

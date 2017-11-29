@@ -41,10 +41,6 @@
      {:synsem {:infl :conditional}}
      patterns)))
 
-(defn regular-conditional? [word]
-  (and (= (get-in word [:infl]) :conditional)
-       (get-in word [:italiano])))
-
 (defn regular-conditional [word]
   (let [unifying-patterns
         (mapcat #(when (not (= :fail (unify word
@@ -80,10 +76,6 @@
      {:synsem {:infl :future}}
      source)))
 
-(defn regular-future? [word]
-  (and (= (get-in word [:infl]) :future)
-       (get-in word [:italiano])))
-
 (defn regular-future [word]
   (let [unifying-patterns
         (remove nil? (mapcat #(when (not (= :fail
@@ -109,11 +101,6 @@
     (compile-patterns
      {:synsem {:infl :imperfect}}
      source)))
-
-(defn regular-imperfect? [word]
-  ;; regular imperfect sense
-  (and (= (get-in word '(:infl)) :imperfect)
-       (get-in word '(:italiano))))
 
 (defn regular-imperfect [word]
   (let [unifying-patterns
@@ -422,11 +409,6 @@
                   :agr {:number :plur
                         :person :3rd}}})}])
 
-(defn irregular-future? [word]
-  (and
-   (= (get-in word '(:infl)) :future)
-   (map? (get-in word '(:future)))))
-
 (defn irregular-future [word]
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
@@ -585,10 +567,6 @@
         butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
     (str butlast (suffix-of word))))
 
-(defn regular-passato? [word]
-  (and (= :past (get-in word '(:infl)))
-       (string? (get-in word '(:italiano)))))
-
 (defn irregular-present-1sing? [word]
   ;; <irregular present tense>
   (let [person (get-in word '(:agr :person))
@@ -655,11 +633,6 @@
 (defn irregular-present-3plur [word]
   (get-in word '(:present :3plur)))
 
-(defn regular-present? [word]
-  (and
-   (= (get-in word '(:infl)) :present)
-   (string? (get-in word '(:italiano)))))
-
 (defn regular-present [word]
   (log/debug (str "(regular-present " (dag_unify.core/strip-refs word) ")"))
   (let [unifying-patterns
@@ -682,30 +655,24 @@
 
 (defn irregular-gerund [word]
   (get-in word [:gerund]))
-;; </irregular gerund inflection>
-
-;; <default gerund inflection>
-(defn regular-gerund? [word]
-  (and
-   (= (get-in word [:infl]) :participle)
-   (string? (get-in word [:italiano]))))
 
 (defn regular-gerund [word]
   (let [unifying-patterns (mapcat :g
                                   patterns-gerund)
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))
-;; </default gerund inflection>
 
 (defn conjugate [word]
   (cond
-    (irregular-future? word)
+    (and
+     (= (get-in word '(:infl)) :future)
+     (map? (get-in word '(:future))))
     (irregular-future word)
     
-    (regular-future? word)
+    (= (get-in word [:infl]) :future)
     (regular-future word)
     
-    (regular-conditional? word)
+    (= (get-in word [:infl]) :conditional)
     (regular-conditional word)
     
     (irregular-imperfect-1sing? word)
@@ -726,7 +693,7 @@
     (irregular-imperfect-3plur? word)
     (irregular-imperfect-3plur word)
     
-    (regular-imperfect? word)
+    (= (get-in word [:infl]) :imperfect)
     (regular-imperfect word)
     
     (passato-as-head? word)
@@ -738,7 +705,7 @@
     (irregular-passato? word)
     (irregular-passato word)
     
-    (regular-passato? word)
+    (= :past (get-in word '(:infl)))
     (regular-passato word)
     
     (irregular-present-1sing? word)
@@ -759,13 +726,13 @@
     (irregular-present-3plur? word)
     (irregular-present-3plur word)
     
-    (regular-present? word)
+    (= (get-in word '(:infl)) :present)
     (regular-present word)
     
     (irregular-gerund? word)
     (irregular-gerund word)
     
-    (regular-gerund? word)
+   (= (get-in word [:infl]) :participle)
     (regular-gerund word)
 
     ))

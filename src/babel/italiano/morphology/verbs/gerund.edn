@@ -2,6 +2,8 @@
   :g [#"([ae])r(e|si)$" "$1ndo"
       #"ir(e|si)$"      "endo"]
   :p [#"(.*)ando$"      "$1are"
+      #"(.*)endo$"      "$1ere"
+      #"(.*)endo$"      "$1ire"
       #"(.*)ando$"      "$1arsi"]}]
 
 

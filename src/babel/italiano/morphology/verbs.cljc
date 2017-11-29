@@ -169,18 +169,22 @@
           slurp
           read-string
           patterns-with-agr)]
-  (def patterns-subjunctive
+  (defonce patterns-subjunctive
     (compile-patterns
      {:synsem {:infl :past}}
      source)))
 ;; </subjunctive>
 
-(defonce patterns-gerund
- (compile-patterns
-  {:synsem {:infl :participle}}
-  [{:agr :top
-    :p [#"(.*)ando$" "$1are"
-        #"(.*)ando$" "$1arsi"]}]))
+;; <gerund>
+(let [source
+      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/gerund.edn")
+          slurp
+          read-string)]
+  (defonce patterns-gerund
+    (compile-patterns
+     {:synsem {:infl :participle}}
+     source)))
+;; </gerund>
 
 (defonce patterns
   (map (fn [each]
@@ -418,89 +422,6 @@
                   :agr {:number :plur
                         :person :3rd}}})}])
 
-;; TODO: remove (defn stem-analysis) once gerund rules are converted to .edn:
-;; gerunds are the only place where stem-analysis is used.
-(defn stem-analysis [word]
-  (let [infinitive (if (get-in word [:infinitive]) ;; regular present tense
-                     (get-in word [:infinitive])
-                     (get-in word [:italiano]))
-        ;; e.g.: lavarsi => lavare
-        infinitive (if (re-find #"[aei]rsi$" infinitive)
-                     (string/replace infinitive #"si$" "e")
-                     infinitive)
-        are-type (try (re-find #"are$" infinitive)
-                      (catch Exception e
-                        (throw (Exception. (str "Can't regex-find on non-string: " infinitive " from word: " word)))))
-        ere-type (re-find #"ere$" infinitive)
-        ire-type (re-find #"ire$" infinitive)
-        boot-stem (cond (and (= true (get-in word [:boot-verb]))
-                             (or (= (get-in word [:agr :number])
-                                    :sing)
-                                 (and (= (get-in word [:agr :person])
-                                         :3rd)
-                                      (= (get-in word [:agr :number])
-                                         :plur))))
-                        (get-in word [:boot-verb])
-                        true
-                        (string/replace infinitive #"[iae]re$" ""))
-        
-        ;; stem is stem without regard to :boot-stem-g. It is
-        ;; used for gerunds, e.g.: fornire -> 'io fornisco'
-        ;; but 'io fornendo', not 'io forniscendo'.
-        stem (string/replace infinitive #"[iae]re$" "")
-
-        last-stem-char-is-i (re-find #"i[iae]re$" infinitive)
-        last-stem-char-is-e (re-find #"e[iae]re$" infinitive)
-        is-care-or-gare? (re-find #"[cg]are$" infinitive)
-        person (get-in word '(:agr :person))
-        number (get-in word '(:agr :number))]
-    {:infinitive infinitive
-     :are-type are-type
-     :ere-type ere-type
-     :ire-type ire-type
-     :boot-stem boot-stem
-     :stem stem
-     :last-stem-char-is-i last-stem-char-is-i
-     :last-stem-char-is-e last-stem-char-is-e
-     :is-care-or-gare? is-care-or-gare?
-     :person person
-     :number number}))
-
-(defn suffix-of [word]
-  "compute the final character given a lexical entry and agreement info in :agr."
-  (let [suffix (cond
-                 
-                 (and (= (get-in word '(:obj-agr :gender)) :fem)
-                      (= (get-in word '(:obj-agr :number)) :sing))
-                 "a"
-                 
-                 (and (= (get-in word '(:obj-agr :gender)) :fem)
-                      (= (get-in word '(:obj-agr :number)) :plur))
-                 "e"
-
-                 (= (get-in word '(:obj-agr :number)) :plur)
-                 "i"
-                 
-                 (and (= (get-in word '(:agr :gender)) :fem)
-                      (= (get-in word '(:agr :number)) :sing)
-                      (= (get-in word '(:essere)) true))
-                 "a"
-                 
-                 (and (= (get-in word '(:agr :gender)) :fem)
-                      (= (get-in word '(:agr :number)) :plur)
-                      (= (get-in word '(:essere)) true))
-                 "e"
-                 
-                 (and (= (get-in word '(:agr :number)) :plur)
-                      (= (get-in word '(:essere)) true))
-                 "i"
-                 
-                 true
-                 "o"
-                 
-                 )]
-    suffix))
-
 (defn irregular-future? [word]
   (and
    (= (get-in word '(:infl)) :future)
@@ -623,6 +544,42 @@
   (and (= :past (get-in word '(:infl)))
        (get-in word '(:passato))))
 
+
+(defn suffix-of [word]
+  "compute the final character given a lexical entry and agreement info in :agr."
+  (let [suffix (cond
+                 
+                 (and (= (get-in word '(:obj-agr :gender)) :fem)
+                      (= (get-in word '(:obj-agr :number)) :sing))
+                 "a"
+                 
+                 (and (= (get-in word '(:obj-agr :gender)) :fem)
+                      (= (get-in word '(:obj-agr :number)) :plur))
+                 "e"
+
+                 (= (get-in word '(:obj-agr :number)) :plur)
+                 "i"
+                 
+                 (and (= (get-in word '(:agr :gender)) :fem)
+                      (= (get-in word '(:agr :number)) :sing)
+                      (= (get-in word '(:essere)) true))
+                 "a"
+                 
+                 (and (= (get-in word '(:agr :gender)) :fem)
+                      (= (get-in word '(:agr :number)) :plur)
+                      (= (get-in word '(:essere)) true))
+                 "e"
+                 
+                 (and (= (get-in word '(:agr :number)) :plur)
+                      (= (get-in word '(:essere)) true))
+                 "i"
+                 
+                 true
+                 "o"
+                 
+                 )]
+    suffix))
+
 (defn irregular-passato [word]
   (let [irregular-passato (get-in word '(:passato))
         butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
@@ -734,20 +691,10 @@
    (string? (get-in word [:italiano]))))
 
 (defn regular-gerund [word]
-  (let [stem-analysis (stem-analysis word)
-        infinitive (:infinitive stem-analysis)
-        stem (:stem stem-analysis)]
-    (log/debug (str "cnonjugating present participle; analysis:" stem-analysis))
-    (cond (= "are" (:are-type stem-analysis))
-          (str stem "ando")
-          (= "ere" (:ere-type stem-analysis))
-          (str stem "endo")
-          (= "ire" (:ire-type stem-analysis))
-          (str stem "endo")
-          true
-          (do
-            (log/warn (str "no specific conjugation found for word with stem-analysis:" stem-analysis " - returning infinitive"))
-            infinitive))))
+  (let [unifying-patterns (mapcat :g
+                                  patterns-gerund)
+        infinitive (get-in word [:italiano])]
+    (first (do-replace-on infinitive unifying-patterns))))
 ;; </default gerund inflection>
 
 (defn conjugate [word]

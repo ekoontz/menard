@@ -1,0 +1,7 @@
+[{:agr {:top :top}
+  :g [#"([ae])r(e|si)$" "$1ndo"
+      #"ir(e|si)$"      "endo"]
+  :p [#"(.*)ando$"      "$1are"
+      #"(.*)ando$"      "$1arsi"]}]
+
+

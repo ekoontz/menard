@@ -409,56 +409,9 @@
                   :agr {:number :plur
                         :person :3rd}}})}])
 
-(defn irregular-future [word]
+(defn irregular [word exception-map]
   (let [person (get-in word [:agr :person])
-        number (get-in word [:agr :number])
-        exception-map (get-in word [:future])]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (get-in exception-map [:1sing])
-      (and (= person :2nd) (= number :sing))
-      (get-in exception-map [:2sing])
-      (and (= person :3rd) (= number :sing))
-      (get-in exception-map [:3sing])
-      (and (= person :1st) (= number :plur))
-      (get-in exception-map [:1plur])
-      (and (= person :2nd) (= number :plur))
-      (get-in exception-map [:2plur])
-      (and (= person :3rd) (= number :plur))
-      (get-in exception-map [:3plur])
-      
-      true ;; failthrough: should usually not get here:
-      ;; TODO: describe when it might be ok, i.e. why log/warn not log/error.
-      (throw (Exception. (str "irregular-future could not match: " word))))))
-
-;; TODO: convert to (defn irregular-imperfect [word])
-;; as above with (defn irregular-future [word])
-(defn irregular-imperfect [word]
-  (let [person (get-in word [:agr :person])
-        number (get-in word [:agr :number])
-        exception-map (get-in word [:imperfect])]
-    (cond
-      (and (= person :1st) (= number :sing))
-      (get-in exception-map [:1sing])
-      (and (= person :2nd) (= number :sing))
-      (get-in exception-map [:2sing])
-      (and (= person :3rd) (= number :sing))
-      (get-in exception-map [:3sing])
-      (and (= person :1st) (= number :plur))
-      (get-in exception-map [:1plur])
-      (and (= person :2nd) (= number :plur))
-      (get-in exception-map [:2plur])
-      (and (= person :3rd) (= number :plur))
-      (get-in exception-map [:3plur])
-      
-      true ;; failthrough: should usually not get here:
-      ;; TODO: describe when it might be ok, i.e. why log/warn not log/error.
-      (throw (Exception. (str "irregular-imperfect could not match: " word))))))
-
-(defn irregular-present [word]
-  (let [person (get-in word [:agr :person])
-        number (get-in word [:agr :number])
-        exception-map (get-in word [:present])]
+        number (get-in word [:agr :number])]
     (cond
       (and (= person :1st) (= number :sing)
            (get-in exception-map [:1sing]))
@@ -507,7 +460,6 @@
   ;; conjugate irregular passato: option 2) using :passato
   (and (= :past (get-in word '(:infl)))
        (get-in word '(:passato))))
-
 
 (defn suffix-of [word]
   "compute the final character given a lexical entry and agreement info in :agr."
@@ -582,21 +534,23 @@
 (defn conjugate [word]
   (cond
     (and
-     (= (get-in word '(:infl)) :future)
-     (map? (get-in word '(:future))))
-    (irregular-future word)
+     (= (get-in word [:infl]) :future)
+     (map? (get-in word [:future])))
+    (or (irregular word (get-in word [:future]))
+        (regular-future word))
     
     (= (get-in word [:infl]) :future)
     (regular-future word)
     
     (= (get-in word [:infl]) :conditional)
     (regular-conditional word)
-    
+
     (and
-     (= (get-in word '(:infl)) :imperfect)
-     (map? (get-in word '(:imperfect))))
-    (irregular-imperfect word)
-    
+     (= (get-in word [:infl]) :imperfect)
+     (map? (get-in word [:imperfect])))
+    (or (irregular word (get-in word [:imperfect]))
+        (regular-imperfect word))
+
     (= (get-in word [:infl]) :imperfect)
     (regular-imperfect word)
     
@@ -606,19 +560,16 @@
     (irregular-passato? word)
     (irregular-passato word)
     
-    (irregular-passato? word)
-    (irregular-passato word)
-    
-    (= :past (get-in word '(:infl)))
+    (= :past (get-in word [:infl]))
     (regular-passato word)
     
     (and
-     (= (get-in word '(:infl)) :present)
-     (map? (get-in word '(:present)))
-     (not (nil? (irregular-present word))))
-    (irregular-present word)
-    
-    (= (get-in word '(:infl)) :present)
+     (= (get-in word [:infl]) :present)
+     (map? (get-in word [:present])))
+    (or (irregular word (get-in word [:present]))
+        (regular-present word))
+
+    (= (get-in word [:infl]) :present)
     (regular-present word)
     
     (irregular-gerund? word)

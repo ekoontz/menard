@@ -541,9 +541,6 @@
     
     (= (get-in word [:infl]) :future)
     (regular-future word)
-    
-    (= (get-in word [:infl]) :conditional)
-    (regular-conditional word)
 
     (and
      (= (get-in word [:infl]) :imperfect)
@@ -554,15 +551,6 @@
     (= (get-in word [:infl]) :imperfect)
     (regular-imperfect word)
     
-    (passato-as-head? word)
-    (passato-as-head word)
-    
-    (irregular-passato? word)
-    (irregular-passato word)
-    
-    (= :past (get-in word [:infl]))
-    (regular-passato word)
-    
     (and
      (= (get-in word [:infl]) :present)
      (map? (get-in word [:present])))
@@ -571,6 +559,18 @@
 
     (= (get-in word [:infl]) :present)
     (regular-present word)
+    
+    (= (get-in word [:infl]) :conditional)
+    (regular-conditional word)
+    
+    (passato-as-head? word)
+    (passato-as-head word)
+    
+    (irregular-passato? word)
+    (irregular-passato word)
+    
+    (= :past (get-in word [:infl]))
+    (regular-passato word)
     
     (irregular-gerund? word)
     (irregular-gerund word)

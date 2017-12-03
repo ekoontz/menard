@@ -35,10 +35,8 @@
                  truncate-children true
                  model (medium)}}]
    (let [result (generate/generate spec model)]
-     (if (keyword? result)
-       (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
-       (conj {:surface (morph result)}
-             result)))))
+     (conj {:surface (morph result)}
+           result))))
 
 (defn parse
   "parse a string in French into zero or more (hopefully more) phrase structure trees"

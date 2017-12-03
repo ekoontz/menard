@@ -16,7 +16,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
-(defn small [] (fr/small))
+(defn small [] (medium))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.

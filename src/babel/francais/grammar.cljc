@@ -507,54 +507,6 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(defn small []
-  (log/info (str "french small grammar.."))
-  (let [grammar
-        (filter #(or (= (:rule %) "s-conditional-nonphrasal")
-                     (= (:rule %) "s-present-nonphrasal")
-                     (= (:rule %) "s-future-nonphrasal")
-                     (= (:rule %) "s-imperfect-nonphrasal")
-                     (= (:rule %) "s-aux")
-                     (= (:rule %) "vp-aux"))
-                grammar)
-        debug (log/info (str "  lexicon.."))
-        deliver (deliver-lexicon)
-        lexicon
-        (into {}
-              (for [[k v] @lexicon]
-                (let [debug (log/debug (str "   lexeme=" k))
-                      filtered-v
-                      (filter #(or (= (get-in % [:synsem :cat]) :verb)
-                                   (= (get-in % [:synsem :propernoun]) true)
-                                   (= (get-in % [:synsem :pronoun]) true))
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        debug (log/info (str "  creating-indices.."))        
-        indices (create-indices lexicon index-lexicon-on-paths)]
-    {:name "small"
-     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
-     :language "fr"
-     :language-keyword :français
-     :lookup (fn [arg]
-               (morph/analyze arg lexicon))
-     :morph-ps fo-ps
-     :enrich enrich
-
-     :grammar grammar
-     ;; Will throw exception if more than 1 rule has the same :rule value:
-     :grammar-map (zipmap
-                   (map #(keyword (get-in % [:rule]))
-                        grammar)
-                   grammar)
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :morph fo}))
-
 (defn analyze [arg]
   (morph/analyze arg @lexicon))
 
@@ -568,7 +520,7 @@
                     [k filtered-v]))))
 
         grammar 
-        (seq (set (filter #(or ;; small grammar ..
+        (seq (set (filter #(or
                             (= (:rule %) "vp-pronoun-nonphrasal")
                             (= (:rule %) "vp-pronoun-phrasal")
                             (= (:rule %) "s-conditional-phrasal")
@@ -576,8 +528,6 @@
                             (= (:rule %) "s-future-phrasal")
                             (= (:rule %) "vp-aux-22")
                             (= (:rule %) "vp-32")
-                            
-                            ;; .. and a few other things: 
                             (= (:rule %) "s-conditional-nonphrasal")
                             (= (:rule %) "s-present-nonphrasal")
                             (= (:rule %) "s-future-nonphrasal")

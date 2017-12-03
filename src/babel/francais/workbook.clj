@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in resolve find parents])
   (:require
    [babel.francais :refer [analyze generate lookup parse]]
-   [babel.francais.grammar :refer [small medium]]
+   [babel.francais.grammar :refer [medium]]
    [babel.francais.lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.francais.writer :refer [expression]]

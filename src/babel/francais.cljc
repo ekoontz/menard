@@ -13,11 +13,6 @@
                           show-notes false}}]
   (fo expr :from-language from-language :show-notes show-notes))
 
-(def small-model (promise))
-(defn small [] (if (realized? small-model)
-                 @small-model
-                 @(deliver small-model (grammar/small))))
-
 (def medium-model (promise))
 (defn medium [] (if (realized? medium-model)
                   @medium-model

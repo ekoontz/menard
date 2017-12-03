@@ -188,20 +188,26 @@
 (defn add-to-bolt-at-path
   "bolt + path => partial trees"
   [bolt path model]
-  (->>
-   ;; set of all complements at _path_ for _bolt_:
-   (gen (get-in bolt path) model 0 nil path)
-     
-   ;; add each member _each_comp_ of this set to _bolt_:
-   (map (fn [each-comp]
-          (->
-           bolt
-           (dag_unify.core/assoc-in path
-                                    each-comp)
-           ((fn [tree]
-              (if (:default-fn model)
-                ((:default-fn model) tree)
-                tree))))))))
+  (let [complements (gen (get-in bolt path) model 0 nil path)]
+    (if (empty? complements)
+      (log/warn (str "(improve grammar): no complements found for: "
+                     ((:morph-ps model) bolt)
+                     "; spec=" (dag_unify.core/strip-refs
+                                (get-in bolt path))))
+      (->>
+       ;; set of all complements at _path_ for _bolt_:
+       complements
+       
+       ;; add each member _each_comp_ of this set to _bolt_:
+       (map (fn [each-comp]
+              (let [result
+                    (dag_unify.core/assoc-in bolt path each-comp)]
+                (->
+                 result
+                 ((fn [tree]
+                    (if (:default-fn model)
+                      ((:default-fn model) tree)
+                      tree)))))))))))
 
 (defn candidate-parents
   "find subset of _rules_ for which each member unifies successfully with _spec_; _depth_ is only used for diagnostic logging."

@@ -261,7 +261,7 @@
                    :gender :fem}
               :sem {:human true
                     :pred :lei}
-              :subcat '()}}
+              :subcat []}}
     {:synsem {:cat :noun
              :pronoun true
              :case :nom
@@ -270,7 +270,7 @@
                    :gender :fem}
               :sem {:human false
                     :pred :lei}
-             :subcat '()}}]
+             :subcat []}}]
    "elles"
    {:synsem {:cat :noun
               :pronoun true
@@ -280,7 +280,7 @@
                     :gender :fem}
               :sem {:gender :fem
                     :pred :loro}
-              :subcat '()}}
+              :subcat []}}
 
    "enseigner" [{:synsem {:cat :verb
                          :sem {:pred :show}}}
@@ -418,7 +418,7 @@
             :sem {:human true
                   :pred :lui}
             :subcat
-            '()}}
+            []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -428,7 +428,7 @@
             :sem {:human false
                   :pred :lui}
             :subcat
-            '()}}]
+            []}}]
 
     "ils"
     {:synsem {:cat :noun
@@ -439,7 +439,7 @@
                     :gender :masc}
               :sem {:gender :masc
                     :pred :loro}
-               :subcat '()}}
+               :subcat []}}
 
     "imaginer" {:synsem {:cat :verb
                        :sem {:pred :imagine}}}
@@ -461,7 +461,7 @@
                               :number :sing}
                         :sem {:human true
                               :pred :I}
-                        :subcat '()}}]
+                        :subcat []}}]
     [{:unify [common]
       :synsem {:agr {:gender :fem}}}
      {:unify [common]
@@ -482,7 +482,7 @@
                   :agr {:person :3rd
                         :gender :fem
                         :number :sing}
-                  :subcat '()}}
+                  :subcat []}}
 
    "laisser" {:synsem {:cat :verb
                       :sem {:pred :leave-behind}}}
@@ -494,7 +494,7 @@
                   :agr {:person :3rd
                         :gender :masc
                         :number :sing}
-                  :subcat '()}}
+                  :subcat []}}
 
    "mal" {:synsem {:cat :adverb
                    :sem {:pred :bad}}}
@@ -518,7 +518,7 @@
                   :case :acc
                   :agr {:person :1st
                         :number :sing}
-                  :subcat '()}}
+                  :subcat []}}
 
  "mettre" {:synsem {:cat :verb
                     :sem {:pred :put}}
@@ -662,7 +662,7 @@
                   :case :acc
                   :agr {:person :3rd
                         :number :plur}
-                  :subcat '()}}
+                  :subcat []}}
 
  ;; TODO: complicated stuff like subject-object agreement
  ;; for reflexives should be done in a lexical complilation rule in
@@ -709,7 +709,7 @@
                             :propernoun true
                             :sem called-semantics
                             :cat :noun
-                            :subcat '()}}}})
+                            :subcat []}}}})
 
    "se blesser" (let [subject-semantics (atom {:human true})
                       subject-agr (atom :top)]
@@ -884,7 +884,7 @@
                   :case :acc
                   :agr {:person :2nd
                         :number :sing}
-                  :subcat '()}}
+                  :subcat []}}
 
    "terminer" {:synsem {:cat :verb
                        :sem {:pred :finish}}}

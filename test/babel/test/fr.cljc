@@ -408,7 +408,8 @@
                               {:head (last (get lex "suis"))}))
                      (:grammar (small))))]
     (is (not (empty? result)))
-    (is (= (get-in (first result) [:rule]) "vp-aux"))))
+    (is (or (= (get-in (first result) [:rule]) "vp-aux")
+            (= (get-in (first result) [:rule]) "vp-aux-22")))))
 
 (deftest vp-aux-test
   (let [rule (first (filter #(= (:rule %) "vp-aux")

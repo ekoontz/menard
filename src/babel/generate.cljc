@@ -191,7 +191,7 @@
   (let [complements (gen (get-in bolt path) model 0 nil path)]
     (if (empty? complements)
       (log/warn (str "(improve grammar): no complements found for: "
-                     ((:morph-ps model) bolt)
+                     ((:morph model) bolt)
                      "; spec=" (show-spec 
                                 (get-in bolt path))))
       (->>

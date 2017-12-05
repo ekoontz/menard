@@ -192,7 +192,7 @@
     (if (empty? complements)
       (log/warn (str "(improve grammar): no complements found for: "
                      ((:morph-ps model) bolt)
-                     "; spec=" (dag_unify.core/strip-refs
+                     "; spec=" (show-spec 
                                 (get-in bolt path))))
       (->>
        ;; set of all complements at _path_ for _bolt_:

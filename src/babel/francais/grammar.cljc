@@ -465,6 +465,7 @@
                                    :synsem {:infl {:not :past-p}}}
                             :comp {:phrasal false
                                    :synsem {:cat :noun
+                                            :case :acc
                                             :pronoun true}}
                             :rule "vp-pronoun-nonphrasal"
                             :synsem {:aux false

@@ -127,8 +127,10 @@
       (= :verb (get-in word [:cat]))
       (let [conjugated (verbs/conjugate word)]
         (if (or (nil? conjugated) (empty? conjugated))
-          (throw (Exception. (str "failed to conjugate: "
-                                  (dag_unify.core/strip-refs word))))
+          (do
+            (log/debug (str "failed to conjugate: "
+                            (dag_unify.core/strip-refs word)))
+            "..")
           conjugated))
       ;; TODO: this rule is pre-empting all of the following rules
       ;; that look in :a and :b. Either remove those following rules

@@ -94,7 +94,7 @@
           (and underspecified?
                (not (= :if-underspecified :error)))
           (do
-            (log/warn (str "conjugate: underspecified: returning infinitive: " infinitive "; conjugate-with: " (strip-refs conjugate-with)))
+            (log/debug (str "conjugate: underspecified: returning infinitive: " infinitive "; conjugate-with: " (strip-refs conjugate-with)))
             (str infinitive))
           
           underspecified?

@@ -413,7 +413,8 @@
         
         ]
     (cond
-      
+      ;; TODO: replace with articles.edn or similar rather than
+      ;; a big clojure (cond).
       (and (= a "gli")
            (string? (get-in b '(:italiano)))
            (not (or (re-find #"^[aeiou]" (get-in b '(:italiano)))

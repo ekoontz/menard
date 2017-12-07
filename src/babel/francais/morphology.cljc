@@ -322,6 +322,19 @@
               (log/debug (str "result of conjugate: " result))
               result)))))
  
+;; TODO create a class LinguisticStructure: which is simply a
+;; clojure map. This class has a method: '.toString()'. As the
+;; clojure docs explain :
+;;
+;; https://clojuredocs.org/clojure.core/str
+;;
+;; With one arg x, returns x.toString().
+;;
+;; If we define such a class, then then we can just do e.g.:
+;;
+;; (str (generate {:synsem {:cat :verb :subcat []}}))
+;;   => "je parle"
+;;
 (defn fo [input &
           {:keys [from-language show-notes]
            :or {from-language nil

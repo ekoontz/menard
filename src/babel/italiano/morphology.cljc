@@ -124,6 +124,7 @@
       (get-string
        (get-in word '(:a))
        (get-in word '(:b)))
+
       (= :verb (get-in word [:cat]))
       (let [conjugated (verbs/conjugate word)]
         (if (or (nil? conjugated) (empty? conjugated))
@@ -132,6 +133,7 @@
                             (dag_unify.core/strip-refs word)))
             "..")
           conjugated))
+
       ;; TODO: this rule is pre-empting all of the following rules
       ;; that look in :a and :b. Either remove those following rules
       ;; if they are redundant and not needed, or move this general rule
@@ -140,6 +142,7 @@
            (not (= :none (get-in word '(:b) :none))))
       (get-string (get-in word '(:a))
                   (get-in word '(:b)))
+
       (and
        (string? (get-in word '(:a :italiano)))
        (string? (get-in word '(:b :italiano)))

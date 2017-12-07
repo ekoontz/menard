@@ -643,7 +643,7 @@
 
    (:italiano input)
    ;; get-string should always return a string, but sometimes it (incorrectly) does not (FIXME)
-   (string/trim (str (get-string (:italiano input))))
+   (string/trim (str (get-string (get-in input [:italiano]))))
    
    (and (map? input)
         (get-in input [:a])

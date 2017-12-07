@@ -71,7 +71,7 @@
             ;; sequence of adding all possible complements at every possible
             ;; position at the bolt.
             (add-comps-to-bolt bolt model
-                               (reverse (comp-paths depth)))))
+                               (comp-paths depth))))
          (gen spec model depth
                (rest bolts)
                at-path))

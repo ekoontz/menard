@@ -959,6 +959,7 @@
      :synsem {:sem {:pred :exist
                     :reflexive false}
               :subcat {:1 {:cat :noun
+                           :agr {:person :3rd}
                            :pronoun true
                            :sem {:null true}}}}}
 

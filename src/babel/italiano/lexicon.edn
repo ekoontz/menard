@@ -956,7 +956,8 @@
 
     {:unify [essere-common]
      :notes "existential"
-     :synsem {:sem {:pred :exist}
+     :synsem {:sem {:pred :exist
+                    :reflexive false}
               :subcat {:1 {:cat :noun
                            :pronoun true
                            :sem {:null true}}}}}

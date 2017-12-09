@@ -4,7 +4,7 @@
    [babel.directory :refer [models]]
    [babel.generate :as generate]
    [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph
-                                        np-grammar parse preprocess small]]
+                                        np-grammar parse preprocess]]
    [babel.italiano.grammar :as grammar :refer [model]]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
    [babel.italiano.morphology.nouns :as nouns]
@@ -18,6 +18,9 @@
    [clojure.string :as string]
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
+
+(defn small []
+  (medium))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

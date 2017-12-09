@@ -7,15 +7,15 @@
             :subcat {:1 {:cat :noun
                          :case :acc
                          :reflexive false
-                         :subcat '()}
-                     :2 '()}}}
+                         :subcat []}
+                     :2 []}}}
   ;; "a" as in "a Roma"
   {:synsem {:cat :prep
             :sem {:pred :in
                   :obj {:city true}}
             :subcat {:1 {:cat :noun
                          :reflexive false}
-                     :2 '()}}}
+                     :2 []}}}
 
   ;; "a" as in "a mezzogiorno"
   {:synsem {:cat :prep
@@ -23,8 +23,8 @@
                   :obj {:time true}}
             :subcat {:1 {:cat :noun
                          :reflexive false
-                         :subcat '()}
-                       :2 '()}}}
+                         :subcat []}
+                       :2 []}}}
   ]
 
  "abbandonare" {:synsem {:cat :verb
@@ -191,7 +191,7 @@
  "arrivare" {:synsem {:essere true
                       :cat :verb
                       :sem {:pred :arrive}
-                      :subcat {:2 '()}}}
+                      :subcat {:2 []}}}
 
  ;; TODO: add                 :subcat {:2 {:cat :prep}}}}
 
@@ -277,7 +277,7 @@
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}
+                           :subcat {:2 []}}}}}
     ;; 6. trapassato intransitive
     {:unify [avere-common avere-aux]
      :note "trapassato intransitive"
@@ -291,7 +291,7 @@
                            :reflexive false ;; in Italian, reflexive verbs are always essere=false.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to reduce fails during generation.
-                           :subcat {:2 '()}}}}}
+                           :subcat {:2 []}}}}}
 
     ;; TODO: add trapassato transitive
 
@@ -303,7 +303,7 @@
                      :obj need-obj}
                :subcat {:1 {:sem {:living true}}
                         :2 {:cat :noun
-                            :subcat '()
+                            :subcat []
                             :sem {:pred :bisogno-di
                                   :obj need-obj}}}}})])
 
@@ -470,7 +470,7 @@
             :agr {:gender :fem}
             :sem {:pred :house
                   :spec {:def :none}} ;; "a casa", not "a mia casa", etc
-            :subcat '()}}
+            :subcat []}}
   ]
 
  "cattivo"
@@ -721,12 +721,12 @@
             :sem {:pred :di
                   :comparative true}
             :subcat {:1 {:cat :noun
-                         :subcat '()
+                         :subcat []
                          :def {:not :partitivo} ;; avoid alliteration like "di delle ragazze (of some women)"
                          :case :disj ;; pronouns must be disjunctive (me/te/lui/lei...etc)
                          ;; non-pronouns will unify with this constraint.
                          }
-                     :2 '()}}
+                     :2 []}}
   :italiano {:initial true}}
 
  "di la"
@@ -815,7 +815,7 @@
            :sem {:pred :domani}
            :subcat {:1 {:infl :future
                         :sem {:tense :future}
-                        :subcat '()}}}}
+                        :subcat []}}}}
 
  "donna"
  {:synsem {:agr {:gender :fem}
@@ -832,7 +832,7 @@
            :sem {:pred :dopodomani}
            :subcat {:1 {:infl :future
                         :sem {:tense :future}
-                        :subcat '()}}}}
+                        :subcat []}}}}
  "dormire"
  {:synsem {:cat :verb
            :sem {:pred :sleep}}}
@@ -933,7 +933,7 @@
                        :2 {:cat :adjective
                            :sem {:comparative false}
                            :subcat {:1 :top
-                                    :2 '()}}}}}
+                                    :2 []}}}}}
 
     ;; essere: prepositional phrase
     (let [pred (atom :top)
@@ -951,8 +951,8 @@
                              :reflexive false
                              :sem {:obj obj
                                    :pred pred}
-                             :subcat '()}
-                         :3 '()}}})
+                             :subcat []}
+                         :3 []}}})
 
     {:unify [essere-common]
      :notes "existential"
@@ -1096,7 +1096,7 @@
                   :number :plur}
             :sem {:human true
                   :pred :giovanni-and-i}
-            :subcat '()}}]
+            :subcat []}}]
 
  "gridare" {:synsem {:cat :verb
                      :sem {:pred :yell}}}
@@ -1164,7 +1164,7 @@
                   :number :sing}
             :sem {:pred :I
                   :human true}
-            :subcat '()}}
+            :subcat []}}
 
   {:synsem {:cat :noun
             :pronoun true
@@ -1174,7 +1174,7 @@
                   :number :sing}
             :sem {:pred :I
                   :human true}
-            :subcat '()}}]
+            :subcat []}}]
 
  "isola" {:synsem {:agr {:gender :fem}
                    :cat :noun
@@ -1192,7 +1192,7 @@
                   :number :sing}
             :sem {:human true
                   :pred :lei}
-            :subcat '()}
+            :subcat []}
    :italiano {:initial true   ;; TODO: verify that 'la' above and this below are being unified correctly.
               }}
 
@@ -1207,7 +1207,7 @@
             :sem {:human false
                   :place false ;; "they go to it (loro vanna a la)" sounds strange
                   :pred :lei}
-            :subcat '()}
+            :subcat []}
    :italiano {:initial true}}
 
   ;; 3. article
@@ -1289,7 +1289,7 @@
                               :gender :fem
                               :number :sing}
                         :sem {:pred :lei} ;; note: we don't specify human=true (english "it").
-                        :subcat '()}}]
+                        :subcat []}}]
    [{:unify [common]
      :synsem {:sem {:human false}}}
     {:unify [common]
@@ -1321,7 +1321,7 @@
                   :number :sing}
             :sem {:human true
                   :pred :lui}
-            :subcat '()}}
+            :subcat []}}
 
   {:synsem {:cat :noun
             :pronoun true
@@ -1333,7 +1333,7 @@
             :sem {:human false
                   :place false
                   :pred :lui}
-            :subcat '()}
+            :subcat []}
    :italiano {:initial true}}  ;; TODO: verify that 'lo' above and this below are being unified correctly.
   {:synsem {:cat :det
             :def :def
@@ -1348,7 +1348,7 @@
                   :number :plur}
             :sem {:human true
                   :pred :loro}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1357,7 +1357,7 @@
                   :number :plur}
             :sem {:human true
                   :pred :loro}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1366,7 +1366,7 @@
                   :number :plur}
             :sem {:human false
                   :pred :loro}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1375,7 +1375,7 @@
                   :number :plur}
             :sem {:human false
                   :pred :loro}
-            :subcat '()}}
+            :subcat []}}
   ]
 
  "lui" (let [common {:synsem {:cat :noun
@@ -1385,7 +1385,7 @@
                                     :gender :masc
                                     :number :sing}
                               :sem {:pred :lui} ;; note: we don't specify human=true (english "it").
-                              :subcat '()}}]
+                              :subcat []}}]
          [{:unify [common]
            :synsem {:sem {:human false}}}
           {:unify [common]
@@ -1406,7 +1406,7 @@
                   :number :plur}
             :sem {:human true
                   :pred :luisa-and-i}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1415,7 +1415,7 @@
                   :number :plur}
             :sem {:human true
                   :pred :luisa-and-i}
-            :subcat '()}}]
+            :subcat []}}]
 
  "macchiare" {:synsem {:cat :verb
                        :sem {:pred :stain}}}
@@ -1473,7 +1473,7 @@
                  :number :sing}
            :reflexive true
            :sem {:human true}
-           :subcat '()}}
+           :subcat []}}
 
  "migliorare" {:synsem {:cat :verb
                         :sem {:pred :improve}}} ;; c.f. english: "ameliorate"
@@ -1520,7 +1520,7 @@
                   :number :plur}
             :sem {:pred :noi
                   :human true}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -1529,7 +1529,7 @@
                   :number :plur}
             :sem {:pred :noi
                   :human true}
-            :subcat '()}}]
+            :subcat []}}]
 
  "non" {:synsem {:cat :adverb
                  :sem {:mod {:polarity :-}}}}
@@ -1925,7 +1925,7 @@
                                     :infl :participle
                                     :sem {:reflexive false}
                                     :subcat {:1 {:reflexive false}
-                                             :2 '()}}}}}
+                                             :2 []}}}}}
 
 ;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"
 ;             {:unify [common]
@@ -2000,7 +2000,7 @@
                  :number :sing}
            :reflexive true
            :sem {:human true}
-           :subcat '()}
+           :subcat []}
   :italiano {:initial true}}
 
  "tirare"
@@ -2029,7 +2029,7 @@
                   :number :sing}
             :sem {:pred :tu
                   :human true}
-            :subcat '()}}
+            :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -2038,7 +2038,7 @@
                   :number :sing}
             :sem {:pred :tu
                   :human true}
-            :subcat '()}}]
+            :subcat []}}]
 
  "uccello"
  {:synsem {:agr {:gender :masc}
@@ -2124,7 +2124,7 @@
                  :number :plur}
            :sem {:human true
                  :pred :voi}
-           :subcat '()}
+           :subcat []}
   :italiano {:initial true}}
 
  "vincere"  {:synsem {:cat :verb
@@ -2152,7 +2152,7 @@
                   :number :plur}
             :sem {:pred :voi
                   :human true}
-            :subcat '()}}
+            :subcat []}}
 
   {:synsem {:cat :noun
             :pronoun true
@@ -2162,7 +2162,7 @@
                   :number :plur}
             :sem {:pred :voi
                   :human true}
-            :subcat '()}}]
+            :subcat []}}]
 
  "volere" {:synsem {:cat :verb
                     :sem {:pred :want}}

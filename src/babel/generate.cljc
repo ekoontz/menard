@@ -233,6 +233,8 @@
          (str "; rule=" (strip-refs (get-in spec [:rule]))))
        (if (not (= (get-in spec [:synsem :agr] ::none) ::none))
          (str "; agr=" (strip-refs (get-in spec [:synsem :agr]))))
+       (if (not (= (get-in spec [:synsem :sem :pred] ::none) ::none))
+         (str "; pred=" (strip-refs (get-in spec [:synsem :sem :pred]))))
        (if (get-in spec [:synsem :subcat :1 :cat])
          (str "; subcat1=" (strip-refs (get-in spec [:synsem :subcat :1 :cat]))))
        (if (get-in spec [:synsem :subcat :2 :cat])

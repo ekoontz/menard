@@ -87,12 +87,12 @@
         :person :1st}
   :g [#"([^ci])[aei]re$"  "$1iamo"    ;; parlare -> parliamo
       #"([^ci])[aei]rsi$" "$1iamo"
-      #"(i)[aei]re$"     "$1amo" ;; tagliare -> tagliamo
-      #"(i)[aei]rsi$"    "$1amo"
-      #"care$"           "chiamo" ;; caricare -> carichiamo
-      #"carsi$"          "chiamo"
-      #"cere$"           "ciamo" ;; vincere -> vinciamo
-      #"cersi$"          "ciamo"
+      #"(i)[aei]re$"      "$1amo" ;; tagliare -> tagliamo
+      #"(i)[aei]rsi$"     "$1amo"
+      #"care$"            "chiamo" ;; caricare -> carichiamo
+      #"carsi$"           "chiamo"
+      #"c[ei]re$"         "ciamo" ;; vincere -> vinciamo
+      #"c[ei]rsi$"        "ciamo"
       ]
 
   :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare

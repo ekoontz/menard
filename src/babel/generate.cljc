@@ -115,7 +115,8 @@
   ;; Each head child may be a leaf or
   ;; otherwise has a child with the same two options (leaf or a head child),
   ;; up to the maximum depth.
-  (if (< depth max-depth)
+  (if (and (< depth max-depth)
+           (not (= false (get-in spec [:phrasal] true))))
     (let [candidate-parents (or use-candidate-parents
                                 (->>
                                  (candidate-parents (:grammar model) spec depth)
@@ -125,13 +126,12 @@
       (if (not (empty? candidate-parents))
         (let [candidate-parent (first candidate-parents)]
           (lazy-cat
-           (if (not (= false (get-in spec [:phrasal] true)))
-             (->> (lightning-bolts model
-                                   (get-in candidate-parent [:head])
-                                   (+ 1 depth)
-                                   max-depth)
-                  (map (fn [head]
-                         (assoc-in candidate-parent [:head] head)))))
+           (->> (lightning-bolts model
+                                 (get-in candidate-parent [:head])
+                                 (+ 1 depth)
+                                 max-depth)
+                (map (fn [head]
+                       (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))))
     (shufflefn (get-lexemes model spec))))
 

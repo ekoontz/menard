@@ -66,8 +66,6 @@
 (defn edn2lexicon [resource]
   (-> (lexfn/edn2lexicon resource)
 
-      exception-generator ;; add new keys to the map for all exceptions found.
-
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun
@@ -171,6 +169,18 @@
       ;; </noun default rules>            
 
       ;; <verb default rules>
+
+      (default (let [cat (atom :verb)
+                     agr (atom :top)
+                     essere (atom :top)
+                     infl (atom :top)]
+                 {:applied {:subject-agreement true}
+                  :synsem {:agr agr
+                           :cat cat
+                           :subcat {:1 {:agr agr}}
+                           :essere essere
+                           :infl infl}}))
+      
       (default ;; aux defaults to false:
        {:synsem {:cat :verb
                  :aux false}})
@@ -289,8 +299,13 @@
       (default ;; subject is semantically non-null by default.
        {:synsem {:cat :verb
                  :aux false
-                 :subcat {:1 {:sem {:null false}}}}})
-      
+                 :subcat {:1 {:sem {:null false}}}}}) 
+
+      (default ;; subject is semantically non-null by default.
+       {:synsem {:cat :verb
+                 :aux false
+                 :subcat {:1 {:sem {:null true}}}}})
+     
       ;; </verb default rules>
 
       ;; <preposition default rules>
@@ -356,7 +371,19 @@
          {:synsem {:cat :det
                    :def def
                    :sem {:def def}}}))
-                   
+
+      ;; <category-independent> 
+      ;; This rule needs to be before exception-generator; otherwise
+      ;; exception will be generated that fail to match this agreement rule. Putting it
+      ;; before prevents these bad exceptions from existing.
+      (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
+       ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
+       (unify (:agreement defaults)
+              {:applied {:agreement-defaults true}}))
+      ;; </category-independent>
+      
+      exception-generator ;; add new keys to the map for all exceptions found.
+
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.

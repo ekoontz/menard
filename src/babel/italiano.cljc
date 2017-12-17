@@ -14,11 +14,6 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(defonce small-model (promise))
-(defn small [] (if (realized? small-model)
-                 @small-model
-                 @(deliver small-model (grammar/small))))
-
 (defonce medium-model (promise))
 (defn medium []
   (if (realized? medium-model)

@@ -21,6 +21,8 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
+(declare medium)
+
 (defonce index-lexicon-on-paths
   [
    [:italiano :italiano]
@@ -411,7 +413,18 @@
                           root-is-comp-root
                           {:rule "vp-aux-phrasal-complement"
                            :head {:phrasal false
-                                  :synsem {:aux true}}
+                                  :synsem {:aux true
+                                           :sem {:obj {:top :top}}}}
+                           :comp {:phrasal true}
+                           :synsem {:aux true
+                                    :cat :verb}})
+                   (unify h21a
+                          root-is-comp-root
+                          {:rule "vp-aux-phrasal-complement-essere-false"
+                           :head {:phrasal false
+                                  :synsem {:aux true
+                                           :sem {:obj {:top :top}}
+                                           :essere false}}
                            :comp {:phrasal true}
                            :synsem {:aux true
                                     :cat :verb}})
@@ -458,12 +471,16 @@
                            vp-non-pronoun)
                    
                    (unify h21
-                           root-is-head
-                           {:rule "vp-past"
-                            :synsem {:aux false
-                                     :infl :past
-                                     :cat :verb}}
-                           vp-non-pronoun)
+                          root-is-head
+                          {:rule "vp-past"
+                           :head {:synsem {:sem {:reflexive false
+                                                 :obj {:top :top}}
+                                           :subcat {:2 {:sem {:top :top}}}}}
+                           :synsem {:aux false
+                                    :sem {:obj {:top :top}}
+                                    :infl :past
+                                    :cat :verb}}
+                          vp-non-pronoun)
                    
                    (unify h21
                            root-is-head
@@ -627,102 +644,14 @@
      :lexicon lexicon
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))}))
 
-(defn small []
-  (deliver-lexicon)
-  (let [lexicon @lexicon
-        grammar
-        (filter #(or (= (:rule %) "s-conditional-phrasal")
-                     (= (:rule %) "s-conditional-nonphrasal")
-                     (= (:rule %) "s-present-phrasal")
-                     (= (:rule %) "s-present-nonphrasal")
-                     (= (:rule %) "s-future-phrasal")
-                     (= (:rule %) "s-future-nonphrasal")
-                     (= (:rule %) "s-imperfect-phrasal")
-                     (= (:rule %) "s-imperfect-nonphrasal")
-                     (= (:rule %) "s-aux")
-                     (= (:rule %) "vp-32")
-                     (= (:rule %) "vp-aux-phrasal-complement")
-                     (= (:rule %) "vp-aux-22")
-                     (= (:rule %) "vp-aux-nonphrasal-complement")
-                     (= (:rule %) "vp-present")
-                     (= (:rule %) "vp-pronoun-nonphrasal")
-                     (= (:rule %) "vp-pronoun-phrasal")
-                     (= (:rule %) "np-to-n-plus-di"))
-                grammar)
-
-          lexicon  ;; create a subset of the lexicon tailored to this small grammar.
-          (into {}
-                (for [[k v] lexicon]
-                  (let [filtered-v
-                        (filter #(and
-                                  (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
-                                  ;; babel.italiano.lexicon/edn2lexicon already excludes the wildcard lexeme,
-                                  ;; so this filtering rule will not find anything to exclude.
-                                  
-                                  (or (and
-                                       (= (get-in % [:synsem :cat]) :verb)
-
-                                       ;; disabled with (or true) but shows how to filter by infinitive.
-                                       (or true (= (get-in % [:italiano :italiano]) "sedersi")
-                                           (= (get-in % [:synsem :aux]) true))
-                                       
-                                       (or (= (get-in % [:synsem :sem :obj] :unspec) :unspec) ;; exclude transitive verbs..
-                                           ;; ..but allow reflexive verbs.
-                                           (= (get-in % [:synsem :sem :reflexive] false) true)
-
-                                           ;; ..or "avere" + bisogna di
-                                           (and (= (get-in % [:synsem :sem :pred]) :need)
-                                                (= (get-in % [:italiano :infinitive]) "avere")))
-                                       
-                                       ;; exclude verbs that take an adverb as the third argument.
-                                       (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb))) 
-                                       
-                                      ;; exclude cities from the small grammar.
-                                      (and (= (get-in % [:synsem :propernoun]) true)
-                                           (= (get-in % [:synsem :sem :city] false) false)) 
-          
-                                      (= (get-in % [:synsem :pronoun]) true)
-
-                                      (= (get-in % [:italiano :italiano]) "bisogno")
-                                      (= (get-in % [:italiano :italiano]) "di")
-                                      ))
-                                      
-                                v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)
-
-        indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
-        
-    {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-
-     :name "small"
-     :morph-walk-tree (fn [tree]
-                        (do
-                          (merge tree
-                                 (morph-walk-tree tree))))
-     :language "it"
-     :language-keyword :italiano
-     :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
-     :morph-ps fo-ps
-     :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
-     :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lookup (fn [arg]
-               (analyze arg lexicon))
-
-     :rule-map (zipmap (map #(keyword (get-in % [:rule])) grammar)
-                       grammar)}))
-
 ;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
   (let [root (get-in spec [:root :italiano :italiano])
         pred (get-in spec [:synsem :sem :pred])
-        small (small)
+        medium (medium)
         micro-lexicon
         (into {}
-              (for [[k v] (:lexicon small)]
+              (for [[k v] (:lexicon medium)]
                 (let [filtered-v
                       (filter #(and
                                 (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
@@ -745,7 +674,7 @@
                                 (or (not (= (get-in % [:synsem :cat]) :verb))
                                     (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb)))
                                        
-                                ;; exclude cities from the small grammar.
+                                ;; exclude cities from the medium grammar.
                                 (or (not (= (get-in % [:synsem :propernoun]) true))
                                     (= (get-in % [:synsem :sem :city] false) false)))
                               
@@ -753,7 +682,7 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
     (log/debug (str "micro lexicon size:" (count (keys micro-lexicon))))
-    (clojure.core/merge small
+    (clojure.core/merge medium
                         {:lexicon micro-lexicon})))
 
 (defn default-fn [tree]

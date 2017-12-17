@@ -835,7 +835,8 @@
                         :subcat []}}}}
  "dormire"
  {:synsem {:cat :verb
-           :sem {:pred :sleep}}}
+           :sem {:pred :sleep}
+           :subcat {:2 []}}}
 
  "dovere" {:synsem {:cat :verb
                     :sem {:pred :have-to}}
@@ -1683,7 +1684,8 @@
 
  "restare" {:synsem {:essere true
                      :cat :verb
-                     :sem {:pred :remain-re}}}
+                     :sem {:pred :remain-re}
+                     :subcat {:2 []}}}
 
  "restituire" {:italiano {:boot-verb true}
                :synsem {:cat :verb
@@ -1957,7 +1959,8 @@
 
  "svenire" {:synsem {:cat :verb
                      :essere true
-                     :sem {:pred :faint}}
+                     :sem {:pred :faint}
+                     :subcat {:2 []}}
             :italiano {:passato "svenuto"
                        :present {:1sing "svengo"
                                  :2sing "svieni"

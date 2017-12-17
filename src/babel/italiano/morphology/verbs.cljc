@@ -263,7 +263,11 @@
       {:italiano {:infl :present
                   :italiano (get-in val [:italiano :present :1sing] :nothing)
                   :agr {:number :sing
-                        :person :1st}}})}
+                        :person :1st}}})
+    :u {:infl :present
+        :agr {:number :sing
+              :person :1st}}}
+ 
    {:path [:italiano :present :2sing]
     :label "present 2sing"
     :merge-fn
@@ -284,6 +288,9 @@
    
    {:path [:italiano :present :1plur]
     :label "present 1plur"
+    :u {:infl :present
+        :agr {:number :plur
+              :person :1st}}
     :merge-fn
     (fn [val]
       {:italiano {:infl :present

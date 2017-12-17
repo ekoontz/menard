@@ -205,12 +205,14 @@
                                 :sem sem}}}}))
 
       (default ;; a verb's first argument's case is nominative.
-       {:synsem {:cat :verb
+       {:applied {:subcat-1-is-nom true}
+        :synsem {:cat :verb
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
 
       (default ;; a verb's second argument's case is accusative.
-       {:synsem {:cat :verb
+       {:applied {:subcat-2-is-acc true}
+        :synsem {:cat :verb
                  :subcat {:2 {:cat :noun
                               :case :acc}}}})
       
@@ -387,7 +389,8 @@
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
-       (:agreement defaults))
+       (unify (:agreement defaults)
+              {:applied {:agreement-defaults true}}))
       ;; </category-independent>
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set

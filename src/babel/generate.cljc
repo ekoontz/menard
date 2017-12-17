@@ -159,6 +159,8 @@
          result)
        (add-comp-to-bolts (rest bolts) path model)))))
 
+(defn hd [] :head)
+
 (defn comp-paths
   "Find all paths to all complements (both terminal and non-terminal) given a depth. Returned in 
    ascending length (shortest first)."
@@ -182,7 +184,7 @@
     true
     (cons
      (concat (take (- depth 1)
-                   (repeatedly (fn [] :head)))
+                   (repeatedly hd))
              [:comp])
      (comp-paths (- depth 1)))))
 

@@ -20,7 +20,6 @@
 (def ^:const handle-unify-fail #(log/debug %))
 (def ^:const throw-exception-on-unify-fail false)
 
-
 (def ^:const shufflefn
   (fn [x]
     ;; deterministic generation:
@@ -37,7 +36,6 @@
 (declare add-comp-to-bolts)
 (declare add-comps-to-bolt)
 (declare add-to-bolt-at-path)
-(declare candidate-parents)
 (declare get-bolts-for)
 (declare get-lexemes)
 (declare lightning-bolts)
@@ -119,7 +117,7 @@
            (not (= false (get-in spec [:phrasal] true))))
     (let [candidate-parents (or use-candidate-parents
                                 (->>
-                                 (candidate-parents (:grammar model) spec depth)
+                                 (:grammar model)
                                  (map #(unify % spec))
                                  (filter #(not (= :fail %)))
                                  (shufflefn)))]
@@ -208,15 +206,6 @@
                     (if (:default-fn model)
                       ((:default-fn model) tree)
                       tree)))))))))))
-
-(defn candidate-parents
-  "find subset of _rules_ for which each member unifies successfully with _spec_; _depth_ is only used for diagnostic logging."
-  [rules spec depth]
-  (->>
-   rules
-   (mapfn (fn [rule]
-            (unify spec rule)))
-   (filter #(not (= :fail %)))))
 
 (defn get-lexemes [model spec]
   "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."

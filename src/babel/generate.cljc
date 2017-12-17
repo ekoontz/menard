@@ -212,16 +212,11 @@
 (defn candidate-parents
   "find subset of _rules_ for which each member unifies successfully with _spec_; _depth_ is only used for diagnostic logging."
   [rules spec depth]
-  (filter #(not (= :fail %))
-          (mapfn (fn [rule]
-                   (log/trace (str "candidate-parents: testing rule: " (:rule rule) "; depth: " depth))
-                   (let [unified (unify spec rule)]
-                     (if (= :fail unified)
-                       (log/trace (str "candidate parent: " (:rule rule) " failed at:" (fail-path spec rule)))
-                       (log/debug (str "candidate parent: " (:rule rule) " spec:" (show-spec spec)
-                                       "; depth: " depth)))
-                     unified))
-                 rules)))
+  (->>
+   rules
+   (mapfn (fn [rule]
+            (unify spec rule)))
+   (filter #(not (= :fail %)))))
 
 (defn get-lexemes [model spec]
   "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."

@@ -191,10 +191,12 @@
   [bolt path model]
   (let [complements (gen (get-in bolt path) model 0 nil path)]
     (if (empty? complements)
-      (log/warn (str "(improve grammar): no complements found for: "
-                     ((:morph-ps model) bolt)
-                     "; spec=" (show-spec 
-                                (get-in bolt path))))
+      (let [error-message
+            (str "(improve grammar): no complements found for: "
+                 ((:morph-ps model) bolt) "; path: [" (string/join "/" path) "]"
+                 "; spec=" (show-spec 
+                            (get-in bolt path)))]
+        (throw (Exception. error-message)))
       (->>
        ;; set of all complements at _path_ for _bolt_:
        complements
@@ -213,7 +215,6 @@
 (defn get-lexemes [model spec]
   "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."
   (->>
-
    (if (= false (get-in spec [:phrasal] false))
      (if-let [index-fn (:index-fn model)]
        (index-fn spec)

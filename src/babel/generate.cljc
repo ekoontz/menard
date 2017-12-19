@@ -198,7 +198,8 @@
                  ((:morph-ps model) bolt) "; path: [" (string/join "/" path) "]"
                  "; spec=" (show-spec 
                             (get-in bolt path)))]
-        (throw (Exception. error-message)))
+        ;;        (throw (Exception. error-message)))
+        (log/warn (str error-message)))
       (->>
        ;; set of all complements at _path_ for _bolt_:
        complements

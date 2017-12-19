@@ -150,6 +150,7 @@
                        :3plur "vanno"}}
   :synsem {:cat :verb
            :essere true
+           :subcat {:2 []}
            :sem {:subj {:animate true}
                  :pred :go}}}
 

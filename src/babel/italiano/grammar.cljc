@@ -730,21 +730,30 @@
   (let [lexicon @lexicon
         parse-lexicon
         (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v 
+              (for [[k vals] lexicon]
+                (let [filtered-vals
                       (filter (fn [x] true)
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
+                              vals)]
+                  (if (not (empty? filtered-vals))
+                    [k filtered-vals]))))
         lexicon
         (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
+              (for [[k vals] lexicon]
+                (let [filtered-vals
                       (filter #(not (= true (get-in % [:top])))
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        lexicon-for-generation (lexicon-for-generation lexicon)
+                              vals)]
+                  (if (not (empty? filtered-vals))
+                    [k filtered-vals]))))
+
+        lexicon-for-generation (into {}
+                                     (for [[k vals] lexicon]
+                                       (let [filtered-vals
+                                             (filter #(and (= false (get-in % [:italiano :exception] false))
+                                                           (= true (get-in % [:generate-with] true)))
+                                                     vals)]
+                                         (if (not (empty? filtered-vals))
+                                           [k filtered-vals]))))
+        
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon

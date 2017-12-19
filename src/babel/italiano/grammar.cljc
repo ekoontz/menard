@@ -727,7 +727,8 @@
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
   ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
-  (let [lexicon @lexicon
+  (let [;;lexicon @lexicon
+        lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
         parse-lexicon
         (into {}
               (for [[k vals] lexicon]

@@ -29,10 +29,6 @@
 
     ))
 
-;; whether to remove [:head] and [:comp] paths from generated trees after generation:
-;; for performance.
-(def ^:const truncate false)
-
 (declare add-comp-to-bolts)
 (declare add-comps-to-bolt)
 (declare add-to-bolt-at-path)

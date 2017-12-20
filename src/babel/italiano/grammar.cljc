@@ -737,7 +737,7 @@
      :lexicon lexicon
      :lookup (fn [arg]
                (analyze arg parse-lexicon))
-     :morph fo
+     :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
      :morph-ps fo-ps
 
      :rules rules

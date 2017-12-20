@@ -607,42 +607,16 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
+
 (defn lexicon-for-generation [lexicon]
   (into {}
-        (for [[k v] lexicon]
-          (let [filtered-v
-                (filter #(not (= false (get-in % [:generate-with] true))) v)]
-            (if (not (empty? filtered-v))
-              [k filtered-v])))))
-
-(defn model [ & [name lexicon-filter-fn grammar-filter-fn]]
-  "create a model using a lexicon derived from the supplied filtering function."
-  (deliver-lexicon)
-  (let [lexicon-filter-fn (or lexicon-filter-fn (fn [x] x))
-        grammar-filter-fn (or grammar-filter-fn (fn [x] x))
-        lexicon @lexicon
-        lexicon
-        (into {}
-              (for [[k v] lexicon]
-                (let [filtered-v
-                      (filter lexicon-filter-fn v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        grammar (filter grammar-filter-fn grammar)]
-    {:name name
-     :language "it"
-     :language-keyword :italiano
-     :morph fo
-     :morph-ps fo-ps
-     :lookup (fn [arg]
-               (analyze arg lexicon))
-     :generate {:lexicon lexicon}
-     :grammar grammar
-     :grammar-map (zipmap
-                   (map #(keyword (get-in % [:rule])) grammar)
-                   grammar)
-     :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))}))
+        (for [[k vals] lexicon]
+          (let [filtered-vals
+                (filter #(and (= false (get-in % [:italiano :exception] false))
+                              (= true (get-in % [:generate-with] true)))
+                        vals)]
+            (if (not (empty? filtered-vals))
+              [k filtered-vals])))))
 
 ;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
@@ -746,15 +720,7 @@
                   (if (not (empty? filtered-vals))
                     [k filtered-vals]))))
 
-        lexicon-for-generation (into {}
-                                     (for [[k vals] lexicon]
-                                       (let [filtered-vals
-                                             (filter #(and (= false (get-in % [:italiano :exception] false))
-                                                           (= true (get-in % [:generate-with] true)))
-                                                     vals)]
-                                         (if (not (empty? filtered-vals))
-                                           [k filtered-vals]))))
-        
+        lexicon-for-generation (lexicon-for-generation lexicon)
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon

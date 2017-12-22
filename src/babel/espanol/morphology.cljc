@@ -103,8 +103,8 @@
       (and (map? (get-in word '(:a)))
            (map? (get-in word '(:b))))
       (get-string
-       (get-in word '(:a))
-       (get-in word '(:b)))
+       (get-string (get-in word [:a]))
+       (get-string (get-in word [:b])))
 
       ;; TODO: this rule is pre-empting all of the following rules
       ;; that look in :a and :b. Either remove those following rules

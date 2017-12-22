@@ -344,7 +344,7 @@
                        :person :3rd}}}}
 
    {:p [#"^([^' ]+)nts$"     "se $1dre"]
-    :g [#"^se ([^' ]+)dre$"  "se $1ts"]
+    :g [#"^se ([^' ]+)dre$"  "$1ts"]
     :u {:synsem {:agr {:number :plur
                        :person :1st}}}}
 

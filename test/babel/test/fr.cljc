@@ -662,8 +662,11 @@
          "plains")))
 
 (deftest nous-acheterons
-  (let [spec {:synsem {:sem {:tense :future}, :subcat ()},
-              :root {:français {:français "acheter"}}, :comp {:synsem {:agr {:person :1st, :number :plur}}}}
+  (let [spec {:synsem {:sem {:tense :future},
+                       :subcat []}
+              :root {:français {:français "acheter"}}
+              :comp {:synsem {:agr {:person :1st
+                                    :number :plur}}}}
         generated (babel.generate/generate spec model)]
     (is (= (not (nil? generated))))
     (is (= "nous acheterons" (fo generated)))))

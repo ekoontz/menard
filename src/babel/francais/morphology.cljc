@@ -80,7 +80,6 @@
   "Conjugate an infinitive into a surface form by taking the first 
    element of regular-patterns where the element's :u unifies successfully with
    conjugate-with."
-  (log/debug (str "conjugate(" (string/join "," [infinitive (strip-refs conjugate-with)]) ")"))
   (let [underspecified?
         (or 
          (= :top (get-in conjugate-with [:synsem :cat] :top))
@@ -216,112 +215,112 @@
 ;; 
 (defn get-string [word & [b]]
   (cond 
-        (and (nil? b)
-             (seq? word))
-        (let [result (get-string word)]
-          (if (string? result)
-            (trim result)
-            result))
+    (and (map? word)
+         (map? (get-in word [:a]))
+         (map? (get-in word [:b])))
+    (get-string (get-string (get-in word [:a]))
+                (get-string (get-in word [:b])))
 
-        ;; je + aime = j'aime
-        (and (not (nil? b))
-             (not (nil? (get-string b)))
-             (let [a (get-string word)
-                   b (get-string b)]
-               (and (re-find #"^(je)$" a)
-                    (re-find #"^[aeéiou]" b))))
-        (let [a (get-string word)]
-          (str (string/replace a #"^(j).*" (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
+    (and (nil? b)
+         (seq? word))
+    (let [result (get-string word)]
+      (if (string? result)
+        (trim result)
+        result))
+    
+    ;; je + aime = j'aime
+    (and (not (nil? b))
+         (not (nil? (get-string b)))
+         (let [a (get-string word)
+               b (get-string b)]
+           (and (re-find #"^(je)$" a)
+                (re-find #"^[aeéiou]" b))))
+    (let [a (get-string word)]
+      (str (string/replace a #"^(j).*" (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
+    
+    ;; (elle) la + est (amuseé) = (elle) l'est (amuseé)
+    (and (not (nil? b))
+         (let [a (get-string word)
+               b-str (get-string b)
+               debug (if (nil? b-str)
+                       (throw (Exception. (str "get-string=nil for b: " (strip-refs b)))))
+               b b-str]
+           (and (re-find #"^(la|le|me|se|te)$" a) ;;
+                (re-find #"^[aeéiou]" b))))
+    (let [a (get-string word)]
+      (str (string/replace a #"^(l|m|s|t).*"
+                           (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
+    
+    (and (not (nil? word))
+         (not (nil? b)))
+    (trim (string/join " "
+                       (list (get-string word)
+                             (if b (get-string b)
+                                 ""))))
+    
+    (string? word)
+    word
+    
+    (nil? word)
+    nil
+    
+    (seq? word)
+    (map (string/join " " #(get-string %))
+         word)
 
-        ;; (elle) la + est (amuseé) = (elle) l'est (amuseé)
-        (and (not (nil? b))
-             (let [a (get-string word)
-                   b-str (get-string b)
-                   debug (if (nil? b-str)
-                           (throw (Exception. (str "get-string=nil for b: " (strip-refs b)))))
-                   b b-str]
-               (and (re-find #"^(la|le|me|se|te)$" a) ;;
-                    (re-find #"^[aeéiou]" b))))
-        (let [a (get-string word)]
-          (str (string/replace a #"^(l|m|s|t).*"
-                               (fn [[_ prefix]] (str prefix "'"))) (get-string b)))
-
-        (and (not (nil? word))
-             (not (nil? b)))
-        (trim (string/join " "
-                           (list (get-string word)
-                                 (if b (get-string b)
-                                     ""))))
-
-        (string? word)
-        word
+    true
+    (let [person (get-in word '(:agr :person))
+          number (get-in word '(:agr :number))]
+      (log/debug "get-string: input word: " (strip-refs word))
+      (log/trace (str "get-string: word: " word))
+      (log/trace (str "get-string: word (stripped-refs): " (strip-refs word)))
+      (log/trace (str "word's :a is a string? " (get-in word [:a]) " => " (string? (get-in word [:a]))))
+      (log/trace (str "word's :b is a map? " (get-in word [:b]) " => " (map? (get-in word [:b]))))
+      
+      (log/trace (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
+      
+      (cond
+        (= word :top) ".."
         
-        (nil? word)
-        nil
-
-        (seq? word)
-        (map (string/join " " #(get-string %))
-             word)
+        (ref? word)
+        (get-string @word)
+        
+        ;; TODO: this is a special case that should be handled below instead
+        ;; of forcing every input to go through this check.
+        (= word {:initial false})
+        ".."
+        (= word {:initial true})
+        ".."
+        
+        (and (string? (get-in word [:a]))
+             (string? (get-in word [:b])))
+        (get-string (get-in word [:a])
+                    (get-in word [:b]))
+        
+        (and (string? (get-in word [:a]))
+             (map? (get-in word [:b])))
+        (get-string (get-in word [:a])
+                    (get-in word [:b]))
+                
+        (= true (get-in word [:exception]))
+        (do (log/debug (str "exception word:" (strip-refs word)))
+            (log/debug (str "exception word1:" (get-in word [:français])))
+            (get-in word [:français]))
+        
+        (nil? (get-in word [:français]))
+        ""
         
         true
-        (let [person (get-in word '(:agr :person))
-              number (get-in word '(:agr :number))]
-          (log/debug "get-string: input word: " (strip-refs word))
-          (log/trace (str "get-string: word: " word))
-          (log/trace (str "get-string: word (stripped-refs): " (strip-refs word)))
-          (log/trace (str "word's :a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-          (log/trace (str "word's :b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
-          
-          (log/trace (str "word's :a french is a string? " (get-in word '(:a :français)) " => " (string? (get-in word '(:a :français)))))
+        (let [infinitive (get-in word [:français])
+              debug (log/debug (str "input to conjugate: infinitive: " infinitive "; spec:"
+                                    (strip-refs word)))
+              synsemize ;; convert _word_ back into what (defn conjugate) can deal with.
+              (pre-conjugate {:français word})
+              debug (log/debug (str "synsemized: " (strip-refs synsemize)))
+              result (conjugate infinitive synsemize)]
+          (log/debug (str "result of conjugate: " result))
+          result)))))
 
-          (cond
-            (= word :top) ".."
-           
-            (ref? word)
-            (get-string @word)
-            
-            ;; TODO: this is a special case that should be handled below instead
-            ;; of forcing every input to go through this check.
-            (= word {:initial false})
-            ".."
-            (= word {:initial true})
-            ".."
-           
-            (and (string? (get-in word '(:a)))
-                 (string? (get-in word '(:b))))
-            (get-string (get-in word '(:a))
-                        (get-in word '(:b)))
-            
-            (and (string? (get-in word '(:a)))
-                 (map? (get-in word '(:b))))
-            (get-string (get-in word '(:a))
-                        (get-in word '(:b)))
-            
-            (and (map? (get-in word '(:a)))
-                 (map? (get-in word '(:b))))
-            (get-string
-             (get-in word '(:a))
-             (get-in word '(:b)))
-
-            (= true (get-in word [:exception]))
-            (do (log/debug (str "exception word:" (strip-refs word)))
-                (log/debug (str "exception word1:" (get-in word [:français])))
-                (get-in word [:français]))
-
-            (nil? (get-in word [:français]))
-            ""
-
-            true
-            (let [infinitive (get-in word [:français])
-                  debug (log/debug (str "input to conjugate: infinitive: " infinitive "; spec:"
-                                        (strip-refs word)))
-                  synsemize ;; convert _word_ back into what (defn conjugate) can deal with.
-                  (pre-conjugate {:français word})
-                  debug (log/debug (str "synsemized: " (strip-refs synsemize)))
-                  result (conjugate infinitive synsemize)]
-              (log/debug (str "result of conjugate: " result))
-              result)))))
- 
 ;; TODO create a class LinguisticStructure: which is simply a
 ;; clojure map. This class has a method: '.toString()'. As the
 ;; clojure docs explain :

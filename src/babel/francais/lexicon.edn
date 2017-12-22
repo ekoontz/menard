@@ -666,7 +666,8 @@
 
  ;; TODO: complicated stuff like subject-object agreement
  ;; for reflexives should be done in a lexical complilation rule in
- ;; babel.francais.lexicon, not in individual lexemes.
+ ;; babel.francais.lexicon, not duplicated for every individual reflexive
+ ;; lexeme.
  "s'amuser" (let [subject-semantics (atom {:human true})
                     subject-agr (atom :top)]
                 {:synsem {:cat :verb
@@ -840,7 +841,7 @@
                                        :sem subject-semantics}}}})
 
 "se plaindre" (let [subject-semantics (atom {:human true})
-                  subject-agr (atom :top)]
+                    subject-agr (atom :top)]
               {:synsem {:cat :verb
                         :essere true
                         :sem {:pred :complain

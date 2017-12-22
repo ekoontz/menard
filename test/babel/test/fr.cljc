@@ -675,7 +675,14 @@
     (is (= times
            (count (take times
                         (repeatedly
-                         #(time (println (fo (generate spec :model model)))))))))))
+                         #(time (do
+                                  (println (fo (generate spec :model (medium))))
+                                  (println (string/join ","
+                                                        (map (:morph-ps (medium))
+                                                             (parse (fo (generate spec :model (medium)))
+                                                                    :model (medium)
+                                                                    :parse-with-truncate false)))))))))))))
+                                                       
 (deftest speed-test-1
   ;; these should all take relatively the same time, but
   ;; for now, the more general the spec, the longer it takes to generate.

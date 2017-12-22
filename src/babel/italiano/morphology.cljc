@@ -122,8 +122,8 @@
       (and (map? (get-in word '(:a)))
            (map? (get-in word '(:b))))
       (get-string
-       (get-in word '(:a))
-       (get-in word '(:b)))
+       (get-string (get-in word [:a]))
+       (get-string (get-in word [:b])))
 
       (= :verb (get-in word [:cat]))
       (let [conjugated (verbs/conjugate word)]

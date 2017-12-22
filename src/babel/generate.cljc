@@ -66,8 +66,10 @@
               ;; ..otherwise it's a phrase, so return the lazy
               ;; sequence of adding all possible complements at every possible
               ;; position at the bolt.
-              (add-comps-to-bolt bolt model
-                                 (reverse (comp-paths depth)))))
+              (if true
+                (add-comps-to-bolt bolt model
+                                   (reverse (comp-paths depth)))
+                [bolt])))
            (gen spec model depth
                 (rest bolts)
                 at-path)))
@@ -134,14 +136,12 @@
 (defn add-comps-to-bolt
   "bolt + paths => trees"
   [bolt model comp-paths]
-  (if (not (empty? comp-paths))
-    (do
-      (log/debug (str "add-comps-to-bolt: "
-                      ((:morph-ps model) bolt) " with (first paths): "
-                      " [" (string/join " " (first comp-paths)) "]"))
+  (if (and true (not (empty? comp-paths)))
+    (let [comp-path (first comp-paths)]
+      (log/debug (str "add-comps-to-bolt: " ((:morph-ps model) bolt) "@[" (string/join " " comp-path) "]"))
       (add-comp-to-bolts 
        (add-comps-to-bolt bolt model (rest comp-paths))
-       (first comp-paths)
+       comp-path
        model))
     [bolt]))
 
@@ -149,12 +149,10 @@
   "bolts + path => partial trees"
   [bolts path model]
   (if (not (empty? bolts))
-    (do
-      (log/trace (str "add-comp-to-bolts: path=" (vec path) "; first bolt=" ((:morph-ps model) (first bolts))))
+    (let [bolt (first bolts)]
+      (log/debug (str "add-comp-to-bolts: " ((:morph-ps model) bolt) "@[" (string/join " " path) "]"))
       (lazy-cat
-       (let [result
-             (add-to-bolt-at-path (first bolts) path model)]
-         result)
+       (add-to-bolt-at-path bolt path model)
        (add-comp-to-bolts (rest bolts) path model)))))
 
 (defn hd [] :head)

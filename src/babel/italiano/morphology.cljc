@@ -111,16 +111,16 @@
   (let [person (get-in word '(:agr :person))
         number (get-in word '(:agr :number))]
     (cond
-      (and (string? (get-in word '(:a)))
-           (string? (get-in word '(:b))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
-      (and (string? (get-in word '(:a)))
-           (map? (get-in word '(:b))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
-      (and (map? (get-in word '(:a)))
-           (map? (get-in word '(:b))))
+      (and (string? (get-in word [:a]))
+           (string? (get-in word [:b])))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
+      (and (string? (get-in word [:a]))
+           (map? (get-in word [:b])))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
+      (and (map? (get-in word [:a]))
+           (map? (get-in word [:b])))
       (get-string
        (get-string (get-in word [:a]))
        (get-string (get-in word [:b])))
@@ -138,10 +138,10 @@
       ;; that look in :a and :b. Either remove those following rules
       ;; if they are redundant and not needed, or move this general rule
       ;; below the following rules.
-      (and (not (= :none (get-in word '(:a) :none)))
-           (not (= :none (get-in word '(:b) :none))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
+      (and (not (= :none (get-in word [:a] :none)))
+           (not (= :none (get-in word [:b] :none))))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
 
       (and
        (string? (get-in word '(:a :italiano)))
@@ -153,12 +153,12 @@
            " "
            (string/trim (get-in word '(:b :italiano))))
       (and
-       (string? (get-in word '(:a)))
+       (string? (get-in word [:a]))
        (string? (get-in word '(:b :italiano)))
        (or (= :none (get-in word '(:b :agr :number) :none))
            (= :top (get-in word '(:b :agr :number) :none)))
        )
-      (str (string/trim (get-in word '(:a)))
+      (str (string/trim (get-in word [:a]))
            " "
            (string/trim (get-in word '(:b :italiano))))
       (and
@@ -168,7 +168,7 @@
            (= :top (get-in word '(:b :agr :number) :none)))
        (= (get-in word '(:a :infl)) :top))
       (string/trim (str (get-in word '(:a :italiano))
-                        " " (get-string-1 (get-in word '(:b)))))
+                        " " (get-string-1 (get-in word [:b]))))
 
       ;; TODO: all of the rules that handle exceptions should be removed:
       ;; exceptions are dealt with at compile-time now, via babel.italiano.morphology/exception-generator
@@ -299,11 +299,11 @@
       (get-in word '(:italiano))
 
       (and
-       (get-in word '(:a))
-       (get-in word '(:b)))
+       (get-in word [:a])
+       (get-in word [:b]))
       (str
-       (trim (get-string-1 (get-in word '(:a)))) " "
-       (trim (get-string-1 (get-in word '(:b)))))
+       (trim (get-string-1 (get-in word [:a]))) " "
+       (trim (get-string-1 (get-in word [:b]))))
      
      (and
       (string? (get-in word '(:italiano)))
@@ -318,25 +318,25 @@
      (str (get-in word '(:italiano)))
 
      (and
-      (get-in word '(:a))
-      (get-in word '(:b)))
+      (get-in word [:a])
+      (get-in word [:b]))
      (get-string
-      (get-in word '(:a))
-      (get-in word '(:b)))
+      (get-in word [:a])
+      (get-in word [:b]))
 
-     (= (get-in word '(:a)) :top)
+     (= (get-in word [:a]) :top)
      (str
-      ".." " " (get-string-1 (get-in word '(:b))))
+      ".." " " (get-string-1 (get-in word [:b])))
 
      (and
-      (= (get-in word '(:b)) :top)
-      (string? (get-string-1 (get-in word '(:a)))))
+      (= (get-in word [:b]) :top)
+      (string? (get-string-1 (get-in word [:a]))))
      (str
-      (get-string-1 (get-in word '(:a)))
+      (get-string-1 (get-in word [:a]))
       " " "..")
 
      (and
-      (= (get-in word '(:b)) :top)
+      (= (get-in word [:b]) :top)
       (string? (get-in word '(:a :italiano))))
      (str
       (get-string-1 (get-in word '(:a :italiano)))
@@ -374,10 +374,10 @@
      (get-in word '(:italiano))
 
      (or
-      (not (= :none (get-in word '(:a) :none)))
-      (not (= :none (get-in word '(:b) :none))))
-     (get-string (get-in word '(:a))
-                 (get-in word '(:b)))
+      (not (= :none (get-in word [:a] :none)))
+      (not (= :none (get-in word [:b] :none))))
+     (get-string (get-in word [:a])
+                 (get-in word [:b]))
 
      (and (map? word)
           (nil? (:italiano word)))

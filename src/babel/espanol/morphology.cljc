@@ -77,8 +77,8 @@
          usted (if usted usted false)]
      (log/debug (str "get-string-1: word: " word))
      (log/debug (str "get-string-1: word (stripped-refs): " (strip-refs word)))
-     (log/debug (str "word's a is a string? " (get-in word '(:a)) " => " (string? (get-in word '(:a)))))
-     (log/debug (str "word's b is a map? " (get-in word '(:b)) " => " (map? (get-in word '(:b)))))
+     (log/debug (str "word's a is a string? " (get-in word [:a]) " => " (string? (get-in word [:a]))))
+     (log/debug (str "word's b is a map? " (get-in word [:b]) " => " (map? (get-in word [:b]))))
      
      (log/debug (str "word's a espanol is a string? " (get-in word '(:a :espanol)) " => " (string? (get-in word '(:a :espanol)))))
 
@@ -90,18 +90,18 @@
       (= word {:initial true})
       ".."
       
-      (and (string? (get-in word '(:a)))
-           (string? (get-in word '(:b))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
+      (and (string? (get-in word [:a]))
+           (string? (get-in word [:b])))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
 
-      (and (string? (get-in word '(:a)))
-           (map? (get-in word '(:b))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
+      (and (string? (get-in word [:a]))
+           (map? (get-in word [:b])))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
 
-      (and (map? (get-in word '(:a)))
-           (map? (get-in word '(:b))))
+      (and (map? (get-in word [:a]))
+           (map? (get-in word [:b])))
       (get-string
        (get-string (get-in word [:a]))
        (get-string (get-in word [:b])))
@@ -110,10 +110,10 @@
       ;; that look in :a and :b. Either remove those following rules
       ;; if they are redundant and not needed, or move this general rule
       ;; below the following rules.
-      (and (not (= :none (get-in word '(:a) :none)))
-           (not (= :none (get-in word '(:b) :none))))
-      (get-string (get-in word '(:a))
-                  (get-in word '(:b)))
+      (and (not (= :none (get-in word [:a] :none)))
+           (not (= :none (get-in word [:b] :none))))
+      (get-string (get-in word [:a])
+                  (get-in word [:b]))
 
       (and
        (string? (get-in word '(:a :espanol)))
@@ -126,12 +126,12 @@
            (string/trim (get-in word '(:b :espanol))))
 
       (and
-       (string? (get-in word '(:a)))
+       (string? (get-in word [:a]))
        (string? (get-in word '(:b :espanol)))
        (or (= :none (get-in word '(:b :agr :number) :none))
            (= :top (get-in word '(:b :agr :number) :none)))
        )
-      (str (string/trim (get-in word '(:a)))
+      (str (string/trim (get-in word [:a]))
            " "
            (string/trim (get-in word '(:b :espanol))))
       
@@ -142,7 +142,7 @@
            (= :top (get-in word '(:b :agr :number) :none)))
        (= (get-in word '(:a :infl)) :top))
       (string/trim (str (get-in word '(:a :espanol))
-                        " " (get-string-1 (get-in word '(:b)))))
+                        " " (get-string-1 (get-in word [:b]))))
 
       (= true (get-in word [:exception]))
       (get-in word [:espanol])

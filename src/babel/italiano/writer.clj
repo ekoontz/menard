@@ -45,7 +45,9 @@
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (= (get-in lexeme [:synsem :aux] false) false)
-                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))
+                           (or (= :unspec (get-in lexeme [:synsem :sem :obj]))
+                               (= true (get-in lexeme [:synsem :sem :reflexive])))))
                         lexeme-set))
               lexemes))
 

@@ -473,6 +473,7 @@
                    (unify h21
                           root-is-head
                           {:rule "vp-past"
+                           :comp {:subcat []}
                            :head {:synsem {:sem {:reflexive false
                                                  :obj {:top :top}}
                                            :subcat {:2 {:sem {:top :top}}}}}

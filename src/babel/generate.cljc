@@ -47,7 +47,7 @@
 
 (defn gen
   "Return a lazy sequence of every possible tree given a specification and a model."
-  [spec model depth & [from-bolts at-path]]
+  [spec model depth & [from-bolts]]
   (log/trace (str "gen@" depth "; spec=" (show-spec spec)))
   (when (< depth max-depth)
     (let [bolts (or from-bolts
@@ -66,15 +66,11 @@
               ;; ..otherwise it's a phrase, so return the lazy
               ;; sequence of adding all possible complements at every possible
               ;; position at the bolt.
-              (if true
-                (add-comps-to-bolt bolt model
-                                   (reverse (comp-paths depth)))
-                [bolt])))
-           (gen spec model depth
-                (rest bolts)
-                at-path)))
+              (add-comps-to-bolt bolt model
+                                 (reverse (comp-paths depth)))))
+           (gen spec model depth (rest bolts))))
         (if (not (= false (get-in spec [:phrasal] true)))
-          (gen spec model (+ 1 depth) nil at-path))))))
+          (gen spec model (+ 1 depth)))))))
 
 (defn get-bolts-for [model spec depth]
   (let [result
@@ -187,7 +183,7 @@
 (defn add-to-bolt-at-path
   "bolt + path => partial trees"
   [bolt path model]
-  (let [complements (gen (get-in bolt path) model 0 nil path)]
+  (let [complements (gen (get-in bolt path) model 0)]
     (if (empty? complements)
       (let [error-message
             (str "(improve grammar): no complements found for: "

@@ -51,17 +51,7 @@
         ;; is expected to be the infinitive for verbs.
         infinitive (get-in word [:future-stem]
                            (get-in word [:italiano]))]
-    (let [conjugations (do-replace-on infinitive unifying-patterns)]
-      (if (empty? conjugations)
-        (throw (Exception. (str "no conjugation found for infinitive: " infinitive " with unifying patterns: "
-                                (string/join "," unifying-patterns)))))
-      (if (not (empty? (rest conjugations)))
-        (throw (Exception. (str "more than one conjugation found for infinitive:'" infinitive "': "
-                                (string/join "," (vec (set conjugations)))
-                                "; word: " (dag_unify.core/strip-refs word)
-                                "; unifying-patterns: " (string/join "," (map dag_unify.core/strip-refs
-                                                                              unifying-patterns))))))
-      (first conjugations))))
+    (first (do-replace-on infinitive unifying-patterns))))
 
 ;; </conditional>
 

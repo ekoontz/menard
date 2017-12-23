@@ -213,8 +213,7 @@
 ;; -- END SCHEMA DEFINITIONS
 
 (defonce vp-non-pronoun
-  {:comp {:synsem {:subcat []
-                   :pronoun false}}})
+  {:comp {:synsem {:pronoun false}}})
 
 (defonce modified {:modified true})
 (defonce unmodified {:modified false})

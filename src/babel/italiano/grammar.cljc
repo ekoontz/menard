@@ -469,11 +469,14 @@
                                      :infl :imperfect
                                      :cat :verb}}
                            vp-non-pronoun)
+
+                   ;;{:root {:italiano {:italiano "abbracciare"}}, :synsem {:cat :verb, :subcat [], :sem {:aspect :perfect, :tense :present :obj :unspec}}}
+                   ;; (take 5 (repeatedly #(println ((:morph-ps model) (babel.generate/generate spec model)))))
                    
                    (unify h21
                           root-is-head
                           {:rule "vp-past"
-                           :comp {:subcat []}
+                           :comp {:synsem {:subcat []}}
                            :head {:synsem {:sem {:reflexive false
                                                  :obj {:top :top}}
                                            :subcat {:2 {:sem {:top :top}}}}}

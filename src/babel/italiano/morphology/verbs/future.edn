@@ -5,11 +5,14 @@
 ;;
 ;; TODO: fill in uncommented blanks below:
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
+
 [{:agr {:person :1st
         :number :sing}
-  :g [#"^(.*)[ae]re$" "$1erò" ;; parlare,ricevere
-      #"^(.*)care$"   "$1cherò" ;; caricare
-      #"^(.*)ire$"    "$1irò" ;; dormire
+  :g [#"^(.*)[ae]re$"  "$1erò" ;; parlare,ricevere
+      #"^(.*)care$"    "$1cherò" ;; caricare
+      #"^(.*)ire$"     "$1irò" ;; dormire
+      #"(.*)[ae]rsi$"  "$1erò" ;; alzarsi -> alzerò
+      #"(.*)[i]rsi$"   "$1irò"
 
       ;; :future-stem
       #"^(.*r)$" "$1ò" ;; vivere -> vivrò
@@ -42,6 +45,9 @@
   :g [#"^(.*)[ae]re$" "$1erai" ;; parlare -> parlerai
       #"^(.*)ire$"    "$1irai" ;; dormire -> dormirai
 
+      #"(.*)[ae]rsi$"  "$1erai"
+      #"(.*)[i]rsi$"   "$1irai"
+      
       ;; :future-stem
       #"^(.*r)$" "$1ai"
 
@@ -87,13 +93,16 @@
       #"(.*)rà"      "$1re"
       #"(.*)errà"    "$1enire" ;; sverrà -> svenire
       #"(.*)rà"      "$1ere" ;; potrà -> potere
-
+      
       ;; stem rules
       #"(.*)rrà"     "$1lere"  ;; vorrà -> volere
       #"(.*)rrà"     "$1nere" ;; rimarrà -> rimanere
       ]
   :g [#"^(.*)[ae]re$"  "$1erà" ;; parlare,ricevere
       #"^(.*)ire$"     "$1irà" ;; dormire
+
+      #"(.*)[ae]rsi$"  "$1erà"
+      #"(.*)[i]rsi$"   "$1irà"
 
       ;; :future-stem
       #"^(.*r)$" "$1à"
@@ -102,8 +111,12 @@
   }
  {:agr {:person :1st
         :number :plur}
-  :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare => parleremo
-      #"^(.*)ire$"    "$1iremo" ;; finire => finiremo
+  :g [#"^(.*)[ae]re$" "$1eremo" ;; parlare -> parleremo
+      #"^(.*)ire$"    "$1iremo" ;; finire -> finiremo
+
+      #"(.*)[ae]rsi$"  "$1eremo"
+      #"(.*)[i]rsi$"   "$1iremo"
+
       ;; :future-stem
       #"^(.*r)$" "$1emo"
       ]
@@ -133,6 +146,10 @@
         :number :plur}
   :g [#"^(.*)[ae]re$" "$1erete" ;; parlare => parlerete
       #"^(.*)ire$"    "$1irete" ;; finire => finiremo
+
+      #"(.*)[ae]rsi$"  "$1erete"
+      #"(.*)[i]rsi$"   "$1irete"
+
       ;; :future-stem:
       #"^(.*r)$" "$1ete"
       ]
@@ -161,8 +178,12 @@
  {:agr {:person :3rd
         :number :plur}
   
-  :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare => parleranno
-      #"^(.*)ire$"    "$1iranno" ;; finire => finiranno
+  :g [#"^(.*)[ae]re$" "$1eranno" ;; parlare -> parleranno
+      #"^(.*)ire$"    "$1iranno" ;; finire -> finiranno
+
+      #"(.*)[ae]rsi$"  "$1eranno"
+      #"(.*)[i]rsi$"   "$1iranno"
+
       ;; :future-stem:
       #"^(.*r)$" "$1anno"
       ]

@@ -9,6 +9,9 @@
         :person :1st}
   :g [#"^(.*)([aei])re$" "$1$2rei"
 
+      #"(.*)[ae]rsi$"  "$1erei" ;; alzarsi -> alzerei
+      #"(.*)[i]rsi$"   "$1irei"
+
       ;; :future-stem
       #"^(.*r)$" "$1ei" ;; vivere -> vivrei
 
@@ -40,6 +43,10 @@
  {:agr {:number :sing
         :person :2nd}
   :g [#"^(.*)([aei])re$" "$1$2resti"
+
+      #"(.*)[ae]rsi$"  "$1eresti"
+      #"(.*)[i]rsi$"   "$1iresti"
+
       ;; :future-stem
       #"^(.*r)$" "$1esti"
       ]
@@ -69,6 +76,10 @@
  {:agr {:number :sing
         :person :3rd}
   :g [#"^(.*)([aei])re$" "$1$2rebbe"
+
+      #"(.*)[ae]rsi$"  "$1erebbe"
+      #"(.*)[i]rsi$"   "$1irebbe"
+
       ;; :future-stem
       #"^(.*r)$" "$1ebbe"
       ]      
@@ -97,6 +108,10 @@
  {:agr {:number :plur
         :person :1st}
   :g [#"^(.*)([aei])re$" "$1$2remmo"
+
+      #"(.*)[ae]rsi$"  "$1eremmo"
+      #"(.*)[i]rsi$"   "$1iremmo"
+
       ;; :future-stem
       #"^(.*r)$" "$1emmo"]
   :p [
@@ -124,6 +139,10 @@
  {:agr {:number :plur
         :person :2nd}
   :g [#"^(.*)([aei])re$" "$1$2reste"
+
+      #"(.*)[ae]rsi$"  "$1ereste"
+      #"(.*)[i]rsi$"   "$1ireste"
+
       ;; :future-stem
       #"^(.*r)$" "$1este"]
   :p [
@@ -151,6 +170,10 @@
  {:agr {:number :plur
         :person :3rd}
   :g [#"^(.*)([aei])re$" "$1$2rebbero"
+
+      #"(.*)[ae]rsi$"  "$1erebbero"
+      #"(.*)[i]rsi$"   "$1irebbero"
+
       ;; :future-stem
       #"^(.*r)$" "$1ebbero"]
   :p [

@@ -30,7 +30,8 @@
                     true (Integer. count))
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-        lexicon (:lexicon model)
+        lexicon (or (:lexicon (:generate model))
+                    (:lexicon model))
         lexemes
         (cond (nil? lexeme) (vals lexicon)
               (= "all" lexeme) (vals lexicon)

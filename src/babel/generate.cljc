@@ -181,16 +181,13 @@
      (comp-paths (- depth 1)))))
 
 (defn add-to-bolt-at-path
-  "bolt + path => partial trees"
+  "find all complements for bolt at given path, and create a partial tree: bolt + complement => partial tree"
   [bolt path model]
-  ;; add each complement to _bolt_:
-  (map (fn [each-comp]
-         (->
-          (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path each-comp)
-          ((fn [tree]
-             (if (:default-fn model)
-               ((:default-fn model) tree)
-               tree)))))
+  (map #(let [partial-tree
+              (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)]
+          (if (:default-fn model)
+            ((:default-fn model) partial-tree)
+            partial-tree))
        (gen (get-in bolt path) model 0)))
 
 (defn get-lexemes [model spec]

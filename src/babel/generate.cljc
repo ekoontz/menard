@@ -183,29 +183,15 @@
 (defn add-to-bolt-at-path
   "bolt + path => partial trees"
   [bolt path model]
-  (let [complements (gen (get-in bolt path) model 0)]
-    (if (empty? complements)
-      (let [error-message
-            (str "(improve grammar): no complements found for: "
-                 ((:morph-ps model) bolt) "; path: [" (string/join "/" path) "]"
-                 "; spec=" (show-spec 
-                            (get-in bolt path)))]
-        ;;        (throw (Exception. error-message)))
-        (log/warn (str error-message)))
-      (->>
-       ;; set of all complements at _path_ for _bolt_:
-       complements
-       
-       ;; add each member _each_comp_ of this set to _bolt_:
-       (map (fn [each-comp]
-              (let [result
-                    (dag_unify.core/assoc-in! bolt path each-comp)]
-                (->
-                 result
-                 ((fn [tree]
-                    (if (:default-fn model)
-                      ((:default-fn model) tree)
-                      tree)))))))))))
+  ;; add each complement to _bolt_:
+  (map (fn [each-comp]
+         (->
+          (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path each-comp)
+          ((fn [tree]
+             (if (:default-fn model)
+               ((:default-fn model) tree)
+               tree)))))
+       (gen (get-in bolt path) model 0)))
 
 (defn get-lexemes [model spec]
   "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."

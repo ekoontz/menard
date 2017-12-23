@@ -40,13 +40,12 @@ as a map of implications"}
                       :activity false
                       :living false
                       :physical-object true}
-
-
    
    {:buyable true}   {:human false
                       :part-of-human-body false}
 
    {:city true}      {:artifact true
+                      :animate false
                       :legible false
                       :place true}
 

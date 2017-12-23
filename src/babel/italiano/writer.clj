@@ -65,6 +65,7 @@
                    (let [root-form (get-in verb [:italiano :italiano])]
                      (generate-one-verb (unify
                                          {:synsem {:subcat '()}}
+                                         {:modified false}
                                          {:synsem {:sem
                                                    (get-in verb [:synsem :sem] :top)}}
                                          {:root {:italiano {:italiano root-form}}})

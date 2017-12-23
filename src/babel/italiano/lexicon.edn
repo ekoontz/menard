@@ -1544,7 +1544,7 @@
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
 
- "ostana" {:synsem {:cat :noun
+ "Ostana" {:synsem {:cat :noun
                     :propernoun true
                     :sem {:pred :ostana
                           :city true}}}

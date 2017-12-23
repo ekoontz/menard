@@ -55,7 +55,7 @@
                  regular-patterns))]
     (if (not (empty? retval))
       (log/debug (str "analyze '" surface-form "': count=" (count retval) ";" (string/join "," (map strip-refs retval))))
-      (log/warn (str " analyze: could not analyze surface-form: " surface-form)))
+      (log/debug (str " analyze: could not analyze surface-form: " surface-form)))
     retval))
 
 (defn lookup-in [lexicon {spec :spec}]

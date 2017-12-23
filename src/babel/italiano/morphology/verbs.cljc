@@ -19,7 +19,7 @@
 
 (defn patterns-with-agr [patterns]
   (map (fn [pattern]
-         (let [{agr :agr} pattern]
+         (let [agr (get-in pattern [:agr] :top)]
            (merge pattern
                   {:agr agr})))
        patterns))
@@ -139,10 +139,11 @@
 
 (defn regular-passato [word]
   (let [unifying-patterns
-        (remove nil? (mapcat #(when (not (= :fail
-                                            (unify word
-                                                   {:agr (:agr %)
-                                                    :essere (:essere %)})))
+        (remove nil? (mapcat
+                      #(when (not (= :fail
+                                     (unify word
+                                            {:agr (:agr % :top)
+                                             :essere (get-in % [:u :synsem :essere] :top)})))
                                 (:g %))
                              patterns-passato))
         infinitive (get-in word [:italiano])]

@@ -387,6 +387,10 @@ as a map of implications"}
         {:pred :eat
          :obj {:edible true}}
 
+        {:pred :embrace
+         :subj {:human true}
+         :obj {:animate true}}
+
         {:pred :enter
          :subj {:animate true}
          :obj {:place true}}

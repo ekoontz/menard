@@ -484,7 +484,7 @@
   "Take one or more 'units' composed of a command and arguments and perform the command on the arguments. A command is one of:
     {:fill,:fill-one-language,:fill-verb}."
   [units source-language & [no-older-than]]
-  (log/debug "Starting processing with: " (.size units) " instruction(s) with source language " source-language)
+  (log/debug "Starting processing with: " (.size units) " instruction(s) with source language: '" source-language "'")
   (let []
     (log/debug (str "Units: " (.size units)))
     (doall (map (fn [unit]

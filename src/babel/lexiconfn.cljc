@@ -701,6 +701,18 @@
                                    (get lexicon k))])
                 (keys lexicon))))
 
+(defn noun-pred-defaults [lexicon]
+  (into {} (map (fn [k] [k (map (fn [v]
+                                  (if (= :noun (get-in v [:synsem :cat]))
+                                    (let [unif (unify v {:synsem {:cat :noun
+                                                                  :sem (sem-impl (dag_unify.core/strip-refs (get-in v [:synsem :sem])))}})]
+                                      (if (not (= :fail unif))
+                                        unif
+                                        v))
+                                    v))
+                                (get lexicon k))])
+                (keys lexicon))))
+
 (defn verb-pred-defaults [lexicon verb-pred-default-list]
   (if (not (empty? verb-pred-default-list))
     (verb-pred-defaults (default lexicon (first verb-pred-default-list))

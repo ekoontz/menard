@@ -1,11 +1,14 @@
-[{:pred :abbracciare
-  :active false
-  :discrete false
-  :obj {:animate true}
+[{:pred :abandon
+  :subj {:animate true}}
+
+ {:pred :accept
   :subj {:human true}}
  
- {:subj {:human true}
-  :pred :admire}
+ {:pred :add
+  :subj {:human true}}
+
+ {:pred :admire
+  :subj {:human true}}
  
  {:activity true
   :obj {:human true}
@@ -151,7 +154,7 @@
  {:pred :have-fun
   :reflexive true
   :subj {:human true}}
- 
+
  {:pred :hug
   :subj {:human true}
   :obj {:animate true}}
@@ -171,6 +174,12 @@
  
  {:pred :live
   :subj {:animate true}}
+
+ {:pred :live-a
+  :subj {:animate true}}
+
+ {:pred :lower
+  :subj {:human true}}
  
  {:pred :put-on
   :subj {:human true}

@@ -7,7 +7,8 @@
     :as lexfn
     :refer [apply-unify-key default evaluate
             filter-vals listify map-function-on-map-vals
-            new-entries rewrite-keys verb-pred-defaults]]
+            new-entries rewrite-keys noun-pred-defaults
+            verb-pred-defaults]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -165,7 +166,10 @@
       (default
        {:synsem {:cat :noun
                  :sem {:null false}}})
-      
+
+      ;; TODO: simplify to just (noun-pred-defaults)
+      (noun-pred-defaults)
+
       ;; </noun default rules>            
 
       ;; <verb default rules>

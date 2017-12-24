@@ -71,7 +71,8 @@
                                          {:modified false}
                                          {:synsem {:sem
                                                    (get-in verb [:synsem :sem] :top)}}
-                                         {:root {:italiano {:italiano root-form}}})
+                                         {:root {:italiano {:italiano root-form}}}
+                                         {:synsem {:sem {:subj {:city false}}}})
                                         count no-older-than)))
                  tutti))))
 

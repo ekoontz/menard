@@ -8,7 +8,6 @@
                       subcat0 subcat1
                       transitive-but-object-cat-not-set
                       verb-subjective]]
-   [clojure.java.io :refer [reader]]
    [clojure.set :as set]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 

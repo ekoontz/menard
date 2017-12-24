@@ -226,7 +226,7 @@
                    :subcat {:1 {:sem subject-semantics}}
                    :sem {:subj subject-semantics}}}))
 
-      (verb-pred-defaults encyc/verb-pred-defaults)
+      (verb-pred-defaults encyc/verbs)
 
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:allow-intransitivize true

@@ -6,7 +6,7 @@ as a map of implications"}
    [babel.exception :refer [exception]]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
-   [dag_unify.core :refer [strip-refs unify]]))
+   [dag_unify.core :refer [strip-refs unify unify!]]))
 
 ;; TODO: use clojure.core/isa? and clojure.core/derive where possible
 ;; in here, e.g.: (derive ::human ::animal)
@@ -292,10 +292,10 @@ as a map of implications"}
 ;; they lack a {:pred} value.
 (def verb-pred-defaults
   (map (fn [sem]
-         (unify {:synsem {:aux false
-                          :sem {:shared-with-obj false} ;; prevent matching reflexive verbs.
-                          :cat :verb}}
-                {:synsem {:sem sem}}))
+         (unify! {:synsem {:aux false
+                           :sem {:shared-with-obj false} ;; prevent matching reflexive verbs.
+                           :cat :verb}}
+                 {:synsem {:sem sem}}))
                   
        [{:pred :abbracciare
          :active false

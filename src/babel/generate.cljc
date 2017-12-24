@@ -216,9 +216,9 @@
   ;;   because it looks like:
   ;; 
   ;;   H
-  ;;  /=\
+  ;;  / \
   ;; C   H
-  ;;    /=\
+  ;;    / \
   ;;   H   C
   ;;
   [depth]

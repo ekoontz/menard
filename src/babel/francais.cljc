@@ -31,7 +31,7 @@
        (conj {:surface (fo result)}
              result))))
   ([spec & {:keys [max-total-depth model truncate-children]
-            :or {max-total-depth generate/max-total-depth
+            :or {max-total-depth generate/max-depth
                  truncate-children true
                  model (medium)}}]
    (let [result (generate/generate spec model)]

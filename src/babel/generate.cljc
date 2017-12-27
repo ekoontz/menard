@@ -11,11 +11,9 @@
                                         
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
-(def ^:const max-depth 5)
-(def ^:const max-total-depth max-depth)
-
+(def ^:const max-depth 10)
 ;; use map or pmap.
-(def ^:const mapfn map)
+(def ^:const mapfn pmap)
 
 (def ^:const handle-unify-fail #(log/debug %))
 (def ^:const throw-exception-on-unify-fail false)
@@ -96,6 +94,11 @@
   ;; And so on.
   ;;
   ;;
+  (if (nil? spec)
+    ;;    (throw (Exception. (str "wtf.")))
+    nil
+    (do
+;;    (println (str "gen@" depth "; spec=" (dag_unify.core/strip-refs spec)))
   (log/trace (str "gen@" depth "; spec=" (show-spec spec)))
   (when (< depth max-depth)
     (let [bolts (or from-bolts
@@ -118,7 +121,7 @@
                                  (reverse (comp-paths depth)))))
            (gen spec model depth (rest bolts))))
         (if (not (= false (get-in spec [:phrasal] true)))
-          (gen spec model (+ 1 depth)))))))
+          (gen spec model (+ 1 depth)))))))))
 
 (defn get-bolts-for
   "Return every possible bolt for the given model and spec."

@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.francais :refer [analyze generate parse]]
-   [babel.francais.grammar :refer [small medium]]
+   [babel.francais.grammar :refer [medium]]
    [babel.korma :as korma]
    [babel.francais.morphology :refer [fo]]
    [babel.parse :as parse]

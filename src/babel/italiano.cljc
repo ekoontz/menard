@@ -14,11 +14,6 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(defonce small-model (promise))
-(defn small [] (if (realized? small-model)
-                 @small-model
-                 @(deliver small-model (grammar/small))))
-
 (defonce medium-model (promise))
 (defn medium []
   (if (realized? medium-model)
@@ -52,7 +47,7 @@
 
 (defn generate
   ([]
-   (let [max-total-depth generate/max-total-depth
+   (let [max-total-depth generate/max-depth
          truncate-children true
          model (medium)]
      (generate {:modified false}
@@ -61,7 +56,7 @@
                :model model)))
   ([spec & {:keys [model do-enrich max-total-depth truncate]
             :or {do-enrich true
-                 max-total-depth generate/max-total-depth
+                 max-total-depth generate/max-depth
                  model (medium)
                  truncate true}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))

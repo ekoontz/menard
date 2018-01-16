@@ -51,7 +51,7 @@
                                 :2 '()}
                        :sem {:obj :unspec}}})
             
-            (verb-pred-defaults encyc/verb-pred-defaults))
+            (verb-pred-defaults encyc/verbs))
         indices (create-indices lexicon index-lexicon-on-paths)]
     {:lexicon lexicon
      :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))

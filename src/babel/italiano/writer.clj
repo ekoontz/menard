@@ -10,16 +10,16 @@
 (require '[clojure.tools.logging :as log])
 (require '[dag_unify.core :refer (fail? get-in strip-refs unify)])
 
-(def small (grammar/small))  ;; TODO use medium consistently
+(def model (grammar/medium))
 
 (defn expression [spec]
-  (generate/generate small spec))  ;; TODO use medium consistently
+  (generate/generate model spec))
 
 (defn fo [spec]
   (morph/fo spec))
 
 (defn rewrite-lexicon []
-  (let [lexicon (:lexicon small)] ;; TODO use medium consistently
+  (let [lexicon (:lexicon model)]
     (write-lexicon "it" lexicon)))
 
 (declare generate-one-verb)
@@ -30,7 +30,8 @@
                     true (Integer. count))
         ;; subset of the lexicon: only verbs which are infinitives and that can be roots:
         ;; (i.e. those that have a specific (non- :top) value for [:synsem :sem :pred])
-        lexicon (:lexicon small) ;; TODO use medium consistently
+        lexicon (or (:lexicon (:generate model))
+                    (:lexicon model))
         lexemes
         (cond (nil? lexeme) (vals lexicon)
               (= "all" lexeme) (vals lexicon)
@@ -44,7 +45,9 @@
                            (= (get-in lexeme [:synsem :cat]) :verb)
                            (= (get-in lexeme [:synsem :infl]) :top)
                            (= (get-in lexeme [:synsem :aux] false) false)
-                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))))
+                           (not (= :top (get-in lexeme [:synsem :sem :pred] :top)))
+                           (or (= :unspec (get-in lexeme [:synsem :sem :obj]))
+                               (= true (get-in lexeme [:synsem :sem :reflexive])))))
                         lexeme-set))
               lexemes))
 
@@ -64,10 +67,12 @@
                    (log/debug (str "tutti: verb: " (strip-refs verb)))
                    (let [root-form (get-in verb [:italiano :italiano])]
                      (generate-one-verb (unify
-                                         {:synsem {:subcat '()}}
+                                         {:synsem {:subcat []}}
+                                         {:modified false}
                                          {:synsem {:sem
                                                    (get-in verb [:synsem :sem] :top)}}
-                                         {:root {:italiano {:italiano root-form}}})
+                                         {:root {:italiano {:italiano root-form}}}
+                                         {:synsem {:sem {:subj {:city false}}}})
                                         count no-older-than)))
                  tutti))))
 

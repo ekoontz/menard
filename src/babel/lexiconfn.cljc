@@ -8,7 +8,6 @@
                       subcat0 subcat1
                       transitive-but-object-cat-not-set
                       verb-subjective]]
-   [clojure.java.io :refer [reader]]
    [clojure.set :as set]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -699,6 +698,18 @@
   "filter elements of a lexicon that are not intended for generation (:use-for-generation=false)"
   (into {} (map (fn [k] [k (filter #(not (= false (get-in % [:use-for-generation] true)))
                                    (get lexicon k))])
+                (keys lexicon))))
+
+(defn noun-pred-defaults [lexicon]
+  (into {} (map (fn [k] [k (map (fn [v]
+                                  (if (= :noun (get-in v [:synsem :cat]))
+                                    (let [unif (unify v {:synsem {:cat :noun
+                                                                  :sem (sem-impl (dag_unify.core/strip-refs (get-in v [:synsem :sem])))}})]
+                                      (if (not (= :fail unif))
+                                        unif
+                                        v))
+                                    v))
+                                (get lexicon k))])
                 (keys lexicon))))
 
 (defn verb-pred-defaults [lexicon verb-pred-default-list]

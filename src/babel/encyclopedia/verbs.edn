@@ -1,0 +1,305 @@
+[{:pred :abandon
+  :subj {:animate true}}
+
+ {:pred :accept
+  :subj {:human true}}
+ 
+ {:pred :add
+  :subj {:human true}}
+
+ {:pred :admire
+  :subj {:human true}}
+ 
+ {:activity true
+  :obj {:human true}
+  :pred :aiutare}
+ 
+ {:activity false
+  :discrete false
+  :pred :amare
+  :subj {:human true}}
+ 
+ {:pred :answer
+  :subj {:human true}
+  :obj {:human true}}
+ 
+ {:pred :answer
+  :subj {:human true}}
+ 
+ {:pred :avoid
+  :subj {:animate true}}
+ 
+ {:pred :boil
+  :subj {:human true}
+  :obj {:liquid true
+        :consumable true}}
+ 
+ {:pred :bring
+  :subj {:human true}
+  :obj {:buyable true}}
+ 
+ {:pred :burn
+  :subj {:human true}
+  :obj {:human false
+        :physical-object true}}
+ 
+ {:pred :carry
+  :subj {:human true}
+  :obj {:physical-object true}}
+ 
+ {:pred :cenare
+  :subj {:human true}}
+ 
+ {:pred :cercare
+  :subj {:animate true}}
+ 
+ {:pred :change-clothes
+  :subj {:human true}}
+ 
+ {:pred :chat
+  :subj {:human true}
+  :obj {:human true}}
+ 
+ {:pred :come
+  :subj {:animate true}}
+ 
+ {:pred :comprare
+  :subj {:human true}
+  :obj {:buyable true}}
+ 
+ {:pred :correspond
+  :subj {:human true}
+  :obj {:human true}}
+ 
+ {:pred :dance
+  :subj {:human true}}
+ 
+ {:pred :deludere
+  :obj {:human true}}
+ 
+ {:pred :drink
+  :subj {:animate true}
+  :obj {:drinkable true}}
+ 
+ {:pred :earn
+  :subj {:human true}
+  :obj {:human false}}
+ 
+ {:pred :eat
+  :subj {:animate true}}
+ 
+ {:pred :eat
+  :obj {:edible true}}
+ 
+ {:pred :embrace
+  :subj {:human true}
+  :obj {:animate true}}
+ 
+ {:pred :enter
+  :subj {:animate true}
+  :obj {:place true}}
+ 
+ {:pred :exit
+  :subj {:animate true}}
+ 
+ {:pred :faint
+  :subj {:animate true}}
+ 
+ {:pred :fall-asleep
+  :subj {:animate true}}
+ 
+ {:pred :get-angry
+  :subj {:animate true}}
+ 
+ {:pred :get-bored
+  :subj {:animate true}}
+ 
+ {:pred :get-dressed
+  :subj {:human true}}
+ 
+ {:pred :get-married
+  :subj {:human true}}
+ 
+ {:pred :get-off
+  :subj {:animate true}}
+ 
+ {:pred :get-on
+  :subj {:animate true}}
+ 
+ {:pred :get-ready
+  :subj {:human true}}
+ 
+ {:pred :get-up
+  :subj {:animate true}}
+ 
+ {:pred :giocare
+  :subj {:human true}
+  :obj {:game true}}
+ 
+ {:pred :go
+  :subj {:animate true}}
+ 
+ {:pred :go-downstairs
+  :subj {:animate true}}
+ 
+ {:pred :go-out
+  :subj {:animate true}}
+ 
+ {:pred :go-upstairs
+  :subj {:animate true}}
+ 
+ {:pred :have-dinner
+  :subj {:human true}}
+ 
+ {:pred :have-fun
+  :reflexive true
+  :subj {:human true}}
+
+ {:pred :hug
+  :subj {:human true}
+  :obj {:animate true}}
+ 
+ {:pred :imagine
+  :subj {:human true}}
+ 
+ {:pred :learn
+  :subj {:human true}
+  :obj {:legible true}} ;; not quite right, but a rough start.
+ 
+ {:pred :leave
+  :subj {:animate true}}
+ 
+ {:pred :leave-behind
+  :subj {:animate true}}
+ 
+ {:pred :live
+  :subj {:animate true}}
+
+ {:pred :live-a
+  :subj {:animate true}}
+
+ {:pred :lower
+  :subj {:human true}}
+ 
+ {:pred :put-on
+  :subj {:human true}
+  :obj {:clothing true}}
+ 
+ {:pred :read
+  :subj {:human true}}
+ 
+ {:pred :read
+  :obj {:legible true}}
+ 
+ {:pred :say
+  :subj {:human true}
+  :obj {:speakable true}}
+ 
+ {:pred :scold
+  :subj {:human true}}
+ 
+ {:pred :sigh
+  :subj {:human true}}
+ 
+ {:pred :sit-down
+  :subj {:animate true}}
+ 
+ {:pred :sleep
+  :subj {:animate true}}
+ 
+ {:pred :speak
+  :subj {:human true}
+  :obj {:speakable true}}
+ 
+ {:pred :stampare
+  :obj {:legible true}}
+ 
+ {:pred :steal
+  :subj {:animate true}
+  :obj {:physical-object true
+        :human false
+        :place false}}
+ 
+ {:pred :study
+  :subj {:human true}
+  :obj {:legible true}}
+ 
+ {:pred :suonare
+  :subj {:human true}
+  :obj {:human false}} ;; TODO: split suonare into two preds: 1. play + song; 2. play + instrument.
+ 
+ {:pred :talk
+  :subj {:human true}
+  :obj {:speakable true}}
+ 
+ {:pred :think
+  :subj {:human true}}
+ 
+ {:pred :try
+  :subj {:animate true}}
+ 
+ {:pred :turn-on
+  :subj {:human true}
+  :obj {:machine true}}
+ 
+ {:pred :turn-up
+  :subj {:human true}
+  :obj {:machine true}}
+ 
+ {:pred :turn-down
+  :subj {:human true}
+  :obj {:machine true}}
+ 
+ {:pred :understand
+  :subj {:human true}}
+ 
+ {:pred :understand-deeply
+  :subj {:human true}}
+ 
+ {:pred :vendere
+  :subj {:human true}
+  :obj {:human false}}
+ 
+ {:pred :wake-up
+  :reflexive true
+  :subj {:animate true}}
+ 
+ {:pred :want
+  :subj {:animate true}}
+ 
+ {:pred :wash
+  :subj {:human true}}
+ 
+ {:pred :wash-oneself
+  :subj {:living true}}
+ 
+ {:pred :wear
+  :obj {:clothing true}}
+ 
+ {:pred :wear-i
+  :obj {:clothing true}}
+ 
+ {:pred :wear-l
+  :obj {:clothing true}}
+ 
+ {:pred :wear-p
+  :obj {:clothing true}}
+ 
+ {:pred :win
+  :subj {:human true}
+  :obj {:human false}}
+ 
+ {:pred :wonder
+  :subj {:human true}}
+ 
+ {:pred :work-human
+  :subj {:human true}}
+ 
+ {:pred :work-nonhuman
+  :subj {:human false}}
+ 
+ {:pred :worry
+  :subj {:human true}}
+ 
+ {:pred :yell
+  :subj {:human true}}]

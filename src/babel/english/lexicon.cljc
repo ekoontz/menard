@@ -234,7 +234,7 @@
                         :cat :verb
                         :subcat {:1 {:agr agr}}}}))
    
-   (verb-pred-defaults encyc/verb-pred-defaults)
+   (verb-pred-defaults encyc/verbs)
    
    ;; if a verb has a subject,
    ;; and the subject is {:cat :noun},

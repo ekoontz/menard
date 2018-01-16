@@ -135,7 +135,7 @@
            (if (realized? it)
              it
              (deliver it
-                      (let [model (babel.italiano.grammar/small)]
+                      (let [model (babel.italiano.grammar/medium)]
                         (conj model
                               {:generate-fn (fn [spec]
                                               (it/generate spec :model model))

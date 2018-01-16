@@ -7,7 +7,8 @@
     :as lexfn
     :refer [apply-unify-key default evaluate
             filter-vals listify map-function-on-map-vals
-            new-entries rewrite-keys verb-pred-defaults]]
+            new-entries rewrite-keys noun-pred-defaults
+            verb-pred-defaults]]
 
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
@@ -65,8 +66,6 @@
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
 (defn edn2lexicon [resource]
   (-> (lexfn/edn2lexicon resource)
-
-      exception-generator ;; add new keys to the map for all exceptions found.
 
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
@@ -167,10 +166,25 @@
       (default
        {:synsem {:cat :noun
                  :sem {:null false}}})
-      
+
+      ;; TODO: simplify to just (noun-pred-defaults)
+      (noun-pred-defaults)
+
       ;; </noun default rules>            
 
       ;; <verb default rules>
+
+      (default (let [cat (atom :verb)
+                     agr (atom :top)
+                     essere (atom :top)
+                     infl (atom :top)]
+                 {:applied {:subject-agreement true}
+                  :synsem {:agr agr
+                           :cat cat
+                           :subcat {:1 {:agr agr}}
+                           :essere essere
+                           :infl infl}}))
+      
       (default ;; aux defaults to false:
        {:synsem {:cat :verb
                  :aux false}})
@@ -195,12 +209,14 @@
                                 :sem sem}}}}))
 
       (default ;; a verb's first argument's case is nominative.
-       {:synsem {:cat :verb
+       {:applied {:subcat-1-is-nom true}
+        :synsem {:cat :verb
                  :subcat {:1 {:cat :noun
                               :case :nom}}}})
 
       (default ;; a verb's second argument's case is accusative.
-       {:synsem {:cat :verb
+       {:applied {:subcat-2-is-acc true}
+        :synsem {:cat :verb
                  :subcat {:2 {:cat :noun
                               :case :acc}}}})
       
@@ -210,7 +226,7 @@
                    :subcat {:1 {:sem subject-semantics}}
                    :sem {:subj subject-semantics}}}))
 
-      (verb-pred-defaults encyc/verb-pred-defaults)
+      (verb-pred-defaults encyc/verbs)
 
       (new-entries ;; remove the second argument and semantic object to make verbs intransitive.
        {:allow-intransitivize true
@@ -289,8 +305,13 @@
       (default ;; subject is semantically non-null by default.
        {:synsem {:cat :verb
                  :aux false
-                 :subcat {:1 {:sem {:null false}}}}})
-      
+                 :subcat {:1 {:sem {:null false}}}}}) 
+
+      (default ;; subject is semantically non-null by default.
+       {:synsem {:cat :verb
+                 :aux false
+                 :subcat {:1 {:sem {:null true}}}}})
+     
       ;; </verb default rules>
 
       ;; <preposition default rules>
@@ -356,11 +377,24 @@
          {:synsem {:cat :det
                    :def def
                    :sem {:def def}}}))
-                   
+
+      ;; <category-independent> 
+      ;; This rule needs to be before exception-generator; otherwise
+      ;; exception will be generated that fail to match this agreement rule. Putting it
+      ;; before prevents these bad exceptions from existing.
+      (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
+       ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
+       (unify (:agreement defaults)
+              {:applied {:agreement-defaults true}}))
+      ;; </category-independent>
+      
+      exception-generator ;; add new keys to the map for all exceptions found.
+
       ;; <category-independent> 
       (default ;; morphology looks in :italiano, so share relevant grammatical pieces of
        ;; info (:agr, :cat, :infl, and :essere) there so it can see them.
-       (:agreement defaults))
+       (unify (:agreement defaults)
+              {:applied {:agreement-defaults true}}))
       ;; </category-independent>
 
       phonize2 ;; for each value v of each key k, set the [:italiano :italiano] of v to k, if not already set

@@ -49,7 +49,7 @@
       ;; if verb does specify a [:sem :obj], then fill it in with subcat info.
       transitivize
       
-      (verb-pred-defaults encyc/verb-pred-defaults)
+      (verb-pred-defaults encyc/verbs)
       
       ;; TODO: use (default) rather than (if-then)
       ;; if verb has no :aux, it's {:aux false}

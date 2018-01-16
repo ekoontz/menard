@@ -1,0 +1,58 @@
+(defn conditional [word  & [ {usted :usted
+                              vosotros :vosotros
+                              ustedes :ustedes}]]
+  (let [infinitive (reflexive-to-infinitive (get-in word '[:espanol]))
+        ar-type (try (re-find #"ar$" infinitive)
+                     (catch Exception e
+                       (exception (str "Can't regex-find on non-string: " infinitive " from word: " word))))
+        er-type (re-find #"er$" infinitive)
+        ir-type (re-find #"ir$" infinitive)
+        stem infinitive ;; stem is simply the same as the infinitive for conditional.
+
+        ;; conditional shares usage of :futuro-stem with future.
+        stem (if (get-in word [:futuro-stem])
+               (get-in word [:futuro-stem])
+               stem)
+        last-stem-char-is-i (re-find #"ir$" infinitive)
+        last-stem-char-is-e (re-find #"er$" infinitive)
+        is-care-or-gare? (re-find #"[cg]ar$" infinitive)
+        vosotros (if vosotros vosotros true)
+        ustedes (if ustedes ustedes false)
+        person (get-in word '(:agr :person))
+        number (get-in word '(:agr :number))
+        number-and-person (number-and-person number person)]
+    (cond
+     (get-in word [:condicional number-and-person])
+     (get-in word [:condicional number-and-person])
+
+     (and (= person :1st) (= number :sing))
+     (str stem "ía")
+
+     (and (= person :2nd) (= number :sing))
+     (str stem "ías")
+
+     (and (= person :2nd) (= number :sing) (= usted true))
+     (str stem "ía")
+
+
+     (and (= person :3rd) (= number :sing))
+     (str stem "ía")
+
+     (and (= person :1st) (= number :plur))
+     (str stem "íamos")
+
+     ;; <second person plural conditional>
+
+     (and (= person :2nd) (= number :plur) vosotros)
+     (str stem "íais")
+
+     (and (= person :2nd) (= number :plur) ustedes)
+     (str stem "ían")
+
+     ;; </second person plural conditional>
+
+     ;; <third person plural conditional>
+     (and (= person :3rd) (= number :plur))
+     (str stem "ían")
+
+     ;; </third person plural conditional>

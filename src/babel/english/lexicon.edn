@@ -1,13 +1,13 @@
-{"Antonia"
- {:synsem {:sem {:pred :antonia
+{"Antonella"
+ {:synsem {:sem {:pred :antonella
                  :human true}
            :propernoun true
            :agr {:number :sing
                  :person :3rd
                  :gender :fem}}}
 
- "Antonia and Luisa"
- {:synsem {:sem {:pred :antonia-and-luisa
+ "Lucia and Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
                  :human true}
            :propernoun true
            :agr {:number :plur
@@ -831,7 +831,7 @@
   :english {:participle "getting angry"
             :present {:3sing "gets angry"}
             :past "got angry"}}
- 
+
  "get bored"
  {:synsem {:cat :verb
            :sem {:pred :get-bored
@@ -1423,8 +1423,15 @@
 
  "lower" {:synsem {:cat :verb
                    :sem {:pred :lower}}}
- "Luisa"
- {:synsem {:sem {:pred :luisa
+
+ "Luigi"
+  {:synsem {:agr {:gender :masc}
+            :sem {:pred :luigi
+                  :human true}
+            :propernoun true}}
+
+ "Marina"
+ {:synsem {:sem {:pred :marina
                  :human true}
            :agr {:number :sing
                  :person :3rd
@@ -1455,11 +1462,11 @@
 
  "manage" {:synsem {:cat :verb
                     :sem {:pred :manage}}}
- "Matteo"
+ "Mario"
  {:synsem {:agr {:number :sing
                  :person :3rd
                  :gender :masc}
-           :sem {:pred :matteo
+           :sem {:pred :mario
                  :human true}
            :propernoun true}}
 
@@ -2077,7 +2084,7 @@
                 :english {:past "spreaded food"
                           :participle "spreading food"
                           :past-particple "spreaded food"}}
- 
+
  "start" {:synsem {:cat :verb
                    :sem {:pred :start}}}
 

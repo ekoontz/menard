@@ -42,7 +42,7 @@
 
  "abitare" {:synsem {:cat :verb
                      :sem {:pred :live-a}}}
- 
+
  "abituarsi" {:synsem {:cat :verb
                        :sem {:pred :get-used-to
                              :reflexive true}}}
@@ -69,14 +69,14 @@
                    :sem {:physical-object true
                          :pred :airplane
                          :place true}}}
- "affolato"
+ "affollato"
  [;; comparative
   (let [is-place {:synsem {:sem {:place true}}} ;; only places can be crowded.
         than-this {:pred :di
                    :mod is-place}]
     {:unify [is-place]
      :synsem {:cat :adjective
-              :sem {:pred :affolato
+              :sem {:pred :affollato
                     :arg1 is-place
                     :arg2 is-place
                     :comparative true}
@@ -152,6 +152,23 @@
            :essere true
            :sem {:subj {:animate true}
                  :pred :go}}}
+
+  {"Antonella"
+  {:synsem {:sem {:pred :antonella
+                  :human true}
+            :propernoun true
+            :agr {:number :sing
+                  :person :3rd
+                  :gender :fem}}}
+
+  "Lucia and Cecilia"
+  {:synsem {:sem {:pred :lucia-and-cecilia
+                  :human true}
+            :propernoun true
+            :agr {:number :plur
+                  :person :3rd
+                  :gender :fem}}}
+
 
  "anno" {:synsem {:agr {:gender :masc}
                   :cat :noun
@@ -1077,9 +1094,9 @@
                  :comparative false
                  :physical-object true
                  :human false}}}
- "Gianluca"
+ "Luigi"
  {:synsem {:agr {:gender :masc}
-           :sem {:pred :gianluca
+           :sem {:pred :luigi
                  :human true}
            :propernoun true}}
 
@@ -1442,8 +1459,17 @@
            :sem {:pred :eat
                  :subj {:animate true}
                  :obj {:edible true}}}}
- "Matteo"
- {:synsem {:sem {:pred :matteo
+
+  "Marina"
+  {:synsem {:sem {:pred :marina
+                  :human true}
+            :agr {:number :sing
+                  :person :3rd
+                  :gender :fem}
+            :propernoun true}}
+
+ "Mario"
+ {:synsem {:sem {:pred :mario
                  :human true}
            :agr {:gender :masc}
            :propernoun true}}
@@ -1649,7 +1675,7 @@
  "pulire" {:italiano {:boot-verb true}
            :synsem {:cat :verb
                     :sem {:pred :clean}}}
- 
+
  "punire" {:italiano {:boot-verb true}
            :synsem {:cat :verb
                     :sem {:pred :punish}}}

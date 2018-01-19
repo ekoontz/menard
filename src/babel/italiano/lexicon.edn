@@ -26,6 +26,58 @@
                          :subcat []}
                        :2 []}}}
   ]
+essere
+avere
+fare
+dire
+potere
+volere
+sapere
+stare
+dovere
+vedere
+venire
+dare
+parlare
+trovare
+sentire
+lasciare
+prendere
+guardare
+mettere
+pensare
+passare
+credere
+portare
+parere
+tornare
+sembrare
+tenere
+capire
+morire
+chiamare
+conoscere
+rimanere
+chiedere
+cercare
+entrare
+vivere
+aprire
+uscire
+ricordare
+bisognare
+cominciare
+rispondere
+aspettare
+riuscire
+chiudere
+finire
+arrivare
+scrivere
+
+
+
+
 
  "abbandonare" {:synsem {:cat :verb
                          :sem {:pred :abandon}}}

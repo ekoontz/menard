@@ -26,7 +26,6 @@
 (defn lookup [{lookup :lookup
                lexical-cache :lexical-cache
                default-fn :default-fn} k]
-  (log/debug (str "lookup: k=" k))
   (let [pre-default
         (if (or (= false parse-with-lexical-caching)
                 (nil? lexical-cache))
@@ -34,26 +33,42 @@
           (let [lookup-fn (fn [k]
                             (do (log/debug (str "cache miss for " k))
                                 (let [looked-up (lookup k)]
-                                  (if (not (empty? looked-up)) looked-up :none))))]
+                                  (if (symbol? looked-up)
+                                    (let [msg (str "looked-up is unexpectedly the symbol:" looked-up)]
+                                      (println msg)
+                                      (log/error msg)
+                                      looked-up)
+                                    looked-up))))]
             (deal-with-cache k lookup-fn lexical-cache)
+            ;; TODO: (get .. ..) : set a default value (i.e. :none)
             (let [cache-value (get @lexical-cache k)]
+              (println (str "CACHE-VALUE TYPE: " cache-value))
               (if (= cache-value :none) nil
                   cache-value))))]
     (log/trace (str "default-fn: nil? " (nil? default-fn)))
     (log/trace (str "pre-default: count: " (count pre-default)))
-    (cond (nil? default-fn)
-          pre-default
-          true
-          (map default-fn pre-default))))
+    (let [retval
+          (cond (nil? default-fn)
+                pre-default
+                true
+                (map default-fn pre-default))]
+;;      (println (str "lookup('" k "') type of retval:" retval))
+      (log/debug (str "lookup('" k "') type of retval:" retval))
+      retval)))
 
 ;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
 (defn over [grammar left right morph default-fn]
   "opportunity for additional logging before calling the real (over)"
-  (if default-fn
-    (->>
-     (over/over grammar left right)
-     (map default-fn))
-    (over/over grammar left right)))
+  (->>
+   (over/over grammar left right)
+   (map (fn [each]
+          (log/debug (str "over: left=" (string/join "," (map morph left)) "; "
+                          " right=" (string/join "," (map morph right))))
+;;          (println (str "over: left=" (string/join "," (map morph left)) "; "
+;;                        " right=" (string/join "," (map morph right))))
+          (if default-fn
+            (default-fn each)
+            each)))))
 
 (defn square-cross-product [x]
   (mapcat (fn [each-x]
@@ -168,8 +183,7 @@
                                                               (lookup model string))
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
-                                      right-signs (lazy-cat right-lexemes (filter map? right))
-                                      ]
+                                      right-signs (lazy-cat right-lexemes (filter map? right))]
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
@@ -227,7 +241,7 @@
   the entire tree costs about 20% time than truncating it."
   ([input model & {:keys [parse-with-truncate original-input]}]
    (let [parse-with-truncate
-         (cond (= parse-with-truncate false)
+         (cond true false (= parse-with-truncate false)
                false
                true true)
          original-input (if original-input original-input input)
@@ -258,6 +272,7 @@
                                    (map (fn [i] [(nth tokens i)])
                                         token-count-range))]
              (log/debug (str "input map:" input-map))
+;;             (println (str "input map:" input-map))
              (let [all-parses
                    (parses input-map token-count model
                            (span-map token-count) parse-with-truncate)

@@ -206,7 +206,7 @@ scrivere
            :sem {:subj {:animate true}
                  :pred :go}}}
 
-  {"Antonella"
+  "Antonella"
   {:synsem {:sem {:pred :antonella
                   :human true}
             :propernoun true

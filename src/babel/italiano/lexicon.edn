@@ -1112,7 +1112,7 @@
                  :comparative false
                  :physical-object true
                  :human false}}}
- "Luigi"
+ "Gianluca"
  {:synsem {:agr {:gender :masc}
            :sem {:pred :luigi
                  :human true}
@@ -1425,7 +1425,11 @@
            :synsem {:sem {:human false}}}
           {:unify [common]
            :synsem {:sem {:human true}}}])
-
+ "Luigi"
+ {:synsem {:agr {:gender :masc}
+           :sem {:pred :luigi
+                 :human true}
+           :propernoun true}}
  "Luisa"
  {:synsem {:sem {:pred :luisa
                  :human true}
@@ -1478,12 +1482,10 @@
                  :subj {:animate true}
                  :obj {:edible true}}}}
 
-  "Marina"
+ "Marina"
   {:synsem {:sem {:pred :marina
                   :human true}
-            :agr {:number :sing
-                  :person :3rd
-                  :gender :fem}
+            :agr {:gender :fem}
             :propernoun true}}
 
  "Mario"
@@ -1491,7 +1493,11 @@
                  :human true}
            :agr {:gender :masc}
            :propernoun true}}
-
+ "Matteo"
+ {:synsem {:sem {:pred :matteo
+                 :human true}
+           :agr {:gender :masc}
+           :propernoun true}}
  "mentire"
  {:synsem {:cat :verb
            :sem {:pred :lie}}}

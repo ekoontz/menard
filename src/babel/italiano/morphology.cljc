@@ -708,7 +708,11 @@
             (string/capitalize surface-form)
             (string/capitalize (string/lower-case surface-form))
             (string/upper-case surface-form)
-            (string/lower-case surface-form)))))
+            (string/lower-case surface-form)
+            (string/join " " (map #(if (not (= "e" %))
+                                     (string/capitalize %)
+                                     %)
+                                  (string/split surface-form #"[ ]")))))))
 
 (defn analyze-capitalization-variant [surface-form lexicon]
   "return an array of the maps, each of which represents the lexical information about a surface form."

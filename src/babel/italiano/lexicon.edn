@@ -182,6 +182,36 @@
  "annunciare"  {:synsem {:cat :verb
                          :sem {:pred :announce}}}
 
+ "Antonella"
+ {:synsem {:sem {:pred :antonella
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonia"
+ {:synsem {:sem {:pred :antonia
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonio"
+ {:synsem {:propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :masc}
+           :sem {:pred :antonio
+                 :human true}}}
+
+ "Antonia e Luisa"
+ {:synsem {:sem {:pred :antonia-and-luisa
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :person :3rd
+                 :gender :fem}}}
+ 
  "appoggiare"  {:synsem {:cat :verb
                          :sem {:pred :support}}}
 

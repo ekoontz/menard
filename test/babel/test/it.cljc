@@ -302,15 +302,17 @@
                                                 :sem {:tense :conditional}
                                                 :subcat []}}
                                       :model (medium))))]
+    (log/debug (str "expressions: " (string/join "," (map morph expressions))))
     (is (= do-this-many
-           (count (map-fn (fn [expr]
-                          (let [surface (morph expr)
-                                parsed (reduce concat (map :parses (parse surface)))]
-                            (if (not (empty? parsed))
-                              (log/info (str "parse OK:" surface))
-                              (log/error (str "parse failed: " surface)))
-                            (is (not (empty? parsed)))))
-                        expressions))))))
+           (count (map (fn [expr]
+                            (let [surface (morph expr)
+                                  debug (log/debug (str "surface: " surface))
+                                  parsed (reduce concat (map :parses (parse surface)))]
+                              (if (not (empty? parsed))
+                                (log/info (str "parse OK:" surface))
+                                (log/error (str "parse failed: " surface)))
+                              (is (not (empty? parsed)))))
+                          expressions))))))
 
 (deftest the-red-cat-woke-up
   (let [result (:parses (first (parse "il gatto rosso si è alzato")))]

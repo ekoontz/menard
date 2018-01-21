@@ -1479,12 +1479,24 @@
            :sem {:pred :eat
                  :subj {:animate true}
                  :obj {:edible true}}}}
- "Matteo"
- {:synsem {:sem {:pred :matteo
+ "Marina"
+ {:synsem {:agr {:number :sing
+                 :gender :fem}
+           :sem {:pred :marina
                  :human true}
-           :agr {:gender :masc}
            :propernoun true}}
-
+ "Mario"
+ {:synsem {:agr {:number :sing
+                 :gender :masc}
+           :sem {:pred :mario
+                 :human true}
+           :propernoun true}}
+ "Matteo"
+ {:synsem {:agr {:gender :masc
+                 :number :sing}
+           :sem {:pred :matteo
+                 :human true}
+           :propernoun true}}
  "mentire"
  {:synsem {:cat :verb
            :sem {:pred :lie}}}

@@ -1474,9 +1474,20 @@
 
  "manage" {:synsem {:cat :verb
                     :sem {:pred :manage}}}
+ "Marina"
+ {:synsem {:agr {:number :sing
+                 :gender :fem}
+           :sem {:pred :marina
+                 :human true}
+           :propernoun true}}
+ "Mario"
+ {:synsem {:agr {:number :sing
+                 :gender :masc}
+           :sem {:pred :mario
+                 :human true}
+           :propernoun true}}
  "Matteo"
  {:synsem {:agr {:number :sing
-                 :person :3rd
                  :gender :masc}
            :sem {:pred :matteo
                  :human true}

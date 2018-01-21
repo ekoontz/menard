@@ -185,8 +185,6 @@
                                                             right-strings)
                                       left-signs (vec (lazy-cat left-lexemes (filter map? left)))
                                       right-signs (vec (lazy-cat right-lexemes (filter map? right)))]
-                                  (println (str "left signs type:" (type left-signs)))
-                                  (println (str "right signs type:" (type right-signs)))
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))

@@ -1,4 +1,4 @@
-rai;; Format: a vector of tuples; each tuple has:
+;; Format: a vector of tuples; each tuple has:
 ;; :agr   agreement
 ;; :p     parsing rules: pairs of (from:regex -> to:replacement pattern)
 ;; :g     generation rules: pairs of (from:regex -> to:replacement pattern)
@@ -162,7 +162,7 @@ rai;; Format: a vector of tuples; each tuple has:
       #"^(.*)giare$"    "$1gerete" ;; mangiare
       #"^(.*)ire$"     "$1irete" ;; dormire
       #"(.*)[ae]rsi$"  "$1erete" ;; alzarsi -> alzerete
-      #"(.*)[i]rsi$"   "$1irete"
+      #"(.*)[i]rsi$"   "$1irete"]
 
   :p [
       #"(.*)arete"     "$1are"
@@ -196,7 +196,7 @@ rai;; Format: a vector of tuples; each tuple has:
       #"^(.*)giare$"    "$1geranno" ;; mangiare
       #"^(.*)ire$"     "$1iranno" ;; dormire
       #"(.*)[ae]rsi$"  "$1eranno" ;; alzarsi -> alzeranno
-      #"(.*)[i]rsi$"   "$1iranno"
+      #"(.*)[i]rsi$"   "$1iranno"]
 
   :p [
       #"(.*)rranno"     "$1nere"

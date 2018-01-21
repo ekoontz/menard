@@ -1436,18 +1436,24 @@
 
  "lower" {:synsem {:cat :verb
                    :sem {:pred :lower}}}
-
  "Luigi"
-  {:synsem {:agr {:gender :masc}
-            :sem {:pred :luigi
+ {:synsem {:sem {:pred :luigi
                   :human true}
-            :propernoun true}}
+           :propernoun true
+           :agr {:number :sing
+                 :gender :masc}}}
 
- "Marina"
- {:synsem {:sem {:pred :marina
+ "Lucia and Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :gender :fem}}}
+
+"Luisa"
+ {:synsem {:sem {:pred :luisa
                  :human true}
            :agr {:number :sing
-                 :person :3rd
                  :gender :fem}
            :propernoun true}}
 

@@ -708,6 +708,8 @@
   (let [;;lexicon @lexicon
         lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
         parse-lexicon
+        ;; TODO: remove this do-nothing filtering and
+        ;; replace with comment like "if you want to filter, then do: `(into {}..)`".
         (into {}
               (for [[k vals] lexicon]
                 (let [filtered-vals

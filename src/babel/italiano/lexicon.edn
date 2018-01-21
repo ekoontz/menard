@@ -176,7 +176,7 @@
                   :person :3rd
                   :gender :fem}}}
 
-  "Lucia and Cecilia"
+  "Lucia e Cecilia"
   {:synsem {:sem {:pred :lucia-and-cecilia
                   :human true}
             :propernoun true

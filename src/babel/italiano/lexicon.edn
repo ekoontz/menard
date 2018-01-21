@@ -161,15 +161,6 @@
                   :person :3rd
                   :gender :fem}}}
 
-  "Lucia e Cecilia"
-  {:synsem {:sem {:pred :lucia-and-cecilia
-                  :human true}
-            :propernoun true
-            :agr {:number :plur
-                  :person :3rd
-                  :gender :fem}}}
-
-
  "anno" {:synsem {:agr {:gender :masc}
                   :cat :noun
                   :sem {:pred :year

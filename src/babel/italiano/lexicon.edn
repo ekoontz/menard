@@ -153,14 +153,6 @@
            :sem {:subj {:animate true}
                  :pred :go}}}
 
-  "Antonella"
-  {:synsem {:sem {:pred :antonella
-                  :human true}
-            :propernoun true
-            :agr {:number :sing
-                  :person :3rd
-                  :gender :fem}}}
-
  "anno" {:synsem {:agr {:gender :masc}
                   :cat :noun
                   :sem {:pred :year

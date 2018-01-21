@@ -12,14 +12,6 @@
            :agr {:number :sing
                  :person :3rd
                  :gender :fem}}}
-
- "Lucia and Cecilia"
- {:synsem {:sem {:pred :lucia-and-cecilia
-                 :human true}
-           :propernoun true
-           :agr {:number :plur
-                 :person :3rd
-                 :gender :fem}}}
  "Antonio"
  {:synsem {:propernoun true
            :agr {:number :sing

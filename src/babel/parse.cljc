@@ -13,7 +13,7 @@
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-(def map-fn #?(:clj pmap) #?(:cljs map))
+(def map-fn (if true map #?(:clj pmap) #?(:cljs map)))
 
 ;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
 (defn deal-with-cache [k if-miss-do lexical-cache]
@@ -27,7 +27,8 @@
                lexical-cache :lexical-cache
                default-fn :default-fn} k]
   (let [pre-default
-        (if (or (= false parse-with-lexical-caching)
+        (if (or true
+                (= false parse-with-lexical-caching)
                 (nil? lexical-cache))
           (lookup k)
           (let [lookup-fn (fn [k]
@@ -182,8 +183,10 @@
                                       right-lexemes (mapcat (fn [string]
                                                               (lookup model string))
                                                             right-strings)
-                                      left-signs (lazy-cat left-lexemes (filter map? left))
-                                      right-signs (lazy-cat right-lexemes (filter map? right))]
+                                      left-signs (vec (lazy-cat left-lexemes (filter map? left)))
+                                      right-signs (vec (lazy-cat right-lexemes (filter map? right)))]
+                                  (println (str "left signs type:" (type left-signs)))
+                                  (println (str "right signs type:" (type right-signs)))
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))

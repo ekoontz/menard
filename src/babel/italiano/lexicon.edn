@@ -1443,6 +1443,13 @@
             :subcat []}}
   ]
 
+ "Lucia e Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :gender :fem}}}
+ 
  "lui" (let [common {:synsem {:cat :noun
                               :pronoun true
                               :case :nom

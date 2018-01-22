@@ -110,10 +110,11 @@
       #"^(.*)ciare$"    "$1cerà" ;; cominciare
       #"^(.*)giare$"    "$1gerà" ;; mangiare
       #"^(.*)ire$"     "$1irà" ;; dormire
-      #"(.*)[ae]rsi$"  "$1erà" ;; alzarsi -> alzerò
+      #"(.*)[ae]rsi$"  "$1erà" ;; alzarsi -> alzerà
       #"(.*)[i]rsi$"   "$1irà"
 
-
+      ;; :future-stem
+      #"^(.*r)$" "$1à" ;; vivere -> vivrà
 
       ]
   }
@@ -162,7 +163,9 @@
       #"^(.*)giare$"    "$1gerete" ;; mangiare
       #"^(.*)ire$"     "$1irete" ;; dormire
       #"(.*)[ae]rsi$"  "$1erete" ;; alzarsi -> alzerete
-      #"(.*)[i]rsi$"   "$1irete"]
+      #"(.*)[i]rsi$"   "$1irete"
+      ;; :future-stem
+      #"^(.*r)$" "$1ete"]
 
   :p [
       #"(.*)arete"     "$1are"
@@ -196,7 +199,9 @@
       #"^(.*)giare$"    "$1geranno" ;; mangiare
       #"^(.*)ire$"     "$1iranno" ;; dormire
       #"(.*)[ae]rsi$"  "$1eranno" ;; alzarsi -> alzeranno
-      #"(.*)[i]rsi$"   "$1iranno"]
+      #"(.*)[i]rsi$"   "$1iranno"
+      ;; :future-stem
+      #"^(.*r)$" "$1anno"]
 
   :p [
       #"(.*)rranno"     "$1nere"

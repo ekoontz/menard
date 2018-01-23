@@ -12,15 +12,19 @@
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
    #?(:clj [clojure.test :as realtest :refer [is]])
-   #?(:cljs [cljs.test :refer-macros [deftest is]])
+   #?(:cljs [cljs.test :refer-macros [is]])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-(defmacro deftest [test-name & stuff]
-  `(apply ~realtest/deftest ~test-name ~@stuff))
+(defmacro deftest [test-name & arguments]
+  (let [wrapped-arguments
+        (concat `[(log/info (str "starting test: " ~test-name))]
+                arguments
+                `[(log/info (str "done with test: " ~test-name))])]
+    `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

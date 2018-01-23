@@ -1,19 +1,4 @@
-;; New verbs to add:
-;;
-;; aprire
-;; bisognare
-;; conoscere
-;; credere
-;; lasciare
-;; morire
-;; parere
-;; passare
-;; riuscire
-;; sembrare
-;; tornare
-
-{
- "a"
+{"a"
  [;; "a" as in "a casa"
   {:synsem {:cat :prep
             :sem {:pred :a
@@ -210,6 +195,8 @@
  "approvare" {:synsem {:cat :verb
                        :sem {:pred :approve}}}
 
+ "apire"  {}
+
  "arrabbiarsi" {:synsem {:cat :verb
                          :sem {:pred :get-angry
                                :reflexive true
@@ -389,7 +376,11 @@
            :sem {:pred :birra
                  :artifact true
                  :drinkable true}}}
-"bisogno"
+
+
+"bisognare" {}
+
+ "bisogno"
 (let [the-object (atom :top)]
   {:synsem {:cat :noun
             :agr {:gender :masc}
@@ -648,6 +639,8 @@
                           :sem {:pred :share}}
                  :italiano {:passato "condiviso"}}
 
+"conoscere" {}
+ 
  "conservare" [{:synsem {:cat :verb
                          :sem {:pred :conserve}}}
                {:synsem {:cat :verb
@@ -694,6 +687,8 @@
 
  "creare"  {:synsem {:cat :verb
                      :sem {:pred :create}}}
+
+ "credere" {}
 
  "controllare" {:synsem {:sem {:pred :check}
                          :cat :verb}}
@@ -1300,6 +1295,7 @@
                        :sem {:pred :complain
                              :reflexive true}}}
 
+ "lasciare" {}
 
  "lavare"  {:synsem {:cat :verb
                      :sem {:pred :wash}}}
@@ -1531,6 +1527,8 @@
  "misurare" {:synsem {:cat :verb
                       :sem {:pred :measure}}}
 
+ "morire" {}
+
  "mostrare" {:synsem {:cat :verb
                       :sem {:pred :show}}}
 
@@ -1617,6 +1615,8 @@
            :subcat {:1 {:cat :det
                         :number :sing
                         :def :def}}}}
+ "parere" {}
+
  "parlare"
  [{:synsem {:cat :verb
             :sem {:pred :speak}}}
@@ -1626,6 +1626,7 @@
  "partire" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :leave-trip}}}
+ "passare" {}
 
  "pensare"
  {:synsem {:cat :verb
@@ -1794,6 +1795,7 @@
  "ritornare" {:synsem {:cat :verb
                        :sem {:pred :return-r}
                        :essere true}}
+ "riuscire" {}
 
  "rompere" {:synsem {:cat :verb
                      :sem {:pred :break}}
@@ -1875,6 +1877,8 @@
  "sedia" {:synsem {:cat :noun
                    :agr {:gender :fem}
                    :sem {:pred :chair}}}
+
+ "sembrare" {}
 
  "sentire" {:synsem {:cat :verb
                      :sem {:pred :hear}}}

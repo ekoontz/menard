@@ -19,8 +19,8 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-(defmacro deftest [test-name stuff]
-  `(apply realtest/deftest ~@[test-name stuff]))
+(defmacro deftest [test-name & stuff]
+  `(apply ~realtest/deftest ~test-name ~@stuff))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

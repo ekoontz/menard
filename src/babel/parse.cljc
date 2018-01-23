@@ -13,7 +13,7 @@
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-(def map-fn (if true map #?(:clj pmap) #?(:cljs map)))
+(def map-fn #?(:clj pmap) #?(:cljs map))
 
 ;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
 (defn deal-with-cache [k if-miss-do lexical-cache]
@@ -242,7 +242,7 @@
   the entire tree costs about 20% time than truncating it."
   ([input model & {:keys [parse-with-truncate original-input]}]
    (let [parse-with-truncate
-         (cond true false (= parse-with-truncate false)
+         (cond (= parse-with-truncate false)
                false
                true true)
          original-input (if original-input original-input input)

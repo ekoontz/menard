@@ -12,13 +12,7 @@
            :agr {:number :sing
                  :person :3rd
                  :gender :fem}}}
- "Antonia"
- {:synsem {:sem {:pred :antonia
-                 :human true}
-           :propernoun true
-           :agr {:number :sing
-                 :person :3rd
-                 :gender :fem}}}
+
  "Antonio"
  {:synsem {:propernoun true
            :agr {:number :sing

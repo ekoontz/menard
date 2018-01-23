@@ -1,54 +1,3 @@
-diventare
-prestare
-seguire
-bastare
-perdere
-rendere
-correre
-nascere
-presentare
-trattare
-piacere
-continuare
-partire
-servire
-giungere
-fermare
-apparire
-amare
-esistere
-intendere
-salire
-mancare
-ridere
-lavorare
-alzare
-riconoscere
-sedere
-leggere
-cadere
-mangiare
-dormire
-raggiungere
-comprendere
-scendere
-compiere
-toccare
-considerare
-muovere
-stringere
-mandare
-domandare
-ascoltare
-decidere
-ricevere
-osservare
-permettere
-avvenire
-spiegare
-raccogliere
-ottenere
-
 {"a"
  [;; "a" as in "a casa"
   {:synsem {:cat :prep
@@ -246,7 +195,9 @@ ottenere
  "approvare" {:synsem {:cat :verb
                        :sem {:pred :approve}}}
 
- "apire"  {}
+ "aprire"  {:synsem {:cat :verb
+                       :sem {:pred :open}}
+              :italiano {:passato "aperto"}
 
  "arrabbiarsi" {:synsem {:cat :verb
                          :sem {:pred :get-angry
@@ -428,8 +379,6 @@ ottenere
                  :artifact true
                  :drinkable true}}}
 
-
-"bisognare" {}
 
  "bisogno"
 (let [the-object (atom :top)]
@@ -690,7 +639,9 @@ ottenere
                           :sem {:pred :share}}
                  :italiano {:passato "condiviso"}}
 
-"conoscere" {}
+"conoscere" {:synsem {:cat :verb
+                     :essere false
+                     :sem {:pred :know-c...}}}
 
  "conservare" [{:synsem {:cat :verb
                          :sem {:pred :conserve}}}
@@ -739,7 +690,9 @@ ottenere
  "creare"  {:synsem {:cat :verb
                      :sem {:pred :create}}}
 
- "credere" {}
+ "credere" {:synsem {:cat :verb
+                      :essere false
+                      :sem {:pred :believe}}}
 
  "controllare" {:synsem {:sem {:pred :check}
                          :cat :verb}}
@@ -1346,7 +1299,9 @@ ottenere
                        :sem {:pred :complain
                              :reflexive true}}}
 
- "lasciare" {}
+ "lasciare" {:synsem {:cat :verb
+                      :essere false
+                      :sem {:pred :leave-behind}}}
 
  "lavare"  {:synsem {:cat :verb
                      :sem {:pred :wash}}}
@@ -1578,7 +1533,16 @@ ottenere
  "misurare" {:synsem {:cat :verb
                       :sem {:pred :measure}}}
 
- "morire" {}
+ "morire" {:synsem {:cat :verb
+                      :essere true
+                      :sem {:pred :die}}
+             :italiano {:passato "morto"
+                        :present {:1sing "muoio"
+                                  :2sing "muori"
+                                  :3sing "muore"
+                                  :1plur "moriamo"
+                                  :2plur "morite"
+                                  :3plur "muoiono"}}}
 
  "mostrare" {:synsem {:cat :verb
                       :sem {:pred :show}}}
@@ -1666,7 +1630,6 @@ ottenere
            :subcat {:1 {:cat :det
                         :number :sing
                         :def :def}}}}
- "parere" {}
 
  "parlare"
  [{:synsem {:cat :verb
@@ -1677,7 +1640,10 @@ ottenere
  "partire" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :leave-trip}}}
- "passare" {}
+
+ "passare" {:synsem {:cat :verb
+           :essere false
+           :sem {:pred :pass}}}
 
  "pensare"
  {:synsem {:cat :verb
@@ -1846,7 +1812,10 @@ ottenere
  "ritornare" {:synsem {:cat :verb
                        :sem {:pred :return-r}
                        :essere true}}
- "riuscire" {}
+
+ "riuscire" {:synsem {:cat :verb
+                       :essere true
+                       :sem {:pred :succeed}}}
 
  "rompere" {:synsem {:cat :verb
                      :sem {:pred :break}}
@@ -1929,7 +1898,9 @@ ottenere
                    :agr {:gender :fem}
                    :sem {:pred :chair}}}
 
- "sembrare" {}
+ "sembrare" {:synsem {:cat :verb
+                     :essere true
+                     :sem {:pred :seem}}}
 
  "sentire" {:synsem {:cat :verb
                      :sem {:pred :hear}}}

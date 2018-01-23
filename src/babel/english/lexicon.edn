@@ -626,6 +626,12 @@
  "dictate" {:synsem {:cat :verb
                      :sem {:pred :dictate}}}
 
+ "die" {:english {:past {:english "died"
+                         :note "past tense"}
+                 :participle "dying"}
+         :synsem {:cat :verb
+                  :sem {:pred :die}}}
+
  "dine" {:synsem {:cat :verb
                   :sem {:pred :cenare}
                   :subcat {:2 '()}}}
@@ -1330,14 +1336,14 @@
                     :past-participle "known"
                     :note "s-"}
           :synsem {:cat :verb
-                   :sem {:pred :know-s}}}
+                   :sem {:pred :know-s...}}}
 
 
          {:english {:past "knew"
                     :note "c-"
                     :past-participle "known"}
           :synsem {:cat :verb
-                   :sem {:pred :know-c}}}
+                   :sem {:pred :know-c...}}}
 
          ]
 
@@ -1603,6 +1609,9 @@
                  :sem {:pred :off}
                  :subcat '()}}
 
+                 "open" {:synsem {:cat :verb
+                                      :sem {:pred :open}}}
+
  "up" {:synsem {:cat :prep
                 :sem {:pred :up}
                 :subcat '()}}
@@ -1659,6 +1668,9 @@
  "participate"  {:synsem {:cat :verb
                           :sem {:pred :participate}
                           :subcat {:2 '()}}}
+
+ "pass" {:synsem {:cat :verb
+                     :sem {:pred :pass}}}
 
  "party" [{:synsem {:cat :noun
                     :sem {:pred :party
@@ -1948,6 +1960,10 @@
                                    :agr agr
                                    :sem obj
                                    :reflexive true}}}})])
+
+ "seem"  {:synsem {:cat :verb
+                      :sem {:pred :seem}}}
+
  "sell" {:synsem {:cat :verb
                   :sem {:pred :sell}}
          :english {:past "sold"}}
@@ -2138,6 +2154,9 @@
  "stupid" {:synsem {:cat :adjective
                     :sem {:pred :stupid
                           :subj {:human true}}}}
+
+ "succeed"  {:synsem {:cat :verb
+                    :sem {:pred :succeed}}}
 
  "supply" {:synsem {:cat :verb
                     :sem {:pred :supply}}}

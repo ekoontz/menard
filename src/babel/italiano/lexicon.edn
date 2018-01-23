@@ -209,8 +209,8 @@
                        :sem {:pred :approve}}}
 
  "aprire"  {:synsem {:cat :verb
-                       :sem {:pred :open}}
-              :italiano {:passato "aperto"}
+                     :sem {:pred :open}}
+            :italiano {:passato "aperto"}}
 
  "arrabbiarsi" {:synsem {:cat :verb
                          :sem {:pred :get-angry

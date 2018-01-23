@@ -11,13 +11,16 @@
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
-   #?(:clj [clojure.test :refer [deftest is]])
+   #?(:clj [clojure.test :as realtest :refer [is]])
    #?(:cljs [cljs.test :refer-macros [deftest is]])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
+
+(defmacro deftest [test-name stuff]
+  `(apply realtest/deftest ~@[test-name stuff]))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -189,7 +192,7 @@
                                   parsed (reduce concat (map :parses
                                                              (parse surface (np-grammar))))]
                               (if (not (empty? parsed))
-                                (log/info (str "parse OK:" surface))
+                                (log/info (str "roundtrip-np-grammar: " surface))
                                 (log/error (str "parse failed: " surface)))
                               (is (not (empty? parsed)))))
                           expressions))))))
@@ -252,7 +255,7 @@
                           (let [surface (morph expr)
                                 parsed (reduce concat (map :parses (parse surface)))]
                             (if (not (empty? parsed))
-                              (log/info (str "parse OK:" surface))
+                              (log/info (str "roundtrip-past:" surface))
                               (log/error (str "parse failed: " surface)))
                             (is (not (empty? parsed)))))
                         expressions))))))
@@ -271,8 +274,11 @@
                             (let [surface (morph expr)
                                   parsed (reduce concat (map :parses (parse surface)))]
                               (if (not (empty? parsed))
-                                (log/info (str "parse OK:" surface))
-                                (log/error (str "parse failed: " surface)))
+                                (log/info (str "roundtrip-present: " surface))
+                                (log/error (str "parse failed: " surface ": italiano:"
+                                                (dag_unify.core/strip-refs
+                                                 (get-in expr
+                                                         [:italiano])))))
                               (is (not (empty? parsed)))))
                           expressions))))))
 
@@ -289,8 +295,11 @@
                           (let [surface (morph expr)
                                 parsed (reduce concat (map :parses (parse surface)))]
                             (if (not (empty? parsed))
-                              (log/info (str surface))
-                              (log/error (str "parse failed: " surface)))
+                              (log/info (str "roundtrip-future: " surface))
+                              (log/error (str "parse failed: " surface ": italiano:"
+                                              (dag_unify.core/strip-refs
+                                               (get-in expr
+                                                       [:italiano])))))
                             (is (not (empty? parsed)))))
                         expressions))))))
 
@@ -315,6 +324,7 @@
                           expressions))))))
 
 (deftest the-red-cat-woke-up
+  (log/info (str "starting test: the-red-cat-woke-up"))
   (let [result (:parses (first (parse "il gatto rosso si è alzato")))]
     ;; should find at least one structure:
     (is (not (empty? result)))
@@ -323,7 +333,8 @@
     (is (or (= "il gatto rosso si è alzato"
                (morph (first result)))
             (= "il rosso gatto si è alzato"
-               (morph (first result)))))))
+               (morph (first result))))))
+  (log/info (str "ending test: the-red-cat-woke-up")))
             
 ;; tricky tokenization of 'la sua' and 'la loro' as lexemes.
 (deftest parsing

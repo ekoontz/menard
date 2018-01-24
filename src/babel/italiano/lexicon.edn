@@ -308,9 +308,9 @@
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
                            :infl :past
-                           :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                           :reflexive false ;; in Italian, reflexive verbs are always essere=true.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                           ;; but is expected to reduce fails during generation.
+                           ;; but is expected to speed up generation.
                            :subcat {:2 []}}}}}
     ;; 6. trapassato intransitive
     {:unify [avere-common avere-aux]
@@ -322,25 +322,26 @@
               :subcat {:2 {:sem {:reflexive false}
                            :infl :past
                            :essere false
-                           :reflexive false ;; in Italian, reflexive verbs are always essere=false.
+                           :reflexive false ;; in Italian, reflexive verbs are always essere=true.
                            ;; this additional qualification here (:reflexive false) is not necessary
-                           ;; but is expected to reduce fails during generation.
+                           ;; but is expected to speed up generation
                            :subcat {:2 []}}}}}
 
     ;; TODO: add trapassato transitive
-
-   ;; 7. avere bisogno di
-   (let [need-obj (atom :top)]
-     {:unify [avere-common]
-      :allow-intransitivize false ;; don't generate "ho bisogno di".
-      :synsem {:sem {:pred :need
-                     :obj need-obj}
-               :subcat {:1 {:sem {:living true}}
-                        :2 {:cat :noun
-                            :subcat []
-                            :sem {:pred :bisogno-di
-                                  :obj need-obj}}}}})])
-
+    
+    
+    ;; 7. avere bisogno di
+    (let [need-obj (atom :top)]
+      {:unify [avere-common]
+       :allow-intransitivize false ;; don't generate "ho bisogno di".
+       :synsem {:sem {:pred :need
+                      :obj need-obj}
+                :subcat {:1 {:sem {:living true}}
+                         :2 {:cat :noun
+                             :subcat []
+                             :sem {:pred :bisogno-di
+                                   :obj need-obj}}}}})])
+ 
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
  "bello"
@@ -451,7 +452,7 @@
                     :cat :noun
                     :sem {:pred :coffee}}}]
  "calzoni"
- ;; inherently plural
+ ;; setting {:agr {:number :plur}} because it's always plural: cannot be singular.
  {:synsem {:cat :noun
            :agr {:gender :masc
                  :number :plur}

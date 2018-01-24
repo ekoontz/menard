@@ -77,8 +77,8 @@
   (let [target-expression (generate target-spec target-model)
         source-expression (generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}
                                     source-model)]
-        {:source ((:fo source-model) source-expression)
-         :targets [(:fo target-model) target-expression]
+        {:source ((:morph source-model) source-expression)
+         :targets [((:morph target-model) target-expression)]
          :target-spec target-spec
          :target-semantics {:synsem {:sem (get-in target-expression [:synsem :sem])}}}))
 

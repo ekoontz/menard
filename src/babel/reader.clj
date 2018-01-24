@@ -80,7 +80,9 @@
         {:source ((:morph source-model) source-expression)
          :targets [((:morph target-model) target-expression)]
          :target-spec target-spec
-         :target-semantics {:synsem {:sem (get-in target-expression [:synsem :sem])}}}))
+         :target-semantics {:synsem {:sem (get-in target-expression [:synsem :sem])
+                                     :cat (get-in target-expression [:synsem :cat])
+                                     :subcat []}}}))
 
 (defn generate-question-and-correct-set [target-spec source-language source-locale
                                          target-language target-locale]

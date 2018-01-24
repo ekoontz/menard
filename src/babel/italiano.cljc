@@ -18,7 +18,12 @@
 (defn medium []
   (if (realized? medium-model)
     @medium-model
-    @(deliver medium-model (grammar/medium))))
+    @(do
+       (println (str "creating Italian model..(will be slow the first time).."))
+       (let [result
+             (deliver medium-model (grammar/medium))]
+         (println (str "done."))
+         result))))
 
 (defonce np-grammar-model (promise))
 (defn np-grammar []

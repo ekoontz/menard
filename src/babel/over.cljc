@@ -48,7 +48,6 @@
   [parent head]
   ;; TODO: get rid of all this type-checking and use
   ;; whatever people use for Clojure argument type-checking.
-  (println (str "wtf: type of head: " (type head)))
   (cond
     (or (seq? head)
         (vector? head))

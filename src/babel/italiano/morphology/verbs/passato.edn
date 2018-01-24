@@ -25,6 +25,7 @@
       #"(.*)ata"       "$1arsi"
       #"(.*)ita"       "$1ire"
       #"(.*)ita"       "$1irsi"
+      #"(.*)ta"        "$1ire" ;; morta -> morire
       #"(.*)uta"       "$1ere" ;; (cad)uta -> (cad)ere
       #"(.*)uta"       "$1ersi"
       #"(.*)uta"       "$1uto"
@@ -50,6 +51,7 @@
       #"(.*)ate"       "$1arsi"
       #"(.*)ite"       "$1ire"
       #"(.*)ite"       "$1irsi"
+      #"(.*)te"        "$1ire" ;; morte -> morire
       #"(.*)ute"       "$1ere" ;; (cad)ute -> (cad)ere
       #"(.*)ute"       "$1ersi"
       #"(.*)ute"       "$1irsi"
@@ -75,6 +77,7 @@
       #"(.*)asti"      "$1asto"
       #"(.*)([aiu])ti" "$1$2re" ;; (usc)(i)ti -> (usc)(i)re
       #"(.*)ati"       "$1arsi"
+      #"(.*)ti"        "$1ire" ;; morti -> morire      
       #"(.*)uti"       "$1ere" ;; (cad)uti -> (cad)ere
 
       ;; scesi -> sceso (convert to irregular passato 'sceso' rather than

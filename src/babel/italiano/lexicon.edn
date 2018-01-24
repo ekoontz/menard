@@ -153,23 +153,6 @@
            :sem {:subj {:animate true}
                  :pred :go}}}
 
-  "Antonella"
-  {:synsem {:sem {:pred :antonella
-                  :human true}
-            :propernoun true
-            :agr {:number :sing
-                  :person :3rd
-                  :gender :fem}}}
-
-  "Lucia e Cecilia"
-  {:synsem {:sem {:pred :lucia-and-cecilia
-                  :human true}
-            :propernoun true
-            :agr {:number :plur
-                  :person :3rd
-                  :gender :fem}}}
-
-
  "anno" {:synsem {:agr {:gender :masc}
                   :cat :noun
                   :sem {:pred :year
@@ -182,6 +165,36 @@
  "annunciare"  {:synsem {:cat :verb
                          :sem {:pred :announce}}}
 
+ "Antonella"
+ {:synsem {:sem {:pred :antonella
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonia"
+ {:synsem {:sem {:pred :antonia
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonio"
+ {:synsem {:propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :masc}
+           :sem {:pred :antonio
+                 :human true}}}
+
+ "Antonia e Luisa"
+ {:synsem {:sem {:pred :antonia-and-luisa
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :person :3rd
+                 :gender :fem}}}
+ 
  "appoggiare"  {:synsem {:cat :verb
                          :sem {:pred :support}}}
 
@@ -196,8 +209,8 @@
                        :sem {:pred :approve}}}
 
  "aprire"  {:synsem {:cat :verb
-                       :sem {:pred :open}}
-              :italiano {:passato "aperto"}
+                     :sem {:pred :open}}
+            :italiano {:passato "aperto"}}
 
  "arrabbiarsi" {:synsem {:cat :verb
                          :sem {:pred :get-angry
@@ -1415,6 +1428,13 @@
             :subcat []}}
   ]
 
+ "Lucia e Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :gender :fem}}}
+ 
  "lui" (let [common {:synsem {:cat :noun
                               :pronoun true
                               :case :nom
@@ -1483,22 +1503,23 @@
            :sem {:pred :eat
                  :subj {:animate true}
                  :obj {:edible true}}}}
-
  "Marina"
-  {:synsem {:sem {:pred :marina
-                  :human true}
-            :agr {:gender :fem}
-            :propernoun true}}
-
- "Mario"
- {:synsem {:sem {:pred :mario
+ {:synsem {:agr {:number :sing
+                 :gender :fem}
+           :sem {:pred :marina
                  :human true}
-           :agr {:gender :masc}
+           :propernoun true}}
+ "Mario"
+ {:synsem {:agr {:number :sing
+                 :gender :masc}
+           :sem {:pred :mario
+                 :human true}
            :propernoun true}}
  "Matteo"
- {:synsem {:sem {:pred :matteo
+ {:synsem {:agr {:gender :masc
+                 :number :sing}
+           :sem {:pred :matteo
                  :human true}
-           :agr {:gender :masc}
            :propernoun true}}
  "mentire"
  {:synsem {:cat :verb
@@ -1534,8 +1555,9 @@
                       :sem {:pred :measure}}}
 
  "morire" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :die}}
+                    :essere true
+                    :sem {:pred :die}
+                    :subcat {:2 []}}
              :italiano {:passato "morto"
                         :present {:1sing "muoio"
                                   :2sing "muori"

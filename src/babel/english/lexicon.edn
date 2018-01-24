@@ -1,16 +1,15 @@
 {"Antonella"
  {:synsem {:sem {:pred :antonella
+                  :human true}
+            :propernoun true
+            :agr {:number :sing
+                  :person :3rd
+                  :gender :fem}}}
+ "Antonia"
+ {:synsem {:sem {:pred :antonia
                  :human true}
            :propernoun true
            :agr {:number :sing
-                 :person :3rd
-                 :gender :fem}}}
-
- "Lucia and Cecilia"
- {:synsem {:sem {:pred :lucia-and-cecilia
-                 :human true}
-           :propernoun true
-           :agr {:number :plur
                  :person :3rd
                  :gender :fem}}}
  "Antonio"
@@ -1438,18 +1437,23 @@
 
  "lower" {:synsem {:cat :verb
                    :sem {:pred :lower}}}
+ "Lucia and Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :gender :fem}}}
 
  "Luigi"
-  {:synsem {:agr {:gender :masc}
-            :sem {:pred :luigi
+ {:synsem {:sem {:pred :luigi
                   :human true}
-            :propernoun true}}
-
- "Marina"
- {:synsem {:sem {:pred :marina
+           :propernoun true
+           :agr {:number :sing
+                 :gender :masc}}}
+"Luisa"
+ {:synsem {:sem {:pred :luisa
                  :human true}
            :agr {:number :sing
-                 :person :3rd
                  :gender :fem}
            :propernoun true}}
 
@@ -1477,9 +1481,20 @@
 
  "manage" {:synsem {:cat :verb
                     :sem {:pred :manage}}}
+ "Marina"
+ {:synsem {:agr {:number :sing
+                 :gender :fem}
+           :sem {:pred :marina
+                 :human true}
+           :propernoun true}}
  "Mario"
  {:synsem {:agr {:number :sing
-                 :person :3rd
+                 :gender :masc}
+           :sem {:pred :mario
+                 :human true}
+           :propernoun true}}
+ "Matteo"
+ {:synsem {:agr {:number :sing
                  :gender :masc}
            :sem {:pred :mario
                  :human true}

@@ -121,7 +121,20 @@
     {:synsem {:cat :noun
               :pronoun false
               :reflexive false}})
+
+   (default ;; a propernoun takes no args.
+    {:synsem {:cat :noun
+              :pronoun false
+              :propernoun true
+              :subcat '()}})
    
+   (default ;; a propernoun is agr=3rd singular
+    {:synsem {:cat :noun
+              :pronoun false
+              :propernoun true
+              :agr {:number :sing
+                    :person :3rd}}})
+
    ;; </noun default rules>
    
    ;; <verb default rules>

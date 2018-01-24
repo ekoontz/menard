@@ -1660,14 +1660,10 @@
             :present {:3sing "organizes systematically"}}}
 
  "our"
- (let [common {:synsem {:cat :det
-                        :agr {:gender :masc}
-                        :sem {:of {:pred :noi}}
-                        :def :possessive}}]
-   [{:unify [common]
-     :synsem {:agr {:number :sing}}}
-    {:unify [common]
-     :synsem {:agr {:number :plur}}}])
+ {:synsem {:cat :det
+           :agr {:gender :masc}
+           :sem {:of {:pred :noi}}
+           :def :possessive}}
 
  "ourselves"
  {:synsem {:cat :noun
@@ -2270,13 +2266,9 @@
            :synsem {:agr {:number :plur}}}])
 
  "their"
- (let [common {:synsem {:cat :det
-                        :sem {:of {:pred :loro}}
-                        :def :possessive}}]
-   [{:unify [common]
-     :synsem {:agr {:number :sing}}}
-    {:unify [common]
-     :synsem {:agr {:number :plur}}}])
+ {:synsem {:cat :det
+           :sem {:of {:pred :loro}}
+           :def :possessive}}
 
  "themselves"
  {:synsem {:cat :noun
@@ -2650,13 +2642,9 @@
             :subcat '()}}]
 
  "your"
- (let [common {:synsem {:cat :det
-                        :sem {:of {:pred :tu}}
-                        :def :possessive}}]
-   [{:unify [common]
-     :synsem {:agr {:number :sing}}}
-    {:unify [common]
-     :synsem {:agr {:number :plur}}}])
+ {:synsem {:cat :det
+           :sem {:of {:pred :tu}}
+           :def :possessive}}
 
  "yourself"
  {:synsem {:cat :noun

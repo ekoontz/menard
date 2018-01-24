@@ -1555,8 +1555,9 @@
                       :sem {:pred :measure}}}
 
  "morire" {:synsem {:cat :verb
-                      :essere true
-                      :sem {:pred :die}}
+                    :essere true
+                    :sem {:pred :die}
+                    :subcat {:2 []}}
              :italiano {:passato "morto"
                         :present {:1sing "muoio"
                                   :2sing "muori"

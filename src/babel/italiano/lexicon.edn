@@ -1650,6 +1650,10 @@
            :essere false
            :sem {:pred :think}}}
 
+"perdere" {:italiano {:passato "perso"}
+            :synsem {:cat :verb
+                     :sem {:pred :lose}}}
+
 "pettinarsi" {:synsem {:cat :verb
                     :sem {:pred :comb-oneself
                           :reflexive true}}}
@@ -1707,6 +1711,13 @@
                         :sem {:pred :worry
                               :reflexive true}}}
 
+"presentare" (let [common :synsem {:cat :verb
+                          :essere false}}]
+             [{:unify [common]
+               :synsem {:sem {:pred :present}}}
+              {:unify [common]
+               :synsem {:sem {:pred :introduce-p...}}}])
+
  "prestare" {:synsem {:cat :verb
                        :sem {:pred :lend}}}
 
@@ -1747,6 +1758,15 @@
            :sem {:pred :boy
                  :human true}}}
 
+"rendere" (let [common {:synsem {:cat :verb
+                                :essere false}
+                       :italiano {:italiano "rendere"
+                                  :passato "reso"}}]
+           [{:unify [common]
+             :synsem {:sem {:pred :render}}}
+            {:unify [common]
+             :synsem {:sem {:pred :give-back-return-ren...}}}])
+
  "restare" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :remain-re}
@@ -1754,7 +1774,7 @@
 
  "restituire" {:italiano {:boot-verb true}
                :synsem {:cat :verb
-                        :sem {:pred :give-back-return}}}
+                        :sem {:pred :give-back-return-res...}}}
 
  "riconoscere" {:synsem {:cat :verb
                          :sem {:pred :recognize}}
@@ -1897,6 +1917,9 @@
  "sedia" {:synsem {:cat :noun
                    :agr {:gender :fem}
                    :sem {:pred :chair}}}
+
+"seguire" {:synsem {:cat :verb
+                    :sem {:pred :follow}}}
 
  "sembrare" {:synsem {:cat :verb
                      :essere true

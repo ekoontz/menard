@@ -1000,7 +1000,7 @@
             :present {:3sing "goes upstairs"}}}
 
  "grab"  {:synsem {:cat :verb
-                   :sem {:pred :prendere}}
+                   :sem {:pred :grab}}
           :english {:participle "grabbing"
                     :past "grabbed"}}
 
@@ -1277,6 +1277,15 @@
 
  "interrupt" {:synsem {:cat :verb
                        :sem {:pred :interrupt}}}
+
+"introduce" (let [common]
+           [{:synsem {:cat :verb
+                     :sem {:pred :introduce}}}
+
+           {:english {:note "p-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :introduce-p}}}])
+
  "it"
  [{:synsem {:cat :noun
             :pronoun true
@@ -1715,6 +1724,9 @@
             {:synsem {:cat :verb
                       :sem {:pred :prepare}}}]
 
+"present" {:synsem {:cat :verb
+                     :sem {:pred :present}}}
+
  "preserve" {:synsem {:cat :verb
                       :sem {:pred :preserve}}}
 
@@ -1872,7 +1884,9 @@
                      :sem {:pred :return-t}}
                      :english {:note "t-"}}
            {:synsem {:cat :verb
-                     :sem {:pred :give-back-return}}
+                     :sem {:pred :give-back-return-res...}}
+           {:synsem {:cat :verb
+                     :sem {:pred :give-back-return-ren...}}
             :english {:note "give back"
                       :past "gave back"
                       :past-participle "given back"}}]

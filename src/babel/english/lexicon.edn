@@ -1576,6 +1576,7 @@
                   :sem {:pred :have-to}}}
  "my"
  {:synsem {:cat :det
+           :def :possessive
            :sem {:of {:pred :I}}}}
 
  "myself"

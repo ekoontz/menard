@@ -1744,12 +1744,12 @@
                         :sem {:pred :worry
                               :reflexive true}}}
 
-"presentare" (let [common :synsem {:cat :verb
-                          :essere false}}]
-             [{:unify [common]
-               :synsem {:sem {:pred :present}}}
-              {:unify [common]
-               :synsem {:sem {:pred :introduce-p...}}}])
+ "presentare" (let [common {:synsem {:cat :verb
+                                     :essere false}}]
+                [{:unify [common]
+                  :synsem {:sem {:pred :present}}}
+                 {:unify [common]
+                  :synsem {:sem {:pred :introduce-p...}}}])
 
  "prestare" {:synsem {:cat :verb
                        :sem {:pred :lend}}}

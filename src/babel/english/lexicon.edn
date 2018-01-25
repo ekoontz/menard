@@ -15,7 +15,7 @@
 
  "Antonia and Luisa"
  {:synsem {:propernoun true
-           :agr {:number :sing
+           :agr {:number :plur
                  :person :3rd
                  :gender :fem}
            :sem {:pred :antonia-and-luisa

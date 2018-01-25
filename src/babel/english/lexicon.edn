@@ -343,28 +343,32 @@
                :synsem {:cat :verb
                         :sem {:pred :be-missing}}}
 
-"be necessary" {:synsem {:cat :verb
-                      :sem {:pred :be-necessary-s...}
-                      :subcat {:2 '()}}
-             :english {:future "be necessary"
-                       :participle "being necessary"
-                       :conditional "be necessary"
-                       :imperfect {:1sing "was being necessary"
-                                   :2sing "were being necessary"
-                                   :3sing "was being necessary"
-                                   :1plur "were being necessary"
-                                   :2plur "were being necessary"
-                                   :3plur "were being necessary"}
-                       :past {:english "was necessary"
-                              :2sing "were necessary"
-                              :2plur "were necessary"
-                              :3plur "were necessary"}
-                       :present {:1sing "am necessary"
-                                 :2sing "are necessary"
-                                 :3sing "is necessary"
-                                 :1plur "are necessary"
-                                 :2plur "are necessary"
-                                 :3plur "are necessary"}}}
+"be necessary"
+   (let [common {:synsem {:cat :verb
+                          :subcat {:2 []}}
+                 :english {:future "be necessary"
+                           :participle "being necessary"
+                           :conditional "be necessary"
+                           :imperfect {:1sing "was being necessary"
+                                       :2sing "were being necessary"
+                                       :3sing "was being necessary"
+                                       :1plur "were being necessary"
+                                       :2plur "were being necessary"
+                                       :3plur "were being necessary"}
+                           :past {:1sing "was necessary"
+                                  :2sing "were necessary"
+                                  :2plur "were necessary"
+                                  :3plur "were necessary"}
+                           :present {:1sing "am necessary"
+                                    :2sing "are necessary"
+                                    :3sing "is necessary"
+                                    :1plur "are necessary"
+                                    :2plur "are necessary"
+                                    :3plur "are necessary"}}}]
+        [{:unify [common]
+          :synsem {:sem {:pred :be-necessary-s...}
+         {:unify [common]
+         :synsem {:sem {:pred :be-necessary-b...}}}])
 
 "be pleasant" {:synsem {:cat :verb
                       :sem {:pred :be-pleasant}

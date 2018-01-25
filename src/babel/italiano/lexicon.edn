@@ -1130,7 +1130,7 @@
                  :human false}}}
  "Gianluca"
  {:synsem {:agr {:gender :masc}
-           :sem {:pred :luigi
+           :sem {:pred :gianluca
                  :human true}
            :propernoun true}}
 

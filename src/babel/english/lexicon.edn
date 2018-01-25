@@ -12,6 +12,15 @@
            :agr {:number :sing
                  :person :3rd
                  :gender :fem}}}
+
+ "Antonia and Luisa"
+ {:synsem {:propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}
+           :sem {:pred :antonia-and-luisa
+                 :human true}}}
+
  "Antonio"
  {:synsem {:propernoun true
            :agr {:number :sing
@@ -1545,7 +1554,7 @@
  "Matteo"
  {:synsem {:agr {:number :sing
                  :gender :masc}
-           :sem {:pred :mario
+           :sem {:pred :matteo
                  :human true}
            :propernoun true}}
 

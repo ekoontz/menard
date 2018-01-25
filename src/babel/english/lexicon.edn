@@ -366,9 +366,9 @@
                                     :2plur "are necessary"
                                     :3plur "are necessary"}}}]
         [{:unify [common]
-          :synsem {:sem {:pred :be-necessary-s...}
+          :synsem {:sem {:pred :be-necessary-s...}}}
          {:unify [common]
-         :synsem {:sem {:pred :be-necessary-b...}}}])
+          :synsem {:sem {:pred :be-necessary-b...}}}])
 
 "be pleasant" {:synsem {:cat :verb
                       :sem {:pred :be-pleasant}

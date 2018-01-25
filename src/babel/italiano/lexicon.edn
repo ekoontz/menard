@@ -194,7 +194,7 @@
            :agr {:number :plur
                  :person :3rd
                  :gender :fem}}}
- 
+
  "appoggiare"  {:synsem {:cat :verb
                          :sem {:pred :support}}}
 
@@ -328,8 +328,8 @@
                            :subcat {:2 []}}}}}
 
     ;; TODO: add trapassato transitive
-    
-    
+
+
     ;; 7. avere bisogno di
     (let [need-obj (atom :top)]
       {:unify [avere-common]
@@ -341,7 +341,7 @@
                              :subcat []
                              :sem {:pred :bisogno-di
                                    :obj need-obj}}}}})])
- 
+
  "ballare" {:synsem {:cat :verb
                      :sem {:pred :dance}}}
  "bello"
@@ -678,6 +678,9 @@
                   :pred :contento
                   :subj {:human true}
                   :obj {:human true}}}}]
+
+"continuare" {:synsem {:cat :verb
+                         :sem {:pred :continue}}}
 
  "contraccambiare" {:synsem {:sem {:pred :reciprocate}
                              :cat :verb}}
@@ -1435,7 +1438,7 @@
            :propernoun true
            :agr {:number :plur
                  :gender :fem}}}
- 
+
  "lui" (let [common {:synsem {:cat :noun
                               :pronoun true
                               :case :nom
@@ -1681,6 +1684,13 @@
                     :sem {:pred :comb-oneself
                           :reflexive true}}}
 
+"piacere" {:synsem {:cat :verb
+                   :essere true
+                   :sem {:pred :be-pleasant}}
+          :italiano {:passato "piaciuto"
+                     :present {:1sing "piaccio"
+                               :1plur "piacciamo"
+                               :3plur "piacciono"}}}
 
  "piangere" {:italiano {:passato "pianto"}
              :synsem {:cat :verb
@@ -1951,6 +1961,10 @@
  "sentire" {:synsem {:cat :verb
                      :sem {:pred :hear}}}
 
+"servire" {:synsem {:essere true
+                    :cat :verb
+                    :sem {:pred :be-necessary-s...}}}
+
  "sgridare" {:synsem {:cat :verb
                       :sem {:pred :scold}}}
 
@@ -2139,6 +2153,9 @@
  {:synsem {:cat :verb
            :sem {:pred :transfer}}
   :italiano {:boot-verb true}}
+
+"trattare" {:synsem {:cat :verb
+          :sem {:pred :treeat}}}
 
  "trovare"
  {:synsem {:cat :verb

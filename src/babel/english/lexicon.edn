@@ -341,7 +341,53 @@
                                 :2plur "were missing"
                                 :3plur "were missing"}}
                :synsem {:cat :verb
-                        :sem {:pred :to-be-missing}}}
+                        :sem {:pred :be-missing}}}
+
+"be necessary" {:synsem {:cat :verb
+                      :sem {:pred :be-necessary-s...}
+                      :subcat {:2 '()}}
+             :english {:future "be necessary"
+                       :participle "being necessary"
+                       :conditional "be necessary"
+                       :imperfect {:1sing "was being necessary"
+                                   :2sing "were being necessary"
+                                   :3sing "was being necessary"
+                                   :1plur "were being necessary"
+                                   :2plur "were being necessary"
+                                   :3plur "were being necessary"}
+                       :past {:english "was necessary"
+                              :2sing "were necessary"
+                              :2plur "were necessary"
+                              :3plur "were necessary"}
+                       :present {:1sing "am necessary"
+                                 :2sing "are necessary"
+                                 :3sing "is necessary"
+                                 :1plur "are necessary"
+                                 :2plur "are necessary"
+                                 :3plur "are necessary"}}}
+
+"be pleasant" {:synsem {:cat :verb
+                      :sem {:pred :be-pleasant}
+                      :subcat {:2 '()}}
+             :english {:future "be pleasant"
+                       :participle "being pleasant"
+                       :conditional "be pleasant"
+                       :imperfect {:1sing "was being pleasant"
+                                   :2sing "were being pleasant"
+                                   :3sing "was being pleasant"
+                                   :1plur "were being pleasant"
+                                   :2plur "were being pleasant"
+                                   :3plur "were being pleasant"}
+                       :past {:english "was pleasant"
+                              :2sing "were pleasant"
+                              :2plur "were pleasant"
+                              :3plur "were pleasant"}
+                       :present {:1sing "am pleasant"
+                                 :2sing "are pleasant"
+                                 :3sing "is pleasant"
+                                 :1plur "are pleasant"
+                                 :2plur "are pleasant"
+                                 :3plur "are pleasant"}}}
 
  "beach" {:synsem {:cat :noun
                    :sem {:place true
@@ -1279,7 +1325,7 @@
 
 "introduce" [{:synsem {:cat :verb
                        :sem {:pred :introduce}}}
-             
+
              {:english {:note "p-"}
               :synsem  {:cat :verb
                         :sem {:pred :introduce-p}}}]
@@ -2096,6 +2142,7 @@
          :english {:past "snapped"
                    :participle "snapping"
                    :note "pictures"}}
+
  "some"
  [{:synsem {:cat :det
             :def :partitivo
@@ -2361,6 +2408,9 @@
                        :participle "transferring"}
              :synsem {:cat :verb
                       :sem {:pred :transfer}}}
+
+"treat" {:synsem {:cat :verb
+                    :sem {:pred :support}}}
 
  "try" [{:modal-with :infinitive
          :synsem {:cat :verb

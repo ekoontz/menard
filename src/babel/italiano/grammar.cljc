@@ -334,7 +334,6 @@
 
                    ;; TODO: consolidate s-future-(non)phrasal,s-conditional-(non)phrasal,etc
                    ;; into fewer rules and use a default rule to choose among them.
-                   ;; (see babel.english.grammar/default-fn)
                    (unify c10
                            root-is-head-root
                            {:rule "s-future-phrasal"
@@ -705,8 +704,7 @@
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
   ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
-  (let [;;lexicon @lexicon
-        lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
+  (let [lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
         parse-lexicon
         ;; TODO: remove this do-nothing filtering and
         ;; replace with comment like "if you want to filter, then do: `(into {}..)`".

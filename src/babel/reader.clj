@@ -72,17 +72,46 @@
       (json-read-str (.getValue (:structure (first results)))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
-                                                 target-language target-locale
-                                                 source-model target-model]
-  (let [target-expression (generate target-spec target-model)
-        source-expression (generate {:synsem {:sem (get-in target-expression [:synsem :sem])}}
-                                    source-model)]
-        {:source ((:morph source-model) source-expression)
-         :targets [((:morph target-model) target-expression)]
-         :target-spec target-spec
-         :target-semantics {:synsem {:sem (get-in target-expression [:synsem :sem])
-                                     :cat (get-in target-expression [:synsem :cat])
-                                     :subcat []}}}))
+                                                 target-language target-locale]
+  (let [basic-spec {:synsem {:subcat []
+                             :sem {:subj {:city false}}
+                             :cat :verb}
+                    :modified false}
+        source-language (keyword source-language)
+        target-language (keyword target-language)
+        target-model @((get models target-language))
+        
+        target-expression (time (babel.generate/generate target-spec target-model))
+        
+        pred (dag_unify.core/get-in target-expression
+                                    [:synsem :sem :pred])
+        subj (dag_unify.core/get-in target-expression
+                                    [:synsem :sem :subj :pred])
+        tense (dag_unify.core/get-in target-expression
+                                     [:synsem :sem :tense])
+        source-spec
+        (dag_unify.core/strip-refs
+         (dag_unify.core/unify
+          {:synsem {:sem (dag_unify.core/get-in target-expression [:synsem :sem])}}
+          basic-spec))
+        
+        source-model @((get models source-language))
+        source-expression (time (babel.generate/generate source-spec source-model))]
+    (let [pairing
+          {:target ((:morph (babel.italiano/medium)) target-expression)
+           :pred (dag_unify.core/strip-refs
+                  (dag_unify.core/get-in target-expression [:synsem :sem :pred]))
+           :tense (dag_unify.core/get-in target-expression [:synsem :sem :tense])
+           :sem (dag_unify.core/get-in target-expression [:synsem :sem])
+           :subj (dag_unify.core/get-in target-expression [:synsem :sem :subj :pred])
+           :source (if source-expression ((:morph @((get models source-language))) source-expression))}]
+      (if (:source pairing)
+        (str (:target pairing) " => " (:source pairing))
+        (str " FAILED: " (dissoc pairing :source)))
+      {:source (:source pairing)
+       :targets [(:target pairing)]
+       :target-spec target-spec
+       :target-semantics (:semantics pairing)})))
 
 (defn generate-question-and-correct-set [target-spec source-language source-locale
                                          target-language target-locale]

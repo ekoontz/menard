@@ -673,31 +673,32 @@
   (log/debug (str "tense  (pre): " (strip-refs (get-in tree
                                                        [:synsem :sem :tense]
                                                        ::unset))))
-  (let [result
-        (-> tree
-            (apply-default-if
-             verb-default?
-             {:synsem {:cat :verb
-                       :sem {:tense :present
-                             :aspect :simple}
-                       :infl :present}})
-            (apply-default-if
-             verb-default?
-             {:synsem {:cat :verb
-                       :sem {:tense :present
-                             :aspect :progressive}
-                       :infl :present-progressive}})
-            (apply-default-if
-             verb-default?
-             {:synsem {:cat :verb
-                       :sem {:tense :future}
-                       :infl :future}})
-            (apply-default-if
-             verb-default?
-             {:synsem {:cat :verb
-                       :sem {:tense :conditional}
-                       :infl :conditional}}))]
-    [result]))
+  (let [defaults 
+        [{:synsem {:cat :verb
+                   :sem {:tense :present
+                         :aspect :simple}
+                   :infl :present}}
+         {:synsem {:cat :verb
+                   :sem {:tense :present
+                         :aspect :progressive}
+                   :infl :present-progressive}}
+         {:synsem {:cat :verb
+                   :sem {:tense :future}
+                   :infl :future}}
+         {:synsem {:cat :verb
+                   :sem {:tense :conditional}
+                   :infl :conditional}}]]
+    (let [with-defaults
+          (remove #(= :fail %)
+                  (map (fn [default]
+                         (unify tree default))
+                       defaults))]
+      (if (empty? with-defaults)
+        (do
+          (log/warn (str "all defaults failed."))
+          [tree])
+        with-defaults))))
+        
 
 (defn medium []
   (deliver-lexicon)

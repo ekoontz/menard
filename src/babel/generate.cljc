@@ -237,6 +237,8 @@
              [:comp])
      (comp-paths (- depth 1)))))
 
+;; {:synsem {:cat :verb, :infl :imperfect, :sem {:tense :past, :aspect :progressive}, :subcat []}}
+
 (defn add-to-bolt-at-path
   "generate all complements for bolt at given path, and create a partial tree: bolt + complement => partial tree"
   [bolt path model]
@@ -246,7 +248,7 @@
                (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)] ;; add the complement to the bolt at _path_.
            ;; apply model's :default-fn, if any.
            (if (:default-fn model)
-             ((:default-fn model) partial-tree)
+             (first ((:default-fn model) partial-tree))
              partial-tree)))))
 
 (defn get-lexemes [model spec]

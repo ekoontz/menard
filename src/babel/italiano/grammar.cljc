@@ -697,7 +697,7 @@
              {:synsem {:cat :verb
                        :sem {:tense :conditional}
                        :infl :conditional}}))]
-    result))
+    [result]))
 
 (defn medium []
   (deliver-lexicon)

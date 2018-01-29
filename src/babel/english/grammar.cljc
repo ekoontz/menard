@@ -108,7 +108,7 @@
     (log/debug (str "tense  (post): " (strip-refs (get-in result
                                                           [:synsem :sem :tense]
                                                           ::unset))))
-    result))
+    [result]))
 
 (declare cache)
 

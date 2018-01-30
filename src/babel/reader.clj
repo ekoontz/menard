@@ -77,6 +77,8 @@
                              :sem {:subj {:city false}}
                              :cat :verb}
                     :modified false}
+        target-spec (unify target-spec basic-spec)
+        target-language-str target-language
         source-language (keyword source-language)
         target-language (keyword target-language)
         target-model @((get models target-language))

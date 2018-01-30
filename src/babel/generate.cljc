@@ -67,27 +67,33 @@
   [spec model depth & [from-bolts]]
   ;; 
   ;; Given a spec and a model, return the (potentially infinite) set
-  ;; of all trees, in ascending depth, that satisfy the given spec.
+  ;; of all trees, in ascending head-depth, that satisfy the given spec.
   ;;
+  ;; 'Head-depth' means the depth of the tree, measured by longest path of
+  ;; only H's from the root down to a leaf, minus 1. In other words, if a tree has
+  ;; head-depth=N, then it has as its longest H path within it [H..H..H] whose
+  ;; length is N+1.
   ;;
   ;; These trees look like:
   ;;
-  ;;  First all the depth=0 trees (simply lexemes) that satisfy the spec:
+  ;;  First all the head-depth=0 trees (simply lexemes) that satisfy the spec:
   ;; 
   ;;         H .. H ..
 
-  ;;   Then we have the trees of depth=1 that satisfy the spec:
+  ;;   Then we have the trees of head-depth=1 that satisfy the spec:
   ;; 
-  ;;       H         H
-  ;;  ..  / \  ..   / \ ..
-  ;;     H   C     C   H
-  ;;
-  ;;   And then all trees of depth=2 that satisfy the spec:
+  ;;       H         H       H      (note that the last-shown tree has
+  ;;  ..  / \  ..   / \ ..  / \  ..  a head-depth of 1, not 2, because
+  ;;     H   C     C   H   C   H     there is no path [H->H->H], but
+  ;;                      / \         there is a path [H->H].
+  ;;                     H   C
+  ;; 
+  ;;   And then all trees of head-depth=2 that satisfy the spec:
   ;;
   ;; 
   ;;       H            H
   ;;      / \          / \
-  ;;  .. H   C  ..    C   H .. 
+  ;;  .. H   C  ..    H   H .. 
   ;;    /            / \
   ;;   H            C   H
   ;;

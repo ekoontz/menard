@@ -1,10 +1,10 @@
 (ns babel.english.morphology
-  (:refer-clojure :exclude [get-in resolve replace reverse])
+  (:refer-clojure :exclude [assoc-in get-in resolve replace reverse])
   (:require [babel.pos :refer (noun)]
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [copy dissoc-paths fail? get-in ref? strip-refs unify]]))
+            [dag_unify.core :refer [assoc-in copy dissoc-paths fail? get-in ref? strip-refs unify]]))
 
 (declare get-string)
 (declare plural-en)

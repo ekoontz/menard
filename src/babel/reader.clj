@@ -104,7 +104,10 @@
            :tense (dag_unify.core/get-in target-expression [:synsem :sem :tense])
            :sem (dag_unify.core/get-in target-expression [:synsem :sem])
            :subj (dag_unify.core/get-in target-expression [:synsem :sem :subj :pred])
-           :source (if source-expression ((:morph @((get models source-language))) source-expression))}]
+           :source (if source-expression
+                     ((:morph @((get models source-language)))
+                      source-expression
+                      :from-language target-language-str))}]
       (if (:source pairing)
         (str (:target pairing) " => " (:source pairing))
         (str " FAILED: " (dissoc pairing :source)))

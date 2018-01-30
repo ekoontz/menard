@@ -82,11 +82,11 @@
 
   ;;   Then we have the trees of head-depth=1 that satisfy the spec:
   ;; 
-  ;;       H         H       H      (note that the last-shown tree has
-  ;;  ..  / \  ..   / \ ..  / \  ..  a head-depth of 1, not 2, because
-  ;;     H   C     C   H   C   H     there is no path [H->H->H], but
-  ;;                      / \         there is a path [H->H].
-  ;;                     H   C
+  ;;       H         H        H      (note that the last-shown tree has
+  ;;  ..  / \  ..   / \  ..  / \  ..  a head-depth of 1, not 2, because
+  ;;     H   C     C   H    C   H     there is no path [H->H->H], but
+  ;;                       / \         there is a path [H->H].
+  ;;                      H   C
   ;; 
   ;;   And then all trees of head-depth=2 that satisfy the spec:
   ;;

@@ -116,7 +116,10 @@
       {:source (:source pairing)
        :targets [(:target pairing)]
        :target-spec target-spec
-       :target-semantics (:semantics pairing)})))
+       :target-roots [(get-in target-expression
+                              [:root :italiano :italiano])]
+       :target-semantics (strip-refs
+                          (get-in target-expression [:synsem :sem]))})))
 
 (defn generate-question-and-correct-set [target-spec source-language source-locale
                                          target-language target-locale]

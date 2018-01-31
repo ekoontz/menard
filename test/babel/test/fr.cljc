@@ -776,9 +776,6 @@
                       [:comp] lexeme)))
                    (flatten (vals (get-in grammar [:lexicon]))))))))
     
-(defn comps [rule]
-  (map morph (add-comps rule)))
-
 (def spec-10
   {:synsem {:subcat []
             :cat :verb

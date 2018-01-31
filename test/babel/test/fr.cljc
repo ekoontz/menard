@@ -785,6 +785,6 @@
 
 (deftest speed-test-10
   (log/info (str "speed-test-10"))
-  (speed-test spec-10 1))
+  (speed-test spec-10 10))
 
 

@@ -139,7 +139,7 @@
         ;; from a model given a spec and a depth.
         ;; This is a contrived example - should be
         ;; for the model to provide these given a spec and a depth.
-        (and (= () (get-in spec [:synsem :subcat]))
+        (and (= [] (get-in spec [:synsem :subcat]))
              (= :verb (get-in spec [:synsem :cat]))
              (= :present (get-in spec [:synsem :sem :tense]))
              (= true (get-in spec [:synsem :sem :reflexive]))

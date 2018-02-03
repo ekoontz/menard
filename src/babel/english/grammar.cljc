@@ -157,16 +157,16 @@
    {:comment "c00"
     :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
     :first :comp
-    :comp {:synsem {:subcat '()}}
-    :head {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}
+    :head {:synsem {:subcat []}}}))
 
 (def h00
   (unify-check
    head-first
    {:comment "h00"
     :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
-    :comp {:synsem {:subcat '()}}
-    :head {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}
+    :head {:synsem {:subcat []}}}))
 
 (def c11
   (unify-check
@@ -268,7 +268,7 @@
                 :cat cat
                 :mod mod
                 :subcat {:1 argument
-                         :2 '()}
+                         :2 []}
                 :sem semantics}
        :comp {:phrasal true
               :synsem {:cat :verb
@@ -276,7 +276,7 @@
                        :sem semantics
                        :slash true
                        :subcat {:1 argument
-                                :2 '()}}}
+                                :2 []}}}
        :head {:phrasal false
               :synsem {:cat cat
                        :sem semantics}}
@@ -290,7 +290,7 @@
                 (let [propernoun (atom :top)
                       head-sem (atom :top)
                       mod-sem (atom {:subj head-sem})
-                      rest-mod '()]
+                      rest-mod []]
                   {:rule "nbar1"
                    :synsem {:reflexive false
                             :propernoun propernoun
@@ -349,7 +349,7 @@
                    :synsem {:agr {:number number-agreement}
                             :reflexive false
                             :cat :noun
-                            :mod '()
+                            :mod []
                             :propernoun propernoun
                             :sem {:number number-agreement}}
                    :head {:phrasal false
@@ -431,7 +431,7 @@
           comp-sem (atom :top)
           head-mod (atom :top)
           head-synsem (atom {:cat cat
-                             :subcat '()
+                             :subcat []
                              :mod head-mod
                              :sem head-sem})]
       {:phrasal true
@@ -440,14 +440,14 @@
                       :rest head-mod}
                 :sem head-sem
                 :slash false
-                :subcat '()}
+                :subcat []}
        :head {:rule "noun-phrase2"
               :phrasal true
               :synsem head-synsem}
        :comp {:phrasal true
               :synsem {:slash true
                        :subcat {:1 head-synsem
-                                :2 '()}
+                                :2 []}
                        :sem comp-sem}}}))
    (unify-check
     {:rule "slash-obj"}
@@ -459,14 +459,14 @@
        :synsem {:cat cat
                 :slash true
                 :subcat {:1 second-arg
-                         :2 '()}}
+                         :2 []}}
        :comp {:synsem first-arg}
        :head {:synsem {:cat cat
                        :subcat {:1 first-arg
                                 :2 second-arg}}}})
     {:synsem {:aux false}
      :head {:synsem {:aux false}}
-     :comp {:synsem {:subcat '()
+     :comp {:synsem {:subcat []
                      :case :nom
                      :cat :noun}}}
 
@@ -479,7 +479,7 @@
     )])
 
 (defn aux-is-head-feature [phrase]
-  (cond (= :verb (get-in phrase '(:synsem :cat)))
+  (cond (= :verb (get-in phrase [:synsem :cat]))
         (unify-check phrase
                 (let [ref (atom :top)]
                   {:synsem {:aux ref}
@@ -487,7 +487,7 @@
         true phrase))
 
 (defn modal-is-head-feature [phrase]
-  (cond (= :verb (get-in phrase '(:synsem :cat)))
+  (cond (= :verb (get-in phrase [:synsem :cat]))
         (unify-check phrase
                 (let [ref (atom :top)]
                   {:synsem {:modal ref}

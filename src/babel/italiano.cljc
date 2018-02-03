@@ -39,6 +39,13 @@
   ;; most arguments are simply discarded for italian.
   (fo expr))
 
+(defn morph-ps [expr & {:keys [from-language show-notes]
+                     :or {from-language nil
+                          show-notes true}}]
+  ;; modeled after babel.english/morph:
+  ;; most arguments are simply discarded for italian.
+  (parse/fo-ps expr))
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 

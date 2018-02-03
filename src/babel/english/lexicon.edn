@@ -948,8 +948,8 @@
  "get up"
  {:synsem {:cat :verb
            :sem {:pred :get-up
-                 :reflexive true
-                 :subcat {:2 '()}}}
+                 :reflexive true}
+           :subcat {:2 '()}}}
   :english {:participle "getting up"
             :present {:3sing "gets up"}
             :past "got up"}}

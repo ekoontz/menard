@@ -1500,6 +1500,7 @@
                  :human true}
            :propernoun true
            :agr {:number :plur
+                 :person :3rd
                  :gender :fem}}}
 
  "Luigi"

@@ -73,7 +73,14 @@
 
 (defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
                                                  target-language target-locale]
-  (let [basic-spec {:synsem {:subcat []
+  (let [source-timing? false
+        source-timing-fn (if source-timing? #(time %)
+                             (fn [x] x))
+        target-timing? false
+        target-timing-fn (if target-timing? #(time %)
+                             (fn [x] x))
+        
+        basic-spec {:synsem {:subcat []
                              :sem {:subj {:city false}}
                              :cat :verb}
                     :modified false}
@@ -83,7 +90,8 @@
         target-language (keyword target-language)
         target-model @((get models target-language))
         
-        target-expression (time (babel.generate/generate target-spec target-model))
+        target-expression
+        (target-timing-fn (babel.generate/generate target-spec target-model))
         
         pred (dag_unify.core/get-in target-expression
                                     [:synsem :sem :pred])
@@ -98,7 +106,8 @@
           basic-spec))
         
         source-model @((get models source-language))
-        source-expression (time (babel.generate/generate source-spec source-model))]
+        source-expression
+        (source-timing-fn (babel.generate/generate source-spec source-model))]
     (let [pairing
           {:target ((:morph (babel.italiano/medium)) target-expression)
            :pred (dag_unify.core/strip-refs

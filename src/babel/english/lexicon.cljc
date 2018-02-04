@@ -189,7 +189,7 @@
                       :subcat {:2 {:cat :noun}}
                       :sem {:obj {:pred :top}}}})
    
-   ;; inttransitivize:  remove the second argument and semantic object to make verbs intransitive.
+   ;; intransitivize:  remove the second argument and semantic object to make verbs intransitive.
    (new-entries
     {:intransitivize false
      :phrasal-verb false

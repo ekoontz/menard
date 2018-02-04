@@ -610,7 +610,6 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-
 (defn lexicon-for-generation [lexicon]
   (into {}
         (for [[k vals] lexicon]

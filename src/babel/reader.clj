@@ -105,13 +105,6 @@
         
         target-expression
         (target-timing-fn (babel.generate/generate target-spec target-model))
-        
-        pred (unify/get-in target-expression
-                                    [:synsem :sem :pred])
-        subj (unify/get-in target-expression
-                                    [:synsem :sem :subj :pred])
-        tense (unify/get-in target-expression
-                                     [:synsem :sem :tense])
         source-spec
         (unify/strip-refs
          (unify/unify

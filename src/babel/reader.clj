@@ -93,28 +93,28 @@
         target-expression
         (target-timing-fn (babel.generate/generate target-spec target-model))
         
-        pred (dag_unify.core/get-in target-expression
+        pred (unify/get-in target-expression
                                     [:synsem :sem :pred])
-        subj (dag_unify.core/get-in target-expression
+        subj (unify/get-in target-expression
                                     [:synsem :sem :subj :pred])
-        tense (dag_unify.core/get-in target-expression
+        tense (unify/get-in target-expression
                                      [:synsem :sem :tense])
         source-spec
-        (dag_unify.core/strip-refs
-         (dag_unify.core/unify
-          {:synsem {:sem (dag_unify.core/get-in target-expression [:synsem :sem])}}
+        (unify/strip-refs
+         (unify/unify
+          {:synsem {:sem (unify/get-in target-expression [:synsem :sem])}}
           basic-spec))
         
         source-model @((get models source-language))
         source-expression
-        (source-timing-fn (babel.generate/generate source-spec source-model))]
+        (source-timing-fn (generate source-spec source-model))]
     (let [pairing
           {:target ((:morph (babel.italiano/medium)) target-expression)
-           :pred (dag_unify.core/strip-refs
-                  (dag_unify.core/get-in target-expression [:synsem :sem :pred]))
-           :tense (dag_unify.core/get-in target-expression [:synsem :sem :tense])
-           :sem (dag_unify.core/get-in target-expression [:synsem :sem])
-           :subj (dag_unify.core/get-in target-expression [:synsem :sem :subj :pred])
+           :pred (unify/strip-refs
+                  (unify/get-in target-expression [:synsem :sem :pred]))
+           :tense (unify/get-in target-expression [:synsem :sem :tense])
+           :sem (unify/get-in target-expression [:synsem :sem])
+           :subj (unify/get-in target-expression [:synsem :sem :subj :pred])
            :source (if source-expression
                      ((:morph @((get models source-language)))
                       source-expression
@@ -140,7 +140,7 @@
   (log/debug (str "generate target language set with target-language:" target-language " ;spec: " target-spec))
   (let [target-spec (-> target-spec
                         (unify {:synsem {:subcat '()}})
-                        (dissoc-paths [[:dag_unify.core/serialized]]))]
+                        (dissoc-paths [[:unify/serialized]]))]
     (cond (= target-language "la") ;; TODO: should not have a special case for one language.
           (babel.latin/read-one :top  ;; TODO: use target-spec
                                 @((-> models :la))
@@ -339,7 +339,7 @@
 (defn read-all [spec language]
   (let [spec (dissoc (unify spec
                             {:synsem {:subcat '()}})
-                     :dag_unify.core/serialized)
+                     :unify/serialized)
 
         ;; normalize for JSON lookup
         json-input-spec (if (= :top spec)

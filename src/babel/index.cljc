@@ -7,8 +7,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [fail? dissoc-paths get-in label-of
-                           remove-top-values-log strip-refs
-                           unifyc]]))
+                           strip-refs unify]]))
 
 (defn exception [error-string]
   #?(:clj
@@ -44,26 +43,26 @@
      {(get-in (first phrases) [:rule])
       {:comp
        (filter (fn [lex]
-                 (not (fail? (unifyc (first phrases)
+                 (not (fail? (unify (first phrases)
                                      {:comp lex}))))
                lexicon)
 
        :comp-phrases
        (filter (fn [comp-phrase]
-                 (not (fail? (unifyc (first phrases)
+                 (not (fail? (unify (first phrases)
                                      {:comp comp-phrase}))))
                all-phrases)
 
        :head-phrases
        (filter (fn [head-phrase]
-                 (not (fail? (unifyc (first phrases)
+                 (not (fail? (unify (first phrases)
                                      {:head head-phrase}))))
                all-phrases)
 
        :head
        (filter (fn [lex]
                  (log/debug (str "trying lexeme: " lex))
-                 (not (fail? (unifyc (first phrases)
+                 (not (fail? (unify (first phrases)
                                      {:head lex}))))
                lexicon)}}
      (build-lex-sch-index (rest phrases) lexicon all-phrases))))
@@ -75,7 +74,7 @@
        {spec 
         (filter #(not (fail? %))
                 (map (fn [each-phrase]
-                       (unifyc each-phrase spec))
+                       (unify each-phrase spec))
                      ;; TODO: possibly: remove-paths such as (subcat) from head: would make it easier to call with lexemes:
                      ;; e.g. "generate a sentence whose head is the word 'mangiare'" (i.e. user passes the lexical entry as
                      ;; head param of (lightning-bolt)".
@@ -117,7 +116,7 @@
     (conj (build-lex-sch-index grammar
                                (map (fn [lexeme]
                                       (log/debug (str "trying(ci) lexeme: " lexeme))
-                                      (unifyc lexeme
+                                      (unify lexeme
                                               {:phrasal false}))
                                     lexicon)
                                grammar)
@@ -136,15 +135,15 @@
   (cond (seq? spec)
         (map show-spec spec)
         true
-        (remove-top-values-log (dissoc-paths spec '((:english :initial)
-                                                    (:italiano :initial)
-                                                    (:synsem :essere)
-                                                    (:synsem :agr)
-                                                    (:synsem :pronoun)
-                                                    (:synsem :sem :tense)
-                                                    (:synsem :sem :obj :tense)
-                                                    (:synsem :sem :mod)
-                                                    (:synsem :infl))))))
+        (strip-refs (dissoc-paths spec '((:english :initial)
+                                         (:italiano :initial)
+                                         (:synsem :essere)
+                                         (:synsem :agr)
+                                         (:synsem :pronoun)
+                                         (:synsem :sem :tense)
+                                         (:synsem :sem :obj :tense)
+                                         (:synsem :sem :mod)
+                                         (:synsem :infl))))))
 
 (defn map-subset-by-path2 [vals-at-path lexemes path]
   (if (not (empty? vals-at-path))

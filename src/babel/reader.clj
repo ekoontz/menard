@@ -71,8 +71,10 @@
     (if (not (empty? results))
       (json-read-str (.getValue (:structure (first results)))))))
 
-(defn generate-question-and-correct-set-dynamic [target-spec source-language source-locale
-                                                 target-language target-locale]
+(defn generate-question-and-correct-set-dynamic [target-spec
+                                                 source-language source-locale
+                                                 target-language target-locale
+                                                 & [lexical-filter-fn]]
   (let [source-timing? false
         source-timing-fn (if source-timing? #(time %)
                              (fn [x] x))
@@ -89,6 +91,17 @@
         source-language (keyword source-language)
         target-language (keyword target-language)
         target-model @((get models target-language))
+        lexical-filter-fn (if lexical-filter-fn
+                            lexical-filter-fn
+                            (fn [lexeme]
+                              true))
+        target-model
+        (merge target-model
+               {:index-fn
+                (fn [spec]
+                  (->>
+                   ((:index-fn target-model) spec)
+                   (filter lexical-filter-fn)))})
         
         target-expression
         (target-timing-fn (babel.generate/generate target-spec target-model))

@@ -90,7 +90,9 @@
         target-language-str target-language
         source-language (keyword source-language)
         target-language (keyword target-language)
+        ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         target-model @((get models target-language))
+
         lexical-filter-fn (if lexical-filter-fn
                             lexical-filter-fn
                             (fn [lexeme]
@@ -110,8 +112,10 @@
          (unify/unify
           {:synsem {:sem (unify/get-in target-expression [:synsem :sem])}}
           basic-spec))
-        
+
+        ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         source-model @((get models source-language))
+
         source-expression
         (source-timing-fn (generate source-spec source-model))]
     (let [pairing

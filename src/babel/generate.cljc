@@ -91,11 +91,11 @@
   ;;   And then all trees of head-depth=2 that satisfy the spec:
   ;;
   ;; 
-  ;;       H            H
-  ;;      / \          / \
-  ;;  .. H   C  ..    H   H .. 
-  ;;    /            / \
-  ;;   H            C   H
+  ;;       H           H
+  ;;      / \         / \
+  ;;  .. H   C  ..   C   H .. 
+  ;;    /               / \
+  ;;   H               C   H
   ;;
   ;; And so on.
   ;;

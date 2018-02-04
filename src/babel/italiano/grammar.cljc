@@ -694,10 +694,10 @@
                        defaults))]
       (if (empty? with-defaults)
         (do
-          (log/warn (str "all defaults failed for:"
-                         "tense=" (get-in tree [:synsem :sem :tense] ::unset) "; "
-                         "aspect=" (get-in tree [:synsem :sem :aspect] ::unset) "; "
-                         "infl=" (get-in tree [:synsem :infl] ::unset) "; "))
+          (log/debug (str "all defaults failed for:"
+                          "tense=" (get-in tree [:synsem :sem :tense] ::unset) "; "
+                          "aspect=" (get-in tree [:synsem :sem :aspect] ::unset) "; "
+                          "infl=" (get-in tree [:synsem :infl] ::unset) "; "))
                                            
           [tree])
         with-defaults))))

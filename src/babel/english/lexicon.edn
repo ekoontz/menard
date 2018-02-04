@@ -1077,7 +1077,11 @@
 
          ;; modal: "have to + VP"
          ;; TODO: if used without infinitive VP, conjugates as "have" but should be "have to".
-         {:synsem {:cat :verb}
+         {
+          :synsem {:aux true
+                   :cat :verb
+                   :subcat {:2 {:cat :verb
+                                :infl :infinitive}}}
           :english {:present {:3sing "has"}
                     :past "had"}
           :modal-with :infinitive}]

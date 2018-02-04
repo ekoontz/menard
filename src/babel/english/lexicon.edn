@@ -820,6 +820,7 @@
                       :2 '()}}
     :english {:participle "falling asleep"
               :present {:3sing "falls asleep"}
+              :past-participle "fallen asleep"
               :past "fell asleep"}})
 
   "fall in love"
@@ -833,8 +834,8 @@
                        :2 '()}}
       :english {:participle "falling in love"
                 :present {:3sing "falls in love"}
+                :past-participle "fallen in love"
                 :past "fell in love"}})
-
 
  "father" {:synsem {:cat :noun
                     :agr {:gender :masc}
@@ -894,6 +895,7 @@
            :subcat {:2 '()}}
   :english {:participle "getting angry"
             :present {:3sing "gets angry"}
+            :past-participle "gotten angry"
             :past "got angry"}}
 
  "get bored"
@@ -902,6 +904,7 @@
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting bored"
+            :past-participle "gotten bored"
             :present {:3sing "gets bored"}
             :past "got bored"}}
 
@@ -911,6 +914,7 @@
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting dressed"
+            :past-participle "gotten dressed"
             :present {:3sing "gets dressed"}
             :past "got dressed"}}
 
@@ -920,6 +924,7 @@
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting married"
+            :past-participle "gotten married"
             :present {:3sing "gets married"}
             :past "got married"}}
 
@@ -928,6 +933,7 @@
            :sem {:pred :get-off}
            :subcat {:2 '()}}
   :english {:participle "getting off"
+            :past-participle "gotten off"
             :present {:3sing "gets off"}
             :past "got off"}}
  "get on"
@@ -935,6 +941,7 @@
            :sem {:pred :get-on}
            :subcat {:2 '()}}
   :english {:participle "getting on"
+            :past-participle "gotten on"
             :present {:3sing "gets on"}
             :past "got on"}}
  "get ready"
@@ -943,6 +950,7 @@
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting ready"
+            :past-participle "gotten ready"
             :present {:3sing "gets ready"}
             :past "got ready"}}
  "get up"
@@ -951,6 +959,7 @@
                  :reflexive true}
            :subcat {:2 []}}
   :english {:participle "getting up"
+            :past-participle "gotten up"
             :present {:3sing "gets up"}
             :past "got up"}}
 
@@ -960,6 +969,7 @@
                  :reflexive true}
            :subcat {:2 '()}}
   :english {:participle "getting used to"
+            :past-participle "gotten used to"
             :present {:3sing "gets used to"}
             :past "got used to"}}
 

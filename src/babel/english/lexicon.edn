@@ -2062,7 +2062,8 @@
                   :sem {:pred :sell}}
          :english {:past "sold"}}
 
- "send" (let [common {:english {:past "sent"}}]
+ "send" (let [common {:english {:past "sent"
+                                :past-participle "sent"}}]
             [{:synsem {:cat :verb
                       :sem {:pred :send}}}
 
@@ -2188,7 +2189,8 @@
 
  "spend" {:synsem {:cat :verb
                    :sem {:pred :spend}}
-          :english {:past "spent"}}
+          :english {:past "spent"
+                    :past-participle "spent"}}
 
  "spread food" {:synsem {:cat :verb
                          :sem {:pred :spread-food}}

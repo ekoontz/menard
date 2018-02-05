@@ -76,10 +76,10 @@
  {:agr {:number :sing
         :person :3rd}
   :g [#"^(.*)([ae])re$"  "$1erebbe"
-      #"^(.*)([i])re$"   "$1irebbe"
+      #"^(.*)ire$"       "$1irebbe"
 
-      #"(.*)[ae]rsi$"  "$1erebbe"
-      #"(.*)[i]rsi$"   "$1irebbe"
+      #"(.*)[ae]rsi$"    "$1erebbe"
+      #"(.*)irsi$"       "$1irebbe"
 
       ;; :future-stem
       #"^(.*r)$" "$1ebbe"
@@ -170,10 +170,11 @@
 
  {:agr {:number :plur
         :person :3rd}
-  :g [#"^(.*)([aei])re$" "$1$2rebbero"
+  :g [#"^(.*)([ae])re$" "$1erebbero"
+      #"^(.*)ire$"      "$1irebbero"
 
-      #"(.*)[ae]rsi$"  "$1erebbero"
-      #"(.*)[i]rsi$"   "$1irebbero"
+      #"(.*)[ae]rsi$"   "$1erebbero"
+      #"(.*)irsi$"      "$1irebbero"
 
       ;; :future-stem
       #"^(.*r)$" "$1ebbero"]

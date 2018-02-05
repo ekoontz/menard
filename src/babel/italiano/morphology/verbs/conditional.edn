@@ -75,7 +75,8 @@
  
  {:agr {:number :sing
         :person :3rd}
-  :g [#"^(.*)([aei])re$" "$1$2rebbe"
+  :g [#"^(.*)([ae])re$"  "$1erebbe"
+      #"^(.*)([i])re$"   "$1irebbe"
 
       #"(.*)[ae]rsi$"  "$1erebbe"
       #"(.*)[i]rsi$"   "$1irebbe"

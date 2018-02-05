@@ -708,7 +708,9 @@
   ;; TODO: remove parse-lexicon.
   ;; Should not need a separate parse-lexicon here: for debugging,
   ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
-  (let [lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
+  (let [debug (log/info "  loading lexicon..")
+        lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
+        debug (log/info "  loading parse lexicon..")
         parse-lexicon
         ;; TODO: remove this do-nothing filtering and
         ;; replace with comment like "if you want to filter, then do: `(into {}..)`".
@@ -719,6 +721,7 @@
                               vals)]
                   (if (not (empty? filtered-vals))
                     [k filtered-vals]))))
+        debug (log/info "  filtering lexicon..")
         lexicon
         (into {}
               (for [[k vals] lexicon]
@@ -728,11 +731,14 @@
                   (if (not (empty? filtered-vals))
                     [k filtered-vals]))))
 
+        debug (log/info "  lexicon for generation..")
         lexicon-for-generation (lexicon-for-generation lexicon)
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon
-        indices (create-indices lexicon-for-generation index-lexicon-on-paths)]
+        debug (log/info "  indices..")
+        indices (create-indices lexicon-for-generation index-lexicon-on-paths)
+        debug (log/info "  finalizing..")]
         
     {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
      :default-fn default-fn

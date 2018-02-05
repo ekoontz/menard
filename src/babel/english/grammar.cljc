@@ -513,20 +513,24 @@
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
 (defn medium []
-  (let [lexicon
+  (let [debug (log/info "  loading lexicon..")
+        lexicon
         (into {}
               (for [[k v] (deliver-lexicon)]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
                     [k filtered-v]))))
+        debug (log/info "  indices..")
         indices (create-indices lexicon index-lexicon-on-paths)
         ;; this function 'morph' is identical to: babel.english/morph
+        debug (log/info "  morph..")
         morph (fn [expr & {:keys [from-language show-notes]
                            :or {from-language nil
                                 show-notes false}}]
                 (fo expr
                     :from-language from-language :from-notes show-notes
                     :lexicon lexicon))
+        debug (log/info "  finalizing..")
         model
         {:name "medium"
          :default-fn default-fn

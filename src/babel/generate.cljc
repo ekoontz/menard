@@ -129,32 +129,24 @@
         (if (not (= false (get-in spec [:phrasal] true)))
           (gen spec model (+ 1 depth)))))))))
 
+;; Wrapper around (defn lightning-bolts) to provide a way to
+;; test indexing and memoization strategies.
 (defn get-bolts-for
   "Return every possible bolt for the given model and spec."
   [model spec depth]
-  ;; Wrapper around (defn lightning-bolts) to provide a way to
-  ;; test indexing and memoization strategies.
-  (let [result
-        ;; TODO: this is an example of obtaining pre-computed bolts
-        ;; from a model given a spec and a depth.
-        ;; This is a contrived example - should be
-        ;; for the model to provide these given a spec and a depth.
-        (and (= [] (get-in spec [:synsem :subcat]))
-             (= :verb (get-in spec [:synsem :cat]))
-             (not (nil? (get (-> model :bolts)
-                             {:tense (get-in spec [:synsem :sem :tense])
-                              :aspect (get-in spec [:synsem :sem :aspect])
-                              :reflexive (get-in spec [:synsem :sem :reflexive])}))))]
+  (let [bolts ;; check for bolts compiled into model
+        (get (-> model :bolts)
+             {:aspect (get-in spec [:synsem :sem :aspect])
+              :cat (get-in spec [:synsem :cat])
+              :depth depth
+              :reflexive (get-in spec [:synsem :sem :reflexive])
+              :subcat (get-in spec [:synsem :subcat])
+              :tense (get-in spec [:synsem :sem :tense])})]
     (cond
-      (and (= depth 3) (= result true))
-      (do
-        (shufflefn (->> (get (-> model :bolts)
-                             {:tense (get-in spec [:synsem :sem :tense])
-                              :aspect (get-in spec [:synsem :sem :aspect])
-                              :reflexive (get-in spec [:synsem :sem :reflexive])})
-                        (map #(unify spec %))
-                        (filter #(not (= :fail %))))))
-      (= result true) []
+      (not (nil? bolts))
+      (shufflefn (->> bolts
+                      (map #(unify spec %))
+                      (filter #(not (= :fail %)))))
       true (lightning-bolts model spec 0 depth))))
 
 (defn lightning-bolts

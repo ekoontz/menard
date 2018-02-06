@@ -561,7 +561,10 @@
                      (morph/analyze arg lexicon))
            :morph fo}]
       (merge retval
-             {:bolts {{:tense :present
+             {:bolts {{:depth 3
+                       :subcat []
+                       :cat :verb
+                       :tense :present
                        :reflexive true
                        :aspect :perfect}
                       (lightning-bolts retval

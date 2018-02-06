@@ -141,15 +141,19 @@
         ;; for the model to provide these given a spec and a depth.
         (and (= [] (get-in spec [:synsem :subcat]))
              (= :verb (get-in spec [:synsem :cat]))
-             (= :present (get-in spec [:synsem :sem :tense]))
-             (= true (get-in spec [:synsem :sem :reflexive]))
-             (= :perfect (get-in spec [:synsem :sem :aspect]))
-             (not (nil? (:reflexive-bolts model))))]
+             (not (nil? (get (-> model :bolts)
+                             {:tense (get-in spec [:synsem :sem :tense])
+                              :aspect (get-in spec [:synsem :sem :aspect])
+                              :reflexive (get-in spec [:synsem :sem :reflexive])}))))]
     (cond
       (and (= depth 3) (= result true))
-      (shufflefn (->> (:reflexive-bolts model)
-                      (map #(unify spec %))
-                      (filter #(not (= :fail %)))))
+      (do
+        (shufflefn (->> (get (-> model :bolts)
+                             {:tense (get-in spec [:synsem :sem :tense])
+                              :aspect (get-in spec [:synsem :sem :aspect])
+                              :reflexive (get-in spec [:synsem :sem :reflexive])})
+                        (map #(unify spec %))
+                        (filter #(not (= :fail %))))))
       (= result true) []
       true (lightning-bolts model spec 0 depth))))
 

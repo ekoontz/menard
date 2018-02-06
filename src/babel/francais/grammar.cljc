@@ -561,13 +561,16 @@
                      (morph/analyze arg lexicon))
            :morph fo}]
       (merge retval
-             {:reflexive-bolts (lightning-bolts retval
-                                                {:synsem {:subcat ()
-                                                          :cat :verb
-                                                          :sem {:tense :present
-                                                                :reflexive true
-                                                                :aspect :perfect}}}
-                                                0 3)}))))
+             {:bolts {{:tense :present
+                       :reflexive true
+                       :aspect :perfect}
+                      (lightning-bolts retval
+                                       {:synsem {:subcat ()
+                                                 :cat :verb
+                                                 :sem {:tense :present
+                                                       :reflexive true
+                                                       :aspect :perfect}}}
+                                       0 3)}}))))
 
 (defn parse [surface]
   (parse/parse surface

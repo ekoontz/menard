@@ -136,12 +136,12 @@
   [model spec depth]
   (let [bolts ;; check for bolts compiled into model
         (get (-> model :bolts)
-             {:aspect (get-in spec [:synsem :sem :aspect])
-              :cat (get-in spec [:synsem :cat])
-              :depth depth
-              :reflexive (get-in spec [:synsem :sem :reflexive])
-              :subcat (get-in spec [:synsem :subcat])
-              :tense (get-in spec [:synsem :sem :tense])})]
+             {:synsem {:sem {:aspect (get-in spec [:synsem :sem :aspect])
+                             :reflexive (get-in spec [:synsem :sem :reflexive])
+                             :tense (get-in spec [:synsem :sem :tense])}
+                       :subcat (get-in spec [:synsem :subcat])
+                       :cat (get-in spec [:synsem :cat])}
+              :depth depth})]
     (cond
       (not (nil? bolts))
       (shufflefn (->> bolts

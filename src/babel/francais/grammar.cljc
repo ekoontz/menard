@@ -564,11 +564,11 @@
              {:generate-fn (fn [spec]
                              (generate/generate spec retval))
               :bolts {{:depth 3
-                       :subcat []
-                       :cat :verb
-                       :tense :present
-                       :reflexive true
-                       :aspect :perfect}
+                       :synsem {:subcat []
+                                :cat :verb
+                                :sem {:tense :present
+                                      :reflexive true
+                                      :aspect :perfect}}}
                       (lightning-bolts retval
                                        {:synsem {:subcat ()
                                                  :cat :verb
@@ -576,7 +576,6 @@
                                                        :reflexive true
                                                        :aspect :perfect}}}
                                        0 3)}}))))
-
 (defn parse [surface]
   (parse/parse surface
                (:lexicon medium)

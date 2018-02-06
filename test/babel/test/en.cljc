@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
             [babel.english :refer [analyze fo-ps lookup generate
-                                   medium morph parse sentences]]
+                                   morph parse sentences]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
 
@@ -23,6 +23,8 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [assoc-in dissoc-paths fail? fail-path-between get-in strip-refs unify]]))
+
+(def model @((get models :en)))
 
 (defn display-expression [expr]
   {:en (morph expr)
@@ -322,10 +324,9 @@
            "the chair is in front of itself"))))
 
 (deftest infinitive-vp
-  (let [medium (medium)
-        vp-infinitive (:vp-infinitive (:grammar-map medium))
+  (let [vp-infinitive (:vp-infinitive (:grammar-map model))
         expr (-> vp-infinitive
-                 (overh (get (:lexicon medium) "speak"))
+                 (overh (get (:lexicon model) "speak"))
                  (overc (generate {:synsem {:sem {:pred :word
                                                   :mod '()
                                                   :spec {:def :def
@@ -386,7 +387,7 @@
 ;; less susceptible to the problems for which it was
 ;; added.
 (deftest rathole-check-2
-  (let [med (medium)
+  (let [med model
         spec {:synsem {:cat :verb
                        :sem {:pred :read
                              :subj {:pred :woman}}
@@ -562,7 +563,7 @@
     (is (= "I am eating (right now)" (morph (generate progressive))))))
 
 (deftest benchmark-test []
-  (let [med (medium)
+  (let [med model
         to-run #(time (println (morph (generate
                                        {:synsem {:cat :verb, :sem {:pred :read
                                                                    :subj {:pred :woman}}
@@ -654,8 +655,6 @@
             (morph result))
          (= "the woman that she sees"
             (morph result))))))
-
-(def model (medium))
 
 (def spec
   {:synsem {:cat :verb

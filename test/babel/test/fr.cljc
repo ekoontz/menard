@@ -8,6 +8,7 @@
             [babel.generate :as generate]
             [babel.over :as over]
             [babel.parse :as parse]
+            [babel.test.test :as btest]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -671,6 +672,8 @@
     (is (= (not (nil? generated))))
     (is (= "nous acheterons" (fo generated)))))
 
+(defn generate-speed-test [spec & [times]]
+  (btest/generate-speed-test spec model times))
 
 (defn speed-test [spec & [times]]
   (let [standard-number-of-times 10

@@ -11,6 +11,7 @@
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
+   [babel.test.test :as btest]
    #?(:clj [clojure.test :as realtest :refer [is]])
    #?(:cljs [cljs.test :refer-macros [is]])
    #?(:clj [clojure.tools.logging :as log])
@@ -18,6 +19,8 @@
    [clojure.string :as string]
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
+
+(def model @((get models :it)))
 
 (defmacro deftest [test-name & arguments]
   (let [wrapped-arguments
@@ -704,3 +707,11 @@
                                                           :modified false
                                                           :root {:italiano {:italiano "addormentarsi"}}})))))
 
+(defn generate-speed-test [spec & [times]]
+  (btest/generate-speed-test spec model times))
+
+(defn foo []
+  (generate-speed-test {:synsem {:cat :verb :subcat []
+                                 :sem {:reflexive true
+                                       :tense :present
+                                       :aspect :perfect}}}))

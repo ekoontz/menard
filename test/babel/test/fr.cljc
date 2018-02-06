@@ -17,7 +17,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
-(def model (medium))
+(def model @((get models :fr)))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
@@ -791,3 +791,8 @@
   (speed-test spec-10 10))
 
 
+(defn foo []
+  (generate-speed-test {:synsem {:cat :verb :subcat []
+                                 :sem {:reflexive true
+                                       :tense :present
+                                       :aspect :perfect}}}))

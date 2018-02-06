@@ -1,6 +1,7 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
+   [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
@@ -738,27 +739,58 @@
         ;; indices from paths to subsets of the lexicon
         debug (log/info "  indices..")
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)
-        debug (log/info "  finalizing..")]
-        
-    {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-     :default-fn default-fn
-     :name "medium"
-     :generate {:lexicon lexicon-for-generation}
-     :grammar grammar
-     :language "it"
-     :language-keyword :italiano
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-     :lexicon lexicon
-     :lookup (fn [arg]
-               (analyze arg parse-lexicon))
-     :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
-     :morph-ps fo-ps
-
-     :rules rules
-     :rule-map (zipmap rules
-                       grammar)
-     }))
-
+        debug (log/info "  finalizing..")
+        retval
+        {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+         :default-fn default-fn
+         :name "medium"
+         :generate {:lexicon lexicon-for-generation}
+         :grammar grammar
+         :language "it"
+         :language-keyword :italiano
+         :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+         :lexicon lexicon
+         :lookup (fn [arg]
+                   (analyze arg parse-lexicon))
+         :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
+         :morph-ps fo-ps
+         
+         :rules rules
+         :rule-map (zipmap rules
+                           grammar)
+         }]
+    (merge retval
+           {:generate-fn (fn [spec]
+                           (generate/generate spec retval))
+            :bolts {
+                    
+                    {:depth 3
+                     :synsem {:subcat []
+                              :cat :verb
+                              :sem {:tense :present
+                                    :reflexive true
+                                    :aspect :perfect}}}
+                    (lightning-bolts retval
+                                       {:synsem {:subcat []
+                                                 :cat :verb
+                                                 :sem {:tense :present
+                                                       :reflexive true
+                                                       :aspect :perfect}}}
+                                       0 3)
+                    
+                    {:depth 2
+                     :synsem {:subcat []
+                              :cat :verb
+                              :sem {:tense :present
+                                    :reflexive true
+                                      :aspect :simple}}}
+                    (lightning-bolts retval
+                                     {:synsem {:subcat ()
+                                               :cat :verb
+                                               :sem {:tense :present
+                                                     :reflexive true
+                                                     :aspect :simple}}}
+                                     0 2)}})))
 (defn np-grammar []
   (deliver-lexicon)
   (let [lexicon @lexicon

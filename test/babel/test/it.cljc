@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze fo-ps generate medium morph
+   [babel.italiano :as italiano :refer [analyze fo-ps generate morph
                                         np-grammar parse preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
@@ -51,7 +51,7 @@
                                          :subj {:pred :I}
                                          :aspect :simple
                                          :tense :present}}}
-                         :model (medium)
+                         :model model
                          :do-enrich false)]
     (is (= "io sono" (morph result)))))
 
@@ -114,7 +114,7 @@
                              :subj {:pred :I}
                              :tense :present
                              :aspect :perfect}}}]
-    (is (not (nil? (generate/generate spec (medium)))))))
+    (is (not (nil? (generate/generate spec model))))))
 
 (deftest passato-prossimo-reflexive
   (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
@@ -124,7 +124,7 @@
                                          :subj {:pred :I}
                                          :tense :present
                                          :aspect :perfect}}}
-                         :model (medium))]
+                         :model model)]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (morph result)))))
 
@@ -136,7 +136,7 @@
                                          :aspect :simple
                                          :subj {:pred :I}
                                          :iobj {:pred :luisa}}}}
-                         :model (medium))]
+                         :model model)]
     (is (not (nil? result)))
     (is (= "io mi chiamo Luisa" (morph result)))))
 
@@ -212,7 +212,7 @@
                                                 :sem {:tense :present
                                                       :aspect :simple}
                                                 :subcat []}}
-                                      :model (medium))))]
+                                      :model model)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)
@@ -232,7 +232,7 @@
                                                 :sem {:tense :past
                                                       :aspect :progressive}
                                                 :subcat []}}
-                                      :model (medium))))]
+                                      :model model)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)
@@ -255,7 +255,7 @@
                                                             :aspect :perfect
                                                             :obj :unspec}
                                                       :subcat []}}
-                                            :model (medium))]
+                                            :model model)]
                               result)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -275,7 +275,7 @@
                                                 :sem {:tense :present
                                                       :aspect :simple}
                                                 :subcat []}}
-                                      :model (medium))))]
+                                      :model model)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)
@@ -296,7 +296,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
                                                 :subcat []}}
-                                      :model (medium))))]
+                                      :model model)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [surface (morph expr)
@@ -317,7 +317,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
                                                 :subcat []}}
-                                      :model (medium))))]
+                                      :model model)))]
     (log/debug (str "expressions: " (string/join "," (map morph expressions))))
     (is (= do-this-many
            (count (map (fn [expr]
@@ -350,7 +350,7 @@
           (let [semantics (strip-refs
                            (get-in
                             (first
-                             (reduce concat (map :parses (parse surface (medium)))))
+                             (reduce concat (map :parses (parse surface model))))
                             [:synsem :sem]))]
             (is (map? semantics))))
         ["la sua ragazza"
@@ -370,7 +370,7 @@
         (repeatedly #(let [generated
                            (morph (generate {:synsem {:cat :verb
                                                       :subcat []}}))
-                           parsed (reduce concat (map :parses (parse generated (medium))))]
+                           parsed (reduce concat (map :parses (parse generated model)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
                                       (or
@@ -613,7 +613,7 @@
                                           :tense :present
                                           :subj {:gender :fem
                                                  :pred :loro}}}}
-                          :model (medium)))
+                          :model model))
          "loro sono andate")))
 
 (deftest exists1
@@ -626,7 +626,7 @@
                                           :tense :conditional}}
                            :root {:italiano {:italiano "essere"}}
                            :comp {:synsem {:agr {:number :sing}}}}
-                          :model (medium)))
+                          :model model))
          "ci sarebbe")))
 
 (deftest exists2
@@ -640,7 +640,7 @@
                                           :tense :past}}
                            :root {:italiano {:italiano "essere"}}
                            :comp {:synsem {:agr {:number :sing}}}}
-                          :model (medium)))
+                          :model model))
          "c'era")))
 
 (deftest exists3
@@ -654,7 +654,7 @@
                                           :tense :present}}
                            :root {:italiano {:italiano "essere"}}
                            :comp {:synsem {:agr {:number :sing}}}}
-                          :model (medium)))
+                          :model model))
          "c'è")))
 
 (deftest bisogno

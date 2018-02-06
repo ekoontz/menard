@@ -2,7 +2,7 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.francais :as fr :refer [generate medium morph parse]]
+            [babel.francais :as fr :refer [generate morph parse]]
             [babel.francais.grammar :as grammar :refer [fo-ps]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string]]
             [babel.generate :as generate]

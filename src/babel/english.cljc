@@ -28,15 +28,6 @@
 (declare morph)
 
 (defn generate
-  ([]
-   (let [max-total-depth generate/max-depth
-         truncate-children true
-         model (medium)]
-     (generate {:modified false}
-               :max-total-depth max-total-depth
-               :truncate-children true
-               :model model)))
-   
   ([spec & {:keys [max-total-depth model truncate-children]
             :or {max-total-depth generate/max-depth
                  truncate-children true

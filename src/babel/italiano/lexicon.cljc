@@ -22,10 +22,8 @@
 
 (declare edn2lexicon)
 
-(defonce lexicon (promise))
 (defn deliver-lexicon []
-  (if (not (realized? lexicon))
-    (deliver lexicon (edn2lexicon (resource "babel/italiano/lexicon.edn")))))
+  (edn2lexicon (resource "babel/italiano/lexicon.edn")))
 
 ;; The values in this map in (defonce defaults) are used for lexical
 ;; compilation but also available for external use.

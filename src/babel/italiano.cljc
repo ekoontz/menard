@@ -14,18 +14,6 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(defonce medium-model (promise))
-(defn medium []
-  (if (realized? medium-model)
-    @medium-model
-    @(deliver medium-model (grammar/medium))))
-
-(defonce np-grammar-model (promise))
-(defn np-grammar []
-  (if (realized? np-grammar-model)
-    @np-grammar-model
-    @(deliver np-grammar-model (grammar/np-grammar))))
-
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
@@ -47,24 +35,13 @@
 (defn analyze
   "analyze a word: as opposed to parsing which is multi-word."
   ;; TODO: should take a language model, not a lexicon
-  ([surface-form]
-   (analyze surface-form (:lexicon (medium))))
-  ([surface-form lexicon]
-   (morph/analyze surface-form lexicon)))
+  ([surface-form model]
+   (morph/analyze surface-form (:lexicon model))))
 
 (defn generate
-  ([]
-   (let [max-total-depth generate/max-depth
-         truncate-children true
-         model (medium)]
-     (generate {:modified false}
-               :max-total-depth max-total-depth
-               :truncate-children true
-               :model model)))
-  ([spec & {:keys [model do-enrich max-total-depth truncate]
+  ([spec model & {:keys [do-enrich max-total-depth truncate]
             :or {do-enrich true
                  max-total-depth generate/max-depth
-                 model (medium)
                  truncate true}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
    (let [result (generate/generate spec model)]
@@ -105,14 +82,8 @@
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
-
-  ([input]
-   (let [input (preprocess input)]
-     (parse input (medium))))
-
   ([input model]
-   (let [model (if (future? model) @model model)
-         input (preprocess input)]
+   (let [input (preprocess input)]
      (cond (string? input)
            (map (fn [tokenization]
                   {:tokens tokenization

@@ -12,13 +12,15 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
+(def model @(get models :es))
+
 (deftest generate-regular-conditional
   (let [result (generate {:synsem {:subcat '()
                                    :cat :verb
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :conditional}}}
-                         (small))]
+                         model)]
     (is (= :1st (get-in result [:comp :synsem :agr :person])))
     (is (= :sing (get-in result [:comp :synsem :agr :number])))
     (is (or (= "yo dormiría" (fo result))
@@ -30,7 +32,7 @@
                                        :sem {:tense :future
                                              :subj {:pred :I}}}
                               :root {:espanol {:espanol "venir"}}}
-                             (small)))]
+                             model))]
     (is (or (= result
                "yo vendré")
             (= result
@@ -43,12 +45,12 @@
                           :subcat '()
                           :sem {:subj {:pred :I}}
                           :infl :preterito}}
-                (small))]
+                model)]
     (is (or (= "yo abracé" (fo result))
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (generate {:synsem {:subcat '() :cat :verb :sem {:pred :be-called}}} (small))]
+  (let [result (generate {:synsem {:subcat '() :cat :verb :sem {:pred :be-called}}} model)]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
@@ -59,7 +61,7 @@
                                              :subj {:pred :I}
                                              :pred :be-called
                                              :obj {:pred :Juan}}}}
-                             (small)))]
+                             model))]
     (is (or (= result
                "yo me llamo Juan")
             (= result "me llamo Juan")))))

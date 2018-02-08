@@ -62,103 +62,82 @@
                               {:tenses babel.italiano.grammar/tenses})))))}))
 
 (def models
-  (let [en (promise)
-        es (promise)
-        fr (promise)
-        la (promise)
-        it (promise)]
-    {:en (fn []
-           (if (realized? en)
-             en
-             (deliver en 
-                      (do (log/debug (str "starting to load english model.."))
-                          (let [model (babel.english.grammar/medium)]
-                            (log/info (str "finished loading english model: "
-                                           (:name model)))
-                            model)))))
-     :es (fn []
-           (if (realized? es)
-             es
-             (deliver es
-                      (do (log/debug (str "starting to load Español model.."))
-                          (let [model (babel.espanol.grammar/small)]
-                            (log/debug (str "finished loading Espanol model."))
-                            (conj model
-                                  {:generate-fn (fn [spec]
-                                                  (es/generate spec :model model))
-                                   :tenses babel.espanol.grammar/tenses
-                                   :root-verb-specs
-                                   (into {}
-                                         (map (fn [root]
-                                                [root {:root {:espanol {:espanol root}}}])
-                                              (sort
-                                               (remove nil? (map (fn [val]
-                                                                   (dag_unify.core/get-in val [:espanol :espanol]))
-                                                                 (filter (fn [v]
-                                                                           (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                                                (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                                         (flatten (vals (:lexicon model)))))))))}))))))
-  
-     :fr (fn []
-           (if (realized? fr)
-             fr
-             (deliver fr
-                      (do (log/debug (str "starting to load French model.."))
-                          (let [model (babel.francais.grammar/medium)]
-                            (log/debug (str "finished loading French model."))
-                            (conj model
-                                  {:generate-fn (fn [spec]
-                                                  (fr/generate spec :model model))
-                                   :tenses babel.francais.grammar/tenses
-                                   :root-verb-specs
-                                   (into {}
-                                         (map (fn [root]
-                                                [root {:root {:français {:français root}}}])
-                                              (sort
-                                               (remove nil? (map (fn [val]
-                                                                   (dag_unify.core/get-in val [:français :français]))
-                                                                 (filter (fn [v]
-                                                                           (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                                                (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                                         (flatten (vals (:lexicon model)))))))))}))))))
-     :la (fn []
-           (if (realized? la)
-             la
-             (deliver la
-                      (do (log/info (str "starting to load latin model.."))
-                          (let [model (la/model)]
-                            (log/info (str "finished loading latin model."))
-                            (conj model
-                                  {:generate-fn (fn [spec]
-                                                  (la/generate spec model))}))))))
-     :it (fn []
-           (if (realized? it)
-             it
-             (deliver it
-                      (let [model (babel.italiano.grammar/medium)]
-                        (conj model
-                              {:generate-fn (fn [spec]
-                                              (it/generate spec :model model))
-                               :tenses babel.italiano.grammar/tenses
-                               :root-verb-specs
-                               (into {}
-                                     (map (fn [root]
-                                            [root {:root {:italiano {:italiano root}}}])
-                                          (sort
-                                           (remove nil? (map (fn [val]
-                                                               (dag_unify.core/get-in val [:italiano :italiano]))
-                                                             (filter (fn [v]
-                                                                       (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                                            (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                                     (flatten (vals (:lexicon model)))))))))})))))}))
-  
+  {:en (delay
+        (do (log/debug (str "starting to load english model.."))
+            (let [model (babel.english.grammar/medium)]
+              (log/info (str "finished loading english model: "
+                             (:name model)))
+              model)))
+   :es (delay
+        (do (log/debug (str "starting to load Español model.."))
+            (let [model (babel.espanol.grammar/small)]
+              (log/debug (str "finished loading Espanol model."))
+              (conj model
+                    {:generate-fn (fn [spec]
+                                    (es/generate spec :model model))
+                     :tenses babel.espanol.grammar/tenses
+                     :root-verb-specs
+                     (into {}
+                           (map (fn [root]
+                                  [root {:root {:espanol {:espanol root}}}])
+                                (sort
+                                 (remove nil? (map (fn [val]
+                                                     (dag_unify.core/get-in val [:espanol :espanol]))
+                                                   (filter (fn [v]
+                                                             (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                                  (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                           (flatten (vals (:lexicon model)))))))))}))))
+   :fr (delay
+        (do (log/debug (str "starting to load French model.."))
+            (let [model (babel.francais.grammar/medium)]
+              (log/debug (str "finished loading French model."))
+              (conj model
+                    {:generate-fn (fn [spec]
+                                    (fr/generate spec :model model))
+                     :tenses babel.francais.grammar/tenses
+                     :root-verb-specs
+                     (into {}
+                           (map (fn [root]
+                                  [root {:root {:français {:français root}}}])
+                                (sort
+                                 (remove nil? (map (fn [val]
+                                                     (dag_unify.core/get-in val [:français :français]))
+                                                   (filter (fn [v]
+                                                             (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                                  (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                           (flatten (vals (:lexicon model)))))))))}))))
+   :la (delay
+        (do (log/info (str "starting to load latin model.."))
+            (let [model (la/model)]
+              (log/info (str "finished loading latin model."))
+              (conj model
+                    {:generate-fn (fn [spec]
+                                    (la/generate spec model))}))))
+   :it (delay
+        (let [model (babel.italiano.grammar/medium)]
+          (conj model
+                {:generate-fn (fn [spec]
+                                (it/generate spec :model model))
+                 :tenses babel.italiano.grammar/tenses
+                 :root-verb-specs
+                 (into {}
+                       (map (fn [root]
+                              [root {:root {:italiano {:italiano root}}}])
+                            (sort
+                             (remove nil? (map (fn [val]
+                                                 (dag_unify.core/get-in val [:italiano :italiano]))
+                                               (filter (fn [v]
+                                                         (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
+                                                              (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
+                                                       (flatten (vals (:lexicon model)))))))))})))})
+
 (declare generate)
 
 (defn generate-all [language]
   (let [language (if (string? language)
                    (keyword language)
                    language)
-        model @((-> models language))
+        model @(-> models language)
         root-verb-specs
         (:root-verb-specs model)
         tenses (:tenses model)
@@ -200,11 +179,11 @@
                  (println))))))))
 
 (defn generate-pair [language spec]
-  (let [model @((-> models language))
+  (let [model @(-> models language)
         generate (:generate-fn model)
         morph-fn (:morph model)
 
-        source-model @((-> models :en))
+        source-model @(-> models :en)
         source-generate (:generate-fn source-model)
         source-morph (:morph source-model)]
         

@@ -3,8 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze fo-ps generate morph
-                                        np-grammar parse preprocess]]
+   [babel.italiano :as italiano :refer [morph preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
    [babel.italiano.morphology.nouns :as nouns]
@@ -20,7 +19,9 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-(def model @((get models :it)))
+(def model @(get models :it))
+
+(def np-grammar (delay (grammar/np-grammar)))
 
 (defmacro deftest [test-name & arguments]
   (let [wrapped-arguments
@@ -28,6 +29,21 @@
                 arguments
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
+
+(defn generate
+  ([spec]
+   (italiano/generate spec model))
+  ([spec model]
+   (italiano/generate spec model)))
+
+(defn parse
+  ([spec]
+   (italiano/parse spec model))
+  ([spec model]
+   (italiano/parse spec model)))
+
+(defn analyze [str]
+  (italiano/analyze str model))
 
 (deftest analyze-1
   (let [singular (analyze "compito")
@@ -50,9 +66,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :aspect :simple
-                                         :tense :present}}}
-                         :model model
-                         :do-enrich false)]
+                                         :tense :present}}})]
     (is (= "io sono" (morph result)))))
 
 (deftest passato-prossimo
@@ -114,7 +128,7 @@
                              :subj {:pred :I}
                              :tense :present
                              :aspect :perfect}}}]
-    (is (not (nil? (generate/generate spec model))))))
+    (is (not (nil? (generate spec))))))
 
 (deftest passato-prossimo-reflexive
   (let [result (generate {:comp {:synsem {:agr {:gender :fem}}}
@@ -123,8 +137,7 @@
                                    :sem {:pred :get-up
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :perfect}}}
-                         :model model)]
+                                         :aspect :perfect}}})]
     (is (not (nil? result)))
     (is (= "io mi sono alzata" (morph result)))))
 
@@ -135,8 +148,7 @@
                                          :tense :present
                                          :aspect :simple
                                          :subj {:pred :I}
-                                         :iobj {:pred :luisa}}}}
-                         :model model)]
+                                         :iobj {:pred :luisa}}}})]
     (is (not (nil? result)))
     (is (= "io mi chiamo Luisa" (morph result)))))
 
@@ -146,26 +158,26 @@
     (is (= "io parlo") (morph (first (:parses (first result)))))))
         
 (deftest round-trip-1
-  (let [expr (generate {:synsem {:subcat []
-                                 :cat :noun
-                                 :sem {:spec {:def :def} 
-                                       :mod {:pred :difficile}
-                                       :number :sing
-                                       :pred :donna}}}
-                       :model (np-grammar))]
+  (let [expr (italiano/generate {:synsem {:subcat []
+                                          :cat :noun
+                                          :sem {:spec {:def :def} 
+                                                :mod {:pred :difficile}
+                                                :number :sing
+                                                :pred :donna}}}
+                                @np-grammar)]
     (is (or (= (morph expr) "la donna difficile")
             (= (morph expr) "la difficile donna")))
     (is (not (empty? (reduce concat (map
-                                     :parses (parse (morph expr) (np-grammar)))))))))
+                                     :parses (parse (morph expr) @np-grammar))))))))
 
 (deftest forbid-mispelling
- (is (empty? (:parses (parse (morph "la donna difficila") (np-grammar))))))
+ (is (empty? (:parses (parse (morph "la donna difficila") @np-grammar)))))
 
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
   ;; might be anything.
   (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}}
-                         :model (np-grammar))]
+                         @np-grammar)]
     (is (not (= "" (morph result))))
     (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
     (is (not (empty? (parse (morph result)))))))
@@ -182,7 +194,7 @@
 (deftest roundtrip-np-grammar
   (let [do-this-many 10
         expressions (take do-this-many
-                          (repeatedly #(generate
+                          (repeatedly #(italiano/generate
                                         {:synsem {:subcat []
                                                   :sem {:mod {:pred :top}
                                                         :number :top
@@ -192,12 +204,12 @@
                                         ;; generic spec to something more specific
                                         ;; if this test fails and you want to investigate
                                         ;; why.
-                                        :model (np-grammar))))]
+                                        @np-grammar)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)
                                   parsed (reduce concat (map :parses
-                                                             (parse surface (np-grammar))))]
+                                                             (parse surface @np-grammar)))]
                               (if (not (empty? parsed))
                                 (log/info (str "roundtrip-np-grammar: " surface))
                                 (log/error (str "parse failed: " surface)))
@@ -211,8 +223,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present
                                                       :aspect :simple}
-                                                :subcat []}}
-                                      :model model)))]
+                                                :subcat []}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)
@@ -231,8 +242,7 @@
                                                 :infl :imperfect
                                                 :sem {:tense :past
                                                       :aspect :progressive}
-                                                :subcat []}}
-                                      :model model)))]
+                                                :subcat []}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)
@@ -254,8 +264,7 @@
                                                       :sem {:tense :present
                                                             :aspect :perfect
                                                             :obj :unspec}
-                                                      :subcat []}}
-                                            :model model)]
+                                                      :subcat []}})]
                               result)))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
@@ -274,8 +283,7 @@
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :present
                                                       :aspect :simple}
-                                                :subcat []}}
-                                      :model model)))]
+                                                :subcat []}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                             (let [surface (morph expr)
@@ -295,8 +303,7 @@
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :future}
-                                                :subcat []}}
-                                      :model model)))]
+                                                :subcat []}})))]
     (is (= do-this-many
            (count (map-fn (fn [expr]
                           (let [surface (morph expr)
@@ -316,8 +323,7 @@
                           (repeatedly
                            #(generate {:synsem {:cat :verb
                                                 :sem {:tense :conditional}
-                                                :subcat []}}
-                                      :model model)))]
+                                                :subcat []}})))]
     (log/debug (str "expressions: " (string/join "," (map morph expressions))))
     (is (= do-this-many
            (count (map (fn [expr]
@@ -612,8 +618,7 @@
                                           :aspect :perfect
                                           :tense :present
                                           :subj {:gender :fem
-                                                 :pred :loro}}}}
-                          :model model))
+                                                 :pred :loro}}}}))
          "loro sono andate")))
 
 (deftest exists1
@@ -625,8 +630,7 @@
                                           :reflexive false
                                           :tense :conditional}}
                            :root {:italiano {:italiano "essere"}}
-                           :comp {:synsem {:agr {:number :sing}}}}
-                          :model model))
+                           :comp {:synsem {:agr {:number :sing}}}}))
          "ci sarebbe")))
 
 (deftest exists2
@@ -639,8 +643,7 @@
                                           :aspect :progressive
                                           :tense :past}}
                            :root {:italiano {:italiano "essere"}}
-                           :comp {:synsem {:agr {:number :sing}}}}
-                          :model model))
+                           :comp {:synsem {:agr {:number :sing}}}}))
          "c'era")))
 
 (deftest exists3
@@ -653,8 +656,7 @@
                                           :aspect :simple
                                           :tense :present}}
                            :root {:italiano {:italiano "essere"}}
-                           :comp {:synsem {:agr {:number :sing}}}}
-                          :model model))
+                           :comp {:synsem {:agr {:number :sing}}}}))
          "c'è")))
 
 (deftest bisogno

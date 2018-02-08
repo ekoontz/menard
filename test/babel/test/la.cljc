@@ -12,14 +12,14 @@
 
 (def source-language :en)
 
-(defn latin-model [] (-> ((-> models :la)) deref))
+(def model @(get models :la))
 
 (defn generate [spec]
-  ((-> (latin-model) :generate-fn) spec))
+  ((-> model :generate-fn) spec))
 
 ;; https://en.wikipedia.org/wiki/Latin_conjugation#Present_indicative
 (deftest analyze-ere
-  (let [lexicon (-> ((-> models :la)) deref :lexicon)]
+  (let [lexicon (:lexicon model)]
     (is (= :verb
            (-> (analyze "ardeo" lexicon)
                first
@@ -61,9 +61,9 @@
                                :aspect :progressive
                                :pred :answer}}
                 :comp {:synsem {:agr agreement}}})
-        source-format-fn (-> ((-> models source-language)) deref :morph)
-        source-generate-fn (-> ((-> models source-language)) deref :generate-fn)
-        target-format-fn (-> ((-> models :la)) deref :morph)
+        source-format-fn (:morph @(-> models source-language))
+        source-generate-fn (:generate-fn @(-> models source-language))
+        target-format-fn (:morph model)
 
         source (->
                 spec
@@ -89,14 +89,14 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [source-model (-> ((-> models :en)) deref)
+  (let [source-model (-> (-> models :en) deref)
 
         ;; use a specific :root and verb conjugation so that we can test
         ;; for specific literal strings in the result.
         results (take 10 (repeatedly #(read-one {:root "ardēre"
                                                  :synsem {:sem {:tense :past
                                                                 :aspect :progressive}}}
-                                                (latin-model) source-model)))]
+                                                model source-model)))]
     (doall
      (->> results
           (map (fn [result]

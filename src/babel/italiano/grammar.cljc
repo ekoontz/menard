@@ -3,7 +3,7 @@
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
-   [babel.italiano.lexicon :refer [deliver-lexicon lexicon]]
+   [babel.italiano.lexicon :refer [deliver-lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
@@ -792,8 +792,7 @@
                                                      :aspect :simple}}}
                                      0 2)}})))
 (defn np-grammar []
-  (deliver-lexicon)
-  (let [lexicon @lexicon
+  (let [lexicon (deliver-lexicon)
         grammar
         (filter #(or (= (:rule %) "noun-phrase1")
                      (= (:rule %) "noun-phrase2")

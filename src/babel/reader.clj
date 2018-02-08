@@ -91,7 +91,7 @@
         source-language (keyword source-language)
         target-language (keyword target-language)
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
-        target-model @((get models target-language))
+        target-model @(get models target-language)
 
         lexical-filter-fn (if lexical-filter-fn
                             lexical-filter-fn
@@ -114,19 +114,20 @@
           basic-spec))
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
-        source-model @((get models source-language))
+        source-model @(get models source-language)
 
         source-expression
         (source-timing-fn (generate source-spec source-model))]
-    (let [pairing
-          {:target ((:morph (babel.italiano/medium)) target-expression) ;; TODO: hard-wired to Italian.
+    (let [italiano-model @(get models :it)
+          pairing
+          {:target ((:morph italiano-model) target-expression) ;; TODO: hard-wired to Italian.
            :pred (unify/strip-refs
                   (unify/get-in target-expression [:synsem :sem :pred]))
            :tense (unify/get-in target-expression [:synsem :sem :tense])
            :sem (unify/get-in target-expression [:synsem :sem])
            :subj (unify/get-in target-expression [:synsem :sem :subj :pred])
            :source (if source-expression
-                     ((:morph @((get models source-language)))
+                     ((:morph @(get models source-language))
                       source-expression
                       :from-language target-language-str))}]
       (if (:source pairing)
@@ -153,8 +154,8 @@
                         (dissoc-paths [[:unify/serialized]]))]
     (cond (= target-language "la") ;; TODO: should not have a special case for one language.
           (babel.latin/read-one :top  ;; TODO: use target-spec
-                                @((-> models :la))
-                                @((-> models :en)))
+                                @(-> models :la)
+                                @(-> models :en))
           true
           (let [;; normalize for JSON lookup:
                 json-input-spec

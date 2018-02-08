@@ -22,7 +22,7 @@
    (let [result (generate/generate spec model)]
      (if (keyword? result)
        (throw (Exception. (str "please don't send me a keyword :( : this is what you sent me: " result)))
-       (conj {:surface (morph result)}
+       (conj {:surface (morph result model)}
              result)))))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.

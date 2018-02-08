@@ -13,25 +13,11 @@
    #?(:clj [clojure.tools.logging :as log])
    [dag_unify.core :refer [deserialize dissoc-paths
                            fail? fail-path get-in serialize strip-refs]]))
-
-(defonce medium-model (promise))
-(defn medium []
-  (if (and (not (nil? medium-model))
-           (realized? medium-model))
-    @medium-model
-    @(do
-       (println (str "creating English model..(will be slow the first time).."))
-       (let [result (deliver medium-model (grammar/medium))]
-         (println (str "done."))
-         result))))
-
 (declare morph)
 
 (defn generate
-  ([spec & {:keys [max-total-depth model truncate-children]
-            :or {max-total-depth generate/max-depth
-                 truncate-children true
-                 model (medium)}}]
+  ([spec model & {:keys [max-total-depth]
+                  :or {max-total-depth generate/max-depth}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
    (let [result (generate/generate spec model)]
      (if (keyword? result)
@@ -40,19 +26,17 @@
              result)))))
 
 ;; can't decide between 'morph' or 'fo' or something other better name.
-(defn morph [expr & {:keys [from-language show-notes]
-                     :or {from-language nil
-                          show-notes true}}]
+(defn morph [expr model & {:keys [from-language show-notes]
+                           :or {from-language nil
+                                show-notes true}}]
   (morph/fo expr
             :from-language from-language :show-notes show-notes
-            :lexicon (:lexicon (medium))))
+            :lexicon (:lexicon model)))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr morph/fo))
 
 (defn analyze
-  ([surface-form]
-   (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))
 
@@ -66,13 +50,6 @@
 
 (defn parse
   "parse a string in English into zero or more (hopefully more) phrase structure trees"
-
-  ([input]
-   (parse (preprocess input) (medium)))
-
-  ([input truncate?]
-   (parse (preprocess input) (medium) truncate?))
-
   ([input model truncate?]
    (parse/parse (preprocess input) model :parse-with-truncate truncate?)))
 
@@ -96,56 +73,3 @@
    ;; failsafe
    {:comp {:phrasal :top
            :head :top}}])
-
-(defn sentences [ & [count as-numbered-list spec model]]
-  (let [as-numbered-list (or (nil? as-numbered-list)
-                             (= as-numbered-list "true"))
-        count (or (Integer. count) 100)
-        model (or model (medium))
-        preds (vec (set (filter #(not (= :top %))
-                                (map #(get-in % [:synsem :sem :pred] :top)
-                                     (filter #(= (get-in % [:synsem :cat]) :verb)
-                                             (flatten (vals (:lexicon (medium)))))))))
-        spec-fn (or (and spec (fn [] [spec]))
-                    (fn []
-                      (map (fn [variant]
-                             (merge {:synsem {:sem {:pred (first (take 1 (shuffle preds)))}
-                                              :cat :verb}}
-                                    variant))
-                           (lazy-seq (shuffle tree-variants)))))]
-    (println (str "count: " count))
-    (doall (map
-            (fn [num]
-              (let [specs (spec-fn)
-                    expr (first (->> (lazy-seq specs)
-                                     (map (fn [spec]
-                                            (let [result (generate spec :model model)]
-                                              (if (empty? (morph result :show-notes false))
-                                                (do (log/info (str "failed to generate with spec: " spec))
-                                                    nil)
-                                                result))))
-                                     (remove nil?)
-                                     (take 1)))
-                    fo (morph expr :show-notes false)]
-                (let [to-print
-                      (cond
-                        (nil? expr) (str " expr: specs=" (string/join "," specs))
-                        (empty? fo) (str " failed: specs=" (string/join "," specs))
-                        true
-                        (str (string/capitalize (nth fo 0))
-                             (string/join "" (rest (vec fo)))
-                             "."))]
-                  (cond
-                    as-numbered-list
-                    (println (str (+ 1 num) "." to-print))
-
-                    (= 0 (mod num 7))
-                    (print (str "\n\t" to-print " "))
-
-                    true
-                    (print (str to-print " "))))))
-            (range 0 count)))))
-
-(defn lookup [surface]
-  (get (:lexicon (medium)) surface))
-

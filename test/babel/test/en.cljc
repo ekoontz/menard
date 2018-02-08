@@ -1,12 +1,11 @@
 (ns babel.test.en
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
-            [babel.english :refer [analyze fo-ps lookup generate
-                                   morph parse sentences]]
+            [babel.english :as english :refer [analyze fo-ps]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
 
-            [babel.generate :refer [get-lexemes lightning-bolts]]
+            [babel.generate :as generate :refer [get-lexemes lightning-bolts]]
             
             [babel.over :refer [over overc overh]]
             
@@ -25,6 +24,15 @@
             [dag_unify.core :refer [assoc-in dissoc-paths fail? fail-path-between get-in strip-refs unify]]))
 
 (def model @((get models :en)))
+
+(defn morph [expression]
+  (english/morph expression model))
+
+(defn parse [expression]
+  (english/parse expression model false))
+
+(defn generate [expression]
+  (generate/generate expression model))
 
 (defn display-expression [expr]
   {:en (morph expr)
@@ -202,8 +210,7 @@
   (let [result (generate {:modified false
                           :synsem {:cat :noun
                                    :sem {:pred :name
-                                         :mod '()
-                                         }}})]
+                                         :mod '()}}})]
     (is (= (get-in result [:synsem :sem :mod]
                    ::undefined-should-not-return-this)
            '()))))
@@ -212,14 +219,13 @@
   (is (= "her name is Luisa"
          (morph (generate {:modified false
                            :synsem {:cat :verb
-                                    :sem {:mod '()
+                                    :sem {:mod []
                                           :iobj {:pred :luisa}
                                           :pred :be-called
                                           :subj {:pred :lei}
                                           :tense :present}
-                                    :subcat '()}}
-                          :truncate false)))))
-                                       
+                                    :subcat []}})))))
+
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
 
@@ -267,7 +273,7 @@
                               :synsem {:sem {:pred :wash
                                              :mod nil
                                              :reflexive true}}})]
-                        {:f (morph generated :from-language "it")
+                        {:f (english/morph generated model :from-language "it")
                          :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
@@ -593,7 +599,7 @@
                           {:synsem {:sem {:subj {:gender :masc}}}}))
         generated (generate spec)
         surface-1 (morph generated)
-        surface-2 (morph generated :from-language "it")]
+        surface-2 (english/morph generated model :from-language "it")]
     (is (not (nil? p)))
     (is (not (fail? spec)))
     (is (not (nil? generated)))
@@ -610,15 +616,18 @@
                              :aspect :progressive
                              :subj {:pred :I}}}}]
     (is (= "I am getting dressed"
-           (morph (generate spec)
-                  :show-notes false)))
+           (english/morph (generate spec)
+                          model
+                          :show-notes false)))
     (is (= "I am getting dressed (right now)"
-           (morph (generate spec)
-                  :show-notes true)))
+           (english/morph (generate spec)
+                          model
+                          :show-notes true)))
     (is (= "I (♀) am getting dressed (right now)"
-           (morph (generate spec)
-                  :show-notes true
-                  :from-language "it")))))
+           (english/morph (generate spec)
+                          model
+                          :show-notes true
+                          :from-language "it")))))
 
 (deftest generate-as-writer-does
   (let [model @((:en models))]

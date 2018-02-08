@@ -14,8 +14,11 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-(def medium
-  (grammar/medium))
+(defonce medium-model (promise))
+(defn medium []
+  (if (realized? medium-model)
+    @medium-model
+    @(deliver medium-model (grammar/medium))))
 
 (defonce np-grammar-model (promise))
 (defn np-grammar []
@@ -45,7 +48,7 @@
   "analyze a word: as opposed to parsing which is multi-word."
   ;; TODO: should take a language model, not a lexicon
   ([surface-form]
-   (analyze surface-form (:lexicon medium)))
+   (analyze surface-form (:lexicon (medium))))
   ([surface-form lexicon]
    (morph/analyze surface-form lexicon)))
 
@@ -53,7 +56,7 @@
   ([]
    (let [max-total-depth generate/max-depth
          truncate-children true
-         model medium]
+         model (medium)]
      (generate {:modified false}
                :max-total-depth max-total-depth
                :truncate-children true
@@ -61,7 +64,7 @@
   ([spec & {:keys [model do-enrich max-total-depth truncate]
             :or {do-enrich true
                  max-total-depth generate/max-depth
-                 model medium
+                 model (medium)
                  truncate true}}]
    (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
    (let [result (generate/generate spec model)]
@@ -105,7 +108,7 @@
 
   ([input]
    (let [input (preprocess input)]
-     (parse input medium)))
+     (parse input (medium))))
 
   ([input model]
    (let [model (if (future? model) @model model)

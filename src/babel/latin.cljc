@@ -178,13 +178,13 @@
                                               :agr (get-in spec [:synsem :agr])}}}
         debug (log/debug (str "read-one: source-specification:" source-specification))
         question-to-pose-to-user
-        (babel.english/morph (babel.english/generate source-specification
-                                                     :model source-model
-                                                     :truncate-children false)
+        (babel.english/morph (babel.generate/generate source-specification
+                                                      source-model)
+                             source-model
                              :show-notes false) ;; TODO: use {:from-language :la}
         parses (filter #(empty? (get-in % [:synsem :subcat]))
                        (babel.english/parse
-                        question-to-pose-to-user false)) ;; false: don't truncate
+                        question-to-pose-to-user source-model false)) ;; false: don't truncate
         source-expressions parses
         target-specs
         (map (fn [parse]

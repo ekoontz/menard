@@ -39,9 +39,9 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate :model (-> ((-> models :en)) deref)))
+             (babel.english/generate (-> ((-> models :en)) deref)))
 
-        english (babel.english.morphology/fo english-structure)]
+        english (babel.english/morph english-structure (-> ((-> models :en)) deref))]
 
     (= "they (♀) went" english)))
 
@@ -62,9 +62,9 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate :model (-> ((-> models :en)) deref)))
+             (babel.english/generate (-> ((-> models :en)) deref)))
 
-        english (babel.english.morphology/fo english-structure)]
+        english (babel.english/morph english-structure (-> ((-> models :en)) deref))]
 
     (= "they (♂) went" english)))
 
@@ -89,10 +89,11 @@
               :synsem {:sem semantics
                        :cat :verb
                        :subcat '()}}
-             (babel.english/generate :model (-> ((-> models :en)) deref)))
+             (babel.english/generate (-> ((-> models :en)) deref)))
         
-        english (babel.english.morphology/fo english-structure
-                                             :show-notes false)]
+        english (babel.english/morph english-structure
+                                     (-> ((-> models :en)) deref)
+                                     :show-notes false)]
     
     (log/debug (str "babel.translate/latin-to-english: english-structure" english-structure))
     (log/debug (str "babel.translate/latin-to-english: english:" english))

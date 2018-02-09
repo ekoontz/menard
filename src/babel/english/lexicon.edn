@@ -819,15 +819,15 @@
             :past-participle "fallen asleep"
             :past "fell asleep"}}
 
-  "fall in love"
+ "fall in love"
  {:synsem {:cat :verb
            :sem {:pred :fall-in-love
                  :reflexive true}
-           :subcat {:2 []}
-      :english {:participle "falling in love"
-                :present {:3sing "falls in love"}
-                :past-participle "fallen in love"
-                :past "fell in love"}}}
+           :subcat {:2 []}}
+  :english {:participle "falling in love"
+            :present {:3sing "falls in love"}
+            :past-participle "fallen in love"
+            :past "fell in love"}}
 
  "father" {:synsem {:cat :noun
                     :agr {:gender :masc}

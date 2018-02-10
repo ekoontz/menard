@@ -4,21 +4,39 @@
    [babel.directory :refer [models models2]]
    [babel.generate :refer [generate]]
    [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db read-array]]
+   [cljstache.core :as cljstache]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
+   [clojure.java.io :as io]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
    [dag_unify.core :as unify :refer [dissoc-paths get-in ref? strip-refs unify]]
-   [korma.core :as db]])
+   [korma.core :as db]
+   [ring.util.response :as resp]])
 
-;; Configure database's 'expression' table to find the expressions.
-;; requires Postgres 9.4 or higher for JSONb operator '@>' support.
-
-;; TODO: calling functions in here 'generate-X' is misleading
-;; since they are querying a table to find sentences, not generating sentences from scratch.
-(declare generate-question-and-correct-set)
-(declare id2expression)
+(declare generate-question-and-correct-set-dynamic)
 (declare json-read-str)
+
+(defn render-page
+  "Pass in the template name (a string, sans its .mst filename extension), 
+  the data for the page (a map), and a list of partials (keywords) 
+  corresponding to like-named template filenames (e.g. [:header :footer]
+  correspond to the template files header.mst and footer.mst, respectively.)"
+  [template data partials]
+  (try 
+    (cljstache/render-resource
+     (str "public/mst/" template ".mst")
+     data
+     (reduce (fn [accum pt] ;; "pt" is the name (as a keyword) of the partial.
+               (assoc accum pt (slurp (io/resource (str "public/mst/"
+                                                        (name pt)
+                                                        ".mst")))))
+             {}
+             partials))
+    (catch Exception e
+      (str "could not render template: '" template "' - check for existence of: <p><h2>public/mst/"
+           template ".mst</h2>"))))
+
 
 ;; web service that translates babel.reader's API and an HTTP client.
 ;; http://localhost:3001/reader?target_spec={%22root%22:{%22italiano%22:{%22italiano%22:%22scrivere%22}}%20%22synsem%22:%20{%22sem%22:%20{%22tense%22:%22past%22,%20%22aspect%22:%22perfect%22}}}
@@ -36,40 +54,13 @@
                                (if-let [target_spec (get (:query-params request) "target_spec")]
                                  target_spec "{}"))
                   gcacs (try
-                          (generate-question-and-correct-set
+                          (generate-question-and-correct-set-dynamic
                            target_spec
                            source source-locale
                            target target-locale)
                           (catch Exception e
                             {:exception (str e)}))]
-              (write-str gcacs))})
-;                          :target_spec target_spec
-;                          ;; TODO: eventually add :source-v2
-;                          :targets (get-in gcacs [:targets])
-;                          :targets-v2 (get-in gcacs [:targets-v2])}))})
-
-      (GET "/:expr" request
-           (let [expr (:expr (:route-params request))]
-             (log/debug (str "expr(1):" expr))
-             (log/debug (str "expr(2):" (Integer. expr)))
-             {:status 200
-              :headers {"Content-Type" "application/json;charset=utf-8"}
-              :body (write-str (id2expression (Integer. expr)))}))))
-
-(defn generate-using-db [spec source-language target-language]
-  (let [spec (unify spec
-                    {:synsem {:subcat '()}})]
-    (log/debug (str "(generate-using-db): spec:" spec))
-    (generate spec source-language target-language)))
-
-(defn id2expression [id]
-  (let [results (db/exec-raw [(str "SELECT structure
-                                      FROM expression 
-                                     WHERE id=?")
-                              [id]]
-                             :results)]
-    (if (not (empty? results))
-      (json-read-str (.getValue (:structure (first results)))))))
+              (write-str gcacs))})))
 
 (defn generate-question-and-correct-set-dynamic [target-spec
                                                  source-language source-locale

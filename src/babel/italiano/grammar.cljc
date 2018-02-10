@@ -170,7 +170,7 @@
   (merge
    (unify
     h21
-    {:head {:synsem {:subcat {:2 {:subcat {:2 '()}}}}}})
+    {:head {:synsem {:subcat {:2 {:subcat {:2 []}}}}}})
    {:comment "h21a"
     :schema-symbol 'h21a}))
 
@@ -198,8 +198,8 @@
    {:comment "c00"
     :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
     :first :comp
-    :comp {:synsem {:subcat '()}}
-    :head {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}
+    :head {:synsem {:subcat []}}}))
 
 (defonce h00
   (unify-check
@@ -207,8 +207,8 @@
    {:comment "h00"
     :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
     :first :head
-    :comp {:synsem {:subcat '()}}
-    :head {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}
+    :head {:synsem {:subcat []}}}))
 
 ;; </TODO: move most of the content to babel.ug>
 ;; -- END SCHEMA DEFINITIONS
@@ -286,7 +286,7 @@
                                        :cat :noun
                                        :propernoun is-propernoun?
                                        :sem {:number number-agreement
-                                             :mod '()}}
+                                             :mod []}}
                               :head {:phrasal false
                                      :synsem {:propernoun is-propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
@@ -545,17 +545,17 @@
                                 modified
                                 (let [sem (atom :top)
                                       essere (atom :top)] ;; TODO: use (default) to set this for all {:cat :verb} rules.
-                                  {:synsem {:subcat '()
+                                  {:synsem {:subcat []
                                             :essere essere
                                             :cat :verb
                                             :sem sem}
                                    :comp {:synsem {:cat :prep
-                                                   :subcat '()}}
+                                                   :subcat []}}
                                    :head {:modified false
                                           :essere essere
                                           :synsem {:cat :verb
                                                    :sem sem
-                                                   :subcat '()}}
+                                                   :subcat []}}
                                    :rule "s-modified-modifier-first"}))
 
                    (unify-check h00
@@ -563,17 +563,17 @@
                                 modified
                                 (let [sem (atom :top)
                                       essere (atom :top)]  ;; TODO: use (default) to set this for all {:cat :verb} rules.
-                                  {:synsem {:subcat '()
+                                  {:synsem {:subcat []
                                             :cat :verb
                                             :essere essere 
                                             :sem sem}
                                    :comp {:synsem {:cat :prep
-                                                   :subcat '()}}
+                                                   :subcat []}}
                                    :head {:modified false
                                           :synsem {:cat :verb
                                                    :essere essere
                                                    :sem sem
-                                                   :subcat '()}}
+                                                   :subcat []}}
                                    :rule "s-modified-modifier-last"}))))
 
 (defn aux-is-head-feature [phrase]

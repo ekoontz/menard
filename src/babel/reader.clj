@@ -38,6 +38,12 @@
            template ".mst</h2>"))))
 
 
+;; Thanks for (defn wait) to Christian Meichsner on https://stackoverflow.com/a/30903731 
+(defn wait [ms f & args]
+  (let [c (chan)]
+    (go (>! c (apply f args)))
+    (first (alts!! [c (timeout ms)]))))
+
 ;; web service that translates babel.reader's API and an HTTP client.
 ;; http://localhost:3001/reader?target_spec={%22root%22:{%22italiano%22:{%22italiano%22:%22scrivere%22}}%20%22synsem%22:%20{%22sem%22:%20{%22tense%22:%22past%22,%20%22aspect%22:%22perfect%22}}}
 (def routes

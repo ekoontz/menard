@@ -550,11 +550,7 @@
          :lookup (fn [arg]
                    (analyze arg lexicon))
          :morph morph
-         :morph-ps fo-ps
-         ;; TODO: remove: not used
-         :morph-walk-tree (fn [tree]
-                            (merge tree
-                                   (morph-walk-tree tree)))}]
+         :morph-ps fo-ps}]
     (assoc model
           :generate-fn
           (fn [spec]

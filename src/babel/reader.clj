@@ -1,7 +1,7 @@
 (ns babel.reader
   [:refer-clojure :exclude [get-in resolve]]
   [:require
-   [babel.directory :refer [models models2]]
+   [babel.directory :refer [models]]
    [babel.generate :refer [generate]]
    [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db read-array]]
    [cljstache.core :as cljstache]
@@ -218,7 +218,7 @@
                         target-semantics (get-in target-structure [:synsem :sem])
                         ;; Removes certain parts of the target-semantics that are not expressed
                         ;; in the source-semantics:
-                        semantic-correspondence (-> @((models2 source-language-keyword))
+                        semantic-correspondence (-> @(models source-language-keyword)
                                                     :semantic-correspondence
                                                     target-language-keyword)
                         source-semantics (-> target-semantics
@@ -281,7 +281,7 @@
                                 
                                 (dissoc :source)
                                 (assoc :source
-                                       (let [morph (get @((get babel.directory/models2 source-language-keyword)) :morph)]
+                                       (let [morph (get @(get models source-language-keyword) :morph)]
                                          (morph (json-read-str (str (:source_structure result)))
                                                 :from-language target-language)))
                                 

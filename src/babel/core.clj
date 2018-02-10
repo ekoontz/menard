@@ -1,10 +1,6 @@
 (ns babel.core
   (:require
-   [babel.english.workbook :as en]
-   [babel.espanol.workbook :as es]
-   [babel.francais.workbook :as fr]
    [babel.html :as html]
-   [babel.italiano.workbook :as it]
    [babel.reader :as reader]
    [babel.say :as say]
    ;; https://github.com/clojure-emacs/cider#installation
@@ -20,27 +16,9 @@
 
 (defroutes main-routes
   (GET "/" request
-       (resp/redirect "/workbook/it"))
+       (resp/redirect (str "/reader")))
   (context "/reader" []
            reader/routes)
-  (context "/say" []
-           say/routes)
-  (context "/workbook/en" []
-           en/routes)
-  (context "/workbook/es" []
-           es/routes)
-  (context "/workbook/fr" []
-           fr/routes)
-  (context "/workbook/it" []
-           it/routes)
-  ;; TODO: move to /reader/:expr.
-  (GET "/expr/:expr" request
-       (let [expr (:expr (:route-params request))]
-         (log/info (str "expr(1):" expr))
-         (log/info (str "expr(2):" (Integer. expr)))
-         {:status 200
-          :body (html/page "Expr" (html/tablize (reader/id2expression (Integer. expr))))}))
-
   (route/resources "/"))
 
 (def app

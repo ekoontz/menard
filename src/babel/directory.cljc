@@ -75,18 +75,7 @@
               (conj model
                     {:generate-fn (fn [spec]
                                     (es/generate spec :model model))
-                     :tenses babel.espanol.grammar/tenses
-                     :root-verb-specs
-                     (into {}
-                           (map (fn [root]
-                                  [root {:root {:espanol {:espanol root}}}])
-                                (sort
-                                 (remove nil? (map (fn [val]
-                                                     (dag_unify.core/get-in val [:espanol :espanol]))
-                                                   (filter (fn [v]
-                                                             (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                                  (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                           (flatten (vals (:lexicon model)))))))))}))))
+                     :tenses babel.espanol.grammar/tenses}))))
    :fr (delay
         (do (log/debug (str "starting to load French model.."))
             (let [model (babel.francais.grammar/medium)]
@@ -94,18 +83,8 @@
               (conj model
                     {:generate-fn (fn [spec]
                                     (fr/generate spec :model model))
-                     :tenses babel.francais.grammar/tenses
-                     :root-verb-specs
-                     (into {}
-                           (map (fn [root]
-                                  [root {:root {:français {:français root}}}])
-                                (sort
-                                 (remove nil? (map (fn [val]
-                                                     (dag_unify.core/get-in val [:français :français]))
-                                                   (filter (fn [v]
-                                                             (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                                  (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                           (flatten (vals (:lexicon model)))))))))}))))
+                     :tenses babel.francais.grammar/tenses}))))
+
    :la (delay
         (do (log/info (str "starting to load latin model.."))
             (let [model (la/model)]
@@ -118,65 +97,9 @@
           (conj model
                 {:generate-fn (fn [spec]
                                 (it/generate spec :model model))
-                 :tenses babel.italiano.grammar/tenses
-                 :root-verb-specs
-                 (into {}
-                       (map (fn [root]
-                              [root {:root {:italiano {:italiano root}}}])
-                            (sort
-                             (remove nil? (map (fn [val]
-                                                 (dag_unify.core/get-in val [:italiano :italiano]))
-                                               (filter (fn [v]
-                                                         (and (= :top (dag_unify.core/get-in v [:synsem :infl]))
-                                                              (= :verb (dag_unify.core/get-in v [:synsem :cat]))))
-                                                       (flatten (vals (:lexicon model)))))))))})))})
+                 :tenses babel.italiano.grammar/tenses})))})
 
 (declare generate)
-
-(defn generate-all [language]
-  (let [language (if (string? language)
-                   (keyword language)
-                   language)
-        model @(-> models language)
-        root-verb-specs
-        (:root-verb-specs model)
-        tenses (:tenses model)
-        persons [:1st :2nd :3rd]
-        numbers [:sing :plur]]
-    (doall
-     (->>
-      (sort (keys root-verb-specs))
-      (map (fn [root-verb]
-             (do (println (str "" root-verb))
-                 (let [root-verb-spec (get root-verb-specs root-verb)]
-                   (doall
-                    (->>
-                     (sort (keys tenses))
-                     (map (fn [tense]
-                            (println (str " " tense))
-                            (doall
-                             (->>
-                              numbers
-                              (map
-                               (fn [number]
-                                 (let [number-spec {:comp {:synsem {:agr {:number number}}}}]
-                                   (doall
-                                    (->>
-                                     persons
-                                     (map (fn [person]
-                                            (let [person-spec {:comp {:synsem {:agr {:person person}}}}]
-                                              (println
-                                               (str "  "
-                                                    (let [pair
-                                                          (generate-pair
-                                                           language (unify root-verb-spec
-                                                                           (get tenses tense)
-                                                                           number-spec
-                                                                           person-spec))]
-                                                      (str "\"" (:source pair) "\""
-                                                           " -> "
-                                                           "\""  (:target pair) "\"")))))))))))))))))))
-                 (println))))))))
 
 (defn generate-pair [language spec]
   (let [model @(-> models language)

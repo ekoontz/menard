@@ -762,35 +762,33 @@
     (merge retval
            {:generate-fn (fn [spec]
                            (generate/generate spec retval))
-            :bolts {
-                    
-                    {:depth 3
-                     :synsem {:subcat []
-                              :cat :verb
-                              :sem {:tense :present
-                                    :reflexive true
-                                    :aspect :perfect}}}
-                    (lightning-bolts retval
-                                       {:synsem {:subcat []
-                                                 :cat :verb
-                                                 :sem {:tense :present
-                                                       :reflexive true
-                                                       :aspect :perfect}}}
-                                       0 3)
-                    
-                    {:depth 2
-                     :synsem {:subcat []
-                              :cat :verb
-                              :sem {:tense :present
-                                    :reflexive true
-                                      :aspect :simple}}}
-                    (lightning-bolts retval
-                                     {:synsem {:subcat ()
-                                               :cat :verb
-                                               :sem {:tense :present
-                                                     :reflexive true
-                                                     :aspect :simple}}}
-                                     0 2)}})))
+            :bolts
+            (merge
+             (let [depth 2
+                   spec
+                   {:synsem {:subcat []
+                             :cat :verb
+                             :sem {:tense :present
+                                   :reflexive :top
+                                   :aspect :perfect}}}]
+               {(merge {:depth depth}
+                       spec)
+                (lightning-bolts retval
+                                 spec
+                                 0 depth)})
+             (let [depth 3
+                   spec
+                   {:synsem {:subcat []
+                             :cat :verb
+                             :sem {:tense :present
+                                   :reflexive :top
+                                   :aspect :perfect}}}]
+               {(merge {:depth depth}
+                       spec)
+                (lightning-bolts retval
+                                 spec
+                                 0 depth)}))})))
+
 (defn np-grammar []
   (let [lexicon (deliver-lexicon)
         grammar

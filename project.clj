@@ -3,13 +3,12 @@
   :url "http://github.com/ekoontz/babel"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[clj-time "0.7.0"]
+  :dependencies [[cljstache "2.0.0"]
+                 [clj-time "0.7.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
                  [dag_unify "1.5.2"]
                  [environ "1.0.0"]
-                 [hiccup "1.0.5"]
-                 [javax.servlet/servlet-api "2.5"]
                  [korma "0.4.3"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/core.cache "0.6.5"]
@@ -19,11 +18,7 @@
                  [org.clojure/math.combinatorics "0.1.3"]
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.namespace "0.2.11"]
-                 [org.postgresql/postgresql "9.4.1208.jre7"]
-                 [ring/ring-codec "1.0.0"]
-                 [ring/ring-jetty-adapter "1.1.0"]
-                 [ring/ring-devel "1.1.0"]
-                 [ring-basic-authentication "1.0.1"]]
+                 [org.postgresql/postgresql "42.1.4"]]
 
   :filespecs [{:type :path :path "compiled"}]
   :resource-paths ["resources"]
@@ -33,7 +28,7 @@
             [lein-environ "1.0.0"]
             [lein-localrepo "0.4.0"]
             [lein-pprint "1.1.1"]
-            [lein-ring "0.9.3"]]
+            [lein-ring "0.9.7"]]
 
   ;; run clojure tests with "lein test"
   ;; run clojurescript tests with "lein doo slimer test"

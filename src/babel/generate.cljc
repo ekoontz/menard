@@ -134,20 +134,31 @@
 (defn get-bolts-for
   "Return every possible bolt for the given model and spec."
   [model spec depth]
-  (let [bolts ;; check for bolts compiled into model
+  (let [search-for-key
+        (dag_unify.core/strip-refs
+         {:synsem {:sem {:aspect (get-in spec [:synsem :sem :aspect] :top)
+                         :reflexive (get-in spec [:synsem :sem :reflexive] :top)
+                         :tense (get-in spec [:synsem :sem :tense] :top)}
+                   :subcat (get-in spec [:synsem :subcat] :top)
+                   :cat (get-in spec [:synsem :cat] :top)}
+          :depth depth})
+
+        debug (log/debug (str "looking for key: "
+                             search-for-key))
+        
+        bolts ;; check for bolts compiled into model
         (get (-> model :bolts)
-             {:synsem {:sem {:aspect (get-in spec [:synsem :sem :aspect])
-                             :reflexive (get-in spec [:synsem :sem :reflexive])
-                             :tense (get-in spec [:synsem :sem :tense])}
-                       :subcat (get-in spec [:synsem :subcat])
-                       :cat (get-in spec [:synsem :cat])}
-              :depth depth})]
+             search-for-key)]
     (cond
       (not (nil? bolts))
-      (shufflefn (->> bolts
-                      (map #(unify spec %))
-                      (filter #(not (= :fail %)))))
-      true (lightning-bolts model spec 0 depth))))
+      (do
+        (log/info (str "found compiled bolts."))
+        (shufflefn (->> bolts
+                        (map #(unify spec %))
+                        (filter #(not (= :fail %))))))
+      true
+      (do (log/debug (str "no compiled bolts found."))
+          (lazy-seq (lightning-bolts model spec 0 depth))))))
 
 (defn lightning-bolts
   "Return every possible bolt for the given model and spec. Start at the given depth and

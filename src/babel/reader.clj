@@ -51,29 +51,56 @@
 (def routes
   (compojure/routes
    (GET "/" request
-        {:status 200
-         :headers {"Content-Type" "application/json;charset=utf-8"}
-         :body
-         (let [source (get (:query-params request) "source" "en")
-               source-locale (get (:query-params request) "source_locale" "US")
-               target "it"
-               target-locale "IT"
-               target_spec (json-read-str
-                            (if-let [target_spec (get (:query-params request) "target_spec")]
-                              target_spec "{}"))
-               gcacs (try
-                       (wait wait-ms-for-question
-                             (fn []
-                               (generate-question-and-correct-set-dynamic
-                                target_spec
-                                source source-locale
-                                target target-locale)))
-                       (catch Exception e
-                         {:exception (str e)}))]
-           (write-str
-            (or
-             gcacs
-             {:failed "failed; sorry."})))})))
+        (let [source (get (:query-params request) "source" "en")
+              source-locale (get (:query-params request) "source_locale" "US")
+              target "it"
+              target-locale "IT"
+              target_spec (json-read-str
+                           (if-let [target_spec (get (:query-params request) "target_spec")]
+                             target_spec "{}"))
+              gcacs
+              (try
+                (wait wait-ms-for-question
+                      (fn []
+                        (generate-question-and-correct-set-dynamic
+                         target_spec
+                         source source-locale
+                         target target-locale)))
+                (catch Exception e
+                  {:return-a-500 true
+                   :exception (str e)}))]
+          (cond (nil? gcacs)
+
+                ;; Avoid any logging here since it will further
+                ;; slow down system since it's already overloaded.
+                {:status 503
+                 :headers {"Content-Type" "application/json;charset=utf-8"}
+                 :body (write-str {:message "Capacity overload: please try again later."
+                                   :spec target_spec})}
+
+                (= true (:return-a-500 gcacs))
+                (do
+                  (log/error (str "Internal error: returning 500. Exception was:"
+                                  (:exception gcacs)))
+                  {:status 500
+                   :headers {"Content-Type" "application/json;charset=utf-8"}
+                   :body (write-str {:message "Unexpected internal error. Sorry: hopefully a human will work on it."})})
+                
+                true
+                (do (log/info (str "returning normal response:"
+                                   "'" (:source gcacs) "'"
+                                   " -> " (:targets gcacs) "; spec:" target_spec))
+                    {:status 200
+                     :body
+                     (write-str
+                      (merge
+                       {:real-gcacs gcacs}
+                       {:source source
+                        :source-locale source-locale
+                        :target target
+                        :target-local target-locale
+                        :target_spec target_spec
+                        :target-spec target_spec}))}))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec
                                                  source-language source-locale

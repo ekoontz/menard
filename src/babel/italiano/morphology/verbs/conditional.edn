@@ -7,10 +7,11 @@
 ;;  add examples for every pattern, both parsing (:p) and generation (:g).
 [{:agr {:number :sing
         :person :1st}
-  :g [#"^(.*)([aei])re$" "$1$2rei"
-
-      #"(.*)[ae]rsi$"  "$1erei" ;; alzarsi -> alzerei
-      #"(.*)[i]rsi$"   "$1irei"
+  :g [#"^(.*)[ae]re$" "$1erei"
+      #"^(.*)ire$"    "$1irei" ;; dormire -> dormirei
+      #"^(.*)arsi$"   "$1erei" ;; alzarsi -> alzerei
+      #"^(.*)ire$"    "$1irei"
+      #"(.*)irsi$"    "$1irei"
 
       ;; :future-stem
       #"^(.*r)$" "$1ei" ;; vivere -> vivrei
@@ -42,10 +43,10 @@
 
  {:agr {:number :sing
         :person :2nd}
-  :g [#"^(.*)([aei])re$" "$1$2resti"
-
-      #"(.*)[ae]rsi$"  "$1eresti"
-      #"(.*)[i]rsi$"   "$1iresti"
+  :g [#"^(.*)[ae]re$" "$1eresti"
+      #"^(.*)ire$"    "$1iresti"
+      #"(.*)[ae]rsi$" "$1eresti"
+      #"(.*)[i]rsi$"  "$1iresti"
 
       ;; :future-stem
       #"^(.*r)$" "$1esti"
@@ -75,11 +76,11 @@
  
  {:agr {:number :sing
         :person :3rd}
-  :g [#"^(.*)([ae])re$"  "$1erebbe"
-      #"^(.*)ire$"       "$1irebbe"
+  :g [#"^(.*)[ae]re$"  "$1erebbe"
+      #"^(.*)ire$"     "$1irebbe"
 
-      #"(.*)[ae]rsi$"    "$1erebbe"
-      #"(.*)irsi$"       "$1irebbe"
+      #"(.*)[ae]rsi$"  "$1erebbe"
+      #"(.*)irsi$"     "$1irebbe"
 
       ;; :future-stem
       #"^(.*r)$" "$1ebbe"
@@ -108,8 +109,8 @@
  
  {:agr {:number :plur
         :person :1st}
-  :g [#"^(.*)([aei])re$" "$1$2remmo"
-
+  :g [#"^(.*)[ae]re$"  "$1eremmo"
+      #"^(.*)ire$"     "$1iremmo"
       #"(.*)[ae]rsi$"  "$1eremmo"
       #"(.*)[i]rsi$"   "$1iremmo"
 
@@ -139,10 +140,10 @@
  
  {:agr {:number :plur
         :person :2nd}
-  :g [#"^(.*)([aei])re$" "$1$2reste"
-
-      #"(.*)[ae]rsi$"  "$1ereste"
-      #"(.*)[i]rsi$"   "$1ireste"
+  :g [#"^(.*)[ae]re$"   "$1ereste"
+      #"^(.*)ire$"      "$1ireste"
+      #"(.*)[ae]rsi$"   "$1ereste"
+      #"(.*)[i]rsi$"    "$1ireste"
 
       ;; :future-stem
       #"^(.*r)$" "$1este"]
@@ -170,7 +171,7 @@
 
  {:agr {:number :plur
         :person :3rd}
-  :g [#"^(.*)([ae])re$" "$1erebbero"
+  :g [#"^(.*)[ae]re$"   "$1erebbero"
       #"^(.*)ire$"      "$1irebbero"
 
       #"(.*)[ae]rsi$"   "$1erebbero"

@@ -14,6 +14,7 @@
                  [org.clojure/core.cache "0.6.5"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/core.async "0.4.474"]
                  [org.clojure/data.json "0.2.5"]
                  [org.clojure/math.combinatorics "0.1.3"]
                  [org.clojure/tools.logging "0.2.6"]

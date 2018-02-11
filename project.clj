@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[cljstache "2.0.0"]
-                 [clj-time "0.7.0"]
+                 [clj-time "0.11.0"]
                  [clojail "1.0.6"]
                  [compojure "1.1.6"]
                  [dag_unify "1.5.2"]
@@ -13,11 +13,11 @@
                  [log4j/log4j "1.2.17"]
                  [org.clojure/core.cache "0.6.5"]
                  [org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/clojurescript "1.9.293"]
                  [org.clojure/core.async "0.4.474"]
-                 [org.clojure/data.json "0.2.5"]
+                 [org.clojure/data.json "0.2.6"]
                  [org.clojure/math.combinatorics "0.1.3"]
-                 [org.clojure/tools.logging "0.2.6"]
+                 [org.clojure/tools.logging "0.4.0"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [org.postgresql/postgresql "42.1.4"]]
 

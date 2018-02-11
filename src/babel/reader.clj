@@ -5,6 +5,7 @@
    [babel.generate :refer [generate]]
    [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db read-array]]
    [cljstache.core :as cljstache]
+   [clojure.core.async :refer [>! alts!! timeout chan go]]
    [clojure.string :as string]
    [clojure.data.json :as json :refer [read-str write-str]]
    [clojure.java.io :as io]
@@ -16,6 +17,7 @@
 
 (declare generate-question-and-correct-set-dynamic)
 (declare json-read-str)
+(def ^:const wait-ms-for-question 3000)
 
 (defn render-page
   "Pass in the template name (a string, sans its .mst filename extension), 
@@ -48,25 +50,30 @@
 ;; http://localhost:3001/reader?target_spec={%22root%22:{%22italiano%22:{%22italiano%22:%22scrivere%22}}%20%22synsem%22:%20{%22sem%22:%20{%22tense%22:%22past%22,%20%22aspect%22:%22perfect%22}}}
 (def routes
   (compojure/routes
-      (GET "/" request
-           {:status 200
-            :headers {"Content-Type" "application/json;charset=utf-8"}
-            :body
-            (let [source (get (:query-params request) "source" "en")
-                  source-locale (get (:query-params request) "source_locale" "US")
-                  target "it"
-                  target-locale "IT"
-                  target_spec (json-read-str
-                               (if-let [target_spec (get (:query-params request) "target_spec")]
-                                 target_spec "{}"))
-                  gcacs (try
-                          (generate-question-and-correct-set-dynamic
-                           target_spec
-                           source source-locale
-                           target target-locale)
-                          (catch Exception e
-                            {:exception (str e)}))]
-              (write-str gcacs))})))
+   (GET "/" request
+        {:status 200
+         :headers {"Content-Type" "application/json;charset=utf-8"}
+         :body
+         (let [source (get (:query-params request) "source" "en")
+               source-locale (get (:query-params request) "source_locale" "US")
+               target "it"
+               target-locale "IT"
+               target_spec (json-read-str
+                            (if-let [target_spec (get (:query-params request) "target_spec")]
+                              target_spec "{}"))
+               gcacs (try
+                       (wait wait-ms-for-question
+                             (fn []
+                               (generate-question-and-correct-set-dynamic
+                                target_spec
+                                source source-locale
+                                target target-locale)))
+                       (catch Exception e
+                         {:exception (str e)}))]
+           (write-str
+            (or
+             gcacs
+             {:failed "failed; sorry."})))})))
 
 (defn generate-question-and-correct-set-dynamic [target-spec
                                                  source-language source-locale
@@ -112,12 +119,12 @@
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         source-model @(get models source-language)
-
+        target-root-keyword :italiano
         source-expression
         (source-timing-fn (generate source-spec source-model))]
-    (let [italiano-model @(get models :it)
+    (let [target-model @(get models :it)
           pairing
-          {:target ((:morph italiano-model) target-expression) ;; TODO: hard-wired to Italian.
+          {:target ((:morph target-model) target-expression) ;; TODO: hard-wired to Italian.
            :pred (unify/strip-refs
                   (unify/get-in target-expression [:synsem :sem :pred]))
            :tense (unify/get-in target-expression [:synsem :sem :tense])
@@ -134,7 +141,7 @@
        :targets [(:target pairing)]
        :target-spec target-spec
        :target-roots [(get-in target-expression
-                              [:root :italiano :italiano])]
+                              [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs
                           (get-in target-expression [:synsem :sem]))})))
 

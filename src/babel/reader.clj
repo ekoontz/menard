@@ -1,6 +1,7 @@
 (ns babel.reader
   [:refer-clojure :exclude [get-in resolve]]
   [:require
+   [babel.config :as config]
    [babel.directory :refer [models]]
    [babel.generate :refer [generate]]
    [babel.korma :as korma :refer [convert-keys-from-string-to-keyword init-db read-array]]
@@ -119,6 +120,7 @@
                     :modified false}
         target-spec (unify target-spec basic-spec)
         target-language-str target-language
+        target-root-keyword (config/short-language-name-to-edn target-language)
         source-language (keyword source-language)
         target-language (keyword target-language)
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
@@ -146,11 +148,9 @@
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         source-model @(get models source-language)
-        target-root-keyword :italiano
         source-expression
         (source-timing-fn (generate source-spec source-model))]
-    (let [target-model @(get models :it)
-          pairing
+    (let [pairing
           {:target ((:morph target-model) target-expression) ;; TODO: hard-wired to Italian.
            :pred (unify/strip-refs
                   (unify/get-in target-expression [:synsem :sem :pred]))

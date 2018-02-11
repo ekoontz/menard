@@ -2,7 +2,6 @@
   (:require
    [clojure.data.json :as json]
    [clojure.string :as string]
-   [hiccup.core :refer (html)]
    [dag_unify.core :refer [unify]]))
 
 (declare short-language-name-to-edn)

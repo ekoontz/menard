@@ -1536,7 +1536,8 @@
 
  "mettersi" {:synsem {:cat :verb
                      :sem {:pred :put-oneself
-                           :reflexive true}}}
+                           :reflexive true}}
+             :italiano {:passato "messo"}}
 
  "mezzogiorno"
  {:synsem {:agr {:gender :masc}

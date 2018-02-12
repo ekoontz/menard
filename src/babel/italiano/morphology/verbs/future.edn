@@ -9,19 +9,19 @@
 [{:agr {:person :1st
         :number :sing}
 
-  :g [#"^(.*)ciare$"     "$1cerò"  ;; cominciare -> comincerò
-      #"^(.*)giare$"     "$1gerò"  ;; mangiare   -> mangerò
-      #"^(.*)care$"      "$1cherò" ;; caricare   -> caricherò
-      #"^(.*)gare$"      "$1gherò" ;; pagare     -> pagherò
-      #"^(.*)are$"       "$1erò"   ;; parlare    -> parlerò
-      #"^(.*)ere$"       "$1erò"   ;; ricevere   -> riceverò
-      #"^(.*)ire$"       "$1irò"   ;; dormire    -> dormirò
-      #"(.*)arsi$"       "$1erò"   ;; alzarsi    -> alzerò
-      #"(.*)ersi$"       "$1erò"   ;; mettersi   -> metterò
-      #"(.*)irsi$"       "$1irò"   ;; diventirsi -> diventirò
+  :g [#"ciare$" "cerò"  ;; cominciare -> comincerò
+      #"giare$" "gerò"  ;; mangiare   -> mangerò
+      #"care$"  "cherò" ;; caricare   -> caricherò
+      #"gare$"  "gherò" ;; pagare     -> pagherò
+      #"are$"   "erò"   ;; parlare    -> parlerò
+      #"ere$"   "erò"   ;; ricevere   -> riceverò
+      #"ire$"   "irò"   ;; dormire    -> dormirò
+      #"arsi$"  "erò"   ;; alzarsi    -> alzerò
+      #"ersi$"  "erò"   ;; mettersi   -> metterò
+      #"irsi$"  "irò"   ;; diventirsi -> diventirò
       
       ;; :future-stem
-      #"^(.*r)$" "$1ò" ;; vivere -> vivrò
+      #"r$" "   ò" ;; vivere -> vivrò
       ]
   
   :p [#"(.*)erò"     "$1are"  ;; parlerò -> parlare
@@ -49,16 +49,16 @@
   }
  {:agr {:person :2nd
         :number :sing}
-  :g [#"^(.*)ciare$"     "$1cerai"  ;; cominciare -> comincerai
-      #"^(.*)giare$"     "$1gerai"  ;; mangiare   -> mangerai
-      #"^(.*)care$"      "$1cherai" ;; caricare   -> caricherai
-      #"^(.*)gare$"      "$1gherai" ;; pagare     -> pagherai
-      #"^(.*)are$"       "$1erai"   ;; parlare    -> parlerai
-      #"^(.*)ere$"       "$1erai"   ;; ricevere   -> riceverai
-      #"^(.*)ire$"       "$1irai"   ;; dormire    -> dormirai
-      #"(.*)arsi$"       "$1erai"   ;; alzarsi    -> alzerai
-      #"(.*)ersi$"       "$1erai"   ;; mettersi   -> metterai
-      #"(.*)irsi$"       "$1irai"   ;; diventirsi -> diventirai
+  :g [#"ciare$" "cerai"  ;; cominciare -> comincerai
+      #"giare$" "gerai"  ;; mangiare   -> mangerai
+      #"care$"  "cherai" ;; caricare   -> caricherai
+      #"gare$"  "gherai" ;; pagare     -> pagherai
+      #"are$"   "erai"   ;; parlare    -> parlerai
+      #"ere$"   "erai"   ;; ricevere   -> riceverai
+      #"ire$"   "irai"   ;; dormire    -> dormirai
+      #"arsi$"  "erai"   ;; alzarsi    -> alzerai
+      #"ersi$"  "erai"   ;; mettersi   -> metterai
+      #"irsi$"  "irai"   ;; diventirsi -> diventirai
       
       ;; :future-stem
       #"^(.*r)$" "$1ai" ;; vivere -> vivrai
@@ -87,19 +87,19 @@
   }
  {:agr {:person :3rd
         :number :sing}
-  :g [#"^(.*)ciare$"     "$1cerà"  ;; cominciare -> comincerà
-      #"^(.*)giare$"     "$1gerà"  ;; mangiare   -> mangerà
-      #"^(.*)care$"      "$1cherà" ;; caricare   -> caricherà
-      #"^(.*)gare$"      "$1gherà" ;; pagare     -> pagherà
-      #"^(.*)are$"       "$1erà"   ;; parlare    -> parlerà
-      #"^(.*)ere$"       "$1erà"   ;; ricevere   -> riceverà
-      #"^(.*)ire$"       "$1irà"   ;; dormire    -> dormirà
-      #"(.*)arsi$"       "$1erà"   ;; alzarsi    -> alzerà
-      #"(.*)ersi$"       "$1erà"   ;; mettersi   -> metterà
-      #"(.*)irsi$"       "$1irà"   ;; diventirsi -> diventirà
+  :g [#"ciare$" "cerà"  ;; cominciare -> comincerà
+      #"giare$" "gerà"  ;; mangiare   -> mangerà
+      #"care$"  "cherà" ;; caricare   -> caricherà
+      #"gare$"  "gherà" ;; pagare     -> pagherà
+      #"are$"   "erà"   ;; parlare    -> parlerà
+      #"ere$"   "erà"   ;; ricevere   -> riceverà
+      #"ire$"   "irà"   ;; dormire    -> dormirà
+      #"arsi$"  "erà"   ;; alzarsi    -> alzerà
+      #"ersi$"  "erà"   ;; mettersi   -> metterà
+      #"irsi$"  "irà"   ;; diventirsi -> diventirà
       
       ;; :future-stem
-      #"^(.*r)$" "$1à" ;; vivere -> vivrà
+      #"r$" "à" ;; vivere -> vivrà
       ]
   :p [
       #"(.*)chà"     "$1care"
@@ -127,16 +127,16 @@
   }
  {:agr {:person :1st
         :number :plur}
-  :g [#"^(.*)ciare$"     "$1ceremo"  ;; cominciare -> cominceremo
-      #"^(.*)giare$"     "$1geremo"  ;; mangiare   -> mangeremo
-      #"^(.*)care$"      "$1cheremo" ;; caricare   -> caricheremo
-      #"^(.*)gare$"      "$1gheremo" ;; pagare     -> pagheremo
-      #"^(.*)are$"       "$1eremo"   ;; parlare    -> parleremo
-      #"^(.*)ere$"       "$1eremo"   ;; ricevere   -> riceveremo
-      #"^(.*)ire$"       "$1iremo"   ;; dormire    -> dormiremo
-      #"(.*)arsi$"       "$1eremo"   ;; alzarsi    -> alzeremo
-      #"(.*)ersi$"       "$1eremo"   ;; mettersi   -> metteremo
-      #"(.*)irsi$"       "$1iremo"   ;; diventirsi -> diventiremo
+  :g [#"ciare$"     "ceremo"  ;; cominciare -> cominceremo
+      #"giare$"     "geremo"  ;; mangiare   -> mangeremo
+      #"care$"      "cheremo" ;; caricare   -> caricheremo
+      #"gare$"      "gheremo" ;; pagare     -> pagheremo
+      #"are$"       "eremo"   ;; parlare    -> parleremo
+      #"ere$"       "eremo"   ;; ricevere   -> riceveremo
+      #"ire$"       "iremo"   ;; dormire    -> dormiremo
+      #"(.*)arsi$"  "eremo"   ;; alzarsi    -> alzeremo
+      #"(.*)ersi$"  "eremo"   ;; mettersi   -> metteremo
+      #"(.*)irsi$"  "iremo"   ;; diventirsi -> diventiremo
       
       ;; :future-stem
       #"^(.*r)$" "$1emo" ;; vivere -> vivremo
@@ -166,16 +166,16 @@
 
  {:agr {:person :2nd
         :number :plur}
-  :g [#"^(.*)ciare$"     "$1cerete"  ;; cominciare -> comincerete
-      #"^(.*)giare$"     "$1gerete"  ;; mangiare   -> mangerete
-      #"^(.*)care$"      "$1cherete" ;; caricare   -> caricherete
-      #"^(.*)gare$"      "$1gherete" ;; pagare     -> pagherete
-      #"^(.*)are$"       "$1erete"   ;; parlare    -> parlerete
-      #"^(.*)ere$"       "$1erete"   ;; ricevere   -> riceverete
-      #"^(.*)ire$"       "$1irete"   ;; dormire    -> dormirete
-      #"(.*)arsi$"       "$1erete"   ;; alzarsi    -> alzerete
-      #"(.*)ersi$"       "$1erete"   ;; mettersi   -> metterete
-      #"(.*)irsi$"       "$1irete"   ;; diventirsi -> diventirete
+  :g [#"ciare$"     "cerete"  ;; cominciare -> comincerete
+      #"giare$"     "gerete"  ;; mangiare   -> mangerete
+      #"care$"      "cherete" ;; caricare   -> caricherete
+      #"gare$"      "gherete" ;; pagare     -> pagherete
+      #"are$"       "erete"   ;; parlare    -> parlerete
+      #"ere$"       "erete"   ;; ricevere   -> riceverete
+      #"ire$"       "irete"   ;; dormire    -> dormirete
+      #"arsi$"      "erete"   ;; alzarsi    -> alzerete
+      #"ersi$"      "erete"   ;; mettersi   -> metterete
+      #"irsi$"      "irete"   ;; diventirsi -> diventirete
       
       ;; :future-stem
       #"^(.*r)$" "$1ete" ;; vivere -> vivrete
@@ -204,19 +204,19 @@
  }
  {:agr {:person :3rd
         :number :plur}
-  :g [#"^(.*)ciare$"     "$1ceranno"  ;; cominciare -> cominceranno
-      #"^(.*)giare$"     "$1geranno"  ;; mangiare   -> mangeranno
-      #"^(.*)care$"      "$1cheranno" ;; caricare   -> caricheranno
-      #"^(.*)gare$"      "$1gheranno" ;; pagare     -> pagheranno
-      #"^(.*)are$"       "$1eranno"   ;; parlare    -> parleranno
-      #"^(.*)ere$"       "$1eranno"   ;; ricevere   -> riceveranno
-      #"^(.*)ire$"       "$1iranno"   ;; dormire    -> dormiranno
-      #"(.*)arsi$"       "$1eranno"   ;; alzarsi    -> alzeranno
-      #"(.*)ersi$"       "$1eranno"   ;; mettersi   -> metteranno
-      #"(.*)irsi$"       "$1iranno"   ;; diventirsi -> diventiranno
+  :g [#"ciare$" "ceranno"  ;; cominciare -> cominceranno
+      #"giare$" "geranno"  ;; mangiare   -> mangeranno
+      #"care$"  "cheranno" ;; caricare   -> caricheranno
+      #"gare$"  "gheranno" ;; pagare     -> pagheranno
+      #"are$"   "eranno"   ;; parlare    -> parleranno
+      #"ere$"   "eranno"   ;; ricevere   -> riceveranno
+      #"ire$"   "iranno"   ;; dormire    -> dormiranno
+      #"arsi$"  "eranno"   ;; alzarsi    -> alzeranno
+      #"ersi$"  "eranno"   ;; mettersi   -> metteranno
+      #"irsi$"  "iranno"   ;; diventirsi -> diventiranno
       
       ;; :future-stem
-      #"^(.*r)$" "$1anno" ;; vivere -> vivranno
+      #"r$" "ranno" ;; vivere -> vivranno
       ]
   :p [
       #"(.*)rranno"     "$1nere"

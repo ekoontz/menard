@@ -120,6 +120,7 @@
                                         :1plur "are"
                                         :2plur "are"
                                         :3plur "are"}
+                              :present-progressive :avoid
                               :past {:1sing "was"
                                      :2sing "were"
                                      :3sing "was"

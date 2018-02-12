@@ -310,6 +310,7 @@
                        :sem {:pred :mancare}
                        :subcat {:2 []}}
               :english {:future "be missed"
+                        :present-progressive :avoid
                         :participle "being missed"
                         :conditional "be missed"
                         :imperfect {:1sing "was being missed"
@@ -337,6 +338,7 @@
                                      :1plur "were missing"
                                      :2plur "were missing"
                                      :3plur "were missing"}
+                         :present-progressive :avoid
                          :present {:1sing "am missing"
                                    :2sing "are missing"
                                    :3sing "is missing"
@@ -506,6 +508,7 @@
                   :sem {:pred :call}}}
  "can"
  {:english {:participle "being able to"
+            :present-progressive :avoid
             :past "could"
             :past-participle "been able to"
             :imperfect {:1sing "used to be able to"
@@ -1626,6 +1629,7 @@
                          :mass true}}}
 
  "must" {:english {:participle "having to"
+                   :present-progressive :avoid
                    :past "had to"
                    :past-participle "had to"
                    :imperfect {:1sing "used to have to"
@@ -1771,12 +1775,12 @@
  ;; TODO: 3sing present exception used below to avoid "playies" is not an exception: it's a rule: y->ys.
  ;; the exceptional case is when "ys" is not used (e.g. "tries").
  "play" [{:comment "We are talking about playing games or sports."
-          :english {:note "⚽"}
+          :english {:note "⚽" :printer-note "games"}
           :synsem {:cat :verb
                    :sem {:pred :play-games}}}
 
          {:comment "We are talking about playing music or sounds."
-          :english {:note "🎼"}
+          :english {:note "🎼" :printer-note "music"}
           :synsem {:cat :verb
                    :sem {:pred :play-music}}}]
 
@@ -2419,8 +2423,8 @@
              :synsem {:cat :verb
                       :sem {:pred :transfer}}}
 
-"treat" {:synsem {:cat :verb
-                    :sem {:pred :support}}}
+ "treat" {:synsem {:cat :verb
+                   :sem {:pred :treat}}}
 
  "try" [{:modal-with :infinitive
          :synsem {:cat :verb
@@ -2520,11 +2524,13 @@
          {:synsem {:cat :verb
                    :sem {:pred :walk-c}}}]
 
- "want" [{:modal-with :infinitive
+ "want" [{:english {:present-progressive :avoid}
+          :modal-with :infinitive
           :synsem {:cat :verb
                    :sem {:pred :want}}}
 
-         {:synsem {:cat :verb
+         {:english {:present-progressive :avoid}
+          :synsem {:cat :verb
                    :sem {:pred :want}}}]
 
  "warm" (let [common {:english {:past "warmed up"

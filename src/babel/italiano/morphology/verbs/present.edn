@@ -28,7 +28,7 @@
 
  {:agr {:number :sing
         :person :2nd}
-  :boot-stem false
+  :boot-verb false
   :g [#"care$"            "chi" ;; caricare -> carichi
       #"carsi$"           "chi"
       #"gare$"            "ghi" ;; pagare -> paghi

@@ -49,7 +49,7 @@
               true
               (do
                 (if (not (empty? sequence))
-                  (log/warn (str "using default of 'text' as SQL type for"
+                  (log/info (str "using default of 'text' as SQL type for"
                                  " sequence of type:" (type sequence)
                                  (str " whose first member is of type:"
                                       (type (first sequence)))

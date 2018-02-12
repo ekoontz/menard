@@ -34,10 +34,10 @@
       #"gare$"            "ghi" ;; pagare -> paghi
       #"garsi$"           "ghi"
       
-      #"([aei])re$"       "$1i"
-      #"([aei])rsi$"      "$1i"
       #"(i)[aei]re$"      "$1" ;; studiare -> studi
       #"(i)[aei]rsi$"     "$1"
+      #"[aei]re$"         "i"
+      #"[aei]rsi$"        "i"
       ]
   :p [#"(.*)i$"           "$1are" ;; lavi -> lavare
       #"(.*)i$"           "$1iare" ;; studi -> studiare

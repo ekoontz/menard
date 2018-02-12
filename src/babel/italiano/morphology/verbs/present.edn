@@ -29,18 +29,15 @@
  {:agr {:number :sing
         :person :2nd}
   :boot-stem false
-  :g [#"care$"            "chi"
-      #"carsi$"           "chi"
-      #"([^ci])[aei]re$"  "$1i"
-      #"([^ci])[aei]rsi$" "$1i"
-      #"(i)[aei]re$"      "$1" ;; studiare -> studi
-      #"(i)[aei]rsi$"     "$1"
-      #"care$"            "chi" ;; caricare -> carichi
+  :g [#"care$"            "chi" ;; caricare -> carichi
       #"carsi$"           "chi"
       #"gare$"            "ghi" ;; pagare -> paghi
       #"garsi$"           "ghi"
-      #"cere$"            "ci" ;; vincere -> vinci
-      #"cersi$"           "ci"
+      
+      #"([aei])re$"       "$1i"
+      #"([aei])rsi$"      "$1i"
+      #"(i)[aei]re$"      "$1" ;; studiare -> studi
+      #"(i)[aei]rsi$"     "$1"
       ]
   :p [#"(.*)i$"           "$1are" ;; lavi -> lavare
       #"(.*)i$"           "$1iare" ;; studi -> studiare
@@ -87,16 +84,17 @@
  
  {:agr {:number :plur
         :person :1st}
-  :g [#"([^ci])[aei]re$"  "$1iamo"    ;; parlare -> parliamo
-      #"([^ci])[aei]rsi$" "$1iamo"
-      #"(i)[aei]re$"      "$1amo" ;; tagliare -> tagliamo
-      #"(i)[aei]rsi$"     "$1amo"
-      #"care$"            "chiamo" ;; caricare -> carichiamo
+  :g [#"care$"            "chiamo"    ;; caricare -> carichiamo
       #"carsi$"           "chiamo"
-      #"gare$"            "ghiamo" ;; pagare -> paghiamo
+      #"gare$"            "ghiamo"    ;; pagare -> paghiamo
       #"garsi$"           "ghiamo"
-      #"c[ei]re$"         "ciamo" ;; vincere -> vinciamo
-      #"c[ei]rsi$"        "ciamo"
+      #"are$"             "iamo"
+      #"ere$"             "iamo"
+      #"ire$"             "iamo"
+      #"arsi$"            "iamo"
+      #"ersi$"            "iamo"
+      #"irsi$"            "iamo"
+
       ]
 
   :p [#"(.*)iamo$"      "$1are"  ;; parliamo -> parlare
@@ -115,7 +113,7 @@
         :person :2nd}
   :g [#"([aei])re$"  "$1te"
       #"([aei])rsi$" "$1te"]
-  :p [#"(.*)([aei])te$" "$1$2re" ;; parlate -> parlare
+  :p [#"(.*)([aei])te$" "$1$2re"  ;; parlate -> parlare
       #"(.*)([aei])te$" "$1$2rsi" ;; chiamate -> chiamarsi
       ]}
  
@@ -138,7 +136,7 @@
  {:agr {:number :plur
         :person :3rd}
   :boot-verb true
-  :g [#"^(.*i)re$" "$1scono"] ;; finire -> finiscono
+  :g [#"^(.*i)re$"   "$1scono"] ;; finire -> finiscono
   :p  [#"(.*)scono$" "$1re" ;; finiscono -> finire
        ]}
  ]

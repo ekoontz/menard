@@ -21,7 +21,7 @@
       #"irsi$"  "irò"   ;; diventirsi -> diventirò
       
       ;; :future-stem
-      #"r$" "   ò" ;; vivere -> vivrò
+      #"r$"     "rò" ;; vivere -> vivrò
       ]
   
   :p [#"(.*)erò"     "$1are"  ;; parlerò -> parlare
@@ -61,7 +61,7 @@
       #"irsi$"  "irai"   ;; diventirsi -> diventirai
       
       ;; :future-stem
-      #"^(.*r)$" "$1ai" ;; vivere -> vivrai
+      #"r$"     "rai" ;; vivere -> vivrai
       ]
 
   :p [#"(.*)ai"       "$1e"     ;; farai -> fare
@@ -99,7 +99,7 @@
       #"irsi$"  "irà"   ;; diventirsi -> diventirà
       
       ;; :future-stem
-      #"r$" "à" ;; vivere -> vivrà
+      #"r$"     "rà" ;; vivere -> vivrà
       ]
   :p [
       #"(.*)chà"     "$1care"
@@ -139,7 +139,7 @@
       #"(.*)irsi$"  "iremo"   ;; diventirsi -> diventiremo
       
       ;; :future-stem
-      #"^(.*r)$" "$1emo" ;; vivere -> vivremo
+      #"r$"         "remo" ;; vivere -> vivremo
       ]
 
   :p [#"(.*)cheremo"   "$1care" ;; giocheremo -> giocare
@@ -178,7 +178,7 @@
       #"irsi$"      "irete"   ;; diventirsi -> diventirete
       
       ;; :future-stem
-      #"^(.*r)$" "$1ete" ;; vivere -> vivrete
+      #"r$"         "rete" ;; vivere -> vivrete
       ]
   :p [
       #"(.*)arete"     "$1are"
@@ -216,7 +216,7 @@
       #"irsi$"  "iranno"   ;; diventirsi -> diventiranno
       
       ;; :future-stem
-      #"r$" "ranno" ;; vivere -> vivranno
+      #"r$"     "ranno" ;; vivere -> vivranno
       ]
   :p [
       #"(.*)rranno"     "$1nere"

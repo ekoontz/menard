@@ -37,6 +37,8 @@
       #"(i)[aei]rsi$"     "$1"
       #"care$"            "chi" ;; caricare -> carichi
       #"carsi$"           "chi"
+      #"gare$"            "ghi" ;; pagare -> paghi
+      #"garsi$"           "ghi"
       #"cere$"            "ci" ;; vincere -> vinci
       #"cersi$"           "ci"
       ]
@@ -91,6 +93,8 @@
       #"(i)[aei]rsi$"     "$1amo"
       #"care$"            "chiamo" ;; caricare -> carichiamo
       #"carsi$"           "chiamo"
+      #"gare$"            "ghiamo" ;; pagare -> paghiamo
+      #"garsi$"           "ghiamo"
       #"c[ei]re$"         "ciamo" ;; vincere -> vinciamo
       #"c[ei]rsi$"        "ciamo"
       ]

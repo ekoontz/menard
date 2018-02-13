@@ -112,6 +112,8 @@
  "base" {:synsem {:cat :verb
                   :sem {:pred :support}}}
 
+ ;; TODO: add {:pred :exists} to "be"
+ ;; (with both null and non-null subject, as with "exist")
  "be" (let [number-agr (atom :top)
             common {:synsem {:cat :verb}
                     :english {:present {:1sing "am"

@@ -787,10 +787,15 @@
  "espresso" {:synsem {:cat :noun
                       :sem {:pred :espresso}}}
 
- "exist" {:synsem {:cat :verb
-                   :sem {:pred :exist}
-                   :subcat {:2 []}}}
-
+ "exist" [{:synsem {:cat :verb
+                    :sem {:pred :exist
+                          :subj {:null true}}
+                    :subcat {:2 []}}}
+          {:synsem {:cat :verb
+                    :sem {:pred :exist
+                          :subj {:null false}}
+                    :subcat {:2 []}}}]
+          
  "exit" {:synsem {:cat :verb
                   :sem {:pred :exit}}}
 

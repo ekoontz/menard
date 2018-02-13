@@ -2359,12 +2359,20 @@
                  :gender :fem}
            :subcat []}}
 
- "there" {:synsem {:cat :noun
-                   :pronoun true
-                   :case :nom
-                   :sem {:null true
-                         :pred :existential}
-                   :agr {:person :3rd}}}
+ "there" [{:synsem {:cat :noun
+                    :pronoun true
+                    :case :nom
+                    :sem {:null true
+                          :pred :existential}
+                    :agr {:person :3rd
+                          :number :sing}}}
+          {:synsem {:cat :noun
+                    :pronoun true
+                    :case :nom
+                    :sem {:null true
+                          :pred :existential}
+                    :agr {:person :3rd
+                          :number :plur}}}]
  "they"
  {:synsem {:cat :noun
            :pronoun true

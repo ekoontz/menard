@@ -134,9 +134,9 @@
       #"are$"       "eremo"   ;; parlare    -> parleremo
       #"ere$"       "eremo"   ;; ricevere   -> riceveremo
       #"ire$"       "iremo"   ;; dormire    -> dormiremo
-      #"(.*)arsi$"  "eremo"   ;; alzarsi    -> alzeremo
-      #"(.*)ersi$"  "eremo"   ;; mettersi   -> metteremo
-      #"(.*)irsi$"  "iremo"   ;; diventirsi -> diventiremo
+      #"arsi$"      "eremo"   ;; alzarsi    -> alzeremo
+      #"ersi$"      "eremo"   ;; mettersi   -> metteremo
+      #"irsi$"      "iremo"   ;; diventirsi -> diventiremo
       
       ;; :future-stem
       #"r$"         "remo" ;; vivere -> vivremo

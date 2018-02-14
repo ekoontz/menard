@@ -42,6 +42,13 @@
   ([spec model]
    (italiano/parse spec model)))
 
+(defn morph-ps [expr]
+  (italiano/morph-ps expr model))
+
+(defn fo-ps [expr]
+  (morph-ps expr))
+
+
 (defn analyze [str]
   (italiano/analyze str model))
 

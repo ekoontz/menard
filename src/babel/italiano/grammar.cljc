@@ -674,7 +674,8 @@
                                                        [:synsem :sem :tense]
                                                        ::unset))))
   (let [defaults 
-        [{:synsem {:cat :verb
+        [;; <inflection-semantics correspondences>
+         {:synsem {:cat :verb
                    :sem {:tense :present
                          :aspect :simple}
                    :infl :present}}

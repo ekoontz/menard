@@ -260,6 +260,8 @@
    (map #(let [partial-tree
                (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)] ;; add the complement to the bolt at _path_.
            ;; apply model's :default-fn, if any.
+           ;; TODO: default-fn should return a sequence of partial trees,
+           ;; not just one.
            (if (:default-fn model)
              (first ((:default-fn model) partial-tree))
              partial-tree)))))

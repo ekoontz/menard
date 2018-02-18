@@ -688,14 +688,7 @@
                    :infl :future}}
          {:synsem {:cat :verb
                    :sem {:tense :conditional}
-                   :infl :conditional}}
-         ;; </inflection-semantics correspondences>
-
-         ;; reflexive expressions are always essere=true.
-         {:synsem {:cat :verb
-                   :sem {:reflexive true}
-                   :essere true}}]]
-
+                   :infl :conditional}}]]
     (let [with-defaults
           (remove #(= :fail %)
                   (map (fn [default]

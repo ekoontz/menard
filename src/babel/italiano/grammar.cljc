@@ -707,22 +707,8 @@
 
 (defn medium []
   (deliver-lexicon)
-  ;; TODO: remove parse-lexicon.
-  ;; Should not need a separate parse-lexicon here: for debugging,
-  ;; instead add to the lexicon and entry like "_" (as with english/lexicon.clj).
   (let [debug (log/info "  loading lexicon..")
         lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
-        debug (log/info "  loading parse lexicon..")
-        parse-lexicon
-        ;; TODO: remove this do-nothing filtering and
-        ;; replace with comment like "if you want to filter, then do: `(into {}..)`".
-        (into {}
-              (for [[k vals] lexicon]
-                (let [filtered-vals
-                      (filter (fn [x] true)
-                              vals)]
-                  (if (not (empty? filtered-vals))
-                    [k filtered-vals]))))
         debug (log/info "  filtering lexicon..")
         lexicon
         (into {}
@@ -752,7 +738,7 @@
          :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
          :lexicon lexicon
          :lookup (fn [arg]
-                   (analyze arg parse-lexicon))
+                   (analyze arg lexicon))
          :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
          :morph-ps fo-ps
          

@@ -30,6 +30,7 @@
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
+;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
 (defn generate
   ([spec]
    (italiano/generate spec model))
@@ -47,7 +48,6 @@
 
 (defn fo-ps [expr]
   (morph-ps expr))
-
 
 (defn analyze [str]
   (italiano/analyze str model))
@@ -78,7 +78,6 @@
 
 (deftest passato-prossimo
   (let [result (generate {:root {:italiano {:italiano "bere"}}
-                          :modified false
                           :synsem {:cat :verb
                                    :subcat []
                                    :sem {:aspect :perfect
@@ -90,7 +89,6 @@
 
 (deftest trapassato
   (let [result (generate {:root {:italiano {:italiano "bere"}}
-                          :modified false
                           :synsem {:cat :verb
                                    :subcat []
                                    :sem {:aspect :pluperfect
@@ -100,15 +98,70 @@
     (is (not (nil? result)))
     (is (= "io avevo bevuto" (morph result)))))
 
+(def alzarsi-is-slow
+  {:root {:italiano {:italiano "alzarsi"}}
+   :synsem {:cat :verb
+            :subcat []
+            :sem {:aspect :pluperfect
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :past}}})
+
+(def addormentarsi-is-slow
+  {:root {:italiano {:italiano "addormentarsi"}}
+   :synsem {:cat :verb
+            :subcat []
+            :sem {:aspect :pluperfect
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :past}}})
+
+(def pettinarsi-is-slow
+  {:root {:italiano {:italiano "pettinarsi"}}
+   :synsem {:cat :verb
+            :subcat []
+            :sem {:aspect :pluperfect
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :past}}})
+
+(def reflexive-trapassato-is-slow
+  {:synsem {:cat :verb
+            :subcat []
+            :sem {:reflexive true
+                  :aspect :pluperfect
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :past}}})
+
+(def reflexive-passato-is-slow
+  {:synsem {:cat :verb
+            :subcat []
+            :sem {:reflexive true
+                  :aspect :perfect
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :present}}})
+
+(def reflexive-future-is-slow
+  {:synsem {:cat :verb
+            :subcat []
+            :sem {:reflexive true
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :future}}})
+
+(def reflexive-present-is-slow
+  {:synsem {:cat :verb
+            :subcat []
+            :sem {:reflexive true
+                  :aspect :simple
+                  :subj {:pred :I
+                         :gender :fem}
+                  :tense :present}}})
+
 (deftest trapassato-reflexive
-  (let [result (generate {:root {:italiano {:italiano "addormentarsi"}}
-                          :modified false
-                          :synsem {:cat :verb
-                                   :subcat []
-                                   :sem {:aspect :pluperfect
-                                         :subj {:pred :I
-                                                :gender :fem}
-                                         :tense :past}}})]
+  (let [result (generate addormentarsi-is-slow)]
     (is (= "io mi ero addormentata" (morph result)))))
 
 (deftest parse-ci-before-vowel
@@ -719,7 +772,7 @@
 (defn generate-speed-test [spec & [times]]
   (btest/generate-speed-test spec model times))
 
-(defn foo []
+(defn run-passato-prossimo-test []
   (generate-speed-test {:synsem {:cat :verb :subcat []
                                  :sem {:reflexive true
                                        :tense :present

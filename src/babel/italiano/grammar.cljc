@@ -835,3 +835,98 @@
      :rules rules
      :rule-map (zipmap rules grammar)}))
 
+;; TODO: move h-h-h and h-h to babel.ug so they
+;; can be used by similar functionality in other languages
+;; i.e. improve generation speed.
+(def h-h-h 
+  {:phrasal true
+   :head {:phrasal true
+          :head {:phrasal true
+                 :comp {:phrasal false}}}})
+(def h-h
+  {:phrasal true
+   :head {:phrasal true
+          :head {:phrasal false
+                 :comp {:phrasal false}}}
+   :comp {:phrasal false}})
+
+;; force complements to be {:phrasal false}: significantly improves speed.
+(def comp-clampdown
+  {:comp {:phrasal false}
+   :head {:comp {:phrasal false}}})
+
+;; another significant speedup:
+(def modified-false
+  {:modified false})
+
+(def gen-impls
+  [{:if #(and (= (get-in % [:synsem :sem :reflexive])
+                 true)
+              (= (get-in % [:synsem :sem :tense])
+                 :past)
+              (= (get-in % [:synsem :sem :aspect])
+                 :pluperfect))
+    :then h-h-h}
+
+   {:if #(and (= (get-in % [:synsem :sem :reflexive])
+                 true)
+              (= (get-in % [:synsem :sem :tense])
+                 :present)
+              (= (get-in % [:synsem :sem :aspect])
+                 :perfect))
+    :then h-h-h}
+
+   {:if #(and (= (get-in % [:synsem :sem :reflexive])
+                 true)
+              (= (get-in % [:synsem :sem :tense])
+                 :present)
+              (= (get-in % [:synsem :sem :aspect])
+                 :simple))
+    :then h-h}
+
+
+   {:if #(and (= (get-in % [:synsem :sem :reflexive])
+                 true)
+              (= (get-in % [:synsem :sem :tense])
+                 :future))
+    :then h-h}
+
+   {:if #(and (= (get-in % [:synsem :sem :reflexive])
+                 true)
+              (= (get-in % [:synsem :sem :tense])
+                 :present)
+              (= (get-in % [:synsem :sem :aspect])
+                 :progressive))
+    :then h-h}
+
+   ])
+
+(defn roots-to-sem [spec lexicon]
+  (cond
+    (and
+     (not (nil? (get-in spec [:root :italiano :italiano])))
+     (some true?
+           (map #(get-in % [:synsem :sem :reflexive])
+                (get lexicon (get-in spec [:root :italiano :italiano])))))
+    (unify spec {:synsem {:sem {:reflexive true}}})
+    true spec))
+
+(defn generation-implications
+  ([spec model]
+   (generation-implications spec gen-impls model))
+  ([spec gen-impls model]
+   (if (not (empty? gen-impls))
+     (let [gen-impl (first gen-impls)
+           spec (roots-to-sem spec (:lexicon model))]
+       (if ((:if gen-impl) spec)
+         (generation-implications (reduce unify
+                                          [spec
+                                           (:then gen-impl)
+                                           comp-clampdown
+                                           modified-false
+                                           ])
+                                  (rest gen-impls)
+                                  model)
+         (generation-implications spec (rest gen-impls) model)))
+     spec)))
+

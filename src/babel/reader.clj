@@ -141,7 +141,7 @@
         target-expression
         (target-timing-fn (babel.generate/generate target-spec target-model))
         source-spec
-        (unify/strip-refs
+        (unify/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
          (unify/unify
           {:synsem {:sem (unify/get-in target-expression [:synsem :sem])}}
           basic-spec))

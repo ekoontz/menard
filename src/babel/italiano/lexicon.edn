@@ -1910,7 +1910,6 @@
                                :3plur "sanno"}
                      :future-stem "sapr"}}
 
-
  "scappare"  {:synsem {:cat :verb
                        :essere true
                        :sem {:pred :escape}}}

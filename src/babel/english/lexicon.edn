@@ -1413,22 +1413,16 @@
                   :sem {:pred :kill}}}
 
 
- "know" [
+ "know" (let [common
+              {:english {:past "knew"
+                         :past-participle "known"}}]
 
-         {:english {:past "knew"
-                    :past-participle "known"
-                    :note "s-"}
-          :synsem {:cat :verb
-                   :sem {:pred :know-s...}}}
-
-
-         {:english {:past "knew"
-                    :note "c-"
-                    :past-participle "known"}
-          :synsem {:cat :verb
-                   :sem {:pred :know-c...}}}
-
-         ]
+          {:unify common
+           :synsem {:cat :verb
+                    :sem {:pred :know-s}}}
+          {:unify common
+           :synsem {:cat :verb
+                    :sem {:pred :know-c}}})
 
  "lead" {:synsem {:cat :verb
                   :sem {:pred :lead}}

@@ -859,7 +859,7 @@
 (def modified-false
   {:modified false})
 
-(def gen-impls
+(def reflexive-constraints
   [{:if #(and (= (get-in % [:synsem :sem :reflexive])
                  true)
               (= (get-in % [:synsem :sem :tense])
@@ -913,10 +913,10 @@
 
 (defn generation-implications
   ([spec model]
-   (generation-implications spec gen-impls model))
-  ([spec gen-impls model]
-   (if (not (empty? gen-impls))
-     (let [gen-impl (first gen-impls)
+   (generation-implications spec reflexive-constraints model))
+  ([spec reflexive-constraints model]
+   (if (not (empty? reflexive-constraints))
+     (let [gen-impl (first reflexive-constraints)
            spec (roots-to-sem spec (:lexicon model))]
        (if ((:if gen-impl) spec)
          (generation-implications (reduce unify
@@ -925,8 +925,8 @@
                                            comp-clampdown
                                            modified-false
                                            ])
-                                  (rest gen-impls)
+                                  (rest reflexive-constraints)
                                   model)
-         (generation-implications spec (rest gen-impls) model)))
+         (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
 

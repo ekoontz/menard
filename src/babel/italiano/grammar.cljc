@@ -897,7 +897,7 @@
                  :present)
               (= (get-in % [:synsem :sem :aspect])
                  :progressive))
-    :then h-h}
+    :then h-h-h}
 
    ])
 

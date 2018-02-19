@@ -2357,8 +2357,7 @@
            :case :acc
            :reflexive true
            :agr {:person :3rd
-                 :number :plur
-                 :gender :fem}
+                 :number :plur}
            :subcat []}}
 
  "there" [{:synsem {:cat :noun

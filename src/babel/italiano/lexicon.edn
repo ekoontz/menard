@@ -1683,8 +1683,8 @@
                      :sem {:pred :lose}}}
 
 "pettinarsi" {:synsem {:cat :verb
-                    :sem {:pred :comb-oneself
-                          :reflexive true}}}
+                       :sem {:pred :comb-oneself
+                             :reflexive true}}}
 
 "piacere" {:synsem {:cat :verb
                    :essere true

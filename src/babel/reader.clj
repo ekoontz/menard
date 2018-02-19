@@ -144,6 +144,11 @@
         (unify/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
          (unify/unify
           {:synsem {:sem (unify/get-in target-expression [:synsem :sem])}}
+          (cond
+            (= true (unify/get-in target-expression [:comp :synsem :pronoun]))
+            {:comp {:phrasal false
+                    :synsem {:pronoun true}}}
+            true :top)
           basic-spec))
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.

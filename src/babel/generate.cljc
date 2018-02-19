@@ -152,7 +152,7 @@
     (cond
       (not (nil? bolts))
       (do
-        (log/info (str "found compiled bolts."))
+        (log/debug (str "found compiled bolts."))
         (shufflefn (->> bolts
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))

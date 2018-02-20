@@ -1416,13 +1416,14 @@
  "know" (let [common
               {:english {:past "knew"
                          :past-participle "known"}}]
-
           {:unify common
+           :english {:note "c..."}
            :synsem {:cat :verb
-                    :sem {:pred :know-s}}}
+                    :sem {:pred :know-c}}}
           {:unify common
+           :english {:note "s..."}
            :synsem {:cat :verb
-                    :sem {:pred :know-c}}})
+                    :sem {:pred :know-s}}})
 
  "lead" {:synsem {:cat :verb
                   :sem {:pred :lead}}

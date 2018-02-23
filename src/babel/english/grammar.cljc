@@ -512,14 +512,30 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
+(defn try-to-read-lexicon []
+  (let [lexemes
+        (-> (korma.core/exec-raw [(str "SELECT canonical, serialized FROM lexeme "
+                                       " WHERE language=?")
+                                  ["en"]]
+                                 :results))]
+    (zipmap
+     (map :canonical lexemes)
+     (map (fn [lexeme]
+            (-> lexeme
+                :serialized
+                clojure.data.json/read-json
+                dag_unify.core/deserialize))
+          lexemes))))
+
 (defn medium []
   (let [debug (log/info "  loading lexicon..")
         lexicon
-        (into {}
-              (for [[k v] (deliver-lexicon)]
-                (let [filtered-v v]
-                  (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
-                    [k filtered-v]))))
+        (if true (try-to-read-lexicon)
+            (into {}
+                  (for [[k v] (deliver-lexicon)]
+                    (let [filtered-v v]
+                      (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
+                        [k filtered-v])))))
         debug (log/info "  indices..")
         indices (create-indices lexicon index-lexicon-on-paths)
         ;; this function 'morph' is identical to: babel.english/morph

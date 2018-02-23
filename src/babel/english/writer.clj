@@ -19,8 +19,24 @@
 
 (def lexicon (-> models :en deref :lexicon))
 
+(def fast-lexicon (try-to-read-lexemes))
+
 (defn rewrite-lexicon []
   (write-lexicon "en" lexicon))
+
+(defn try-to-read-lexemes []
+  (let [lexemes
+        (-> (korma.core/exec-raw [(str "SELECT canonical, serialized FROM lexeme")
+                                  []]
+                                 :results))]
+    (zipmap
+     (map :canonical lexemes)
+     (map (fn [lexeme]
+            (-> lexeme
+                :serialized
+                clojure.data.json/read-json
+                dag_unify.core/deserialize))
+          lexemes))))
 
 ;; TODO: database becomes a bottleneck due to multiple concurrent queries that return a single row.
 ;; These queries should be combined into fewer queries where we iterate over the rows in that

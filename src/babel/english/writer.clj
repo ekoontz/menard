@@ -17,7 +17,7 @@
 ;; false: throw error and stop further generation; true: tolerate errors: log/error and continue generation.
 (def ^:const allow-generation-error true)
 
-(def lexicon (-> (-> ((-> models :en)) deref) :lexicon))
+(def lexicon (-> models :en deref :lexicon))
 
 (defn rewrite-lexicon []
   (write-lexicon "en" lexicon))

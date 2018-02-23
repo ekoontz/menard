@@ -193,11 +193,12 @@
       (throw (Exception. message)))
     ;; else, lexeme is valid for insertion
     (exec-raw [(str "INSERT INTO lexeme 
-                                 (canonical, structure, language) 
-                          VALUES (?,?::jsonb,?)")
+                                 (canonical, structure, language, serialized) 
+                          VALUES (?,?::jsonb,?,?)")
                [canonical
                 (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized))
-                language]])))
+                language
+                (json/write-str (:dag_unify.core/serialized lexeme))]])))
 
 ;; TODO: change all calls to populate-with-language to set source-language if needed
 (defn populate-with-language

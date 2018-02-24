@@ -36,6 +36,9 @@
 (defn fo-ps [expr]
   (parse/fo-ps expr morph/fo))
 
+(defn morph-ps [expr]
+  (fo-ps expr))
+
 (defn analyze
   ([surface-form lexicon] ;; use user-provided lexicon
    (morph/analyze surface-form lexicon)))

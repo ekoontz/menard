@@ -185,20 +185,22 @@
     (catch Exception e
       (log/error (str "SQL error: " (.printStackTrace (.getNextException(.getSQLException e))))))))
 
-(defn insert-lexeme [canonical lexeme language]
+(defn insert-lexeme [canonical lexemes language]
   (log/debug (str "insert-lexeme: canonical=" canonical ", language=" language))
-  (if (fail? lexeme)
-    (let [message (str "Lexeme with canonical surface form: '" canonical "' should not have (fail?=true) for its structure: " lexeme)]
-      (log/error message)
-      (throw (Exception. message)))
-    ;; else, lexeme is valid for insertion
-    (exec-raw [(str "INSERT INTO lexeme 
-                                 (canonical, structure, language, serialized) 
-                          VALUES (?,?::jsonb,?,?)")
-               [canonical
-                (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized))
-                language
-                (json/write-str (:dag_unify.core/serialized lexeme))]])))
+  (exec-raw [(str "INSERT INTO lexeme 
+                                 (canonical, structures, language, serialized)
+                          VALUES (?,?::jsonb[],?,?::text[])")
+             [canonical
+              (babel.korma/prepare-array
+               (vec (map (fn [lexeme]
+                           (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized)))
+                         lexemes)))
+              language
+              (babel.korma/prepare-array
+               (vec (map (fn [lexeme]
+                           (str (vec (dag_unify.core/serialize lexeme))))
+                         lexemes)))
+              ]]))
 
 ;; TODO: change all calls to populate-with-language to set source-language if needed
 (defn populate-with-language
@@ -286,7 +288,7 @@
 
             ]
 
-        (log/info (str target-language ": '" target-sentence-surface "'"))
+        (log/debug (str "populate: " target-language ": '" target-sentence-surface "'"))
         (insert-expression target-sentence ;; underlying structure
                            target-sentence-surface ; surface string
                            spec
@@ -461,21 +463,21 @@
     (catch Exception e
       (do
         (log/error (str "Exception when deleting expressions: " e))))))
-  
+
+;; (babel.writer/write-lexicon "en" lexicon)
 (defn write-lexicon [language lexicon]
+  (babel.korma/init-db)
   (truncate-lexicon language)
-  (loop [canonical (sort (keys lexicon)) result nil]
-    (if (not (empty? canonical))
-      (let [canonical-form (first canonical)]
-        (log/info (str language ":" canonical-form))
-        (loop [lexemes (get lexicon canonical-form) inner-result nil]
-          (if (not (empty? lexemes))
-            (do
-              (insert-lexeme canonical-form (first lexemes) language)
-              (recur (rest lexemes) inner-result))
-            inner-result))
-        (recur (rest canonical) result))
-      result)))
+  (let [canonicals (sort (keys lexicon))]
+    (loop [remain canonicals
+           result 0]
+      (let [[canonical & remaining] remain]
+        (log/debug (str "(write-lexicon " language ":" canonical ")"))
+        (insert-lexeme canonical (get lexicon canonical) language)
+        (if (empty? remaining)
+          (+ 1 result)
+          (recur remaining
+                 (+ 1 result)))))))
 
 ;; TODO: more documentation for the command language that (defn process) understands.
 ;; TODO: Every unit contains the entire language model: should instead pass a name

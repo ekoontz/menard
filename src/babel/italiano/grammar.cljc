@@ -5,6 +5,7 @@
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
+   [babel.lexicon_reader :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
                      head-principle
@@ -703,12 +704,15 @@
                                            
           [tree])
         with-defaults))))
-        
+
+(defn write-lexicon []
+  (babel.writer/write-lexicon "it"
+                              (babel.italiano.lexicon/edn2lexicon
+                               (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
 
 (defn medium []
-  (deliver-lexicon)
   (let [debug (log/info "  loading lexicon..")
-        lexicon (babel.italiano.lexicon/edn2lexicon (clojure.java.io/resource "babel/italiano/lexicon.edn"))
+        lexicon (read-lexicon "it")
         debug (log/info "  filtering lexicon..")
         lexicon
         (into {}

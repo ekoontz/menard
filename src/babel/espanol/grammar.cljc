@@ -6,6 +6,7 @@
     :refer [analyze fo morph-walk-tree]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.lexiconfn :refer [lexicon-for-generation]]
+   [babel.lexicon_reader :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
@@ -411,6 +412,11 @@
                    :head {:synsem {:modal ref}}}))
         true phrase))
 
+(defn write-lexicon []
+  (babel.writer/write-lexicon "es"
+                              (babel.espanol.lexicon/edn2lexicon
+                               (clojure.java.io/resource "babel/espanol/lexicon.edn"))))
+
 (def grammar
   (map (fn [phrase]
          (modal-is-head-feature
@@ -436,7 +442,7 @@
                      (= (get-in % [:rule]) "vp-32")
                      (= (get-in % [:rule]) "vp-aux"))
                 grammar)
-        lexicon @(deliver-lexicon)
+        lexicon (read-lexicon "es")
         lexicon-for-analysis lexicon
         lexicon
         (into {}
@@ -474,7 +480,7 @@
                                  (morph-walk-tree tree))))}))
 (defn medium []
   (log/debug (str "Creating language model for Español: medium"))
-  (let [lexicon (deliver-lexicon)
+  (let [lexicon (read-lexicon "es")
         lexicon-for-generation
         (into {}
               (for [[k v] lexicon]

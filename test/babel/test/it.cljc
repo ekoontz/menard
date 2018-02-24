@@ -19,6 +19,9 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
+
+(grammar/write-lexicon)
+
 (def model @(get models :it))
 
 (def np-grammar (delay (grammar/np-grammar)))

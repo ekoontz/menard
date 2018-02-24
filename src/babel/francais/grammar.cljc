@@ -8,6 +8,7 @@
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
+   [babel.lexicon_reader :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
@@ -512,11 +513,15 @@
 (defn analyze [arg]
   (morph/analyze arg @lexicon))
 
+(defn write-lexicon []
+  (babel.writer/write-lexicon "fr"
+                              @(deliver-lexicon)))
+
 (defn medium []
-  (let [deliver (deliver-lexicon)
+  (let [lexicon (read-lexicon "fr")
         lexicon
         (into {}
-              (for [[k v] @lexicon]
+              (for [[k v] lexicon]
                 (let [filtered-v v]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))

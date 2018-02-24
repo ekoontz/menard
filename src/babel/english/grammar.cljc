@@ -5,6 +5,7 @@
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
+   [babel.lexicon_reader :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if comp-modifies-head
@@ -512,30 +513,19 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(defn try-to-read-lexicon []
-  (let [lexemes
-        (-> (korma.core/exec-raw [(str "SELECT canonical, serialized FROM lexeme "
-                                       " WHERE language=?")
-                                  ["en"]]
-                                 :results))]
-    (zipmap
-     (map :canonical lexemes)
-     (map (fn [lexeme]
-            (-> lexeme
-                :serialized
-                clojure.data.json/read-json
-                dag_unify.core/deserialize))
-          lexemes))))
+(defn compile-lexicon []
+  (into {}
+        (for [[k v] (deliver-lexicon)]
+          (let [filtered-v v]
+            (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
+              [k filtered-v])))))
+
+(defn write-lexicon []
+  (babel.writer/write-lexicon "en" (compile-lexicon)))
 
 (defn medium []
   (let [debug (log/info "  loading lexicon..")
-        lexicon
-        (if true (try-to-read-lexicon)
-            (into {}
-                  (for [[k v] (deliver-lexicon)]
-                    (let [filtered-v v]
-                      (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
-                        [k filtered-v])))))
+        lexicon (read-lexicon "en")
         debug (log/info "  indices..")
         indices (create-indices lexicon index-lexicon-on-paths)
         ;; this function 'morph' is identical to: babel.english/morph

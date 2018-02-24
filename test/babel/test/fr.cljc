@@ -17,6 +17,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
+(grammar/write-lexicon)
 (def model @(get models :fr))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in

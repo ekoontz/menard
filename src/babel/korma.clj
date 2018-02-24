@@ -7,6 +7,7 @@
   (:require [clojure.data.json :as json]
             [clojure.string :as string]
             [clojure.tools.logging :as log]
+            [korma.core :refer [exec-raw]]
             [korma.db :refer [default-connection defdb postgres]]))
 
 (require '[environ.core :refer [env]])
@@ -95,43 +96,53 @@
          (map convert-keys-from-string-to-keyword))))
 
 (defn init-db []
-  (defdb korma-db 
-    (let [default "postgres://postgres@localhost:5432/babel"
-          database-url (cond
-                         (env :database-url)
-                         (env :database-url)
-                         
-                         true default
-                         true
-                         (do
-                           (log/error
-                            (str "DATABASE_URL not set in your environment: you must define it; e.g.: " default)
-                            (throw (Exception. (str "could not find database name in your database-url."))))))]
-      ;; this constructs the actual database connection which is used throughout the code base.
-      (postgres
-       ;; thanks to Jeroen van Dijk via http://stackoverflow.com/a/14625874
-       (let [[_ user password host port db]
-             (re-matches #"postgres://(?:([^:]+):?(.*)@)?([^:]+)(?::(\d+))?/(\S+).*"
-                         database-url)
-             
-             redacted-database-url
-             (if (and password (not (empty? password)))
-               (string/replace database-url
-                               (str ":" password)
-                               ":******")
-               database-url)
-             ]
-         (if (nil? db)
-           (throw (Exception. (str "could not find database name in your database-url: '"
-                                   database-url "'"))))
-         
-         (log/info (str "scanned DATABASE_URL:" redacted-database-url "; found:"
-                        "(user,host,db)=(" user "," host "," db ")"))
-         {:db db
-          :user user
-          :password password
-          :host host
-          :port (or port "5432")})))))
+  (do
+    (defdb korma-db 
+      (let [default "postgres://postgres@localhost:5432/babel"
+            database-url (cond
+                           (env :database-url)
+                           (env :database-url)
+                           
+                           true default
+                           true
+                           (do
+                             (log/error
+                              (str "DATABASE_URL not set in your environment: you must define it; e.g.: " default)
+                              (throw (Exception. (str "could not find database name in your database-url."))))))]
+        ;; this constructs the actual database connection which is used throughout the code base.
+        (postgres
+         ;; thanks to Jeroen van Dijk via http://stackoverflow.com/a/14625874
+         (let [[_ user password host port db]
+               (re-matches #"postgres://(?:([^:]+):?(.*)@)?([^:]+)(?::(\d+))?/(\S+).*"
+                           database-url)
+               
+               redacted-database-url
+               (if (and password (not (empty? password)))
+                 (string/replace database-url
+                                 (str ":" password)
+                                 ":******")
+                 database-url)
+               ]
+           (if (nil? db)
+             (throw (Exception. (str "could not find database name in your database-url: '"
+                                     database-url "'"))))
+           
+           (log/info (str "scanned DATABASE_URL:" redacted-database-url "; found:"
+                          "(user,host,db)=(" user "," host "," db ")"))
+           {:db db
+            :user user
+            :password password
+            :host host
+            :port (or port "5432")}))))
+    (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
+    (exec-raw [(str "CREATE TABLE IF NOT EXISTS lexeme ("
+                    " lexeme BIGINT NOT NULL DEFAULT nextval('lexeme_id_seq'::regclass),"
+                    " created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),"
+                    " language text,"
+                    " canonical text,"
+                    " structures jsonb[],"
+                    " serialized text[])")
+               []])))
 
 (defn convert-keys-from-string-to-keyword [input]
   (cond (map? input)

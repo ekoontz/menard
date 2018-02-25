@@ -381,7 +381,7 @@
                         expressions))))))
 
 (deftest roundtrip-conditional
-  (let [do-this-many 10
+  (let [do-this-many 100
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
@@ -392,6 +392,7 @@
            (count (map (fn [expr]
                             (let [surface (morph expr)
                                   debug (log/debug (str "surface: " surface))
+                                  debug (log/debug (str "root: " (get-in expr [:root :italiano :italiano])))
                                   parsed (reduce concat (map :parses (parse surface)))]
                               (if (not (empty? parsed))
                                 (log/info (str "parse OK:" surface))

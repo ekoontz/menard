@@ -178,7 +178,7 @@
       #"irsi$"      "ireste"   ;; divertirsi -> divertireste
       
       ;; :future-stem
-      #"r$"         "este" ;; vivere -> vivreste
+      #"r$"         "reste" ;; vivere -> vivreste
       ]
 
   :p [

@@ -134,7 +134,9 @@
             :password password
             :host host
             :port (or port "5432")}))))
-    (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
+    (try (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
+         (catch Exception e
+           (log/warn (str "ignoring error from database server: " e))))
     (exec-raw [(str "CREATE TABLE IF NOT EXISTS lexeme ("
                     " lexeme BIGINT NOT NULL DEFAULT nextval('lexeme_id_seq'::regclass),"
                     " created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),"

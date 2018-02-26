@@ -56,15 +56,15 @@
               source-locale (get (:query-params request) "source_locale" "US")
               target "it"
               target-locale "IT"
-              target_spec (json-read-str
-                           (if-let [target_spec (get (:query-params request) "target_spec")]
-                             target_spec "{}"))
+              target-spec (json-read-str
+                           (if-let [target-spec (get (:query-params request) "target-spec")]
+                             target-spec "{}"))
               gcacs
               (try
                 (wait wait-ms-for-question
                       (fn []
                         (generate-question-and-correct-set-dynamic
-                         target_spec
+                         target-spec
                          source source-locale
                          target target-locale)))
                 (catch Exception e
@@ -77,7 +77,7 @@
                 {:status 503
                  :headers {"Content-Type" "application/json;charset=utf-8"}
                  :body (write-str {:message "Capacity overload: please try again later."
-                                   :spec target_spec})}
+                                   :spec target-spec})}
 
                 (= true (:return-a-500 gcacs))
                 (do
@@ -92,7 +92,7 @@
                       targets (:targets gcacs)]
                   (log/info (str "returning normal response:"
                                  "'" source "'"
-                                 " -> " targets "; spec:" target_spec))
+                                 " -> " targets "; spec:" target-spec))
                   {:status 200
                    :body
                    (write-str
@@ -100,8 +100,7 @@
                      :source-locale source-locale
                      :targets targets
                      :target-local target-locale
-                     :target_spec target_spec
-                     :target-spec target_spec})}))))))
+                     :target-spec target-spec})}))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec
                                                  source-language source-locale

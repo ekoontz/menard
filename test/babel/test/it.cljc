@@ -381,7 +381,7 @@
                         expressions))))))
 
 (deftest roundtrip-conditional
-  (let [do-this-many 100
+  (let [do-this-many 10
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb

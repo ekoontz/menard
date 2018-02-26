@@ -88,20 +88,20 @@
                    :body (write-str {:message "Unexpected internal error. Sorry: hopefully a human will work on it."})})
                 
                 true
-                (do (log/info (str "returning normal response:"
-                                   "'" (:source gcacs) "'"
-                                   " -> " (:targets gcacs) "; spec:" target_spec))
-                    {:status 200
-                     :body
-                     (write-str
-                      (merge
-                       {:real-gcacs gcacs}
-                       {:source source
-                        :source-locale source-locale
-                        :target target
-                        :target-local target-locale
-                        :target_spec target_spec
-                        :target-spec target_spec}))}))))))
+                (let [source (:source gcacs)
+                      targets (:targets gcacs)]
+                  (log/info (str "returning normal response:"
+                                 "'" source "'"
+                                 " -> " targets "; spec:" target_spec))
+                  {:status 200
+                   :body
+                   (write-str
+                    {:source source
+                     :source-locale source-locale
+                     :targets targets
+                     :target-local target-locale
+                     :target_spec target_spec
+                     :target-spec target_spec})}))))))
 
 (defn generate-question-and-correct-set-dynamic [target-spec
                                                  source-language source-locale

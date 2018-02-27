@@ -29,25 +29,6 @@
   ;; most arguments are simply discarded for italian.
   (parse/fo-ps expr (:morph-ps model)))
 
-(defn an-example []
-  (let [med (babel.italiano.grammar/medium)
-        med-reload (babel.italiano.grammar/medium-reloaded)]
-    (do
-      (take 5
-            (repeatedly 
-             #(println 
-               (morph (time (generate {:synsem {:cat :verb
-                                                :subcat []
-                                              :sem {:pred :know-s}}}
-                                      med-reload))))))
-      (take 5
-            (repeatedly 
-             #(println 
-               (morph (time (generate {:synsem {:cat :verb
-                                                :subcat []
-                                                :sem {:pred :know-s}}}
-                                      med)))))))))
-
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 
@@ -73,6 +54,25 @@
      (if result
        (conj {:surface (fo result)}
              result)))))
+
+(defn an-example []
+  (let [med (babel.italiano.grammar/medium)
+        med-reload (babel.italiano.grammar/medium-reloaded)]
+    (do
+      (take 5
+            (repeatedly 
+             #(println 
+               (morph (time (generate {:synsem {:cat :verb
+                                                :subcat []
+                                              :sem {:pred :know-s}}}
+                                      med-reload))))))
+      (take 5
+            (repeatedly 
+             #(println 
+               (morph (time (generate {:synsem {:cat :verb
+                                                :subcat []
+                                                :sem {:pred :know-s}}}
+                                      med)))))))))
 
 (defonce tokenizer #"[ '\n,’».]")
 

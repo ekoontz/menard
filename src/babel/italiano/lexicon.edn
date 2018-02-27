@@ -644,18 +644,18 @@
 
  "commentare"  {:synsem {:cat :verb
                          :sem {:pred :comment}}}
-
+ 
  "comprare" {:synsem {:cat :verb
                       :essere false
                       :sem {:pred :buy}}}
-
+ 
  "condividere"  {:synsem {:cat :verb
                           :sem {:pred :share}}
                  :italiano {:passato "condiviso"}}
-
-"conoscere" {:synsem {:cat :verb
-                     :essere false
-                     :sem {:pred :know-c...}}}
+ 
+ "conoscere" {:synsem {:cat :verb
+                       :essere false
+                       :sem {:pred :know-c}}}
 
  "conservare" [{:synsem {:cat :verb
                          :sem {:pred :conserve}}}
@@ -1902,7 +1902,7 @@
               :synsem {:sem {:pred :go-upstairs}}}])
 
  "sapere" {:synsem {:cat :verb
-                   :sem {:pred :know-s}}
+                    :sem {:pred :know-s}}
           :italiano {:present {:1sing "so"
                                :2sing "sai"
                                :3sing "sa"

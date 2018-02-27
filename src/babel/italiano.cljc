@@ -14,6 +14,21 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
+;; can't decide between 'morph' or 'fo' or something other better name.
+(defn morph [expr & {:keys [from-language show-notes]
+                     :or {from-language nil
+                          show-notes true}}]
+  ;; modeled after babel.english/morph:
+  ;; most arguments are simply discarded for italian.
+  (fo expr))
+
+(defn morph-ps [expr model & {:keys [from-language show-notes]
+                     :or {from-language nil
+                          show-notes true}}]
+  ;; modeled after babel.english/morph:
+  ;; most arguments are simply discarded for italian.
+  (parse/fo-ps expr (:morph-ps model)))
+
 (defn an-example []
   (let [med (babel.italiano.grammar/medium)
         med-reload (babel.italiano.grammar/medium-reloaded)]
@@ -32,21 +47,6 @@
                                                 :subcat []
                                                 :sem {:pred :know-s}}}
                                       med)))))))))
-
-;; can't decide between 'morph' or 'fo' or something other better name.
-(defn morph [expr & {:keys [from-language show-notes]
-                     :or {from-language nil
-                          show-notes true}}]
-  ;; modeled after babel.english/morph:
-  ;; most arguments are simply discarded for italian.
-  (fo expr))
-
-(defn morph-ps [expr model & {:keys [from-language show-notes]
-                     :or {from-language nil
-                          show-notes true}}]
-  ;; modeled after babel.english/morph:
-  ;; most arguments are simply discarded for italian.
-  (parse/fo-ps expr (:morph-ps model)))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

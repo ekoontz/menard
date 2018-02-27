@@ -48,7 +48,6 @@
                              :tense :present}}}
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
-
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 
@@ -710,9 +709,10 @@
                               (babel.italiano.lexicon/edn2lexicon
                                (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
 
-(defn medium []
+(defn medium-plus-lexicon
+  "create a language model for English with the supplied lexicon."
+  [lexicon]
   (let [debug (log/info "  loading lexicon..")
-        lexicon (read-lexicon "it")
         debug (log/info "  filtering lexicon..")
         lexicon
         (into {}
@@ -779,6 +779,15 @@
                 (lightning-bolts retval
                                  spec
                                  0 depth)}))})))
+
+(defn medium-reloaded []
+  (let [lexicon (babel.italiano.lexicon/edn2lexicon
+                 (clojure.java.io/resource "babel/italiano/lexicon.edn"))]
+    (medium-plus-lexicon lexicon)))
+
+(defn medium []
+  (let [lexicon (read-lexicon "it")]
+    (medium-plus-lexicon lexicon)))
 
 (defn np-grammar []
   (let [lexicon (deliver-lexicon)

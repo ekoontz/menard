@@ -14,6 +14,25 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
+(defn an-example []
+  (let [med (babel.italiano.grammar/medium)
+        med-reload (babel.italiano.grammar/medium-reloaded)]
+    (do
+      (take 5
+            (repeatedly 
+             #(println 
+               (morph (time (generate {:synsem {:cat :verb
+                                                :subcat []
+                                              :sem {:pred :know-s}}}
+                                      med-reload))))))
+      (take 5
+            (repeatedly 
+             #(println 
+               (morph (time (generate {:synsem {:cat :verb
+                                                :subcat []
+                                                :sem {:pred :know-s}}}
+                                      med)))))))))
+
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil

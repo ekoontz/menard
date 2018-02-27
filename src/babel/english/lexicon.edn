@@ -2405,18 +2405,18 @@
            [{:unify [common]
              :synsem {:cat :verb
                       :sem {:pred :throw}}}
-             {:english {:note "t-"}
-              :synsem  {:cat :verb
-                      :sem {:pred :throw-t}}}
-
-             {:english {:note "g-"}
-              :synsem  {:cat :verb
-                        :sem {:pred :throw-g}}}
-
-              {:english {:note "b-"}
-               :synsem  {:cat :verb
-                        :sem {:pred :throw-b}}}
-
+            {:unify [common]
+             :english {:note "t-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :throw-t}}}
+            {:unify [common]
+             :english {:note "g-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :throw-g}}}
+            {:unify [common]
+             :english {:note "b-"}
+             :synsem  {:cat :verb
+                       :sem {:pred :throw-b}}}
             {:unify [common throw-out]
              :synsem {:subcat {:2 {:cat :prep
                                    :sem {:pred :out}}}}}

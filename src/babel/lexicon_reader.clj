@@ -22,7 +22,7 @@
                             " WHERE language=?")
                        [language]]
                       :results))]
-    (log/info (str "found: " (count lexemes) " lexemes for language : " language " in database."))
+    (log/info (str "found: " (count lexemes) " lexemes for language: " language " in database."))
     (zipmap
      (map :canonical lexemes)
      (map (fn [lexeme]

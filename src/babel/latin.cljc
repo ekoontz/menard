@@ -1,6 +1,7 @@
 (ns babel.latin
   (:refer-clojure :exclude [get-in])
   (:require
+   [babel.english :as en]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
    [babel.latin.morphology :as morph]
    [babel.lexiconfn :refer [default listify map-function-on-map-vals
@@ -42,22 +43,22 @@
 (declare generate)
 
 (defn model []
-  (let [lexicon
-        (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
-          
-            (default ;; intransitive verbs' :obj is :unspec.
-             {:synsem {:cat :verb
-                       :subcat {:1 {:top :top}
-                                :2 '()}
-                       :sem {:obj :unspec}}})
-            
-            (verb-pred-defaults encyc/verbs))
-        indices (create-indices lexicon index-lexicon-on-paths)]
-    {:lexicon lexicon
-     :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-     :morph morph
-     :generate-fn generate}))
-
+  (let [the-model
+        (let [lexicon
+              (-> (edn2lexicon (resource "babel/latin/lexicon.edn"))
+                  (default ;; intransitive verbs' :obj is :unspec.
+                   {:synsem {:cat :verb
+                             :subcat {:1 {:top :top}
+                                      :2 '()}
+                             :sem {:obj :unspec}}})
+                  (verb-pred-defaults encyc/verbs))
+              indices (create-indices lexicon index-lexicon-on-paths)]
+          {:lexicon lexicon
+           :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+           :morph morph})]
+    (merge the-model
+           {:generate-fn (fn [spec]
+                           (generate spec the-model))})))
 (def tenses
   [{:tense :present}
    {:tense :past
@@ -178,7 +179,7 @@
                                               :agr (get-in spec [:synsem :agr])}}}
         debug (log/debug (str "read-one: source-specification:" source-specification))
         question-to-pose-to-user
-        (babel.english/morph (babel.generate/generate source-specification
+        (en/morph (babel.generate/generate source-specification
                                                       source-model)
                              source-model
                              :show-notes false) ;; TODO: use {:from-language :la}

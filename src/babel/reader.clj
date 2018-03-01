@@ -16,7 +16,7 @@
    [korma.core :as db]
    [ring.util.response :as resp]])
 
-(declare generate-question-and-correct-set-dynamic)
+(declare generate-question-and-correct-set)
 (declare json-read-str)
 (def ^:const wait-ms-for-question 3000)
 
@@ -63,7 +63,7 @@
               (try
                 (wait wait-ms-for-question
                       (fn []
-                        (generate-question-and-correct-set-dynamic
+                        (generate-question-and-correct-set
                          target-spec
                          source source-locale
                          target target-locale)))
@@ -102,10 +102,10 @@
                      :target-local target-locale
                      :target-spec target-spec})}))))))
 
-(defn generate-question-and-correct-set-dynamic [target-spec
-                                                 source-language source-locale
-                                                 target-language target-locale
-                                                 & [lexical-filter-fn]]
+(defn generate-question-and-correct-set [target-spec
+                                         source-language source-locale
+                                         target-language target-locale
+                                         & [lexical-filter-fn]]
   (let [source-timing? false
         source-timing-fn (if source-timing? #(time %)
                              (fn [x] x))
@@ -175,169 +175,6 @@
                               [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs
                           (get-in target-expression [:synsem :sem]))})))
-
-(defn generate-question-and-correct-set [target-spec source-language source-locale
-                                         target-language target-locale]
-  "Return a set of semantically-equivalent expressions, for a given spec in the target language,
-   and and a single expression in the source language that contains the semantics shared 
-   by this set.
-   To rephrase, the set of expressions in the target language share an identical semantics, 
-   and the single expression in the source language contains that semantics."
-  (log/debug (str "generate target language set with target-language:" target-language " ;spec: " target-spec))
-  (let [target-spec (-> target-spec
-                        (unify {:synsem {:subcat '()}})
-                        (dissoc-paths [[:unify/serialized]]))]
-    (cond (= target-language "la") ;; TODO: should not have a special case for one language.
-          (babel.latin/read-one :top  ;; TODO: use target-spec
-                                @(-> models :la)
-                                @(-> models :en))
-          true
-          (let [;; normalize for JSON lookup:
-                json-input-spec
-                (-> target-spec
-
-                    ;; convert a spec which is simply :top to be {}:
-                    ((fn [target-spec]
-                       (if (= :top target-spec)
-                         {}
-                         target-spec))))
-                target-json-spec (json/write-str (strip-refs json-input-spec))]
-            (log/debug (str "looking for expressions in target language: " target-language
-                            " with spec: " target-spec))
-            (log/debug (str "looking for expressions in target language: " target-language
-                            " with json-spec: " target-json-spec))
-
-            ;; get the structure of a random expression in the target language that matches
-            ;; the specification _spec_.
-            ;; TODO: this is wasteful - we are getting *all* possible expressions, when we only need
-            ;; one (random) expression.
-            ;; instead, we should use the target.surface as an input to a hash function; that is,
-            ;; ORDER BY the value of the hash function on each row.
-            (let [results (db/exec-raw [(str "SELECT structure,surface "
-                                             "  FROM expression "
-                                             " WHERE active=true "
-                                             "   AND language=? "
-                                             "   AND structure IS NOT NULL "
-                                             "   AND surface != '' "
-                                             "   AND structure @> '" target-json-spec "' "
-                                             "   AND active=true")
-                                        [target-language]]
-                                       :results)]
-              (if (empty? results)
-                (do
-                  (log/error (str "nothing found in target language: " target-language
-                                  " that matches spec: " target-spec))
-                  (throw (Exception. (str "nothing found in target language: " target-language
-                                          " that matches spec: " target-spec))))
-                
-                ;; choose a random expression from the results of the above.
-                ;; TODO: should choose a random one using SQL rather than taking them
-                ;; all and choosing a random one
-                (let [size-of-results (.size results)
-                      index-of-result (rand-int (.size results))
-                      debug (log/debug (str "number of target results:" size-of-results))
-                      debug (log/debug (str "index of target result:" index-of-result))
-                      target-expression (nth results index-of-result)
-                      debug (log/debug (str "target-expression is nil? " (nil? target-expression)))
-                      debug (log/trace (str "target-expression is: " target-expression))]
-            
-                  ;; Now get all the target expressions that are semantically
-                  ;; equivalent to this expression's semantics,
-                  ;; and a single source expression whose semantics contain
-                  ;; that same semantics.
-                  ;; TODO: add language-specific semantic manipulations
-                  ;; that can modify how source-target semantic correspondence
-                  ;; is determined. For now we have some hard-wired modifications for
-                  ;; correspondence between Italian as target and English as source.
-                  ;; 
-                  ;; For example, subjects in Italian have a :null key, which is
-                  ;; set to true or false, while subjects in English, at present, lack this
-                  ;; (though this key might be added to the English lexicon later at
-                  ;;  some point).
-                  (let [target-structure (json-read-str (.getValue (:structure target-expression)))
-                        ;; TODO: allow queries that have refs - might be
-                        ;; useful for modeling anaphora and binding.
-                        source-language-keyword (keyword source-language)
-                        target-language-keyword (keyword target-language)
-                        target-semantics (get-in target-structure [:synsem :sem])
-                        ;; Removes certain parts of the target-semantics that are not expressed
-                        ;; in the source-semantics:
-                        semantic-correspondence (-> @(models source-language-keyword)
-                                                    :semantic-correspondence
-                                                    target-language-keyword)
-                        source-semantics (-> target-semantics
-                                             (dissoc-paths semantic-correspondence))
-
-                        ;; transform semantics to JSON so that we can search the expression database table.
-                        json-target-semantics (json/write-str (strip-refs target-semantics))
-                        json-source-semantics (json/write-str (strip-refs source-semantics))]
-                    (log/debug (str "target expression:" (:surface target-structure)))
-                    (log/debug (str "target semantics:" (strip-refs target-semantics)))
-                    (log/debug (str "source semantics:" (strip-refs source-semantics)))
-                    (log/trace (str "json target semantics:" json-target-semantics))
-                    (log/trace (str "json source semantics:" json-source-semantics))
-                    (let [result
-                          (first
-                           (db/exec-raw [(str "SELECT source.surface AS source, source.id AS source_id,  "
-                                              " source.structure AS source_structure, "
-                                              " ARRAY_AGG(target.surface) AS target, "
-                                              " ARRAY_AGG(target.root) AS target_root,
-                                              ARRAY_AGG(source.structure::jsonb) AS target_structure
-                                        FROM (SELECT surface, source.structure->'synsem'->'sem' 
-                                                     AS sem,
-                                                     source.structure AS structure, source.id
-                                                FROM expression AS source
-                                               WHERE source.language=?
-                                                 AND source.active=true
-                                                 AND source.structure->'synsem'->'sem' @> ?::jsonb
-                                             LIMIT 1) AS source
-                                  INNER JOIN (SELECT 
-                                            DISTINCT surface, target.structure->'synsem'->'sem' AS sem,
-                                                     root, structure
-                                                FROM expression_with_root AS target
-                                               WHERE target.language=?
-                                                 AND target.active=true
-                                                 AND target.structure->'synsem'->'sem' = ?::jsonb) AS target 
-                                          ON (source.surface IS NOT NULL) 
-                                         AND (target.surface IS NOT NULL) "
-                                              " GROUP BY source.surface,source.id,source.structure")
-                                         [source-language json-source-semantics target-language json-target-semantics]]
-                                        :results))]
-                      (if (nil? result)
-                        (let [message (str "no source expression found for target semantics: "
-                                           (get-in target-structure [:synsem :sem])
-                                           "; used source semantics:" source-semantics ".")]
-                          (log/error message)
-                          (throw (Exception. message))))
-                      (let [show-target-structures false ;; true for debugging
-                            retval
-                            (-> result
-                                
-                                (dissoc :target) ;; aggregate 'target' values into 'targets'
-                                (assoc :targets (read-array (:target result)))
-                                
-                                (dissoc :target_root) ;; targets' roots -> 'target_roots'
-                                (assoc :target_roots (read-array (:target_root result)))
-
-                                (dissoc :target_structure) ;; targets' structures -> 'target structures'
-
-                                (dissoc :source_structure)
-                                
-                                (dissoc :source)
-                                (assoc :source
-                                       (let [morph (get @(get models source-language-keyword) :morph)]
-                                         (morph (json-read-str (str (:source_structure result)))
-                                                :from-language target-language)))
-                                
-                                ((fn [retval]
-                                   (or 
-                                    (and show-target-structures
-                                         (assoc :target_structures (read-array (:target_structure result))))
-                                    retval)))
-
-                                )]
-                        (log/info (str "generate-question-and-correct-set [target-spec:" target-spec "] => retval: " retval))
-                        retval))))))))))
     
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a

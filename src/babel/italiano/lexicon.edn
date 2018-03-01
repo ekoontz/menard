@@ -1903,12 +1903,12 @@
 
  "sapere" {:synsem {:cat :verb
                     :sem {:pred :know-s}}
-          :italiano {:present {:1sing "so"
-                               :2sing "sai"
-                               :3sing "sa"
-                               :1plur "sappiamo"
-                               :3plur "sanno"}
-                     :future-stem "sapr"}}
+           :italiano {:present {:1sing "so"
+                                :2sing "sai"
+                                :3sing "sa"
+                                :1plur "sappiamo"
+                                :3plur "sanno"}
+                      :future-stem "sapr"}}
 
  "scappare"  {:synsem {:cat :verb
                        :essere true

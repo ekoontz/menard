@@ -710,7 +710,7 @@
                                (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
 
 (defn medium-plus-lexicon
-  "create a language model for English with the supplied lexicon."
+  "create a language model for Italian with the supplied lexicon."
   [lexicon]
   (let [debug (log/info "  loading lexicon..")
         debug (log/info "  filtering lexicon..")

@@ -10,6 +10,7 @@
    [babel.parse :as parse]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
+   [clojure.pprint :refer [pprint]]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))

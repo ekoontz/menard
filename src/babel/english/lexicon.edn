@@ -2063,16 +2063,19 @@
 
  "send" (let [common {:english {:past "sent"
                                 :past-participle "sent"}}]
-            [{:synsem {:cat :verb
-                      :sem {:pred :send}}}
-
-            {:english {:note "m-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :send-m}}}
-
-            {:english {:note "s-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :send-s}}}])
+          [{:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :send}}}
+           
+           {:unify [common]
+            :english {:note "m-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :send-m}}}
+           
+           {:unify [common]
+            :english {:note "s-"}
+            :synsem  {:cat :verb
+                      :sem {:pred :send-s}}}])
 
  "set" {:synsem {:cat :verb
                  :sem {:pred :set}}

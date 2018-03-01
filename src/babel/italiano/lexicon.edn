@@ -93,8 +93,7 @@
                :synsem {:cat :verb
                         :sem {:pred :add}}}
  "aiutare"
- {:synsem {:essere false
-           :cat :verb
+ {:synsem {:cat :verb
            :sem {:pred :help}}}
 
  "alla prossima"
@@ -119,7 +118,6 @@
                            :reflexive true}}}
  "amare"
  {:synsem {:cat :verb
-           :essere false
            :sem {:pred :amare}}}
  "amica"
  {:synsem {:agr {:gender :fem}
@@ -251,8 +249,7 @@
  "aumentare"   {:synsem {:cat :verb
                          :sem {:pred :increase}}}
  "avere"
- (let [avere-common {:synsem {:essere false
-                              :cat :verb
+ (let [avere-common {:synsem {:cat :verb
                               :sem {:reflexive false}}
                      :italiano {:italiano "avere"
                                 :future-stem "avr"
@@ -373,7 +370,6 @@
                        :3plur "bevono"}
              :gerund "bevendo"}
   :synsem {:cat :verb
-           :essere false
            :sem {:pred :drink
                  :subj {:animate true}
                  :obj {:drinkable true}}}}
@@ -530,13 +526,11 @@
                  :speakable false}}}
 
  "cenare" {:synsem {:cat :verb
-                    :essere false
                     :sem {:pred :have-dinner}}}
 
 
  "cercare"  (let [common {:italiano {:future-stem "cercher"}
-                          :synsem {:cat :verb
-                                   :essere false}}]
+                          :synsem {:cat :verb}}]
               [{:unify [common]
                 :synsem {:sem {:pred :look-for}}}
                {:unify [common]
@@ -704,7 +698,6 @@
                      :sem {:pred :create}}}
 
  "credere" {:synsem {:cat :verb
-                      :essere false
                       :sem {:pred :believe}}}
 
  "controllare" {:synsem {:sem {:pred :check}
@@ -721,7 +714,6 @@
                      :sem {:pred :in-front-of}}}
 
  "decidere"  {:synsem {:cat :verb
-                       :essere false
                        :sem {:pred :decide}}
               :italiano {:passato "deciso"}}
 
@@ -1107,7 +1099,6 @@
                       :sem {:pred :smoke}}}
 
  "funzionare" {:synsem {:cat :verb
-                        :essere false
                         :sem {:pred :work-nonhuman}}}
 
  "gatto"  {:synsem {:agr {:gender :masc}
@@ -1313,7 +1304,6 @@
                              :reflexive true}}}
 
  "lasciare" {:synsem {:cat :verb
-                      :essere false
                       :sem {:pred :leave-behind}}}
 
  "lavare"  {:synsem {:cat :verb
@@ -1348,7 +1338,6 @@
  "leggere"
  {:italiano {:passato "letto"}
   :synsem {:cat :verb
-           :essere false
            :sem {:discrete false
                  :pred :read}}}
 
@@ -1500,7 +1489,6 @@
 
  "mangiare"
  {:synsem {:cat :verb
-           :essere false
            :sem {:pred :eat
                  :subj {:animate true}
                  :obj {:edible true}}}}
@@ -1642,10 +1630,7 @@
                         :future-stem "otterr"}}
 
  "pagare" {:synsem {:cat :verb
-                     :essere false
                      :sem {:pred :pay}}}
-
-
  "pane"
  ;; inherently singular.
  {:synsem {:agr {:gender :masc}
@@ -1666,12 +1651,10 @@
                      :sem {:pred :leave-trip}}}
 
  "passare" {:synsem {:cat :verb
-           :essere false
-           :sem {:pred :pass}}}
+                     :sem {:pred :pass}}}
 
  "pensare"
  {:synsem {:cat :verb
-           :essere false
            :sem {:pred :think}}}
 
 "perdere" {:italiano {:passato "perso"}
@@ -1742,8 +1725,7 @@
                         :sem {:pred :worry
                               :reflexive true}}}
 
- "presentare" (let [common {:synsem {:cat :verb
-                                     :essere false}}]
+ "presentare" (let [common {:synsem {:cat :verb}}]
                 [{:unify [common]
                   :synsem {:sem {:pred :present}}}
                  {:unify [common]
@@ -1789,8 +1771,7 @@
            :sem {:pred :boy
                  :human true}}}
 
-"rendere" (let [common {:synsem {:cat :verb
-                                :essere false}
+"rendere" (let [common {:synsem {:cat :verb}
                        :italiano {:italiano "rendere"
                                   :passato "reso"}}]
            [{:unify [common]
@@ -1850,7 +1831,6 @@
                         :sem {:pred :warm-up}}}
 
  "rispondere" {:synsem {:cat :verb
-                        :essere false
                         :sem {:pred :answer}}
                :italiano {:passato "risposto"}}
  "ristorante"
@@ -2112,7 +2092,6 @@
                     :sem {:pred :table}}}
 
  "telefonare"  {:synsem {:cat :verb
-                         :essere false
                          :sem {:pred :telephone}}}
 
  "tenere"  (let [common {:italiano {:passato "tenuto"

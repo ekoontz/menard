@@ -6,6 +6,34 @@
 A Clojure library for generation and parsing of natural language expressions.
 
 ```clojure
+user> (require 'babel.italiano)
+nil
+user> (in-ns 'babel.italiano)
+babel.italiano> (repeatedly #(-> {:root {:italiano {:italiano "sapere"}}
+                                  :synsem {:cat :verb
+				           :subcat []
+                                           :sem {:subj {:pred :mario}
+                                                 :tense :future
+                                                 :pred :know-s}}
+                                  :phrasal true
+                                  :head {:phrasal false}
+                                  :comp {:phrasal false}}
+                                 (generate (grammar/medium))
+                                 (morph)
+                                 pprint
+                                 time))
+"Mario saprà"
+"Elapsed time: 507.604262 msecs"
+"Mario saprà"
+"Elapsed time: 479.080943 msecs"
+"Mario saprà"
+"Elapsed time: 513.452862 msecs"
+"Mario saprà"
+"Elapsed time: 529.560233 msecs"
+..
+```
+
+```clojure
 user> (require 'babel.english)
 nil
 

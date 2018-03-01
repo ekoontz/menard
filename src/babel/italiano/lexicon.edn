@@ -628,10 +628,8 @@
                         :sem {:pred :strike}}}])
  "cominciare"
  [{:synsem {:cat :verb
-            :essere false
             :sem {:pred :begin}}}
   {:synsem {:cat :verb
-            :essere false
             :sem {:pred :start}}}]
  "compito"
  {:synsem {:agr {:gender :masc}
@@ -646,7 +644,6 @@
                          :sem {:pred :comment}}}
  
  "comprare" {:synsem {:cat :verb
-                      :essere false
                       :sem {:pred :buy}}}
  
  "condividere"  {:synsem {:cat :verb
@@ -654,7 +651,6 @@
                  :italiano {:passato "condiviso"}}
  
  "conoscere" {:synsem {:cat :verb
-                       :essere false
                        :sem {:pred :know-c}}}
 
  "conservare" [{:synsem {:cat :verb

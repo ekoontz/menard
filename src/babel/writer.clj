@@ -10,7 +10,8 @@
     [clojure.tools.logging :as log]
     [clojure.tools.namespace.repl :refer [refresh refresh-all]]
     [dag_unify.core :refer [fail? get-in remove-top-values strip-refs serialize unify ref?]]
-    [korma.core :refer [exec-raw]]))
+    [korma.core :refer [exec-raw]]
+    [korma.db :refer [transaction]]))
 
 ;; TODO: more fine-grained approach to dealing with exceptions:
 ;; should be sensitive to environment -
@@ -467,17 +468,20 @@
 ;; (babel.writer/write-lexicon "en" lexicon)
 (defn write-lexicon [language lexicon]
   (babel.korma/init-db)
-  (truncate-lexicon language)
-  (let [canonicals (sort (keys lexicon))]
-    (loop [remain canonicals
-           result 0]
-      (let [[canonical & remaining] remain]
-        (log/debug (str "(write-lexicon " language ":" canonical ")"))
-        (insert-lexeme canonical (get lexicon canonical) language)
-        (if (empty? remaining)
-          (+ 1 result)
-          (recur remaining
-                 (+ 1 result)))))))
+
+  (transaction
+   (truncate-lexicon language)
+   
+   (let [canonicals (sort (keys lexicon))]
+     (loop [remain canonicals
+            result 0]
+       (let [[canonical & remaining] remain]
+         (log/debug (str "(write-lexicon " language ":" canonical ")"))
+         (insert-lexeme canonical (get lexicon canonical) language)
+         (if (empty? remaining)
+           (+ 1 result)
+           (recur remaining
+                  (+ 1 result))))))))
 
 ;; TODO: more documentation for the command language that (defn process) understands.
 ;; TODO: Every unit contains the entire language model: should instead pass a name

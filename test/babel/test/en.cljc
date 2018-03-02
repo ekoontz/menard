@@ -25,7 +25,7 @@
 
 (grammar/write-lexicon)
 
-(def model @(get models :en))
+(def model @@(get models :en))
 
 (defn morph [expression]
   (english/morph expression model))

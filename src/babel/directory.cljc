@@ -5,8 +5,10 @@
             [babel.italiano.grammar :as it]
             [babel.latin :as la]))
 (def models
-  {:en (delay (en/medium))
-   :es (delay (es/small))
-   :fr (delay (fr/medium))
-   :la (delay (la/model))
-   :it (delay (it/model))})
+  {:en (atom (delay (en/medium)))
+   :es (atom (delay (es/small)))
+   :fr (atom (delay (fr/medium)))
+   :la (atom (delay (la/model)))
+   :it (atom (delay (it/model)))})
+
+

@@ -21,7 +21,7 @@
 
 (grammar/write-lexicon)
 
-(def model @(get models :it))
+(def model @@(get models :it))
 
 (def np-grammar (delay (grammar/np-grammar)))
 

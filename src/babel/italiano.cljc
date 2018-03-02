@@ -57,8 +57,8 @@
              result)))))
 
 (defn an-example []
-  (let [med (babel.italiano.grammar/medium)
-        med-reload (babel.italiano.grammar/medium-reloaded)]
+  (let [med (babel.italiano.grammar/model)
+        med-reload (babel.italiano.grammar/model-reloaded)]
     (do
       (take 5
             (repeatedly 

@@ -523,7 +523,7 @@
 (defn write-lexicon []
   (babel.writer/write-lexicon "en" (compile-lexicon)))
 
-(defn medium []
+(defn model []
   (let [debug (log/info "  loading lexicon..")
         lexicon (read-lexicon "en")
         debug (log/info "  indices..")
@@ -538,7 +538,7 @@
                     :lexicon lexicon))
         debug (log/info "  finalizing..")
         model
-        {:name "medium"
+        {:name "a small English grammar"
          :default-fn default-fn
          :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:

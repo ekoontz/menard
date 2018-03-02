@@ -749,7 +749,7 @@
          :rule-map (zipmap rules
                            grammar)
 
-         :tenses babel.italiano.grammar/tenses
+         :tenses tenses
          
          }]
     (merge retval

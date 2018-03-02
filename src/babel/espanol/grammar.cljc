@@ -477,7 +477,9 @@
      :morph-walk-tree (fn [tree]
                         (do
                           (merge tree
-                                 (morph-walk-tree tree))))}))
+                                 (morph-walk-tree tree))))
+     :tenses tenses}))
+     
 (defn medium []
   (log/debug (str "Creating language model for Español: medium"))
   (let [lexicon (read-lexicon "es")
@@ -502,7 +504,8 @@
                                  (morph-walk-tree tree))))
      :grammar grammar
      :lexical-cache (cache/fifo-cache-factory {} :threshold 1024)
-     :lexicon lexicon}))
+     :lexicon lexicon
+     :tenses tenses}))
 
 (defn parse [surface]
   (parse/parse surface

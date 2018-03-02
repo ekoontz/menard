@@ -12,7 +12,7 @@
 
 (def source-language :en)
 
-(def model @(get models :la))
+(def model @@(get models :la))
 
 (defn generate [spec]
   ((-> model :generate-fn) spec))
@@ -61,8 +61,8 @@
                                :aspect :progressive
                                :pred :answer}}
                 :comp {:synsem {:agr agreement}}})
-        source-format-fn (:morph @(-> models source-language))
-        source-generate-fn (:generate-fn @(-> models source-language))
+        source-format-fn (:morph @@(-> models source-language))
+        source-generate-fn (:generate-fn @@(-> models source-language))
         target-format-fn (:morph model)
 
         source (->
@@ -89,7 +89,7 @@
     (is (or (= target "respondebat")))))
 
 (deftest reader2
-  (let [source-model (-> (-> models :en) deref)
+  (let [source-model @@(-> (-> models :en))
 
         ;; use a specific :root and verb conjugation so that we can test
         ;; for specific literal strings in the result.

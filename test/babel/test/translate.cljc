@@ -21,9 +21,9 @@
 ;; In English we indicate feminine and masculine gender with ♀ and ♂,
 ;; respectively.
 
-(def italiano-model @(get models :it))
-(def english-model @(get models :en))
-(def latin-model @(get models :la))
+(def italiano-model @@(get models :it))
+(def english-model @@(get models :en))
+(def latin-model @@(get models :la))
 
 ;; Test that gender agreement is correctly translated.
 (deftest past-and-gender-agreement-feminine

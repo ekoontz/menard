@@ -9,4 +9,4 @@
    :es (delay (es/small))
    :fr (delay (fr/medium))
    :la (delay (la/model))
-   :it (delay (it/medium))})
+   :it (delay (it/model))})

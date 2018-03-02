@@ -23,7 +23,7 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
-(declare medium)
+(declare model)
 
 (defonce index-lexicon-on-paths
   [
@@ -625,10 +625,10 @@
 (defn create-model-for-spec [spec]
   (let [root (get-in spec [:root :italiano :italiano])
         pred (get-in spec [:synsem :sem :pred])
-        medium (medium)
+        model (model)
         micro-lexicon
         (into {}
-              (for [[k v] (:lexicon medium)]
+              (for [[k v] (:lexicon model)]
                 (let [filtered-v
                       (filter #(and
                                 (not (= true (get-in % [:top]))) ;; exclude the ":top" wildcard lexeme. actually
@@ -651,7 +651,7 @@
                                 (or (not (= (get-in % [:synsem :cat]) :verb))
                                     (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb)))
                                        
-                                ;; exclude cities from the medium grammar.
+                                ;; exclude cities from the model grammar.
                                 (or (not (= (get-in % [:synsem :propernoun]) true))
                                     (= (get-in % [:synsem :sem :city] false) false)))
                               
@@ -659,7 +659,7 @@
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))]
     (log/debug (str "micro lexicon size:" (count (keys micro-lexicon))))
-    (clojure.core/merge medium
+    (clojure.core/merge model
                         {:lexicon micro-lexicon})))
 
 (defn default-fn [tree]
@@ -708,8 +708,7 @@
   (babel.writer/write-lexicon "it"
                               (babel.italiano.lexicon/edn2lexicon
                                (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
-
-(defn medium-plus-lexicon
+(defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
   [lexicon]
   (let [debug (log/info "  loading lexicon..")
@@ -734,7 +733,7 @@
         retval
         {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          :default-fn default-fn
-         :name "medium"
+         :name "model"
          :generate {:lexicon lexicon-for-generation}
          :grammar grammar
          :language "it"
@@ -749,6 +748,9 @@
          :rules rules
          :rule-map (zipmap rules
                            grammar)
+
+         :tenses babel.italiano.grammar/tenses
+         
          }]
     (merge retval
            {:generate-fn (fn [spec]
@@ -780,14 +782,14 @@
                                  spec
                                  0 depth)}))})))
 
-(defn medium-reloaded []
+(defn model-reloaded []
   (let [lexicon (babel.italiano.lexicon/edn2lexicon
                  (clojure.java.io/resource "babel/italiano/lexicon.edn"))]
-    (medium-plus-lexicon lexicon)))
+    (model-plus-lexicon lexicon)))
 
-(defn medium []
+(defn model []
   (let [lexicon (read-lexicon "it")]
-    (medium-plus-lexicon lexicon)))
+    (model-plus-lexicon lexicon)))
 
 (defn np-grammar []
   (let [lexicon (deliver-lexicon)

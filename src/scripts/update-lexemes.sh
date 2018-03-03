@@ -1,2 +1,1 @@
-echo "(do (use 'babel.directory)
-          (write-lexicons))" | lein repl
+echo "(use 'babel.directory)(write-lexicons)" | lein repl

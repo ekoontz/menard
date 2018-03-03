@@ -3,6 +3,7 @@
   (:require
    [babel.encyclopedia :refer [sem-impl]]
    [babel.exception :refer [exception]]
+   [babel.korma :refer [init-db]]
    [babel.pos :refer [agreement-noun common-noun determiner
                       intransitive modal noun
                       subcat0 subcat1
@@ -14,12 +15,33 @@
    [clojure.string :as string]
    [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists?
                                      fail-path fail? get-in isomorphic?
-                                     serialize strip-refs unify]]))
+                                     serialize strip-refs unify]]
+   [korma.core :refer [exec-raw]]))
 
 (declare listify)
 (declare map-function-on-map-vals)
 (declare rules)
 (declare transform)
+
+(defn read-lexicon [language]
+  (init-db)
+  (log/info (str "reading lexicon for language: " language))
+  (let [lexemes
+        (-> (exec-raw [(str "SELECT canonical, serialized FROM lexeme "
+                            " WHERE language=?")
+                       [language]]
+                      :results))]
+    (log/info (str "found: " (count lexemes) " lexemes for language: " language " in database."))
+    (zipmap
+     (map :canonical lexemes)
+     (map (fn [lexeme]
+            (->> (-> lexeme
+                     :serialized
+                     .getArray
+                     vec)
+                 (map read-string)
+                 (map dag_unify.core/deserialize)))
+          lexemes))))
 
 (defn compile-lex [lexicon-source]
   (-> lexicon-source

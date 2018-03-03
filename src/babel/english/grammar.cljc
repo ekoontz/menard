@@ -5,7 +5,7 @@
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexicon_reader :refer [read-lexicon]]
+   [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if comp-modifies-head

@@ -324,37 +324,6 @@
               :sem (get-in input-map [:synsem :sem] :top)
               :subcat (get-in input-map [:synsem :subcat] :top)}}))
 
-(defn zipmap-with-fn [the-keys the-vals acc]
-  (if (not (empty? the-keys))
-    (let [key (first the-keys)
-          val (first the-vals)]
-      (if (not (= :nothing (get acc key :nothing)))
-        (zipmap-with-fn (rest the-keys) (rest the-vals)
-                        (merge
-                         acc
-                         {key (cons val
-                                    (get acc key))}))
-					 (zipmap-with-fn (rest the-keys) (rest the-vals)
-							 (merge
-							  acc
-							  {key (list val)}))))
-    acc))
-
-(defn group-by-canonical-form [lexicon]
-  (zipmap-with-fn (map :surface lexicon)
-                  (map :structure lexicon)
-                  {}))
-
-(defn read-lexicon [language]
-  (let [results (db/exec-raw [(str "SELECT canonical,structure FROM lexeme WHERE language=?")
-                              [language]]
-                             :results)]
-    (group-by-canonical-form
-     (map (fn [x]
-            {:surface (:canonical x)
-             :structure (json-read-str (.getValue (:structure x)))})
-          results))))
-
 ;; TODO: document why we need this
 ;; TODO: verbcoach should use this, not config/json-read-str
 ;; TODO: move this to babel/globals.cljc or something similar

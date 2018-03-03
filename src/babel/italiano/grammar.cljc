@@ -5,7 +5,7 @@
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
    [babel.italiano.lexicon :refer [deliver-lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
-   [babel.lexicon_reader :refer [read-lexicon]]
+   [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
                      head-principle

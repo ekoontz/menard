@@ -5,8 +5,7 @@
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexiconfn :refer [lexicon-for-generation]]
-   [babel.lexicon_reader :refer [read-lexicon]]
+   [babel.lexiconfn :refer [lexicon-for-generation read-lexicon]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle

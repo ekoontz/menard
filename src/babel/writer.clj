@@ -45,8 +45,6 @@
 
 ;; (babel.writer/write-lexicon "en" lexicon)
 (defn write-lexicon [language lexicon]
-  (babel.korma/init-db)
-
   (transaction
    (truncate-lexicon language)
    

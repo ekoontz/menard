@@ -12,6 +12,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
+(babel.korma/init-db)
 (grammar/write-lexicon)
 (def model @@(get models :es))
 

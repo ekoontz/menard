@@ -17,6 +17,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
+(babel.korma/init-db)
 (grammar/write-lexicon)
 (def model @@(get models :fr))
 

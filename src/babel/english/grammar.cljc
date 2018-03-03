@@ -20,7 +20,8 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]))
+   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]
+   [babel.writer :as writer]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]
@@ -521,7 +522,7 @@
               [k filtered-v])))))
 
 (defn write-lexicon []
-  (babel.writer/write-lexicon "en" (compile-lexicon)))
+  (writer/write-lexicon "en" (compile-lexicon)))
 
 (defn model []
   (let [debug (log/info "  loading lexicon..")

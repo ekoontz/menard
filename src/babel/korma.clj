@@ -134,6 +134,8 @@
             :password password
             :host host
             :port (or port "5432")}))))
+    ;; older postgres versions (pre-9.6(?)) do not support CREATE SEQUENCE IF NOT EXISTS,
+    ;; so that will fail here: catch the exception and continue.
     (try (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
          (catch Exception e
            (log/warn (str "ignoring error from database server: " e))))

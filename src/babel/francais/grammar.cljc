@@ -4,11 +4,11 @@
    [clojure.set :refer [union]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [babel.francais.lexicon :refer [deliver-lexicon lexicon]]
+   [babel.francais.lexicon :as lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
-   [babel.lexiconfn :refer [edn2lexicon read-lexicon]]
+   [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
@@ -18,6 +18,9 @@
                      subcat-2-2-principle subcat-5-principle]]
    [clojure.core.cache :as cache]
    [dag_unify.core :refer (fail? get-in strip-refs unify)]))
+
+(defn compile-lexicon []
+  (lexicon/compile-lexicon))
 
 (defonce index-lexicon-on-paths
   [[:synsem :cat]
@@ -44,10 +47,6 @@
 
 (declare against-pred)
 (declare matching-head-lexemes)
-
-(defn compile-lexicon []
-  (edn2lexicon
-   (clojure.java.io/resource "babel/francais/lexicon.edn")))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))

@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
             [babel.francais :as fr :refer [morph]]
-            [babel.francais.grammar :as grammar :refer [fo-ps]]
+            [babel.francais.grammar :as grammar :refer [compile-lexicon fo-ps]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string]]
             [babel.generate :as generate]
             [babel.lexiconfn :refer [write-lexicon]]
@@ -19,7 +19,7 @@
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
 (babel.korma/init-db)
-(write-lexicon "fr" (grammar/compile-lexicon))
+(write-lexicon "fr" (compile-lexicon))
 (def model @@(get models :fr))
 
 (defn parse [expression & {:keys [parse-with-truncate]}]

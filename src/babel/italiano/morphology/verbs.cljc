@@ -59,132 +59,20 @@
 
 (def morph-map (compile-morphology))
 
-;; <conditional>
 (defonce patterns-conditional
   (get morph-map "conditional"))
-
-(defn regular-conditional [word]
-  (let [unifying-patterns
-        (mapcat #(when (not (= :fail (unify word
-                                            {:agr (:agr %)})))
-                   (:g %))
-                patterns-conditional)
-        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
-        ;; is expected to be the infinitive for verbs.
-        infinitive (get-in word [:future-stem]
-                           (get-in word [:italiano]))]
-    (first (do-replace-on infinitive unifying-patterns))))
-
-;; </conditional>
-
-;; <future>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/future.edn")
-          slurp
-          read-string
-          patterns-with-agr)]
-  (defonce patterns-future
-    (compile-patterns
-     {:synsem {:infl :future}}
-     source)))
-
-(defn regular-future [word]
-  (let [unifying-patterns
-        (remove nil? (mapcat #(when (not (= :fail
-                                            (unify word
-                                                   {:agr (:agr %)})))
-                                (:g %))
-                             patterns-future))
-        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
-        ;; is expected to be the infinitive for verbs.
-        infinitive (get-in word [:future-stem]
-                           (get-in word [:italiano]))]
-    (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
-    (first (do-replace-on infinitive unifying-patterns))))
-;; </future>
-
-;; <imperfect>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/imperfetto.edn")
-          slurp
-          read-string
-          patterns-with-agr)]
-  (defonce patterns-imperfect
-    (compile-patterns
-     {:synsem {:infl :imperfect}}
-     source)))
-
-(defn regular-imperfect [word]
-  (let [unifying-patterns
-        (remove nil? (mapcat #(when (not (= :fail
-                                            (unify word
-                                                   {:agr (:agr %)})))
-                                (:g %))
-                             patterns-imperfect))
-        infinitive (get-in word [:italiano])]
-    (first (do-replace-on infinitive unifying-patterns))))
-;; </imperfect>
-
-;; <present>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/present.edn")
-          slurp
-          read-string
-          patterns-with-agr)]
-  (defonce patterns-present
-    (compile-patterns
-     {:synsem {:infl :present}}
-     source)))
-;; </present>
-
-;; <passato>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/passato.edn")
-          slurp
-          read-string
-          patterns-with-agr
-          patterns-with-essere)]
-  (defonce patterns-passato
-    (compile-patterns
-     {:synsem {:infl :past}}
-     source)))
-
-(defn regular-passato [word]
-  (let [unifying-patterns
-        (remove nil? (mapcat
-                      #(when (not (= :fail
-                                     (unify word
-                                            {:agr (:agr % :top)
-                                             :essere (get-in % [:u :synsem :essere] :top)})))
-                                (:g %))
-                             patterns-passato))
-        infinitive (get-in word [:italiano])]
-    (first (do-replace-on infinitive unifying-patterns))))
-
-;; </passato>
-
-;; <subjunctive>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/subjunctive.edn")
-          slurp
-          read-string
-          patterns-with-agr)]
-  (defonce patterns-subjunctive
-    (compile-patterns
-     {:synsem {:infl :subjunctive}}
-     source)))
-;; </subjunctive>
-
-;; <gerund>
-(let [source
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/gerund.edn")
-          slurp
-          read-string)]
-  (defonce patterns-gerund
-    (compile-patterns
-     {:synsem {:infl :participle}}
-     source)))
-;; </gerund>
+(defonce patterns-future
+  (get morph-map "future"))
+(defonce patterns-gerund
+  (get morph-map "gerund"))
+(defonce patterns-imperfect
+  (get morph-map "imperfect"))
+(defonce patterns-present
+  (get morph-map "present"))
+(defonce patterns-passato
+  (get morph-map "passato"))
+(defonce patterns-subjunctive
+  (get morph-map "subjunctive"))
 
 (defonce patterns
   (map (fn [each]
@@ -204,6 +92,54 @@
         patterns-passato
         patterns-present
         patterns-subjunctive)))
+
+(defn regular-conditional [word]
+  (let [unifying-patterns
+        (mapcat #(when (not (= :fail (unify word
+                                            {:agr (:agr %)})))
+                   (:g %))
+                patterns-conditional)
+        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
+        ;; is expected to be the infinitive for verbs.
+        infinitive (get-in word [:future-stem]
+                           (get-in word [:italiano]))]
+    (first (do-replace-on infinitive unifying-patterns))))
+
+(defn regular-future [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(when (not (= :fail
+                                            (unify word
+                                                   {:agr (:agr %)})))
+                                (:g %))
+                             patterns-future))
+        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
+        ;; is expected to be the infinitive for verbs.
+        infinitive (get-in word [:future-stem]
+                           (get-in word [:italiano]))]
+    (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
+    (first (do-replace-on infinitive unifying-patterns))))
+
+(defn regular-imperfect [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat #(when (not (= :fail
+                                            (unify word
+                                                   {:agr (:agr %)})))
+                                (:g %))
+                             patterns-imperfect))
+        infinitive (get-in word [:italiano])]
+    (first (do-replace-on infinitive unifying-patterns))))
+
+(defn regular-passato [word]
+  (let [unifying-patterns
+        (remove nil? (mapcat
+                      #(when (not (= :fail
+                                     (unify word
+                                            {:agr (:agr % :top)
+                                             :essere (get-in % [:u :synsem :essere] :top)})))
+                                (:g %))
+                             patterns-passato))
+        infinitive (get-in word [:italiano])]
+    (first (do-replace-on infinitive unifying-patterns))))
 
 (defonce exceptions-rules
   [;; 1. passato exceptions

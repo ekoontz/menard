@@ -517,7 +517,7 @@
   (babel.writer/write-lexicon "fr"
                               @(deliver-lexicon)))
 
-(defn medium []
+(defn model []
   (let [lexicon (read-lexicon "fr")
         lexicon
         (into {}
@@ -544,7 +544,7 @@
                           grammar)))
         indices (create-indices lexicon index-lexicon-on-paths)]
     (let [retval
-          {:name "medium"
+          {:name "model"
            :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
            :enrich enrich
            :grammar grammar
@@ -598,11 +598,9 @@
                                                        :reflexive true
                                                        :aspect :simple}}}
                                        0 2)}}))))
-
-                      
 (defn parse [surface]
   (parse/parse surface
-               (:lexicon medium)
-               (:lookup medium)
-               (:grammar medium)))
+               (:lexicon model)
+               (:lookup model)
+               (:grammar model)))
 

@@ -10,7 +10,7 @@
 (def models
   {:en (atom (delay (en/model)))
    :es (atom (delay (es/small)))
-   :fr (atom (delay (fr/medium)))
+   :fr (atom (delay (fr/model)))
    :it (atom (delay (it/model)))
    :la (atom (delay (la/model)))})
 
@@ -19,7 +19,7 @@
     (log/info (str "refreshing models.."))
     (swap! (:en models) (fn [old-model] (delay (en/model))))
     (swap! (:es models) (fn [old-model] (delay (es/small))))
-    (swap! (:fr models) (fn [old-model] (delay (fr/medium))))
+    (swap! (:fr models) (fn [old-model] (delay (fr/model))))
     (swap! (:it models) (fn [old-model] (delay (it/model))))
     (swap! (:la models) (fn [old-model] (delay (la/model))))
     (log/info (str "refreshed models."))))

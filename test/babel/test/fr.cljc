@@ -2,7 +2,7 @@
     babel.test.fr
   (:refer-clojure :exclude [get-in])
   (:require [babel.directory :refer [models]]
-            [babel.francais :as fr :refer [generate morph parse]]
+            [babel.francais :as fr :refer [morph]]
             [babel.francais.grammar :as grammar :refer [fo-ps]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string]]
             [babel.generate :as generate]
@@ -20,6 +20,13 @@
 (babel.korma/init-db)
 (grammar/write-lexicon)
 (def model @@(get models :fr))
+
+(defn parse [expression & {:keys [parse-with-truncate]}]
+  (parse/parse expression model
+               :parse-with-truncate (or parse-with-truncate false)))
+
+(defn generate [expression]
+  (generate/generate expression model))
 
 ;; TODO: these defns (lookup) are convenience functions are duplicated in
 ;; babel.workbook.francais: factor out to babel.francais.
@@ -208,8 +215,7 @@
                                          :tense :present
                                          :aspect :simple}}
                           :root {:français {:français "parler"}}
-                          :rule "s-present-nonphrasal"}
-                         :model model)]
+                          :rule "s-present-nonphrasal"})]
     (is (= "je parle" (fo result)))))
 
 (deftest generate-present-by-semantics-regular-1
@@ -218,8 +224,7 @@
                                    :sem {:pred :abandon
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :simple}}}
-                         :model model)]
+                                         :aspect :simple}}})]
     (is (= "j'abandone" (fo result)))))
 
 (deftest generate-present-by-root-regular-2
@@ -228,8 +233,7 @@
                                    :sem {:aspect :simple
                                          :tense :present}}
                           :root {:français {:français "abandoner"}}
-                          :comp {:synsem {:agr {:person :1st, :number :sing}}}}
-                         :model model)]
+                          :comp {:synsem {:agr {:person :1st, :number :sing}}}})]
     (is (= "j'abandone" (fo result)))))
 
 (deftest generate-present-by-semantics-irregular-1
@@ -238,8 +242,7 @@
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :simple}}}
-                         :model model)]
+                                         :aspect :simple}}})]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-present-by-root-irregular-1
@@ -248,8 +251,7 @@
                                    :sem {:aspect :simple
                                          :tense :present}}
                           :root {:français {:français "dormir"}}
-                          :comp {:synsem {:agr {:person :1st, :number :sing}}}}
-                         :model model)]
+                          :comp {:synsem {:agr {:person :1st, :number :sing}}}})]
     (is (= "je dors" (fo result)))))
 
 (deftest generate-present-by-root-with-boot-stem
@@ -258,16 +260,14 @@
                                    :sem {:subj {:pred :noi}
                                          :tense :present
                                          :aspect :simple}}
-                          :root {:français {:français "boire"}}}
-                         :model model)]
+                          :root {:français {:français "boire"}}})]
     (is (= "nous buvons" (fo result)))))
 
 (deftest generate-irregular-conditional
   (let [result (generate {:synsem {:subcat []
                                    :sem {:subj {:pred :I}
                                          :tense :conditional}}
-                          :root {:français {:français "aller"}}}
-                         :model model)]
+                          :root {:français {:français "aller"}}})]
     (is (= "j'irais" (fo result)))))
 
 (deftest generate-regular-conditional
@@ -275,8 +275,7 @@
                                    :cat :verb
                                    :sem {:subj {:pred :I}
                                          :tense :conditional}}
-                          :root {:français {:français "dormir"}}}
-                         :model model)]
+                          :root {:français {:français "dormir"}}})]
     (is (= "je dormirais" (fo result)))))
 
 (deftest generate-future-with-irregular-future-stem-1
@@ -284,8 +283,7 @@
                                    :cat :verb
                                    :sem {:pred :call
                                          :subj {:pred :tu}
-                                         :tense :future}}}
-                         :model model)]
+                                         :tense :future}}})]
     (is (= "tu appelas" (fo result)))))
 
 (deftest generate-future-with-irregular-future-stem-2
@@ -293,8 +291,7 @@
                                    :cat :verb
                                    :sem {:subj {:pred :tu}
                                          :tense :future}}
-                          :root {:français {:français "appeler"}}}
-                         :model model)]
+                          :root {:français {:français "appeler"}}})]
     (is (= "tu appelas" (fo result)))))
 
 (deftest generate-regular-conditional-reflexive
@@ -311,8 +308,7 @@
                                    :sem {:pred :be
                                          :subj {:pred :I}
                                          :tense :present
-                                         :aspect :simple}}}
-                         :model model)]
+                                         :aspect :simple}}})]
     (is (= "je suis" (fo result)))))
 
 (deftest generate-imparfait-regular-er
@@ -321,8 +317,7 @@
                                    :sem {:pred :study
                                          :subj {:pred :I}
                                          :tense :past
-                                         :aspect :progressive}}}
-                         :model model)]
+                                         :aspect :progressive}}})]
     (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "j'étudiais" (fo result)))))
 
@@ -353,8 +348,7 @@
                                          :subj {:pred :loro
                                                 :gender :masc}
                                          :tense :past
-                                         :aspect :progressive}}}
-                         :model model)]
+                                         :aspect :progressive}}})]
     (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "ils dormaient" (fo result)))))
 
@@ -364,8 +358,7 @@
                                    :sem {:pred :sell
                                          :subj {:pred :voi}
                                          :tense :past
-                                         :aspect :progressive}}}
-                         :model model)]
+                                         :aspect :progressive}}})]
     (is (= :imperfect (get-in result [:synsem :infl])))
     (is (= "vous vendiez" (fo result)))))
 
@@ -375,8 +368,7 @@
                                    :sem {:subj {:pred :noi}
                                          :tense :past
                                          :aspect :progressive}}
-                          :root {:français {:français "finir"}}}
-                         :model model)]
+                          :root {:français {:français "finir"}}})]
     (is (= "nous finissions" (fo result)))))
 
 (deftest generate-imperfect-irregular-être
@@ -384,17 +376,15 @@
                                    :cat :verb
                                    :infl :imperfect
                                    :sem {:pred :be
-                                         :subj {:pred :I}}}}
-                         :model model)]
+                                         :subj {:pred :I}}}})]
     (is (= "j'étais" (fo result)))))
 
 (deftest generate-imperfect-irregular-avoir
-  (let [result (generate/generate {:synsem {:subcat []
-                                            :cat :verb
-                                            :infl :imperfect
-                                            :sem {:pred :have
-                                                  :subj {:pred :I}}}}
-                                  model)]
+  (let [result (generate {:synsem {:subcat []
+                                   :cat :verb
+                                   :infl :imperfect
+                                   :sem {:pred :have
+                                         :subj {:pred :I}}}})]
     (is (not (nil? result)))
     (is (= "av" (get-in result [:head :français :imperfect-stem])))
     (is (= "j'avais" (fo result)))))
@@ -523,9 +513,7 @@
                                    :sem {:subj {:pred :noi}
                                          :aspect :perfect
                                          :tense :present}}
-                          :root {:français {:français "prendre"}}}
-                         :model model)]
-
+                          :root {:français {:français "prendre"}}})]
     (is (not (nil? result)))
     (is (= (fo result) "nous avons pris"))))
 
@@ -683,13 +671,13 @@
     (is (= times
            (count (take times
                         (repeatedly
-                         #(let [expr (fo (time (generate spec :model model)))]
+                         #(let [expr (fo (time (generate spec)))]
                             (println expr)
                             (println (string/join ","
                                                   (map (:morph-ps model)
                                                        (take 1 (time (parse expr
-                                                                            :model model
                                                                             :parse-with-truncate false))))))))))))))
+
 (deftest speed-test-1
   ;; these should all take relatively the same time, but
   ;; for now, the more general the spec, the longer it takes to generate.

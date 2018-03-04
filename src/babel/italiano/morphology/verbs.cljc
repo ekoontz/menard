@@ -30,16 +30,38 @@
                 {:essere (get-in pattern [:synsem :essere] :top)}))
        patterns))
 
+(defn compile-morphology []
+  (let [tenses-map
+        {"conditional" {:synsem {:infl :conditional}}
+         "future"      {:synsem {:infl :future}}
+         "imperfetto"  {:synsem {:infl :imperfetto}}
+         "present"     {:synsem {:infl :present}}
+         "subjunctive" {:synsem {:infl :subjunctive}}
+         "gerund"      {:synsem {:infl :gerund}}
+
+         ;; TODO: make this :passato; then we can do away with this entire mapping of tense names to specs.
+         "passato"     {:synsem {:infl :past}}}]
+
+    (reduce
+     merge
+     (map (fn [tense]
+            (let [patterns
+                  (-> (str "babel/italiano/morphology/verbs/" tense ".edn")
+                      clojure.java.io/resource
+                      slurp
+                      read-string
+                      patterns-with-agr)]
+              {tense
+               (compile-patterns              
+                (get tenses-map tense)
+                patterns)}))
+          (keys tenses-map)))))
+
+(def morph-map (compile-morphology))
+
 ;; <conditional>
-(let [patterns
-      (-> (clojure.java.io/resource "babel/italiano/morphology/verbs/conditional.edn")
-          slurp
-          read-string
-          patterns-with-agr)]
-  (defonce patterns-conditional
-    (compile-patterns
-     {:synsem {:infl :conditional}}
-     patterns)))
+(defonce patterns-conditional
+  (get morph-map "conditional"))
 
 (defn regular-conditional [word]
   (let [unifying-patterns
@@ -149,7 +171,7 @@
           patterns-with-agr)]
   (defonce patterns-subjunctive
     (compile-patterns
-     {:synsem {:infl :past}}
+     {:synsem {:infl :subjunctive}}
      source)))
 ;; </subjunctive>
 

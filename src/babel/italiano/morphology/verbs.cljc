@@ -38,9 +38,7 @@
          "present"     {:synsem {:infl :present}}
          "subjunctive" {:synsem {:infl :subjunctive}}
          "gerund"      {:synsem {:infl :gerund}}
-
-         ;; TODO: make this :passato; then we can do away with this entire mapping of tense names to specs.
-         "passato"     {:synsem {:infl :past}}}]
+         "passato"     {:synsem {:infl :passato}}}]
 
     (reduce
      merge
@@ -65,8 +63,8 @@
   (get morph-map "future"))
 (defonce patterns-gerund
   (get morph-map "gerund"))
-(defonce patterns-imperfect
-  (get morph-map "imperfect"))
+(defonce patterns-imperfetto
+  (get morph-map "imperfetto"))
 (defonce patterns-present
   (get morph-map "present"))
 (defonce patterns-passato
@@ -88,7 +86,7 @@
         patterns-conditional
         patterns-future
         patterns-gerund
-        patterns-imperfect
+        patterns-imperfetto
         patterns-passato
         patterns-present
         patterns-subjunctive)))
@@ -119,13 +117,13 @@
     (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
     (first (do-replace-on infinitive unifying-patterns))))
 
-(defn regular-imperfect [word]
+(defn regular-imperfetto [word]
   (let [unifying-patterns
         (remove nil? (mapcat #(when (not (= :fail
                                             (unify word
                                                    {:agr (:agr %)})))
                                 (:g %))
-                             patterns-imperfect))
+                             patterns-imperfetto))
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))
 
@@ -147,60 +145,60 @@
     :label "passato exception"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :past
+      {:italiano {:infl :passato
                   :italiano (get-in val [:italiano :passato] :nothing)}})}
    
-   ;; 1.5 imperfect
-   {:path [:italiano :imperfect :1sing]
-    :label "imperfect 1sing"
+   ;; 1.5 imperfetto
+   {:path [:italiano :imperfetto :1sing]
+    :label "imperfetto 1sing"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :1sing] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :1sing] :nothing)
                   :agr {:number :sing
                         :person :1st}}})}
-   {:path [:italiano :imperfect :2sing]
-    :label "imperfect 2sing"
+   {:path [:italiano :imperfetto :2sing]
+    :label "imperfetto 2sing"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :2sing] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :2sing] :nothing)
                   :agr {:number :sing
                         :person :2nd}}})}
    
-   {:path [:italiano :imperfect :3sing]
-    :label "imperfect 3sing"
+   {:path [:italiano :imperfetto :3sing]
+    :label "imperfetto 3sing"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :3sing] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :3sing] :nothing)
                   :agr {:number :sing
                         :person :3rd}}})}
    
-   {:path [:italiano :imperfect :1plur]
-    :label "imperfect 1plur"
+   {:path [:italiano :imperfetto :1plur]
+    :label "imperfetto 1plur"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :1plur] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :1plur] :nothing)
                   :agr {:number :plur
                         :person :1st}}})}
    
-   {:path [:italiano :imperfect :2plur]
-    :label "imperfect 2plur"
+   {:path [:italiano :imperfetto :2plur]
+    :label "imperfetto 2plur"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :2plur] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :2plur] :nothing)
                   :agr {:number :plur
                         :person :2nd}}})}
    
-   {:path [:italiano :imperfect :3plur]
-    :label "imperfect 3plur"
+   {:path [:italiano :imperfetto :3plur]
+    :label "imperfetto 3plur"
     :merge-fn
     (fn [val]
-      {:italiano {:infl :imperfect
-                  :italiano (get-in val [:italiano :imperfect :3plur] :nothing)
+      {:italiano {:infl :imperfetto
+                  :italiano (get-in val [:italiano :imperfetto :3plur] :nothing)
                   :agr {:number :plur
                         :person :3rd}}})}
    
@@ -393,7 +391,7 @@
 (defn passato-as-head? [word]
   ;; "fare [past]" + "bene" => "fatto bene"
   (and (= (get-in word '(:cat)) :verb)
-       (= (get-in word '(:infl)) :past)
+       (= (get-in word '(:infl)) :passato)
        (string? (get-in word '(:a :passato)))))
 
 (defn passato-as-head [word]
@@ -401,7 +399,7 @@
        (get-in word '(:b))))
 
 (defn irregular-passato? [word]
-  (and (= :past (get-in word '(:infl)))
+  (and (= :passato (get-in word '(:infl)))
        (get-in word '(:passato))
        (get-in word '(:essere) true)
        (or (= :notfound (get-in word '(:agr :number) :notfound))
@@ -414,7 +412,7 @@
 
 (defn irregular-passato? [word]
   ;; conjugate irregular passato: option 2) using :passato
-  (and (= :past (get-in word '(:infl)))
+  (and (= :passato (get-in word '(:infl)))
        (get-in word '(:passato))))
 
 (defn suffix-of [word]
@@ -499,13 +497,13 @@
     (regular-future word)
 
     (and
-     (= (get-in word [:infl]) :imperfect)
-     (map? (get-in word [:imperfect])))
-    (or (irregular word (get-in word [:imperfect]))
-        (regular-imperfect word))
+     (= (get-in word [:infl]) :imperfetto)
+     (map? (get-in word [:imperfetto])))
+    (or (irregular word (get-in word [:imperfetto]))
+        (regular-imperfetto word))
 
-    (= (get-in word [:infl]) :imperfect)
-    (regular-imperfect word)
+    (= (get-in word [:infl]) :imperfetto)
+    (regular-imperfetto word)
     
     (and
      (= (get-in word [:infl]) :present)
@@ -525,7 +523,7 @@
     (irregular-passato? word)
     (irregular-passato word)
     
-    (= :past (get-in word [:infl]))
+    (= :passato (get-in word [:infl]))
     (regular-passato word)
     
     (irregular-gerund? word)

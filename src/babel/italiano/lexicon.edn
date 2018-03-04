@@ -304,7 +304,7 @@
                     :aspect :perfect}
               :subcat {:2 {:sem {:reflexive false}
                            :essere false
-                           :infl :past
+                           :infl :passato
                            :reflexive false ;; in Italian, reflexive verbs are always essere=true.
                            ;; this additional qualification here (:reflexive false) is not necessary
                            ;; but is expected to speed up generation.
@@ -313,11 +313,11 @@
     {:unify [avere-common avere-aux]
      :note "trapassato intransitive"
      :synsem {:aux true
-              :infl :imperfect
+              :infl :imperfetto
               :sem {:tense :past
                     :aspect :pluperfect}
               :subcat {:2 {:sem {:reflexive false}
-                           :infl :past
+                           :infl :passato
                            :essere false
                            :reflexive false ;; in Italian, reflexive verbs are always essere=true.
                            ;; this additional qualification here (:reflexive false) is not necessary
@@ -356,7 +356,7 @@
  "bere"
  {:italiano {:passato "bevuto"
              :future-stem "berr"
-             :imperfect {:1sing "bevevo"
+             :imperfetto {:1sing "bevevo"
                          :2sing "bevevi"
                          :3sing "beveva"
                          :1plur "bevevamo"
@@ -818,7 +818,7 @@
                                     :1plur "diciamo"
                                     :2plur "dite"
                                     :3plur "dicono"}
-                          :imperfect {:1sing "dicevo"
+                          :imperfetto {:1sing "dicevo"
                                       :2sing "dicevi"
                                       :3sing "diceva"
                                       :1plur "dicevamo"
@@ -918,7 +918,7 @@
                              :2plur "siete"
                              :3plur "sono"}
                    :passato "stato"
-                   :imperfect {:1sing "ero"
+                   :imperfetto {:1sing "ero"
                                :2sing "eri"
                                :3sing "era"
                                :1plur "eravamo"
@@ -1019,17 +1019,17 @@
                     :aspect :perfect}
               :subcat {:2 {:essere true
                            :cat :verb
-                           :infl :past}}}}
+                           :infl :passato}}}}
 
     {:unify [essere-common essere-aux-subject-agreement]
      :notes "essere-aux-trapassato"
      :synsem {:aux true
-              :infl :imperfect
+              :infl :imperfetto
               :sem {:tense :past
                     :aspect :pluperfect}
               :subcat {:2 {:essere true
                            :cat :verb
-                           :infl :past}}}}])
+                           :infl :passato}}}}])
 
  "evitare"  {:synsem {:cat :verb
                       :sem {:pred :avoid}}}
@@ -1041,7 +1041,7 @@
                    :passato "fatto"
                    :future-stem "far"
                    :gerund "facendo"
-                   :imperfect {:1sing "facevo"
+                   :imperfetto {:1sing "facevo"
                                :2sing "facevi"
                                :3sing "faceva"
                                :1plur "facevamo"
@@ -2040,10 +2040,10 @@
                                     :subcat {:1 {:reflexive false}
                                              :2 []}}}}}
 
-;; TODO: enable this: imperfect e.g. "stava guardando il suo programma preferito"
+;; TODO: enable this: imperfetto e.g. "stava guardando il suo programma preferito"
 ;             {:unify [common]
 ;              :synsem {:aux true
-;                       :infl :imperfect
+;                       :infl :imperfetto
 ;                       :sem {:tense :past
 ;                             :aspect :progressive}
 ;                       :subcat {:2 {:cat :verb

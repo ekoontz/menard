@@ -301,7 +301,7 @@
         expressions (take do-this-many
                           (repeatedly
                            #(generate {:synsem {:cat :verb
-                                                :infl :imperfect
+                                                :infl :imperfetto
                                                 :sem {:tense :past
                                                       :aspect :progressive}
                                                 :subcat []}})))]

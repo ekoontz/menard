@@ -369,19 +369,19 @@
                                      :sem {:tense :conditional}}})
                    (unify c10
                            root-is-head-root
-                           {:rule "s-imperfect-phrasal"
+                           {:rule "s-imperfetto-phrasal"
                             :head {:phrasal true}
                             :synsem {:aux false
-                                     :infl :imperfect
+                                     :infl :imperfetto
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
                    (unify c10
                            root-is-head
-                           {:rule "s-imperfect-nonphrasal"
+                           {:rule "s-imperfetto-nonphrasal"
                             :head {:phrasal false}
                             :synsem {:aux false
-                                     :infl :imperfect
+                                     :infl :imperfetto
                                      :cat :verb
                                      :sem {:aspect :progressive
                                            :tense :past}}})
@@ -464,9 +464,9 @@
 
                    (unify h21
                            root-is-head
-                           {:rule "vp-imperfect"
+                           {:rule "vp-imperfetto"
                             :synsem {:aux false
-                                     :infl :imperfect
+                                     :infl :imperfetto
                                      :cat :verb}}
                            vp-non-pronoun)
 

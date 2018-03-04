@@ -8,7 +8,7 @@
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
-   [babel.lexiconfn :refer [read-lexicon]]
+   [babel.lexiconfn :refer [edn2lexicon read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
                      root-is-comp root-is-head-root root-is-head
@@ -44,6 +44,10 @@
 
 (declare against-pred)
 (declare matching-head-lexemes)
+
+(defn compile-lexicon []
+  (edn2lexicon
+   (clojure.java.io/resource "babel/francais/lexicon.edn")))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -512,10 +516,6 @@
 
 (defn analyze [arg]
   (morph/analyze arg @lexicon))
-
-(defn write-lexicon []
-  (babel.writer/write-lexicon "fr"
-                              @(deliver-lexicon)))
 
 (defn model []
   (let [lexicon (read-lexicon "fr")

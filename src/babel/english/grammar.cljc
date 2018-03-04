@@ -5,7 +5,7 @@
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexiconfn :refer [read-lexicon]]
+   [babel.lexiconfn :refer [edn2lexicon read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if comp-modifies-head
@@ -20,8 +20,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]
-   [babel.writer :as writer]))
+   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]
@@ -32,6 +31,10 @@
    [:synsem :pronoun]
    [:synsem :sem :pred]
    [:synsem :sem :human]])
+
+(defn compile-lexicon []
+  (edn2lexicon
+   (clojure.java.io/resource "babel/english/lexicon.edn")))
 
 (defn noun-default? [tree]
   (and (= :noun (get-in tree [:synsem :cat]))
@@ -520,9 +523,6 @@
           (let [filtered-v v]
             (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
               [k filtered-v])))))
-
-(defn write-lexicon []
-  (writer/write-lexicon "en" (compile-lexicon)))
 
 (defn model []
   (let [debug (log/info "  loading lexicon..")

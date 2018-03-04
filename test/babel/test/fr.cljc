@@ -6,6 +6,7 @@
             [babel.francais.grammar :as grammar :refer [fo-ps]]
             [babel.francais.morphology :refer [analyze conjugate fo get-string]]
             [babel.generate :as generate]
+            [babel.lexiconfn :refer [write-lexicon]]
             [babel.over :as over]
             [babel.parse :as parse]
             [babel.test.test :as btest]
@@ -18,7 +19,7 @@
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
 (babel.korma/init-db)
-(grammar/write-lexicon)
+(write-lexicon "fr" (grammar/compile-lexicon))
 (def model @@(get models :fr))
 
 (defn parse [expression & {:keys [parse-with-truncate]}]

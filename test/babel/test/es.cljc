@@ -4,6 +4,7 @@
             [babel.espanol :as espanol :refer [analyze generate parse small]]
             [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
+            [babel.lexiconfn :refer [write-lexicon]]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -13,7 +14,7 @@
             [dag_unify.core :refer [get-in]]))
 
 (babel.korma/init-db)
-(grammar/write-lexicon)
+(write-lexicon "es" (grammar/compile-lexicon))
 (def model @@(get models :es))
 
 (deftest generate-regular-conditional

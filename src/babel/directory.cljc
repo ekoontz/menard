@@ -5,6 +5,7 @@
             [babel.italiano.grammar :as it]
             [babel.korma :refer [init-db]]
             [babel.latin :as la]
+            [babel.lexiconfn :refer [write-lexicon]]
             [clojure.tools.logging :as log]
             [korma.db :refer [transaction]]))
 (def models
@@ -28,13 +29,14 @@
   (init-db)
   (transaction
    (print (str "it.."))
-   (println (it/write-lexicon))
+   (println (write-lexicon "it" (it/compile-lexicon)))
    
    (print (str "en.."))
-   (println (en/write-lexicon))
+   (println (write-lexicon "en" (en/compile-lexicon)))
    
    (print (str "es.."))
-   (println (es/write-lexicon))
+   (println (write-lexicon "es" (es/compile-lexicon)))
    
    (print (str "fr.."))
-   (println (fr/write-lexicon))))
+   (println (write-lexicon "fr" (fr/compile-lexicon)))))
+

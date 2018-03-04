@@ -6,7 +6,7 @@
             [babel.english.morphology :refer [get-string]]
 
             [babel.generate :as generate :refer [get-lexemes lightning-bolts]]
-            
+            [babel.lexiconfn :refer [write-lexicon]]
             [babel.over :refer [over overc overh]]
             
             ;; TODO: add parsing tests
@@ -24,7 +24,7 @@
             [dag_unify.core :refer [assoc-in dissoc-paths fail? fail-path-between get-in strip-refs unify]]))
 
 (babel.korma/init-db)
-(grammar/write-lexicon)
+(write-lexicon "en" (grammar/compile-lexicon))
 (def model @@(get models :en))
 
 (defn morph [expression]

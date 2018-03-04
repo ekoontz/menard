@@ -3,7 +3,7 @@
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
-   [babel.italiano.lexicon :refer [deliver-lexicon]]
+   [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
@@ -48,6 +48,11 @@
                              :tense :present}}}
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
+
+(defn compile-lexicon []
+  (edn2lexicon
+   (clojure.java.io/resource "babel/italiano/lexicon.edn")))
+
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 
@@ -621,7 +626,6 @@
             (if (not (empty? filtered-vals))
               [k filtered-vals])))))
 
-;; TODO: promote to babel.writer
 (defn create-model-for-spec [spec]
   (let [root (get-in spec [:root :italiano :italiano])
         pred (get-in spec [:synsem :sem :pred])
@@ -704,10 +708,6 @@
           [tree])
         with-defaults))))
 
-(defn write-lexicon []
-  (babel.writer/write-lexicon "it"
-                              (babel.italiano.lexicon/edn2lexicon
-                               (clojure.java.io/resource "babel/italiano/lexicon.edn"))))
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
   [lexicon]

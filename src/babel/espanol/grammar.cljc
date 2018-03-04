@@ -5,7 +5,7 @@
    [babel.espanol.morphology :as morph
     :refer [analyze fo morph-walk-tree]]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexiconfn :refer [lexicon-for-generation read-lexicon]]
+   [babel.lexiconfn :refer [edn2lexicon lexicon-for-generation read-lexicon]]
    [babel.parse :as parse]
    [babel.stringutils :refer [show-as-tree]]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle
@@ -35,6 +35,10 @@
                                 :tense :past}}}
    "preterito" {:synsem {:sem {:aspect :perfect
                                :tense :present}}}})
+
+(defn compile-lexicon []
+  (edn2lexicon
+   (clojure.java.io/resource "babel/espanol/lexicon.edn")))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -410,11 +414,6 @@
                   {:synsem {:modal ref}
                    :head {:synsem {:modal ref}}}))
         true phrase))
-
-(defn write-lexicon []
-  (babel.writer/write-lexicon "es"
-                              (babel.espanol.lexicon/edn2lexicon
-                               (clojure.java.io/resource "babel/espanol/lexicon.edn"))))
 
 (def grammar
   (map (fn [phrase]

@@ -12,11 +12,13 @@
    [clojure.set :as set]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
+   [clojure.data.json :as json]
    [clojure.string :as string]
    [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists?
                                      fail-path fail? get-in isomorphic?
                                      serialize strip-refs unify]]
-   [korma.core :refer [exec-raw]]))
+   [korma.core :refer [exec-raw]]
+   [korma.db :refer [transaction]]))
 
 (declare listify)
 (declare map-function-on-map-vals)
@@ -24,7 +26,7 @@
 (declare transform)
 
 (defn read-lexicon
-  "read a lexicon compiled from source by (defn compile-lex) and then written to the database by (defn babel.writer/write-lexicon)"
+  "read a lexicon compiled from source by (defn compile-lex) and then written to the database by (defn write-lexicon)"
   [language]
   (init-db)
   (log/info (str "reading lexicon for language: " language))
@@ -786,3 +788,49 @@
   (into {}
         (for [[k v] lexicon]
           [k (eval v)])))
+
+(defn insert-lexeme [canonical lexemes language]
+  (log/debug (str "insert-lexeme: canonical=" canonical ", language=" language))
+  (exec-raw [(str "INSERT INTO lexeme 
+                                 (canonical, structures, language, serialized)
+                          VALUES (?,?::jsonb[],?,?::text[])")
+             [canonical
+              (babel.korma/prepare-array
+               (vec (map (fn [lexeme]
+                           (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized)))
+                         lexemes)))
+              language
+              (babel.korma/prepare-array
+               (vec (map (fn [lexeme]
+                           (str (vec (dag_unify.core/serialize lexeme))))
+                         lexemes)))
+              ]]))
+
+(defn truncate-lexicon [language]
+  (try
+    (exec-raw [(str "DELETE FROM lexeme WHERE language=?")
+               [language]])
+    (catch java.sql.SQLException sqle
+      (do
+        (log/error (str "Exception when truncating lexicon: " sqle))
+        (log/error (str "SQL error: " (.printStackTrace (.getNextException sqle))))))
+      
+    (catch Exception e
+      (do
+        (log/error (str "Exception when truncating lexicon: " e))))))
+
+;; (babel.writer/write-lexicon "en" lexicon)
+(defn write-lexicon [language lexicon]
+  (transaction
+   (truncate-lexicon language)
+   
+   (let [canonicals (sort (keys lexicon))]
+     (loop [remain canonicals
+            result 0]
+       (let [[canonical & remaining] remain]
+         (log/debug (str "(write-lexicon " language ":" canonical ")"))
+         (insert-lexeme canonical (get lexicon canonical) language)
+         (if (empty? remaining)
+           (+ 1 result)
+           (recur remaining
+                  (+ 1 result))))))))

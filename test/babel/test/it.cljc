@@ -7,6 +7,7 @@
    [babel.italiano.grammar :as grammar]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
    [babel.italiano.morphology.nouns :as nouns]
+   [babel.lexiconfn :refer [write-lexicon]]
    [babel.italiano.morphology.verbs :as verbs]
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
@@ -20,7 +21,7 @@
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
 (babel.korma/init-db)
-(grammar/write-lexicon)
+(write-lexicon "it" (grammar/compile-lexicon))
 (def model @@(get models :it))
 
 (def np-grammar (delay (grammar/np-grammar)))

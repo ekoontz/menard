@@ -23,7 +23,9 @@
 (declare rules)
 (declare transform)
 
-(defn read-lexicon [language]
+(defn read-lexicon
+  "read a lexicon compiled from source by (defn compile-lex) and then written to the database by (defn babel.writer/write-lexicon)"
+  [language]
   (init-db)
   (log/info (str "reading lexicon for language: " language))
   (let [lexemes

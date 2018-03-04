@@ -781,6 +781,14 @@
 
       ))
 
+;; TODO: dangerous to (eval) code that we don't directly control:
+;; replace with a DSL that accomplishes the same thing without
+;; security problems.
+(defn evaluate [lexicon]
+  (into {}
+        (for [[k v] lexicon]
+          [k (eval v)])))
+
 (defn insert-lexeme [canonical lexemes language]
   (log/debug (str "insert-lexeme: canonical=" canonical ", language=" language))
   (exec-raw [(str "INSERT INTO lexeme 
@@ -815,6 +823,7 @@
 (defn write-lexicon [language lexicon]
   (transaction
    (truncate-lexicon language)
+   
    (let [canonicals (sort (keys lexicon))]
      (loop [remain canonicals
             result 0]

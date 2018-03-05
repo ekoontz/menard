@@ -24,6 +24,8 @@
 (write-lexicon "it" (grammar/compile-lexicon))
 (def model @@(get models :it))
 
+;; TODO: consider removing special-purpose grammars like grammar/np-grammar
+;; and just use model instead.
 (def np-grammar (delay (grammar/np-grammar)))
 
 (defmacro deftest [test-name & arguments]

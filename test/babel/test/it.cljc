@@ -258,18 +258,21 @@
 ;; deftest's 'do-this-many' below.
 (deftest roundtrip-np-grammar
   (let [do-this-many 10
+        spec {:synsem {:cat :noun
+                       :subcat []
+                       :agr {:gender :top
+                             :number :top}
+                       :sem {:mod {:pred :top}
+                             :pred :top
+                             :spec {:def :top}}}}
+        ;; Change the above generic noun-phrase spec to something more specific
+        ;; if this test fails and you want to investigate why:
+        ;; 1. To prevent adjectives, use: [:synsem :sem :mod]=[].
+        ;; 2. Possible values of [:synsem :sem :spec :def] are: {:def, :indef, :partitivo, possessive}
+        
         expressions (take do-this-many
                           (repeatedly #(italiano/generate
-                                        {:synsem {:subcat []
-                                                  :sem {:mod {:pred :top}
-                                                        :number :top
-                                                        :pred :top
-                                                        :spec {:def :top}}}}
-                                        ;; change the above 
-                                        ;; generic spec to something more specific
-                                        ;; if this test fails and you want to investigate
-                                        ;; why.
-                                        @np-grammar)))]
+                                        spec)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)

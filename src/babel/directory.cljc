@@ -22,6 +22,8 @@
     (swap! (:es models) (fn [old-model] (delay (es/small))))
     (swap! (:fr models) (fn [old-model] (delay (fr/model))))
     (swap! (:it models) (fn [old-model] (delay (it/model))))
+    ;; (swap! (:it models) (fn [old-model] (delay (grammar/model-reloaded))))
+
     (swap! (:la models) (fn [old-model] (delay (la/model))))
     (log/info (str "refreshed models."))))
 

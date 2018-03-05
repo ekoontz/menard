@@ -88,9 +88,11 @@
       #"carsi$"           "chiamo"
       #"gare$"            "ghiamo"    ;; pagare -> paghiamo
       #"garsi$"           "ghiamo"
+      #"iare$"            "iamo"
       #"are$"             "iamo"
       #"ere$"             "iamo"
       #"ire$"             "iamo"
+      #"iarsi$"           "iamo"
       #"arsi$"            "iamo"
       #"ersi$"            "iamo"
       #"irsi$"            "iamo"

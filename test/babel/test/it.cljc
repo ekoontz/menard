@@ -272,7 +272,7 @@
         
         expressions (take do-this-many
                           (repeatedly #(italiano/generate
-                                        spec)))]
+                                        spec @np-grammar)))]
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)

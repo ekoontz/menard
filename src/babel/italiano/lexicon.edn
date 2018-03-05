@@ -593,7 +593,6 @@
                   :pred :existential}
             :agr {:person :3rd
                   :number :plur}}}]
-
  "cipolla"
  {:synsem {:agr {:gender :fem}
            :cat :noun
@@ -601,10 +600,9 @@
                  :edible true
                  :animate false
                  :artifact false}}}
-
  "città"
- {:synsem {:agr {:gender :fem}
-           :cat :noun
+ {:vcat :noun-invariable-feminine
+  :synsem {:agr {:gender :fem}
            :sem {:city true
                  :pred :city}
            :subcat {:1 {:cat :det

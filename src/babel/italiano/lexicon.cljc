@@ -65,6 +65,26 @@
 (defn edn2lexicon [resource]
   (-> (lexfn/edn2lexicon resource)
 
+      ;; if :vcat = :noun-invariable-{feminine,masculine}, then add plural exception.
+      (map-function-on-map-vals
+       (fn [k lexemes]
+         (map (fn [lexeme]
+                (cond (= :noun-invariable-feminine (get-in lexeme [:vcat]))
+                      (unify
+                       {:synsem {:cat :noun
+                                 :agr {:gender :fem}}
+                        :italiano {:plur k}}
+                       lexeme)
+                      (= :noun-invariable-masculine (get-in lexeme [:vcat]))
+                      (unify
+                       {:synsem {:cat :noun
+                                 :agr {:gender :masc}}
+                        :italiano {:plur k}}
+                       lexeme)
+                      true
+                      lexeme))
+             lexemes)))
+     
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun

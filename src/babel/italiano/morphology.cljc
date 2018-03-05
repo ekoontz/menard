@@ -432,8 +432,12 @@
       
       (and (= a "il")
            (string? b)
-           (or (re-find #"^[aeiou]" b)
-               (re-find #"^s[t]" b)))
+           (re-find #"^[aeiou]" b))
+      (trim (str "l'" b))
+      
+      (and (= a "il")
+           (string? b)
+           (re-find #"^s[t]" b))
       (trim (str "lo " b))
       
       (and (= a "lo")
@@ -445,13 +449,13 @@
       (and (string? a)
            (= a "di")
            (string? b)
-           (re-find #"^il (mio|tio|suo|nostro|vostro|loro)\b" b))
+           (re-find #"^il (mio|tuo|suo|nostro|vostro|loro)\b" b))
       (str a " " (string/replace b #"^il " ""))
       
       (and (string? a)
            (= a "di")
            (string? b)
-           (re-find #"^la (mia|tia|sua|nostra|vostra|loro)\b" b))
+           (re-find #"^la (mia|tua|sua|nostra|vostra|loro)\b" b))
       (str a " " (string/replace b #"^la " ""))
       
       (and (string? a)

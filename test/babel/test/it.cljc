@@ -258,7 +258,8 @@
 ;; deftest's 'do-this-many' below.
 (deftest roundtrip-np-grammar
   (let [do-this-many 10
-        spec {:synsem {:cat :noun
+        spec {:phrasal true
+              :synsem {:cat :noun
                        :subcat []
                        :agr {:gender :top
                              :number :top}

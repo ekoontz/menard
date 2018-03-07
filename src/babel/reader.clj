@@ -59,7 +59,7 @@
               target-spec (json-read-str
                            (if-let [target-spec (get (:query-params request) "target-spec")]
                              target-spec "{}"))
-              gcacs
+              q-and-a
               (try
                 (wait wait-ms-for-question
                       (fn []
@@ -70,7 +70,15 @@
                 (catch Exception e
                   {:return-a-500 true
                    :exception (str e)}))]
-          (cond (nil? gcacs)
+          ;; at this point q-and-a is either:
+          ;; - nil: the (wait) timed out; meaning the
+          ;; system is either over-capacity (CPU-starved)
+          ;; or the underlying algorithm is simply not
+          ;; efficient with the supplied inputs.
+          ;; - {:return-a-500 true} The generation attempt
+          ;; threw an exception of some kind, the value of
+          ;; which is available in the :exception key.
+          (cond (nil? q-and-a)
 
                 ;; Avoid any logging here since it will further
                 ;; slow down system since it's already overloaded.
@@ -79,17 +87,17 @@
                  :body (write-str {:message "Capacity overload: please try again later."
                                    :spec target-spec})}
 
-                (= true (:return-a-500 gcacs))
+                (= true (:return-a-500 q-and-a))
                 (do
                   (log/error (str "Internal error: returning 500. Exception was:"
-                                  (:exception gcacs)))
+                                  (:exception q-and-a)))
                   {:status 500
                    :headers {"Content-Type" "application/json;charset=utf-8"}
                    :body (write-str {:message "Unexpected internal error. Sorry: hopefully a human will work on it."})})
                 
                 true
-                (let [source (:source gcacs)
-                      targets (:targets gcacs)]
+                (let [source (:source q-and-a)
+                      targets (:targets q-and-a)]
                   (log/info (str "returning normal response:"
                                  "'" source "'"
                                  " -> " targets "; spec:" target-spec))

@@ -3,6 +3,12 @@
    [clojure.string :as string]
    [clojure.test :refer [deftest is]]))
 
+(defn init-db []
+  (->
+   "postgres://postgres@localhost:5432/babel"
+   babel.korma/init-db 
+   babel.korma/create-tables))
+
 (defn generate-speed-test [spec model & [times]]
   "generate an expression according to the given _spec_ and _model_."
   (let [standard-number-of-times 10

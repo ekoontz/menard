@@ -113,14 +113,22 @@
 (defn init-db [& [url]]
   (do
     (defdb korma-db 
-      (let [default "postgres://postgres@localhost:5432/babel"
+      (let [default "postgres://localhost/babel"
             database-url (cond
-                           url url
-                           (env :database-url) (env :database-url)
-                           true default)]
+                           url (do
+                                 (log/info (str "using supplied url:" url))
+                                 url)
 
-        (log/info (str "initializing database connection with database-url: " database-url))
+                           (env :database-url)
+                           (log/info (str "using environment's DATABASE_URL:"
+                                          (env :database-url)))
 
+                           true (do (log/info
+                                     (str "using default database url:"
+                                          url))
+                                    default))]
+        (log/info (str "initializing database connection with database-url: "
+                       database-url))
         
         ;; this constructs the actual database connection which is used throughout the code base.
         (postgres
@@ -143,7 +151,7 @@
            (log/info (str "scanned DATABASE_URL:" redacted-database-url "; found:"
                           "(user,host,db)=(" user "," host "," db ")"))
            {:db db
-            :user user
+;;            :user user
             :password password
             :host host
             :port (or port "5432")}))))))

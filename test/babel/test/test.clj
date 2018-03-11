@@ -1,11 +1,12 @@
 (ns babel.test.test
   (:require
    [clojure.string :as string]
-   [clojure.test :refer [deftest is]]))
+   [clojure.test :refer [deftest is]]
+   [clojure.tools.logging :as log]))
 
 (defn init-db []
   (->
-   "postgres://postgres@localhost:5432/babel"
+   "postgres://localhost/babel"
    babel.korma/init-db 
    babel.korma/create-tables))
 

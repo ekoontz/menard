@@ -3,7 +3,7 @@
   (:require
    [babel.encyclopedia :refer [sem-impl]]
    [babel.exception :refer [exception]]
-   [babel.korma :refer [init-db]]
+   [babel.korma :as db]
    [babel.pos :refer [agreement-noun common-noun determiner
                       intransitive modal noun
                       subcat0 subcat1
@@ -28,7 +28,6 @@
 (defn read-lexicon
   "read a lexicon compiled from source by (defn compile-lex) and then written to the database by (defn write-lexicon)"
   [language]
-  (init-db)
   (log/info (str "reading lexicon for language: " language))
   (let [lexemes
         (-> (exec-raw [(str "SELECT canonical, serialized FROM lexeme "
@@ -795,12 +794,12 @@
                                  (canonical, structures, language, serialized)
                           VALUES (?,?::jsonb[],?,?::text[])")
              [canonical
-              (babel.korma/prepare-array
+              (db/prepare-array
                (vec (map (fn [lexeme]
                            (json/write-str (dissoc (strip-refs lexeme) :dag_unify.core/serialized)))
                          lexemes)))
               language
-              (babel.korma/prepare-array
+              (db/prepare-array
                (vec (map (fn [lexeme]
                            (str (vec (dag_unify.core/serialize lexeme))))
                          lexemes)))

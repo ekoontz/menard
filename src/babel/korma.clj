@@ -95,7 +95,22 @@
          ;; Final step, convert the keys from strings e.g. convert "foo" to :foo.
          (map convert-keys-from-string-to-keyword))))
 
-(defn init-db []
+(defn create-tables [db-connection]
+  ;; older postgres versions (pre-9.6(?)) do not support CREATE SEQUENCE IF NOT EXISTS,
+  ;; so that will fail here: catch the exception and continue.
+  (try (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
+       (catch Exception e
+         (log/warn (str "ignoring error from database server: " e))))
+  (exec-raw [(str "CREATE TABLE IF NOT EXISTS lexeme ("
+                  " lexeme BIGINT NOT NULL DEFAULT nextval('lexeme_id_seq'::regclass),"
+                  " created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),"
+                  " language text,"
+                  " canonical text,"
+                  " structures jsonb[],"
+                  " serialized text[])")
+             []]))
+
+(defn init-db [url]
   (do
     (defdb korma-db 
       (let [default "postgres://postgres@localhost:5432/babel"
@@ -133,20 +148,7 @@
             :user user
             :password password
             :host host
-            :port (or port "5432")}))))
-    ;; older postgres versions (pre-9.6(?)) do not support CREATE SEQUENCE IF NOT EXISTS,
-    ;; so that will fail here: catch the exception and continue.
-    (try (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
-         (catch Exception e
-           (log/warn (str "ignoring error from database server: " e))))
-    (exec-raw [(str "CREATE TABLE IF NOT EXISTS lexeme ("
-                    " lexeme BIGINT NOT NULL DEFAULT nextval('lexeme_id_seq'::regclass),"
-                    " created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),"
-                    " language text,"
-                    " canonical text,"
-                    " structures jsonb[],"
-                    " serialized text[])")
-               []])))
+            :port (or port "5432")}))))))
 
 (defn convert-keys-from-string-to-keyword [input]
   (cond (map? input)

@@ -110,20 +110,18 @@
                   " serialized text[])")
              []]))
 
-(defn init-db [url]
+(defn init-db [& [url]]
   (do
     (defdb korma-db 
       (let [default "postgres://postgres@localhost:5432/babel"
             database-url (cond
-                           (env :database-url)
-                           (env :database-url)
-                           
-                           true default
-                           true
-                           (do
-                             (log/error
-                              (str "DATABASE_URL not set in your environment: you must define it; e.g.: " default)
-                              (throw (Exception. (str "could not find database name in your database-url."))))))]
+                           url url
+                           (env :database-url) (env :database-url)
+                           true default)]
+
+        (log/info (str "initializing database connection with database-url: " database-url))
+
+        
         ;; this constructs the actual database connection which is used throughout the code base.
         (postgres
          ;; thanks to Jeroen van Dijk via http://stackoverflow.com/a/14625874

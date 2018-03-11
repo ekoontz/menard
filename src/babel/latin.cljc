@@ -42,6 +42,10 @@
 
 (declare generate)
 
+;; Unlike languages with larger models, the
+;; Latin model is small enough that we don't take
+;; excessive amount of time to read the lexicon from the source .edn
+;; rather than getting it in a pre-compiled form from the database.
 (defn model []
   (let [the-model
         (let [lexicon

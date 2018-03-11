@@ -1,0 +1,35 @@
+{
+ "i"
+ {:synsem {:cat :det
+           :def :def
+           :agr {:gender :masc
+                 :number :plur}}}
+ "il"
+ {:synsem {:cat :det
+           :def :def
+           :agr {:gender :masc
+                 :number :sing}}}
+
+ "la"
+  {:synsem {:cat :det
+            :def :def
+            :agr {:gender :fem
+                  :number :sing}}
+   "l'" [
+         {:use-with-vowel true
+          :synsem {:cat :det
+                   :def :def
+                   :agr {:gender :fem
+                         :number :sing}}}
+
+         {:use-with-vowel true
+          :synsem {:cat :det
+                   :def :def
+                   :agr {:gender :masc
+                         :number :sing}}}]
+ "lo"
+ {:synsem {:cat :det
+            :def :def
+            :agr {:gender :masc
+                  :number :sing}}}
+ }

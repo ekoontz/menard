@@ -5,6 +5,7 @@
             [babel.espanol.grammar :as grammar]
             [babel.espanol.morphology :refer [fo]]
             [babel.lexiconfn :refer [write-lexicon]]
+            [babel.test.test :as btest]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -13,7 +14,7 @@
             #?(:cljs [babel.logjs :as log]) 
             [dag_unify.core :refer [get-in]]))
 
-(babel.korma/init-db)
+(btest/init-db)
 (write-lexicon "es" (grammar/compile-lexicon))
 (def model @@(get models :es))
 

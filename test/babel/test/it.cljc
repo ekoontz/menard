@@ -20,7 +20,7 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-(babel.korma/init-db)
+(btest/init-db)
 (write-lexicon "it" (grammar/compile-lexicon))
 (def model @@(get models :it))
 

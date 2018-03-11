@@ -4,6 +4,7 @@
    [babel.directory :refer [models]]
    [babel.test.it :as it]
    [babel.test.en :as en]
+   [babel.test.test :as btest]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
    [dag_unify.core :refer [get-in strip-refs]]))
@@ -21,6 +22,7 @@
 ;; In English we indicate feminine and masculine gender with ♀ and ♂,
 ;; respectively.
 
+(btest/init-db)
 (def italiano-model @@(get models :it))
 (def english-model @@(get models :en))
 (def latin-model @@(get models :la))

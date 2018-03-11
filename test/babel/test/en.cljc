@@ -8,10 +8,8 @@
             [babel.generate :as generate :refer [get-lexemes lightning-bolts]]
             [babel.lexiconfn :refer [write-lexicon]]
             [babel.over :refer [over overc overh]]
-            
-            ;; TODO: add parsing tests
             [babel.parse :as parse]
-
+            [babel.test.test :as btest]
             [babel.ug :refer [head-principle unify-check]]
             
             [clojure.math.combinatorics :as combo]
@@ -21,9 +19,11 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [assoc-in dissoc-paths fail? fail-path-between get-in strip-refs unify]]))
 
-(babel.korma/init-db)
+            [dag_unify.core :refer [assoc-in dissoc-paths fail?
+                                    fail-path-between get-in
+                                    strip-refs unify]]))
+(btest/init-db)
 (write-lexicon "en" (grammar/compile-lexicon))
 (def model @@(get models :en))
 

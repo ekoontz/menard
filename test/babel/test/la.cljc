@@ -5,13 +5,14 @@
    [babel.english :as source]
    [babel.latin.morphology :refer [analyze conjugate]]
    [babel.latin :as target :refer [morph read-one]]
+   [babel.test.test :as btest]
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
    [dag_unify.core :refer [get-in strip-refs unify]]))
 
+(btest/init-db)
 (def source-language :en)
-
 (def model @@(get models :la))
 
 (defn generate [spec]

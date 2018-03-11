@@ -2,7 +2,8 @@
 ;; - it uses korma, but it is not itself korma, nor does it test korma per-se.
 (ns babel.test.korma
   (:refer-clojure :exclude [test update])
-  (:require [babel.korma :refer [init-db prepare-array read-array]]
+  (:require [babel.korma :refer [prepare-array read-array]]
+            [babel.test.test :as btest]
             [clj-time.coerce :as c]
             [clojure.data.json :as json :refer [write-str]]
             [clojure.string :as string]
@@ -13,7 +14,7 @@
 
 (require '[environ.core :refer [env]])
 
-(init-db)
+(btest/init-db)
 
 (deftest simple
   (let [result (exec-raw ["SELECT 1 AS retval"] :results)]

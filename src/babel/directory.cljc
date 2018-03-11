@@ -3,7 +3,7 @@
             [babel.espanol.grammar :as es]
             [babel.francais.grammar :as fr]
             [babel.italiano.grammar :as it]
-            [babel.korma :refer [init-db]]
+            [babel.korma :as db]
             [babel.latin :as la]
             [babel.lexiconfn :refer [write-lexicon]]
             [clojure.tools.logging :as log]
@@ -28,7 +28,7 @@
     (log/info (str "refreshed models."))))
 
 (defn write-lexicons []
-  (init-db)
+  (db/init-db)
   (transaction
    (print (str "it.."))
    (println (write-lexicon "it" (it/compile-lexicon)))

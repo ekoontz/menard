@@ -120,8 +120,9 @@
                                  url)
 
                            (env :database-url)
-                           (log/info (str "using environment's DATABASE_URL:"
-                                          (env :database-url)))
+                           (do (log/info (str "using environment's DATABASE_URL:"
+                                              (env :database-url)))
+                               (env :database-url))
 
                            true (do (log/info
                                      (str "using default database url:"

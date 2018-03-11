@@ -21,7 +21,9 @@
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
 (btest/init-db)
+(log/info (str "recompiling and writing lexicon to database.."))
 (write-lexicon "it" (grammar/compile-lexicon))
+(log/info (str "done."))
 (def model @@(get models :it))
 
 ;; TODO: consider removing special-purpose grammars like grammar/np-grammar

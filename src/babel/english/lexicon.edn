@@ -1944,6 +1944,9 @@
  "remove" {:synsem {:cat :verb
                     :sem {:pred :remove}}}
 
+ "render" {:synsem {:cat :verb
+                    :sem {:pred :render}}}
+
  "repeat"  {:synsem {:cat :verb
                      :sem {:pred :repeat}}}
 

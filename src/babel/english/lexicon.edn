@@ -103,6 +103,10 @@
                    :subcat {:1 {:cat :noun}
                             :2 {:cat :noun}}}}
 
+ "back" {:synsem {:cat :prep
+                  :sem {:pred :back}
+                  :subcat []}}
+
  "backpack" {:synsem {:cat :noun
                       :sem {:pred :backpack}}}
 

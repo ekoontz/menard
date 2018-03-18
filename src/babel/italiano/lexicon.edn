@@ -1775,7 +1775,7 @@
            [{:unify [common]
              :synsem {:sem {:pred :render}}}
             {:unify [common]
-             :synsem {:sem {:pred :give-back-return-ren...}}}])
+             :synsem {:sem {:pred :give-back-return-ren}}}])
 
  "restare" {:synsem {:essere true
                      :cat :verb
@@ -1784,7 +1784,7 @@
 
  "restituire" {:italiano {:boot-verb true}
                :synsem {:cat :verb
-                        :sem {:pred :give-back-return-res...}}}
+                        :sem {:pred :give-back-return-res}}}
 
  "riconoscere" {:synsem {:cat :verb
                          :sem {:pred :recognize}}

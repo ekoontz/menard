@@ -1953,7 +1953,11 @@
  "rest" [{:synsem {:cat :verb
                    :subcat {:2 []}
                    :sem {:pred :rest-oneself
-                         :reflexive true}}}]
+                         :reflexive true}}}
+
+         {:synsem {:cat :verb
+                   :subcat {:2 []}
+                   :sem {:pred :rest}}}]
 
  "return" [{:synsem {:cat :verb
                      :sem {:pred :return-r}}

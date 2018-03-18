@@ -151,11 +151,14 @@
            
            (log/info (str "scanned DATABASE_URL:" redacted-database-url "; found:"
                           "(user,host,db)=(" user "," host "," db ")"))
-           {:db db
-;;            :user user
-            :password password
-            :host host
-            :port (or port "5432")}))))))
+           (merge
+            {:db db
+             :password password
+             :host host
+             :port (or port "5432")}
+            (if user
+              {:user user}
+              {}))))))))
 
 (defn convert-keys-from-string-to-keyword [input]
   (cond (map? input)

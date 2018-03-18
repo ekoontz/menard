@@ -740,6 +740,9 @@
        :english {:past "did"
                  :past-participle "done"
                  :present {:3sing "does"}}}
+ "down" {:synsem {:cat :prep
+                  :sem {:pred :down}
+                  :subcat []}}
 
  "download" {:synsem {:cat :verb
                       :sem {:pred :download}}}
@@ -1703,13 +1706,6 @@
                  "open" {:synsem {:cat :verb
                                       :sem {:pred :open}}}
 
- "up" {:synsem {:cat :prep
-                :sem {:pred :up}
-                :subcat []}}
- "down" {:synsem {:cat :prep
-                  :sem {:pred :down}
-                  :subcat []}}
-
  "old" {:synsem {:cat :adjective
                  :sem {:pred :old
                        :subj {:physical-object true}}}}
@@ -2515,6 +2511,10 @@
                           :sem {:pred :understand-simply}}
                  :english {:note "simply"}}])
 
+ "up" {:synsem {:cat :prep
+                :sem {:pred :up}
+                :subcat []}}
+ 
  "upload"  {:synsem {:cat :verb
                      :sem {:pred :caricare}}}
 

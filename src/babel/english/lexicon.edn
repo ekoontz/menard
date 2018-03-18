@@ -1019,10 +1019,18 @@
             :subcat []}}]
 
  ;; TODO: account for "give" being ditransitive.
- "give" {:synsem {:cat :verb
-                  :sem {:pred :give}}
-         :english {:past "gave"
-                   :past-participle "given"}}
+ "give" (let [common {:english {:past "gave"
+                                :past-participle "given"}}]
+          [{:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :give}}}
+
+           ;; "give back"
+           {:unify [common]
+            :synsem {:cat :verb
+                     :sem {:pred :give-back-return-ren}
+                     :subcat {:3 {:cat :prep
+                                  :sem {:pred :back}}}}}])
  "go"
  {:synsem {:cat :verb
            :sem {:activity true

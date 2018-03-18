@@ -1976,13 +1976,14 @@
            {:synsem {:cat :verb
                      :sem {:pred :return-t}}
                      :english {:note "t-"}}
+
+           ;; TODO: add obligitory direct object for this sense:
            {:synsem {:cat :verb
-                     :sem {:pred :give-back-return-res...}}}
+                     :sem {:pred :give-back-return-res}}}
+
+           ;; TODO: add obligitory direct object for this sense:
            {:synsem {:cat :verb
-                     :sem {:pred :give-back-return-ren...}}
-            :english {:note "give back"
-                      :past "gave back"
-                      :past-participle "given back"}}]
+                     :sem {:pred :give-back-return-ren}}}]
 
   "ruin" {:synsem {:cat :verb
                       :sem {:pred :ruin}}}

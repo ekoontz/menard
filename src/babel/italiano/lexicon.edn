@@ -2128,9 +2128,8 @@
            :sem {:pred :transfer}}
   :italiano {:boot-verb true}}
 
-"trattare" {:synsem {:cat :verb
-          :sem {:pred :treeat}}}
-
+ "trattare" {:synsem {:cat :verb
+                      :sem {:pred :treat}}}
  "trovare"
  {:synsem {:cat :verb
            :sem {:pred :find}}}

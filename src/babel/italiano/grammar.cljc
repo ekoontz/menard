@@ -893,6 +893,10 @@
 
    {:if #(and (= (get-in % [:synsem :sem :reflexive])
                  true)
+              (not (= (get-in % [:synsem :sem :pred])
+                      :be-called))
+              (not (= (get-in % [:root :italiano :italiano])
+                      "chiamarsi"))
               (= (get-in % [:synsem :sem :tense])
                  :present)
               (= (get-in % [:synsem :sem :aspect])

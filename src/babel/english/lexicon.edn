@@ -152,7 +152,7 @@
                the-obj (atom {:number number
                               :gender gender})] ;; prevents e.g. "Her name is John"
            {:unify [common]
-            :sense 2 ;; used for debugging suspected problems
+            :sense 2 ;; :sense is meant to be used for debugging suspected problems
             ;; with lexical compilation.
             ;; TODO: remove (in)transtivize (false|true): should not
             ;; need these explicit compiler directives; compilation
@@ -1810,7 +1810,7 @@
             {:synsem {:cat :verb
                       :sem {:pred :prepare}}}]
 
-"present" {:synsem {:cat :verb
+ "present" {:synsem {:cat :verb
                      :sem {:pred :present}}}
 
  "preserve" {:synsem {:cat :verb

@@ -542,10 +542,12 @@
 
  "chiamarsi" (let [gender (atom :top)
                    human (atom :top)
-                   number (atom :top)]
+                   number (atom :top)
+                   name-semantics {:human human}]
                {:synsem {:cat :verb
                          :sem {:pred :be-called
-                               :reflexive true}
+                               :reflexive true
+                               :iobj name-semantics}
                          :subcat {:1 {:agr {:gender gender
                                             :number number}
                                       :sem {:human human}
@@ -553,7 +555,7 @@
                                   :3 {:agr {:gender gender
                                             :number number}
                                       :cat :noun
-                                      :sem {:human human}
+                                      :sem name-semantics
                                       :propernoun true}}}})
 
  "chiave" {:synsem {:agr {:gender :masc}

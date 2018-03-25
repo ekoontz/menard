@@ -47,14 +47,18 @@
               {:type "jsonb"
                :map-fn json/write-str}
 
+              ;; TODO: add support integers or other types. On the other hand,
+              ;; it seems to work fine to use {:type "text"} for integers, so no need to do
+              ;; any additional work for them here.
+              
               true
               (do
                 (if (not (empty? sequence))
-                  (log/info (str "using default of 'text' as SQL type for"
-                                 " sequence of type:" (type sequence)
-                                 (str " whose first member is of type:"
-                                      (type (first sequence)))
-                                 ".")))
+                  (log/debug (str "using default of 'text' as SQL type for"
+                                  " sequence of type:" (type sequence)
+                                  (str " whose first member is of type:"
+                                       (type (first sequence)))
+                                  ".")))
                 {:type "text"
                  :map-fn (fn [x] x)}))
         sql-type (:type sql-type-and-map-fn)

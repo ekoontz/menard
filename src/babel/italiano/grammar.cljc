@@ -26,26 +26,30 @@
 (declare model)
 
 (defonce index-lexicon-on-paths
-  [
-   [:italiano :italiano]
+  [[:italiano :italiano]
    [:synsem :aux]
    [:synsem :cat]
    [:synsem :essere]
    [:synsem :infl]
-   [:synsem :sem :pred]
-   ])
+   [:synsem :sem :pred]])
 
 (defonce tenses
-  {"present simple" {:synsem {:sem {:tense :present
-                                    :aspect :simple}}}
-   "present progressive" {:synsem {:sem {:tense :present
-                                    :aspect :progressive}}}
-   "conditional" {:synsem {:sem {:tense :conditional}}}
+  {"conditional" {:synsem {:sem {:tense :conditional}}}
+
    "future" {:synsem {:sem {:tense :future}}}
+
    "imperfetto" {:synsem {:sem {:aspect :progressive
                                 :tense :past}}}
+
    "passato" {:synsem {:sem {:aspect :perfect
                              :tense :present}}}
+
+   "present progressive" {:synsem {:sem {:aspect :progressive
+                                         :tense :present}}}
+
+   "present simple" {:synsem {:sem {:aspect :simple
+                                    :tense :present}}}
+
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
 

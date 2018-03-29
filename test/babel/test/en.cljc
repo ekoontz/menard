@@ -13,6 +13,7 @@
             [babel.ug :refer [head-principle unify-check]]
             
             [clojure.math.combinatorics :as combo]
+            [clojure.pprint :refer [pprint]]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])

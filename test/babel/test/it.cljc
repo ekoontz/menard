@@ -12,6 +12,7 @@
    #?(:cljs [babel.logjs :as log])
    [babel.over :as over]
    [babel.test.test :as btest]
+   [clojure.pprint :refer [pprint]]
    #?(:clj [clojure.test :as realtest :refer [is]])
    #?(:cljs [cljs.test :refer-macros [is]])
    #?(:clj [clojure.tools.logging :as log])

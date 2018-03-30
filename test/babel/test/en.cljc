@@ -294,6 +294,21 @@
     (is (= (morph expr)
            "in front of the table"))))
 
+(defn sentences [n]
+  (btest/sentences n model
+                   {:synsem {:cat :verb,
+                             :subcat []},
+                    :head {:synsem
+                           {:subcat {:1 {:cat :noun,
+                                         :pronoun false,
+                                         :propernoun false}}},
+                           :phrasal true,
+                           :head
+                           {:synsem
+                            {:cat :verb,
+                             :subcat {:2 {:pronoun false,
+                                          :propernoun false}}}}}}))
+
 (deftest furniture-sentence
   (let [expr (generate {:modified false
                         :synsem {:cat :verb

@@ -1,5 +1,7 @@
 (ns babel.test.test
   (:require
+   [babel.generate :as generate]
+   [clojure.pprint :refer [pprint]]
    [clojure.string :as string]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]))
@@ -42,5 +44,14 @@
                                             (time (parse expr
                                                          :model model
                                                          :parse-with-truncate false))))))))))))))
+(defn sentences [n model spec]
+  (take n
+        (repeatedly #(let [expr (generate/generate
+                                 spec
+                                 model)]
+                       (pprint ((:morph model) expr))))))
+
+
+
 
 

@@ -295,20 +295,50 @@
            "in front of the table"))))
 
 (defn sentences [n]
-  (btest/sentences n model
-                   {:synsem {:cat :verb,
-                             :subcat []},
-                    :head {:synsem
-                           {:subcat {:1 {:cat :noun,
-                                         :pronoun false,
-                                         :propernoun false}}},
-                           :phrasal true,
-                           :head
-                           {:synsem
-                            {:cat :verb,
-                             :subcat {:2 {:pronoun false,
-                                          :propernoun false}}}}}}))
+  (let [specs
+        [
 
+         ;; [s [np [vp v np]]]
+         {:synsem {:cat :verb
+                   :subcat []}
+          :head {:phrasal true
+                 :synsem
+                 {:subcat {:1 {:cat :noun
+                               :pronoun false
+                               :propernoun false}}}
+                 :head
+                 {:synsem
+                  {:cat :verb
+                   :subcat {:2 {:pronoun false
+                                :propernoun false}}}}}}
+         ;; [np [det n]]
+         {:phrasal true
+          :synsem {:cat :noun
+                   :subcat []}}
+
+         ;; [np [det [nbar adj n]]]
+         {:phrasal true
+          :synsem {:cat :noun
+                   :subcat []}
+          :head {:phrasal true}}
+
+
+         ;; [s [n [vp v np]]]
+         {:synsem {:cat :verb
+                   :subcat []}
+          :head {:phrasal true
+                 :synsem {:subcat {:1 {:cat :noun}}}
+                 :head {:synsem
+                        {:cat :verb
+                         :subcat {:2 {:pronoun false
+                                      :propernoun false}}}}}}
+
+         
+         ]]
+    (doall (take (Integer. n)
+                 (repeatedly #(btest/sentences 1
+                                               model
+                                               (first (shuffle specs))))))))
 (deftest furniture-sentence
   (let [expr (generate {:modified false
                         :synsem {:cat :verb

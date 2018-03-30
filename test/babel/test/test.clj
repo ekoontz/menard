@@ -45,12 +45,12 @@
                                                          :model model
                                                          :parse-with-truncate false))))))))))))))
 (defn sentences [n model spec]
-  (take n
-        (repeatedly #(let [expr (generate/generate
-                                 spec
-                                 model)]
-                       (pprint ((:morph model) expr))))))
-
+  (doall
+   (take n
+         (repeatedly #(let [expr (generate/generate
+                                  spec
+                                  model)]
+                        (println ((:morph model) expr)))))))
 
 
 

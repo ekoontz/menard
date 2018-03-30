@@ -104,7 +104,7 @@ English expressions. [Here is the output of a sample run of
 demo.sh](https://gist.github.com/ekoontz/57c332d85ccf47503666c72fe241cb14)
 
 ```shell
-lein run -m babel.english/sentences 100
+lein run -m babel.test.en/sentences 100
 ```
 
 runs [babel.english/sentences](https://github.com/ekoontz/babel/blob/master/src/babel/english.cljc#L76) and will generate 100 random English sentences. [Here is the output of a sample run](https://gist.github.com/ekoontz/999b640014578b408437b97d5fdc7221).

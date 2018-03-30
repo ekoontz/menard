@@ -298,7 +298,7 @@
   (let [specs
         [
 
-         ;; [s [np [vp v np]]]
+         ;; [s [np det n] [vp v [np det n]]]
          {:synsem {:cat :verb
                    :subcat []}
           :head {:phrasal true
@@ -311,7 +311,33 @@
                   {:cat :verb
                    :subcat {:2 {:pronoun false
                                 :propernoun false}}}}}}
-         ;; [np [det n]]
+
+         ;; [s [N [vp v np]]]
+         {:synsem {:cat :verb
+                   :subcat []}
+          :head {:phrasal true
+                 :synsem
+                 {:subcat {:1 {:cat :noun}}}
+                 :head
+                 {:synsem
+                  {:cat :verb
+                   :subcat {:2 {:pronoun false
+                                :propernoun false}}}}}}
+
+         ;; [s [N [vp v X]]]
+         {:synsem {:cat :verb
+                   :subcat []}
+          :head {:phrasal true
+                 :synsem
+                 {:subcat {:1 {:cat :noun
+                               :pronoun false
+                               :propernoun false}}
+                 :head
+                 {:synsem
+                  {:cat :verb
+                   :subcat {:2 {:cat :top}}}}}}}
+
+         ;; [np [det N]]
          {:phrasal true
           :synsem {:cat :noun
                    :subcat []}}

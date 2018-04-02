@@ -1,0 +1,82 @@
+{
+ "Antonella"
+ {:synsem {:sem {:pred :antonella
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonia"
+ {:synsem {:sem {:pred :antonia
+                 :human true}
+           :propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :fem}}}
+ "Antonio"
+ {:synsem {:propernoun true
+           :agr {:number :sing
+                 :person :3rd
+                 :gender :masc}
+           :sem {:pred :antonio
+                 :human true}}}
+
+ "Antonia e Luisa"
+ {:synsem {:sem {:pred :antonia-and-luisa
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :person :3rd
+                 :gender :fem}}}
+
+
+ "Gianluca"
+ {:synsem {:agr {:gender :masc}
+           :sem {:pred :gianluca
+                 :human true}
+           :propernoun true}}
+
+ "Lucia e Cecilia"
+ {:synsem {:sem {:pred :lucia-and-cecilia
+                 :human true}
+           :propernoun true
+           :agr {:number :plur
+                 :person :3rd
+                 :gender :fem}}}
+ "Luigi"
+ {:synsem {:agr {:gender :masc}
+           :sem {:pred :luigi
+                 :human true}
+           :propernoun true}}
+ "Luisa"
+ {:synsem {:sem {:pred :luisa
+                 :human true}
+           :agr {:gender :fem}
+           :propernoun true}}
+
+
+ "Marina"
+ {:synsem {:agr {:number :sing
+                 :gender :fem}
+           :sem {:pred :marina
+                 :human true}
+           :propernoun true}}
+ "Mario"
+ {:synsem {:agr {:number :sing
+                 :gender :masc}
+           :sem {:pred :mario
+                 :human true}
+           :propernoun true}}
+ "Matteo"
+ {:synsem {:agr {:gender :masc
+                 :number :sing}
+           :sem {:pred :matteo
+                 :human true}
+           :propernoun true}}
+
+ "Ostana" {:synsem {:cat :noun
+                    :propernoun true
+                    :sem {:pred :ostana
+                          :city true}}}
+ 
+ }

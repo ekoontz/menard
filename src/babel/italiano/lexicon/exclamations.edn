@@ -1,0 +1,6 @@
+{
+ "alla prossima"
+ {:synsem {:cat :exclamation
+           :sem {:pred :bye}}}
+ }
+

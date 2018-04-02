@@ -1,0 +1,56 @@
+{"a"
+ [;; "a" as in "a casa"
+  {:synsem {:cat :prep
+            :sem {:pred :a
+                  :obj {:place true}}
+            :subcat {:1 {:cat :noun
+                         :case :acc
+                         :reflexive false
+                         :subcat []}
+                     :2 []}}}
+  ;; "a" as in "a Roma"
+  {:synsem {:cat :prep
+            :sem {:pred :in
+                  :obj {:city true}}
+            :subcat {:1 {:cat :noun
+                         :reflexive false}
+                     :2 []}}}
+
+  ;; "a" as in "a mezzogiorno"
+  {:synsem {:cat :prep
+            :sem {:pred :a
+                  :obj {:time true}}
+            :subcat {:1 {:cat :noun
+                         :reflexive false
+                         :subcat []}
+                     :2 []}}}
+  ]
+
+ "davanti" {:synsem {:cat :prep
+                     :sem {:pred :in-front-of}}}
+
+  "di"
+ {:synsem {:cat :prep
+           :sem {:pred :di
+                 :comparative true}
+           :subcat {:1 {:cat :noun
+                        :subcat []
+                        :def {:not :partitivo} ;; avoid alliteration like "di delle ragazze (of some women)"
+                        :case :disj ;; pronouns must be disjunctive (me/te/lui/lei...etc)
+                        ;; non-pronouns will unify with this constraint.
+                        }
+                    :2 []}}
+  :italiano {:initial true}}
+
+ "dopo"
+ {:synsem {:cat :prep
+           :sem {:pred :after
+                 :obj {:time true}}}}
+
+ "in" {:synsem {:cat :prep
+                :sem {:pred :in
+                      :obj {:place true}}}}
+ 
+ 
+ }
+

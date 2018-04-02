@@ -3,6 +3,7 @@
             [babel.espanol.grammar :as es]
             [babel.francais.grammar :as fr]
             [babel.italiano.grammar :as it]
+            [babel.italiano.lexicon :as it-lex]
             [babel.korma :as db]
             [babel.latin :as la]
             [babel.lexiconfn :refer [write-lexicon]]
@@ -31,7 +32,7 @@
   (db/init-db)
   (transaction
    (print (str "it.."))
-   (println (write-lexicon "it" (it/compile-lexicon)))
+   (println (write-lexicon "it" (it-lex/compile-lexicon)))
    
    (print (str "en.."))
    (println (write-lexicon "en" (en/compile-lexicon)))

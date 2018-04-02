@@ -298,66 +298,34 @@
   (let [specs
         [
 
-         ;; [s [np det n] [vp v [np det n]]]
-         {:synsem {:cat :verb
-                   :subcat []}
-          :head {:phrasal true
-                 :synsem
-                 {:subcat {:1 {:cat :noun
-                               :pronoun false
-                               :propernoun false}}}
-                 :head
-                 {:synsem
-                  {:cat :verb
-                   :subcat {:2 {:pronoun false
-                                :propernoun false}}}}}}
-
-         ;; [s [N [vp v np]]]
-         {:synsem {:cat :verb
-                   :subcat []}
-          :head {:phrasal true
-                 :synsem
-                 {:subcat {:1 {:cat :noun}}}
-                 :head
-                 {:synsem
-                  {:cat :verb
-                   :subcat {:2 {:pronoun false
-                                :propernoun false}}}}}}
-
-         ;; [s [N [vp v X]]]
-         {:synsem {:cat :verb
-                   :subcat []}
-          :head {:phrasal true
-                 :synsem
-                 {:subcat {:1 {:cat :noun
-                               :pronoun false
-                               :propernoun false}}
-                 :head
-                 {:synsem
-                  {:cat :verb
-                   :subcat {:2 {:cat :top}}}}}}}
-
-         ;; [np [det N]]
          {:phrasal true
-          :synsem {:cat :noun
-                   :subcat []}}
+          :synsem {:subcat []}
+          :head {:phrasal false}
+          :comp {:phrasal false}}
 
-         ;; [np [det [nbar adj n]]]
          {:phrasal true
-          :synsem {:cat :noun
-                   :subcat []}
-          :head {:phrasal true}}
-
-
-         ;; [s [n [vp v np]]]
-         {:synsem {:cat :verb
-                   :subcat []}
+          :synsem {:subcat []}
           :head {:phrasal true
-                 :synsem {:subcat {:1 {:cat :noun}}}
-                 :head {:synsem
-                        {:cat :verb
-                         :subcat {:2 {:pronoun false
-                                      :propernoun false}}}}}}
+                 :head {:phrasal false}}
+          :comp {:phrasal false}}
+
+         {:phrasal true
+          :synsem {:subcat []}
+          :head {:phrasal true
+                 :head {:phrasal false}}
+          :comp {:phrasal false}}
+
+         {:phrasal true
+          :synsem {:subcat []}
+          :head {:phrasal true
+                 :head {:phrasal false}}
+          :comp {:phrasal true}}
+
+         {:phrasal true
+          :synsem {:subcat []}
+          :head {:phrasal true
+                 :head {:phrasal true}}
+          :comp {:phrasal true}}
 
          
          ]]

@@ -3,9 +3,9 @@
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
-   [babel.italiano.lexicon :refer [deliver-lexicon edn2lexicon]]
+   [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
-   [babel.lexiconfn :refer [read-lexicon]]
+   [babel.lexiconfn :refer [read-lexicon] :as lexfn]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
                      head-principle
@@ -52,11 +52,6 @@
 
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
-
-(defn compile-lexicon []
-  (edn2lexicon
-   (clojure.java.io/resource "babel/italiano/lexicon.edn")))
-
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
 
@@ -796,7 +791,7 @@
     (model-plus-lexicon lexicon)))
 
 (defn np-grammar []
-  (let [lexicon (deliver-lexicon)
+  (let [lexicon (compile-lexicon)
         grammar
         (filter #(or (= (:rule %) "noun-phrase1")
                      (= (:rule %) "noun-phrase2")

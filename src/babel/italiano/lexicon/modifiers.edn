@@ -1,0 +1,13 @@
+{"domani"
+ {:synsem {:cat :sent-modifier
+           :sem {:pred :domani}
+           :subcat {:1 {:infl :future
+                        :sem {:tense :future}
+                        :subcat []}}}}
+ "dopodomani"
+ {:synsem {:cat :sent-modifier
+           :sem {:pred :dopodomani}
+           :subcat {:1 {:infl :future
+                        :sem {:tense :future}
+                        :subcat []}}}}}
+

@@ -1,5 +1,43 @@
 ;; TODO: not used yet: use.
 {
+
+ "del"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :sing
+                 :gender :masc}}}
+ "dei"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :plur
+                 :gender :masc}}}
+ "della"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :sing
+                 :gender :fem}}}
+ "delle"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :plur
+                 :gender :fem}}}
+ "di la"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :sing
+                 :gender :fem}
+           :mass true}}
+ "di le"
+ {:synsem {:cat :det
+           :def :partitivo
+           :agr {:number :plur
+                 :gender :fem}}}
+ "di il"
+ {:synsem {:cat :det
+           :def :partitivo
+           :mass true
+           :agr {:number :sing
+                 :gender :masc}}}
  "i"
  {:synsem {:cat :det
            :def :def
@@ -15,22 +53,95 @@
   {:synsem {:cat :det
             :def :def
             :agr {:gender :fem
-                  :number :sing}}
-   "l'" [
-         {:use-with-vowel true
-          :synsem {:cat :det
-                   :def :def
-                   :agr {:gender :fem
-                         :number :sing}}}
+                  :number :sing}}}
 
-         {:use-with-vowel true
-          :synsem {:cat :det
-                   :def :def
-                   :agr {:gender :masc
-                         :number :sing}}}]
+ "la loro"
+ {:synsem {:cat :det
+           :def :possessive
+           :agr {:gender :fem
+                 :number :sing}
+           :sem {:number :plur
+                 :person :3rd}}}
+ "la mia"
+ {:synsem {:cat :det
+           :def :possessive
+           :agr {:gender :fem
+                 :number :sing}
+           :sem {:number :sing
+                 :person :1st}}}
+ "la nostra"
+ {:synsem {:cat :det
+           :def :possessive
+           :agr {:gender :fem
+                 :number :sing}
+           :sem {:number :plur
+                 :person :1st}}}
+
+ ;; TODO for below: add pronominal "la sua" (translated in English as "his" and "hers", depending on gender of the owner of the referent).
+ ;; e.g. "I gatti sono i suoi. (The cats are hers) (if talking about a female owner) or (The cats are his) (if talking about a male owner).
+ "la sua"
+ {:synsem {:cat :det
+           :def :possessive
+           :agr {:gender :fem
+                 :number :sing}
+             :sem {:number :sing
+                   :person :3rd}}}
+ "la tua"
+ {:synsem {:cat :det
+           :def :possessive
+           :agr {:gender :fem
+                 :number :sing}
+           :sem {:person :2nd}}}
+ 
+ "le"
+ {:synsem {:cat :det
+           :def :def
+           :agr {:gender :fem
+                 :number :plur}}}
  "lo"
  {:synsem {:cat :det
-            :def :def
-            :agr {:gender :masc
-                  :number :sing}}}
+           :def :def
+           :agr {:gender :masc
+                 :number :sing}}}
+
+ "l'" {:generate-with false
+       :synsem {:cat :det
+                :def :def
+                :agr {:number :sing}}}
+ "qualche"
+ {:synsem {:cat :det
+           :def :indef
+           :agr {:mass false
+                 :number :sing}}}
+
+ "un" [{:synsem {:cat :det
+                 :def :indef
+                 :mass false
+                 :agr {:gender :masc
+                       :number :sing}}}
+       {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
+        :synsem {:cat :det
+                 :def :indef
+                 :mass false
+                 :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
+                       ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
+                       :number :sing}}}]
+ "una"
+ {:synsem {:cat :det
+           :def :indef
+           :mass false
+           :agr {:gender :fem
+                 :number :sing}}}
+ "uno"
+ {:synsem {:cat :det
+           :def :indef
+           :mass false
+           :agr {:gender :masc
+                 :number :sing}}}
+
+ "ventotto" {:synsem {:cat :det
+                      :def :twentyeight
+                      :agr {:number :plur}}}
+
  }
+ 

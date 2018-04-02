@@ -1,0 +1,13 @@
+{
+ "bene"
+ {:synsem {:cat :adverb
+           :sem {:pred :bene}}}
+
+ "male" {:synsem {:cat :adverb
+                  :sem {:pred :bad}}}
+
+ "non" {:synsem {:cat :adverb
+                 :sem {:mod {:polarity :-}}}}
+
+ }
+

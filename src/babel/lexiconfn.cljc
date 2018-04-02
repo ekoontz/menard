@@ -764,7 +764,9 @@
 (declare evaluate)
 
 ;; TODO: see if we can use Clojure transducers here. (http://clojure.org/reference/transducers)
-(defn edn2lexicon [resource]
+(defn edn2lexicon
+  "convert a (clojure.java.io/resource <edn file>) to a Clojure map."
+  [resource]
   (-> resource
       slurp
       read-string ;; read .edn file into a Clojure map.
@@ -819,7 +821,9 @@
         (log/error (str "Exception when truncating lexicon: " e))))))
 
 ;; (babel.writer/write-lexicon "en" lexicon)
-(defn write-lexicon [language lexicon]
+(defn write-lexicon
+  "write a lexion (as a map) to a database: inverse of (read-lexicon)."
+  [language lexicon]
   (transaction
    (truncate-lexicon language)
    

@@ -1,0 +1,315 @@
+{
+ "acqua"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:artifact false
+                 :animate false
+                 :pred :water}}}
+ "aereo" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:physical-object true
+                         :pred :airplane
+                         :place true}}}
+
+ "amica"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :amico
+                 :human true
+                 :child false}}}
+ "amico"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :amico
+                 :human true
+                 :child false}}}
+
+ "anno" {:synsem {:agr {:gender :masc}
+                  :cat :noun
+                  :sem {:pred :year
+                        :time true}}}
+
+
+ "attore" {:synsem {:agr {:gender :masc}
+                    :cat :noun
+                    :sem {:pred :actor}}}
+ 
+ "aula" {:synsem {:agr {:gender :fem}
+                  :cat :noun
+                  :sem {:pred :classroom}}}
+
+
+ "birra"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :birra
+                 :artifact true
+                 :drinkable true}}}
+
+ "bisogno"
+ (let [the-object (atom :top)]
+   {:synsem {:cat :noun
+             :agr {:gender :masc}
+             :sem {:pred :bisogno-di
+                   :obj the-object}
+             :subcat {:1 {:cat :prep
+                          :sem {:pred :di
+                                :obj the-object}}}}})
+
+ "braccio"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :braccio
+                 :part-of-human-body true}}
+  ;; adding "bracci" as irregular because
+  ;; current morphology.clj would otherwise return
+  ;; "braccii".
+  ;; TODO: might not be an exception so much
+  ;; as a ortho-pholological rule "io" -plur-> "ia"
+  :italiano {:plur "bracci"}}
+ 
+ "bucato"
+ {:synsem {:cat :noun
+           :agr {:gender :masc
+                 :number :sing}
+           :sem {:animate false
+                 :drinkable false
+                 :edible false
+                 :legible false
+                 :mass false
+                 :pred :laundry
+                 :speakable false}
+           :subcat {:1 {:def :def}}}}
+
+ "caffè" [{:synsem {:agr {:gender :masc
+                          :number :sing}
+                    :cat :noun
+                    :sem {:pred :coffee}}}
+          {:synsem {:agr {:gender :masc
+                          :number :plur}
+                    :cat :noun
+                    :sem {:pred :coffee}}}]
+
+ "calzoni"
+ ;; setting {:agr {:number :plur}} because it's always plural: cannot be singular.
+ {:synsem {:cat :noun
+           :agr {:gender :masc
+                 :number :plur}
+           :sem {:pred :calzoni
+                 :clothing true}}}
+
+
+ "camicia"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :camicia
+                 ;; (although an exception would be tshirts with writing on them):
+                 :legible false
+                 :clothing true}}}
+ 
+ "cane"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pet true
+                 :pred :dog}}}
+
+
+  "casa"
+ [{:synsem {:agr {:gender :fem}
+            :cat :noun
+            :sem {:pred :house}}}
+
+  ;; in the sense of "a casa": no article needed.
+  {:synsem {:case :acc
+            :cat :noun
+            :propernoun false
+            :agr {:gender :fem}
+            :sem {:pred :house
+                  :spec {:def :none}} ;; "a casa", not "a mia casa", etc
+            :subcat []}}
+  ]
+
+ ;; working on: "mi sono comprato un nuovo cellulare"
+ "cellulare"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :cellulare
+                 :artifact true
+                 :consumable false
+                 :writable false
+                 :place false
+                 :speakable false}}}
+
+ "chiave" {:synsem {:agr {:gender :masc}
+                    :cat :noun
+                    :sem {:physical-object true
+                          :pred :key
+                          :place false}}}
+ "cipolla"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :cipolla
+                 :edible true
+                 :animate false
+                 :artifact false}}}
+ "città"
+ {:vcat :noun-invariable-feminine
+  :synsem {:agr {:gender :fem}
+           :sem {:city true
+                 :pred :city}
+           :subcat {:1 {:cat :det
+                        :def :def}}}} ;; TODO: why must :def be specifically :def here?
+
+ "compito"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :compito
+                 :legible true
+                 :speakable false
+                 :buyable false
+                 :artifact true}}}
+ 
+ "dentista"
+ {:synsem {:cat :noun
+           :sem {:pred :dentist}
+           :agr {:gender :masc}}}
+
+ "domanda" {:synsem {:agr {:gender :fem}
+                     :cat :noun
+                     :sem {:pred :question}}}
+ "donna"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:human true
+                 :pred :donna
+                 :child false}}}
+
+
+ "ensalata" {:synsem {:sem {:pred :salad}
+                      :cat :noun
+                      :agr {:gender :fem}}}
+
+ "espresso" {:synsem {:agr {:gender :masc}
+                      :cat :noun
+                      :sem {:pred :espresso}}}
+
+
+ "finestra" {:synsem {:agr {:gender :fem}
+                      :cat :noun
+                      :sem {:pred :window}}}
+
+ "gatto"  {:synsem {:agr {:gender :masc}
+                    :cat :noun
+                    :sem {:pred :cat
+                          :pet true}}}
+
+ "idea" {:synsem {:agr {:gender :fem}
+                  :cat :noun
+                  :sem {:pred :idea}}}
+
+ "isola" {:synsem {:agr {:gender :fem}
+                   :cat :noun
+                   :sem {:pred :island}}}
+
+ "lezione" {:synsem {:agr {:gender :fem}
+                     :cat :noun
+                     :sem {:pred :lesson}}}
+
+ "libro" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:pred :book}}}
+ "madre"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:human true
+                 :pred :madre
+                 :child false}}}
+
+ "mezzogiorno"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :noon
+                 :time true}}}
+
+ "neonato"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :newborn
+                 :human true
+                 :adult false}}}
+
+ "pane"
+ ;; inherently singular.
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :bread}
+           :subcat {:1 {:cat :det
+                        :number :sing
+                        :def :def}}}}
+
+ "pizza" {:synsem {:agr {:gender :fem}
+                   :cat :noun
+                   :sem {:pred :pizza}}}
+ 
+ "poltrona" {:synsem {:cat :noun
+                      :sem {:pred :easy-chair}
+                      :agr {:gender :fem}}}
+
+ "ragazza"
+ {:synsem {:cat :noun
+           :agr {:gender :fem}
+           :sem {:pred :girl
+                 :human true}}}
+ "ragazzo"
+ {:synsem {:cat :noun
+           :agr {:gender :masc}
+           :sem {:pred :boy
+                 :human true}}}
+
+ "ristorante"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:pred :restaurant
+                 :city false
+                 :place true}}}
+ 
+ "scarpa" {:synsem {:agr {:gender :fem}
+                    :cat :noun
+                    :sem {:pred :shoe}}}
+
+ "sedia" {:synsem {:cat :noun
+                   :agr {:gender :fem}
+                   :sem {:pred :chair}}}
+
+ "studente"  {:synsem {:agr {:gender :masc}
+                       :cat :noun
+                       :sem {:pred :student}}}
+
+ "tavolino" {:synsem {:cat :noun
+                      :agr {:gender :masc}
+                      :sem {:pred :small-table}}}
+
+ "tavolo" {:synsem {:agr {:gender :masc}
+                    :cat :noun
+                    :sem {:pred :table}}}
+ "uccello"
+ {:synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:pred :bird}}}
+
+ "uomo"
+ {:italiano {:plur "uomini"}
+  :synsem {:agr {:gender :masc}
+           :cat :noun
+           :sem {:human true
+                 :pred :man
+                 :child false}}}
+
+ "vino" {:synsem {:agr {:gender :masc}
+                  :cat :noun
+                  :pred :vino
+                  :sem {:pred :vino}}}
+ "zaino" {:synsem {:agr {:gender :masc}
+                   :cat :noun
+                   :sem {:pred :backpack}}}
+ }

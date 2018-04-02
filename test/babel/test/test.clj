@@ -50,7 +50,8 @@
          (repeatedly #(let [expr (generate/generate
                                   spec
                                   model)]
-                        (println ((:morph model) expr)))))))
+                        (time (println ((:morph model) expr))))))))
+
 
 
 

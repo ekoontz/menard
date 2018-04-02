@@ -5,6 +5,7 @@
    [babel.generate :as generate]
    [babel.italiano :as italiano :refer [morph preprocess]]
    [babel.italiano.grammar :as grammar]
+   [babel.italiano.lexicon :as lexicon]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.lexiconfn :refer [write-lexicon]]
@@ -23,7 +24,7 @@
 
 (btest/init-db)
 (log/info (str "recompiling and writing lexicon to database.."))
-(write-lexicon "it" (grammar/compile-lexicon))
+(write-lexicon "it" (lexicon/compile-lexicon))
 (log/info (str "done."))
 (def model @@(get models :it))
 

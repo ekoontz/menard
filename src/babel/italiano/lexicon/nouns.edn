@@ -309,6 +309,7 @@
                   :cat :noun
                   :pred :vino
                   :sem {:pred :vino}}}
+ 
  "zaino" {:synsem {:agr {:gender :masc}
                    :cat :noun
                    :sem {:pred :backpack}}}

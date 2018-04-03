@@ -782,9 +782,8 @@
                                  0 depth)}))})))
 
 (defn model-reloaded []
-  (let [lexicon (babel.italiano.lexicon/edn2lexicon
-                 (clojure.java.io/resource "babel/italiano/lexicon.edn"))]
-    (model-plus-lexicon lexicon)))
+  (log/info (str "reloading model by compiling lexicon sources..."))
+  (model-plus-lexicon (compile-lexicon)))
 
 (defn model []
   (let [lexicon (read-lexicon "it")]

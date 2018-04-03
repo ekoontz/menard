@@ -33,7 +33,7 @@
   "Apply Italian-specific lexical rules to enhance input lexicon map into fully-specified lexical entries."
   [input-lexicon]
   (-> input-lexicon
-      
+
       ;; if :vcat = :noun-invariable-{feminine,masculine}, then add plural exception.
       (map-function-on-map-vals
        (fn [k lexemes]

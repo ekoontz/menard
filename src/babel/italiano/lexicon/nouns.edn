@@ -29,7 +29,6 @@
                   :sem {:pred :year
                         :time true}}}
 
-
  "attore" {:synsem {:agr {:gender :masc}
                     :cat :noun
                     :sem {:pred :actor}}}
@@ -37,15 +36,12 @@
  "aula" {:synsem {:agr {:gender :fem}
                   :cat :noun
                   :sem {:pred :classroom}}}
-
-
  "birra"
  {:synsem {:agr {:gender :fem}
            :cat :noun
            :sem {:pred :birra
                  :artifact true
                  :drinkable true}}}
-
  "bisogno"
  (let [the-object (atom :top)]
    {:synsem {:cat :noun
@@ -55,7 +51,6 @@
              :subcat {:1 {:cat :prep
                           :sem {:pred :di
                                 :obj the-object}}}}})
-
  "braccio"
  {:synsem {:agr {:gender :masc}
            :cat :noun

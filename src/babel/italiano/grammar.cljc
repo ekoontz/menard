@@ -963,9 +963,8 @@
         (= :def
            (get-in % [:synsem :def])))))
 
-(defn filtered-model
-  "creating a model from a subset of the model's lexicon, filtered by specified criteria."
-  [lexical-filter]
+
+(defn filtered-lexicon [lexical-filter]
   (let [model (model)
         lexicon (:lexicon model)
         surface-and-structures-pairs
@@ -974,9 +973,14 @@
                         (map (fn [lexemes]
                                (filter lexical-filter lexemes))
                              (vals lexicon))))]
-    (model-plus-lexicon 
-     (zipmap (map first surface-and-structures-pairs)
-             (map second surface-and-structures-pairs)))))
+    (zipmap (map first surface-and-structures-pairs)
+            (map second surface-and-structures-pairs))))
+
+(defn filtered-model
+  "creating a model from a subset of the model's lexicon, filtered by specified criteria."
+  [lexical-filter]
+  (model-plus-lexicon (filtered-lexicon lexical-filter)))
+
 
 
 

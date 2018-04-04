@@ -20,6 +20,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
+   [clojure.pprint :refer (pprint)]
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
@@ -947,3 +948,36 @@
          (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
 
+(def example-lexical-filter
+  #(or (= "cane" 
+          (get-in % [:italiano :italiano]))
+       (= "gatto" 
+          (get-in % [:italiano :italiano]))
+       (= "poltrona" 
+          (get-in % [:italiano :italiano])) 
+       (= "sedia" 
+          (get-in % [:italiano :italiano])) 
+       (and
+        (= :det
+           (get-in % [:synsem :cat]))
+        (= :def
+           (get-in % [:synsem :def])))))
+
+(defn filtered-model
+  "creating a model from a subset of the model's lexicon, filtered by specified criteria."
+  [lexical-filter]
+  (let [model (model)
+        lexicon (:lexicon model)
+        surface-and-structures-pairs
+        (filter (fn [[surface structures]] (not (empty? structures)))
+                (zipmap (keys lexicon)
+                        (map (fn [lexemes]
+                               (filter lexical-filter lexemes))
+                             (vals lexicon))))]
+    (model-plus-lexicon 
+     (zipmap (map first surface-and-structures-pairs)
+             (map second surface-and-structures-pairs)))))
+
+
+
+    

@@ -5,7 +5,7 @@
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
    [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon]]
    [babel.italiano.morphology :refer [analyze fo]]
-   [babel.lexiconfn :refer [read-lexicon] :as lexfn]
+   [babel.lexiconfn :refer [filtered-lexicon read-lexicon] :as lexfn]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
                      head-principle
@@ -964,22 +964,7 @@
            (get-in % [:synsem :def])))))
 
 
-(defn filtered-lexicon [lexical-filter]
-  (let [model (model)
-        lexicon (:lexicon model)
-        surface-and-structures-pairs
-        (filter (fn [[surface structures]] (not (empty? structures)))
-                (zipmap (keys lexicon)
-                        (map (fn [lexemes]
-                               (filter lexical-filter lexemes))
-                             (vals lexicon))))]
-    (zipmap (map first surface-and-structures-pairs)
-            (map second surface-and-structures-pairs))))
 
-(defn filtered-model
-  "creating a model from a subset of the model's lexicon, filtered by specified criteria."
-  [lexical-filter]
-  (model-plus-lexicon (filtered-lexicon lexical-filter)))
 
 
 

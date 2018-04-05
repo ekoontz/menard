@@ -837,3 +837,13 @@
            (+ 1 result)
            (recur remaining
                   (+ 1 result))))))))
+
+(defn filtered-lexicon [lexicon lexical-filter]
+  (let [surface-and-structures-pairs
+        (filter (fn [[surface structures]] (not (empty? structures)))
+                (zipmap (keys lexicon)
+                        (map (fn [lexemes]
+                               (filter lexical-filter lexemes))
+                             (vals lexicon))))]
+    (zipmap (map first surface-and-structures-pairs)
+            (map second surface-and-structures-pairs))))

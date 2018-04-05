@@ -708,6 +708,7 @@
           [tree])
         with-defaults))))
 
+;; TODO: factor out language-independent parts of this to babel.lexiconfn.
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
   [lexicon]
@@ -740,21 +741,14 @@
          :language-keyword :italiano
          :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
          :lexicon lexicon
-         :lookup (fn [arg]
-                   (analyze arg lexicon))
+         :lookup (fn [arg] (analyze arg lexicon))
          :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
-         :morph-ps fo-ps
-         
+         :morph-ps fo-ps         
          :rules rules
-         :rule-map (zipmap rules
-                           grammar)
-
-         :tenses tenses
-         
-         }]
+         :rule-map (zipmap rules grammar)
+         :tenses tenses}]
     (merge retval
-           {:generate-fn (fn [spec]
-                           (generate/generate spec retval))
+           {:generate-fn (fn [spec] (generate/generate spec retval))
             :bolts
             (merge
              (let [depth 2
@@ -947,26 +941,3 @@
                                   model)
          (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
-
-(def example-lexical-filter
-  #(or (= "cane" 
-          (get-in % [:italiano :italiano]))
-       (= "gatto" 
-          (get-in % [:italiano :italiano]))
-       (= "poltrona" 
-          (get-in % [:italiano :italiano])) 
-       (= "sedia" 
-          (get-in % [:italiano :italiano])) 
-       (and
-        (= :det
-           (get-in % [:synsem :cat]))
-        (= :def
-           (get-in % [:synsem :def])))))
-
-
-
-
-
-
-
-    

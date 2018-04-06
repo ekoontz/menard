@@ -793,6 +793,34 @@
                      (= (:rule %) "nbar2"))
                 grammar)
         rules (map #(keyword (get-in % [:rule])) grammar)
+        lexicon
+        (into {}
+              (for [[k v] lexicon]
+                (let [filtered-v
+                      (filter #(and (not (= true (get-in % [:top])))
+                                    (or (= (get-in % [:synsem :cat] :adjective) :adjective)
+                                        (= (get-in % [:synsem :cat] :det) :det)
+                                        (and (= (get-in % [:synsem :cat] :noun) :noun)
+                                             (not (= (get-in % [:synsem :propernoun] false) true))
+                                             (not (= (get-in % [:synsem :pronoun] false) true)))))
+                              v)
+                      ;; TODO: remove this removal:
+                      ;; don't remove this semantic info. It's an interesting example of how to
+                      ;; process a lexicon, though, so perhaps find a reason to use it in some way.
+                      remove-semantic-features
+                      (map (fn [lexeme]
+                             (remove-matching-keys lexeme
+                                                     #(or
+                                                       (= % :activity)        (= % :animate)  (= % :artifact)
+                                                       (= % :buyable)         (= % :child)    (= % :clothing)
+                                                       (= % :consumable)
+                                                       (= % :drinkable)       (= % :edible)   (= % :furniture)
+                                                       (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                       (= % :pet)
+                                                       (= % :physical-object) (= % :place)    (= % :speakable))))
+                           filtered-v)]
+                  (if (not (empty? remove-semantic-features))
+                    [k remove-semantic-features]))))
         lexicon-for-generation (lexicon-for-generation lexicon)
         ;; indices from paths to subsets of the lexicon
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)]

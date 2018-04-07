@@ -776,6 +776,16 @@
                                  spec
                                  0 depth)}))})))
 
+(defn model-with-lexicon [input-lexicon filter-lexicon-fn model]
+  (let [input-lexicon (vocab-entry-to-lexeme input-lexicon)
+        synthetic-noun (edn2lexicon input-lexicon)
+        new-lexicon (merge-with concat
+                                synthetic-noun
+                                (filtered-lexicon
+                                 (:lexicon model)
+                                 filter-lexicon-fn))]
+    (model-plus-lexicon new-lexicon)))
+
 (defn model-reloaded []
   (log/info (str "reloading model by compiling lexicon sources..."))
   (model-plus-lexicon (compile-lexicon)))
@@ -941,16 +951,3 @@
                                   model)
          (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
-
-(defn model-with-lexicon [input-lexicon filter-lexicon-fn model]
-  ;; TODO: move this processing into (babel.italiano.lexicon/edn2lexicon)
-  (let [input-lexicon (vocab-entry-to-lexeme input-lexicon)
-        synthetic-noun (edn2lexicon input-lexicon)
-        filter-lexicon-fn #(= :det (get-in % [:synsem :cat]))
-        new-lexicon
-        (merge-with concat
-                    synthetic-noun
-                    (filtered-lexicon
-                     (:lexicon model)
-                     filter-lexicon-fn))]
-    (model-plus-lexicon new-lexicon)))

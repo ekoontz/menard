@@ -539,7 +539,7 @@
                     :lexicon lexicon))
         debug (log/info "  finalizing..")
         model
-        {:name "a small English grammar"
+        {:name "English language model created with ❤ by babel.english.grammar/model."
          :default-fn default-fn
          :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:

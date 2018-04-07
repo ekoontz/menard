@@ -476,13 +476,13 @@
 (defn vocab-entry-to-lexeme [vocab-entry]
   ;; TODO: destructure input argument.
   {(:target vocab-entry)
-   [(merge-with merge
-                {:synsem {:sem {:pred (keyword (:source vocab-entry))}
-                          :cat :noun
-                          :agr {:gender (cond (= "o" (:ends_with vocab-entry))
-                                              :masc
-                                              (= "a" (:ends_with vocab-entry))
-                                              :fem
-                                              true
-                                              :top)}}})]})
+   [{:synsem {:sem {:pred (keyword (:source vocab-entry))}
+              :cat :noun
+              :agr {:gender (cond (= "o" (:ends_with vocab-entry))
+                                  :masc
+                                  (= "a" (:ends_with vocab-entry))
+                                  :fem
+                                  true
+                                  :top)}}}]})
+
 

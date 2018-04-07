@@ -555,14 +555,13 @@
          :lookup (fn [arg]
                    (analyze arg lexicon))
          :morph morph
-         :morph-ps fo-ps
-
-         :vocab2model (fn [vocab-items filter-lexicon-fn]
-                        (model-with-vocab-items vocab-items filter-lexicon-fn model))}]
-    (assoc model
-          :generate-fn
-          (fn [spec]
-            (generate/generate spec model)))))
+         :morph-ps fo-ps}]
+    (merge model
+           {:vocab2model (fn [vocab-items filter-lexicon-fn]
+                           (model-with-vocab-items vocab-items filter-lexicon-fn model))
+            :generate-fn
+            (fn [spec]
+              (generate/generate spec model))})))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (transform-with-english-lexical-rules

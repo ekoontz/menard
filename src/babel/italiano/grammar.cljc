@@ -730,55 +730,58 @@
         ;; indices from paths to subsets of the lexicon
         debug (log/info "  indices..")
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)
-        debug (log/info "  finalizing..")
-        stage-1
-        {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-         :default-fn default-fn
-         :name "model"
-         :generate {:lexicon lexicon-for-generation}
-         :grammar grammar
-         :language "it"
-         :language-keyword :italiano
-         :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-         :lexicon lexicon
-         :lookup (fn [arg] (analyze arg lexicon))
-         :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
-         :morph-ps fo-ps         
-         :rules rules
-         :rule-map (zipmap rules grammar)
-         :tenses tenses}
-        stage-2
-        (merge stage-1
-               {:generate-fn (fn [spec] (generate/generate spec stage-1))})]
+        debug (log/info "  finalizing..")]
 
-    (merge
-     stage-2
-     {:bolts
-      (merge
-       (let [depth 2
-             spec
-             {:synsem {:subcat []
-                       :cat :verb
-                       :sem {:tense :present
-                             :reflexive :top
-                             :aspect :perfect}}}]
-         {(merge {:depth depth}
-                 spec)
-          (lightning-bolts stage-2
-                           spec
-                           0 depth)})
-       (let [depth 3
-             spec
-             {:synsem {:subcat []
-                       :cat :verb
-                       :sem {:tense :present
-                             :reflexive :top
-                             :aspect :perfect}}}]
-         {(merge {:depth depth}
-                 spec)
-          (lightning-bolts stage-2
-                           spec
-                           0 depth)}))})))
+    (->
+
+     {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
+      :default-fn default-fn
+      :name "model"
+      :generate {:lexicon lexicon-for-generation}
+      :grammar grammar
+      :language "it"
+      :language-keyword :italiano
+      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+      :lexicon lexicon
+      :lookup (fn [arg] (analyze arg lexicon))
+      :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
+      :morph-ps fo-ps         
+      :rules rules
+      :rule-map (zipmap rules grammar)
+      :tenses tenses}
+
+     ((fn [model]
+        (merge model
+               {:bolts
+                (merge
+                 (let [depth 2
+                       spec
+                       {:synsem {:subcat []
+                                 :cat :verb
+                                 :sem {:tense :present
+                                       :reflexive :top
+                                       :aspect :perfect}}}]
+                   {(merge {:depth depth}
+                           spec)
+                    (lightning-bolts model
+                                     spec
+                                     0 depth)})
+                 (let [depth 3
+                       spec
+                       {:synsem {:subcat []
+                                 :cat :verb
+                                 :sem {:tense :present
+                                       :reflexive :top
+                                       :aspect :perfect}}}]
+                   {(merge {:depth depth}
+                           spec)
+                    (lightning-bolts model
+                                     spec
+                                     0 depth)}))})))
+
+     ((fn [model]
+        (merge model
+               {:generate-fn (fn [spec] (generate/generate spec model))}))))))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (map vocab-entry-to-lexeme vocab-items)

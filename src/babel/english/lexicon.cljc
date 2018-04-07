@@ -13,6 +13,7 @@
 
 (declare exception-generator)
 (declare phonize)
+(declare transform-with-english-lexical-rules)
 
 ;; TODO: allow a filter of lexemes
 (defn deliver-lexicon []
@@ -20,10 +21,16 @@
    (edn2lexicon (resource "babel/english/lexicon.edn"))
    (compile-lex)
 
+   (transform-with-english-lexical-rules)))
+
+
+(defn transform-with-english-lexical-rules [lexicon]
+  (->
+   lexicon
    (map-function-on-map-vals
     (fn [lexical-string lexical-val]
       (phonize lexical-val lexical-string)))
-
+   
    ((fn [lexicon]
       (merge-with concat lexicon
                   (listify 
@@ -408,7 +415,7 @@
    
    ;; </prep default rules>
    
-   ))
+ ))
 
 (defn exception-generator
   "_lexicon_ is a map where each key is a root form (a string) mapped to a set of lexical entries (maps) for that root form. 

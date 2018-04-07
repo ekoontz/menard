@@ -708,6 +708,8 @@
           [tree])
         with-defaults))))
 
+(declare model-with-vocab-items)
+
 ;; TODO: factor out language-independent parts of this to babel.lexiconfn.
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
@@ -733,7 +735,7 @@
         debug (log/info "  finalizing..")]
 
     (->
-     ;; Create the model in stages; we need stages because some closures need a model
+     ;; Create the model in stages. We need to do this because some closures need a model
      ;; as a parameter, so they use as the model what precedes it in the list of
      ;; stages.
      {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
@@ -754,7 +756,11 @@
 
      ((fn [model]
         (merge model
-               {:bolts
+               {:vocab2model
+                (fn [vocab-items filter-lexicon-fn]
+                  (model-with-vocab-items vocab-items filter-lexicon-fn model))
+
+                :bolts
                 (merge
                  (let [depth 2
                        spec
@@ -780,13 +786,12 @@
                     (lightning-bolts model
                                      spec
                                      0 depth)}))})))
-
      ((fn [model]
         (merge model
                {:generate-fn (fn [spec] (generate/generate spec model))}))))))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
-  (let [input-lexicon (map vocab-entry-to-lexeme vocab-items)
+  (let [input-lexicon (reduce merge (map vocab-entry-to-lexeme vocab-items))
         synthetic-noun (edn2lexicon input-lexicon)
         new-lexicon (merge-with concat
                                 synthetic-noun

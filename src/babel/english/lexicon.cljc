@@ -627,3 +627,13 @@
           (unify a-map
                  {:english {:english a-string}}
                  common))))
+
+(defn vocab-entry-to-lexeme [{surface :surface
+                              pred :pred
+                              vocab-cat :vocab_cat}]
+  (cond (= vocab-cat "noun1")
+        {surface
+         [{:synsem {:sem {:pred (keyword pred)}
+                    :cat :noun}}]}
+        true {}))
+

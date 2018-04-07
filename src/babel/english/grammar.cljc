@@ -1,7 +1,7 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.english.lexicon :refer [deliver-lexicon]]
+   [babel.english.lexicon :refer [deliver-lexicon vocab-entry-to-lexeme]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
@@ -562,3 +562,14 @@
           :generate-fn
           (fn [spec]
             (generate/generate spec model)))))
+
+(defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
+  (let [input-lexicon (reduce merge (map vocab-entry-to-lexeme vocab-items))
+        synthetic-noun (babel.lexiconfn/edn2lexicon input-lexicon)
+        new-lexicon (merge-with concat
+                                synthetic-noun
+                                (babel.lexiconfn/filtered-lexicon
+                                 (:lexicon model)
+                                 filter-lexicon-fn))]
+    (merge model
+           {:lexicon new-lexicon})))

@@ -1,11 +1,12 @@
 (ns babel.english.grammar
   (:refer-clojure :exclude [get-in])
   (:require 
-   [babel.english.lexicon :refer [deliver-lexicon vocab-entry-to-lexeme]]
+   [babel.english.lexicon :refer [deliver-lexicon transform-with-english-lexical-rules
+                                  vocab-entry-to-lexeme]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.lexiconfn :refer [edn2lexicon read-lexicon]]
+   [babel.lexiconfn :refer [edn2lexicon filtered-lexicon read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if comp-modifies-head
@@ -116,6 +117,7 @@
     [result]))
 
 (declare cache)
+(declare model-with-vocab-items)
 
 (defn fo-ps [expr]
   (parse/fo-ps expr fo))
@@ -517,13 +519,6 @@
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
 
-(defn compile-lexicon []
-  (into {}
-        (for [[k v] (deliver-lexicon)]
-          (let [filtered-v v]
-            (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
-              [k filtered-v])))))
-
 (defn model []
   (let [debug (log/info "  loading lexicon..")
         lexicon (read-lexicon "en")
@@ -557,19 +552,28 @@
          :lookup (fn [arg]
                    (analyze arg lexicon))
          :morph morph
-         :morph-ps fo-ps}]
+         :morph-ps fo-ps
+
+         :vocab2model (fn [vocab-items filter-lexicon-fn]
+                        (model-with-vocab-items vocab-items filter-lexicon-fn model))}]
     (assoc model
           :generate-fn
           (fn [spec]
             (generate/generate spec model)))))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
-  (let [input-lexicon (reduce merge (map vocab-entry-to-lexeme vocab-items))
-        synthetic-noun (babel.lexiconfn/edn2lexicon input-lexicon)
-        new-lexicon (merge-with concat
-                                synthetic-noun
-                                (babel.lexiconfn/filtered-lexicon
-                                 (:lexicon model)
-                                 filter-lexicon-fn))]
+  (let [input-lexicon (transform-with-english-lexical-rules
+                       (reduce merge (map vocab-entry-to-lexeme vocab-items)))
+        model (merge model
+                     {:lexicon
+                      (merge-with concat
+                                  input-lexicon
+                                  (filtered-lexicon
+                                   (:lexicon model)
+                                   filter-lexicon-fn))})]
     (merge model
-           {:lexicon new-lexicon})))
+           {:generate-fn (fn [spec]
+                           (generate/generate spec model))})))
+
+
+

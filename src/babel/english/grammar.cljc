@@ -33,10 +33,6 @@
    [:synsem :sem :pred]
    [:synsem :sem :human]])
 
-(defn compile-lexicon []
-  (edn2lexicon
-   (clojure.java.io/resource "babel/english/lexicon.edn")))
-
 (defn noun-default? [tree]
   (and (= :noun (get-in tree [:synsem :cat]))
        (= :top (get-in tree [:synsem :agr :number] :top))))
@@ -518,6 +514,13 @@
      {})
    (if (get-in tree [:head])
      {:head (morph-walk-tree (get-in tree [:head]))})))
+
+(defn compile-lexicon []
+  (into {}
+        (for [[k v] (deliver-lexicon)]
+          (let [filtered-v v]
+            (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
+              [k filtered-v])))))
 
 (defn model []
   (let [debug (log/info "  loading lexicon..")

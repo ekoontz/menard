@@ -473,13 +473,13 @@
                           (morph/exception-generator lexicon)))
       lexicon)))
 
-(defn vocab-entry-to-lexeme [{target :target
-                              vocab-cat :vocab_cat
-                              source :source}]
-  (let [ends-with (str (nth target (- (count target) 1)))]
+(defn vocab-entry-to-lexeme [{surface :surface
+                              pred :pred
+                              vocab-cat :vocab_cat}]
+  (let [ends-with (str (nth surface (- (count surface) 1)))]
     (cond (= vocab-cat "noun1")
-          {target
-           [{:synsem {:sem {:pred (keyword source)}
+          {surface
+           [{:synsem {:sem {:pred (keyword pred)}
                       :cat :noun
                       :agr {:gender (cond (= "o" ends-with)
                                           :masc

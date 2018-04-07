@@ -733,10 +733,12 @@
         debug (log/info "  finalizing..")]
 
     (->
-
+     ;; Create the model in stages; we need stages because some closures need a model
+     ;; as a parameter, so they use as the model what precedes it in the list of
+     ;; stages.
      {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
       :default-fn default-fn
-      :name "model"
+      :name "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon."
       :generate {:lexicon lexicon-for-generation}
       :grammar grammar
       :language "it"

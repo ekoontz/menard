@@ -29,6 +29,9 @@
             (merge-with concat a b))
           lexicons))
 
+;; TODO: rename this to (defn compile-lexicon) or similar:
+;; it does not convert an .edn file to a lexicon as its name suggests, but
+;; rather applies transformations to an existing lexicon.
 (defn edn2lexicon
   "Apply Italian-specific lexical rules to enhance input lexicon map into fully-specified lexical entries."
   [input-lexicon]

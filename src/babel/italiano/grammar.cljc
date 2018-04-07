@@ -731,7 +731,7 @@
         debug (log/info "  indices..")
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)
         debug (log/info "  finalizing..")
-        retval
+        stage-1
         {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          :default-fn default-fn
          :name "model"
@@ -746,35 +746,39 @@
          :morph-ps fo-ps         
          :rules rules
          :rule-map (zipmap rules grammar)
-         :tenses tenses}]
-    (merge retval
-           {:generate-fn (fn [spec] (generate/generate spec retval))
-            :bolts
-            (merge
-             (let [depth 2
-                   spec
-                   {:synsem {:subcat []
-                             :cat :verb
-                             :sem {:tense :present
-                                   :reflexive :top
-                                   :aspect :perfect}}}]
-               {(merge {:depth depth}
-                       spec)
-                (lightning-bolts retval
-                                 spec
-                                 0 depth)})
-             (let [depth 3
-                   spec
-                   {:synsem {:subcat []
-                             :cat :verb
-                             :sem {:tense :present
-                                   :reflexive :top
-                                   :aspect :perfect}}}]
-               {(merge {:depth depth}
-                       spec)
-                (lightning-bolts retval
-                                 spec
-                                 0 depth)}))})))
+         :tenses tenses}
+        stage-2
+        (merge stage-1
+               {:generate-fn (fn [spec] (generate/generate spec stage-1))})]
+
+    (merge
+     stage-2
+     {:bolts
+      (merge
+       (let [depth 2
+             spec
+             {:synsem {:subcat []
+                       :cat :verb
+                       :sem {:tense :present
+                             :reflexive :top
+                             :aspect :perfect}}}]
+         {(merge {:depth depth}
+                 spec)
+          (lightning-bolts stage-2
+                           spec
+                           0 depth)})
+       (let [depth 3
+             spec
+             {:synsem {:subcat []
+                       :cat :verb
+                       :sem {:tense :present
+                             :reflexive :top
+                             :aspect :perfect}}}]
+         {(merge {:depth depth}
+                 spec)
+          (lightning-bolts stage-2
+                           spec
+                           0 depth)}))})))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (map vocab-entry-to-lexeme vocab-items)

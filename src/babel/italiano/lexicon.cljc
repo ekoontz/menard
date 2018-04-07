@@ -473,16 +473,23 @@
                           (morph/exception-generator lexicon)))
       lexicon)))
 
-(defn vocab-entry-to-lexeme [vocab-entry]
-  ;; TODO: destructure input argument.
-  {(:target vocab-entry)
-   [{:synsem {:sem {:pred (keyword (:source vocab-entry))}
-              :cat :noun
-              :agr {:gender (cond (= "o" (:ends_with vocab-entry))
-                                  :masc
-                                  (= "a" (:ends_with vocab-entry))
-                                  :fem
-                                  true
-                                  :top)}}}]})
+(defn vocab-entry-to-lexeme [{target :target
+                              vocab-cat :vocab_cat
+                              source :source}]
+  (let [ends-with (str (nth target (- (count target) 1)))]
+    (cond (= vocab-cat "noun1")
+          {target
+           [{:synsem {:sem {:pred (keyword source)}
+                      :cat :noun
+                      :agr {:gender (cond (= "o" ends-with)
+                                          :masc
+                                    (= "a" ends-with)
+                                    :fem
+                                    true
+                                    :top)}}}]}
+          true {})))
+
+          
+
 
 

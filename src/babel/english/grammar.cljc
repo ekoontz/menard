@@ -566,16 +566,17 @@
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (transform-with-english-lexical-rules
                        (reduce merge (map vocab-entry-to-lexeme vocab-items)))
+        lexicon (merge-with concat
+                            input-lexicon
+                            (filtered-lexicon
+                             (:lexicon model)
+                             filter-lexicon-fn))
+        indices (create-indices lexicon index-lexicon-on-paths)
         model (merge model
-                     {:lexicon
-                      (merge-with concat
-                                  input-lexicon
-                                  (filtered-lexicon
-                                   (:lexicon model)
-                                   filter-lexicon-fn))})]
+                     {:lexicon lexicon})]
     (merge model
-           {:generate-fn (fn [spec]
-                           (generate/generate spec model))})))
+           {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))})))
+
 
 
 

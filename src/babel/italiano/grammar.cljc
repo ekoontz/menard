@@ -776,8 +776,8 @@
                                  spec
                                  0 depth)}))})))
 
-(defn model-with-lexicon [input-lexicon filter-lexicon-fn model]
-  (let [input-lexicon (vocab-entry-to-lexeme input-lexicon)
+(defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
+  (let [input-lexicon (map vocab-entry-to-lexeme vocab-items)
         synthetic-noun (edn2lexicon input-lexicon)
         new-lexicon (merge-with concat
                                 synthetic-noun

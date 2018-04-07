@@ -3,7 +3,7 @@
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
-   [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon]]
+   [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon vocab-entry-to-lexeme]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.lexiconfn :refer [filtered-lexicon read-lexicon] :as lexfn]
    [babel.parse :as parse]
@@ -941,3 +941,16 @@
                                   model)
          (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
+
+(defn model-with-lexicon [input-lexicon filter-lexicon-fn model]
+  ;; TODO: move this processing into (babel.italiano.lexicon/edn2lexicon)
+  (let [input-lexicon (vocab-entry-to-lexeme input-lexicon)
+        synthetic-noun (edn2lexicon input-lexicon)
+        filter-lexicon-fn #(= :det (get-in % [:synsem :cat]))
+        new-lexicon
+        (merge-with concat
+                    synthetic-noun
+                    (filtered-lexicon
+                     (:lexicon model)
+                     filter-lexicon-fn))]
+    (model-plus-lexicon new-lexicon)))

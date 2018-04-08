@@ -39,7 +39,8 @@
            :agr {:number :sing
                  :gender :masc}}}
  "gli"
- {:synsem {:cat :det
+ {:generate-with false
+  :synsem {:cat :det
            :def :def
            :agr {:gender :masc
                  :number :plur}
@@ -113,7 +114,8 @@
            :sem {:pred :definite
                  :of {:pred nil}}}}
  "lo"
- {:synsem {:cat :det
+ {:generate-with false
+  :synsem {:cat :det
            :def :def
            :agr {:gender :masc
                  :number :sing}
@@ -168,7 +170,8 @@
            :agr {:gender :fem
                  :number :sing}}}
  "uno"
- {:synsem {:cat :det
+ {:generate-with false
+  :synsem {:cat :det
            :def :indef
            :mass false
            :sem {:pred :indefinite

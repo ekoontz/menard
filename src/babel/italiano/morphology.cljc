@@ -394,154 +394,28 @@
      word)
     ))
 
-
-;; TODO: add:
-;; il -> lo; i->gli patterns:
-;;(or (re-find #"^[aeiou]" (get-in b [:italiano]))
-;;  (re-find #"^s[^[aeiou]]" (get-in b [:italiano]))
-;;  (re-find #"^gn" (get-in b [:italiano]))
-;;    (re-find #"^io" (get-in b [:italiano]))
-;;    (re-find #"^jo" (get-in b [:italiano]))
-;;    (re-find #"^pn" (get-in b [:italiano]))
-;;    (re-find #"^y" (get-in b [:italiano]))
-;;    (re-find #"^x" (get-in b [:italiano]))
-;;   (re-find #"^z" (get-in b [:italiano]))))
-
-;; TODO: replace 'a' and 'b' with 'left' and 'right': latter easier to talk about
+;; TODO: replace 'a' and 'b' with 'left' and 'right' for clarity.
+;; TODO: make b required so that function is easier to understand and refactor.
 (defn get-string [a & [ b ]]
   (if (nil? a)
     (throw (Exception. (str "get-string: given nil."))))
   (if (= a "")
     (throw (Exception. (str "get-string: given empty string."))))
 
-  (let [a (if (nil? a) "" a)
-        b (if (nil? b) "" b)
+  (let [a (or a "")
+        b (or b "")
+
         a (get-string-1 a)
         b (get-string-1 b)
-        info-a (log/debug (str "get-string: a: " a))
-        info-b (if b (log/debug (str "get-string: b: " b)))
-        
-        it-b (log/debug "it-a is string? " (string? (get-in a [:italiano])))
-        it-b (log/debug "it-b is string? " (string? (get-in b [:italiano])))
-        
-        cat-a (log/debug (str "cat a:" (get-in a '(:cat))))
-        cat-b (log/debug (str "cat b:" (get-in b '(:cat))))
-        
-        ]
+
+        ;; TODO: eventually move all of (get-string) into rules of this kind:
+        [applied-determiner-rules determiner-rules-result]
+        (determiners/apply-determiner-rules a b)]
+    
     (cond
-      ;; TODO: replace with articles.edn or similar rather than
-      ;; a big clojure (cond).
-      (and (= a "gli")
-           (string? (get-in b [:italiano]))
-           (not (or (re-find #"^[aeiou]" (get-in b [:italiano]))
-                    (re-find #"^s[t]" (get-in b [:italiano])))))
-      (trim (str "i " b))
-      
-      (and (= a "i")
-           (string? (get-in b [:italiano]))
-           (or (re-find #"^[aeiou]" (get-in b [:italiano]))
-               (re-find #"^s[t]" (get-in b [:italiano]))))
-      (trim (str "gli " b))
-      
-      (and (= a "il")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (trim (str "l'" b))
-      
-      (and (= a "il")
-           (string? b)
-           (re-find #"^s[t]" b))
-      (trim (str "lo " b))
-      
-      (and (= a "lo")
-           (string? b)
-           (not (or (re-find #"^[aeiou]" b)
-                    (re-find #"^s[t]" b))))
-      (trim (str "il " b))
-      
-      (and (string? a)
-           (= a "di")
-           (string? b)
-           (re-find #"^il (mio|tuo|suo|nostro|vostro|loro)\b" b))
-      (str a " " (string/replace b #"^il " ""))
-      
-      (and (string? a)
-           (= a "di")
-           (string? b)
-           (re-find #"^la (mia|tua|sua|nostra|vostra|loro)\b" b))
-      (str a " " (string/replace b #"^la " ""))
-      
-      (and (string? a)
-           (= a "di")
-           (string? b)
-           (re-find #"^i (miei|tuoi|suoi|nostri|vostri|loro)\b" b))
-      (str a " " (string/replace b #"^i " ""))
-      
-      (and (string? a)
-           (= a "di")
-           (string? b)
-           (re-find #"^le (mie|tue|sue|nostre|vostre|loro)\b" b))
-      (str a " " (string/replace b #"^le " ""))
-      
-      (and (= a "di i")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "degli " b)
-      
-      (and (= a "di i")
-           (string? b)
-           (re-find #"^s[t]" b))
-      (str "degli " b)
-      
-      (and (= a "di i")
-           (string? b))
-      (str "dei " b)
-      
-      (and (= (get-in a [:italiano]) "di i")
-           (string? b))
-      (str "dei " b)
-      
-      (and (= (get-in a [:italiano]) "di i")
-           (string? (get-in b [:italiano])))
-      (str "dei " (get-string-1 (get-in b [:italiano])))
-      
-      (and (= a "di il")
-           (string? b))
-      (get-string "del" b)  ;; allows this to feed next rule:
-      
-      (and (= a "del")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "dell'" b)
-      
-      (and (= a "di la")
-           (string? b))
-      (get-string "della" b) ;; allows this to feed next rule:
-      
-      (and (= a "della")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "dell'" b)
-      
-      (and (= a "di le")
-           (string? b))
-      (str "delle " b)
-      
-      (and (= a "i")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "gli " b)
-      
-      (and (= a "i")
-           (string? (get-in b [:italiano]))
-           (re-find #"^[aeiou]" (get-in b [:italiano])))
-      (str "gli " b)
-      
-      (and (= a "i")
-           (string? b)
-           (re-find #"^s[t]" b))
-      (str "gli " b)
-      
+      applied-determiner-rules
+      determiner-rules-result
+
       (and (= a "ci")
            (string? b)
            (re-find #"^[eè]" b))
@@ -569,46 +443,6 @@
                (= b "vi")))
       (str (string/replace a #"[e]$" "")
            b)
-      
-      (and (= a "un")
-           (string? b)
-           (re-find #"^s[t]" b))
-      (str "uno " b)
-      
-      (and (= a "una")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "un'" b)
-      
-      (and (= a "il")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "l'" b)
-      
-      (and (= a "il")
-           (string? b)
-           (re-find #"^s[ct]" b))
-      (str "lo " b)
-      
-      (and (= a "la")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "l'" b)
-
-      (and (= a "quell[ao]")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "quell'" b)
-      
-      (and (= a "quelli")
-           (string? b)
-           (re-find #"^(st|sc|[aeiou])" b))
-      (str "quegli " b)
-      
-      (and (= a "quest[aeio]")
-           (string? b)
-           (re-find #"^[aeiou]" b))
-      (str "quest'" b)
       
       ;; prepositional phrases
       (and (= a "a")

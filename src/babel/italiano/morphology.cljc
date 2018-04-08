@@ -401,6 +401,7 @@
 ;;  (re-find #"^s[^[aeiou]]" (get-in b [:italiano]))
 ;;  (re-find #"^gn" (get-in b [:italiano]))
 ;;    (re-find #"^io" (get-in b [:italiano]))
+;;    (re-find #"^jo" (get-in b [:italiano]))
 ;;    (re-find #"^pn" (get-in b [:italiano]))
 ;;    (re-find #"^y" (get-in b [:italiano]))
 ;;    (re-find #"^x" (get-in b [:italiano]))

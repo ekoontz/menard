@@ -741,7 +741,6 @@
      {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
       :default-fn default-fn
       :name "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon."
-      :generate {:lexicon lexicon-for-generation}
       :grammar grammar
       :language "it"
       :language-keyword :italiano

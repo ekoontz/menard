@@ -38,29 +38,41 @@
            :mass true
            :agr {:number :sing
                  :gender :masc}}}
+ "gli"
+ {:synsem {:cat :det
+           :def :def
+           :agr {:gender :masc
+                 :number :plur}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
  "i"
  {:synsem {:cat :det
            :def :def
            :agr {:gender :masc
-                 :number :plur}}}
+                 :number :plur}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
  "il"
  {:synsem {:cat :det
            :def :def
            :agr {:gender :masc
-                 :number :sing}}}
-
+                 :number :sing}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
  "la"
   {:synsem {:cat :det
             :def :def
             :agr {:gender :fem
-                  :number :sing}}}
-
+                  :number :sing}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
  "la loro"
  {:synsem {:cat :det
            :def :possessive
            :agr {:gender :fem
                  :number :sing}
            :sem {:number :plur
+                 :of {:pred :loro}
                  :person :3rd}}}
  "la mia"
  {:synsem {:cat :det
@@ -97,17 +109,23 @@
  {:synsem {:cat :det
            :def :def
            :agr {:gender :fem
-                 :number :plur}}}
+                 :number :plur}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
  "lo"
  {:synsem {:cat :det
            :def :def
            :agr {:gender :masc
-                 :number :sing}}}
+                 :number :sing}
+           :sem {:pred :definite
+                 :of {:pred nil}}}}
 
  "l'" {:generate-with false
        :synsem {:cat :det
                 :def :def
-                :agr {:number :sing}}}
+                :agr {:number :sing}
+                :sem {:pred :definite
+                      :of {:pred nil}}}}
  "qualche"
  {:synsem {:cat :det
            :def :indef
@@ -117,25 +135,44 @@
  "un" [{:synsem {:cat :det
                  :def :indef
                  :mass false
+                 :sem {:pred :indefinite
+                       :of {:pred nil}}
                  :agr {:gender :masc
                        :number :sing}}}
        {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
         :synsem {:cat :det
                  :def :indef
                  :mass false
+                 :sem {:pred :indefinite
+                       :of {:pred nil}}
                  :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
                        ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
                        :number :sing}}}]
+
+ "un'"
+ {:generate-with false ;; parsing only, not generation: don't generate e.g. "un donna".
+  :synsem {:cat :det
+           :def :indef
+           :mass false
+           :sem {:pred :indefinite
+                 :of {:pred nil}}
+           :agr {:gender :fem ;; 'un' can be feminine in the case where next word is an adjective (e.g. "alta")
+                 ;; and we tokenize "un'alta donna" as [un] [alta] [donna].
+                 :number :sing}}}
  "una"
  {:synsem {:cat :det
            :def :indef
            :mass false
+           :sem {:pred :indefinite
+                 :of {:pred nil}}
            :agr {:gender :fem
                  :number :sing}}}
  "uno"
  {:synsem {:cat :det
            :def :indef
            :mass false
+           :sem {:pred :indefinite
+                 :of {:pred nil}}
            :agr {:gender :masc
                  :number :sing}}}
 

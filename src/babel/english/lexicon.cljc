@@ -142,6 +142,32 @@
               :agr {:number :sing
                     :person :3rd}}})
 
+   (default
+    ;; a propernoun is agr=3rd singular, though in British English,
+    ;; a propernoun can be 3rd plur, e.g.: "Manchester have won the final".
+    {:synsem {:cat :noun
+              :pronoun false
+              :propernoun true
+              :agr {:number :sing
+                    :person :3rd}}})
+
+   (default ;; a common-noun is agr=3rd person.
+    {:synsem {:cat :noun
+              :pronoun false
+              :propernoun false
+              :agr {:person :3rd}}})
+  
+   ;; common nouns' articles agree with their articles:
+   ;; e.g. "a dog" but *"a dogs".
+   (default
+    (let [agr (atom {:person :3rd})]
+      {:synsem {:cat :noun
+                :pronoun false
+                :propernoun false
+                :agr agr
+                :subcat {:1 {:cat :det
+                             :agr agr}}}}))
+   
    ;; </noun default rules>
    
    ;; <verb default rules>
@@ -353,7 +379,8 @@
    ;; are the same compared to Italian.
    (default
     (let [subject-semantics (atom :top)]
-      {:synsem {:sem {:reflexive true
+      {:synsem {:cat :verb
+                :sem {:reflexive true
                       :subj subject-semantics
                       :obj subject-semantics}
                 :subcat {:2 '()}}}))
@@ -645,7 +672,6 @@
          [{:synsem {:sem {:pred (keyword pred)}
                     :propernoun false
                     :pronoun false
-                    :subcat {:1 {:agr {:person :3rd}
-                                 :cat :det}}
+                    :subcat {:1 {:cat :det}}
                     :cat :noun}}]}
         true {}))

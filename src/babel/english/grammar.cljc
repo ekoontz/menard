@@ -550,6 +550,7 @@
          :language "en"
          :language-keyword :english
          
+         ;; TODO: unused; remove.
          :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
          :lexicon lexicon
          :lookup (fn [arg]

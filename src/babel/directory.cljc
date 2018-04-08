@@ -45,8 +45,6 @@
 (defn write-lexicons []
   (db/init-db)
   (transaction
-   (print (str "it.."))
-   (println (write-lexicon "it" (it-lex/compile-lexicon)))
    
    (print (str "en.."))
    (println (write-lexicon "en" (en/compile-lexicon)))
@@ -55,5 +53,7 @@
    (println (write-lexicon "es" (es/compile-lexicon)))
    
    (print (str "fr.."))
-   (println (write-lexicon "fr" (fr/compile-lexicon)))))
+   (println (write-lexicon "fr" (fr/compile-lexicon)))
 
+   (print (str "it.."))
+   (println (write-lexicon "it" (it-lex/compile-lexicon)))))

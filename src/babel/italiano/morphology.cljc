@@ -22,7 +22,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-;; TODO: convert all morphology rules to this format used for prepositions:
+;; TODO: move this to morphology/prepositions.edn,
+;; following example in morphology/determiners.edn.
 (defonce preposition-plus-article
   [["a il"   "al"]
    ["a lo"   "allo"]
@@ -410,8 +411,7 @@
 
         ;; TODO: eventually move all of (get-string) into rules of this kind:
         [applied-determiner-rules determiner-rules-result]
-        (determiners/apply-determiner-rules a b)]
-    
+        (determiners/apply-determiner-rules (string/join " " [a b]))]
     (cond
       applied-determiner-rules
       determiner-rules-result

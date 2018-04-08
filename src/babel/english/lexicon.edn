@@ -32,7 +32,7 @@
  {:synsem {:cat :det
            :def :indef
            :mass false
-           :sem {:pred :a-generic-instance-of
+           :sem {:pred :indefinite
                  :of {:pred nil}}
            :agr {:number :sing}}}
 
@@ -2181,6 +2181,8 @@
                    :participle "snapping"
                    :note "pictures"}}
 
+ ;; TODO: squash this into one entry: remove {:agr :number}; don't
+ ;; need it.
  "some"
  [{:synsem {:cat :det
             :def :partitivo
@@ -2350,6 +2352,7 @@
                      :subcat {:1 obj-synsem
                               :2 []}}})]
 
+ ;; TODO: remove {:agr :number}: don't need it.
  "the" (let [common {:synsem {:cat :det
                               :sem {:pred :definite
                                     :of {:pred nil}}

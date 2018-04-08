@@ -394,6 +394,18 @@
      word)
     ))
 
+
+;; TODO: add:
+;; il -> lo; i->gli patterns:
+;;(or (re-find #"^[aeiou]" (get-in b [:italiano]))
+;;  (re-find #"^s[^[aeiou]]" (get-in b [:italiano]))
+;;  (re-find #"^gn" (get-in b [:italiano]))
+;;    (re-find #"^io" (get-in b [:italiano]))
+;;    (re-find #"^pn" (get-in b [:italiano]))
+;;    (re-find #"^y" (get-in b [:italiano]))
+;;    (re-find #"^x" (get-in b [:italiano]))
+;;   (re-find #"^z" (get-in b [:italiano]))))
+
 ;; TODO: replace 'a' and 'b' with 'left' and 'right': latter easier to talk about
 (defn get-string [a & [ b ]]
   (if (nil? a)

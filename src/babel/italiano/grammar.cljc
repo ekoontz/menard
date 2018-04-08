@@ -785,10 +785,7 @@
                            spec)
                     (lightning-bolts model
                                      spec
-                                     0 depth)}))})))
-     ((fn [model]
-        (merge model
-               {:generate-fn (fn [spec] (generate/generate spec model))}))))))
+                                     0 depth)}))}))))))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (reduce merge (map vocab-entry-to-lexeme vocab-items))

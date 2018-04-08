@@ -638,9 +638,14 @@
 (defn vocab-entry-to-lexeme [{surface :surface
                               pred :pred
                               vocab-cat :vocab_cat}]
+  ;; add some additional constraints that we should not need (should be in compile-lex)
+  ;; TODO: remove need to add these constraints.
   (cond (= vocab-cat "noun1")
         {surface
          [{:synsem {:sem {:pred (keyword pred)}
+                    :propernoun false
+                    :pronoun false
+                    :subcat {:1 {:agr {:person :3rd}
+                                 :cat :det}}
                     :cat :noun}}]}
         true {}))
-

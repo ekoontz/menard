@@ -1,6 +1,4 @@
-;; TODO: not used yet: use.
 {
-
  "del"
  {:synsem {:cat :det
            :def :partitivo

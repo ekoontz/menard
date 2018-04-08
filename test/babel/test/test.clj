@@ -4,13 +4,17 @@
    [clojure.pprint :refer [pprint]]
    [clojure.string :as string]
    [clojure.test :refer [deftest is]]
-   [clojure.tools.logging :as log]))
+   [clojure.tools.logging :as log]
+   [environ.core :refer [env]]))
 
 (defn init-db []
-  (->
-   "postgres://localhost/babel"
-   babel.korma/init-db 
-   babel.korma/create-tables))
+  (let [database-url
+        (or (env :database-url) "postgres://localhost/babel")]        
+    (log/info (str "init-db with database-url: " database-url))
+    (->
+     database-url
+     babel.korma/init-db 
+     babel.korma/create-tables)))
 
 (defn generate-speed-test [spec model & [times]]
   "generate an expression according to the given _spec_ and _model_."

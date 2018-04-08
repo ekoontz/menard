@@ -565,8 +565,10 @@
               (generate/generate spec model))})))
 
 
-;;(def source-model  @@(get babel.directory/models :en))
-;;(def foo ((:vocab2model source-model) source-vocab-items filter-lexicon-fn))
+;;(def source-model @@(get babel.directory/models :en))
+;;(def filter-lexicon-fn #(= :det (get-in % [:synsem :cat])))
+;;(def new-model ((:vocab2model source-model) source-vocab-items filter-lexicon-fn))
+;;(clojure.pprint/pprint (get (:lexicon new-model) "wine"))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (transform-with-english-lexical-rules

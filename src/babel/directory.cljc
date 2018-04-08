@@ -9,6 +9,20 @@
             [babel.lexiconfn :refer [write-lexicon]]
             [clojure.tools.logging :as log]
             [korma.db :refer [transaction]]))
+
+;; babel.directory provides a centralized way to discover and access language models.
+;; 
+;; To sync your language model after changing lexicon sources:
+;;
+;; 1. Write .edn files to database:
+;;     (write-lexicon "it" (babel.italiano.lexicon/compile-lexicon))
+;; 2. Update in-memory models from database:
+;;    (babel.directory/refresh-models)
+;; 3. Make model easily available within your own namespace:
+;;    (def model @@(get models :it))
+;; 4. Use new model via your local variable 'model':
+;;    (first (get (get model :lexicon) "uomo"))
+
 (def models
   {:en (atom (delay (en/model)))
    :es (atom (delay (es/small)))

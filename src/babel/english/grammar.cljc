@@ -564,6 +564,10 @@
             (fn [spec]
               (generate/generate spec model))})))
 
+
+;;(def source-model  @@(get babel.directory/models :en))
+;;(def foo ((:vocab2model source-model) source-vocab-items filter-lexicon-fn))
+
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (transform-with-english-lexical-rules
                        (reduce merge (map vocab-entry-to-lexeme vocab-items)))

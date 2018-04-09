@@ -7,13 +7,13 @@
  {:g [ #"\bi ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))"  "gli $1"]}
  
  ;; la -> l'
- {:g [ #"\bla ([aeiou])"                                 "l'$1"]}
+ {:g [ #"\bla ([aeiou])"                                           "l'$1"]}
  
  ;; un -> uno
- {:g [ #"\bun ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))" "uno $1"]}
+ {:g [ #"\bun ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))"           "uno $1"]}
  
  ;; una -> un'
- {:g [ #"\bun ([aeiou])"                                 "un'$1"]}
+ {:g [ #"\bun ([aeiou])"                                           "un'$1"]}
  ;; </generation rules>
  
  {:p [#"^dell$" "del"]
@@ -40,5 +40,5 @@
   :u {:synsem {:cat :det
                :agr {:number :sing
                      :gender :masc}}}}
- 
- ])
+
+ ]

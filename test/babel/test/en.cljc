@@ -702,6 +702,22 @@
          (= "the woman that she sees"
             (morph result))))))
 
+(deftest generate-from-vocab-items
+  (let [vocab-items [{:surface "acre", :pred "acre", :vocab_cat "noun1"}
+                     {:surface "county", :pred "county", :vocab_cat "noun1"}
+                     {:surface "damage", :pred "damage", :vocab_cat "noun1"}
+                     {:surface "fire", :pred "fire", :vocab_cat "noun1"}
+                     {:surface "flame", :pred "flame", :vocab_cat "noun1"}
+                     {:surface "industry", :pred "industry", :vocab_cat "noun1"}
+                     {:surface "wine", :pred "wine", :vocab_cat "noun1"}]
+        filter-lexicon-fn #(= :det (get-in % [:synsem :cat]))
+        original-model @@(get babel.directory/models :en)
+        new-model ((:vocab2model original-model) vocab-items filter-lexicon-fn)]
+    (let [expression (generate/generate {:synsem {:subcat []
+                                                  :cat :noun}}
+                                        new-model)]
+      (is (not (nil? expression))))))
+
 (def spec
   {:synsem {:cat :verb
             :sem {:pred :sleep

@@ -771,7 +771,7 @@
          english-verb-phrase)))))
 
 (defn plural-en [english]
-  (if (re-find #"[rt][y]$" english) ;; city => cities
+  (if (re-find #"[mnrt][y]$" english) ;; city => cities
     (replace english #"[y]$" "ies")
     (if (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
       (str english "es")

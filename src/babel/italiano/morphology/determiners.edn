@@ -4,7 +4,7 @@
  {:g [#"\bil ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))"  "lo $1"]}
  
  ;; i -> gli
- {:g [ #"\bi ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))"  "gli $1"]}
+ {:g [ #"\bi (([aeiou])|(gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))"  "gli $1"]}
  
  ;; la -> l'
  {:g [ #"\bla ([aeiou])"                                           "l'$1"]}

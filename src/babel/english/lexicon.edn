@@ -2352,16 +2352,10 @@
                      :subcat {:1 obj-synsem
                               :2 []}}})]
 
- ;; TODO: remove {:agr :number}: don't need it.
- "the" (let [common {:synsem {:cat :det
-                              :sem {:pred :definite
-                                    :of {:pred nil}}
-                              :def :def}}]
-         [{:unify [common]
-           :synsem {:agr {:number :sing}}}
-          {:unify [common]
-           :synsem {:agr {:number :plur}}}])
-
+ "the" {:synsem {:cat :det
+                 :sem {:pred :definite
+                       :of {:pred nil}}
+                 :def :def}}
  "their"
  {:synsem {:cat :det
            :sem {:of {:pred :loro}}

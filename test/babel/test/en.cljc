@@ -718,9 +718,7 @@
                                   :number :sing} :tense :present}
                      :subcat ()}})
 
-;; (map #(println (morph %)) (take 100 (repeatedly #(generate spec :model model))))
-;; (morph (generate cspec :model model))
-
+;; TODO: use these examples in tests
 ;; An expensive and also one with a wide
 ;; divergence in timing: e.g. could be
 ;; as fast as 0.433 sec or as slow as 1.7 sec.
@@ -751,6 +749,4 @@
                               :subj {:pred :top}
                               :obj {:top :top}}}}))
        :show-notes false)))))
-
-
        

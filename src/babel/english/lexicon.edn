@@ -2353,9 +2353,9 @@
                               :2 []}}})]
 
  "the" {:synsem {:cat :det
+                 :def :def
                  :sem {:pred :definite
-                       :of {:pred nil}}
-                 :def :def}}
+                       :of {:pred nil}}}}
  "their"
  {:synsem {:cat :det
            :sem {:of {:pred :loro}}

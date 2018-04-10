@@ -19,26 +19,30 @@
  {:g [ #"\bun ([aeiou])"                                           "un'$1"]}
  ;; </generation rules>
  
+  ;; dell' -> del
  {:p [#"^dell$" "del"]
   :u {:cat :det
       :agr {:number :sing
               :gender :masc}}}
- 
+
+ ;; dell' -> della
  {:p [#"^dell$" "della"]
   :u {:cat :det
       :agr {:number :sing
             :gender :fem}}}
  
+ ;; gli -> i
  {:p [#"^gli$" "i"] ;; "gli" -> "i"
   :u {:synsem {:cat :det
                :agr {:number :plur
                      :gender :masc}}}}
- 
+ ;; l' -> la
  {:p [#"^l$" "la"] ;; "l'" -> "la"
   :u {:synsem {:cat :det
                :agr {:number :sing
                      :gender :fem}}}}
  
+ ;; l' -> il
  {:p [#"^l$" "il"] ;; "l'" -> "il"
   :u {:synsem {:cat :det
                :agr {:number :sing

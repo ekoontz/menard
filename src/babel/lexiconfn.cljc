@@ -125,7 +125,8 @@
 ;; http://stackoverflow.com/questions/1676891/mapping-a-function-on-the-values-of-a-map-in-clojure
 ;; http://stackoverflow.com/a/1677927
 (defn map-function-on-map-vals [m f]
-  (if (not (map? m))
+  (if (and (not (map? m))
+           (not (nil? m)))
     (throw (exception (str "Expected map as first input to map-function-on-map-vals, but got an input of type: " (type m)))))
   ;; TODO: add check for uniformity of type of keys
   ;; i.e. check that they are either all strings, or all keywords, or all integers, etc.

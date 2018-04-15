@@ -771,12 +771,17 @@
          english-verb-phrase)))))
 
 (defn plural-en [english]
-  (if (re-find #"[mnrt][y]$" english) ;; city => cities
-    (replace english #"[y]$" "ies")
-    (if (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
-      (str english "es")
-      ;; default case.
-      (str english "s"))))
+  (cond
+    ;; city => cities
+    (re-find #"y$" english) 
+    (replace english #"[^aeiou][y]$" "ies")
+
+    (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
+    (str english "es")
+
+    ;; default case.
+    true
+    (str english "s")))
 
 (def gender-symbol-female
   {#" \(♀\)$"

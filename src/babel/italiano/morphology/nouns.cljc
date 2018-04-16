@@ -7,7 +7,7 @@
    #?(:cljs [babel.logjs :as log])
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unifyc)]))
 
-;; TODO: add :g as with babel.italiano.morphlogy.verbs/patterns.
+;; TODO: add :g as with babel.italiano.morphology.verbs/patterns.
 (defonce patterns
   [
 

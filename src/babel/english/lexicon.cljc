@@ -667,7 +667,7 @@
                               vocab-cat :vocab_cat}]
   ;; add some additional constraints that we should not need (should be in compile-lex)
   ;; TODO: remove need to add these constraints.
-  (cond (= vocab-cat "noun1")
+  (cond (clojure.string/starts-with? vocab-cat "noun")
         {surface
          [{:synsem {:sem {:pred (keyword pred)}
                     :propernoun false

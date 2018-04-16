@@ -33,6 +33,11 @@
                  :agr {:gender :fem
                        :number :plur}}}}
 
+   {:p [#"(.*)o$" "$1a"] ;; "braccio" -> "braccia"
+    :u {:synsem {:cat :noun
+                 :agr {:gender :fem
+                       :number :plur}}}}
+
    {:p [#"(.*)e$" "$1à"] ;; "citte" -> "città"
     :u {:synsem {:cat :noun
                  :agr {:gender :fem
@@ -50,9 +55,6 @@
    {:p [#"(.*)i$" "$1o"] ;; "compiti" -> "compito"
     :u {:synsem {:cat :noun
                  :agr {:number :plur}}}}
-
-   
-   
    ])
 
 (def plural-to-singular-noun-fem-1
@@ -64,8 +66,8 @@
 
 (def plural-to-singular-noun-masc-1
   {
-   #"ii$" ;; e.g. "braccio" => "bracci"
-   {:replace-with "io"
+   #"ii$" ;; e.g. "braccio" => "braccia"
+   {:replace-with "a"
     :unify-with {:synsem {:cat :noun
                           :agr {:number :plur}}}}
    #"([^i])i$"

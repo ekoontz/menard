@@ -774,7 +774,7 @@
   (cond
     ;; city => cities
     (re-find #"y$" english) 
-    (replace english #"[^aeiou][y]$" "ies")
+    (replace english #"(.*)y$" "$1ies")
 
     (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
     (str english "es")

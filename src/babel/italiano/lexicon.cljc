@@ -482,12 +482,10 @@
   (let [ends-with (str (nth surface (- (count surface) 1)))]
     (cond
 
-      ;; if:
       (= vocab-cat "noun1")
-
-      ;;then:
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :cat :noun
                   :agr {:gender (cond (= "o" ends-with)
                                       :masc
@@ -497,55 +495,64 @@
                                       :top)}}}]}
       (= vocab-cat "noun2m")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :cat :noun
                   :agr {:gender :masc}}}]}
         
       
       (= vocab-cat "noun2f")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :cat :noun
                   :agr {:gender :fem}}}]}
 
       (= vocab-cat "noun3")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :cat :noun
                   :agr {:gender :masc}}
          :italiano {:plur (clojure.string/replace surface #"a$" "i")}}]}
 
       (= vocab-cat "nounneutr")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :masc
                         :number :sing}}}
-        {:synsem {:sem {:pred (keyword pred)}
+        {:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :fem
                         :number :plur}}
          :italian {:plur (clojure.string/replace surface #"o$" "a")}}]}
 
       (= vocab-cat "nounsingm")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :masc
                         :number :sing}}}]}
 
       (= vocab-cat "nounsingf")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :fem
                         :number :sing}}}]}
 
       (= vocab-cat "nounplurm")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :masc
                         :number :plur}}}]}
 
       (= vocab-cat "nounplurf")
       {surface
-       [{:synsem {:sem {:pred (keyword pred)}
+       [{:vocab-cat vocab-cat
+         :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :fem
                         :number :plur}}}]}
       

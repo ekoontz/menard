@@ -773,8 +773,8 @@
 (defn plural-en [english]
   (cond
     ;; city => cities
-    (re-find #"y$" english) 
-    (replace english #"(.*)y$" "$1ies")
+    (re-find #"[^aeiou]y$" english) 
+    (replace english #"([^aeiou])y$" "$1ies")
 
     (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
     (str english "es")

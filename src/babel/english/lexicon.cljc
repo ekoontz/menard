@@ -665,15 +665,17 @@
 (defn vocab-entry-to-lexeme [{surface :surface
                               pred :pred
                               vocab-cat :vocab_cat}]
-  ;; add some additional constraints that we should not need (should be in compile-lex)
-  ;; TODO: remove need to add these constraints.
   (let [surface (clojure.string/replace surface #"\s*\(.*$" "")]
     (cond (clojure.string/starts-with? vocab-cat "noun")
           {surface
            [{:synsem {:sem {:pred (keyword pred)}
+                      :cat :noun
+
+                      ;; add some additional constraints that we should not need (should be in compile-lex)
+                      ;; TODO: remove need to add these constraints.
                       :propernoun false
                       :pronoun false
-                      :subcat {:1 {:cat :det}}
-                      :cat :noun}}]}
+                      :subcat {:1 {:cat :det}}}}]}
           true {})))
+
 

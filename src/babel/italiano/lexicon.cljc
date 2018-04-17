@@ -516,6 +516,7 @@
                   :agr {:gender :masc}}
          :italiano {:plur (clojure.string/replace surface #"a$" "i")}}]}
 
+      ;; nounneutr: singular is masculine; plural is feminine: e.g. il braccio/le braccia
       (= vocab-cat "nounneutr")
       {surface
        [{:vocab-cat vocab-cat

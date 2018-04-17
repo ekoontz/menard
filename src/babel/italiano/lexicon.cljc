@@ -526,7 +526,7 @@
          :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :fem
                         :number :plur}}
-         :italian {:plur (clojure.string/replace surface #"o$" "a")}}]}
+         :italiano {:plur (clojure.string/replace surface #"o$" "a")}}]}
 
       (= vocab-cat "nounsingm")
       {surface

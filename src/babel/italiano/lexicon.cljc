@@ -557,7 +557,14 @@
                   :agr {:gender :fem
                         :number :plur}}}]}
       
-      true {})))
+      true
+      (do
+        (log/warn (str "(vocab-entry-to-lexeme: "
+                       "unable to create lexeme for: '" surface "' with "
+                       " vocab_cat: " vocab-cat) ": returning empty map.")
+        {}))))
+
+        
 
 
           

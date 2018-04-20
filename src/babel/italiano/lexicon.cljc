@@ -546,6 +546,7 @@
       (= vocab-cat "nounplurm")
       {surface
        [{:vocab-cat vocab-cat
+         :italiano {:plur surface}
          :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :masc
                         :number :plur}}}]}
@@ -553,6 +554,7 @@
       (= vocab-cat "nounplurf")
       {surface
        [{:vocab-cat vocab-cat
+         :italiano {:plur surface}
          :synsem {:sem {:pred (keyword pred)}
                   :agr {:gender :fem
                         :number :plur}}}]}

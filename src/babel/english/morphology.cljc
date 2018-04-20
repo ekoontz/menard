@@ -729,7 +729,7 @@
         (string? (get-in word '(:english)))
         (not (= (get-in word [:pronoun]) true))
         (not (= (get-in word [:propernoun]) true)))
-   (str (plural-en (get-in word '(:english)))
+   (str (plural-en (get-in word '(:english)) word)
         (if (get-in word '(:note))
           (str (get-in word '(:note)))))
 
@@ -738,7 +738,7 @@
         (string? (get-in word '(:english :english)))
         (not (= (get-in word [:pronoun]) true))
         (not (= (get-in word [:propernoun]) true)))
-   (str (plural-en (get-in word '(:english :english)))
+   (str (plural-en (get-in word '(:english :english) word))
         (if (get-in word '(:english :note))
           (str (get-in word '(:english :note)))))
 
@@ -770,7 +770,9 @@
          {:remove-to string}
          english-verb-phrase)))))
 
-(defn plural-en [english]
+;; TODO: handle commas in english word, e.g.: "agent,officer" => "agents,officers"
+(defn plural-en [english & [word]]
+  (if word (log/info (str "plural-en: english: " english "; word: " word)))
   (cond
     ;; city => cities
     (re-find #"[^aeiou]y$" english) 
@@ -779,6 +781,9 @@
     (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
     (str english "es")
 
+    (and word (= true (get-in word [:inherently-plural])))
+    (str english)
+    
     ;; default case.
     true
     (str english "s")))

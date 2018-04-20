@@ -667,15 +667,26 @@
                               vocab-cat :vocab_cat}]
   (let [surface (clojure.string/replace surface #"\s*\(.*$" "")]
     (cond (clojure.string/starts-with? vocab-cat "noun")
-          {surface
-           [{:synsem {:sem {:pred (keyword pred)}
-                      :cat :noun
+          (let [base-unify 
+                {:synsem {:sem {:pred (keyword pred)}
+                          :cat :noun
+                          ;; add some additional constraints that we should not need
+                          ;; (should be in compile-lex).
+                          ;; TODO: remove need to add these constraints.
+                          :propernoun false
+                          :pronoun false
+                          :subcat {:1 {:cat :det}}}}]
+            (cond
+              (or (= vocab-cat "nounplurf")
+                  (= vocab-cat "nounplurm"))
+              {surface
+               [(unify base-unify
+                       {:synsem {:agr {:number :plur}}
+                        :english {:inherently-plural true}})]}
+              true
+              {surface
+               [base-unify]}
+              true {})))))
 
-                      ;; add some additional constraints that we should not need (should be in compile-lex)
-                      ;; TODO: remove need to add these constraints.
-                      :propernoun false
-                      :pronoun false
-                      :subcat {:1 {:cat :det}}}}]}
-          true {})))
 
 

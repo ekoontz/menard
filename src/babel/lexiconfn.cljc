@@ -823,7 +823,7 @@
 
 ;; (babel.writer/write-lexicon "en" lexicon)
 (defn write-lexicon
-  "write a lexion (as a map) to a database: inverse of (read-lexicon)."
+  "write a lexicon (as a map) to a database: inverse of (read-lexicon)."
   [language lexicon]
   (transaction
    (truncate-lexicon language)

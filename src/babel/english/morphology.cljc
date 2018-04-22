@@ -772,8 +772,13 @@
 
 ;; TODO: handle commas in english word, e.g.: "agent,officer" => "agents,officers"
 (defn plural-en [english & [word]]
-  (if word (log/info (str "plural-en: english: " english "; word: " word)))
+  (log/info (str "plural-en: english: " english "; word: " word))
   (cond
+    (re-find #"," english)
+    (let [divided-by-commas (filter #(not (empty? %))
+                                    (string/split english #"[\s+,\s+]"))]
+      (string/join ", " (map #(plural-en % word) divided-by-commas)))
+
     ;; city => cities
     (re-find #"[^aeiou]y$" english) 
     (replace english #"([^aeiou])y$" "$1ies")
@@ -781,6 +786,8 @@
     (re-find #"[cs][hsx]$" english) ;; brush => brushes; beach => beaches
     (str english "es")
 
+    ;; found in lexical entries derived from vocab-items where
+    ;; the vocab-cat is "nounplurf" or "nounplurm".
     (and word (= true (get-in word [:inherently-plural])))
     (str english)
     

@@ -543,7 +543,8 @@
                   :agr {:gender :fem
                         :number :sing}}}]}
 
-      (= vocab-cat "nounplurm")
+      (or (= vocab-cat "nounplurm")
+          (= vocab-cat "nounplf"))
       {surface
        [{:vocab-cat vocab-cat
          :italiano {:plur surface}
@@ -551,7 +552,8 @@
                   :agr {:gender :masc
                         :number :plur}}}]}
 
-      (= vocab-cat "nounplurf")
+      (or (= vocab-cat "nounplurf")
+          (= vocab-cat "nounplf"))
       {surface
        [{:vocab-cat vocab-cat
          :italiano {:plur surface}

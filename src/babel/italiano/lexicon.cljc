@@ -544,7 +544,7 @@
                         :number :sing}}}]}
 
       (or (= vocab-cat "nounplurm")
-          (= vocab-cat "nounplf"))
+          (= vocab-cat "nounplm"))
       {surface
        [{:vocab-cat vocab-cat
          :italiano {:plur surface}

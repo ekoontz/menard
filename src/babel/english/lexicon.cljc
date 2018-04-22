@@ -678,7 +678,9 @@
                           :subcat {:1 {:cat :det}}}}]
             (cond
               (or (= vocab-cat "nounplurf")
-                  (= vocab-cat "nounplurm"))
+                  (= vocab-cat "nounplurm")
+                  (= vocab-cat "nounplf")
+                  (= vocab-cat "nounplm"))
               {surface
                [(unify base-unify
                        {:synsem {:agr {:number :plur}}

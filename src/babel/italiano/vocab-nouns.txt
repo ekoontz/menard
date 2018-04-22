@@ -1,0 +1,1435 @@
+          target           |                  source                  |     category     
+---------------------------+------------------------------------------+------------------
+ abbigliamento             | clothing                                 | nounsing
+ abbonamento               | subscription                             | noun1
+ abete                     | fir tree                                 | noun2m
+ abito                     | dress, suit (a...)                       | noun1
+ abito                     | dress,suit                               | noun1
+ abito                     | suit, dress (a...)                       | noun1
+ abitudine                 | habit                                    | noun2f
+ accappatoio               | bathrobe                                 | noun1
+ acido                     | acid                                     | noun1
+ acqua                     | water                                    | noun1
+ acqua naturale            | still water                              | nounsingf
+ acquisto                  | purchase                                 | noun1
+ acrobata                  | acrobat                                  | noun3
+ aereo                     | airplane                                 | noun1
+ aeroporto                 | airport                                  | noun1
+ affare                    | deal                                     | noun2m
+ affettati                 | cold cuts                                | nounplm
+ affetto                   | affection                                | noun1
+ affitto                   | rent                                     | noun1
+ agenda                    | planner                                  | noun1
+ agente                    | agent,officer                            | noun2m
+ agente immobiliare        | real estate agent                        | nounsing
+ agenti immobiliari        | real estate agents                       | nounplur
+ agenzia                   | agency                                   | noun1
+ aglio                     | garlic                                   | noun1
+ ago                       | needle                                   | noun1
+ agricoltore               | male farmer                              | noun2m
+ agricoltrice              | female farmer                            | noun2f
+ agricoltura               | agriculture                              | noun1
+ aiuola                    | flowerbed                                | noun1
+ ala                       | wing                                     | nounsingf
+ alba                      | dawn                                     | noun1
+ albergo                   | hotel                                    | noun1
+ albero                    | tree                                     | noun1
+ algebra                   | algebra                                  | nounsingf
+ ali                       | wings                                    | nounplf
+ alimentari                | general food                             | nounplur
+ allenatore                | male coach                               | noun2m
+ allenatrice               | female coach                             | noun2f
+ alloggio                  | lodging                                  | noun1
+ alluvione                 | flood                                    | noun2f
+ alunna                    | female pupil                             | noun1
+ alunno                    | male pupil                               | noun1
+ amante                    | lover, fem.                              | noun2f
+ amante                    | lover, masc.                             | noun2m
+ ambientalismo             | environmentalism                         | noun1
+ ambiente                  | environment                              | noun2m
+ ambulanza                 | ambulance                                | noun1
+ amica                     | female friend                            | nounsingf
+ amiche                    | female friends                           | nounplf
+ amici                     | male friend                              | nounplm
+ amico                     | male friend                              | nounsingm
+ amore                     | love (noun)                              | noun2m
+ ananas                    | pineapple                                | nouninvm
+ angolo                    | angle,corner                             | noun1
+ animale                   | animal                                   | noun2m
+ anno                      | year                                     | noun1
+ annuncio                  | announcement                             | noun1
+ antipasto                 | appetizer                                | noun1
+ ape                       | bee                                      | noun2f
+ appartamento              | apartment                                | noun1
+ applauso                  | applause                                 | noun1
+ appuntamento              | appointment                              | noun1
+ appunto                   | note                                     | noun1
+ arancia                   | orange (fruit)                           | noun1
+ arbitro                   | referee                                  | noun1
+ archeologia               | archeology                               | noun1
+ architetto                | architect                                | noun1
+ architettura              | architecture                             | noun1
+ arco                      | bow (arrows)                             | noun1
+ armadietto                | locker                                   | noun1
+ armadio                   | armoir                                   | noun1
+ aroma                     | aroma                                    | noun3
+ arrampicata               | climb (noun)                             | noun1
+ arrivo                    | arrival                                  | noun1
+ arrosto                   | roast                                    | noun1
+ arte                      | art                                      | noun2f
+ ascensore                 | elevator,lift                            | noun2m
+ asciugacapelli            | hair dryer                               | nouninvm
+ asciugamano               | towel                                    | noun1
+ asciugatrice              | dryer                                    | noun2f
+ asilo                     | asylum                                   | noun1
+ asilo                     | kindergarten                             | noun1
+ aspirapolvere             | vacuum cleaner                           | noun2m
+ aspirina                  | aspirin                                  | noun1
+ assassino                 | assassin, killer                         | noun1
+ assegno                   | bank check                               | noun1
+ assicurazione             | insurance                                | noun2f
+ assolo                    | solo (music)                             | noun1
+ assunzione                | hiring                                   | noun2f
+ atletica                  | athletics                                | noun1
+ attenzione                | attention                                | noun2
+ attesa                    | wait                                     | noun1
+ attimo                    | instant                                  | noun1
+ attività                  | activity                                 | nouninvf
+ atto                      | act                                      | noun1
+ attore                    | actor                                    | noun2
+ attrice                   | actress                                  | noun2f
+ aula                      | classroom                                | noun1
+ aumento                   | increase                                 | noun1
+ autista                   | driver (female)                          | noun1
+ autista                   | driver (male)                            | noun3
+ autobus                   | bus                                      | nouninvm
+ automobile                | car,automobile                           | noun2f
+ automobilismo             | car racing                               | noun1
+ autore                    | author (male)                            | noun2m
+ autostrada                | highway                                  | noun1
+ autrice                   | author (female)                          | noun2f
+ autunno                   | fall,autumn                              | noun1
+ avvenimento               | event (av...)                            | noun1
+ avvocato                  | lawyer                                   | noun1
+ azienda                   | company (business)                       | noun1
+ bacca                     | berry                                    | noun1
+ bacheca                   | message board                            | noun1
+ bacio                     | kiss                                     | noun1
+ bagaglio                  | luggage                                  | noun1
+ bagno                     | bathroom                                 | noun1
+ bagnoschiuma              | shower gel (masc.)                       | nouninvm
+ baita                     | mountain cabin                           | noun1
+ balconata                 | dress circle                             | noun1
+ balcone                   | balcony                                  | noun2m
+ balia                     | nanny                                    | noun1
+ ballerina                 | female dancer                            | noun-1-lista-b
+ ballerino                 | male dancer                              | noun1
+ balletto                  | ballet                                   | noun1
+ bambina                   | little girl                              | noun1
+ bambino                   | little boy                               | noun1
+ banana                    | banana                                   | noun1
+ banca                     | bank                                     | noun1
+ banco                     | counter, desk                            | noun1
+ bancomat                  | ATM                                      | nouninvar
+ banconota                 | bank note                                | noun1
+ bar                       | bar                                      | nouninvm
+ barattolo                 | jar                                      | noun1
+ barba                     | beard                                    | noun1
+ barca                     | boat                                     | noun1
+ barista                   | bartender                                | noun3
+ basso                     | bass guitar                              | noun1
+ bastone                   | stick, baton                             | noun2m
+ batteria                  | drum kit                                 | noun1
+ bellezza                  | beauty                                   | noun1
+ benessere                 | well being (1 word)                      | noun2m
+ benzina                   | gasoline                                 | noun1
+ bibita                    | soft drink                               | noun1
+ biblioteca                | library                                  | noun1
+ bicchiere                 | glass,cup                                | noun2m
+ bicicletta                | bicycle                                  | noun1
+ bidello                   | custodian                                | noun1
+ biglietteria              | ticket office                            | noun1
+ biglietto                 | ticket                                   | noun1
+ bilocale                  | two room apartment                       | noun2-lista-b
+ binario                   | train track                              | noun1
+ biologia                  | biology                                  | noun1
+ birra                     | beer                                     | noun1
+ birreria                  | beer garden                              | noun1
+ biscotto                  | cookie                                   | noun1
+ bocca                     | mouth                                    | noun1
+ bolletta                  | utility bill                             | noun1
+ borsa                     | bag                                      | noun1
+ borsetta                  | purse                                    | noun1
+ bosco                     | forest, woods                            | noun1
+ bottiglia                 | bottle                                   | noun1
+ braccio                   | arm                                      | nounneutr
+ briciola                  | crumb                                    | noun1
+ brindisi                  | toast                                    | nouninvm
+ bruciore                  | burn                                     | noun2m
+ bucato                    | laundry                                  | nounsing
+ buffone                   | buffoon                                  | noun2m
+ buio                      | darkness                                 | noun1
+ burro                     | butter                                   | noun1
+ busta                     | envelope                                 | noun1
+ cacca                     | crap                                     | noun1
+ caffettiera               | coffee maker                             | noun1
+ caffè                     | coffee                                   | nouninvm
+ calciatore                | male soccer player                       | noun2m
+ calciatrice               | female soccer player                     | noun2f
+ calcio                    | soccer,kick                              | noun1
+ calza                     | sock                                     | noun1
+ calzino                   | sock                                     | noun1
+ camera                    | c...- room                               | noun1
+ cameriera                 | waitress                                 | noun1
+ cameriere                 | waiter                                   | noun2m
+ camicetta                 | blouse                                   | noun1
+ camicia                   | dress shirt                              | noun1
+ camion                    | truck                                    | nouninvm
+ camionista                | truck driver                             | noun3
+ campagna                  | countryside                              | noun1
+ campanella                | school bell                              | noun1
+ campeggio                 | camping site                             | noun1
+ campo                     | field                                    | noun1
+ canale                    | channel,canal                            | noun2m
+ candidata                 | female candidate                         | noun1
+ candidato                 | male candidate                           | noun1
+ cane                      | dog                                      | noun2m
+ canottiera                | tank top                                 | noun1
+ cantante                  | singer                                   | noun2
+ cantina                   | cellar                                   | noun1
+ canzone                   | song                                     | noun2f
+ caos                      | chaos                                    | nouninvm
+ capacità                  | ability                                  | nouninvf
+ caparra                   | deposit                                  | noun1
+ capelli                   | hair                                     | noun1s2p
+ capello                   | single hair                              | noun1
+ capo                      | boss, chief                              | noun1
+ capodanno                 | New Year's Eve                           | noun1
+ capolavoro                | masterpiece                              | noun1
+ capolinea                 | end of the bus line                      | noun1
+ capoluogo                 | regional capital city                    | noun1
+ cappello                  | hat                                      | noun1
+ cappotto                  | coat                                     | noun1
+ cappuccino                | cappuccino                               | noun1
+ capra                     | goat                                     | noun1
+ caraffa                   | caraffe,pitcher                          | noun1
+ carciofo                  | artichoke                                | noun1
+ carica batteria           | battery charger                          | nouninvm
+ carie                     | cavity                                   | nouninvf
+ carne                     | meat                                     | noun2f
+ carota                    | carot                                    | noun1
+ carriera                  | career                                   | noun1
+ carta                     | paper                                    | noun1
+ carte                     | cards                                    | nounplf
+ cartella                  | folder                                   | noun1
+ cartina                   | map                                      | noun1
+ cartina                   | map (c...)                               | noun1
+ cartoleria                | stationery store                         | noun1
+ cartolina                 | post card                                | noun1
+ casa                      | house,home                               | noun1
+ casalinga                 | housewife                                | noun1
+ casalingo                 | househusband                             | noun1
+ cascata                   | cascade,waterfall                        | noun1
+ casino                    | chaos                                    | noun1
+ casolare                  | farmhouse                                | noun2m
+ cassetta delle lettere    | mailbox                                  | noun1
+ cassettiera               | dresser                                  | noun1
+ cassetto                  | drawer                                   | noun1
+ castello                  | castle                                   | noun1
+ catastrofe                | catastrophe                              | noun2f
+ cavallo                   | horse                                    | noun1
+ cavia                     | guinea pig                               | noun1
+ cellulare                 | cell phone                               | noun2m
+ cena                      | dinner                                   | noun1
+ cenere                    | ash                                      | noun2f
+ centesimo                 | cent,hundredth part                      | noun1
+ centro                    | centre                                   | noun1
+ centro commerciale        | shopping mall                            | phrasal-noun
+ centro storico            | historical city centre                   | phrasal-noun
+ cereali                   | cereal (pl. in It.)                      | nounplm
+ cervo                     | deer                                     | noun1
+ cespuglio                 | bush                                     | noun1
+ cestino                   | wastebasket                              | noun1
+ chiacchierata             | chat (noun)                              | noun1
+ chiacchierona             | female chatterbox                        | noun1
+ chiacchierone             | male chatterbox                          | noun2m
+ chiave                    | key                                      | noun2f
+ chiesa                    | church                                   | noun1
+ chilo                     | kilo                                     | noun1
+ chilometro                | kilometer                                | noun1
+ chimica                   | chemistry                                | noun1
+ chiosco                   | kiosk                                    | noun1
+ chirurgo                  | surgeon                                  | noun1
+ chitarra                  | guitar                                   | noun1
+ chitarrista               | guitarist                                | noun3
+ ci                        | there, before a verb                     | pronoun
+ ciambella                 | doughnut                                 | noun1
+ cibo                      | food                                     | noun1
+ ciclismo                  | the sport of cycling                     | nouninvm
+ ciclone                   | cyclone                                  | noun2m
+ cielo                     | sky                                      | noun1
+ ciglia                    | eyelashes                                | nounplf
+ ciglio                    | eye lash                                 | nounsingm
+ cinema                    | movie theatre                            | nouninvm
+ cintura                   | belt                                     | noun1
+ cioccolata                | chocolate                                | noun1
+ cipolla                   | onion                                    | noun1
+ cipresso                  | cypress                                  | noun1
+ città                     | city                                     | nouninvf
+ ciuffo                    | hair - tuft                              | noun1
+ clarinetto                | clarinet                                 | noun1
+ classe                    | class                                    | noun2f
+ cliente                   | client,customer                          | noun2m
+ clima                     | climate,weather                          | noun3
+ coda                      | tail, line (of people or cars)           | noun1
+ cofano                    | hood                                     | noun1
+ cognato                   | brother in law                           | noun1
+ cognome                   | last name                                | noun2m
+ coincidenza               | coincidence                              | noun1
+ colazione                 | breakfast                                | noun2f
+ collana                   | necklace                                 | noun1
+ collezione                | collection                               | noun2f
+ collina                   | hill                                     | noun1
+ collo                     | neck                                     | noun1
+ colloquio                 | job interview                            | noun1
+ colomba                   | dove                                     | noun1
+ colore                    | color                                    | noun2m
+ colpevolezza              | culpability                              | noun1
+ coltello                  | knife                                    | noun1
+ commedia                  | comedy                                   | noun1
+ commessa                  | sales woman                              | noun1
+ commesso                  | sales man                                | noun1
+ commissione               | commission                               | noun2f
+ comodino                  | night stand                              | noun1
+ compagna                  | female partner, female mate              | noun1
+ compagna di classe        | female classmate                         | nounsingf
+ compagne di classe        | female classmates                        | nounplf
+ compagni di classe        | male roommates                           | nounplm
+ compagnia                 | company                                  | noun1
+ compagno                  | male partner, male mate                  | noun1
+ compagno di classe        | male roommate                            | nounsingm
+ competenza                | competence                               | noun1
+ compito                   | homework                                 | noun1
+ compleanno                | birthday                                 | noun1
+ compositore               | male composer                            | noun2m
+ compositrice              | female composer                          | noun2
+ compressa                 | pill,tablet                              | noun1
+ compromesso               | compromise                               | noun1
+ comune                    | town hall                                | noun2m
+ concerto                  | concert                                  | noun1
+ condanna                  | condemnation                             | noun1
+ condizione                | condition                                | noun2
+ confine                   | border                                   | noun2m
+ congelatore               | freezer                                  | noun2m
+ coniglio                  | rabbit                                   | noun1
+ consiglio                 | advice                                   | noun1
+ consulente                | consultant                               | noun2
+ contabile                 | accountant                               | noun2
+ contadina                 | female farmer                            | noun1
+ contadino                 | male farmer                              | noun1
+ contanti                  | cash                                     | nounplm
+ contatto                  | contact                                  | noun1
+ contea                    | county                                   | noun1
+ conto                     | account                                  | noun1
+ contorno                  | side dish                                | noun1
+ contratto                 | contract                                 | noun1
+ controllo                 | control,check                            | noun1
+ conversazione             | conversation                             | noun2f
+ convinzione               | conviction                               | noun2f
+ coperta                   | blanket                                  | noun1
+ coppia                    | couple                                   | noun1
+ coraggio                  | courage                                  | noun1
+ coro                      | choir,chorus                             | noun1
+ corpo                     | body                                     | noun1
+ corridoio                 | corridor                                 | noun1
+ corso                     | course                                   | noun1
+ cortesia                  | courtesy                                 | noun1
+ cortile                   | courtyard,quad                           | noun2m
+ cosa                      | thing                                    | noun1
+ coscienza                 | awareness                                | noun1
+ coscienza                 | conscience, awareness                    | noun1
+ costa                     | coast                                    | noun1
+ costruzione               | construction                             | noun2f
+ cotone                    | cotton                                   | noun2m
+ cottura                   | cooking                                  | noun1
+ cravatta                  | neck tie                                 | noun1
+ cravatta                  | necktie                                  | noun1
+ credenza                  | cupboard                                 | noun1
+ credito                   | credit                                   | noun1
+ crema                     | cream                                    | noun1
+ crema                     | cream,lotion                             | noun1
+ cretino                   | jerk                                     | noun1
+ criminale                 | criminal (noun)                          | noun
+ crimine                   | crime                                    | noun2m
+ crociera                  | cruise                                   | noun1
+ crostata                  | sweet pie                                | noun1
+ cucchiaino                | teaspoon                                 | noun1
+ cucchiaio                 | spoon                                    | noun1
+ cucina                    | kitchen                                  | noun1
+ cucitrice                 | stapler                                  | noun2f
+ cuffie                    | headphones                               | nounplf
+ cugina                    | female cousin                            | noun1
+ cugino                    | male cousin                              | noun1
+ cuoca                     | chef, cook (female)                      | noun1
+ cuoco                     | cook,chef (male)                         | noun1
+ cuore                     | heart                                    | noun2m
+ cuscino                   | pillow                                   | noun1
+ danno                     | damage                                   | noun1
+ data                      | date                                     | noun1
+ dati                      | data                                     | nounplm
+ dato                      | datum                                    | nounsingm
+ debito                    | debt,debit                               | noun1
+ debutto                   | debut                                    | noun1
+ decina                    | ten (group of ten)                       | numbernoun1
+ decisione                 | decision                                 | noun2f
+ degrado                   | disrepair                                | noun1
+ delegazione               | delegation                               | noun2f
+ denaro                    | money                                    | noun1
+ dente                     | tooth                                    | noun2m
+ dentifricio               | toothpaset                               | noun1
+ dentista                  | dentist                                  | noun3
+ depressione               | depression                               | noun2f
+ descrizione               | description                              | noun2
+ deserto                   | desert                                   | noun1
+ desiderio                 | desire                                   | noun1
+ destra                    | right -vs left                           | noun1
+ diario                    | diary                                    | noun1
+ dieta                     | diet                                     | noun1
+ dilemma                   | dilemma                                  | noun3
+ diluvio                   | downpour, flood                          | noun1
+ diploma                   | diploma,degree                           | noun3
+ diretta                   | live broadcast                           | noun1
+ direttore                 | director                                 | noun2m
+ direttrice                | director                                 | noun2f
+ dirigente                 | manager,executive                        | noun2
+ diritto                   | right (as in "human rights")             | noun1
+ disboscamento             | deforestation                            | noun1
+ discarica                 | dump                                     | noun1
+ dispensa                  | pantry                                   | noun1
+ dispetto                  | little spiteful act                      | noun1
+ dispiacere                | sorrow                                   | noun2m
+ dita                      | fingers                                  | nounplf
+ dito                      | finger                                   | nounsingm
+ ditta                     | firm, company                            | noun1
+ divano                    | couch                                    | noun1
+ divergenza                | divergence                               | noun1
+ diversità                 | diversity, difference                    | nouninvf
+ dizionario                | dictionary                               | noun1
+ doccia                    | shower                                   | noun1
+ docente                   | teacher,lecturer                         | noun2
+ documentario              | documentary                              | noun1
+ documento                 | document                                 | noun1
+ dogana                    | customs office                           | noun1
+ dolce                     | dessert                                  | noun2m
+ dolore                    | pain                                     | noun1m
+ dolore                    | sorrow, pain                             | noun2m
+ domanda                   | question                                 | noun1
+ donna                     | woman                                    | noun1
+ dono                      | gift,donation                            | noun1
+ dottore                   | male doctor                              | noun2m
+ dottoressa                | female doctor                            | noun2
+ dramma                    | drama                                    | noun3
+ drammaturgo               | playwright                               | noun1
+ duna                      | dune                                     | noun1
+ duomo                     | cathedral (d...)                         | noun1
+ ecologia                  | ecology                                  | noun1
+ economia                  | economy,economics                        | noun1
+ edicola                   | newsstand                                | noun1
+ editoria                  | publishing industry                      | noun1sing
+ educazione                | education                                | noun2f
+ effetto                   | effect                                   | noun1
+ elettricista              | electrician                              | noun3
+ elettrodomestico          | appliance                                | noun1
+ elicottero                | helicopter                               | noun1
+ emicrania                 | migrain                                  | noun1
+ energia                   | energy                                   | noun1
+ enoteca                   | wine store                               | noun1
+ epifania                  | epifany                                  | noun1
+ erba                      | herb                                     | noun1
+ errore                    | error                                    | noun2m
+ errore                    | herb,grass                               | noun2m
+ eruzione                  | eruption                                 | noun2f
+ esame                     | exam                                     | noun1m
+ escursione                | excursion                                | noun2
+ esercizio                 | exercise                                 | noun1
+ esibizione                | performance                              | noun2f
+ esperienza                | experience                               | noun1
+ esposizione               | exhibit                                  | noun2f
+ espressione               | expression                               | noun2
+ essenza                   | essence                                  | noun1
+ estate                    | summer                                   | noun2f
+ ettaro                    | acre                                     | noun1
+ etto                      | 100 grams                                | noun1
+ età                       | age                                      | nounfinv
+ fabbrica                  | factory                                  | noun1
+ fabbricazione             | manufacturing, production                | noun2f
+ faccia                    | face                                     | noun1
+ facoltà                   | university department                    | nouninvf
+ fagiolino                 | green bean                               | noun1
+ fagiolo                   | bean                                     | noun1
+ falegname                 | carpenter                                | noun2m
+ fame                      | hunger                                   | noun2f
+ famiglia                  | family                                   | noun1
+ fantascienza              | science fiction                          | noun1
+ farina                    | flour                                    | noun1
+ farmacia                  | pharmacy                                 | noun1
+ farmacista                | pharmacist                               | noun3
+ faro                      | headlight,lighthouse                     | noun1
+ fattoria                  | farm                                     | noun1
+ favola                    | fairy tale                               | noun1
+ favore                    | favor                                    | noun2m
+ febbre                    | fever                                    | noun2f
+ felpa                     | sweatshirt                               | noun1
+ femmina                   | female                                   | noun1
+ femminista                | feminist                                 | noun3
+ ferie                     | paid vacation                            | nounplf
+ ferita                    | wound                                    | noun1
+ fermata                   | bus stop                                 | noun1
+ ferro da stiro            | iron (for ironing clothes)               | nounsingm
+ festa                     | party                                    | noun1
+ festival                  | festival                                 | nouninvm
+ fetta                     | slice                                    | noun1
+ fiamma                    | flame                                    | noun1
+ fidanzata                 | female fiancee                           | noun1
+ fidanzato                 | male fiancee                             | noun1
+ fiducia                   | trust                                    | noun1
+ fieno                     | hay                                      | noun1
+ figlia                    | daughter                                 | noun1
+ figliastra                | stepdaughter                             | noun1
+ figliastro                | stepson                                  | noun1
+ figlio                    | son                                      | noun1
+ fila                      | line,queue (f...)                        | noun1
+ film                      | film,movie                               | nouninvm
+ filmino                   | home video                               | noun1
+ fine                      | end                                      | noun2f
+ fine settimana            | weekend                                  | nouninvm
+ finestra                  | window                                   | noun1
+ fiocco                    | bow, ribbon                              | noun1
+ fiore                     | flower                                   | noun2m
+ fiorista                  | florist                                  | noun3
+ fisarmonica               | accordion                                | noun1
+ fisica                    | physics                                  | noun1
+ fiume                     | river                                    | noun2m
+ flauto                    | flute                                    | noun1
+ focacceria                | focaccia store                           | noun1
+ foglia                    | leaf                                     | noun1
+ foglio                    | sheet                                    | noun1
+ fondina                   | bowl                                     | noun1
+ fondo                     | bottom                                   | noun1
+ fontana                   | fountain                                 | noun1
+ football americano        | football                                 | nounsingm
+ forchetta                 | fork                                     | noun1
+ foresta                   | fork                                     | noun1
+ forma                     | shape,form                               | noun1
+ formaggio                 | cheese                                   | noun1
+ formazione                | formation                                | noun2
+ formula                   | formula                                  | noun1
+ fornello                  | burner                                   | noun1
+ forno                     | oven                                     | noun1
+ foruncolo                 | pimple                                   | noun1
+ forza                     | strenght,force                           | noun1
+ foschia                   | mist                                     | noun1
+ foto                      | photo,picture                            | nouninvf
+ fotografa                 | female photographer                      | noun1
+ fotografia                | photo                                    | noun1
+ fotografia                | photography,picture                      | noun1
+ fotografo                 | male photographer                        | noun1
+ fragola                   | strawberry                               | noun1
+ francobollo               | stamp                                    | noun1
+ frangia                   | hair - bang                              | noun1
+ fratellastro              | step brother                             | noun1
+ fratellino                | little brother                           | noun1
+ fratello                  | brother                                  | noun1
+ frattura                  | fracture                                 | noun1
+ freccetta                 | dart                                     | noun1
+ freccia                   | arrow                                    | noun1
+ freno                     | brake                                    | noun1
+ fretta                    | haste                                    | noun1
+ frigo                     | fridge                                   | noun1
+ frigorifero               | refrigerator                             | noun1
+ frizione                  | friction                                 | noun2f
+ fronte                    | front                                    | noun2f
+ frutta                    | fruit - in general                       | nounsingf
+ frutti di bosco           | berries (3 words)                        | nounplurm
+ frutti di mare            | seafood                                  | nounplm
+ frutti di mare            | seafood (fruits of the sea)              | nounplm
+ fucile                    | rifle                                    | noun2m
+ fulmine                   | lightning bolt                           | noun2m
+ fungo                     | mushroom                                 | noun1
+ funzionario               | civil servant                            | noun1
+ fuoco                     | fire                                     | noun1
+ futuro                    | future                                   | noun1
+ gabbiano                  | seagull                                  | noun1
+ gabinetto                 | toilet                                   | noun1
+ galleria                  | tunnel , gallery                         | noun1
+ gamba                     | leg                                      | noun1
+ gamberetto                | shrimp                                   | noun1
+ gambero                   | prawn                                    | noun1
+ gambero                   | shrimp                                   | noun1
+ garage                    | garage                                   | nouninvm
+ gatto                     | cat                                      | noun1
+ gelateria                 | ice cream parlor                         | noun1
+ gemella                   | female twin                              | noun1
+ gemello                   | male twin                                | noun1
+ genere                    | kind,genre                               | noun2m
+ genero                    | son in law                               | noun1
+ genio                     | genius                                   | noun1
+ genitore                  | male parent                              | noun2m
+ genitore                  | parent                                   | noun2m
+ genitrice                 | female parent                            | noun2f
+ gennaio                   | January                                  | nounsingm
+ gente                     | people                                   | noun2f
+ geometria                 | geometry                                 | noun1
+ gesto                     | gesture                                  | noun1
+ gestore                   | manager                                  | noun2m
+ giacca                    | jacket                                   | noun1
+ giardiniera               | female gardener                          | noun1
+ giardiniere               | male gardener                            | noun2m
+ gigante                   | giant                                    | noun2m
+ ginnastica                | gymnastics                               | noun1
+ ginocchio                 | knee                                     | nounneutr
+ giocatore                 | player (m.)                              | noun2m
+ giocatrice                | player (f.)                              | noun2f
+ gioielleria               | jewelry                                  | noun1
+ giornale                  | journal, newspaper                       | noun2m
+ giornalista               | journalist                               | noun3
+ giornata                  | day (weather, activities)                | noun1
+ giornataccia              | bad day                                  | noun1
+ giorno                    | day                                      | noun1
+ gioventù                  | youth                                    | nouninvf
+ giro                      | tour                                     | noun1
+ giro                      | turnaround , tour                        | noun1
+ gita                      | hike, day trip                           | noun1
+ giudice                   | judge                                    | noun2
+ giurisprudenza            | law, jurisprudence                       | noun1
+ giustizia                 | justice                                  | noun1
+ gola                      | throat                                   | noun1
+ gomito                    | elbow                                    | noun1
+ gomma                     | rubber , gum                             | noun1
+ gonna                     | skirt                                    | noun1
+ governatore               | governor                                 | noun2m
+ governo                   | government                               | noun1
+ gradinata                 | tier                                     | noun1
+ gradino                   | step                                     | noun1
+ gradino                   | step, (stairs, gr...)                    | noun1
+ grado                     | degree (temperature)                     | noun1
+ graffetta                 | paper clip , staple                      | noun1
+ grandine                  | hail                                     | noun2f
+ gratitudine               | gratitude                                | noun2f
+ griglia                   | grill                                    | noun1
+ gruppo                    | group                                    | noun1
+ guaio                     | trouble, woe                             | noun1
+ guanto                    | glove                                    | noun1
+ guardaroba                | wardrobe                                 | nouninvm
+ guerra                    | war                                      | noun1
+ guidatore                 | driver (masc.)                           | noun2m
+ guidatrice                | driver (fem.)                            | noun2f
+ gusto                     | taste , flavor                           | noun1
+ i miei                    | short for "my parents"                   | nounplm
+ idea                      | idea                                     | noun1
+ idraulico                 | plummer                                  | noun1
+ igiene                    | hygiene                                  | nounsingf
+ imballaggio               | packaging                                | noun1
+ imbarco                   | boarding                                 | noun1
+ imbianchino               | wall painter                             | noun1
+ immondizia                | garbage                                  | noun1
+ impegno                   | commitment                               | noun1
+ impianto                  | electric system                          | noun1
+ impianto stereo           | stereo system                            | nounsingm
+ impiegato                 | employee                                 | noun1
+ impresa                   | enterprise                               | noun1
+ impressione               | impression                               | noun2f
+ incidente                 | accident                                 | noun2m
+ incontro                  | meeting                                  | noun1
+ incremento                | increment                                | noun1
+ incrocio                  | intersection                             | noun1
+ indicazione               | direction (to find a place)              | noun2f
+ indirizzo                 | street address                           | noun1
+ industria                 | industry                                 | noun1
+ infermiera                | female nurse                             | noun1
+ infermiere                | male nurse                               | noun2m
+ infezione                 | infection                                | noun2f
+ influenza                 | influence , flu                          | noun1
+ informatica               | information technology                   | noun1
+ ingegnere                 | engineer                                 | noun1m
+ ingegnere                 | engineer                                 | noun2m
+ ingrediente               | ingredient                               | noun2m
+ inquilina                 | female tenant                            | noun1
+ inquilino                 | male tenant                              | noun1
+ inquinamento              | pollution                                | noun1
+ insalata                  | salad                                    | noun1
+ insegnante                | teacher                                  | noun2
+ insetto                   | insect                                   | noun1
+ insonnia                  | insomnia                                 | noun1
+ interesse                 | interest                                 | noun2
+ intervallo                | intermission                             | noun1
+ inventore                 | inventor (male)                          | noun2m
+ inventrice                | inventor (female)                        | noun2f
+ invenzione                | invention                                | noun2f
+ inverno                   | winter                                   | noun1
+ investimento              | investment                               | noun1
+ isola                     | island                                   | noun1
+ istruzione                | instruction,education                    | noun2f
+ labbro                    | lip                                      | nounneutr
+ lacrima                   | tear (from the eyes)                     | noun1
+ lagna                     | whine,whiner                             | noun1
+ lago                      | lake                                     | noun1
+ lampada                   | lamp                                     | noun1
+ lampo                     | bolt of lightning                        | noun1
+ lampone                   | raspberry                                | noun2m
+ lana                      | wool                                     | noun1
+ latte                     | milk                                     | noun2m
+ lattuga                   | head of lettuce,lettuce                  | nounsingf
+ lattughe                  | heads of lettuce                         | nounplf
+ lavagna                   | whiteboard                               | noun1
+ lavanderia                | laundry store                            | noun1
+ lavandino                 | sink                                     | noun1
+ lavastoviglie             | dish washer                              | nouninvf
+ lavatrice                 | washing machine                          | noun2f
+ lavello                   | sink                                     | noun1
+ lavoro                    | work                                     | noun1
+ legge                     | law                                      | noun2f
+ legume                    | legume                                   | noun2m
+ lenzuolo                  | sheet                                    | noun1
+ lettera                   | letter                                   | noun1
+ letteratura               | literature                               | noun1
+ lettere                   | humanities                               | nounplf
+ letto                     | bed                                      | noun1
+ lettore                   | male reader or lecturer,cd or dvd player | noun2m
+ lettrice                  | female reader , female lecturer          | noun2f
+ lettura                   | reading                                  | noun1
+ lezione                   | lesson, lecture                          | noun2f
+ libreria                  | bookstore                                | noun1
+ libro                     | book                                     | noun1
+ liceo                     | high school                              | noun1
+ limite                    | limit                                    | noun2m
+ limite                    | limit,edge                               | noun2m
+ linea                     | line                                     | noun1
+ lingua                    | tongue , language                        | noun1
+ liquidazione              | colsing sale                             | noun2f
+ livello                   | level                                    | noun1
+ livido                    | bruise                                   | noun1
+ locale                    | venue                                    | noun2m
+ località                  | location                                 | nouninvf
+ località balneare         | beach resort                             | noun2f
+ località montana          | mountain resort                          | noun1
+ loggione                  | upper circle                             | noun2m
+ lucciola                  | firefly                                  | noun1
+ luna                      | moon                                     | noun1
+ luogo                     | place                                    | noun1
+ luogo                     | place (l...)                             | noun1
+ lupo                      | wolf                                     | noun1
+ macchina                  | car                                      | noun1
+ macellaio                 | butcher                                  | noun1
+ macelleria                | butcher shop                             | noun1
+ madre                     | mother                                   | noun2f
+ maglia                    | sweater , 6 letters                      | noun1
+ maglietta                 | t-shirt , polo shirt                     | noun1
+ maglione                  | sweater, 8 letters                       | noun2m
+ magnete                   | magnet                                   | noun2m
+ maiale                    | pig                                      | noun2m
+ malattia                  | illness                                  | noun1
+ mamma                     | mom                                      | noun1
+ mani                      | hands                                    | nounplf
+ manica                    | sleeve                                   | noun1
+ mano                      | hand                                     | nounf
+ mansarda                  | attic (m...)                             | noun1
+ manzo                     | beef                                     | noun1
+ marca                     | brand                                    | noun1
+ marciapiede               | sidewalk                                 | noun2m
+ mare                      | sea                                      | noun2m
+ marea                     | tide                                     | noun1
+ marito                    | husband                                  | noun1
+ marmellata                | fruit jam                                | noun1
+ marmo                     | marble                                   | noun1
+ maschio                   | male                                     | noun1
+ matematica                | math                                     | noun1
+ materia                   | subject matter                           | noun1
+ maternità                 | maternity                                | noun1
+ matita                    | pencil                                   | noun1
+ matrigna                  | step-mother                              | noun1
+ matrimonio                | marimony                                 | noun1
+ mattina                   | morning                                  | noun1
+ meccanico                 | mechanic                                 | noun1
+ medicina                  | medicine                                 | noun1
+ medico                    | medical doctor                           | noun1
+ medioevo                  | Middle Ages                              | nounsingm
+ mela                      | apple                                    | noun1
+ melanzana                 | eggplant                                 | noun1
+ melone                    | cantaloupe                               | noun2m
+ mensa                     | cafeteria                                | noun1
+ mensilità                 | monthly payment                          | nouninvf
+ menù                      | menu                                     | nouninvm
+ mercato                   | market                                   | noun1
+ merenda                   | snack                                    | noun1
+ mese                      | month                                    | noun2m
+ messaggino                | text message                             | noun1
+ messaggio                 | message                                  | noun1
+ mestiere                  | job, trade (m...)                        | noun2m
+ metropolitana             | subway                                   | noun1
+ microfono                 | microphone                               | noun1
+ microonde                 | microwaves                               | nounplf
+ miele                     | honey                                    | noun2m
+ migliaio                  | group of thousand                        | numbernoun3
+ miglio                    | mile                                     | nounneutr
+ migrante                  | migrant                                  | noun2
+ milione                   | million                                  | numbernoun2m
+ minestrone                | hearty soup, minestrone                  | noun2m
+ minuto                    | minute                                   | noun1
+ miracolo                  | miracle                                  | noun1
+ mirtillo                  | blueberry                                | noun1
+ miseria                   | misery                                   | noun1
+ mobile                    | mobile, piece of furniture               | adj2-noun2m
+ moda                      | fashion                                  | noun1
+ modo                      | way, modality                            | noun1
+ modulo                    | module                                   | noun1
+ moglie                    | wife                                     | noun2f
+ mollusco                  | mollusk                                  | noun1
+ moneta                    | coin, currency                           | noun1--noun1
+ monolocale                | studio apartment                         | noun2m
+ montagna                  | mountain                                 | noun1
+ montano                   | mountainous                              | noun1
+ monumento                 | monument                                 | noun1
+ mora                      | blackberry                               | noun1
+ morbillo                  | measles                                  | nounsingm
+ morso                     | bite                                     | noun1
+ mortadella                | baloney, mortadella                      | noun1--noun1
+ mostra                    | exhibit                                  | noun1
+ motocicletta              | motorbike                                | noun1
+ motore                    | engine                                   | noun2m
+ motorino                  | moped                                    | noun1
+ mozione                   | (legal) motion                           | noun2f
+ mucca                     | cow                                      | noun1
+ multa                     | fine                                     | noun1
+ mura                      | city walls                               | nounplf
+ muratore                  | mason worker                             | noun2m
+ muro                      | wall                                     | noun1
+ muschio                   | moss                                     | nounsingm
+ muscoli                   | mussels                                  | nounplm
+ musica                    | music                                    | noun1
+ musicista                 | musician                                 | noun3
+ mutande                   | underwear                                | nounplf
+ nasino                    | little nose                              | noun1
+ naso                      | nose                                     | noun1
+ natura                    | nature                                   | noun1
+ nausea                    | nausea                                   | noun1
+ nave                      | ship                                     | noun2f
+ nazionalità               | nationality                              | nouninvf
+ negoziante                | shopkeeper, fem.                         | noun2f
+ negoziante                | shopkeeper, masc.                        | noun2m
+ negozio                   | shop, store                              | noun1
+ neonato                   | newborn                                  | noun1
+ netturbino                | street sweeper                           | noun1
+ neve                      | snow                                     | noun2f
+ nido                      | nest                                     | noun1
+ ninna nanna               | lullaby                                  | nounsingf
+ nipote                    | nephew                                   | noun2m
+ nipote                    | niece                                    | noun2f
+ nocciolina                | peanut                                   | noun1
+ noi stessi                | ourselves                                | pronoun
+ noia                      | boredom                                  | noun1
+ nome                      | name                                     | noun2m
+ nonna                     | grandma                                  | noun1
+ nonno                     | grandpa                                  | noun1
+ nostalgia                 | nostalgia                                | nounsingf
+ notte                     | night                                    | noun2f
+ numero                    | number                                   | noun1
+ nuora                     | daughter in law                          | noun1
+ nuoto                     | sport of swimming                        | noun1
+ nuvola                    | cloud                                    | noun1
+ occasione                 | occasion, opportunity                    | noun2f
+ occhiali                  | eyeglasses                               | nounplm
+ occhiali da sole          | sunglasses                               | nounplm
+ occhiata                  | glance                                   | noun1
+ occhio                    | eye                                      | noun1
+ occupazione               | occupation, employment                   | noun2f
+ oceano                    | ocean                                    | noun1
+ offerta                   | offer                                    | noun1
+ oggetto                   | object                                   | noun1
+ olio                      | oil                                      | noun1
+ olio d'oliva              | olive oil                                | nounsingm
+ oliva                     | olive                                    | noun1
+ ombrello                  | umbrella                                 | noun1
+ onda                      | ripple,wave                              | noun1
+ opera                     | piece of work                            | noun1
+ opera d'arte              | work of art                              | nounsingf
+ opera lirica              | opera                                    | nounsingf
+ operaia                   | female worker                            | noun1
+ operaio                   | male worker                              | noun1
+ opere d'arte              | works of art                             | nounplf
+ opere liriche             | operas                                   | nounplf
+ ora                       | hour, now                                | noun1--adv
+ orario                    | schedule                                 | noun1
+ orchestra                 | orchestra                                | noun1
+ ordine                    | order                                    | noun2m
+ orecchie                  | ears                                     | nounplf
+ orecchio                  | ear                                      | nounsingm
+ orizzonte                 | horizon                                  | noun2m
+ orologio                  | watch, clock                             | noun1
+ orrore                    | horror                                   | noun2m
+ orso                      | bear                                     | noun1
+ ospedale                  | hospital                                 | noun2m
+ osservatore               | (male) observer                          | noun2m
+ osservatrice              | (fem.) observer                          | noun2f
+ ostello della gioventù    | youth hostel                             | nouncomp1
+ osteria                   | inn                                      | noun1
+ ottimista                 | optimist                                 | noun3
+ ottocento                 | 1800s                                    | nounsingm
+ ovest                     | west                                     | nounsingm
+ pacco                     | package                                  | noun1
+ padre                     | father                                   | noun2m
+ padrona                   | owner (f.)                               | noun1f
+ padrone                   | owner (m.)                               | noun2m
+ paesaggio                 | landscape                                | noun1
+ paese                     | town, Country                            | noun2m
+ paio                      | pair                                     | nounneutr
+ palazzo                   | palace                                   | noun1
+ palco                     | stage                                    | noun1
+ palestra                  | gym                                      | noun1
+ pallacanestro             | basketball                               | nounsingf
+ pallavolo                 | volleyball                               | nounsingf
+ pallone                   | sports ball                              | noun2m
+ pancetta                  | bacon                                    | noun1
+ panchina                  | bench                                    | noun2f
+ pane                      | bread                                    | noun2m
+ panetteria                | bakery                                   | noun1
+ pannello                  | panel                                    | noun1
+ panorama                  | panorama                                 | noun3
+ pantaloncini              | shorts                                   | nounplm
+ pantaloni                 | pants                                    | noun1pl
+ pantofola                 | slipper                                  | noun1
+ papà                      | daddy                                    | nouninvm
+ parco                     | park                                     | noun1
+ parente                   | relative                                 | noun2
+ parete                    | inner wall                               | noun2f
+ parlamento                | parliament                               | noun1
+ parolaccia                | swear word                               | noun1
+ parrucchiera              | hairdresser (f.)                         | noun1
+ parrucchiere              | hair dresser (m.)                        | noun2m
+ parte                     | part                                     | noun2f
+ partenza                  | departure                                | noun1
+ particolare               | detail (p...)                            | noun2m
+ partita                   | game, match                              | noun1
+ passaggio                 | passage                                  | noun1
+ passaporto                | passport                                 | noun1
+ passatempo                | passtime                                 | noun1
+ passato                   | past                                     | noun1
+ passeggera                | passenger (f.)                           | noun1
+ passeggero                | passenger (m.)                           | noun1
+ passeggiata               | stroll                                   | noun1
+ passo                     | step (walk)                              | noun1
+ pasta                     | pasta, dough                             | noun1
+ pasticceria               | pastry, pastry shop                      | noun1
+ pasto                     | meal                                     | noun1
+ patata                    | potato                                   | noun1
+ patente                   | driver's license                         | noun2f
+ patrigno                  | stepfather                               | noun1
+ patrimonio                | patrimony                                | noun1
+ patto                     | pact                                     | noun1
+ paura                     | fear                                     | noun1
+ pausa                     | pause, break                             | noun1
+ pavimento                 | floor (as in "pavement")                 | noun1
+ paziente                  | patient                                  | noun2
+ peccato                   | sin                                      | noun1
+ pecora                    | sheep                                    | noun1
+ pedagogia                 | pedagogy, education                      | noun1
+ pedone                    | pedestrian                               | noun2m
+ pelle                     | skin                                     | noun2f
+ pendolare                 | commter                                  | noun2
+ penna                     | pen                                      | noun1
+ pensiero                  | thought                                  | noun1
+ pensione                  | retirement, pension, boarding house      | noun2f
+ pepe                      | black pepper                             | noun2m
+ peperone                  | bell pepper                              | noun2m
+ pera                      | pear                                     | noun1
+ percentuale               | percentage                               | noun2f
+ perdita                   | loss                                     | noun1
+ pericolo                  | danger                                   | noun1
+ periodo                   | period                                   | noun1
+ persona                   | person                                   | noun1
+ personaggio               | character                                | noun1
+ pesca                     | peach                                    | noun1
+ pesce                     | fish                                     | noun2
+ pescheria                 | fish shop                                | noun1
+ peso                      | weigh                                    | noun1
+ pessimista                | pessimist                                | noun3--adj3
+ pettine                   | comb                                     | noun2m
+ petto                     | chest                                    | noun1
+ pezzo                     | piece                                    | noun1
+ piacere                   | favor (p...)                             | noun2m
+ piacere                   | pleasure                                 | noun2m
+ pianeta                   | planet                                   | noun3
+ pianista                  | pianist                                  | noun3
+ piano                     | floor (as in "3rd floor")                | noun1
+ piano                     | piano                                    | noun1
+ piano                     | plan                                     | noun1
+ piano cottura             | stove top                                | nouncomp1
+ pianta                    | plant                                    | noun1
+ piatto                    | plate                                    | noun1
+ piazza                    | plaza                                    | noun1
+ picnic                    | picnic                                   | nouninvm
+ piede                     | foot                                     | noun2m
+ pietra                    | stone                                    | noun1
+ pietra                    | stone,rock                               | noun1
+ pigiama                   | pajama                                   | noun3
+ pillola                   | pill                                     | noun1
+ pineta                    | pine grove                               | noun1
+ pino                      | pine tree                                | noun1
+ pioggia                   | rain                                     | noun1
+ pirata                    | pirate                                   | noun3
+ piscina                   | swimming pool                            | noun1
+ pisolino                  | nap (p...)                               | noun1
+ pittore                   | painter, m.                              | noun2m
+ pittrice                  | painter, f.                              | noun2f
+ pittura                   | art of painting                          | noun1
+ pizzeria                  | pizza parlor                             | noun1
+ pizzico                   | pinch                                    | noun1
+ platea                    | orchestra seating                        | noun1
+ poema                     | long poem                                | noun3
+ poesia                    | poetry, poem                             | noun1f
+ poeta                     | man poet                                 | noun3
+ poetessa                  | woman poet                               | noun1
+ poliziotta                | police woman                             | noun1
+ poliziotto                | policeman                                | noun1
+ poltrona                  | armchair                                 | noun1
+ pomeriggio                | afternoon                                | noun1
+ pomodoro                  | tomato                                   | noun1
+ pompiera                  | fire woman                               | noun1
+ pompiere                  | fireman                                  | noun2m
+ ponte                     | bridge                                   | noun2m
+ porcile                   | pig stye                                 | noun2m
+ porta                     | door                                     | noun1
+ portiera                  | car door                                 | noun1
+ portiera                  | door woman                               | noun1
+ portiere                  | doorman                                  | noun2m
+ portiere                  | goal keeper                              | noun2m
+ posizione                 | position                                 | noun2f
+ posta                     | mail                                     | noun1
+ postina                   | mail woman                               | noun1
+ postino                   | mail man                                 | noun1
+ posto                     | place                                    | noun1
+ potere                    | power (political)                        | noun2m
+ pranzo                    | lunch                                    | noun1
+ prato                     | lawn                                     | noun1
+ premio                    | prize                                    | noun1
+ prenotazione              | reservation                              | noun2f
+ presentazione             | presentation                             | noun2f
+ prestito                  | loan                                     | noun1
+ previsione                | prediction, forecast                     | noun2f
+ primavera                 | springitme                               | noun1
+ primogenito               | first born                               | noun1--adj1
+ problema                  | problem                                  | noun3
+ prodotto                  | product                                  | noun1
+ professione               | profession                               | noun2f
+ professore                | male professor                           | noun2m
+ professoressa             | female professor                         | noun2f
+ profondità                | depth                                    | nouninvf
+ profumeria                | parfume shop                             | noun1
+ profumo                   | perfume                                  | noun1
+ progetto                  | project                                  | noun1
+ programma                 | program                                  | noun3
+ proiezione                | projection                               | noun2f
+ promozione                | promotion                                | noun2f
+ proprietaria              | female owner, propietor                  | noun1
+ proprietario              | male owner, proprietor                   | noun1
+ prosciutto                | ham                                      | noun1
+ prosciutto cotto          | cooked ham                               | nouninvm
+ prosciutto crudo          | raw,cured ham                            | nounsingm
+ protezione                | protection                               | noun2f
+ pseudonimo                | pseudonim                                | noun1
+ psicologa                 | female psychologist                      | noun1
+ psicologo                 | male psychologist                        | noun1
+ pulizia                   | cleanliness, cleaning                    | noun1
+ pullman                   | bus, coach                               | nouninvm
+ puntura                   | injection, puncture                      | noun1
+ quaderno                  | notebook                                 | noun1
+ quadro                    | picture, painting                        | noun1
+ qualifica                 | qualification                            | noun1
+ quantità                  | quantity                                 | nouninvf
+ quartiere                 | neighborhood                             | noun2m
+ quercia                   | oak                                      | noun1
+ questura                  | central police station                   | noun1
+ raccomandata              | registered mail                          | noun1
+ raccomandazione           | recommendation                           | noun2f
+ racconto                  | tale                                     | noun1
+ radice                    | root                                     | noun2f
+ radio                     | radio                                    | nouninvf
+ radura                    | clearing, glade                          | noun1
+ raffreddore               | cold (as in "a cold")                    | noun1
+ ragazza                   | girl                                     | noun1
+ ragazzaccia               | bad girl                                 | noun1
+ ragazzaccio               | bad boy                                  | noun1
+ ragazzi                   | young people                             | nounplm
+ ragazzo                   | boy                                      | noun1
+ ragione                   | reason                                   | noun2f
+ ramo                      | branch                                   | noun1
+ rappresentazione          | performance                              | noun2f
+ rappresentazione dal vivo | live performance                         | nouncomp2f
+ rasoio                    | razor                                    | noun1
+ rata                      | installment                              | noun1
+ recensione                | review (as in "movie review")            | noun2f
+ referenze                 | references                               | nounplf
+ regista                   | film director                            | noun3
+ registratore              | recorder                                 | noun2m
+ relazione                 | relationship                             | noun2f
+ religione                 | religion                                 | noun2f
+ respiro                   | breath                                   | noun1
+ resto                     | rest (noun, as in "the rest")            | noun1
+ rete                      | network                                  | noun2f
+ riccio                    | sea urchin, hedgehog                     | noun1
+ ricciolo                  | curl                                     | noun1
+ ricetta                   | recipe                                   | noun1
+ richiesta                 | request                                  | noun1
+ riciclaggio               | recycling                                | noun1
+ riconoscimento            | recognition, acknowledgement             | noun1
+ rifiuti                   | waste                                    | nounplm
+ riflessione               | reflection (thought)                     | noun2f
+ riflesso                  | reflex (science, sport)                  | noun1
+ riga                      | line (written)                           | noun1
+ rimborso                  | reimbursement                            | noun1
+ rinascimento              | Renaissance, rebirth                     | noun1
+ ripresa                   | video shooting                           | noun1
+ riscaldamento             | heating, warming                         | noun1
+ riso                      | rice                                     | noun1
+ risorse umane             | human resources                          | nounplf
+ risparmio                 | savings                                  | nounsingm
+ risposta                  | answer                                   | noun1
+ ristorante                | restaurant                               | noun2m
+ risultato                 | result                                   | noun1
+ ritardo                   | delay                                    | noun1
+ rito                      | ritual                                   | noun1
+ ritratto                  | portrait                                 | noun1
+ riunione                  | reunion, meeting                         | noun2f
+ riviera                   | coastline                                | noun1
+ rivista                   | magazine, review                         | noun1
+ roba                      | stuff                                    | noun1
+ roccia                    | rock, stone                              | noun1
+ romanzo                   | novel                                    | noun1
+ rondine                   | swallow (bird)                           | noun2f
+ rosa                      | rose                                     | noun1
+ rossetto                  | lipstick                                 | noun1
+ rotonda                   | traffic circle                           | noun1
+ rubrica                   | address book                             | noun1
+ rubrica                   | column (magazine)                        | noun1
+ ruga                      | wrinkle                                  | noun1
+ rumore                    | noice                                    | noun1m
+ ruolo                     | role                                     | noun1
+ ruscello                  | creek                                    | noun1
+ sacco                     | sack, bag                                | noun1
+ sala                      | hall                                     | noun1
+ sala da pranzo            | dining room                              | nouncomp1
+ salame                    | salami                                   | noun2m
+ salario                   | salary                                   | noun1
+ saldi                     | sales                                    | nounplm
+ sale                      | salt                                     | noun2m
+ salotto                   | living room (sa...)                      | noun1
+ salsiccia                 | sausage                                  | noun1
+ salumeria                 | del                                      | noun1
+ salumeria                 | deli                                     | noun1
+ salute                    | health                                   | noun2f
+ saluto                    | greeting                                 | noun1
+ salve                     | hello                                    | noun2f
+ sandalo                   | sandal                                   | noun1
+ sangue                    | blood                                    | noun1m
+ sapone                    | soap                                     | noun2m
+ sasso                     | pebble, rock, stone (s...)               | noun1
+ sassofono                 | saxophone                                | noun1
+ sbarco                    | disembarkment                            | noun1
+ scacchi                   | chess                                    | nounplm
+ scaffale                  | bookshelf                                | noun2m
+ scala                     | ladder, staircase                        | noun1
+ scalino                   | step (of a staircase)                    | noun1
+ scalino                   | step, (stairs, sc...)                    | noun1
+ scappamento               | exhaust pipe                             | noun1
+ scarpa                    | shoe                                     | noun1
+ scatola                   | box                                      | noun1
+ scelta                    | choice                                   | noun1
+ scena                     | scene                                    | noun1
+ schema                    | scheme                                   | noun3
+ schermo                   | screen                                   | noun1
+ scherzo                   | practical joke                           | noun1
+ schiena                   | back (body)                              | noun1
+ schiuma da barba          | shaving foam                             | phrasal-noun
+ sci                       | ski                                      | nouninvarm
+ sciarpa                   | scarf                                    | noun1
+ scienza                   | science                                  | noun1
+ scienziato                | scientist                                | noun1
+ scodella                  | bowl                                     | noun1
+ scodinzolo                | tail waggin                              | noun1
+ scogliera                 | cliff                                    | noun1
+ scoiattolo                | squirrel                                 | noun1
+ scopa                     | broom                                    | noun1
+ scoperta                  | discovery                                | noun1
+ scoria                    | waste                                    | noun1
+ scottatura                | skin burn                                | noun1
+ scrittore                 | writer, masc.                            | noun2m
+ scrittrice                | writer, fem.                             | noun2f
+ scrivania                 | writing desk                             | noun1
+ scultore                  | sculptor, m.                             | noun2m
+ scultrice                 | sculptor, f.                             | noun2f
+ scultura                  | sculpture                                | noun1
+ scuola                    | school                                   | noun1
+ scuola elementare         | elementary school                        | noun1-adj2
+ scuola media              | middle school                            | noun1-adj1
+ scuola superiore          | high school                              | noun1-adj2
+ sdegno                    | disdain                                  | noun1
+ secchio                   | bucket                                   | noun1
+ secchiona                 | geek (female)                            | noun2f
+ secchione                 | geek (male)                              | noun2m
+ sede                      | headquarters (sing.)                     | noun2f
+ sedere                    | butt (s...)                              | noun2m
+ sedia                     | chair                                    | noun1
+ segretaria                | woman secretary                          | noun1
+ segretario                | man secretary                            | noun1
+ segreteria                | secretary's offfice                      | noun1
+ segreteria telefonica     | voice mail                               | nouncomp1
+ semaforo                  | traffic light                            | noun1
+ seminario                 | seminar                                  | noun1
+ seminterrato              | basement                                 | noun1
+ sensazione                | feeling, sensation                       | noun2f
+ senso                     | sense                                    | noun1
+ sentenza                  | sentence (judge)                         | noun1
+ sentiero                  | path                                     | noun1
+ sera                      | evening                                  | noun1
+ serata                    | evening (activities/weather)             | noun1
+ serpente                  | snake                                    | noun2m
+ serra                     | green house                              | noun1
+ servizio                  | service                                  | noun1
+ seta                      | silk                                     | noun1
+ sete                      | thirst                                   | noun2f
+ settimana                 | week                                     | noun1
+ settore                   | sector                                   | noun2m
+ sfollata                  | evacuee (woman)                          | noun1
+ sfollato                  | evacuee (man)                            | noun1
+ sfortuna                  | misfortune                               | noun1
+ sguardo                   | gaze                                     | noun1
+ shampoo                   | shampoo                                  | nouninvm
+ siccità                   | drought                                  | nouninvf
+ sicuro                    | safe/sure                                | noun1
+ signor                    | Mister                                   | nounsingm
+ signora                   | lady                                     | noun1
+ signore                   | gentleman (s...)                         | noun2m
+ signorina                 | Miss                                     | noun1
+ sindacato                 | trade union                              | noun1
+ sintomo                   | symptom                                  | noun1
+ sistema                   | system                                   | noun3
+ sito                      | site                                     | noun1
+ situazione                | situation                                | noun2
+ smog                      | smog                                     | nouninvm
+ società                   | society                                  | nouninvf
+ socio                     | partner                                  | noun1
+ soffitto                  | ceiling                                  | noun1
+ soggiorno                 | living room                              | noun1
+ sogno                     | dream                                    | noun1
+ soldato                   | soldier                                  | noun1
+ soldi                     | money                                    | nounplm
+ sole                      | sun                                      | noun2m
+ soluzione                 | solution                                 | noun2f
+ somministrazione          | somministration                          | noun2
+ sonno                     | sleepiness                               | noun1
+ sopracciglio              | eyebrow                                  | nounneutr
+ sorella                   | sister                                   | noun1
+ sorellina                 | little sister                            | noun1
+ sorpresa                  | surprise                                 | noun1
+ sorriso                   | smile                                    | noun1
+ sospetto                  | suspect                                  | noun1
+ sosta                     | pit stop                                 | noun1
+ spalla                    | shoulder                                 | noun1
+ spazzatura                | garbage                                  | noun1
+ spazzino                  | street sweeper                           | noun1
+ spazzola                  | brush                                    | noun1
+ spazzolino                | toothbrush                               | noun1
+ specchio                  | mirror                                   | noun1
+ specialista               | specialist                               | noun3
+ specializzazione          | specialization                           | noun2
+ specie                    | species                                  | noun2f
+ spesa                     | expense                                  | noun1
+ spettacolo                | spectacle, show                          | noun1
+ spettatore                | male spectator                           | noun2m
+ spettatrice               | female spectator                         | noun2f
+ spiaggia                  | beach                                    | noun1
+ spiegazione               | explanation                              | noun2f
+ spirito                   | spirit                                   | noun1
+ sport                     | sport                                    | nouninvm
+ sportello                 | teller, car door                         | noun1
+ spreco                    | waste                                    | noun1
+ spumante                  | sparkling white wine                     | noun2m
+ spuntino                  | snack                                    | noun1
+ squadra                   | team                                     | noun1
+ stadio                    | stadium                                  | noun1
+ stage                     | internship                               | nouninvm
+ stagione                  | season                                   | noun2
+ stagista                  | intern                                   | noun3
+ stampante                 | printer                                  | noun2f
+ stanza                    | room (s...)                              | noun1
+ statua                    | statue                                   | noun1
+ statura                   | height, stature                          | noun1
+ stazione                  | station                                  | noun2
+ stella                    | star                                     | noun1
+ stereo                    | stereo                                   | nouninvm--adjinv
+ stilista                  | stylist                                  | noun3
+ stipendio                 | salary                                   | noun1
+ stivale                   | boot                                     | noun2m
+ stomaco                   | stomach                                  | noun1
+ storia                    | story, history                           | noun1
+ strada                    | street, road                             | noun1
+ stradina                  | little (narrow) street                   | noun1
+ stranezza                 | strange thing (1 word)                   | noun1
+ straniero                 | foreigner                                | noun1
+ stringa                   | shoelace                                 | noun1
+ strisce pedonali          | pedestrian crossing                      | nounplf
+ strumento                 | instrument                               | noun1
+ studente                  | male student                             | noun2m
+ studentessa               | female student                           | noun2f
+ studio                    | study                                    | noun1
+ studio                    | study room                               | noun1
+ successo                  | success                                  | noun1
+ succo                     | jouice                                   | noun1
+ sugo                      | sauce                                    | noun1
+ suocera                   | mother in law                            | noun1
+ suora                     | nun                                      | noun1
+ supplemento               | supplement                               | noun1
+ svago                     | diversion                                | noun1
+ sveglia                   | alarm clock, wake up call                | noun1
+ sé                        | self                                     | pronoun
+ tabaccheria               | tobacco shop                             | noun1
+ taglia                    | size                                     | noun1
+ tailleur                  | women jacket                             | nouninvm
+ tamburo                   | drum                                     | noun1
+ tappeto                   | rug                                      | noun1
+ tariffa                   | fee                                      | noun1
+ tassista                  | taxi driver                              | noun3
+ tassì                     | taxi                                     | nouninvm
+ tastiera                  | keyboard                                 | noun1
+ tavola                    | home table                               | noun1
+ tavoletta                 | tablet                                   | noun1
+ tavolo                    | table                                    | noun1
+ tazza                     | cup                                      | noun1
+ teatro                    | theatre                                  | noun1
+ tecnico                   | technician                               | noun1
+ tecnologia                | technology                               | noun1
+ telecomando               | remote control                           | noun1
+ telefono                  | telephone                                | noun1
+ televisione               | television                               | noun2f
+ televisore                | tv set                                   | noun2m
+ tema                      | theme, composition                       | noun3
+ tempaccio                 | bad weather (1 word, pejorative)         | noun1
+ tempo                     | time (in general)                        | noun1
+ tempo                     | weather                                  | noun1
+ temporale                 | storm (...-e)                            | noun2m
+ tenda                     | curtain, tent                            | noun1
+ tenda                     | tent                                     | noun1
+ tennis                    | tennis                                   | nounsingm
+ teorema                   | theorem                                  | noun3
+ tergicristallo            | winshield wiper (1 word )                | noun1
+ termine                   | term                                     | noun2m
+ termometro                | thermometer                              | noun1
+ terrazza                  | terrace                                  | noun1
+ terremoto                 | earthquake                               | noun1
+ tesina                    | essay, research paper                    | noun1
+ tesina                    | research paper (1 word)                  | noun1
+ tesoro                    | treasure                                 | noun1
+ testa                     | head                                     | noun1
+ testimonianza             | testimony                                | noun1
+ testo                     | text                                     | noun1
+ tetto                     | roof                                     | noun1
+ tinta                     | shade of color                           | noun1
+ tintoria                  | laundry, t...                            | noun1
+ tipo                      | type                                     | noun1
+ tirocinio                 | internship                               | noun1
+ tizio                     | guy                                      | noun1
+ tomba                     | tomb                                     | noun1
+ topo                      | mouse                                    | noun1
+ topolino                  | little mouse                             | noun1
+ tormenta                  | storm (t...)                             | noun1
+ tornado                   | tornado                                  | nouninvm
+ toro                      | bull                                     | noun1
+ torre                     | tower                                    | noun2f
+ torta                     | cake                                     | noun1
+ tosse                     | cough                                    | noun2f
+ tostapane                 | toaster                                  | nouninvm
+ tovaglia                  | table cloth                              | noun1
+ tovagliolo                | napkin                                   | noun1
+ traduzione                | translation                              | noun2f
+ traffico                  | traffic                                  | noun1
+ tragedia                  | tragedy                                  | noun1
+ traghetto                 | ferry boat                               | noun1
+ trama                     | plot                                     | noun1
+ tramonto                  | sunset                                   | noun1
+ trasporto                 | transportation                           | noun1
+ trattoria                 | cafè, family style restaurant            | noun1
+ trauma                    | trauma                                   | noun3
+ treccia                   | braid                                    | noun1
+ treccina                  | small braids                             | noun1
+ treno                     | train                                    | noun1
+ triangolo                 | triangle                                 | noun1
+ tribuna                   | tribune                                  | noun1
+ tribunale                 | court room                               | noun2m
+ trimestre                 | trimester                                | noun2m
+ tromba                    | trumpet                                  | noun1
+ trucco                    | trick                                    | noun1
+ tuono                     | thunder                                  | noun1
+ tutti                     | everybody                                | nounplm
+ tè                        | tea                                      | nouninvm
+ uccello                   | bird                                     | noun1
+ ufficio                   | office                                   | noun1
+ umanità                   | humanity, mankind                        | nouninvf
+ umidità                   | humidity                                 | nouninvf
+ università                | university                               | nouninvf
+ uomini                    | men                                      | nounplm
+ uomo                      | man                                      | nounsingmn
+ uova                      | eggs                                     | nounplf
+ uovo                      | egg                                      | nounsingm
+ uscita                    | exit                                     | noun1
+ uva                       | grape                                    | noun1
+ vacanza                   | vacation                                 | noun1
+ valigetta                 | briefcase                                | noun1
+ valigia                   | suitcase                                 | noun1
+ valle                     | valley                                   | noun2f
+ vapore                    | steam                                    | noun2m
+ varicella                 | small pox                                | nounsingf
+ vasca da bagno            | bath tub                                 | nouncomp1
+ vaso                      | vase                                     | noun1
+ vedova                    | widow, f.                                | noun1
+ vedovo                    | widow, m                                 | noun1
+ vela                      | sail                                     | noun1
+ vento                     | wind                                     | noun1
+ verdetto                  | verdict                                  | noun1
+ verdura                   | vegetables                               | nounsingm
+ vestiti                   | clothes                                  | nounplm
+ vestito                   | suit, dress (v...)                       | noun1
+ veterinario               | veterinary                               | noun1
+ vetrina                   | shop window                              | noun1
+ vetro                     | glass                                    | noun1
+ vi                        | you all (object)                         | pronoun
+ viaggiatore               | traveler (masc.)                         | noun2m
+ viaggiatrice              | traveler (fem.)                          | noun2f
+ viaggio                   | trip                                     | noun1
+ vicino                    | neighbor                                 | noun1
+ vicolo                    | alley                                    | noun1
+ videocamera               | videocamera                              | noun1
+ villa                     | villa                                    | noun1
+ villaggio turistico       | resort                                   | nouncomp1
+ vino                      | wine                                     | noun1
+ viola                     | viola                                    | noun1
+ violino                   | violin                                   | noun1
+ visita                    | visit                                    | noun1
+ viso                      | face (v...)                              | noun1
+ vista                     | sight, view                              | noun1
+ vita                      | life                                     | noun1
+ voce                      | voice                                    | noun2f
+ voglia                    | desire (v...)                            | noun1
+ volante                   | steering wheel                           | noun2m
+ volo                      | flight                                   | noun1
+ volta                     | time, as in "three times"                | noun1
+ vongola                   | clam                                     | noun1
+ voto                      | grade (on a test)                        | noun1
+ voto                      | vote                                     | noun1
+ voto                      | vow                                      | noun1
+ yogurt                    | yogurt                                   | nouninvm
+ zaino                     | backpack                                 | noun1
+ zia                       | aunt                                     | noun1fam
+ zio                       | uncle                                    | noun1fam
+ zuppa                     | soup (z...)                              | noun1
+(1431 rows)
+

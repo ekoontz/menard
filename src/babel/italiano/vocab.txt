@@ -3,7 +3,7 @@
  Agile                     | Agile                                                   | adj2
  a casa                    | at home, to the home                                    | place
  a causa di                | because of                                              | phrase
- a condizione che          | provided that -condition-                               | conj+subj
+ a condizione che          | provided that (condition)                               | conj+subj
  a destra                  | on the right,to the right                               | phrase
  a dieta                   | on a diet                                               | phrase
  a domani                  | till tomorrow                                           | greet
@@ -59,7 +59,7 @@
  acqua naturale            | still water                                             | nounsingf
  acquisto                  | purchase                                                | noun1
  acrobata                  | acrobat                                                 | noun3
- adesso                    | now - a...                                              | adv
+ adesso                    | now (a...)                                              | adv
  aereo                     | airplane                                                | noun1
  aeroporto                 | airport                                                 | noun1
  affare                    | deal                                                    | noun2m
@@ -67,7 +67,7 @@
  affettati                 | cold cuts                                               | nounplm
  affetto                   | affection                                               | noun1
  affiatato                 | well coordinated (1 word )                              | adj1
- affinché                  |                                                         | conj+subj
+ affinché                  | so that                                                 | conj+subj
  affittare                 | to rent                                                 | verb
  affitto                   | rent                                                    | noun1
  affollato                 | crowded                                                 | adj1
@@ -276,7 +276,6 @@
  barista                   | bartender                                               | noun3
  basso                     | bass guitar                                             | noun1
  basso                     | low,short(vs. tall)                                     | adj1
- basso                     | short -vs tall                                          | lista-b
  bastone                   | stick, baton                                            | noun2m
  battere                   | to beat                                                 | verb
  battere                   | to hit (b...)                                           | verb
@@ -313,13 +312,13 @@
  bolletta                  | utility bill                                            | noun1
  borsa                     | bag                                                     | noun1
  borsetta                  | purse                                                   | noun1
- bosco                     | forest, woods                                           | noun1
+ bosco                     | forest, woods (sing.)                                   | noun1
  bottiglia                 | bottle                                                  | noun1
  braccio                   | arm                                                     | nounneutr
  bravo                     | good (human or animal)                                  | adj1
  briciola                  | crumb                                                   | noun1
  brillante                 | bright                                                  | adj2
- brillare                  | to sparkle,shine                                        | verb
+ brillare                  | to sparkle, shine                                       | verb
  brindisi                  | toast                                                   | nouninvm
  bruciare                  | to burn                                                 | verb
  bruciore                  | burn                                                    | noun2m
@@ -384,7 +383,7 @@
  cappotto                  | coat                                                    | noun1
  cappuccino                | cappuccino                                              | noun1
  capra                     | goat                                                    | noun1
- caraffa                   | caraffe,pitcher                                         | noun1
+ caraffa                   | caraffe, pitcher                                        | noun1
  carciofo                  | artichoke                                               | noun1
  carica batteria           | battery charger                                         | nouninvm
  carie                     | cavity                                                  | nouninvf
@@ -392,7 +391,7 @@
  carne                     | meat                                                    | noun2f
  carne di maiale           | pork meat                                               | phrase
  carne di manzo            | beef meat                                               | phrase
- caro                      | dear,expensive                                          | adj1
+ caro                      | dear, expensive                                         | adj1
  carota                    | carot                                                   | noun1
  carriera                  | career                                                  | noun1
  carta                     | paper                                                   | noun1
@@ -410,7 +409,7 @@
  casalinga                 | housewife                                               | noun1
  casalingo                 | homemade                                                | adj1
  casalingo                 | househusband                                            | noun1
- cascata                   | cascade,waterfall                                       | noun1
+ cascata                   | cascade, waterfall                                      | noun1
  casino                    | chaos                                                   | noun1
  casolare                  | farmhouse                                               | noun2m
  cassetta delle lettere    | mailbox                                                 | noun1
@@ -426,7 +425,7 @@
  cavia                     | guinea pig                                              | noun1
  ce l'abbiamo con voi      | we are upset with you all                               | phrase
  ce l'ho con te            | I am upset with you                                     | phrase
- celibe                    | male-single                                             | adj2
+ celibe                    | single (for a man)                                      | adj2
  cellulare                 | cell phone                                              | noun2m
  cena                      | dinner                                                  | noun1
  cenere                    | ash                                                     | noun2f
@@ -453,8 +452,8 @@
  che cosa stai dicendo?    | what are you talking about? (saying?)                   | phrase
  che cosa vuol dire?       | what does it mean?                                      | phrase
  che noia!                 | how boring!                                             | phrase
- che ora è?                | what time is it?-sing.                                  | phrase
- che ore sono?             | what time is it?-plur.                                  | phrase
+ che ora è?                | what time is it? (sing.)                                | phrase
+ che ore sono?             | what time is it? (plur.)                                | phrase
  che strano!               | how strange!                                            | exclamation
  che tempo fa?             | what's the weather like?                                | phrase
  chi                       | who                                                     | interrpron
@@ -487,7 +486,7 @@
  ciao!                     | hi!,bye!                                                | greet
  ciascuno                  | each one                                                | indefpron
  cibo                      | food                                                    | noun1
- cicciottello              | chubby (term of endearment)                             | adj1
+ cicciottello              | cherubic                                                | adj1
  ciclismo                  | the sport of cycling                                    | nouninvm
  ciclone                   | cyclone                                                 | noun2m
  cielo                     | sky                                                     | noun1
@@ -507,10 +506,10 @@
  circa                     | about (more or less)                                    | adv
  citare                    | to cite, to quote                                       | verb
  città                     | city                                                    | nouninvf
- ciuffo                    | hair - tuft                                             | noun1
+ ciuffo                    | tuft (of hair)                                          | noun1
  civile                    | civil                                                   | adj2
  ciò che                   | that which (what)                                       | phrase
- ciò che                   | that which -c...                                        | phrase
+ ciò che                   | that which (c... )                                       | phrase
  clarinetto                | clarinet                                                | noun1
  classe                    | class                                                   | noun2f
  classico                  | classic                                                 | adj1
@@ -624,9 +623,9 @@
  cortese                   | courteous                                               | adj2
  cortesia                  | courtesy                                                | noun1
  cortile                   | courtyard,quad                                          | noun2m
- corto                     | short - vs long                                         | adj1
+ corto                     | short (vs long)                                         | adj1
  cosa                      | thing                                                   | noun1
- cosa vuol dire?           | what does it mean - 3 words                             | phrase
+ cosa vuol dire?           | what does it mean (3 words)                             | phrase
  cosa?                     | what?                                                   | int-pron
  coscienza                 | awareness                                               | noun1
  coscienza                 | conscience, awareness                                   | noun1
@@ -657,8 +656,7 @@
  crudele                   | cruel                                                   | adj2
  cucchiaino                | teaspoon                                                | noun1
  cucchiaio                 | spoon                                                   | noun1
- cucina                    |                                                         | cuisine
- cucina                    | kitchen                                                 | noun1
+ cucina                    | cuisine, kitchen                                        | noun1
  cucitrice                 | stapler                                                 | noun2f
  cuffie                    | headphones                                              | nounplf
  cugina                    | female cousin                                           | noun1
@@ -715,7 +713,7 @@
  descrizione               | description                                             | noun2
  deserto                   | desert                                                  | noun1
  desiderio                 | desire                                                  | noun1
- destra                    | right -vs left                                          | noun1
+ destra                    | right (vs left)                                         | noun1
  dettare                   | to dictate                                              | verb
  detto                     | past of dire                                            | past-participle
  devastare                 | to devastate                                            | verb
@@ -730,7 +728,7 @@
  di fronte a               | in front of                                             | prep
  di giorno                 | during the day                                          | phrase
  di mattina                | in the morning                                          | phrase
- di media statura          |                                                         | of-average-height
+ di media statura          | of average height                                       | phrase
  di niente                 | you're welcome -2 words                                 | phrase
  di notte                  | at night                                                | phrase
  di nuovo                  | again                                                   | adv
@@ -768,7 +766,7 @@
  direttrice                | director                                                | noun2f
  dirigente                 | manager,executive                                       | noun2
  diritto                   | right (as in "human rights")                            | noun1
- diritto                   | straight -straight ahead                                | adj1
+ diritto                   | straight, straight ahead                                | adj1
  disabile                  | disable                                                 | adj2
  disboscamento             | deforestation                                           | noun1
  discarica                 | dump                                                    | noun1
@@ -897,9 +895,8 @@
  fa                        | ago                                                     | adv
  fabbrica                  | factory                                                 | noun1
  fabbricazione             | manufacturing, production                               | noun2f
- faccenda                  |                                                         | story-issue-problem
+ faccenda                  | story, issue, problem                                   | noun1                     | 
  faccia                    | face                                                    | noun1
- facile                    | easy                                                    | adj1
  facile                    | easy                                                    | adj2
  facoltà                   | university department                                   | nouninvf
  fagiolino                 | green bean                                              | noun1
@@ -910,9 +907,9 @@
  fantascienza              | science fiction                                         | noun1
  fare amicizia             | to make friends, to become friends                      | phrase
  fare domande              | to ask questions                                        | phrasal-verb
- fare il giro              | to make the tour/go around                              | verb-phrase
+ fare il giro              | to make the tour, to go around                          | verb-phrase
  fare il turno             | to take turns                                           | phrase
- fare la scorta            | to stock food, 3 words                                  | phrasal-verb
+ fare la scorta            | to stock food (3 words)                                 | phrasal-verb
  fare male                 | to hurt,make pain                                       | phrase
  fare un passo             | to take a step                                          | phrasal-verb
  farina                    | flour                                                   | noun1
@@ -1007,7 +1004,7 @@
  fragola                   | strawberry                                              | noun1
  francese                  | French                                                  | adj2
  francobollo               | stamp                                                   | noun1
- frangia                   | hair - bang                                             | noun1
+ frangia                   | bang  (hair on the forehead)                            | noun1
  fratellastro              | step brother                                            | noun1
  fratellino                | little brother                                          | noun1
  fratello                  | brother                                                 | noun1
@@ -1025,8 +1022,8 @@
  frizione                  | friction                                                | noun2f
  frizzante                 | sparkling                                               | adj2
  fronte                    | front                                                   | noun2f
- frugare                   | To search/frisk                                         | verb
- frutta                    | fruit - in general                                      | nounsingf
+ frugare                   | To search, to frisk                                     | verb
+ frutta                    | fruit (in general)                                      | nounsingf
  frutti di bosco           | berries (3 words)                                       | nounplurm
  frutti di mare            | seafood                                                 | nounplm
  frutti di mare            | seafood (fruits of the sea)                             | nounplm
@@ -1139,7 +1136,7 @@
  guidatrice                | driver (fem.)                                           | noun2f
  gusto                     | taste , flavor                                          | noun1
  gustoso                   | tasty                                                   | adj1
- i miei                    | short for "my parents"                                  | nounplm
+ i miei                    | my parents (short form)                                 | nounplm
  idea                      | idea                                                    | noun1
  idraulico                 | hydraulic                                               | adj1
  idraulico                 | plummer                                                 | noun1
@@ -1268,7 +1265,7 @@
  intervallo                | intermission                                            | noun1
  intervenire               | tointervene                                             | verb
  intorno a                 | Around (2 words, int...)                                | prepphrase
- intorno a                 | around, int...                                          | prep
+ intorno a                 | around (int... )                                         | prep
  inutile                   | useless                                                 | adj2
  invecchiare               | to get old                                              | verb
  invece                    | instead , on the other hand                             | adv
@@ -1356,7 +1353,7 @@
  luogo                     | place (l...)                                            | noun1
  lupo                      | wolf                                                    | noun1
  lì                        | over there                                              | adv
- lì                        | there/over there (-ì)                                   | pron
+ lì                        | there, over there (-ì)                                   | pron
  ma                        | but                                                     | conj
  macchiare                 | to stain                                                | verb
  macchiato                 | stained                                                 | adj1
@@ -1367,9 +1364,9 @@
  magari                    | perhaps, maybe, hopefully (m...)                        | adv
  maggio                    | May                                                     | month
  maggiore                  | elder, bigger                                           | adj2comp
- maglia                    | sweater , 6 letters                                     | noun1
+ maglia                    | sweater (6 letters)                                     | noun1
  maglietta                 | t-shirt , polo shirt                                    | noun1
- maglione                  | sweater, 8 letters                                      | noun2m
+ maglione                  | sweater (8 letters)                                      | noun2m
  magnete                   | magnet                                                  | noun2m
  magro                     | skinny                                                  | adj1
  mah!                      | who knows!                                              | excl
@@ -1451,7 +1448,7 @@
  migliaio                  | group of thousand                                       | numbernoun3
  miglio                    | mile                                                    | nounneutr
  migliorare                | to improve, to better                                   | verb
- migliore                  | better -adj                                             | adj2
+ migliore                  | better (adj)                                             | adj2
  migrante                  | migrant                                                 | noun2
  milione                   | million                                                 | number
  milione                   | million                                                 | numbernoun2m
@@ -1525,9 +1522,9 @@
  negozio di alimentari     | grocery store                                           | phrase
  nei dintorni              | in the surrounding areas                                | locphrase
  nelle vicinanze           | in the vicinity                                         | phrase
- nemmeno                   | not even -...o                                          | advneg
+ nemmeno                   | not even (...o)                                          | advneg
  neonato                   | newborn                                                 | noun1
- neppure                   | not even -...e                                          | advneg
+ neppure                   | not even (...e)                                          | advneg
  nero                      | black                                                   | adj1
  nervoso                   | nervous                                                 | adj1
  nessuno                   | no one, nobody                                          | adjindef
@@ -1535,7 +1532,7 @@
  neve                      | snow                                                    | noun2f
  nevica                    | it is snowing                                           | phrase
  nido                      | nest                                                    | noun1
- niente                    | nothing -...e                                           | pronneg
+ niente                    | nothing (...e)                                           | pronneg
  ninna nanna               | lullaby                                                 | nounsingf
  nipote                    | nephew                                                  | noun2m
  nipote                    | niece                                                   | noun2f
@@ -1556,7 +1553,7 @@
  nove                      | nine                                                    | number
  novecento                 | ninehundred                                             | number
  novembre                  | November                                                | month
- nubile                    | single -f.                                              | adj2f
+ nubile                    | single (for a woman)                                    | adj2f
  nulla                     | nothing -...a                                           | adjindef
  numero                    | number                                                  | noun1
  nuora                     | daughter in law                                         | noun1
@@ -1597,7 +1594,7 @@
  opere d'arte              | works of art                                            | nounplf
  opere liriche             | operas                                                  | nounplf
  opportuno                 | appropriate                                             | adj1
- oppure                    | or -6 letters                                           | conj
+ oppure                    | or (6 letters)                                           | conj
  ora                       | hour, now                                               | noun1--adv
  orario                    | schedule                                                | noun1
  orchestra                 | orchestra                                               | noun1
@@ -1614,8 +1611,8 @@
  orso                      | bear                                                    | noun1
  ospedale                  | hospital                                                | noun2m
  ospitare                  | to host                                                 | verb
- osservatore               | (male) observer                                         | noun2m
- osservatrice              | (fem.) observer                                         | noun2f
+ osservatore               | observer (male)                                         | noun2m
+ osservatrice              | observer (fem.)                                         | noun2f
  ostello della gioventù    | youth hostel                                            | nouncomp1
  osteria                   | inn                                                     | noun1
  ottanta                   | eighty                                                  | number
@@ -1707,7 +1704,7 @@
  pensione                  | retirement, pension, boarding house                     | noun2f
  pepe                      | black pepper                                            | noun2m
  peperone                  | bell pepper                                             | noun2m
- per cortesia              | please (-ia)                                            | phrase
+ per cortesia              | please (2 words -ia)                                            | phrase
  per esempio               | for example                                             | phrase
  per favore                | please                                                  | phrase
  per te                    | for you                                                 | phrase
@@ -1735,8 +1732,7 @@
  pescheria                 | fish shop                                               | noun1
  peso                      | weigh                                                   | noun1
  pessimista                | pessimist                                               | noun3--adj3
- pessimo                   | very bad                                                | superlative
- pessimo                   | very bad - p                                            | adjsup
+ pessimo                   | very bad (p...)                                         | adjsup
  pettine                   | comb                                                    | noun2m
  petto                     | chest                                                   | noun1
  pezzo                     | piece                                                   | noun1
@@ -1777,12 +1773,12 @@
  pirata                    | pirate                                                  | noun3
  piscina                   | swimming pool                                           | noun1
  pisolino                  | nap (p...)                                              | noun1
- pittore                   | painter, m.                                             | noun2m
- pittrice                  | painter, f.                                             | noun2f
+ pittore                   | painter (masc.)                                         | noun2m
+ pittrice                  | painter (femm.)                                         | noun2f
  pittura                   | art of painting                                         | noun1
  pizzeria                  | pizza parlor                                            | noun1
  pizzico                   | pinch                                                   | noun1
- più                       | more, most                                              | adjinv--adjinv
+ più                       | more, most                                              | adjinv
  più lento, per favore     | slower, please                                          | phrase
  platea                    | orchestra seating                                       | noun1
  pochi                     | few                                                     | adjplur.
@@ -1894,9 +1890,9 @@
  puntuale                  | punctual                                                | adj2
  puntura                   | injection, puncture                                     | noun1
  purché                    | as long as                                              | conj
- pure                      | also, too, p...                                         | adv
+ pure                      | also, too (p...)                                         | adv
  può ripetere per favore   | can you repeat please                                   | phrase
- qua                       | here, ...-a                                             | adv
+ qua                       | here (...-a)                                             | adv
  quaderno                  | notebook                                                | noun1
  quadro                    | picture, painting                                       | noun1
  qualche                   | a few (followed by sing.!)                              | adjinv
@@ -1921,13 +1917,13 @@
  quello                    | that (masc. sing.)                                      | quello
  quello che                | that which, what                                        | relpron
  quercia                   | oak                                                     | noun1
- questa                    | this, fem.                                              | adj1sing
- queste                    | these, fem.                                             | adj1plur
- questi                    | these, masc.                                            | adj1plur
- questo                    | this, masc.                                             | adj1sing
+ questa                    | this (fem.)                                             | adj1sing
+ queste                    | these (fem.)                                            | adj1plur
+ questi                    | these (masc.)                                           | adj1plur
+ questo                    | this (masc.)                                            | adj1sing
  questura                  | central police station                                  | noun1
  qui                       | here                                                    | adv
- qui                       | here, ...-i                                             | adv
+ qui                       | here (...-i)                                            | adv
  qui dentro                | in here                                                 | deictic-phrase
  quindi                    | therefore (q...)                                        | adv
  quindici                  | fifteen                                                 | number
@@ -1936,7 +1932,7 @@
  raccomandazione           | recommendation                                          | noun2f
  raccontare                | to narrate, to tell                                     | verb
  racconto                  | tale                                                    | noun1
- radersi                   | to shave (r-)                                           | verb
+ radersi                   | to shave (r-...)                                        | verb
  radice                    | root                                                    | noun2f
  radio                     | radio                                                   | nouninvf
  radura                    | clearing, glade                                         | noun1
@@ -2109,12 +2105,12 @@
  scortese                  | rude, discorteous                                       | adj2
  scottatura                | skin burn                                               | noun1
  scritto                   | past of scrivere                                        | past-participle
- scrittore                 | writer, masc.                                           | noun2m
- scrittrice                | writer, fem.                                            | noun2f
+ scrittore                 | writer (masc.)                                          | noun2m
+ scrittrice                | writer (fem.)                                           | noun2f
  scrivania                 | writing desk                                            | noun1
  scrivere                  | to write                                                | verb
- scultore                  | sculptor, m.                                            | noun2m
- scultrice                 | sculptor, f.                                            | noun2f
+ scultore                  | sculptor (m.)                                           | noun2m
+ scultrice                 | sculptor (f.)                                           | noun2f
  scultura                  | sculpture                                               | noun1
  scuola                    | school                                                  | noun1
  scuola elementare         | elementary school                                       | noun1-adj2
@@ -2190,7 +2186,7 @@
  shampoo                   | shampoo                                                 | nouninvm
  siccità                   | drought                                                 | nouninvf
  sicuramente               | surely                                                  | adv
- sicuro                    | safe/sure                                               | noun1
+ sicuro                    | safe, sure                                               | noun1
  significa                 | it means                                                | phrase
  signor                    | Mister                                                  | nounsingm
  signora                   | lady                                                    | noun1
@@ -2220,7 +2216,7 @@
  soleggiato                | sunny                                                   | adj1
  solito                    | usual                                                   | adj1
  solo                      | alone, by oneself                                       | adj1
- solo                      | only -4 letters                                         | adv
+ solo                      | only (4 letters)                                        | adv
  soltanto                  | only (8 letters)                                        | adv
  soluzione                 | solution                                                | noun2f
  somministrazione          | somministration                                         | noun2
@@ -2238,10 +2234,10 @@
  sosta                     | pit stop                                                | noun1
  sostituire                | to substitute                                           | verb
  sotto                     | under                                                   | preposizione
- sotto                     | under/below/underneath                                  | prep
+ sotto                     | under, below, underneath                                | prep
  spagnolo                  | Spanish                                                 | adj1
  spalla                    | shoulder                                                | noun1
- spalmare                  | to spread (food, not rumors                             | verb
+ spalmare                  | to spread (food, not rumors)                            | verb
  sparare                   | to shoot                                                | verb
  sparire                   | to disappear                                            | verb
  spaventato                | scared                                                  | adj1
@@ -2333,8 +2329,8 @@
  successo                  | success                                                 | noun1
  succo                     | jouice                                                  | noun1
  sugo                      | sauce                                                   | noun1
- suocera                   | mother in law                                           | noun1
- suocero                   | father in law                                           | father-in-law
+ suocera                   | mother (in law)                                           | noun1
+ suocero                   | father (in law)                                           | father-in-law
  suonare                   | to play music                                           | verb
  suonare                   | to ring                                                 | verb
  suora                     | nun                                                     | noun1

@@ -517,7 +517,10 @@
  clima                     | climate,weather                                         | noun3
  coda                      | tail, line (of people or cars)                          | noun1
  cofano                    | hood                                                    | noun1
- cognato                   | brother in law                                          | noun1
+ cognata                   | sister in law                                           | nounsingf
+ cognate                   | sisters in law                                          | nounplurf
+ cognato                   | brother in law                                          | nounsingm
+ cognati                   | brothers in law, brother and sister in law              | nounplurm
  cognome                   | last name                                               | noun2m
  coincidenza               | coincidence                                             | noun1
  colazione                 | breakfast                                               | noun2f
@@ -1052,7 +1055,8 @@
  gemella                   | female twin                                             | noun1
  gemello                   | male twin                                               | noun1
  genere                    | kind,genre                                              | noun2m
- genero                    | son in law                                              | noun1
+ genero                    | son in law                                              | nounsingm
+ generi                    | sons in law                                             | nounplurm
  generoso                  | generous                                                | adj1
  genio                     | genius                                                  | noun1
  genitore                  | male parent                                             | noun2m
@@ -1556,7 +1560,8 @@
  nubile                    | single (for a woman)                                    | adj2f
  nulla                     | nothing -...a                                           | adjindef
  numero                    | number                                                  | noun1
- nuora                     | daughter in law                                         | noun1
+ nuora                     | daughter in law                                         | nounsingf
+ nuore                     | daughtes in law                                         | nounplurf
  nuotare                   | to swim                                                 | verb
  nuoto                     | sport of swimming                                       | noun1
  nuovamente                | newly                                                   | adv
@@ -2329,8 +2334,10 @@
  successo                  | success                                                 | noun1
  succo                     | jouice                                                  | noun1
  sugo                      | sauce                                                   | noun1
- suocera                   | mother (in law)                                           | noun1
- suocero                   | father (in law)                                           | father-in-law
+ suocera                   | mother in law                                           | nounsingm
+ suocere                   | mothers in law                                          | nounplurf
+ suocero                   | father in law                                           | nounsingm
+ suoceri                   | fathers in law                                          | nounplurm
  suonare                   | to play music                                           | verb
  suonare                   | to ring                                                 | verb
  suora                     | nun                                                     | noun1

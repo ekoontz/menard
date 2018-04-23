@@ -779,6 +779,10 @@
                                     (string/split english #"[\s+,\s+]"))]
       (string/join ", " (map #(plural-en % word) divided-by-commas)))
 
+    ;; wolf => wolves
+    (re-find #"f$" english) 
+    (replace english #"f$" "ves")
+    
     ;; city => cities
     (re-find #"[^aeiou]y$" english) 
     (replace english #"([^aeiou])y$" "$1ies")

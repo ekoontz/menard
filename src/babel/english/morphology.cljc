@@ -780,7 +780,7 @@
       (string/join ", " (map #(plural-en % word) divided-by-commas)))
 
     ;; wolf => wolves; life => lives
-    (re-find #"f$" english) 
+    (re-find #"fe?$" english) 
     (replace english #"fe?$" "ves")
     
     ;; city => cities

@@ -770,11 +770,12 @@
          {:remove-to string}
          english-verb-phrase)))))
 
-;; TODO: handle commas in english word, e.g.: "agent,officer" => "agents,officers"
 (defn plural-en [english & [word]]
-  (log/info (str "plural-en: english: " english "; word: " word))
+  (log/debug (str "plural-en: english: " english "; word: " word))
   (cond
+    ;; handle commas in english word, e.g.: "agent,officer" => "agents,officers"
     (re-find #"," english)
+    
     (let [divided-by-commas (filter #(not (empty? %))
                                     (string/split english #"[\s+,\s+]"))]
       (string/join ", " (map #(plural-en % word) divided-by-commas)))

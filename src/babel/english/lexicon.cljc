@@ -664,7 +664,10 @@
 
 (defn vocab-entry-to-lexeme [{surface :surface
                               pred :pred
-                              vocab-cat :vocab_cat}]
+                              vocab-cat :vocab_cat
+                              structure :structure}]
+  (log/debug (str "calling vocab-entry-to-lexeme with "
+                  "surface=" surface " and structure=" structure))
   (let [surface (clojure.string/replace surface #"\s*\(.*$" "")]
     (cond (clojure.string/starts-with? vocab-cat "noun")
           (let [base-unify 
@@ -675,19 +678,24 @@
                           ;; TODO: remove need to add these constraints.
                           :propernoun false
                           :pronoun false
-                          :subcat {:1 {:cat :det}}}}]
+                          :subcat {:1 {:cat :det}}}}
+
+                with-structure
+                (if structure (unify base-unify structure)
+                    base-unify)]
+            (log/debug (str "creating lexemes for surface: '" surface "' and with-structure: " with-structure))
             (cond
               (or (= vocab-cat "nounplurf")
                   (= vocab-cat "nounplurm")
                   (= vocab-cat "nounplf")
                   (= vocab-cat "nounplm"))
               {surface
-               [(unify base-unify
+               [(unify with-structure
                        {:synsem {:agr {:number :plur}}
                         :english {:inherently-plural true}})]}
               true
               {surface
-               [base-unify]}
+               [with-structure]}
               true {})))))
 
 

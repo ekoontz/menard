@@ -351,6 +351,7 @@
              (= k :participle)
              (= k :past)
              (= k :past-participle)
+             (= k :plur)
              (= k :present)
              (= k :1sing)
              (= k :2sing)

@@ -104,7 +104,7 @@
   ;; so that will fail here: catch the exception and continue.
   (try (exec-raw [(str "CREATE SEQUENCE IF NOT EXISTS lexeme_id_seq")])
        (catch Exception e
-         (log/warn (str "ignoring error from database server: " e))))
+         (log/warn (str "ignoring error from database server when creating sequence: " e))))
   (exec-raw [(str "CREATE TABLE IF NOT EXISTS lexeme ("
                   " lexeme BIGINT NOT NULL DEFAULT nextval('lexeme_id_seq'::regclass),"
                   " created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),"

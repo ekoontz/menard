@@ -360,6 +360,10 @@
     (str v)
     
     (and (string? v)
+         (empty? v))
+    v
+
+    (and (string? v)
          (= (nth v 0) \:))
     (keyword (string/replace-first v ":" ""))
     

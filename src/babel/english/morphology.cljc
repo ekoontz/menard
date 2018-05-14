@@ -733,7 +733,7 @@
         (if (get-in word '(:note))
           (str (get-in word '(:note)))))
 
-   (and (= (get-in word '(:agr :number)) :plur)
+   (and (= (get-in word [:agr :number]) :plur)
         (= (get-in word '(:cat)) :noun)
         (string? (get-in word '(:english :english)))
         (not (= (get-in word [:pronoun]) true))

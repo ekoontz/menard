@@ -738,9 +738,12 @@
         (string? (get-in word '(:english :english)))
         (not (= (get-in word [:pronoun]) true))
         (not (= (get-in word [:propernoun]) true)))
-   (str (plural-en (get-in word '(:english :english) word))
-        (if (get-in word '(:english :note))
-          (str (get-in word '(:english :note)))))
+   (do
+     (log/debug (str "using exceptional form:"
+                     word))
+     (str (plural-en (get-in word '(:english :english) word))
+          (if (get-in word '(:english :note))
+            (str (get-in word '(:english :note))))))
 
    (and (= (get-in word '(:cat)) :adjective)
         (string? (get-in word '(:english))))

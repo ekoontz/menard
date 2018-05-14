@@ -478,100 +478,112 @@
 
 (defn vocab-entry-to-lexeme [{surface :surface
                               pred :pred
-                              vocab-cat :vocab_cat}]
-  (let [ends-with (str (nth surface (- (count surface) 1)))]
-    (cond
+                              vocab-cat :vocab_cat
+                              structure :structure}]
+  (log/info (str "calling vocab-entry-to-lexeme with "
+                 "surface=" surface " and structure=" structure))
+  (let [structure (or structure :top)
+        debug (log/debug (str "structure (pre-dissoc): " structure))
+        structure (if (= "" (dag_unify.core/get-in structure [:italiano :plur]))
+                    (dag_unify.core/dissoc-paths structure [[:italiano :plur]])
+                    structure)
+        debug (log/debug (str "structure (post-dissoc): " structure))
+        ends-with (str (nth surface (- (count surface) 1)))
 
+        structure ;; remove [:synsem :cat] so that
+        ;; vocab-cat will be allowed to override :synsem :cat, if any:
+        (dag_unify.core/dissoc-paths structure [[:synsem :cat]])]
+
+    (cond
       (= vocab-cat "noun1")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :cat :noun
-                  :agr {:gender (cond (= "o" ends-with)
-                                      :masc
-                                      (= "a" ends-with)
-                                      :fem
-                                      true
-                                      :top)}}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :cat :noun
+                       :agr {:gender (cond (= "o" ends-with)
+                                           :masc
+                                           (= "a" ends-with)
+                                           :fem
+                                           true
+                                           :top)}}}])}
       (= vocab-cat "noun2m")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :cat :noun
-                  :agr {:gender :masc}}}]}
-        
+       (map #(unify structure %)         
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :cat :noun
+                       :agr {:gender :masc}}}])}
       
       (= vocab-cat "noun2f")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :cat :noun
-                  :agr {:gender :fem}}}]}
+       (map #(unify structure %)         
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :cat :noun
+                       :agr {:gender :fem}}}])}
 
       (= vocab-cat "noun3")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :cat :noun
-                  :agr {:gender :masc}}
-         :italiano {:plur (clojure.string/replace surface #"a$" "i")}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :cat :noun
+                       :agr {:gender :masc}}
+              :italiano {:plur (clojure.string/replace surface #"a$" "i")}}])}
 
       ;; nounneutr: singular is masculine; plural is feminine: e.g. il braccio/le braccia
       (= vocab-cat "nounneutr")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :masc
-                        :number :sing}}}
-        {:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :fem
-                        :number :plur}}
-         :italiano {:plur (clojure.string/replace surface #"o$" "a")}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :masc
+                             :number :sing}}}
+             {:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :fem
+                             :number :plur}}
+              :italiano {:plur (clojure.string/replace surface #"o$" "a")}}])}
 
       (= vocab-cat "nounsingm")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :masc
-                        :number :sing}}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :masc
+                             :number :sing}}}])}
 
       (= vocab-cat "nounsingf")
       {surface
-       [{:vocab-cat vocab-cat
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :fem
-                        :number :sing}}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :fem
+                             :number :sing}}}])}
 
       (or (= vocab-cat "nounplurm")
           (= vocab-cat "nounplm"))
       {surface
-       [{:vocab-cat vocab-cat
-         :italiano {:plur surface}
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :masc
-                        :number :plur}}}]}
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :italiano {:plur surface}
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :masc
+                             :number :plur}}}])}
 
       (or (= vocab-cat "nounplurf")
           (= vocab-cat "nounplf"))
       {surface
-       [{:vocab-cat vocab-cat
-         :italiano {:plur surface}
-         :synsem {:sem {:pred (keyword pred)}
-                  :agr {:gender :fem
-                        :number :plur}}}]}
-      
+       (map #(unify structure %)
+            [{:vocab-cat vocab-cat
+              :italiano {:plur surface}
+              :synsem {:sem {:pred (keyword pred)}
+                       :agr {:gender :fem
+                             :number :plur}}}])}
       true
       (do
         (log/warn (str "(vocab-entry-to-lexeme: "
                        "unable to create lexeme for: '" surface "' with "
                        " vocab_cat: " vocab-cat) ": returning empty map.")
         {}))))
-
-        
-
-
-          
-
-
-

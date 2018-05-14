@@ -680,6 +680,14 @@
                           :pronoun false
                           :subcat {:1 {:cat :det}}}}
 
+                structure (if (= "" (dag_unify.core/get-in structure [:english :plur]))
+                            (dag_unify.core/dissoc-paths structure [[:english :plur]])
+                            structure)
+
+                structure (if (= :unspec (dag_unify.core/get-in structure [:synsem :cat]))
+                            (dag_unify.core/dissoc-paths structure [[:synsem :cat]])
+                            structure)
+                
                 with-structure
                 (if structure (unify base-unify structure)
                     base-unify)]

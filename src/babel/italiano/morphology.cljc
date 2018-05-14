@@ -107,7 +107,8 @@
 
 (declare get-string)
 
-;; TODO: this is an overly huge method that needs to be rewritten to be easier to understand and maintain.
+;; TODO: this is an overly huge method that needs to be
+;; reimplemented: instead, add a ':g' to: babel.italiano.morphology.nouns/patterns.
 (defn get-string-1 [word]
   (let [person (get-in word [:agr :person])
         number (get-in word [:agr :number])]

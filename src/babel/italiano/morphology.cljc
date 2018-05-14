@@ -230,7 +230,9 @@
        (string? (get-in word '(:plur))))
       (get-in word '(:plur))
 
-      ;; regular masculine nouns
+      ;; regular masculine nouns.
+      ;; dottore => dottori; medico => medici
+      ;; note the 'i?': figlio => figli, not *figlii.
       (and
        (string? (get-in word [:italiano]))
        (= (get-in word '(:agr :gender)) :masc)
@@ -239,7 +241,7 @@
        (not (= true (get-in word '(:pronoun))))
        (get-in word [:italiano]))
       (string/replace (get-in word [:italiano])
-                      #"[eo]$" "i") ;; dottore => dottori; medico => medici
+                      #"i?[eo]$" "i")
 
       ;; regular feminine nouns ending in 'e':
       (and

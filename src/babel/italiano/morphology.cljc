@@ -254,7 +254,17 @@
       (string/replace (get-in word [:italiano])
                       #"[e]$" "i") ;; madre => madri
       
-      ;; regular feminine nouns not ending in 'e'
+      ;; regular feminine nouns ending in 'ca':
+      (and
+       (string? (get-in word [:italiano]))
+       (= (get-in word '(:agr :gender)) :fem)
+       (= (get-in word '(:agr :number)) :plur)
+       (= (get-in word '(:cat)) :noun)
+       (get-in word [:italiano]))
+      (string/replace (get-in word [:italiano])
+                      #"c[aà]$" "che") ;; mucca => mucche
+
+      ;; regular feminine nouns *not* ending in 'e':
       (and
        (string? (get-in word [:italiano]))
        (= (get-in word '(:agr :gender)) :fem)

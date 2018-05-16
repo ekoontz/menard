@@ -509,7 +509,7 @@
                                            :top)}}}])}
       (= vocab-cat "noun2m")
       {surface
-       (map #(unify structure %)         
+       (map #(unify structure %)
             [{:vocab-cat vocab-cat
               :synsem {:sem {:pred (keyword pred)}
                        :cat :noun
@@ -517,7 +517,7 @@
       
       (= vocab-cat "noun2f")
       {surface
-       (map #(unify structure %)         
+       (map #(unify structure %)
             [{:vocab-cat vocab-cat
               :synsem {:sem {:pred (keyword pred)}
                        :cat :noun

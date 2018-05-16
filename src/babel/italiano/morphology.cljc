@@ -199,6 +199,7 @@
        (string? (get-in word '(:masc :plur))))
       (get-in word '(:masc :plur))
 
+      ;; <regular adjective morphology rules>
       (and
        (string? (get-in word [:italiano]))
        (or (= (get-in word [:agr :gender]) :masc)
@@ -222,7 +223,8 @@
        (re-find #"e$" (get-in word [:italiano])))
       (string/replace (get-in word [:italiano])
                       #"[e]$" "i") ;; difficile => difficili
-     
+      ;; </regular adjective morphology rules>
+      
       ;; handle lexical exceptions (plural nouns):
       (and
        (= (get-in word '(:agr :number)) :plur)

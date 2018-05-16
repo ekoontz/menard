@@ -33,6 +33,11 @@
                  :agr {:gender :fem
                        :number :plur}}}}
 
+   {:p [#"(.*)che$" "$1ca"] ;; "mucche" -> "mucca"
+    :u {:synsem {:cat :noun
+                 :agr {:gender :fem
+                       :number :plur}}}}
+
    {:p [#"(.*)o$" "$1a"] ;; "braccio" -> "braccia"
     :u {:synsem {:cat :noun
                  :agr {:gender :fem

@@ -481,7 +481,8 @@
                               vocab-cat :vocab_cat
                               structure :structure}]
   (log/info (str "calling vocab-entry-to-lexeme with "
-                 "surface=" surface " and structure=" structure))
+                 "surface=" surface "; structure=" structure
+                 "; vocab-cat=" vocab-cat))
   (let [structure (or structure :top)
         debug (log/debug (str "structure (pre-dissoc): " structure))
         structure (if (= "" (dag_unify.core/get-in structure [:italiano :plur]))

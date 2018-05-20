@@ -262,7 +262,7 @@
        (= (get-in word '(:agr :gender)) :fem)
        (= (get-in word '(:agr :number)) :plur)
        (= (get-in word '(:cat)) :noun)
-       (get-in word [:italiano]))
+       (re-find #"c[aà]$" (get-in word [:italiano])))
       (string/replace (get-in word [:italiano])
                       #"c[aà]$" "che") ;; mucca => mucche
 

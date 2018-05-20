@@ -108,7 +108,6 @@
            :sem {:pet true
                  :pred :dog}}}
 
-
   "casa"
  [{:synsem {:agr {:gender :fem}
             :cat :noun
@@ -219,6 +218,13 @@
            :sem {:human true
                  :pred :madre
                  :child false}}}
+
+ "mucca"
+ {:synsem {:agr {:gender :fem}
+           :cat :noun
+           :sem {:animate true
+                 :human false
+                 :pred :cow}}}
 
  "mezzogiorno"
  {:synsem {:agr {:gender :masc}

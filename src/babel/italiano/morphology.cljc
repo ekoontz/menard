@@ -271,8 +271,7 @@
        (string? (get-in word [:italiano]))
        (= (get-in word '(:agr :gender)) :fem)
        (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :noun)
-       (get-in word [:italiano]))
+       (= (get-in word '(:cat)) :noun))
       (string/replace (get-in word [:italiano])
                       #"[aà]$" "e") ;; donna => donne
 

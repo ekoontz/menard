@@ -132,14 +132,7 @@
   ;; i.e. check that they are either all strings, or all keywords, or all integers, etc.
   ;; this is to avoid the need to log/debug below.
   (into {} 
-        (for [[k v]
-              ;; if you need to trace this, probably your input data
-              ;; is non-uniform: i.e. the map keys are not all one type
-              ;; (e.g. a mixture of strings and keywords rather than
-              ;;  purely one or the other)
-              ;; your keys or values 
-              (do (log/trace (str "sorting array: " m))
-                  (sort m))]
+        (for [[k v] m]
           ;; for each <k,v> pair, return a <k,v'>, where v' = f(v).
           [k (f k v)])))
 

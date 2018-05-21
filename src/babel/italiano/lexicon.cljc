@@ -259,7 +259,8 @@
                  :cat :verb
                  :essere false
                  :sem {:reflexive false}
-                 :subcat {:2 {:reflexive false}}}})
+                 :subcat {:2 {:reflexive false
+                              :subcat []}}}})
       
       (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb

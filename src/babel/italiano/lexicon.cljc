@@ -250,6 +250,16 @@
                                 :pronoun true
                                 :reflexive true
                                 :sem subject-semantics}}}}))
+
+      ;; if a verb has a second argument (i.e. the object),
+      ;; then it is not reflexive. this is to prevent
+      ;; generation of sentences like 'io mi ho'.
+      (default
+       {:synsem {:aux false
+                 :cat :verb
+                 :essere false
+                 :sem {:reflexive false}
+                 :subcat {:2 {:reflexive false}}}})
       
       (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb

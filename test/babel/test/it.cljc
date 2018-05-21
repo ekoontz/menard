@@ -505,6 +505,44 @@
           (assoc-in {} path v)))
    (reduce (fn [a b] (merge-with merge a b)))))
 
+(defn sunday-night []
+  (let [semantics (-> "io lo ho" parse first :parses
+                      first (dag_unify.core/get-in [:synsem :sem]))
+
+        semantics-any-subject
+        (dag_unify.core/dissoc-paths semantics [[:subj]])
+
+        semantics-any-object
+        (unify (dag_unify.core/dissoc-paths semantics [[:obj]])
+               {:obj {:pred :top}})]
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics)}}
+                   generate
+                   morph time
+                   println))))
+    (println "----")
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics-any-subject)}}
+                   generate
+                   morph time
+                   println))))
+
+    (println "----")
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics-any-object)}}
+                   generate
+                   morph time
+                   println))))))
+
 (deftest gestiscono
   (let [result
         (generate {:synsem {:subcat []

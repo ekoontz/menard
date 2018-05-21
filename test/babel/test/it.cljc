@@ -487,6 +487,24 @@
   (is (not (empty?
             (reduce concat (map :parses (parse "io sono a casa")))))))
 
+;;(-> (parse "io lo ho") first clojure.pprint/pprint)
+;;(def sem (->> (-> "io lo ho" parse first :parses first (dag_unify.core/get-in [:synsem :sem]))))
+;;(repeatedly #(println (time (morph (generate {:synsem {:subcat []
+;;                                                                :cat :verb
+;;                                                                :sem (screen-out-false sem)}})))))
+
+(defn screen-out-false [m]
+  (->>
+   (dag_unify.core/paths m)
+   (filter #(let [v (dag_unify.core/get-in m %)]
+              (and (not (= false v))
+                   (not (map? v)))))
+   (map (fn [path]
+          [path (get-in m path)]))
+   (map (fn [[path v]]
+          (assoc-in {} path v)))
+   (reduce (fn [a b] (merge-with merge a b)))))
+
 (deftest gestiscono
   (let [result
         (generate {:synsem {:subcat []

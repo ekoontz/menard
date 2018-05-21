@@ -135,13 +135,15 @@
    ;; 1. "avere": to possess something buyable
    [{:unify [avere-common]
      :note "avere (possess)"
-     :synsem {:sem {:pred :have}}}
+     :synsem {:sem {:pred :have}
+              :subcat {:2 {:reflexive false}}}}
 
     ;; 2. "avere": to be in a familial or social relation with:
     ;; e.g. "ho due bambini (I have two children)"
     {:unify [avere-common]
      :note "avere (relation)"
-     :synsem {:sem {:pred :have}}}
+     :synsem {:sem {:pred :have}
+              :subcat {:2 {:reflexive false}}}}
 
     ;; 3. avere: unspecified object
     ;; TODO: remove: should be generated automatically via
@@ -149,7 +151,8 @@
     ;;
     {:unify [avere-common]
      :note "avere (possess): unspecified object"
-     :synsem {:sem {:pred :have}}}
+     :synsem {:sem {:pred :have
+                    :obj :unspec}}}
 
     ;; 4. passato transitive
     (let [agr (atom :top)]

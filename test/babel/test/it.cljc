@@ -493,6 +493,12 @@
 ;;                                                                :cat :verb
 ;;                                                                :sem (screen-out-false sem)}})))))
 
+;; (def parse-tree (-> "ho Antonia e Luisa"
+;;                                   parse
+;;                                 first
+;;                                   :parses
+;;                                   first))
+
 (defn screen-out-false [m]
   (->>
    (dag_unify.core/paths m)

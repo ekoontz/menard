@@ -136,14 +136,19 @@
    [{:unify [avere-common]
      :note "avere (possess)"
      :synsem {:sem {:pred :have}
-              :subcat {:2 {:reflexive false}}}}
+              :subcat {:2 {:reflexive false
+                           :foo 42
+                           :sem {:human false}}}}}
 
     ;; 2. "avere": to be in a familial or social relation with:
     ;; e.g. "ho due bambini (I have two children)"
     {:unify [avere-common]
      :note "avere (relation)"
      :synsem {:sem {:pred :have}
-              :subcat {:2 {:reflexive false}}}}
+              :subcat {:2 {:reflexive false
+                           :pronoun false
+                           :propernoun false
+                           :sem {:human true}}}}}
 
     ;; 3. avere: unspecified object
     ;; TODO: remove: should be generated automatically via

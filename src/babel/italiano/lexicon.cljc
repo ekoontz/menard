@@ -69,7 +69,7 @@
                  :pronoun false
                  :propernoun false
                  :subcat {:1 {:cat :det}
-                          :2 '()}}})
+                          :2 []}}})
 
       (default ;; how a determiner modifies its head noun's semantics.
        (let [def (atom :top)]
@@ -83,13 +83,13 @@
        {:synsem {:cat :noun
                  :pronoun true
                  :propernoun false
-                 :subcat '()}})
+                 :subcat []}})
 
       (default ;; a propernoun takes no args.
        {:synsem {:cat :noun
                  :pronoun false
                  :propernoun true
-                 :subcat '()}})
+                 :subcat []}})
 
       (default ;; a propernoun is agr=3rd singular
        {:synsem {:cat :noun
@@ -112,7 +112,7 @@
          {:synsem {:case case
                    :cat cat
                    :pronoun true
-                   :subcat '()}
+                   :subcat []}
           :italiano {:cat cat
                      :case case}}))
       
@@ -121,7 +121,7 @@
                         :pronoun false
                         :propernoun false
                         :subcat {:1 {:cat :det}
-                                 :2 '()}}}
+                                 :2 []}}}
               (let [agr (atom :top)
                     cat (atom :top)]
                 {:italiano {:agr agr
@@ -225,7 +225,7 @@
                  :sem {:obj {:top :top}
                        :reflexive false}
                  :subcat {:2 {:cat :noun}
-                          :3 '()}}}
+                          :3 []}}}
        (fn [lexeme]
          (dissoc-paths lexeme [[:synsem :sem :obj]
                                [:synsem :subcat :2]])))
@@ -259,18 +259,20 @@
                  :cat :verb
                  :essere false
                  :sem {:reflexive false}
-                 :subcat {:2 {:reflexive false
+                 :subcat {:2 {:case :acc
+                              :cat :noun
+                              :reflexive false
                               :subcat []}}}})
       
       (default ;; a verb defaults to intransitive.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
-                          :2 '()}}})
+                          :2 []}}})
       
       (default ;; intransitive verbs' :obj is :unspec.
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
-                          :2 '()}
+                          :2 []}
                  :sem {:obj :unspec}}})
 
       (default ;;  a verb's second argument (if there is one)
@@ -284,7 +286,7 @@
        {:synsem {:cat :verb
                  :subcat {:1 {:top :top}
                           :2 {:top :top}
-                          :3 '()}}})
+                          :3 []}}})
 
       (default ;;  but if there *is* a third argument, it defaults
        ;; to the semantic indirect object of the verb.
@@ -320,9 +322,9 @@
        (let [object-semantics (atom :top)]
          {:synsem {:cat :prep
                    :subcat {:1 {:cat :noun
-                                :subcat '()
+                                :subcat []
                                 :sem object-semantics}
-                            :2 '()}
+                            :2 []}
                    :sem {:obj object-semantics}}}))
 
       ;; a preposition's object cannot be a reflexive pronoun.
@@ -351,7 +353,7 @@
                                 :sem {:pred :di ;; Italian name for pred, for now: TODO: change to English :than.
                                       :obj complement-sem}
                                 :subcat {:1 {:sem complement-sem}
-                                         :2 '()}}}}}))
+                                         :2 []}}}}}))
       ;; </adjective default rules>
 
       ;; <sent-modifier default rules>
@@ -369,7 +371,7 @@
                    :sem verb-sem
                    :subcat {:1 {:cat :verb
                                 :sem verb-sem}
-                            :2 '()}}}))
+                            :2 []}}}))
       ;; </adverb default rules>
       
       ;; <determiner default rules>
@@ -461,7 +463,7 @@
                    :sem {:arg1 subject
                          :comparative false}
                 :subcat {:1 {:sem subject}
-                         :2 '()}}})}
+                         :2 []}}})}
 
    :agreement
    (let [agr (atom :top)

@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [morph preprocess]]
+   [babel.italiano :as italiano :refer [create-model morph preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lexicon]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]

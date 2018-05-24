@@ -10,6 +10,7 @@
    [babel.parse :as parse]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
+   [clojure.core.cache :as cache]
    [clojure.pprint :refer [pprint]]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
@@ -138,3 +139,34 @@
         
            true
            (str "don't know how to parse input: " (type input))))))
+
+(defn create-model [ & words]
+  (let [base-model (babel.italiano.grammar/model)
+        base-lexicon
+        (zipmap
+         (sort (keys (:lexicon base-model)))
+         (map (fn [k]
+                (get (
+                (sort (keys (:lexicon base-model)))
+                
+
+        (->> (:lexicon base-model)
+                          (filter (fn [x] true));; TODO: articles
+                          (filter (fn [x] true)) ;; TODO: subject pronouns
+                          (filter (fn [x] true)) ;; TODO: ..etc.
+                          )]
+    (merge base-model
+           {:input-words (vec words)
+            :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
+            :lexicon
+            (merge
+             base-lexicon
+             (zipmap
+              (sort words)
+              (map (fn [word]
+                     (get (:lexicon base-model) word))
+                   (sort words))))})))
+
+
+
+

@@ -136,6 +136,23 @@
           ;; for each <k,v> pair, return a <k,v'>, where v' = f(v).
           [k (f k v)])))
 
+(defn filter-map-by
+  "return a map where only elements for which (f k v)=true."
+  [m f]
+  (into {}
+        (for [[k v] m]
+          (if (= true (f k v))
+            [k v]))))
+
+(defn only-nonempty-vals
+  "return a map where only elements for which (not (empty? (f v))) is true."
+  [m f]
+  (into {}
+        (for [[k v] m]
+          (let [result (f v)]
+            (if (not (empty? result))
+              [k result])))))
+
 (defn check-lexicon [lexicon]
   (let [check-one (fn [k v]
                     (let [result (fail? v)]

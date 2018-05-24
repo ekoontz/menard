@@ -143,18 +143,15 @@
 (defn create-model [ & words]
   (let [base-model (babel.italiano.grammar/model)
         base-lexicon
-        (zipmap
-         (sort (keys (:lexicon base-model)))
-         (map (fn [k]
-                (get (
-                (sort (keys (:lexicon base-model)))
-                
-
-        (->> (:lexicon base-model)
-                          (filter (fn [x] true));; TODO: articles
-                          (filter (fn [x] true)) ;; TODO: subject pronouns
-                          (filter (fn [x] true)) ;; TODO: ..etc.
-                          )]
+        (babel.lexiconfn/only-nonempty-vals
+         (:lexicon base-model)
+         (fn [vals]
+           (filter (fn [v]
+                     (or (and (= :det (dag_unify.core/get-in v [:synsem :cat]))
+                              (= :def (dag_unify.core/get-in v [:synsem :def])))
+                         (and (= true (dag_unify.core/get-in v [:synsem :pronoun]))
+                              (= :nom (dag_unify.core/get-in v [:synsem :case])))))
+                   vals)))]
     (merge base-model
            {:input-words (vec words)
             :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))

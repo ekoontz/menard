@@ -140,29 +140,32 @@
            true
            (str "don't know how to parse input: " (type input))))))
 
+;;(let [m (create-model "cane" "nero")]
+;;                 (repeatedly #(println (morph (generate {:synsem {:subcat []}
+;;                                                         :head {:phrasal true}} m)))))
+
 (defn create-model [ & words]
   (let [base-model (babel.italiano.grammar/model)
         base-lexicon
         (babel.lexiconfn/only-nonempty-vals
          (:lexicon base-model)
-         (fn [vals]
-           (filter (fn [v]
-                     (or (and (= :det (dag_unify.core/get-in v [:synsem :cat]))
-                              (= :def (dag_unify.core/get-in v [:synsem :def])))
-                         (and (= true (dag_unify.core/get-in v [:synsem :pronoun]))
-                              (= :nom (dag_unify.core/get-in v [:synsem :case])))))
-                   vals)))]
-    (merge base-model
-           {:input-words (vec words)
-            :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
-            :lexicon
-            (merge
-             base-lexicon
-             (zipmap
-              (sort words)
-              (map (fn [word]
-                     (get (:lexicon base-model) word))
-                   (sort words))))})))
+         #(or (and (= :det (dag_unify.core/get-in % [:synsem :cat]))
+                   (= :def (dag_unify.core/get-in % [:synsem :def])))
+              (and (= :det (dag_unify.core/get-in % [:synsem :cat]))
+                   (= :indef (dag_unify.core/get-in % [:synsem :def])))
+              (and (= true (dag_unify.core/get-in % [:synsem :pronoun]))
+                   (= :nom (dag_unify.core/get-in % [:synsem :case])))))]
+    (merge
+     {:input-words (vec words)}
+     (babel.italiano.grammar/model-plus-lexicon
+      (merge
+       base-lexicon
+       (zipmap
+        (sort words)
+        (map (fn [word]
+               (get (:lexicon base-model) word))
+             (sort words))))))))
+
 
 
 

@@ -145,13 +145,16 @@
             [k v]))))
 
 (defn only-nonempty-vals
-  "return a map where only elements for which (not (empty? (f v))) is true."
+  "given a map m, return a map where each value in m is filtered by f, and 
+   remove all pairs [k v'] where the filtered result v' is empty."
   [m f]
-  (into {}
-        (for [[k v] m]
-          (let [result (f v)]
-            (if (not (empty? result))
-              [k result])))))
+  (-> 
+   (into {}
+         (for [[k v] m]
+           [k (filter f v)]))
+   (filter-map-by
+    (fn [k v]
+      (not (empty? v))))))
 
 (defn check-lexicon [lexicon]
   (let [check-one (fn [k v]

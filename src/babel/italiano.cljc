@@ -140,10 +140,6 @@
            true
            (str "don't know how to parse input: " (type input))))))
 
-;;(let [m (create-model "cane" "nero")]
-;;                 (repeatedly #(println (morph (generate {:synsem {:subcat []}
-;;                                                         :head {:phrasal true}} m)))))
-
 (defn create-model [ & words]
   (let [base-model (babel.italiano.grammar/model)
         base-lexicon
@@ -166,7 +162,9 @@
                (get (:lexicon base-model) word))
              (sort words))))))))
 
-
-
+(defn test-cm []
+  (let [m (create-model "io" "ti" "mi" "vedere")]
+    (repeatedly #(println (morph (generate {:synsem {:subcat []}
+                                            :head {:phrasal true}} m))))))
 
 

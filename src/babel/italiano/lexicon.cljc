@@ -97,8 +97,13 @@
                  :propernoun true
                  :agr {:number :sing
                        :person :3rd}}})
+      
+      (default  ;; pronouns are non-reflexive by default...
+       {:synsem {:cat :noun
+                 :pronoun true
+                 :reflexive false})
 
-      (default  ;; reflexive pronouns are case=acc
+      (default  ;; ..but reflexive pronouns are case=acc
        {:synsem {:case :acc
                  :cat :noun
                  :pronoun true

@@ -13,7 +13,8 @@
             :sem {:null true
                   :pred :existential}
             :agr {:person :3rd
-                  :number :sing}}}
+                  :number :sing}
+            :reflexive true}}
   {:synsem {:cat :noun
             :pronoun true
             :case :nom
@@ -250,16 +251,20 @@
                  :reflexive true}}]
  
  "ti"
- {:synsem {:cat :noun
-           :pronoun true
-           :case :acc
-           :agr {:person :2nd
-                 :number :sing}
-           :reflexive true
-           :sem {:human true}
-           :subcat []}
-  :italiano {:initial true}}
-
+ ;; TODO: all accusative pronouns should have this reflexive/non-reflexive duality
+ ;; (pretty sure, but confirm with Harrap grammar book).
+ (let [common {:synsem {:cat :noun
+                        :pronoun true
+                        :case :acc
+                        :agr {:person :2nd
+                              :number :sing}
+                        :sem {:human true}}
+               :italiano {:initial true}}]
+   [{:unify [common]
+     :synsem {:reflexive true}}
+    {:unify [common]
+     :synsem {:reflexive false}}]
+   
  "tu"
  [{:synsem {:cat :noun
             :pronoun true

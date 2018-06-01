@@ -167,14 +167,16 @@
 
 (defn test-cm []
   (let [m (create-model "io" "mi" "tu" "ti" "vedere")]
-    (repeatedly #(->
-                  {:synsem {:cat :verb
-                            :infl :present
-                            :sem {:aspect :simple}
-                            :subcat []}
-                   :head {:phrasal true}}
-                  (generate m)
-                  morph
-                  println
-                  time))))
+    (repeatedly
+     #(->
+       {:synsem {:cat :verb
+                 :infl :present
+                 :sem {:aspect :simple}
+                 :subcat []}
+        :head {:phrasal true}}
+       (generate m)
+       morph
+       println
+       time))))
+
 

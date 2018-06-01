@@ -198,14 +198,19 @@
                   :pred :luisa-and-i}
             :subcat []}}]
  "mi"
- {:synsem {:cat :noun
-           :pronoun true
-           :case :acc
-           :agr {:person :1st
-                 :number :sing}
-           :reflexive true
-           :sem {:human true}
-           :subcat []}}
+ ;; TODO: all accusative pronouns should have this reflexive/non-reflexive duality
+ ;; (pretty sure, but confirm with Harrap grammar book).
+ (let [common {:synsem {:cat :noun
+                        :pronoun true
+                        :case :acc
+                        :agr {:person :1st
+                              :number :sing}
+                        :sem {:human true}}
+               :italiano {:initial true}}]
+   [{:unify [common]
+     :synsem {:reflexive true}}
+    {:unify [common]
+     :synsem {:reflexive false}}])
 
  "noi"
  [{:synsem {:cat :noun
@@ -263,7 +268,7 @@
    [{:unify [common]
      :synsem {:reflexive true}}
     {:unify [common]
-     :synsem {:reflexive false}}]
+     :synsem {:reflexive false}}])
    
  "tu"
  [{:synsem {:cat :noun

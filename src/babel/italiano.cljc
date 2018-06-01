@@ -143,14 +143,17 @@
 (defn create-model [ & words]
   (let [base-model (babel.italiano.grammar/model)
         base-lexicon
-        (babel.lexiconfn/only-nonempty-vals
+        (->
+         ;; filter the whole lexicon down to a minimal set of 'must-haves':
+         ;; (this filtered set might be as small as having no members at all).
          (:lexicon base-model)
-         #(or (and (= :det (dag_unify.core/get-in % [:synsem :cat]))
-                   (= :def (dag_unify.core/get-in % [:synsem :def])))
-              (and (= :det (dag_unify.core/get-in % [:synsem :cat]))
-                   (= :indef (dag_unify.core/get-in % [:synsem :def])))
-              (and (= true (dag_unify.core/get-in % [:synsem :pronoun]))
-                   (= :nom (dag_unify.core/get-in % [:synsem :case])))))]
+         (babel.lexiconfn/only-nonempty-vals
+          #(or (and false (= :det (dag_unify.core/get-in % [:synsem :cat]))
+                    (= :def (dag_unify.core/get-in % [:synsem :def])))
+               (and false (= :det (dag_unify.core/get-in % [:synsem :cat]))
+                    (= :indef (dag_unify.core/get-in % [:synsem :def])))
+               (and false (= true (dag_unify.core/get-in % [:synsem :pronoun]))
+                    (= :nom (dag_unify.core/get-in % [:synsem :case]))))))]
     (merge
      {:input-words (vec words)}
      (babel.italiano.grammar/model-plus-lexicon
@@ -163,8 +166,15 @@
              (sort words))))))))
 
 (defn test-cm []
-  (let [m (create-model "io" "ti" "mi" "vedere")]
-    (repeatedly #(println (morph (generate {:synsem {:subcat []}
-                                            :head {:phrasal true}} m))))))
-
+  (let [m (create-model "io" "mi" "tu" "ti" "vedere")]
+    (repeatedly #(->
+                  {:synsem {:cat :verb
+                            :infl :present
+                            :sem {:aspect :simple}
+                            :subcat []}
+                   :head {:phrasal true}}
+                  (generate m)
+                  morph
+                  println
+                  time))))
 

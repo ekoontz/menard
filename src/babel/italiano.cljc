@@ -1,7 +1,7 @@
 (ns babel.italiano
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.generate :as generate]
+   [babel.generate :as generate :refer [lightning-bolts]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [fo]]
@@ -154,19 +154,32 @@
                     (= :indef (dag_unify.core/get-in % [:synsem :def])))
                (and false (= true (dag_unify.core/get-in % [:synsem :pronoun]))
                     (= :nom (dag_unify.core/get-in % [:synsem :case]))))))]
-    (merge
+    (->
      {:input-words (vec words)}
-     (babel.italiano.grammar/model-plus-lexicon
-      (merge
-       base-lexicon
-       (zipmap
-        (sort words)
-        (map (fn [word]
-               (get (:lexicon base-model) word))
-             (sort words))))))))
+     (merge
+      (let [model (babel.italiano.grammar/model-plus-lexicon
+                   (merge
+                    base-lexicon
+                    (zipmap
+                     (sort words)
+                     (map (fn [word]
+                            (get (:lexicon base-model) word))
+                          (sort words)))))]
+        (let [spec {:synsem {:cat :verb
+                             :sem {:tense :top
+                                   :aspect :simple
+                                   :reflexive :top}
+                             :subcat '()}}]
+          (merge model
+                 {:bolts {(merge {:depth 2}
+                                 spec)
+                          (lightning-bolts model
+                                           spec
+                                           0 2)}})))))))
 
 (defn test-cm []
-  (let [m (create-model "io" "mi" "tu" "ti" "vedere")]
+  (let [m (create-model "io" "lei" "lo"
+                        "loro" "lui" "mi" "tu" "ti" "vedere")]
     (repeatedly
      #(->
        {:synsem {:cat :verb
@@ -179,4 +192,10 @@
        println
        time))))
 
+
+(defn from-repl []
+  (load "babel/test/it")
+  (load "babel/italiano")
+  (in-ns 'babel.italiano)
+  (test-cm))
 

@@ -101,7 +101,7 @@
       (default  ;; pronouns are non-reflexive by default...
        {:synsem {:cat :noun
                  :pronoun true
-                 :reflexive false})
+                 :reflexive false}})
 
       (default  ;; ..but reflexive pronouns are case=acc
        {:synsem {:case :acc

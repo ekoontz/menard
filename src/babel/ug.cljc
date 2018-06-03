@@ -81,9 +81,9 @@
 ;; H subcat<1>  C[1]
 (def subcat-1-principle
   (let [comp-synsem (atom :top)]
-    {:synsem {:subcat '()}
+    {:synsem {:subcat []}
      :head {:synsem {:subcat {:1 comp-synsem
-                              :2 '()}}}
+                              :2 []}}}
      :comp {:synsem comp-synsem}}))
 
 ;;     subcat<>
@@ -92,9 +92,9 @@
 ;; H subcat<1>  C[1]
 (def subcat-1-principle-no-complement-subcat-restrictions
   (let [comp-synsem (atom {:subcat :top})]
-    {:synsem {:subcat '()}
+    {:synsem {:subcat []}
      :head {:synsem {:subcat {:1 comp-synsem
-                              :2 '()}}}
+                              :2 []}}}
      :comp {:synsem comp-synsem}}))
 
 ;;     subcat<1>
@@ -104,10 +104,10 @@
 (def subcat-1-1-principle
   (let [subcat (atom :top)]
     {:synsem {:subcat {:1 subcat
-                       :2 '()}}
-     :comp {:synsem {:subcat '()}}
+                       :2 []}}
+     :comp {:synsem {:subcat []}}
      :head {:synsem {:subcat {:1 subcat
-                              :2 '()}}}}))
+                              :2 []}}}}))
 
 
 ;;     subcat<1,2>
@@ -119,14 +119,14 @@
         subcat2 (atom {:cat :top})
         subcat3 (atom {:subcat {:1 subcat1
                                :2 subcat2
-                               :3 '()}})]
+                               :3 []}})]
     {:synsem {:subcat {:1 subcat1
                        :2 subcat2
-                       :3 '()}}
+                       :3 []}}
      :comp {:synsem subcat3}
      :head {:synsem {:subcat {:1 subcat1
                               :2 subcat3
-                              :3 '()}}}}))
+                              :3 []}}}}))
 
 ;;     subcat<1>
 ;;     /      \
@@ -135,11 +135,11 @@
 (def subcat-1-1-principle-comp-subcat-1
   (let [subcat (atom :top)]
     {:synsem {:subcat {:1 subcat
-                       :2 '()}}
+                       :2 []}}
      :comp {:synsem {:subcat {:1 :top
-                              :2 '()}}}
+                              :2 []}}}
      :head {:synsem {:subcat {:1 subcat
-                              :2 '()}}}}))
+                              :2 []}}}}))
 
 
 ;;     subcat<1>
@@ -150,10 +150,10 @@
   (let [comp-synsem (atom {:cat :top})
         parent-subcat (atom {:cat :top})]
     {:synsem {:subcat {:1 parent-subcat
-                       :2 '()}}
+                       :2 []}}
      :head {:synsem {:subcat {:1 parent-subcat
                               :2 comp-synsem
-                              :3 '()}}}
+                              :3 []}}}
      :comp {:synsem comp-synsem}}))
 
 ;;     subcat<1,3>
@@ -167,10 +167,10 @@
                                 :2 subcat-3}})]
     {:synsem {:subcat {:1 subcat-1
                        :2 subcat-3
-                       :3 '()}}
+                       :3 []}}
      :head {:synsem {:subcat {:1 subcat-1
                               :2 subcat-2
-                              :3 '()}}}
+                              :3 []}}}
      :comp {:synsem subcat-2}}))
 
 ;;     subcat<1>
@@ -181,7 +181,7 @@
   (let [subcat-1 (atom :top)
         subcat-2 (atom {:subcat {:1 subcat-1}})]
     {:synsem {:subcat {:1 subcat-1
-                       :2 '()}}
+                       :2 []}}
      :head {:synsem {:subcat {:1 subcat-2}}}
      :comp {:synsem subcat-2}}))
 
@@ -191,12 +191,12 @@
 ;; H subcat<1,2,3>  C[3]
 (def subcat-5-principle
   ;; we specify {:cat :top} rather than simply :top
-  ;; because we want to prevent matching with '()
+  ;; because we want to prevent matching with []
   ;; that is, a verb which only subcats for :1 and 2: (transitive)
-  ;; would match :3 because (unify '() :top) => :top,
+  ;; would match :3 because (unify [] :top) => :top,
   ;; and would fit in here erroneously.
   ;; This is prevented by {:cat :top},
-  ;; because (unify '() {:cat :top}) => :fail.
+  ;; because (unify [] {:cat :top}) => :fail.
   (let [subcat-1 (atom {:cat :top})
         subcat-2 (atom {:cat :top})
         subcat-3 (atom {:cat :top})]
@@ -206,7 +206,7 @@
      :comp {:synsem subcat-3}
      :synsem {:subcat {:1 subcat-1
                        :2 subcat-2
-                       :3 '()}}}))
+                       :3 []}}}))
 
 (def head-semantics
   (let [semantics (atom :top)]
@@ -232,7 +232,7 @@
    subcat-1-principle
    head-principle
    {:first :comp
-    :comp {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}}))
 
 (def c10
   (unify-check
@@ -244,13 +244,13 @@
     ;; Can't embed object in code, maybe print-dup not defined: clojure.lang.Ref@11819f3c
     :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
     :first :comp
-    :comp {:synsem {:subcat '()}}}))
+    :comp {:synsem {:subcat []}}}))
 
 (def c21
   (unify
    subcat-2-principle
    head-principle
-   {:comp {:synsem {:subcat '()}}
+   {:comp {:synsem {:subcat []}}
     :schema-symbol 'c21 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comment "c21"}))

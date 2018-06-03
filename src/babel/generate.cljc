@@ -157,7 +157,7 @@
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))
       true
-      (do (log/debug (str "no compiled bolts found."))
+      (do (log/debug (str "no compiled bolts found for: " search-for-key))
           (lazy-seq (lightning-bolts model spec 0 depth))))))
 
 (defn lightning-bolts

@@ -143,7 +143,7 @@
                    :cat (get-in spec [:synsem :cat] :top)}
           :depth depth})
 
-        debug (log/debug (str "looking for key: "
+        debug (log/trace (str "looking for key: "
                              search-for-key))
         
         bolts ;; check for bolts compiled into model
@@ -152,12 +152,12 @@
     (cond
       (not (nil? bolts))
       (do
-        (log/debug (str "found compiled bolts."))
+        (log/trace (str "found compiled bolts."))
         (shufflefn (->> bolts
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))
       true
-      (do (log/debug (str "no compiled bolts found for: " search-for-key))
+      (do (log/trace (str "no compiled bolts found for: " search-for-key))
           (lazy-seq (lightning-bolts model spec 0 depth))))))
 
 (defn lightning-bolts
@@ -179,14 +179,25 @@
   ;; Each head child may be a leaf or
   ;; otherwise has a child with the same two options (leaf or a head child),
   ;; up to the maximum depth.
+  (log/debug (str "lightning-bolts: depth=" depth (if use-candidate-parents
+                                                    (str "; using ucp: " (count use-candidate-parents)))))
   (if (and (< depth max-depth)
            (not (= false (get-in spec [:phrasal] true))))
     (let [candidate-parents (or use-candidate-parents
                                 (->>
                                  (:grammar model)
-                                 (map #(unify % spec))
+                                 (map (fn [rule]
+                                        (let [result (unify rule spec)]
+                                          (if
+                                            (not (= :fail result))
+                                            (log/debug (str "rule:" (:rule rule)
+                                                            " => "
+                                                            "OK")))
+                                          result)))
                                  (filter #(not (= :fail %)))
                                  (shufflefn)))]
+      (log/debug (str "candidate-parents emptiness at depth:" depth ":"
+                      (empty? candidate-parents)))
       (if (not (empty? candidate-parents))
         (let [candidate-parent (first candidate-parents)]
           (lazy-cat
@@ -196,7 +207,11 @@
                                  max-depth)
                 (map (fn [head]
                        (assoc-in candidate-parent [:head] head))))
-           (lightning-bolts model spec depth max-depth (rest candidate-parents))))))
+           (lightning-bolts model spec depth max-depth (rest candidate-parents))))
+        (do
+          (log/debug (str "no rules found at depth: " depth " for spec: "
+                          (dag_unify.core/strip-refs spec)))
+          candidate-parents)))
     (shufflefn (get-lexemes model spec))))
 
 (defn add-comps-to-bolt

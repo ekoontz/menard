@@ -837,13 +837,16 @@
 
 
 (deftest present-progressive-reflexive
-  (is (= "loro si stanno addormentando" (morph (generate {:synsem {:cat :verb
-                                                                   :subcat []
-                                                                   :sem {:tense :present
-                                                                         :aspect :progressive
-                                                                         :subj {:pred :loro}}}
-                                                          :modified false
-                                                          :root {:italiano {:italiano "addormentarsi"}}})))))
+  (is (= "loro si stanno addormentando"
+         (-> {:synsem {:cat :verb
+                       :subcat []
+                       :sem {:tense :present
+                             :aspect :progressive
+                             :subj {:pred :loro}}}
+              :modified false
+              :root {:italiano {:italiano "addormentarsi"}}}
+             morph
+             generate))))
 
 (defn generate-speed-test [spec & [times]]
   (btest/generate-speed-test spec model times))

@@ -232,8 +232,13 @@
                  :subcat {:2 {:cat :noun}
                           :3 []}}}
        (fn [lexeme]
-         (dissoc-paths lexeme [[:synsem :sem :obj]
-                               [:synsem :subcat :2]])))
+         (do
+           (let [result
+                 (dissoc-paths lexeme [[:synsem :sem :obj]
+                                       [:synsem :subcat :2]])]
+             (log/info (str "intransitivize pre-result: "
+                            (dag_unify.core/strip-refs result)))
+             result))))
 
       (default ;; reflexive defaults to false..
        {:synsem {:cat :verb

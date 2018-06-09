@@ -706,7 +706,7 @@
 ;; TODO: factor out language-independent parts of this to babel.lexiconfn.
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
-  [lexicon]
+  [lexicon & [grammar-filter-rule]]
   (let [debug (log/info "  loading lexicon..")
         debug (log/info "  filtering lexicon..")
         lexicon
@@ -720,6 +720,13 @@
 
         debug (log/info "  lexicon for generation..")
         lexicon-for-generation (lexicon-for-generation lexicon)
+
+        grammar-filter-rule
+        (or grammar-filter-rule (fn [rule] true))
+
+        grammar (filter grammar-filter-rule
+                        grammar)
+
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon

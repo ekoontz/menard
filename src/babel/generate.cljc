@@ -180,9 +180,7 @@
   ;; otherwise has a child with the same two options (leaf or a head child),
   ;; up to the maximum depth.
   (log/debug (str "lightning-bolts: depth="
-                  depth (if use-candidate-parents
-                          (str "; using ucp: "
-                               (count use-candidate-parents)))))
+                  depth "; spec=" (dag_unify.core/strip-refs spec)))
   (if (and (< depth max-depth)
            (not (= false (get-in spec [:phrasal] true))))
     (let [candidate-parents
@@ -205,8 +203,9 @@
                                                      spec)))
                                     true
                                     (log/debug (str "rule:" (:rule rule)
-                                                    " => "
-                                                    "OK")))
+                                                    " OK for spec:"
+                                                    (dag_unify.core/strip-refs
+                                                     spec))))
                               result)))
                      (filter #(not (= :fail %)))
                      (shufflefn))]
@@ -318,7 +317,16 @@
                    (or (:lexicon (:generate model)) (:lexicon model)))))))
    (filter #(or (= false (get-in % [:exception] false))
                 (not (= :verb (get-in % [:synsem :cat])))))
-   (map #(unify % spec))
+   (map
+    (fn [lexeme]
+      (do
+        (log/debug (str "get-lexemes: testing lexeme: "
+                        (dag_unify.core/strip-refs lexeme)))
+        (let [result (unify lexeme spec)]
+          (if (= result :fail)
+            (log/debug (str "fail-path:"
+                            (dag_unify.core/fail-path lexeme spec))))
+          result))))
    (filter #(not (= :fail %)))))
 
 (defn show-spec [spec]

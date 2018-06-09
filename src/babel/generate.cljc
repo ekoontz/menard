@@ -179,27 +179,48 @@
   ;; Each head child may be a leaf or
   ;; otherwise has a child with the same two options (leaf or a head child),
   ;; up to the maximum depth.
-  (log/debug (str "lightning-bolts: depth=" depth (if use-candidate-parents
-                                                    (str "; using ucp: " (count use-candidate-parents)))))
+  (log/debug (str "lightning-bolts: depth="
+                  depth (if use-candidate-parents
+                          (str "; using ucp: "
+                               (count use-candidate-parents)))))
   (if (and (< depth max-depth)
            (not (= false (get-in spec [:phrasal] true))))
-    (let [candidate-parents (or use-candidate-parents
-                                (->>
-                                 (:grammar model)
-                                 (map (fn [rule]
-                                        (let [result (unify rule spec)]
-                                          (if
-                                            (not (= :fail result))
-                                            (log/debug (str "rule:" (:rule rule)
-                                                            " => "
-                                                            "OK")))
-                                          result)))
-                                 (filter #(not (= :fail %)))
-                                 (shufflefn)))]
-      (log/debug (str "candidate-parents emptiness at depth:" depth ":"
-                      (empty? candidate-parents)))
+    (let [candidate-parents
+          (or use-candidate-parents
+              (let [filtered
+                    (->>
+                     (:grammar model)
+                     (map (fn [rule]
+                            (let [result (unify rule spec)]
+                              (cond (= :fail result)
+                                    (log/debug (str "rule:" (:rule rule)
+                                                    " => "
+                                                    "FAIL between:"
+                                                    (:rule rule)
+                                                    " and: "
+                                                    (strip-refs spec)
+                                                    "; fail path:"
+                                                    (dag_unify.core/fail-path
+                                                     rule
+                                                     spec)))
+                                    true
+                                    (log/debug (str "rule:" (:rule rule)
+                                                    " => "
+                                                    "OK")))
+                              result)))
+                     (filter #(not (= :fail %)))
+                     (shufflefn))]
+                (if (empty? filtered)
+                  (log/debug (str "no rules found for spec:"
+                                  (dag_unify.core/strip-refs spec)
+                                  " at depth: " depth)))
+                filtered))]
       (if (not (empty? candidate-parents))
         (let [candidate-parent (first candidate-parents)]
+          (log/debug (str "creating bolts with: "
+                          (:rule candidate-parent)
+                          " and spec: " (dag_unify.core/strip-refs
+                                         (get-in candidate-parent [:head]))))
           (lazy-cat
            (->> (lightning-bolts model
                                  (get-in candidate-parent [:head])
@@ -208,11 +229,15 @@
                 (map (fn [head]
                        (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))
-        (do
-          (log/debug (str "no rules found at depth: " depth " for spec: "
-                          (dag_unify.core/strip-refs spec)))
-          candidate-parents)))
-    (shufflefn (get-lexemes model spec))))
+        []))
+    (let [lexemes
+          (shufflefn (get-lexemes model spec))]
+      (if (empty? lexemes)
+        (log/debug (str "lightning-bolts: no lexemes at depth: " depth
+                        " for spec: " (dag_unify.core/strip-refs spec)))
+        (log/debug (str "lightning-bolts: one or more lexemes at depth: " depth
+                        " for spec: " (dag_unify.core/strip-refs spec))))
+      lexemes)))
 
 (defn add-comps-to-bolt
   "bolt + paths => trees"

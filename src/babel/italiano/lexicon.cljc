@@ -226,7 +226,7 @@
        ;; remove the second argument and semantic object to make verbs intransitive,
        ;; if it is {:cat :verb} and {:allow-intransitive true}, etc.
 
-       ;; if condition:
+       ;; if verb allows intransitivization:
        {:allow-intransitivize true
         :synsem {:cat :verb
                  :aux false
@@ -234,7 +234,7 @@
                        :reflexive false}
                  :subcat {:2 {:cat :noun}
                           :3 []}}}
-       ;; then condition:
+       ;; then create new intransitive entry:
        (fn [lexeme]
          (unify (dissoc-paths lexeme [[:synsem :sem :obj]
                                       [:synsem :subcat :2]

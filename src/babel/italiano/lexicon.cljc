@@ -168,7 +168,6 @@
       ;; </noun default rules>            
 
       ;; <verb default rules>
-
       (default (let [cat (atom :verb)
                      agr (atom :top)
                      essere (atom :top)

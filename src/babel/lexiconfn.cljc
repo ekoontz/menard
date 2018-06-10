@@ -628,21 +628,18 @@
 (defn new-entries [lexicon unify-with
                    modify-with]
   "similar to (default), but add new entries"
-  (do
-    (log/debug (str "new entries!"))
-    (map-function-on-map-vals
-     lexicon
-     (fn [k vals]
-       (concat
-        vals
-        (remove fail? 
-                (map (fn [lexeme]
-                       (do
-                         (log/trace (str "new-entries lexeme: "
-                                         (dag_unify.core/strip-refs
-                                          lexeme)))
-                         (modify-with (unify unify-with lexeme))))
-                     vals)))))))
+  (map-function-on-map-vals
+   lexicon
+   (fn [k vals]
+     (concat
+      vals
+      (remove fail? 
+              (map (fn [lexeme]
+                     (let [result (unify unify-with lexeme)]
+                       (if (not (= :fail result))
+                         (modify-with (unify unify-with lexeme))
+                         :fail)))
+                   vals))))))
 
 (defn if-has [lexicon path value-at-path unify-with]
   (map-function-on-map-vals

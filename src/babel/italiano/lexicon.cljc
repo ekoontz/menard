@@ -231,14 +231,23 @@
                        :reflexive false}
                  :subcat {:2 {:cat :noun}
                           :3 []}}}
+       ;; this is the 'modify-with' function that
+       ;; (new-entries) will apply to each lexeme.
        (fn [lexeme]
          (do
+           (if (= :fail lexeme)
+             (throw (babel.exception/exception (str "input to (fn [lexeme]) was :fail."))))
+           (log/info (str "modify-with input: "
+                          (dag_unify.core/strip-refs lexeme)))
            (let [result
                  (dissoc-paths lexeme [[:synsem :sem :obj]
                                        [:synsem :subcat :2]])]
+             (log/info (str "intransitivize lexeme: "
+                            (dag_unify.core/strip-refs lexeme)))
              (log/info (str "intransitivize pre-result: "
                             (dag_unify.core/strip-refs result)))
              result))))
+      
 
       (default ;; reflexive defaults to false..
        {:synsem {:cat :verb

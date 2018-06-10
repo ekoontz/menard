@@ -137,7 +137,6 @@
      :note "avere (possess)"
      :synsem {:sem {:pred :have}
               :subcat {:2 {:reflexive false
-                           :foo 42
                            :sem {:human false}}}}}
 
     ;; 2. "avere": to be in a familial or social relation with:

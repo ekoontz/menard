@@ -205,7 +205,8 @@
                         :case :acc
                         :agr {:person :1st
                               :number :sing}
-                        :sem {:human true}}
+                        :sem {:human true
+                              :pred :I}}
                :italiano {:initial true}}]
    [{:unify [common]
      :synsem {:reflexive true}}
@@ -262,7 +263,8 @@
                         :case :acc
                         :agr {:person :2nd
                               :number :sing}
-                        :sem {:human true}}
+                        :sem {:human true
+                              :pred :tu}}
                :italiano {:initial true}}]
    [{:unify [common]
      :synsem {:reflexive true}}

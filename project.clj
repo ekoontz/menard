@@ -1,4 +1,4 @@
-(defproject babel "3.0.8-SNAPSHOT"
+(defproject babel "3.1.0-SNAPSHOT"
   :description "A library for natural language generation and parsing"
   :url "http://github.com/ekoontz/babel"
   :license {:name "Eclipse Public License"

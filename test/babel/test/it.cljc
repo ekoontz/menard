@@ -844,8 +844,6 @@
                                                              :person :2nd}}
                                               :modified false
                                               :root {:italiano {:italiano "fornire"}}})))))
-
-
 (deftest present-progressive-reflexive
   (is (= "loro si stanno addormentando"
          (-> {:synsem {:cat :verb

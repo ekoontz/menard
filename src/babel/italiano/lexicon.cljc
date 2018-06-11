@@ -97,7 +97,7 @@
                  :propernoun true
                  :agr {:number :sing
                        :person :3rd}}})
-      
+
       (default  ;; pronouns are non-reflexive by default...
        {:synsem {:cat :noun
                  :pronoun true

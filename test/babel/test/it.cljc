@@ -855,8 +855,8 @@
                              :subj {:pred :loro}}}
               :modified false
               :root {:italiano {:italiano "addormentarsi"}}}
-             morph
-             generate))))
+             generate
+             morph))))
 
 (defn generate-speed-test [spec & [times]]
   (btest/generate-speed-test spec model times))

@@ -868,12 +868,13 @@
 (deftest io-lo-vedo
   (is (= "io lo vedo"
          (let [spec
-               {:modified false,
-                :synsem {:cat :verb,
-                         :subcat [],
-                         :sem {:pred :see,
-                               :tense :present,
-                               :subj {:pred :I},
+               {:modified false
+                :synsem {:cat :verb
+                         :subcat []
+                         :sem {:pred :see
+                               :tense :present
+                               :aspect :simple
+                               :subj {:pred :I}
                                :obj {:pred :lui}}}}]
            (-> spec
                generate
@@ -882,12 +883,13 @@
 (deftest tu-mi-vedi
   (is (= "tu mi vedi"
          (let [spec
-               {:modified false,
-                :synsem {:cat :verb,
-                         :subcat [],
-                         :sem {:pred :see,
-                               :tense :present,
-                               :subj {:pred :tu},
+               {:modified false
+                :synsem {:cat :verb
+                         :subcat []
+                         :sem {:pred :see
+                               :tense :present
+                               :aspect :simple
+                               :subj {:pred :tu}
                                :obj {:pred :I}}}}]
            (-> spec
                generate

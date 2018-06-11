@@ -198,4 +198,3 @@
   (load "babel/italiano")
   (in-ns 'babel.italiano)
   (test-cm))
-

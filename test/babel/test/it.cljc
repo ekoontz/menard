@@ -864,3 +864,32 @@
                                  :sem {:reflexive true
                                        :tense :present
                                        :aspect :perfect}}}))
+
+(deftest io-lo-vedo
+  (is (= "io lo vedo"
+         (let [spec
+               {:modified false,
+                :synsem {:cat :verb,
+                         :subcat [],
+                         :sem {:pred :see,
+                               :tense :present,
+                               :subj {:pred :I},
+                               :obj {:pred :lui}}}}]
+           (-> spec
+               generate
+               morph)))))
+
+(deftest tu-mi-vedi
+  (is (= "tu mi vedi"
+         (let [spec
+               {:modified false,
+                :synsem {:cat :verb,
+                         :subcat [],
+                         :sem {:pred :see,
+                               :tense :present,
+                               :subj {:pred :tu},
+                               :obj {:pred :I}}}}]
+           (-> spec
+               generate
+               morph)))))
+

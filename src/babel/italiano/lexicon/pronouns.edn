@@ -254,7 +254,6 @@
                  :cat :noun
                  :pronoun true
                  :reflexive true}}]
- 
  "ti"
  ;; TODO: all accusative pronouns should have this reflexive/non-reflexive duality
  ;; (pretty sure, but confirm with Harrap grammar book).

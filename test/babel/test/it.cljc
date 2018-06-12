@@ -39,16 +39,6 @@
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
-(defn tiny-model []
-  (let [lexicon (babel.lexiconfn/read-lexicon "it")]
-    (babel.italiano.grammar/model-plus-lexicon
-     lexicon (fn [rule]
-               (do
-                 (log/info (str "THE RULE IS: " (:rule rule)))
-                 (or
-                  (= (:rule rule)
-                     "s-present-nonphrasal")))))))
-
 ;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
 (defn generate
   ([spec]
@@ -894,4 +884,26 @@
            (-> spec
                generate
                morph)))))
+
+(defn tiny-model []
+  (babel.italiano.grammar/model-plus-lexicon
+   ;; filtered lexicon:
+   (into {}
+         (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
+           (let [filtered-lexemes
+                 (filter (fn [lexeme]
+                           (or (= k "vedere")
+                               (and (= (get-in lexeme [:synsem :cat])
+                                       :noun)
+                                    (= (get-in lexeme [:synsem :pronoun])
+                                       true))))
+                         lexemes)]
+             [k filtered-lexemes])))
+
+   ;; filtered grammar:
+   (fn [rule]
+     (or (= (:rule rule)
+            "s-present-phrasal")
+         (= (:rule rule)
+            "vp-pronoun-nonphrasal")))))
 

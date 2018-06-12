@@ -898,7 +898,8 @@
                                     (= (get-in lexeme [:synsem :pronoun])
                                        true))))
                          lexemes)]
-             [k filtered-lexemes])))
+             (if (not (empty? filtered-lexemes))
+               [k filtered-lexemes]))))
 
    ;; filtered grammar:
    (fn [rule]

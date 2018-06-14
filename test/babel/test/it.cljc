@@ -273,8 +273,8 @@
         ;; Change the above generic noun-phrase spec to something more specific
         ;; if this test fails and you want to investigate why:
         ;; 1. To prevent adjectives, use: [:synsem :sem :mod]=[].
-        ;; 2. Possible values of [:synsem :sem :spec :def] are: {:def, :indef, :partitivo, possessive}
-        
+        ;; 2. Possible values of [:synsem :sem :spec :def] are:
+        ;;    {:def, :indef, :partitivo, possessive}.
         expressions (take do-this-many
                           (repeatedly #(italiano/generate
                                         spec @np-grammar)))]

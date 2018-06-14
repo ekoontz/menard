@@ -107,307 +107,251 @@
 
 (declare get-string)
 
-;; TODO: this is an overly huge method that needs to be
-;; reimplemented: instead, add a ':g' to: babel.italiano.morphology.nouns/patterns.
+;; TODO: this is an overly huge method.
+;; reimplemented: instead,
+;; add a ':g' to: babel.italiano.morphology.nouns/patterns.
 (defn get-string-1 [word]
-  (let [person (get-in word [:agr :person])
-        number (get-in word [:agr :number])]
-    (cond
-      (and (string? (get-in word [:a]))
-           (string? (get-in word [:b])))
-      (get-string (get-in word [:a])
-                  (get-in word [:b]))
-      (and (string? (get-in word [:a]))
-           (map? (get-in word [:b])))
-      (get-string (get-in word [:a])
-                  (get-in word [:b]))
-      (and (map? (get-in word [:a]))
-           (map? (get-in word [:b])))
-      (get-string
-       (get-string (get-in word [:a]))
-       (get-string (get-in word [:b])))
+  (cond
+    (and (map? (get-in word [:a]))
+         (map? (get-in word [:b])))
+    (string/join " " [(get-string-1 (get-in word [:a]))
+                      (get-string-1 (get-in word [:b]))])
 
-      (= :verb (get-in word [:cat]))
-      (let [conjugated (verbs/conjugate word)]
-        (if (or (nil? conjugated) (empty? conjugated))
-          (do
-            (log/debug (str "failed to conjugate: "
-                            (dag_unify.core/strip-refs word)))
-            "..")
-          conjugated))
-
-      ;; TODO: this rule is pre-empting all of the following rules
-      ;; that look in :a and :b. Either remove those following rules
-      ;; if they are redundant and not needed, or move this general rule
-      ;; below the following rules.
-      (and (not (= :none (get-in word [:a] :none)))
-           (not (= :none (get-in word [:b] :none))))
-      (get-string (get-in word [:a])
-                  (get-in word [:b]))
-
-      (and
-       (string? (get-in word '(:a :italiano)))
-       (string? (get-in word '(:b :italiano)))
-       (or (= :none (get-in word '(:b :agr :number) :none))
-           (= :top (get-in word '(:b :agr :number) :none)))
-       )
-      (str (string/trim (get-in word '(:a :italiano)))
-           " "
-           (string/trim (get-in word '(:b :italiano))))
-      (and
-       (string? (get-in word [:a]))
-       (string? (get-in word '(:b :italiano)))
-       (or (= :none (get-in word '(:b :agr :number) :none))
-           (= :top (get-in word '(:b :agr :number) :none)))
-       )
-      (str (string/trim (get-in word [:a]))
-           " "
-           (string/trim (get-in word '(:b :italiano))))
-      (and
-       (string? (get-in word '(:a :italiano)))
-       (get-in word '(:a :italiano))
-       (or (= :none (get-in word '(:b :agr :number) :none))
-           (= :top (get-in word '(:b :agr :number) :none)))
-       (= (get-in word '(:a :infl)) :top))
-      (string/trim (str (get-in word '(:a :italiano))
-                        " " (get-string-1 (get-in word [:b]))))
-
-      ;; TODO: all of the rules that handle exceptions should be removed:
-      ;; exceptions are dealt with at compile-time now, via babel.italiano.morphology/exception-generator
-
-      ;; handle lexical exceptions (plural feminine adjectives):
-      (and
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:cat)) :adjective)
-       (string? (get-in word '(:fem :plur))))
-      (get-in word '(:fem :plur))
-
-      ;; handle lexical exceptions (plural feminine adjectives):
-      (and
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:cat)) :adjective)
-       (string? (get-in word '(:fem :plur))))
-      (get-in word '(:fem :plur))
-
-      ;; handle lexical exceptions (plural masculine adjectives):
-      (and
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:agr :gender)) :masc)
-       (= (get-in word '(:cat)) :adjective)
-       (string? (get-in word '(:masc :plur))))
-      (get-in word '(:masc :plur))
-
-      ;; <regular adjective morphology rules>
-      (and
-       (string? (get-in word [:italiano]))
-       (or (= (get-in word [:agr :gender]) :masc)
-           (= (get-in word [:agr :gender]) :top))
-       (= (get-in word [:agr :number]) :plur)
-       (= (get-in word [:cat]) :adjective))
-      (string/replace (get-in word '[:italiano])
-                      #"[eo]$" "i") ;; nero => neri
-      
-      (and
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :adjective)
-       (re-find #"o$" (get-in word [:italiano])))
-      (string/replace (get-in word [:italiano])
-                      #"[o]$" "e") ;; nero => nere
-      (and
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :adjective)
-       (re-find #"e$" (get-in word [:italiano])))
-      (string/replace (get-in word [:italiano])
-                      #"[e]$" "i") ;; difficile => difficili
-      ;; </regular adjective morphology rules>
-      
-      ;; handle lexical exceptions (plural nouns):
-      (and
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :noun)
-       (string? (get-in word '(:plur))))
-      (get-in word '(:plur))
-
-      ;; regular masculine nouns.
-      ;; dottore => dottori; medico => medici
-      ;; note the 'i?': figlio => figli, not *figlii.
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :masc)
-       (= (get-in word '(:agr :number)) :plur)
-       (= :noun (get-in word '(:cat)))
-       (not (= true (get-in word '(:pronoun))))
-       (get-in word [:italiano]))
-      (string/replace (get-in word [:italiano])
-                      #"i?[eo]$" "i")
-
-      ;; regular feminine nouns ending in 'e':
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :noun)
-       (get-in word [:italiano])
-       (re-find #"e$" (get-in word [:italiano])))
-      (string/replace (get-in word [:italiano])
-                      #"[e]$" "i") ;; madre => madri
-      
-      ;; regular feminine nouns ending in 'ca':
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :noun)
-       (re-find #"c[aà]$" (get-in word [:italiano])))
-      (string/replace (get-in word [:italiano])
-                      #"c[aà]$" "che") ;; mucca => mucche
-
-      ;; regular feminine nouns *not* ending in 'e':
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :noun))
-      (string/replace (get-in word [:italiano])
-                      #"[aà]$" "e") ;; donna => donne
-
-      ;; TODO: move this down to other adjectives.
-      ;; this was moved up here to avoid
-      ;; another rule from matching it.
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :plur)
-       (= (get-in word '(:cat)) :adjective))
-      (string/replace (get-in word [:italiano])
-                      #"[eo]$" "e") ;; nero => nere
-
-      ;; TODO: move this down to other adjectives.
-      ;; this was moved up here to avoid
-      ;; another rule from matching it.
-      ;; exceptional feminine singular adjectives
-      (and
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :sing)
-       (= (get-in word '(:cat)) :adjective)
-       (string? (get-in word '(:fem :sing))))
-      (get-in word '(:fem :sing))
-
-      ;; TODO: move this down to other adjectives.
-      ;; this was moved up here to avoid
-      ;; another rule from matching it.
-      ;; regular feminine singular adjectives
-      (and
-       (string? (get-in word [:italiano]))
-       (= (get-in word '(:agr :gender)) :fem)
-       (= (get-in word '(:agr :number)) :sing)
-       (= (get-in word '(:cat)) :adjective))
-      (string/replace (get-in word [:italiano])
-                      #"[eo]$" "a") ;; nero => nera
-     
-      (and (= :infinitive (get-in word '(:infl)))
-           (string? (get-in word [:italiano])))
-      (get-in word [:italiano])
-
-      (and
-       (get-in word [:a])
-       (get-in word [:b]))
-      (str
-       (trim (get-string-1 (get-in word [:a]))) " "
-       (trim (get-string-1 (get-in word [:b]))))
-     
-     (and
-      (string? (get-in word [:italiano]))
-      (= :top (get-in word '(:agr :sing) :top)))
-     (str (get-in word [:italiano]))
-
-     ;; TODO: possibly remove this: not sure it's doing anything.
-     (= true (get-in word [:exception]))
-     (get-in word [:italiano])
-
-     (= (get-in word '(:infl)) :top)
-     (str (get-in word [:italiano]))
-
-     (and
-      (get-in word [:a])
-      (get-in word [:b]))
-     (get-string
-      (get-in word [:a])
-      (get-in word [:b]))
-
-     (= (get-in word [:a]) :top)
-     (str
-      ".." " " (get-string-1 (get-in word [:b])))
-
-     (and
-      (= (get-in word [:b]) :top)
-      (string? (get-string-1 (get-in word [:a]))))
-     (str
-      (get-string-1 (get-in word [:a]))
-      " " "..")
-
-     (and
-      (= (get-in word [:b]) :top)
-      (string? (get-in word '(:a :italiano))))
-     (str
-      (get-string-1 (get-in word '(:a :italiano)))
-      " " "..")
-
-     (and
-      (= (get-in word '(:agr :gender)) :fem)
-      (= (get-in word '(:agr :number)) :sing)
-      (= (get-in word '(:cat)) :noun))
-     (get-in word [:italiano])
-
-     (and
-      (= (get-in word '(:agr :gender)) :masc)
-      (= (get-in word '(:agr :number)) :sing)
-      (= (get-in word '(:cat) :adjective)))
-     (get-in word [:italiano]) ;; nero
-
-     (and
-      (= (get-in word '(:agr :gender)) :masc)
-      (= (get-in word '(:agr :number)) :plur)
-      (= (get-in word '(:cat)) :adjective)
-      ;; handle lexical exceptions.
-      (string? (get-in word '(:masc :plur))))
-     (get-in word '(:masc :plur))
-
-     (and
-      (= (get-in word '(:agr :gender)) :fem)
-      (= (get-in word '(:agr :number)) :plur)
-      (= (get-in word '(:cat)) :adjective)
-      ;; handle lexical exceptions.
-      (string? (get-in word '(:fem :plur))))
-     (get-in word '(:fem :plur))
-     
+    (= :verb (get-in word [:cat]))
+    (let [conjugated (verbs/conjugate word)]
+      (if (or (nil? conjugated) (empty? conjugated))
+        (let [message (str "failed to conjugate verb: "
+                           (dag_unify.core/strip-refs word))
+              pprint (println (clojure.pprint/pprint (dag_unify.core/strip-refs word)))]
+          (log/error message
+                     (throw (Exception. message))))
+        conjugated))
+    
+    (and (not (= ::none (get-in word [:a] ::none)))
+         (not (= ::none (get-in word [:b] ::none))))
+    (get-string (get-in word [:a])
+                (get-in word [:b]))
+    
+    ;; TODO: all of the rules that handle exceptions should be removed:
+    ;; exceptions are dealt with at compile-time now, via babel.italiano.morphology/exception-generator
+    
+    ;; handle lexical exceptions (plural feminine adjectives):
+    (and
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:cat)) :adjective)
+     (string? (get-in word '(:fem :plur))))
+    (get-in word '(:fem :plur))
+    
+    ;; handle lexical exceptions (plural feminine adjectives):
+    (and
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:cat)) :adjective)
+     (string? (get-in word '(:fem :plur))))
+    (get-in word '(:fem :plur))
+    
+    ;; handle lexical exceptions (plural masculine adjectives):
+    (and
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:agr :gender)) :masc)
+     (= (get-in word '(:cat)) :adjective)
+     (string? (get-in word '(:masc :plur))))
+    (get-in word '(:masc :plur))
+    
+    ;; <regular adjective morphology rules>
+    (and
      (string? (get-in word [:italiano]))
+     (or (= (get-in word [:agr :gender]) :masc)
+         (= (get-in word [:agr :gender]) :top))
+     (= (get-in word [:agr :number]) :plur)
+     (= (get-in word [:cat]) :adjective))
+    (string/replace (get-in word '[:italiano])
+                    #"[eo]$" "i") ;; nero => neri
+    
+    (and
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :adjective)
+     (re-find #"o$" (get-in word [:italiano])))
+    (string/replace (get-in word [:italiano])
+                    #"[o]$" "e") ;; nero => nere
+    (and
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :adjective)
+     (re-find #"e$" (get-in word [:italiano])))
+    (string/replace (get-in word [:italiano])
+                    #"[e]$" "i") ;; difficile => difficili
+    ;; </regular adjective morphology rules>
+    
+    ;; handle lexical exceptions (plural nouns):
+    (and
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :noun)
+     (string? (get-in word '(:plur))))
+    (get-in word '(:plur))
+    
+    ;; regular masculine nouns.
+    ;; dottore => dottori; medico => medici
+    ;; note the 'i?': figlio => figli, not *figlii.
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :masc)
+     (= (get-in word '(:agr :number)) :plur)
+     (= :noun (get-in word '(:cat)))
+     (not (= true (get-in word '(:pronoun))))
+     (get-in word [:italiano]))
+    (string/replace (get-in word [:italiano])
+                    #"i?[eo]$" "i")
+    
+    ;; regular feminine nouns ending in 'e':
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :noun)
      (get-in word [:italiano])
-
-     (or
-      (not (= :none (get-in word [:a] :none)))
-      (not (= :none (get-in word [:b] :none))))
-     (get-string (get-in word [:a])
-                 (get-in word [:b]))
-
-     (and (map? word)
-          (nil? (:italiano word)))
-     ".."
-
-     (or
-      (= (get-in word '(:case)) {:not :acc})
-      (= (get-in word '(:agr)) :top))
-     ".."
-
-     ;; TODO: throw exception rather than returning _word_, which is a map or something else unprintable.
-     ;; in other words, if we've gotten this far, it's a bug.
-     :else
-     word)
-    ))
+     (re-find #"e$" (get-in word [:italiano])))
+    (string/replace (get-in word [:italiano])
+                    #"[e]$" "i") ;; madre => madri
+    
+    ;; regular feminine nouns ending in 'ca':
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :noun)
+     (re-find #"c[aà]$" (get-in word [:italiano])))
+    (string/replace (get-in word [:italiano])
+                    #"c[aà]$" "che") ;; mucca => mucche
+    
+    ;; regular feminine nouns *not* ending in 'e':
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :noun))
+    (string/replace (get-in word [:italiano])
+                    #"[aà]$" "e") ;; donna => donne
+    
+    ;; TODO: move this down to other adjectives.
+    ;; this was moved up here to avoid
+    ;; another rule from matching it.
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :adjective))
+    (string/replace (get-in word [:italiano])
+                    #"[eo]$" "e") ;; nero => nere
+    
+    ;; TODO: move this down to other adjectives.
+    ;; this was moved up here to avoid
+    ;; another rule from matching it.
+    ;; exceptional feminine singular adjectives
+    (and
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :sing)
+     (= (get-in word '(:cat)) :adjective)
+     (string? (get-in word '(:fem :sing))))
+    (get-in word '(:fem :sing))
+    
+    ;; TODO: move this down to other adjectives.
+    ;; this was moved up here to avoid
+    ;; another rule from matching it.
+    ;; regular feminine singular adjectives
+    (and
+     (string? (get-in word [:italiano]))
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :sing)
+     (= (get-in word '(:cat)) :adjective))
+    (string/replace (get-in word [:italiano])
+                    #"[eo]$" "a") ;; nero => nera
+    
+    (and (= :infinitive (get-in word '(:infl)))
+         (string? (get-in word [:italiano])))
+    (get-in word [:italiano])
+    
+    (and
+     (get-in word [:a])
+     (get-in word [:b]))
+    (str
+     (trim (get-string-1 (get-in word [:a]))) " "
+     (trim (get-string-1 (get-in word [:b]))))
+    
+    (and
+     (string? (get-in word [:italiano]))
+     (= :top (get-in word '(:agr :sing) :top)))
+    (str (get-in word [:italiano]))
+    
+    ;; TODO: possibly remove this: not sure it's doing anything.
+    (= true (get-in word [:exception]))
+    (get-in word [:italiano])
+    
+    (= (get-in word '(:infl)) :top)
+    (str (get-in word [:italiano]))
+    
+    (and
+     (get-in word [:a])
+     (get-in word [:b]))
+    (get-string
+     (get-in word [:a])
+     (get-in word [:b]))
+    
+    (= (get-in word [:a]) :top)
+    (str
+     ".." " " (get-string-1 (get-in word [:b])))
+    
+    (and
+     (= (get-in word [:b]) :top)
+     (string? (get-string-1 (get-in word [:a]))))
+    (str
+     (get-string-1 (get-in word [:a]))
+     " " "..")
+    
+    (and
+     (= (get-in word [:b]) :top)
+     (string? (get-in word '(:a :italiano))))
+    (str
+     (get-string-1 (get-in word '(:a :italiano)))
+     " " "..")
+    
+    (and
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :sing)
+     (= (get-in word '(:cat)) :noun))
+    (get-in word [:italiano])
+    
+    (and
+     (= (get-in word '(:agr :gender)) :masc)
+     (= (get-in word '(:agr :number)) :sing)
+     (= (get-in word '(:cat) :adjective)))
+    (get-in word [:italiano]) ;; nero
+    
+    (and
+     (= (get-in word '(:agr :gender)) :masc)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :adjective)
+     ;; handle lexical exceptions.
+     (string? (get-in word '(:masc :plur))))
+    (get-in word '(:masc :plur))
+    
+    (and
+     (= (get-in word '(:agr :gender)) :fem)
+     (= (get-in word '(:agr :number)) :plur)
+     (= (get-in word '(:cat)) :adjective)
+     ;; handle lexical exceptions.
+     (string? (get-in word '(:fem :plur))))
+    (get-in word '(:fem :plur))
+    
+    (string? (get-in word [:italiano]))
+    (get-in word [:italiano])
+    
+    ;; TODO: throw exception rather than returning _word_, which is a map or something else unprintable.
+    ;; in other words, if we've gotten this far, it's a bug.
+    :else
+    word))
 
 ;; TODO: replace 'a' and 'b' with 'left' and 'right' for clarity.
 ;; TODO: make b required so that function is easier to understand and refactor.

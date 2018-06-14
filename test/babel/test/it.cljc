@@ -908,3 +908,15 @@
          (= (:rule rule)
             "vp-pronoun-nonphrasal")))))
 
+(defn test-tiny-model []
+  (let [spec {:modified false,
+              :synsem {:cat :verb, :subcat [],
+                       :sem {:pred :see,
+                             :tense :present,
+                             :aspect :simple
+                             :obj {:spec :top}}}}
+        tm (tiny-model)]
+    (repeatedly #(println (morph (time (generate spec tm)))))))
+
+
+    

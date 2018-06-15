@@ -23,8 +23,8 @@
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
 (def patterns
-  [[#"(c)i ([eè])"      "$1'$2"]  ;; ci è -> c'è
-   [#"l[ao] ([aeiouh])" "l'$1"]   ;; io la ho visto-> l'ho visto
+  [[#"\b(c)i ([eè])"      "$1'$2"]  ;; ci è -> c'è
+   [#"\bl[ao] ([aeiouh])" "l'$1"]   ;; io la ho visto-> l'ho visto
    ])
 
 ;; TODO: move this to morphology/prepositions.edn,

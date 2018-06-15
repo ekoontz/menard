@@ -22,6 +22,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
+(def patterns [[#"(c)[i] è" "$1'è"]])
+
 ;; TODO: move this to morphology/prepositions.edn,
 ;; following example in morphology/determiners.edn.
 (defonce preposition-plus-article

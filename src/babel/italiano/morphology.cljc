@@ -446,35 +446,7 @@
        :b (if (nil? b) :top b)})))
 
 (defn fo [input]
-  (cond 
-
-   (= input :fail)
-   (str input)
-
-   (string? input)
-   input
-
-   (:italiano input)
-   ;; get-string should always return a string, but sometimes it (incorrectly) does not (FIXME)
-   (string/trim (str (get-string (get-in input [:italiano]))))
-   
-   (and (map? input)
-        (get-in input [:a])
-        (get-in input [:b]))
-   (str (string/join " " 
-                     (list (fo (get-in input [:a]))
-                           (get-in input [:punctuation :middle])
-                           (fo (get-in input [:b])))))
-                     
-   (or (seq? input)
-       (vector? input))
-   (str "(" (string/join " , " 
-                         (remove #(= % "")
-                                 (map #(let [f (fo %)] (if (= f "") "" (str "" f ""))) input)))
-        ")")
-
-   true
-   ""))
+  (get-string (get-in input [:italiano])))
 
 (defonce ppa-tokens-to-surface
   (map (fn [pair]

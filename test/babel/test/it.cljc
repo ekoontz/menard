@@ -180,9 +180,9 @@
 
 ;; this should succeed to parse...
 (deftest passato-prossimo-parsing-positive
-  (let [result (:parses (first (parse "lei è andata")))]
+  (let [result (-> "lei è andata" parse first :parses)]
     (is (not (empty? result)))
-    (is (= "lei è andata") (morph (first (:parses (first result)))))))
+    (is (= "lei è andata") (morph (first result)))))
 
 ;; ..whereas this should fail - that is, there
 ;; should be no parses found, i.e. (= 0 (count parses))

@@ -54,7 +54,7 @@
                       true result))
          result (generate/generate spec model)]
      (if result
-       (conj {:surface #(get-string (get-in % [:italiano]))}
+       (conj {:surface (get-string (get-in result [:italiano]))}
              result)))))
 
 (defn an-example []

@@ -22,7 +22,10 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-(def patterns [[#"(c)[i] è" "$1'è"]])
+(def patterns
+  [[#"(c)i ([eè])"      "$1'$2"]  ;; ci è -> c'è
+   [#"l[ao] ([aeiouh])" "l'$1"]   ;; io la ho visto-> l'ho visto
+   ])
 
 ;; TODO: move this to morphology/prepositions.edn,
 ;; following example in morphology/determiners.edn.
@@ -375,18 +378,6 @@
     (cond
       applied-determiner-rules
       determiner-rules-result
-
-      (and (= a "ci")
-           (string? b)
-           (re-find #"^[eè]" b))
-      (str "c'" b)
-      
-      ;; handle e.g. "io lo ho visto" => "io l'ho visto"
-      (and (string? a)
-           (re-find #"^l[ao]$" a)
-           (string? b)
-           (re-find #"^[aeiouh]" b))
-      (str "l'" b)
       
       ;; 4) handle e.g. "aiutari + ti" => "aiutarti"
       (and (string? a)

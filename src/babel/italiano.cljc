@@ -4,7 +4,7 @@
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
-   [babel.italiano.morphology :as morph :refer [get-string]]
+   [babel.italiano.morphology :as morph :refer [get-string patterns]]
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
@@ -21,8 +21,13 @@
                           show-notes true}}]
   ;; modeled after babel.english/morph:
   ;; most arguments are simply discarded for italian.
-  (get-string (get-in expr [:italiano])))
-
+  (->
+   (get-string (get-in expr [:italiano]))
+   ((fn [surface-string]
+      (reduce (fn [str [from to]] (string/replace str from to))
+              (cons surface-string patterns))))
+   (string/trim)))
+    
 (defn morph-ps [expr model & {:keys [from-language show-notes]
                      :or {from-language nil
                           show-notes true}}]

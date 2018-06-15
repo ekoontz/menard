@@ -16,7 +16,6 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
-;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
                           show-notes true}}]

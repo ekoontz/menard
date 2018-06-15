@@ -174,9 +174,9 @@
     (is (= "io mi ero addormentata" (morph result)))))
 
 (deftest parse-ci-before-vowel
-  (let [result (:parses (first (parse "c'è stato")))]
+  (let [result (-> "c'è stato" parse first :parses)]
     (is (not (empty? result)))
-    (is (= "c'è stato") (morph (first (:parses (first result)))))))
+    (is (= "c'è stato") (morph (first result)))))
 
 ;; this should succeed to parse...
 (deftest passato-prossimo-parsing-positive

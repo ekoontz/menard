@@ -4,7 +4,7 @@
    [babel.generate :as generate :refer [lightning-bolts]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
-   [babel.italiano.morphology :as morph :refer [fo]]
+   [babel.italiano.morphology :as morph :refer [get-string]]
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
@@ -22,7 +22,7 @@
                           show-notes true}}]
   ;; modeled after babel.english/morph:
   ;; most arguments are simply discarded for italian.
-  (fo expr))
+  (get-string (get-in expr [:italiano])))
 
 (defn morph-ps [expr model & {:keys [from-language show-notes]
                      :or {from-language nil
@@ -32,7 +32,7 @@
   (parse/fo-ps expr (:morph-ps model)))
 
 (defn fo-ps [expr]
-  (parse/fo-ps expr fo))
+  (parse/fo-ps expr #(get-string (get-in % [:italiano]))))
 
 (defn analyze
   "analyze a word: as opposed to parsing which is multi-word."
@@ -54,7 +54,7 @@
                       true result))
          result (generate/generate spec model)]
      (if result
-       (conj {:surface (fo result)}
+       (conj {:surface #(get-string (get-in % [:italiano]))}
              result)))))
 
 (defn an-example []

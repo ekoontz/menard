@@ -222,9 +222,9 @@
     (is (= "io mi chiamo Luisa" (morph result)))))
 
 (deftest parse-io-parlo
-  (let [result (:parses (first (parse "io parlo")))]
+  (let [result (-> "io parlo" parse first :parses)]
     (is (not (empty? result)))
-    (is (= "io parlo") (morph (first (:parses (first result)))))))
+    (is (= "io parlo" (-> result first morph)))))
         
 (deftest round-trip-1
   (let [expr (italiano/generate {:synsem {:subcat []

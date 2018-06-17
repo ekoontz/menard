@@ -97,17 +97,7 @@
  ;; TODO: add comparative
  {:synsem {:cat :adjective
            :sem {:pred :difficile
-                 :comparative false
-                 ;; "difficile" has a very specific list of things it can modify:
-                 :drinkable false
-                 :human false
-                 :animate false
-                 :buyable false
-                 :legible true
-                                        ;                             :activity true ;; TODO: cannot declare this as an activity because of some semantic implicature..
-                 :artifact true
-                 :physical-object true
-                 :edible false}}
+                 :comparative false}}
   :italiano {:fem {:sing "difficile"}}}
 
  "giallo"

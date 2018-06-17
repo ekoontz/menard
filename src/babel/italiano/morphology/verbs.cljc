@@ -88,8 +88,7 @@
         patterns-gerund
         patterns-imperfetto
         patterns-passato
-        patterns-present
-        patterns-subjunctive)))
+        patterns-present)))
 
 (defn regular-conditional [word]
   (let [unifying-patterns

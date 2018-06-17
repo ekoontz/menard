@@ -25,6 +25,15 @@
 (def patterns
   [[#"\b(c)i ([eè])"      "$1'$2"]  ;; ci è -> c'è
    [#"\bl[ao] ([aeiouh])" "l'$1"]   ;; io la ho visto-> l'ho visto
+
+   ;; <preposition+article>
+   [#"\ba il\b"           "al"]     ;; a il -> al
+   [#"\ba lo\b"           "allo"]
+   [#"\ba la\b"           "alla"]   ;; a la -> alla
+   [#"\ba l'\b"           "all'"] 
+   ;; TODO: add all of preposition-plus-article below.
+   ;;   [#"\b\b"               ""]       ;; ->
+   ;; </preposition+article>
    ])
 
 ;; TODO: move this to morphology/prepositions.edn,

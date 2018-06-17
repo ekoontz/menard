@@ -240,7 +240,7 @@
                                      :parses (parse (morph expr) @np-grammar))))))))
 
 (deftest forbid-mispelling
- (is (empty? (:parses (parse (morph "la donna difficila") @np-grammar)))))
+ (is (empty? (mapcat :parses (parse "la donna difficila" @np-grammar)))))
 
 (deftest generate-and-parse-noun-phrase-with-specifier
   ;; create a noun phrase where the determiner is "ventotto", but the head of the noun phrase
@@ -627,11 +627,11 @@
     (is (= (morph result) "io sono a casa"))))
 
 (deftest chiamarsi-1
-  (let [result (parse "io mi chiamo Luisa")]
+  (let [result (-> "io mi chiamo Luisa" parse)]
     (is (not (empty? (mapcat :parses result))))))
 
 (deftest chiamarsi-2
-  (let [result (parse "tu ti chiami Luisa")]
+  (let [result (-> "tu ti chiami Luisa" parse)]
     (is (not (empty? (mapcat :parses result))))))
 
 (deftest chiamarsi-3

@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze generate morph preprocess]]
+   [babel.italiano :as italiano :refer [analyze generate morph morph-ps parse preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lexicon]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
@@ -41,18 +41,6 @@
 
 
 ;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
-
-(defn parse
-  ([spec]
-   (italiano/parse spec model))
-  ([spec model]
-   (italiano/parse spec model)))
-
-(defn morph-ps [expr]
-  (italiano/morph-ps expr model))
-
-(defn fo-ps [expr]
-  (morph-ps expr))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

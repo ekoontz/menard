@@ -119,6 +119,9 @@
 
 (defn parse
   "parse a string in Italian into zero or more (hopefully more) phrase structure trees"
+  ([input]
+   (let [model @@(get babel.directory/models :it)]
+     (parse input model)))
   ([input model]
    (let [input (preprocess input)]
      (cond (string? input)

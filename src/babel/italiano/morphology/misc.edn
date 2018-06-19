@@ -1,0 +1,12 @@
+[{:g [#"\b(c)i ([eè])"      "$1'$2"]}  ;; ci è -> c'è
+ {:g [#"\bl[ao] ([aeiouh])" "l'$1"]}  ;; io la ho visto-> l'ho visto
+ ;; <preposition+article>
+ {:g [#"\ba il\b"           "al"]}     ;; a il -> al
+ {:g [#"\ba lo\b"           "allo"]}
+ {:g [#"\ba la\b"           "alla"]}  ;; a la -> alla
+ {:g [#"\ba l'\b"           "all'"]} 
+ ;; TODO: add all of preposition-plus-article below.
+ ;; </preposition+article>
+ ]
+
+

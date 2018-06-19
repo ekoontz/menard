@@ -8,6 +8,7 @@
             plural-to-singular-adj-fem-sing
             plural-to-singular-adj-fem-plur)]
    [babel.italiano.morphology.determiners :as determiners]
+   [babel.italiano.morphology.misc :as misc]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.italiano.morphology.nouns
     :refer (plural-to-singular-noun-fem-1
@@ -22,19 +23,11 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-(def patterns
-  [[#"\b(c)i ([eè])"      "$1'$2"]  ;; ci è -> c'è
-   [#"\bl[ao] ([aeiouh])" "l'$1"]   ;; io la ho visto-> l'ho visto
 
-   ;; <preposition+article>
-   [#"\ba il\b"           "al"]     ;; a il -> al
-   [#"\ba lo\b"           "allo"]
-   [#"\ba la\b"           "alla"]   ;; a la -> alla
-   [#"\ba l'\b"           "all'"] 
-   ;; TODO: add all of preposition-plus-article below.
-   ;;   [#"\b\b"               ""]       ;; ->
-   ;; </preposition+article>
-   ])
+;; TODO: move all patterns into here eventually.
+(defonce patterns
+  (map :g
+       (misc/compile-morphology)))
 
 ;; TODO: move this to morphology/prepositions.edn,
 ;; following example in morphology/determiners.edn.

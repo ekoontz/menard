@@ -28,12 +28,17 @@
               (cons surface-string patterns))))
    (string/trim)))
     
-(defn morph-ps [expr model & {:keys [from-language show-notes]
-                     :or {from-language nil
-                          show-notes true}}]
-  ;; modeled after babel.english/morph:
-  ;; most arguments are simply discarded for italian.
-  (parse/fo-ps expr (:morph-ps model)))
+(defn morph-ps
+  ([expr]
+   (let [model @@(get babel.directory/models :it)]
+     (morph-ps expr)))
+
+  ([expr model & {:keys [from-language show-notes]
+                  :or {from-language nil
+                       show-notes true}}]
+   ;; modeled after babel.english/morph:
+   ;; most arguments are simply discarded for italian.
+   (parse/fo-ps expr (:morph-ps model))))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr #(get-string (get-in % [:italiano]))))

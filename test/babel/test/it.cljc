@@ -22,15 +22,48 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
+;; TODO: move this from babel.test.it to babel.lexicon or similar.
 (btest/init-db)
 (log/info (str "recompiling and writing lexicon to database.."))
 (write-lexicon "it" (lexicon/compile-lexicon))
 (log/info (str "done."))
-(def model @@(get models :it))
 
 ;; TODO: consider removing special-purpose grammars like grammar/np-grammar
 ;; and just use model instead.
+;; TODO: create np-grammar here as we do with tiny-model (below).
 (def np-grammar (delay (grammar/np-grammar)))
+
+(defn generate-speed-test [spec & [times]]
+  (btest/generate-speed-test spec @@(get models :it) times))
+
+(defn run-passato-prossimo-test []
+  (generate-speed-test {:synsem {:cat :verb :subcat []
+                                 :sem {:reflexive true
+                                       :tense :present
+                                       :aspect :perfect}}}))
+(defn tiny-model []
+  (babel.italiano.grammar/model-plus-lexicon
+   ;; filtered lexicon:
+   (into {}
+         (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
+           (let [filtered-lexemes
+                 (filter (fn [lexeme]
+                           (or (= k "vedere")
+                               (and (= (get-in lexeme [:synsem :cat])
+                                       :noun)
+                                    (= (get-in lexeme [:synsem :pronoun])
+                                       true))))
+                         lexemes)]
+             (if (not (empty? filtered-lexemes))
+               [k filtered-lexemes]))))
+
+   ;; filtered grammar:
+   (fn [rule]
+     (or (= (:rule rule)
+            "s-present-phrasal")
+         (= (:rule rule)
+            "vp-pronoun-nonphrasal")))))
+
 
 (defmacro deftest [test-name & arguments]
   (let [wrapped-arguments
@@ -411,7 +444,7 @@
           (let [semantics (strip-refs
                            (get-in
                             (first
-                             (reduce concat (map :parses (parse surface model))))
+                             (reduce concat (map :parses (parse surface))))
                             [:synsem :sem]))]
             (is (map? semantics))))
         ["la sua ragazza"
@@ -431,7 +464,7 @@
         (repeatedly #(let [generated
                            (morph (generate {:synsem {:cat :verb
                                                       :subcat []}}))
-                           parsed (reduce concat (map :parses (parse generated model)))]
+                           parsed (reduce concat (map :parses (parse generated)))]
                        (log/info (str "generated: " generated))
                        (log/info (str "semantics: "
                                       (or
@@ -827,15 +860,6 @@
              generate
              morph))))
 
-(defn generate-speed-test [spec & [times]]
-  (btest/generate-speed-test spec model times))
-
-(defn run-passato-prossimo-test []
-  (generate-speed-test {:synsem {:cat :verb :subcat []
-                                 :sem {:reflexive true
-                                       :tense :present
-                                       :aspect :perfect}}}))
-
 (deftest io-lo-vedo
   (is (= "io lo vedo"
          (let [spec
@@ -866,38 +890,3 @@
                generate
                morph)))))
 
-(defn tiny-model []
-  (babel.italiano.grammar/model-plus-lexicon
-   ;; filtered lexicon:
-   (into {}
-         (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
-           (let [filtered-lexemes
-                 (filter (fn [lexeme]
-                           (or (= k "vedere")
-                               (and (= (get-in lexeme [:synsem :cat])
-                                       :noun)
-                                    (= (get-in lexeme [:synsem :pronoun])
-                                       true))))
-                         lexemes)]
-             (if (not (empty? filtered-lexemes))
-               [k filtered-lexemes]))))
-
-   ;; filtered grammar:
-   (fn [rule]
-     (or (= (:rule rule)
-            "s-present-phrasal")
-         (= (:rule rule)
-            "vp-pronoun-nonphrasal")))))
-
-(defn test-tiny-model []
-  (let [spec {:modified false,
-              :synsem {:cat :verb, :subcat [],
-                       :sem {:pred :see,
-                             :tense :present,
-                             :aspect :simple
-                             :obj {:spec :top}}}}
-        tm (tiny-model)]
-    (repeatedly #(println (morph (time (generate spec tm)))))))
-
-
-    

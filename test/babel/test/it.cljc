@@ -64,6 +64,23 @@
          (= (:rule rule)
             "vp-pronoun-nonphrasal")))))
 
+;; roundtrip parser testing
+(defn roundtrip-parsing [n]
+  (take n
+        (repeatedly #(let [generated
+                           (morph (generate {:synsem {:cat :verb
+                                                      :subcat []}}))
+                           parsed (reduce concat (map :parses (parse generated)))]
+                       (log/info (str "generated: " generated))
+                       (log/info (str "semantics: "
+                                      (or
+                                       (strip-refs
+                                        (get-in (first parsed)
+                                                [:synsem :sem]))
+                                       (str "NO PARSE FOUND FOR: " generated))))
+                       {:generated generated
+                        :pred (get-in (first parsed) [:synsem :sem :pred])
+                        :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
 
 (defmacro deftest [test-name & arguments]
   (let [wrapped-arguments
@@ -72,6 +89,56 @@
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
+(defn screen-out-false [m]
+  (->>
+   (dag_unify.core/paths m)
+   (filter #(let [v (dag_unify.core/get-in m %)]
+              (and (not (= false v))
+                   (not (map? v)))))
+   (map (fn [path]
+          [path (get-in m path)]))
+   (map (fn [[path v]]
+          (assoc-in {} path v)))
+   (reduce (fn [a b] (merge-with merge a b)))))
+
+(defn grab-bag []
+  (let [semantics (-> "io lo ho" parse first :parses
+                      first (dag_unify.core/get-in [:synsem :sem]))
+
+        semantics-any-subject
+        (dag_unify.core/dissoc-paths semantics [[:subj]])
+
+        semantics-any-object
+        (unify (dag_unify.core/dissoc-paths semantics [[:obj]])
+               {:obj {:pred :top}})]
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics)}}
+                   generate
+                   morph time
+                   println))))
+    (println "----")
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics-any-subject)}}
+                   generate
+                   morph time
+                   println))))
+
+    (println "----")
+    (count
+     (take 5 (repeatedly
+              #(-> {:synsem {:subcat []
+                             :cat :verb
+                             :sem (screen-out-false semantics-any-object)}}
+                   generate
+                   morph time
+                   println))))
+    (-> "loro vedono casa" parse first (get :parses) first (get-in [:synsem :sem]) clojure.pprint/pprint)))
 
 ;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
 
@@ -458,35 +525,6 @@
 (deftest parse-with-boot-stem
   (is (not (empty? (:parses (first (parse "lei esce")))))))
 
-;; roundtrip parser testing
-(defn roundtrip-parsing [n]
-  (take n
-        (repeatedly #(let [generated
-                           (morph (generate {:synsem {:cat :verb
-                                                      :subcat []}}))
-                           parsed (reduce concat (map :parses (parse generated)))]
-                       (log/info (str "generated: " generated))
-                       (log/info (str "semantics: "
-                                      (or
-                                       (strip-refs
-                                        (get-in (first parsed)
-                                                [:synsem :sem]))
-                                       (str "NO PARSE FOUND FOR: " generated))))
-                       {:generated generated
-                        :pred (get-in (first parsed) [:synsem :sem :pred])
-                        :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
-
-(defn ps-tree [tree morph]
-  "return just the essentials of a tree: just rule names and surface forms at leaves."
-  (let [rule (get-in tree [:rule])
-        head (get-in tree [:head])
-        comp (get-in tree [:comp])]
-    (if (and head comp rule)
-      (conj {:rule rule}
-            {:head (ps-tree head morph)
-             :comp (ps-tree comp morph)})
-      (morph tree))))
-
 ;; should fail fast: instead seems to run forever.
 (deftest difficult-generate
   (let [synsem
@@ -500,68 +538,6 @@
 (deftest casa-parse
   (is (not (empty?
             (reduce concat (map :parses (parse "io sono a casa")))))))
-
-;;(-> (parse "io lo ho") first clojure.pprint/pprint)
-;;(def sem (->> (-> "io lo ho" parse first :parses first (dag_unify.core/get-in [:synsem :sem]))))
-;;(repeatedly #(println (time (morph (generate {:synsem {:subcat []
-;;                                                                :cat :verb
-;;                                                                :sem (screen-out-false sem)}})))))
-
-;; (def parse-tree (-> "ho Antonia e Luisa"
-;;                                   parse
-;;                                 first
-;;                                   :parses
-;;                                   first))
-
-(defn screen-out-false [m]
-  (->>
-   (dag_unify.core/paths m)
-   (filter #(let [v (dag_unify.core/get-in m %)]
-              (and (not (= false v))
-                   (not (map? v)))))
-   (map (fn [path]
-          [path (get-in m path)]))
-   (map (fn [[path v]]
-          (assoc-in {} path v)))
-   (reduce (fn [a b] (merge-with merge a b)))))
-
-(defn sunday-night []
-  (let [semantics (-> "io lo ho" parse first :parses
-                      first (dag_unify.core/get-in [:synsem :sem]))
-
-        semantics-any-subject
-        (dag_unify.core/dissoc-paths semantics [[:subj]])
-
-        semantics-any-object
-        (unify (dag_unify.core/dissoc-paths semantics [[:obj]])
-               {:obj {:pred :top}})]
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics)}}
-                   generate
-                   morph time
-                   println))))
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-subject)}}
-                   generate
-                   morph time
-                   println))))
-
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-object)}}
-                   generate
-                   morph time
-                   println))))))
 
 (deftest gestiscono
   (let [result
@@ -889,4 +865,3 @@
            (-> spec
                generate
                morph)))))
-

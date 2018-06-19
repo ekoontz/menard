@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [generate morph preprocess]]
+   [babel.italiano :as italiano :refer [analyze generate morph preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lexicon]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
@@ -53,9 +53,6 @@
 
 (defn fo-ps [expr]
   (morph-ps expr))
-
-(defn analyze [str]
-  (italiano/analyze str model))
 
 (deftest analyze-1
   (let [singular (analyze "compito")

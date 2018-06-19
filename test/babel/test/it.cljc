@@ -138,7 +138,13 @@
                    generate
                    morph time
                    println))))
-    (-> "loro vedono casa" parse first (get :parses) first (get-in [:synsem :sem]) clojure.pprint/pprint)))
+    (-> "loro vedono casa"
+        parse
+        first
+        (get :parses)
+        first
+        (get-in [:synsem :sem])
+        clojure.pprint/pprint)))
 
 ;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
 

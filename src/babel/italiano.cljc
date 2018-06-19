@@ -21,6 +21,7 @@
                           show-notes true}}]
   ;; modeled after babel.english/morph:
   ;; most arguments are simply discarded for italian.
+  ;; TODO: rules should apply repeatedly until no change.
   (->
    (get-string (get-in expr [:italiano]))
    ((fn [surface-string]

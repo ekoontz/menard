@@ -3,7 +3,7 @@
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [morph preprocess]]
+   [babel.italiano :as italiano :refer [generate morph preprocess]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lexicon]
    [babel.italiano.morphology :as morph :refer [analyze-regular]]
@@ -39,12 +39,8 @@
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
+
 ;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
-(defn generate
-  ([spec]
-   (italiano/generate spec model))
-  ([spec model]
-   (italiano/generate spec model)))
 
 (defn parse
   ([spec]

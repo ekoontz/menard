@@ -41,6 +41,9 @@
 (defn analyze
   "analyze a word: as opposed to parsing which is multi-word."
   ;; TODO: should take a language model, not a lexicon
+  ([surface-form]
+   (let [model @@(get babel.directory/models :it)]
+     (analyze surface-form model)))
   ([surface-form model]
    (morph/analyze surface-form (:lexicon model))))
 

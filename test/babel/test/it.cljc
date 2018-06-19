@@ -140,8 +140,8 @@
                    println))))
     (-> "loro vedono casa"
         parse
-        first
-        (get :parses)
+        ((fn [tokenizations]
+           (mapcat :parses tokenizations)))
         first
         (get-in [:synsem :sem])
         clojure.pprint/pprint)))

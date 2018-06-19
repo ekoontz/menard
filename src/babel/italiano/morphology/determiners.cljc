@@ -13,6 +13,8 @@
       slurp
       read-string))
 
+;; TODO: rules should apply iteratively until no changes are no made
+;; similar to babel.encyclopedia/sem-impl
 (defn apply-determiner-rules [input]
   (let [results
         (remove nil?

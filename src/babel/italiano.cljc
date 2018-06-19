@@ -45,6 +45,9 @@
    (morph/analyze surface-form (:lexicon model))))
 
 (defn generate
+  ([spec]
+   (let [model @@(get babel.directory/models :it)]
+     (generate spec model)))
   ([spec model & {:keys [do-enrich max-total-depth truncate]
             :or {do-enrich true
                  max-total-depth generate/max-depth

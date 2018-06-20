@@ -19,6 +19,12 @@
            :def :partitivo
            :agr {:number :plur
                  :gender :fem}}}
+ "dello"
+ {:generate-with false
+  :synsem {:cat :det
+           :def :partitivo
+           :agr {:number :sing
+                 :gender :masc}}}
  "di la"
  {:synsem {:cat :det
            :def :partitivo

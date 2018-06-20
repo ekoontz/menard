@@ -4,7 +4,15 @@
  {:g [#"\ba il\b"           "al"]}     ;; a il -> al
  {:g [#"\ba lo\b"           "allo"]}
  {:g [#"\ba la\b"           "alla"]}  ;; a la -> alla
- {:g [#"\ba l'\b"           "all'"]} 
+ {:g [#"\ba l'\b"           "all'"]}
+
+ {:g [#"\bdi lo\b"          "dello"]}  ;; di lo -> dello
+ {:g [#"\bil ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))" "lo $1"]}  ;; il [vowel/z] -> lo
+ {:g [#"\bdi il\b" "del"]}  ;; di il -> del
+
+ {:g [#"\bdi l'"          "dell'"]}
+ 
+ 
  ;; TODO: add all of preposition-plus-article below.
  ;; </preposition+article>
  ]

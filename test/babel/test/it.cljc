@@ -888,3 +888,17 @@
            (-> spec
                generate
                morph)))))
+
+;; TODO: make this a deftest.
+(defn sentences-with-pronoun-objects []
+  (let [spec
+        {:modified false
+         :synsem {:cat :verb
+                  :subcat []
+                  :sem {:pred :top
+                        :tense :present
+                        :aspect :simple
+                        :subj {:pred :top}
+                        :obj {:pred :top}}}
+         :head {:comp {:synsem {:pronoun true}}}}]
+    (repeatedly #(-> spec generate morph println))))

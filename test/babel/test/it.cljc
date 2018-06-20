@@ -368,8 +368,7 @@
     (is (= do-this-many
            (count (map-fn (fn [expr] 
                             (let [surface (morph expr)
-                                  parsed (reduce concat (map :parses
-                                                             (parse surface @np-grammar)))]
+                                  parsed (mapcat :parses (parse surface @np-grammar))]
                               (if (not (empty? parsed))
                                 (log/info (str "roundtrip-np-grammar: " surface))
                                 (log/error (str "parse failed: " surface)))

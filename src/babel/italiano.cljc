@@ -16,6 +16,14 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
 
+(defn apply-patterns [input-string]
+  (let [result 
+        (reduce (fn [str [from to]] (string/replace str from to))
+                (cons input-string patterns))]
+    (if (= result input-string)
+      result
+      (apply-patterns result))))
+
 (defn morph [expr & {:keys [from-language show-notes]
                      :or {from-language nil
                           show-notes true}}]
@@ -24,9 +32,7 @@
   ;; TODO: rules should apply repeatedly until no change.
   (->
    (get-string (get-in expr [:italiano]))
-   ((fn [surface-string]
-      (reduce (fn [str [from to]] (string/replace str from to))
-              (cons surface-string patterns))))
+   (apply-patterns)
    (string/trim)))
     
 (defn morph-ps

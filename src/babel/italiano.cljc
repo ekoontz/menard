@@ -32,7 +32,7 @@
 (defn morph-ps
   ([expr]
    (let [model @@(get babel.directory/models :it)]
-     (morph-ps expr)))
+     (morph-ps expr model)))
 
   ([expr model & {:keys [from-language show-notes]
                   :or {from-language nil

@@ -146,8 +146,6 @@
         (get-in [:synsem :sem])
         clojure.pprint/pprint)))
 
-;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
-
 (deftest analyze-1
   (let [singular (analyze "compito")
         plural  (analyze "compiti")]
@@ -230,6 +228,7 @@
                          :gender :fem}
                   :tense :past}}})
 
+;; (repeatedly #(println (morph (time (generate reflexive-passato-is-slow)))))
 (def reflexive-passato-is-slow
   {:synsem {:cat :verb
             :subcat []

@@ -23,8 +23,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-
-;; TODO: move all patterns into here eventually.
+;; TODO: move all patterns into here eventually
+;;   (preposition-plus-article, adjectives/patterns,etc).
 (defonce patterns
   (map :g
        (misc/compile-morphology)))

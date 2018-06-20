@@ -1,4 +1,9 @@
 {
+ ;; TODO: all :partitivo articles should
+ ;; be constrained for only:
+ ;; 1. plural nouns
+ ;; 2. mass nouns
+ ;; see: Harrap p. 23
  "del"
  {:synsem {:cat :det
            :def :partitivo

@@ -6,6 +6,8 @@
  {:g [#"\ba la\b"           "alla"]}  ;; a la -> alla
  {:g [#"\ba l'\b"           "all'"]}
 
+
+ ;; partitive articles: Harrap p 22,23
  {:g [#"\bdi lo\b"          "dello"]}  ;; di lo -> dello
  {:g [#"\bil ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))" "lo $1"]}  ;; il [vowel/z] -> lo
  {:g [#"\bdi il\b" "del"]}  ;; di il -> del

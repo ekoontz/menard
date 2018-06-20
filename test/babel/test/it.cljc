@@ -375,6 +375,25 @@
                               (is (not (empty? parsed)))))
                           expressions))))))
 
+;; 
+(defn np-grammar-debug []
+  (let [spec {:phrasal true,
+              :synsem {:cat :noun,
+                       :subcat [],
+                       :sem {:mod {:pred :top},
+                             :pred :island,
+                             :spec {:def :top}}}}]
+    (take 200
+          (repeatedly #(let [g (generate spec @np-grammar)
+                             m (morph g)
+                             p (parse m @np-grammar)]
+                         (println m)
+                         (println (morph-ps g))
+                         (println (dag_unify.core/strip-refs (get-in g [:synsem :sem])) )
+                         (println (empty? p))
+                         (println "---")
+                         (empty? p))))))
+
 (deftest roundtrip-simple-present
   (let [do-this-many 10
         expressions (take do-this-many

@@ -21,11 +21,21 @@
 (def ^:const shufflefn
   (fn [x]
     ;; deterministic generation:
-;;    x
-    ;; nondeterministic generation
-    (lazy-seq (shuffle x))
+    (cond
+      false
+      (take 1 x)
+      
+      false
+      (shuffle (take 10 x))
 
-    ))
+      false
+      (if (not (empty? x))
+        (cons (rand-nth x) x)
+        x)
+
+      true
+      ;; nondeterministic generation
+      (lazy-seq (shuffle x)))))
 
 (declare add-comp-to-bolts)
 (declare add-comps-to-bolt)
@@ -160,25 +170,28 @@
       (do (log/trace (str "no compiled bolts found for: " search-for-key))
           (lazy-seq (lightning-bolts model spec 0 depth))))))
 
+;; a 'lightning bolts' is a dag that
+;; has among paths, paths like [:head :head :head] and
+;; pictorially look like:
+;; 
+;; 
+;;   H        H    H
+;;    \      /      \
+;;     H    H        H        ...
+;;    /      \        \
+;;   H        ..       ..
+;;    \
+;;     ..
+;; 
+;; Each bolt has has a head child.
+;; Each head child may be a leaf or
+;; otherwise has a child with the same two
+;; possibilities: either it's a leaf or itself
+;; a bolt, up to the maximum depth.
 (defn lightning-bolts
   "Return every possible bolt for the given model and spec. Start at the given depth and
    keep generating until the given max-depth is reached."
   [model spec depth max-depth & [use-candidate-parents]]
-  ;; 'lightning bolts' look like:
-  ;; 
-  ;; 
-  ;;   H        H    H
-  ;;    \      /      \
-  ;;     H    H        H        ...
-  ;;    /      \        \
-  ;;   H        ..       ..
-  ;;    \
-  ;;     ..
-  ;; 
-  ;; Each bolt is a tree with only one child per parent: the head child.
-  ;; Each head child may be a leaf or
-  ;; otherwise has a child with the same two options (leaf or a head child),
-  ;; up to the maximum depth.
   (log/debug (str "lightning-bolts: depth="
                   depth "; spec=" (dag_unify.core/strip-refs spec)))
   (if (and (< depth max-depth)
@@ -188,25 +201,7 @@
               (let [filtered
                     (->>
                      (:grammar model)
-                     (map (fn [rule]
-                            (let [result (unify rule spec)]
-                              (cond (= :fail result)
-                                    (log/debug (str "rule:" (:rule rule)
-                                                    " => "
-                                                    "FAIL between:"
-                                                    (:rule rule)
-                                                    " and: "
-                                                    (strip-refs spec)
-                                                    "; fail path:"
-                                                    (dag_unify.core/fail-path
-                                                     rule
-                                                     spec)))
-                                    true
-                                    (log/debug (str "rule:" (:rule rule)
-                                                    " OK for spec:"
-                                                    (dag_unify.core/strip-refs
-                                                     spec))))
-                              result)))
+                     (map #(unify % spec))
                      (filter #(not (= :fail %)))
                      (shufflefn))]
                 (if (empty? filtered)
@@ -229,13 +224,14 @@
                        (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))
         []))
-    (let [lexemes
-          (shufflefn (get-lexemes model spec))]
+    (let [lexemes (shufflefn (get-lexemes model spec))]
       (if (empty? lexemes)
         (log/debug (str "lightning-bolts: no lexemes at depth: " depth
                         " for spec: " (dag_unify.core/strip-refs spec)))
-        (log/debug (str "lightning-bolts: one or more lexemes at depth: " depth
-                        " for spec: " (dag_unify.core/strip-refs spec))))
+        (log/debug (str "lightning-bolts at depth: " depth
+                        " first lexeme:" "'"
+                        ((:morph model) (first lexemes))
+                        "'")))
       lexemes)))
 
 (defn add-comps-to-bolt
@@ -319,14 +315,18 @@
                 (not (= :verb (get-in % [:synsem :cat])))))
    (map
     (fn [lexeme]
-      (do
+      (let [result (unify lexeme spec)]
         (log/debug (str "get-lexemes: testing lexeme: "
-                        (dag_unify.core/strip-refs lexeme)))
-        (let [result (unify lexeme spec)]
-          (if (= result :fail)
-            (log/debug (str "fail-path:"
-                            (dag_unify.core/fail-path lexeme spec))))
-          result))))
+                        "'" ((:morph model) lexeme) "'"
+                        (str " " 
+                             (if (= result :fail)
+                               (let [fail-path
+                                     (dag_unify.core/fail-path lexeme spec)]
+                                 {:fail-path (:fail-path fail-path)
+                                  :lexeme (:val1 fail-path)
+                                  :spec (:val2 fail-path)})
+                               "ok."))))
+        result)))
    (filter #(not (= :fail %)))))
 
 (defn show-spec [spec]

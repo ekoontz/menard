@@ -935,6 +935,7 @@
                   "vp-pronoun-nonphrasal"))))
         spec
         {:modified false
+         :phrasal true
          :synsem {:cat :verb
                   :subcat []
                   :sem {:pred :top

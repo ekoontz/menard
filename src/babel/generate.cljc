@@ -162,7 +162,7 @@
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))
       true
-      (lightning-bolts model spec 0 depth))))
+      (shufflefn (lightning-bolts model spec 0 depth)))))
 
 ;; a 'lightning bolts' is a dag that
 ;; has among paths, paths like [:head :head :head] and
@@ -218,7 +218,7 @@
                        (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))
         []))
-    (shufflefn (get-lexemes model spec))))
+    (get-lexemes model spec)))
 
 (defn add-comps-to-bolt
   "bolt + paths => trees"

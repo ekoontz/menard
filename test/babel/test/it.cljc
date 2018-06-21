@@ -901,4 +901,49 @@
                         :subj {:pred :top}
                         :obj {:pred :top}}}
          :head {:comp {:synsem {:pronoun true}}}}]
-    (repeatedly #(-> spec generate morph println))))
+    (repeatedly #(-> spec generate morph time println))))
+
+
+(defn sentences-with-pronoun-objects-small []
+  (let [model
+        (babel.italiano.grammar/model-plus-lexicon
+         ;; filtered lexicon:
+         (into {}
+               (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
+                 (let [filtered-lexemes
+                       (filter (fn [lexeme]
+                                 (or (and (= (get-in lexeme [:synsem :cat])
+                                             :verb)
+                                          (= (get-in lexeme [:synsem :aux] false)
+                                             false)
+                                          (not (empty? (get-in lexeme [:synsem :subcat] [])))
+                                          (map? (get-in lexeme [:synsem :subcat :2]))
+                                          (empty? (get-in lexeme [:synsem :subcat :3] [])))
+                                     (and (= (get-in lexeme [:synsem :cat])
+                                             :noun)
+                                          (= (get-in lexeme [:synsem :pronoun])
+                                             true))))
+                               lexemes)]
+                   (if (not (empty? filtered-lexemes))
+                     [k filtered-lexemes]))))
+         
+         ;; filtered grammar:
+         (fn [rule]
+           (or (= (:rule rule)
+                  "s-present-phrasal")
+               (= (:rule rule)
+                  "vp-pronoun-nonphrasal"))))
+        spec
+        {:modified false
+         :synsem {:cat :verb
+                  :subcat []
+                  :sem {:pred :top
+                        :tense :present
+                        :aspect :simple
+                        :subj {:pred :top}
+                        :obj {:pred :top}}}
+         :head {:comp {:synsem {:pronoun true}}}}]
+    (take 1 (repeatedly #(-> spec (generate model) morph time println)))))
+
+
+

@@ -224,15 +224,17 @@
                        (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))
         []))
-    (let [lexemes (shufflefn (get-lexemes model spec))]
-      (if (empty? lexemes)
-        (log/debug (str "lightning-bolts: no lexemes at depth: " depth
-                        " for spec: " (dag_unify.core/strip-refs spec)))
-        (log/debug (str "lightning-bolts at depth: " depth
-                        " first lexeme:" "'"
-                        ((:morph model) (first lexemes))
-                        "'")))
-      lexemes)))
+    (do
+      (log/debug (str "looking for lexemes with spec:" (dag_unify.core/strip-refs spec)))
+      (let [lexemes (shufflefn (get-lexemes model spec))]
+        (if (empty? lexemes)
+          (log/debug (str "lightning-bolts: no lexemes at depth: " depth
+                          " for spec: " (dag_unify.core/strip-refs spec)))
+          (log/debug (str "lightning-bolts at depth: " depth
+                          " first lexeme:" "'"
+                          ((:morph model) (first lexemes))
+                          "'")))
+        lexemes))))
 
 (defn add-comps-to-bolt
   "bolt + paths => trees"

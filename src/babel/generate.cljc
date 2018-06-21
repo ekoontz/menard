@@ -33,6 +33,8 @@
         (cons (rand-nth x) x)
         x)
 
+      false x
+      
       true
       ;; nondeterministic generation
       (lazy-seq (shuffle x)))))
@@ -45,7 +47,6 @@
 (declare lightning-bolts)
 (declare comp-paths)
 (declare gen)
-(declare show-spec)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
@@ -110,12 +111,6 @@
   ;; And so on.
   ;;
   ;;
-  (if (nil? spec)
-    ;;    (throw (Exception. (str "wtf.")))
-    nil
-    (do
-;;    (println (str "gen@" depth "; spec=" (dag_unify.core/strip-refs spec)))
-  (log/trace (str "gen@" depth "; spec=" (show-spec spec)))
   (when (< depth max-depth)
     (let [bolts (or from-bolts
                     (get-bolts-for model spec 
@@ -137,7 +132,7 @@
                                  (reverse (comp-paths depth)))))
            (gen spec model depth (rest bolts))))
         (if (not (= false (get-in spec [:phrasal] true)))
-          (gen spec model (+ 1 depth)))))))))
+          (gen spec model (+ 1 depth)))))))
 
 ;; Wrapper around (defn lightning-bolts) to provide a way to
 ;; test indexing and memoization strategies.
@@ -167,8 +162,7 @@
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))
       true
-      (do (log/trace (str "no compiled bolts found for: " search-for-key))
-          (lazy-seq (lightning-bolts model spec 0 depth))))))
+      (lightning-bolts model spec 0 depth))))
 
 ;; a 'lightning bolts' is a dag that
 ;; has among paths, paths like [:head :head :head] and
@@ -224,17 +218,7 @@
                        (assoc-in candidate-parent [:head] head))))
            (lightning-bolts model spec depth max-depth (rest candidate-parents))))
         []))
-    (do
-      (log/debug (str "looking for lexemes with spec:" (dag_unify.core/strip-refs spec)))
-      (let [lexemes (shufflefn (get-lexemes model spec))]
-        (if (empty? lexemes)
-          (log/debug (str "lightning-bolts: no lexemes at depth: " depth
-                          " for spec: " (dag_unify.core/strip-refs spec)))
-          (log/debug (str "lightning-bolts at depth: " depth
-                          " first lexeme:" "'"
-                          ((:morph model) (first lexemes))
-                          "'")))
-        lexemes))))
+    (shufflefn (get-lexemes model spec))))
 
 (defn add-comps-to-bolt
   "bolt + paths => trees"
@@ -330,20 +314,3 @@
                                "ok."))))
         result)))
    (filter #(not (= :fail %)))))
-
-(defn show-spec [spec]
-  (str "cat=" (get-in spec [:synsem :cat])
-       (if (get-in spec [:rule])
-         (str "; rule=" (strip-refs (get-in spec [:rule]))))
-       (if (not (= (get-in spec [:synsem :agr] ::none) ::none))
-         (str "; agr=" (strip-refs (get-in spec [:synsem :agr]))))
-       (if (not (= (get-in spec [:synsem :sem :pred] ::none) ::none))
-         (str "; pred=" (strip-refs (get-in spec [:synsem :sem :pred]))))
-       (if (get-in spec [:synsem :subcat :1 :cat])
-         (str "; subcat1=" (strip-refs (get-in spec [:synsem :subcat :1 :cat]))))
-       (if (get-in spec [:synsem :subcat :2 :cat])
-         (str "; subcat2=" (strip-refs (get-in spec [:synsem :subcat :2 :cat]))))
-       (if (get-in spec [:synsem :subcat :3 :cat])
-         (str "; subcat3=" (strip-refs (get-in spec [:synsem :subcat :3 :cat]))))
-       (if (not (= (get-in spec [:phrasal] ::none) ::none))
-         (str "; phrasal=" (strip-refs (get-in spec [:phrasal]))))))

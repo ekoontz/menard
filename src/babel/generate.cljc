@@ -242,7 +242,19 @@
        (add-to-bolt-at-path bolt path model)
        (add-comp-to-bolts (rest bolts) path model)))))
 
-(defn hd [] :head)
+(defn add-to-bolt-at-path
+  "generate all complements for bolt at given path, and create a partial tree: bolt + complement => partial tree"
+  [bolt path model]
+  (->>
+   (gen (get-in bolt path) model 0) ;; generate all complements for _bolt_ at _path_.
+   (map #(let [partial-tree
+               (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)] ;; add the complement to the bolt at _path_.
+           ;; apply model's :default-fn, if any.
+           ;; TODO: default-fn should return a sequence of partial trees,
+           ;; not just one.
+           (if (:default-fn model)
+             (first ((:default-fn model) partial-tree))
+             partial-tree)))))
 
 (defn comp-paths
   "Find all paths to all complements (both terminal and non-terminal) given a depth. Returned in 
@@ -270,22 +282,6 @@
                    (repeatedly hd))
              [:comp])
      (comp-paths (- depth 1)))))
-
-;; {:synsem {:cat :verb, :infl :imperfect, :sem {:tense :past, :aspect :progressive}, :subcat []}}
-
-(defn add-to-bolt-at-path
-  "generate all complements for bolt at given path, and create a partial tree: bolt + complement => partial tree"
-  [bolt path model]
-  (->>
-   (gen (get-in bolt path) model 0) ;; generate all complements for _bolt_ at _path_.
-   (map #(let [partial-tree
-               (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)] ;; add the complement to the bolt at _path_.
-           ;; apply model's :default-fn, if any.
-           ;; TODO: default-fn should return a sequence of partial trees,
-           ;; not just one.
-           (if (:default-fn model)
-             (first ((:default-fn model) partial-tree))
-             partial-tree)))))
 
 (defn get-lexemes [model spec]
   "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."

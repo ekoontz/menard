@@ -279,7 +279,7 @@
     true
     (cons
      (concat (take (- depth 1)
-                   (repeatedly hd))
+                   (repeatedly (fn [] :head)))
              [:comp])
      (comp-paths (- depth 1)))))
 

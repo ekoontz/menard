@@ -124,6 +124,10 @@
     (string/join " " [(get-string-1 (get-in word [:a]))
                       (get-string-1 (get-in word [:b]))])
 
+    (and (= :verb (get-in word [:cat]))
+         (= :top (get-in word [:infl])))
+    (get-in word [:italiano])
+    
     (= :verb (get-in word [:cat]))
     (let [conjugated (verbs/conjugate word)]
       (if (or (nil? conjugated) (empty? conjugated))
@@ -364,9 +368,9 @@
 ;; TODO: make b required so that function is easier to understand and refactor.
 (defn get-string [a & [ b ]]
   (if (nil? a)
-    (throw (Exception. (str "get-string: given nil."))))
+    a)
   (if (= a "")
-    (throw (Exception. (str "get-string: given empty string."))))
+    a)
 
   (let [a (or a "")
         b (or b "")
@@ -430,11 +434,11 @@
       
       (and (string? a)
            (map? b))
-      (throw (Exception. (str "couldn't determine how to stringify this map:(b): " b)))
+      (trim (str a " " "_"))
       
       (and (string? b)
            (map? a))
-      (throw (Exception. (str "couldn't determine how to stringify this map:(a): " a)))
+      (trim (str "_" " " b))
       
       true
       {:a (if (nil? a) :top a)

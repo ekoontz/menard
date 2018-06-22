@@ -142,7 +142,7 @@
                      (map (fn [entry]
                             (get-in entry path :top))
                           (flatten (vals lexicon))))))
-   (shuffle (flatten (vals lexicon)))
+   (flatten (vals lexicon))
    path))
 
 (defn create-indices [lexicon index-lexicon-on-paths]
@@ -187,5 +187,6 @@
     (log/debug (str "indexed size returned: " (count result) " for spec: " (strip-refs spec)))
     (if (and false (empty? result))
       (throw (Exception. (str "lookup-spec failed: " (strip-refs spec)))))
-    result))
+    (shuffle result)))
+
 

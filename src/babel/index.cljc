@@ -106,31 +106,6 @@
       (log/trace (str "comp-phrases of parent: " (label-of parent) " is empty.")))
     result))
 
-;; TODO: remove this: has already been removed in favor of (map-subset-by-path)
-;; TODO: document how this works and especially what 'phrase-constraint' means.
-(defn create-index [grammar lexicon phrase-constraint]
-  (let [lexicon (if (map? lexicon)
-                  (keys lexicon)
-                  lexicon)]
-    (log/info (str "create index with lexicon with size: " (count lexicon)))
-    (conj (build-lex-sch-index grammar
-                               (map (fn [lexeme]
-                                      (log/debug (str "trying(ci) lexeme: " lexeme))
-                                      (unify lexeme
-                                              {:phrasal false}))
-                                    lexicon)
-                               grammar)
-          {:phrase-constraints phrase-constraint
-           :phrases-for-spec
-           (spec-to-phrases
-            ;; TODO: make this list derivable from the grammar and /or lexicon.
-            (list {:synsem {}, :head {:synsem {}}, :phrasal true}
-                  {:synsem {:cat :verb, :aux false}, :head {:synsem {:subcat {:2 {}, :1 {}}, :infl :present, :cat :verb, :sem {:tense :present}}, :phrasal false}, :phrasal true}
-                  {:synsem {:cat :verb}, :head {:synsem {:cat :verb, :infl {:not :past}, :subcat {:2 {:cat :noun, :subcat (), :pronoun true}, :1 {}}}, :phrasal false}, :phrasal true}
-                  {:synsem {:cat :verb, :aux false}, :head {:synsem {:cat :verb, :infl :infinitive, :subcat {:2 {}, :1 {}}}, :phrasal false}, :phrasal true}
-                  )
-            grammar)})))
-
 (defn show-spec [spec]
   (cond (seq? spec)
         (map show-spec spec)
@@ -211,7 +186,6 @@
                              index-lexicon-on-paths)))]
     (log/debug (str "indexed size returned: " (count result) " for spec: " (strip-refs spec)))
     (if (and false (empty? result))
-      (throw (Exception. (str "oops: " (strip-refs spec)))))
-    
+      (throw (Exception. (str "lookup-spec failed: " (strip-refs spec)))))
     result))
 

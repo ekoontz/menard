@@ -1,7 +1,6 @@
 (ns babel.generate
   (:refer-clojure :exclude [assoc-in get-in deref resolve find parents])
   (:require
-   [babel.index :refer [intersection-with-identity]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]

@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
-   [babel.index :refer [create-indices intersection-with-identity lookup-spec map-subset-by-path]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon vocab-entry-to-lexeme]]
    [babel.italiano.morphology :refer [analyze fo]]
    [babel.lexiconfn :refer [filtered-lexicon read-lexicon] :as lexfn]

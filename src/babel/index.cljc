@@ -1,9 +1,6 @@
 (ns babel.index
   (:refer-clojure :exclude [get-in resolve find parents])
   (:require
-   ;; TODO: comment is misleading in that we never call core/get-in from this file.
-   ;; TODO: alphabetize
-   [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [fail? dissoc-paths get-in label-of
@@ -14,54 +11,6 @@
      (throw (Exception. error-string)))
   #?(:cljs
      (throw (js/Error. error-string))))
-
-(declare show-spec)
-
-;; TODO: remove: not used anymore.
-;; TODO: diagnostic function that is too specific currently (e.g. refers to ':english').
-(defn check-index [index]
-  (if (not (= :top (get-in (first (:head (get index "nbar"))) [:english :agr :number])))
-    (throw (exception (str "CHECK INDEX FAILED! " (get index "nbar"))))))
-  
-;; TODO: remove: not used anymore.
-(defn build-lex-sch-index [phrases lexicon all-phrases]
-  "Build a mapping of phrases onto subsets of the lexicon. The two values (subsets of the lexicon) to be
-   generated for each key (phrase) are: 
-   1. the subset of the lexicon that can be the head of this phrase.
-   2. the subset of the lexicon that can be the complement of this phrase.
-
-   End result is a set of phrase => {:comp subset-of-lexicon 
-                                     :head subset-of-lexicon}."
-  (log/debug (str "build-lex-sch-index: lexicon size: " (count lexicon)))
-  (log/debug (str "build-lex-sch-index: grammar size: " (count all-phrases)))
-  (if (not (empty? phrases))
-    (conj
-     {(get-in (first phrases) [:rule])
-      {:comp
-       (filter (fn [lex]
-                 (not (fail? (unify (first phrases)
-                                     {:comp lex}))))
-               lexicon)
-
-       :comp-phrases
-       (filter (fn [comp-phrase]
-                 (not (fail? (unify (first phrases)
-                                     {:comp comp-phrase}))))
-               all-phrases)
-
-       :head-phrases
-       (filter (fn [head-phrase]
-                 (not (fail? (unify (first phrases)
-                                     {:head head-phrase}))))
-               all-phrases)
-
-       :head
-       (filter (fn [lex]
-                 (log/debug (str "trying lexeme: " lex))
-                 (not (fail? (unify (first phrases)
-                                     {:head lex}))))
-               lexicon)}}
-     (build-lex-sch-index (rest phrases) lexicon all-phrases))))
 
 (defn show-spec [spec]
   (cond (seq? spec)

@@ -943,8 +943,7 @@
                         :aspect :simple
                         :subj {:pred :top}
                         :obj {:pred :top}}}
-         :head {:comp {:synsem {:pronoun true}}}}]
-    (take 1 (repeatedly #(-> spec (generate model) morph time println)))))
-
-
-
+         :comp {:phrasal false}
+         :head {:comp {:phrasal false
+                       :synsem {:pronoun true}}}}]
+    (repeatedly #(-> spec (generate model) morph time println))))

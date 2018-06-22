@@ -37,30 +37,20 @@
                [path (map-subset-by-path lexicon path)])
              index-lexicon-on-paths)))
 
-(defn intersection-with-identity [ & [set1 set2]]
-  (if (> (count set1)
-         (count set2))
-    (filter (fn [member2]
-              (some (fn [member1]
-                      (identical? member1 member2))
-                    set1))
-            set2)
-    (filter (fn [member1]
-              (some (fn [member2]
-                      (identical? member1 member2))
-                    set2))
-            set1)))
+(defn intersect [ & [set1 set2]]
+  (apply clojure.set/intersection (map set [set1 set2])))
 
 (defn lookup-spec [spec indices index-lexicon-on-paths]
-  (let [result
-        (reduce intersection-with-identity
-                (filter #(not (empty? %))
-                        (map (fn [path]
-                               (get (get indices path)
-                                    (get-in spec path ::undefined)
-                                    []))
-                             index-lexicon-on-paths)))]
-    (shuffle result)))
+  (->
+   (reduce intersect
+           (filter #(not (empty? %))
+                   (map (fn [path]
+                          (get (get indices path)
+                               (get-in spec path ::undefined)
+                               []))
+                        index-lexicon-on-paths)))
+   (shuffle)))
+
 
 
 

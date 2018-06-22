@@ -33,7 +33,7 @@
         (cons (rand-nth x) x)
         x)
 
-      false x
+      true x
       
       true
       ;; nondeterministic generation

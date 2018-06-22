@@ -158,13 +158,16 @@
                                   lexemes
                                   path)))))
 
+;; TODO: these functions "map-subset-by-path" are
+;; not descriptive. Replace with more idiomatic and
+;; concise Clojure usage.
 (defn map-subset-by-path [lexicon path]
   (map-subset-by-path2
    (vec (set (filter #(not (= :top %))
                      (map (fn [entry]
                             (get-in entry path :top))
                           (flatten (vals lexicon))))))
-   (flatten (vals lexicon))
+   (shuffle (flatten (vals lexicon)))
    path))
 
 (defn create-indices [lexicon index-lexicon-on-paths]

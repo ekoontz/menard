@@ -5,6 +5,10 @@
    #?(:cljs [babel.logjs :as log]) 
    [dag_unify.core :refer [get-in unify]]))
 
+;; TODO: these first two functions "map-subset-by-path"
+;; and "map-subset-by-path2" are not descriptively named
+;; and could be combined into less code. Replace with more idiomatic and
+;; concise Clojure usage.
 (defn map-subset-by-path2 [vals-at-path lexemes path]
   (if (not (empty? vals-at-path))
     (let [val (first vals-at-path)]
@@ -18,9 +22,6 @@
                                   lexemes
                                   path)))))
 
-;; TODO: these functions "map-subset-by-path" are
-;; not descriptive. Replace with more idiomatic and
-;; concise Clojure usage.
 (defn map-subset-by-path [lexicon path]
   (map-subset-by-path2
    (vec (set (filter #(not (= :top %))

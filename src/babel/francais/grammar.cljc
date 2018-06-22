@@ -7,7 +7,7 @@
    [babel.francais.lexicon :as lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
    [babel.generate :as generate :refer [lightning-bolts]]
-   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :refer [comp-modifies-head comp-specs-head head-principle

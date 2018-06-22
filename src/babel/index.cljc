@@ -3,28 +3,7 @@
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [fail? dissoc-paths get-in label-of
-                           strip-refs unify]]))
-
-(defn exception [error-string]
-  #?(:clj
-     (throw (Exception. error-string)))
-  #?(:cljs
-     (throw (js/Error. error-string))))
-
-(defn show-spec [spec]
-  (cond (seq? spec)
-        (map show-spec spec)
-        true
-        (strip-refs (dissoc-paths spec '((:english :initial)
-                                         (:italiano :initial)
-                                         (:synsem :essere)
-                                         (:synsem :agr)
-                                         (:synsem :pronoun)
-                                         (:synsem :sem :tense)
-                                         (:synsem :sem :obj :tense)
-                                         (:synsem :sem :mod)
-                                         (:synsem :infl))))))
+   [dag_unify.core :refer [get-in unify]]))
 
 (defn map-subset-by-path2 [vals-at-path lexemes path]
   (if (not (empty? vals-at-path))

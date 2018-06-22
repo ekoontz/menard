@@ -289,18 +289,6 @@
                    (or (:lexicon (:generate model)) (:lexicon model)))))))
    (filter #(or (= false (get-in % [:exception] false))
                 (not (= :verb (get-in % [:synsem :cat])))))
-   (map
-    (fn [lexeme]
-      (let [result (unify lexeme spec)]
-        (log/debug (str "get-lexemes: testing lexeme: "
-                        "'" ((:morph model) lexeme) "'"
-                        (str " " 
-                             (if (= result :fail)
-                               (let [fail-path
-                                     (dag_unify.core/fail-path lexeme spec)]
-                                 {:fail-path (:fail-path fail-path)
-                                  :lexeme (:val1 fail-path)
-                                  :spec (:val2 fail-path)})
-                               "ok."))))
-        result)))
+   (map #(unify % spec))
    (filter #(not (= :fail %)))))
+

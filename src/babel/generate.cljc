@@ -13,23 +13,12 @@
 (def ^:const max-depth 10)
 (def ^:const shufflefn
   (fn [x]
-    ;; deterministic generation:
     (cond
-      false
-      (take 1 x)
-      
-      false
-      (shuffle (take 10 x))
-
-      false
-      (if (not (empty? x))
-        (cons (rand-nth x) x)
-        x)
-
+      ;; deterministic generation:
       true x
       
       true
-      ;; nondeterministic generation
+      ;; nondeterministic generation:
       (lazy-seq (shuffle x)))))
 
 (declare add-comp-to-bolts)

@@ -15,11 +15,7 @@
   #?(:cljs
      (throw (js/Error. error-string))))
 
-(def head-index {})
-(def comp-index {})
 (declare show-spec)
-
-(declare spec-to-phrases)
 
 ;; TODO: remove: not used anymore.
 ;; TODO: diagnostic function that is too specific currently (e.g. refers to ':english').
@@ -66,45 +62,6 @@
                                      {:head lex}))))
                lexicon)}}
      (build-lex-sch-index (rest phrases) lexicon all-phrases))))
-
-(defn spec-to-phrases [specs all-phrases]
-  (if (not (empty? specs))
-    (let [spec (first specs)]
-      (conj
-       {spec 
-        (filter #(not (fail? %))
-                (map (fn [each-phrase]
-                       (unify each-phrase spec))
-                     ;; TODO: possibly: remove-paths such as (subcat) from head: would make it easier to call with lexemes:
-                     ;; e.g. "generate a sentence whose head is the word 'mangiare'" (i.e. user passes the lexical entry as
-                     ;; head param of (lightning-bolt)".
-                     all-phrases))}
-       (spec-to-phrases (rest specs) all-phrases)))
-    {}))
-  
-(defn get-parent-phrases-for-spec [index spec]
-  (log/trace (str "Looking up spec: " (show-spec spec)))
-  (let [result (get (get index :phrases-for-spec) (show-spec spec))
-        result (if (nil? result) (list) result)]
-    (if (empty? result)
-      (log/trace (str "parent-phrases for spec: " (show-spec spec) " is empty.")))
-    result))
-
-(defn get-head-phrases-of [parent index]
-  (if (= true (get-in parent [:head :phrasal] :true))
-    (let [result (:head-phrases (get index (get-in parent [:rule])))
-          result (if (nil? result) (list) result)
-          label (label-of parent)]
-      (if (empty? result)
-        (log/warn (str "headed-phrases of parent: " label " is empty: " (get-in parent [:head]))))
-      result)))
-
-(defn get-comp-phrases-of [parent index]
-  (let [result (:comp-phrases (get index (get-in parent [:rule])))
-        result (if (nil? result) (list) result)]
-    (if (empty? result)
-      (log/trace (str "comp-phrases of parent: " (label-of parent) " is empty.")))
-    result))
 
 (defn show-spec [spec]
   (cond (seq? spec)

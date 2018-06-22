@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.english :as en]
-   [babel.index :refer [build-lex-sch-index create-indices lookup-spec]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.latin.morphology :as morph]
    [babel.lexiconfn :refer [default listify map-function-on-map-vals
                             verb-pred-defaults]]

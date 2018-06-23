@@ -1,7 +1,6 @@
 (ns babel.html
   (:refer-clojure :exclude [get-in resolve find parents])
   (:use
-   [hiccup core page]
    [ring.util.codec :as codec])
   (:require
    [clj-time.coerce :as c]
@@ -11,11 +10,18 @@
    [clojure.string :as string]
    [clojure.tools.logging :as log]
    [environ.core :refer [env]]
-   [hiccup.element :as e]
-   [hiccup.page :as h]
    [dag_unify.core :as fs :refer [get-in ref= ref?]]))
 
 (def menubar-enabled true)
+
+;; TODO: implement these but use maps->json->moustache as
+;; the process of html generation.
+(defn html [content]
+  "")
+(defn include-css [url]
+  "")
+(defn include-js [url]
+  "")
 
 (defn verb-row [italian]
   (html
@@ -57,8 +63,8 @@
      (include-css "resources/public/css/layout.css")
      (include-css "resources/public/css/quiz.css")
 
-     (h/include-css "resources/public/css/bootstrap.min.css")
-     (h/include-css "resources/public/css/prettify.css")
+     (include-css "resources/public/css/bootstrap.min.css")
+     (include-css "resources/public/css/prettify.css")
 
      (include-css "http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css")
 
@@ -514,9 +520,6 @@
      "&lambda;"
 
      ;; TODO: should support objects of any otherwise-unsupported class: simply print out the classname in fixed-width font.
-     (= (type arg) org.eclipse.jetty.server.HttpInput)
-     "<tt>org.eclipse.jetty.server.HttpInput</tt>"
-
      true
      (str "<div class='unknown'>" "<b>don't know how to tablize this object : (type:" (type arg) "</b>;value=<b>"  arg "</b>)</div>"))))
 
@@ -625,7 +628,7 @@
                         (log/trace (str "env key: " key " => " (get env key))))
                       (sort (keys env)))
                  "")
-    (h/html5
+    (html
      (pretty-head title)
      (pretty-body
       options

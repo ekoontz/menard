@@ -168,8 +168,6 @@
   "Return every possible bolt for the given model and spec. Start at the given depth and
    keep generating until the given max-depth is reached."
   [model spec depth max-depth & [use-candidate-parents]]
-  (log/debug (str "lightning-bolts: depth="
-                  depth "; spec=" (dag_unify.core/strip-refs spec)))
   (if (and (< depth max-depth)
            (not (= false (get-in spec [:phrasal] true))))
     (let [candidate-parents
@@ -189,8 +187,7 @@
         (let [candidate-parent (first candidate-parents)]
           (log/debug (str "creating bolts with: "
                           (:rule candidate-parent)
-                          " and spec: " (dag_unify.core/strip-refs
-                                         (get-in candidate-parent [:head]))))
+                          " and cat: " (get-in candidate-parent [:head :synsem :cat])))
           (lazy-cat
            (->> (lightning-bolts model
                                  (get-in candidate-parent [:head])
@@ -266,7 +263,9 @@
      (comp-paths (- depth 1)))))
 
 (defn get-lexemes [model spec]
-  "Get lexemes matching the spec. Use a model's index if available, where the index is a function that we call with _spec_ to get a set of indices. otherwise use the model's entire lexeme."
+  "Get lexemes matching the spec. Use a model's index if available, where the index 
+   is a function that we call with _spec_ to get a set of indices. 
+   Otherwise use the model's entire lexeme."
   (->>
    (if (= false (get-in spec [:phrasal] false))
      (if-let [index-fn (:index-fn model)]

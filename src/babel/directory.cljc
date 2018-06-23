@@ -14,14 +14,14 @@
 ;; 
 ;; To sync your language model after changing lexicon sources:
 ;;
-;; 1. Write .edn files to database:
+;; 1. Write .edn source files to database:
 ;;     (write-lexicon "it" (babel.italiano.lexicon/compile-lexicon))
 ;; 2. Update in-memory models from database:
 ;;    (babel.directory/refresh-models)
 ;; 3. Make model easily available within your own namespace:
 ;;    (def model @@(get models :it))
 ;; 4. Use new model via your local variable 'model':
-;;    (first (get (get model :lexicon) "uomo"))
+;;    (-> model (get :lexicon) (get "uomo") first)
 
 (def models
   {:en (atom (delay (en/model)))
@@ -37,8 +37,6 @@
     (swap! (:es models) (fn [old-model] (delay (es/small))))
     (swap! (:fr models) (fn [old-model] (delay (fr/model))))
     (swap! (:it models) (fn [old-model] (delay (it/model))))
-    ;; (swap! (:it models) (fn [old-model] (delay (grammar/model-reloaded))))
-
     (swap! (:la models) (fn [old-model] (delay (la/model))))
     (log/info (str "refreshed models."))))
 

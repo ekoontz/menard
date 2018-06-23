@@ -44,8 +44,6 @@
          :synsem {:cat :verb
                   :subcat []
                   :sem {:pred :top
-                        :tense :present
-                        :aspect :simple
                         :subj {:pred :top}
                         :obj {:pred :top}}}
          :head {:comp {:synsem {:pronoun true}}}}]
@@ -60,10 +58,7 @@
          :synsem {:aux false
                   :cat :verb
                   :subcat []
-                  :sem {:pred :top
-                        :tense :present
-                        :aspect :simple
-                        :subj {:pred :top}
+                  :sem {:subj {:pred :top}
                         :obj {:pred :top}}}
          :comp {:phrasal false}
          :head {:phrasal true
@@ -103,10 +98,7 @@
          :synsem {:aux false
                   :cat :verb
                   :subcat []
-                  :sem {:pred :top
-                        :tense :present
-                        :aspect :simple
-                        :subj {:pred :top}
+                  :sem {:subj {:pred :top}
                         :obj {:pred :top}}}
          :comp {:phrasal false}
          :head {:comp {:phrasal false

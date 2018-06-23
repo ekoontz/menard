@@ -181,6 +181,8 @@
                               :verb)
                            (= (get-in lexeme [:synsem :aux] false)
                               false)
+                           (= (get-in lexeme [:synsem :infl] :top)
+                              :top)
                            (not (empty? (get-in lexeme [:synsem :subcat] [])))
                            (map? (get-in lexeme [:synsem :subcat :2]))
                            (empty? (get-in lexeme [:synsem :subcat :3] []))))

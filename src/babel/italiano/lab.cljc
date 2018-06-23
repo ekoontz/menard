@@ -37,34 +37,26 @@
                        {:generated generated
                         :pred (get-in (first parsed) [:synsem :sem :pred])
                         :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
-  
-(defn sentences-with-pronoun-objects []
-  (let [spec
-        {:modified false
-         :synsem {:cat :verb
-                  :subcat []
-                  :sem {:pred :top
-                        :subj {:pred :top}
-                        :obj {:pred :top}}}
-         :head {:comp {:synsem {:pronoun true}}}}]
+
+(def transitive-spec 
+  {:synsem {:cat :verb
+            :subcat []
+            :sem {:subj {:pred :top}
+                  :obj {:pred :top}}}})
+
+(defn transitive-sentence []
+  (let [spec transitive-spec]
     (repeatedly #(-> spec generate morph time println))))
+
+(def phrasal-spec
+  {:head {:head {:phrasal false}
+          :comp {:phrasal false}}
+   :comp {:phrasal false}})
 
 (defn sentences-with-pronoun-objects-hints
   "supply a spec enhanced with syntactic info to speed-up generation."  
   []
-  (let [spec
-        {:modified false
-         :phrasal true
-         :synsem {:aux false
-                  :cat :verb
-                  :subcat []
-                  :sem {:subj {:pred :top}
-                        :obj {:pred :top}}}
-         :comp {:phrasal false}
-         :head {:phrasal true
-                :head {:phrasal false}
-                :comp {:phrasal false
-                       :synsem {:pronoun true}}}}]
+  (let [spec (unify transitive-spec phrasal-spec)]
     (repeatedly #(-> spec generate morph time println))))
 
 (defn sentences-with-pronoun-objects-small []
@@ -92,17 +84,7 @@
                            :noun)
                         (= (get-in lexeme [:synsem :pronoun])
                            true)))
-        spec
-        {:modified false
-         :phrasal true
-         :synsem {:aux false
-                  :cat :verb
-                  :subcat []
-                  :sem {:subj {:pred :top}
-                        :obj {:pred :top}}}
-         :comp {:phrasal false}
-         :head {:comp {:phrasal false
-                       :synsem {:pronoun true}}}}]
+        spec (unify transitive-spec phrasal-spec)]
     (repeatedly (fn []
                   (let [chosen-subset (set (take 10 (shuffle transitive-verbs)))
                         model

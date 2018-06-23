@@ -22,13 +22,10 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-(btest/init-db)
-
-;; TODO: move this from babel.test.it to babel.lexicon or similar.
-(defn initialize []
-  (log/info (str "recompiling and writing lexicon to database.."))
-  (write-lexicon "it" (lexicon/compile-lexicon))
-  (log/info (str "done.")))
+(defonce model
+  (do
+    (btest/init-db)
+    @@(get models :it)))
 
 ;; TODO: consider removing special-purpose grammars like grammar/np-grammar
 ;; and just use model instead.
@@ -36,7 +33,7 @@
 (def np-grammar (delay (grammar/np-grammar)))
 
 (defn generate-speed-test [spec & [times]]
-  (btest/generate-speed-test spec @@(get models :it) times))
+  (btest/generate-speed-test spec models times))
 
 (defn run-passato-prossimo-test []
   (generate-speed-test {:synsem {:cat :verb :subcat []
@@ -47,7 +44,7 @@
   (babel.italiano.grammar/model-plus-lexicon
    ;; filtered lexicon:
    (into {}
-         (for [[k lexemes] (:lexicon @@(get models :it))]
+         (for [[k lexemes] (:lexicon models)]
            (let [filtered-lexemes
                  (filter (fn [lexeme]
                            (or (= k "vedere")
@@ -905,8 +902,23 @@
          :head {:comp {:synsem {:pronoun true}}}}]
     (repeatedly #(-> spec generate morph time println))))
 
+(defn sentences-with-pronoun-objects-hints
+  "supply a spec enhanced with syntactic info to speed-up generation."  
+  []
+  (let [spec
+        {:modified false
+         :synsem {:cat :verb
+                  :subcat []
+                  :sem {:pred :top
+                        :tense :present
+                        :aspect :simple
+                        :subj {:pred :top}
+                        :obj {:pred :top}}}
+         :head {:comp {:synsem {:pronoun true}}}}]
+    (repeatedly #(-> spec generate morph time println))))
+
 (defn sentences-with-pronoun-objects-small []
-  (let [lexicon (:lexicon @@(get models :it))
+  (let [lexicon (:lexicon models)
         transitive-verbs
         (filter (fn [k]
                   (let [lexemes (->> (get lexicon k)
@@ -930,12 +942,18 @@
                (for [[k lexemes] lexicon]
                  (let [filtered-lexemes
                        (filter (fn [lexeme]
-                                 (or (and (contains? chosen-subset k)
-                                          (= (get-in lexeme [:synsem :cat])
-                                             :verb)
-                                          (not (empty? (get-in lexeme [:synsem :subcat] [])))
-                                          (map? (get-in lexeme [:synsem :subcat :2]))
-                                          (empty? (get-in lexeme [:synsem :subcat :3] [])))
+                                 (or (and
+
+                                      ;; must have the same surface form as the
+                                      ;; three randomly-chosen words above.
+                                      (contains? chosen-subset k)
+
+                                      ;; must be a transitive verb: exactly 2 arguments (subject and object).
+                                      (= (get-in lexeme [:synsem :cat]) :verb)
+                                      (not (empty? (get-in lexeme [:synsem :subcat] [])))
+                                      (map? (get-in lexeme [:synsem :subcat :2]))
+                                      (empty? (get-in lexeme [:synsem :subcat :3] [])))
+
                                      (and (= (get-in lexeme [:synsem :cat])
                                              :noun)
                                           (= (get-in lexeme [:synsem :pronoun])

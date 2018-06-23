@@ -212,12 +212,8 @@
                                      (pronoun? lexeme)))
                                lexemes)]
                    (if (not (empty? filtered-lexemes))
-                     [k filtered-lexemes]))))
-         
-         ;; no filters on rules:
-         (fn [rule]
-           true))
-        
+                     [k filtered-lexemes])))))
+
         spec
         {:modified false
          :phrasal true

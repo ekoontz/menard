@@ -918,7 +918,7 @@
     (repeatedly #(-> spec generate morph time println))))
 
 (defn sentences-with-pronoun-objects-small []
-  (let [lexicon (:lexicon models)
+  (let [lexicon (:lexicon model)
         transitive-verbs
         (filter (fn [k]
                   (let [lexemes (->> (get lexicon k)

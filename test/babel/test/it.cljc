@@ -903,19 +903,34 @@
          :head {:comp {:synsem {:pronoun true}}}}]
     (repeatedly #(-> spec generate morph time println))))
 
-
 (defn sentences-with-pronoun-objects-small []
-  (let [model
+  (let [lexicon (:lexicon @@(get models :it))
+        transitive-verbs
+        (filter (fn [k]
+                  (let [lexemes (->> (get lexicon k)
+                                     (filter (fn [lexeme]
+                                               (and (= (get-in lexeme [:synsem :cat])
+                                                       :verb)
+                                                    (= (get-in lexeme [:synsem :aux] false)
+                                                       false)
+                                                    (not (empty? (get-in lexeme [:synsem :subcat] [])))
+                                                    (map? (get-in lexeme [:synsem :subcat :2]))
+                                                    (empty? (get-in lexeme [:synsem :subcat :3] []))))))]
+                    (not (empty? lexemes))))
+                (keys lexicon))
+
+        chosen-subset (set (take 3 (shuffle transitive-verbs)))
+
+        model
         (babel.italiano.grammar/model-plus-lexicon
          ;; filtered lexicon:
          (into {}
-               (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
+               (for [[k lexemes] lexicon]
                  (let [filtered-lexemes
                        (filter (fn [lexeme]
-                                 (or (and (= (get-in lexeme [:synsem :cat])
+                                 (or (and (contains? chosen-subset k)
+                                          (= (get-in lexeme [:synsem :cat])
                                              :verb)
-                                          (= (get-in lexeme [:synsem :aux] false)
-                                             false)
                                           (not (empty? (get-in lexeme [:synsem :subcat] [])))
                                           (map? (get-in lexeme [:synsem :subcat :2]))
                                           (empty? (get-in lexeme [:synsem :subcat :3] [])))

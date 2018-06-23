@@ -22,11 +22,13 @@
    [clojure.set :as set]
    [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
 
-;; TODO: move this from babel.test.it to babel.lexicon or similar.
 (btest/init-db)
-(log/info (str "recompiling and writing lexicon to database.."))
-(write-lexicon "it" (lexicon/compile-lexicon))
-(log/info (str "done."))
+
+;; TODO: move this from babel.test.it to babel.lexicon or similar.
+(defn initialize []
+  (log/info (str "recompiling and writing lexicon to database.."))
+  (write-lexicon "it" (lexicon/compile-lexicon))
+  (log/info (str "done.")))
 
 ;; TODO: consider removing special-purpose grammars like grammar/np-grammar
 ;; and just use model instead.
@@ -45,7 +47,7 @@
   (babel.italiano.grammar/model-plus-lexicon
    ;; filtered lexicon:
    (into {}
-         (for [[k lexemes] (babel.lexiconfn/read-lexicon "it")]
+         (for [[k lexemes] (:lexicon @@(get models :it))]
            (let [filtered-lexemes
                  (filter (fn [lexeme]
                            (or (= k "vedere")

@@ -25,7 +25,6 @@
                                     fail-path-between get-in
                                     strip-refs unify]]))
 (btest/init-db)
-(write-lexicon "en" (grammar/compile-lexicon))
 (def model @@(get models :en))
 
 (defn morph [expression]

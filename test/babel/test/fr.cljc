@@ -19,7 +19,6 @@
             [dag_unify.core :refer [fail-path fail? get-in strip-refs unify]]))
 
 (btest/init-db)
-(write-lexicon "fr" (compile-lexicon))
 (def model @@(get models :fr))
 
 (defn parse [expression & {:keys [parse-with-truncate]}]

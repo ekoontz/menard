@@ -1,6 +1,7 @@
 (ns babel.test.test
   (:require
    [babel.generate :as generate]
+   [babel.korma :as korma]
    [clojure.pprint :refer [pprint]]
    [clojure.string :as string]
    [clojure.test :refer [deftest is]]

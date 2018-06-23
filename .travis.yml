@@ -6,6 +6,7 @@ addons:
 before_script:
   - psql -c 'create database babel;' -U postgres
   - psql -U postgres babel < src/sql/babel.sql
+  - echo "(load \"babel/directory\")(babel.directory/write-lexicons)" | lein repl
 sudo: false
 env:
   global:

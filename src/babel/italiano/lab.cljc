@@ -158,34 +158,47 @@
   []
   (let [spec
         {:modified false
-         :synsem {:cat :verb
+         :phrasal true
+         :synsem {:aux false
+                  :cat :verb
                   :subcat []
                   :sem {:pred :top
                         :tense :present
                         :aspect :simple
                         :subj {:pred :top}
                         :obj {:pred :top}}}
-         :head {:comp {:synsem {:pronoun true}}}}]
+         :comp {:phrasal false}
+         :head {:phrasal true
+                :head {:phrasal false}
+                :comp {:phrasal false
+                       :synsem {:pronoun true}}}}]
     (repeatedly #(-> spec generate morph time println))))
 
 (defn sentences-with-pronoun-objects-small []
   (let [lexicon (:lexicon model)
+        transitive? (fn [lexeme]
+                      (and (= (get-in lexeme [:synsem :cat])
+                              :verb)
+                           (= (get-in lexeme [:synsem :aux] false)
+                              false)
+                           (not (empty? (get-in lexeme [:synsem :subcat] [])))
+                           (map? (get-in lexeme [:synsem :subcat :2]))
+                           (empty? (get-in lexeme [:synsem :subcat :3] []))))
+        
         transitive-verbs
         (filter (fn [k]
                   (let [lexemes (->> (get lexicon k)
-                                     (filter (fn [lexeme]
-                                               (and (= (get-in lexeme [:synsem :cat])
-                                                       :verb)
-                                                    (= (get-in lexeme [:synsem :aux] false)
-                                                       false)
-                                                    (not (empty? (get-in lexeme [:synsem :subcat] [])))
-                                                    (map? (get-in lexeme [:synsem :subcat :2]))
-                                                    (empty? (get-in lexeme [:synsem :subcat :3] []))))))]
+                                     (filter transitive?))]
                     (not (empty? lexemes))))
                 (keys lexicon))
 
-        chosen-subset (set (take 3 (shuffle transitive-verbs)))
-
+        chosen-subset (set (take 10 (shuffle transitive-verbs)))
+        
+        pronoun? (fn [lexeme]
+                   (and (= (get-in lexeme [:synsem :cat])
+                           :noun)
+                        (= (get-in lexeme [:synsem :pronoun])
+                           true)))
         model
         (model-plus-lexicon
          ;; filtered lexicon:
@@ -194,35 +207,22 @@
                  (let [filtered-lexemes
                        (filter (fn [lexeme]
                                  (or (and
-
-                                      ;; must have the same surface form as the
-                                      ;; three randomly-chosen words above.
                                       (contains? chosen-subset k)
-
-                                      ;; must be a transitive verb: exactly 2 arguments (subject and object).
-                                      (= (get-in lexeme [:synsem :cat]) :verb)
-                                      (not (empty? (get-in lexeme [:synsem :subcat] [])))
-                                      (map? (get-in lexeme [:synsem :subcat :2]))
-                                      (empty? (get-in lexeme [:synsem :subcat :3] [])))
-
-                                     (and (= (get-in lexeme [:synsem :cat])
-                                             :noun)
-                                          (= (get-in lexeme [:synsem :pronoun])
-                                             true))))
+                                      (transitive? lexeme))
+                                     (pronoun? lexeme)))
                                lexemes)]
                    (if (not (empty? filtered-lexemes))
                      [k filtered-lexemes]))))
          
-         ;; filtered grammar:
+         ;; no filters on rules:
          (fn [rule]
-           (or (= (:rule rule)
-                  "s-present-phrasal")
-               (= (:rule rule)
-                  "vp-pronoun-nonphrasal"))))
+           true))
+        
         spec
         {:modified false
          :phrasal true
-         :synsem {:cat :verb
+         :synsem {:aux false
+                  :cat :verb
                   :subcat []
                   :sem {:pred :top
                         :tense :present

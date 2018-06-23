@@ -6,6 +6,7 @@
    [clj-time.coerce :as c]
    [clj-time.core :as t]
    [clj-time.format :as f]
+   [clj-time.local :as l]
    [clojure.set :as set]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
@@ -649,14 +650,16 @@
      request title resources)))
 
 (declare tr)
-(def short-format
-  (f/formatter "MMM dd, yyyy HH:mm"))
+
+(defn local-timestamp []
+  (l/format-local-time (l/local-now) :rfc822))
+
 (defn display-time [timestamp]
   "convert time objects of various types to our chosen datetime format."
   (cond (= (type timestamp) java.sql.Timestamp)
-        (f/unparse short-format (c/from-long (.getTime timestamp)))
+        (f/unparse (f/formatters :rfc822) (c/from-long (.getTime timestamp)))
         (= (type timestamp) org.joda.time.DateTime)
-        (f/unparse short-format timestamp)
+        (f/unparse (f/formatters :rfc822) timestamp)
         true
         timestamp))
 

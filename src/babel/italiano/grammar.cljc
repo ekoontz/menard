@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in resolve])
   (:require
    [babel.generate :as generate :refer [lightning-bolts]]
+   [babel.html :refer [local-timestamp]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon vocab-entry-to-lexeme]]
    [babel.italiano.morphology :refer [analyze fo]]
@@ -740,7 +741,9 @@
      ;; stages.
      {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
       :default-fn default-fn
-      :name "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon."
+      :name (str
+             "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon "
+             "at: " (local-timestamp))
       :grammar grammar
       :language "it"
       :language-keyword :italiano

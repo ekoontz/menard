@@ -708,8 +708,8 @@
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
   [lexicon & [grammar-filter-rule]]
-  (let [debug (log/info "  loading lexicon..")
-        debug (log/info "  filtering lexicon..")
+  (let [debug (log/debug "  loading lexicon..")
+        debug (log/debug "  filtering lexicon..")
         lexicon
         (into {}
               (for [[k vals] lexicon]
@@ -719,7 +719,7 @@
                   (if (not (empty? filtered-vals))
                     [k filtered-vals]))))
 
-        debug (log/info "  lexicon for generation..")
+        debug (log/debug "  lexicon for generation..")
         lexicon-for-generation (lexicon-for-generation lexicon)
 
         grammar-filter-rule
@@ -731,9 +731,9 @@
         rules (map #(keyword (get-in % [:rule])) grammar)
 
         ;; indices from paths to subsets of the lexicon
-        debug (log/info "  indices..")
+        debug (log/debug "  indices..")
         indices (create-indices lexicon-for-generation index-lexicon-on-paths)
-        debug (log/info "  finalizing..")]
+        debug (log/debug "  finalizing..")]
 
     (->
      ;; Create the model in stages. We need to do this because some closures need a model

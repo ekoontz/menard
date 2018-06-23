@@ -1,27 +1,19 @@
 (ns babel.italiano.lab
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.directory :refer [models]]
-   [babel.italiano :as italiano :refer [analyze generate model morph morph-ps parse preprocess]]
-   [babel.italiano.grammar :as grammar :refer [model-plus-lexicon]]
-   [babel.italiano.lexicon :as lexicon]
-   [babel.italiano.morphology :as morph :refer [analyze-regular]]
-   [babel.italiano.morphology.nouns :as nouns]
-   [babel.lexiconfn :refer [write-lexicon]]
-   [babel.italiano.morphology.verbs :as verbs]
+   [babel.directory :refer []]
+   [babel.italiano :as italiano :refer [analyze generate model morph morph-ps parse]]
+   [babel.italiano.grammar :refer [model-plus-lexicon]]
    [babel.test.test :as btest]
    #?(:cljs [babel.logjs :as log])
    [clojure.pprint :refer [pprint]]
-   #?(:clj [clojure.test :as realtest :refer [is]])
-   #?(:cljs [cljs.test :refer-macros [is]])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
-   [clojure.string :as string]
    [clojure.set :as set]
-   [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
+   [dag_unify.core :refer [get-in strip-refs]]))
 
 (defn generate-speed-test [spec & [times]]
-  (btest/generate-speed-test spec models times))
+  (btest/generate-speed-test spec model times))
 
 (defn run-passato-prossimo-test []
   (generate-speed-test {:synsem {:cat :verb :subcat []
@@ -195,7 +187,7 @@
         chosen-subset (set (take 3 (shuffle transitive-verbs)))
 
         model
-        (babel.italiano.grammar/model-plus-lexicon
+        (model-plus-lexicon
          ;; filtered lexicon:
          (into {}
                (for [[k lexemes] lexicon]

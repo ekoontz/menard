@@ -8,6 +8,7 @@
    [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
+   [babel.test.test :refer [init-db]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
    [clojure.core.cache :as cache]
@@ -15,6 +16,11 @@
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
+
+(defonce model
+  (do
+    (init-db)
+    @@(get babel.directory/models :it)))
 
 (defn apply-patterns [input-string]
   (let [result 
@@ -37,8 +43,7 @@
     
 (defn morph-ps
   ([expr]
-   (let [model @@(get babel.directory/models :it)]
-     (morph-ps expr model)))
+   (morph-ps expr model))
 
   ([expr model & {:keys [from-language show-notes]
                   :or {from-language nil
@@ -54,15 +59,13 @@
   "analyze a word: as opposed to parsing which is multi-word."
   ;; TODO: should take a language model, not a lexicon
   ([surface-form]
-   (let [model @@(get babel.directory/models :it)]
-     (analyze surface-form model)))
+   (analyze surface-form model))
   ([surface-form model]
    (morph/analyze surface-form (:lexicon model))))
 
 (defn generate
   ([spec]
-   (let [model @@(get babel.directory/models :it)]
-     (generate spec model)))
+   (generate spec model))
   ([spec model & {:keys [do-enrich max-total-depth truncate]
             :or {do-enrich true
                  max-total-depth generate/max-depth

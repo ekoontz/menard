@@ -194,28 +194,11 @@
                     (not (empty? lexemes))))
                 (keys lexicon))
 
-        chosen-subset (set (take 10 (shuffle transitive-verbs)))
-        
         pronoun? (fn [lexeme]
                    (and (= (get-in lexeme [:synsem :cat])
                            :noun)
                         (= (get-in lexeme [:synsem :pronoun])
                            true)))
-        model
-        (model-plus-lexicon
-         ;; filtered lexicon:
-         (into {}
-               (for [[k lexemes] lexicon]
-                 (let [filtered-lexemes
-                       (filter (fn [lexeme]
-                                 (or (and
-                                      (contains? chosen-subset k)
-                                      (transitive? lexeme))
-                                     (pronoun? lexeme)))
-                               lexemes)]
-                   (if (not (empty? filtered-lexemes))
-                     [k filtered-lexemes])))))
-
         spec
         {:modified false
          :phrasal true
@@ -230,4 +213,21 @@
          :comp {:phrasal false}
          :head {:comp {:phrasal false
                        :synsem {:pronoun true}}}}]
-    (repeatedly #(-> spec (generate model) morph time println))))
+    (repeatedly (fn []
+                  (let [chosen-subset (set (take 1 (shuffle transitive-verbs)))
+                        debug (println (str "chosen:" (first chosen-subset)))
+                        model
+                        (model-plus-lexicon
+                         ;; filtered lexicon: all pronouns and a small subset of transitive verbs.
+                         (into {}
+                               (for [[k lexemes] lexicon]
+                                 (let [filtered-lexemes
+                                       (filter (fn [lexeme]
+                                                 (or (and
+                                                      (contains? chosen-subset k)
+                                                      (transitive? lexeme))
+                                                     (pronoun? lexeme)))
+                                               lexemes)]
+                                   (if (not (empty? filtered-lexemes))
+                                     [k filtered-lexemes])))))]
+                    (-> spec (generate model) morph time println))))))

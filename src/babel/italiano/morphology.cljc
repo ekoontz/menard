@@ -125,18 +125,11 @@
                       (get-string-1 (get-in word [:b]))])
 
     (and (= :verb (get-in word [:cat]))
-         (= :top (get-in word [:infl])))
+         (= :top (get-in word [:infl] :top)))
     (get-in word [:italiano])
     
     (= :verb (get-in word [:cat]))
-    (let [conjugated (verbs/conjugate word)]
-      (if (or (nil? conjugated) (empty? conjugated))
-        (let [message (str "failed to conjugate verb: "
-                           (dag_unify.core/strip-refs word))
-              pprint (println (clojure.pprint/pprint (dag_unify.core/strip-refs word)))]
-          (log/error message
-                     (throw (Exception. message))))
-        conjugated))
+    (or (verbs/conjugate word) (get-in word [:italiano]))
     
     (and (not (= ::none (get-in word [:a] ::none)))
          (not (= ::none (get-in word [:b] ::none))))

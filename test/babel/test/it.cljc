@@ -32,63 +32,6 @@
                 `[(log/info (str "done with test: " ~test-name))])]
     `(realtest/deftest ~test-name ~@wrapped-arguments)))
 
-(defn screen-out-false [m]
-  (->>
-   (dag_unify.core/paths m)
-   (filter #(let [v (dag_unify.core/get-in m %)]
-              (and (not (= false v))
-                   (not (map? v)))))
-   (map (fn [path]
-          [path (get-in m path)]))
-   (map (fn [[path v]]
-          (assoc-in {} path v)))
-   (reduce (fn [a b] (merge-with merge a b)))))
-
-(defn grab-bag []
-  (let [semantics (-> "io lo ho" parse first :parses
-                      first (dag_unify.core/get-in [:synsem :sem]))
-
-        semantics-any-subject
-        (dag_unify.core/dissoc-paths semantics [[:subj]])
-
-        semantics-any-object
-        (unify (dag_unify.core/dissoc-paths semantics [[:obj]])
-               {:obj {:pred :top}})]
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics)}}
-                   generate
-                   morph time
-                   println))))
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-subject)}}
-                   generate
-                   morph time
-                   println))))
-
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-object)}}
-                   generate
-                   morph time
-                   println))))
-    (-> "loro vedono casa"
-        parse
-        ((fn [tokenizations]
-           (mapcat :parses tokenizations)))
-        first
-        (get-in [:synsem :sem])
-        clojure.pprint/pprint)))
-
 (deftest analyze-1
   (let [singular (analyze "compito")
         plural  (analyze "compiti")]

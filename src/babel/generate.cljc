@@ -139,15 +139,17 @@
     (cond
       (not (nil? bolts))
       (do
-        (log/trace (str "found compiled bolts."))
+        (log/debug (str "found compiled bolts."))
         (shufflefn (->> bolts
                         (map #(unify spec %))
                         (filter #(not (= :fail %))))))
       true
-      (shufflefn (lightning-bolts model spec 0 depth)))))
+      (do
+        (log/debug (str "no compiled bolts."))
+        (shufflefn (lightning-bolts model spec 0 depth))))))
 
-;; a 'lightning bolts' is a dag that
-;; has among paths, paths like [:head :head :head] and
+;; a 'lightning bolt' is a dag that
+;; has among its paths, paths like [:head :head :head] and
 ;; pictorially look like:
 ;; 
 ;; 
@@ -187,7 +189,8 @@
         (let [candidate-parent (first candidate-parents)]
           (log/debug (str "creating bolts with: "
                           (:rule candidate-parent)
-                          " and cat: " (get-in candidate-parent [:head :synsem :cat])))
+                          " and cat: " (get-in candidate-parent [:head :synsem :cat])
+                          " at depth: " depth))
           (lazy-cat
            (->> (lightning-bolts model
                                  (get-in candidate-parent [:head])

@@ -292,9 +292,9 @@
      (leaves head)
      (leaves comp)))))
 
-(defn fo-ps [tree fo]
+(defn fo-ps [tree morph]
   "return a human-readable string of a phrase structure tree. leaves of the tree are printed
-   by calling the supplied _fo_ function"
+   by calling the supplied _morph_ function"
   (let [head-first? (get-in tree [:first] :none)
         cat (str (get-in tree [:synsem :cat]) "")]
     (if (= true (get-in tree [:phrasal]))
@@ -306,21 +306,22 @@
            (= :none (get-in tree [:comp] :none))
            (not (= :none (get-in tree [:rule] :none))))
       (str "[" (get-in tree [:rule])
-           " '" (fo tree) "']")
+           (morph tree))
 
-      (= head-first? :none)
-      (str " '" (fo tree) "'")
+      (and (= head-first? :none)
+           (= false (get-in tree [:phrasal])))
+      (str "'" (morph tree) "'")
 
       (= head-first? :comp)
       (str "[" (get-in tree [:rule]) " "
-           (fo-ps (get-in tree [:comp]) fo) " "
-           (fo-ps (get-in tree [:head]) fo)
+           (fo-ps (get-in tree [:comp]) morph) " "
+           (fo-ps (get-in tree [:head]) morph)
            "]")
 
       (= head-first? :head)
       (str "[" (get-in tree [:rule]) " "
-           (fo-ps (get-in tree [:head]) fo) " "
-           (fo-ps (get-in tree [:comp]) fo)
+           (fo-ps (get-in tree [:head]) morph) " "
+           (fo-ps (get-in tree [:comp]) morph)
            "]")
 
       true "??")))

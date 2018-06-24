@@ -50,7 +50,7 @@
                        show-notes true}}]
    ;; modeled after babel.english/morph:
    ;; most arguments are simply discarded for italian.
-   (parse/fo-ps expr (:morph-ps model))))
+   (parse/fo-ps expr (:morph model))))
 
 (defn fo-ps [expr]
   (parse/fo-ps expr #(get-string (get-in % [:italiano]))))

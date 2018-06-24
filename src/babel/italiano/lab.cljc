@@ -44,6 +44,10 @@
             :sem {:subj {:pred :top}
                   :obj {:pred :top}}}})
 
+
+(def non-aux-spec
+  {:synsem {:aux false}})
+
 (defn transitive-sentence []
   (let [spec transitive-spec]
     (repeatedly #(-> spec generate morph time println))))
@@ -56,7 +60,7 @@
 (defn sentences-with-pronoun-objects-hints
   "supply a spec enhanced with syntactic info to speed-up generation."  
   []
-  (let [spec (unify transitive-spec phrasal-spec)]
+  (let [spec (unify non-aux-spec transitive-spec phrasal-spec)]
     (repeatedly #(-> spec generate morph time println))))
 
 (defn sentences-with-pronoun-objects-small []
@@ -84,9 +88,16 @@
                            :noun)
                         (= (get-in lexeme [:synsem :pronoun])
                            true)))
-        spec (unify transitive-spec phrasal-spec)]
+        propernoun? (fn [lexeme]
+                   (and (= (get-in lexeme [:synsem :cat])
+                           :noun)
+                        (= (get-in lexeme [:synsem :propernoun])
+                           true)))
+
+        spec (unify transitive-spec phrasal-spec non-aux-spec
+                    {:head {:comp {:synsem {:pronoun true}}}})]
     (repeatedly (fn []
-                  (let [chosen-subset (set (take 10 (shuffle transitive-verbs)))
+                  (let [chosen-subset (set (take 1000 (shuffle transitive-verbs)))
                         model
                         (model-plus-lexicon
                          ;; filtered lexicon: all pronouns and a small subset of transitive verbs.
@@ -97,6 +108,7 @@
                                                  (or (and
                                                       (contains? chosen-subset k)
                                                       (transitive? lexeme))
+                                                     (propernoun? lexeme)
                                                      (pronoun? lexeme)))
                                                lexemes)]
                                    (if (not (empty? filtered-lexemes))
@@ -159,3 +171,11 @@
         first
         (get-in [:synsem :sem])
         clojure.pprint/pprint)))
+
+(def spec {:comp {:phrasal false},
+           :head {:comp {:phrasal false, :synsem {:pronoun true}},
+                  :head {:phrasal false}},
+           :synsem {:cat :verb, :subcat (),
+                    :aux false :sem {:subj {:pred :top},
+                                     :obj {:pred :top}}}})
+(def foo (first (babel.generate/lightning-bolts model spec 0 2)))

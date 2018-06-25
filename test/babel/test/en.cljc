@@ -448,8 +448,8 @@
         comp-comp-spec (get-in good-lb [:head :comp])
         comp-spec (get-in good-lb [:comp])]
 
-    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
-    (is (not (empty? (babel.generate/lightning-bolts med (get-in good-lb [:comp]) 0 1))))))
+    (is (not (empty? (lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
+    (is (not (empty? (lightning-bolts med (get-in good-lb [:comp]) 0 1))))))
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of

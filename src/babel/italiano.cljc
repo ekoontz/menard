@@ -1,11 +1,10 @@
 (ns babel.italiano
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.generate :as generate :refer [lightning-bolts]]
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [get-string patterns]]
-   [babel.generate :as generate]
+   [babel.generate :as generate :refer [lightning-bolts]]
    [babel.over :as over]
    [babel.parse :as parse]
    [babel.test.test :refer [init-db]]
@@ -15,7 +14,7 @@
    [clojure.pprint :refer [pprint]]
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
-   [dag_unify.core :refer [fail-path-between get-in strip-refs unifyc]]))
+   [dag_unify.core :refer [fail-path-between get-in strip-refs unify unifyc]]))
 
 (defonce model
   (do

@@ -11,15 +11,6 @@
 ;; during generation, will not decend deeper than this when creating a tree:
 ;; TODO: should also be possible to override per-language.
 (def ^:const max-depth 10)
-(def ^:const shufflefn
-  (fn [x]
-    (cond
-      ;; deterministic generation:
-      true x
-      
-      true
-      ;; nondeterministic generation:
-      (lazy-seq (shuffle x)))))
 
 (declare add-comp-to-bolts)
 (declare add-comps-to-bolt)
@@ -140,13 +131,13 @@
       (not (nil? bolts))
       (do
         (log/debug (str "found compiled bolts."))
-        (shufflefn (->> bolts
-                        (map #(unify spec %))
-                        (filter #(not (= :fail %))))))
+        (shuffle (->> bolts
+                      (map #(unify spec %))
+                      (filter #(not (= :fail %))))))
       true
       (do
         (log/debug (str "no compiled bolts."))
-        (shufflefn (lightning-bolts model spec 0 depth))))))
+        (lightning-bolts model spec 0 depth)))))
 
 ;; a 'lightning bolt' is a dag that
 ;; has among its paths, paths like [:head :head :head] and
@@ -169,39 +160,38 @@
 (defn lightning-bolts
   "Return every possible bolt for the given model and spec. Start at the given depth and
    keep generating until the given max-depth is reached."
-  [model spec depth max-depth & [use-candidate-parents]]
-  (if (and (< depth max-depth)
-           (not (= false (get-in spec [:phrasal] true))))
-    (let [candidate-parents
-          (or use-candidate-parents
-              (let [filtered
-                    (->>
-                     (:grammar model)
-                     (map #(unify % spec))
-                     (filter #(not (= :fail %)))
-                     (shufflefn))]
-                (if (empty? filtered)
-                  (log/debug (str "no rules found for spec:"
-                                  (dag_unify.core/strip-refs spec)
-                                  " at depth: " depth)))
-                filtered))]
-      (if (not (empty? candidate-parents))
-        (let [candidate-parent (first candidate-parents)]
-          (log/debug (str "creating bolts with: "
-                          (:rule candidate-parent)
-                          " and cat: " (get-in candidate-parent [:head :synsem :cat])
-                          " at depth: " depth))
-          (lazy-cat
-           (->> (lightning-bolts model
-                                 (get-in candidate-parent [:head])
-                                 (+ 1 depth)
-                                 max-depth)
-                (map (fn [head]
-                       (assoc-in candidate-parent [:head] head))))
-           (lightning-bolts model spec depth max-depth (rest candidate-parents))))
-        []))
-    (get-lexemes model spec)))
+  [model spec depth max-depth]
+  (cond (and (< depth max-depth) (not (= false (get-in spec [:phrasal] true))))
+        (mapcat (fn [candidate-parent]
+                  (->> (lightning-bolts model
+                                        (get-in candidate-parent [:head])
+                                        (+ 1 depth)
+                                        max-depth)
+                       (map (fn [head]
+                              (assoc-in candidate-parent [:head] head)))))
+                (->>
+                 (:grammar model)
+                 (map #(unify % spec))
+                 (filter #(not (= :fail %)))))
+        true (get-lexemes model spec)))
 
+(defn get-lexemes [model spec]
+  "Get lexemes matching the spec. Use a model's index if available, where the index 
+   is a function that we call with _spec_ to get a set of indices. 
+   Otherwise use the model's entire lexeme."
+  (->>
+   (if (= false (get-in spec [:phrasal] false))
+     (if-let [index-fn (:index-fn model)]
+       (index-fn spec)
+       (do
+         (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+         (flatten (vals
+                   (or (:lexicon (:generate model)) (:lexicon model)))))))
+   (filter #(or (= false (get-in % [:exception] false))
+                (not (= :verb (get-in % [:synsem :cat])))))
+   (map #(unify % spec))
+   (filter #(not (= :fail %)))))
+  
 (defn add-comps-to-bolt
   "bolt + paths => trees"
   [bolt model comp-paths]
@@ -264,21 +254,3 @@
                    (repeatedly (fn [] :head)))
              [:comp])
      (comp-paths (- depth 1)))))
-
-(defn get-lexemes [model spec]
-  "Get lexemes matching the spec. Use a model's index if available, where the index 
-   is a function that we call with _spec_ to get a set of indices. 
-   Otherwise use the model's entire lexeme."
-  (->>
-   (if (= false (get-in spec [:phrasal] false))
-     (if-let [index-fn (:index-fn model)]
-       (index-fn spec)
-       (do
-         (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-         (flatten (vals
-                   (or (:lexicon (:generate model)) (:lexicon model)))))))
-   (filter #(or (= false (get-in % [:exception] false))
-                (not (= :verb (get-in % [:synsem :cat])))))
-   (map #(unify % spec))
-   (filter #(not (= :fail %)))))
-

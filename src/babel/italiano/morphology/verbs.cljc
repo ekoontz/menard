@@ -103,18 +103,18 @@
     (first (do-replace-on infinitive unifying-patterns))))
 
 (defn regular-future [word]
-  (let [unifying-patterns
+  (let [infinitive (get-in word [:future-stem]
+                           (get-in word [:italiano]))
+        unifying-patterns
         (remove nil? (mapcat #(when (not (= :fail
                                             (unify word
                                                    {:agr (:agr %)})))
                                 (:g %))
-                             patterns-future))
-        ;; if the word has a future-stem, use it; otherwise, use :italiano, which
-        ;; is expected to be the infinitive for verbs.
-        infinitive (get-in word [:future-stem]
-                           (get-in word [:italiano]))]
-    (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
-    (first (do-replace-on infinitive unifying-patterns))))
+                             patterns-future))]
+      ;; if the word has a future-stem, use it; otherwise, use :italiano, which
+      ;; is expected to be the infinitive for verbs.
+      (log/debug (str "infinitive: " infinitive "; unifying patterns: " (string/join "," unifying-patterns)))
+      (first (do-replace-on infinitive unifying-patterns))))
 
 (defn regular-imperfetto [word]
   (let [unifying-patterns
@@ -485,51 +485,56 @@
     (first (do-replace-on infinitive unifying-patterns))))
 
 (defn conjugate [word]
-  (cond
-    (and
-     (= (get-in word [:infl]) :future)
-     (map? (get-in word [:future])))
-    (or (irregular word (get-in word [:future]))
-        (regular-future word))
-    
-    (= (get-in word [:infl]) :future)
-    (regular-future word)
+  (let [infinitive (get-in word [:italiano])]
+    (cond
+      (= (get-in word [:agr] :top) :top)
+      infinitive
+      
+      (and
+       (= (get-in word [:infl]) :future)
+       (map? (get-in word [:future])))
+      (or (irregular word (get-in word [:future]))
+          (regular-future word))
+      
+      (= (get-in word [:infl]) :future)
+      (regular-future word)
+      
+      (and
+       (= (get-in word [:infl]) :imperfetto)
+       (map? (get-in word [:imperfetto])))
+      (or (irregular word (get-in word [:imperfetto]))
+          (regular-imperfetto word))
+      
+      (= (get-in word [:infl]) :imperfetto)
+      (regular-imperfetto word)
+      
+      (and
+       (= (get-in word [:infl]) :present)
+       (map? (get-in word [:present])))
+      (or (irregular word (get-in word [:present]))
+          (regular-present word))
+      
+      (= (get-in word [:infl]) :present)
+      (regular-present word)
+      
+      (= (get-in word [:infl]) :conditional)
+      (regular-conditional word)
+      
+      (passato-as-head? word)
+      (passato-as-head word)
+      
+      (irregular-passato? word)
+      (irregular-passato word)
+      
+      (= :passato (get-in word [:infl]))
+      (regular-passato word)
+      
+      (irregular-gerund? word)
+      (irregular-gerund word)
+      
+      (= (get-in word [:infl]) :participle)
+      (regular-gerund word)
+      )))
 
-    (and
-     (= (get-in word [:infl]) :imperfetto)
-     (map? (get-in word [:imperfetto])))
-    (or (irregular word (get-in word [:imperfetto]))
-        (regular-imperfetto word))
-
-    (= (get-in word [:infl]) :imperfetto)
-    (regular-imperfetto word)
-    
-    (and
-     (= (get-in word [:infl]) :present)
-     (map? (get-in word [:present])))
-    (or (irregular word (get-in word [:present]))
-        (regular-present word))
-
-    (= (get-in word [:infl]) :present)
-    (regular-present word)
-    
-    (= (get-in word [:infl]) :conditional)
-    (regular-conditional word)
-    
-    (passato-as-head? word)
-    (passato-as-head word)
-    
-    (irregular-passato? word)
-    (irregular-passato word)
-    
-    (= :passato (get-in word [:infl]))
-    (regular-passato word)
-    
-    (irregular-gerund? word)
-    (irregular-gerund word)
-    
-    (= (get-in word [:infl]) :participle)
-    (regular-gerund word)
-    ))
 
 

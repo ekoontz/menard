@@ -119,6 +119,8 @@
 ;; add a ':g' to: babel.italiano.morphology.nouns/patterns.
 (defn get-string-1 [word]
   (cond
+    (= word "") ""
+
     (and (map? (get-in word [:a]))
          (map? (get-in word [:b])))
     (string/join " " [(get-string-1 (get-in word [:a]))
@@ -146,7 +148,7 @@
      (= (get-in word '(:cat)) :adjective)
      (string? (get-in word '(:fem :plur))))
     (get-in word '(:fem :plur))
-    
+
     ;; handle lexical exceptions (plural feminine adjectives):
     (and
      (= (get-in word '(:agr :number)) :plur)
@@ -249,7 +251,7 @@
      (= (get-in word '(:cat)) :adjective))
     (string/replace (get-in word [:italiano])
                     #"[eo]$" "e") ;; nero => nere
-    
+
     ;; TODO: move this down to other adjectives.
     ;; this was moved up here to avoid
     ;; another rule from matching it.
@@ -272,7 +274,7 @@
      (= (get-in word '(:cat)) :adjective))
     (string/replace (get-in word [:italiano])
                     #"[eo]$" "a") ;; nero => nera
-    
+
     (and (= :infinitive (get-in word '(:infl)))
          (string? (get-in word [:italiano])))
     (get-in word [:italiano])
@@ -295,38 +297,13 @@
     
     (= (get-in word '(:infl)) :top)
     (str (get-in word [:italiano]))
-    
-    (and
-     (get-in word [:a])
-     (get-in word [:b]))
-    (get-string
-     (get-in word [:a])
-     (get-in word [:b]))
-    
-    (= (get-in word [:a]) :top)
-    (str
-     ".." " " (get-string-1 (get-in word [:b])))
-    
-    (and
-     (= (get-in word [:b]) :top)
-     (string? (get-string-1 (get-in word [:a]))))
-    (str
-     (get-string-1 (get-in word [:a]))
-     " " "..")
-    
-    (and
-     (= (get-in word [:b]) :top)
-     (string? (get-in word '(:a :italiano))))
-    (str
-     (get-string-1 (get-in word '(:a :italiano)))
-     " " "..")
-    
+
     (and
      (= (get-in word '(:agr :gender)) :fem)
      (= (get-in word '(:agr :number)) :sing)
      (= (get-in word '(:cat)) :noun))
     (get-in word [:italiano])
-    
+
     (and
      (= (get-in word '(:agr :gender)) :masc)
      (= (get-in word '(:agr :number)) :sing)
@@ -351,11 +328,10 @@
     
     (string? (get-in word [:italiano]))
     (get-in word [:italiano])
+
+    true "_"
     
-    ;; TODO: throw exception rather than returning _word_, which is a map or something else unprintable.
-    ;; in other words, if we've gotten this far, it's a bug.
-    :else
-    word))
+    true (str "[?? " word "]")))
 
 ;; TODO: replace 'a' and 'b' with 'left' and 'right' for clarity.
 ;; TODO: make b required so that function is easier to understand and refactor.

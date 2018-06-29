@@ -52,6 +52,7 @@
                                    :cat :verb
                                    :sem {:pred :be
                                          :subj {:pred :I}
+                                         :obj :unspec
                                          :aspect :simple
                                          :tense :present}}})]
     (is (= "io sono" (morph result)))))
@@ -204,7 +205,7 @@
                                           :sem {:spec {:def :def} 
                                                 :mod {:pred :difficile}
                                                 :number :sing
-                                                :pred :donna}}}
+                                                :pred :woman}}}
                                 @np-grammar)]
     (is (or (= (morph expr) "la donna difficile")
             (= (morph expr) "la difficile donna")))
@@ -453,6 +454,7 @@
         (generate {:synsem {:subcat []
                             :cat :verb
                             :sem {:subj {:pred :loro}
+                                  :obj :unspec
                                   :pred :manage
                                   :aspect :simple
                                   :tense :present}}})]

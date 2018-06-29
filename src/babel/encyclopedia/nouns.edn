@@ -1,275 +1,289 @@
 {
- {:activity true}  {:animate false
-                    :artifact false
-                    :consumable false
-                    :part-of-human-body false}
+ {:prop {:activity true}} {:prop {:animate false
+                                  :artifact false
+                                  :consumable false
+                                  :part-of-human-body false}}
  
- {:animate false}  {:human false
-                    :pet false}
+ {:prop {:animate false}}  {:prop {:human false
+                                   :pet false}}
  
- {:animate true}   {:activity false
-                    :artifact false
-                    :living true
-                    :machine false
-                    :mass false
-                    :furniture false
-                    :physical-object true
-                    :part-of-human-body false
-                    :drinkable false
-                    :speakable false
-                    :place false}
+ {:prop {:animate true}}   {:prop {:activity false
+                                   :artifact false
+                                   :living true
+                                   :machine false
+                                   :mass false
+                                   :furniture false
+                                   :physical-object true
+                                   :part-of-human-body false
+                                   :drinkable false
+                                   :speakable false
+                                   :place false}}
  
- {:artifact false}  {:clothing false
-                     :machine false}
+ {:prop {:artifact false}} {:prop {:clothing false
+                                   :machine false}}
  
- {:artifact true}  {:animate false
-                    :activity false
-                    :living false
-                    :physical-object true}
+ {:prop {:artifact true}}  {:prop {:animate false
+                                   :activity false
+                                   :living false
+                                   :physical-object true}}
  
- {:buyable true}   {:human false
-                    :part-of-human-body false}
+ {:prop {:buyable true}}   {:prop {:human false
+                                  :part-of-human-body false}}
  
- {:city true}      {:artifact true
-                    :animate false
-                    :legible false
-                    :place true}
+ {:prop {:city true}}      {:prop {:artifact true
+                                  :animate false
+                                  :legible false
+                                  :place true}}
  
- {:clothing true}  {:animate false
-                    :artifact true
-                    :consumable false
-                    :machine false
-                    :place false
-                    :physical-object true}
- {:consumable
-  false}           {:drinkable false
-                    :edible false}
- {:consumable
-  true}            {:activity false
-                    :buyable true
-                    :clothing false
-                    :furniture false
-                    :legible false
-                    :human false
-                    :machine false
-                    :part-of-human-body false
-                    :pet false
-                    :physical-object true
-                    :place false
-                    :speakable false}
+  {:prop {:clothing true}} {:prop {:animate false
+                                   :artifact true
+                                   :consumable false
+                                   :machine false
+                                   :place false
+                                   :physical-object true}}
+ {:prop {:consumable
+         false}}           {:prop {:drinkable false
+                                   :edible false}}
+ {:prop {:consumable
+         true}}           {:prop {:activity false
+                                  :buyable true
+                                  :clothing false
+                                   :furniture false
+                                   :legible false
+                                   :human false
+                                   :machine false
+                                   :part-of-human-body false
+                                   :pet false
+                                   :physical-object true
+                                   :place false
+                                   :speakable false}}
  
- {:drinkable true} {:animate false
-                    :consumable true
-                    :edible false
-                    :mass true}
+ {:prop {:drinkable true}} {:prop {:animate false
+                                   :consumable true
+                                   :edible false
+                                   :mass true}}
  
- {:edible true}    {:consumable true
-                    :drinkable false}
+ {:prop {:edible true}}    {:prop {:consumable true
+                                   :drinkable false}}
  
- {:event true}     {:buyable false
-                    :physical-object false
-                    :speakable false}
- 
- {:furniture true} {:artifact true
-                    :animate false
-                    :buyable true
-                    :clothing false
-                    :consumable false
-                    :legible false
-                    :edible false
-                    :machine false
-                    :place false
-                    :physical-object true
-                    :speakable false}
+ {:prop {:event true}}     {:prop {:buyable false
+                                  :physical-object false
+                                  :speakable false}}
+                           
+ {:prop {:furniture true}} {:prop {:artifact true
+                                   :animate false
+                                   :buyable true
+                                   :clothing false
+                                   :consumable false
+                                   :legible false
+                                   :edible false
+                                   :machine false
+                                   :place false
+                                   :physical-object true
+                                   :speakable false}}
    
- {:human true}     {:animate true
-                    :artifact false
-                    :buyable false
-                    :consumable false
-                    :legible false
-                    :pet false
-                    :part-of-human-body false
-                    :physical-object true
-                    :place false
-                    :spec {:of {:human true}}}
- {:intelligent
-  true}            {:animate true}
+ {:prop {:human true}}     {:prop {:animate true
+                                   :artifact false
+                                   :buyable false
+                                   :consumable false
+                                   :legible false
+                                   :pet false
+                                   :part-of-human-body false
+                                   :physical-object true
+                                   :place false}
+                            :spec {:of {:human true}}}
+ {:prop {:intelligent
+         true}}            {:prop {:animate true}}
  
- {:living false}   {:animate false
-                    :human false}
+ {:prop {:living false}}   {:prop {:animate false
+                                  :human false}}
  
- {:living true}    {:artifact false
-                    :place false}
+ {:prop {:living true}}    {:prop {:artifact false
+                                  :place false}}
  
- {:machine true}   {:artifact true
-                    :consumable false}
+ {:prop {:machine true}}   {:prop {:artifact true
+                                   :consumable false}}
  
- {:part-of-human-body
-  true}            {:consumable false
-                    :human false
-                    :physical-object true}
+ {:prop {:part-of-human-body
+         true}}            {:prop {:consumable false
+                                   :human false
+                                   :physical-object true}}
  
- {:pet true}       {:animate true
-                    :buyable true
-                    :edible false
-                    :human false
-                    :spec {:of {:human true}}}
+ {:prop
+  {:pet true}}             {:prop {:animate true
+                                   :buyable true
+                                   :edible false
+                                   :human false}
+                            :spec {:of {:prop {:human true}}}}
  
- {:physical-object
-  false}           {:clothing false
-                    :consumable false
-                    :living false}
- {:physical-object
-  true}            {:event false
-                    :speakable false}
+ {:prop {:physical-object
+         false}}           {:prop {:clothing false
+                                   :consumable false
+                                   :living false}}
+ {:prop {:physical-object
+         true}}             {:prop {:event false
+                                   :speakable false}}
  
- {:place true}     {:activity false
-                    :consumable false
-                    :living false
-                    :physical-object true
-                    :speakable false
-                    :spec {:of {:animate true}}}
+ {:prop {:place true}}     {:prop {:activity false
+                                   :consumable false
+                                   :living false
+                                   :physical-object true
+                                   :speakable false
+                                   :spec {:of {:animate true}}}}
  ;; some places could place additional
  ;; restrictions on owners (e.g. {:of {:human true}}).
  
  ;; <preds>
- {:pred :backpack} {:clothing true}
+ {:pred :backpack} {:prop {:clothing true}}
  
- {:pred :bag}      {:artifact true
-                    :clothing false
-                    :consumable false
-                    :event false
-                    :legible false
-                    :machine false
-                    :place false
+ {:pred :bag}      {:prop {:artifact true
+                           :clothing false
+                           :consumable false
+                           :event false
+                           :legible false
+                           :machine false
+                           :place false}
                     :spec {:of {:human true}}}
  
- {:pred :beach}    {:artifact false
-                    :place true}
+ {:pred :beach}    {:prop {:artifact false
+                           :place true}}
  
- {:pred :bicycle}  {:artifact true
-                    :clothing false
-                    :consumable false
-                    :legible false
-                    :machine true
-                    :place false
+ {:pred :bicycle}  {:prop {:artifact true
+                           :clothing false
+                           :consumable false
+                           :legible false
+                           :machine true
+                           :place false}
                     :spec {:of {:human true}}}
  
- {:pred :bird}     {:animate true
-                    :human false}
+ {:pred :bird}     {:prop {:animate true
+                           :human false}}
  
- {:pred :book}     {:artifact true
-                    :clothing false
-                    :legible true
-                    :machine false}
+ {:pred :book}     {:prop {:artifact true
+                           :clothing false
+                           :legible true
+                           :machine false}}
  
- {:pred :bread}    {:artifact true
-                    :edible true}
+ {:pred :bread}    {:prop {:artifact true
+                           :edible true}}
  
- {:pred :car}      {:clothing false
-                    :consumable false
-                    :legible false
-                    :machine true
-                    :place false}
+ {:pred :car}      {:prop {:clothing false
+                           :consumable false
+                           :legible false
+                           :machine true
+                           :place false}}
  
- {:pred :cat}      {:pet true}
+ {:pred :cat}      {:prop {:pet true}}
  
- {:pred :chair}    {:furniture true}
+ {:pred :chair}    {:prop {:furniture true}}
  
- {:pred :city}     {:clothing false
-                    :machine false}
+ {:pred :city}     {:prop {:clothing false
+                           :machine false}}
  
- {:pred :coffee}   {:artifact true
-                    :drinkable true}
+ {:pred :coffee}   {:prop {:artifact true
+                           :drinkable true}}
  
- {:pred :dentist}  {:human true}
+ {:pred :dentist}  {:prop {:human true}}
  
- {:pred :dog}      {:pet true}
+ {:pred :dog}      {:prop {:pet true}}
+
+ {:pred :easy-chair}    {:prop {:furniture true}}
  
- {:pred :espresso} {:artifact true
-                    :drinkable true}
+ {:pred :espresso} {:prop {:artifact true
+                           :drinkable true}}
  
- {:pred :game}     {:activity true
-                    :event true
-                    :games true
-                    :machine false}
+ {:pred :game}     {:prop {:activity true
+                           :event true
+                           :games true
+                           :machine false}}
  
- {:pred :house}    {:artifact true
-                    :clothing false
-                    :city false
-                    :consumable false
-                    :machine false
-                    :place true
-                    :legible false}
+ {:pred :house}    {:prop {:artifact true
+                           :clothing false
+                           :city false
+                           :consumable false
+                           :machine false
+                           :place true
+                           :legible false}}
  
- {:pred :key}      {:artifact true
-                    :clothing false
-                    :consumable false
-                    :event false
-                    :machine false
-                    :place false}
+ {:pred :idea}   {:prop {:artifact false
+                         :animate false
+                         :consumable false
+                         :place false}}
  
- {:pred :meeting}  {:clothing false
-                    :consumable false
-                    :living false
-                    :machine false}
+ {:pred :island}  {:prop {:artifact false
+                          :place true}}
+                   
+ {:pred :key}      {:prop {:artifact true
+                           :clothing false
+                           :consumable false
+                           :event false
+                           :machine false
+                           :place false}}
  
- {:pred :music}    {:clothing false
-                    :consumable false}
+ {:pred :meeting}  {:prop {:clothing false
+                           :consumable false
+                           :living false
+                           :machine false}}
  
- {:pred :name}     {:physical-object false
-                    :event false}
+ {:pred :music}    {:prop {:clothing false
+                           :consumable false}}
  
- {:pred :note}     {:animate false
-                    :clothing false
-                    :drinkable false
-                    :edible false
-                    :legible true}
+ {:pred :name}     {:prop {:physical-object false
+                           :event false}}
  
- {:pred :party}    {:clothing false
-                    :machine false}
+ {:pred :note}     {:prop {:animate false
+                           :clothing false
+                           :drinkable false
+                           :edible false
+                           :legible true}}
  
- {:pred :pizza}    {:artifact true
-                    :edible true}
+ {:pred :party}    {:prop {:clothing false
+                           :machine false}}
  
- {:pred :radio}    {:clothing false
-                    :machine true}
+ {:pred :pizza}    {:prop {:artifact true
+                           :edible true}}
  
- {:pred :salad}    {:artifact true
-                    :edible true}
+ {:pred :radio}    {:prop {:clothing false
+                           :machine true}}
  
- {:pred :sigh}     {:artifact false
-                    :physical-object false
-                    :event true}
+ {:pred :salad}    {:prop {:artifact true
+                           :edible true}}
  
- {:pred :shoe}     {:clothing true}
+ {:pred :sigh}     {:prop {:artifact false
+                           :physical-object false
+                           :event true}}
+                    
+ {:pred :shoe}     {:prop {:clothing true}}
  
- {:pred :student}  {:human true}
+ {:pred :student}  {:prop {:human true}}
  
- {:pred :study   
-  :cat :noun}      {:place true}
+ {:pred :study
+  ;; TODO: how can :cat be here (should be one level up, below :synsem.
+  :cat :noun}      {:prop {:place true}}
  
- {:pred :table}    {:furniture true}
+ {:pred :table}    {:prop {:furniture true}}
  
- {:pred :vino}     {:artifact true
-                    :drinkable true}
+ {:pred :vino}     {:prop {:artifact true
+                           :drinkable true}}
  
- {:pred :water}    {:artifact false
-                    :drinkable true}
+ {:pred :water}    {:prop {:artifact false
+                           :drinkable true}}
  
- {:pred :word}     {:consumable false
-                    :legible true
-                    :living false
-                    :machine false
-                    :physical-object false
-                    :speakable true}
+ {:pred :word}     {:prop {:consumable false
+                           :legible true
+                           :living false
+                           :machine false
+                           :physical-object false
+                           :speakable true}}
  
  ;; </preds>
  
- {:stupid true}    {:animate true}
+ {:prop {:stupid true}}
+                   {:prop {:animate true}}
  
- {:time true}      {:activity false
-                    :living false
-                    :place false}
+ {:prop {:time true}}
+                   {:prop {:activity false
+                           :living false
+                           :place false}}
  }
 

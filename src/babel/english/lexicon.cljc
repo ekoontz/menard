@@ -6,6 +6,7 @@
    [babel.lexiconfn :refer [apply-unify-key compile-lex default
                             edn2lexicon listify
                             map-function-on-map-vals new-entries
+                            noun-pred-defaults
                             remove-vals verb-pred-defaults]]
    [clojure.java.io :refer [resource]]
    [clojure.tools.logging :as log]
@@ -63,7 +64,7 @@
    (default
     {:synsem {:cat :adjective
               :subcat {:1 {:cat :det}
-                       :2 '()}
+                       :2 []}
               :sem {:comparative false}}})
    
    ;; </adjective default rules>
@@ -101,14 +102,14 @@
    (default
     {:synsem {:cat :noun
               :pronoun true
-              :subcat '()}})
+              :subcat []}})
    
    ;; propernouns have semantic number and gender.
    (default
     (let [gender (atom :top)
           number (atom :top)]
       {:synsem {:cat :noun
-                   :propernoun true
+                :propernoun true
                 :agr {:gender gender
                       :number number}
                 :sem {:gender gender
@@ -133,7 +134,7 @@
     {:synsem {:cat :noun
               :pronoun false
               :propernoun true
-              :subcat '()}})
+              :subcat []}})
    
    (default ;; a propernoun is agr=3rd singular
     {:synsem {:cat :noun
@@ -156,22 +157,26 @@
               :pronoun false
               :propernoun false
               :agr {:person :3rd}}})
-  
+   
    ;; common nouns' articles agree with their articles:
    ;; e.g. "a dog" but *"a dogs".
+   ;; they also agree in definiteness.
    (default
-    (let [agr (atom {:person :3rd})]
+    (let [agr (atom {:person :3rd})
+          def (atom :top)]
       {:synsem {:cat :noun
+                :def def
                 :pronoun false
                 :propernoun false
                 :agr agr
                 :subcat {:1 {:cat :det
+                             :def def
                              :agr agr}}}}))
    
    ;; </noun default rules>
    
    ;; <verb default rules>
-   ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 '()}.
+   ;; add a second argument to every verb, unless it's explicitly disallowed with {:2 []}.
    (default
     {:synsem {:cat :verb
               :subcat {:2 {:cat :top}}}})
@@ -191,7 +196,7 @@
                          :2 {:cat :verb
                              :infl :infinitive
                              :subcat {:1 modal-subject
-                                      :2 '()}}}}}))
+                                      :2 []}}}}}))
    (default
     (let [modal-subject (atom {:cat :noun})]
       {:modal-with :root
@@ -200,7 +205,7 @@
                          :2 {:cat :verb
                              :infl :root
                              :subcat {:1 modal-subject
-                                      :2 '()}}}}}))
+                                      :2 []}}}}}))
    
    ;; prevent :shared-semantics :obj unless it's already set
    (default
@@ -210,7 +215,8 @@
    ;; semantic object of lexical verb is the same as the object of verb's prepositional phrase.
    (default
     (let [obj (atom :top)]
-      {:share-sem :obj
+      {:applied {:prep-obj-is-verb-obj true}
+       :share-sem :obj
        :synsem {:cat :verb
                 :sem {:obj obj}
                 :subcat {:2 {:cat :prep
@@ -218,6 +224,7 @@
    
    ;; add :sem :obj if necessary, so that intransitivize is triggered.
    (default {:modal-with false
+             :applied {:add-sem-obj-if-necess true}
              :synsem {:cat :verb
                       :subcat {:2 {:cat :noun}}
                       :sem {:obj {:pred :top}}}})
@@ -233,18 +240,22 @@
                     :reflexive false}
               ;; likely to be :noun or :prep but could be others
               :subcat {:2 {:cat :top}
-                       :3 '()}}}
+                       :3 []}}}
     (fn [lexeme]
       (unify
        (dissoc-paths lexeme [[:synsem :sem :obj]
                              [:synsem :subcat :2]])
        {:applied {:intransitivize true}
-        :synsem {:subcat {:2 '()}}})))
+        :synsem {:subcat {:2 []}}})))
 
+   (default {:synsem {:cat :verb}
+             :phrasal-verb false})
+   
    ;; phrasal-verb-intransitivize: remove the third argument,
    ;; but not the second, to make it intransitive.
    (new-entries
-    {:intransitivize false
+    {:applied {:ditrans false} ;; don't apply to ditransitive verbs.
+     :intransitivize false
      :phrasal-verb true
      :synsem {:cat :verb
               :aux false
@@ -252,13 +263,13 @@
     (fn [lexeme]
       (unify
        (dissoc-paths
-       (unify lexeme {:applied {:phrasal-verb-intransitivize true}})
-       [[:synsem :subcat :3]
-        [:synsem :sem :obj]])
+        (unify lexeme {:applied {:phrasal-verb-intransitivize true}})
+        [[:synsem :subcat :3]
+         [:synsem :sem :obj]])
 
        ;; prevent filling-in this
        ;; in a later processing step below.
-       {:synsem {:subcat {:3 '()}
+       {:synsem {:subcat {:3 []}
                  :sem {:obj :unspec}}})))
    
    (default ;; intransitive verbs' :obj is :unspec.
@@ -266,7 +277,7 @@
      :applied {:2 true}
      :synsem {:cat :verb
               :subcat {:1 {:top :top}
-                       :2 '()}
+                       :2 []}
               :sem {:reflexive false
                     :shared-with-obj false
                     :obj :unspec}}})
@@ -279,9 +290,26 @@
                :synsem {:infl infl
                         :cat :verb
                         :subcat {:1 {:agr agr}}}}))
+
+   (default {:synsem {:cat :verb
+                      :subcat {:3 []}}})
+   
+   ;; TODO: this subject-object agreement should apply to
+   ;; transitive reflexive verbs as well as ditransitive reflexive verbs.
+   (default (let [agr (atom :top)
+                  human (atom :top)]
+              {:applied {:ditrans true
+                         :ditrans-reflexive true}
+               :synsem {:aux false
+                        :cat :verb
+                        :sem {:reflexive true
+                              :obj {:prop {:human human}}
+                              :subj {:prop {:human human}}}
+                        :subcat {:1 {:agr agr}
+                                 :3 {:agr agr}}}}))
    
    (verb-pred-defaults encyc/verbs)
-   
+   (noun-pred-defaults)
    ;; if a verb has a subject,
    ;; and the subject is {:cat :noun},
    ;; then the subject is {:synsem {:case :nom}}.
@@ -318,32 +346,40 @@
       {:synsem {:cat :verb
                 :sem {:subj subject}}}))
    
+   ;; TODO: show an example of a verb for which
+   ;; this default rule is justified.
    (default
     (let [object (atom :top)]
-      {:phrasal-verb false
+      {:applied {:iob-rule-1 true}
+       :phrasal-verb false
        :synsem {:cat :verb
                 :sem {:obj object
                       :iobj nil}
-                :subcat {:2 {:sem object}}}}))
+                :subcat {:2 {:sem object}
+                         :3 []}}}))
    
+   ;; TODO: show an example of a verb for which
+   ;; this default rule is justified.
    (default
     (let [object (atom :top)]
       {:phrasal-verb true
+       :applied {:prep-rule-1 true}
        :synsem {:cat :verb
                 :sem {:obj object}
                 :subcat {:2 {:cat :prep}
                          :3 {:cat :noun
                              :pronoun false
-                             :subcat '()
+                             :subcat []
                              :sem object}}}}))
    (default
     (let [object (atom :top)]
       {:phrasal-verb true
+       :applied {:prep-rule-2 true}
        :synsem {:cat :verb
                 :sem {:obj object}
                 :subcat {:2 {:cat :noun
                              :pronoun false
-                             :subcat '()
+                             :subcat []
                              :sem object}
                          :3 {:cat :prep}}}}))
    
@@ -383,12 +419,12 @@
                 :sem {:reflexive true
                       :subj subject-semantics
                       :obj subject-semantics}
-                :subcat {:2 '()}}}))
+                :subcat {:2 []}}}))
 
    ;; by default, verbs are intransitive.
    (default
     {:synsem {:cat :verb
-              :subcat {:2 {:subcat '()}}}})
+              :subcat {:2 {:subcat []}}}})
    
    ;; note that {:english {:exception true}} is
    ;; set by (babel.english.morphology/exception-generator)
@@ -435,14 +471,14 @@
       {:synsem {:cat :prep
                 :subcat {:1 {:cat :noun
                              :case :acc
-                             :subcat '()
+                             :subcat []
                              :sem obj-sem}
-                         :2 '()}
-                :sem {:obj obj-sem}}}))
+                         :2 []}
+                :sem {:obj obj-sem}}}))))
    
    ;; </prep default rules>
    
- ))
+   
 
 (defn exception-generator
   "_lexicon_ is a map where each key is a root form (a string) mapped to a set of lexical entries (maps) for that root form. 
@@ -648,6 +684,9 @@
 
 
 (defn phonize [a-map a-string]
+  ;; TODO: does :phrasal mean the same thing
+  ;; as :phrasal-verb? if so, remove :phrasal
+  ;; and consolidate on :phrasal-verb.
   (let [common {:phrasal false}]
     ;; TODO: remove support for either list-of-maps - too confusing. Instead, just require a list of maps.
     ;; TODO: compare with counterpart function: (italiano/phonize): there is an additional cond stanza in the latter

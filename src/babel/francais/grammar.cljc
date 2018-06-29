@@ -6,7 +6,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [babel.francais.lexicon :as lexicon :refer [lexicon]]
    [babel.francais.morphology :as morph :refer [fo]]
-   [babel.generate :as generate :refer [lightning-bolts]]
+   [babel.generate :as generate]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.lexiconfn :refer [read-lexicon]]
    [babel.parse :as parse]
@@ -567,36 +567,8 @@
            :tenses tenses}]
       (merge retval
              {:generate-fn (fn [spec]
-                             (generate/generate spec retval))
-              :bolts {
+                             (generate/generate spec retval))}))))
 
-                      {:depth 3
-                       :synsem {:subcat []
-                                :cat :verb
-                                :sem {:tense :present
-                                      :reflexive true
-                                      :aspect :perfect}}}
-                      (lightning-bolts retval
-                                       {:synsem {:subcat ()
-                                                 :cat :verb
-                                                 :sem {:tense :present
-                                                       :reflexive true
-                                                       :aspect :perfect}}}
-                                       0 3)
-
-                      {:depth 2
-                       :synsem {:subcat []
-                                :cat :verb
-                                :sem {:tense :present
-                                      :reflexive true
-                                      :aspect :simple}}}
-                      (lightning-bolts retval
-                                       {:synsem {:subcat ()
-                                                 :cat :verb
-                                                 :sem {:tense :present
-                                                       :reflexive true
-                                                       :aspect :simple}}}
-                                       0 2)}}))))
 (defn parse [surface]
   (parse/parse surface
                (:lexicon model)

@@ -47,7 +47,8 @@
    {:synsem {:cat :noun
              :agr {:gender :masc}
              :sem {:pred :bisogno-di
-                   :obj the-object}
+                   :obj the-object
+                   :can-be-subject false}
              :subcat {:1 {:cat :prep
                           :sem {:pred :di
                                 :obj the-object}}}}})
@@ -175,7 +176,7 @@
  {:synsem {:agr {:gender :fem}
            :cat :noun
            :sem {:human true
-                 :pred :donna
+                 :pred :woman
                  :child false}}}
 
 

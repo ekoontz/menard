@@ -1,12 +1,12 @@
 (ns babel.latin
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.english :as en]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.latin.morphology :as morph]
    [babel.lexiconfn :refer [default listify map-function-on-map-vals
                             verb-pred-defaults]]
    [babel.encyclopedia :as encyc]
+   [babel.parse :as parse]
    [clojure.java.io :refer [resource]]
    [clojure.repl :refer [doc]]
    [clojure.tools.logging :as log]
@@ -182,35 +182,26 @@
                               :comp {:synsem {:pronoun true
                                               :agr (get-in spec [:synsem :agr])}}}
         debug (log/debug (str "read-one: source-specification:" source-specification))
-        question-to-pose-to-user
-        (en/morph (babel.generate/generate source-specification
-                                                      source-model)
-                             source-model
-                             :show-notes false) ;; TODO: use {:from-language :la}
-        parses (filter #(empty? (get-in % [:synsem :subcat]))
-                       (babel.english/parse
-                        question-to-pose-to-user source-model false)) ;; false: don't truncate
-        source-expressions parses
-        target-specs
-        (map (fn [parse]
-               {:synsem {:sem (get-in parse [:synsem :sem])
-                         :agr (get-in parse [:comp :synsem :agr] :top)}})
-             source-expressions)]
-    (log/debug (str "parses comps:"
-                    (clojure.string/join "," (map #(strip-refs (get-in % [:comp]))
-                                                  parses))))
-    (log/debug (str "target-specs:"
-                    (clojure.string/join "," (strip-refs target-specs))))
 
-    (log/debug (str "source-expressions:"
-                    (clojure.string/join "," (map #(println (babel.english/fo-ps %))
-                                                  source-expressions))))
-                    
+        source-morph-fn (:morph source-model)
+
+        question-to-pose-to-user
+        (source-morph-fn (babel.generate/generate source-specification
+                                                  source-model)
+                         :show-notes false)
+
+        parses (filter #(empty? (get-in % [:synsem :subcat]))
+                       (babel.parse/parse
+                        question-to-pose-to-user source-model :parse-with-truncate false)) 
+        source-expressions parses] 
+
+    ;; TODO: use {:from-language :la}
     {:source question-to-pose-to-user
      :semantics (strip-refs semantics-of-target-expression)
-     :targets (vec (set (map #(morph (generate {:synsem {:sem (get-in % [:synsem :sem])
-                                                         :agr (get-in % [:comp :synsem :agr] :top)}}
+     :targets (vec (set (map #(morph (generate {:synsem {:sem (get-in % [:synsem :sem])}
+                                                        :agr (get-in % [:comp :synsem :agr] :top)}
                                                target-model))
                              source-expressions)))}))
 
+                            
 

@@ -55,8 +55,8 @@
                        lexeme)
                       true
                       lexeme))
-             lexemes)))
-     
+              lexemes)))
+      
       ;; <noun default rules>
       (default ;; a noun by default is neither a pronoun nor a propernoun.
        {:synsem {:cat :noun
@@ -108,7 +108,7 @@
                  :cat :noun
                  :pronoun true
                  :reflexive true}})
-                 
+      
       (default
        ;; pronoun case and subcat: set sharing within :italiano so
        ;; that morphology can work as expected.
@@ -162,9 +162,13 @@
        {:synsem {:cat :noun
                  :sem {:null false}}})
 
-      ;; TODO: simplify to just (noun-pred-defaults)
       (noun-pred-defaults)
 
+      ;; nouns are not propernouns by default.
+      (default
+       {:synsem {:cat :noun
+                 :propernoun false}})
+      
       ;; </noun default rules>            
 
       ;; <verb default rules>
@@ -175,7 +179,8 @@
                  {:applied {:subject-agreement true}
                   :synsem {:agr agr
                            :cat cat
-                           :subcat {:1 {:agr agr}}
+                           :subcat {:1 {:agr agr
+                                        :sem {:can-be-subject true}}}
                            :essere essere
                            :infl infl}}))
       
@@ -308,7 +313,7 @@
          {:synsem {:cat :verb
                    :subcat {:3 {:sem indirect-object-semantics}}
                    :sem {:iobj indirect-object-semantics}}}))
-            
+      
       (default ;; a verb agrees with its first argument
        (let [subject-agreement (atom :top)]
          {:synsem {:cat :verb
@@ -328,7 +333,7 @@
        {:synsem {:cat :verb
                  :aux false
                  :subcat {:1 {:sem {:null true}}}}})
-     
+      
       ;; </verb default rules>
 
       ;; <preposition default rules>
@@ -424,26 +429,26 @@
       ;; common nouns need a gender (but propernouns do not need one).
       ;; TODO: throw error rather than just throwing out entry.
       (filter-vals
-      #(or (not (and (= :noun (get-in % [:synsem :cat]))
-                     (= :none (get-in % [:synsem :agr :gender] :none))
-                     (= false (get-in % [:synsem :propernoun] false))
-                     (= false (get-in % [:synsem :pronoun] false))))
-           (and (log/warn (str "ignoring common noun with no gender specified: " %))
-                false)))
+       #(or (not (and (= :noun (get-in % [:synsem :cat]))
+                      (= :none (get-in % [:synsem :agr :gender] :none))
+                      (= false (get-in % [:synsem :propernoun] false))
+                      (= false (get-in % [:synsem :pronoun] false))))
+            (and (log/warn (str "ignoring common noun with no gender specified: " %))
+                 false)))
 
       (filter-vals
        #(not (= :fail %)))
-     
+      
       ;; filter out entries with no :cat.
       (filter-vals
-      #(or (and (not (= :none (get-in % [:synsem :cat] :none)))
-                (or (log/debug (str "lexical entry has a cat - good : " (strip-refs %)))
-                    true))
-           (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
-                false)))
+       #(or (and (not (= :none (get-in % [:synsem :cat] :none)))
+                 (or (log/debug (str "lexical entry has a cat - good : " (strip-refs %)))
+                     true))
+            (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
+                 false)))
 
-     ;; end of language-specific grammar rules
-))
+      ;; end of language-specific grammar rules
+      ))
 
 (defn compile-lexicon
   "convert source lexicon to a Clojure map."

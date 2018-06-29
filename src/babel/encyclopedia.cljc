@@ -6,7 +6,7 @@ as a map of implications"}
    [babel.exception :refer [exception]]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
-   [dag_unify.core :refer [strip-refs unify unify!]]))
+   [dag_unify.core :as u :refer [strip-refs unify unify!]]))
 
 ;; TODO: use clojure.core/isa? and clojure.core/derive where possible
 ;; in here, e.g.: (derive ::human ::animal)
@@ -42,10 +42,15 @@ as a map of implications"}
   (get nouns {k (get-in input [k])} {}))
 
 (defn impl-list [input]
-  (map (fn [kv]
-         (let [k (first (first kv))]
-           (get nouns {k (get-in input [k] :top)} {})))
-       (keys nouns)))
+  (cond (< 1 (count (keys (u/get-in input [:prop]))))
+        (mapcat (fn [k]
+                  (impl-list {:prop {k (u/get-in input [:prop k])}}))
+                (keys (u/get-in input [:prop])))
+        true
+        (map (fn [kv]
+               (let [k (first (first kv))]
+                 (get nouns {k (get-in input [k] :top)} {})))
+             (keys nouns))))
 
 (defn sem-impl [input & [original-input]]
   "expand input feature structures with semantic (really cultural) implicatures, e.g., if human, then not buyable or edible"

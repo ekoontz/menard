@@ -4,7 +4,7 @@
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
    [babel.italiano.morphology :as morph :refer [get-string patterns]]
-   [babel.generate :as generate :refer [lightning-bolts]]
+   [babel.generate :as generate]
    [babel.over :as over]
    [babel.parse :as parse]
    [babel.test.test :refer [init-db]]
@@ -16,7 +16,7 @@
    [clojure.string :as string]
    [dag_unify.core :refer [fail-path-between get-in strip-refs unify unifyc]]))
 
-(defonce model
+(def model
   (do
     (init-db)
     @@(get babel.directory/models :it)))
@@ -65,12 +65,12 @@
 (defn generate
   ([spec]
    (generate spec model))
-  ([spec model & {:keys [do-enrich max-total-depth truncate]
+  ([spec model & {:keys [do-enrich truncate]
             :or {do-enrich true
-                 max-total-depth generate/max-depth
                  truncate true}}]
-   (log/debug (str "generating with spec: " (strip-refs spec) " with max-total-depth: " max-total-depth))
-   (let [spec (let [result (grammar/generation-implications spec model)]
+   (log/debug (str "generating with spec: " (strip-refs spec)))
+   (let [spec (unify spec {:modified false})
+         spec (let [result (grammar/generation-implications spec model)]
                 (cond (= :fail result)
                       (do (log/warn (str "spec failed when generation-implications applied:" spec ";"
                                          "using original-spec."))
@@ -192,17 +192,7 @@
                      (map (fn [word]
                             (get (:lexicon base-model) word))
                           (sort words)))))]
-        (let [spec {:synsem {:cat :verb
-                             :sem {:tense :top
-                                   :aspect :simple
-                                   :reflexive :top}
-                             :subcat '()}}]
-          (merge model
-                 {:bolts {(merge {:depth 2}
-                                 spec)
-                          (lightning-bolts model
-                                           spec
-                                           0 2)}})))))))
+        model)))))
 
 (defn test-cm []
   (let [m (create-model "io" "lei" "lo"

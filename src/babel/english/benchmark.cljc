@@ -1,9 +1,9 @@
 (ns babel.english.benchmark
   (:refer-clojure :exclude [get-in])
   (:require [babel.benchmark :refer [benchmark]]
-            [babel.english :as english :refer [analyze generate morph parse]]
+            [babel.english :as english :refer [model morph parse]]
             [babel.english.grammar :as grammar]
-            [babel.english.morphology :as morph :refer [fo]]
+            [babel.english.morphology :as morph :refer [fo analyze]]
             [babel.parse :as parse]
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
@@ -11,9 +11,6 @@
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             [dag_unify.core :refer [get-in strip-refs]]))
-
-;; Creating language models is expensive so we'll create them before running any benchmarks..
-(def medium (grammar/medium))
 
 (defn parse-mark [times expr]
   (count (take (Integer. times)
@@ -30,22 +27,5 @@
                              :tense :present
                              :aspect :simple}}}]
     (benchmark
-     #((:morph medium) (babel.generate/generate spec medium))
+     #((:morph model) (babel.generate/generate spec model))
      do-this-many)))
-
-(defn gen-mark4 [do-this-many]
-  (let [do-this-many (Integer. do-this-many)
-        spec {:rule "noun-phrase3"
-              :head {:rule "noun-phrase2" :synsem {:agr {:number :sing}}
-                     :comp {:synsem {:def :def}}}
-              :comp {:rule "relative-clause-complement"}
-              :synsem {:cat :noun
-                       :agr {:number :sing}
-                       :subcat '()
-                       :sem {:pred :man}
-                       :mod {:first {:pred :see
-                                     :subj {:pred :lui}}}}}]
-    (benchmark
-     #((:morph medium) (babel.generate/generate spec medium))
-     do-this-many)))
-

@@ -1,181 +1,227 @@
 (ns babel.italiano.lab
-  (:refer-clojure :exclude [get-in])
   (:require
-   [babel.directory :refer []]
-   [babel.italiano :as italiano :refer [analyze generate model morph morph-ps parse]]
-   [babel.italiano.grammar :refer [model-plus-lexicon]]
-   [babel.test.test :as btest]
+   [babel.directory] ;; this is needed even though there are no references to directory in here.
+   [babel.generate :as g :refer [frontier generate get-lexemes]]
+   [babel.italiano :as italiano :refer [model morph morph-ps parse]]
    #?(:cljs [babel.logjs :as log])
-   [clojure.pprint :refer [pprint]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
-   [clojure.set :as set]
-   [dag_unify.core :refer [get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [pprint strip-refs unify]]))
 
-(defn generate-speed-test [spec & [times]]
-  (btest/generate-speed-test spec model times))
-
-(defn run-passato-prossimo-test []
-  (generate-speed-test {:synsem {:cat :verb :subcat []
-                                 :sem {:reflexive true
-                                       :tense :present
-                                       :aspect :perfect}}}))
-;; roundtrip parser testing
-(defn roundtrip-parsing [n]
-  (take n
-        (repeatedly #(let [generated
-                           (morph (generate {:synsem {:cat :verb
-                                                      :subcat []}}))
-                           parsed (reduce concat (map :parses (parse generated)))]
-                       (log/info (str "generated: " generated))
-                       (log/info (str "semantics: "
-                                      (or
-                                       (strip-refs
-                                        (get-in (first parsed)
-                                                [:synsem :sem]))
-                                       (str "NO PARSE FOUND FOR: " generated))))
-                       {:generated generated
-                        :pred (get-in (first parsed) [:synsem :sem :pred])
-                        :subj (get-in (first parsed) [:synsem :sem :subj :pred])}))))
-
-(def transitive-spec 
-  {:synsem {:cat :verb
-            :subcat []
-            :sem {:subj {:pred :top}
-                  :obj {:pred :top}}}})
-
-
-(def non-aux-spec
-  {:synsem {:aux false}})
-
-(defn transitive-sentence []
-  (let [spec transitive-spec]
-    (repeatedly #(-> spec generate morph time println))))
-
-(def phrasal-spec
-  {:head {:head {:phrasal false}
-          :comp {:phrasal false}}
+;; [H C]
+;;
+;;   H
+;;  / \
+;; H   C
+;;
+(def tree-1
+  {:phrasal true
+   :head {:phrasal false}
    :comp {:phrasal false}})
 
-(defn sentences-with-pronoun-objects-hints
-  "supply a spec enhanced with syntactic info to speed-up generation."  
-  []
-  (let [spec (unify non-aux-spec transitive-spec phrasal-spec)]
-    (repeatedly #(-> spec generate morph time println))))
+;; [[H C] C]
+;;
+;;     H
+;;    / \
+;;   H   C
+;;  / \
+;; H   C
+;;
+(def tree-2
+  {:phrasal true
+   :head tree-1
+   :comp {:phrasal false}})
 
-(defn sentences-with-pronoun-objects-small []
-  (let [lexicon (:lexicon model)
-        transitive? (fn [lexeme]
-                      (and (= (get-in lexeme [:synsem :cat])
-                              :verb)
-                           (= (get-in lexeme [:synsem :aux] false)
-                              false)
-                           (= (get-in lexeme [:synsem :infl] :top)
-                              :top)
-                           (not (empty? (get-in lexeme [:synsem :subcat] [])))
-                           (map? (get-in lexeme [:synsem :subcat :2]))
-                           (empty? (get-in lexeme [:synsem :subcat :3] []))))
+;; [H [H C]]
+;;
+;;    H
+;;   / \
+;;  H   C
+;;     / \
+;;    H   C
+;;
+(def tree-3
+  {:phrasal true
+   :head {:phrasal false}
+   :comp tree-1})
+
+;; [[H C] [H C]]
+;;
+;;      H
+;;    /   \
+;;   H     C
+;;  / \   / \
+;; H   C H   C
+;;
+(def tree-4
+  {:phrasal true
+   :head tree-1
+   :comp tree-1})
+
+;; [[H C] C]
+;;
+;;     H
+;;    / \
+;;   H   C
+;;  / \
+;; H   C
+(def tree-5
+  {:phrasal true
+   :head tree-1
+   :comp {:phrasal false}})
+
+;; [[H C] [H [H C]]]
+;;
+;;      H
+;;    /    \
+;;   H      C
+;;  / \    / \
+;; H   C  H   C
+;;       / \
+;;      H   C
+;;
+(def tree-6
+  {:phrasal true
+   :head tree-1
+   :comp tree-5})
+
+
+;;      ___H__
+;;     /      \
+;;    C        H
+;;   / \  
+;;  C   H 
+;;        
+;;        
+;;
+(def tree-7
+  {:phrasal true
+   :comp tree-1
+   :head {:phrasal false}})
+
+
+(def tree-8
+;;      ___.__
+;;     /      \
+;;    C        H
+;;   / \      / \
+;;  C   H    H   C
+;;          / \
+;;         H   C
+;;
+  {:phrasal true
+   :comp tree-1
+   :head {:phrasal true
+          :head {:phrasal true
+                 :comp {:phrasal false}
+                 :head {:phrasal false}}}})
+
+(def tree-9
+;;      ___.__
+;;     /      \
+;;    C        H
+;;   / \      / \
+;;  C   H    H   C
+;;              / \  
+;;             H   C
+;;
+  {:phrasal true
+   :comp tree-1
+   :head {:phrasal true
+          :head {:phrasal false}
+          :comp {:phrasal true
+                 :head {:phrasal false}
+                 :comp {:phrasal false}}}})
+
+(def object-is-pronoun {:head {:comp {:synsem {:pronoun true}}}})
+
+(def basic
+  {:modified false
+   :synsem {:cat :verb
+            :subcat []}})
+
+(def specs 
+  [
+   (unify tree-1 basic)
+   (unify tree-2 basic)
+   (unify tree-3 basic)
+   (unify tree-4 basic)
+   (unify tree-5 basic)
+   (unify tree-6 basic {:synsem {:sem {:tense :present
+                                       :aspect :perfect}}})
+   (unify tree-7 basic)
+   (unify tree-8 basic)
+   (unify tree-9 basic)
+   ])
+
+(def vedere-specs
+  (map #(unify % {:synsem {:essere false
+                           :subcat []
+                           :cat :verb}
+                  :root {:italiano {:italiano "vedere"}}})
+       specs))
+
+(defn park []
+  (repeatedly
+   #(println (morph (time
+                     (generate
+                      (unify 
+                       (nth vedere-specs (rand-int (count vedere-specs)))
+                       {:head {:phrasal false}
+                        :comp {:phrasal false}})
+                      model))))))
+
+(defn downtown []
+  (let [spec
+        {:synsem {:cat :verb
+                  :subcat []}
+         :modified false}]
+    (repeatedly #(println (morph (time (generate spec model)))))))
+
+(defn basecamp []
+  (let [semantic-spec
+        {:modified false,
+         :synsem {:cat :verb, :subcat []
+                  :sem {:aspect :simple
+                        :pred :be-called
+                        :tense :present}}}
+        root-spec
+        {:modified false,
+         :root {:italiano {:italiano "chiamarsi"}}
+         :synsem {:cat :verb, :subcat []
+                  :sem {:aspect :simple
+                        :tense :present}}}
+
+        all-of-the-specs (concat specs [root-spec semantic-spec]
+                                 vedere-specs)]
         
-        transitive-verbs
-        (filter (fn [k]
-                  (let [lexemes (->> (get lexicon k)
-                                     (filter transitive?))]
-                    (not (empty? lexemes))))
-                (keys lexicon))
+    (repeatedly #(println
+                  (morph-ps (time (generate
+                                   (nth all-of-the-specs
+                                        (rand-int (count all-of-the-specs)))
+                                   model)))))))
+(defn nextcamp []
+  (basecamp))
 
-        pronoun? (fn [lexeme]
-                   (and (= (get-in lexeme [:synsem :cat])
-                           :noun)
-                        (= (get-in lexeme [:synsem :pronoun])
-                           true)))
-        propernoun? (fn [lexeme]
-                   (and (= (get-in lexeme [:synsem :cat])
-                           :noun)
-                        (= (get-in lexeme [:synsem :propernoun])
-                           true)))
+(defn refresh [& refresh-lexicon?]
+  (let [refresh-lexicon? (or refresh-lexicon? false)]
+    (babel.test.test/init-db)
+    (if refresh-lexicon? (babel.lexiconfn/write-lexicon "it" (babel.italiano.lexicon/compile-lexicon)))
+    (babel.directory/refresh-models)
+    (load "../italiano")))
 
-        spec (unify transitive-spec phrasal-spec non-aux-spec
-                    {:head {:comp {:synsem {:pronoun true}}}})]
-    (repeatedly (fn []
-                  (let [chosen-subset (set (take 1000 (shuffle transitive-verbs)))
-                        model
-                        (model-plus-lexicon
-                         ;; filtered lexicon: all pronouns and a small subset of transitive verbs.
-                         (into {}
-                               (for [[k lexemes] lexicon]
-                                 (let [filtered-lexemes
-                                       (filter (fn [lexeme]
-                                                 (or (and
-                                                      (contains? chosen-subset k)
-                                                      (transitive? lexeme))
-                                                     (propernoun? lexeme)
-                                                     (pronoun? lexeme)))
-                                               lexemes)]
-                                   (if (not (empty? filtered-lexemes))
-                                     [k filtered-lexemes])))))]
-                    (-> spec (generate model) morph time println))))))
+;;(map #(println (morph %)) (grow (sprouts spec model) model))
+(defn get-rule [rule]
+  (-> model :grammar-map (get rule)))
 
-(defn screen-out-false [m]
-  (->>
-   (dag_unify.core/paths m)
-   (filter #(let [v (dag_unify.core/get-in m %)]
-              (and (not (= false v))
-                   (not (map? v)))))
-   (map (fn [path]
-          [path (get-in m path)]))
-   (map (fn [[path v]]
-          (assoc-in {} path v)))
-   (reduce (fn [a b] (merge-with merge a b)))))
+(defn parse-at [expression path]
+  (map #(u/get-in % path ::none)
+       (parse expression)))
 
-(defn grab-bag []
-  (let [semantics (-> "io lo ho" parse first :parses
-                      first (dag_unify.core/get-in [:synsem :sem]))
+(defn lexeme-at [lexeme path]
+  (map #(u/get-in % path ::none)
+       (-> model :lexicon (get lexeme))))
 
-        semantics-any-subject
-        (dag_unify.core/dissoc-paths semantics [[:subj]])
-
-        semantics-any-object
-        (unify (dag_unify.core/dissoc-paths semantics [[:obj]])
-               {:obj {:pred :top}})]
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics)}}
-                   generate
-                   morph time
-                   println))))
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-subject)}}
-                   generate
-                   morph time
-                   println))))
-
-    (println "----")
-    (count
-     (take 5 (repeatedly
-              #(-> {:synsem {:subcat []
-                             :cat :verb
-                             :sem (screen-out-false semantics-any-object)}}
-                   generate
-                   morph time
-                   println))))
-    (-> "loro vedono casa"
-        parse
-        ((fn [tokenizations]
-           (mapcat :parses tokenizations)))
-        first
-        (get-in [:synsem :sem])
-        clojure.pprint/pprint)))
-
-(def spec {:comp {:phrasal false},
-           :head {:comp {:phrasal false, :synsem {:pronoun true}},
-                  :head {:phrasal false}},
-           :synsem {:cat :verb, :subcat (),
-                    :aux false :sem {:subj {:pred :top},
-                                     :obj {:pred :top}}}})
-(def foo (first (babel.generate/lightning-bolts model spec 0 2)))
+(defn generate-at [spec path]
+  (let [generated (generate spec model)]
+    (u/get-in generated path ::none)))

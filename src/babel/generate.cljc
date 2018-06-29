@@ -1,25 +1,25 @@
 (ns babel.generate
-  (:refer-clojure :exclude [assoc-in get-in deref resolve find parents])
   (:require
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :refer [assoc-in assoc-in! copy create-path-in
-                           dissoc-paths fail-path get-in fail? strip-refs unify unify!]]))
-                                        
-;; during generation, will not decend deeper than this when creating a tree:
-;; TODO: should also be possible to override per-language.
-(def ^:const max-depth 10)
+   [dag_unify.core :as u :refer [unify]]))
+          
+;; the higher the constant below,
+;; the more likely we'll first generate leaves
+;; (terminal nodes) rather than trees.
+(def ^:const branching-factor 5)
+(def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
+                        (log/debug (str "branch at: " % "? => " result))
+                        result))
+(def ^:const truncate? false)
 
-(declare add-comp-to-bolts)
-(declare add-comps-to-bolt)
-(declare add-to-bolt-at-path)
-(declare get-bolts-for)
-(declare get-lexemes)
-(declare lightning-bolts)
-(declare comp-paths)
 (declare gen)
+(declare get-lexemes)
+(declare grow)
+(declare parent-with-head)
+(declare parent-with-head-1)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
@@ -42,215 +42,161 @@
   ;; A convenient wrapper around (defn gen) (below).
 
   (log/debug (str "(generate) with model named: " (:name language-model)))
-  (first (gen spec language-model 0)))
+  (first (gen spec language-model)))
 
 (defn gen
-  "Return a lazy sequence of every possible expression given the spec and model,
-  each of whose depth is no greater than the given depth. Trees are returned in 
-  ascending depth."
-  [spec model depth & [from-bolts]]
-  ;; 
-  ;; Given a spec and a model, return the (potentially infinite) set
-  ;; of all trees, in ascending head-depth, that satisfy the given spec.
-  ;;
-  ;; 'Head-depth' means the depth of the tree, measured by longest path of
-  ;; only H's from the root down to a leaf, minus 1. In other words, if a tree has
-  ;; head-depth=N, then it has as its longest H path within it [H..H..H] whose
-  ;; length is N+1.
-  ;;
-  ;; These trees look like:
-  ;;
-  ;;  First all the head-depth=0 trees (simply lexemes) that satisfy the spec:
-  ;; 
-  ;;         H .. H ..
+  "generate a potentially infinite (depending on given _model_) list of expressions that match the given _spec_."
+  [spec model]
+  (grow (parent-with-head spec model 0) model))
 
-  ;;   Then we have the trees of head-depth=1 that satisfy the spec:
-  ;; 
-  ;;       H         H        H      (note that the last-shown tree has
-  ;;  ..  / \  ..   / \  ..  / \  ..  a head-depth of 1, not 2, because
-  ;;     H   C     C   H    C   H     there is no path [H->H->H], but
-  ;;                       / \         there is a path [H->H].
-  ;;                      H   C
-  ;; 
-  ;;   And then all trees of head-depth=2 that satisfy the spec:
-  ;;
-  ;; 
-  ;;       H        H        H
-  ;;      / \      / \      / \
-  ;;  .. H   C .. H   C .. C   H .. 
-  ;;    /        / \          / \
-  ;;   H        C   H        C   H
-  ;;
-  ;; And so on.
-  ;;
-  ;;
-  (when (< depth max-depth)
-    (let [bolts (or from-bolts
-                    (get-bolts-for model spec 
-                                   depth))]
-      (if (not (empty? bolts))
-        (do
-          (log/trace (str "gen@" depth "; found bolts with spec=" (dag_unify.core/strip-refs spec)))
-          (lazy-cat
-           (let [bolt (first bolts)]
-             (or
-              (and (= false (get-in bolt [:phrasal] true))
-                   ;; This is not a bolt but rather simply a lexical head,
-                   ;; so just return a list with this lexical head:
-                   [bolt])
-              ;; ..otherwise it's a phrase, so return the lazy
-              ;; sequence of adding all possible complements at every possible
-              ;; position at the bolt.
-              (add-comps-to-bolt bolt model
-                                 (reverse (comp-paths depth)))))
-           (gen spec model depth (rest bolts))))
-        (if (not (= false (get-in spec [:phrasal] true)))
-          (gen spec model (+ 1 depth)))))))
+(defn parent-with-head
+  "Return every possible tree of depth 1 from the given spec and model."
+  [spec model depth]
+  ;; get all rules that match input _spec_:
+  (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
+  (->>
+   ;; 1: get all rules that satisfy _spec_.
+   (->> (shuffle (:grammar model))
+        (map #(unify % spec))
+        (filter #(not (= :fail %))))
+    
+    ;; 2. try to add heads to each matching rule.
+    (parent-with-head-1 spec model depth)
+    
+    (filter #(not (= % :fail)))
+    (map #(u/assoc-in! % [::started?] true))))
 
-;; Wrapper around (defn lightning-bolts) to provide a way to
-;; test indexing and memoization strategies.
-(defn get-bolts-for
-  "Return every possible bolt for the given model and spec."
-  [model spec depth]
-  (let [search-for-key
-        (dag_unify.core/strip-refs
-         {:synsem {:sem {:aspect (get-in spec [:synsem :sem :aspect] :top)
-                         :reflexive (get-in spec [:synsem :sem :reflexive] :top)
-                         :tense (get-in spec [:synsem :sem :tense] :top)}
-                   :subcat (get-in spec [:synsem :subcat] :top)
-                   :cat (get-in spec [:synsem :cat] :top)}
-          :depth depth})
+(defn parent-with-head-1 [spec model depth parent-rules]
+  (if (not (empty? parent-rules))
+    (let [parent-rule (first parent-rules)
+          phrases-with-phrasal-head #(map (fn [child]
+                                            (u/assoc-in parent-rule [:head] child))
+                                          (:grammar model))
+          phrases-with-lexical-heads #(map (fn [child]
+                                             (u/assoc-in parent-rule [:head] child))
+                                           (get-lexemes (unify
+                                                         (u/get-in spec [:head] :top)
+                                                         (u/get-in parent-rule [:head] :top))
+                                                        model))]
+      (log/debug (str "pwh-1:" (:rule parent-rule)))
+      (cond
+        (branch? depth)
+        (lazy-cat
+         ;; get all the things to be added
+         ;; as the head child of parent-rule:
+         ;; 1. phrases that could be the head child:
+         (phrases-with-phrasal-head)
+         ;; 2. lexemes that could be the head child:
+         (phrases-with-lexical-heads)
+         (parent-with-head-1 spec model depth (rest parent-rules)))
 
-        debug (log/trace (str "looking for key: "
-                             search-for-key))
-        
-        bolts ;; check for bolts compiled into model
-        (get (-> model :bolts)
-             search-for-key)]
-    (cond
-      (not (nil? bolts))
-      (do
-        (log/debug (str "found compiled bolts."))
-        (shuffle (->> bolts
-                      (map #(unify spec %))
-                      (filter #(not (= :fail %))))))
-      true
-      (do
-        (log/debug (str "no compiled bolts."))
-        (lightning-bolts model spec 0 depth)))))
+        true
+        (lazy-cat
+         ;; 1. lexemes that could be the head child:
+         (phrases-with-lexical-heads)
+         ;; 2. phrases that could be the head child:
+         (phrases-with-phrasal-head)
+         (parent-with-head-1 spec model depth (rest parent-rules)))))))
 
-;; a 'lightning bolt' is a dag that
-;; has among its paths, paths like [:head :head :head] and
-;; pictorially look like:
-;; 
-;; 
-;;   H        H    H
-;;    \      /      \
-;;     H    H        H        ...
-;;    /      \        \
-;;   H        ..       ..
-;;    \
-;;     ..
-;; 
-;; Each bolt has has a head child.
-;; Each head child may be a leaf or
-;; otherwise has a child with the same two
-;; possibilities: either it's a leaf or itself
-;; a bolt, up to the maximum depth.
-(defn lightning-bolts
-  "Return every possible bolt for the given model and spec. Start at the given depth and
-   keep generating until the given max-depth is reached."
-  [model spec depth max-depth]
-  (cond (and (< depth max-depth) (not (= false (get-in spec [:phrasal] true))))
-        (mapcat (fn [candidate-parent]
-                  (->> (lightning-bolts model
-                                        (get-in candidate-parent [:head])
-                                        (+ 1 depth)
-                                        max-depth)
-                       (map (fn [head]
-                              (assoc-in candidate-parent [:head] head)))))
-                (->>
-                 (:grammar model)
-                 (map #(unify % spec))
-                 (filter #(not (= :fail %)))))
-        true (get-lexemes model spec)))
-
-(defn get-lexemes [model spec]
+(defn get-lexemes [spec model]
   "Get lexemes matching the spec. Use a model's index if available, where the index 
    is a function that we call with _spec_ to get a set of indices. 
    Otherwise use the model's entire lexeme."
   (->>
-   (if (= false (get-in spec [:phrasal] false))
-     (if-let [index-fn (:index-fn model)]
-       (index-fn spec)
-       (do
-         (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-         (flatten (vals
-                   (or (:lexicon (:generate model)) (:lexicon model)))))))
-   (filter #(or (= false (get-in % [:exception] false))
-                (not (= :verb (get-in % [:synsem :cat])))))
+   (if-let [index-fn (:index-fn model)]
+     (index-fn spec)
+     (do
+       (log/warn (str "get-lexemes: no index found: using entire lexicon."))
+       (flatten (vals
+                 (or (:lexicon (:generate model)) (:lexicon model))))))
+   (filter #(or (= false (u/get-in % [:exception] false))
+                (not (= :verb (u/get-in % [:synsem :cat])))))
    (map #(unify % spec))
-   (filter #(not (= :fail %)))))
-  
-(defn add-comps-to-bolt
-  "bolt + paths => trees"
-  [bolt model comp-paths]
-  (if (and true (not (empty? comp-paths)))
-    (let [comp-path (first comp-paths)]
-      (log/debug (str "add-comps-to-bolt: " ((:morph-ps model) bolt) "@[" (string/join " " comp-path) "]"))
-      (add-comp-to-bolts 
-       (add-comps-to-bolt bolt model (rest comp-paths))
-       comp-path
-       model))
-    [bolt]))
+   (filter #(not (= :fail %)))
+   (map #(u/assoc-in! % [::done?] true))))
 
-(defn add-comp-to-bolts
-  "bolts + path => partial trees"
-  [bolts path model]
-  (if (not (empty? bolts))
-    (let [bolt (first bolts)]
-      (log/debug (str "add-comp-to-bolts: " ((:morph-ps model) bolt) "@[" (string/join " " path) "]"))
-      (lazy-cat
-       (add-to-bolt-at-path bolt path model)
-       (add-comp-to-bolts (rest bolts) path model)))))
-
-(defn add-to-bolt-at-path
-  "generate all complements for bolt at given path, and create a partial tree: bolt + complement => partial tree"
-  [bolt path model]
-  (->>
-   (gen (get-in bolt path) model 0) ;; generate all complements for _bolt_ at _path_.
-   (map #(let [partial-tree
-               (dag_unify.core/assoc-in! (dag_unify.core/copy bolt) path %)] ;; add the complement to the bolt at _path_.
-           ;; apply model's :default-fn, if any.
-           ;; TODO: default-fn should return a sequence of partial trees,
-           ;; not just one.
-           (if (:default-fn model)
-             (first ((:default-fn model) partial-tree))
-             partial-tree)))))
-
-(defn comp-paths
-  "Find all paths to all complements (both terminal and non-terminal) given a depth. Returned in 
-   ascending length (shortest first)."
-  ;; e.g., a tree of depth 2
-  ;; will have the following paths:
-  ;;   [:comp] [:head :comp]
-  ;;   because it looks like:
-  ;; 
-  ;;   H
-  ;;  / \
-  ;; C   H
-  ;;    / \
-  ;;   H   C
-  ;;
-  [depth]
+(defn frontier
+  "get the next path to which to adjoin within _tree_."
+  [tree]
   (cond
-    (= depth 0)
+
+    (= (u/get-in tree [::done?]) true)
     []
-    (= depth 1)
-    (list [:comp])
-    true
-    (cons
-     (concat (take (- depth 1)
-                   (repeatedly (fn [] :head)))
-             [:comp])
-     (comp-paths (- depth 1)))))
+    
+    (and (= (u/get-in tree [:phrasal]) true)
+         (not (u/get-in tree [::done?]))
+         (= true (u/get-in tree [::started?]))
+         (not (u/get-in tree [:head ::done?])))
+    (cons :head (frontier (u/get-in tree [:head])))
+
+    (and (= (u/get-in tree [:phrasal]) true)
+         (= true (u/get-in tree [::started?])))
+    (cons :comp (frontier (u/get-in tree [:comp])))
+    
+    true []))
+
+(defn assoc-each-default [tree children f model]
+  (if (not (empty? children))
+    (lazy-cat
+     (let [child (first children)
+           tree-with-child (u/assoc-in tree f child)]
+       (-> tree-with-child
+           (u/assoc-in! 
+            (concat (butlast f) [::done?])
+            true)
+           (u/dissoc-paths (if truncate? [f] []))
+           ((or (:default-fn model) (fn [x] [x])))))
+     (assoc-each-default tree (rest children) f model))))
+
+(defn assoc-children [tree children f model]
+  (if (not (empty? children))
+    (let [child (first children)
+          default-fn (or (:default-fn model)
+                         (fn [x] [x]))]
+      (lazy-cat
+       (if (= true (u/get-in child [::done?]))
+         (assoc-each-default tree (default-fn child) f model)
+         [(u/assoc-in tree f child)])
+       (assoc-children tree (rest children) f model)))))
+
+(defn grow
+  "recursively generate trees given 
+   input trees and model. continue recursively
+   until no futher expansion is 
+   possible."
+  [trees model]
+  (if (not (empty? trees))
+    ;; for each tree,
+    ;; find the next point of 
+    ;; 1) branching to a new 
+    ;; subtree 
+    ;; or 2) terminating with 
+    ;; a lexeme (leaf node)
+    (let [tree (first trees)
+          f (frontier tree)
+          depth (count f)
+          child-spec (u/get-in tree f)
+          child-lexemes #(get-lexemes child-spec model)
+          child-trees #(parent-with-head child-spec model depth)]
+      (lazy-cat
+       (if (not (empty? f))
+         (grow
+          (let [children
+                (cond
+                  (= true (u/get-in child-spec [:phrasal]))
+                  (child-trees)
+                  
+                  (= false (u/get-in child-spec [:phrasal]))
+                  (child-lexemes)
+                  
+                  (branch? depth)
+                  ;; generate children that are trees before children that are leaves.
+                  (lazy-cat (child-trees) (child-lexemes))
+                  
+                  true ;; generate children that are leaves before children that are trees.
+                  (lazy-cat (child-lexemes) (child-trees)))]
+            (assoc-children tree children f model))
+          model)
+         [tree])
+       (grow (rest trees) model)))))
+

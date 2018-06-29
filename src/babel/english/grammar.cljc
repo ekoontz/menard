@@ -5,6 +5,7 @@
                                   vocab-entry-to-lexeme]]
    [babel.english.morphology :refer (analyze fo)]
    [babel.generate :as generate]
+   [babel.html :refer [local-timestamp]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.lexiconfn :refer [edn2lexicon filtered-lexicon read-lexicon]]
    [babel.parse :as parse]
@@ -39,13 +40,13 @@
 
 (defn default-fn [tree]
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
-  (log/debug (str "aspect (pre): " (strip-refs (get-in tree
+  (log/trace (str "aspect (pre): " (strip-refs (get-in tree
                                                        [:synsem :sem :aspect]
                                                        ::unset))))
-  (log/debug (str "infl   (pre): " (strip-refs (get-in tree
+  (log/trace (str "infl   (pre): " (strip-refs (get-in tree
                                                        [:synsem :infl]
                                                        ::unset))))  
-  (log/debug (str "tense  (pre): " (strip-refs (get-in tree
+  (log/trace (str "tense  (pre): " (strip-refs (get-in tree
                                                        [:synsem :sem :tense]
                                                        ::unset))))
   (let [result
@@ -60,17 +61,20 @@
                        :sem {:tense :present
                              :aspect :simple}
                        :infl :present}})
+
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
                        :sem {:tense :present
                              :aspect :progressive}
                        :infl :present-progressive}})
+
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
                        :sem {:tense :future}
                        :infl :future}})
+
             (apply-default-if
              verb-default?
              {:synsem {:cat :verb
@@ -101,13 +105,13 @@
                              :tense :past}
                        :infl :pluperfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (parse/fo-ps result fo)))
-    (log/debug (str "aspect (post): " (strip-refs (get-in result
-                                                         [:synsem :sem :aspect]
-                                                         ::unset))))
-    (log/debug (str "infl   (post): " (strip-refs (get-in result
+    (log/trace (str "aspect (post): " (strip-refs (get-in result
+                                                          [:synsem :sem :aspect]
+                                                          ::unset))))
+    (log/trace (str "infl   (post): " (strip-refs (get-in result
                                                           [:synsem :infl]
                                                           ::unset))))  
-    (log/debug (str "tense  (post): " (strip-refs (get-in result
+    (log/trace (str "tense  (post): " (strip-refs (get-in result
                                                           [:synsem :sem :tense]
                                                           ::unset))))
     [result]))
@@ -135,7 +139,7 @@
                :agr agr
                :b comp-english}
      :first :head}))
-               
+
 (def head-last
   (let [agr (atom :top)
         head-english (atom {:agr agr})
@@ -259,105 +263,54 @@
                    :head {:synsem {:comp-type comp-type
                                    :sem semantics}}}))
    (unify-check
+    {:rule "complementizer-phrase-slash"}
     head-first
-    (let [semantics (atom :top)
-          comp-type (atom :top)
-          argument (atom :top)
-          mod (atom :top)
-          cat (atom :comp)]
-      {:rule "complementizer-phrase-slash"
-       :phrasal true
-       :synsem {:slash true
-                :cat cat
-                :mod mod
-                :subcat {:1 argument
-                         :2 []}
-                :sem semantics}
-       :comp {:phrasal true
-              :synsem {:cat :verb
-                       :mod mod
-                       :sem semantics
-                       :slash true
-                       :subcat {:1 argument
-                                :2 []}}}
-       :head {:phrasal false
-              :synsem {:cat cat
-                       :sem semantics}}
-       }))
-   
+    head-principle
+    {:synsem {:slash true
+              :cat :comp}
+     :head {:phrasal false}
+     :comp {:phrasal true
+            ;; TODO: the below should be in complementizer's [:subcat :1]:
+            :synsem {:slash true}}})
+
    (unify-check c10
                 {:rule "determiner-phrase"
-                 :synsem {:cat :det}})
-   
+                 :synsem {:cat :det}
+                 :head {:synsem {:slash false}}})
+
+   ;;         nbar   |sem  [1] |
+   ;;       /      \ |mod <[2]>|
+   ;;      /        \
+   ;; adj |sem [2]|  n |sem [1]|
+   ;; 
    (unify-check c11-comp-subcat-1
-                (let [propernoun (atom :top)
-                      head-sem (atom :top)
-                      mod-sem (atom {:subj head-sem})
-                      rest-mod []]
-                  {:rule "nbar1"
-                   :synsem {:reflexive false
-                            :propernoun propernoun
-                            :mod {:first mod-sem
-                                  :rest rest-mod}}
+                (let [head-constraint (atom :top)
+                      adj-sem (atom {:prop head-constraint})
+                      head-mod (atom :top)]
+                  {:rule "nbar"
+                   :synsem {:mod {:first adj-sem
+                                  :rest head-mod}}
                    :comp {:synsem {:cat :adjective
-                                   :sem mod-sem}}
+                                   :sem adj-sem}}
                    :head {:phrasal false
                           :synsem {:cat :noun
-                                   :mod rest-mod
-                                   :propernoun propernoun
-                                   :sem head-sem}}}))
-   
-   (unify-check c11-comp-subcat-1
-                (let [propernoun (atom :top)
-                      head-sem (atom :top)
-                      mod-sem (atom {:subj head-sem})
-                      rest-mod (atom :top)]
-                  {:rule "nbar2"
-                   :synsem {:reflexive false
-                            :propernoun propernoun
-                            :mod {:first mod-sem
-                                  :rest rest-mod}}
-                   :comp {:synsem {:cat :adjective
-                                   :sem mod-sem}}
-                   :head {:phrasal true
-                          :synsem {:cat :noun
-                                   :mod rest-mod
-                                   :propernoun propernoun
-                                   :sem head-sem}}}))
-   
-   ;; np1 -> det nbar
+                                   :sem {:prop head-constraint}
+                                   :mod head-mod}}}))
+   ;; noun-phrase -> det nbar
    (unify-check c10
                 comp-specs-head
                 (let [number-agreement (atom :top)
-                      propernoun (atom :top)
                       mod (atom :top)]
-                  {:rule "noun-phrase1"
-                   :aliases (list "np1")
+                  {:rule "noun-phrase"
+                   :aliases (list "np")
                    :synsem {:agr {:number number-agreement}
                             :reflexive false
                             :cat :noun
-                            :mod mod
-                            :propernoun propernoun
-                            :sem {:number number-agreement}}
-                   :head {:phrasal true
-                          :synsem {:mod mod
-                                   :propernoun propernoun}}}))
-   ;; np2 -> det noun
-   (unify-check c10
-                comp-specs-head
-                (let [number-agreement (atom :top)
-                      propernoun (atom :top)]
-                  {:rule "noun-phrase2"
-                   :aliases (list "np2")
-                   :synsem {:agr {:number number-agreement}
-                            :reflexive false
-                            :cat :noun
-                            :mod []
-                            :propernoun propernoun
-                            :sem {:number number-agreement}}
-                   :head {:phrasal false
-                          :synsem {:propernoun propernoun}}}))
-   
+                            :sem {:mod mod
+                                  :number number-agreement}}
+                   :head {:phrasal :top
+                          :synsem {:mod mod}}}))
+
    (let [sem (atom :top)
          agr (atom :top)
          reflexive (atom :top)]
@@ -375,6 +328,57 @@
                    :head {:synsem {:sem sem
                                    :subcat {:1 {:agr agr
                                                 :reflexive reflexive}}}}}))
+   (unify-check
+    {:rule "s/obj"}
+    (let [object-synsem (atom {:top :top})
+          subject-synsem (atom :top)]
+      (unify-check head-last
+                   head-principle
+                   {:comp {:synsem subject-synsem}
+                    :head {:synsem {:sem {:reflexive false}
+                                    :slash false
+                                    :subcat {:1 subject-synsem
+                                             :2 object-synsem
+                                             :3 []}}}
+                    :synsem {:cat :verb
+                             :slash true
+                             :subcat {:1 object-synsem
+                                      :2 []}}})))
+   (unify-check
+    {:rule "nbar-s-obj"
+     :example "(the) [nbar dog [s-obj you see]]"}
+    head-first
+    head-principle
+    (let [mod-subj (atom :top)
+          mod-pred (atom :top)
+          mod-prop (atom :top)
+          head-mod (atom :top)
+          mod-aspect (atom :top)
+          mod-tense (atom :top)
+          head-subcat (atom {:1 {:cat :det}
+                             :2 []})]
+      {:slash false
+       :synsem {:sem {:prop mod-prop}
+                :mod {:first {:subj mod-subj
+                              :tense mod-tense
+                              :aspect mod-aspect
+                              :obj :modified
+                              :pred mod-pred}
+                      :rest head-mod}
+                :subcat head-subcat}
+       :comp {:synsem {:slash true
+                       :cat :verb
+                       :subcat {:1 {:cat :noun}
+                                :2 []}
+                       :sem {:subj mod-subj
+                             :aspect mod-aspect
+                             :obj {:prop mod-prop}
+                             :pred mod-pred
+                             :tense mod-tense}}}
+       :head {:rule "nbar"
+              :synsem {:cat :noun
+                       :subcat head-subcat
+                       :mod head-mod}}}))
    (unify-check c10
                 unmodified
                 root-is-head
@@ -393,108 +397,79 @@
                  :synsem {:cat :verb
                           :slash false}})
    
+   ;; "sees a book" :complement is semantic object
    (unify-check h21
                 root-is-head
                 {:rule "transitive-vp-nonphrasal-head"
                  :synsem {:aux false
                           :slash false
                           :cat :verb}})
-   (unify-check h21
-                root-is-head-root
-                {:rule "transitive-vp-phrasal-head"
-                 :slash false
-                 :head {:phrasal true}
-                 :synsem {:aux false
-                          :cat :verb}})
-   
-   ;; TODO: enforce the facts that:
-   ;; 1. {:head {:phrasal true}} => root-is-head-root
-   ;; 2. {:head {:phrasal false}} => root-is-head
+
+   ;; "gives a book" [to X] :complement is the semantic object
    (unify-check h32
                 root-is-head
-                {:rule "vp32"
-                 :head {:phrasal false
-                        :phrasal-verb true}
+                {:rule "ditransitive-vp-nonphrasal-head-1"
+                 :head {:applied {:ditrans true}
+                        :phrasal false
+                        :synsem {:subcat {:2 {:top :top}
+                                          :3 {:top :top}}}}
+                 :synsem {:cat :verb
+                          :slash false
+                          :subcat {:2 {:top :top}
+                                   :3 []}}})
+
+   ;; "has seen a dog" : complement is semantic object.
+   (let [obj-mod (atom :top)
+         obj (atom {:mod obj-mod})]
+     (unify-check h21
+                  root-is-head-root
+                  {:rule "transitive-vp-phrasal-head"
+                   :comp {:synsem {:mod obj-mod
+                                   :sem obj}}
+                   :head {:phrasal true}
+                   :synsem {:aux false
+                            :sem {:obj obj}
+                            :slash false
+                            :cat :verb}}))
+
+   ;; "[h turn ] [c off]"
+   (let [iobj-mod (atom :top)]
+     (unify-check h32
+                  root-is-head
+                  {:rule "vp-phrasal-verb"
+                   :head {:phrasal false
+                          :phrasal-verb true}
+                   :comp {:synsem {:mod iobj-mod}}
+                   :synsem {:aux false
+                            :cat :verb
+                            :sem {:iobj iobj-mod}
+                            :slash false}}))
+
+   ;;   "[h give the book] [c to you]"
+   (unify-check h21
+                {:rule "vp-to-vp-pp"}
+                root-is-head-root
+                {:head {:phrasal true
+                        :phrasal-verb false}
+                 :comp {:synsem {:cat :prep}}
                  :synsem {:aux false
                           :cat :verb
-                          :slash false}})
-   (unify-check h10
-                {:head {:phrasal false
-                        :synsem {:cat :sent-modifier}}
-                 :rule "s-modifier"})
-   
-   ;;      noun-phrase3      ->  noun-phrase[1,2] slash-obj
-   ;; e.g. "the man you saw" ->  "the man"        "you saw"
-   (unify-check
-    {:rule "noun-phrase3"}
-    head-principle
-    head-first
-    (let [head-sem (atom :top)
-          cat (atom :noun)
-          comp-sem (atom :top)
-          head-mod (atom :top)
-          head-synsem (atom {:cat cat
-                             :subcat []
-                             :mod head-mod
-                             :sem head-sem})]
-      {:phrasal true
-       :synsem {:cat cat
-                :mod {:first comp-sem
-                      :rest head-mod}
-                :sem head-sem
-                :slash false
-                :subcat []}
-       :head {:rule "noun-phrase2"
-              :phrasal true
-              :synsem head-synsem}
-       :comp {:phrasal true
-              :synsem {:slash true
-                       :subcat {:1 head-synsem
-                                :2 []}
-                       :sem comp-sem}}}))
-   (unify-check
-    {:rule "slash-obj"}
-    head-last head-semantics
-    (let [first-arg (atom :top)
-          cat (atom :verb)
-          second-arg (atom {:reflexive false})]
-      {:phrasal true
-       :synsem {:cat cat
-                :slash true
-                :subcat {:1 second-arg
-                         :2 []}}
-       :comp {:synsem first-arg}
-       :head {:synsem {:cat cat
-                       :subcat {:1 first-arg
-                                :2 second-arg}}}})
-    {:synsem {:aux false}
-     :head {:synsem {:aux false}}
-     :comp {:synsem {:subcat []
-                     :case :nom
-                     :cat :noun}}}
-
-    (let [infl (atom :top)
-          participle (atom false)]
-      {:synsem {:infl infl
-                :participle participle}
-       :head {:synsem {:infl infl
-                       :participle participle}}})
-    )])
+                          :slash false}})])
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase [:synsem :cat]))
         (unify-check phrase
-                (let [ref (atom :top)]
-                  {:synsem {:aux ref}
-                   :head {:synsem {:aux ref}}}))
+                     (let [ref (atom :top)]
+                       {:synsem {:aux ref}
+                        :head {:synsem {:aux ref}}}))
         true phrase))
 
 (defn modal-is-head-feature [phrase]
   (cond (= :verb (get-in phrase [:synsem :cat]))
         (unify-check phrase
-                (let [ref (atom :top)]
-                  {:synsem {:modal ref}
-                   :head {:synsem {:modal ref}}}))
+                     (let [ref (atom :top)]
+                       {:synsem {:modal ref}
+                        :head {:synsem {:modal ref}}}))
         true phrase))
 
 ;; TODO: rewrite this and and above 2 functions into
@@ -533,11 +508,12 @@
                            :or {from-language nil
                                 show-notes false}}]
                 (fo expr
-                    :from-language from-language :from-notes show-notes
+                    :from-language from-language :show-notes show-notes
                     :lexicon lexicon))
         debug (log/info "  finalizing..")
         model
-        {:name "English language model created with ❤ by babel.english.grammar/model."
+        {:name (str "English language model created with ❤ by babel.english.grammar/model "
+                    "at: " (local-timestamp))
          :default-fn default-fn
          :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
@@ -564,7 +540,6 @@
             (fn [spec]
               (generate/generate spec model))})))
 
-
 ;;(def source-model @@(get babel.directory/models :en))
 ;;(def filter-lexicon-fn #(= :det (get-in % [:synsem :cat])))
 ;;(def new-model ((:vocab2model source-model) source-vocab-items filter-lexicon-fn))
@@ -583,7 +558,3 @@
                      {:lexicon lexicon})]
     (merge model
            {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))})))
-
-
-
-

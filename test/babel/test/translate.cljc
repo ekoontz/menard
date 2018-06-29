@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [get-in])
   (:require
    [babel.directory :refer [models]]
+   [babel.generate :refer [generate]]
    [babel.test.it :as it]
    [babel.test.en :as en]
    [babel.test.test :as btest]
@@ -45,9 +46,9 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate english-model))
+             (generate english-model))
 
-        english (babel.english/morph english-structure english-model)]
+        english (babel.english/morph english-structure :model english-model)]
 
     (= "they (♀) went" english)))
 
@@ -68,9 +69,9 @@
         
         english-structure
         (->  {:synsem {:sem semantics}}
-             (babel.english/generate english-model))
+             (generate english-model))
 
-        english (babel.english/morph english-structure english-model)]
+        english (babel.english/morph english-structure :model english-model)]
 
     (= "they (♂) went" english)))
 
@@ -93,11 +94,11 @@
               :slash false ;; TODO: {:slash false,:synsem {:subcat '()}} should be defaults of English language model.
               :synsem {:sem semantics
                        :cat :verb
-                       :subcat '()}}
-             (babel.english/generate english-model))
+                       :subcat []}}
+             (generate english-model))
         
         english (babel.english/morph english-structure
-                                     english-model
+                                     :model english-model
                                      :show-notes false)]
     
     (log/debug (str "babel.translate/latin-to-english: english-structure" english-structure))

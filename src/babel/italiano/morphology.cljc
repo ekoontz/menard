@@ -126,13 +126,18 @@
     (string/join " " [(get-string-1 (get-in word [:a]))
                       (get-string-1 (get-in word [:b]))])
 
-    (and (= :verb (get-in word [:cat]))
-         (= :top (get-in word [:infl] :top)))
-    (get-in word [:italiano])
+    (= :top (get-in word [:italiano] :top)) "_"
     
+    (and
+     (string? (get-in word [:italiano]))
+     (= :verb (get-in word [:cat]))
+     (or (= :top (get-in word [:infl] :top))
+         (= :top (get-in word [:agr :number] :top))))
+    (get-in word [:italiano])
+
     (= :verb (get-in word [:cat]))
     (or (verbs/conjugate word) (get-in word [:italiano]))
-    
+
     (and (not (= ::none (get-in word [:a] ::none)))
          (not (= ::none (get-in word [:b] ::none))))
     (get-string (get-in word [:a])
@@ -328,10 +333,8 @@
     
     (string? (get-in word [:italiano]))
     (get-in word [:italiano])
-
-    true "_"
     
-    true (str "[?? " word "]")))
+    true "_"))
 
 ;; TODO: replace 'a' and 'b' with 'left' and 'right' for clarity.
 ;; TODO: make b required so that function is easier to understand and refactor.

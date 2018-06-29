@@ -1240,13 +1240,14 @@
                       :sem {:pred :win}}
              :italiano {:passato "vinto"}}
 
- "vivere"
- [{:synsem {:cat :verb
-            :sem {:subj {:living true}
-                  :pred :live-v}
-            :essere true}
-   :italiano {:passato "vissuto"
-              :future-stem "vivr"}}]
+ "vivere" {:synsem {:cat :verb
+                    :subcat {:1 {:top :top}
+                             :2 []}
+                    :sem {:subj {:living true}
+                          :pred :live-v}
+                    :essere true}
+           :italiano {:passato "vissuto"
+                      :future-stem "vivr"}}
 
  "volere" {:synsem {:cat :verb
                     :sem {:pred :want}}

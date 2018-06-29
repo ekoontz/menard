@@ -71,8 +71,9 @@ structure of the expression. We pass this to the function
 human readable string.
 
 ```clojure
-;; generate an English sentence about dogs eating
-user> (-> {:synsem {:sem {:pred :eat :subj {:pred :dog}}}} babel.english/generate babel.english/morph)
+;; generate an English sentence about dogs eating something:
+user> (def spec {:synsem {:sem {:pred :eat :subj {:pred :dog}}}})
+user> (-> spec babel.english/generate babel.english/morph)
 "your first student's new dogs used to eat a small music's pizza"
 ```
 

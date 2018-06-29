@@ -276,21 +276,41 @@
   "return terminal nodes (leaves) for this tree."
   (let [head (get-in parse-tree [:head] :none)
         comp (get-in parse-tree [:comp] :none)]
-  (cond
-    (and (= :none head)
-         (= :none comp))
-    [parse-tree]
+    (cond
+      (and (= :none head)
+           (= :none comp))
+      [parse-tree]
 
-    (= :none head)
-    (leaves comp)
+      (= :none head)
+      (leaves comp)
 
-    (= :none comp)
-    (leaves head)
-    
-    true
-    (concat
-     (leaves head)
-     (leaves comp)))))
+      (= :none comp)
+      (leaves head)
+      
+      true
+      (concat
+       (leaves head)
+       (leaves comp)))))
+
+;; TODO: make a fo-ps, but instead of
+;; returning a string, it returns a map,
+;; e.g., instead of returning:
+;;   [noun-phrase C:'the' H:[nbar-s-obj H:[nbar C:'tall' H:'man'] C:[s/obj C:'you' H:'see']]]
+;; instead, return:
+;;
+;; {:rule "noun-phrase"
+;;  :c "the"
+;;  :h {:rule "nbar-s-obj"
+;;      :h {:rule "nbar"
+;;          :c "tall"
+;;         :h "man"))
+;;     :c {:rule "s/obj"
+;;          :c "you"
+;;         :h "see")))))
+;;
+;; 
+;; in other words, transform input tree into a much
+;; smaller map.
 
 (defn fo-ps [tree morph]
   "return a human-readable string of a phrase structure tree. leaves of the tree are printed
@@ -302,26 +322,30 @@
           (log/trace (str "fo-ps: " (strip-refs tree))))
       (log/trace (str "fo-ps: leaf: " (strip-refs tree))))
     (cond
-      (and (= :none (get-in tree [:head] :none))
-           (= :none (get-in tree [:comp] :none))
-           (not (= :none (get-in tree [:rule] :none))))
-      (str "[" (get-in tree [:rule])
-           (morph tree))
+      (= :fail tree) :fail
 
       (and (= head-first? :none)
            (= false (get-in tree [:phrasal])))
-      (str "'" (morph tree) "'")
+      (str "" (morph tree) "")
 
       (= head-first? :comp)
       (str "[" (get-in tree [:rule]) " "
-           (fo-ps (get-in tree [:comp]) morph) " "
-           (fo-ps (get-in tree [:head]) morph)
+           "C:" (fo-ps (get-in tree [:comp]) morph) " "
+           "H:" (fo-ps (get-in tree [:head]) morph)
            "]")
 
       (= head-first? :head)
       (str "[" (get-in tree [:rule]) " "
-           (fo-ps (get-in tree [:head]) morph) " "
-           (fo-ps (get-in tree [:comp]) morph)
+           "H:" (fo-ps (get-in tree [:head]) morph) " "
+           "C:" (fo-ps (get-in tree [:comp]) morph)
            "]")
 
-      true "??")))
+      (nil? tree)
+      (str "(nil)")
+
+      true "_"
+
+      ;; other possibilities for fallthrough besides "_".
+      true (strip-refs tree)
+      
+      true (str "?? " (if (nil? tree) "(nil)" (type tree))))))

@@ -9,7 +9,7 @@
    [clojure.repl :refer [doc]]
    [clojure.test :refer [deftest is]]
    [clojure.tools.logging :as log]
-   [dag_unify.core :refer [get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [get-in strip-refs unify]]))
 
 (btest/init-db)
 (def source-language :en)
@@ -52,33 +52,30 @@
                :synsem {:agr {:person :3rd :number :plur}
                         :sem {:tense :future}}})))))
 (deftest reader1
-  (let [spec (let [agreement (atom {:person :3rd :number :sing :gender :masc})]
-               {:synsem {:slash false
-                         :cat :verb
-                         :agr agreement
-                         :sem {:obj :unspec
-                               :tense :past
-                               :subj {:pred :lui}
-                               :aspect :progressive
-                               :pred :answer}}
-                :comp {:synsem {:agr agreement}}})
-        source-format-fn (:morph @@(-> models source-language))
-        source-generate-fn (:generate-fn @@(-> models source-language))
+  (let [spec {:synsem {:slash false
+                       :cat :verb
+		       :subcat []
+                       :agr {:person :3rd
+                             :gender :masc
+                             :number :sing}
+                       :sem {:obj :unspec
+                             :tense :past
+                             :subj {:pred :lui
+                                    :prop {:human true}}
+                             :aspect :progressive
+                             :pred :answer}}}
+        source-format-fn (-> @@(-> models source-language) :morph)
+        source-generate-fn (-> @@(-> models source-language) :generate-fn)
         target-format-fn (:morph model)
 
         source (->
                 spec
-
-                ;; This is required for English in order
-                ;; to generate complete sentences with both a subject
-                ;; and a verb.
-                (unify {:synsem {:subcat '()}})
-
                 source-generate-fn
                 source-format-fn)
 
         target (->
                 spec
+                (u/dissoc-paths [[:synsem :subcat]])
                 generate
                 target-format-fn)]
     (log/info (str "source: " source))

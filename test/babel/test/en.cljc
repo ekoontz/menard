@@ -1,11 +1,12 @@
 (ns babel.test.en
+  ;; TODO: use u/get-in and u/assoc-in; remove these :excludes.
   (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
-            [babel.english :as english :refer [analyze fo-ps]]
+            [babel.english :as english :refer [morph morph-ps]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
 
-            [babel.generate :as generate :refer [get-lexemes lightning-bolts]]
+            [babel.generate :as generate :refer [get-lexemes]]
             [babel.lexiconfn :refer [write-lexicon]]
             [babel.over :refer [over overc overh]]
             [babel.parse :as parse]
@@ -13,7 +14,6 @@
             [babel.ug :refer [head-principle unify-check]]
             
             [clojure.math.combinatorics :as combo]
-            [clojure.pprint :refer [pprint]]
             [clojure.repl :refer [doc]]
             [clojure.string :as string]
             #?(:clj [clojure.test :refer [deftest is]])
@@ -21,14 +21,12 @@
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
 
-            [dag_unify.core :refer [assoc-in dissoc-paths fail?
-                                    fail-path-between get-in
-                                    strip-refs unify]]))
+            [dag_unify.core :as u
+             :refer [assoc-in dissoc-paths fail?
+                     fail-path-between get-in pprint
+                     strip-refs unify]]))
 (btest/init-db)
 (def model @@(get models :en))
-
-(defn morph [expression]
-  (english/morph expression model))
 
 (defn parse [expression]
   (english/parse expression model false))
@@ -203,7 +201,9 @@
                    10
                    (repeatedly #(let [expression (generate {:modified false
                                                             :synsem {:cat :verb
-                                                                     :sem {:pred :be-called}}})]
+                                                                     :sem {:pred :be-called
+                                                                           :obj {:top :top}}
+                                                                     :subcat []}})]
                                   (is (not (= "" (morph expression))))
                                   (log/info (display-expression expression))
                                   (morph expression)))))))))
@@ -211,22 +211,22 @@
 (deftest mod-is-empty-list
   (let [result (generate {:modified false
                           :synsem {:cat :noun
-                                   :sem {:pred :name
-                                         :mod '()}}})]
-    (is (= (get-in result [:synsem :sem :mod]
+                                   :sem {:pred :name}
+                                   :mod []}})]
+    (is (= (get-in result [:synsem :mod]
                    ::undefined-should-not-return-this)
-           '()))))
+           []))))
 
 (deftest her-name-is-luisa
   (is (= "her name is Luisa"
          (morph (generate {:modified false
                            :synsem {:cat :verb
-                                    :sem {:mod []
-                                          :iobj {:pred :luisa}
+                                    :sem {:iobj {:pred :luisa}
                                           :pred :be-called
                                           :subj {:pred :lei}
                                           :tense :present}
-                                    :subcat []}})))))
+                                    :subcat []}
+                           :comp {:synsem {:mod []}}})))))
 
 (deftest jean-s
   (is (not (empty? (parse "Jean's")))))
@@ -240,15 +240,15 @@
 (deftest generate-with-possessive-1
   (let [result
         (generate {:synsem {:pronoun false
-                            ;; TODO: subcat '() should be part of language model's top-level generate defaults;
+                            ;; TODO: subcat [] should be part of language model's top-level generate defaults;
                             ;; c.f. TODO on babel.test.translate/latin-to-english
-                            :subcat '()
+                            :subcat []
                             :cat :noun
                             :sem {:number :sing
-                                  :mod '()
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :dog}}})]
+                                  :pred :dog}}
+                   :head {:synsem {:mod []}}})]
     (is (not (nil? result)))
     (is (= "Juana's dog" (morph result)))))
 
@@ -256,12 +256,12 @@
   (let [result
         (generate {:synsem {:cat :noun
                             :pronoun false
-                            :mod {:first {:pred :rosso}}
                             :sem {:number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
                                   :pred :dog}
-                            :subcat '()}})]
+                            :subcat []}
+                   :head {:synsem {:mod {:first {:pred :red}}}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (morph result)))))
 
@@ -272,24 +272,24 @@
                             (generate 
                              {:comp {:synsem {:pronoun true}}
                               :modified false
-                              :synsem {:sem {:pred :wash
-                                             :mod nil
+                              :synsem {:sem {:pred :wash-oneself
                                              :reflexive true}}})]
-                        {:f (english/morph generated model :from-language "it")
+                        {:f (english/morph generated :model model :from-language "it")
                          :sem (get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
 
 (deftest in-front-of
   (let [expr (generate {:synsem {:cat :prep
-                                 :subcat '()
+                                 :subcat []
                                  :reflexive false
                                  :sem {:pred :in-front-of
                                        :obj {:pred :table
-                                             :mod '()
+                                             :mod []
                                              :number :sing
                                              :spec {:def :def
-                                                    :pred :definite}}}}})]
+                                                    :pred :definite}}}}
+                        :comp {:synsem {:mod []}}})]
     (is (= (morph expr)
            "in front of the table"))))
 
@@ -336,18 +336,20 @@
   (let [expr (generate {:modified false
                         :synsem {:cat :verb
                                  :sem {:obj {:pred :table
-                                             :mod '()
+                                             :mod []
                                              :number :sing
                                              :spec {:def :def
                                                     :pred :definite}}
                                        :pred :in-front-of
                                        :tense :present
                                        :subj {:pred :chair
-                                              :mod '()
+                                              :mod []
                                               :number :sing
                                               :spec {:def :def
                                                      :pred :definite}}}
-                                 :subcat '()}})]
+                                 :subcat []}
+                        :comp {:synsem {:mod []}}
+                        :head {:comp {:comp {:synsem {:mod []}}}}})]
     (log/info (str "furniture-sentence: " 
                    (display-expression expr)))
 
@@ -361,11 +363,12 @@
                                        :tense :present
                                        :reflexive true
                                        :subj {:pred :chair
-                                              :mod '()
+                                              :mod []
                                               :number :sing
                                               :spec {:def :def
                                                      :pred :definite}}}
-                                 :subcat '()}})]
+                                 :subcat []}
+                        :comp {:synsem {:mod []}}})]
     (log/info (str "reflexive furniture expression:" (display-expression expr)))
     (is (= (morph expr)
            "the chair is in front of itself"))))
@@ -375,7 +378,7 @@
         expr (-> vp-infinitive
                  (overh (get (:lexicon model) "speak"))
                  (overc (generate {:synsem {:sem {:pred :word
-                                                  :mod '()
+                                                  :mod []
                                                   :spec {:def :def
                                                          :pred :definite}}
                                             :cat :noun}})))]
@@ -384,16 +387,16 @@
 (deftest past-and-gender-agreement
   (= (morph (generate {:synsem {:sem {:pred :go
                                       :aspect :perfect
-                                   :tense :present
-                                   :subj {:gender :fem
-                                          :pred :loro}}}}))
+                                      :tense :present
+                                      :subj {:gender :fem
+                                             :pred :loro}}}}))
      "they (♀) went"))
 
 (deftest noun-number-agreement
   (= (morph (generate {:synsem {:agr {:number :plur}
-                             :cat :noun
-                             :sem {:pred :cat :spec {:def :def}
-                                   :mod '()}}}))
+                                :cat :noun
+                                :sem {:pred :cat :spec {:def :def}
+                                      :mod []}}}))
      "the cats"))
 
 (deftest phrasal-verbs
@@ -401,20 +404,23 @@
   (is (not (empty? (parse "I turned the radio on"))))
   (is (not (empty? (parse "I turned off the radio"))))
   (is (not (empty? (parse "I turned the radio off"))))
-  (let [generated (morph (generate {:synsem {:subcat '()
-                                             :sem {:pred :turn-on
-                                                   :tense :present
-                                                   :obj {:mod '()
-                                                         :number :sing
-                                                         :pred :radio
-                                                         :spec {:def :def
-                                                                :of {:pred nil}}}
-                                                   :subj {:pred :lei}}
-                                             :cat :verb}}))]
+  (let [spec {:synsem {:cat :verb
+                       :subcat []
+                       :sem {:pred :turn-on
+                             :tense :present
+                             :obj {:mod []
+                                   :number :sing
+                                   :pred :radio
+                                   :spec {:def :def
+                                          :of {:pred nil}}}
+                             :subj {:pred :lei
+                                    :prop {:human true}}}}}
+        generated (generate spec)]
+    (log/info (str "generated: " (morph generated)))
     (is (or (= "she turns the radio on"
-                generated)
+               (morph generated))
             (= "she turns on the radio"
-               generated)))))
+               (morph generated))))))
 
 ;; cats cannot read: generating with this spec
 ;; should quickly return with nil (rather than
@@ -423,33 +429,12 @@
 (def spec1 {:synsem {:cat :verb
                      :sem {:pred :read
                            :subj {:pred :woman}}
-                     :subcat '()}})
+                     :subcat []}})
 
 (def spec2 {:synsem {:cat :verb
                      :sem {:pred :read
                            :subj {:pred :cat}}
-                     :subcat '()}})
-
-;; TODO: consider removing this test: generation is
-;; less susceptible to the problems for which it was
-;; added.
-(deftest rathole-check-2
-  (let [med model
-        spec {:synsem {:cat :verb
-                       :sem {:pred :read
-                             :subj {:pred :woman}}
-                       :subcat '()}}
-        lbs (lightning-bolts med spec 0 2)
-        good-lb (first (filter #(and (= (get-in % [:head :rule])
-                                        "transitive-vp-nonphrasal-head")
-                                     (= (get-in % [:head :head :english :english])
-                                        "read"))
-                               lbs))
-        comp-comp-spec (get-in good-lb [:head :comp])
-        comp-spec (get-in good-lb [:comp])]
-
-    (is (not (empty? (lightning-bolts med (get-in good-lb [:head :comp]) 0 0))))
-    (is (not (empty? (lightning-bolts med (get-in good-lb [:comp]) 0 1))))))
+                     :subcat []}})
 
 (deftest take-advantage-present
   (let [result (generate {:synsem {:sem {:pred :take-advantage-of
@@ -530,7 +515,7 @@
   (let [result (generate {:root {:english {:english "study"}}
                           :modified false
                           :synsem {:cat :verb
-                                   :subcat ()
+                                   :subcat []
                                    :sem {:aspect :pluperfect
                                          :obj :unspec
                                          :subj {:pred :I}
@@ -542,8 +527,9 @@
   (let [result (generate {:root {:english {:english "talk"}}
                           :modified false
                           :synsem {:cat :verb
-                                   :subcat ()
+                                   :subcat []
                                    :sem {:aspect :pluperfect
+                                         :iobj :unspec
                                          :obj :unspec
                                          :subj {:pred :I}
                                          :tense :past}}})]
@@ -566,21 +552,21 @@
   (let [spec1 {:modified false
                :root {:english {:english "participate"}}
                :synsem {:cat :verb
-                        :subcat ()
+                        :subcat []
                         :sem {:tense :present
                               :aspect :progressive
                               :subj {:pred :I}}}}
         spec2 {:modified false
                :root {:english {:english "hope"}}
                :synsem {:cat :verb
-                        :subcat ()
+                        :subcat []
                         :sem {:tense :present
                               :aspect :progressive
                               :subj {:pred :I}
                               :obj :unspec}}}]
-                                     
-    (is (= "I am participating (right now)" (morph (generate spec1))))
-    (is (= "I am hoping (right now)" (morph (generate spec2))))))
+    
+    (is (= "I am participating (right now)" (morph (generate spec1) :show-notes true)))
+    (is (= "I am hoping (right now)" (morph (generate spec2) :show-notes true)))))
   
 (deftest past-participle-orthography
   (is (= (babel.english.morphology/present-participle-of "hope") "hoping"))
@@ -607,40 +593,43 @@
     (is (= "I eat" (morph (generate simple)))) 
 
     ;; explicitly set to progressive present:
-    (is (= "I am eating (right now)" (morph (generate progressive))))))
+    (is (= "I am eating (right now)" (morph (generate progressive) :show-notes true)))))
 
 (deftest benchmark-test []
   (let [med model
         to-run #(time (println (morph (generate
                                        {:synsem {:cat :verb, :sem {:pred :read
                                                                    :subj {:pred :woman}}
-                                                 :subcat '()}}))))]
+                                                 :subcat []}}))))]
     (is (= 1 (count (take 1 (repeatedly to-run)))))))
 
 (deftest relative-clause []
   (let [parse (first (parse "the man you see"))]
     (is (not (nil? parse)))
-    (is (= (get-in parse [:synsem :cat])
+    (is (= (u/get-in parse [:synsem :cat])
            :noun))
-    (is (= (get-in parse [:synsem :mod :first :obj :pred])
+    (is (= (u/get-in parse [:synsem :sem :pred])
            :man))
-    (is (= (get-in parse [:synsem :mod :first :subj :pred])
+    (is (= (u/get-in parse [:synsem :sem :mod :first :subj :pred])
            :tu))
-    (is (= (get-in parse [:synsem :mod :first :pred])
+    (is (= (u/get-in parse [:synsem :sem :mod :first :pred])
            :see))))
 
 (deftest generate-for-italian
-  (let [p (first
-           (filter #(= :verb (get-in % [:synsem :cat]))
-                   (parse "I speak")))
-        spec (strip-refs (unify
-                          {:synsem {:subcat '()
-                                    :cat :verb}}
-                          {:synsem {:sem (get-in p [:synsem :sem])}}
-                          {:synsem {:sem {:subj {:gender :masc}}}}))
+  (let [p (->> (parse "I speak")
+               (filter #(and (= :verb (u/get-in % [:synsem :cat]))
+                             (= [] (u/get-in % [:synsem :subcat]))))
+               first)
+        spec (strip-refs (-> (u/assoc-in
+                              {:synsem {:cat :verb
+                                        :subcat []}}
+                              [:synsem :sem]
+                              (unify
+                               {:subj {:gender :masc}}
+                               (u/get-in p [:synsem :sem])))))
         generated (generate spec)
         surface-1 (morph generated)
-        surface-2 (english/morph generated model :from-language "it")]
+        surface-2 (english/morph generated :model model :from-language "it")]
     (is (not (nil? p)))
     (is (not (fail? spec)))
     (is (not (nil? generated)))
@@ -658,15 +647,15 @@
                              :subj {:pred :I}}}}]
     (is (= "I am getting dressed"
            (english/morph (generate spec)
-                          model
+                          :model model
                           :show-notes false)))
     (is (= "I am getting dressed (right now)"
            (english/morph (generate spec)
-                          model
+                          :model model
                           :show-notes true)))
     (is (= "I (♀) am getting dressed (right now)"
            (english/morph (generate spec)
-                          model
+                          :model model
                           :show-notes true
                           :from-language "it")))))
 
@@ -685,13 +674,15 @@
   {:synsem {:agr {:number :sing}
             :pronoun false
             :cat :noun
-            :subcat '()
+            :subcat []
             :sem {:pred :woman
-                  :spec {:def :def}}
-            :mod {:first {:pred :see
-                          :tense :present
-                          :subj {:pred :lei
-                                 :human true}}}}})
+                  :spec {:def :def}
+                  :mod {:first {:pred :see
+                                :tense :present
+                                :subj {:pred :lei
+                                       :mod []
+                                       :prop {:human true}}}
+                        :rest []}}}})
 
 (deftest generate-with-relative-clause
   (let [result (generate spec-for-the-woman-she-sees)]
@@ -721,7 +712,7 @@
   {:synsem {:cat :verb
             :sem {:pred :sleep
                   :subj {:pred :cat}}
-            :subcat '()}})
+            :subcat []}})
 
 (def cspec {:modified false
             :synsem {:cat :verb
@@ -744,24 +735,10 @@
     #(println 
       (morph 
        (time (generate 
-              {:synsem {:subcat '()
+              {:synsem {:subcat []
                         :cat :verb
                         :sem {:pred :be-called
                               :subj {:pred :tu}
                               :obj {:top :top}}}})))))))
 
-;; might run in 450ms or forever...
-(def rathole
-  (take 
-   1
-   (repeatedly 
-    #(println 
-      (morph 
-       (time (generate 
-              {:synsem {:subcat '()
-                        :cat :verb
-                        :sem {:pred :be-called
-                              :subj {:pred :top}
-                              :obj {:top :top}}}}))
-       :show-notes false)))))
-       
+

@@ -48,16 +48,16 @@
  {:agr {:number :sing
         :person :2nd}
 
-  :g [#"ciare$"     "ceresti"  ;; cominciare -> cominceresti
-      #"giare$"     "geresti"  ;; mangiare   -> mangeresti
-      #"care$"      "cheresti" ;; caricare   -> caricheresti
-      #"gare$"      "gheresti" ;; pagare     -> pagheresti
-      #"are$"       "eresti"   ;; parlare    -> parleresti
-      #"ere$"       "eresti"   ;; ricevere   -> riceveresti
-      #"ire$"       "iresti"   ;; dormire    -> dormiresti
-      #"(.*)arsi$"  "eresti"   ;; alzarsi    -> alzeresti
-      #"(.*)ersi$"  "eresti"   ;; mettersi   -> metteresti
-      #"(.*)irsi$"  "iresti"   ;; divertirsi -> divertiresti
+  :g [#"(.*)ciare$"   "$1ceresti"  ;; cominciare -> cominceresti
+      #"(.*)giare$"   "$1geresti"  ;; mangiare   -> mangeresti
+      #"(.*)care$"    "$1cheresti" ;; caricare   -> caricheresti
+      #"(.*)gare$"    "$1gheresti" ;; pagare     -> pagheresti
+      #"(.*)are$"     "$1eresti"   ;; parlare    -> parleresti
+      #"(.*)ere$"     "$1eresti"   ;; ricevere   -> riceveresti
+      #"(.*)ire$"     "$1iresti"   ;; dormire    -> dormiresti
+      #"(.*)arsi$"    "$1eresti"   ;; alzarsi    -> alzeresti
+      #"(.*)ersi$"    "$1eresti"   ;; mettersi   -> metteresti
+      #"(.*)irsi$"    "$1iresti"   ;; divertirsi -> divertiresti
       
       ;; :future-stem
       #"r$"         "resti" ;; vivere -> vivresti

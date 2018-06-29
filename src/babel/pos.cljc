@@ -32,6 +32,7 @@
                     :agr agr}})
         common
         {:synsem {:cat :noun
+                  :mod []
                   :propernoun false
                   :agr {:person :3rd}
                   :subcat {:1 {:cat :det}

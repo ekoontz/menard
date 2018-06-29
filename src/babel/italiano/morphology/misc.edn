@@ -13,7 +13,8 @@
  {:g [#"\bdi il\b" "del"]}  ;; di il -> del
 
  {:g [#"\bdi l'"          "dell'"]}
- 
+ {:g [#"\bdi la"          "della"]}
+ {:g [#"\bdi le"          "delle"]}
  
  ;; TODO: add all of preposition-plus-article below.
  ;; </preposition+article>

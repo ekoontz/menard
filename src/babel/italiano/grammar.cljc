@@ -1,7 +1,7 @@
 (ns babel.italiano.grammar
   (:refer-clojure :exclude [get-in resolve])
   (:require
-   [babel.generate :as generate :refer [lightning-bolts]]
+   [babel.generate :as generate]
    [babel.html :refer [local-timestamp]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon vocab-entry-to-lexeme]]
@@ -298,24 +298,30 @@
                                     :synsem {:propernoun is-propernoun?}}
                              :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
-                   (unify h10
-                           {:rule "np-to-n-pp"
-                            :synsem {:cat :noun}
-                            :head {:phrasal false}
-                            :comp {:synsem {:cat :prep
-                                            :sem {:pred :di}}}})
+                   (let [propernoun? (atom :top)]
+                     (unify h10
+                            {:rule "np-to-n-pp"
+                             :synsem {:cat :noun
+                                      :propernoun propernoun?}
+                             :head {:phrasal false
+                                    :synsem {:propernoun propernoun?}}
+
+                             ;; TODO: comp's synsem should be constrained
+                             ;; in head's lexical entry, not here in the grammar.
+                             :comp {:synsem {:cat :prep
+                                             :sem {:pred :di}}}}))
                    (unify c10
                            comp-specs-head
                            (let [number-agreement (atom :top)
-                                 is-propernoun? (atom :top)]
+                                 propernoun? (atom :top)]
                              {:rule "noun-phrase2"
                               :aliases (list "np2")
                               :synsem {:agr {:number number-agreement}
                                        :cat :noun
                                        :sem {:number number-agreement}
-                                       :propernoun is-propernoun?}
+                                       :propernoun propernoun?}
                               :head {:phrasal true
-                                     :synsem {:propernoun is-propernoun?}}
+                                     :synsem {:propernoun propernoun?}}
                               :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
                    (let [reflexive (atom :top)
@@ -592,12 +598,16 @@
         true phrase))
 
 ;; TODO: warn about failures.
+;; TODO: the (unify {:phrasal true}) should be
+;;       promoted to all grammars (not just Italian).
 (def grammar
   (map (fn [phrase]
          (modal-is-head-feature
           (aux-is-head-feature phrase)))
        (filter #(not (fail? %))
-               grammar)))
+               (map (fn [rule]
+                      (unify rule {:phrasal true}))
+                    grammar))))
 
 ;; TODO: move to italiano/morphology or higher (language-universal)
 (defn morph-walk-tree [tree]
@@ -760,34 +770,7 @@
         (merge model
                {:vocab2model
                 (fn [vocab-items filter-lexicon-fn]
-                  (model-with-vocab-items vocab-items filter-lexicon-fn model))
-
-                :bolts
-                (merge
-                 (let [depth 2
-                       spec
-                       {:synsem {:subcat []
-                                 :cat :verb
-                                 :sem {:tense :present
-                                       :reflexive :top
-                                       :aspect :perfect}}}]
-                   {(merge {:depth depth}
-                           spec)
-                    (lightning-bolts model
-                                     spec
-                                     0 depth)})
-                 (let [depth 3
-                       spec
-                       {:synsem {:subcat []
-                                 :cat :verb
-                                 :sem {:tense :present
-                                       :reflexive :top
-                                       :aspect :perfect}}}]
-                   {(merge {:depth depth}
-                           spec)
-                    (lightning-bolts model
-                                     spec
-                                     0 depth)}))}))))))
+                  (model-with-vocab-items vocab-items filter-lexicon-fn model))}))))))
 
 (defn model-with-vocab-items [vocab-items filter-lexicon-fn model]
   (let [input-lexicon (reduce merge (map vocab-entry-to-lexeme vocab-items))

@@ -135,6 +135,11 @@
  {:pred :giocare
   :subj {:human true}
   :obj {:game true}}
+
+ {:pred :give-x-to-y
+  :subj {:human true}
+  :iobj {:human true}
+  :obj {:human false}}
  
  {:pred :go
   :subj {:animate true}}
@@ -198,6 +203,9 @@
  {:pred :scold
   :subj {:human true}}
  
+ {:pred :see
+  :subj {:animate true}}
+
  {:pred :sigh
   :subj {:human true}}
  

@@ -489,7 +489,7 @@
     (cond
       (= (get-in word [:agr] :top) :top)
       infinitive
-      
+
       (and
        (= (get-in word [:infl]) :future)
        (map? (get-in word [:future])))

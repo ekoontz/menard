@@ -189,9 +189,7 @@
   :obj {:prop {:clothing true}}}
  
  {:pred :read
-  :subj {:prop {:human true}}}
- 
- {:pred :read
+  :subj {:prop {:human true}}
   :obj {:prop {:legible true}}}
  
  {:pred :say

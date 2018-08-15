@@ -213,6 +213,9 @@
     {:head {:synsem {:sem semantics}}
      :synsem {:sem semantics}}))
 
+;; TODO: deprecate this which is
+;; based on an earlier idea of how to do modification
+;; for newer idea see e.g. english.grammar and search for {:rule "nbar"}.
 (def comp-modifies-head
   (let [human (atom :top)
         animate (atom :top)

@@ -181,8 +181,7 @@
    hc-agreement
    head-principle
    head-last
-   {
-    :schema-symbol 'c11 ;; used by over-each-parent to know where to put children.
+   {:schema-symbol 'c11 ;; used by over-each-parent to know where to put children.
     :comment "c11"}))
 
 ;; TODO: names like "c11-comp-subcat-1" have no human-discernible meaning:

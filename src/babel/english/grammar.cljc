@@ -10,7 +10,7 @@
    [babel.lexiconfn :refer [edn2lexicon filtered-lexicon read-lexicon]]
    [babel.parse :as parse]
    [babel.ug :as ug
-    :refer [apply-default-if comp-modifies-head
+    :refer [apply-default-if 
             comp-specs-head head-semantics
             head-principle root-is-comp
             root-is-head root-is-head-root
@@ -180,7 +180,6 @@
    subcat-1-1-principle
    hc-agreement
    head-principle
-   comp-modifies-head
    head-last
    {
     :schema-symbol 'c11 ;; used by over-each-parent to know where to put children.

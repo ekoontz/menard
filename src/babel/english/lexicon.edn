@@ -1668,7 +1668,7 @@
                 :reflexive false
                 :agr {:person :1st
                       :number :sing}
-                :sem {:human true
+                :sem {:prop {:human true}
                       :pred :I}
                 :subcat []}}
 
@@ -1734,7 +1734,7 @@
            :reflexive true
            :agr {:person :1st
                  :number :sing}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :I}
            :subcat []}}
  "name"
@@ -1813,7 +1813,7 @@
            :reflexive true
            :agr {:person :1st
                  :number :plur}
-           :sem {:human true}
+           :sem {:prop {:human true}}
            ;; TODO: remove: should be derived from
            ;; :pronoun=true.
            :subcat []}}
@@ -2322,7 +2322,7 @@
 
  "student" {:synsem {:agr :top
                      :cat :noun
-                     :sem {:human true
+                     :sem {:prop {:human true}
                            :pred :student}}}
 
  "study"  {:synsem {:cat :verb
@@ -2331,7 +2331,7 @@
 
  "stupid" {:synsem {:cat :adjective
                     :sem {:pred :stupid
-                          :subj {:human true}}}}
+                          :subj {:prop {:human true}}}}}
 
  "succeed"  {:synsem {:cat :verb
                       :sem {:pred :succeed}}}
@@ -2382,7 +2382,7 @@
  "tall"
  {:synsem {:cat :adjective
            :sem {:pred :tall
-                 :subj {:human true}}}}
+                 :subj {:prop {:human true}}}}}
 
  "teach"  {:synsem {:cat :verb
                     :sem {:pred :teach}}
@@ -2465,7 +2465,7 @@
 
  "think" (let [common {:synsem {:cat :verb
                                 :subcat {:1 {:cat :noun
-                                             :sem {:human true}}}}
+                                             :sem {:prop {:human true}}}}}
                        :english {:past "thought"}}]
            [{:unify [common]
              :synsem {:sem {:pred :think}
@@ -2694,7 +2694,7 @@
            :case :nom
            :agr {:person :1st
                  :number :plur}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :noi}
            :subcat []}}
 
@@ -2784,15 +2784,15 @@
  "yellow"
  {:synsem {:cat :adjective
            :sem {:pred :yellow
-                 :subj {:physical-object true
-                        :human false}}}}
+                 :subj {:prop {:physical-object true
+                               :human false}}}}}
  "you"
  {:synsem {:cat :noun
            :pronoun true
            :reflexive false
            :agr {:person :2nd
                  :number :sing}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :tu}}}
  "you all"
  [{:synsem {:cat :noun
@@ -2801,7 +2801,7 @@
             :case :top ;; see comment in "it" about :case.
             :agr {:person :2nd
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :reflexive false
                   :pred :voi}
             :subcat []}}
@@ -2813,7 +2813,7 @@
             :case :top ;; see comment in "it" about :case.
             :agr {:person :2nd
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :reflexive false
                   :pred :vosotros} ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat []}}
@@ -2825,7 +2825,7 @@
             :case :top ;; see comment in "it" about :case.
             :agr {:person :2nd
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :reflexive false
                   :pred :ustedes}  ;; for Spanish, vosotros/ustedes a semantic distinction
             :subcat []}}]
@@ -2842,7 +2842,7 @@
            :reflexive true
            :agr {:person :2nd
                  :number :sing}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :tu}
            :subcat []}}
 
@@ -2853,6 +2853,6 @@
            :reflexive true
            :agr {:person :2nd
                  :number :plur}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :voi}
            :subcat []}}}

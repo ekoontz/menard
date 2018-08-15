@@ -18,7 +18,7 @@
 (def model @@(get models :es))
 
 (deftest generate-regular-conditional
-  (let [result (generate {:synsem {:subcat '()
+  (let [result (generate {:synsem {:subcat []
                                    :cat :verb
                                    :sem {:pred :sleep
                                          :subj {:pred :I}
@@ -31,7 +31,7 @@
 
 (deftest generate-irregular-future
   (let [result (fo (generate {:synsem {:cat :verb
-                                       :subcat '()
+                                       :subcat []
                                        :sem {:tense :future
                                              :subj {:pred :I}}}
                               :root {:espanol {:espanol "venir"}}}
@@ -45,7 +45,7 @@
   (let [result (generate 
                 {:root {:espanol {:espanol "abrazar"}}
                  :synsem {:cat :verb
-                          :subcat '()
+                          :subcat []
                           :sem {:subj {:pred :I}}
                           :infl :preterito}}
                 model)]
@@ -53,11 +53,11 @@
             (= "abracé" (fo result))))))
                 
 (deftest llamarse
-  (let [result (generate {:synsem {:subcat '() :cat :verb :sem {:pred :be-called}}} model)]
+  (let [result (generate {:synsem {:subcat [] :cat :verb :sem {:pred :be-called}}} model)]
     (is (not (empty? (fo result))))))
 
 (deftest llamo
-  (let [result (fo (generate {:synsem {:subcat '()
+  (let [result (fo (generate {:synsem {:subcat []
                                        :cat :verb
                                        :sem {:tense :present
                                              :aspect :simple

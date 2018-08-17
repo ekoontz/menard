@@ -10,6 +10,7 @@
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
 (def ^:const branching-factor 5)
+(def ^:const max-depth 5)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -183,6 +184,8 @@
          (grow
           (let [children
                 (cond
+                  (> depth max-depth) []
+                  
                   (= true (u/get-in child-spec [:phrasal]))
                   (child-trees)
                   

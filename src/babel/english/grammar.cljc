@@ -305,8 +305,7 @@
                             :cat :noun
                             :sem {:mod mod
                                   :number number-agreement}}
-                   :head {:phrasal :top
-                          :synsem {:mod mod}}}))
+                   :head {:synsem {:mod mod}}}))
 
    (let [sem (atom :top)
          agr (atom :top)

@@ -290,8 +290,7 @@
                                   :rest head-mod}}
                    :comp {:synsem {:cat :adjective
                                    :sem adj-sem}}
-                   :head {:phrasal false
-                          :synsem {:cat :noun
+                   :head {:synsem {:cat :noun
                                    :sem {:prop head-constraint}
                                    :mod head-mod}}}))
    ;; noun-phrase -> det nbar

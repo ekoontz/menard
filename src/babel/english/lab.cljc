@@ -63,7 +63,12 @@
     (load "../english")))
 
 (defn get-rule [rule]
-  (-> model :grammar-map (get rule)))
+  (-> model :grammar-map
+      (get (keyword rule))))
+
+(defn rule-at [rule-as-string path]
+  (map #(u/get-in % path ::none)
+       [(-> model :grammar-map (get (keyword rule-as-string)))]))
 
 (defn parse-at [expression path]
   (map #(u/get-in % path ::none)

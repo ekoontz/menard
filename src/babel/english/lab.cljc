@@ -77,3 +77,12 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
+;; (map pprint (assoc-head-at "ditransitive-vp-nonphrasal-head-1" "give" [:synsem :sem]))
+(defn assoc-head-at
+  "assoc lexeme as the head of the given rule."
+  [rule-as-string lexeme path]
+  (map #(u/get-in % path ::none)
+       (let [rule (-> model :grammar-map (get (keyword rule-as-string)))]
+         (->> (map #(u/assoc-in rule [:head] %)
+                   (-> model :lexicon (get lexeme)))
+              (remove #(= :fail %))))))

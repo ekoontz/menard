@@ -12,7 +12,7 @@
                  [korma "0.4.3"]
                  [log4j/log4j "1.2.17"]
                  [org.clojure/core.cache "0.6.5"]
-                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.293"]
                  [org.clojure/core.async "0.4.474"]
                  [org.clojure/data.json "0.2.6"]

@@ -66,8 +66,8 @@ as a map of implications"}
             (unify input
                    (reduce unify (impl-list input)))]
         (log/debug (str "sem-impl so far: " merged))
-        (if (not (= (::dag_unify.core/serialized merged)
-                    (::dag_unify.core/serialized input)))
+        (if (not (= (:u/serialized merged)
+                    (:u/serialized input)))
           ;; rather than equality-check to see if merged has changed.
           ;; we've added some new information: more implications
           ;; may be possible from that, so call (sem-impl) again.

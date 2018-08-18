@@ -281,16 +281,22 @@
    ;;      /        \
    ;; adj |sem [2]|  n |sem [1]|
    ;; 
+   ;; we use {:bar-level low} here to enforce:
+   ;;   [nbar [nbar-s-obj ]] is not allowed.
+   ;; but:
+   ;;   [nbar-obj [nbar ]] is allowed.
    (unify-check c11-comp-subcat-1
                 (let [head-constraint (atom :top)
                       adj-sem (atom {:prop head-constraint})
                       head-mod (atom :top)]
                   {:rule "nbar"
+                   :bar-level :low
                    :synsem {:mod {:first adj-sem
                                   :rest head-mod}}
                    :comp {:synsem {:cat :adjective
                                    :sem adj-sem}}
-                   :head {:synsem {:cat :noun
+                   :head {:bar-level :low
+                          :synsem {:cat :noun
                                    :sem {:prop head-constraint}
                                    :mod head-mod}}}))
    ;; noun-phrase -> det nbar
@@ -340,6 +346,11 @@
                              :slash true
                              :subcat {:1 object-synsem
                                       :2 []}}})))
+
+   ;; we use {:bar-level high} to enforce:
+   ;;   [nbar [nbar-s-obj ]] is not allowed.
+   ;; but:
+   ;;   [nbar-obj [nbar ]] is allowed.
    (unify-check
     {:rule "nbar-s-obj"
      :example "(the) [nbar dog [s-obj you see]]"}
@@ -354,7 +365,9 @@
           head-subcat (atom {:1 {:cat :det}
                              :2 []})]
       {:slash false
-       :synsem {:sem {:prop mod-prop}
+       :bar-level :high
+       :synsem {:sem {:spec {:def {:not :possessive}}
+                      :prop mod-prop}
                 :mod {:first {:subj mod-subj
                               :tense mod-tense
                               :aspect mod-aspect

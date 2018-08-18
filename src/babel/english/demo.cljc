@@ -1,7 +1,6 @@
 (ns babel.english.demo
   (:require
-   [babel.english :refer [generate]]
-   [babel.english.grammar :refer [medium]]
+   [babel.english :refer [generate model]]
    [babel.english.morphology :refer [fo]]
    #?(:cljs [babel.logjs :as log])
    [clojure.string :as string]
@@ -17,8 +16,6 @@
 ;; run each (generate) as (time (generate)):
 (def ^:const timings? false)
 
-(def default-language-model (medium))
-
 (defn demo [ & [n spec]]
   (let [demo-specs
         [{:demo "Dog noun phrases"
@@ -33,7 +30,7 @@
          {:demo "The adventures of Luisa's yellow cat"
           :synsem {:cat :verb
                    :sem {:subj {:pred :cat
-                                :mod {:pred :yellow}
+                                :mod {:first {:pred :yellow}}
                                 :spec {:def :possessive
                                        :of {:pred :luisa}}}
                          :obj {:pred :top}}}}
@@ -58,7 +55,7 @@
                         (println)
                         (println log-message)
                         (println)
-                        (let [language-model (or (:lm spec) default-language-model)
+                        (let [language-model model
                               expressions (run-demo-with n (dissoc spec :lm) language-model)]
                           (count (pmap (fn [expression]
                                          (let [formatted (fo expression :show-notes false)]
@@ -72,7 +69,7 @@
                               spec)
                           demo-specs)
                   demo-specs)))
-    (println (str "babel demo is finished. JVM shutting down."))))
+    (println (str "babel demo is finished."))))
 
 (defn run-demo-with [n spec model]
   "print out _n_ generated sentences to stdout."
@@ -86,12 +83,9 @@
             (if timings?
               (take n (repeatedly
                        #(time
-                         (generate spec
-                                   :model model
-                                   :max-total-depth max-total-depth))))
+                         (generate spec model))))
               (take n (repeatedly
-                       #(generate spec
-                                  :model model
-                                  :max-total-depth max-total-depth)))))))
+                       #(generate spec model)))))))
+
 
 

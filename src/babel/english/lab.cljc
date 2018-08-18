@@ -24,33 +24,24 @@
                             model)
                            :show-notes false))))))
 (defn basecamp []
+  ;; TODO: improve performance by using {:mod {:first {:obj :modified}}.
   (let [specs
         [
-
-         {:synsem {:cat :verb
-                   :sem {:pred :give-x-to-y
-                         :reflexive false
-                         :obj {:pred :cat
-                               :mod {:first {:pred :black}}}}
-                   :subcat []}}
-
-         {:head {:comp {:synsem {:cat :prep}}}
-          :synsem {:cat :verb
-                   :sem {:pred :give-x-to-y
-                         :reflexive false
-                         :obj {:pred :book
-                               :mod {:first {:pred :red}}}}
-                   :subcat []}}
-         
-         {:synsem {:cat :verb
-                   :sem {:pred :give-x-to-y
-                         :reflexive true}
-                   :subcat []}}]]
+         {:synsem {:cat :verb :subcat []}
+          :comp {:phrasal true :rule "noun-phrase"
+                 :head {:rule "nbar-s-obj" :head {:rule "nbar"} :comp {:rule "s/obj"}}
+                 :synsem {:sem {:mod {:first {:pred :eat}
+                                      :rest {:first {:pred :red
+                                                     :rest []}}}}}}}
+         {:synsem {:cat :verb :subcat []}
+          :comp {:phrasal true :rule "noun-phrase"
+                 :head {:rule "nbar-s-obj"}
+                 :synsem {:sem {:mod {:first {:pred :see}
+                                      :rest {:first {:pred :tall
+                                                     :rest []}}}}}}}]]
     (repeatedly #(println
                   (let [spec (first (shuffle specs))]
-                    (morph (time (generate spec model))
-                           :show-notes false))))))
-
+                    (morph (time (generate spec model))))))))
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]
     (pprint (u/get-in parse [:synsem :sem]))))

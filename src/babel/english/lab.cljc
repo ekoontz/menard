@@ -29,7 +29,9 @@
         [
          {:synsem {:cat :verb :subcat []}
           :comp {:phrasal true :rule "noun-phrase"
-                 :head {:rule "nbar-s-obj" :head {:rule "nbar"} :comp {:rule "s/obj"}}
+                 :head {:rule "nbar-s-obj"
+                        :head {:rule "nbar"}
+                        :comp {:rule "s/obj"}}
                  :synsem {:sem {:mod {:first {:pred :eat}
                                       :rest {:first {:pred :red
                                                      :rest []}}}}}}}

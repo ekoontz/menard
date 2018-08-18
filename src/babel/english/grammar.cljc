@@ -11,7 +11,7 @@
    [babel.parse :as parse]
    [babel.ug :as ug
     :refer [apply-default-if 
-            comp-specs-head head-semantics
+            head-semantics
             head-principle root-is-comp
             root-is-head root-is-head-root
             subcat-1-principle subcat-1-1-principle
@@ -152,6 +152,28 @@
                :b head-english}
      :first :comp}))
 
+;; TODO: promote this version of comp-specs-head
+;; to ug.
+(def comp-specs-head
+  (unify-check
+   ug/comp-specs-head
+   (let [mod (atom :top)]
+     {:synsem {:sem {:mod mod}}
+      :head {:synsem {:mod mod}}})))
+
+(def head-mod
+  (unify-check
+   (let [head-mod (atom :top)]
+     {:synsem {:mod {:rest head-mod}}
+      :head {:synsem {:mod head-mod}}})))
+
+(def comp-mod
+  (unify-check
+   head-mod
+   (let [comp-sem (atom :top)]
+     {:synsem {:mod {:first comp-sem}}
+      :comp {:synsem {:sem comp-sem}}})))
+
 ;; -- BEGIN SCHEMA DEFINITIONS
 (def c10
   (unify-check
@@ -286,32 +308,21 @@
    ;; but:
    ;;   [nbar-obj [nbar ]] is allowed.
    (unify-check c11-comp-subcat-1
-                (let [head-constraint (atom :top)
-                      adj-sem (atom {:prop head-constraint})
-                      head-mod (atom :top)]
+                cons-mod
+                (let [head-constraint (atom :top)]
                   {:rule "nbar"
                    :bar-level :low
-                   :synsem {:mod {:first adj-sem
-                                  :rest head-mod}}
-                   :comp {:synsem {:cat :adjective
-                                   :sem adj-sem}}
+                   :comp {:synsem {:cat :adjective}}
                    :head {:bar-level :low
                           :synsem {:cat :noun
-                                   :sem {:prop head-constraint}
-                                   :mod head-mod}}}))
+                                   :sem {:prop head-constraint}}}}))
    ;; noun-phrase -> det nbar
    (unify-check c10
                 comp-specs-head
-                (let [number-agreement (atom :top)
-                      mod (atom :top)]
-                  {:rule "noun-phrase"
-                   :aliases (list "np")
-                   :synsem {:agr {:number number-agreement}
-                            :reflexive false
-                            :cat :noun
-                            :sem {:mod mod
-                                  :number number-agreement}}
-                   :head {:synsem {:mod mod}}}))
+                {:rule "noun-phrase"
+                 :aliases (list "np")
+                 :synsem {:reflexive false
+                          :cat :noun}})
 
    (let [sem (atom :top)
          agr (atom :top)
@@ -356,10 +367,10 @@
      :example "(the) [nbar dog [s-obj you see]]"}
     head-first
     head-principle
+    head-mod
     (let [mod-subj (atom :top)
           mod-pred (atom :top)
           mod-prop (atom :top)
-          head-mod (atom :top)
           mod-aspect (atom :top)
           mod-tense (atom :top)
           head-subcat (atom {:1 {:cat :det}
@@ -372,8 +383,7 @@
                               :tense mod-tense
                               :aspect mod-aspect
                               :obj :modified
-                              :pred mod-pred}
-                      :rest head-mod}
+                              :pred mod-pred}}
                 :subcat head-subcat}
        :comp {:phrasal true
               :synsem {:slash true
@@ -387,8 +397,7 @@
                              :tense mod-tense}}}
        :head {:rule "nbar"
               :synsem {:cat :noun
-                       :subcat head-subcat
-                       :mod head-mod}}}))
+                       :subcat head-subcat}}}))
    (unify-check c10
                 unmodified
                 root-is-head
@@ -428,6 +437,7 @@
                           :subcat {:2 {:top :top}
                                    :3 []}}})
 
+   ;; TODO: should be :mod :first, not just :mod.
    ;; "has seen a dog" : complement is semantic object.
    (let [obj-mod (atom :top)
          obj (atom {:mod obj-mod})]
@@ -442,6 +452,7 @@
                             :slash false
                             :cat :verb}}))
 
+   ;; TODO: should be :mod :first, not just :mod.
    ;; "[h turn ] [c off]"
    (let [iobj-mod (atom :top)]
      (unify-check h32

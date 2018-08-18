@@ -261,7 +261,8 @@
                                          :of {:pred :Juana}}
                                   :pred :dog}
                             :subcat []}
-                   :head {:synsem {:mod {:first {:pred :red}}}}})]
+                   :head {:synsem {:mod {:first {:pred :red}
+                                         :rest []}}}})]
     (is (not (nil? result)))
     (is (= "Juana's red dog" (morph result)))))
 

@@ -244,11 +244,11 @@
                             ;; c.f. TODO on babel.test.translate/latin-to-english
                             :subcat []
                             :cat :noun
-                            :sem {:number :sing
+                            :sem {:mod []
+                                  :number :sing
                                   :spec {:pred :of
                                          :of {:pred :Juana}}
-                                  :pred :dog}}
-                   :head {:synsem {:mod []}}})]
+                                  :pred :dog}}})]
     (is (not (nil? result)))
     (is (= "Juana's dog" (morph result)))))
 

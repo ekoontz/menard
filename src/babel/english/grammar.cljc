@@ -319,10 +319,12 @@
    ;; noun-phrase -> det nbar
    (unify-check c10
                 comp-specs-head
-                {:rule "noun-phrase"
-                 :aliases (list "np")
-                 :synsem {:reflexive false
-                          :cat :noun}})
+                (let [number-agr (atom :top)]
+                  {:rule "noun-phrase"
+                   :aliases (list "np")
+                   :synsem {:agr {:number number-agr}
+                            :sem {:number number-agr}
+                            :cat :noun}}))
 
    (let [sem (atom :top)
          agr (atom :top)

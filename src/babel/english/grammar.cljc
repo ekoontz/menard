@@ -326,8 +326,8 @@
                                                 :reflexive reflexive}}}}}))
    (unify-check
     {:rule "s/obj"}
-    (let [object-synsem (atom {:top :top})
-          subject-synsem (atom :top)]
+    (let [object-synsem (atom {:cat :noun})
+          subject-synsem (atom {:cat :noun :subcat []})]
       (unify-check head-last
                    head-principle
                    {:comp {:synsem subject-synsem}

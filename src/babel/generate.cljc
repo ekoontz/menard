@@ -60,12 +60,12 @@
    (->> (shuffle (:grammar model))
         (map #(unify % spec))
         (filter #(not (= :fail %))))
-    
-    ;; 2. try to add heads to each matching rule.
-    (parent-with-head-1 spec model depth)
-    
-    (filter #(not (= % :fail)))
-    (map #(u/assoc-in! % [::started?] true))))
+   
+   ;; 2. try to add heads to each matching rule.
+   (parent-with-head-1 spec model depth)
+   
+   (filter #(not (= % :fail)))
+   (map #(u/assoc-in! % [::started?] true))))
 
 (defn parent-with-head-1 [spec model depth parent-rules]
   (if (not (empty? parent-rules))

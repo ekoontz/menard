@@ -23,7 +23,7 @@
 
   :filespecs [{:type :path :path "compiled"}]
   :resource-paths ["resources"]
-  :plugins [[cider/cider-nrepl "0.11.0"]
+  :plugins [[cider/cider-nrepl "0.18.0"]
             [lein-cljsbuild "1.1.2"]
             [lein-doo "0.1.6"]
             [lein-environ "1.0.0"]

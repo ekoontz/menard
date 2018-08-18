@@ -15,6 +15,7 @@
                         (log/debug (str "branch at: " % "? => " result))
                         result))
 (def ^:const truncate? false)
+(def ^:const println? false)
 
 (declare gen)
 (declare get-lexemes)
@@ -177,6 +178,8 @@
           child-spec (u/get-in tree f)
           child-lexemes #(get-lexemes child-spec model)
           child-trees #(parent-with-head child-spec model depth)]
+      (when println? (println (str "grow at:" ((:morph-ps model) tree))))
+      (log/debug (str "grow at:" ((:morph-ps model) tree)))
       (lazy-cat
        (if (not (empty? f))
          (grow

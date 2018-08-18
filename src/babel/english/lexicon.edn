@@ -2057,10 +2057,11 @@
                  :sem {:pred :run}
                  :subcat {:2 []}}}
 
+ ;; TODO: probably only need one of these entries: remove the {:number :sing|:plur}.
  "s" [(let [of (atom :top)]
         {:synsem {:agr {:number :sing}
                   :cat :det
-                  :def :genitive
+                  :def :possessive
                   :subcat {:1 {:cat :noun
                                :pronoun false
                                :sem of
@@ -2070,7 +2071,7 @@
       (let [of (atom :top)]
         {:synsem {:agr {:number :plur}
                   :cat :det
-                  :def :genitive
+                  :def :possessive
                   :sem {:pred :of
                         :of of}
                   :subcat {:1 {:cat :noun

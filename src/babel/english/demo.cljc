@@ -34,7 +34,7 @@
           :synsem {:cat :verb
                    :sem {:subj {:pred :cat
                                 :mod {:pred :yellow}
-                                :spec {:def :genitive
+                                :spec {:def :possessive
                                        :of {:pred :luisa}}}
                          :obj {:pred :top}}}}
 
@@ -50,7 +50,7 @@
                          :obj {:pred :top}}}}
 
          ]]
-         
+    
     (doall (map (fn [spec]
                   (let [log-message 
                         (str "running demo: " (:demo spec) "..")]

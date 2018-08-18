@@ -108,14 +108,14 @@
    (get-string @word :show-notes show-notes :lexicon lexicon :from-language from-language)
 
    (= word :top)
-   ".."
+   ":top"
    
    (and (map? word)
         (nil? (:a word))
         (nil? (:b word))
         (nil? (:english word))
         (nil? (:english word)))
-   ".."
+   "nil"
 
    (and (= true (get-in word [:exception] false))
         ;; for exceptions, lexical compilation sets [:exception] to true

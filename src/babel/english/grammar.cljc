@@ -308,7 +308,7 @@
    ;; but:
    ;;   [nbar-obj [nbar ]] is allowed.
    (unify-check c11-comp-subcat-1
-                cons-mod
+                comp-mod
                 (let [head-constraint (atom :top)]
                   {:rule "nbar"
                    :bar-level :low

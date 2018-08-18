@@ -5,7 +5,7 @@
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
    [dag_unify.core :as u :refer [unify]]))
-          
+
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.

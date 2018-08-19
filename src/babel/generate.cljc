@@ -16,7 +16,7 @@
                         result))
 (def ^:dynamic truncate? false)
 (def ^:dynamic println? false)
-(def ^:dynamic use-spec-cache? true)
+(def ^:dynamic use-spec-cache? false)
 (declare gen)
 (declare get-lexemes)
 (declare grow)

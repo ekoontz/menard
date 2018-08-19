@@ -14,7 +14,7 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:const truncate? true)
+(def ^:const truncate? false)
 (def ^:const println? false)
 (def ^:const use-spec-cache? true)
 (declare gen)

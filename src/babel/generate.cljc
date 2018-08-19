@@ -14,9 +14,9 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:const truncate? true)
-(def ^:const println? false)
-(def ^:const use-spec-cache? true)
+(def ^:dynamic truncate? false)
+(def ^:dynamic println? false)
+(def ^:dynamic use-spec-cache? true)
 (declare gen)
 (declare get-lexemes)
 (declare grow)
@@ -43,7 +43,9 @@
   ;; 
   ;; A convenient wrapper around (defn gen) (below).
 
-  (log/debug (str "(generate) with model named: " (:name language-model)))
+  (log/info (str "(generate) with model named: " (:name language-model) "; "
+                 "truncate? " truncate? "; "
+                 "use-spec-cache? " use-spec-cache?))
   (first (gen spec language-model)))
 
 (defn gen

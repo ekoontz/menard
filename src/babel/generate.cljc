@@ -53,31 +53,11 @@
   (grow (parent-with-head spec model 0) model))
 
 (defn rules-for-spec [spec model]
-  (->> (cond (and true (= spec)
-                {:synsem {:sem {:reflexive false
-                                :aspect :perfect
-                                :tense :present
-                                :subj {:null false
-                                       :city false
-                                       :can-be-subject true
-                                       :number :plur
-                                       :gender :fem
-                                       :human true
-                                       :pred :loro}
-                                :obj :unspec
-                                :pred :tell}
-                          :cat :verb
-                          :subcat []}
-                 :comp {:phrasal false}})
-             (map (fn [rule]
-                    (get (:grammar-map model) (keyword rule)))
-                  ["sentence-nonphrasal-head"])
-
-             true
-             (:grammar model))
-
-       (map #(unify % spec))
-       (filter #(not (= :fail %)))))
+  (let [looked-up (get @(:rules-for-spec model) spec ::none)]
+    (->> (if (not (= ::none looked-up))
+           looked-up (:grammar model))
+         (map #(unify % spec))
+         (filter #(not (= :fail %))))))
 
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec and model."

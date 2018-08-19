@@ -561,6 +561,7 @@
            :language-keyword :français
            :lookup (fn [arg]
                      (morph/analyze arg lexicon))
+           :rules-for-spec (atom {})
            :morph fo
            :tenses tenses}]
       (merge retval

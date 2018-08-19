@@ -474,6 +474,7 @@
                         (do
                           (merge tree
                                  (morph-walk-tree tree))))
+     :rules-for-spec (atom {})
      :tenses tenses}))
      
 (defn medium []
@@ -499,6 +500,7 @@
                           (merge tree
                                  (morph-walk-tree tree))))
      :grammar grammar
+     :rules-for-spec (atom {})
      :lexical-cache (cache/fifo-cache-factory {} :threshold 1024)
      :lexicon lexicon
      :tenses tenses}))

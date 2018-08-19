@@ -763,9 +763,9 @@
       :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
       :morph-ps fo-ps         
       :rules rules
+      :rules-for-spec (atom {})
       :rule-map (zipmap rules grammar)
       :tenses tenses}
-
      ((fn [model]
         (merge model
                {:vocab2model

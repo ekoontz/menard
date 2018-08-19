@@ -4,7 +4,7 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :as u :refer [unify]]))
+   [dag_unify.core :as u :refer [strip-refs unify]]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
@@ -14,9 +14,9 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:const truncate? false)
+(def ^:const truncate? true)
 (def ^:const println? false)
-
+(def ^:const use-spec-cache? true)
 (declare gen)
 (declare get-lexemes)
 (declare grow)
@@ -52,13 +52,22 @@
   [spec model]
   (grow (parent-with-head spec model 0) model))
 
-(defn rules-for-spec [spec model]
-  (let [looked-up (get @(:rules-for-spec model) spec ::none)]
-    (->> (if (not (= ::none looked-up))
-           looked-up (:grammar model))
-         (map #(unify % spec))
-         (filter #(not (= :fail %))))))
+(defn matching-rules [spec model]
+  (->> (:grammar model)
+       (filter #(not (= :fail (unify % spec))))))
 
+(defn rules-for-spec [spec model]
+  (if (not use-spec-cache?)
+    (matching-rules spec model)
+    (let [plain-spec (strip-refs spec)
+          looked-up (get @(:rules-for-spec model) plain-spec ::none)]
+      (if (not (= ::none looked-up))
+        (->> looked-up
+             (map #(unify % spec)))
+        (let [matching-rules (matching-rules spec model)]
+          (swap! (:rules-for-spec model) (fn [x] (assoc @(:rules-for-spec model) plain-spec matching-rules)))
+          (->> matching-rules (map #(unify % spec))))))))
+      
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec and model."
   [spec model depth]

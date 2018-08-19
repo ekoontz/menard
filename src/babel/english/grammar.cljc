@@ -575,10 +575,10 @@
          :lookup (fn [arg]
                    (analyze arg lexicon))
          :morph morph
-         :morph-ps fo-ps}]
+         :morph-ps fo-ps
+         :rules-for-spec (atom {})}]
     (merge model
-           {:rules-for-spec (rules-for-spec model)
-            :vocab2model (fn [vocab-items filter-lexicon-fn]
+           {:vocab2model (fn [vocab-items filter-lexicon-fn]
                            (model-with-vocab-items vocab-items filter-lexicon-fn model))
             :generate-fn
             (fn [spec]

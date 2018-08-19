@@ -12,7 +12,7 @@
    [clojure.java.io :as io]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :as unify :refer [dissoc-paths get-in ref? strip-refs unify]]
+   [dag_unify.core :as u :refer [dissoc-paths get-in ref? strip-refs unify]]
    [korma.core :as db]
    [ring.util.response :as resp]])
 
@@ -148,9 +148,9 @@
         target-expression
         (target-timing-fn (babel.generate/generate target-spec target-model))
         source-spec
-        (unify/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
-         (unify/unify
-          {:synsem {:sem (unify/get-in target-expression [:synsem :sem])}}
+        (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
+         (u/unify
+          {:synsem {:sem (u/get-in target-expression [:synsem :sem])}}
           basic-spec))
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
@@ -159,11 +159,11 @@
         (source-timing-fn (generate source-spec source-model))]
     (let [pairing
           {:target ((:morph target-model) target-expression)
-           :pred (unify/strip-refs
-                  (unify/get-in target-expression [:synsem :sem :pred]))
-           :tense (unify/get-in target-expression [:synsem :sem :tense])
-           :sem (unify/get-in target-expression [:synsem :sem])
-           :subj (unify/get-in target-expression [:synsem :sem :subj :pred])
+           :pred (u/strip-refs
+                  (u/get-in target-expression [:synsem :sem :pred]))
+           :tense (u/get-in target-expression [:synsem :sem :tense])
+           :sem (u/get-in target-expression [:synsem :sem])
+           :subj (u/get-in target-expression [:synsem :sem :subj :pred])
            :source (if source-expression
                      ((:morph @@(get models source-language))
                       source-expression
@@ -226,7 +226,7 @@
 (defn read-all [spec language]
   (let [spec (dissoc (unify spec
                             {:synsem {:subcat '()}})
-                     :unify/serialized)
+                     :u/serialized)
 
         ;; normalize for JSON lookup
         json-input-spec (if (= :top spec)

@@ -3,6 +3,7 @@
    [babel.directory :refer [models]] ;; this is needed even though there are no references to directory in here.
    [babel.generate :as g :refer [frontier generate get-lexemes]]
    [babel.english :as english :refer [model morph morph-ps]]
+   [clojure.core.async :refer [>! alts!! timeout chan go]]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
@@ -17,12 +18,18 @@
                    :subcat []
                    :sem {:aspect :simple
                          :tense :present}}}]]
-    (repeatedly #(println
-                  (let [spec (first (shuffle specs))]
-                    (morph (generate
-                            spec
-                            model)
-                           :show-notes false))))))
+    (repeatedly
+     #(println
+       (let [spec (first (shuffle specs))]
+         (morph (binding [babel.generate/println? false
+                          babel.generate/truncate? true]
+                  (generate spec model))
+                :show-notes false))))))
+
+(def ^:dynamic wait-ms-for-generation 10000)
+
+(declare wait)
+
 (defn basecamp []
   ;; TODO: improve performance by using {:mod {:first {:obj :modified}}.
   (let [specs
@@ -43,7 +50,11 @@
                                                      :rest []}}}}}}}]]
     (repeatedly #(println
                   (let [spec (first (shuffle specs))]
-                    (morph (time (generate spec model))))))))
+                    (let [result (morph (time (binding [babel.generate/truncate? true]
+                                                (wait wait-ms-for-generation (fn [] (generate spec model))))))]
+                      (or (and (not (empty? result)) result)
+                          "TIMEOUT.")))))))
+
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]
     (pprint (u/get-in parse [:synsem :sem]))))
@@ -84,3 +95,9 @@
          (->> (map #(u/assoc-in rule [:head] %)
                    (-> model :lexicon (get lexeme)))
               (remove #(= :fail %))))))
+
+;; Thanks for (defn wait) to Christian Meichsner on https://stackoverflow.com/a/30903731 
+(defn wait [ms f & args]
+  (let [c (chan)]
+    (go (>! c (apply f args)))
+    (first (alts!! [c (timeout ms)]))))

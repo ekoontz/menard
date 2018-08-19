@@ -167,6 +167,7 @@
            :source (if source-expression
                      ((:morph @@(get models source-language))
                       source-expression
+                      :show-notes true
                       :from-language target-language-str))}]
       (if (:source pairing)
         (str (:target pairing) " => " (:source pairing))

@@ -42,6 +42,9 @@
   :subj {:prop {:human true}}
   :obj {:prop {:human false
                :physical-object true}}}
+ {:pred :buy
+  :subj {:prop {:human true}}
+  :obj {:prop {:buyable true}}}
  
  {:pred :carry
   :subj {:prop {:human true}}
@@ -62,10 +65,6 @@
  
  {:pred :come
   :subj {:prop {:animate true}}}
- 
- {:pred :comprare
-  :subj {:prop {:human true}}
-  :obj {:prop {:buyable true}}}
  
  {:pred :correspond
   :subj {:prop {:human true}}
@@ -202,6 +201,10 @@
  {:pred :see
   :subj {:prop {:animate true}}}
 
+ {:pred :sell
+  :subj {:prop {:human true}}
+  :obj {:prop {:buyable true}}}
+
  {:pred :sigh
   :subj {:prop {:human true}}}
  
@@ -222,8 +225,7 @@
   :subj {:prop {:animate true}}
   :obj {:prop {:physical-object true
                :human false
-               :place false}}}
- 
+               :place false}}} 
  {:pred :study
   :subj {:prop {:human true}}
   :obj {:prop {:legible true}}}
@@ -259,10 +261,6 @@
  
  {:pred :understand-deeply
   :subj {:prop {:human true}}}
- 
- {:pred :vendere
-  :subj {:prop {:human true}}
-  :obj {:prop {:human false}}}
  
  {:pred :wake-up
   :reflexive true

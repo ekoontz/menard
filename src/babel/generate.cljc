@@ -14,7 +14,7 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:const truncate? false)
+(def ^:const truncate? true)
 (def ^:const println? false)
 (def ^:const use-spec-cache? true)
 (declare gen)
@@ -54,7 +54,8 @@
 
 (defn matching-rules [spec model]
   (->> (:grammar model)
-       (filter #(not (= :fail (unify % spec))))))
+       (map #(unify % spec))
+       (filter #(not (= :fail %)))))
 
 (defn rules-for-spec [spec model]
   (if (not use-spec-cache?)
@@ -62,11 +63,10 @@
     (let [plain-spec (strip-refs spec)
           looked-up (get @(:rules-for-spec model) plain-spec ::none)]
       (if (not (= ::none looked-up))
-        (->> looked-up
-             (map #(unify % spec)))
+        looked-up
         (let [matching-rules (matching-rules spec model)]
-          (swap! (:rules-for-spec model) (fn [x] (assoc @(:rules-for-spec model) plain-spec matching-rules)))
-          (->> matching-rules (map #(unify % spec))))))))
+          (swap! (:rules-for-spec model) #(assoc % plain-spec matching-rules))
+          matching-rules)))))
       
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec and model."

@@ -47,26 +47,52 @@
   (first (gen spec language-model)))
 
 (defn gen
-  "generate a potentially infinite (depending on given _model_) list of expressions that match the given _spec_."
+  "generate a potentially infinite (depending on given _spec_ and _model_) 
+   list of expressions that match the given _spec_."
   [spec model]
   (grow (parent-with-head spec model 0) model))
+
+(defn rules-for-spec [spec model]
+  (->> (cond (and true (= spec)
+                {:synsem {:sem {:reflexive false
+                                :aspect :perfect
+                                :tense :present
+                                :subj {:null false
+                                       :city false
+                                       :can-be-subject true
+                                       :number :plur
+                                       :gender :fem
+                                       :human true
+                                       :pred :loro}
+                                :obj :unspec
+                                :pred :tell}
+                          :cat :verb
+                          :subcat []}
+                 :comp {:phrasal false}})
+             (map (fn [rule]
+                    (get (:grammar-map model) (keyword rule)))
+                  ["sentence-nonphrasal-head"])
+
+             true
+             (:grammar model))
+
+       (map #(unify % spec))
+       (filter #(not (= :fail %)))))
 
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec and model."
   [spec model depth]
   ;; get all rules that match input _spec_:
   (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
-  (->>
-   ;; 1: get all rules that satisfy _spec_.
-   (->> (shuffle (:grammar model))
-        (map #(unify % spec))
-        (filter #(not (= :fail %))))
-   
-   ;; 2. try to add heads to each matching rule.
-   (parent-with-head-1 spec model depth)
-   
-   (filter #(not (= % :fail)))
-   (map #(u/assoc-in! % [::started?] true))))
+  (let [matching-rules
+        (shuffle (rules-for-spec spec model))]
+    (->> matching-rules
+         (map #(unify % spec))
+         (filter #(not (= :fail %)))
+         ;; 2. try to add heads to each matching rule:
+         (parent-with-head-1 spec model depth)
+         (filter #(not (= % :fail)))
+         (map #(u/assoc-in! % [::started?] true)))))
 
 (defn parent-with-head-1 [spec model depth parent-rules]
   (if (not (empty? parent-rules))

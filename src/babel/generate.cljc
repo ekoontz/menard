@@ -63,7 +63,15 @@
   (if (not use-spec-cache?)
     (matching-rules spec model)
     (let [plain-spec (strip-refs spec)
-          looked-up (get @(:rules-for-spec model) plain-spec ::none)]
+          looked-up
+          (cond
+            ;; 1. if the spec gives a rule, simple return a singleton vector of that rule.
+            (not (= ::none (u/get-in spec [:rule] ::none)))
+            [(get (:grammar-map model) (keyword (u/get-in spec [:rule])))]
+
+            ;; 2. lookup spec in cache.
+            true
+            (get @(:rules-for-spec model) plain-spec ::none))]
       (if (not (= ::none looked-up))
         looked-up
         (let [matching-rules (matching-rules spec model)]

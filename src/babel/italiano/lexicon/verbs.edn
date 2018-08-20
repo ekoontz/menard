@@ -877,7 +877,7 @@
                 [{:unify [common]
                   :synsem {:sem {:pred :present}}}
                  {:unify [common]
-                  :synsem {:sem {:pred :introduce-p...}}}])
+                  :synsem {:sem {:pred :introduce-p}}}])
 
  "prestare" {:synsem {:cat :verb
                        :sem {:pred :lend}}}

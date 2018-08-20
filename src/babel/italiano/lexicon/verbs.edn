@@ -64,8 +64,8 @@
                  :pred :go}}}
 
  "annoiarsi" {:synsem {:cat :verb
-                     :sem {:pred :get-bored
-                     :reflexive true}}}
+                       :sem {:pred :get-bored
+                             :reflexive true}}}
 
  "annunciare"  {:synsem {:cat :verb
                          :sem {:pred :announce}}}
@@ -75,7 +75,7 @@
 
  "apprendere"  {:synsem {:cat :verb
                          :sem {:pred :learn-a}}
-                       :italiano {:passato "appreso"}}
+                :italiano {:passato "appreso"}}
 
  "approfittare"  {:synsem {:cat :verb
                            :sem {:pred :take-advantage-of}}}
@@ -221,11 +221,11 @@
  {:italiano {:passato "bevuto"
              :future-stem "berr"
              :imperfetto {:1sing "bevevo"
-                         :2sing "bevevi"
-                         :3sing "beveva"
-                         :1plur "bevevamo"
-                         :2plur "bevevate"
-                         :3plur "bevevano"}
+                          :2sing "bevevi"
+                          :3sing "beveva"
+                          :1plur "bevevamo"
+                          :2plur "bevevate"
+                          :3plur "bevevano"}
              :present {:1sing "bevo"
                        :2sing "bevi"
                        :3sing "beve"
@@ -344,8 +344,8 @@
  "contare" {:synsem {:sem {:pred :count}
                      :cat :verb}}
 
-"continuare" {:synsem {:cat :verb
-                         :sem {:pred :continue}}}
+ "continuare" {:synsem {:cat :verb
+                        :sem {:pred :continue}}}
 
  "contraccambiare" {:synsem {:sem {:pred :reciprocate}
                              :cat :verb}}
@@ -362,7 +362,7 @@
                      :sem {:pred :create}}}
 
  "credere" {:synsem {:cat :verb
-                      :sem {:pred :believe}}}
+                     :sem {:pred :believe}}}
 
  "controllare" {:synsem {:sem {:pred :check}
                          :cat :verb}}
@@ -390,7 +390,7 @@
                      :sem {:pred :dictate}}}
 
  "dimenticare"  {:synsem {:cat :verb
-                         :sem {:pred :forget}}}
+                          :sem {:pred :forget}}}
 
  "dipingere" {:synsem {:cat :verb
                        :sem {:pred :paint}}
@@ -406,11 +406,11 @@
                                     :2plur "dite"
                                     :3plur "dicono"}
                           :imperfetto {:1sing "dicevo"
-                                      :2sing "dicevi"
-                                      :3sing "diceva"
-                                      :1plur "dicevamo"
-                                      :2plur "dicevate"
-                                      :3plur "dicevano"}
+                                       :2sing "dicevi"
+                                       :3sing "diceva"
+                                       :1plur "dicevamo"
+                                       :2plur "dicevate"
+                                       :3plur "dicevano"}
                           :passato "detto"
                           :future-stem "dir"
                           :gerund "dicendo"}}]
@@ -472,11 +472,11 @@
                              :3plur "sono"}
                    :passato "stato"
                    :imperfetto {:1sing "ero"
-                               :2sing "eri"
-                               :3sing "era"
-                               :1plur "eravamo"
-                               :2plur "eravate"
-                               :3plur "erano"}
+                                :2sing "eri"
+                                :3sing "era"
+                                :1plur "eravamo"
+                                :2plur "eravate"
+                                :3plur "erano"}
                    :future {:1sing "sarò"
                             :2sing "sarai"
                             :3sing "sarà"
@@ -595,11 +595,11 @@
                    :future-stem "far"
                    :gerund "facendo"
                    :imperfetto {:1sing "facevo"
-                               :2sing "facevi"
-                               :3sing "faceva"
-                               :1plur "facevamo"
-                               :2plur "facevate"
-                               :3plur "facevano"}
+                                :2sing "facevi"
+                                :3sing "faceva"
+                                :1plur "facevamo"
+                                :2plur "facevate"
+                                :3plur "facevano"}
                    :present {:1sing "faccio"
                              :2sing "fai"
                              :3sing "fa"
@@ -642,10 +642,10 @@
              :italiano {:boot-verb true}}
 
  "frequentare"  {:synsem {:cat :verb
-                      :sem {:pred :attend}}}
+                          :sem {:pred :attend}}}
 
  "fumare"  {:synsem {:cat :verb
-                      :sem {:pred :smoke}}}
+                     :sem {:pred :smoke}}}
 
  "funzionare" {:synsem {:cat :verb
                         :sem {:pred :work-nonhuman}}}
@@ -665,7 +665,7 @@
                          :sem {:pred :earn}}}
 
  "guardare"  {:synsem {:cat :verb
-                         :sem {:pred :look-at}}}
+                       :sem {:pred :look-at}}}
 
  "guidare"  {:synsem {:cat :verb
                       :sem {:pred :drive}}}
@@ -686,8 +686,8 @@
                         :sem {:pred :inform}}}
 
  "innamorarsi" {:synsem {:cat :verb
-                        :sem {:pred :fall-in-love
-                              :reflexive true}}}
+                         :sem {:pred :fall-in-love
+                               :reflexive true}}}
 
  "insegnare"  {:synsem {:cat :verb
                         :sem {:pred :teach}}}
@@ -738,12 +738,12 @@
            :sem {:pred :lie}}}
 
  "mettere" {:synsem {:cat :verb
-                      :sem {:pred :put}}
-             :italiano {:passato "messo"}}
+                     :sem {:pred :put}}
+            :italiano {:passato "messo"}}
 
  "mettersi" {:synsem {:cat :verb
-                     :sem {:pred :put-oneself
-                           :reflexive true}}
+                      :sem {:pred :put-oneself
+                            :reflexive true}}
              :italiano {:passato "messo"}}
 
  "migliorare" {:synsem {:cat :verb
@@ -756,13 +756,13 @@
                     :essere true
                     :sem {:pred :die}
                     :subcat {:2 []}}
-             :italiano {:passato "morto"
-                        :present {:1sing "muoio"
-                                  :2sing "muori"
-                                  :3sing "muore"
-                                  :1plur "moriamo"
-                                  :2plur "morite"
-                                  :3plur "muoiono"}}}
+           :italiano {:passato "morto"
+                      :present {:1sing "muoio"
+                                :2sing "muori"
+                                :3sing "muore"
+                                :1plur "moriamo"
+                                :2plur "morite"
+                                :3plur "muoiono"}}}
 
  "mostrare" {:synsem {:cat :verb
                       :sem {:pred :show}}}
@@ -780,7 +780,7 @@
             :italiano {:passato "nato"}}
 
  "nuotare"  {:synsem {:cat :verb
-                       :sem {:pred :swim}}}
+                      :sem {:pred :swim}}}
 
  "osservare" {:synsem {:cat :verb
                        :sem {:pred :observe}}}
@@ -795,7 +795,7 @@
                         :future-stem "otterr"}}
 
  "pagare" {:synsem {:cat :verb
-                     :sem {:pred :pay}}}
+                    :sem {:pred :pay}}}
  "parlare"
  [{:synsem {:cat :verb
             :sem {:pred :speak}}}
@@ -837,9 +837,9 @@
                      :sem {:pred :fold}}}
 
  "portare"  [{:synsem {:cat :verb
-                         :sem {:pred :carry}}}
-               {:synsem {:cat :verb
-                         :sem {:pred :wear-p}}}]
+                       :sem {:pred :carry}}}
+             {:synsem {:cat :verb
+                       :sem {:pred :wear-p}}}]
  "potere"
  (let [shared-part-of-potere
        {:synsem {:cat :verb}
@@ -860,7 +860,7 @@
              :italiano {:passato "preso"}}
 
  "preparare" {:synsem {:cat :verb
-                        :sem {:pred :prepare}}}
+                       :sem {:pred :prepare}}}
 
  "prepararsi" {:synsem {:cat :verb
                         :sem {:pred :get-ready
@@ -870,8 +870,8 @@
                        :sem {:pred :reserve}}}
 
  "preoccuparsi" {:synsem {:cat :verb
-                        :sem {:pred :worry
-                              :reflexive true}}}
+                          :sem {:pred :worry
+                                :reflexive true}}}
 
  "presentare" (let [common {:synsem {:cat :verb}}]
                 [{:unify [common]
@@ -880,7 +880,7 @@
                   :synsem {:sem {:pred :introduce-p}}}])
 
  "prestare" {:synsem {:cat :verb
-                       :sem {:pred :lend}}}
+                      :sem {:pred :lend}}}
 
  "preferire" {:italiano {:boot-verb true}
               :synsem {:cat :verb
@@ -898,19 +898,19 @@
                         :sem {:pred :recount}}}
 
  "radersi" {:synsem {:cat :verb
-                        :sem {:pred :shave
-                              :reflexive true}}}
+                     :sem {:pred :shave
+                           :reflexive true}}}
 
  "recuperare" {:synsem {:cat :verb
                         :sem {:pred :recover}}}
 
  "rendere" (let [common {:synsem {:cat :verb}
-                       :italiano {:italiano "rendere"
-                                  :passato "reso"}}]
-           [{:unify [common]
-             :synsem {:sem {:pred :render}}}
-            {:unify [common]
-             :synsem {:sem {:pred :give-back-return-ren}}}])
+                         :italiano {:italiano "rendere"
+                                    :passato "reso"}}]
+             [{:unify [common]
+               :synsem {:sem {:pred :render}}}
+              {:unify [common]
+               :synsem {:sem {:pred :give-back-return-ren}}}])
 
  "restare" {:synsem {:essere true
                      :cat :verb
@@ -931,7 +931,7 @@
                         :sem {:pred :remember}}}
 
  "riempire"  {:synsem {:cat :verb
-                        :sem {:pred :fill}}
+                       :sem {:pred :fill}}
               :italiano {:present {:1sing "riempio"
                                    :3sing "riempie"
                                    :3plur "riempiono"}}}
@@ -969,8 +969,8 @@
                        :essere true}}
 
  "riuscire" {:synsem {:cat :verb
-                       :essere true
-                       :sem {:pred :succeed}}}
+                      :essere true
+                      :sem {:pred :succeed}}}
 
  "rompere" {:synsem {:cat :verb
                      :sem {:pred :break}}
@@ -1063,7 +1063,7 @@
                        :sem {:pred :sigh}}}
 
  "spalmare" {:synsem {:cat :verb
-                       :sem {:pred :spread-food}}}
+                      :sem {:pred :spread-food}}}
 
  "sparire" {:italiano {:boot-verb true}
             :synsem {:cat :verb
@@ -1125,14 +1125,14 @@
                                     :subcat {:1 {:reflexive false}
                                              :2 []}}}}}
 
-;; TODO: enable this: imperfetto e.g. "stava guardando il suo programma preferito"
-;             {:unify [common]
-;              :synsem {:aux true
-;                       :infl :imperfetto
-;                       :sem {:tense :past
-;                             :aspect :progressive}
-;                       :subcat {:2 {:cat :verb
-;                                    :infl :participle}}}}
+             ;; TODO: enable this: imperfetto e.g. "stava guardando il suo programma preferito"
+                                        ;             {:unify [common]
+                                        ;              :synsem {:aux true
+                                        ;                       :infl :imperfetto
+                                        ;                       :sem {:tense :past
+                                        ;                             :aspect :progressive}
+                                        ;                       :subcat {:2 {:cat :verb
+                                        ;                                    :infl :participle}}}}
              ])
 
 

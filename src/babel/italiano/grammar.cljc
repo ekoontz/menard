@@ -816,14 +816,14 @@
                       remove-semantic-features
                       (map (fn [lexeme]
                              (remove-matching-keys lexeme
-                                                     #(or
-                                                       (= % :activity)        (= % :animate)  (= % :artifact)
-                                                       (= % :buyable)         (= % :child)    (= % :clothing)
-                                                       (= % :consumable)
-                                                       (= % :drinkable)       (= % :edible)   (= % :furniture)
-                                                       (= % :human)           (= % :legible)  (= % :part-of-human-body)
-                                                       (= % :pet)
-                                                       (= % :physical-object) (= % :place)    (= % :speakable))))
+                                                   #(or
+                                                     (= % :activity)        (= % :animate)  (= % :artifact)
+                                                     (= % :buyable)         (= % :child)    (= % :clothing)
+                                                     (= % :consumable)
+                                                     (= % :drinkable)       (= % :edible)   (= % :furniture)
+                                                     (= % :human)           (= % :legible)  (= % :part-of-human-body)
+                                                     (= % :pet)
+                                                     (= % :physical-object) (= % :place)    (= % :speakable))))
                            filtered-v)]
                   (if (not (empty? remove-semantic-features))
                     [k remove-semantic-features]))))
@@ -847,6 +847,7 @@
      :lexicon lexicon
      :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :rules rules
+     :rules-for-spec (atom {})
      :rule-map (zipmap rules grammar)}))
 
 ;; TODO: move h-h-h and h-h to babel.ug so they

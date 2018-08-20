@@ -158,7 +158,9 @@
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         source-model @@(get models source-language)
         source-expression
-        (source-timing-fn (generate source-spec source-model))]
+        (source-timing-fn
+         (binding [babel.generate/truncate? true]
+           (generate source-spec source-model)))]
     (let [pairing
           {:target ((:morph target-model) target-expression)
            :pred (u/strip-refs

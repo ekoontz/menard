@@ -116,7 +116,6 @@
                                                           ::unset))))
     [result]))
 
-(declare cache)
 (declare model-with-vocab-items)
 
 (defn fo-ps [expr]
@@ -575,8 +574,7 @@
          :lookup (fn [arg]
                    (analyze arg lexicon))
          :morph morph
-         :morph-ps fo-ps
-         :rules-for-spec (atom (cache/fifo-cache-factory {} :threshold 1024))}]
+         :morph-ps fo-ps}]
     (merge model
            {:vocab2model (fn [vocab-items filter-lexicon-fn]
                            (model-with-vocab-items vocab-items filter-lexicon-fn model))

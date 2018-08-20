@@ -16,7 +16,6 @@
                         result))
 (def ^:dynamic truncate? false)
 (def ^:dynamic println? false)
-(def ^:dynamic use-spec-cache? false)
 (def ^:dynamic model)
 
 (declare gen)
@@ -29,8 +28,7 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
-                   "; "truncate? " truncate? "; "))
-                   "use-spec-cache? " use-spec-cache?))
+                   "; truncate? " truncate?))
    (binding [model model]
      (first (gen spec)))))
 
@@ -44,25 +42,6 @@
   (->> (:grammar model)
        (map #(unify % spec))
        (filter #(not (= :fail %)))))
-
-(defn rules-for-spec [spec]
-  (if (not use-spec-cache?)
-    (matching-rules spec)
-    (let [plain-spec (strip-refs spec)
-          looked-up
-          (cond
-            ;; 1. if the spec gives a rule, simple return a singleton vector of that rule.
-            (not (= ::none (u/get-in spec [:rule] ::none)))
-            [(get (:grammar-map model) (keyword (u/get-in spec [:rule])))]
-
-            ;; 2. lookup spec in cache.
-            true
-            (get @(:rules-for-spec model) plain-spec ::none))]
-      (if (not (= ::none looked-up))
-        looked-up
-        (let [matching-rules (matching-rules spec)]
-          (swap! (:rules-for-spec model) #(assoc % plain-spec matching-rules))
-          matching-rules)))))
       
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec and model."
@@ -70,10 +49,8 @@
   ;; get all rules that match input _spec_:
   (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
   (let [matching-rules
-        (shuffle (rules-for-spec spec))]
+        (shuffle (matching-rules spec))]
     (->> matching-rules
-         (map #(unify % spec))
-         (filter #(not (= :fail %)))
          ;; 2. try to add heads to each matching rule:
          (parent-with-head-1 spec depth)
          (filter #(not (= % :fail)))

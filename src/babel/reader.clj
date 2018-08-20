@@ -148,7 +148,7 @@
         target-expression
         (target-timing-fn
          (binding [babel.generate/truncate? true
-                   babel.generate/use-spec-cache? true]
+                   babel.generate/use-spec-cache? false]
            (babel.generate/generate target-spec target-model)))
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.

@@ -180,7 +180,7 @@
        :targets [(:target pairing)]
        :target-spec target-spec
        :target-roots [(u/get-in target-expression
-                              [:root target-root-keyword target-root-keyword])]
+                                [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs
                           (u/get-in target-expression [:synsem :sem]))})))
     

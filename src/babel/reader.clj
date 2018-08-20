@@ -1,5 +1,4 @@
 (ns babel.reader
-  [:refer-clojure :exclude [get-in resolve]]
   [:require
    [babel.config :as config]
    [babel.directory :refer [models]]
@@ -12,7 +11,7 @@
    [clojure.java.io :as io]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :as u :refer [dissoc-paths get-in ref? pprint strip-refs unify]]
+   [dag_unify.core :as u :refer [dissoc-paths ref? pprint strip-refs unify]]
    [korma.core :as db]
    [ring.util.response :as resp]])
 
@@ -178,10 +177,10 @@
       {:source (:source pairing)
        :targets [(:target pairing)]
        :target-spec target-spec
-       :target-roots [(get-in target-expression
+       :target-roots [(u/get-in target-expression
                               [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs
-                          (get-in target-expression [:synsem :sem]))})))
+                          (u/get-in target-expression [:synsem :sem]))})))
     
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a
@@ -320,16 +319,16 @@
                                :results)]
       results))
 
-;; (map #(str (get-in % [:en]) " / " (get-in % [:it]) " | ") (contains {:synsem {:sem {:pred :mangiare :subj {:pred :noi}}}}))
+;; (map #(str (u/get-in % [:en]) " / " (u/get-in % [:it]) " | ") (contains {:synsem {:sem {:pred :mangiare :subj {:pred :noi}}}}))
 
 (defn get-meaning [input-map]
   "create a language-independent syntax+semantics that can be translated efficiently. The :cat specification helps speed up generation by avoiding searching syntactic constructs that are different from the desired input."
   (if (seq? input-map)
     (map get-meaning
          input-map)
-    {:synsem {:cat (get-in input-map [:synsem :cat] :top)
-              :sem (get-in input-map [:synsem :sem] :top)
-              :subcat (get-in input-map [:synsem :subcat] :top)}}))
+    {:synsem {:cat (u/get-in input-map [:synsem :cat] :top)
+              :sem (u/get-in input-map [:synsem :sem] :top)
+              :subcat (u/get-in input-map [:synsem :subcat] :top)}}))
 
 ;; TODO: document why we need this
 ;; TODO: verbcoach should use this, not config/json-read-str

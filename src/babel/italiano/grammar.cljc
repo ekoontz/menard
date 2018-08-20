@@ -763,7 +763,7 @@
       :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
       :morph-ps fo-ps         
       :rules rules
-      :rules-for-spec (atom {})
+      :rules-for-spec (atom (cache/fifo-cache-factory {} :threshold 1024))
       :rule-map (zipmap rules grammar)
       :tenses tenses}
      ((fn [model]

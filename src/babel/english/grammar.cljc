@@ -576,7 +576,7 @@
                    (analyze arg lexicon))
          :morph morph
          :morph-ps fo-ps
-         :rules-for-spec (atom {})}]
+         :rules-for-spec (atom (cache/fifo-cache-factory {} :threshold 1024))}]
     (merge model
            {:vocab2model (fn [vocab-items filter-lexicon-fn]
                            (model-with-vocab-items vocab-items filter-lexicon-fn model))

@@ -43,7 +43,7 @@
   ;; 
   ;; A convenient wrapper around (defn gen) (below).
 
-  (log/info (str "(generate) with model named: " (:name language-model) "; "
+  (log/debug (str "(generate) with model named: " (:name language-model) "; "
                  "truncate? " truncate? "; "
                  "use-spec-cache? " use-spec-cache?))
   (first (gen spec language-model)))

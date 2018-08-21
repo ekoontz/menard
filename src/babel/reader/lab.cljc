@@ -9,49 +9,33 @@
    #?(:clj [clojure.repl :refer [doc]])
    [dag_unify.core :as u :refer [pprint strip-refs unify]]))
 
+(def chiamarsi-spec-1
+  {:root {:italiano {:italiano "chiamarsi"}
+          :synsem {:subcat {:1 {:top :top}
+                            :2 {:top :top}
+                            :3 {:top :top}}
+                   :cat :verb
+                   :sem {:tense :present
+                         :aspect :simple}}}
+   :synsem {:subcat []}
+   :head {:phrasal true
+          :comp {:phrasal false
+                 :head {:phrasal true}}}
+  
+   :comp {:phrasal false
+          :synsem {:agr {:number :sing
+                         :person :1st}}}})
 
-(defn basecamp []
-  (repeatedly
-   #(time
-     (println (generate-question-and-correct-set 
-               {:root {:italiano {:italiano "chiamarsi"}
-                       :synsem {:subcat {:1 {:top :top}
-                                         :2 {:top :top} :3 {:top :top}}
-                                :cat :verb :sem {:tense :present :aspect :simple}}}
-                :synsem {:subcat []}
-                :comp {:phrasal false :synsem {:agr {:number :sing
-                                                     :person :1st}}}
-                "en"
-                "US"
-                "it"
-                "IT"})))))
-
-(def wtf (generate-question-and-correct-set 
-          {:root {:italiano {:italiano "chiamarsi"}
-                  :synsem {:subcat {:1 {:top :top}
-                                    :2 {:top :top} :3 {:top :top}}
-                           :cat :verb :sem {:tense :present :aspect :simple}}}
-           :synsem {:subcat []}
-           :comp {:phrasal false :synsem {:agr {:number :sing
-                                                :person :1st}}}}
-          "en"
-          "US"
-          "it"
-          "IT"))
-
-(defn wtf2 []
+(defn example []
   (generate-question-and-correct-set 
-   {:root {:italiano {:italiano "chiamarsi"}
-           :synsem {:subcat {:1 {:top :top}
-                             :2 {:top :top} :3 {:top :top}}
-                    :cat :verb :sem {:tense :present :aspect :simple}}}
-    :synsem {:subcat []}
-    :comp {:phrasal false :synsem {:agr {:number :sing
-                                         :person :1st}}}}
+   chiamarsi-spec-1
    "en"
    "US"
    "it"
    "IT"))
 
+(defn basecamp []
+  (repeatedly
+   #(println (time (example)))))
 
 

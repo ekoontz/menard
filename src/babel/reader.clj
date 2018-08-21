@@ -148,10 +148,28 @@
         (target-timing-fn
          (binding [babel.generate/truncate? true]
            (babel.generate/generate target-spec target-model)))
+
+        ;; imagine if we could figure out these extra constraints:
+        source-extra-constraints
+        {:head {:rule "transitive-vp-nonphrasal-head"
+                :phrasal true
+                :head {:phrasal false}
+                :comp {:synsem {:cat :noun
+                                :propernoun true}
+                       :phrasal false}}
+         
+         :comp {:rule "noun-phrase"
+                :phrasal true
+                :head {:phrasal false}
+                :comp {:phrasal false}}}
+        
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
          (u/unify
           {:synsem {:sem (u/get-in target-expression [:synsem :sem])}}
+
+          ;; imagine if we could put:
+          (if false source-extra-constraints {})
           basic-spec))
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
@@ -175,7 +193,7 @@
       (if (:source pairing)
         (str (:target pairing) " => " (:source pairing))
         (str " FAILED: " (dissoc pairing :source)))
-      {:source (:source pairing)
+      {:source (:source pairing) :source-spec source-spec
        :targets [(:target pairing)]
        :target-spec (u/strip-refs target-spec)
        :target-roots [(u/get-in target-expression

@@ -177,7 +177,7 @@
         (str " FAILED: " (dissoc pairing :source)))
       {:source (:source pairing)
        :targets [(:target pairing)]
-       :target-spec target-spec
+       :target-spec (u/strip-refs target-spec)
        :target-roots [(u/get-in target-expression
                                 [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs

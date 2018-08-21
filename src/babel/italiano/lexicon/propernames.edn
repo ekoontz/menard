@@ -1,14 +1,15 @@
+;; TODO: move encyclopedic :prop maps to encyclopedia.
 {
  "Antonella"
  {:synsem {:sem {:pred :antonella
-                 :human true}
+                 :prop {:human true}}
            :propernoun true
            :agr {:number :sing
                  :person :3rd
                  :gender :fem}}}
  "Antonia"
  {:synsem {:sem {:pred :antonia
-                 :human true}
+                 :prop {:human true}}
            :propernoun true
            :agr {:number :sing
                  :person :3rd
@@ -19,11 +20,11 @@
                  :person :3rd
                  :gender :masc}
            :sem {:pred :antonio
-                 :human true}}}
+                 :prop {:human true}}}}
 
  "Antonia e Luisa"
  {:synsem {:sem {:pred :antonia-and-luisa
-                 :human true}
+                 :prop {:human true}}
            :propernoun true
            :agr {:number :plur
                  :person :3rd
@@ -33,12 +34,12 @@
  "Gianluca"
  {:synsem {:agr {:gender :masc}
            :sem {:pred :gianluca
-                 :human true}
+                 :prop {:human true}}
            :propernoun true}}
 
  "Lucia e Cecilia"
  {:synsem {:sem {:pred :lucia-and-cecilia
-                 :human true}
+                 :prop {:human true}}
            :propernoun true
            :agr {:number :plur
                  :person :3rd
@@ -46,11 +47,11 @@
  "Luigi"
  {:synsem {:agr {:gender :masc}
            :sem {:pred :luigi
-                 :human true}
+                 :prop {:human true}}
            :propernoun true}}
  "Luisa"
  {:synsem {:sem {:pred :luisa
-                 :human true}
+                 :prop {:human true}}
            :agr {:gender :fem}
            :propernoun true}}
 
@@ -59,24 +60,24 @@
  {:synsem {:agr {:number :sing
                  :gender :fem}
            :sem {:pred :marina
-                 :human true}
+                 :prop {:human true}}
            :propernoun true}}
  "Mario"
  {:synsem {:agr {:number :sing
                  :gender :masc}
            :sem {:pred :mario
-                 :human true}
+                 :prop {:human true}}
            :propernoun true}}
  "Matteo"
  {:synsem {:agr {:gender :masc
                  :number :sing}
            :sem {:pred :matteo
-                 :human true}
+                 :prop {:human true}}
            :propernoun true}}
 
  "Ostana" {:synsem {:cat :noun
                     :propernoun true
                     :sem {:pred :ostana
-                          :city true}}}
+                          :prop {:city true}}}}
  
  }

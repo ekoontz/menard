@@ -137,7 +137,7 @@
      :note "avere (possess)"
      :synsem {:sem {:pred :have}
               :subcat {:2 {:reflexive false
-                           :sem {:human false}}}}}
+                           :sem {:prop {:human false}}}}}}
 
     ;; 2. "avere": to be in a familial or social relation with:
     ;; e.g. "ho due bambini (I have two children)"
@@ -147,7 +147,7 @@
               :subcat {:2 {:reflexive false
                            :pronoun false
                            :propernoun false
-                           :sem {:human true}}}}}
+                           :sem {:prop {:human true}}}}}}
 
     ;; 3. avere: unspecified object
     ;; TODO: remove: should be generated automatically via
@@ -209,7 +209,7 @@
        :allow-intransitivize false ;; don't generate "ho bisogno di".
        :synsem {:sem {:pred :need
                       :obj need-obj}
-                :subcat {:1 {:sem {:living true}}
+                :subcat {:1 {:sem {:prop {:living true}}}
                          :2 {:cat :noun
                              :subcat []
                              :sem {:pred :bisogno-di
@@ -234,9 +234,8 @@
                        :3plur "bevono"}
              :gerund "bevendo"}
   :synsem {:cat :verb
-           :sem {:pred :drink
-                 :subj {:animate true}
-                 :obj {:drinkable true}}}}
+           :sem {:pred :drink}}}
+
  "cadere" {:synsem {:essere true
                     :cat :verb
                     :sem {:pred :fall}}
@@ -281,26 +280,22 @@
                            :sem {:pred :chat}}}
 
  "chiamarsi" (let [gender (atom :top)
-                   human (atom :top)
                    number (atom :top)
-                   name-semantics {:human human}]
+                   name-semantics (atom :top)]
                {:synsem {:cat :verb
                          :sem {:pred :be-called
                                :reflexive true
                                :iobj name-semantics}
                          :subcat {:1 {:agr {:gender gender
                                             :number number}
-                                      :sem {:human human}
                                       :propernoun false} ;; avoid things like "Luisa si chiama Luisa".
                                   :3 {:agr {:gender gender
                                             :number number}
                                       :cat :noun
                                       :sem name-semantics
                                       :propernoun true}}}})
-
  "chiedere" {:synsem {:cat :verb
-                      :sem {:subj {:human true}
-                            :pred :ask-for}}
+                      :sem {:pred :ask-for}}
              :italiano {:passato "chiesto"}}
 
  "chiudere" {:synsem {:cat :verb
@@ -505,10 +500,6 @@
                                       :number number}}
                             :2 {:agr {:gender gender
                                       :number number}}}}})
-       subj-obj-humanness
-       (let [human (atom :top)]
-         {:synsem {:sem {:subj {:human human}
-                         :obj {:human human}}}})
        ]
    [;; essere: adjective
     ;; TODO: unify essere-adjective, essere-prepositional-phrase
@@ -554,7 +545,7 @@
                            :sem {:null true}}}}}
 
     ;; essere: copula ;; note that we don't enforce agreement the same here as we do in essere-adjective: TODO: try to make more consistent.
-    {:unify [essere-common gender-and-number-agreement subj-obj-humanness]
+    {:unify [essere-common gender-and-number-agreement]
      :notes "copula" ;; significant only for debugging.
      :synsem {:cat :verb
               :subcat {:1 {:cat :noun}
@@ -1026,8 +1017,7 @@
 
  "sedersi" {:synsem {:cat :verb
                      :sem {:pred :sit-down
-                           :reflexive true
-                           :subj {:human true}}}
+                           :reflexive true}}
             :italiano {:present {:1sing "siedo"
                                  :2sing "siedi"
                                  :3sing "siede"
@@ -1140,8 +1130,7 @@
                        :sem {:pred :study}}}
 
  "suonare"  {:synsem {:cat :verb
-                      :sem {:subj {:human true}
-                            :pred :play-music}}}
+                      :sem {:pred :play-music}}}
 
  "svegliarsi" {:synsem {:cat :verb
                         :sem {:pred :wake-up
@@ -1163,7 +1152,6 @@
 
  "tagliare"  {:synsem {:cat :verb
                        :sem {:pred :cut}}}
-
 
  "telefonare"  {:synsem {:cat :verb
                          :sem {:pred :telephone}}}

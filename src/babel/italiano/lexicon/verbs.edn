@@ -281,13 +281,15 @@
 
  "chiamarsi" (let [gender (atom :top)
                    number (atom :top)
-                   name-semantics (atom :top)]
+                   props (atom :top)
+                   name-semantics (atom {:prop props})]
                {:synsem {:cat :verb
                          :sem {:pred :be-called
                                :reflexive true
                                :iobj name-semantics}
                          :subcat {:1 {:agr {:gender gender
                                             :number number}
+                                      :sem {:prop props}
                                       :propernoun false} ;; avoid things like "Luisa si chiama Luisa".
                                   :3 {:agr {:gender gender
                                             :number number}

@@ -29,6 +29,10 @@
  {:pred :avoid
   :subj {:animate true}}
  
+ {:pred :be-called
+  :subj {:prop {:human true}}
+  :iobj {:prop {:human true}}}
+
  {:pred :boil
   :subj {:prop {:human true}}
   :obj {:prop {:liquid true

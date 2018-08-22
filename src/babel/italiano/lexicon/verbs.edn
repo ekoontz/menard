@@ -96,7 +96,7 @@
                           :sem {:pred :climb
                                 :reflexive true
                                 :subj {:animate true}}}}
- 
+
  "arrivare" {:synsem {:essere true
                       :cat :verb
                       :sem {:pred :arrive}
@@ -319,14 +319,14 @@
 
  "commentare"  {:synsem {:cat :verb
                          :sem {:pred :comment}}}
- 
+
  "comprare" {:synsem {:cat :verb
                       :sem {:pred :buy}}}
- 
+
  "condividere"  {:synsem {:cat :verb
                           :sem {:pred :share}}
                  :italiano {:passato "condiviso"}}
- 
+
  "conoscere" {:synsem {:cat :verb
                        :sem {:pred :know-c}}}
 
@@ -809,7 +809,7 @@
  "perdere" {:italiano {:passato "perso"}
             :synsem {:cat :verb
                      :sem {:pred :lose}}}
- 
+
  "pettinarsi" {:synsem {:cat :verb
                         :sem {:pred :comb-oneself
                               :reflexive true}}}
@@ -892,7 +892,8 @@
 
  "radersi" {:synsem {:cat :verb
                      :sem {:pred :shave
-                           :reflexive true}}}
+                           :reflexive true}
+                           :italiano {:passato "raso"}}}
 
  "recuperare" {:synsem {:cat :verb
                         :sem {:pred :recover}}}
@@ -949,7 +950,7 @@
            :sem {:pred :rest-oneself
                  :reflexive true
                  :subj {:animate true}}}}
- 
+
  "riscaldare" {:synsem {:cat :verb
                         :sem {:pred :warm-up}}}
 
@@ -1033,10 +1034,10 @@
  "sembrare" {:synsem {:cat :verb
                       :essere true
                       :sem {:pred :seem}}}
- 
+
  "sentire" {:synsem {:cat :verb
                      :sem {:pred :hear}}}
- 
+
  "servire" {:synsem {:essere true
                      :cat :verb
                      :sem {:pred :be-necessary-s...}}}

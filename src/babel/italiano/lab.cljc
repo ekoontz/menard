@@ -225,3 +225,19 @@
 (defn generate-at [spec path]
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
+
+(defn basecamp []
+  (repeatedly 
+   #(println 
+     (morph 
+      (time (binding [babel.generate/truncate? true
+                      babel.generate/println? true
+                      babel.generate/index-fn (:index-fn model)
+                      babel.generate/model model]
+              (generate {:modified false
+                         :root {:italiano {:italiano "radersi"}}
+                         :synsem {:cat :verb
+                                  :sem {:aspect :perfect
+                                        :tense :present}
+                                  :subcat []}})))))))
+

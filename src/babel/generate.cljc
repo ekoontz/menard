@@ -17,6 +17,8 @@
 (def ^:dynamic truncate? false)
 (def ^:dynamic println? false)
 (def ^:dynamic model)
+(def ^:dynamic index-fn nil)
+(def ^:dynamic lexicon)
 
 (declare assoc-children)
 (declare frontier)
@@ -28,15 +30,27 @@
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
+  ([spec]
+   (binding [model model
+             index-fn index-fn]
+     (first (gen spec))))
+
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [model model]
+   (binding [model model
+             index-fn (if (:index-fn model)
+                        (:index-fn model)
+                        (do
+                          (log/warn (str "no index available for this model: using entire lexicon."))
+                          (fn [spec]
+                            (flatten (vals
+                                      (or (:lexicon (:generate model))
+                                          (:lexicon model)))))))]
      (first (gen spec)))))
 
 (defn gen
-  "generate a potentially infinite (depending on given _spec_ and _model_) 
-   list of expressions that match the given _spec_."
+  "generate a potentially infinite (depending on given _spec_ and the model)."
   [spec]
   (grow (parent-with-head spec 0)))
 
@@ -149,12 +163,7 @@
    Otherwise use the model's entire lexeme."
   [spec]
   (->>
-   (if-let [index-fn (:index-fn model)]
-     (index-fn spec)
-     (do
-       (log/warn (str "get-lexemes: no index found: using entire lexicon."))
-       (flatten (vals
-                 (or (:lexicon (:generate model)) (:lexicon model))))))
+   (index-fn spec)
    (filter #(or (= false (u/get-in % [:exception] false))
                 (not (= :verb (u/get-in % [:synsem :cat])))))
    (map #(unify % spec))

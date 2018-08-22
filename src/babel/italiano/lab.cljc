@@ -216,7 +216,7 @@
 
 (defn parse-at [expression path]
   (map #(u/get-in % path ::none)
-       (parse expression)))
+       (mapcat :parses (parse expression))))
 
 (defn lexeme-at [lexeme path]
   (map #(u/get-in % path ::none)

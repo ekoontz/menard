@@ -14,13 +14,14 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:dynamic truncate? false)
-(def ^:dynamic println? false)
+
 (def ^:dynamic default-fn (fn [x] [x]))
-(def ^:dynamic model)
-(def ^:dynamic morph-ps)
-(def ^:dynamic index-fn)
 (def ^:dynamic grammar)
+(def ^:dynamic index-fn nil)
+(def ^:dynamic lexicon)
+(def ^:dynamic morph-ps)
+(def ^:dynamic println? false)
+(def ^:dynamic truncate? false)
 
 (declare assoc-children)
 (declare frontier)
@@ -33,18 +34,15 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
-   (binding [model model
-             morph-ps morph-ps
-             grammar grammar
-             index-fn index-fn]
-     (first (gen spec))))
+   (first (gen spec)))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [default-fn (:default-fn model)
+   (binding [default-fn (if (:default-fn model)
+                          (:default-fn model)
+                          (fn [x] [x]))
              grammar (:grammar model)
-             morph-ps (:morph-ps model)
              index-fn (if (:index-fn model)
                         (:index-fn model)
                         (do
@@ -52,7 +50,8 @@
                           (fn [spec]
                             (flatten (vals
                                       (or (:lexicon (:generate model))
-                                          (:lexicon model)))))))]
+                                          (:lexicon model)))))))
+             morph-ps (:morph-ps model)]
      (first (gen spec)))))
 
 (defn gen

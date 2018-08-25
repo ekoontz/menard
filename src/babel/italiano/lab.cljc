@@ -101,14 +101,14 @@
 
 
 (def tree-8
-;;      ___.__
-;;     /      \
-;;    C        H
-;;   / \      / \
-;;  C   H    H   C
-;;          / \
-;;         H   C
-;;
+  ;;      ___.__
+  ;;     /      \
+  ;;    C        H
+  ;;   / \      / \
+  ;;  C   H    H   C
+  ;;          / \
+  ;;         H   C
+  ;;
   {:phrasal true
    :comp tree-1
    :head {:phrasal true
@@ -117,14 +117,14 @@
                  :head {:phrasal false}}}})
 
 (def tree-9
-;;      ___.__
-;;     /      \
-;;    C        H
-;;   / \      / \
-;;  C   H    H   C
-;;              / \  
-;;             H   C
-;;
+  ;;      ___.__
+  ;;     /      \
+  ;;    C        H
+  ;;   / \      / \
+  ;;  C   H    H   C
+  ;;              / \  
+  ;;             H   C
+  ;;
   {:phrasal true
    :comp tree-1
    :head {:phrasal true
@@ -194,7 +194,7 @@
 
         all-of-the-specs (concat specs [root-spec semantic-spec]
                                  vedere-specs)]
-        
+    
     (repeatedly #(println
                   (morph-ps (time (generate
                                    (nth all-of-the-specs
@@ -226,18 +226,28 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
-(defn basecamp []
-  (repeatedly 
-   #(println 
-     (morph 
-      (time (binding [babel.generate/truncate? true
-                      babel.generate/println? true
-                      babel.generate/index-fn (:index-fn model)
-                      babel.generate/model model]
-              (generate {:modified false
-                         :root {:italiano {:italiano "radersi"}}
-                         :synsem {:cat :verb
-                                  :sem {:aspect :perfect
-                                        :tense :present}
-                                  :subcat []}})))))))
+(defn with-shrunken-model []
+  (binding [babel.generate/truncate? true
+            babel.generate/println? false
+            babel.generate/default-fn (if true (fn [x] [x]) (:default-fn model))
+            babel.generate/index-fn (:index-fn model)
+            babel.generate/morph-ps (:morph-ps model)
+            babel.generate/grammar
+            (filter
+             (fn [rule]
+               (or
+                (= (:rule rule) "s-aux")
+                (= (:rule rule) "vp-pronoun-phrasal")
+                (= (:rule rule) "vp-aux-22")))
+             (:grammar model))
 
+            babel.generate/model model]
+    (generate {:modified false
+               :root {:italiano {:italiano "radersi"}}
+               :synsem {:cat :verb
+                        :sem {:aspect :perfect
+                              :tense :present}
+                        :subcat []}})))
+(defn basecamp []
+  (repeatedly
+   #(println (morph (time (with-shrunken-model))))))

@@ -14,11 +14,14 @@
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
-(def ^:dynamic truncate? false)
-(def ^:dynamic println? false)
-(def ^:dynamic model)
+
+(def ^:dynamic default-fn (fn [x] [x]))
+(def ^:dynamic grammar)
 (def ^:dynamic index-fn nil)
 (def ^:dynamic lexicon)
+(def ^:dynamic morph-ps)
+(def ^:dynamic println? false)
+(def ^:dynamic truncate? false)
 
 (declare assoc-children)
 (declare frontier)
@@ -36,7 +39,10 @@
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [model model
+   (binding [default-fn (if (:default-fn model)
+                          (:default-fn model)
+                          (fn [x] [x]))
+             grammar (:grammar model)
              index-fn (if (:index-fn model)
                         (:index-fn model)
                         (do
@@ -44,7 +50,8 @@
                           (fn [spec]
                             (flatten (vals
                                       (or (:lexicon (:generate model))
-                                          (:lexicon model)))))))]
+                                          (:lexicon model)))))))
+              morph-ps (:morph-ps model)]
      (first (gen spec)))))
 
 (defn gen
@@ -69,8 +76,8 @@
           child-spec (u/get-in tree f)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
-      (when println? (println (str "grow at:" ((:morph-ps model) tree))))
-      (log/debug (str "grow at:" ((:morph-ps model) tree)))
+      (when println? (println (str "grow at:" (morph-ps tree))))
+      (log/debug (str "grow at:" (:morph-ps tree)))
       (lazy-cat
        (if (not (empty? f))
          (grow
@@ -119,7 +126,7 @@
   ;; get all rules that match input _spec_:
   (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
   (let [matching-rules
-        (shuffle (->> (:grammar model)
+        (shuffle (->> grammar
                       (map #(unify % spec))
                       (filter #(not (= :fail %)))))]
     (->> matching-rules
@@ -133,7 +140,7 @@
     (let [parent-rule (first parent-rules)
           phrases-with-phrasal-head #(map (fn [child]
                                             (u/assoc-in parent-rule [:head] child))
-                                          (:grammar model))
+                                          grammar)
           phrases-with-lexical-heads #(map (fn [child]
                                              (u/assoc-in parent-rule [:head] child))
                                            (get-lexemes (unify
@@ -178,14 +185,12 @@
             (concat (butlast f) [::done?])
             true)
            (u/dissoc-paths (if truncate? [f] []))
-           ((or (:default-fn model) (fn [x] [x])))))
+           (default-fn)))
      (assoc-each-default tree (rest children) f))))
 
 (defn assoc-children [tree children f]
   (if (not (empty? children))
-    (let [child (first children)
-          default-fn (or (:default-fn model)
-                         (fn [x] [x]))]
+    (let [child (first children)]
       (lazy-cat
        (if (= true (u/get-in child [::done?]))
          (assoc-each-default tree (default-fn child) f)

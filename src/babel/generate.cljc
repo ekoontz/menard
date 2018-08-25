@@ -31,9 +31,7 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
-   (binding [model model
-             index-fn index-fn]
-     (first (gen spec))))
+   (first (gen spec)))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)

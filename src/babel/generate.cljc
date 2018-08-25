@@ -16,9 +16,11 @@
                         result))
 (def ^:dynamic truncate? false)
 (def ^:dynamic println? false)
+(def ^:dynamic default-fn (fn [x] [x]))
 (def ^:dynamic model)
-(def ^:dynamic index-fn nil)
-(def ^:dynamic lexicon)
+(def ^:dynamic morph-ps)
+(def ^:dynamic index-fn)
+(def ^:dynamic grammar)
 
 (declare assoc-children)
 (declare frontier)
@@ -32,13 +34,17 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (binding [model model
+             morph-ps morph-ps
+             grammar grammar
              index-fn index-fn]
      (first (gen spec))))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [model model
+   (binding [default-fn (:default-fn model)
+             grammar (:grammar model)
+             morph-ps (:morph-ps model)
              index-fn (if (:index-fn model)
                         (:index-fn model)
                         (do
@@ -56,7 +62,7 @@
 
 (defn grow
   "recursively generate trees given 
-   input trees and model. continue recursively
+   input trees. continue recursively
    until no futher expansion is 
    possible."
   [trees]
@@ -71,8 +77,8 @@
           child-spec (u/get-in tree f)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
-      (when println? (println (str "grow at:" ((:morph-ps model) tree))))
-      (log/debug (str "grow at:" ((:morph-ps model) tree)))
+      (when println? (println (str "grow at:" (morph-ps tree))))
+      (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? f))
          (grow
@@ -116,12 +122,12 @@
     true []))
 
 (defn parent-with-head
-  "Return every possible tree of depth 1 from the given spec and model."
+  "Return every possible tree of depth 1 from the given spec."
   [spec depth]
   ;; get all rules that match input _spec_:
   (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
   (let [matching-rules
-        (shuffle (->> (:grammar model)
+        (shuffle (->> grammar
                       (map #(unify % spec))
                       (filter #(not (= :fail %)))))]
     (->> matching-rules
@@ -135,7 +141,7 @@
     (let [parent-rule (first parent-rules)
           phrases-with-phrasal-head #(map (fn [child]
                                             (u/assoc-in parent-rule [:head] child))
-                                          (:grammar model))
+                                          grammar)
           phrases-with-lexical-heads #(map (fn [child]
                                              (u/assoc-in parent-rule [:head] child))
                                            (get-lexemes (unify
@@ -158,9 +164,9 @@
          (parent-with-head-1 spec depth (rest parent-rules)))))))
 
 (defn get-lexemes 
-  "Get lexemes matching the spec. Use a model's index if available, where the index 
-   is a function that we call with _spec_ to get a set of indices. 
-   Otherwise use the model's entire lexeme."
+  "Get lexemes matching the spec. Use index, where the index 
+   is a function that we call with _spec_ to get a set of lexemes
+   that matches the given _spec_."
   [spec]
   (->>
    (index-fn spec)
@@ -180,14 +186,12 @@
             (concat (butlast f) [::done?])
             true)
            (u/dissoc-paths (if truncate? [f] []))
-           ((or (:default-fn model) (fn [x] [x])))))
+           (default-fn)))
      (assoc-each-default tree (rest children) f))))
 
 (defn assoc-children [tree children f]
   (if (not (empty? children))
-    (let [child (first children)
-          default-fn (or (:default-fn model)
-                         (fn [x] [x]))]
+    (let [child (first children)]
       (lazy-cat
        (if (= true (u/get-in child [::done?]))
          (assoc-each-default tree (default-fn child) f)

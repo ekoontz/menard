@@ -643,7 +643,7 @@
                                 ;; some languages (e.g. Italian in babel.italiano.lexicon/edn2lexicon)
                                 ;; may already exclude the wildcard lexeme,
                                 ;; so this filtering rule will not find anything to exclude.
-                                  
+                                
                                 ;; include all aux verbs:
                                 (or (not (= (get-in % [:synsem :cat]) :verb))
                                     (= (get-in % [:synsem :aux]) true)
@@ -658,7 +658,7 @@
                                 ;; exclude verbs that take an adverb as the third argument.
                                 (or (not (= (get-in % [:synsem :cat]) :verb))
                                     (not (= (get-in % [:synsem :subcat :3 :cat]) :adverb)))
-                                       
+                                
                                 ;; exclude cities from the model grammar.
                                 (or (not (= (get-in % [:synsem :propernoun]) true))
                                     (= (get-in % [:synsem :sem :city] false) false)))
@@ -708,7 +708,7 @@
                           "tense=" (get-in tree [:synsem :sem :tense] ::unset) "; "
                           "aspect=" (get-in tree [:synsem :sem :aspect] ::unset) "; "
                           "infl=" (get-in tree [:synsem :infl] ::unset) "; "))
-                                           
+          
           [tree])
         with-defaults))))
 
@@ -844,7 +844,6 @@
      :generate {:lexicon lexicon-for-generation}
      :grammar grammar
      :lexicon lexicon
-     :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
      :rules rules
      :rules-for-spec (atom {})
      :rule-map (zipmap rules grammar)}))

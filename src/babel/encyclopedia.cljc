@@ -23,7 +23,6 @@ as a map of implications"}
 (def verbs
   (map (fn [sem]
          (unify! {:synsem {:aux false
-                           :sem {:shared-with-obj false} ;; prevent matching reflexive verbs.
                            :cat :verb}}
                  {:synsem {:sem sem}}))
 

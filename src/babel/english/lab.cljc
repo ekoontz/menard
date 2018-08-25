@@ -60,9 +60,12 @@
   (let [parse (-> "the small dogs you see" parse first)]
     (pprint (u/get-in parse [:synsem :sem]))))
 
-(defn refresh [& refresh-lexicon?]
-  (let [refresh-lexicon? (or refresh-lexicon? false)]
+(defn refresh [& [refresh-lexicon? rebuild-lexicon?]]
+  (let [refresh-lexicon? (or refresh-lexicon? rebuild-lexicon? false)]
     (babel.test.test/init-db)
+    (if rebuild-lexicon? (println (str "wrote: "
+                                       (babel.lexiconfn/write-lexicon "en" (babel.english.grammar/compile-lexicon))
+                                       " items.")))
     (if refresh-lexicon? (babel.lexiconfn/write-lexicon "en" (babel.english.grammar/compile-lexicon)))
     (babel.directory/refresh-models)
     (load "../english")))

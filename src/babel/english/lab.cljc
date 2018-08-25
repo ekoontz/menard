@@ -50,8 +50,7 @@
                                                      :rest []}}}}}}}]]
     (repeatedly #(println
                   (let [spec (first (shuffle specs))]
-                    (let [result (morph (time (binding [babel.generate/truncate? true
-                                                        babel.generate/use-spec-cache? true]
+                    (let [result (morph (time (binding [babel.generate/truncate? true]
                                                 (wait wait-ms-for-generation (fn [] (generate spec model))))))]
                       (or (and (not (empty? result)) result)
                           "TIMEOUT.")))))))

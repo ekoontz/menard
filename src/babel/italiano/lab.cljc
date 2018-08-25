@@ -229,7 +229,6 @@
 (defn with-shrunken-model []
   (binding [babel.generate/truncate? true
             babel.generate/println? false
-            babel.generate/default-fn (if true (fn [x] [x]) (:default-fn model))
             babel.generate/index-fn (:index-fn model)
             babel.generate/morph-ps (:morph-ps model)
             babel.generate/grammar

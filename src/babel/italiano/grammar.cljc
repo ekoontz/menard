@@ -670,48 +670,6 @@
     (clojure.core/merge model
                         {:lexicon micro-lexicon})))
 
-(defn default-fn [tree]
-  (log/debug (str "Italiano: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
-  (log/debug (str "aspect (pre): " (strip-refs (get-in tree
-                                                       [:synsem :sem :aspect]
-                                                       ::unset))))
-  (log/debug (str "infl   (pre): " (strip-refs (get-in tree
-                                                       [:synsem :infl]
-                                                       ::unset))))  
-  (log/debug (str "tense  (pre): " (strip-refs (get-in tree
-                                                       [:synsem :sem :tense]
-                                                       ::unset))))
-  (let [defaults 
-        [;; <inflection-semantics correspondences>
-         {:synsem {:cat :verb
-                   :sem {:tense :present
-                         :aspect :simple}
-                   :infl :present}}
-         {:synsem {:cat :verb
-                   :sem {:tense :present
-                         :aspect :progressive}
-                   :infl :present-progressive}}
-         {:synsem {:cat :verb
-                   :sem {:tense :future}
-                   :infl :future}}
-         {:synsem {:cat :verb
-                   :sem {:tense :conditional}
-                   :infl :conditional}}]]
-    (let [with-defaults
-          (remove #(= :fail %)
-                  (map (fn [default]
-                         (unify tree default))
-                       defaults))]
-      (if (empty? with-defaults)
-        (do
-          (log/debug (str "all defaults failed for:"
-                          "tense=" (get-in tree [:synsem :sem :tense] ::unset) "; "
-                          "aspect=" (get-in tree [:synsem :sem :aspect] ::unset) "; "
-                          "infl=" (get-in tree [:synsem :infl] ::unset) "; "))
-          
-          [tree])
-        with-defaults))))
-
 (declare model-with-vocab-items)
 
 ;; TODO: factor out language-independent parts of this to babel.lexiconfn.
@@ -750,7 +708,6 @@
      ;; as a parameter, so they use as the model what precedes it in the list of
      ;; stages.
      {:index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
-      :default-fn default-fn
       :name (str
              "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon "
              "at: " (local-timestamp))

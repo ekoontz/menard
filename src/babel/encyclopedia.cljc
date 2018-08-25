@@ -23,6 +23,13 @@ as a map of implications"}
 (def verbs
   (map (fn [sem]
          (unify! {:synsem {:aux false
+                           ;; :shared-with-obj: used to
+                           ;; prevent matching [be + PP]
+                           ;; where 'be' has no pred:
+                           ;; with be+PP, the prepositional
+                           ;; phrase PP has the semantic
+                           ;; predicate and object.
+                           :sem {:shared-with-obj false} 
                            :cat :verb}}
                  {:synsem {:sem sem}}))
 

@@ -217,14 +217,14 @@
        (line-seq reader)))
 
 (defn parse
-  "return a list of all possible parse trees for a string or a sequence of tokens.
+  "Return a list of all possible parse trees for a string or a sequence of tokens.
    If the input is a string, then use a language-independent tokenizer
   to turn the string into a sequence of tokens.  In the latter case,
   the tokens are assumed to be produced by splitting a string in some
   language-dependent way. If parse-with-truncate is false, then at
   each step of parsing the input, the entire tree will be preserved
   rather than just the immediate parents of the root node. Preserving
-  the entire tree costs about 20% time than truncating it."
+  the entire tree costs about 20% more time than truncating it."
   ([input model & {:keys [parse-with-truncate original-input]}]
    (let [parse-with-truncate
          (cond (= parse-with-truncate false)

@@ -255,20 +255,20 @@
                  :sem {:reflexive false}}})
 
       (default ;; ..but if a verb *is* reflexive:
-       (let [subject-semantics (atom {:animate true})
+       (let [subject-semantics (atom :top)
              subject-agr (atom :top)]
          {:synsem {:aux false
                    :cat :verb
                    :essere true
-                   :sem {:subj subject-semantics
-                         :obj subject-semantics
+                   :sem {:subj {:prop subject-semantics}
+                         :obj {:prop subject-semantics}
                          :reflexive true}
                    :subcat {:1 {:agr subject-agr
-                                :sem subject-semantics}
+                                :sem {:prop subject-semantics}}
                             :2 {:agr subject-agr
                                 :pronoun true
                                 :reflexive true
-                                :sem subject-semantics}}}}))
+                                :sem {:prop subject-semantics}}}}}))
 
       ;; if a verb has a second argument (i.e. the object),
       ;; then it is not reflexive. this is to prevent
@@ -445,10 +445,10 @@
                  (or (log/debug (str "lexical entry has a cat - good : " (strip-refs %)))
                      true))
             (and (log/warn (str "ignoring lexical entry with no :cat: " (strip-refs %)))
-                 false)))
+                 false)))))
 
       ;; end of language-specific grammar rules
-      ))
+      
 
 (defn compile-lexicon
   "convert source lexicon to a Clojure map."

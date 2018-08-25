@@ -308,20 +308,26 @@
    ;;   [nbar-obj [nbar ]] is allowed.
    (unify-check c11-comp-subcat-1
                 comp-mod
-                (let [head-constraint (atom :top)]
+                (let [head-constraint (atom :top)
+                      reflexive (atom :top)]
                   {:rule "nbar"
                    :bar-level :low
+                   :synsem {:reflexive reflexive}
                    :comp {:synsem {:cat :adjective}}
                    :head {:bar-level :low
                           :synsem {:cat :noun
+                                   :reflexive reflexive
                                    :sem {:prop head-constraint}}}}))
    ;; noun-phrase -> det nbar
    (unify-check c10
                 comp-specs-head
-                (let [number-agr (atom :top)]
+                (let [number-agr (atom :top)
+                      reflexive (atom :top)]
                   {:rule "noun-phrase"
                    :aliases (list "np")
+                   :head {:synsem {:reflexive reflexive}}
                    :synsem {:agr {:number number-agr}
+                            :reflexive reflexive
                             :sem {:number number-agr}
                             :cat :noun}}))
 

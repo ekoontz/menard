@@ -208,6 +208,9 @@
  {:pred :sell
   :subj {:prop {:human true}}
   :obj {:prop {:buyable true}}}
+ 
+ {:pred :shave
+  :subj {:prop {:human true}}}
 
  {:pred :sigh
   :subj {:prop {:human true}}}

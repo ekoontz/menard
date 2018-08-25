@@ -159,7 +159,6 @@
    head-principle
    head-first
    {:comment "h10"
-    :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (defonce h21
@@ -168,7 +167,6 @@
    head-principle
    head-first
    {:comment "h21"
-    :schema-symbol 'h21
     :first :head}))
 
 ;; h21a is a specialization of h21. it's used for vp-aux to prevent over-generation.
@@ -177,8 +175,7 @@
    (unify
     h21
     {:head {:synsem {:subcat {:2 {:subcat {:2 []}}}}}})
-   {:comment "h21a"
-    :schema-symbol 'h21a}))
+   {:comment "h21a"}))
 
 (defonce h22
   (unify
@@ -186,7 +183,6 @@
    head-principle
    head-first
    {:comment "h22"
-    :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (defonce h32
@@ -195,14 +191,12 @@
    head-principle
    head-first
    {:comment "h32"
-    :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (defonce c00
   (unify-check
    head-last
    {:comment "c00"
-    :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comp {:synsem {:subcat []}}
     :head {:synsem {:subcat []}}}))
@@ -211,7 +205,6 @@
   (unify-check
    head-first
    {:comment "h00"
-    :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
     :first :head
     :comp {:synsem {:subcat []}}
     :head {:synsem {:subcat []}}}))

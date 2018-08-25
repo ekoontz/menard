@@ -245,7 +245,6 @@
     ;; if you try to use :schema, I get:
     ;; java.util.concurrent.ExecutionException: java.lang.RuntimeException:
     ;; Can't embed object in code, maybe print-dup not defined: clojure.lang.Ref@11819f3c
-    :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comp {:synsem {:subcat []}}}))
 
@@ -254,7 +253,6 @@
    subcat-2-principle
    head-principle
    {:comp {:synsem {:subcat []}}
-    :schema-symbol 'c21 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comment "c21"}))
 
@@ -263,8 +261,7 @@
    subcat-1-1-principle
    head-principle
    comp-modifies-head
-   {:schema-symbol 'h11 ;; used by over-each-parent to know where to put children.
-    :first :head
+   {:first :head
     :comment "h11"}))
 
 ;; -- END SCHEMA DEFINITIONS

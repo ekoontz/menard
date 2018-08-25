@@ -183,7 +183,6 @@
   (unify-check
    head-last
    {:comment "c00"
-    :schema-symbol 'c00 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comp {:synsem {:subcat []}}
     :head {:synsem {:subcat []}}}))
@@ -192,7 +191,6 @@
   (unify-check
    head-first
    {:comment "h00"
-    :schema-symbol 'h00 ;; used by over-each-parent to know where to put children.
     :comp {:synsem {:subcat []}}
     :head {:synsem {:subcat []}}}))
 
@@ -202,8 +200,7 @@
    hc-agreement
    head-principle
    head-last
-   {:schema-symbol 'c11 ;; used by over-each-parent to know where to put children.
-    :comment "c11"}))
+   {:comment "c11"}))
 
 ;; TODO: names like "c11-comp-subcat-1" have no human-discernible meaning:
 ;; sound like droid names or something..
@@ -226,7 +223,6 @@
    head-principle
    head-first
    {:comment "h10"
-    :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
     }))
 
 (def h21
@@ -234,26 +230,21 @@
    subcat-2-principle
    head-principle
    head-first
-   {:comment "h21"
-    :schema-symbol 'h21})) ;; used by over-each-parent to know where to put children.
+   {:comment "h21"}))
 
 (def h22
   (unify-check
    subcat-2-2-principle
    head-principle
    head-first
-   {:comment "h22"
-    :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
-    }))
+   {:comment "h22"}))
 
 (def h32
   (unify-check
    subcat-5-principle
    head-principle
    head-first
-   {:comment "h32"
-    :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
-    }))
+   {:comment "h32"}))
 
 ;; </TODO: move to ug>
 ;; -- END SCHEMA DEFINITIONS

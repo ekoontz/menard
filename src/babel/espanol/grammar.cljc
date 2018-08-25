@@ -81,7 +81,6 @@
     ;; if you try to use :schema, I get:
     ;; java.util.concurrent.ExecutionException: java.lang.RuntimeException:
     ;; Can't embed object in code, maybe print-dup not defined: clojure.lang.Ref@11819f3c
-    :schema-symbol 'c10 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comp {:synsem {:subcat '()}}}))
 
@@ -92,7 +91,6 @@
    head-last
    {:comp {:synsem {:subcat '()
                     :pronoun true}}
-    :schema-symbol 'c21 ;; used by over-each-parent to know where to put children.
     :first :comp
     :comment "c21"}))
 
@@ -108,9 +106,7 @@
    hc-agreement
    head-principle
    head-first
-   {
-    :schema-symbol 'h11 ;; used by over-each-parent to know where to put children.
-    :first :head
+   {:first :head
     :comment "h11"}))
 
 (def h11-comp-subcat-1
@@ -132,7 +128,6 @@
    head-principle
    head-first
    {:comment "h10"
-    :schema-symbol 'h10 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (def h21
@@ -141,7 +136,6 @@
    head-principle
    head-first
    {:comment "h21"
-    :schema-symbol 'h21 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (def h22
@@ -150,7 +144,6 @@
    head-principle
    head-first
    {:comment "h22"
-    :schema-symbol 'h22 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 (def h32
@@ -159,7 +152,6 @@
    head-principle
    head-first
    {:comment "h32"
-    :schema-symbol 'h32 ;; used by over-each-parent to know where to put children.
     :first :head}))
 
 ;; -- END SCHEMA DEFINITIONS

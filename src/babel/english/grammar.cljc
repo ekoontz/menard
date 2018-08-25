@@ -525,26 +525,6 @@
             (if (not (empty? filtered-v))  ;; TODO: this empty-filtering should be done in lexicon.cljc, not here.
               [k filtered-v])))))
 
-(defn rules-for-spec [model]
-  (atom {{:synsem {:sem {:reflexive false
-                         :aspect :perfect
-                         :tense :present
-                         :subj {:null false
-                                :city false
-                                :can-be-subject true
-                                :number :plur
-                                :gender :fem
-                                :human true
-                                :pred :loro}
-                         :obj :unspec
-                         :pred :tell}
-                   :cat :verb
-                   :subcat []}
-          :comp {:phrasal false}}
-         (map (fn [rule]
-                (get (:grammar-map model) (keyword rule)))
-              ["sentence-nonphrasal-head"])}))
-
 (defn model []
   (let [debug (log/info "  loading lexicon..")
         lexicon (read-lexicon "en")

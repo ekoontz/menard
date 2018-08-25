@@ -10,7 +10,7 @@
    [dag_unify.core :as u :refer [pprint strip-refs unify]]))
 
 (defn parse [surface-string]
-  (english/parse surface-string model false))
+  (english/parse surface-string model false)) ;; false: don't truncate.
 
 (defn downtown []
   (let [specs

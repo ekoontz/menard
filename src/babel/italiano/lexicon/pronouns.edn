@@ -59,10 +59,7 @@
             :sem {:pred :I
                   :prop {:human true}}
             :subcat []}}]
-
  "la"
- ;; as with "lo", do we need both of these "lo" entries? try to get by with just one.
- ;; TODO: refactor commonalities
  ;; 1. pronoun: human
  [{:synsem {:cat :noun
             :pronoun true
@@ -97,15 +94,14 @@
                         :agr {:person :3rd
                               :gender :fem
                               :number :sing}
-                        :sem {:pred :lei} ;; note: we don't specify human=true (english "it").
+                        :sem {:pred :lei}
                         :subcat []}}]
    [{:unify [common]
      :synsem {:sem {:prop {:human false}}}}
     {:unify [common]
      :synsem {:sem {:prop {:human true}}}}])
 
- ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
- "lo"
+ "lo" ;; TODO: refactor into a 'common' as with 'lei'.
  [{:synsem {:cat :noun
             :pronoun true
             :case :acc
@@ -128,8 +124,7 @@
                          :place false}
                   :pred :lui}
             :subcat []}
-   :italiano {:initial true}}]  ;; TODO: verify that 'lo' above and this below are being unified correctly.
- 
+   :italiano {:initial true}}]
 
  "loro"
  [{:synsem {:cat :noun
@@ -146,10 +141,8 @@
             :agr {:person :3rd
                   :gender :masc
                   :number :plur}
-            :sem {:prop {:human false}
-                  :pred :loro}
+            :sem {:pred :loro}
             :subcat []}}]
- 
 
  "lui" (let [common {:synsem {:cat :noun
                               :pronoun true
@@ -157,7 +150,7 @@
                               :agr {:person :3rd
                                     :gender :masc
                                     :number :sing}
-                              :sem {:pred :lui} ;; note: we don't specify human=true (english "it").
+                              :sem {:pred :lui}
                               :subcat []}}]
          [{:unify [common]
            :synsem {:sem {:prop {:human false}}}}
@@ -220,7 +213,8 @@
             :subcat []}}]
 
  ;; TODO: eliminate separate entries here: just have a
- ;; single, underspecified entry.
+ ;; single, underspecified entry: the fem/masc
+ ;; distinction is only needed for nominative pronouns (io,tu,noi,voi,loro)
  "si" [{;; feminine singular
         :synsem {:agr {:person :3rd
                        :gender :fem

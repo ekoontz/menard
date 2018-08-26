@@ -138,26 +138,7 @@
             :agr {:person :3rd
                   :gender :fem
                   :number :plur}
-            :sem {:prop {:human true}
-                  :pred :loro}
-            :subcat []}}
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :masc
-                  :number :plur}
-            :sem {:prop {:human true}
-                  :pred :loro}
-            :subcat []}}
-  {:synsem {:cat :noun
-            :pronoun true
-            :case :nom
-            :agr {:person :3rd
-                  :gender :fem
-                  :number :plur}
-            :sem {:prop {:human false}
-                  :pred :loro}
+            :sem {:pred :loro}
             :subcat []}}
   {:synsem {:cat :noun
             :pronoun true

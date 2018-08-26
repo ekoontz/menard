@@ -248,10 +248,6 @@
                               :tense :present}
                         :subcat []}})))
 
-(defn basecamp []
-  (repeatedly
-   #(println (morph (time (with-shrunken-model))))))
-
 (defn svegliarsi []
   (repeatedly 
    #(println (pprint
@@ -278,3 +274,31 @@
                 {:m (morph expr)
                  :ps (morph-ps expr)})))))
 
+(defn with-shrunken-model-2 []
+  (binding [babel.generate/truncate? true
+            babel.generate/println? false
+            babel.generate/index-fn (:index-fn model)
+            babel.generate/morph-ps (:morph-ps model)
+            babel.generate/grammar
+            (filter
+             (fn [rule]
+               (or 
+                (= (:rule rule) "s-aux")
+                (= (:rule rule) "noun-phrase1")
+                (= (:rule rule) "noun-phrase2")
+                (= (:rule rule) "nbar1")
+                (= (:rule rule) "nbar2")
+                (= (:rule rule) "vp-pronoun-phrasal")
+                (= (:rule rule) "vp-32")
+                (= (:rule rule) "vp-aux-22-phrasal-comp")))
+             (:grammar model))]
+    (generate {:modified false
+               :root {:italiano {:italiano "chiamarsi"}}
+               :synsem {:cat :verb
+                        :sem {:aspect :progressive
+                              :tense :present}
+                        :subcat []}})))
+
+(defn basecamp []
+  (repeatedly
+   #(println (morph (time (with-shrunken-model-2))))))

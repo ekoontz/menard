@@ -633,6 +633,7 @@
                                     :number :sing
                                     :spec {:def :def}}
                               :pred :in-front-of
+                              :aspect :simple
                               :tense :present
                               :subj {:pred :chair
                                      :mod []

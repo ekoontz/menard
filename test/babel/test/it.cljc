@@ -626,17 +626,21 @@
            "davanti il tavolo"))))
 
 (deftest furniture-sentence
-  (let [expr (generate {:synsem {:sem {:obj {:pred :table :mod [] :spec {:def :def}
-                                             :number :sing}
-                                       :pred :in-front-of
-                                       :subj {:pred :chair :mod [] :spec {:def :def}
-                                              :number :sing}
-                                       :tense :present
-                                       :aspect :simple}
-                                 :cat :verb
-                                 :subcat []}
-                        :comp {:synsem {:agr {:person :3rd}}}
-                        :modified false})]
+  (let [expr (generate
+              {:synsem {:cat :verb
+                        :sem {:obj {:pred :table
+                                    :mod []
+                                    :number :sing
+                                    :spec {:def :def}}
+                              :pred :in-front-of
+                              :tense :present
+                              :subj {:pred :chair
+                                     :mod []
+                                     :number :sing
+                                     :spec {:def :def}}}
+                        :subcat []}
+               :comp {:synsem {:agr {:person :3rd}}}
+               :modified false})]
     (is (= (morph expr)
            "la sedia è davanti il tavolo"))))
 

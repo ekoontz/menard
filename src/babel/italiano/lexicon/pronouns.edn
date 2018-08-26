@@ -74,8 +74,7 @@
             :sem {:prop {:human true}
                   :pred :lei}
             :subcat []}
-   :italiano {:initial true}}   ;; TODO: verify that 'la' above and this below are being unified correctly.
-  
+   :italiano {:initial true}}   
 
   ;; 2. pronoun: non-human
   {:synsem {:cat :noun

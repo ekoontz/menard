@@ -59,15 +59,13 @@
   (let [parse (-> "the small dogs you see" parse first)]
     (pprint (u/get-in parse [:synsem :sem]))))
 
-(defn refresh [& [refresh-lexicon? rebuild-lexicon?]]
-  (let [refresh-lexicon? (or refresh-lexicon? rebuild-lexicon? false)]
-    (babel.test.test/init-db)
-    (if rebuild-lexicon? (println (str "wrote: "
-                                       (babel.lexiconfn/write-lexicon "en" (babel.english.grammar/compile-lexicon))
-                                       " items.")))
-    (if refresh-lexicon? (babel.lexiconfn/write-lexicon "en" (babel.english.grammar/compile-lexicon)))
-    (babel.directory/refresh-models)
-    (load "../english")))
+(defn refresh [& [refresh-lexicon?]]
+  (babel.test.test/init-db)
+  (if refresh-lexicon? (println (str "wrote: "
+                                     (babel.lexiconfn/write-lexicon "en" (babel.english.grammar/compile-lexicon))
+                                     " items.")))
+  (babel.directory/refresh-models)
+  (load "../english"))
 
 (defn get-rule [rule]
   (-> model :grammar-map

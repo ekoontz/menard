@@ -203,12 +203,14 @@
 (defn nextcamp []
   (basecamp))
 
-(defn refresh [& refresh-lexicon?]
-  (let [refresh-lexicon? (or refresh-lexicon? false)]
-    (babel.test.test/init-db)
-    (if refresh-lexicon? (babel.lexiconfn/write-lexicon "it" (babel.italiano.lexicon/compile-lexicon)))
-    (babel.directory/refresh-models)
-    (load "../italiano")))
+
+(defn refresh [& [refresh-lexicon?]]
+  (babel.test.test/init-db)
+  (if refresh-lexicon? (println (str "wrote: "
+                                     (babel.lexiconfn/write-lexicon "it" (babel.italiano.lexicon/compile-lexicon))
+                                     " items.")))
+  (babel.directory/refresh-models)
+  (load "../italiano"))
 
 ;;(map #(println (morph %)) (grow (sprouts spec model) model))
 (defn get-rule [rule]

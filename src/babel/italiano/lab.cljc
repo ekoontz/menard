@@ -239,16 +239,42 @@
                (or
                 (= (:rule rule) "s-aux")
                 (= (:rule rule) "vp-pronoun-phrasal")
-                (= (:rule rule) "vp-aux-22")))
-             (:grammar model))
-
-            babel.generate/model model]
+                (= (:rule rule) "vp-aux-22-nonphrasal-comp")))
+             (:grammar model))]
     (generate {:modified false
                :root {:italiano {:italiano "radersi"}}
                :synsem {:cat :verb
                         :sem {:aspect :perfect
                               :tense :present}
                         :subcat []}})))
+
 (defn basecamp []
   (repeatedly
    #(println (morph (time (with-shrunken-model))))))
+
+(defn svegliarsi []
+  (repeatedly 
+   #(println (pprint
+              (let [expr 
+                    (time (generate {:modified false, 
+                                     :synsem {:cat :verb, :subcat []
+                                              :sem {:tense :present, :aspect :progressive}}, 
+                                     :root {:italiano {:italiano "svegliarsi"}}
+                                     :comp {:phrasal false}}
+                                    model))]
+                {:m (morph expr)
+                 :ps (morph-ps expr)})))))
+
+(defn chiamarsi []
+  (repeatedly 
+   #(println (pprint
+              (let [expr 
+                    (time (generate {:modified false, 
+                                     :synsem {:cat :verb, :subcat []
+                                              :sem {:tense :present, :aspect :progressive}}, 
+                                     :root {:italiano {:italiano "chiamarsi"}}
+                                     :comp {:phrasal false}}
+                                    model))]
+                {:m (morph expr)
+                 :ps (morph-ps expr)})))))
+

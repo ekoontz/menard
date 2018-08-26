@@ -4,9 +4,14 @@
             :pronoun true
             :agr {:person :1st
                   :number :plur}
-            :reflexive true
-            :sem {:human true
-                  :pred :noi}}}
+            ;; note: no '[:sem :pred]' here:
+            ;; reflexive pronouns should not have
+            ;; an explicit pred: they structure-share
+            ;; the pred with the subject,
+            ;; e.g. "Luisa e io ci svegliamo",
+            ;; the [:sem :pred] is :luisa-e-io, not :noi.
+            :reflexive true}}
+
   ;; singular "ci" is contracted to c' (e.g. 'c'è')
   {:synsem {:cat :noun
             :pronoun true

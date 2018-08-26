@@ -30,7 +30,7 @@
             :agr {:gender :masc
                   :person :1st
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :giovanni-and-i}
             :subcat []}}]
  "io"
@@ -41,7 +41,7 @@
                   :person :1st
                   :number :sing}
             :sem {:pred :I
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}
 
   {:synsem {:cat :noun
@@ -51,7 +51,7 @@
                   :person :1st
                   :number :sing}
             :sem {:pred :I
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}]
 
  "la"
@@ -65,11 +65,11 @@
             :agr {:gender :fem
                   :person :3rd
                   :number :sing}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :lei}
             :subcat []}
-   :italiano {:initial true   ;; TODO: verify that 'la' above and this below are being unified correctly.
-              }}
+   :italiano {:initial true}}   ;; TODO: verify that 'la' above and this below are being unified correctly.
+  
 
   ;; 2. pronoun: non-human
   {:synsem {:cat :noun
@@ -79,7 +79,7 @@
             :agr {:gender :fem
                   :person :3rd
                   :number :sing}
-            :sem {:human false
+            :sem {:prop {:human false}
                   :place false ;; "they go to it (loro vanna a la)" sounds strange
                   :pred :lei}
             :subcat []}
@@ -95,9 +95,9 @@
                         :sem {:pred :lei} ;; note: we don't specify human=true (english "it").
                         :subcat []}}]
    [{:unify [common]
-     :synsem {:sem {:human false}}}
+     :synsem {:sem {:prop {:human false}}}}
     {:unify [common]
-     :synsem {:sem {:human true}}}])
+     :synsem {:sem {:prop {:human true}}}}])
 
  ;; as with "la", do we need both of these "lo" entries? try to get by with just one.
  "lo"
@@ -108,7 +108,7 @@
             :agr {:gender :masc
                   :person :3rd
                   :number :sing}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :lui}
             :subcat []}}
 
@@ -119,12 +119,12 @@
             :agr {:gender :masc
                   :person :3rd
                   :number :sing}
-            :sem {:human false
-                  :place false
+            :sem {:prop {:human false
+                         :place false}
                   :pred :lui}
             :subcat []}
-   :italiano {:initial true}}  ;; TODO: verify that 'lo' above and this below are being unified correctly.
-  ]
+   :italiano {:initial true}}]  ;; TODO: verify that 'lo' above and this below are being unified correctly.
+ 
 
  "loro"
  [{:synsem {:cat :noun
@@ -133,7 +133,7 @@
             :agr {:person :3rd
                   :gender :fem
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :loro}
             :subcat []}}
   {:synsem {:cat :noun
@@ -142,7 +142,7 @@
             :agr {:person :3rd
                   :gender :masc
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :loro}
             :subcat []}}
   {:synsem {:cat :noun
@@ -151,7 +151,7 @@
             :agr {:person :3rd
                   :gender :fem
                   :number :plur}
-            :sem {:human false
+            :sem {:prop {:human false}
                   :pred :loro}
             :subcat []}}
   {:synsem {:cat :noun
@@ -160,10 +160,10 @@
             :agr {:person :3rd
                   :gender :masc
                   :number :plur}
-            :sem {:human false
+            :sem {:prop {:human false}
                   :pred :loro}
-            :subcat []}}
-  ]
+            :subcat []}}]
+ 
 
  "lui" (let [common {:synsem {:cat :noun
                               :pronoun true
@@ -174,9 +174,9 @@
                               :sem {:pred :lui} ;; note: we don't specify human=true (english "it").
                               :subcat []}}]
          [{:unify [common]
-           :synsem {:sem {:human false}}}
+           :synsem {:sem {:prop {:human false}}}}
           {:unify [common]
-           :synsem {:sem {:human true}}}])
+           :synsem {:sem {:prop {:human true}}}}])
 
  "Luisa e io"
  [{:synsem {:cat :noun
@@ -185,7 +185,7 @@
             :agr {:gender :fem
                   :person :1st
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :luisa-and-i}
             :subcat []}}
   {:synsem {:cat :noun
@@ -194,7 +194,7 @@
             :agr {:gender :masc
                   :person :1st
                   :number :plur}
-            :sem {:human true
+            :sem {:prop {:human true}
                   :pred :luisa-and-i}
             :subcat []}}]
  "mi"
@@ -205,7 +205,7 @@
                         :case :acc
                         :agr {:person :1st
                               :number :sing}
-                        :sem {:human true
+                        :sem {:prop {:human true}
                               :pred :I}}
                :italiano {:initial true}}]
    [{:unify [common]
@@ -221,7 +221,7 @@
                   :person :1st
                   :number :plur}
             :sem {:pred :noi
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
@@ -230,9 +230,11 @@
                   :person :1st
                   :number :plur}
             :sem {:pred :noi
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}]
 
+ ;; TODO: eliminate separate entries here: just have a
+ ;; single, underspecified entry.
  "si" [{;; feminine singular
         :synsem {:agr {:person :3rd
                        :gender :fem
@@ -263,14 +265,14 @@
                         :case :acc
                         :agr {:person :2nd
                               :number :sing}
-                        :sem {:human true
+                        :sem {:prop {:human true}
                               :pred :tu}}
                :italiano {:initial true}}]
    [{:unify [common]
      :synsem {:reflexive true}}
     {:unify [common]
      :synsem {:reflexive false}}])
-   
+ 
  "tu"
  [{:synsem {:cat :noun
             :pronoun true
@@ -279,7 +281,7 @@
                   :gender :fem
                   :number :sing}
             :sem {:pred :tu
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
@@ -288,7 +290,7 @@
                   :gender :masc
                   :number :sing}
             :sem {:pred :tu
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}]
  "vi"
  {:synsem {:cat :noun
@@ -296,7 +298,7 @@
            :case :acc
            :agr {:person :2nd
                  :number :plur}
-           :sem {:human true
+           :sem {:prop {:human true}
                  :pred :voi}
            :subcat []}
   :italiano {:initial true}}
@@ -309,7 +311,7 @@
                   :gender :fem
                   :number :plur}
             :sem {:pred :voi
-                  :human true}
+                  :prop {:human true}}
             :subcat []}}
   {:synsem {:cat :noun
             :pronoun true
@@ -318,6 +320,6 @@
                   :gender :masc
                   :number :plur}
             :sem {:pred :voi
-                  :human true}
-            :subcat []}}]
- }
+                  :prop {:human true}}
+            :subcat []}}]}
+ 

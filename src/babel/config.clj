@@ -1,8 +1,6 @@
 (ns babel.config
   (:require
-   [clojure.data.json :as json]
-   [clojure.string :as string]
-   [dag_unify.core :refer [unify]]))
+   [clojure.string :as string]))
 
 (declare short-language-name-to-edn)
 (declare short-language-name-to-long)

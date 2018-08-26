@@ -102,7 +102,7 @@
        (grow (rest trees))))))
 
 (defn frontier
-  "get the next path to which to adjoin within _tree_."
+  "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
   (cond
     (= (u/get-in tree [::done?]) true)

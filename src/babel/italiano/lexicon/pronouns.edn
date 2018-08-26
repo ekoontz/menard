@@ -7,6 +7,7 @@
             :reflexive true
             :sem {:human true
                   :pred :noi}}}
+  ;; singular "ci" is contracted to c' (e.g. 'c'è')
   {:synsem {:cat :noun
             :pronoun true
             :case :nom

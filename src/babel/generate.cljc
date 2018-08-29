@@ -136,9 +136,12 @@
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))
     (let [parent-rule (first parent-rules)
+          parent-cat (u/get-in parent-rule [:synsem :cat])
           phrases-with-phrasal-head #(map (fn [child]
                                             (u/assoc-in parent-rule [:head] child))
-                                          grammar)
+                                          (filter (fn [grammar-rule]
+                                                    (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
+                                                  grammar))
           phrases-with-lexical-heads #(map (fn [child]
                                              (u/assoc-in parent-rule [:head] child))
                                            (get-lexemes (unify

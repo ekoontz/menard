@@ -319,6 +319,7 @@
               :english {:future "be missed"
                         :present-progressive :avoid
                         :participle "being missed"
+                        :past-participle "been missed"
                         :conditional "be missed"
                         :imperfect {:1sing "was being missed"
                                     :2sing "were being missed"
@@ -366,6 +367,7 @@
                         :subcat {:2 []}}
                :english {:future "be necessary"
                          :participle "being necessary"
+                         :past-participle "been necessary"
                          :conditional "be necessary"
                          :imperfect {:1sing "was being necessary"
                                      :2sing "were being necessary"
@@ -393,6 +395,7 @@
                          :subcat {:2 []}}
                 :english {:future "be pleasant"
                           :participle "being pleasant"
+                          :past-participle "been pleasant"
                           :conditional "be pleasant"
                           :imperfect {:1sing "was being pleasant"
                                       :2sing "were being pleasant"

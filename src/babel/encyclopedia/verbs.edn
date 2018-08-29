@@ -33,6 +33,10 @@
   :subj {:prop {:human true}}
   :iobj {:prop {:human true}}}
 
+
+ {:pred :believe
+  :subj {:prop {:human true}}}
+ 
  {:pred :boil
   :subj {:prop {:human true}}
   :obj {:prop {:liquid true

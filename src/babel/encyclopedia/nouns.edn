@@ -238,7 +238,7 @@
                            :clothing false
                            :consumable false
                            :mass true
-                           :physical-object
+                           :physical-object false
                            :place false}}
  
  {:pred :name}     {:prop {:physical-object false

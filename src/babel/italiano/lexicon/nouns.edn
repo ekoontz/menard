@@ -176,7 +176,7 @@
  "madre"
  {:synsem {:agr {:gender :fem}
            :cat :noun
-           :sem {:pred :madre}}}
+           :sem {:pred :mother}}}
 
  "mucca"
  {:synsem {:agr {:gender :fem}

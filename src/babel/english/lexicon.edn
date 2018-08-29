@@ -576,8 +576,7 @@
            {:unify [common] ;; transitive "chatted with <human>"
             :share-sem :obj
             :synsem {:subcat {:2 {:cat :prep
-                                  :sem {:obj {:prop {:human true}}
-                                        :pred :with}
+                                  :sem {:pred :with}
                                   :subcat []}}}}])
 
  "charge" {:synsem {:cat :verb
@@ -853,9 +852,7 @@
 
  "father" {:synsem {:cat :noun
                     :agr {:gender :masc}
-                    :sem {:prop {:human true
-                                 :child false}
-                          :pred :father}}}
+                    :sem {:pred :father}}}
 
  "fill" {:synsem {:cat :verb
                   :sem {:pred :fill}}}
@@ -1216,9 +1213,7 @@
 
  "help"
  {:synsem {:cat :verb
-           :sem {:pred :help
-                 :activity true
-                 :obj {:prop {:human true}}}
+           :sem {:pred :help}
            :subcat {:1 {:cat :noun}
                     :2 {:cat :noun}}}}
  "her"
@@ -1293,8 +1288,7 @@
   :english {:past "held"}}
 
  "hope" (let [common {:synsem {:cat :verb
-                               :subcat {:1 {:cat :noun
-                                            :sem {:prop {:human true}}}}}}]
+                               :subcat {:1 {:cat :noun}}}}]
           [{:unify [common]
             :synsem {:sem {:pred :hope}
                      :subcat {:2 []}}} ;; intransitive
@@ -1623,9 +1617,7 @@
  "man" {:english {:plur "men"}
         :synsem {:agr {:gender :masc}
                  :cat :noun
-                 :sem {:prop {:human true
-                              :child false}
-                       :pred :man}}}
+                 :sem {:pred :man}}}
 
  "manage" {:synsem {:cat :verb
                     :sem {:pred :manage}}}
@@ -1690,7 +1682,7 @@
                     :cat :noun
                     :sem {:prop {:human true
                                  :child false}
-                          :pred :madre}}}
+                          :pred :mother}}}
 
  "move" {:synsem {:cat :verb
                   :sem {:pred :move}}}
@@ -1702,11 +1694,7 @@
  ;; [:sem :mass]=true should be sufficient.
  "music" {:synsem {:agr {:number :sing}
                    :cat :noun
-                   :sem {:pred :music
-                         :animate false
-                         :physical-object false
-                         :place false
-                         :mass true}}}
+                   :sem {:pred :music}}}
 
  "must" {:english {:participle "having to"
                    :present-progressive :avoid

@@ -33,7 +33,6 @@
   :subj {:prop {:human true}}
   :iobj {:prop {:human true}}}
 
-
  {:pred :believe
   :subj {:prop {:human true}}}
  
@@ -165,6 +164,13 @@
   :reflexive true
   :subj {:prop {:human true}}}
 
+ {:pred :help
+  :activity true
+  :obj {:prop {:human true}}}
+
+ {:pred :hope
+  :subj {:prop {:human true}}}
+ 
  {:pred :hug
   :subj {:prop {:human true}}
   :obj {:prop {:animate true}}}

@@ -28,19 +28,19 @@
                                    :physical-object true}}
  
  {:prop {:buyable true}}   {:prop {:human false
-                                  :part-of-human-body false}}
+                                   :part-of-human-body false}}
  
  {:prop {:city true}}      {:prop {:artifact true
-                                  :animate false
-                                  :legible false
-                                  :place true}}
+                                   :animate false
+                                   :legible false
+                                   :place true}}
  
-  {:prop {:clothing true}} {:prop {:animate false
-                                   :artifact true
-                                   :consumable false
-                                   :machine false
-                                   :place false
-                                   :physical-object true}}
+ {:prop {:clothing true}} {:prop {:animate false
+                                  :artifact true
+                                  :consumable false
+                                  :machine false
+                                  :place false
+                                  :physical-object true}}
  {:prop {:consumable
          false}}           {:prop {:drinkable false
                                    :edible false}}
@@ -48,15 +48,15 @@
          true}}           {:prop {:activity false
                                   :buyable true
                                   :clothing false
-                                   :furniture false
-                                   :legible false
-                                   :human false
-                                   :machine false
-                                   :part-of-human-body false
-                                   :pet false
-                                   :physical-object true
-                                   :place false
-                                   :speakable false}}
+                                  :furniture false
+                                  :legible false
+                                  :human false
+                                  :machine false
+                                  :part-of-human-body false
+                                  :pet false
+                                  :physical-object true
+                                  :place false
+                                  :speakable false}}
  
  {:prop {:drinkable true}} {:prop {:animate false
                                    :consumable true
@@ -67,9 +67,9 @@
                                    :drinkable false}}
  
  {:prop {:event true}}     {:prop {:buyable false
-                                  :physical-object false
-                                  :speakable false}}
-                           
+                                   :physical-object false
+                                   :speakable false}}
+ 
  {:prop {:furniture true}} {:prop {:artifact true
                                    :animate false
                                    :buyable true
@@ -81,7 +81,7 @@
                                    :place false
                                    :physical-object true
                                    :speakable false}}
-   
+ 
  {:prop {:human true}}     {:prop {:animate true
                                    :artifact false
                                    :buyable false
@@ -96,10 +96,10 @@
          true}}            {:prop {:animate true}}
  
  {:prop {:living false}}   {:prop {:animate false
-                                  :human false}}
+                                   :human false}}
  
  {:prop {:living true}}    {:prop {:artifact false
-                                  :place false}}
+                                   :place false}}
  
  {:prop {:machine true}}   {:prop {:artifact true
                                    :consumable false}}
@@ -122,7 +122,7 @@
                                    :living false}}
  {:prop {:physical-object
          true}}             {:prop {:event false
-                                   :speakable false}}
+                                    :speakable false}}
  
  {:prop {:place true}}     {:prop {:activity false
                                    :consumable false
@@ -192,6 +192,9 @@
  {:pred :espresso} {:prop {:artifact true
                            :drinkable true}}
  
+ {:pred :father}   {:prop {:human true
+                           :child false}}
+ 
  {:pred :game}     {:prop {:activity true
                            :event true
                            :games true
@@ -212,7 +215,7 @@
  
  {:pred :island}  {:prop {:artifact false
                           :place true}}
-                   
+ 
  {:pred :key}      {:prop {:artifact true
                            :clothing false
                            :consumable false
@@ -220,13 +223,23 @@
                            :machine false
                            :place false}}
  
+ {:pred :man}      {:prop {:human true
+                           :child false}}
+
  {:pred :meeting}  {:prop {:clothing false
                            :consumable false
                            :living false
                            :machine false}}
  
- {:pred :music}    {:prop {:clothing false
-                           :consumable false}}
+ {:pred :mother}   {:prop {:human true
+                           :child false}}
+
+ {:pred :music}    {:prop {:animate false
+                           :clothing false
+                           :consumable false
+                           :mass true
+                           :physical-object
+                           :place false}}
  
  {:pred :name}     {:prop {:physical-object false
                            :event false}}
@@ -252,7 +265,7 @@
  {:pred :sigh}     {:prop {:artifact false
                            :physical-object false
                            :event true}}
-                    
+ 
  {:pred :shoe}     {:prop {:clothing true}}
  
  {:pred :student}  {:prop {:human true}}
@@ -279,11 +292,11 @@
  ;; </preds>
  
  {:prop {:stupid true}}
-                   {:prop {:animate true}}
+ {:prop {:animate true}}
  
  {:prop {:time true}}
-                   {:prop {:activity false
-                           :living false
-                           :place false}}
- }
+ {:prop {:activity false
+         :living false
+         :place false}}}
+ 
 

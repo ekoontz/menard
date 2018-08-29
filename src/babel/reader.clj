@@ -143,12 +143,14 @@
                   (->>
                    ((:index-fn target-model) spec)
                    (filter lexical-filter-fn)))})
-        
         target-expression
         (target-timing-fn
-         (binding [babel.generate/truncate? true]
+         (binding [babel.generate/truncate? true
+                   babel.generate/grammar
+                   (filter
+                    #(= (u/get-in % [:synsem :cat]) :verb)
+                    (:grammar target-model))]
            (babel.generate/generate target-spec target-model)))
-        
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
          (u/unify
@@ -160,7 +162,11 @@
         source-model @@(get models source-language)
         source-expression
         (source-timing-fn
-         (binding [babel.generate/truncate? true]
+         (binding [babel.generate/truncate? true
+                   babel.generate/grammar
+                   (filter
+                    #(= (u/get-in % [:synsem :cat]) :verb)
+                    (:grammar source-model))]
            (generate source-spec source-model)))]
     (let [pairing
           {:target ((:morph target-model) target-expression)

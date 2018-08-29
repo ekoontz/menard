@@ -15,13 +15,13 @@
                         (log/debug (str "branch at: " % "? => " result))
                         result))
 
-(def ^:dynamic default-fn (fn [x] [x]))
-(def ^:dynamic grammar)
+(def ^:dynamic default-fn nil)
+(def ^:dynamic grammar nil)
 (def ^:dynamic index-fn nil)
-(def ^:dynamic lexicon)
-(def ^:dynamic morph-ps)
-(def ^:dynamic println? false)
-(def ^:dynamic truncate? false)
+(def ^:dynamic lexicon nil)
+(def ^:dynamic morph-ps nil)
+(def ^:dynamic println? nil)
+(def ^:dynamic truncate? nil)
 
 (declare assoc-children)
 (declare frontier)
@@ -34,24 +34,22 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
-   (first (gen spec)))
+   (do (log/info (str "generating with spec: " spec))
+       (first (gen spec))))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [default-fn (if (:default-fn model)
-                          (:default-fn model)
-                          (fn [x] [x]))
-             grammar (:grammar model)
-             index-fn (if (:index-fn model)
-                        (:index-fn model)
-                        (do
-                          (log/warn (str "no index available for this model: using entire lexicon."))
-                          (fn [spec]
-                            (flatten (vals
-                                      (or (:lexicon (:generate model))
-                                          (:lexicon model)))))))
-             morph-ps (:morph-ps model)]
+   (binding [default-fn (or default-fn (:default-fn model) (fn [x] [x]))
+             grammar (or grammar (:grammar model))
+             index-fn (or index-fn (:index-fn model)
+                          (do
+                            (log/warn (str "no index available for this model: using entire lexicon."))
+                            (fn [spec]
+                              (flatten (vals)
+                                       (or (:lexicon (:generate model))
+                                           (:lexicon model))))))
+             morph-ps (or morph-ps (:morph-ps model))]
      (first (gen spec)))))
 
 (defn gen
@@ -126,9 +124,9 @@
   ;; get all rules that match input _spec_:
   (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
   (let [matching-rules
-        (shuffle (->> grammar
-                      (map #(unify % spec))
-                      (filter #(not (= :fail %)))))]
+        (->> grammar
+             (map #(unify % spec))
+             (filter #(not (= :fail %))))]
     (->> matching-rules
          ;; 2. try to add heads to each matching rule:
          (parent-with-head-1 spec depth)

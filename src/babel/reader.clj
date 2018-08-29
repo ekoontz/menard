@@ -121,7 +121,7 @@
                              (fn [x] x))
         
         basic-spec {:synsem {:subcat []
-                             :sem {:subj {:city false}}
+                             :sem {:subj {:prop {:city false}}}
                              :cat :verb}
                     :modified false}
         target-spec (unify target-spec basic-spec)

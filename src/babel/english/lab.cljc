@@ -12,6 +12,20 @@
 (defn parse [surface-string]
   (english/parse surface-string model false)) ;; false: don't truncate.
 
+(defn nursery
+  "very fast and easy sentences."
+  []
+  (let [spec {:synsem {:cat :verb
+                       :subcat []}
+              :comp {:phrasal false}
+              :head {:phrasal false}}]
+    (repeatedly
+     #(println
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? true]
+                (time (generate spec model)))
+              :show-notes false)))))
+
 (defn downtown []
   (let [specs
         [{:synsem {:cat :verb
@@ -30,7 +44,7 @@
 
 (declare wait)
 
-(defn basecamp []
+(defn relative-clauses []
   ;; TODO: improve performance by using {:mod {:first {:obj :modified}}.
   (let [specs
         [
@@ -54,6 +68,7 @@
                                                 (wait wait-ms-for-generation (fn [] (generate spec model))))))]
                       (or (and (not (empty? result)) result)
                           "TIMEOUT.")))))))
+(defn basecamp [])
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

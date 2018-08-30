@@ -146,10 +146,7 @@
         target-expression
         (target-timing-fn
          (binding [babel.generate/truncate? true
-                   babel.generate/grammar
-                   (filter
-                    #(= (u/get-in % [:synsem :cat]) :verb)
-                    (:grammar target-model))]
+                   babel.generate/println? true]
            (babel.generate/generate target-spec target-model)))
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
@@ -162,11 +159,7 @@
         source-model @@(get models source-language)
         source-expression
         (source-timing-fn
-         (binding [babel.generate/truncate? true
-                   babel.generate/grammar
-                   (filter
-                    #(= (u/get-in % [:synsem :cat]) :verb)
-                    (:grammar source-model))]
+         (binding [babel.generate/truncate? true]
            (generate source-spec source-model)))]
     (let [pairing
           {:target ((:morph target-model) target-expression)

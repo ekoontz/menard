@@ -108,6 +108,15 @@
                   (u/assoc-in! tree [:head :head] lexeme))))
          (filter #(not (= :fail %))))))
 
+(defn basecamp-at [tree path]
+  (->> (-> lexemes
+           shuffle)
+       (map (fn [lexeme]
+              (let [tree (u/copy tree)
+                    lexeme (u/copy lexeme)]
+                (u/assoc-in! tree path lexeme))))
+       (filter #(not (= :fail %)))))
+
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]
     (pprint (u/get-in parse [:synsem :sem]))))

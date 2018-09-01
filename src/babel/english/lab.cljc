@@ -96,26 +96,35 @@
 
 (def the-static-tree (create-the-static-tree))
 
-(def lexemes (flatten (vals (:lexicon model))))
+(def lexemes
+  (flatten (vals (:lexicon model))))
 
 (defn basecamp []
   (let [tree the-static-tree]
-    (->> (-> lexemes
-             shuffle)
-         (map (fn [lexeme]
-                (let [tree (u/copy tree)
-                      lexeme (u/copy lexeme)]
-                  (u/assoc-in! tree [:head :head] lexeme))))
-         (filter #(not (= :fail %))))))
-
+    (morph (-> tree
+               (basecamp-at [:head :head])
+               (u/dissoc-paths [[:head :head]])
+               (basecamp-at [:head :comp :head :head])
+               (u/dissoc-paths [[:head :comp :head :head]])
+               (basecamp-at [:head :comp :head :comp])
+               (u/dissoc-paths [[:head :comp :head]])
+               (basecamp-at [:head :comp :comp])
+               (u/dissoc-paths [[:head]])
+               (basecamp-at [:comp :head :head])
+               (u/dissoc-paths [[:comp :head :head]])
+               (basecamp-at [:comp :head :comp])
+               (u/dissoc-paths [[:comp :head]])
+               (basecamp-at [:comp :comp])
+               (u/dissoc-paths [[:comp]])))))
+            
 (defn basecamp-at [tree path]
-  (->> (-> lexemes
-           shuffle)
-       (map (fn [lexeme]
-              (let [tree (u/copy tree)
-                    lexeme (u/copy lexeme)]
-                (u/assoc-in! tree path lexeme))))
-       (filter #(not (= :fail %)))))
+  (println (str "@" path))
+  (first (->> (shuffle lexemes)
+              (map (fn [lexeme]
+                     (let [tree (u/copy tree)
+                           lexeme (u/copy lexeme)]
+                        (u/assoc-in! tree path lexeme))))
+              (filter #(not (= :fail %))))))
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

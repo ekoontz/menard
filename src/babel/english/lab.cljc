@@ -80,7 +80,33 @@
                                                         (generate spec model))))))]
                       (or (and (not (empty? result)) result)
                           "TIMEOUT.")))))))
-(defn basecamp [])
+
+(defn create-the-static-tree []
+  (-> (-> model :grammar-map :sentence-phrasal-head)
+      (u/assoc-in [:head]
+                  (-> model :grammar-map :transitive-vp-nonphrasal-head))
+      (u/assoc-in [:comp]
+                  (-> model :grammar-map :noun-phrase))
+      (u/assoc-in [:comp :head]
+                  (-> model :grammar-map :nbar))
+      (u/assoc-in [:head :comp]
+                  (-> model :grammar-map :noun-phrase))
+      (u/assoc-in [:head :comp :head]
+                  (-> model :grammar-map :nbar))))
+
+(def the-static-tree (create-the-static-tree))
+
+(defn basecamp []
+  (let [tree the-static-tree]
+    (let [trees-with-see
+          (filter #(not (= :fail %))
+                  (map (fn [lexeme]
+                         (let [tree (u/copy tree)
+                               lexeme (u/copy lexeme)]
+                           (u/assoc-in! tree [:head :head] lexeme)))
+                       (first (take 1 (shuffle [(get (:lexicon model) "eat")
+                                                (get (:lexicon model) "see")])))))]
+      (first trees-with-see))))
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

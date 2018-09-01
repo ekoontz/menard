@@ -46,26 +46,38 @@
 
 (defn relative-clauses []
   ;; TODO: improve performance by using {:mod {:first {:obj :modified}}.
-  (let [specs
-        [
-         {:synsem {:cat :verb :subcat []}
-          :comp {:phrasal true :rule "noun-phrase"
+  (let [tree-spec
+         {:rule "sentence-nonphrasal-head"
+          :phrasal true
+          :comp {:phrasal true
+                 :rule "noun-phrase"
                  :head {:rule "nbar-s-obj"
-                        :head {:rule "nbar"}
-                        :comp {:rule "s/obj"}}
-                 :synsem {:sem {:mod {:first {:pred :eat}
-                                      :rest {:first {:pred :red
-                                                     :rest []}}}}}}}
-         {:synsem {:cat :verb :subcat []}
-          :comp {:phrasal true :rule "noun-phrase"
-                 :head {:rule "nbar-s-obj"}
-                 :synsem {:sem {:mod {:first {:pred :see}
-                                      :rest {:first {:pred :tall
-                                                     :rest []}}}}}}}]]
+                        :phrasal true
+                        :head {:rule "nbar"
+                               :phrasal true
+                               :comp {:phrasal false}
+                               :head {:phrasal false}}
+                        :comp {:rule "s/obj"
+                               :head {:phrasal false}
+                               :comp {:phrasal false}
+                               :phrasal true}}}}
+        meaning-spec
+        {:comp {:phrasal true}
+         :synsem {:cat :verb
+                  :subcat []
+                  :sem {:pred :sleep
+                        :subj {:mod {:first {:pred :see}
+                                     :rest {:first {:pred :red}}}}}}}
+        spec (unify tree-spec meaning-spec)
+        spec meaning-spec]
+         
     (repeatedly #(println
-                  (let [spec (first (shuffle specs))]
-                    (let [result (morph (time (binding [babel.generate/truncate? true]
-                                                (wait wait-ms-for-generation (fn [] (generate spec model))))))]
+                  (let [spec spec]
+                    (let [result (morph-ps (time (binding [babel.generate/println? false]
+                                                        babel.generate/truncate? false
+                                                   (wait wait-ms-for-generation
+                                                      (fn []
+                                                        (generate spec model))))))]
                       (or (and (not (empty? result)) result)
                           "TIMEOUT.")))))))
 (defn basecamp [])

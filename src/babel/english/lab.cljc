@@ -96,17 +96,17 @@
 
 (def the-static-tree (create-the-static-tree))
 
+(def lexemes (flatten (vals (:lexicon model))))
+
 (defn basecamp []
   (let [tree the-static-tree]
-    (let [trees-with-see
-          (filter #(not (= :fail %))
-                  (map (fn [lexeme]
-                         (let [tree (u/copy tree)
-                               lexeme (u/copy lexeme)]
-                           (u/assoc-in! tree [:head :head] lexeme)))
-                       (first (take 1 (shuffle [(get (:lexicon model) "eat")
-                                                (get (:lexicon model) "see")])))))]
-      (first trees-with-see))))
+    (->> (-> lexemes
+             shuffle)
+         (map (fn [lexeme]
+                (let [tree (u/copy tree)
+                      lexeme (u/copy lexeme)]
+                  (u/assoc-in! tree [:head :head] lexeme))))
+         (filter #(not (= :fail %))))))
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

@@ -723,7 +723,9 @@
                             (dag_unify.core/dissoc-paths structure [[:english :plur]])
                             structure)
 
-                structure (if (= :unspec (dag_unify.core/get-in structure [:synsem :cat]))
+                structure (if (or
+                               (= :noun1 (u/get-in structure [:synsem :cat]))
+                               (= :unspec (u/get-in structure [:synsem :cat])))
                             (dag_unify.core/dissoc-paths structure [[:synsem :cat]])
                             structure)
                 

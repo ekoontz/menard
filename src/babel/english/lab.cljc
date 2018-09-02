@@ -105,19 +105,17 @@
           :subj {:pred :dog
                  :mod {:first {:pred :small}}}}}})
 
+(def basic-spec {:synsem {:subcat []
+                          :cat :verb}})
+
 (def the-static-tree
   (unify
     (create-the-static-tree)
     semantics
-    {:synsem
-     {:sem {:pred :see
-            :obj {:pred :chair
-                  :spec {:def :def}
-                  :mod {:first {:pred :red}}}
-            :subj {:pred :dog
-                   :mod {:first {:pred :small}}}}}}))
+    basic-spec))
 
-;; can be used to determine
+;; can be used to determine how generation speed is affected by
+;; lexicon size
 (def tiny-lexicon
   (filter #(or
             true

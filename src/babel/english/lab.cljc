@@ -104,7 +104,7 @@
 (defn basecamp []
   (let [tree the-static-tree]
     (-> tree
-        (basecamp-at [:head :head] (first (take 1 (shuffle ["see"]))))
+        (basecamp-at [:head :head] (first (take 1 (shuffle ["see" "read"]))))
         (u/dissoc-paths [[:head :head]])
         (basecamp-at [:head :comp :head :head] (first (take 1 (shuffle ["game" "word" "book"]))))
         (u/dissoc-paths [[:head :comp :head :head]])

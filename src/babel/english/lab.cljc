@@ -101,37 +101,42 @@
 
 (def default-fn (:default-fn model))
 
+(defn matching-lexemes [spec]
+  (take 1 (remove #(= :fail %)
+                  (map (fn [lexeme]
+                         (u/unify lexeme spec))
+                       lexemes))))
+
+(declare basecamp-at-spec)
+
 (defn basecamp []
   (let [tree the-static-tree]
     (-> tree
-        (basecamp-at [:head :head] (first (take 1 (shuffle ["see" "read"]))))
+        (basecamp-at-spec [:head :head])
         (u/dissoc-paths [[:head :head]])
-        (basecamp-at [:head :comp :head :head] (first (take 1 (shuffle ["game" "word" "book"]))))
+        (basecamp-at-spec [:head :comp :head :head])
         (u/dissoc-paths [[:head :comp :head :head]])
-        (basecamp-at [:head :comp :head :comp] (first (take 1 (shuffle ["new" "intelligent"]))))
+        (basecamp-at-spec [:head :comp :head :comp])
         (u/dissoc-paths [[:head :comp :head]])
-        (basecamp-at [:head :comp :comp] "the")
+        (basecamp-at-spec [:head :comp :comp])
         (u/dissoc-paths [[:head]])
-        (basecamp-at [:comp :head :head] (first (take 1 (shuffle ["boy" "man" "woman" "girl"]))))
+        (basecamp-at-spec [:comp :head :head])
         (u/dissoc-paths [[:comp :head :head]])
-        (basecamp-at [:comp :head :comp] (first (take 1 (shuffle ["tall" "small" "old"]))))
+        (basecamp-at-spec [:comp :head :comp])
         (u/dissoc-paths [[:comp :head]])
-        (basecamp-at [:comp :comp] "the")
+        (basecamp-at-spec [:comp :comp])
         (u/dissoc-paths [[:comp]]))))
     
-(defn basecamp-at [tree path lexeme-surface-form]
-;;  (println (str "@" path))
-  (first (->> (shuffle (filter #(= lexeme-surface-form
-                                   (u/get-in % [:english :english]))
-                               lexemes))
-              (map (fn [lexeme]
-                     (let [tree (u/copy tree)
-                           lexeme (u/copy lexeme)]
-                        (u/assoc-in! tree path lexeme))))
-              (filter #(not (= :fail %)))
-              (mapcat (fn [tree]
-                        (default-fn tree))))))
-
+(defn basecamp-at-spec [tree path]
+  (let [lexemes (matching-lexemes (u/get-in tree path))]
+    (first (->> (shuffle lexemes)
+                (map (fn [lexeme]
+                      (let [tree (u/copy tree)
+                            lexeme (u/copy lexeme)]
+                         (u/assoc-in! tree path lexeme))))
+                (filter #(not (= :fail %)))
+                (mapcat (fn [tree]
+                           (default-fn tree)))))))
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

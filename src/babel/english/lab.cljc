@@ -94,18 +94,54 @@
       (u/assoc-in [:head :comp :head]
                   (-> model :grammar-map :nbar))))
 
-(def the-static-tree (create-the-static-tree))
+(def semantics
+  {:synsem
+   {:subcat []
+    :cat :verb
+    :sem {:pred :see
+          :obj {:pred :chair
+                :spec {:def :def}
+                :mod {:first {:pred :red}}}
+          :subj {:pred :dog
+                 :mod {:first {:pred :small}}}}}})
 
-(def lexemes
-  (flatten (vals (:lexicon model))))
+(def the-static-tree
+  (unify
+    (create-the-static-tree)
+    semantics
+    {:synsem
+     {:sem {:pred :see
+            :obj {:pred :chair
+                  :spec {:def :def}
+                  :mod {:first {:pred :red}}}
+            :subj {:pred :dog
+                   :mod {:first {:pred :small}}}}}}))
+
+;; can be used to determine
+(def tiny-lexicon
+  (filter #(or
+            true
+            (= "his" (u/get-in % [:english :english]))
+            (= "small" (u/get-in % [:english :english]))
+            (= "dog" (u/get-in % [:english :english]))
+            (= "see" (u/get-in % [:english :english]))
+            (= "those" (u/get-in % [:english :english]))
+            (= "red" (u/get-in % [:english :english]))
+            (= "chair" (u/get-in % [:english :english])))
+          (flatten (vals (:lexicon model)))))
 
 (def default-fn (:default-fn model))
 
+(def use-entire-lexicon true)
+
 (defn matching-lexemes [spec]
-  (take 1 (remove #(= :fail %)
-                  (map (fn [lexeme]
-                         (u/unify lexeme spec))
-                       lexemes))))
+  (let [lexemes (if use-entire-lexicon
+                  ((:index-fn model) spec)
+                  tiny-lexicon)]
+    (take 1 (remove #(= :fail %)
+                    (map (fn [lexeme]
+                           (u/unify lexeme spec))
+                         lexemes)))))
 
 (declare basecamp-at-spec)
 

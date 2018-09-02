@@ -99,20 +99,16 @@
    {:subcat []
     :cat :verb
     :sem {:pred :see
+          :tense :present
+          :aspect :simple
           :obj {:pred :chair
                 :spec {:def :def}
                 :mod {:first {:pred :red}}}
           :subj {:pred :dog
                  :mod {:first {:pred :small}}}}}})
 
-(def basic-spec {:synsem {:subcat []
-                          :cat :verb}})
-
 (def the-static-tree
-  (unify
-    (create-the-static-tree)
-    semantics
-    basic-spec))
+    (create-the-static-tree))
 
 ;; can be used to determine how generation speed is affected by
 ;; lexicon size
@@ -142,24 +138,20 @@
                          lexemes)))))
 
 (declare basecamp-at-spec)
+(declare generate-with-paths)
 
 (defn basecamp []
-  (let [tree the-static-tree]
-    (-> tree
-        (basecamp-at-spec [:head :head])
-        (u/dissoc-paths [[:head :head]])
-        (basecamp-at-spec [:head :comp :head :head])
-        (u/dissoc-paths [[:head :comp :head :head]])
-        (basecamp-at-spec [:head :comp :head :comp])
-        (u/dissoc-paths [[:head :comp :head]])
-        (basecamp-at-spec [:head :comp :comp])
-        (u/dissoc-paths [[:head]])
-        (basecamp-at-spec [:comp :head :head])
-        (u/dissoc-paths [[:comp :head :head]])
-        (basecamp-at-spec [:comp :head :comp])
-        (u/dissoc-paths [[:comp :head]])
-        (basecamp-at-spec [:comp :comp])
-        (u/dissoc-paths [[:comp]]))))
+  (generate-with-paths
+    (unify
+     the-static-tree
+     semantics)
+    [[:head :head]
+     [:head :comp :head :head]
+     [:head :comp :head :comp]
+     [:head :comp :comp]
+     [:comp :head :head]
+     [:comp :head :comp]
+     [:comp :comp]]))
     
 (defn basecamp-at-spec [tree path]
   (let [lexemes (matching-lexemes (u/get-in tree path))]
@@ -171,6 +163,19 @@
                 (filter #(not (= :fail %)))
                 (mapcat (fn [tree]
                            (default-fn tree)))))))
+
+(defn generate-with-paths [tree paths]
+  (if (empty? paths) tree
+      (let [path (first paths)
+            truncate-at
+            (cond (= :head (last path))
+                  (u/dissoc-paths [path])
+                  true
+                  (u/dissoc-paths [(butlast path)]))]
+        (-> tree
+            (basecamp-at-spec path)
+            (u/dissoc-paths [truncate-at])
+            (generate-with-paths (rest paths))))))
 
 (defn nextcamp []
   (let [parse (-> "the small dogs you see" parse first)]

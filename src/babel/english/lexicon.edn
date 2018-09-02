@@ -2484,9 +2484,11 @@
              :synsem  {:cat :verb
                        :sem {:pred :throw-b}}}
             {:unify [common throw-out]
+             :applied {:ditrans false}
              :synsem {:subcat {:2 {:cat :prep
                                    :sem {:pred :out}}}}}
             {:unify [common throw-out]
+             :applied {:ditrans false}
              :synsem {:subcat {:3 {:cat :prep
                                    :sem {:pred :out}}}}}])
 

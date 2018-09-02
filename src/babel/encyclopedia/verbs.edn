@@ -213,7 +213,8 @@
   :subj {:prop {:human true}}}
  
  {:pred :see
-  :subj {:prop {:animate true}}}
+  :subj {:prop {:animate true}}
+  :obj {:prop {:physical-object true}}}
 
  {:pred :sell
   :subj {:prop {:human true}}

@@ -2098,36 +2098,14 @@
  "second" {:synsem {:cat :adjective
                     :sem {:pred :second}}}
 
- "see" (let [common {:english {:past "saw"
-                               :past-participle "seen"
-                               ;; TODO: should be a morphological
-                               ;; generalization, not a lexical exception.
-                               ;; e.g. "flee" => "fleeing"
-                               :participle "seeing"}}]
-         [{:unify [common]
-           :synsem {:cat :verb
-                    :sem {:pred :see
-                          :reflexive false}
-                    :subcat {:1 {:cat :noun
-                                 :sem {:animate true}}
-                             :2 {:cat :noun
-                                 :reflexive false
-                                 :sem {:physical-object true}}}}}
-          (let [obj (atom {:animate true
-                           :physical-object true})
-                agr (atom :top)]
-            {:unify [common]
-             :synsem {:cat :verb
-                      :sem {:pred :see
-                            :reflexive true}
-                      :subcat {:1 {:cat :noun
-                                   :agr agr
-                                   :sem obj}
-                               :2 {:cat :noun
-                                   :pronoun true
-                                   :agr agr
-                                   :sem obj
-                                   :reflexive true}}}})])
+ "see" {:english {:past "saw"
+                  :past-participle "seen"
+                  ;; TODO: should be a morphological
+                  ;; generalization, not a lexical exception.
+                  ;; e.g. "flee" => "fleeing"
+                  :participle "seeing"}
+        :synsem {:cat :verb
+                 :sem {:pred :see}}}
 
  "seem"  {:synsem {:cat :verb
                    :sem {:pred :seem}}}

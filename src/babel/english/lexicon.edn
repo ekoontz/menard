@@ -480,6 +480,10 @@
                         :place false
                         :consumable false}}}}
 
+ "boy" {:synsem {:agr {:gender :masc}
+                 :cat :noun
+                 :sem {:pred :boy}}}
+ 
  "break" {:english {:past "broke"
                     :past-participle "broken"}
           :synsem {:cat :verb
@@ -1018,6 +1022,10 @@
             :sem {:prop {:human true}
                   :pred :giovanni-and-i}
             :subcat []}}]
+
+ "girl" {:synsem {:agr {:gender :fem}
+                  :cat :noun
+                  :sem {:pred :girl}}}
 
  ;; TODO: account for "give" being ditransitive.
  "give" (let [common {:english {:past "gave"

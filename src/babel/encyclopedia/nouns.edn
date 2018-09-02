@@ -163,6 +163,9 @@
                            :clothing false
                            :legible true
                            :machine false}}
+
+ {:pred :boy}      {:prop {:human true
+                           :child true}}
  
  {:pred :bread}    {:prop {:artifact true
                            :edible true}}
@@ -199,6 +202,9 @@
                            :event true
                            :games true
                            :machine false}}
+
+ {:pred :girl}      {:prop {:human true
+                            :child true}}
  
  {:pred :house}    {:prop {:artifact true
                            :clothing false

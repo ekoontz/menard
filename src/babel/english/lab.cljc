@@ -112,7 +112,7 @@
         (u/dissoc-paths [[:head :comp :head]])
         (basecamp-at [:head :comp :comp] "the")
         (u/dissoc-paths [[:head]])
-        (basecamp-at [:comp :head :head] (first (take 1 (shuffle ["man" "woman"]))))
+        (basecamp-at [:comp :head :head] (first (take 1 (shuffle ["boy" "man" "woman" "girl"]))))
         (u/dissoc-paths [[:comp :head :head]])
         (basecamp-at [:comp :head :comp] (first (take 1 (shuffle ["tall" "small" "old"]))))
         (u/dissoc-paths [[:comp :head]])

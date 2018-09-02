@@ -2463,26 +2463,22 @@
                          :of :none}
                    :def :def}}
 
- "throw" (let [common {:english {:past "threw"
+ "throw" (let [common {:synsem {:cat :verb}
+                       :english {:past "threw"
                                  :past-participle "thrown"}}
                throw-out {:phrasal-verb true
-                          :synsem {:cat :verb
-                                   :sem {:pred :throw-out}}}]
+                          :synsem {:sem {:pred :throw-out}}}]
            [{:unify [common]
-             :synsem {:cat :verb
-                      :sem {:pred :throw}}}
+             :synsem {:sem {:pred :throw}}}
             {:unify [common]
              :english {:note "t-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :throw-t}}}
+             :synsem  {:sem {:pred :throw-t}}}
             {:unify [common]
              :english {:note "g-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :throw-g}}}
+             :synsem  {:sem {:pred :throw-g}}}
             {:unify [common]
              :english {:note "b-"}
-             :synsem  {:cat :verb
-                       :sem {:pred :throw-b}}}
+             :synsem  {:sem {:pred :throw-b}}}
             {:unify [common throw-out]
              :applied {:ditrans false}
              :synsem {:subcat {:2 {:cat :prep

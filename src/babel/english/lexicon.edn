@@ -1816,6 +1816,10 @@
            ;; :pronoun=true.
            :subcat []}}
 
+ "out" {:synsem {:cat :prep}
+                :sem {:pred :out}
+                :subcat []}
+ 
  "paint"  {:synsem {:cat :verb
                     :sem {:pred :paint}}}
 

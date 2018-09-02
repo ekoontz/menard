@@ -731,6 +731,11 @@
                 (if structure (unify base-unify structure)
                     base-unify)]
             (log/debug (str "creating lexemes for surface: '" surface "' and with-structure: " with-structure))
+            (if (= :fail with-structure)
+              (let [message (str "fail to unify vocab-entry information: base-unify:" (u/strip-refs base-unify)
+                                        "; vocab structure:" structure)]
+                (log/error message)
+                (throw (Exception. message))))
             (cond
               (or (= vocab-cat "nounplurf")
                   (= vocab-cat "nounplurm")

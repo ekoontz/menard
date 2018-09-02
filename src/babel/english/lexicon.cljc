@@ -10,7 +10,7 @@
                             remove-vals verb-pred-defaults]]
    [clojure.java.io :refer [resource]]
    [clojure.tools.logging :as log]
-   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [dissoc-paths fail? get-in strip-refs unify]]))
 
 (declare exception-generator)
 (declare phonize)

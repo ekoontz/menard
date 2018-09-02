@@ -102,24 +102,26 @@
 (defn basecamp []
   (let [tree the-static-tree]
     (morph (-> tree
-               (basecamp-at [:head :head])
+               (basecamp-at [:head :head] (first (take 1 (shuffle ["see"]))))
                (u/dissoc-paths [[:head :head]])
-               (basecamp-at [:head :comp :head :head])
+               (basecamp-at [:head :comp :head :head] (first (take 1 (shuffle ["game" "word" "book"]))))
                (u/dissoc-paths [[:head :comp :head :head]])
-               (basecamp-at [:head :comp :head :comp])
+               (basecamp-at [:head :comp :head :comp] (first (take 1 (shuffle ["new" "intelligent"]))))
                (u/dissoc-paths [[:head :comp :head]])
-               (basecamp-at [:head :comp :comp])
+               (basecamp-at [:head :comp :comp] "the")
                (u/dissoc-paths [[:head]])
-               (basecamp-at [:comp :head :head])
+               (basecamp-at [:comp :head :head] (first (take 1 (shuffle ["professor" "man" "woman" "pupil"]))))
                (u/dissoc-paths [[:comp :head :head]])
-               (basecamp-at [:comp :head :comp])
+               (basecamp-at [:comp :head :comp] (first (take 1 (shuffle ["tall" "small" "old"]))))
                (u/dissoc-paths [[:comp :head]])
-               (basecamp-at [:comp :comp])
+               (basecamp-at [:comp :comp] "the")
                (u/dissoc-paths [[:comp]])))))
             
-(defn basecamp-at [tree path]
-  (println (str "@" path))
-  (first (->> (shuffle lexemes)
+(defn basecamp-at [tree path lexeme-surface-form]
+;;  (println (str "@" path))
+  (first (->> (shuffle (filter #(= lexeme-surface-form
+                                   (u/get-in % [:english :english]))
+                               lexemes))
               (map (fn [lexeme]
                      (let [tree (u/copy tree)
                            lexeme (u/copy lexeme)]

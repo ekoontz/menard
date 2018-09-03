@@ -697,9 +697,22 @@
                a-map)
 
           true
-          (unify a-map
+          (let [warn (if (and (u/get-in a-map [:english :english])
+                              (not (= (u/get-in a-map [:english :english])
+                                      a-string)))
+                       (log/warn (str "ignoring existing: [:english :english] value:" (u/get-in a-map [:english :english])
+                                      " in favor of input parameter's value:" a-string)))
+                result
+                (unify
+                 ;; remove any existing [[:english :english]].
+                 (u/dissoc-paths a-map [[:english :english]])
                  {:english {:english a-string}}
-                 common))))
+                 common)]
+            (if (= :fail result)
+              (let [error-message (str "failed to unify: " (u/strip-refs a-map) " with " {:english {:english a-string}} ".")]
+                (log/error error-message)
+                (throw (Exception. (str error-message)))))
+            result))))
 
 (defn vocab-entry-to-lexeme [{surface :surface
                               pred :pred

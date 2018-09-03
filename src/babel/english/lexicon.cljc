@@ -747,7 +747,7 @@
                 with-structure
                 (if structure (unify base-unify structure)
                     base-unify)]
-            (log/debug (str "creating lexemes for surface: '" surface "' and with-structure: " with-structure))
+            (log/debug (str "creating lexemes for surface: '" surface "' and with-structure: "(u/strip-refs with-structure)))
             (if (= :fail with-structure)
               (let [message (str "fail to unify vocab-entry information: base-unify:" (u/strip-refs base-unify)
                                         "; vocab structure:" structure)]

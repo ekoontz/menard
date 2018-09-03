@@ -720,7 +720,7 @@
                               structure :structure}]
   (log/debug (str "calling vocab-entry-to-lexeme with "
                   "surface=" surface " and structure=" structure))
-  (let [surface (clojure.string/replace surface #"\s*\(.*$" "")]
+  (let [surface surface] ;; (clojure.string/replace surface #"\s*\(.*$" "")
     (cond (clojure.string/starts-with? vocab-cat "noun")
           (let [base-unify 
                 {:synsem {:sem {:pred (keyword pred)}

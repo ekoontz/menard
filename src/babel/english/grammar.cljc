@@ -22,7 +22,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :refer [fail? get-in remove-matching-keys strip-refs unify]]))
+   [dag_unify.core :as u :refer [fail? get-in remove-matching-keys strip-refs unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]

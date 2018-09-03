@@ -724,11 +724,13 @@
                             structure)
 
                 structure (if (or
+                               (= "" (u/get-in structure [:synsem :cat]))
                                (= :noun1 (u/get-in structure [:synsem :cat]))
                                (= :unspec (u/get-in structure [:synsem :cat])))
-                            (dag_unify.core/dissoc-paths structure [[:synsem :cat]])
-                            structure)
-                
+                            (do (log/warn (str "removing vocabcoach-convention category from [:synsem :cat]:"
+                                               (u/get-in structure [:synsem :cat])))
+                                (dag_unify.core/dissoc-paths structure [[:synsem :cat]])))
+
                 with-structure
                 (if structure (unify base-unify structure)
                     base-unify)]

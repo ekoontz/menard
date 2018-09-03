@@ -776,9 +776,13 @@
 (defn plural-en [english & [word]]
   (log/debug (str "plural-en: english: " english "; word: " word))
   (cond
+    ;; 'the author (male)' -> 'the authors (male)'
+    (re-find #"^(.*)(\(.*)$" english)
+    (let [[orig before-parens after-parens] (re-find #"^(.*)(\(.*)$" english)]
+      (str (plural-en (clojure.string/trim before-parens)) " " after-parens))
+
     ;; handle commas in english word, e.g.: "agent,officer" => "agents,officers"
     (re-find #"," english)
-    
     (let [divided-by-commas (filter #(not (empty? %))
                                     (string/split english #"[\s+,\s+]"))]
       (string/join ", " (map #(plural-en % word) divided-by-commas)))
@@ -786,7 +790,7 @@
     ;; wolf => wolves; life => lives
     (re-find #"fe?$" english) 
     (replace english #"fe?$" "ves")
-    
+
     ;; city => cities
     (re-find #"[^aeiou]y$" english) 
     (replace english #"([^aeiou])y$" "$1ies")
@@ -798,7 +802,7 @@
     ;; the vocab-cat is "nounplurf" or "nounplurm".
     (and word (= true (get-in word [:inherently-plural])))
     (str english)
-    
+
     ;; default case.
     true
     (str english "s")))

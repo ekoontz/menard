@@ -15,14 +15,32 @@
 (defn nursery
   "very fast and easy sentences."
   []
-  (let [spec {:synsem {:cat :verb
+  (let [
+        small-lexicon
+        (into {}
+              (for [[k v] (:lexicon model)]
+                (let [filtered-v
+                      (filter #(or (= "I" (u/get-in % [:english :english]))
+                                   (= "sleep" (u/get-in % [:english :english])))
+                              v)]
+                  (if (not (empty? filtered-v))
+                    [k filtered-v]))))
+        indices (babel.index/create-indices
+                 small-lexicon babel.english.grammar/index-lexicon-on-paths)
+        index-fn (fn [spec] (babel.index/lookup-spec
+                             spec
+                             indices
+                             babel.english.grammar/index-lexicon-on-paths))
+        spec {:synsem {:cat :verb
                        :subcat []}
               :comp {:phrasal false}
               :head {:phrasal false}}]
     (repeatedly
      #(println
        (morph (binding [babel.generate/println? false
-                        babel.generate/truncate? true]
+                        babel.generate/truncate? true
+                        babel.generate/index-fn index-fn]
+                        
                 (time (generate spec model)))
               :show-notes false)))))
 
@@ -73,8 +91,8 @@
          
     (repeatedly #(println
                   (let [spec spec]
-                    (let [result (morph-ps (time (binding [babel.generate/println? false]
-                                                        babel.generate/truncate? false
+                    (let [result (morph-ps (time (binding [babel.generate/println? false
+                                                           babel.generate/truncate? false]
                                                    (wait wait-ms-for-generation
                                                       (fn []
                                                         (generate spec model))))))]

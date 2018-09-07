@@ -136,13 +136,6 @@
                             lexical-filter-fn
                             (fn [lexeme]
                               true))
-        target-model
-        (merge target-model
-               {:index-fn
-                (fn [spec]
-                  (->>
-                   ((:index-fn target-model) spec)
-                   (filter lexical-filter-fn)))})
         target-expression
         (target-timing-fn
          (binding [babel.generate/truncate? true]

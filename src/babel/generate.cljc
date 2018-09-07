@@ -42,13 +42,15 @@
                    "; truncate? " truncate?))
    (binding [default-fn (or default-fn (:default-fn model) (fn [x] [x]))
              grammar (or grammar (:grammar model))
+             lexicon (or lexicon
+                         (:lexicon (:generate model))
+                         (:lexicon model))
              index-fn (or index-fn (:index-fn model)
                           (do
                             (log/warn (str "no index available for this model: using entire lexicon."))
                             (fn [spec]
                               (flatten (vals)
-                                       (or (:lexicon (:generate model))
-                                           (:lexicon model))))))
+                                       lexicon))))
              morph-ps (or morph-ps (:morph-ps model))]
      (first (gen spec)))))
 

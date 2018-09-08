@@ -16,29 +16,6 @@
   "very fast and easy sentences."
   []
   (let [
-        small-lexicon
-        (into {}
-              (for [[k v] (:lexicon model)]
-                (let [filtered-v
-                      (filter #(or (= :det (u/get-in % [:synsem :cat]))
-                                   (and
-                                    (= true (u/get-in % [:synsem :pronoun])))
-                                   (and
-                                    (= true (u/get-in % [:synsem :propernoun])))
-                                   (and
-                                    (= "name" (u/get-in % [:english :english]))
-                                    (= :noun (u/get-in % [:synsem :cat])))
-                                   (= :verb (u/get-in % [:synsem :cat])))
-                              v)]
-                  (if (not (empty? filtered-v))
-                    [k filtered-v]))))
-        indices (babel.index/create-indices
-                 small-lexicon babel.english.grammar/index-lexicon-on-paths)
-        index-fn (fn [spec] (babel.index/lookup-spec
-                             spec
-                             indices
-                             babel.english.grammar/index-lexicon-on-paths))
-
         grammar
         (filter
             #(or (= "noun-phrase" (u/get-in % [:rule]))
@@ -49,7 +26,7 @@
         spec {:synsem {:cat :verb
                        :sem {:pred :be-called
                              :subj {:pred :top}
-                             :iobj {:pred :top}}
+                             :iobj {:pred :luisa}}
                        :subcat []}
               :comp {:phrasal true}
               :head {:phrasal true
@@ -59,7 +36,6 @@
      #(println
        (morph (binding [babel.generate/println? false
                         babel.generate/truncate? true
-                        babel.generate/index-fn index-fn
                         babel.generate/grammar grammar]
                 (time (generate spec model)))
               :show-notes false)))))

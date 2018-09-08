@@ -21,7 +21,8 @@
               (for [[k v] (:lexicon model)]
                 (let [filtered-v
                       (filter #(or (= "I" (u/get-in % [:english :english]))
-                                   (= "sleep" (u/get-in % [:english :english])))
+                                   (= "you" (u/get-in % [:english :english]))
+                                   (= :verb (u/get-in % [:synsem :cat])))
                               v)]
                   (if (not (empty? filtered-v))
                     [k filtered-v]))))

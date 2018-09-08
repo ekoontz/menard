@@ -15,18 +15,64 @@
 (defn nursery
   "very fast and easy sentences."
   []
-  (let [
-        grammar
+  (let [grammar
+         (filter
+          #(= "sentence-nonphrasal-head" (u/get-in % [:rule]))
+          (:grammar model))
+        spec {:synsem {:cat :verb
+                       :subcat []}}]
+    (repeatedly
+     #(println
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? true
+                        babel.generate/grammar grammar]
+                (time (generate spec model)))
+              :show-notes false)))))
+
+(def the-nice-small-grammar
+   #{"sentence-phrasal-head"
+     "sentence-nonphrasal-head"
+     "transitive-vp-nonphrasal-head"
+     "transitive-vp-phrasal-head"
+     "noun-phrase"})
+
+(defn x-name-is-y
+  "sentences e.g. 'my name is Luisa'"
+  []
+  (let [grammar
         (filter
-            #(or (= "noun-phrase" (u/get-in % [:rule]))
-                 (= "sentence-phrasal-head" (u/get-in % [:rule]))
-                 (= "transitive-vp-nonphrasal-head" (u/get-in % [:rule])))
-            (:grammar model))
+         #(contains? the-nice-small-grammar
+                     (u/get-in % [:rule]))
+          (:grammar model))
 
         spec {:synsem {:cat :verb
                        :sem {:pred :be-called
-                             :subj {:pred :top}
+                             :subj {:pred :I}
                              :iobj {:pred :luisa}}
+                       :subcat []}}]
+    (repeatedly
+     #(println
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? true
+                        babel.generate/grammar grammar]
+                (time (generate spec model)))
+              :show-notes false)))))
+
+(defn antonia-had-read
+  "very specific semantics"
+  []
+  (let [grammar
+        (filter
+         #(contains? the-nice-small-grammar
+                     (u/get-in % [:rule]))
+          (:grammar model))
+
+        spec {:synsem {:cat :verb
+                       :sem {:pred :read
+                             :tense :past
+                             :aspect :pluperfect
+                             :subj {:pred :antonia}
+                             :obj :unspec}
                        :subcat []}}]
     (repeatedly
      #(println

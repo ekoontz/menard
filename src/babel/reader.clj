@@ -109,10 +109,11 @@
                      :target-local target-locale
                      :target-spec target-spec})}))))))
 
+(def ^:dynamic source-grammar-subset :all)
+(def ^:dynamic target-grammar-subset :all)
 (defn generate-question-and-correct-set [target-spec
                                          source-language source-locale
-                                         target-language target-locale
-                                         & [lexical-filter-fn]]
+                                         target-language target-locale]
   (let [source-timing? false
         source-timing-fn (if source-timing? #(time %)
                              (fn [x] x))
@@ -132,14 +133,16 @@
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         target-model @@(get models target-language)
 
-        lexical-filter-fn (if lexical-filter-fn
-                            lexical-filter-fn
-                            (fn [lexeme]
-                              true))
         target-expression
         (target-timing-fn
-         (binding [babel.generate/truncate? true]
-           (babel.generate/generate target-spec target-model)))
+         (binding [babel.generate/truncate? true
+                   babel.generate/grammar
+                   (filter
+                    #(or (= :all target-grammar-subset)
+                         (contains? target-grammar-subset
+                                    (u/get-in % [:rule])))
+                    (:grammar target-model))]
+           (generate target-spec target-model)))
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.
          (u/unify
@@ -149,9 +152,16 @@
 
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         source-model @@(get models source-language)
+
         source-expression
         (source-timing-fn
-         (binding [babel.generate/truncate? true]
+         (binding [babel.generate/truncate? true
+                   babel.generate/grammar
+                   (filter
+                    #(or (= :all source-grammar-subset)
+                         (contains? source-grammar-subset
+                                    (u/get-in % [:rule])))
+                    (:grammar source-model))]
            (generate source-spec source-model)))]
     (let [pairing
           {:target ((:morph target-model) target-expression)
@@ -175,7 +185,7 @@
                                 [:root target-root-keyword target-root-keyword])]
        :target-semantics (strip-refs
                           (u/get-in target-expression [:synsem :sem]))})))
-    
+
 (defn get-lexeme [canonical language & [ spec ]]
   "get a lexeme from the database given the canonical form, given a
   language and optionally additional filter specification"

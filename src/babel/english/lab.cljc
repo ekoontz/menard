@@ -20,8 +20,14 @@
         (into {}
               (for [[k v] (:lexicon model)]
                 (let [filtered-v
-                      (filter #(or (= "I" (u/get-in % [:english :english]))
-                                   (= "you" (u/get-in % [:english :english]))
+                      (filter #(or (= :det (u/get-in % [:synsem :cat]))
+                                   (and
+                                    (= true (u/get-in % [:synsem :pronoun])))
+                                   (and
+                                    (= true (u/get-in % [:synsem :propernoun])))
+                                   (and
+                                    (= "name" (u/get-in % [:english :english]))
+                                    (= :noun (u/get-in % [:synsem :cat])))
                                    (= :verb (u/get-in % [:synsem :cat])))
                               v)]
                   (if (not (empty? filtered-v))
@@ -33,9 +39,14 @@
                              indices
                              babel.english.grammar/index-lexicon-on-paths))
         spec {:synsem {:cat :verb
+                       :sem {:pred :be-called
+                             :subj {:pred :I}
+                             :iobj {:pred :luisa}}
                        :subcat []}
-              :comp {:phrasal false}
-              :head {:phrasal false}}]
+              :comp {:phrasal true}
+              :head {:phrasal true
+                     :head {:phrasal false}
+                     :comp {:phrasal false}}}]
     (repeatedly
      #(println
        (morph (binding [babel.generate/println? false

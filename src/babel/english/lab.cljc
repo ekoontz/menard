@@ -27,11 +27,7 @@
                        :sem {:pred :be-called
                              :subj {:pred :top}
                              :iobj {:pred :luisa}}
-                       :subcat []}
-              :comp {:phrasal true}
-              :head {:phrasal true
-                     :head {:phrasal false}
-                     :comp {:phrasal false}}}]
+                       :subcat []}}]
     (repeatedly
      #(println
        (morph (binding [babel.generate/println? false

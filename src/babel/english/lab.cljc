@@ -38,10 +38,18 @@
                              spec
                              indices
                              babel.english.grammar/index-lexicon-on-paths))
+
+        grammar
+        (filter
+            #(or (= "noun-phrase" (u/get-in % [:rule]))
+                 (= "sentence-phrasal-head" (u/get-in % [:rule]))
+                 (= "transitive-vp-nonphrasal-head" (u/get-in % [:rule])))
+            (:grammar model))
+
         spec {:synsem {:cat :verb
                        :sem {:pred :be-called
-                             :subj {:pred :I}
-                             :iobj {:pred :luisa}}
+                             :subj {:pred :top}
+                             :iobj {:pred :top}}
                        :subcat []}
               :comp {:phrasal true}
               :head {:phrasal true
@@ -51,8 +59,8 @@
      #(println
        (morph (binding [babel.generate/println? false
                         babel.generate/truncate? true
-                        babel.generate/index-fn index-fn]
-                        
+                        babel.generate/index-fn index-fn
+                        babel.generate/grammar grammar]
                 (time (generate spec model)))
               :show-notes false)))))
 

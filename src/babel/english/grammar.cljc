@@ -414,7 +414,7 @@
                  :synsem {:cat :verb
                           :slash false}})
    
-   ;; "sees a book" :complement is semantic object
+   ;; "reads a book" :complement is semantic object
    (unify-check h21
                 root-is-head
                 {:rule "transitive-vp-nonphrasal-head"

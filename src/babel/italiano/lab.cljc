@@ -261,44 +261,40 @@
                 {:m (morph expr)
                  :ps (morph-ps expr)})))))
 
-(defn chiamarsi []
+(defn chiamarsi
+  "generate chiamarsi sentences with a grammar subset."
+  []
+  (let [grammar
+        (filter
+         #(or
+           (= "s-present-phrasal" (u/get-in % [:rule]))
+           (= "vp-32" (u/get-in % [:rule]))
+           (= "vp-pronoun-phrasal" (u/get-in % [:rule])))
+         
+         (:grammar model))
+        spec {:root {:italiano {:italiano "chiamarsi"}}
+              :synsem {:cat :verb
+                       :sem {:tense :present
+                             :aspect :simple}
+                       :subcat []}}]
+    (repeatedly
+     #(println
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? false
+                        babel.generate/grammar grammar]
+                (time (generate spec model))))))))
+
+(defn chiamarsi-ps
+  "generate chiamarsi sentences with parse trees"
+  []
   (repeatedly 
    #(println (pprint
               (let [expr 
                     (time (generate {:modified false, 
                                      :synsem {:cat :verb, :subcat []
-                                              :sem {:tense :present, :aspect :progressive}}, 
-                                     :root {:italiano {:italiano "chiamarsi"}}
-                                     :comp {:phrasal false}}
+                                              :sem {:tense :present,
+                                                    :aspect :simple}}, 
+                                     :root {:italiano {:italiano "chiamarsi"}}}
                                     model))]
                 {:m (morph expr)
                  :ps (morph-ps expr)})))))
-
-(defn with-shrunken-model-2 []
-  (binding [babel.generate/truncate? true
-            babel.generate/println? false
-            babel.generate/index-fn (:index-fn model)
-            babel.generate/morph-ps (:morph-ps model)
-            babel.generate/grammar
-            (filter
-             (fn [rule]
-               (or 
-                (= (:rule rule) "s-aux")
-                (= (:rule rule) "noun-phrase1")
-                (= (:rule rule) "noun-phrase2")
-                (= (:rule rule) "nbar1")
-                (= (:rule rule) "nbar2")
-                (= (:rule rule) "vp-pronoun-phrasal")
-                (= (:rule rule) "vp-32")
-                (= (:rule rule) "vp-aux-22-phrasal-comp")))
-             (:grammar model))]
-    (generate {:modified false
-               :root {:italiano {:italiano "chiamarsi"}}
-               :synsem {:cat :verb
-                        :sem {:aspect :progressive
-                              :tense :present}
-                        :subcat []}})))
-
-(defn basecamp []
-  (repeatedly
-   #(println (morph (time (with-shrunken-model-2))))))

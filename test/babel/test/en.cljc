@@ -5,8 +5,7 @@
             [babel.english :as english :refer [morph morph-ps]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
             [babel.english.morphology :refer [get-string]]
-
-            [babel.generate :as generate :refer [get-lexemes]]
+            [babel.generate :as generate]
             [babel.lexiconfn :refer [write-lexicon]]
             [babel.over :refer [over overc overh]]
             [babel.parse :as parse]

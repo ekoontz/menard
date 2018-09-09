@@ -165,7 +165,7 @@
          (phrases-with-phrasal-head)
          (parent-with-head-1 spec depth (rest parent-rules)))))))
 
-(defn get-lexemes 
+(defn- get-lexemes 
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
@@ -178,25 +178,27 @@
    (filter #(not (= :fail %)))
    (map #(u/assoc-in! % [::done?] true))))
 
-(defn assoc-each-default [tree children f]
+;; TODO: use recur: should be more efficient(?)
+(defn- assoc-each-default [tree children path]
   (if (not (empty? children))
     (lazy-cat
      (let [child (first children)
-           tree-with-child (u/assoc-in tree f child)]
+           tree-with-child (u/assoc-in tree path child)]
        (-> tree-with-child
            (u/assoc-in! 
-            (concat (butlast f) [::done?])
+            (concat (butlast path) [::done?])
             true)
-           (u/dissoc-paths (if truncate? [f] []))
+           (u/dissoc-paths (if truncate? [path] []))
            (default-fn)))
-     (assoc-each-default tree (rest children) f))))
+     (assoc-each-default tree (rest children) path))))
 
-(defn assoc-children [tree children f]
+;; TODO: use recur: should be more efficient(?)
+(defn- assoc-children [tree children path]
   (if (not (empty? children))
     (let [child (first children)]
       (lazy-cat
        (if (= true (u/get-in child [::done?]))
-         (assoc-each-default tree (default-fn child) f)
-         [(u/assoc-in tree f child)])
-       (assoc-children tree (rest children) f)))))
+         (assoc-each-default tree (default-fn child) path)
+         [(u/assoc-in tree path child)])
+       (assoc-children tree (rest children) path)))))
 

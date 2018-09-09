@@ -284,6 +284,78 @@
                         babel.generate/grammar grammar]
                 (time (generate spec model))))))))
 
+
+(defn arrabbiarsi
+  "generate arrabiarsi sentences with a grammar subset."
+  []
+  (let [grammar
+        (filter
+         #(contains?
+           #{"s-aux"
+             "s-conditional-nonphrasal"
+             "s-conditional-phrasal"
+             "s-future-nonphrasal"
+             "s-future-phrasal"
+             "s-imperfetto-nonphrasal"
+             "s-imperfetto-phrasal"
+             "s-present-nonphrasal"
+             "s-present-phrasal"
+             "vp-aux-22-nonphrasal-comp"
+             "vp-aux-phrasal-complement"
+             "vp-aux-nonphrasal-complement"
+             "vp-32"
+             "vp-pronoun-nonphrasal"
+             "vp-pronoun-phrasal"} (u/get-in % [:rule]))
+         (:grammar model))
+        spec {:root {:italiano {:italiano "arrabbiarsi"}}
+              :synsem {:cat :verb
+                       :modified false
+                       :sem {:tense :past
+                             :aspect :progressive}
+                       :subcat []}}]
+    (repeatedly
+     #(println
+       (morph-ps (binding [babel.generate/println? false
+                           babel.generate/truncate? false
+                           babel.generate/grammar grammar]
+                   (time (generate spec model))))))))
+
+(defn stampare
+  "generate arrabiarsi sentences with a grammar subset."
+  []
+  (let [grammar
+        (filter
+         #(contains?
+           #{"s-aux"
+             "s-conditional-nonphrasal"
+             "s-conditional-phrasal"
+             "s-future-nonphrasal"
+             "s-future-phrasal"
+             "s-imperfetto-nonphrasal"
+             "s-imperfetto-phrasal"
+             "s-present-nonphrasal"
+             "s-present-phrasal"
+             "vp-aux-22-nonphrasal-comp"
+             "vp-aux-phrasal-complement"
+             "vp-aux-nonphrasal-complement"
+             "vp-32"
+             "vp-pronoun-nonphrasal"
+             "vp-pronoun-phrasal"} (u/get-in % [:rule]))
+         (:grammar model))
+        spec {:root {:italiano {:italiano "stampare"}}
+              :synsem {:cat :verb
+                       :modified false
+                       :sem {:tense :past
+                             :obj :unspec
+                             :aspect :progressive}
+                       :subcat []}}]
+    (repeatedly
+     #(println
+       (morph-ps (binding [babel.generate/println? false
+                           babel.generate/truncate? false
+                           babel.generate/grammar grammar]
+                   (time (generate spec model))))))))
+
 (defn chiamarsi-ps
   "generate chiamarsi sentences with parse trees"
   []

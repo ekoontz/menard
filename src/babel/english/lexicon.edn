@@ -172,13 +172,13 @@
                                   :agr subj-agr
                                   :sem {:pred :name  ;; "My name" in "My name is John"
                                         :subj the-real-subj}}
-                              
+
                               :2 {:cat :noun
                                   :agr subj-agr
                                   :sem the-obj
                                   :pronoun false
                                   :propernoun true} ;; "John" in "My name is John"
-                              
+
                               :3 []}}})
          ;; subcat {
          ;; synsem {
@@ -483,7 +483,7 @@
  "boy" {:synsem {:agr {:gender :masc}
                  :cat :noun
                  :sem {:pred :boy}}}
- 
+
  "break" {:english {:past "broke"
                     :past-participle "broken"}
           :synsem {:cat :verb
@@ -811,7 +811,7 @@
                     :sem {:pred :exist
                           :subj {:null false}}
                     :subcat {:2 []}}}]
- 
+
  "exit" {:synsem {:cat :verb
                   :sem {:pred :exit}}}
 
@@ -1415,7 +1415,7 @@
 
  "inform" {:synsem {:cat :verb
                     :sem {:pred :inform}}}
- 
+
  "insist" {:synsem {:cat :verb
                     :sem {:pred :insist}}}
 
@@ -1819,7 +1819,7 @@
  "out" {:synsem {:cat :prep
                  :sem {:pred :out}
                  :subcat []}}
- 
+
  "paint"  {:synsem {:cat :verb
                     :sem {:pred :paint}}}
 
@@ -2042,7 +2042,8 @@
 
            ;; TODO: add obligitory direct object for this sense:
            {:synsem {:cat :verb
-                     :sem {:pred :give-back-return-res}}}
+                     :sem {:pred :give-back-return-res}}
+            :english {:note "give back, res..."}}
 
            ;; TODO: add obligitory direct object for this sense:
            {:synsem {:cat :verb
@@ -2123,12 +2124,12 @@
           [{:unify [common]
             :synsem {:cat :verb
                      :sem {:pred :send}}}
-           
+
            {:unify [common]
             :english {:note "m-"}
             :synsem  {:cat :verb
                       :sem {:pred :send-m}}}
-           
+
            {:unify [common]
             :english {:note "s-"}
             :synsem  {:cat :verb
@@ -2356,7 +2357,7 @@
                             :sem {:pred :to
                                   :obj talk-to}}}
                :sem {:iobj talk-to}}})
-   
+
    {:unify [common]
     :synsem {:subcat {:2 []}}})
 
@@ -2577,7 +2578,7 @@
                          :subcat []}
                      :3 {:cat :prep
                          :sem {:pred :up}}}}}]
- 
+
 
  "understand" (let [common {:english {:past "understood"}}]
                 [{:unify [common]
@@ -2595,7 +2596,7 @@
  "up" {:synsem {:cat :prep
                 :sem {:pred :up}
                 :subcat []}}
- 
+
  "upload"  {:synsem {:cat :verb
                      :sem {:pred :caricare}}}
 

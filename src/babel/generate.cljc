@@ -71,15 +71,15 @@
     ;; 1) branching to a new subtree, or
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
-          f (frontier tree)
-          depth (count f)
-          child-spec (u/get-in tree f)
+          frontier-path (frontier tree)
+          depth (count frontier-path)
+          child-spec (u/get-in tree frontier-path)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
       (when println? (println (str "grow at:" (morph-ps tree))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
-       (if (not (empty? f))
+       (if (not (empty? frontier-path))
          (grow
           (let [children
                 (cond
@@ -97,7 +97,7 @@
                   
                   true ;; generate children that are leaves before children that are trees.
                   (lazy-cat (child-lexemes) (child-trees)))]
-            (assoc-children tree children f)))
+            (assoc-children tree children frontier-path)))
          [tree])
        (grow (rest trees))))))
 
@@ -178,7 +178,7 @@
    (filter #(not (= :fail %)))
    (map #(u/assoc-in! % [::done?] true))))
 
-;; TODO: use recur: should be more efficient(?)
+;; TODO: use reduce.
 (defn- assoc-each-default [tree children path]
   (if (not (empty? children))
     (lazy-cat
@@ -192,7 +192,7 @@
            (default-fn)))
      (assoc-each-default tree (rest children) path))))
 
-;; TODO: use recur: should be more efficient(?)
+;; TODO: use reduce
 (defn- assoc-children [tree children path]
   (if (not (empty? children))
     (let [child (first children)]

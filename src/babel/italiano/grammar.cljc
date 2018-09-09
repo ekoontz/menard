@@ -528,14 +528,15 @@
 
                        (unify c21
                               root-is-head
-                              {:head {:phrasal false
-                                      :synsem {:sem {:reflexive :top}}}
-                               :comp {:synsem {:cat :noun
-                                               :reflexive :top
-                                               :pronoun true}}
-                               :rule "vp-pronoun-nonphrasal"
-                               :synsem {:cat :verb
-                                        :infl {:not :passato}}})
+                              (let [reflexive? (atom :top)]
+                                {:head {:phrasal false
+                                        :synsem {:sem {:reflexive reflexive?}}}
+                                 :comp {:synsem {:cat :noun
+                                                 :reflexive reflexive?
+                                                 :pronoun true}}
+                                 :rule "vp-pronoun-nonphrasal"
+                                 :synsem {:cat :verb
+                                          :infl {:not :passato}}}))
 
                        ;; e.g. used as: "io mi chiamo Luisa" -
                        ;; [s-present-phrasal 'io' [vp-pronoun-phrasal 'mi' [vp-32 'chiamo' 'Luisa']]]

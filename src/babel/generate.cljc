@@ -178,7 +178,6 @@
    (filter #(not (= :fail %)))
    (map #(u/assoc-in! % [::done?] true))))
 
-;; TODO: use reduce.
 (defn- assoc-each-default [tree children path]
   (if (not (empty? children))
     (lazy-cat
@@ -192,7 +191,6 @@
            (default-fn)))
      (assoc-each-default tree (rest children) path))))
 
-;; TODO: use reduce
 (defn- assoc-children [tree children path]
   (if (not (empty? children))
     (let [child (first children)]

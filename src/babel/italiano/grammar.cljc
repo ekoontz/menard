@@ -25,6 +25,41 @@
    [clojure.repl :refer (doc)]
    [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
 
+(defn default-fn [tree]
+  (let [result
+        (-> tree
+
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux false
+                       :cat :verb
+                       :sem {:tense :conditional}
+                       :infl :conditional}})
+            
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux false
+                       :cat :verb
+                       :sem {:tense :present
+                             :aspect :simple}
+                       :infl :present}})
+
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux false
+                       :cat :verb
+                       :sem {:tense :past
+                             :aspect :progressive}
+                       :infl :imperfetto}})
+            
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux false
+                       :cat :verb
+                       :sem {:tense :future}
+                       :infl :future}}))]
+    [result]))
+
 (declare model)
 
 (defonce index-lexicon-on-paths
@@ -34,6 +69,7 @@
    [:synsem :essere]
    [:synsem :infl]
    [:synsem :sem :pred]])
+
 
 (defonce tenses
   {"conditional" {:synsem {:sem {:tense :conditional}}}
@@ -350,25 +386,9 @@
                                         :cat :verb
                                         :sem {:tense :future}}})
                        (unify c10
-                              root-is-head
-                              {:rule "s-future-nonphrasal"
-                               :head {:phrasal false}
-                               :synsem {:aux false
-                                        :infl :future
-                                        :cat :verb
-                                        :sem {:tense :future}}})
-                       (unify c10
                               root-is-head-root
                               {:rule "s-conditional-phrasal"
                                :head {:phrasal true}
-                               :synsem {:aux false
-                                        :infl :conditional
-                                        :cat :verb
-                                        :sem {:tense :conditional}}})
-                       (unify c10
-                              root-is-head
-                              {:rule "s-conditional-nonphrasal"
-                               :head {:phrasal false}
                                :synsem {:aux false
                                         :infl :conditional
                                         :cat :verb
@@ -382,24 +402,13 @@
                                         :cat :verb
                                         :sem {:aspect :progressive
                                               :tense :past}}})
+
                        (unify c10
                               root-is-head
-                              {:rule "s-imperfetto-nonphrasal"
+                              {:rule "sentence-nonphrasal-head"
                                :head {:phrasal false}
-                               :synsem {:aux false
-                                        :infl :imperfetto
-                                        :cat :verb
-                                        :sem {:aspect :progressive
-                                              :tense :past}}})
-                       (unify c10
-                              root-is-head
-                              {:rule "s-present-nonphrasal"
-                               :head {:phrasal false}
-                               :synsem {:aux false
-                                        :infl :present
-                                        :cat :verb
-                                        :sem {:aspect :simple
-                                              :tense :present}}})
+                               :synsem {:cat :verb}})
+
                        (unify c10
                               root-is-head-root
                               {:rule "s-present-phrasal"
@@ -442,7 +451,7 @@
                                :comp {:phrasal false}
                                :synsem {:aux true
                                         :cat :verb}})
-                       
+
                        ;; this rule is kind of complicated and made more so by
                        ;; dependence on auxilary sense of "avere" which supplies the
                        ;; obj-agr agreement between the object and the main (non-auxilary) verb.
@@ -493,7 +502,7 @@
 
                        ;;{:root {:italiano {:italiano "abbracciare"}}, :synsem {:cat :verb, :subcat [], :sem {:aspect :perfect, :tense :present :obj :unspec}}}
                        ;; (take 5 (repeatedly #(println ((:morph-ps model) (babel.generate/generate spec model)))))
-                       
+
                        (unify h21
                               root-is-head
                               {:rule "vp-past"
@@ -506,7 +515,7 @@
                                         :infl :passato
                                         :cat :verb}}
                               vp-non-pronoun)
-                       
+
                        (unify h21
                               root-is-head
                               {:rule "vp-present"
@@ -516,7 +525,7 @@
                                               :aspect :simple}
                                         :cat :verb}}
                               vp-non-pronoun)
-                       
+
                        (unify c21
                               root-is-head-root
                               {:head {:phrasal true}
@@ -593,17 +602,17 @@
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unify phrase
-                (let [ref (atom :top)]
-                  {:synsem {:aux ref}
-                   :head {:synsem {:aux ref}}}))
+               (let [ref (atom :top)]
+                 {:synsem {:aux ref}
+                  :head {:synsem {:aux ref}}}))
         true phrase))
 
 (defn modal-is-head-feature [phrase]
   (cond (= :verb (get-in phrase '(:synsem :cat)))
         (unify phrase
-                (let [ref (atom :top)]
-                  {:synsem {:modal ref}
-                   :head {:synsem {:modal ref}}}))
+               (let [ref (atom :top)]
+                 {:synsem {:modal ref}
+                  :head {:synsem {:modal ref}}}))
         true phrase))
 
 ;; TODO: warn about failures.
@@ -720,6 +729,7 @@
       :name (str
              "Italiano language model created with ❤ by babel.italiano.grammar/model-plus-lexicon "
              "at: " (local-timestamp))
+      :default-fn default-fn
       :grammar grammar
       :language "it"
       :language-keyword :italiano

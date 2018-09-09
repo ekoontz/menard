@@ -1,7 +1,8 @@
 (ns babel.italiano.lab
   (:require
    [babel.directory] ;; this is needed even though there are no references to directory in here.
-   [babel.generate :as g :refer [frontier generate get-lexemes]]
+   [babel.generate :as g :refer [frontier generate]]
+   [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano :as italiano :refer [model morph morph-ps parse]]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
@@ -285,27 +286,58 @@
                 (time (generate spec model))))))))
 
 
+
+(def verbcoach-grammar
+  #{
+    "s-aux"
+    "s-conditional-nonphrasal"
+    "s-conditional-phrasal"
+    "s-future-nonphrasal"
+    "s-future-phrasal"
+    "s-imperfetto-nonphrasal"
+    "s-imperfetto-phrasal"
+    "s-present-nonphrasal"
+    "s-present-phrasal"
+    "vp-aux-22-nonphrasal-comp"
+    "vp-aux-phrasal-complement"
+    "vp-aux-nonphrasal-complement"
+    "vp-32"
+    "vp-pronoun-nonphrasal"
+    "vp-pronoun-phrasal"
+    })
+
+(def verbcoach-index-fn
+  (let [index-lexicon-on-paths
+        [[:italiano :italiano]
+         [:synsem :aux]
+         [:synsem :cat]
+         [:synsem :essere]
+         [:synsem :infl]
+         [:synsem :sem :pred]]]
+
+    (fn [spec]
+      (let [lexicon 
+            (into {}
+                  (for [[k vals] (:lexicon model)]
+                    (let [filtered-vals
+                          (filter (fn [v]
+                                    (or (not (= :noun (u/get-in v [:synsem :cat])))
+                                        (and (= :noun (u/get-in v [:synsem :cat]))
+                                             (not (= :acc (u/get-in v [:synsem :case]))))
+                                        (and (= :noun (u/get-in v [:synsem :cat]))
+                                             (= :acc (u/get-in v [:synsem :case]))
+                                             (= true (u/get-in v [:synsem :reflexive])))))
+                                  vals)]
+                      (if (not (empty? filtered-vals))
+                        [k filtered-vals]))))]
+        (lookup-spec spec (create-indices lexicon index-lexicon-on-paths) index-lexicon-on-paths)))))
+
 (defn arrabbiarsi
   "generate arrabiarsi sentences with a grammar subset."
   []
   (let [grammar
         (filter
-         #(contains?
-           #{"s-aux"
-             "s-conditional-nonphrasal"
-             "s-conditional-phrasal"
-             "s-future-nonphrasal"
-             "s-future-phrasal"
-             "s-imperfetto-nonphrasal"
-             "s-imperfetto-phrasal"
-             "s-present-nonphrasal"
-             "s-present-phrasal"
-             "vp-aux-22-nonphrasal-comp"
-             "vp-aux-phrasal-complement"
-             "vp-aux-nonphrasal-complement"
-             "vp-32"
-             "vp-pronoun-nonphrasal"
-             "vp-pronoun-phrasal"} (u/get-in % [:rule]))
+         #(contains? verbcoach-grammar (u/get-in % [:rule]))
          (:grammar model))
         spec {:root {:italiano {:italiano "arrabbiarsi"}}
               :synsem {:cat :verb
@@ -315,9 +347,10 @@
                        :subcat []}}]
     (repeatedly
      #(println
-       (morph-ps (binding [babel.generate/println? false
+       (morph-ps (binding [babel.generate/println? true
                            babel.generate/truncate? false
-                           babel.generate/grammar grammar]
+                           babel.generate/grammar grammar
+                           babel.generate/index-fn verbcoach-index-fn]
                    (time (generate spec model))))))))
 
 (defn stampare
@@ -325,36 +358,23 @@
   []
   (let [grammar
         (filter
-         #(contains?
-           #{"s-aux"
-             "s-conditional-nonphrasal"
-             "s-conditional-phrasal"
-             "s-future-nonphrasal"
-             "s-future-phrasal"
-             "s-imperfetto-nonphrasal"
-             "s-imperfetto-phrasal"
-             "s-present-nonphrasal"
-             "s-present-phrasal"
-             "vp-aux-22-nonphrasal-comp"
-             "vp-aux-phrasal-complement"
-             "vp-aux-nonphrasal-complement"
-             "vp-32"
-             "vp-pronoun-nonphrasal"
-             "vp-pronoun-phrasal"} (u/get-in % [:rule]))
+         #(contains? verbcoach-grammar (u/get-in % [:rule]))
          (:grammar model))
         spec {:root {:italiano {:italiano "stampare"}}
               :synsem {:cat :verb
+                       :aux false
                        :modified false
                        :sem {:tense :past
-                             :obj :unspec
                              :aspect :progressive}
                        :subcat []}}]
+
     (repeatedly
      #(println
-       (morph-ps (binding [babel.generate/println? false
-                           babel.generate/truncate? false
-                           babel.generate/grammar grammar]
-                   (time (generate spec model))))))))
+       (morph (binding [babel.generate/println? true
+                        babel.generate/truncate? false
+                        babel.generate/index-fn verbcoach-index-fn
+                        babel.generate/grammar grammar]
+                (time (generate spec model))))))))
 
 (defn chiamarsi-ps
   "generate chiamarsi sentences with parse trees"

@@ -16,14 +16,21 @@
                      subcat-1-1-principle subcat-2-principle
                      subcat-1-1-principle-comp-subcat-1 
                      subcat-2-2-principle
-                     subcat-5-principle verb-default?]
+                     subcat-5-principle]
     :as ug]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
    [clojure.pprint :refer (pprint)]
    [clojure.repl :refer (doc)]
-   [dag_unify.core :refer (fail? get-in remove-matching-keys strip-refs unify)]))
+   [dag_unify.core :as u :refer [fail? get-in remove-matching-keys strip-refs unify]]))
+
+(defn verb-default? [tree]
+  (and (= :verb (u/get-in tree [:synsem :cat]))
+       (or (= :top (u/get-in tree [:synsem :sem :tense] :top))
+           (= :top (u/get-in tree [:synsem :infl] :top))
+           (= {:not :infinitive}
+              (u/strip-refs (u/get-in tree [:synsem :infl] :top))))))
 
 (defn default-fn [tree]
   (let [result
@@ -375,49 +382,21 @@
                                :rule "s-aux"
                                :synsem {:cat :verb}})
 
-                       ;; TODO: consolidate s-future-(non)phrasal,s-conditional-(non)phrasal,etc
-                       ;; into fewer rules and use a default rule to choose among them.
                        (unify c10
                               root-is-head-root
-                              {:rule "s-future-phrasal"
+                              {:rule "sentence-phrasal-head"
                                :head {:phrasal true}
                                :synsem {:aux false
-                                        :infl :future
-                                        :cat :verb
-                                        :sem {:tense :future}}})
-                       (unify c10
-                              root-is-head-root
-                              {:rule "s-conditional-phrasal"
-                               :head {:phrasal true}
-                               :synsem {:aux false
-                                        :infl :conditional
-                                        :cat :verb
-                                        :sem {:tense :conditional}}})
-                       (unify c10
-                              root-is-head-root
-                              {:rule "s-imperfetto-phrasal"
-                               :head {:phrasal true}
-                               :synsem {:aux false
-                                        :infl :imperfetto
-                                        :cat :verb
-                                        :sem {:aspect :progressive
-                                              :tense :past}}})
+                                        :infl {:not :infinitive}}})
 
                        (unify c10
                               root-is-head
                               {:rule "sentence-nonphrasal-head"
                                :head {:phrasal false}
-                               :synsem {:cat :verb}})
-
-                       (unify c10
-                              root-is-head-root
-                              {:rule "s-present-phrasal"
-                               :head {:phrasal true}
                                :synsem {:aux false
-                                        :infl :present
                                         :cat :verb
-                                        :sem {:aspect :simple
-                                              :tense :present}}})
+                                        :infl {:not :infinitive}}})
+
                        (unify h21
                               root-is-head
                               {:rule "vp-infinitive"
@@ -486,17 +465,8 @@
 
                        (unify h21
                               root-is-head
-                              {:rule "vp-future"
+                              {:rule "vp"
                                :synsem {:aux false
-                                        :infl :future
-                                        :cat :verb}}
-                              vp-non-pronoun)
-
-                       (unify h21
-                              root-is-head
-                              {:rule "vp-imperfetto"
-                               :synsem {:aux false
-                                        :infl :imperfetto
                                         :cat :verb}}
                               vp-non-pronoun)
 
@@ -532,8 +502,7 @@
                                :comp {:synsem {:cat :noun
                                                :pronoun true}}
                                :rule "vp-pronoun-phrasal"
-                               :synsem {:cat :verb
-                                        :infl {:not :passato}}})
+                               :synsem {:cat :verb}})
 
                        (unify c21
                               root-is-head
@@ -544,8 +513,7 @@
                                                  :reflexive reflexive?
                                                  :pronoun true}}
                                  :rule "vp-pronoun-nonphrasal"
-                                 :synsem {:cat :verb
-                                          :infl {:not :passato}}}))
+                                 :synsem {:cat :verb}}))
 
                        ;; e.g. used as: "io mi chiamo Luisa" -
                        ;; [s-present-phrasal 'io' [vp-pronoun-phrasal 'mi' [vp-32 'chiamo' 'Luisa']]]
@@ -555,7 +523,6 @@
                                :head {:phrasal false
                                       :synsem {:aux false}}
                                :synsem {:aux false
-                                        :infl {:not :passato}
                                         :cat :verb}})
                        (unify h10
                               root-is-comp

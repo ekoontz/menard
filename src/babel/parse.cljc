@@ -189,7 +189,7 @@
                                                         (truncate parent [[:comp]
                                                                           [:head]]
                                                                   model)))
-                                                  trees))]
+                                                     trees))]
                                        (if (not (empty? trees))
                                          (log/trace (str "parse/parses: trees: "
                                                          (string/join ","
@@ -201,7 +201,7 @@
                                        (log/trace (str " right: "
                                                        (string/join ","
                                                                     (map #(morph-ps %) right-signs))))
-                                       (if parse-with-truncate truncated-trees trees)))
+                                       (if (and false parse-with-truncate) truncated-trees trees)))
                                    ;; TODO: explain why we can use (first) here for the left- and right-strings.
                                    ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))

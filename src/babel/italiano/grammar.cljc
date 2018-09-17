@@ -567,7 +567,7 @@
                                        :rule "s-modified-modifier-last"}))))
 
 (defn aux-is-head-feature [phrase]
-  (cond (= :verb (get-in phrase '(:synsem :cat)))
+  (cond (= :verb (get-in phrase [:synsem :cat]))
         (unify phrase
                (let [ref (atom :top)]
                  {:synsem {:aux ref}

@@ -407,7 +407,8 @@
                               root-is-comp-root
                               {:rule "vp-aux-phrasal-complement"
                                :head {:phrasal false
-                                      :synsem {:aux true
+                                      :synsem {:essere false
+                                               :aux true
                                                :sem {:obj {:top :top}}}}
                                :comp {:phrasal true}
                                :synsem {:aux true

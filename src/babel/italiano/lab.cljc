@@ -163,14 +163,21 @@
        specs))
 
 (defn park []
-  (repeatedly
-   #(println (morph (time
-                     (generate
-                      (unify 
-                       (nth vedere-specs (rand-int (count vedere-specs)))
-                       {:head {:phrasal false}
-                        :comp {:phrasal false}})
-                      model))))))
+  (let [vedere-specs
+        [{:synsem {:subcat (), :cat :verb, :essere false},
+          :modified false,
+          :phrasal true,
+          :head {:phrasal false},
+          :comp {:phrasal false},
+          :root {:italiano {:italiano "vedere"}}}]]
+    (repeatedly
+     #(println (morph (time
+                       (generate
+                        (unify 
+                         (nth vedere-specs (rand-int (count vedere-specs)))
+                         {:head {:phrasal false}
+                          :comp {:phrasal false}})
+                        model)))))))
 
 (defn downtown []
   (let [spec

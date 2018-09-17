@@ -10,7 +10,7 @@
 
 (deftest chiamarsi
   (let [target-grammar-rules
-        #{"s-present-phrasal"
+        #{"sentence-phrasal-head"
           "vp-32"
           "vp-pronoun-phrasal"}
         source-grammar-rules

@@ -334,26 +334,6 @@
           (= :acc (u/get-in v [:synsem :case]))
           (= true (u/get-in v [:synsem :reflexive]))))))
 
-(def verbcoach-index-fn
-  (let [index-lexicon-on-paths
-        [[:italiano :italiano]
-         [:synsem :aux]
-         [:synsem :cat]
-         [:synsem :essere]
-         [:synsem :infl]
-         [:synsem :sem :pred]]]
-
-    (fn [spec]
-      (let [lexicon 
-            (into {}
-                  (for [[k vals] (:lexicon model)]
-                    (let [filtered-vals
-                          (filter verbcoach-pronouns
-                                  vals)]
-                      (if (not (empty? filtered-vals))
-                        [k filtered-vals]))))]
-        (lookup-spec spec (create-indices lexicon index-lexicon-on-paths) index-lexicon-on-paths)))))
-
 (def
   verbcoach-index-paths
   [[:italiano :italiano]
@@ -362,6 +342,18 @@
    [:synsem :essere]
    [:synsem :infl]
    [:synsem :sem :pred]])
+
+(def verbcoach-index-fn
+  (fn [spec]
+    (let [lexicon 
+          (into {}
+                (for [[k vals] (:lexicon model)]
+                  (let [filtered-vals
+                        (filter verbcoach-pronouns
+                                vals)]
+                    (if (not (empty? filtered-vals))
+                      [k filtered-vals]))))]
+      (lookup-spec spec (create-indices lexicon verbcoach-index-paths) verbcoach-index-paths)))))
 
 (defn create-index-fn [verb-set grammar]
   (let [lexicon

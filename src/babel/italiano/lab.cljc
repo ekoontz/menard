@@ -352,8 +352,9 @@
                        (fn [v]
                          (or 
                           (and (= :verb (u/get-in v [:synsem :cat]))
-                               (contains? verb-set
-                                          (u/get-in v [:italiano :italiano])))
+                               (or (= true (u/get-in v [:synsem :aux]))
+                                   (contains? verb-set
+                                              (u/get-in v [:italiano :italiano]))))
                           (verbcoach-pronouns v)))
                        vals)]
                   (if (not (empty? filtered-vals))

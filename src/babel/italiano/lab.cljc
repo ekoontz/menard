@@ -405,6 +405,35 @@
                         babel.generate/index-fn index-fn]
                 (time (generate spec model))))))))
 
+(defn arrabbiarsi-or-sedersi
+  "generate arrabiarsi sentences with a grammar subset."
+  []
+  (let [verb-set #{"arrabbiarsi" "essere" "fermarsi" "parlare" "sedersi"}
+        grammar
+        (filter
+         #(contains? verbcoach-grammar (u/get-in % [:rule]))
+         (:grammar model))
+        specs [{:root {:italiano {:italiano "arrabbiarsi"}}
+                :synsem {:cat :verb
+                         :modified false
+                         :sem {:tense :past
+                               :aspect :progressive}
+                         :subcat []}}
+
+               {:root {:italiano {:italiano "sedersi"}}
+                :synsem {:cat :verb
+                         :modified false
+                         :sem {:tense :future}
+                         :subcat []}}]
+        index-fn (create-index-fn verb-set grammar)]
+    (repeatedly
+     #(println
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? true
+                        babel.generate/grammar grammar
+                        babel.generate/index-fn index-fn]
+                (time (generate (first (shuffle specs)) model))))))))
+
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."
   []

@@ -377,10 +377,10 @@
                           (verbcoach-pronouns v)))
                        vals)]
                   (if (not (empty? filtered-vals))
-                    [k filtered-vals]))))]
+                    [k filtered-vals]))))
+        indices (create-indices lexicon verbcoach-index-paths)]
     (fn [spec]
-      (lookup-spec spec (create-indices lexicon verbcoach-index-paths)
-                   verbcoach-index-paths))))
+      (lookup-spec spec indices verbcoach-index-paths))))
 
 (defn arrabbiarsi
   "generate arrabiarsi sentences with a grammar subset."

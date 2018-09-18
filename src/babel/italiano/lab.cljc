@@ -364,21 +364,21 @@
    [:synsem :sem :pred]])
 
 (defn create-index-fn [verb-set grammar]
-  (fn [spec]
-    (let [lexicon 
-          (into {}
-                (for [[k vals] (:lexicon model)]
-                  (let [filtered-vals
-                        (filter
-                         (fn [v]
-                           (or 
-                            (and (= :verb (u/get-in v [:synsem :cat]))
-                                 (contains? verb-set
-                                            (u/get-in v [:italiano :italiano])))
-                            (verbcoach-pronouns v)))
-                         vals)]
-                    (if (not (empty? filtered-vals))
-                      [k filtered-vals]))))]
+  (let [lexicon
+        (into {}
+              (for [[k vals] (:lexicon model)]
+                (let [filtered-vals
+                      (filter
+                       (fn [v]
+                         (or 
+                          (and (= :verb (u/get-in v [:synsem :cat]))
+                               (contains? verb-set
+                                          (u/get-in v [:italiano :italiano])))
+                          (verbcoach-pronouns v)))
+                       vals)]
+                  (if (not (empty? filtered-vals))
+                    [k filtered-vals]))))]
+    (fn [spec]
       (lookup-spec spec (create-indices lexicon verbcoach-index-paths)
                    verbcoach-index-paths))))
 

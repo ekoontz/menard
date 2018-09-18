@@ -120,16 +120,14 @@
 
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec."
-  [spec depth
+  [spec depth]
   ;; get all rules that match input _spec_:
-   (->> grammar
-        (map #(unify % spec))
-        (filter #(not (= :fail %)))
-        
-        ;; try to add heads to each matching rule:
-        (parent-with-head-1 spec depth)
-        (filter #(not (= % :fail)))
-        (map #(u/assoc-in! % [::started?] true)))])
+  (->> grammar
+       (map #(unify % spec))
+       (remove #(= :fail %))
+       (parent-with-head-1 spec depth)
+       (remove #(= % :fail))
+       (map #(u/assoc-in! % [::started?] true))))
 
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))

@@ -343,18 +343,6 @@
    [:synsem :infl]
    [:synsem :sem :pred]])
 
-(def verbcoach-index-fn
-  (fn [spec]
-    (let [lexicon 
-          (into {}
-                (for [[k vals] (:lexicon model)]
-                  (let [filtered-vals
-                        (filter verbcoach-pronouns
-                                vals)]
-                    (if (not (empty? filtered-vals))
-                      [k filtered-vals]))))]
-      (lookup-spec spec (create-indices lexicon verbcoach-index-paths) verbcoach-index-paths)))))
-
 (defn create-index-fn [verb-set grammar]
   (let [lexicon
         (into {}
@@ -377,7 +365,7 @@
 (defn arrabbiarsi
   "generate arrabiarsi sentences with a grammar subset."
   []
-  (let [verb-set #{"arrabbiarsi" "essere" "fermarsi" "parlare" "sedersi"}
+  (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
         grammar
         (filter
          #(contains? verbcoach-grammar (u/get-in % [:rule]))
@@ -400,7 +388,7 @@
 (defn arrabbiarsi-or-sedersi
   "generate arrabiarsi sentences with a grammar subset."
   []
-  (let [verb-set #{"arrabbiarsi" "essere" "fermarsi" "parlare" "sedersi"}
+  (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
         grammar
         (filter
          #(contains? verbcoach-grammar (u/get-in % [:rule]))

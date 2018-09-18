@@ -60,10 +60,8 @@
   (grow (parent-with-head spec 0)))
 
 (defn grow
-  "recursively generate trees given 
-   input trees. continue recursively
-   until no futher expansion is 
-   possible."
+  "Recursively generate trees given input trees. continue recursively
+   until no futher expansion is possible."
   [trees]
   (if (not (empty? trees))
     ;; for each tree,
@@ -124,16 +122,15 @@
   "Return every possible tree of depth 1 from the given spec."
   [spec depth]
   ;; get all rules that match input _spec_:
-  (if (nil? spec) (throw (Exception. (str "nope: spec was nil."))))
-  (let [matching-rules
-        (->> grammar
-             (map #(unify % spec))
-             (filter #(not (= :fail %))))]
-    (->> matching-rules
-         ;; 2. try to add heads to each matching rule:
-         (parent-with-head-1 spec depth)
-         (filter #(not (= % :fail)))
-         (map #(u/assoc-in! % [::started?] true)))))
+  (if (nil? spec) (throw (Exception. (str "nope: spec was nil.")))
+      (->> grammar
+           (map #(unify % spec))
+           (filter #(not (= :fail %)))
+           
+           ;; try to add heads to each matching rule:
+           (parent-with-head-1 spec depth)
+           (filter #(not (= % :fail)))
+           (map #(u/assoc-in! % [::started?] true)))))
 
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))

@@ -296,22 +296,43 @@
 
 (def verbcoach-grammar
   #{
-    "s-aux"
-    "s-conditional-nonphrasal"
-    "s-conditional-phrasal"
-    "s-future-nonphrasal"
-    "s-future-phrasal"
-    "s-imperfetto-nonphrasal"
-    "s-imperfetto-phrasal"
-    "s-present-nonphrasal"
-    "s-present-phrasal"
+    ;;    "adjective-phrase"
+    ;;    "intensifier-phrase"
+    ;;    "nbar1"
+    ;;    "nbar2"
+    ;;    "noun-phrase1"
+    ;;    "noun-phrase2"
+    ;;    "np-to-n-pp"
+    ;;    "prepositional-phrase"
+    ;;    "s-aux"
+    ;;    "s-modified-modifier-first"
+    ;;    "s-modified-modifier-last"
+    ;;    "s-modifier"
+    ;;    "sentence-nonphrasal-head"
+    "sentence-phrasal-head"
+    ;;    "vp"
+    ;;    "vp-32"
     "vp-aux-22-nonphrasal-comp"
-    "vp-aux-phrasal-complement"
+    "vp-aux-22-phrasal-comp"
     "vp-aux-nonphrasal-complement"
-    "vp-32"
-    "vp-pronoun-nonphrasal"
-    "vp-pronoun-phrasal"
-    })
+    "vp-aux-phrasal-complement"
+    "vp-aux-phrasal-complement-essere-false"
+    "vp-infinitive"
+    ;;    "vp-past"
+    "vp-present"
+    "vp-pronoun-nonphrasal"})
+;;    "vp-pronoun-phrasal"
+
+
+
+(def verbcoach-pronouns
+  (fn [v]
+    (or 
+     (and (= :noun (u/get-in v [:synsem :cat]))
+          (not (= :acc (u/get-in v [:synsem :case]))))
+     (and (= :noun (u/get-in v [:synsem :cat]))
+          (= :acc (u/get-in v [:synsem :case]))
+          (= true (u/get-in v [:synsem :reflexive]))))))
 
 (def verbcoach-index-fn
   (let [index-lexicon-on-paths
@@ -327,22 +348,45 @@
             (into {}
                   (for [[k vals] (:lexicon model)]
                     (let [filtered-vals
-                          (filter (fn [v]
-                                    (or (not (= :noun (u/get-in v [:synsem :cat])))
-                                        (and (= :noun (u/get-in v [:synsem :cat]))
-                                             (not (= :acc (u/get-in v [:synsem :case]))))
-                                        (and (= :noun (u/get-in v [:synsem :cat]))
-                                             (= :acc (u/get-in v [:synsem :case]))
-                                             (= true (u/get-in v [:synsem :reflexive])))))
+                          (filter verbcoach-pronouns
                                   vals)]
                       (if (not (empty? filtered-vals))
                         [k filtered-vals]))))]
         (lookup-spec spec (create-indices lexicon index-lexicon-on-paths) index-lexicon-on-paths)))))
 
+(def
+  verbcoach-index-paths
+  [[:italiano :italiano]
+   [:synsem :aux]
+   [:synsem :cat]
+   [:synsem :essere]
+   [:synsem :infl]
+   [:synsem :sem :pred]])
+
+(defn create-index-fn [verb-set grammar]
+  (fn [spec]
+    (let [lexicon 
+          (into {}
+                (for [[k vals] (:lexicon model)]
+                  (let [filtered-vals
+                        (filter
+                         (fn [v]
+                           (or 
+                            (and (= :verb (u/get-in v [:synsem :cat]))
+                                 (contains? verb-set
+                                            (u/get-in v [:italiano :italiano])))
+                            (verbcoach-pronouns v)))
+                         vals)]
+                    (if (not (empty? filtered-vals))
+                      [k filtered-vals]))))]
+      (lookup-spec spec (create-indices lexicon verbcoach-index-paths)
+                   verbcoach-index-paths))))
+
 (defn arrabbiarsi
   "generate arrabiarsi sentences with a grammar subset."
   []
-  (let [grammar
+  (let [verb-set #{"arrabbiarsi" "essere" "fermarsi" "parlare" "sedersi"}
+        grammar
         (filter
          #(contains? verbcoach-grammar (u/get-in % [:rule]))
          (:grammar model))
@@ -351,14 +395,15 @@
                        :modified false
                        :sem {:tense :past
                              :aspect :progressive}
-                       :subcat []}}]
+                       :subcat []}}
+        index-fn (create-index-fn verb-set grammar)]
     (repeatedly
      #(println
-       (morph-ps (binding [babel.generate/println? true
-                           babel.generate/truncate? false
-                           babel.generate/grammar grammar
-                           babel.generate/index-fn verbcoach-index-fn]
-                   (time (generate spec model))))))))
+       (morph (binding [babel.generate/println? false
+                        babel.generate/truncate? true
+                        babel.generate/grammar grammar
+                        babel.generate/index-fn index-fn]
+                (time (generate spec model))))))))
 
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."

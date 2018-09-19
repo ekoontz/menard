@@ -50,6 +50,14 @@
                        :sem {:tense :present
                              :aspect :simple}
                        :infl :present}})
+            
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux true
+                       :cat :verb
+                       :sem {:tense :present
+                             :aspect :perfect}
+                       :infl :present}})
 
             (apply-default-if
              verb-default?

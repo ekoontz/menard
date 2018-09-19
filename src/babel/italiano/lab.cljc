@@ -314,6 +314,7 @@
 
 (def present-perfect-grammar
   #{"s-aux"
+    "vp-aux-nonphrasal-complement"
     "vp-aux-phrasal-complement"
     "vp-pronoun-nonphrasal"})
 
@@ -389,8 +390,8 @@
    {:root {:italiano {:italiano "chiamarsi"}}}
    chiamarsi-grammar
 
-   {:tense :present
-    :aspect :perfect}
+   {:synsem {:sem {:tense :present
+                   :aspect :perfect}}}
    present-perfect-grammar
 
    {:synsem {:sem {:tense :future}}}
@@ -444,8 +445,9 @@
                              (contains? generate-with-grammar-set
                                         (u/get-in rule-structure [:rule])))
                            (:grammar model))]
+               ;;               (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
                (morph (binding [babel.generate/println? false
-                                babel.generate/truncate? true
+                                babel.generate/truncate? false
                                 babel.generate/index-fn (create-index-fn verb-set grammar)
                                 babel.generate/grammar grammar]
                         (time (generate chosen-spec model)))))))))))

@@ -373,6 +373,28 @@
                         babel.generate/index-fn index-fn]
                 (time (generate spec model))))))))
 
+;; this is a lot like a lexical compilation default map.
+(def rule-matcher
+  {{:root {:italiano {:italiano "chiamarsi"}}}
+   chiamarsi-grammar
+
+   {:tense :present
+    :aspect :perfect}
+   present-perfect-grammar
+
+   {:tense :future}
+   future-grammar})
+
+(defn rule-matcher-reducer [input-spec]
+  (reduce
+   clojure.set/union
+   (map (fn [key-in-rule-matcher]
+          (let [result (unify key-in-rule-matcher input-spec)]
+            (if (= :fail result)
+              nil
+              (get rule-matcher key-in-rule-matcher))))
+        (keys rule-matcher))))
+
 (defn generate-for-verbcoach
   "generate sentences efficiently given specific constraints."
   []
@@ -393,41 +415,16 @@
        (let [chosen-spec
              (unify (first (shuffle specs))
                     (first (shuffle tense-specs)))]
-         (let [generate-with-grammar
-               (cond
-                 (not (= :fail
-                         (unify
-                          chosen-spec
-                          {:root {:italiano {:italiano "chiamarsi"}}})))
-                 (filter (fn [rule-structure]
-                           (contains? chiamarsi-grammar
-                                      (u/get-in rule-structure [:rule])))
-                         (:grammar model))
-
-                 (not (= :fail
-                         (unify(u/get-in chosen-spec [:synsem :sem])
-                               {:tense :present
-                                :aspect :perfect})))
-                 (filter (fn [rule-structure]
-                           (contains? present-perfect-grammar
-                                      (u/get-in rule-structure [:rule])))
-                         (:grammar model))
-
-                 (not (= :fail
-                         (unify (u/get-in chosen-spec [:synsem :sem])
-                                {:tense :future})))
-                 (filter (fn [rule-structure]
-                           (contains? future-grammar
-                                      (u/get-in rule-structure [:rule])))
-                         (:grammar model))
-                 true
-                 ;; else use entire model
-                 (do
-                   (log/warn "using entire model: will be slow.")
-                   (:grammar model)))]
+         (let [generate-with-grammar-set
+               (rule-matcher-reducer chosen-spec)
+               grammar
+               (filter (fn [rule-structure]
+                         (contains? generate-with-grammar-set
+                                    (u/get-in rule-structure [:rule])))
+                       (:grammar model))]
            (morph (binding [babel.generate/println? false
                             babel.generate/truncate? true
-                            babel.generate/grammar generate-with-grammar]
+                            babel.generate/grammar grammar]
                     (time (generate chosen-spec model))))))))))
 
 (defn stampare

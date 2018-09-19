@@ -292,59 +292,38 @@
                         babel.generate/grammar grammar]
                 (time (generate spec model))))))))
 
-
-
-(def verbcoach-grammar
-  #{
-    ;;    "adjective-phrase"
-    ;;    "intensifier-phrase"
-    ;;    "nbar1"
-    ;;    "nbar2"
-    ;;    "noun-phrase1"
-    ;;    "noun-phrase2"
-    ;;    "np-to-n-pp"
-    ;;    "prepositional-phrase"
-    ;;    "s-aux"
-    ;;    "s-modified-modifier-first"
-    ;;    "s-modified-modifier-last"
-    ;;    "s-modifier"
-    ;;    "sentence-nonphrasal-head"
-    "sentence-phrasal-head"
-    ;;    "vp"
-    ;;    "vp-32"
-    "vp-aux-22-nonphrasal-comp"
-    "vp-aux-22-phrasal-comp"
-    "vp-aux-nonphrasal-complement"
-    "vp-aux-phrasal-complement"
-    "vp-aux-phrasal-complement-essere-false"
-    "vp-infinitive"
-    ;;    "vp-past"
-    "vp-present"
+(def future-grammar
+  #{"sentence-phrasal-head"
     "vp-pronoun-nonphrasal"})
-;;    "vp-pronoun-phrasal"
 
-
-
-(def verbcoach-pronouns
-  (fn [v]
-    (or 
-     (and (= :noun (u/get-in v [:synsem :cat]))
-          (not (= :acc (u/get-in v [:synsem :case]))))
-     (and (= :noun (u/get-in v [:synsem :cat]))
-          (= :acc (u/get-in v [:synsem :case]))
-          (= true (u/get-in v [:synsem :reflexive]))))))
-
-(def
-  verbcoach-index-paths
-  [[:italiano :italiano]
-   [:synsem :aux]
-   [:synsem :cat]
-   [:synsem :essere]
-   [:synsem :infl]
-   [:synsem :sem :pred]])
+(def present-perfect-grammar
+  #{"s-aux"
+    "vp-aux-phrasal-complement"
+    "vp-pronoun-nonphrasal"})
 
 (defn create-index-fn [verb-set grammar]
-  (let [lexicon
+  (let [future-grammar
+        #{"sentence-phrasal-head"
+          "vp-pronoun-nonphrasal"}
+
+        verbcoach-pronouns
+        (fn [v]
+          (or 
+           (and (= :noun (u/get-in v [:synsem :cat]))
+                (not (= :acc (u/get-in v [:synsem :case]))))
+           (and (= :noun (u/get-in v [:synsem :cat]))
+                (= :acc (u/get-in v [:synsem :case]))
+                (= true (u/get-in v [:synsem :reflexive])))))
+
+        verbcoach-index-paths
+        [[:italiano :italiano]
+         [:synsem :aux]
+         [:synsem :cat]
+         [:synsem :essere]
+         [:synsem :infl]
+         [:synsem :sem :pred]]
+
+        lexicon
         (into {}
               (for [[k vals] (:lexicon model)]
                 (let [filtered-vals
@@ -390,30 +369,50 @@
   "generate arrabiarsi sentences with a grammar subset."
   []
   (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
-        grammar
-        (filter
-         #(contains? verbcoach-grammar (u/get-in % [:rule]))
-         (:grammar model))
+        grammar (filter
+                 #(contains? verbcoach-grammar (u/get-in % [:rule]))
+                 (:grammar model))
         specs [{:root {:italiano {:italiano "arrabbiarsi"}}
                 :synsem {:cat :verb
-                         :modified false
-                         :sem {:tense :past
-                               :aspect :progressive}
+                         :sem {:tense :present
+                               :aspect :perfect}
                          :subcat []}}
-
                {:root {:italiano {:italiano "sedersi"}}
                 :synsem {:cat :verb
-                         :modified false
                          :sem {:tense :future}
-                         :subcat []}}]
-        index-fn (create-index-fn verb-set grammar)]
+                         :subcat []}}]]
     (repeatedly
      #(println
-       (morph (binding [babel.generate/println? false
-                        babel.generate/truncate? true
-                        babel.generate/grammar grammar
-                        babel.generate/index-fn index-fn]
-                (time (generate (first (shuffle specs)) model))))))))
+       (let [chosen-spec
+             (first (shuffle specs))]
+         (let [generate-with-grammar
+               (cond 
+                 (not (= :fail
+                         (unify (u/get-in chosen-spec [:synsem :sem])
+                                {:tense :present
+                                 :aspect :perfect})))
+                 (filter (fn [rule-structure]
+                           (contains? present-perfect-grammar
+                                      (u/get-in rule-structure [:rule])))
+                         (:grammar model))
+
+                 (not (= :fail
+                         (unify (u/get-in chosen-spec [:synsem :sem])
+                                {:tense :future})))
+
+                 (filter (fn [rule-structure]
+                           (contains? future-grammar
+                                      (u/get-in rule-structure [:rule])))
+                         (:grammar model))
+                 true
+                 ;; else use entire model
+                 (do
+                   (log/warn "using entire model: will be slow.")
+                   (:grammar model)))]
+           (morph (binding [babel.generate/println? false
+                            babel.generate/truncate? true
+                            babel.generate/grammar generate-with-grammar]
+                    (time (generate chosen-spec model))))))))))
 
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."

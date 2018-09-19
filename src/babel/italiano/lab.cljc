@@ -425,10 +425,10 @@
                  (do
                    (log/warn "using entire model: will be slow.")
                    (:grammar model)))]
-           (morph-ps (binding [babel.generate/println? false
-                               babel.generate/truncate? false
-                               babel.generate/grammar generate-with-grammar]
-                       (time (generate chosen-spec model))))))))))
+           (morph (binding [babel.generate/println? false
+                            babel.generate/truncate? true
+                            babel.generate/grammar generate-with-grammar]
+                    (time (generate chosen-spec model))))))))))
 
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."

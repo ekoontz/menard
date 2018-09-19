@@ -295,6 +295,11 @@
 (def basic-grammar
   #{"sentence-nonphrasal-head"})
 
+(def present-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
 (def chiamarsi-grammar
   #{"s-aux"
     "sentence-phrasal-head"
@@ -388,8 +393,13 @@
     :aspect :perfect}
    present-perfect-grammar
 
-   {:tense :future}
-   future-grammar})
+   {:synsem {:sem {:tense :future}}}
+   future-grammar
+
+   {:synsem {:sem {:tense :present
+                   :aspect :simple}}}
+   present-grammar})
+
 
 (defn rule-matcher-reducer [input-spec]
   (reduce
@@ -417,7 +427,10 @@
                                :subcat []}}
                      {:synsem {:cat :verb
                                :sem {:tense :future}
-                               :subcat []}}]]
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :present
+                                     :aspect :simple}}}]]
     (repeatedly
      #(do (println "")
           (println

@@ -424,6 +424,7 @@
                        (:grammar model))]
            (morph (binding [babel.generate/println? false
                             babel.generate/truncate? true
+                            babel.generate/index-fn (create-index-fn verb-set grammar)
                             babel.generate/grammar grammar]
                     (time (generate chosen-spec model))))))))))
 

@@ -292,6 +292,9 @@
                         babel.generate/grammar grammar]
                 (time (generate spec model))))))))
 
+(def basic-grammar
+  #{"sentence-nonphrasal-head"})
+
 (def chiamarsi-grammar
   #{"s-aux"
     "sentence-phrasal-head"
@@ -375,7 +378,10 @@
 
 ;; this is a lot like a lexical compilation default map.
 (def rule-matcher
-  {{:root {:italiano {:italiano "chiamarsi"}}}
+  {:top
+   basic-grammar
+   
+   {:root {:italiano {:italiano "chiamarsi"}}}
    chiamarsi-grammar
 
    {:tense :present
@@ -398,7 +404,9 @@
 (defn generate-for-verbcoach
   "generate sentences efficiently given specific constraints."
   []
-  (let [verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
+  (let [verb-set #{"arrabbiarsi" "chiamarsi"
+                   "fermarsi"    "parlare"
+                   "sedersi"     "vedere"}
         specs
         (map (fn [root]
                {:root {:italiano {:italiano root}}})
@@ -411,23 +419,24 @@
                                :sem {:tense :future}
                                :subcat []}}]]
     (repeatedly
-     #(println
-       (let [chosen-spec
-             (unify (first (shuffle specs))
-                    (first (shuffle tense-specs)))]
-         (let [generate-with-grammar-set
-               (rule-matcher-reducer chosen-spec)
-               grammar
-               (filter (fn [rule-structure]
-                         (contains? generate-with-grammar-set
-                                    (u/get-in rule-structure [:rule])))
-                       (:grammar model))]
-           (morph (binding [babel.generate/println? false
-                            babel.generate/truncate? true
-                            babel.generate/index-fn (create-index-fn verb-set grammar)
-                            babel.generate/grammar grammar]
-                    (time (generate chosen-spec model))))))))))
-
+     #(do (println "")
+          (println
+           (let [chosen-spec
+                 (unify (first (shuffle specs))
+                        (first (shuffle tense-specs)))]
+             (let [generate-with-grammar-set
+                   (rule-matcher-reducer chosen-spec)
+                   grammar
+                   (filter (fn [rule-structure]
+                             (contains? generate-with-grammar-set
+                                        (u/get-in rule-structure [:rule])))
+                           (:grammar model))]
+               (morph (binding [babel.generate/println? false
+                                babel.generate/truncate? true
+                                babel.generate/index-fn (create-index-fn verb-set grammar)
+                                babel.generate/grammar grammar]
+                        (time (generate chosen-spec model)))))))))))
+  
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."
   []

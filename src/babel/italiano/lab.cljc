@@ -294,6 +294,7 @@
 
 (def future-grammar
   #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
     "vp-pronoun-nonphrasal"})
 
 (def present-perfect-grammar
@@ -368,29 +369,36 @@
 (defn arrabbiarsi-or-sedersi
   "generate arrabiarsi sentences with a grammar subset."
   []
-  (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
-        grammar (filter
-                 #(contains? verbcoach-grammar (u/get-in % [:rule]))
-                 (:grammar model))
-        specs [{:root {:italiano {:italiano "arrabbiarsi"}}
-                :synsem {:cat :verb
-                         :sem {:tense :present
-                               :aspect :perfect}
-                         :subcat []}}
-               {:root {:italiano {:italiano "sedersi"}}
-                :synsem {:cat :verb
-                         :sem {:tense :future}
-                         :subcat []}}]]
+  (let [verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
+        verb-set #{"chiamarsi"}
+        specs
+        (map (fn [root]
+               {:root {:italiano {:italiano root}}})
+             verb-set)
+        tense-specs [{:synsem {:cat :verb
+                               :sem {:tense :present
+                                     :aspect :perfect}
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :future}
+                               :subcat []}}]]
     (repeatedly
      #(println
        (let [chosen-spec
-             (first (shuffle specs))]
+             (unify (first (shuffle specs))
+                    (first (shuffle tense-specs)))]
          (let [generate-with-grammar
-               (cond 
+               (cond
                  (not (= :fail
-                         (unify (u/get-in chosen-spec [:synsem :sem])
-                                {:tense :present
-                                 :aspect :perfect})))
+                         (unify
+                          (u/get-in chosen-spec [:synsem :sem])
+                          {:root {:root "chiamarsi"}})))
+                 (do (log/warn "chiamarsi: gotta use everything.")
+                     (:grammar model))
+                 (not (= :fail
+                         (unify(u/get-in chosen-spec [:synsem :sem])
+                               {:tense :present
+                                :aspect :perfect})))
                  (filter (fn [rule-structure]
                            (contains? present-perfect-grammar
                                       (u/get-in rule-structure [:rule])))
@@ -409,10 +417,10 @@
                  (do
                    (log/warn "using entire model: will be slow.")
                    (:grammar model)))]
-           (morph (binding [babel.generate/println? false
-                            babel.generate/truncate? true
-                            babel.generate/grammar generate-with-grammar]
-                    (time (generate chosen-spec model))))))))))
+           (morph-ps (binding [babel.generate/println? false
+                               babel.generate/truncate? false
+                               babel.generate/grammar generate-with-grammar]
+                       (time (generate chosen-spec model))))))))))
 
 (defn stampare
   "generate arrabiarsi sentences with a grammar subset."

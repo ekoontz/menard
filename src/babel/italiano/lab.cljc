@@ -292,6 +292,13 @@
                         babel.generate/grammar grammar]
                 (time (generate spec model))))))))
 
+(def chiamarsi-grammar
+  #{"s-aux"
+    "sentence-phrasal-head"
+    "vp-aux-phrasal-complement"
+    "vp-pronoun-phrasal"
+    "vp-32"})
+
 (def future-grammar
   #{"sentence-phrasal-head"
     "vp-pronoun-phrasal"
@@ -366,11 +373,10 @@
                         babel.generate/index-fn index-fn]
                 (time (generate spec model))))))))
 
-(defn arrabbiarsi-or-sedersi
-  "generate arrabiarsi sentences with a grammar subset."
+(defn generate-for-verbcoach
+  "generate sentences efficiently given specific constraints."
   []
   (let [verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
-        verb-set #{"chiamarsi"}
         specs
         (map (fn [root]
                {:root {:italiano {:italiano root}}})
@@ -391,10 +397,13 @@
                (cond
                  (not (= :fail
                          (unify
-                          (u/get-in chosen-spec [:synsem :sem])
-                          {:root {:root "chiamarsi"}})))
-                 (do (log/warn "chiamarsi: gotta use everything.")
-                     (:grammar model))
+                          chosen-spec
+                          {:root {:italiano {:italiano "chiamarsi"}}})))
+                 (filter (fn [rule-structure]
+                           (contains? chiamarsi-grammar
+                                      (u/get-in rule-structure [:rule])))
+                         (:grammar model))
+
                  (not (= :fail
                          (unify(u/get-in chosen-spec [:synsem :sem])
                                {:tense :present
@@ -407,7 +416,6 @@
                  (not (= :fail
                          (unify (u/get-in chosen-spec [:synsem :sem])
                                 {:tense :future})))
-
                  (filter (fn [rule-structure]
                            (contains? future-grammar
                                       (u/get-in rule-structure [:rule])))

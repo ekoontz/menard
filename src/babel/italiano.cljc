@@ -19,7 +19,9 @@
 (def model
   (do
     (init-db)
-    @@(get babel.directory/models :it)))
+    (merge
+     {:loaded-at (java.time.LocalDateTime/now)}
+     @@(get babel.directory/models :it))))
 
 (defn apply-patterns [input-string]
   (let [result 

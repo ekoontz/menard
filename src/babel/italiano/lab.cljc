@@ -218,6 +218,7 @@
                                      (babel.lexiconfn/write-lexicon "it" (babel.italiano.lexicon/compile-lexicon))
                                      " items.")))
   (babel.directory/refresh-models)
+  (load "../italiano/grammar")
   (load "../italiano"))
 
 ;;(map #(println (morph %)) (grow (sprouts spec model) model))

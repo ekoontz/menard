@@ -366,22 +366,21 @@
   (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
         grammar
         (filter
-         #(contains? verbcoach-grammar (u/get-in % [:rule]))
+         #(contains? present-perfect-grammar (u/get-in % [:rule]))
          (:grammar model))
         spec {:root {:italiano {:italiano "arrabbiarsi"}}
+              :modified false
               :synsem {:cat :verb
-                       :modified false
-                       :sem {:tense :past
-                             :aspect :progressive}
+                       :essere true
+                       :sem {:tense :present
+                             :aspect :perfect}
                        :subcat []}}
         index-fn (create-index-fn verb-set grammar)]
-    (repeatedly
-     #(println
-       (morph (binding [babel.generate/println? false
-                        babel.generate/truncate? true
-                        babel.generate/grammar grammar
-                        babel.generate/index-fn index-fn]
-                (time (generate spec model))))))))
+    (binding [babel.generate/println? true
+              babel.generate/truncate? false
+              babel.generate/grammar grammar
+              babel.generate/index-fn index-fn]
+      (time (generate spec model)))))
 
 ;; this is a lot like a lexical compilation default map.
 (def rule-matcher
@@ -413,12 +412,10 @@
               (get rule-matcher key-in-rule-matcher))))
         (keys rule-matcher))))
 
-(defn generate-for-verbcoach
+(defn generate-arrabbiarsi
   "generate sentences efficiently given specific constraints."
   []
-  (let [verb-set #{"arrabbiarsi" "chiamarsi"
-                   "fermarsi"    "parlare"
-                   "sedersi"     "vedere"}
+  (let [verb-set #{"arrabbiarsi"}
         specs
         (map (fn [root]
                {:root {:italiano {:italiano root}}})
@@ -426,39 +423,109 @@
         tense-specs [{:synsem {:cat :verb
                                :sem {:tense :present
                                      :aspect :perfect}
-                               :subcat []}}
-                     {:synsem {:cat :verb
-                               :sem {:tense :future}
-                               :subcat []}}
-                     {:synsem {:cat :verb
+                               :subcat []}}]]
+                                        ;                     {:synsem {:cat :verb
+                                        ;                               :sem {:tense :future}
+                                        ;                               :subcat []}}]]
+                                        ;                     {:synsem {:cat :verb
+                                        ;                               :sem {:tense :present
+                                        ;                                     :aspect :simple}}]]
+    
+    (let [chosen-spec
+          (unify (first (shuffle specs))
+                 (first (shuffle tense-specs)))]
+      (let [generate-with-grammar-set
+            (rule-matcher-reducer chosen-spec)
+            grammar
+            (filter (fn [rule-structure]
+                      (contains? generate-with-grammar-set
+                                 (u/get-in rule-structure [:rule])))
+                    (:grammar model))]
+        (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
+        (binding [babel.generate/println? true
+                  babel.generate/truncate? false
+                  babel.generate/index-fn (create-index-fn verb-set grammar)
+                  babel.generate/grammar grammar]
+          (time (generate chosen-spec model)))))))
+
+(defn generate-for-verbcoach
+  "generate sentences efficiently given specific constraints."
+  []
+  (let [verb-set #{"arrabbiarsi"}
+        
+        specs
+        (map (fn [root]
+               {:root {:italiano {:italiano root}}})
+             verb-set)
+        tense-specs [{:synsem {:cat :verb
                                :sem {:tense :present
-                                     :aspect :simple}}}]]
+                                     :aspect :perfect}
+                               :subcat []}}]]
+                                        ;                     {:synsem {:cat :verb
+                                        ;                               :sem {:tense :future}
+                                        ;                               :subcat []}}]]
+                                        ;                     {:synsem {:cat :verb
+                                        ;                               :sem {:tense :present
+                                        ;                                     :aspect :simple}}]]
+    
     (repeatedly
-     #(do (println "")
-          (println
-           (let [chosen-spec
-                 (unify (first (shuffle specs))
-                        (first (shuffle tense-specs)))]
-             (let [generate-with-grammar-set
-                   (rule-matcher-reducer chosen-spec)
-                   grammar
-                   (filter (fn [rule-structure]
-                             (contains? generate-with-grammar-set
-                                        (u/get-in rule-structure [:rule])))
-                           (:grammar model))]
-               ;;               (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
-               (morph (binding [babel.generate/println? false
-                                babel.generate/truncate? false
-                                babel.generate/index-fn (create-index-fn verb-set grammar)
-                                babel.generate/grammar grammar]
-                        (time (generate chosen-spec model)))))))))))
-  
+     #(do ;;(println "")
+        (println
+         (let [chosen-spec
+               (unify (first (shuffle specs))
+                      (first (shuffle tense-specs)))]
+           (let [generate-with-grammar-set
+                 (rule-matcher-reducer chosen-spec)
+                 grammar
+                 (filter (fn [rule-structure]
+                           (contains? generate-with-grammar-set
+                                      (u/get-in rule-structure [:rule])))
+                         (:grammar model))]
+             (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
+             (morph-ps (binding [babel.generate/println? false
+                                 babel.generate/truncate? false
+                                 babel.generate/index-fn (create-index-fn verb-set grammar)
+                                 babel.generate/grammar grammar]
+                         (time (generate chosen-spec model)))))))))))
+
+(def verbcoach-pronouns
+  (fn [v]
+    (or
+     (and (= :noun (u/get-in v [:synsem :cat]))
+          (not (= :acc (u/get-in v [:synsem :case]))))
+     (and (= :noun (u/get-in v [:synsem :cat]))
+          (= :acc (u/get-in v [:synsem :case]))
+          (= true (u/get-in v [:synsem :reflexive]))))))
+
+(def
+  verbcoach-index-paths
+  [[:italiano :italiano]
+   [:synsem :aux]
+   [:synsem :cat]
+   [:synsem :essere]
+   [:synsem :infl]
+   [:synsem :sem :pred]])
+
+(def verbcoach-index-fn
+  (fn [spec]
+    (let [lexicon
+          (into {}
+                (for [[k vals] (:lexicon model)]
+                  (let [filtered-vals
+                        (filter verbcoach-pronouns
+                                vals)]
+                    (if (not (empty? filtered-vals))
+                      [k filtered-vals]))))]
+      (lookup-spec spec (create-indices lexicon verbcoach-index-paths)
+                   verbcoach-index-paths))))
+
+
 (defn stampare
-  "generate arrabiarsi sentences with a grammar subset."
+  "generate 'stampare' sentences with a grammar subset."
   []
   (let [grammar
         (filter
-         #(contains? verbcoach-grammar (u/get-in % [:rule]))
+         #(contains? present-grammar (u/get-in % [:rule]))
          (:grammar model))
         spec {:root {:italiano {:italiano "stampare"}}
               :synsem {:cat :verb

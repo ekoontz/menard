@@ -74,7 +74,8 @@
           child-spec (u/get-in tree frontier-path)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
-      (when println? (println (str "grow at:" (morph-ps tree))))
+      (when println? (println (str "grow at:" (morph-ps tree)
+                                   "; frontier: " frontier-path)))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? frontier-path))

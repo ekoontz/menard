@@ -19,6 +19,7 @@
 (def ^:dynamic grammar nil)
 (def ^:dynamic index-fn nil)
 (def ^:dynamic lexicon nil)
+(def ^:dynamic lexical-filter nil)
 (def ^:dynamic morph-ps nil)
 (def ^:dynamic println? nil)
 (def ^:dynamic truncate? nil)
@@ -167,8 +168,12 @@
   [spec]
   (->>
    (index-fn spec)
-   (filter #(or (= false (u/get-in % [:exception] false))
-                (not (= :verb (u/get-in % [:synsem :cat])))))
+   (filter #(and
+             (or (nil? lexical-filter) (lexical-filter %))
+             ;; TODO: probably remove this in favor of per-language filtering as we
+             ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
+             (= false (u/get-in % [:exception] false)
+                (not (= :verb (u/get-in % [:synsem :cat]))))))
    (map #(unify % spec))
    (filter #(not (= :fail %)))
    (map #(u/assoc-in! % [::done?] true))))

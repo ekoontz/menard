@@ -481,9 +481,7 @@
                                     :cat :verb}}
                           vp-non-pronoun)
 
-                   ;;{:root {:italiano {:italiano "abbracciare"}}, :synsem {:cat :verb, :subcat [], :sem {:aspect :perfect, :tense :present :obj :unspec}}}
-                   ;; (take 5 (repeatedly #(println ((:morph-ps model) (babel.generate/generate spec model)))))
-
+                   ;; TODO: consolidate "vp-past" and "vp-present" into a single rule.
                    (unify h21
                           root-is-head
                           {:rule "vp-past"
@@ -510,7 +508,6 @@
                    (unify c21
                           root-is-head-root
                           {:head {:phrasal true}
-                           :wtf 42
                            :comp {:synsem {:cat :noun
                                            :pronoun true}}
                            :rule "vp-pronoun-phrasal"

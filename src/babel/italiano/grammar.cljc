@@ -575,7 +575,7 @@
                                    :essere essere
                                    :sem sem
                                    :subcat []}}
-                   :rule "s-modified-modifier-last"}))))
+                   :rule "s-modified-modifier-last"}))])
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase [:synsem :cat]))

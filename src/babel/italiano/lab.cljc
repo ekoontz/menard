@@ -3,7 +3,7 @@
    [babel.directory] ;; this is needed even though there are no references to directory in here.
    [babel.generate :as g :refer [frontier generate]]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.italiano :as italiano :refer [model morph morph-ps parse]]
+   [babel.italiano :as italiano :refer [model morph morph-ps]]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
@@ -237,62 +237,6 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
-(defn with-shrunken-model []
-  (binding [babel.generate/truncate? true
-            babel.generate/println? false
-            babel.generate/index-fn (:index-fn model)
-            babel.generate/morph-ps (:morph-ps model)
-            babel.generate/grammar
-            (filter
-             (fn [rule]
-               (or
-                (= (:rule rule) "s-aux")
-                (= (:rule rule) "vp-pronoun-phrasal")
-                (= (:rule rule) "vp-aux-22-nonphrasal-comp")))
-             (:grammar model))]
-    (generate {:modified false
-               :root {:italiano {:italiano "radersi"}}
-               :synsem {:cat :verb
-                        :sem {:aspect :perfect
-                              :tense :present}
-                        :subcat []}})))
-
-(defn svegliarsi []
-  (repeatedly 
-   #(println (pprint
-              (let [expr 
-                    (time (generate {:modified false, 
-                                     :synsem {:cat :verb, :subcat []
-                                              :sem {:tense :present, :aspect :progressive}}, 
-                                     :root {:italiano {:italiano "svegliarsi"}}
-                                     :comp {:phrasal false}}
-                                    model))]
-                {:m (morph expr)
-                 :ps (morph-ps expr)})))))
-
-(defn chiamarsi
-  "generate chiamarsi sentences with a grammar subset."
-  []
-  (let [grammar
-        (filter
-         #(or
-           (= "s-present-phrasal" (u/get-in % [:rule]))
-           (= "vp-32" (u/get-in % [:rule]))
-           (= "vp-pronoun-phrasal" (u/get-in % [:rule])))
-         
-         (:grammar model))
-        spec {:root {:italiano {:italiano "chiamarsi"}}
-              :synsem {:cat :verb
-                       :sem {:tense :present
-                             :aspect :simple}
-                       :subcat []}}]
-    (repeatedly
-     #(println
-       (morph (binding [babel.generate/println? false
-                        babel.generate/truncate? false
-                        babel.generate/grammar grammar]
-                (time (generate spec model))))))))
-
 (def basic-grammar
   #{"sentence-nonphrasal-head"})
 
@@ -315,6 +259,7 @@
 
 (def present-perfect-grammar
   #{"s-aux"
+    "vp-32"
     "vp-aux-22-nonphrasal-comp"
     "vp-aux-22-phrasal-comp"
     "vp-aux-nonphrasal-complement"
@@ -323,15 +268,13 @@
     "vp-pronoun-nonphrasal"})
 
 (defn create-index-fn [verb-set grammar]
-  (let [future-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-nonphrasal"}
-
-        verbcoach-pronouns
+  (let [verbcoach-pronouns
         (fn [v]
-          (or 
+          (or
            (and (= :noun (u/get-in v [:synsem :cat]))
                 (not (= :acc (u/get-in v [:synsem :case]))))
+           (and (= :noun (u/get-in v [:synsem :cat]))
+                (= true (u/get-in v [:synsem :propernoun])))
            (and (= :noun (u/get-in v [:synsem :cat]))
                 (= :acc (u/get-in v [:synsem :case]))
                 (= true (u/get-in v [:synsem :reflexive])))))
@@ -363,44 +306,6 @@
     (fn [spec]
       (lookup-spec spec indices verbcoach-index-paths))))
 
-;; grow at:[s-aux C:_ H:[vp-pronoun-phrasal C:_ H:[vp-aux-22-nonphrasal-comp H:essere C:arrabbiarsi]]];
-;; frontier: (:head :comp); looking for spec:
-(def looking-for-spec
-  {:synsem {:pronoun true,
-            :subcat '(),
-            :cat :noun,
-            :agr :top,
-            :top :top,
-            :sem {:prop {:animate true}},
-            :reflexive true,
-            :case :acc},
-   :italiano {:initial true,
-              :cat :noun}})
-
-(defn arrabbiarsi
-  "generate arrabiarsi sentences with a grammar subset."
-  []
-  (let [verb-set #{"arrabbiarsi" "fermarsi" "parlare" "sedersi"}
-        grammar
-        (filter
-         #(contains? present-perfect-grammar (u/get-in % [:rule]))
-         (:grammar model))
-        spec {:root {:italiano {:italiano "arrabbiarsi"}}
-              :modified false
-              :synsem {:cat :verb
-                       :essere true
-                       :sem {:tense :present
-                             :aspect :perfect}
-                       :subcat []}}
-        index-fn (create-index-fn verb-set grammar)]
-    (binding [babel.generate/println? true
-              babel.generate/truncate? false
-              babel.generate/grammar grammar
-              ;; TODO: if this works, use this exception-filtering everywhere we generate Italiano.
-              babel.generate/lexical-filter (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
-              babel.generate/index-fn index-fn]
-      (time (generate spec model)))))
-
 ;; this is a lot like a lexical compilation default map.
 (def rule-matcher
   {:top
@@ -416,6 +321,13 @@
    {:synsem {:sem {:tense :future}}}
    future-grammar
 
+   {:synsem {:sem {:tense :conditional}}}
+   future-grammar
+
+   {:synsem {:sem {:tense :past
+                   :aspect :progressive}}}
+   future-grammar
+   
    {:synsem {:sem {:tense :present
                    :aspect :simple}}}
    present-grammar})
@@ -431,64 +343,38 @@
               (get rule-matcher key-in-rule-matcher))))
         (keys rule-matcher))))
 
-(defn generate-arrabbiarsi
-  "generate sentences efficiently given specific constraints."
-  []
-  (let [verb-set #{"arrabbiarsi"}
-        specs
-        (map (fn [root]
-               {:root {:italiano {:italiano root}}})
-             verb-set)
-        tense-specs [{:synsem {:cat :verb
-                               :sem {:tense :present
-                                     :aspect :perfect}
-                               :subcat []}}]]
-                                        ;                     {:synsem {:cat :verb
-                                        ;                               :sem {:tense :future}
-                                        ;                               :subcat []}}]]
-                                        ;                     {:synsem {:cat :verb
-                                        ;                               :sem {:tense :present
-                                        ;                                     :aspect :simple}}]]
-    
-    (let [chosen-spec
-          (unify (first (shuffle specs))
-                 (first (shuffle tense-specs)))]
-      (let [generate-with-grammar-set
-            (rule-matcher-reducer chosen-spec)
-            grammar
-            (filter (fn [rule-structure]
-                      (contains? generate-with-grammar-set
-                                 (u/get-in rule-structure [:rule])))
-                    (:grammar model))]
-        (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
-        (binding [babel.generate/println? true
-                  babel.generate/truncate? false
-                  babel.generate/index-fn (create-index-fn verb-set grammar)
-                  babel.generate/grammar grammar]
-          (time (generate chosen-spec model)))))))
-
+;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach
   "generate sentences efficiently given specific constraints."
   []
-  (let [verb-set #{"arrabbiarsi"}
-        
+  (let [verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
         specs
         (map (fn [root]
                {:root {:italiano {:italiano root}}})
              verb-set)
-        tense-specs [{:synsem {:cat :verb
+        tense-specs [
+                     {:synsem {:cat :verb
                                :sem {:tense :present
                                      :aspect :perfect}
-                               :subcat []}}]]
-                                        ;                     {:synsem {:cat :verb
-                                        ;                               :sem {:tense :future}
-                                        ;                               :subcat []}}]]
-                                        ;                     {:synsem {:cat :verb
-                                        ;                               :sem {:tense :present
-                                        ;                                     :aspect :simple}}]]
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :future}
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :conditional}
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :past
+                                     :aspect :progressive}
+                               :subcat []}}
+                     {:synsem {:cat :verb
+                               :sem {:tense :present
+                                     :aspect :simple}}}
+                     ]
+        ]
     
     (repeatedly
-     #(do ;;(println "")
+     #(do
         (println
          (let [chosen-spec
                (unify (first (shuffle specs))
@@ -500,79 +386,10 @@
                            (contains? generate-with-grammar-set
                                       (u/get-in rule-structure [:rule])))
                          (:grammar model))]
-             (println (str "grammar-set for spec:" (strip-refs chosen-spec) ":" generate-with-grammar-set))
-             (morph-ps (binding [babel.generate/println? false
-                                 babel.generate/truncate? false
-                                 babel.generate/index-fn (create-index-fn verb-set grammar)
-                                 babel.generate/grammar grammar]
-                         (time (generate chosen-spec model)))))))))))
-
-(def verbcoach-pronouns
-  (fn [v]
-    (or
-     (and (= :noun (u/get-in v [:synsem :cat]))
-          (not (= :acc (u/get-in v [:synsem :case]))))
-     (and (= :noun (u/get-in v [:synsem :cat]))
-          (= :acc (u/get-in v [:synsem :case]))
-          (= true (u/get-in v [:synsem :reflexive]))))))
-
-(def
-  verbcoach-index-paths
-  [[:italiano :italiano]
-   [:synsem :aux]
-   [:synsem :cat]
-   [:synsem :essere]
-   [:synsem :infl]
-   [:synsem :sem :pred]])
-
-(def verbcoach-index-fn
-  (fn [spec]
-    (let [lexicon
-          (into {}
-                (for [[k vals] (:lexicon model)]
-                  (let [filtered-vals
-                        (filter verbcoach-pronouns
-                                vals)]
-                    (if (not (empty? filtered-vals))
-                      [k filtered-vals]))))]
-      (lookup-spec spec (create-indices lexicon verbcoach-index-paths)
-                   verbcoach-index-paths))))
-
-
-(defn stampare
-  "generate 'stampare' sentences with a grammar subset."
-  []
-  (let [grammar
-        (filter
-         #(contains? present-grammar (u/get-in % [:rule]))
-         (:grammar model))
-        spec {:root {:italiano {:italiano "stampare"}}
-              :synsem {:cat :verb
-                       :aux false
-                       :modified false
-                       :sem {:tense :past
-                             :aspect :progressive}
-                       :subcat []}}]
-
-    (repeatedly
-     #(println
-       (morph (binding [babel.generate/println? true
-                        babel.generate/truncate? false
-                        babel.generate/index-fn verbcoach-index-fn
-                        babel.generate/grammar grammar]
-                (time (generate spec model))))))))
-
-(defn chiamarsi-ps
-  "generate chiamarsi sentences with parse trees"
-  []
-  (repeatedly 
-   #(println (pprint
-              (let [expr 
-                    (time (generate {:modified false, 
-                                     :synsem {:cat :verb, :subcat []
-                                              :sem {:tense :present,
-                                                    :aspect :simple}}, 
-                                     :root {:italiano {:italiano "chiamarsi"}}}
-                                    model))]
-                {:m (morph expr)
-                 :ps (morph-ps expr)})))))
+             (morph (binding [babel.generate/println? false
+                              babel.generate/truncate? false
+                              babel.generate/index-fn (create-index-fn verb-set grammar)
+                              babel.generate/lexical-filter
+                              (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
+                              babel.generate/grammar grammar]
+                      (time (generate chosen-spec model)))))))))))

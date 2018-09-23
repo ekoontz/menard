@@ -242,7 +242,9 @@
   "generate sentences efficiently given specific constraints."
   [& [spec]]
 
-  (let [basic-grammar
+  (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
+
+        basic-grammar
         #{"sentence-nonphrasal-head"}
         
         present-grammar
@@ -307,31 +309,24 @@
 
         ;; this is a lot like a lexical compilation default map.
         rule-matcher
-        {:top
-         basic-grammar
+        {:top basic-grammar
 
          ;; example of a specific root's influence on grammar to be
          ;; be used for generation.
-         {:root {:italiano {:italiano "chiamarsi"}}}
-         chiamarsi-grammar
+         {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
          
          {:synsem {:sem {:tense :present
-                         :aspect :perfect}}}
-         present-perfect-grammar
+                         :aspect :perfect}}} present-perfect-grammar
          
-         {:synsem {:sem {:tense :future}}}
-         future-grammar
+         {:synsem {:sem {:tense :future}}} future-grammar
          
-         {:synsem {:sem {:tense :conditional}}}
-         future-grammar
+         {:synsem {:sem {:tense :conditional}}} future-grammar
          
          {:synsem {:sem {:tense :past
-                         :aspect :progressive}}}
-         future-grammar
+                         :aspect :progressive}}} future-grammar
          
          {:synsem {:sem {:tense :present
-                         :aspect :simple}}}
-         present-grammar}
+                         :aspect :simple}}} present-grammar}
 
         rule-matcher-reducer
         (fn [input-spec]
@@ -372,9 +367,7 @@
                    spec))
 
                root-spec
-               (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
-
-                     unif
+               (let [unif
                      (unify spec
                             {:root {:italiano {:italiano
                                                (first (shuffle example-verbs))}}})]

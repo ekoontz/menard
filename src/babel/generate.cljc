@@ -76,7 +76,9 @@
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
       (when println? (println (str "grow at:" (morph-ps tree)
-                                   "; frontier: " frontier-path)))
+                                   "; frontier: " frontier-path
+                                   "; looking for spec with "
+                                   "  cat:" (u/get-in child-spec [:synsem :cat]))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? frontier-path))
@@ -166,17 +168,21 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec]
-  (->>
-   (index-fn spec)
-   (filter #(and
-             (or (nil? lexical-filter) (lexical-filter %))
-             ;; TODO: probably remove this in favor of per-language filtering as we
-             ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
-             (= false (u/get-in % [:exception] false)
-                (not (= :verb (u/get-in % [:synsem :cat]))))))
-   (map #(unify % spec))
-   (filter #(not (= :fail %)))
-   (map #(u/assoc-in! % [::done?] true))))
+  (let [result
+         (->> (index-fn spec)
+              (filter #(and
+                         (or (nil? lexical-filter) (lexical-filter %))
+                         ;; TODO: probably remove this in favor of per-language filtering as we
+                         ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
+                         (= false (u/get-in % [:exception] false))
+                         (not (= :verb (u/get-in % [:synsem :cat])))))
+              (map #(unify % spec))
+              (filter #(not (= :fail %)))
+              (map #(u/assoc-in! % [::done?] true)))]
+    (println (str "found this many lexemes: " (count result)))
+    (if (= 0 (count result))
+      (println (str "WARN: no lexemes found for spec: " (u/strip-refs spec))))
+    result))
 
 (defn- assoc-each-default [tree children path]
   (if (not (empty? children))

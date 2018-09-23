@@ -511,8 +511,8 @@
                            :comp {:synsem {:cat :noun
                                            :pronoun true}}
                            :rule "vp-pronoun-phrasal"
-                           :synsem {:cat :verb
-                                    :sem {:tense :future}}})
+                           :synsem {:cat :verb}})
+
                    (unify c21
                           root-is-head
                           (let [reflexive? (atom :top)]

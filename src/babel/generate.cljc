@@ -46,7 +46,7 @@
              lexicon (or lexicon
                          (:lexicon (:generate model))
                          (:lexicon model))
-             index-fn (or index-fn (:index-fn model)
+             index-fn (or (and index-fn (:index-fn model))
                           (do
                             (log/warn (str "no index available for this model: using entire lexicon."))
                             (fn [spec]

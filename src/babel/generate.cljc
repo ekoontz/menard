@@ -78,7 +78,7 @@
       (when println? (println (str "grow at:" (morph-ps tree)
                                    "; frontier: " frontier-path
                                    "; looking for spec with "
-                                   "  cat:" (u/get-in child-spec [:synsem :cat]))))
+                                   "cat=" (u/get-in child-spec [:synsem :cat]))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? frontier-path))

@@ -168,21 +168,17 @@
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
   [spec]
-  (let [result
-         (->> (index-fn spec)
-              (filter #(and
-                         (or (nil? lexical-filter) (lexical-filter %))
-                         ;; TODO: probably remove this in favor of per-language filtering as we
-                         ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
-                         (= false (u/get-in % [:exception] false))
-                         (not (= :verb (u/get-in % [:synsem :cat])))))
-              (map #(unify % spec))
-              (filter #(not (= :fail %)))
-              (map #(u/assoc-in! % [::done?] true)))]
-    (println (str "found this many lexemes: " (count result)))
-    (if (= 0 (count result))
-      (println (str "WARN: no lexemes found for spec: " (u/strip-refs spec))))
-    result))
+  (if (= true (u/get-in spec [:phrasal]))
+    []
+    (->> (index-fn spec)
+         (filter #(and (or (nil? lexical-filter) (lexical-filter %))
+                       ;; TODO: probably remove this in favor of per-language filtering as we
+                       ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
+                       (or (= false (u/get-in % [:exception] false))
+                           (not (= :verb (u/get-in % [:synsem :cat]))))))
+         (map #(unify % spec))
+         (filter #(not (= :fail %)))
+         (map #(u/assoc-in! % [::done?] true)))))
 
 (defn- assoc-each-default [tree children path]
   (if (not (empty? children))

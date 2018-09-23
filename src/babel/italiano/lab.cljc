@@ -240,7 +240,7 @@
 ;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach
   "generate sentences efficiently given specific constraints."
-  []
+  [& [spec]]
 
   (let [basic-grammar
         #{"sentence-nonphrasal-head"}
@@ -251,9 +251,7 @@
           "vp-pronoun-nonphrasal"}
 
         chiamarsi-grammar
-        #{"s-aux"
-          "sentence-phrasal-head"
-          "vp-aux-phrasal-complement"
+        #{"sentence-phrasal-head"
           "vp-pronoun-phrasal"
           "vp-32"}
 
@@ -273,7 +271,7 @@
           "vp-pronoun-nonphrasal"}
 
         create-index-fn
-        (fn [verb-set grammar]
+        (fn [grammar]
           (let [verbcoach-pronouns
                 (fn [v]
                   (or
@@ -298,13 +296,8 @@
                       (for [[k vals] (:lexicon model)]
                         (let [filtered-vals
                               (filter
-                               (fn [v]
-                                 (or 
-                                  (and (= :verb (u/get-in v [:synsem :cat]))
-                                       (or (= true (u/get-in v [:synsem :aux]))
-                                           (contains? verb-set
-                                                      (u/get-in v [:italiano :italiano]))))
-                                  (verbcoach-pronouns v)))
+                               #(or (= :verb (u/get-in % [:synsem :cat]))
+                                    (verbcoach-pronouns %))
                                vals)]
                           (if (not (empty? filtered-vals))
                             [k filtered-vals]))))
@@ -316,7 +309,9 @@
         rule-matcher
         {:top
          basic-grammar
-         
+
+         ;; example of a specific root's influence on grammar to be
+         ;; be used for generation.
          {:root {:italiano {:italiano "chiamarsi"}}}
          chiamarsi-grammar
          
@@ -348,13 +343,8 @@
                       nil
                       (get rule-matcher key-in-rule-matcher))))
                 (keys rule-matcher))))
-        
-        verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
-        specs (map (fn [root]
-                     {:root {:italiano {:italiano root}}})
-                   verb-set)
-        tense-specs [
-                     {:synsem {:cat :verb
+
+        tense-specs [{:synsem {:cat :verb
                                :sem {:tense :present
                                      :aspect :perfect}
                                :subcat []}}
@@ -370,16 +360,29 @@
                                :subcat []}}
                      {:synsem {:cat :verb
                                :sem {:tense :present
-                                     :aspect :simple}}}
-                     ]
-        ]
-    
+                                     :aspect :simple}}}]]
     (repeatedly
      #(do
         (println
-         (let [chosen-spec
-               (unify (first (shuffle specs))
-                      (first (shuffle tense-specs)))]
+         (let [tense-spec (first (shuffle tense-specs))
+               tense-spec
+               (let [result (unify spec tense-spec)]
+                 (if (not (= :fail result))
+                   result
+                   spec))
+
+               root-spec
+               (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
+
+                     unif
+                     (unify spec
+                            {:root {:italiano {:italiano
+                                               (first (shuffle example-verbs))}}})]
+                 (if (not (= :fail unif))
+                   unif
+                   spec))
+
+               chosen-spec (unify root-spec tense-spec)]
            (let [generate-with-grammar-set
                  (rule-matcher-reducer chosen-spec)
                  grammar
@@ -389,7 +392,7 @@
                          (:grammar model))]
              (morph (binding [babel.generate/println? false
                               babel.generate/truncate? false
-                              babel.generate/index-fn (create-index-fn verb-set grammar)
+                              babel.generate/index-fn (create-index-fn grammar)
                               babel.generate/lexical-filter
                               (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
                               babel.generate/grammar grammar]

@@ -315,8 +315,11 @@
 
 (def present-perfect-grammar
   #{"s-aux"
+    "vp-aux-22-nonphrasal-comp"
+    "vp-aux-22-phrasal-comp"
     "vp-aux-nonphrasal-complement"
     "vp-aux-phrasal-complement"
+    "vp-pronoun-phrasal"
     "vp-pronoun-nonphrasal"})
 
 (defn create-index-fn [verb-set grammar]
@@ -360,6 +363,20 @@
     (fn [spec]
       (lookup-spec spec indices verbcoach-index-paths))))
 
+;; grow at:[s-aux C:_ H:[vp-pronoun-phrasal C:_ H:[vp-aux-22-nonphrasal-comp H:essere C:arrabbiarsi]]];
+;; frontier: (:head :comp); looking for spec:
+(def looking-for-spec
+  {:synsem {:pronoun true,
+            :subcat '(),
+            :cat :noun,
+            :agr :top,
+            :top :top,
+            :sem {:prop {:animate true}},
+            :reflexive true,
+            :case :acc},
+   :italiano {:initial true,
+              :cat :noun}})
+
 (defn arrabbiarsi
   "generate arrabiarsi sentences with a grammar subset."
   []
@@ -379,6 +396,8 @@
     (binding [babel.generate/println? true
               babel.generate/truncate? false
               babel.generate/grammar grammar
+              ;; TODO: if this works, use this exception-filtering everywhere we generate Italiano.
+              babel.generate/lexical-filter (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
               babel.generate/index-fn index-fn]
       (time (generate spec model)))))
 

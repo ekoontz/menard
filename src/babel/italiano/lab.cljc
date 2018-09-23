@@ -237,121 +237,122 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
-(def basic-grammar
-  #{"sentence-nonphrasal-head"})
-
-(def present-grammar
-  #{"sentence-phrasal-head"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(def chiamarsi-grammar
-  #{"s-aux"
-    "sentence-phrasal-head"
-    "vp-aux-phrasal-complement"
-    "vp-pronoun-phrasal"
-    "vp-32"})
-
-(def future-grammar
-  #{"sentence-phrasal-head"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(def present-perfect-grammar
-  #{"s-aux"
-    "vp-32"
-    "vp-aux-22-nonphrasal-comp"
-    "vp-aux-22-phrasal-comp"
-    "vp-aux-nonphrasal-complement"
-    "vp-aux-phrasal-complement"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(defn create-index-fn [verb-set grammar]
-  (let [verbcoach-pronouns
-        (fn [v]
-          (or
-           (and (= :noun (u/get-in v [:synsem :cat]))
-                (not (= :acc (u/get-in v [:synsem :case]))))
-           (and (= :noun (u/get-in v [:synsem :cat]))
-                (= true (u/get-in v [:synsem :propernoun])))
-           (and (= :noun (u/get-in v [:synsem :cat]))
-                (= :acc (u/get-in v [:synsem :case]))
-                (= true (u/get-in v [:synsem :reflexive])))))
-
-        verbcoach-index-paths
-        [[:italiano :italiano]
-         [:synsem :aux]
-         [:synsem :cat]
-         [:synsem :essere]
-         [:synsem :infl]
-         [:synsem :sem :pred]]
-
-        lexicon
-        (into {}
-              (for [[k vals] (:lexicon model)]
-                (let [filtered-vals
-                      (filter
-                       (fn [v]
-                         (or 
-                          (and (= :verb (u/get-in v [:synsem :cat]))
-                               (or (= true (u/get-in v [:synsem :aux]))
-                                   (contains? verb-set
-                                              (u/get-in v [:italiano :italiano]))))
-                          (verbcoach-pronouns v)))
-                       vals)]
-                  (if (not (empty? filtered-vals))
-                    [k filtered-vals]))))
-        indices (create-indices lexicon verbcoach-index-paths)]
-    (fn [spec]
-      (lookup-spec spec indices verbcoach-index-paths))))
-
-;; this is a lot like a lexical compilation default map.
-(def rule-matcher
-  {:top
-   basic-grammar
-   
-   {:root {:italiano {:italiano "chiamarsi"}}}
-   chiamarsi-grammar
-
-   {:synsem {:sem {:tense :present
-                   :aspect :perfect}}}
-   present-perfect-grammar
-
-   {:synsem {:sem {:tense :future}}}
-   future-grammar
-
-   {:synsem {:sem {:tense :conditional}}}
-   future-grammar
-
-   {:synsem {:sem {:tense :past
-                   :aspect :progressive}}}
-   future-grammar
-   
-   {:synsem {:sem {:tense :present
-                   :aspect :simple}}}
-   present-grammar})
-
-
-(defn rule-matcher-reducer [input-spec]
-  (reduce
-   clojure.set/union
-   (map (fn [key-in-rule-matcher]
-          (let [result (unify key-in-rule-matcher input-spec)]
-            (if (= :fail result)
-              nil
-              (get rule-matcher key-in-rule-matcher))))
-        (keys rule-matcher))))
-
 ;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach
   "generate sentences efficiently given specific constraints."
   []
-  (let [verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
-        specs
-        (map (fn [root]
-               {:root {:italiano {:italiano root}}})
-             verb-set)
+
+  (let [basic-grammar
+        #{"sentence-nonphrasal-head"}
+        
+        present-grammar
+        #{"sentence-phrasal-head"
+          "vp-pronoun-phrasal"
+          "vp-pronoun-nonphrasal"}
+
+        chiamarsi-grammar
+        #{"s-aux"
+          "sentence-phrasal-head"
+          "vp-aux-phrasal-complement"
+          "vp-pronoun-phrasal"
+          "vp-32"}
+
+        future-grammar
+        #{"sentence-phrasal-head"
+          "vp-pronoun-phrasal"
+          "vp-pronoun-nonphrasal"}
+
+        present-perfect-grammar
+        #{"s-aux"
+          "vp-32"
+          "vp-aux-22-nonphrasal-comp"
+          "vp-aux-22-phrasal-comp"
+          "vp-aux-nonphrasal-complement"
+          "vp-aux-phrasal-complement"
+          "vp-pronoun-phrasal"
+          "vp-pronoun-nonphrasal"}
+
+        create-index-fn
+        (fn [verb-set grammar]
+          (let [verbcoach-pronouns
+                (fn [v]
+                  (or
+                   (and (= :noun (u/get-in v [:synsem :cat]))
+                        (not (= :acc (u/get-in v [:synsem :case]))))
+                   (and (= :noun (u/get-in v [:synsem :cat]))
+                        (= true (u/get-in v [:synsem :propernoun])))
+                   (and (= :noun (u/get-in v [:synsem :cat]))
+                        (= :acc (u/get-in v [:synsem :case]))
+                        (= true (u/get-in v [:synsem :reflexive])))))
+                
+                verbcoach-index-paths
+                [[:italiano :italiano]
+                 [:synsem :aux]
+                 [:synsem :cat]
+                 [:synsem :essere]
+                 [:synsem :infl]
+                 [:synsem :sem :pred]]
+                
+                lexicon
+                (into {}
+                      (for [[k vals] (:lexicon model)]
+                        (let [filtered-vals
+                              (filter
+                               (fn [v]
+                                 (or 
+                                  (and (= :verb (u/get-in v [:synsem :cat]))
+                                       (or (= true (u/get-in v [:synsem :aux]))
+                                           (contains? verb-set
+                                                      (u/get-in v [:italiano :italiano]))))
+                                  (verbcoach-pronouns v)))
+                               vals)]
+                          (if (not (empty? filtered-vals))
+                            [k filtered-vals]))))
+                indices (create-indices lexicon verbcoach-index-paths)]
+            (fn [spec]
+              (lookup-spec spec indices verbcoach-index-paths))))
+
+        ;; this is a lot like a lexical compilation default map.
+        rule-matcher
+        {:top
+         basic-grammar
+         
+         {:root {:italiano {:italiano "chiamarsi"}}}
+         chiamarsi-grammar
+         
+         {:synsem {:sem {:tense :present
+                         :aspect :perfect}}}
+         present-perfect-grammar
+         
+         {:synsem {:sem {:tense :future}}}
+         future-grammar
+         
+         {:synsem {:sem {:tense :conditional}}}
+         future-grammar
+         
+         {:synsem {:sem {:tense :past
+                         :aspect :progressive}}}
+         future-grammar
+         
+         {:synsem {:sem {:tense :present
+                         :aspect :simple}}}
+         present-grammar}
+
+        rule-matcher-reducer
+        (fn [input-spec]
+          (reduce
+           clojure.set/union
+           (map (fn [key-in-rule-matcher]
+                  (let [result (unify key-in-rule-matcher input-spec)]
+                    (if (= :fail result)
+                      nil
+                      (get rule-matcher key-in-rule-matcher))))
+                (keys rule-matcher))))
+        
+        verb-set #{"arrabbiarsi" "chiamarsi" "fermarsi" "parlare" "sedersi"}
+        specs (map (fn [root]
+                     {:root {:italiano {:italiano root}}})
+                   verb-set)
         tense-specs [
                      {:synsem {:cat :verb
                                :sem {:tense :present
@@ -393,3 +394,4 @@
                               (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
                               babel.generate/grammar grammar]
                       (time (generate chosen-spec model)))))))))))
+

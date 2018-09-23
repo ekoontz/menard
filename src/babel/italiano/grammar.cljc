@@ -269,15 +269,16 @@
 (defonce modified {:modified true})
 (defonce unmodified {:modified false})
 
-(def grammar (list (unify h21
-                          {:rule "adjective-phrase"
-                           :synsem {:cat :adjective}})
+(def grammar
+  [(unify h21
+          {:rule "adjective-phrase"
+           :synsem {:cat :adjective}})
 
-                   (unify h21
-                          (let [head-synsem {:cat :intensifier
-                                             :modified true}] ;; TODO: document what purpose :modified serves (if any: if none, remove).
-                            {:rule "intensifier-phrase"
-                             :synsem head-synsem}))
+   (unify h21
+          (let [head-synsem {:cat :intensifier
+                             :modified true}] ;; TODO: document what purpose :modified serves (if any: if none, remove).
+            {:rule "intensifier-phrase"
+             :synsem head-synsem}))
 
                                         ;                   (let [parent-subcat (atom :top)
                                         ;                         sem (atom :top)
@@ -299,282 +300,282 @@
                                         ;                                :subcat parent-subcat}
                                         ;                       :schema-symbol 'h11
                                         ;                       :rule "adverb-phrase"}))
-                   
-                   ;; nbar where head (noun) is first ('h' in h11)
-                   (unify h11-comp-subcat-1
-                          (let [is-propernoun? (atom :top)]
-                            {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
-                                    :synsem {:cat :adjective}}
-                             :head {:phrasal false
-                                    :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
-                                             :propernoun is-propernoun?}}
-                             :rule "nbar1"
-                             :synsem {:cat :noun
-                                      :modified true
-                                      :propernoun is-propernoun?}}))
+   
+   ;; nbar where head (noun) is first ('h' in h11)
+   (unify h11-comp-subcat-1
+          (let [is-propernoun? (atom :top)]
+            {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
+                    :synsem {:cat :adjective}}
+             :head {:phrasal false
+                    :synsem {:modified false ;; TODO: document what purpose :modified serves (if any: if none, remove).
+                             :propernoun is-propernoun?}}
+             :rule "nbar1"
+             :synsem {:cat :noun
+                      :modified true
+                      :propernoun is-propernoun?}}))
 
-                   ;; nbar where complement (adjective) is first ('c' in c11)
-                   (unify c11-comp-subcat-1
-                          (let [is-propernoun? (atom :top)]
-                            {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
-                                    :synsem {:cat :adjective}}
-                             :head {:phrasal false
-                                    :synsem {:modified false ;; rathole prevention: as above, try to remove if possible
-                                             :propernoun is-propernoun?}}
-                             :rule "nbar2"
-                             :synsem {:cat :noun
-                                      :modified true
-                                      :propernoun is-propernoun?}}))
+   ;; nbar where complement (adjective) is first ('c' in c11)
+   (unify c11-comp-subcat-1
+          (let [is-propernoun? (atom :top)]
+            {:comp {:phrasal false ;; rathole prevention ;; TODO: see if this can be removed.
+                    :synsem {:cat :adjective}}
+             :head {:phrasal false
+                    :synsem {:modified false ;; rathole prevention: as above, try to remove if possible
+                             :propernoun is-propernoun?}}
+             :rule "nbar2"
+             :synsem {:cat :noun
+                      :modified true
+                      :propernoun is-propernoun?}}))
 
-                   (unify c10
-                          comp-specs-head
-                          root-is-head
-                          (let [number-agreement (atom :top)
-                                is-propernoun? (atom :top)]
-                            {:rule "noun-phrase1"
-                             :aliases (list "np1")
-                             :synsem {:agr {:number number-agreement}
-                                      :cat :noun
-                                      :propernoun is-propernoun?
-                                      :sem {:number number-agreement
-                                            :mod []}}
-                             :head {:phrasal false
-                                    :synsem {:propernoun is-propernoun?}}
-                             :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+   (unify c10
+          comp-specs-head
+          root-is-head
+          (let [number-agreement (atom :top)
+                is-propernoun? (atom :top)]
+            {:rule "noun-phrase1"
+             :aliases (list "np1")
+             :synsem {:agr {:number number-agreement}
+                      :cat :noun
+                      :propernoun is-propernoun?
+                      :sem {:number number-agreement
+                            :mod []}}
+             :head {:phrasal false
+                    :synsem {:propernoun is-propernoun?}}
+             :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
-                   (let [propernoun? (atom :top)]
-                     (unify h10
-                            {:rule "np-to-n-pp"
-                             :synsem {:cat :noun
-                                      :propernoun propernoun?}
-                             :head {:phrasal false
-                                    :synsem {:propernoun propernoun?}}
+   (let [propernoun? (atom :top)]
+     (unify h10
+            {:rule "np-to-n-pp"
+             :synsem {:cat :noun
+                      :propernoun propernoun?}
+             :head {:phrasal false
+                    :synsem {:propernoun propernoun?}}
 
-                             ;; TODO: comp's synsem should be constrained
-                             ;; in head's lexical entry, not here in the grammar.
-                             :comp {:synsem {:cat :prep
-                                             :sem {:pred :di}}}}))
-                   (unify c10
-                          comp-specs-head
-                          (let [number-agreement (atom :top)
-                                propernoun? (atom :top)]
-                            {:rule "noun-phrase2"
-                             :aliases (list "np2")
-                             :synsem {:agr {:number number-agreement}
-                                      :cat :noun
-                                      :sem {:number number-agreement}
-                                      :propernoun propernoun?}
-                             :head {:phrasal true
-                                    :synsem {:propernoun propernoun?}}
-                             :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
+             ;; TODO: comp's synsem should be constrained
+             ;; in head's lexical entry, not here in the grammar.
+             :comp {:synsem {:cat :prep
+                             :sem {:pred :di}}}}))
+   (unify c10
+          comp-specs-head
+          (let [number-agreement (atom :top)
+                propernoun? (atom :top)]
+            {:rule "noun-phrase2"
+             :aliases (list "np2")
+             :synsem {:agr {:number number-agreement}
+                      :cat :noun
+                      :sem {:number number-agreement}
+                      :propernoun propernoun?}
+             :head {:phrasal true
+                    :synsem {:propernoun propernoun?}}
+             :comp {:phrasal false}})) ;; rathole prevention ;; TODO: see if this can be removed.
 
-                   (let [reflexive (atom :top)
-                         sem (atom :top)]
-                     (unify-check h10
-                                  subcat-1-principle
-                                  {:rule "prepositional-phrase"
-                                   :synsem {:cat :prep
-                                            :reflexive reflexive
-                                            :sem sem}
-                                   :head {:synsem {:sem sem
-                                                   :subcat {:1 {:reflexive reflexive}}}}}))
+   (let [reflexive (atom :top)
+         sem (atom :top)]
+     (unify-check h10
+                  subcat-1-principle
+                  {:rule "prepositional-phrase"
+                   :synsem {:cat :prep
+                            :reflexive reflexive
+                            :sem sem}
+                   :head {:synsem {:sem sem
+                                   :subcat {:1 {:reflexive reflexive}}}}}))
 
                                         ;                   (unify h21
                                         ;                           {:rule "adjunct-prepositional-phrase"
                                         ;                            :synsem {:cat :prep}})
-                   
-                   (unify c10
-                          root-is-head-root
-                          ;; only a vp-aux may be the head child,
-                          ;; not simply a lexical auxiliary verb.
-                          {:head {:phrasal true 
-                                  :synsem {:aux true}}
-                           :rule "s-aux"
-                           :synsem {:cat :verb}})
+   
+   (unify c10
+          root-is-head-root
+          ;; only a vp-aux may be the head child,
+          ;; not simply a lexical auxiliary verb.
+          {:head {:phrasal true 
+                  :synsem {:aux true}}
+           :rule "s-aux"
+           :synsem {:cat :verb}})
 
-                   (unify c10
-                          root-is-head-root
-                          {:rule "sentence-phrasal-head"
-                           :head {:phrasal true}
-                           :synsem {:aux false
-                                    :infl {:not :infinitive}}})
+   (unify c10
+          root-is-head-root
+          {:rule "sentence-phrasal-head"
+           :head {:phrasal true}
+           :synsem {:aux false
+                    :infl {:not :infinitive}}})
 
-                   (unify c10
-                          root-is-head
-                          {:rule "sentence-nonphrasal-head"
-                           :head {:phrasal false}
-                           :synsem {:aux false
-                                    :cat :verb
-                                    :infl {:not :infinitive}}})
+   (unify c10
+          root-is-head
+          {:rule "sentence-nonphrasal-head"
+           :head {:phrasal false}
+           :synsem {:aux false
+                    :cat :verb
+                    :infl {:not :infinitive}}})
 
-                   (unify h21
-                          root-is-head
-                          {:rule "vp-infinitive"
-                           :synsem {:aux false
-                                    :infl :infinitive
-                                    :cat :verb}})
-                   (unify h21a
-                          root-is-comp-root
-                          {:rule "vp-aux-phrasal-complement"
-                           :head {:phrasal false
-                                  :synsem {:essere false
-                                           :aux true
-                                           :sem {:obj {:top :top}}}}
-                           :comp {:phrasal true}
-                           :synsem {:aux true
-                                    :cat :verb}})
-                   (unify h21a
-                          root-is-comp-root
-                          {:rule "vp-aux-phrasal-complement-essere-false"
-                           :head {:phrasal false
-                                  :synsem {:aux true
-                                           :sem {:obj {:top :top}}
-                                           :essere false}}
-                           :comp {:phrasal true}
-                           :synsem {:aux true
-                                    :cat :verb}})
-                   (unify h21a
-                          root-is-comp
-                          {:rule "vp-aux-nonphrasal-complement"
-                           :head {:phrasal false
-                                  :synsem {:aux true}}
-                           :comp {:phrasal false}
-                           :synsem {:aux true
-                                    :cat :verb}})
+   (unify h21
+          root-is-head
+          {:rule "vp-infinitive"
+           :synsem {:aux false
+                    :infl :infinitive
+                    :cat :verb}})
+   (unify h21a
+          root-is-comp-root
+          {:rule "vp-aux-phrasal-complement"
+           :head {:phrasal false
+                  :synsem {:essere false
+                           :aux true
+                           :sem {:obj {:top :top}}}}
+           :comp {:phrasal true}
+           :synsem {:aux true
+                    :cat :verb}})
+   (unify h21a
+          root-is-comp-root
+          {:rule "vp-aux-phrasal-complement-essere-false"
+           :head {:phrasal false
+                  :synsem {:aux true
+                           :sem {:obj {:top :top}}
+                           :essere false}}
+           :comp {:phrasal true}
+           :synsem {:aux true
+                    :cat :verb}})
+   (unify h21a
+          root-is-comp
+          {:rule "vp-aux-nonphrasal-complement"
+           :head {:phrasal false
+                  :synsem {:aux true}}
+           :comp {:phrasal false}
+           :synsem {:aux true
+                    :cat :verb}})
 
-                   ;; this rule is kind of complicated and made more so by
-                   ;; dependence on auxilary sense of "avere" which supplies the
-                   ;; obj-agr agreement between the object and the main (non-auxilary) verb.
-                   ;; Note use of :reflexive below.
-                   (unify h22
-                          root-is-comp-root
-                          vp-non-pronoun
-                          (let [obj-agr (atom :top)]
-                            {:head {:phrasal false
-                                    :synsem {:aux true}}
-                             :comp {:phrasal true}
-                             :rule "vp-aux-22-phrasal-comp"
-                             :synsem {:aux true
-                                      :cat :verb
-                                      :sem {:reflexive true}
-                                      :subcat {:2 {:agr obj-agr}}}
-                             :italiano {:b {:obj-agr obj-agr}}}))
+   ;; this rule is kind of complicated and made more so by
+   ;; dependence on auxilary sense of "avere" which supplies the
+   ;; obj-agr agreement between the object and the main (non-auxilary) verb.
+   ;; Note use of :reflexive below.
+   (unify h22
+          root-is-comp-root
+          vp-non-pronoun
+          (let [obj-agr (atom :top)]
+            {:head {:phrasal false
+                    :synsem {:aux true}}
+             :comp {:phrasal true}
+             :rule "vp-aux-22-phrasal-comp"
+             :synsem {:aux true
+                      :cat :verb
+                      :sem {:reflexive true}
+                      :subcat {:2 {:agr obj-agr}}}
+             :italiano {:b {:obj-agr obj-agr}}}))
 
-                   (unify h22
-                          root-is-comp
-                          vp-non-pronoun
-                          (let [obj-agr (atom :top)]
-                            {:head {:phrasal false
-                                    :synsem {:aux true}}
-                             :comp {:phrasal false}
-                             :rule "vp-aux-22-nonphrasal-comp"
-                             :synsem {:aux true
-                                      :cat :verb
-                                      :sem {:reflexive true}
-                                      :subcat {:2 {:agr obj-agr}}}
-                             :italiano {:b {:obj-agr obj-agr}}}))
+   (unify h22
+          root-is-comp
+          vp-non-pronoun
+          (let [obj-agr (atom :top)]
+            {:head {:phrasal false
+                    :synsem {:aux true}}
+             :comp {:phrasal false}
+             :rule "vp-aux-22-nonphrasal-comp"
+             :synsem {:aux true
+                      :cat :verb
+                      :sem {:reflexive true}
+                      :subcat {:2 {:agr obj-agr}}}
+             :italiano {:b {:obj-agr obj-agr}}}))
 
-                   (unify h21
-                          root-is-head
-                          {:rule "vp"
-                           :synsem {:aux false
-                                    :cat :verb}}
-                          vp-non-pronoun)
+   (unify h21
+          root-is-head
+          {:rule "vp"
+           :synsem {:aux false
+                    :cat :verb}}
+          vp-non-pronoun)
 
-                   ;; TODO: consolidate "vp-past" and "vp-present" into a single rule.
-                   (unify h21
-                          root-is-head
-                          {:rule "vp-past"
-                           :comp {:synsem {:subcat []}}
-                           :head {:synsem {:sem {:reflexive false
-                                                 :obj {:top :top}}
-                                           :subcat {:2 {:sem {:top :top}}}}}
-                           :synsem {:aux false
-                                    :sem {:obj {:top :top}}
-                                    :infl :passato
-                                    :cat :verb}}
-                          vp-non-pronoun)
+   ;; TODO: consolidate "vp-past" and "vp-present" into a single rule.
+   (unify h21
+          root-is-head
+          {:rule "vp-past"
+           :comp {:synsem {:subcat []}}
+           :head {:synsem {:sem {:reflexive false
+                                 :obj {:top :top}}
+                           :subcat {:2 {:sem {:top :top}}}}}
+           :synsem {:aux false
+                    :sem {:obj {:top :top}}
+                    :infl :passato
+                    :cat :verb}}
+          vp-non-pronoun)
 
-                   (unify h21
-                          root-is-head
-                          {:rule "vp-present"
-                           :synsem {:aux false
-                                    :infl :present
-                                    :sem {:tense :present
-                                          :aspect :simple}
-                                    :cat :verb}}
-                          vp-non-pronoun)
+   (unify h21
+          root-is-head
+          {:rule "vp-present"
+           :synsem {:aux false
+                    :infl :present
+                    :sem {:tense :present
+                          :aspect :simple}
+                    :cat :verb}}
+          vp-non-pronoun)
 
-                   (unify c21
-                          root-is-head-root
-                          {:head {:phrasal true}
-                           :comp {:synsem {:cat :noun
-                                           :pronoun true}}
-                           :rule "vp-pronoun-phrasal"
-                           :synsem {:cat :verb}})
+   (unify c21
+          root-is-head-root
+          {:head {:phrasal true}
+           :comp {:synsem {:cat :noun
+                           :pronoun true}}
+           :rule "vp-pronoun-phrasal"
+           :synsem {:cat :verb}})
 
-                   (unify c21
-                          root-is-head
-                          (let [reflexive? (atom :top)]
-                            {:head {:phrasal false
-                                    :synsem {:sem {:tense :top
-                                                   :reflexive reflexive?}}}
-                             :comp {:synsem {:cat :noun
-                                             :reflexive reflexive?
-                                             :pronoun true}}
-                             :rule "vp-pronoun-nonphrasal"
-                             :synsem {:cat :verb}}))
+   (unify c21
+          root-is-head
+          (let [reflexive? (atom :top)]
+            {:head {:phrasal false
+                    :synsem {:sem {:tense :top
+                                   :reflexive reflexive?}}}
+             :comp {:synsem {:cat :noun
+                             :reflexive reflexive?
+                             :pronoun true}}
+             :rule "vp-pronoun-nonphrasal"
+             :synsem {:cat :verb}}))
 
-                   ;; e.g. used as: "io mi chiamo Luisa" -
-                   ;; [s-present-phrasal 'io' [vp-pronoun-phrasal 'mi' [vp-32 'chiamo' 'Luisa']]]
-                   (unify h32
-                          root-is-head
-                          {:rule "vp-32"
-                           :head {:phrasal false
-                                  :synsem {:aux false}}
-                           :synsem {:aux false
-                                    :cat :verb}})
-                   (unify h10
-                          root-is-comp
-                          {:head {:phrasal false
-                                  :synsem {:cat :sent-modifier}}
-                           :rule "s-modifier"})
+   ;; e.g. used as: "io mi chiamo Luisa" -
+   ;; [s-present-phrasal 'io' [vp-pronoun-phrasal 'mi' [vp-32 'chiamo' 'Luisa']]]
+   (unify h32
+          root-is-head
+          {:rule "vp-32"
+           :head {:phrasal false
+                  :synsem {:aux false}}
+           :synsem {:aux false
+                    :cat :verb}})
+   (unify h10
+          root-is-comp
+          {:head {:phrasal false
+                  :synsem {:cat :sent-modifier}}
+           :rule "s-modifier"})
 
-                   (unify-check c00
-                                comp-modifies-head
-                                modified
-                                (let [sem (atom :top)
-                                      essere (atom :top)] ;; TODO: use (default) to set this for all {:cat :verb} rules.
-                                  {:synsem {:subcat []
-                                            :essere essere
-                                            :cat :verb
-                                            :sem sem}
-                                   :comp {:synsem {:cat :prep
-                                                   :subcat []}}
-                                   :head {:modified false
-                                          :essere essere
-                                          :synsem {:cat :verb
-                                                   :sem sem
-                                                   :subcat []}}
-                                   :rule "s-modified-modifier-first"}))
+   (unify-check c00
+                comp-modifies-head
+                modified
+                (let [sem (atom :top)
+                      essere (atom :top)] ;; TODO: use (default) to set this for all {:cat :verb} rules.
+                  {:synsem {:subcat []
+                            :essere essere
+                            :cat :verb
+                            :sem sem}
+                   :comp {:synsem {:cat :prep
+                                   :subcat []}}
+                   :head {:modified false
+                          :essere essere
+                          :synsem {:cat :verb
+                                   :sem sem
+                                   :subcat []}}
+                   :rule "s-modified-modifier-first"}))
 
-                   (unify-check h00
-                                comp-modifies-head
-                                modified
-                                (let [sem (atom :top)
-                                      essere (atom :top)]  ;; TODO: use (default) to set this for all {:cat :verb} rules.
-                                  {:synsem {:subcat []
-                                            :cat :verb
-                                            :essere essere 
-                                            :sem sem}
-                                   :comp {:synsem {:cat :prep
-                                                   :subcat []}}
-                                   :head {:modified false
-                                          :synsem {:cat :verb
-                                                   :essere essere
-                                                   :sem sem
-                                                   :subcat []}}
-                                   :rule "s-modified-modifier-last"}))))
+   (unify-check h00
+                comp-modifies-head
+                modified
+                (let [sem (atom :top)
+                      essere (atom :top)]  ;; TODO: use (default) to set this for all {:cat :verb} rules.
+                  {:synsem {:subcat []
+                            :cat :verb
+                            :essere essere 
+                            :sem sem}
+                   :comp {:synsem {:cat :prep
+                                   :subcat []}}
+                   :head {:modified false
+                          :synsem {:cat :verb
+                                   :essere essere
+                                   :sem sem
+                                   :subcat []}}
+                   :rule "s-modified-modifier-last"}))))
 
 (defn aux-is-head-feature [phrase]
   (cond (= :verb (get-in phrase [:synsem :cat]))

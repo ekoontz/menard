@@ -238,11 +238,26 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
+;; to be used within babel.reader/generate-question-and-correct-set:
+(defn target-generation [spec index-fn model]
+  (let [grammar
+        (let [generate-with-grammar-set (grammar/rule-matcher-reducer spec)]                   
+          (filter (fn [rule-structure]
+                    (contains? generate-with-grammar-set
+                               (u/get-in rule-structure [:rule])))
+                  (:grammar model)))]
+    (morph (binding [babel.generate/println? false
+                     babel.generate/truncate? false
+                     babel.generate/index-fn index-fn
+                     babel.generate/lexical-filter
+                     (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
+                     babel.generate/grammar grammar]
+             (time (generate spec model))))))
+
 ;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach 
   "generate sentences efficiently given specific constraints."
   [& [spec]]
-
   (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
         create-index-fn
         (fn []
@@ -276,7 +291,6 @@
                  (if (not (= :fail result))
                    result
                    spec))
-
                root-spec
                (let [unif
                      (unify spec
@@ -285,21 +299,8 @@
                  (if (not (= :fail unif))
                    unif
                    spec))
-
                chosen-spec (unify root-spec tense-spec)]
-           (let [generate-with-grammar-set
-                 (grammar/rule-matcher-reducer chosen-spec)
+           (target-generation chosen-spec (create-index-fn) model)))))))
 
-                 grammar
-                 (filter (fn [rule-structure]
-                           (contains? generate-with-grammar-set
-                                      (u/get-in rule-structure [:rule])))
-                         (:grammar model))]
-             (morph (binding [babel.generate/println? false
-                              babel.generate/truncate? false
-                              babel.generate/index-fn (create-index-fn)
-                              babel.generate/lexical-filter
-                              (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
-                              babel.generate/grammar grammar]
-                      (time (generate chosen-spec model)))))))))))
+
 

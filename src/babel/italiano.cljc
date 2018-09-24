@@ -64,20 +64,15 @@
   ([surface-form model]
    (morph/analyze surface-form (:lexicon model))))
 
+;; TODO: remove this (defn generate): use babel.generate/generate instead.
 (defn generate
   ([spec]
    (generate spec model))
   ([spec model & {:keys [do-enrich truncate]
-            :or {do-enrich true
-                 truncate true}}]
+                  :or {do-enrich true
+                       truncate true}}]
    (log/debug (str "generating with spec: " (strip-refs spec)))
    (let [spec (unify spec {:modified false})
-         spec (let [result (grammar/generation-implications spec model)]
-                (cond (= :fail result)
-                      (do (log/warn (str "spec failed when generation-implications applied:" spec ";"
-                                         "using original-spec."))
-                          spec)
-                      true result))
          result (generate/generate spec model)]
      (if result
        (conj {:surface (get-string (get-in result [:italiano]))}

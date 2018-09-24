@@ -983,6 +983,15 @@
   (let []
     {:foo 42}))
 
+(def index-paths
+  [[:italiano :italiano]
+   [:synsem :aux]
+   [:synsem :cat]
+   [:synsem :essere]
+   [:synsem :infl]
+   [:synsem :sem :pred]])
+
+
 
 
 

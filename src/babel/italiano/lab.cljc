@@ -246,15 +246,7 @@
   (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
         create-index-fn
         (fn []
-          (let [verbcoach-index-paths
-                [[:italiano :italiano]
-                 [:synsem :aux]
-                 [:synsem :cat]
-                 [:synsem :essere]
-                 [:synsem :infl]
-                 [:synsem :sem :pred]]
-                
-                lexicon
+          (let [lexicon
                 (into {}
                       (for [[k vals] (:lexicon model)]
                         (let [verbcoach-pronouns

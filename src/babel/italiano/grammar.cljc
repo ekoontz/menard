@@ -882,25 +882,6 @@
     (unify spec {:synsem {:sem {:reflexive true}}})
     true spec))
 
-(defn generation-implications
-  ([spec model]
-   (generation-implications spec reflexive-constraints model))
-  ([spec reflexive-constraints model]
-   (if (not (empty? reflexive-constraints))
-     (let [gen-impl (first reflexive-constraints)
-           spec (roots-to-sem spec (:lexicon model))]
-       (if ((:if gen-impl) spec)
-         (generation-implications (reduce unify
-                                          [spec
-                                           (:then gen-impl)
-                                           comp-clampdown
-                                           modified-false
-                                           ])
-                                  (rest reflexive-constraints)
-                                  model)
-         (generation-implications spec (rest reflexive-constraints) model)))
-     spec)))
-
 (def tense-specs [{:synsem {:cat :verb
                             :sem {:tense :present
                                   :aspect :perfect}
@@ -977,12 +958,6 @@
               (get rule-matcher key-in-rule-matcher))))
         (keys rule-matcher))))
 
-(defn spec-to-grammar
-  "return the minimal grammar subset needed to generate the given spec."
-  [spec]
-  (let []
-    {:foo 42}))
-
 (def index-paths
   [[:italiano :italiano]
    [:synsem :aux]
@@ -990,11 +965,3 @@
    [:synsem :essere]
    [:synsem :infl]
    [:synsem :sem :pred]])
-
-
-
-
-
-
-
-

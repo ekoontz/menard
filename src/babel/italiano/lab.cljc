@@ -239,12 +239,7 @@
     (u/get-in generated path ::none)))
 
 (defn target-generation [spec index-fn model]
-  (let [grammar
-        (let [generate-with-grammar-set (grammar/rule-matcher-reducer spec)]                   
-          (filter (fn [rule-structure]
-                    (contains? generate-with-grammar-set
-                               (u/get-in rule-structure [:rule])))
-                  (:grammar model)))]
+  (let [grammar ((:rule-matcher-reducer model) spec)]
     (morph (binding [babel.generate/println? false
                      babel.generate/truncate? false
                      babel.generate/index-fn index-fn

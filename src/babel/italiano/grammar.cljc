@@ -668,6 +668,89 @@
 
 (declare model-with-vocab-items)
 
+(def tense-specs
+  [{:synsem {:cat :verb
+             :sem {:tense :present
+                   :aspect :perfect}
+             :subcat []}}
+   {:synsem {:cat :verb
+             :sem {:tense :future}
+             :subcat []}}
+   {:synsem {:cat :verb
+             :sem {:tense :conditional}
+             :subcat []}}
+   {:synsem {:cat :verb
+             :sem {:tense :past
+                   :aspect :progressive}
+             :subcat []}}
+   {:synsem {:cat :verb
+             :sem {:tense :present
+                   :aspect :simple}}}])
+
+(def basic-grammar
+  #{"sentence-nonphrasal-head"})
+
+(def present-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def chiamarsi-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-32"})
+
+(def future-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def present-perfect-grammar
+  #{"s-aux"
+    "vp-32"
+    "vp-aux-22-nonphrasal-comp"
+    "vp-aux-22-phrasal-comp"
+    "vp-aux-nonphrasal-complement"
+    "vp-aux-phrasal-complement"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def rule-matcher
+  ;; this is a lot like a lexical compilation default map.
+  {:top basic-grammar
+   
+   ;; example of a specific root's influence on grammar to be
+   ;; be used for generation.
+   {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
+   
+   {:synsem {:sem {:tense :present
+                   :aspect :perfect}}} present-perfect-grammar
+   
+   {:synsem {:sem {:tense :future}}} future-grammar
+   
+   {:synsem {:sem {:tense :conditional}}} future-grammar
+   
+   {:synsem {:sem {:tense :past
+                   :aspect :progressive}}} future-grammar
+   
+   {:synsem {:sem {:tense :present
+                   :aspect :simple}}} present-grammar})
+
+(defn rule-matcher-reducer [input-spec grammar]
+  (let [rule-name-set
+        (reduce
+         clojure.set/union
+         (map (fn [key-in-rule-matcher]
+                (let [result (unify key-in-rule-matcher input-spec)]
+                  (if (= :fail result)
+                    nil
+                    (get rule-matcher key-in-rule-matcher))))
+              (keys rule-matcher)))]
+    (filter (fn [rule-structure]
+              (contains? rule-name-set
+                         (u/get-in rule-structure [:rule])))
+            grammar)))
+
 ;; TODO: factor out language-independent parts of this to babel.lexiconfn.
 (defn model-plus-lexicon
   "create a language model for Italian with the supplied lexicon."
@@ -718,6 +801,8 @@
       :morph-ps fo-ps         
       :rules rules
       :rule-map (zipmap rules grammar)
+      :rule-matcher-reducer (fn [spec]
+                              (rule-matcher-reducer spec grammar))
       :tenses tenses}
      ((fn [model]
         (merge model
@@ -881,82 +966,6 @@
                 (get lexicon (get-in spec [:root :italiano :italiano])))))
     (unify spec {:synsem {:sem {:reflexive true}}})
     true spec))
-
-(def tense-specs [{:synsem {:cat :verb
-                            :sem {:tense :present
-                                  :aspect :perfect}
-                            :subcat []}}
-                  {:synsem {:cat :verb
-                            :sem {:tense :future}
-                            :subcat []}}
-                  {:synsem {:cat :verb
-                            :sem {:tense :conditional}
-                            :subcat []}}
-                  {:synsem {:cat :verb
-                            :sem {:tense :past
-                                  :aspect :progressive}
-                            :subcat []}}
-                  {:synsem {:cat :verb
-                            :sem {:tense :present
-                                  :aspect :simple}}}])
-(def basic-grammar
-  #{"sentence-nonphrasal-head"})
-
-(def present-grammar
-  #{"sentence-phrasal-head"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(def chiamarsi-grammar
-  #{"sentence-phrasal-head"
-    "vp-pronoun-phrasal"
-    "vp-32"})
-
-(def future-grammar
-  #{"sentence-phrasal-head"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(def present-perfect-grammar
-  #{"s-aux"
-    "vp-32"
-    "vp-aux-22-nonphrasal-comp"
-    "vp-aux-22-phrasal-comp"
-    "vp-aux-nonphrasal-complement"
-    "vp-aux-phrasal-complement"
-    "vp-pronoun-phrasal"
-    "vp-pronoun-nonphrasal"})
-
-(def rule-matcher
-  ;; this is a lot like a lexical compilation default map.
-  {:top basic-grammar
-   
-   ;; example of a specific root's influence on grammar to be
-   ;; be used for generation.
-   {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
-   
-   {:synsem {:sem {:tense :present
-                   :aspect :perfect}}} present-perfect-grammar
-   
-   {:synsem {:sem {:tense :future}}} future-grammar
-   
-   {:synsem {:sem {:tense :conditional}}} future-grammar
-   
-   {:synsem {:sem {:tense :past
-                   :aspect :progressive}}} future-grammar
-   
-   {:synsem {:sem {:tense :present
-                   :aspect :simple}}} present-grammar})
-
-(defn rule-matcher-reducer [input-spec]
-  (reduce
-   clojure.set/union
-   (map (fn [key-in-rule-matcher]
-          (let [result (unify key-in-rule-matcher input-spec)]
-            (if (= :fail result)
-              nil
-              (get rule-matcher key-in-rule-matcher))))
-        (keys rule-matcher))))
 
 (def index-paths
   [[:italiano :italiano]

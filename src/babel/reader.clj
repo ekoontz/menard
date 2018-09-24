@@ -110,7 +110,7 @@
                      :target-spec target-spec})}))))))
 
 (def ^:dynamic source-grammar-subset :all)
-(def ^:dynamic target-grammar-subset :all)
+(def ^:dynamic target-grammar-subset nil)
 (defn generate-question-and-correct-set [target-spec
                                          source-language source-locale
                                          target-language target-locale]
@@ -132,16 +132,14 @@
         target-language (keyword target-language)
         ;; TODO: catch possible deref NPE exception that can happen when model is not yet loaded.
         target-model @@(get models target-language)
-
         target-expression
         (target-timing-fn
          (binding [babel.generate/truncate? true
-                   babel.generate/grammar
-                   (filter
-                    #(or (= :all target-grammar-subset)
-                         (contains? target-grammar-subset
-                                    (u/get-in % [:rule])))
-                    (:grammar target-model))]
+                   babel.generate/grammar (or target-grammar-subset
+                                              (and
+                                               (:rule-matcher-reducer target-model)
+                                               ((:rule-matcher-reducer target-model) target-spec))
+                                              (:grammar target-model))]
            (generate target-spec target-model)))
         source-spec
         (u/strip-refs ;; TODO: consider removing strip-refs; not clear if there is any reason why we need to do it.

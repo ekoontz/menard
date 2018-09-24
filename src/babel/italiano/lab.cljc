@@ -267,9 +267,9 @@
                                vals)]
                           (if (not (empty? filtered-vals))
                             [k filtered-vals]))))
-                indices (create-indices lexicon verbcoach-index-paths)]
+                indices (create-indices lexicon grammar/index-paths)]
             (fn [spec]
-              (lookup-spec spec indices verbcoach-index-paths))))]
+              (lookup-spec spec indices grammar/index-paths))))]
     (repeatedly
      #(do
         (println

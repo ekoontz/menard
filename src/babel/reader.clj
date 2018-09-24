@@ -134,7 +134,11 @@
         target-model @@(get models target-language)
         target-expression
         (target-timing-fn
-         (binding [babel.generate/truncate? true
+         (binding [babel.generate/lexical-filter
+                   (fn [lexeme]
+                     (and (= false (u/get-in lexeme [target-root-keyword :exception] false))
+                          (= false (u/get-in lexeme [:exception] false))))
+                   babel.generate/truncate? true
                    babel.generate/grammar (or target-grammar-subset
                                               (and
                                                (:rule-matcher-reducer target-model)

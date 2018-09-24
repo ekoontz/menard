@@ -253,29 +253,28 @@
   "generate sentences efficiently given specific constraints."
   [& [spec]]
   (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
-        create-index-fn
-        (fn []
-          (let [lexicon
-                (into {}
-                      (for [[k vals] (:lexicon model)]
-                        (let [verbcoach-pronouns
-                              (fn [v]
-                                (or
-                                 (and (= :noun (u/get-in v [:synsem :cat]))
-                                      (not (= :acc (u/get-in v [:synsem :case]))))
-                                 (and (= :noun (u/get-in v [:synsem :cat]))
-                                      (= :acc (u/get-in v [:synsem :case]))
-                                      (= true (u/get-in v [:synsem :reflexive])))))
-                              filtered-vals
-                              (filter
-                               #(or (= :verb (u/get-in % [:synsem :cat]))
-                                    (verbcoach-pronouns %))
-                               vals)]
-                          (if (not (empty? filtered-vals))
-                            [k filtered-vals]))))
-                indices (create-indices lexicon grammar/index-paths)]
-            (fn [spec]
-              (lookup-spec spec indices grammar/index-paths))))]
+        index-fn
+        (let [lexicon
+              (into {}
+                    (for [[k vals] (:lexicon model)]
+                      (let [verbcoach-pronouns
+                            (fn [v]
+                              (or
+                               (and (= :noun (u/get-in v [:synsem :cat]))
+                                    (not (= :acc (u/get-in v [:synsem :case]))))
+                               (and (= :noun (u/get-in v [:synsem :cat]))
+                                    (= :acc (u/get-in v [:synsem :case]))
+                                    (= true (u/get-in v [:synsem :reflexive])))))
+                            filtered-vals
+                            (filter
+                             #(or (= :verb (u/get-in % [:synsem :cat]))
+                                  (verbcoach-pronouns %))
+                             vals)]
+                        (if (not (empty? filtered-vals))
+                          [k filtered-vals]))))
+              indices (create-indices lexicon grammar/index-paths)]
+          (fn [spec]
+            (lookup-spec spec indices grammar/index-paths)))]
     (repeatedly
      #(do
         (println
@@ -294,7 +293,7 @@
                    unif
                    spec))
                chosen-spec (unify root-spec tense-spec)]
-           (target-generation chosen-spec (create-index-fn) model)))))))
+           (target-generation chosen-spec index-fn model)))))))
 
 
 

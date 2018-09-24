@@ -248,33 +248,29 @@
                      babel.generate/grammar grammar]
              (time (generate spec model))))))
 
+(defn verbcoach-lexical-lookup [spec]
+  (let [lexicon
+        (into {}
+              (for [[k vals] (:lexicon model)]
+                (let [filtered-vals
+                      (filter
+                       #(or (= :verb (u/get-in % [:synsem :cat]))
+                            (and (= :noun (u/get-in % [:synsem :cat]))
+                                 (not (= :acc (u/get-in % [:synsem :case]))))
+                            (and (= :noun (u/get-in % [:synsem :cat]))
+                                 (= :acc (u/get-in % [:synsem :case]))
+                                 (= true (u/get-in % [:synsem :reflexive]))))
+                       vals)]
+                  (if (not (empty? filtered-vals))
+                    [k filtered-vals]))))
+        indices (create-indices lexicon grammar/index-paths)]
+    (lookup-spec spec indices grammar/index-paths)))
+
 ;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach 
   "generate sentences efficiently given specific constraints."
   [& [spec]]
-  (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
-        index-fn
-        (let [lexicon
-              (into {}
-                    (for [[k vals] (:lexicon model)]
-                      (let [verbcoach-pronouns
-                            (fn [v]
-                              (or
-                               (and (= :noun (u/get-in v [:synsem :cat]))
-                                    (not (= :acc (u/get-in v [:synsem :case]))))
-                               (and (= :noun (u/get-in v [:synsem :cat]))
-                                    (= :acc (u/get-in v [:synsem :case]))
-                                    (= true (u/get-in v [:synsem :reflexive])))))
-                            filtered-vals
-                            (filter
-                             #(or (= :verb (u/get-in % [:synsem :cat]))
-                                  (verbcoach-pronouns %))
-                             vals)]
-                        (if (not (empty? filtered-vals))
-                          [k filtered-vals]))))
-              indices (create-indices lexicon grammar/index-paths)]
-          (fn [spec]
-            (lookup-spec spec indices grammar/index-paths)))]
+  (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"}]
     (repeatedly
      #(do
         (println
@@ -293,7 +289,7 @@
                    unif
                    spec))
                chosen-spec (unify root-spec tense-spec)]
-           (target-generation chosen-spec index-fn model)))))))
+           (target-generation chosen-spec verbcoach-lexical-lookup model)))))))
 
 
 

@@ -238,7 +238,7 @@
     (u/get-in generated path ::none)))
 
 ;; (take 10 (generate-for-verbcoach))
-(defn generate-for-verbcoach
+(defn generate-for-verbcoach 
   "generate sentences efficiently given specific constraints."
   [& [spec]]
 
@@ -273,7 +273,7 @@
           "vp-pronoun-nonphrasal"}
 
         create-index-fn
-        (fn [grammar]
+        (fn []
           (let [verbcoach-pronouns
                 (fn [v]
                   (or
@@ -385,7 +385,7 @@
                          (:grammar model))]
              (morph (binding [babel.generate/println? false
                               babel.generate/truncate? false
-                              babel.generate/index-fn (create-index-fn grammar)
+                              babel.generate/index-fn (create-index-fn)
                               babel.generate/lexical-filter
                               (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
                               babel.generate/grammar grammar]

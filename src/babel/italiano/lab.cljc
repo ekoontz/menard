@@ -4,6 +4,7 @@
    [babel.generate :as g :refer [frontier generate]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano :as italiano :refer [model morph morph-ps]]
+   [babel.italiano.grammar :as grammar]
    #?(:cljs [babel.logjs :as log])
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
@@ -243,49 +244,9 @@
   [& [spec]]
 
   (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"} 
-
-        basic-grammar
-        #{"sentence-nonphrasal-head"}
-        
-        present-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-
-        chiamarsi-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-32"}
-
-        future-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-
-        present-perfect-grammar
-        #{"s-aux"
-          "vp-32"
-          "vp-aux-22-nonphrasal-comp"
-          "vp-aux-22-phrasal-comp"
-          "vp-aux-nonphrasal-complement"
-          "vp-aux-phrasal-complement"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-
         create-index-fn
         (fn []
-          (let [verbcoach-pronouns
-                (fn [v]
-                  (or
-                   (and (= :noun (u/get-in v [:synsem :cat]))
-                        (not (= :acc (u/get-in v [:synsem :case]))))
-                   (and (= :noun (u/get-in v [:synsem :cat]))
-                        (= true (u/get-in v [:synsem :propernoun])))
-                   (and (= :noun (u/get-in v [:synsem :cat]))
-                        (= :acc (u/get-in v [:synsem :case]))
-                        (= true (u/get-in v [:synsem :reflexive])))))
-                
-                verbcoach-index-paths
+          (let [verbcoach-index-paths
                 [[:italiano :italiano]
                  [:synsem :aux]
                  [:synsem :cat]
@@ -296,7 +257,18 @@
                 lexicon
                 (into {}
                       (for [[k vals] (:lexicon model)]
-                        (let [filtered-vals
+                        (let [verbcoach-pronouns
+                              (fn [v]
+                                (or
+                                 (and (= :noun (u/get-in v [:synsem :cat]))
+                                      (not (= :acc (u/get-in v [:synsem :case]))))
+                                 (and (= :noun (u/get-in v [:synsem :cat]))
+                                      (= true (u/get-in v [:synsem :propernoun])))
+                                 (and (= :noun (u/get-in v [:synsem :cat]))
+                                      (= :acc (u/get-in v [:synsem :case]))
+                                      (= true (u/get-in v [:synsem :reflexive])))))
+                              
+                              filtered-vals
                               (filter
                                #(or (= :verb (u/get-in % [:synsem :cat]))
                                     (verbcoach-pronouns %))
@@ -305,61 +277,11 @@
                             [k filtered-vals]))))
                 indices (create-indices lexicon verbcoach-index-paths)]
             (fn [spec]
-              (lookup-spec spec indices verbcoach-index-paths))))
-
-        ;; this is a lot like a lexical compilation default map.
-        rule-matcher
-        {:top basic-grammar
-
-         ;; example of a specific root's influence on grammar to be
-         ;; be used for generation.
-         {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
-         
-         {:synsem {:sem {:tense :present
-                         :aspect :perfect}}} present-perfect-grammar
-         
-         {:synsem {:sem {:tense :future}}} future-grammar
-         
-         {:synsem {:sem {:tense :conditional}}} future-grammar
-         
-         {:synsem {:sem {:tense :past
-                         :aspect :progressive}}} future-grammar
-         
-         {:synsem {:sem {:tense :present
-                         :aspect :simple}}} present-grammar}
-
-        rule-matcher-reducer
-        (fn [input-spec]
-          (reduce
-           clojure.set/union
-           (map (fn [key-in-rule-matcher]
-                  (let [result (unify key-in-rule-matcher input-spec)]
-                    (if (= :fail result)
-                      nil
-                      (get rule-matcher key-in-rule-matcher))))
-                (keys rule-matcher))))
-
-        tense-specs [{:synsem {:cat :verb
-                               :sem {:tense :present
-                                     :aspect :perfect}
-                               :subcat []}}
-                     {:synsem {:cat :verb
-                               :sem {:tense :future}
-                               :subcat []}}
-                     {:synsem {:cat :verb
-                               :sem {:tense :conditional}
-                               :subcat []}}
-                     {:synsem {:cat :verb
-                               :sem {:tense :past
-                                     :aspect :progressive}
-                               :subcat []}}
-                     {:synsem {:cat :verb
-                               :sem {:tense :present
-                                     :aspect :simple}}}]]
+              (lookup-spec spec indices verbcoach-index-paths))))]
     (repeatedly
      #(do
         (println
-         (let [tense-spec (first (shuffle tense-specs))
+         (let [tense-spec (first (shuffle grammar/tense-specs))
                tense-spec
                (let [result (unify spec tense-spec)]
                  (if (not (= :fail result))
@@ -377,7 +299,8 @@
 
                chosen-spec (unify root-spec tense-spec)]
            (let [generate-with-grammar-set
-                 (rule-matcher-reducer chosen-spec)
+                 (grammar/rule-matcher-reducer chosen-spec)
+
                  grammar
                  (filter (fn [rule-structure]
                            (contains? generate-with-grammar-set

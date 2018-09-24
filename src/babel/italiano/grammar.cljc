@@ -901,68 +901,91 @@
          (generation-implications spec (rest reflexive-constraints) model)))
      spec)))
 
+(def tense-specs [{:synsem {:cat :verb
+                            :sem {:tense :present
+                                  :aspect :perfect}
+                            :subcat []}}
+                  {:synsem {:cat :verb
+                            :sem {:tense :future}
+                            :subcat []}}
+                  {:synsem {:cat :verb
+                            :sem {:tense :conditional}
+                            :subcat []}}
+                  {:synsem {:cat :verb
+                            :sem {:tense :past
+                                  :aspect :progressive}
+                            :subcat []}}
+                  {:synsem {:cat :verb
+                            :sem {:tense :present
+                                  :aspect :simple}}}])
+(def basic-grammar
+  #{"sentence-nonphrasal-head"})
+
+(def present-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def chiamarsi-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-32"})
+
+(def future-grammar
+  #{"sentence-phrasal-head"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def present-perfect-grammar
+  #{"s-aux"
+    "vp-32"
+    "vp-aux-22-nonphrasal-comp"
+    "vp-aux-22-phrasal-comp"
+    "vp-aux-nonphrasal-complement"
+    "vp-aux-phrasal-complement"
+    "vp-pronoun-phrasal"
+    "vp-pronoun-nonphrasal"})
+
+(def rule-matcher
+  ;; this is a lot like a lexical compilation default map.
+  {:top basic-grammar
+   
+   ;; example of a specific root's influence on grammar to be
+   ;; be used for generation.
+   {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
+   
+   {:synsem {:sem {:tense :present
+                   :aspect :perfect}}} present-perfect-grammar
+   
+   {:synsem {:sem {:tense :future}}} future-grammar
+   
+   {:synsem {:sem {:tense :conditional}}} future-grammar
+   
+   {:synsem {:sem {:tense :past
+                   :aspect :progressive}}} future-grammar
+   
+   {:synsem {:sem {:tense :present
+                   :aspect :simple}}} present-grammar})
+
+(defn rule-matcher-reducer [input-spec]
+  (reduce
+   clojure.set/union
+   (map (fn [key-in-rule-matcher]
+          (let [result (unify key-in-rule-matcher input-spec)]
+            (if (= :fail result)
+              nil
+              (get rule-matcher key-in-rule-matcher))))
+        (keys rule-matcher))))
+
 (defn spec-to-grammar
   "return the minimal grammar subset needed to generate the given spec."
   [spec]
-  (let [basic-grammar
-        #{"sentence-nonphrasal-head"}
-        
-        present-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-        
-        chiamarsi-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-32"}
-
-        future-grammar
-        #{"sentence-phrasal-head"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-
-        present-perfect-grammar
-        #{"s-aux"
-          "vp-32"
-          "vp-aux-22-nonphrasal-comp"
-          "vp-aux-22-phrasal-comp"
-          "vp-aux-nonphrasal-complement"
-          "vp-aux-phrasal-complement"
-          "vp-pronoun-phrasal"
-          "vp-pronoun-nonphrasal"}
-        ;; this is a lot like a lexical compilation default map.
-        rule-matcher
-        {:top basic-grammar
-         
-         ;; example of a specific root's influence on grammar to be
-         ;; be used for generation.
-         {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
-         
-         {:synsem {:sem {:tense :present
-                         :aspect :perfect}}} present-perfect-grammar
-         
-         {:synsem {:sem {:tense :future}}} future-grammar
-         
-         {:synsem {:sem {:tense :conditional}}} future-grammar
-         
-         {:synsem {:sem {:tense :past
-                         :aspect :progressive}}} future-grammar
-         
-         {:synsem {:sem {:tense :present
-                         :aspect :simple}}} present-grammar}
-
-        rule-matcher-reducer
-        (fn [input-spec]
-          (reduce
-           clojure.set/union
-           (map (fn [key-in-rule-matcher]
-                  (let [result (unify key-in-rule-matcher input-spec)]
-                    (if (= :fail result)
-                      nil
-                      (get rule-matcher key-in-rule-matcher))))
-                (keys rule-matcher))))]
+  (let []
     {:foo 42}))
+
+
+
+
 
 
 

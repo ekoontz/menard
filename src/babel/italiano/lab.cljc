@@ -238,7 +238,6 @@
   (let [generated (generate spec model)]
     (u/get-in generated path ::none)))
 
-;; to be used within babel.reader/generate-question-and-correct-set:
 (defn target-generation [spec index-fn model]
   (let [grammar
         (let [generate-with-grammar-set (grammar/rule-matcher-reducer spec)]                   

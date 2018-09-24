@@ -255,11 +255,8 @@
                                  (and (= :noun (u/get-in v [:synsem :cat]))
                                       (not (= :acc (u/get-in v [:synsem :case]))))
                                  (and (= :noun (u/get-in v [:synsem :cat]))
-                                      (= true (u/get-in v [:synsem :propernoun])))
-                                 (and (= :noun (u/get-in v [:synsem :cat]))
                                       (= :acc (u/get-in v [:synsem :case]))
                                       (= true (u/get-in v [:synsem :reflexive])))))
-                              
                               filtered-vals
                               (filter
                                #(or (= :verb (u/get-in % [:synsem :cat]))

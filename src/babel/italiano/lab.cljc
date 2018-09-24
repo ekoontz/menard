@@ -248,8 +248,8 @@
                      babel.generate/grammar grammar]
              (time (generate spec model))))))
 
-(defn verbcoach-lexical-lookup [spec]
-  (let [lexicon
+(def lexicon-indices
+  (let [filtered-lexicon
         (into {}
               (for [[k vals] (:lexicon model)]
                 (let [filtered-vals
@@ -262,9 +262,11 @@
                                  (= true (u/get-in % [:synsem :reflexive]))))
                        vals)]
                   (if (not (empty? filtered-vals))
-                    [k filtered-vals]))))
-        indices (create-indices lexicon grammar/index-paths)]
-    (lookup-spec spec indices grammar/index-paths)))
+                    [k filtered-vals]))))]
+    (create-indices filtered-lexicon grammar/index-paths)))
+
+(defn verbcoach-lexical-lookup [spec]
+  (lookup-spec spec lexicon-indices grammar/index-paths))
 
 ;; (take 10 (generate-for-verbcoach))
 (defn generate-for-verbcoach 

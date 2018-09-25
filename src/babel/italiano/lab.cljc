@@ -292,6 +292,3 @@
                    spec))
                chosen-spec (unify root-spec tense-spec)]
            (target-generation chosen-spec verbcoach-lexical-lookup model)))))))
-
-
-

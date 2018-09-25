@@ -111,6 +111,8 @@
 
 (def ^:dynamic source-grammar-subset :all)
 (def ^:dynamic target-grammar-subset nil)
+(def ^:dynamic target-lexical-filter (fn [lexeme] true))
+
 (defn generate-question-and-correct-set [target-spec
                                          source-language source-locale
                                          target-language target-locale]
@@ -137,7 +139,9 @@
          (binding [babel.generate/lexical-filter
                    (fn [lexeme]
                      (and (= false (u/get-in lexeme [target-root-keyword :exception] false))
-                          (= false (u/get-in lexeme [:exception] false))))
+                          (= false (u/get-in lexeme [:exception] false))
+                          (target-lexical-filter lexeme)))
+
                    babel.generate/truncate? true
                    babel.generate/grammar (or target-grammar-subset
                                               (and

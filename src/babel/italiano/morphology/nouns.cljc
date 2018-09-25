@@ -21,6 +21,7 @@
                  :case :acc
                  :agr {:number :sing
                        :gender :fem}}}}
+
    {:p [#"^l$" "lo"] ;; "l'" -> "lo"
     :u {:synsem {:cat :noun
                  :pronoun true
@@ -33,14 +34,14 @@
                  :agr {:gender :fem
                        :number :plur}}}}
 
-   { :g [#"(.*)ca"   "$1che" ] ;; "mucca" -> "mucche"
-     :p [#"(.*)che$" "$1ca"] ;; "mucche" -> "mucca"
-     :u {:synsem {:cat :noun
+   {:g [#"(.*)ca"   "$1che" ] ;; "mucca" -> "mucche"
+    :p [#"(.*)che$" "$1ca"] ;; "mucche" -> "mucca"
+    :u {:synsem {:cat :noun
                  :agr {:gender :fem
                        :number :plur}}}}
 
    {:g [#"(.*)à"   "$1à" ]
-     :p [#"(.*)à$" "$1à"] ;; "città" -> "città"
+    :p [#"(.*)à$" "$1à"] ;; "città" -> "città"
     :u {:synsem {:cat :noun
                  :agr {:gender :fem
                        :number :plur}}}}
@@ -51,13 +52,13 @@
                  :agr {:number :plur}}}}
 
    {:g [#"(.*)e"   "$1i" ] ;; cane --> cani
-     :p [#"(.*)i$" "$1e"] ;; "cani" -> "cane"; "madri" -> "madre"
+    :p [#"(.*)i$" "$1e"] ;; "cani" -> "cane"; "madri" -> "madre"
     ;; (note that no gender is specified in :u because it could be either.
     :u {:synsem {:cat :noun
                  :agr {:number :plur}}}}
 
    {:g [#"(.*)o"   "$1i" ]
-     :p [#"(.*)i$" "$1o"] ;; "compiti" -> "compito"
+    :p [#"(.*)i$" "$1o"] ;; "compiti" -> "compito"
     :u {:synsem {:cat :noun
                  :agr {:number :plur}}}}
    ])

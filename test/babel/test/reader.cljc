@@ -9,19 +9,14 @@
 (btest/init-db)
 
 (deftest chiamarsi
-  (let [target-grammar-rules
-        #{"sentence-phrasal-head"
-          "vp-32"
-          "vp-pronoun-phrasal"}
-        source-grammar-rules
-        #{"sentence-phrasal-head"
-          "transitive-vp-nonphrasal-head"
-          "transitive-vp-phrasal-head"
-          "noun-phrase"}
-        
-        generated
-        (binding [babel.reader/target-grammar-subset target-grammar-rules
-                  babel.reader/source-grammar-subset source-grammar-rules]
+  (let [generated
+        (binding [reader/target-lexical-filter
+                    #(or (= :verb (u/get-in % [:synsem :cat]))
+                         (and (= :noun (u/get-in % [:synsem :cat]))
+                              (not (= :acc (u/get-in % [:synsem :case]))))
+                         (and (= :noun (u/get-in % [:synsem :cat]))
+                              (= :acc (u/get-in % [:synsem :case]))
+                              (= true (u/get-in % [:synsem :reflexive]))))]
           (reader/generate-question-and-correct-set 
             {:root {:italiano {:italiano "chiamarsi"}}
              :synsem {:sem {:tense :present

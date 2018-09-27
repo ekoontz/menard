@@ -8,9 +8,9 @@
 [{:agr {:number :sing
         :person :1st}
   :g [
-      #"([aei])re$"  "$1vo"
-      #"([aei])rsi$" "$1vo"
-      ]
+      #"(.*[aei])re$"  "$1vo"
+      #"(.*[aei])rsi$" "$1vo"]
+      
   :p [
       #"(.*)avo$"  "$1are"
       #"(.*)avo$"  "$1arsi"
@@ -18,16 +18,14 @@
       #"(.*)evo$"  "$1ere"
       #"(.*)evo$"  "$1ersi"
       #"(.*)ivo$"  "$1ire"
-      #"(.*)ivo$"  "$1irsi"
-      ]
-  }
+      #"(.*)ivo$"  "$1irsi"]}
  
  {:agr {:number :sing
         :person :2nd}
   :g [
-      #"([aei])re$"  "$1vi"
-      #"([aei])rsi$" "$1vi"
-      ]
+      #"(.*[aei])re$"  "$1vi"
+      #"(.*[aei])rsi$" "$1vi"]
+      
   :p [
       #"(.*)avi$"  "$1are"
       #"(.*)avi$"  "$1arsi"
@@ -35,16 +33,16 @@
       #"(.*)evi$"  "$1ere"
       #"(.*)evi$"  "$1ersi"
       #"(.*)ivi$"  "$1ire"
-      #"(.*)ivi$"  "$1irsi"
-      ]
-  }
+      #"(.*)ivi$"  "$1irsi"]}
+      
+  
  
  {:agr {:number :sing
         :person :3rd}
   :g [
-      #"([aei])re$"  "$1va"
-      #"([aei])rsi$" "$1va"
-      ]
+      #"(.*[aei])re$"  "$1va"
+      #"(.*[aei])rsi$" "$1va"]
+      
   :p [
       #"(.*)ava$"  "$1are"
       #"(.*)ava$"  "$1arsi"
@@ -52,16 +50,16 @@
       #"(.*)eva$"  "$1ere"
       #"(.*)eva$"  "$1ersi"
       #"(.*)iva$"  "$1ire"
-      #"(.*)iva$"  "$1irsi"
-      ]
-  }
+      #"(.*)iva$"  "$1irsi"]}
+      
+  
  
  {:agr {:number :plur
         :person :1st}
   :g [
-      #"([aei])re$"  "$1vamo"
-      #"([aei])rsi$" "$1vamo"
-      ]
+      #"(.*[aei])re$"  "$1vamo"
+      #"(.*[aei])rsi$" "$1vamo"]
+      
   :p [
       #"(.*)avamo$"  "$1are"
       #"(.*)avamo$"  "$1arsi"
@@ -69,16 +67,16 @@
       #"(.*)evamo$"  "$1ere"
       #"(.*)evamo$"  "$1ersi"
       #"(.*)ivamo$"  "$1ire"
-      #"(.*)ivamo$"  "$1irsi"
-      ]  
-  }
+      #"(.*)ivamo$"  "$1irsi"]}
+        
+  
  
  {:agr {:number :plur
         :person :2nd}
   :g [
-      #"([aei])re$"  "$1vate"
-      #"([aei])rsi$" "$1vate"
-      ]
+      #"(.*[aei])re$"  "$1vate"
+      #"(.*[aei])rsi$" "$1vate"]
+      
   :p [
       #"(.*)avate$"  "$1are"
       #"(.*)avate$"  "$1arsi"
@@ -86,16 +84,14 @@
       #"(.*)evate$"  "$1ere"
       #"(.*)evate$"  "$1ersi"
       #"(.*)ivate$"  "$1ire"
-      #"(.*)ivate$"  "$1irsi"
-      ]
-  }
+      #"(.*)ivate$"  "$1irsi"]}
  
  {:agr {:number :plur
         :person :3rd}
   :g [
-      #"([aei])re$"  "$1vano"
-      #"([aei])rsi$" "$1vano"
-      ]
+      #"(.*[aei])re$"  "$1vano"
+      #"(.*[aei])rsi$" "$1vano"]
+      
   :p [
       #"(.*)avano$"  "$1are"
       #"(.*)avano$"  "$1arsi"
@@ -103,11 +99,4 @@
       #"(.*)evano$"  "$1ere"
       #"(.*)evano$"  "$1ersi"
       #"(.*)ivano$"  "$1ire"
-      #"(.*)ivano$"  "$1irsi"
-      ]
-  }
- 
- ]
-
-
-  
+      #"(.*)ivano$"  "$1irsi"]}]

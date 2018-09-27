@@ -893,7 +893,7 @@
  "radersi" {:synsem {:cat :verb
                      :sem {:pred :shave
                            :reflexive true}
-                           :italiano {:passato "raso"}}}
+                     :italiano {:passato "raso"}}}
 
  "recuperare" {:synsem {:cat :verb
                         :sem {:pred :recover}}}
@@ -1101,7 +1101,7 @@
                        :sem {:tense :present
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
-                                    :infl :participle
+                                    :infl :gerund
                                     :sem {:reflexive true}
                                     :subcat {:1 :top
                                              :2 {:reflexive true}}}}}}
@@ -1113,7 +1113,7 @@
                        :sem {:tense :present
                              :aspect :progressive}
                        :subcat {:2 {:cat :verb
-                                    :infl :participle
+                                    :infl :gerund
                                     :sem {:reflexive false}
                                     :subcat {:1 {:reflexive false}
                                              :2 []}}}}}
@@ -1125,7 +1125,7 @@
                                         ;                       :sem {:tense :past
                                         ;                             :aspect :progressive}
                                         ;                       :subcat {:2 {:cat :verb
-                                        ;                                    :infl :participle}}}}
+                                        ;                                    :infl :gerund}}}}
              ])
 
 

@@ -1,0 +1,25 @@
+[{:agr {:number :sing
+        :gender :fem}
+  :u {:synsem {:essere true}}
+  :g [#"(.*)o$"  "$1a"]
+  :p [#"(.*)a$"  "$1o"]}
+ 
+ {:u {:synsem {:essere true}}
+  :agr {:number :plur
+        :gender :fem}
+  :g [#"(.*)o$"  "$1e"]
+  :p [#"(.*)e$"  "$1o"]}
+
+ {:u {:synsem {:essere true}}
+  :agr {:number :plur
+        :gender :masc}
+  :g [#"(.*)o$" "$1i"]
+  :p [#"(.*)i$" "$1o"]}
+
+ {:u {:synsem {:essere false}}
+  :agr :top
+  :g [#"(.*)"   "$1"]
+  :p [#"(.*)"   "$1"]}]
+
+
+

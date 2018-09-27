@@ -3,17 +3,9 @@
   (:require
    [babel.pos :refer (noun)]
    [babel.italiano.morphology.adjectives :as adjectives]
-   [babel.italiano.morphology.adjectives
-    :refer (plural-to-singular-adj-masc
-            plural-to-singular-adj-fem-sing
-            plural-to-singular-adj-fem-plur)]
    [babel.italiano.morphology.determiners :as determiners]
    [babel.italiano.morphology.misc :as misc]
    [babel.italiano.morphology.nouns :as nouns]
-   [babel.italiano.morphology.nouns
-    :refer (plural-to-singular-noun-fem-1
-            plural-to-singular-noun-masc-1
-            plural-to-singular-noun-masc-2)]
    [babel.italiano.morphology.verbs :as verbs]
    [babel.morphology :as language-independent]
    [babel.stringutils :refer (replace-from-list)]
@@ -21,429 +13,69 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
+   [dag_unify.core :as u :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
 
-;; TODO: move all patterns into here eventually
-;;   (preposition-plus-article, adjectives/patterns,etc).
-(defonce patterns
-  (map :g
-       (misc/compile-morphology)))
-
-;; TODO: move this to morphology/prepositions.edn,
-;; following example in morphology/determiners.edn.
-(defonce preposition-plus-article
-  [["a il"   "al"]
-   ["a lo"   "allo"]
-   ["a la"   "alla"]
-   ["a l'"   "all'"]
-   ["a i"    "ai"]
-   ["a gli"  "agli"]
-   ["a le"   "alle"]
-   
-   ["da il"  "dal"]
-   ["da lo"  "dallo"]
-   ["da la"  "dalla"]
-   ["da l'"  "dall'"]
-   ["da i"   "dai"]
-   ["da gli" "dagli"]
-   ["da le"  "dalle"]
-
-   ["de il"  "del"]
-   ["de lo"  "dello"]
-   ["de la"  "della"]
-   ["de l'"  "dell'"]
-   ["de i"   "dei"]
-   ["de gli" "degli"]
-   ["de le"  "delle"]
-
-   ["di il"  "del"]
-   ["di lo"  "dello"]
-   ["di la"  "della"]
-   ["di l'"  "dell'"]
-   ["di i"   "dei"]
-   ["di gli" "degli"]
-   ["di le"  "delle"]
-
-   ["in il"  "nel"]
-   ["in lo"  "nello"]
-   ["in la"  "nella"]
-   ["in l'"  "nell'"]
-   ["in i"   "nei"]
-   ["in gli" "negli"]
-   ["in le"  "nelle"]
-
-   ["su il"  "sul"]
-   ["su lo"  "sullo"]
-   ["su la"  "sulla"]
-   ["su l'"  "sull'"]
-   ["su i"   "sui"]
-   ["su gli" "sugli"]
-   ["su le"  "sulle"]
-      ])
-
-;; TODO: pre-compile these rules rather than building regexp objects at runtime.
-(defn apply-one-rule [string from-to-pair]
-  (let [from (second from-to-pair)
-        to (first from-to-pair)]
-    (let [from-pattern (re-pattern
-                        (str "\\b" from "\\b"))]
-      (string/replace string from-pattern to))))
-
-(defn replace-over [strings]
-  ;; TODO: use mapcat rather than (reduce concat) for speed.
-  (let [result (set (reduce concat
-                            (map (fn [string]
-                                   (map #(apply-one-rule string %)
-                                        preposition-plus-article))
-                                 strings)))]
-    (if (not (= result strings))
-      (replace-over result)
-      strings)))
-
-(defn tokenize-prepositions-in [string & [match-pairs]]
-  string)
-  
 ;; analysis-patterns are declarative data that determine how analysis (inflected form ->root form)
 ;; and conjugation (root form -> inflected form) are performed.
-(defonce analysis-patterns
+;; TODO: rename to simply 'patterns' since they are used in both directions,
+;; not just analysis.
+(def analysis-patterns
   (concat
-   adjectives/patterns
-   determiners/patterns
-   nouns/patterns
+   (-> (str "babel/italiano/morphology/adjectives.edn")
+       clojure.java.io/resource
+       slurp
+       read-string)
+   (-> (str "babel/italiano/morphology/determiners.edn")
+       clojure.java.io/resource
+       slurp
+       read-string)
+   (-> (str "babel/italiano/morphology/elisions.edn")
+       clojure.java.io/resource
+       slurp
+       read-string)
+   (-> (str "babel/italiano/morphology/nouns.edn")
+       clojure.java.io/resource
+       slurp
+       read-string)
    verbs/patterns))
 
-(declare get-string)
-
-;; TODO: this is an overly huge method.
-;; reimplemented: instead,
-;; add a ':g' to: babel.italiano.morphology.nouns/patterns.
-(defn get-string-1 [word]
-  (cond
-    (= word "") ""
-
-    (and (map? (get-in word [:a]))
-         (map? (get-in word [:b])))
-    (string/join " " [(get-string-1 (get-in word [:a]))
-                      (get-string-1 (get-in word [:b]))])
-
-    (= :top (get-in word [:italiano] :top)) "_"
-    
-    (and
-     (string? (get-in word [:italiano]))
-     (= :verb (get-in word [:cat]))
-     (or (= :top (get-in word [:infl] :top))
-         (= :top (get-in word [:agr :number] :top))))
-    (get-in word [:italiano])
-
-    (= :verb (get-in word [:cat]))
-    (or (verbs/conjugate word) (get-in word [:italiano]))
-
-    (and (not (= ::none (get-in word [:a] ::none)))
-         (not (= ::none (get-in word [:b] ::none))))
-    (get-string (get-in word [:a])
-                (get-in word [:b]))
-    
-    ;; TODO: all of the rules that handle exceptions should be removed:
-    ;; exceptions are dealt with at compile-time now, via babel.italiano.morphology/exception-generator
-    
-    ;; handle lexical exceptions (plural feminine adjectives):
-    (and
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:cat)) :adjective)
-     (string? (get-in word '(:fem :plur))))
-    (get-in word '(:fem :plur))
-
-    ;; handle lexical exceptions (plural feminine adjectives):
-    (and
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:cat)) :adjective)
-     (string? (get-in word '(:fem :plur))))
-    (get-in word '(:fem :plur))
-    
-    ;; handle lexical exceptions (plural masculine adjectives):
-    (and
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:agr :gender)) :masc)
-     (= (get-in word '(:cat)) :adjective)
-     (string? (get-in word '(:masc :plur))))
-    (get-in word '(:masc :plur))
-    
-    ;; <regular adjective morphology rules>
-    (and
-     (string? (get-in word [:italiano]))
-     (or (= (get-in word [:agr :gender]) :masc)
-         (= (get-in word [:agr :gender]) :top))
-     (= (get-in word [:agr :number]) :plur)
-     (= (get-in word [:cat]) :adjective))
-    (string/replace (get-in word '[:italiano])
-                    #"[eo]$" "i") ;; nero => neri
-    
-    (and
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :adjective)
-     (re-find #"o$" (get-in word [:italiano])))
-    (string/replace (get-in word [:italiano])
-                    #"[o]$" "e") ;; nero => nere
-    (and
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :adjective)
-     (re-find #"e$" (get-in word [:italiano])))
-    (string/replace (get-in word [:italiano])
-                    #"[e]$" "i") ;; difficile => difficili
-    ;; </regular adjective morphology rules>
-    
-    ;; handle lexical exceptions (plural nouns):
-    (and
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :noun)
-     (string? (get-in word '(:plur))))
-    (get-in word '(:plur))
-    
-    ;; regular masculine nouns.
-    ;; dottore => dottori; medico => medici
-    ;; note the 'i?': figlio => figli, not *figlii.
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :masc)
-     (= (get-in word '(:agr :number)) :plur)
-     (= :noun (get-in word '(:cat)))
-     (not (= true (get-in word '(:pronoun))))
-     (get-in word [:italiano]))
-    (string/replace (get-in word [:italiano])
-                    #"i?[eo]$" "i")
-    
-    ;; regular feminine nouns ending in 'e':
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :noun)
-     (get-in word [:italiano])
-     (re-find #"e$" (get-in word [:italiano])))
-    (string/replace (get-in word [:italiano])
-                    #"[e]$" "i") ;; madre => madri
-    
-    ;; regular feminine nouns ending in 'ca':
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :noun)
-     (re-find #"c[aà]$" (get-in word [:italiano])))
-    (string/replace (get-in word [:italiano])
-                    #"c[aà]$" "che") ;; mucca => mucche
-    
-    ;; regular feminine nouns *not* ending in 'e':
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :noun))
-    (string/replace (get-in word [:italiano])
-                    #"[aà]$" "e") ;; donna => donne
-    
-    ;; TODO: move this down to other adjectives.
-    ;; this was moved up here to avoid
-    ;; another rule from matching it.
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :adjective))
-    (string/replace (get-in word [:italiano])
-                    #"[eo]$" "e") ;; nero => nere
-
-    ;; TODO: move this down to other adjectives.
-    ;; this was moved up here to avoid
-    ;; another rule from matching it.
-    ;; exceptional feminine singular adjectives
-    (and
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :sing)
-     (= (get-in word '(:cat)) :adjective)
-     (string? (get-in word '(:fem :sing))))
-    (get-in word '(:fem :sing))
-    
-    ;; TODO: move this down to other adjectives.
-    ;; this was moved up here to avoid
-    ;; another rule from matching it.
-    ;; regular feminine singular adjectives
-    (and
-     (string? (get-in word [:italiano]))
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :sing)
-     (= (get-in word '(:cat)) :adjective))
-    (string/replace (get-in word [:italiano])
-                    #"[eo]$" "a") ;; nero => nera
-
-    (and (= :infinitive (get-in word '(:infl)))
-         (string? (get-in word [:italiano])))
-    (get-in word [:italiano])
-    
-    (and
-     (get-in word [:a])
-     (get-in word [:b]))
-    (str
-     (trim (get-string-1 (get-in word [:a]))) " "
-     (trim (get-string-1 (get-in word [:b]))))
-    
-    (and
-     (string? (get-in word [:italiano]))
-     (= :top (get-in word '(:agr :sing) :top)))
-    (str (get-in word [:italiano]))
-    
-    ;; TODO: possibly remove this: not sure it's doing anything.
-    (= true (get-in word [:exception]))
-    (get-in word [:italiano])
-    
-    (= (get-in word '(:infl)) :top)
-    (str (get-in word [:italiano]))
-
-    (and
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :sing)
-     (= (get-in word '(:cat)) :noun))
-    (get-in word [:italiano])
-
-    (and
-     (= (get-in word '(:agr :gender)) :masc)
-     (= (get-in word '(:agr :number)) :sing)
-     (= (get-in word '(:cat) :adjective)))
-    (get-in word [:italiano]) ;; nero
-    
-    (and
-     (= (get-in word '(:agr :gender)) :masc)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :adjective)
-     ;; handle lexical exceptions.
-     (string? (get-in word '(:masc :plur))))
-    (get-in word '(:masc :plur))
-    
-    (and
-     (= (get-in word '(:agr :gender)) :fem)
-     (= (get-in word '(:agr :number)) :plur)
-     (= (get-in word '(:cat)) :adjective)
-     ;; handle lexical exceptions.
-     (string? (get-in word '(:fem :plur))))
-    (get-in word '(:fem :plur))
-    
-    (string? (get-in word [:italiano]))
-    (get-in word [:italiano])
-    
-    true "_"))
-
-;; TODO: replace 'a' and 'b' with 'left' and 'right' for clarity.
-;; TODO: make b required so that function is easier to understand and refactor.
-(defn get-string [a & [ b ]]
-  (if (nil? a)
-    a)
-  (if (= a "")
-    a)
-
-  (let [a (or a "")
-        b (or b "")
-
-        a (get-string-1 a)
-        b (get-string-1 b)
-
-        ;; TODO: eventually move all of (get-string) into rules of this kind:
-        [applied-determiner-rules determiner-rules-result]
-        (determiners/apply-determiner-rules (string/join " " [a b]))]
-    (cond
-      applied-determiner-rules
-      determiner-rules-result
-      
-      ;; 4) handle e.g. "aiutari + ti" => "aiutarti"
-      (and (string? a)
-           (or (re-find #"are$" a)
-               (re-find #"ere$" a)
-               (re-find #"ire$" a))
-           (or (= b "ci")
-               (= b "mi")
-               (= b "la")
-               (= b "le")
-               (= b "li")
-               (= b "lo")
-               (= b "ti")
-               (= b "vi")))
-      (str (string/replace a #"[e]$" "")
-           b)
-      
-      ;; prepositional phrases
-      (and (= a "a")
-           (string? b)
-           (re-find #"^il " b))
-      (str "al " (string/replace b #"^il " ""))
-      
-      (and (= a "a")
-           (string? b)
-           (re-find #"^i " b))
-      (str "ai " (string/replace b #"^i " ""))
-      
-      (and (= a "a")
-           (string? b)
-           (re-find #"^le " b))
-      (str "alle " (string/replace b #"^le " ""))
-      
-      (and (= a "a")
-           (string? b)
-           (re-find #"^la " b))
-      (str "alla " (string/replace b #"^la " ""))
-      
-      (and (string? a) (string? b))
-      (trim (str a " " b))
-      
-      (and (string? a) (string? (get-in b [:italiano])))
-      (trim (str a " " (get-in b [:italiano])))
-      
-      (and (string? (get-in a [:italiano]))
-           (string? b))
-      (trim (str (get-in a [:italiano]) " " b))
-      
-      (and (string? a)
-           (map? b))
-      (trim (str a " " "_"))
-      
-      (and (string? b)
-           (map? a))
-      (trim (str "_" " " b))
-      
-      true
-      {:a (if (nil? a) :top a)
-       :b (if (nil? b) :top b)})))
-
-(defn fo [input]
-  (get-string (get-in input [:italiano])))
-
-(defonce ppa-tokens-to-surface
-  (map (fn [pair]
-         [(re-pattern
-           (str "\\b" (first pair) "\\b"))
-          (second pair)])
-       preposition-plus-article))
-
-(defonce ppa-surface-to-tokens
-  (map (fn [pair]
-         [(re-pattern
-           (str "\\b" (second pair) "\\b"))
-          (first pair)])
-       preposition-plus-article))
-
-(defn conjugate-italian-prep [prep np]
-  (let [concat (str (get prep :italiano)
-                    " "
-                    (get np :italiano))]
-    (replace-from-list
-     preposition-plus-article
-     concat)))
+(declare analyze-one-pattern)
 
 (defn analyze-regular [surface-form lexicon]
-  "do regular (i.e. non-exceptional) morphological analysis to determine lexical information for a conjugated surface-form, using the (defonce analysis-patterns) defined above."
   (language-independent/analyze surface-form lexicon analysis-patterns))
+
+(def tokenizer #"[ '\n,’».]")
+
+(defn analyze-tokens
+  "given a string, generate a list of tokenization hypotheses."
+  [string]
+  [(string/split string tokenizer)])
+
+(def identity-pattern
+  {:agr :top
+   :p [#"(.*)" "$1"]})
+
+(defn analyze-regular [surface lexicon]
+  (->>
+   (cons identity-pattern
+         babel.italiano.morphology/analysis-patterns)
+   (mapcat #(analyze-one-pattern surface % lexicon))))
+
+(defn analyze-one-pattern
+  "do regular (i.e. non-exceptional) morphological analysis to
+  determine lexical information for a conjugated surface-form, using
+  the (defonce analysis-patterns) defined above."
+  [surface pattern lexicon]
+  (mapcat (fn [[from to]] 
+            (if (re-matches from surface)
+              (->> (string/replace surface from to) ;; get root form..
+                   (get lexicon) ;; look up root form in lexicon..
+                   (map (fn [entry] ;; for each lexical entry, unify against the pattern's :u..
+                          (unify (:u pattern :top)
+                                 {:synsem {:agr (:agr pattern :top)}}
+                                 entry)))
+                   (filter #(not (= :fail %)))))) ;; filter out fails.
+          (babel.morphology/group-by-two (:p pattern))))
 
 (declare analyze-capitalization-variant)
 
@@ -477,18 +109,18 @@
                      (= :top (get-in lexeme [:synsem :infl])))
                 ;; if a verb has no infl, it's :infinitive.
                 (unify lexeme
-                        {:synsem {:infl :infinitive}})
+                       {:synsem {:infl :infinitive}})
 
                 (and (= :noun (get-in lexeme [:synsem :cat]))
                      (= :top (get-in lexeme [:synsem :agr :number])))
                 ;; if a noun has no number, it's singular.
                 (unify lexeme
-                        {:synsem {:agr {:number :sing}}})
+                       {:synsem {:agr {:number :sing}}})
                 true
                 lexeme))
         (get lexicon surface-form))))
 
-(defonce exceptions-rules
+(def exceptions-rules
   (concat verbs/exceptions-rules
           adjectives/exceptions-rules
           nouns/exceptions-rules))
@@ -498,40 +130,356 @@
   (->>
    (sort (keys lexicon))
    (mapcat (fn [k]
-          (let [lexemes (get lexicon k)
-                lexeme-kv [k lexemes]]
-            (->> exceptions-rules
-                 (mapcat (fn [{path :path
-                               label :label
-                               surface-form :surface-form
-                               merge-fn :merge-fn}]
-                           (let [surface-form-fn (or surface-form
-                                                     (fn [lexeme]
-                                                       (get-in lexeme path :none)))]
-                             ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
-                             ;; and the value is a list of lexemes for that string.
-                             (->> lexemes
-                                  (mapcat (fn [lexeme]
-                                            (if (not (= :none (get-in lexeme path :none)))
-                                              (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
-                                                  (list {(surface-form-fn lexeme)
-                                                         [(reduce
-                                                           (fn [a b]
-                                                             (cond
-                                                               (or (= a :fail)
-                                                                   (= b :fail))
-                                                               :fail
-                                                               true
-                                                               (unify a b)))
-                                                           [(dissoc-paths lexeme [[:italiano :italiano]])
-                                                            (merge-fn lexeme)
-                                                            {:italiano {:infinitive k
-                                                                        :exception true}}])]})))))))))))))))
+             (let [lexemes (get lexicon k)
+                   lexeme-kv [k lexemes]]
+               (->> exceptions-rules
+                    (mapcat (fn [{path :path
+                                  label :label
+                                  surface-form :surface-form
+                                  merge-fn :merge-fn}]
+                              (let [surface-form-fn (or surface-form
+                                                        (fn [lexeme]
+                                                          (get-in lexeme path :none)))]
+                                ;; a lexeme-kv is a pair of a key and value. The key is a string (the word's surface form)
+                                ;; and the value is a list of lexemes for that string.
+                                (->> lexemes
+                                     (mapcat (fn [lexeme]
+                                               (if (not (= :none (get-in lexeme path :none)))
+                                                 (do (log/debug (str (first lexeme-kv) " generating lexeme exceptional surface form: " (surface-form-fn lexeme)))
+                                                     (list {(surface-form-fn lexeme)
+                                                            [(reduce
+                                                              (fn [a b]
+                                                                (cond
+                                                                  (or (= a :fail)
+                                                                      (= b :fail))
+                                                                  :fail
+                                                                  true
+                                                                  (unify a b)))
+                                                              [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                               (merge-fn lexeme)
+                                                               {:italiano {:infinitive k
+                                                                           :exception true}}])]})))))))))))))))
 (defn phonize2 [lexicon]
   (into {}
         (for [[k vals] lexicon]
           [k 
            (map (fn [v]
                   (unify v
-                          {:italiano {:italiano k}}))
+                         {:italiano {:italiano k}}))
                 vals)])))
+
+(def rules
+  (reduce concat
+          [
+
+           (->> (-> (str "babel/italiano/morphology/nouns.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule)
+                            :cat :noun
+                            :pronoun false
+                            :propernoun false}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/conditional.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :conditional}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/future.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :future}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/gerund.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :gerund}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/imperfetto.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :imperfetto}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/passato.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :u {:agr (:agr rule :top)
+                            :essere (u/get-in rule [:u :synsem :essere] false)
+                            :cat :verb
+                            :infl :passato}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/present.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :boot-verb (:boot-verb rule false)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :present}})))
+
+           (->> (-> (str "babel/italiano/morphology/verbs/subjunctive.edn")
+                    clojure.java.io/resource
+                    slurp
+                    read-string)
+                (map (fn [rule]
+                       {:g (:g rule)
+                        :p (:p rule)
+                        :boot-verb (:boot-verb rule false)
+                        :u {:agr (:agr rule)
+                            :cat :verb
+                            :infl :subjunctive}})))]))
+
+(defn find-matching-pair [input from-to-pairs]
+  (if (not (empty? from-to-pairs))
+    (let [[pattern-from pattern-to] from-to-pairs]
+      (if (re-matches pattern-from input)
+        (cons
+         (string/replace input pattern-from pattern-to)
+         (find-matching-pair input (rest (rest from-to-pairs))))
+        (find-matching-pair input (rest (rest from-to-pairs)))))))
+
+(declare irregular-conditional?)
+(declare irregular-conditional)
+(declare irregular-future?)
+(declare irregular-future)
+(declare irregular-gerund?)
+(declare irregular-gerund)
+(declare irregular-passato?)
+(declare irregular-passato)
+(declare irregular-present?)
+(declare irregular-imperfetto?)
+(declare irregular)
+
+(def elision-regexps
+  (-> (str "babel/italiano/morphology/elisions.edn")
+      clojure.java.io/resource
+      slurp
+      read-string))
+
+(def generative-elision-regexps
+  (mapcat :g elision-regexps))
+
+(defn elisions
+  "transform string by doing elisions where needed (e.g. 'a il' -> 'al')"
+  [input regex-pairs]
+  (if (empty? regex-pairs)
+    input
+    (elisions
+     (let [[pattern-from pattern-to] regex-pairs]
+       (if (re-matches pattern-from input)
+         (string/replace input pattern-from pattern-to)
+         input))
+     (rest (rest regex-pairs)))))
+
+(defn elisions-to-fixed-point [input]
+  (let [round-one (string/trim (elisions input generative-elision-regexps))]
+    (if (= round-one (string/trim input))
+      round-one
+      (elisions-to-fixed-point round-one))))
+
+(defn morph [structure]
+  (cond (or (= :fail structure) 
+            (nil? structure)
+            (string? structure)) structure
+        (u/get-in structure [:synsem]) (morph (u/get-in structure [:italiano]))
+        
+        (and (not (nil? (u/get-in structure [:a])))
+             (not (nil? (u/get-in structure [:b]))))
+        (->
+         (->> 
+          [(u/get-in structure [:a])
+           (u/get-in structure [:b])]
+          (map morph)
+          (string/join " "))
+         string/trim
+         elisions-to-fixed-point)
+
+        (nil? (u/get-in structure [:italiano])) "<empty>"
+        
+        (and (irregular-conditional? structure)
+             (not (= :use-regular (irregular structure :conditional))))
+        (irregular structure :conditional)
+        
+        (and (irregular-future? structure)
+             (not (= :use-regular (irregular structure :future))))
+        (irregular structure :future)
+        
+        (irregular-gerund? structure)
+        (irregular-gerund structure)
+        
+        (irregular-passato? structure)
+        (irregular-passato structure)
+        
+        (and (irregular-present? structure)
+             (not (= :use-regular (irregular structure :present))))
+        (irregular structure :present)
+        
+        (and (irregular-imperfetto? structure)
+             (not (= :use-regular (irregular structure :imperfetto))))
+        (irregular structure :imperfetto)
+        
+        true
+        (let [path-to-root
+              (cond
+                (and
+                 (not (nil? (u/get-in structure [:future-stem])))
+                 (or (not (= :fail
+                             (unify structure
+                                    {:cat :verb
+                                     :infl :future})))
+                     (not (= :fail
+                             (unify structure
+                                    {:cat :verb
+                                     :infl :conditional})))))
+                [:future-stem]
+                true
+                [:italiano])
+              regexps
+              (concat
+               (mapcat :g
+                       (filter #(not (= % :fail))
+                               (map
+                                #(unify %
+                                        {:boot-verb (u/get-in structure [:boot-verb] false)
+                                         :u structure})
+                                rules)))
+               [#"(.*)" "$1"])]
+          (first (find-matching-pair (u/get-in structure path-to-root)
+                                     regexps)))))
+
+(defn irregular-conditional? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :conditional (u/get-in structure [:infl]))
+   (map? (u/get-in structure [:conditional]))))
+
+(defn irregular-future? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :future (u/get-in structure [:infl]))
+   (map? (u/get-in structure [:future]))))
+
+(defn irregular-present? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :present (u/get-in structure [:infl]))
+   (map? (u/get-in structure [:present]))))
+
+(defn irregular-imperfetto? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :imperfetto (u/get-in structure [:infl]))
+   (map? (u/get-in structure [:imperfetto]))))
+
+(defn irregular-gerund? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :gerund (u/get-in structure [:infl]))
+   (string? (u/get-in structure [:gerund]))))
+
+(defn irregular-gerund [structure]
+  (u/get-in structure [:imperfetto]))
+
+(defn irregular-passato? [structure]
+  (and
+   (= :verb (u/get-in structure [:cat]))
+   (= :passato (u/get-in structure [:infl]))
+   (string? (u/get-in structure [:passato]))))
+
+(def essere-passato-regexps
+  (-> (str "babel/italiano/morphology/verbs/essere-passato.edn")
+      clojure.java.io/resource
+      slurp
+      read-string))
+
+(defn irregular-passato [structure]
+  (first
+   (find-matching-pair
+    (u/get-in structure [:passato])
+    (->>
+     essere-passato-regexps
+     (filter #(not (= :fail
+                      (u/unify structure
+                               {:agr (u/get-in % [:agr] :top)
+                                :essere (u/get-in % [:u :synsem :essere] :top)}))))
+     (mapcat :g)))))
+
+(defn irregular-gerund [structure]
+  (u/get-in structure [:gerund]))
+
+(defn irregular [structure infl]
+  (let [arg (u/get-in structure [:agr])
+        irreg (u/get-in structure [infl])]
+    (cond
+      (and (not (= :fail (unify arg
+                                {:person :1st
+                                 :number :sing})))
+           (u/get-in irreg [:1sing]))
+      (u/get-in irreg [:1sing])
+
+      (and (not (= :fail (unify arg
+                                {:person :2nd
+                                 :number :sing})))
+           (u/get-in irreg [:2sing]))
+      (u/get-in irreg [:2sing])
+      
+      (and (not (= :fail (unify arg
+                                {:person :3rd
+                                 :number :sing})))
+           (u/get-in irreg [:3sing]))
+      (u/get-in irreg [:3sing])
+
+      (and (not (= :fail (unify arg
+                                {:person :1st
+                                 :number :plur})))
+           (u/get-in irreg [:1plur]))
+      (u/get-in irreg [:1plur])
+
+      (and (not (= :fail (unify arg
+                                {:person :2nd
+                                 :number :plur})))
+           (u/get-in irreg [:2plur]))
+      (u/get-in irreg [:2plur])
+      
+      (and (not (= :fail (unify arg
+                                {:person :3rd
+                                 :number :plur})))
+           (u/get-in irreg [:3plur]))
+      (u/get-in irreg [:3plur])
+
+      true :use-regular)))

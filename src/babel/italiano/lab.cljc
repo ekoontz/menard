@@ -3,9 +3,11 @@
    [babel.directory] ;; this is needed even though there are no references to directory in here.
    [babel.generate :as g :refer [frontier generate]]
    [babel.index :refer [create-indices lookup-spec]]
-   [babel.italiano :as italiano :refer [model morph morph-ps]]
+   [babel.italiano :as italiano :refer [model morph-ps]]
    [babel.italiano.grammar :as grammar]
+   [babel.italiano.morphology :as m]
    #?(:cljs [babel.logjs :as log])
+   [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:clj [clojure.repl :refer [doc]])
    [dag_unify.core :as u :refer [pprint strip-refs unify]]))
@@ -165,27 +167,35 @@
 
 (defn park []
   (let [vedere-specs
-        [{:synsem {:subcat (), :cat :verb, :essere false},
-          :modified false,
-          :phrasal true,
-          :head {:phrasal false},
-          :comp {:phrasal false},
-          :root {:italiano {:italiano "vedere"}}}]]
+        [{:synsem {:subcat []
+                   :cat :verb
+                   :essere false}
+          :modified false
+          :phrasal true
+          :root {:italiano {:italiano "vedere"}}}]
+        tense-specs
+        [{:synsem {:sem {:tense :present
+                         :aspect :simple}}}
+         {:synsem {:sem {:tense :past
+                         :aspect :progressive}}}
+         {:synsem {:sem {:tense :future}}}
+         {:synsem {:sem {:tense :conditional}}}]]
     (repeatedly
-     #(println (morph (time
-                       (generate
-                        (unify 
-                         (nth vedere-specs (rand-int (count vedere-specs)))
-                         {:head {:phrasal false}
-                          :comp {:phrasal false}})
-                        model)))))))
+     #(println (m/morph (time
+                         (generate
+                          (unify 
+                           (nth vedere-specs (rand-int (count vedere-specs)))
+                           (nth tense-specs (rand-int (count tense-specs)))
+                           {:head {:phrasal false}
+                            :comp {:phrasal false}})
+                          model)))))))
 
 (defn downtown []
   (let [spec
         {:synsem {:cat :verb
                   :subcat []}
          :modified false}]
-    (repeatedly #(println (morph (time (generate spec model)))))))
+    (repeatedly #(println (m/morph (time (generate spec model)))))))
 
 (defn basecamp []
   (let [semantic-spec
@@ -203,7 +213,6 @@
 
         all-of-the-specs (concat specs [root-spec semantic-spec]
                                  vedere-specs)]
-    
     (repeatedly #(println
                   (morph-ps (time (generate
                                    (nth all-of-the-specs
@@ -240,13 +249,16 @@
 
 (defn target-generation [spec index-fn model]
   (let [grammar ((:rule-matcher-reducer model) spec)]
-    (morph (binding [babel.generate/println? false
-                     babel.generate/truncate? false
-                     babel.generate/index-fn index-fn
-                     babel.generate/lexical-filter
-                     (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
-                     babel.generate/grammar grammar]
-             (time (generate spec model))))))
+    (binding [babel.generate/println? false
+              babel.generate/truncate? false
+              babel.generate/index-fn index-fn
+              babel.generate/lexical-filter
+              (fn [lexeme] (= false (u/get-in lexeme [:italiano :exception] false)))
+              babel.generate/grammar grammar]
+      (let [structure (time (generate spec model))]
+        (if (= :fail structure)
+          (throw (Exception. (str "target-generation failed with spec: " spec))))
+        structure))))
 
 (def lexicon-indices
   (let [filtered-lexicon
@@ -273,22 +285,95 @@
   "generate sentences efficiently given specific constraints."
   [& [spec]]
   (let [example-verbs #{"arrabbiarsi" "chiamarsi" "dormire" "fermarsi" "parlare" "sedersi"}]
+;;        example-verbs #{"arrabbiarsi"}]
+;;        example-verbs #{"parlare"}
+        
     (repeatedly
      #(do
-        (println
-         (let [tense-spec (first (shuffle grammar/tense-specs))
-               tense-spec
-               (let [result (unify spec tense-spec)]
-                 (if (not (= :fail result))
-                   result
-                   spec))
-               root-spec
-               (let [unif
-                     (unify spec
-                            {:root {:italiano {:italiano
-                                               (first (shuffle example-verbs))}}})]
-                 (if (not (= :fail unif))
-                   unif
-                   spec))
-               chosen-spec (unify root-spec tense-spec)]
-           (target-generation chosen-spec verbcoach-lexical-lookup model)))))))
+        (let [spec (or spec :top)
+              tense-spec (first (shuffle grammar/tense-specs))
+              tense-spec
+              (let [result (unify spec tense-spec)]
+                (if (not (= :fail result))
+                  result
+                  spec))
+              root-spec
+              (let [unif
+                    (unify spec
+                           {:root {:italiano {:italiano
+                                              (first (shuffle example-verbs))}}})]
+                (if (not (= :fail unif))
+                  unif
+                  spec))
+              chosen-spec (unify root-spec tense-spec)]
+          (let [result
+                (target-generation chosen-spec verbcoach-lexical-lookup model)]
+            (if (= result :fail)
+              (throw (Exception. (str "failed to generate with spec: " (u/strip-refs chosen-spec)))))
+            (println (m/morph result))))))))
+
+(defn simple-sentence []
+  (generate {:rule "sentence-nonphrasal-head"
+             :synsem {:subcat []
+                      :cat :verb
+                      :sem {:tense :present
+                            :aspect :simple
+                            :subj {:pred :I}}}
+             :root {:italiano {:italiano "dormire"}}}
+            model))
+
+(defn furniture-sentence []
+  (let [expr (generate
+              {:synsem {:cat :verb
+                        :sem {:obj {:pred :table
+                                    :mod []
+                                    :number :sing
+                                    :spec {:def :def}}
+                              :pred :in-front-of
+                              :aspect :simple
+                              :tense :present
+                              :subj {:pred :chair
+                                     :mod []
+                                     :number :sing
+                                     :spec {:def :def}}}
+                        :subcat []}
+               :comp {:synsem {:agr {:person :3rd}}}
+               :modified false})]
+    expr))
+
+(def test-input-1
+  {:italiano "dormire"
+   :infl :present
+   :agr {:person :1st}
+   :cat :verb})
+
+(def test-input-2
+  {:italiano "dormire"
+   :infl :present
+   :agr {:person :2nd}
+   :cat :verb})
+
+(def test-input-3
+  {:a {:initial true, :cat :noun, :italiano "Giovanni e io", :case :nom},
+   :b {:italiano "vedere",
+       :cat :verb,
+       :initial false,
+       :infl :conditional,
+       :essere false,
+       :agr {:number :plur, :person :1st, :gender :masc},
+       :passato "visto",
+       :future-stem "vedr"}})
+
+(def test-input-4
+  {:a {:initial true, :cat :noun, :italiano "Giovanni e io", :case :nom},
+   :b {:italiano "vedere",
+       :cat :verb,
+       :initial false,
+       :infl :future
+       :essere false,
+       :agr {:number :plur, :person :1st, :gender :masc},
+       :passato "visto",
+       :future-stem "vedr"}})
+
+(def result (m/morph test-input-2))
+

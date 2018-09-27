@@ -112,13 +112,21 @@
       (default
        ;; pronoun case and subcat: set sharing within :italiano so
        ;; that morphology can work as expected.
-       (let [cat (atom :noun)
-             case (atom :top)]
-         {:synsem {:case case
+       (let [agr (atom :top)
+             cat (atom :noun)
+             case (atom :top)
+             pronoun (atom :top)
+             propernoun (atom :top)]
+         {:synsem {:agr agr
+                   :case case
                    :cat cat
-                   :pronoun true
+                   :pronoun pronoun
+                   :propernoun propernoun
                    :subcat []}
-          :italiano {:cat cat
+          :italiano {:agr agr
+                     :cat cat
+                     :pronoun pronoun
+                     :propernoun propernoun
                      :case case}}))
       
       (default ;; determiner-noun agreement

@@ -79,7 +79,8 @@
       (when println? (println (str "grow at:" (morph-ps tree)
                                    "; frontier: " frontier-path
                                    "; looking for spec with "
-                                   "cat=" (u/get-in child-spec [:synsem :cat]))))
+                                   "cat=" (u/get-in child-spec [:synsem :cat])
+                                   " and infl=" (u/get-in child-spec [:synsem :infl]))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? frontier-path))
@@ -148,7 +149,6 @@
                                            (get-lexemes (unify
                                                          (u/get-in spec [:head] :top)
                                                          (u/get-in parent-rule [:head] :top))))]
-      (log/debug (str "pwh-1:" (:rule parent-rule)))
       (cond
         (branch? depth)
         (lazy-cat

@@ -1,12 +1,12 @@
 (ns babel.test.it
-  (:refer-clojure :exclude [get-in])
   (:require
    [babel.directory :refer [models]]
    [babel.generate :as generate]
-   [babel.italiano :as italiano :refer [analyze generate model morph morph-ps parse preprocess]]
+   [babel.italiano :as italiano :refer [analyze generate model morph-ps parse preprocess]]
    [babel.italiano.grammar :as grammar]
+   [babel.italiano.lab :as lab :refer [parse-at]]
    [babel.italiano.lexicon :as lexicon]
-   [babel.italiano.morphology :as morph :refer [analyze-regular]]
+   [babel.italiano.morphology :as morph :refer [analyze-regular morph]]
    [babel.italiano.morphology.nouns :as nouns]
    [babel.lexiconfn :refer [write-lexicon]]
    [babel.italiano.morphology.verbs :as verbs]
@@ -18,7 +18,7 @@
    #?(:clj [clojure.repl :refer [doc]])
    [clojure.string :as string]
    [clojure.set :as set]
-   [dag_unify.core :refer [copy fail? get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [copy fail? strip-refs unify]]))
 
 ;; TODO: consider removing special-purpose grammars like grammar/np-grammar
 ;; and just use model instead.
@@ -221,7 +221,7 @@
   (let [result (generate {:synsem {:sem {:spec {:def :twentyeight}}}}
                          @np-grammar)]
     (is (not (= "" (morph result))))
-    (is (= :twentyeight (get-in result [:synsem :sem :spec :def])))
+    (is (= :twentyeight (u/get-in result [:synsem :sem :spec :def])))
     (is (not (empty? (parse (morph result)))))))
 
 (def map-fn #?(:clj pmap) #?(:cljs map))
@@ -275,7 +275,7 @@
                              p (parse m @np-grammar)]
                          (println m)
                          (println (morph-ps g))
-                         (println (dag_unify.core/strip-refs (get-in g [:synsem :sem])) )
+                         (println (dag_unify.core/strip-refs (u/get-in g [:synsem :sem])) )
                          (println (empty? p))
                          (println "---")
                          (empty? p))))))
@@ -356,7 +356,7 @@
                                 (log/info (str "roundtrip-present: " surface))
                                 (log/error (str "parse failed: " surface ": italiano:"
                                                 (dag_unify.core/strip-refs
-                                                 (get-in expr
+                                                 (u/get-in expr
                                                          [:italiano])))))
                               (is (not (empty? parsed)))))
                           expressions))))))
@@ -376,7 +376,7 @@
                               (log/info (str "roundtrip-future: " surface))
                               (log/error (str "parse failed: " surface ": italiano:"
                                               (dag_unify.core/strip-refs
-                                               (get-in expr
+                                               (u/get-in expr
                                                        [:italiano])))))
                             (is (not (empty? parsed)))))
                         expressions))))))
@@ -393,7 +393,7 @@
            (count (map (fn [expr]
                             (let [surface (morph expr)
                                   debug (log/debug (str "surface: " surface))
-                                  debug (log/debug (str "root: " (get-in expr [:root :italiano :italiano])))
+                                  debug (log/debug (str "root: " (u/get-in expr [:root :italiano :italiano])))
                                   parsed (reduce concat (map :parses (parse surface)))]
                               (if (not (empty? parsed))
                                 (log/info (str "parse OK:" surface))
@@ -469,7 +469,7 @@
                                          :mod []
                                          :spec {:def :def}}}})]
     (is (= (morph result) "la casa"))
-    (is (= (get-in result [:synsem :sem :mod]) []))))
+    (is (= (u/get-in result [:synsem :sem :mod]) []))))
 
 (deftest case-generate
   (let [result (generate {:synsem {:subcat []
@@ -480,7 +480,7 @@
                                          :mod []
                                          :spec {:def :def}}}})]
     (is (= (morph result) "le case"))
-    (is (= (get-in result [:synsem :sem :mod]) []))))
+    (is (= (u/get-in result [:synsem :sem :mod]) []))))
 
 (deftest alla-casa-generate
   (let [result (generate
@@ -555,30 +555,30 @@
         parses (mapcat :parses result)
         semantics
         (map (fn [parse]
-               (get-in parse [:synsem :sem]))
+               (u/get-in parse [:synsem :sem]))
              parses)]
     (is (not (empty? parses)))
-    (is (not (nil? (some #(= :have (get-in % [:pred])) semantics))))
-    (is (not (nil? (some #(= :newborn (get-in % [:obj :pred])) semantics))))
-    (is (not (nil? (some #(= :ostana (get-in % [:subj :pred])) semantics))))
-    (is (not (nil? (some #(= :after (get-in % [:mod :pred])) semantics))))
-    (is (not (nil? (some #(= :year (get-in % [:mod :obj :pred])) semantics))))
-    (is (not (nil? (some #(= :twentyeight (get-in % [:mod :obj :spec :def])) semantics))))))
+    (is (not (nil? (some #(= :have (u/get-in % [:pred])) semantics))))
+    (is (not (nil? (some #(= :newborn (u/get-in % [:obj :pred])) semantics))))
+    (is (not (nil? (some #(= :ostana (u/get-in % [:subj :pred])) semantics))))
+    (is (not (nil? (some #(= :after (u/get-in % [:mod :pred])) semantics))))
+    (is (not (nil? (some #(= :year (u/get-in % [:mod :obj :pred])) semantics))))
+    (is (not (nil? (some #(= :twentyeight (u/get-in % [:mod :obj :spec :def])) semantics))))))
 
 (deftest parse-long-sentence-with-punctuation
   (let [result (parse "Dopo ventotto anni, Ostana ha un cittadino neonato.")
         parses (mapcat :parses result)
         semantics
         (map (fn [parse]
-               (get-in parse [:synsem :sem]))
+               (u/get-in parse [:synsem :sem]))
              parses)]
     (is (not (empty? parses)))
-    (is (not (nil? (some #(= :have (get-in % [:pred])) semantics))))
-    (is (not (nil? (some #(= :newborn (get-in % [:obj :pred])) semantics))))
-    (is (not (nil? (some #(= :ostana (get-in % [:subj :pred])) semantics))))
-    (is (not (nil? (some #(= :after (get-in % [:mod :pred])) semantics))))
-    (is (not (nil? (some #(= :year (get-in % [:mod :obj :pred])) semantics))))
-    (is (not (nil? (some #(= :twentyeight (get-in % [:mod :obj :spec :def])) semantics))))))
+    (is (not (nil? (some #(= :have (u/get-in % [:pred])) semantics))))
+    (is (not (nil? (some #(= :newborn (u/get-in % [:obj :pred])) semantics))))
+    (is (not (nil? (some #(= :ostana (u/get-in % [:subj :pred])) semantics))))
+    (is (not (nil? (some #(= :after (u/get-in % [:mod :pred])) semantics))))
+    (is (not (nil? (some #(= :year (u/get-in % [:mod :obj :pred])) semantics))))
+    (is (not (nil? (some #(= :twentyeight (u/get-in % [:mod :obj :spec :def])) semantics))))))
 
 (deftest davanti-il-tavolo
   (let [parse-result (mapcat :parses (parse "davanti il tavolo"))

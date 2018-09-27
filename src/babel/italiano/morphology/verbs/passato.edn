@@ -9,13 +9,13 @@
  {:agr {:number :sing
         :gender :fem}
   :u {:synsem {:essere true}}
-  :g [#"are$"  "ata"
-      #"arsi$" "ata"
-      #"ere$"  "uta" 
-      #"ersi$" "uta"
-      #"ire$"  "ita" 
-      #"irsi$" "ita"
-      ]
+  :g [#"(.*)are$"  "$1ata"
+      #"(.*)arsi$" "$1ata"
+      #"(.*)ere$"  "$1uta" 
+      #"(.*)ersi$" "$1uta"
+      #"(.*)ire$"  "$1ita" 
+      #"(.*)irsi$" "$1ita"]
+      
   :p [
       #"(.*)esa"       "$1eso"
       #"(.*)([aiu])ta" "$1$2to"
@@ -28,19 +28,19 @@
       #"(.*)ta"        "$1ire" ;; morta -> morire
       #"(.*)uta"       "$1ere" ;; (cad)uta -> (cad)ere
       #"(.*)uta"       "$1ersi"
-      #"(.*)uta"       "$1uto"
-      ]
-  }
+      #"(.*)uta"       "$1uto"]}
+      
+  
  
  {:u {:synsem {:essere true}}
   :agr {:number :plur
         :gender :fem}
-  :g [#"are$"  "ate"
-      #"arsi$" "ate"
-      #"ere$"  "ute" 
-      #"ersi$" "ute"
-      #"ire$"  "ite"
-      #"irsi$" "ite"]
+  :g [#"(.*)are$"  "$1ate"
+      #"(.*)arsi$" "$1ate"
+      #"(.*)ere$"  "$1ute" 
+      #"(.*)ersi$" "$1ute"
+      #"(.*)ire$"  "$1ite"
+      #"(.*)irsi$" "$1ite"]
   :p [
       #"(.*)ese"       "$1eso"
       #"(.*)([aiu])te" "$1$2to"
@@ -56,20 +56,17 @@
       #"(.*)ute"       "$1ersi"
       #"(.*)ute"       "$1irsi"
       #"(.*)ute"       "$1ire"
-      #"(.*)ute"       "$1uto"
-      
-      ]
-  }
+      #"(.*)ute"       "$1uto"]}
  
  {:u {:synsem {:essere true}}
   :agr {:number :plur
         :gender :masc}
-  :g [#"are$"  "ati"
-      #"arsi$" "ati"
-      #"ere$"  "uti" 
-      #"ersi$" "uti"
-      #"ire$"  "iti"
-      #"irsi$" "iti"]
+  :g [#"(.*)are$"  "$1ati"
+      #"(.*)arsi$" "$1ati"
+      #"(.*)ere$"  "$1uti" 
+      #"(.*)ersi$" "$1uti"
+      #"(.*)ire$"  "$1iti"
+      #"(.*)irsi$" "$1iti"]
   :p [
       #"(.*)esi"       "$1eso"
       #"(.*)([aiu])ti" "$1$2to"
@@ -82,17 +79,15 @@
 
       ;; scesi -> sceso (convert to irregular passato 'sceso' rather than
       ;; infinitive "scendere":
-      #"(.*)esi"       "$1eso" 
-      ]
-  }
+      #"(.*)esi"       "$1eso"]} 
  
  {:u {:synsem {:essere true}}
-  :g [#"are$"  "ato"
-      #"arsi$" "ato"
-      #"ere$"  "uto" 
-      #"ersi$" "uto"
-      #"ire$"  "ito"
-      #"irsi$" "ito"]
+  :g [#"(.*)are$"  "$1ato"
+      #"(.*)arsi$" "$1ato"
+      #"(.*)ere$"  "$1uto" 
+      #"(.*)ersi$" "$1uto"
+      #"(.*)ire$"  "$1ito"
+      #"(.*)irsi$" "$1ito"]
   :agr {:number :sing
         :gender :masc}
   :p [
@@ -101,22 +96,22 @@
       #"(.*)ito" "$1ire"
       #"(.*)ito" "$1irsi"
       #"(.*)uto" "$1ere" ;; (cad)uto -> (cad)ere
-      #"(.*)uto" "$1ersi"
-      ]}
+      #"(.*)uto" "$1ersi"]}
+      
 
  {:u {:synsem {:essere false}}
-  :g [#"are$"  "ato"
-      #"arsi$" "ato"
-      #"ere$"  "uto" 
-      #"ersi$" "uto"
-      #"ire$"  "ito"
-      #"irsi$" "ito"]
+  :g [#"(.*)are$"  "$1ato"
+      #"(.*)arsi$" "$1ato"
+      #"(.*)ere$"  "$1uto" 
+      #"(.*)ersi$" "$1uto"
+      #"(.*)ire$"  "$1ito"
+      #"(.*)irsi$" "$1ito"]
   :p [
       #"(.*)ato" "$1are"
       #"(.*)ato" "$1arsi"
       #"(.*)ito" "$1ire"
       #"(.*)ito" "$1irsi"
       #"(.*)uto" "$1ere"
-      #"(.*)uto" "$1ersi"
-      ]}]
+      #"(.*)uto" "$1ersi"]}]
+      
  

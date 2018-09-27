@@ -30,7 +30,7 @@
                 {:essere (get-in pattern [:synsem :essere] :top)}))
        patterns))
 
-(defn compile-morphology []
+(defn compile-verb-morphology []
   (let [tenses-map
         {"conditional" {:synsem {:infl :conditional}}
          "future"      {:synsem {:infl :future}}
@@ -55,22 +55,22 @@
                 patterns)}))
           (keys tenses-map)))))
 
-(def morph-map (compile-morphology))
+(def verb-morph-map (compile-verb-morphology))
 
 (defonce patterns-conditional
-  (get morph-map "conditional"))
+  (get verb-morph-map "conditional"))
 (defonce patterns-future
-  (get morph-map "future"))
+  (get verb-morph-map "future"))
 (defonce patterns-gerund
-  (get morph-map "gerund"))
+  (get verb-morph-map "gerund"))
 (defonce patterns-imperfetto
-  (get morph-map "imperfetto"))
+  (get verb-morph-map "imperfetto"))
 (defonce patterns-present
-  (get morph-map "present"))
+  (get verb-morph-map "present"))
 (defonce patterns-passato
-  (get morph-map "passato"))
+  (get verb-morph-map "passato"))
 (defonce patterns-subjunctive
-  (get morph-map "subjunctive"))
+  (get verb-morph-map "subjunctive"))
 
 (defonce patterns
   (map (fn [each]
@@ -213,7 +213,7 @@
     :u {:infl :present
         :agr {:number :sing
               :person :1st}}}
- 
+   
    {:path [:italiano :present :2sing]
     :label "present 2sing"
     :merge-fn
@@ -285,33 +285,33 @@
     (fn [val]
       {:italiano {:infl :future
                   :italiano (get-in val [:italiano :future :3sing] :nothing)
-                                                   :agr {:number :sing
-                                                         :person :3rd}}})}
-                                    {:path [:italiano :future :1plur]
-                                     :label "future 1plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :1plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :1st}}})}
-                                    {:path [:italiano :future :2plur]
-                                     :label "future 2plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :2plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :2nd}}})}
-                                    {:path [:italiano :future :3plur]
-                                     :label "future 3plur"
-                                     :merge-fn
-                                     (fn [val]
-                                       {:italiano {:infl :future
-                                                   :italiano (get-in val [:italiano :future :3plur] :nothing)
-                                                   :agr {:number :plur
-                                                         :person :3rd}}})}
-                                    
+                  :agr {:number :sing
+                        :person :3rd}}})}
+   {:path [:italiano :future :1plur]
+    :label "future 1plur"
+    :merge-fn
+    (fn [val]
+      {:italiano {:infl :future
+                  :italiano (get-in val [:italiano :future :1plur] :nothing)
+                  :agr {:number :plur
+                        :person :1st}}})}
+   {:path [:italiano :future :2plur]
+    :label "future 2plur"
+    :merge-fn
+    (fn [val]
+      {:italiano {:infl :future
+                  :italiano (get-in val [:italiano :future :2plur] :nothing)
+                  :agr {:number :plur
+                        :person :2nd}}})}
+   {:path [:italiano :future :3plur]
+    :label "future 3plur"
+    :merge-fn
+    (fn [val]
+      {:italiano {:infl :future
+                  :italiano (get-in val [:italiano :future :3plur] :nothing)
+                  :agr {:number :plur
+                        :person :3rd}}})}
+   
    ;; 4. conditional-tense exceptions
    {:path [:italiano :conditional :1sing]
     :label "conditional 1sing"
@@ -362,58 +362,6 @@
                   :agr {:number :plur
                         :person :3rd}}})}])
 
-(defn irregular [word exception-map]
-  (let [person (get-in word [:agr :person])
-        number (get-in word [:agr :number])]
-    (cond
-      (and (= person :1st) (= number :sing)
-           (get-in exception-map [:1sing]))
-      (get-in exception-map [:1sing])
-      (and (= person :2nd) (= number :sing)
-           (get-in exception-map [:2sing]))
-      (get-in exception-map [:2sing])
-      (and (= person :3rd) (= number :sing)
-           (get-in exception-map [:3sing]))
-      (get-in exception-map [:3sing])
-      (and (= person :1st) (= number :plur)
-           (get-in exception-map [:1plur]))
-      (get-in exception-map [:1plur])
-      (and (= person :2nd) (= number :plur)
-           (get-in exception-map [:2plur]))
-      (get-in exception-map [:2plur])
-      (and (= person :3rd) (= number :plur)
-           (get-in exception-map [:3plur]))
-      (get-in exception-map [:3plur])
-      
-      true nil)))
-
-(defn passato-as-head? [word]
-  ;; "fare [past]" + "bene" => "fatto bene"
-  (and (= (get-in word '(:cat)) :verb)
-       (= (get-in word '(:infl)) :passato)
-       (string? (get-in word '(:a :passato)))))
-
-(defn passato-as-head [word]
-  (str (get-in word '(:a :passato)) " "
-       (get-in word '(:b))))
-
-(defn irregular-passato? [word]
-  (and (= :passato (get-in word '(:infl)))
-       (get-in word '(:passato))
-       (get-in word '(:essere) true)
-       (or (= :notfound (get-in word '(:agr :number) :notfound))
-           (= :top (get-in word '(:agr :number))))))
-
-(defn irregular-passato [word]
-  ;; not enough information.
-  (log/warn (str "not enough agreement specified to conjugate: " (get-in word '(:passato)) " (irreg past)]"))
-  (get-in word '(:passato)))
-
-(defn irregular-passato? [word]
-  ;; conjugate irregular passato: option 2) using :passato
-  (and (= :passato (get-in word '(:infl)))
-       (get-in word '(:passato))))
-
 (defn suffix-of [word]
   "compute the final character given a lexical entry and agreement info in :agr."
   ;; TODO: convert to .edn
@@ -449,94 +397,4 @@
                  
                  )]
     suffix))
-
-(defn irregular-passato [word]
-  (let [irregular-passato (get-in word '(:passato))
-        butlast (nth (re-find #"(.*).$" irregular-passato) 1)]
-    (str butlast (suffix-of word))))
-
-(defn regular-present [word]
-  (log/debug (str "(regular-present " (dag_unify.core/strip-refs word) ")"))
-  (let [unifying-patterns
-        (remove nil? (mapcat #(when
-                                  (not (= :fail
-                                          (unify word
-                                                 {:agr (:agr %)
-                                                  :boot-verb (:boot-verb % :top)})))
-                                (:g %))
-                             patterns-present))
-        infinitive (get-in word [:italiano])]
-    (first (do-replace-on infinitive unifying-patterns))))
-
-;; <irregular gerund inflection>
-(defn irregular-gerund? [word]
-  (and
-   (= (get-in word [:infl]) :participle)
-   (string? (get-in word [:italiano]))
-   (string? (get-in word [:gerund]))))
-
-(defn irregular-gerund [word]
-  (get-in word [:gerund]))
-
-(defn regular-gerund [word]
-  (let [unifying-patterns (mapcat :g
-                                  patterns-gerund)
-        infinitive (get-in word [:italiano])]
-    (first (do-replace-on infinitive unifying-patterns))))
-
-;; TODO: rewrite this using pattern matching against
-;; babel.italiano.morphology/patterns.
-(defn conjugate [word]
-  (let [infinitive (get-in word [:italiano])]
-    (cond
-      (= (get-in word [:agr] :top) :top)
-      infinitive
-
-      (and
-       (= (get-in word [:infl]) :future)
-       (map? (get-in word [:future])))
-      (or (irregular word (get-in word [:future]))
-          (regular-future word))
-      
-      (= (get-in word [:infl]) :future)
-      (regular-future word)
-      
-      (and
-       (= (get-in word [:infl]) :imperfetto)
-       (map? (get-in word [:imperfetto])))
-      (or (irregular word (get-in word [:imperfetto]))
-          (regular-imperfetto word))
-      
-      (= (get-in word [:infl]) :imperfetto)
-      (regular-imperfetto word)
-      
-      (and
-       (= (get-in word [:infl]) :present)
-       (map? (get-in word [:present])))
-      (or (irregular word (get-in word [:present]))
-          (regular-present word))
-      
-      (= (get-in word [:infl]) :present)
-      (regular-present word)
-      
-      (= (get-in word [:infl]) :conditional)
-      (regular-conditional word)
-      
-      (passato-as-head? word)
-      (passato-as-head word)
-      
-      (irregular-passato? word)
-      (irregular-passato word)
-      
-      (= :passato (get-in word [:infl]))
-      (regular-passato word)
-      
-      (irregular-gerund? word)
-      (irregular-gerund word)
-      
-      (= (get-in word [:infl]) :participle)
-      (regular-gerund word)
-      )))
-
-
 

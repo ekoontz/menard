@@ -3,9 +3,8 @@
   (:require
    [babel.italiano.grammar :as grammar]
    [babel.italiano.lexicon :as lex]
-   [babel.italiano.morphology :as morph :refer [get-string patterns]]
+   [babel.italiano.morphology :as morph :refer [analyze-tokens morph]]
    [babel.generate :as generate]
-   [babel.over :as over]
    [babel.parse :as parse]
    [babel.test.test :refer [init-db]]
    #?(:clj [clojure.tools.logging :as log])
@@ -23,25 +22,6 @@
      {:loaded-at (java.time.LocalDateTime/now)}
      @@(get babel.directory/models :it))))
 
-(defn apply-patterns [input-string]
-  (let [result 
-        (reduce (fn [str [from to]] (string/replace str from to))
-                (cons input-string patterns))]
-    (if (= result input-string)
-      result
-      (apply-patterns result))))
-
-(defn morph [expr & {:keys [from-language show-notes]
-                     :or {from-language nil
-                          show-notes true}}]
-  ;; modeled after babel.english/morph:
-  ;; most arguments are simply discarded for italian.
-  ;; TODO: rules should apply repeatedly until no change.
-  (->
-   (get-string (get-in expr [:italiano]))
-   (apply-patterns)
-   (string/trim)))
-    
 (defn morph-ps
   ([expr]
    (morph-ps expr model))
@@ -51,18 +31,16 @@
                        show-notes true}}]
    ;; modeled after babel.english/morph:
    ;; most arguments are simply discarded for italian.
-   (parse/fo-ps expr (:morph model))))
+   (parse/fo-ps expr morph)))
 
 (defn fo-ps [expr]
-  (parse/fo-ps expr #(get-string (get-in % [:italiano]))))
+  (parse/fo-ps expr #(morph %)))
 
 (defn analyze
-  "analyze a word: as opposed to parsing which is multi-word."
+  "analyze a single word: as opposed to parsing which is analyzing multi-word expressions."
   ;; TODO: should take a language model, not a lexicon
-  ([surface-form]
-   (analyze surface-form model))
-  ([surface-form model]
-   (morph/analyze surface-form (:lexicon model))))
+  [surface-form]
+  (morph/analyze surface-form (:lexicon model)))
 
 ;; TODO: remove this (defn generate): use babel.generate/generate instead.
 (defn generate
@@ -75,7 +53,7 @@
    (let [spec (unify spec {:modified false})
          result (generate/generate spec model)]
      (if result
-       (conj {:surface (get-string (get-in result [:italiano]))}
+       (conj {:surface (morph result)}
              result)))))
 
 (defn an-example []
@@ -87,7 +65,7 @@
              #(println 
                (morph (time (generate {:synsem {:cat :verb
                                                 :subcat []
-                                              :sem {:pred :know-s}}}
+                                                :sem {:pred :know-s}}}
                                       med-reload))))))
       (take 5
             (repeatedly 
@@ -96,22 +74,6 @@
                                                 :subcat []
                                                 :sem {:pred :know-s}}}
                                       med)))))))))
-
-(defonce tokenizer #"[ '\n,’».]")
-
-(defn tokenize [input]
-  (string/split input tokenizer))
-
-(defn analyze-tokens
-  "given a string, generate a list of tokenization hypotheses."
-  [string]
-  (map #(string/split % tokenizer)
-       (morph/replace-over [string])))
-
-(defn over
-  "given a parent and 2 children, try to arrange them with the first child on the left and the second child on the right."
-  [parent child1 child2]
-  (over/over parent child1 child2))
 
 (defn preprocess [input]
   "arbitrary regexp replacements to convert Italian orthography into a parsable whitespace-delimited expression"
@@ -144,7 +106,7 @@
 
            (or (seq? input) (vector? input))
            (parse/parse input model)
-        
+           
            true
            (str "don't know how to parse input: " (type input)))))
 
@@ -160,7 +122,7 @@
 
            (or (seq? input) (vector? input))
            (parse/parse input model :original-input original-input)
-        
+           
            true
            (str "don't know how to parse input: " (type input))))))
 

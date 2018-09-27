@@ -5,7 +5,7 @@
    [babel.html :refer [local-timestamp]]
    [babel.index :refer [create-indices lookup-spec]]
    [babel.italiano.lexicon :refer [compile-lexicon edn2lexicon vocab-entry-to-lexeme]]
-   [babel.italiano.morphology :refer [analyze fo]]
+   [babel.italiano.morphology :refer [analyze morph]]
    [babel.lexiconfn :refer [filtered-lexicon read-lexicon] :as lexfn]
    [babel.parse :as parse]
    [babel.ug :refer [apply-default-if comp-modifies-head comp-specs-head
@@ -24,6 +24,11 @@
    [clojure.pprint :refer (pprint)]
    [clojure.repl :refer (doc)]
    [dag_unify.core :as u :refer [fail? get-in remove-matching-keys strip-refs unify]]))
+
+(defn prep-default? [tree]
+  (and (= :prep (u/get-in tree [:synsem :cat]))
+       (= :noun (u/get-in tree [:comp :synsem :cat]))
+       (= :top (u/get-in tree [:comp :synsem :agr :number] :top))))
 
 (defn verb-default? [tree]
   (and (= :verb (u/get-in tree [:synsem :cat]))
@@ -61,6 +66,22 @@
 
             (apply-default-if
              verb-default?
+             {:synsem {:aux true
+                       :cat :verb
+                       :sem {:tense :past
+                             :aspect :pluperfect}
+                       :infl :imperfetto}})
+
+            (apply-default-if
+             verb-default?
+             {:synsem {:aux true
+                       :cat :verb
+                       :sem {:tense :present
+                             :aspect :progressive}
+                       :infl :present}})
+
+            (apply-default-if
+             verb-default?
              {:synsem {:aux false
                        :cat :verb
                        :sem {:tense :past
@@ -72,7 +93,11 @@
              {:synsem {:aux false
                        :cat :verb
                        :sem {:tense :future}
-                       :infl :future}}))]
+                       :infl :future}})
+
+            (apply-default-if
+             prep-default?
+             {:comp {:synsem {:agr {:number :sing}}}}))]
     [result]))
 
 (declare model)
@@ -106,7 +131,7 @@
    "trapassato" {:synsem {:sem {:aspect :pluperfect
                                 :tense :past}}}})
 (defn fo-ps [expr]
-  (parse/fo-ps expr fo))
+  (parse/fo-ps expr morph))
 
 (defn exception [error-string]
   #?(:clj
@@ -607,9 +632,9 @@
 
 ;; TODO: move to italiano/morphology or higher (language-universal)
 (defn morph-walk-tree [tree]
-  (log/debug (str "morph-walk-tree: " (fo tree)))
+  (log/debug (str "morph-walk-tree: " (morph tree)))
   (merge
-   {:surface (fo tree)}
+   {:surface (morph tree)}
    (if (get-in tree [:comp])
      {:comp (morph-walk-tree (get-in tree [:comp]))}
      {})
@@ -669,20 +694,35 @@
 (declare model-with-vocab-items)
 
 (def tense-specs
-  [{:synsem {:cat :verb
+  [;; passato
+   {:synsem {:cat :verb
              :sem {:tense :present
                    :aspect :perfect}
              :subcat []}}
+   ;; futuro
    {:synsem {:cat :verb
              :sem {:tense :future}
              :subcat []}}
+   ;; condizionale
    {:synsem {:cat :verb
              :sem {:tense :conditional}
              :subcat []}}
+   ;; trapassato
+   {:synsem {:cat :verb
+             :sem {:tense :past
+                   :aspect :pluperfect}
+             :subcat []}}
+   ;; imperfetto
    {:synsem {:cat :verb
              :sem {:tense :past
                    :aspect :progressive}
              :subcat []}}
+   ;; present progressive
+   {:synsem {:cat :verb
+             :sem {:tense :present
+                   :aspect :progressive}
+             :subcat []}}
+   ;; simple present
    {:synsem {:cat :verb
              :sem {:tense :present
                    :aspect :simple}}}])
@@ -715,6 +755,14 @@
     "vp-pronoun-phrasal"
     "vp-pronoun-nonphrasal"})
 
+(def present-progressive-grammar
+  #{"sentence-phrasal-head"
+    "vp-aux-22-nonphrasal-comp"
+    "vp-aux-22-phrasal-comp"
+    "vp-aux-nonphrasal-complement"
+    "vp-aux-phrasal-complement"
+    "vp-pronoun-phrasal"})
+
 (def rule-matcher
   ;; this is a lot like a lexical compilation default map.
   {:top basic-grammar
@@ -723,6 +771,9 @@
    ;; be used for generation.
    {:root {:italiano {:italiano "chiamarsi"}}} chiamarsi-grammar
    
+   {:synsem {:sem {:tense :past
+                   :aspect :pluperfect}}} present-perfect-grammar
+
    {:synsem {:sem {:tense :present
                    :aspect :perfect}}} present-perfect-grammar
    
@@ -733,6 +784,9 @@
    {:synsem {:sem {:tense :past
                    :aspect :progressive}}} future-grammar
    
+   {:synsem {:sem {:tense :present
+                   :aspect :progressive}}} present-progressive-grammar
+
    {:synsem {:sem {:tense :present
                    :aspect :simple}}} present-grammar})
 
@@ -797,7 +851,7 @@
       :lexical-cache (atom (cache/fifo-cache-factory {} :threshold 1024))
       :lexicon lexicon
       :lookup (fn [arg] (analyze arg lexicon))
-      :morph (fn [expression & {:keys [from-language show-notes]}] (fo expression))
+      :morph (fn [expression & {:keys [from-language show-notes]}] (morph expression))
       :morph-ps fo-ps         
       :rules rules
       :rule-map (zipmap rules grammar)
@@ -877,7 +931,7 @@
      :language "it"
      :language-keyword :italiano
      :morph-ps fo-ps
-     :morph fo
+     :morph morph
      :lookup (fn [arg]
                (analyze arg lexicon))
      :generate {:lexicon lexicon-for-generation}

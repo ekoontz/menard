@@ -484,6 +484,8 @@
         infinitive (get-in word [:italiano])]
     (first (do-replace-on infinitive unifying-patterns))))
 
+;; TODO: rewrite this using pattern matching against
+;; babel.italiano.morphology/patterns.
 (defn conjugate [word]
   (let [infinitive (get-in word [:italiano])]
     (cond

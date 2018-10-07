@@ -22,6 +22,10 @@
  ;; definite articles: il -> lo
  {:g [#"\bil ((gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))(.*)" "lo $1$8"]}  ;; il [vowel/z] -> lo
 
+ ;; definite articles: i -> gli
+ {:g [#"^i (([aeiou])|(gn)|(io)|(jo)|(pn)|(s[^aeiou])|([xyz]))(.*)" "gli $1$9"]}  ;; i [vowel/z] -> gli
+
+ 
  ;; <preposition+article>
  {:g [#"\ba il\b(.*)"           "al$1"]}     ;; a il -> al
  {:g [#"\ba lo\b(.*)"           "allo$1"]}

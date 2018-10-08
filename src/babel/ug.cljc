@@ -321,20 +321,22 @@
 (def root-is-head-root
   (let [root (atom :top)]
     {:root root
-     :head {:root root}}))
+     :head {:phrasal true
+            :root root}}))
 
 ;; Phrase [:root [1]]
 ;;        /       \
 ;;       H     [1] C
 (def root-is-comp
-  (let [root (atom :top)]
+  (let [root (atom {:phrasal false})]
     {:root root
      :comp root}))
 
 (def root-is-comp-root
   (let [root (atom :top)]
     {:root root
-     :comp {:root root}}))
+     :comp {:phrasal true
+            :root root}}))
 
 (def c10
   (unify schema-10

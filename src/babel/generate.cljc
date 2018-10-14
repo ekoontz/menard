@@ -65,6 +65,7 @@
   "Recursively generate trees given input trees. continue recursively
    until no futher expansion is possible."
   [trees]
+  (println (str "COUNT TREES: " (string/join "," (map morph-ps trees))))
   (if (not (empty? trees))
     ;; for each tree,
     ;; find the next point of 
@@ -73,14 +74,15 @@
     (let [tree (first trees)
           frontier-path (frontier tree)
           depth (count frontier-path)
-          child-spec (u/get-in tree frontier-path)
+          child-spec (u/get-in tree frontier-path :top)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
-      (when println? (println (str "grow at:" (morph-ps tree)
-                                   "; frontier: " frontier-path
-                                   "; looking for spec with "
-                                   "cat=" (u/get-in child-spec [:synsem :cat])
-                                   " and infl=" (u/get-in child-spec [:synsem :infl]))))
+      (when (and println? (not (empty? frontier-path)))
+            (println (str "grow at:" (morph-ps tree)
+                          "; frontier: " frontier-path
+                          "; looking for children with " (u/strip-refs child-spec) "; "
+                          "cat=" (u/get-in child-spec [:synsem :cat]) " and "
+                          "infl=" (u/get-in child-spec [:synsem :infl]))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (not (empty? frontier-path))
@@ -108,21 +110,32 @@
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
-  (cond
-    (= (u/get-in tree [::done?]) true)
-    []
-    
-    (and (= (u/get-in tree [:phrasal]) true)
-         (not (u/get-in tree [::done?]))
-         (= true (u/get-in tree [::started?]))
-         (not (u/get-in tree [:head ::done?])))
-    (cons :head (frontier (u/get-in tree [:head])))
+  (println (str "looking for frontier for: " (keys tree)))
+  (let [retval
+         (cond
+           (= (u/get-in tree [::done?]) true)
+           []
 
-    (and (= (u/get-in tree [:phrasal]) true)
-         (= true (u/get-in tree [::started?])))
-    (cons :comp (frontier (u/get-in tree [:comp])))
+           (= (u/get-in tree [:phrasal]) false)
+           []
     
-    true []))
+           (and (= (u/get-in tree [:phrasal] true) true)
+                (= true (u/get-in tree [::started?]))
+                (not (u/get-in tree [:head ::done?])))
+           (cons :head (frontier (u/get-in tree [:head])))
+
+           (and (= (u/get-in tree [:phrasal] true) true)
+                (= true (u/get-in tree [::started?])))
+           (cons :comp (frontier (u/get-in tree [:comp])))
+
+           (and (= (u/get-in tree [:phrasal] true) true))
+           [:head]
+    
+           true
+           (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
+    (println (str "found frontier: " retval))
+    retval))
+
 
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec."

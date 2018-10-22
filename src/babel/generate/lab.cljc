@@ -53,16 +53,19 @@
             (nil? structure)
             (string? structure)) structure
 
+        (seq? structure)
+        (map morph structure)
+        
         (u/get-in structure [:surface])
         (morph (u/get-in structure [:surface]))
         
         true
         (let [one (if (= (get structure :1)
                          (get structure :head))
-                    "h:" "")
+                    "h:" "c:")
               two (if (= (get structure :1)
                          (get structure :head))
-                    "" "h")]
+                    "c:" "h:")]
           (string/join ""
             (map morph
                  ["[" (:rule structure) " "
@@ -80,7 +83,7 @@
 (def working-spec-a-expression
   (generate spec-a))
 
-(def parent-with-head
+(def parents-with-head
   (let [spec spec-b]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
@@ -91,7 +94,8 @@
            (remove #(= :fail %))
            (g/parent-with-head-1 spec depth)
            (remove #(= % :fail))
-           (map #(u/assoc-in! % [::started?] true))))))
+           (map #(u/assoc-in! % [:babel.generate/started?] true))))))
+(def parent-with-head (first parents-with-head))
 
 (defn grow-1 [trees]
   (let [spec spec-b]

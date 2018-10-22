@@ -15,12 +15,17 @@
                         (log/debug (str "branch at: " % "? => " result))
                         result))
 
-(def ^:dynamic default-fn nil)
+(def ^:dynamic morph-ps (fn [x] x))
+(def ^:dynamic default-fn
+  (fn [x]
+    (println (str "defaults for: " (morph-ps x)))
+    [x]))
+
 (def ^:dynamic grammar nil)
-(def ^:dynamic index-fn nil)
 (def ^:dynamic lexicon nil)
+(def ^:dynamic index-fn (fn [spec]
+                          (shuffle (flatten (vals lexicon)))))
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic morph-ps nil)
 (def ^:dynamic println? nil)
 (def ^:dynamic truncate? nil)
 
@@ -65,7 +70,6 @@
   "Recursively generate trees given input trees. continue recursively
    until no futher expansion is possible."
   [trees]
-  (println (str "COUNT TREES: " (string/join "," (map morph-ps trees))))
   (if (not (empty? trees))
     ;; for each tree,
     ;; find the next point of 
@@ -73,13 +77,15 @@
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
           frontier-path (frontier tree)
+          debug (if (not (empty? frontier-path))
+                  (println (str "tree: " (morph-ps tree) " has frontier: " frontier-path " with value at frontier: " (u/get-in tree frontier-path))))
           depth (count frontier-path)
           child-spec (u/get-in tree frontier-path :top)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
       (when (and println? (not (empty? frontier-path)))
-            (println (str "grow at:" (morph-ps tree)
-                          "; frontier: " frontier-path
+            (println (str "growing:" (morph-ps tree)
+                          " at: " frontier-path
                           "; looking for children with " (u/strip-refs child-spec) "; "
                           "cat=" (u/get-in child-spec [:synsem :cat]) " and "
                           "infl=" (u/get-in child-spec [:synsem :infl]))))
@@ -103,6 +109,8 @@
                   
                   true ;; generate children that are leaves before children that are trees.
                   (lazy-cat (child-lexemes) (child-trees)))]
+
+;;            (log/info (str "children empty? " (empty? children)))
             (assoc-children tree children frontier-path)))
          [tree])
        (grow (rest trees))))))
@@ -110,7 +118,6 @@
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
-  (println (str "looking for frontier for: " (keys tree)))
   (let [retval
          (cond
            (= (u/get-in tree [::done?]) true)
@@ -133,9 +140,7 @@
     
            true
            (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
-    (println (str "found frontier: " retval))
     retval))
-
 
 (defn parent-with-head
   "Return every possible tree of depth 1 from the given spec."
@@ -152,32 +157,32 @@
   (if (not (empty? parent-rules))
     (let [parent-rule (first parent-rules)
           parent-cat (u/get-in parent-rule [:synsem :cat])
-          phrases-with-phrasal-head #(map (fn [child]
+          phrases-with-phrasal-head (map (fn [child]
+                                           (u/assoc-in parent-rule [:head] child))
+                                         (filter (fn [grammar-rule]
+                                                   (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
+                                                 grammar))
+          phrases-with-lexical-heads (map (fn [child]
                                             (u/assoc-in parent-rule [:head] child))
-                                          (filter (fn [grammar-rule]
-                                                    (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
-                                                  grammar))
-          phrases-with-lexical-heads #(map (fn [child]
-                                             (u/assoc-in parent-rule [:head] child))
-                                           (get-lexemes (unify
-                                                         (u/get-in spec [:head] :top)
-                                                         (u/get-in parent-rule [:head] :top))))]
+                                          (get-lexemes (unify
+                                                        (u/get-in spec [:head] :top)
+                                                        (u/get-in parent-rule [:head] :top))))]
       (cond
         (branch? depth)
         (lazy-cat
          ;; phrases that could be the head child, then lexemes that could be the head child.
-         (phrases-with-phrasal-head)
-         (phrases-with-lexical-heads)
+         phrases-with-phrasal-head
+         phrases-with-lexical-heads
          (parent-with-head-1 spec depth (rest parent-rules)))
 
         true
         (lazy-cat
          ;; lexemes that could be the head child, then phrases that could be the head child.
-         (phrases-with-lexical-heads)
-         (phrases-with-phrasal-head)
+         phrases-with-lexical-heads
+         phrases-with-phrasal-head
          (parent-with-head-1 spec depth (rest parent-rules)))))))
 
-(defn- get-lexemes 
+(defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
    that matches the given _spec_."
@@ -187,32 +192,39 @@
     (->> (index-fn spec)
          (filter #(and (or (nil? lexical-filter) (lexical-filter %))
                        ;; TODO: probably remove this in favor of per-language filtering as we
-                       ;; do in italiano.lab/lexical-filter, where we (binding [babel.generate/lexical-filter-fn]).
+                       ;; do in italiano.lab/lexical-filter, where we
+                       ;; have: (binding [babel.generate/lexical-filter-fn]).
                        (or (= false (u/get-in % [:exception] false))
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true)))))
 
-(defn- assoc-each-default [tree children path]
+(defn assoc-each-default [tree children path]
+  (println (str "assoc-each-default:path=" path))
   (if (not (empty? children))
     (lazy-cat
-     (let [child (first children)
+     (let [child (u/assoc-in (first children) [::done?] true)
            tree-with-child (u/assoc-in tree path child)]
        (-> tree-with-child
            (u/assoc-in! 
             (concat (butlast path) [::done?])
-            true)
+            (if (= :head (last path))
+              false true))
            (u/dissoc-paths (if truncate? [path] []))
            (default-fn)))
      (assoc-each-default tree (rest children) path))))
 
-(defn- assoc-children [tree children path]
+(defn assoc-children [tree children path]
   (if (not (empty? children))
     (let [child (first children)]
       (lazy-cat
-       (if (= true (u/get-in child [::done?]))
-         (assoc-each-default tree (default-fn child) path)
-         [(u/assoc-in tree path child)])
+       (let [with-child
+             (if (= true (u/get-in child [::done?]))
+                (assoc-each-default tree (default-fn child) path)
+              [(u/assoc-in tree path child)])]
+         (if false (println (str "added child: " (morph-ps child) " to: " (morph-ps tree) " = ")
+                            (string/join "," (map morph-ps with-child))))
+         with-child)
        (assoc-children tree (rest children) path)))))
 

@@ -41,8 +41,12 @@
                    "ga" [{:cat :ga}]
                    "ma" [{:cat :ma}]}]
               [surface (map (fn [lexeme]
-                              (merge lexeme {:surface surface}))
+                              (merge lexeme {:phrasal false
+                                             :surface surface}))
                         lexemes-for-surface)]))})
+
+(def grammar (:grammar baby-language))
+(def lexicon (:lexicon baby-language))
 
 (defn morph [structure]
   (cond (or (= :fail structure) 
@@ -65,17 +69,14 @@
             string/trim))
          "]")
         
-        true (str structure)))
+        true (str "[" (:rule structure) " " (morph (u/get-in structure [:1])) "]")))
 
 (defn generate [spec]
-  (binding [babel.generate/default-fn (fn [x] [x])
-            babel.generate/grammar (shuffle (:grammar baby-language))
-            babel.generate/lexicon (:lexicon baby-language)
-            babel.generate/println? true
-            babel.generate/morph-ps morph
-            babel.generate/index-fn (fn [spec]
-                                      (println (str "index-fn: " spec))
-                                      (shuffle (flatten (vals (:lexicon baby-language)))))]
-    (babel.generate/generate spec)))
+  (binding [g/grammar (shuffle (:grammar baby-language))
+            g/lexicon (:lexicon baby-language)
+            g/println? true
+            g/morph-ps morph]
+    (g/generate spec)))
 
-
+(def working-spec-a-expression
+  (generate spec-a))

@@ -16,10 +16,7 @@
                         result))
 
 (def ^:dynamic morph-ps (fn [x] x))
-(def ^:dynamic default-fn
-  (fn [x]
-    (println (str "defaults for: " (morph-ps x)))
-    [x]))
+(def ^:dynamic default-fn (fn [x] [x]))
 
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
@@ -40,7 +37,7 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
-   (do (log/info (str "generating with spec: " spec))
+   (do (log/debug (str "generating with spec: " spec))
        (first (gen spec))))
 
   ([spec model]
@@ -77,7 +74,7 @@
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
           frontier-path (frontier tree)
-          debug (if (not (empty? frontier-path))
+          debug (if (and println? (not (empty? frontier-path)))
                   (println (str "tree: " (morph-ps tree) " has frontier: " frontier-path " with value at frontier: " (u/get-in tree frontier-path))))
           depth (count frontier-path)
           child-spec (u/get-in tree frontier-path :top)
@@ -110,7 +107,7 @@
                   true ;; generate children that are leaves before children that are trees.
                   (lazy-cat (child-lexemes) (child-trees)))]
 
-;;            (log/info (str "children empty? " (empty? children)))
+            (log/debug (str "children empty? " (empty? children)))
             (assoc-children tree children frontier-path)))
          [tree])
        (grow (rest trees))))))
@@ -204,7 +201,7 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn assoc-each-default [tree children path]
-  (println (str "assoc-each-default:path=" path))
+  (if println? (println (str "assoc-each-default:path=" path)))
   (if (not (empty? children))
     (lazy-cat
      (let [child (u/assoc-in (first children) [::done?] true)

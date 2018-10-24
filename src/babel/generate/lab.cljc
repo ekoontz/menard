@@ -25,30 +25,34 @@
 (def baby-language
   {:grammar
    (->>
-     [(let [cat (atom :top)]
-        ;; rule "A": phrase where both children are lexemes,
-        ;; and both lexemes have share their :cat value.
-        (unify {:rule "A"
-                :head {:cat cat
-                       :phrasal false}
-                :comp {:cat cat
-                       :phrasal false}}
-               head-first))
-
-      ;; rule "B": phrase where the comp is a rule-"A".
-      (unify {:rule "B"
-              :head {:phrasal false}
-              :comp {:rule "A"
-                     :phrasal true}}
-             comp-first)]
-     (remove #(= :fail %)))
+    [(let [cat (atom :n)
+           surface (atom :top)]
+       ;; rule "A": phrase where both children are lexemes,
+       ;; and both lexemes have share their :cat value and surface value.
+       (unify {:rule "A"
+               :head {:cat cat
+                      :surface surface
+                      :phrasal false}
+               :comp {:cat cat
+                      :surface surface
+                      :phrasal false}}
+              head-first))
+     
+     ;; rule "B": phrase where the comp is a rule-"A".
+     (unify {:rule "B"
+             :head {:phrasal false
+                    :cat :v}
+             :comp {:rule "A"
+                    :phrasal true}}
+            comp-first)]
+    (remove #(= :fail %)))
    
    :lexicon
    (into {} (for [[surface lexemes-for-surface]
-                  {"ba" [{:cat :ba}]
-                   "da" [{:cat :da}]
-                   "ga" [{:cat :ga}]
-                   "ma" [{:cat :ma}]}]
+                  {"ba" [{:cat :v}]
+                   "da" [{:cat :n}]
+                   "ga" [{:cat :v}]
+                   "ma" [{:cat :n}]}]
               [surface (map (fn [lexeme]
                               (merge lexeme {:phrasal false
                                              :surface surface}))
@@ -108,3 +112,14 @@
             g/println? false
             g/morph-ps morph-ps]
     (g/generate spec)))
+
+(defn demo []
+  (do
+    (println "five rule A expressions:")
+    (count (take 5 (repeatedly #(println (morph (generate {:rule "A"}))))))
+    (println "five rule B expressions:")
+    (count (take 5 (repeatedly #(println (morph (generate {:rule "B"}))))))
+    (println "five rule A expressions: (with structure)")
+    (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "A"}))))))
+    (println "five rule B expressions: (with structure)")
+    (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "B"}))))))))

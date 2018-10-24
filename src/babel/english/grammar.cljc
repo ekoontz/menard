@@ -1,5 +1,4 @@
 (ns babel.english.grammar
-  (:refer-clojure :exclude [get-in])
   (:require 
    [babel.english.lexicon :refer [deliver-lexicon transform-with-english-lexical-rules
                                   vocab-entry-to-lexeme]]
@@ -22,7 +21,7 @@
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.core.cache :as cache]
-   [dag_unify.core :as u :refer [fail? get-in remove-matching-keys strip-refs unify]]))
+   [dag_unify.core :as u :refer [fail? remove-matching-keys strip-refs unify]]))
 
 (def index-lexicon-on-paths
   [[:synsem :agr :gender]
@@ -35,20 +34,20 @@
    [:synsem :sem :human]])
 
 (defn noun-default? [tree]
-  (and (= :noun (get-in tree [:synsem :cat]))
-       (= :top (get-in tree [:synsem :agr :number] :top))))
+  (and (= :noun (u/get-in tree [:synsem :cat]))
+       (= :top (u/get-in tree [:synsem :agr :number] :top))))
 
 (defn default-fn [tree]
   (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
-  (log/trace (str "aspect (pre): " (strip-refs (get-in tree
-                                                       [:synsem :sem :aspect]
-                                                       ::unset))))
-  (log/trace (str "infl   (pre): " (strip-refs (get-in tree
-                                                       [:synsem :infl]
-                                                       ::unset))))  
-  (log/trace (str "tense  (pre): " (strip-refs (get-in tree
-                                                       [:synsem :sem :tense]
-                                                       ::unset))))
+  (log/trace (str "aspect (pre): " (strip-refs (u/get-in tree
+                                                         [:synsem :sem :aspect]
+                                                         ::unset))))
+  (log/trace (str "infl   (pre): " (strip-refs (u/get-in tree
+                                                         [:synsem :infl]
+                                                         ::unset))))  
+  (log/trace (str "tense  (pre): " (strip-refs (u/get-in tree
+                                                         [:synsem :sem :tense]
+                                                         ::unset))))
   (let [result
         (-> tree
             (apply-default-if
@@ -105,15 +104,15 @@
                              :tense :past}
                        :infl :pluperfect}}))]
     (log/debug (str "English: do-defaults (post) on tree: " (parse/fo-ps result fo)))
-    (log/trace (str "aspect (post): " (strip-refs (get-in result
-                                                          [:synsem :sem :aspect]
-                                                          ::unset))))
-    (log/trace (str "infl   (post): " (strip-refs (get-in result
-                                                          [:synsem :infl]
-                                                          ::unset))))  
-    (log/trace (str "tense  (post): " (strip-refs (get-in result
-                                                          [:synsem :sem :tense]
-                                                          ::unset))))
+    (log/trace (str "aspect (post): " (strip-refs (u/get-in result
+                                                            [:synsem :sem :aspect]
+                                                            ::unset))))
+    (log/trace (str "infl   (post): " (strip-refs (u/get-in result
+                                                            [:synsem :infl]
+                                                            ::unset))))  
+    (log/trace (str "tense  (post): " (strip-refs (u/get-in result
+                                                            [:synsem :sem :tense]
+                                                            ::unset))))
     [result]))
 
 (declare model-with-vocab-items)
@@ -476,7 +475,7 @@
                           :slash false}})])
 
 (defn aux-is-head-feature [phrase]
-  (cond (= :verb (get-in phrase [:synsem :cat]))
+  (cond (= :verb (u/get-in phrase [:synsem :cat]))
         (unify-check phrase
                      (let [ref (atom :top)]
                        {:synsem {:aux ref}
@@ -484,7 +483,7 @@
         true phrase))
 
 (defn modal-is-head-feature [phrase]
-  (cond (= :verb (get-in phrase [:synsem :cat]))
+  (cond (= :verb (u/get-in phrase [:synsem :cat]))
         (unify-check phrase
                      (let [ref (atom :top)]
                        {:synsem {:modal ref}
@@ -502,12 +501,12 @@
 (defn morph-walk-tree [tree]
   (log/debug (str "morph-walk-tree: " (fo tree)))
   (merge
-   {:surface (fo (get-in tree [:english]))}
-   (if (get-in tree [:comp])
-     {:comp (morph-walk-tree (get-in tree [:comp]))}
+   {:surface (fo (u/get-in tree [:english]))}
+   (if (u/get-in tree [:comp])
+     {:comp (morph-walk-tree (u/get-in tree [:comp]))}
      {})
-   (if (get-in tree [:head])
-     {:head (morph-walk-tree (get-in tree [:head]))})))
+   (if (u/get-in tree [:head])
+     {:head (morph-walk-tree (u/get-in tree [:head]))})))
 
 (defn compile-lexicon []
   (into {}
@@ -537,7 +536,7 @@
          :index-fn (fn [spec] (lookup-spec spec indices index-lexicon-on-paths))
          ;; Will throw a clojure/core-level exception if more than 1 rule has the same :rule value:
          :grammar-map (zipmap
-                       (map #(keyword (get-in % [:rule])) grammar)
+                       (map #(keyword (u/get-in % [:rule])) grammar)
                        grammar)
          
          :grammar grammar
@@ -560,7 +559,7 @@
               (generate/generate spec model))})))
 
 ;;(def source-model @@(get babel.directory/models :en))
-;;(def filter-lexicon-fn #(= :det (get-in % [:synsem :cat])))
+;;(def filter-lexicon-fn #(= :det (u/get-in % [:synsem :cat])))
 ;;(def new-model ((:vocab2model source-model) source-vocab-items filter-lexicon-fn))
 ;;(clojure.pprint/pprint (get (:lexicon new-model) "wine"))
 

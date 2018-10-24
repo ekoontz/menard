@@ -38,7 +38,7 @@
        (= :top (u/get-in tree [:synsem :agr :number] :top))))
 
 (defn default-fn [tree]
-  (log/info (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
+  (log/debug (str "English: do-defaults (pre) on tree: " (parse/fo-ps tree fo)))
   (log/trace (str "aspect (pre): " (strip-refs (u/get-in tree
                                                          [:synsem :sem :aspect]
                                                          ::unset))))

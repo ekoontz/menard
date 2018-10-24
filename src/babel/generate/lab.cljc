@@ -4,6 +4,24 @@
              :as u :refer [strip-refs unify]]
             [clojure.string :as string]))
 
+(def head-first
+  (let [one (atom :top)
+        two (atom :top)]
+    {:phrasal true
+     :head one
+     :comp two
+     :1 one
+     :2 two}))
+
+(def comp-first
+  (let [one (atom :top)
+        two (atom :top)]
+    {:phrasal true
+     :head two
+     :comp one
+     :1 one
+     :2 two}))
+
 (def baby-language
   {:grammar
    (->>

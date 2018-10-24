@@ -54,9 +54,6 @@
                                              :surface surface}))
                         lexemes-for-surface)]))})
 
-(def grammar (:grammar baby-language))
-(def lexicon (:lexicon baby-language))
-
 (defn morph-ps [structure]
   (cond (or (= :fail structure) 
             (nil? structure)

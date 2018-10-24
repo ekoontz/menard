@@ -25,31 +25,22 @@
 (def baby-language
   {:grammar
    (->>
-     [(let [one (atom :top)
-            two (atom :top)
-            cat (atom :top)]
-
-        ;; rule 1: phrase where both children are lexemes,
+     [(let [cat (atom :top)]
+        ;; rule "A": phrase where both children are lexemes,
         ;; and both lexemes have share their :cat value.
         (unify {:rule "A"
                 :head {:cat cat
                        :phrasal false}
                 :comp {:cat cat
                        :phrasal false}}
-               {:1 one :head one
-                :2 two :comp two}))
+               head-first))
 
-      (let [one (atom :top)
-            two (atom :top)]
-        (unify {:rule "B"
-                :head {:phrasal false}
-                :comp {:rule "A"
-                       :phrasal true}}
-               {:1 one
-                :head one
-                :2 two
-                :comp two}))]
-     (map #(unify % {:phrasal true}))
+      ;; rule "B": phrase where the comp is a rule-"A".
+      (unify {:rule "B"
+              :head {:phrasal false}
+              :comp {:rule "A"
+                     :phrasal true}}
+             comp-first)]
      (remove #(= :fail %)))
    
    :lexicon
@@ -121,82 +112,6 @@
             g/morph-ps morph-ps]
     (g/generate spec)))
 
-(def spec-a {:rule "A"})
-(def spec-b {:rule "B"
-             :comp {:phrasal true}})
-
-(def working-spec-a-expression
-  (generate spec-a))
-
-(def parents-with-head
-  (let [spec spec-b]
-    (binding [g/grammar (shuffle (:grammar baby-language))
-              g/lexicon (:lexicon baby-language)
-              g/println? true
-              g/morph-ps morph]
-      (->> grammar
-           (map #(unify % spec))
-           (remove #(= :fail %))
-           (g/parent-with-head-1 spec depth)
-           (remove #(= % :fail))
-           (map #(u/assoc-in! % [:babel.generate/started?] true))))))
-
-(def parent-with-head (first parents-with-head))
-
-(defn grow-1 [trees]
-  (let [spec spec-b]
-    (binding [g/grammar (shuffle (:grammar baby-language))
-              g/lexicon (:lexicon baby-language)
-              g/println? false
-              g/morph-ps morph]
-         (if (not (empty? trees))
-           ;; for each tree,
-           ;; find the next point of 
-           ;; 1) branching to a new subtree, or
-           ;; 2) terminating with a lexeme (leaf node).
-           (let [tree (first trees)
-                 frontier-path (g/frontier tree)
-                 depth (count frontier-path)
-                 child-spec (u/get-in tree frontier-path :top)
-                 child-lexemes (g/get-lexemes child-spec)
-                 child-trees (g/parent-with-head child-spec depth)]
-             (merge
-              {:tree tree
-               :frontier-path frontier-path
-               :depth depth
-               :child-spec child-spec
-               :child-lexemes child-lexemes
-               :child-trees child-trees}
-              (let [children
-                    (cond
-                      (> depth g/max-depth) []
-                      
-                      (= true (u/get-in child-spec [:phrasal]))
-                      child-trees
-                      
-                      (= false (u/get-in child-spec [:phrasal]))
-                      child-lexemes
-                      
-                      (g/branch? depth)
-                      ;; generate children that are trees before children that are leaves.
-                      (lazy-cat child-trees child-lexemes)
-                      
-                      true ;; generate children that are leaves before children that are trees.
-                      (lazy-cat child-lexemes child-trees))]
-                {:children children
-                 :assoc (g/assoc-children tree children frontier-path)})))))))
-
-(println (str "after adding a lexeme at:"
-              (:frontier-path g1)
-              ": " (morph (first (:assoc g1)))))
-
-;;
-;;
-(def g1 (grow-1 parents-with-head))
-(def parent (:tree g1))
-(def children (:children g1))
-(def child (first children))
-(def frontier-path (:frontier-path g1))
 
 
 

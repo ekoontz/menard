@@ -1,6 +1,4 @@
 (ns babel.test.en
-  ;; TODO: use u/get-in and u/assoc-in; remove these :excludes.
-  (:refer-clojure :exclude [assoc-in get-in])
   (:require [babel.directory :refer [models]]
             [babel.english :as english :refer [morph morph-ps]]
             [babel.english.grammar :as grammar :refer [head-first head-last]]
@@ -19,11 +17,8 @@
             #?(:cljs [cljs.test :refer-macros [deftest is]])
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
+            [dag_unify.core :as u :refer [unify]]))
 
-            [dag_unify.core :as u
-             :refer [assoc-in dissoc-paths fail?
-                     fail-path-between get-in pprint
-                     strip-refs unify]]))
 (btest/init-db)
 (def model @@(get models :en))
 
@@ -35,12 +30,12 @@
 
 (defn display-expression [expr]
   {:en (morph expr)
-   :subj (get-in expr [:synsem :sem :subj :pred])
-   :pred (get-in expr [:synsem :sem :pred])
-   :tense (get-in expr [:synsem :sem :tense])
-   :infl (get-in expr [:synsem :infl])
-   :aspect (get-in expr [:synsem :sem :aspect])
-   :obj (get-in expr [:synsem :sem :obj :pred])})
+   :subj (u/get-in expr [:synsem :sem :subj :pred])
+   :pred (u/get-in expr [:synsem :sem :pred])
+   :tense (u/get-in expr [:synsem :sem :tense])
+   :infl (u/get-in expr [:synsem :infl])
+   :aspect (u/get-in expr [:synsem :sem :aspect])
+   :obj (u/get-in expr [:synsem :sem :obj :pred])})
 
 (deftest generate-irregular-present-1
   (let [form {:english {:a {:cat :verb,
@@ -144,13 +139,13 @@
 (deftest present-tense-parse
   (let [parses (parse "she sleeps")]
     (is (not (empty? parses)))
-    (is (= (get-in (first parses) [:synsem :sem :tense])
+    (is (= (u/get-in (first parses) [:synsem :sem :tense])
            :present))))
 
 (deftest future-tense-parse
   (let [parses (parse "he will speak")]
     (is (not (empty? parses)))
-    (is (= (get-in (first parses) [:synsem :sem :tense])
+    (is (= (u/get-in (first parses) [:synsem :sem :tense])
            :future))))
 
 (deftest conditional-parse
@@ -159,21 +154,21 @@
 (deftest imperfect-parse
   (let [parses (parse "she used to speak")]
     (is (not (empty? parses)))
-    (is (= (get-in (first parses) [:synsem :sem :tense])
+    (is (= (u/get-in (first parses) [:synsem :sem :tense])
            :past))
-    (is (= (get-in (first parses) [:synsem :sem :aspect])
+    (is (= (u/get-in (first parses) [:synsem :sem :aspect])
            :progressive)))
   (let [parses (parse "she was loving")]
     (is (not (empty? parses)))
-    (is (= (get-in (first parses) [:synsem :sem :tense])
+    (is (= (u/get-in (first parses) [:synsem :sem :tense])
            :past))
-    (is (= (get-in (first parses) [:synsem :sem :aspect])
+    (is (= (u/get-in (first parses) [:synsem :sem :aspect])
            :progressive)))
   (let [parses (parse "she was speaking")]
     (is (not (empty? parses)))
-    (is (= (get-in (first parses) [:synsem :sem :tense])
+    (is (= (u/get-in (first parses) [:synsem :sem :tense])
            :past))
-    (is (= (get-in (first parses) [:synsem :sem :aspect])
+    (is (= (u/get-in (first parses) [:synsem :sem :aspect])
            :progressive))))
 
 (deftest parse-with-gender-symbols
@@ -212,7 +207,7 @@
                           :synsem {:cat :noun
                                    :sem {:pred :name}
                                    :mod []}})]
-    (is (= (get-in result [:synsem :mod]
+    (is (= (u/get-in result [:synsem :mod]
                    ::undefined-should-not-return-this)
            []))))
 
@@ -275,7 +270,7 @@
                               :synsem {:sem {:pred :wash-oneself
                                              :reflexive true}}})]
                         {:f (english/morph generated :model model :from-language "it")
-                         :sem (get-in generated [:synsem :sem :mod])}))
+                         :sem (u/get-in generated [:synsem :sem :mod])}))
          (take 5))]
     (= (count result) 5)))
 
@@ -620,18 +615,18 @@
                (filter #(and (= :verb (u/get-in % [:synsem :cat]))
                              (= [] (u/get-in % [:synsem :subcat]))))
                first)
-        spec (strip-refs (-> (u/assoc-in
-                              {:synsem {:cat :verb
-                                        :subcat []}}
-                              [:synsem :sem]
-                              (unify
-                               {:subj {:gender :masc}}
-                               (u/get-in p [:synsem :sem])))))
+        spec (u/strip-refs (-> (u/assoc-in
+                                {:synsem {:cat :verb
+                                          :subcat []}}
+                                [:synsem :sem]
+                                (unify
+                                 {:subj {:gender :masc}}
+                                 (u/get-in p [:synsem :sem])))))
         generated (generate spec)
         surface-1 (morph generated)
         surface-2 (english/morph generated :model model :from-language "it")]
     (is (not (nil? p)))
-    (is (not (fail? spec)))
+    (is (not (u/fail? spec)))
     (is (not (nil? generated)))
     (is (= "I speak" surface-1))
     (is (= "I (♂) speak" surface-2))))
@@ -700,7 +695,7 @@
                      {:surface "flame", :pred "flame", :vocab_cat "noun1"}
                      {:surface "industry", :pred "industry", :vocab_cat "noun1"}
                      {:surface "wine", :pred "wine", :vocab_cat "noun1"}]
-        filter-lexicon-fn #(= :det (get-in % [:synsem :cat]))
+        filter-lexicon-fn #(= :det (u/get-in % [:synsem :cat]))
         original-model @@(get babel.directory/models :en)
         new-model ((:vocab2model original-model) vocab-items filter-lexicon-fn)]
     (let [expression (generate/generate {:synsem {:subcat []

@@ -123,6 +123,9 @@
            (= (u/get-in tree [::done?]) true)
            []
 
+           (= (u/get-in tree [::started?] false) false)
+           []
+           
            (= (u/get-in tree [:phrasal]) false)
            []
     

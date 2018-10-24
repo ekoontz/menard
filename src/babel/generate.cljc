@@ -16,7 +16,8 @@
                         result))
 
 (def ^:dynamic morph-ps (fn [x] x))
-(def ^:dynamic default-fn (fn [x] [x]))
+(def ^:dynamic default-fn nil)
+(def default-default-fn (fn [x] [x]))
 
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
@@ -43,7 +44,7 @@
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [default-fn (or default-fn (:default-fn model) (fn [x] [x]))
+   (binding [default-fn (or default-fn (:default-fn model) default-default-fn)
              grammar (or grammar (:grammar model))
              lexicon (or lexicon
                          (:lexicon (:generate model))
@@ -201,30 +202,34 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn assoc-each-default [tree children path]
-  (if println? (println (str "assoc-each-default:path=" path)))
-  (if (not (empty? children))
-    (lazy-cat
-     (let [child (u/assoc-in (first children) [::done?] true)
-           tree-with-child (u/assoc-in tree path child)]
-       (-> tree-with-child
-           (u/assoc-in! 
-            (concat (butlast path) [::done?])
-            (if (= :head (last path))
-              false true))
-           (u/dissoc-paths (if truncate? [path] []))
-           (default-fn)))
-     (assoc-each-default tree (rest children) path))))
+  (binding [default-fn (or default-fn default-default-fn)]
+    (if println? (println (str "assoc-each-default:path=" path)))
+    (if (not (empty? children))
+      (lazy-cat
+       (let [child (u/assoc-in (first children) [::done?] true)
+             tree-with-child (u/assoc-in tree path child)]
+         (-> tree-with-child
+             (u/assoc-in! 
+              (concat (butlast path) [::done?])
+              (if (= :head (last path))
+                false true))
+             (u/dissoc-paths (if truncate? [path] []))
+             (default-fn)))
+       (assoc-each-default tree (rest children) path)))))
 
 (defn assoc-children [tree children path]
-  (if (not (empty? children))
-    (let [child (first children)]
-      (lazy-cat
-       (let [with-child
-             (if (= true (u/get-in child [::done?]))
-                (assoc-each-default tree (default-fn child) path)
-              [(u/assoc-in tree path child)])]
-         (if false (println (str "added child: " (morph-ps child) " to: " (morph-ps tree) " = ")
-                            (string/join "," (map morph-ps with-child))))
-         with-child)
-       (assoc-children tree (rest children) path)))))
+  (binding [default-fn (or default-fn default-default-fn)]
+    (if (not (empty? children))
+      (let [child (first children)]
+        (lazy-cat
+         (let [with-child
+               (if (= true (u/get-in child [::done?]))
+                  (assoc-each-default tree (default-fn child) path)
+                [(u/assoc-in tree path child)])]
+           (if false (println (str "added child: " (morph-ps child) " to: " (morph-ps tree) " = ")
+                              (string/join "," (map morph-ps with-child))))
+           with-child)
+         (assoc-children tree (rest children) path))))))
+
+
 

@@ -202,7 +202,7 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn assoc-each-default [tree children path]
-  (binding [default-fn (or default-fn default-default-fn)]
+  (let [use-default-fn (or default-fn default-default-fn)]
     (if println? (println (str "assoc-each-default:path=" path)))
     (if (not (empty? children))
       (lazy-cat
@@ -214,22 +214,21 @@
               (if (= :head (last path))
                 false true))
              (u/dissoc-paths (if truncate? [path] []))
-             (default-fn)))
+             (use-default-fn)))
        (assoc-each-default tree (rest children) path)))))
 
 (defn assoc-children [tree children path]
-  (binding [default-fn (or default-fn default-default-fn)]
     (if (not (empty? children))
       (let [child (first children)]
         (lazy-cat
          (let [with-child
                (if (= true (u/get-in child [::done?]))
-                  (assoc-each-default tree (default-fn child) path)
+                  (assoc-each-default tree ((or default-fn default-default-fn) child) path)
                 [(u/assoc-in tree path child)])]
            (if false (println (str "added child: " (morph-ps child) " to: " (morph-ps tree) " = ")
                               (string/join "," (map morph-ps with-child))))
            with-child)
-         (assoc-children tree (rest children) path))))))
+         (assoc-children tree (rest children) path)))))
 
 
 

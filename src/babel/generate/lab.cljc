@@ -115,11 +115,11 @@
 
 (defn demo []
   (do
-    (println "five rule A expressions:")
+    (println "five rule-A expressions:")
     (count (take 5 (repeatedly #(println (morph (generate {:rule "A"}))))))
-    (println "five rule B expressions:")
+    (println "five rule-B expressions:")
     (count (take 5 (repeatedly #(println (morph (generate {:rule "B"}))))))
-    (println "five rule A expressions (with structure):")
+    (println "five rule-A expressions (with structure):")
     (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "A"}))))))
-    (println "five rule B expressions (with structure):")
+    (println "five rule-B expressions (with structure):")
     (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "B"}))))))))

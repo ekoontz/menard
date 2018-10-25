@@ -75,41 +75,40 @@
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
           frontier-path (frontier tree)
-          debug (if (and println? (not (empty? frontier-path)))
-                  (println (str "tree: " (morph-ps tree) " has frontier: " frontier-path " with value at frontier: " (u/get-in tree frontier-path))))
           depth (count frontier-path)
           child-spec (u/get-in tree frontier-path :top)
           child-lexemes #(get-lexemes child-spec)
           child-trees #(parent-with-head child-spec depth)]
-      (when (and println? (not (empty? frontier-path)))
-            (println (str "growing:" (morph-ps tree)
-                          " at: " frontier-path
-                          "; looking for children with " (u/strip-refs child-spec) "; "
-                          "cat=" (u/get-in child-spec [:synsem :cat]) " and "
-                          "infl=" (u/get-in child-spec [:synsem :infl]))))
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
-       (if (not (empty? frontier-path))
-         (grow
-          (let [children
-                (cond
-                  (> depth max-depth) []
+       (if (and
+            (not (empty? frontier-path))
+            (or (not (= true (u/get-in tree (concat frontier-path [::done?]))))
+                (= true (u/get-in tree (concat frontier-path [:phrasal])))))
+         (do
+           (when println?
+             (println (str "growing:" (morph-ps tree))
+                      "at:" frontier-path))
+           (grow
+             (let [children
+                    (cond
+                      (> depth max-depth) []
                   
-                  (= true (u/get-in child-spec [:phrasal]))
-                  (child-trees)
+                      (= true (u/get-in child-spec [:phrasal]))
+                      (child-trees)
                   
-                  (= false (u/get-in child-spec [:phrasal]))
-                  (child-lexemes)
+                      (= false (u/get-in child-spec [:phrasal]))
+                      (child-lexemes)
                   
-                  (branch? depth)
-                  ;; generate children that are trees before children that are leaves.
-                  (lazy-cat (child-trees) (child-lexemes))
+                      (branch? depth)
+                      ;; generate children that are trees before children that are leaves.
+                      (lazy-cat (child-trees) (child-lexemes))
                   
-                  true ;; generate children that are leaves before children that are trees.
-                  (lazy-cat (child-lexemes) (child-trees)))]
+                      true ;; generate children that are leaves before children that are trees.
+                      (lazy-cat (child-lexemes) (child-trees)))]
 
-            (log/debug (str "children empty? " (empty? children)))
-            (assoc-children tree children frontier-path)))
+                 (log/debug (str "children empty? " (empty? children)))
+                 (assoc-children tree children frontier-path))))
          [tree])
        (grow (rest trees))))))
 
@@ -203,7 +202,6 @@
 
 (defn assoc-each-default [tree children path]
   (let [use-default-fn (or default-fn default-default-fn)]
-    (if println? (println (str "assoc-each-default:path=" path)))
     (if (not (empty? children))
       (lazy-cat
        (let [child (u/assoc-in (first children) [::done?] true)

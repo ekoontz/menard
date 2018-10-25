@@ -77,8 +77,8 @@
           frontier-path (frontier tree)
           depth (count frontier-path)
           child-spec (u/get-in tree frontier-path :top)
-          child-lexemes #(get-lexemes child-spec)
-          child-trees #(parent-with-head child-spec depth)]
+          child-lexemes (get-lexemes child-spec)
+          child-trees (parent-with-head child-spec depth)]
       (log/debug (str "grow at:" (morph-ps tree)))
       (lazy-cat
        (if (and
@@ -95,17 +95,17 @@
                       (> depth max-depth) []
                   
                       (= true (u/get-in child-spec [:phrasal]))
-                      (child-trees)
+                      child-trees
                   
                       (= false (u/get-in child-spec [:phrasal]))
-                      (child-lexemes)
+                      child-lexemes
                   
                       (branch? depth)
                       ;; generate children that are trees before children that are leaves.
-                      (lazy-cat (child-trees) (child-lexemes))
+                      (lazy-cat child-trees child-lexemes)
                   
                       true ;; generate children that are leaves before children that are trees.
-                      (lazy-cat (child-lexemes) (child-trees)))]
+                      (lazy-cat child-lexemes child-trees))]
 
                  (log/debug (str "children empty? " (empty? children)))
                  (assoc-children tree children frontier-path))))

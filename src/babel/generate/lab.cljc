@@ -44,7 +44,16 @@
                     :cat :v}
              :comp {:rule "A"
                     :phrasal true}}
-            comp-first)]
+            comp-first)
+
+
+     ;; rule "C": phrase where the comp is a rule-"B" and the head is some phrase.
+     (unify {:rule "C"
+             :head {:phrasal true}
+             :comp {:rule "B"
+                    :phrasal true}}
+            head-first)]
+    
     (remove #(= :fail %)))
    
    :lexicon
@@ -70,7 +79,7 @@
         (morph-ps (u/get-in structure [:surface]))
 
         (= false (u/get-in structure [:phrasal] false))
-        "nil"
+        "_"
         
         true
         (let [one (if (= (get structure :1)
@@ -82,8 +91,8 @@
           (string/join ""
             (map morph-ps
                  ["[" (:rule structure) " "
-                  one (u/get-in structure [:1] "nil") " "
-                  two (u/get-in structure [:2] "nil")
+                  one (u/get-in structure [:1] "_") " "
+                  two (u/get-in structure [:2] "_")
                   "]"])))))
 
 (defn morph [structure]
@@ -98,13 +107,13 @@
         (morph (u/get-in structure [:surface]))
 
         (= false (u/get-in structure [:phrasal] false))
-        "nil"
+        "_"
         
         true
         (string/join " "
                      (map morph
-                          [(u/get-in structure [:1] "nil")
-                           (u/get-in structure [:2] "nil")]))))
+                          [(u/get-in structure [:1] "_")
+                           (u/get-in structure [:2] "_")]))))
 
 (defn generate [spec]
   (binding [g/grammar (shuffle (:grammar baby-language))
@@ -113,13 +122,26 @@
             g/morph-ps morph-ps]
     (g/generate spec)))
 
+(defn slow []
+  (let [spec {:rule "C"}]
+    (binding [g/grammar (shuffle (:grammar baby-language))
+              g/lexicon (:lexicon baby-language)
+              g/println? true
+              g/truncate? true
+              g/morph-ps morph-ps]
+      (g/generate spec))))
+
 (defn demo []
   (do
     (println "five rule-A expressions:")
     (count (take 5 (repeatedly #(println (morph (generate {:rule "A"}))))))
     (println "five rule-B expressions:")
     (count (take 5 (repeatedly #(println (morph (generate {:rule "B"}))))))
+    (println "five rule-C expressions:")
+    (count (take 5 (repeatedly #(println (morph (generate {:rule "C"}))))))
     (println "five rule-A expressions (with structure):")
     (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "A"}))))))
     (println "five rule-B expressions (with structure):")
-    (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "B"}))))))))
+    (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "B"}))))))
+    (println "five rule-C expressions (with structure):")
+    (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "C"}))))))))

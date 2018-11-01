@@ -55,7 +55,7 @@
             head-first)]
     
     (remove #(= :fail %)))
-   
+
    :lexicon
    (into {} (for [[surface lexemes-for-surface]
                   {"ba" [{:cat :v}]
@@ -119,15 +119,45 @@
   (binding [g/grammar (shuffle (:grammar baby-language))
             g/lexicon (:lexicon baby-language)
             g/println? false
-            g/morph-ps morph-ps]
+            g/morph-ps morph-ps
+            g/default-fn (fn [x]
+                           (if (and true (= true (u/get-in x [:babel.generate/done?])))
+                             [(-> x
+                                  (assoc-in [:surface] (morph x))
+                                  (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
+                             [x]))]
     (g/generate spec)))
+
+(defn gen [spec]
+  (binding [g/grammar (shuffle (:grammar baby-language))
+            g/lexicon (:lexicon baby-language)
+            g/println? false
+            g/morph-ps morph-ps
+            g/default-fn (fn [x]
+                           (if (= true (u/get-in x [:babel.generate/done?]))
+                             [(-> x
+                                  (assoc-in [:surface] (morph x))
+                                  (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
+                             [x]))]
+    (g/gen spec)))
 
 (defn slow []
   (let [spec {:rule "C"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
-              g/println? true
-              g/truncate? true
+              g/default-fn (fn [x]
+                             (println (str "default: " (morph-ps x)))
+                             (cond
+
+                               (or (= true (u/get-in x [:babel.generate/done?]))
+                                   (and (= true (u/get-in x [:comp :babel.generate/done?]))
+                                        (= true (u/get-in x [:head :babel.generate/done?]))))
+                               [(-> x
+                                    (assoc-in [:surface] (morph x))
+                                    (assoc-in [:babel.generate/done?] true)
+                                    (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
+
+                               true [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))
 

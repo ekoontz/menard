@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 5)
-(def ^:const max-depth 5)
+(def ^:const branching-factor 6)
+(def ^:const max-depth 6)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -39,7 +39,7 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (do (log/debug (str "generating with spec: " spec))
-       (first (gen spec))))
+       (first (take 5 (gen spec)))))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)

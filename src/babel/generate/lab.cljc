@@ -234,3 +234,12 @@
   :phrasal true,
   :rule "B"})
 
+(def output "
+frontier: (:head :head :head :comp :comp) is unexpectedly done for: [C h:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B h:_ c:_]] c:[B h:_ c:_]] c:[B h:_ c:_]]
+frontier: (:head :head :head :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B h:_ c:_]] c:[B h:_ c:_]] h:[B h:_ c:_]]
+frontier: (:head :head :comp :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B c:[A h:ma c:ma] h:ga]] c:[B h:_ c:_]] h:[B h:_ c:_]]
+frontier: (:head :head :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B c:[A h:ma c:ma] h:ga]] c:[B h:_ c:_]] h:[B h:_ c:_]]
+frontier: (:head :comp :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B c:[A h:ma c:ma] h:ga]] c:[B c:[A h:da c:da] h:ba]] h:[B h:_ c:_]]
+frontier: (:head :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B c:[A h:ma c:ma] h:ga]] c:[B c:[A h:da c:da] h:ba]] h:[B h:_ c:_]]
+frontier: (:comp :comp) is unexpectedly done for: [C c:[C h:[C h:[C h:[A h:da c:da] c:[B c:[A h:ma c:ma] h:ba]] c:[B c:[A h:ma c:ma] h:ga]] c:[B c:[A h:da c:da] h:ba]] h:[B c:[A h:ma c:ma] h:ga]]
+")

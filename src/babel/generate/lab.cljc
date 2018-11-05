@@ -170,8 +170,9 @@
                                
                                (= true (u/get-in x (concat (g/frontier x) [:babel.generate/done?])))
                                (let [front (g/frontier x)]
-                                 (println (str "frontier: " front " is unexpectedly done for: " (morph-ps x)))
-;;                                 (println (str "tree: " (u/strip-refs x)))
+                                 (println (str "frontier: " front " is unexpectedly done for "
+                                               (morph-ps x)
+                                               " at: " (morph-ps (u/get-in x front))))
                                  [(-> x
                                       (u/dissoc-paths [front]))])
 

@@ -116,6 +116,10 @@
            (= (u/get-in tree [::done?]) true)
            []
 
+           (and (= (u/get-in tree [:head ::done?]) true)
+                (= (u/get-in tree [:comp ::done?]) true))
+           (throw (Exception. (str "this should have been truncated: " (u/strip-refs tree))))
+           
            (= (u/get-in tree [::started?] false) false)
            []
            
@@ -206,7 +210,9 @@
          (-> tree-with-child
              (u/assoc-in! 
               (concat (butlast path) [::done?])
-              (not (= :head (last path))))
+              (do
+                (println (str "associng child at path: " path))
+                (not (= :head (last path)))))
              (u/dissoc-paths (if truncate? [path] []))
              (use-default-fn)))
        (assoc-each-default tree (rest children) path)))))
@@ -219,8 +225,6 @@
                (if (= true (u/get-in child [::done?]))
                   (assoc-each-default tree ((or default-fn default-default-fn) child) path)
                 [(u/assoc-in tree path child)])]
-           (if false (println (str "added child: " (morph-ps child) " to: " (morph-ps tree) " = ")
-                              (string/join "," (map morph-ps with-child))))
            with-child)
          (assoc-children tree (rest children) path)))))
 

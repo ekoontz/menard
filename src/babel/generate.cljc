@@ -139,7 +139,8 @@
     retval))
 
 (defn parent-with-head
-  "Return every possible tree of depth 1 from the given spec."
+  "Return every possible tree from the given spec; if depth > 0, 
+   tree is part of a larger subtree which we are appending at _depth_."
   [spec depth]
   ;; get all rules that match input _spec_:
   (->> grammar

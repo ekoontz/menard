@@ -146,12 +146,13 @@
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/default-fn (fn [x]
-;;                             (println (str "default: " (morph-ps x)))
+;;                             (println (str "lab/default-fn: " (morph-ps x)))
                              (cond
 
-                               (or (= true (u/get-in x [:babel.generate/done?]))
-                                   (and (= true (u/get-in x [:comp :babel.generate/done?]))
-                                        (= true (u/get-in x [:head :babel.generate/done?]))))
+                               (and false
+                                    (or (= true (u/get-in x [:babel.generate/done?]))
+                                        (and (= true (u/get-in x [:comp :babel.generate/done?]))
+                                             (= true (u/get-in x [:head :babel.generate/done?])))))
                                [(-> x
                                     (assoc-in [:surface] (morph x))
                                     (assoc-in [:babel.generate/done?] true)
@@ -168,7 +169,7 @@
                                                        (concat (butlast front) [:head :comp])
                                                        (concat (butlast front) [:head :head])]))])
                                
-                               (= true (u/get-in x (concat (g/frontier x) [:babel.generate/done?])))
+                               (and false (= true (u/get-in x (concat (g/frontier x) [:babel.generate/done?]))))
                                (let [front (g/frontier x)]
                                  (println (str "frontier: " front " is unexpectedly done for "
                                                (morph-ps x)

@@ -17,7 +17,10 @@
 
 (def ^:dynamic morph-ps (fn [x] x))
 (def ^:dynamic default-fn nil)
-(def default-default-fn (fn [x] [x]))
+(def default-default-fn (fn [x]
+                          (do
+                            (println (str "DEFAULT-DEFAULT-FN."))
+                            [x])))
 
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
@@ -64,6 +67,21 @@
   [spec]
   (grow (parent-with-head spec 0)))
 
+(defn truncate-if-necessary
+  "similar to frontier but does some more truncation where it might otherwise be missed."
+  [tree]
+  (let [frontier (frontier tree)]
+    (cond (and (not (empty? frontier))
+               (= (u/get-in tree (concat frontier [:head ::done?]))
+                  true)
+               (= (u/get-in tree (concat frontier [:comp ::done?]))
+                  true))
+          (truncate-if-necessary
+           (u/assoc-in! (u/dissoc-paths tree [(concat frontier [:head])
+                                              (concat frontier [:comp])])
+                        [::done?] true))
+          true tree)))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no futher expansion is possible."
@@ -74,7 +92,14 @@
     ;; 1) branching to a new subtree, or
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
+;;          debug (println (str "grow: " (morph-ps tree)))
+;;          tree (truncate-if-necessary tree)
           frontier-path (frontier tree)
+          debug (println (str "frontier for " (morph-ps tree) ": " frontier-path ": " (morph-ps (u/get-in tree frontier-path))
+                              (if (u/get-in tree (concat frontier-path
+                                                         [::done?]))
+                                (str " DONE."))))
+
           depth (count frontier-path)
           child-spec (u/get-in tree frontier-path :top)
           child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
@@ -111,15 +136,12 @@
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
+;;  (println (str "F: " (morph-ps tree)))
   (let [retval
          (cond
            (= (u/get-in tree [::done?]) true)
            []
 
-           (and (= (u/get-in tree [:head ::done?]) true)
-                (= (u/get-in tree [:comp ::done?]) true))
-           (throw (Exception. (str "this should have been truncated: " (u/strip-refs tree))))
-           
            (= (u/get-in tree [::started?] false) false)
            []
            
@@ -128,7 +150,8 @@
     
            (and (= (u/get-in tree [:phrasal] true) true)
                 (= true (u/get-in tree [::started?]))
-                (not (u/get-in tree [:head ::done?])))
+                (not (u/get-in tree [:head ::done?]))
+                (not (u/get-in tree [:head :comp ::done?])))
            (cons :head (frontier (u/get-in tree [:head])))
 
            (and (= (u/get-in tree [:phrasal] true) true)
@@ -211,9 +234,9 @@
              (u/assoc-in! 
               (concat (butlast path) [::done?])
               (do
-                (println (str "associng child at path: " path))
+;;                (println (str "associng child at path: " path ":" (not (= :head (last path)))))
                 (not (= :head (last path)))))
-             (u/dissoc-paths (if truncate? [path] []))
+;;             (u/dissoc-paths (if truncate? [path] []))
              (use-default-fn)))
        (assoc-each-default tree (rest children) path)))))
 

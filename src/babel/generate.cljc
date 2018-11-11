@@ -92,8 +92,6 @@
     ;; 1) branching to a new subtree, or
     ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
-;;          debug (println (str "grow: " (morph-ps tree)))
-;;          tree (truncate-if-necessary tree)
           frontier-path (frontier tree)
           debug (println (str "frontier for " (morph-ps tree) ": " frontier-path ": " (morph-ps (u/get-in tree frontier-path))
                               (if (u/get-in tree (concat frontier-path

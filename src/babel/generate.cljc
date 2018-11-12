@@ -82,6 +82,17 @@
                         [::done?] true))
           true tree)))
 
+(defn strip-trailing-comps-from
+  "if (last path) is :comp, recursively call with (butlast), otherwise, append a comp."
+  [path]
+  (cond
+    (empty? path)
+    path
+    (= :comp (last path))
+    (strip-trailing-comps-from (butlast path))
+    true
+    (concat (butlast path) [:comp])))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no futher expansion is possible."
@@ -97,9 +108,14 @@
           frontier-is-done? (u/get-in tree (concat frontier-path
                                                    [::done?]))
 
-          debug (println (str "frontier for " (morph-ps tree) ": " frontier-path ": " (morph-ps (u/get-in tree frontier-path))
-                              (if frontier-is-done?
-                                (str " DONE."))))]
+          new-frontier (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
+                             true frontier-path)
+
+          tree (cond frontier-is-done?
+                     (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
+                     true
+                     tree)
+          frontier-path new-frontier]
 
       (cond (and false frontier-is-done?)
             (lazy-cat [tree] (grow (rest trees)))

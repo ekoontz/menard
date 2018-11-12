@@ -136,6 +136,12 @@
                   (assoc-children tree children frontier-path)))))
         (grow (rest trees))))))
 
+(defn assoc-children [tree children path]
+    (if (not (empty? children))
+      (lazy-cat
+       [(u/assoc-in tree path (first children))]
+       (assoc-children tree (rest children) path))))
+
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
@@ -226,34 +232,4 @@
          (map #(unify % spec))
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true)))))
-
-(defn assoc-each-default [tree children path]
-  (let [use-default-fn (or default-fn default-default-fn)]
-    (if (not (empty? children))
-      (lazy-cat
-       (let [child
-             (->
-              (first children)
-              (u/dissoc-paths [[:head]
-                               [:comp]
-                               [:1]
-                               [:2]]))]
-         (-> (u/assoc-in tree path child)
-             (u/assoc-in! (concat (butlast path) [::done?]) true)
-             (u/dissoc-paths [path])
-             (use-default-fn)))
-       (assoc-each-default tree (rest children) path)))))
-
-(defn assoc-children [tree children path]
-    (if (not (empty? children))
-      (let [child (first children)]
-        (lazy-cat
-         (let [with-child
-               (if (or false (= true (u/get-in child [::done?])))
-                  (assoc-each-default tree ((or default-fn default-default-fn) child) path)
-                [(u/assoc-in tree path child)])]
-           with-child)
-         (assoc-children tree (rest children) path)))))
-
-
 

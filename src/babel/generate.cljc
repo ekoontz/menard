@@ -137,9 +137,10 @@
         (grow (rest trees))))))
 
 (defn assoc-children [tree children path]
-  (mapcat (fn [child]
-            [(u/assoc-in tree path child)])
-          children))
+  (->> children
+       (mapcat (fn [child]
+                 [(u/assoc-in tree path child)]))))
+
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

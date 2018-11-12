@@ -98,27 +98,21 @@
    until no futher expansion is possible."
   [trees]
   (if (not (empty? trees))
-    ;; for each tree,
-    ;; find the next point of 
-    ;; 1) branching to a new subtree, or
-    ;; 2) terminating with a lexeme (leaf node).
     (let [tree (first trees)
           frontier-path (frontier tree)
-
           frontier-is-done? (u/get-in tree (concat frontier-path
                                                    [::done?]))
 
           new-frontier (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
                              true frontier-path)
-
-          tree (cond frontier-is-done?
-                     (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
-                     true
-                     tree)
+          tree (cond frontier-is-done? (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
+                     true tree)
           frontier-path new-frontier]
       (lazy-cat
         (cond (empty? frontier-path)
-              [tree]
+              [(-> tree
+                   (u/assoc-in! [:morph-ps] (morph-ps tree))
+                   (u/dissoc-paths [[:head][:comp][:1][:2]]))]
 
               true
               (let [depth (count frontier-path)
@@ -127,22 +121,19 @@
                                      (get-lexemes child-spec))
                     child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                                   (parent-with-head child-spec depth))]
-               (println (str "grow at:" (morph-ps tree)))
-               (lazy-cat
-                 (grow
-                  (let [children
-                        (cond
-                          (> depth max-depth) []
+               (println (str "grow:" (morph-ps tree)))
+               (grow
+                (let [children
+                      (cond
+                        (> depth max-depth) []
                             
-                          (branch? depth)
-                          ;; generate children that are trees before children that are leaves.
-                          (lazy-cat child-trees child-lexemes)
+                        (branch? depth)
+                        ;; generate children that are trees before children that are leaves.
+                        (lazy-cat child-trees child-lexemes)
                             
-                          true ;; generate children that are leaves before children that are trees.
-                          (lazy-cat child-lexemes child-trees))]
-                      
-                    (log/debug (str "children empty? " (empty? children)))
-                    (assoc-children tree children frontier-path))))))
+                        true ;; generate children that are leaves before children that are trees.
+                        (lazy-cat child-lexemes child-trees))]
+                  (assoc-children tree children frontier-path)))))
         (grow (rest trees))))))
 
 (defn frontier
@@ -240,15 +231,16 @@
   (let [use-default-fn (or default-fn default-default-fn)]
     (if (not (empty? children))
       (lazy-cat
-       (let [child (u/assoc-in (first children) [::done?] true)
-             tree-with-child (u/assoc-in tree path child)]
-         (-> tree-with-child
-             (u/assoc-in! 
-              (concat (butlast path) [::done?])
-              (do
-;;                (println (str "associng child at path: " path ":" (not (= :head (last path)))))
-                (not (= :head (last path)))))
-;;             (u/dissoc-paths (if truncate? [path] []))
+       (let [child
+             (->
+              (first children)
+              (u/dissoc-paths [[:head]
+                               [:comp]
+                               [:1]
+                               [:2]]))]
+         (-> (u/assoc-in tree path child)
+             (u/assoc-in! (concat (butlast path) [::done?]) true)
+             (u/dissoc-paths [path])
              (use-default-fn)))
        (assoc-each-default tree (rest children) path)))))
 
@@ -257,7 +249,7 @@
       (let [child (first children)]
         (lazy-cat
          (let [with-child
-               (if (= true (u/get-in child [::done?]))
+               (if (or false (= true (u/get-in child [::done?])))
                   (assoc-each-default tree ((or default-fn default-default-fn) child) path)
                 [(u/assoc-in tree path child)])]
            with-child)

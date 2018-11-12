@@ -110,9 +110,7 @@
           frontier-path new-frontier]
       (lazy-cat
         (cond (empty? frontier-path)
-              [(-> tree
-                   (u/assoc-in! [:morph-ps] (morph-ps tree))
-                   (u/dissoc-paths [[:head][:comp][:1][:2]]))]
+              [tree]
 
               true
               (let [depth (count frontier-path)
@@ -140,7 +138,6 @@
   (->> children
        (mapcat (fn [child]
                  [(u/assoc-in tree path child)]))))
-
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

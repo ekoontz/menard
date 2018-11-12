@@ -133,9 +133,9 @@
                         (or (not (= true (u/get-in tree (concat frontier-path [::done?]))))
                             (= true (u/get-in tree (concat frontier-path [:phrasal])))))
                  (do
-                   (when println?
+                   (when (or true println?)
                      (println (str "growing:" (morph-ps tree)
-                                   "at:" frontier-path)))
+                                   " at: " frontier-path)))
                    (grow
                     (let [children
                           (cond

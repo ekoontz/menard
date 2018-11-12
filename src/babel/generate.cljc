@@ -117,7 +117,7 @@
                      tree)
           frontier-path new-frontier]
 
-      (cond (and false frontier-is-done?)
+      (cond (empty? frontier-path)
             (lazy-cat [tree] (grow (rest trees)))
 
             true

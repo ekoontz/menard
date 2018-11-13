@@ -131,18 +131,17 @@
                             
                         true ;; generate children that are leaves before children that are trees.
                         (lazy-cat child-lexemes child-trees))]
-                  (assoc-children tree children frontier-path)))))
+
+                  (->> children
+                       (map (fn [child]
+                              (u/assoc-in tree frontier-path child))))))))
+
         (grow (rest trees))))))
 
-(defn assoc-children [tree children path]
-  (->> children
-       (mapcat (fn [child]
-                 [(u/assoc-in tree path child)]))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]
-;;  (println (str "F: " (morph-ps tree)))
   (let [retval
          (cond
            (= (u/get-in tree [::done?]) true)

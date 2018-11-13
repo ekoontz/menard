@@ -106,19 +106,17 @@
                                       (parent-with-head child-spec depth))]
                     (println (str "grow:" (morph-ps tree)))
                     (grow
-                     (let [children (cond
-                                      (> depth max-depth) []
+                     (->> (cond
+                             (> depth max-depth) []
                                       
-                                      (branch? depth)
-                                      ;; generate children that are trees before children that are leaves.
-                                      (lazy-cat child-trees child-lexemes)
+                             (branch? depth)
+                             ;; generate children that are trees before children that are leaves.
+                             (lazy-cat child-trees child-lexemes)
                                       
-                                      true ;; generate children that are leaves before children that are trees.
-                                      (lazy-cat child-lexemes child-trees))]
-                       
-                       (->> children
-                            (map (fn [child]
-                                   (u/assoc-in tree frontier-path child))))))))))
+                             true ;; generate children that are leaves before children that are trees.
+                             (lazy-cat child-lexemes child-trees))
+                          (map (fn [child]
+                                  (u/assoc-in tree frontier-path child)))))))))
         trees)))
 
 (defn frontier

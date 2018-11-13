@@ -62,10 +62,12 @@
              morph-ps (or morph-ps (:morph-ps model))]
      (first (gen spec)))))
 
+(declare grow-all)
+
 (defn gen
   "generate a potentially infinite (depending on given _spec_ and the model)."
   [spec]
-  (grow (parent-with-head spec 0)))
+  (grow-all (parent-with-head spec 0)))
 
 (defn strip-trailing-comps-from
   "if (last path) is :comp, recursively call with (butlast), otherwise, append a comp."
@@ -78,46 +80,46 @@
     true
     (concat (butlast path) [:comp])))
 
+(defn grow-all [trees]
+  (if (not (empty? trees))
+    (lazy-cat (grow (first trees))
+              (grow-all (rest trees)))))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [trees]
-  (reduce
-   concat
-   (map (fn [tree]
-          (let [frontier-path (frontier tree)
-                frontier-is-done? (u/get-in tree (concat frontier-path
-                                                         [::done?]))
-                
-                new-frontier (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
-                                   true frontier-path)
-                tree (cond frontier-is-done? (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
-                           true tree)
-                frontier-path new-frontier]
-            (cond (empty? frontier-path)
-                  [tree]
+  [tree]
+  (let [frontier-path (frontier tree)
+        frontier-is-done? (u/get-in tree (concat frontier-path
+                                                 [::done?]))
+        new-frontier (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
+                           true frontier-path)
+        tree (cond frontier-is-done? (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
+                   true tree)
+        frontier-path new-frontier]
+      (cond (empty? frontier-path)
+            [tree]
                   
-                  true
-                  (let [depth (count frontier-path)
-                        child-spec (u/get-in tree frontier-path :top)
-                        child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                                        (get-lexemes child-spec))
-                        child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                                      (parent-with-head child-spec depth))]
-                    (println (str "grow:" (morph-ps tree)))
-                    (grow
-                     (->> (cond
-                             (> depth max-depth) []
+            true
+            (let [depth (count frontier-path)
+                  child-spec (u/get-in tree frontier-path :top)
+                  child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                                    (get-lexemes child-spec))
+                  child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                                  (parent-with-head child-spec depth))]
+             (println (str "grow:" (morph-ps tree)))
+             (grow-all
+                (->> (cond
+                       (> depth max-depth) []
                                       
-                             (branch? depth)
-                             ;; generate children that are trees before children that are leaves.
-                             (lazy-cat child-trees child-lexemes)
+                       (branch? depth)
+                       ;; generate children that are trees before children that are leaves.
+                       (lazy-cat child-trees child-lexemes)
                                       
-                             true ;; generate children that are leaves before children that are trees.
-                             (lazy-cat child-lexemes child-trees))
-                          (map (fn [child]
-                                  (u/assoc-in tree frontier-path child)))))))))
-        trees)))
+                       true ;; generate children that are leaves before children that are trees.
+                       (lazy-cat child-lexemes child-trees))
+                     (map (fn [child]
+                             (u/assoc-in tree frontier-path child)))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

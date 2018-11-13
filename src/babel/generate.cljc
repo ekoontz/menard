@@ -107,7 +107,7 @@
                                     (get-lexemes child-spec))
                   child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                                   (parent-with-head child-spec depth))]
-             (println (str "grow:" (morph-ps tree)))
+             (println (str "grow:   " (morph-ps tree) " at: " frontier-path))
              (grow-all
                 (->> (cond
                        (> depth max-depth) []
@@ -119,7 +119,10 @@
                        true ;; generate children that are leaves before children that are trees.
                        (lazy-cat child-lexemes child-trees))
                      (map (fn [child]
-                             (u/assoc-in tree frontier-path child)))))))))
+                            (let [result
+                                  (u/assoc-in tree frontier-path child)]
+                              (println (str "result: " (morph-ps result)))
+                              result)))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

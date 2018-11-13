@@ -60,7 +60,7 @@
                               (flatten (vals)
                                        lexicon))))
              morph-ps (or morph-ps (:morph-ps model))]
-     (first (take 1 (gen spec))))))
+     (first (gen spec)))))
 
 (defn gen
   "generate a potentially infinite (depending on given _spec_ and the model)."

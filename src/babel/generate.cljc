@@ -92,11 +92,10 @@
   (let [frontier-path (frontier tree)
         frontier-is-done? (u/get-in tree (concat frontier-path
                                                  [::done?]))
-        new-frontier (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
-                           true frontier-path)
         tree (cond frontier-is-done? (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
                    true tree)
-        frontier-path new-frontier]
+        frontier-path (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
+                            true frontier-path)]
       (cond (empty? frontier-path)
             [tree]
                   

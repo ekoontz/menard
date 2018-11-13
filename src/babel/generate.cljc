@@ -42,7 +42,7 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (do (log/debug (str "generating with spec: " spec))
-       (first (take 5 (gen spec)))))
+       (first (gen spec))))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)

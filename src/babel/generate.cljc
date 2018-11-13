@@ -92,7 +92,10 @@
   (let [frontier-path (frontier tree)
         frontier-is-done? (u/get-in tree (concat frontier-path
                                                  [::done?]))
-        tree (cond frontier-is-done? (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true)
+        tree (cond frontier-is-done?
+                   (do
+                     (println (str "truncate " (morph-ps tree) " at: " (butlast frontier-path)))
+                     (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true))
                    true tree)
         frontier-path (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
                             true frontier-path)]

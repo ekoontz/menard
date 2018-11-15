@@ -90,7 +90,10 @@
                     "c:" "h:")]
           (string/join ""
             (map morph-ps
-                 ["[" (:rule structure) " "
+                 ["[" (:rule structure)
+                  (if (get structure :babel.generate/done?)
+                    (str "+"))
+                  " "
                   one (u/get-in structure [:1] "_") " "
                   two (u/get-in structure [:2] "_")
                   "]"])))))

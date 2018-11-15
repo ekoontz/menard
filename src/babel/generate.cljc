@@ -132,14 +132,24 @@
                             (let [result (u/assoc-in tree frontier-path child)
                                   result (if (or (and (= true (u/get-in child [::done?]))
                                                       (= :comp (last frontier-path)))
+                                                 ;; FIXME: if (last frontier-path) is comp and child is done,
+                                                 ;; then assoc done not only:
+                                                 ;; (concat (butlast frontier-path) [:comp ::done?])))
+                                                 ;; but also:
+                                                 ;; (concat (butlast (butlast frontier-path)) [:comp ::done?])))
+                                                 ;; .. and so on, as long as (= :comp (last frontier-path)) for each
+                                                 ;; successively smaller frontier-path.
+
                                                  (and (= true (u/get-in child [::done?]))
                                                       (= :head (last frontier-path))
                                                       (= true (u/get-in tree (concat (butlast frontier-path) [:comp ::done?])))))
-                                           (u/assoc-in result (concat (butlast frontier-path) [::done?]) true)
                                            (do
-                                             (println (str "no doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
+                                             (println (str "+ doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
+                                             (u/assoc-in result (concat (butlast frontier-path) [::done?]) true))
+                                           (do
+                                             (println (str "- doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
                                              result))]
-                              (println (str "result: " (morph-ps result) "; frontier was: " frontier-path))
+                              (println (str "result: " (morph-ps result) "; frontier was:" frontier-path ":" (morph-ps child)))
                               (truncate result frontier-path))))))))))
 
 (defn frontier

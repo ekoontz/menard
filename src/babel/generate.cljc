@@ -85,6 +85,20 @@
     (lazy-cat (grow (first trees))
               (grow-all (rest trees)))))
 
+(defn really-truncate [tree path]
+  (-> tree
+      (u/assoc-in (concat path [:surface]) "(surface goes here)")
+      (u/dissoc-paths [(concat path [:head])
+                       (concat path [:comp])
+                       (concat path [:1])
+                       (concat path [:2])])
+      (u/assoc-in [::done?] true)))
+
+(defn truncate [tree path]
+  (if true
+    tree
+    (really-truncate tree path)))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -94,7 +108,7 @@
                                                  [::done?]))
         tree (cond frontier-is-done?
                    (do
-                     (println (str "truncate " (morph-ps tree) " at: " (butlast frontier-path)))
+;;                     (println (str "truncate " (morph-ps tree) " at: " (butlast frontier-path)))
                      (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true))
                    true tree)
         frontier-path (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
@@ -123,8 +137,8 @@
                      (map (fn [child]
                             (let [result
                                   (u/assoc-in tree frontier-path child)]
-                              (println (str "result: " (morph-ps result)))
-                              result)))))))))
+                              (println (str "result: " (morph-ps result) "; frontier was: " frontier-path))
+                              (truncate result frontier-path))))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

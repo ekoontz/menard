@@ -104,13 +104,7 @@
    until no further expansion is possible."
   [tree]
   (let [frontier-path (frontier tree)
-        frontier-is-done? (u/get-in tree (concat frontier-path
-                                                 [::done?]))
-        tree (cond frontier-is-done?
-                   (do
-;;                     (println (str "truncate " (morph-ps tree) " at: " (butlast frontier-path)))
-                     (u/assoc-in! tree (concat (butlast frontier-path) [::done?]) true))
-                   true tree)
+        frontier-is-done? (u/get-in tree (concat frontier-path [::done?]))
         frontier-path (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
                             true frontier-path)]
       (cond (empty? frontier-path)
@@ -135,8 +129,16 @@
                        true ;; generate children that are leaves before children that are trees.
                        (lazy-cat child-lexemes child-trees))
                      (map (fn [child]
-                            (let [result
-                                  (u/assoc-in tree frontier-path child)]
+                            (let [result (u/assoc-in tree frontier-path child)
+                                  result (if (or (and (= true (u/get-in child [::done?]))
+                                                      (= :comp (last frontier-path)))
+                                                 (and (= true (u/get-in child [::done?]))
+                                                      (= :head (last frontier-path))
+                                                      (= true (u/get-in tree (concat (butlast frontier-path) [:comp ::done?])))))
+                                           (u/assoc-in result (concat (butlast frontier-path) [::done?]) true)
+                                           (do
+                                             (println (str "no doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
+                                             result))]
                               (println (str "result: " (morph-ps result) "; frontier was: " frontier-path))
                               (truncate result frontier-path))))))))))
 

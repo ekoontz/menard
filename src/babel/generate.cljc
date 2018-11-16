@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 3)
-(def ^:const max-depth 3)
+(def ^:const branching-factor 6)
+(def ^:const max-depth 6)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -99,14 +99,17 @@
     tree
     (really-truncate tree path)))
 
+(defn assoc-done-to [tree path]
+  (if (= :comp (last path))
+    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
+                   (butlast path))
+    (u/assoc-in tree (concat path [::done?]) true)))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [tree]
-  (let [frontier-path (frontier tree)
-        frontier-is-done? (u/get-in tree (concat frontier-path [::done?]))
-        frontier-path (cond frontier-is-done? (vec (strip-trailing-comps-from frontier-path))
-                            true frontier-path)]
+  (let [frontier-path (frontier tree)]
       (cond (empty? frontier-path)
             [tree]
                   
@@ -130,26 +133,14 @@
                        (lazy-cat child-lexemes child-trees))
                      (map (fn [child]
                             (let [result (u/assoc-in tree frontier-path child)
-                                  result (if (or (and (= true (u/get-in child [::done?]))
-                                                      (= :comp (last frontier-path)))
-                                                 ;; FIXME: if (last frontier-path) is comp and child is done,
-                                                 ;; then assoc done not only:
-                                                 ;; (concat (butlast frontier-path) [:comp ::done?])))
-                                                 ;; but also:
-                                                 ;; (concat (butlast (butlast frontier-path)) [:comp ::done?])))
-                                                 ;; .. and so on, as long as (= :comp (last frontier-path)) for each
-                                                 ;; successively smaller frontier-path.
-
-                                                 (and (= true (u/get-in child [::done?]))
-                                                      (= :head (last frontier-path))
-                                                      (= true (u/get-in tree (concat (butlast frontier-path) [:comp ::done?])))))
-                                           (do
-                                             (println (str "+ doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
-                                             (u/assoc-in result (concat (butlast frontier-path) [::done?]) true))
-                                           (do
-                                             (println (str "- doneness for: " (morph-ps result) "; frontier: " frontier-path ":" (morph-ps child)))
-                                             result))]
-                              (println (str "result: " (morph-ps result) "; frontier was:" frontier-path ":" (morph-ps child)))
+                                  result (cond (and (= true (u/get-in child [::done?]))
+                                                    (= :comp (last frontier-path)))
+                                               (assoc-done-to tree frontier-path)
+                                               (and (= true (u/get-in child [::done?]))
+                                                    (= :head (last frontier-path))
+                                                    (= true (u/get-in tree (concat (butlast frontier-path) [:comp ::done?]))))
+                                               (u/assoc-in result (concat (butlast frontier-path) [::done?]) true)
+                                               true result)]
                               (truncate result frontier-path))))))))))
 
 (defn frontier

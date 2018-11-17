@@ -68,9 +68,9 @@
 
 (defn assoc-done-to [tree path]
   (if (= :comp (last path))
-    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
+    (assoc-done-to (u/assoc-in! tree (concat path [::done?]) true)
                    (butlast path))
-    (u/assoc-in tree (concat path [::done?]) true)))
+    (u/assoc-in! tree (concat path [::done?]) true)))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively

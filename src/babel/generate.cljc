@@ -66,6 +66,12 @@
     (lazy-cat (grow (first trees))
               (grow-all (rest trees)))))
 
+(defn assoc-done-to [tree path]
+  (if (= :comp (last path))
+    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
+                   (butlast path))
+    (u/assoc-in tree (concat path [::done?]) true)))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -92,6 +98,7 @@
                                              (= :comp (last frontier-path))
                                              (assoc-done-to tree frontier-path))
                                         result)]
+                         (println (str "truncate: " (morph-ps result) " at: " frontier-path))
                          (truncate result frontier-path)))
                      children))))))
 (defn frontier
@@ -196,9 +203,3 @@
   (if true
     tree
     (really-truncate tree path)))
-
-(defn assoc-done-to [tree path]
-  (if (= :comp (last path))
-    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
-                   (butlast path))
-    (u/assoc-in tree (concat path [::done?]) true)))

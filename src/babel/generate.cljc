@@ -72,33 +72,28 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-      (cond (empty? frontier-path)
-            [tree]
+      (cond (empty? frontier-path) [tree]
             (> depth max-depth) []
-            
             true
             (let [child-spec (u/get-in tree frontier-path :top)
                   child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
                                     (get-lexemes child-spec))
                   child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                                  (parent-with-head child-spec depth))]
+                                (parent-with-head child-spec depth))
+                  ;; depending on depth, generate children that are leaves before or after children that are trees.
+                  children (or (and (branch? depth)
+                                    (lazy-cat child-trees child-lexemes))
+                               (lazy-cat child-lexemes child-trees))]
              (println (str "grow:   " (morph-ps tree) " at: " frontier-path))
              (grow-all
-                (->> (cond
-                       (branch? depth)
-                       ;; generate children that are trees before children that are leaves.
-                       (lazy-cat child-trees child-lexemes)
-                                      
-                       true ;; generate children that are leaves before children that are trees.
-                       (lazy-cat child-lexemes child-trees))
-                     (map (fn [child]
-                            (let [result (u/assoc-in tree frontier-path child)
-                                  result (cond (and (= true (u/get-in child [::done?]))
-                                                    (= :comp (last frontier-path)))
-                                               (assoc-done-to tree frontier-path)
-                                               true result)]
-                              (truncate result frontier-path))))))))))
-
+                (map (fn [child]
+                       (let [result (u/assoc-in tree frontier-path child)
+                             result (or (and (= true (u/get-in child [::done?]))
+                                             (= :comp (last frontier-path))
+                                             (assoc-done-to tree frontier-path))
+                                        result)]
+                         (truncate result frontier-path)))
+                     children))))))
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

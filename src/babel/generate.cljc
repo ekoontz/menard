@@ -144,32 +144,32 @@
 
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))
-    (let [parent-rule (first parent-rules)
-          parent-cat (u/get-in parent-rule [:synsem :cat])
-          phrases-with-phrasal-head (map (fn [child]
-                                           (u/assoc-in parent-rule [:head] child))
-                                         (filter (fn [grammar-rule]
-                                                   (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
-                                                 grammar))
-          phrases-with-lexical-heads (map (fn [child]
-                                            (u/assoc-in parent-rule [:head] child))
-                                          (get-lexemes (unify
-                                                        (u/get-in spec [:head] :top)
-                                                        (u/get-in parent-rule [:head] :top))))]
-      (cond
-        (branch? depth)
-        (lazy-cat
-         ;; phrases that could be the head child, then lexemes that could be the head child.
-         phrases-with-phrasal-head
-         phrases-with-lexical-heads
-         (parent-with-head-1 spec depth (rest parent-rules)))
+    (lazy-cat
+      (let [parent-rule (first parent-rules)
+            parent-cat (u/get-in parent-rule [:synsem :cat])
+            phrases-with-phrasal-head (map (fn [child]
+                                             (u/assoc-in parent-rule [:head] child))
+                                           (filter (fn [grammar-rule]
+                                                     (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
+                                                   grammar))
+            phrases-with-lexical-heads (map (fn [child]
+                                              (u/assoc-in parent-rule [:head] child))
+                                            (get-lexemes (unify
+                                                          (u/get-in spec [:head] :top)
+                                                          (u/get-in parent-rule [:head] :top))))]
+        (cond
+          (branch? depth)
+          (lazy-cat
+            ;; phrases that could be the head child, then lexemes that could be the head child.
+            phrases-with-phrasal-head
+            phrases-with-lexical-heads)
 
-        true
-        (lazy-cat
-         ;; lexemes that could be the head child, then phrases that could be the head child.
-         phrases-with-lexical-heads
-         phrases-with-phrasal-head
-         (parent-with-head-1 spec depth (rest parent-rules)))))))
+          true
+          (lazy-cat
+           ;; lexemes that could be the head child, then phrases that could be the head child.
+           phrases-with-lexical-heads
+           phrases-with-phrasal-head)))
+      (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

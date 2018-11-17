@@ -72,7 +72,7 @@
                    (butlast path))
     (u/assoc-in! tree (concat path [::done?]) true)))
 
-(declare truncate4)
+(declare truncate-at)
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -100,7 +100,7 @@
                                              (= :comp (last frontier-path))
                                              (assoc-done-to tree frontier-path))
                                         result)]
-                         (let [truncated (truncate4 result frontier-path morph-ps)]
+                         (let [truncated (truncate-at result frontier-path morph-ps)]
                            (println (str "grown:  " (morph-ps result) " at: " frontier-path))
                            truncated)))
                      children))))))
@@ -193,28 +193,18 @@
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true)))))
 
-(defn really-truncate [tree path]
-  (-> tree
-      (u/assoc-in (concat path [:surface]) "(surface goes here)")
-      (u/dissoc-paths [(concat path [:head])
-                       (concat path [:comp])
-                       (concat path [:1])
-                       (concat path [:2])])
-      (u/assoc-in [::done?] true)))
-
-(defn truncate [tree path]
-  (if true
-    tree
-    (really-truncate tree path)))
-
-(defn truncate4 [tree frontier-path morph-ps]
+(defn truncate-at [tree path morph-ps]
   (cond
-    (= true (u/get-in tree [:babel.generate/done?]))
+    (and (= true (u/get-in tree (concat path [:babel.generate/done?])))
+         (= true (u/get-in tree (concat path [:phrasal]))))
     (do
-      (println (str "tree is done: doing truncation!"))
+      (println (str "tree is done at: " path ". doing truncation on: " (morph-ps (u/get-in tree path))))
       (u/dissoc-paths
-        (u/assoc-in! tree [:morph-ps] (morph-ps tree))
-        [[:head][:comp][:1][:2]]))
+        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+        (map (fn [each]
+               (concat path each))
+             [[:head][:comp][:1][:2]])))
+
     true
     tree))
 

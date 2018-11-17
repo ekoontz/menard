@@ -203,3 +203,17 @@
   (if true
     tree
     (really-truncate tree path)))
+(defn truncate-at [tree paths morph-ps]
+  (if (not (empty? paths))
+    (do
+      (println (str "trunc: " (morph-ps tree) " at: " (first paths)))
+      (-> tree
+          (truncate-at (rest paths) morph-ps)
+          (u/assoc-in! (first paths)
+                       (-> tree
+                           (u/get-in (first paths))
+                           (dissoc :1)
+                           (dissoc :2)
+                           (dissoc :head)
+                           (dissoc :comp)))))
+    tree))

@@ -109,13 +109,15 @@
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [tree]
-  (let [frontier-path (frontier tree)]
+  (let [frontier-path (frontier tree)
+        depth (count frontier-path)]
       (cond (empty? frontier-path)
             [tree]
-                  
+
+            (> depth max-depth) []
+            
             true
-            (let [depth (count frontier-path)
-                  child-spec (u/get-in tree frontier-path :top)
+            (let [child-spec (u/get-in tree frontier-path :top)
                   child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
                                     (get-lexemes child-spec))
                   child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
@@ -123,8 +125,6 @@
              (println (str "grow:   " (morph-ps tree) " at: " frontier-path))
              (grow-all
                 (->> (cond
-                       (> depth max-depth) []
-                                      
                        (branch? depth)
                        ;; generate children that are trees before children that are leaves.
                        (lazy-cat child-trees child-lexemes)
@@ -136,10 +136,6 @@
                                   result (cond (and (= true (u/get-in child [::done?]))
                                                     (= :comp (last frontier-path)))
                                                (assoc-done-to tree frontier-path)
-                                               (and (= true (u/get-in child [::done?]))
-                                                    (= :head (last frontier-path))
-                                                    (= true (u/get-in tree (concat (butlast frontier-path) [:comp ::done?]))))
-                                               (u/assoc-in result (concat (butlast frontier-path) [::done?]) true)
                                                true result)]
                               (truncate result frontier-path))))))))))
 

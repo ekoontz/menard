@@ -72,6 +72,8 @@
                    (butlast path))
     (u/assoc-in! tree (concat path [::done?]) true)))
 
+(declare truncate4)
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -98,8 +100,9 @@
                                              (= :comp (last frontier-path))
                                              (assoc-done-to tree frontier-path))
                                         result)]
-                         (println (str "truncate: " (morph-ps result) " at: " frontier-path))
-                         (truncate result frontier-path)))
+                         (let [truncated (truncate4 result frontier-path morph-ps)]
+                           (println (str "grown:  " (morph-ps result) " at: " frontier-path))
+                           truncated)))
                      children))))))
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -203,17 +206,15 @@
   (if true
     tree
     (really-truncate tree path)))
-(defn truncate-at [tree paths morph-ps]
-  (if (not (empty? paths))
+
+(defn truncate4 [tree frontier-path morph-ps]
+  (cond
+    (= true (u/get-in tree [:babel.generate/done?]))
     (do
-      (println (str "trunc: " (morph-ps tree) " at: " (first paths)))
-      (-> tree
-          (truncate-at (rest paths) morph-ps)
-          (u/assoc-in! (first paths)
-                       (-> tree
-                           (u/get-in (first paths))
-                           (dissoc :1)
-                           (dissoc :2)
-                           (dissoc :head)
-                           (dissoc :comp)))))
+      (println (str "tree is done: doing truncation!"))
+      (u/dissoc-paths
+        (u/assoc-in! tree [:morph-ps] (morph-ps tree))
+        [[:head][:comp][:1][:2]]))
+    true
     tree))
+

@@ -30,11 +30,10 @@
 (def ^:dynamic println? nil)
 (def ^:dynamic truncate? nil)
 
-(declare assoc-children)
 (declare frontier)
-(declare gen)
 (declare get-lexemes)
 (declare grow)
+(declare grow-all)
 (declare parent-with-head)
 (declare parent-with-head-1)
 
@@ -60,50 +59,12 @@
                               (flatten (vals)
                                        lexicon))))
              morph-ps (or morph-ps (:morph-ps model))]
-     (first (gen spec)))))
-
-(declare grow-all)
-
-(defn gen
-  "generate a potentially infinite (depending on given _spec_ and the model)."
-  [spec]
-  (grow-all (parent-with-head spec 0)))
-
-(defn strip-trailing-comps-from
-  "if (last path) is :comp, recursively call with (butlast), otherwise, append a comp."
-  [path]
-  (cond
-    (empty? path)
-    path
-    (= :comp (last path))
-    (strip-trailing-comps-from (butlast path))
-    true
-    (concat (butlast path) [:comp])))
+     (first (grow-all (parent-with-head spec 0))))))
 
 (defn grow-all [trees]
   (if (not (empty? trees))
     (lazy-cat (grow (first trees))
               (grow-all (rest trees)))))
-
-(defn really-truncate [tree path]
-  (-> tree
-      (u/assoc-in (concat path [:surface]) "(surface goes here)")
-      (u/dissoc-paths [(concat path [:head])
-                       (concat path [:comp])
-                       (concat path [:1])
-                       (concat path [:2])])
-      (u/assoc-in [::done?] true)))
-
-(defn truncate [tree path]
-  (if true
-    tree
-    (really-truncate tree path)))
-
-(defn assoc-done-to [tree path]
-  (if (= :comp (last path))
-    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
-                   (butlast path))
-    (u/assoc-in tree (concat path [::done?]) true)))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -113,7 +74,6 @@
         depth (count frontier-path)]
       (cond (empty? frontier-path)
             [tree]
-
             (> depth max-depth) []
             
             true
@@ -229,3 +189,22 @@
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true)))))
 
+(defn really-truncate [tree path]
+  (-> tree
+      (u/assoc-in (concat path [:surface]) "(surface goes here)")
+      (u/dissoc-paths [(concat path [:head])
+                       (concat path [:comp])
+                       (concat path [:1])
+                       (concat path [:2])])
+      (u/assoc-in [::done?] true)))
+
+(defn truncate [tree path]
+  (if true
+    tree
+    (really-truncate tree path)))
+
+(defn assoc-done-to [tree path]
+  (if (= :comp (last path))
+    (assoc-done-to (u/assoc-in tree (concat path [::done?]) true)
+                   (butlast path))
+    (u/assoc-in tree (concat path [::done?]) true)))

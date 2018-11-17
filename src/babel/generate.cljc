@@ -115,8 +115,7 @@
     
            (and (= (u/get-in tree [:phrasal] true) true)
                 (= true (u/get-in tree [::started?]))
-                (not (u/get-in tree [:head ::done?]))
-                (not (u/get-in tree [:head :comp ::done?])))
+                (not (u/get-in tree [:head ::done?])))
            (cons :head (frontier (u/get-in tree [:head])))
 
            (and (= (u/get-in tree [:phrasal] true) true)

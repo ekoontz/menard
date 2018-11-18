@@ -61,11 +61,6 @@
              morph-ps (or morph-ps (:morph-ps model))]
      (first (grow-all (parent-with-head spec 0))))))
 
-(defn grow-all [trees]
-  (if (not (empty? trees))
-    (lazy-cat (grow (first trees))
-              (grow-all (rest trees)))))
-
 (defn assoc-done-to [tree path]
   (if (= :comp (last path))
     (assoc-done-to (u/assoc-in! tree (concat path [::done?]) true)
@@ -79,7 +74,9 @@
     (u/dissoc-paths
      (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
      (map (fn [each]
-            (concat path each))
+            (let [to-truncate (vec (concat path each))]
+              (println (str "T:" to-truncate))
+              to-truncate))
           [[:head][:comp][:1][:2]]))
     
     (= true (u/get-in tree (concat path [::done?])))
@@ -87,13 +84,20 @@
      (u/dissoc-paths
       (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
       (map (fn [each]
-             (concat path each))
+             (let [to-truncate (vec (concat path each))]
+               (println (str "T:" to-truncate))
+               to-truncate))
            [[:head][:comp][:1][:2]]))
      (butlast path)
      morph-ps)
 
     true
     tree))
+
+(defn grow-all [trees]
+  (if (not (empty? trees))
+    (lazy-cat (grow (first trees))
+              (grow-all (rest trees)))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively

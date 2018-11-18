@@ -75,14 +75,6 @@
 (defn truncate-up [tree path morph-ps]
   (println (str "truncate-up:" (morph-ps tree) " at path: " path))
   (cond
-    (= :comp (last path))
-    (-> (u/dissoc-paths
-          (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-          (map (fn [each]
-                 (concat path each))
-               [[:head][:comp][:1][:2]]))
-        (truncate-up (butlast path) morph-ps))
-
     (and (empty? path)
          (= true (u/get-in tree (concat path [::done?]))))
     (u/dissoc-paths
@@ -91,7 +83,8 @@
             (concat path each))
           [[:head][:comp][:1][:2]]))
     
-    (= true (u/get-in tree (concat path [::done?])))
+    (or (= :comp (last path))
+        (= true (u/get-in tree (concat path [::done?]))))
     (->
       (u/dissoc-paths
        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
@@ -101,9 +94,7 @@
       (truncate-up (butlast path) morph-ps))
 
     true
-    (do
-      (println (str "final truncate-up:" (morph-ps tree) " at path:" path))
-      tree)))
+    tree))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively

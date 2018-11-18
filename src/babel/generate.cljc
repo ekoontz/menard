@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 8)
-(def ^:const max-depth 8)
+(def ^:const branching-factor 6)
+(def ^:const max-depth 6)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))

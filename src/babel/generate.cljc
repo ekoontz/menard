@@ -118,9 +118,7 @@
            (map (fn [child]
                   (let [result (u/assoc-in tree frontier-path child)
                         result (cond (= true (u/get-in child [::done?]))
-                                     (do
-                                       (println (str " pre-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str tree))))
-                                       (truncate-up (assoc-done-to result frontier-path) frontier-path morph-ps))
+                                     (truncate-up (assoc-done-to result frontier-path) frontier-path morph-ps)
                                      true result)]
                     (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result))))
                     result))

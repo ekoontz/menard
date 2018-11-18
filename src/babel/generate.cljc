@@ -76,13 +76,11 @@
   (cond
     (and (empty? path)
          (= true (u/get-in tree (concat path [::done?]))))
-    (let [result
-          (u/dissoc-paths
-           (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-           (map (fn [each]
-                  (concat path each))
-                [[:head][:comp][:1][:2]]))]
-      result)
+     (u/dissoc-paths
+        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+        (map (fn [each]
+               (concat path each))
+             [[:head][:comp][:1][:2]]))
     
     (= true (u/get-in tree (concat path [::done?])))
     (let [result

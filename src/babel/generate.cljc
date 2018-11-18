@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 6)
-(def ^:const max-depth 6)
+(def ^:const branching-factor 8)
+(def ^:const max-depth 8)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -73,25 +73,26 @@
     (u/assoc-in! tree (concat path [::done?]) true)))
 
 (defn truncate-up [tree path morph-ps]
-  (println (str "truncate-up:" (morph-ps tree) " at path: " path))
   (cond
     (and (empty? path)
          (= true (u/get-in tree (concat path [::done?]))))
-    (u/dissoc-paths
-     (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-     (map (fn [each]
-            (concat path each))
-          [[:head][:comp][:1][:2]]))
+    (let [result
+          (u/dissoc-paths
+           (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+           (map (fn [each]
+                  (concat path each))
+                [[:head][:comp][:1][:2]]))]
+      result)
     
-    (or (= :comp (last path))
-        (= true (u/get-in tree (concat path [::done?]))))
-    (->
-      (u/dissoc-paths
-       (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-       (map (fn [each]
-               (concat path each))
-            [[:head][:comp][:1][:2]]))
-      (truncate-up (butlast path) morph-ps))
+    (and (or (= :comp (last path))
+             (= true (u/get-in tree (concat path [::done?])))))
+    (let [result
+          (u/dissoc-paths
+           (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+           (map (fn [each]
+                  (concat path each))
+                [[:head][:comp][:1][:2]]))]
+      (truncate-up result (butlast path) morph-ps))
 
     true
     tree))
@@ -102,30 +103,29 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-      (cond (empty? frontier-path) [tree]
-            (> depth max-depth) []
-            true
-            (let [child-spec (u/get-in tree frontier-path :top)
-                  child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                                    (get-lexemes child-spec))
-                  child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                                (parent-with-head child-spec depth))
-                  ;; depending on depth, generate children that are leaves before or after children that are trees.
-                  children (or (and (branch? depth)
-                                    (lazy-cat child-trees child-lexemes))
-                               (lazy-cat child-lexemes child-trees))]
-             (grow-all
-                (map (fn [child]
-                       (let [result (u/assoc-in tree frontier-path child)
-                             result (cond (= true (u/get-in child [::done?]))
-                                          (do
-                                            (println (str "truncating at path:" frontier-path ":" (morph-ps child)))
-                                            (truncate-up (assoc-done-to result frontier-path) frontier-path morph-ps))
-                                          
-                                          true result)]
-                         (println (str "grown:  " (morph-ps result) " at: " frontier-path))
-                         result))
-                     children))))))
+    (cond (empty? frontier-path) [tree]
+          (> depth max-depth) []
+          true
+          (let [child-spec (u/get-in tree frontier-path :top)
+                child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                                (get-lexemes child-spec))
+                child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                              (parent-with-head child-spec depth))
+                ;; depending on depth, generate children that are leaves before or after children that are trees.
+                children (or (and (branch? depth)
+                                  (lazy-cat child-trees child-lexemes))
+                             (lazy-cat child-lexemes child-trees))]
+            (grow-all
+             (map (fn [child]
+                    (let [result (u/assoc-in tree frontier-path child)
+                          result (cond (= true (u/get-in child [::done?]))
+                                       (do
+                                         (println (str " pre-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str tree))))
+                                         (truncate-up (assoc-done-to result frontier-path) frontier-path morph-ps))
+                                       true result)]
+                      (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result))))
+                      result))
+                  children))))))
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

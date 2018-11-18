@@ -74,9 +74,7 @@
     (u/dissoc-paths
      (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
      (map (fn [each]
-            (let [to-truncate (vec (concat path each))]
-              (println (str "T:" to-truncate))
-              to-truncate))
+            (concat path each))
           [[:head][:comp][:1][:2]]))
     
     (= true (u/get-in tree (concat path [::done?])))
@@ -84,9 +82,7 @@
      (u/dissoc-paths
       (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
       (map (fn [each]
-             (let [to-truncate (vec (concat path each))]
-               (println (str "T:" to-truncate))
-               to-truncate))
+             (concat path each))
            [[:head][:comp][:1][:2]]))
      (butlast path)
      morph-ps)
@@ -94,10 +90,20 @@
     true
     tree))
 
+(defn apply-default-fn [trees default-fn]
+  (if (not (empty? trees))
+    (lazy-cat
+     (default-fn (first trees))
+     (apply-default-fn (rest trees) default-fn))))
+
 (defn grow-all [trees]
   (if (not (empty? trees))
-    (lazy-cat (grow (first trees))
-              (grow-all (rest trees)))))
+    (do
+      (lazy-cat
+       (apply-default-fn
+        (grow (first trees))
+        default-fn)
+       (grow-all (rest trees))))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively

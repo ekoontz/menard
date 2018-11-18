@@ -125,64 +125,16 @@
             g/morph-ps morph-ps
             g/default-fn (fn [x]
                            (if (and true (= true (u/get-in x [:babel.generate/done?])))
-                             [(-> x
-                                  (assoc-in [:surface] (morph x))
-                                  (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
+                             [(assoc-in x [:surface] (morph x))]
                              [x]))]
     (g/generate spec)))
-
-(defn gen [spec]
-  (binding [g/grammar (shuffle (:grammar baby-language))
-            g/lexicon (:lexicon baby-language)
-            g/println? false
-            g/morph-ps morph-ps
-            g/default-fn (fn [x]
-                           (if (= true (u/get-in x [:babel.generate/done?]))
-                             [(-> x
-                                  (assoc-in [:surface] (morph x))
-                                  (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
-                             [x]))]
-    (g/gen spec)))
 
 (defn slow []
   (let [spec {:rule "C"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/default-fn (fn [x]
-;;                             (println (str "lab/default-fn: " (morph-ps x)))
-                             (cond
-
-                               (and false
-                                    (or (= true (u/get-in x [:babel.generate/done?]))
-                                        (and (= true (u/get-in x [:comp :babel.generate/done?]))
-                                             (= true (u/get-in x [:head :babel.generate/done?])))))
-                               [(-> x
-                                    (assoc-in [:surface] (morph x))
-                                    (assoc-in [:babel.generate/done?] true)
-                                    (u/dissoc-paths [[:1] [:2] [:head] [:comp]]))]
-                               
-                               (and (= true (u/get-in x (concat (g/frontier x) [:babel.generate/done?])))
-                                    false
-                                    (= :comp (last (g/frontier x))))
-                               (let [front (g/frontier x)]
-                                 (println (str "front(1) " front " is done for: " (morph-ps x)))
-                                 (println (str "tree: " (u/strip-refs x)))
-                                 [(-> x
-                                      (u/dissoc-paths [front
-                                                       (concat (butlast front) [:head :comp])
-                                                       (concat (butlast front) [:head :head])]))])
-                               
-                               (and false (= true (u/get-in x (concat (g/frontier x) [:babel.generate/done?]))))
-                               (let [front (g/frontier x)]
-                                 (println (str "frontier: " front " is unexpectedly done for "
-                                               (morph-ps x)
-                                               " at: " (morph-ps (u/get-in x front))))
-                                 [(-> x
-                                      (u/dissoc-paths [front]))])
-
-                               true
-                               (do
-                                 [x])))
+                             [x])
               g/morph-ps morph-ps]
       (g/generate spec))))
 

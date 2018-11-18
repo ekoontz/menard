@@ -68,14 +68,17 @@
     (u/assoc-in! tree (concat path [::done?]) true)))
 
 (defn truncate-up [tree path morph-ps]
+  (if (u/get-in tree (concat path [::done?]))
+    (println (str "truncate-up:  " (morph-ps tree) ":" path " doneness: " (u/get-in tree (concat path [::done?])))))
   (cond
     (and (empty? path)
          (= true (u/get-in tree (concat path [::done?]))))
-    (u/dissoc-paths
-     (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-     (map (fn [each]
-            (concat path each))
-          [[:head][:comp][:1][:2]]))
+    (do
+      (u/dissoc-paths
+        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+        (map (fn [each]
+               (concat path each))
+             [[:head][:comp][:1][:2]])))
     
     (= true (u/get-in tree (concat path [::done?])))
     (truncate-up
@@ -111,6 +114,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
+    (println (str "pre-truncate: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
     (cond (empty? frontier-path) [tree]
           (> depth max-depth) []
           true
@@ -118,7 +122,9 @@
            (map (fn [child]
                   (let [result (u/assoc-in tree frontier-path child)
                         result (cond (= true (u/get-in child [::done?]))
-                                     (truncate-up (assoc-done-to result frontier-path) frontier-path morph-ps)
+                                     (-> result
+                                         (assoc-done-to frontier-path)
+                                         (truncate-up frontier-path morph-ps))
                                      true result)]
                     (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result))))
                     result))

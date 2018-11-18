@@ -74,11 +74,16 @@
 
 (defn truncate-up [tree path morph-ps]
   (cond (= :comp (last path))
-        (truncate-up tree (butlast path) morph-ps)
+        (-> (u/dissoc-paths
+              (u/assoc-in! tree (concat path [:morph-ps]) 42)
+              (map (fn [each]
+                     (concat path each))
+                   [[:head][:comp][:1][:2]]))
+            (truncate-up (butlast path) morph-ps))
         
         (= true (u/get-in tree (concat path [::done?])))
         (do
-          (println (str "tree: " (morph-ps tree) " is done at path:" path))
+;;          (println (str "tree: " (morph-ps tree) " is done at path:" path))
           (u/dissoc-paths
               (u/assoc-in! tree (concat path [:morph-ps]) 42)
               (map (fn [each]

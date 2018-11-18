@@ -2,7 +2,9 @@
   (:require [babel.generate :as g]
             [dag_unify.core
              :as u :refer [strip-refs unify]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [clojure.tools.logging :as log]))
+
 
 (def head-first
   (let [one (atom :top)
@@ -133,9 +135,10 @@
   (let [spec {:rule "Z"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
+              g/truncate? false
               g/default-fn (fn [x]
                              (do
-                               (println (str "babel.generate.lab: DEFAULT-FN"))
+                               (log/info (str "DEFAULT-FN: " (morph-ps x)))
                                [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))

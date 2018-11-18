@@ -68,17 +68,20 @@
     (u/assoc-in! tree (concat path [::done?]) true)))
 
 (defn truncate-up [tree path morph-ps]
-  (if (u/get-in tree (concat path [::done?]))
+  (if (and truncate? (not (empty? path))
+           (u/get-in tree (concat path [::done?])))
     (println (str "truncate-up:  " (morph-ps tree) ":" path " doneness: " (u/get-in tree (concat path [::done?])))))
   (cond
+    (= false truncate?)
+    tree
+    
     (and (empty? path)
          (= true (u/get-in tree (concat path [::done?]))))
-    (do
-      (u/dissoc-paths
-        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-        (map (fn [each]
-               (concat path each))
-             [[:head][:comp][:1][:2]])))
+    (u/dissoc-paths
+      (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+      (map (fn [each]
+             (concat path each))
+           [[:head][:comp][:1][:2]]))
     
     (= true (u/get-in tree (concat path [::done?])))
     (truncate-up
@@ -101,12 +104,9 @@
 
 (defn grow-all [trees]
   (if (not (empty? trees))
-    (do
-      (lazy-cat
-       (apply-default-fn
-        (grow (first trees))
-        default-fn)
-       (grow-all (rest trees))))))
+    (lazy-cat
+     (apply-default-fn (grow (first trees)) default-fn)
+     (grow-all (rest trees)))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -114,7 +114,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (println (str "pre-truncate: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
+    (if truncate? (println (str "pre-truncate: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
     (cond (empty? frontier-path) [tree]
           (> depth max-depth) []
           true
@@ -126,7 +126,7 @@
                                          (assoc-done-to frontier-path)
                                          (truncate-up frontier-path morph-ps))
                                      true result)]
-                    (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result))))
+                    (if truncate? (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result)))))
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))

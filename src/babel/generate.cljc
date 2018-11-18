@@ -72,7 +72,22 @@
                    (butlast path))
     (u/assoc-in! tree (concat path [::done?]) true)))
 
-(declare truncate-at)
+(defn truncate-up [tree path morph-ps]
+  (cond (= :comp (last path))
+        (truncate-up tree (butlast path) morph-ps)
+        
+        (= true (u/get-in tree (concat path [::done?])))
+        (do
+          (println (str "tree: " (morph-ps tree) " is done at path:" path))
+          (u/dissoc-paths
+              (u/assoc-in! tree (concat path [:morph-ps]) 42)
+              (map (fn [each]
+                     (concat path each))
+                   [[:head][:comp][:1][:2]])))
+
+        true
+        (do
+          tree)))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -92,17 +107,16 @@
                   children (or (and (branch? depth)
                                     (lazy-cat child-trees child-lexemes))
                                (lazy-cat child-lexemes child-trees))]
-             (println (str "grow:   " (morph-ps tree) " at: " frontier-path))
              (grow-all
                 (map (fn [child]
                        (let [result (u/assoc-in tree frontier-path child)
-                             result (or (and (= true (u/get-in child [::done?]))
-                                             (= :comp (last frontier-path))
-                                             (assoc-done-to tree frontier-path))
-                                        result)]
-                         (let [truncated (truncate-at result frontier-path morph-ps)]
-                           (println (str "grown:  " (morph-ps result) " at: " frontier-path))
-                           truncated)))
+                             result (cond (and (= true (u/get-in child [::done?]))
+                                               (or true (= :comp (last frontier-path))))
+                                          (assoc-done-to tree frontier-path)
+                                          true result)
+                             truncated (truncate-up result frontier-path morph-ps)]
+                         (println (str "grown:  " (morph-ps result) " at: " frontier-path))
+                         truncated))
                      children))))))
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -192,19 +206,3 @@
          (map #(unify % spec))
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true)))))
-
-(defn truncate-at [tree path morph-ps]
-  (cond
-    (and (= true (u/get-in tree (concat path [:babel.generate/done?])))
-         (= true (u/get-in tree (concat path [:phrasal]))))
-    (do
-      (println (str "tree is done at: " path ". doing truncation on: " (morph-ps (u/get-in tree path))))
-      (u/dissoc-paths
-        (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-        (map (fn [each]
-               (concat path each))
-             [[:head][:comp][:1][:2]])))
-
-    true
-    tree))
-

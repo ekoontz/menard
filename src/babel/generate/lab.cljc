@@ -135,10 +135,10 @@
   (let [spec {:rule "Z"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
-              g/truncate? false
+              g/truncate? true
               g/default-fn (fn [x]
                              (do
-                               (log/info (str "DEFAULT-FN: " (morph-ps x)))
+                               (log/debug (str "DEFAULT-FN: " (morph-ps x)))
                                [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))

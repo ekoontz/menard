@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 6)
-(def ^:const max-depth 6)
+(def ^:const branching-factor 7)
+(def ^:const max-depth 7)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -41,7 +41,7 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (do (log/debug (str "generating with spec: " spec))
-       (first (gen spec))))
+       (first (grow-all (parent-with-head spec 0)))))
 
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
@@ -67,34 +67,27 @@
                    (butlast path))
     (u/assoc-in! tree (concat path [::done?]) true)))
 
-(defn truncate-up [tree path morph-ps]
-  (if (and truncate? (not (empty? path))
-           (u/get-in tree (concat path [::done?])))
-    (println (str "truncate-up:  " (morph-ps tree) ":" path " doneness: " (u/get-in tree (concat path [::done?])))))
-  (cond
-    (= false truncate?)
+(defn truncate [tree path morph-ps]
+  (cond 
+    (and
+     (= true (u/get-in tree (concat path [::done?])))
+     (or (u/get-in tree (concat path [:head]))
+         (u/get-in tree (concat path [:comp]))))
+    (do
+      (println (str "truncate this: " (morph-ps tree) " at: " (vec path)))
+      (u/dissoc-paths
+       (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+       (map (fn [each]
+              (concat path each))
+            [[:head][:comp][:1][:2]])))
+
+    (= ::none (u/get-in tree path ::none))
     tree
     
-    (and (empty? path)
-         (= true (u/get-in tree (concat path [::done?]))))
-    (u/dissoc-paths
-      (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-      (map (fn [each]
-             (concat path each))
-           [[:head][:comp][:1][:2]]))
-    
-    (= true (u/get-in tree (concat path [::done?])))
-    (truncate-up
-     (u/dissoc-paths
-      (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-      (map (fn [each]
-             (concat path each))
-           [[:head][:comp][:1][:2]]))
-     (butlast path)
-     morph-ps)
-
     true
-    tree))
+    (-> tree
+        (truncate (concat path [:head]) morph-ps)
+        (truncate (concat path [:comp]) morph-ps))))
 
 (defn apply-default-fn [trees default-fn]
   (if (not (empty? trees))
@@ -114,7 +107,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if truncate? (println (str "pre-truncate: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
+    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
     (cond (empty? frontier-path) [tree]
           (> depth max-depth) []
           true
@@ -124,9 +117,11 @@
                         result (cond (= true (u/get-in child [::done?]))
                                      (-> result
                                          (assoc-done-to frontier-path)
-                                         (truncate-up frontier-path morph-ps))
+                                         ((fn [x]
+                                            (or (and truncate? true (truncate x [] morph-ps))
+                                                x))))
                                      true result)]
-                    (if truncate? (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result)))))
+                    (if (and false truncate?) (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result)))))
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))

@@ -9,8 +9,8 @@
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
 ;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 7)
-(def ^:const max-depth 7)
+(def ^:const branching-factor 4)
+(def ^:const max-depth 4)
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -68,6 +68,7 @@
     (u/assoc-in! tree (concat path [::done?]) true)))
 
 (defn truncate [tree path morph-ps]
+  (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path)))
   (cond 
     (and
      (= true (u/get-in tree (concat path [::done?])))
@@ -82,7 +83,9 @@
             [[:head][:comp][:1][:2]])))
 
     (= ::none (u/get-in tree path ::none))
-    tree
+    (do
+      (println (str "truncate done:   " (morph-ps tree) " at path: " (vec path)))
+      tree)
     
     true
     (-> tree
@@ -116,12 +119,13 @@
                   (let [result (u/assoc-in tree frontier-path child)
                         result (cond (= true (u/get-in child [::done?]))
                                      (-> result
-                                         (assoc-done-to frontier-path)
-                                         ((fn [x]
-                                            (or (and truncate? true (truncate x [] morph-ps))
-                                                x))))
-                                     true result)]
-                    (if (and false truncate?) (println (str "post-truncate:" (morph-ps tree) ":" frontier-path ":" (count (str result)))))
+                                         (assoc-done-to frontier-path))
+                                     true result)
+                        result (cond truncate?
+                                     (truncate result [] morph-ps)
+                                     true
+                                     result)]
+                    (if (and true truncate?) (println (str "post-truncate:" (morph-ps tree) ": " (count (str result)))))
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))

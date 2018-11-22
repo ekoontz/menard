@@ -131,11 +131,14 @@
 (defn slow []
   (let [spec {:rule "Z"
               :head {:rule "X"}
-              :comp {:rule "Y"}}]
+              :comp {:rule "Y"
+                     :comp {:rule "X"
+                            :head {:phrasal false}
+                            :comp {:phrasal false}}}}]
                      
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
-              g/truncate? false
+              g/truncate? true
               g/default-fn (fn [x]
                              (do
                                (log/debug (str "DEFAULT-FN: " (morph-ps x)))

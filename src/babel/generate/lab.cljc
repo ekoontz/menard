@@ -129,7 +129,10 @@
     (g/generate spec)))
 
 (defn slow []
-  (let [spec {:rule "Z"}]
+  (let [spec {:rule "Z"
+              :head {:rule "X"}
+              :comp {:rule "Y"}}]
+                     
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? false

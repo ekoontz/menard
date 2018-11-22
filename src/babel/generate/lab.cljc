@@ -27,16 +27,13 @@
 (def baby-language
   {:grammar
    (->>
-    [(let [cat (atom :n)
-           surface (atom :top)]
+    [(let [cat (atom :n)]
        ;; rule "X": phrase where both children are lexemes,
        ;; and both lexemes have share their :cat value and surface value.
        (unify {:rule "X"
                :head {:cat cat
-                      :surface surface
                       :phrasal false}
                :comp {:cat cat
-                      :surface surface
                       :phrasal false}}
               head-first))
      

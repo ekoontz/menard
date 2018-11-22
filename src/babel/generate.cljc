@@ -8,9 +8,28 @@
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
-;; (terminal nodes) rather than trees.
-(def ^:const branching-factor 4)
-(def ^:const max-depth 4)
+;; (terminal nodes) before trees.
+;; set to 0 to always put trees before leaves.
+;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
+(def ^:const branching-factor 1000)
+
+;; you can experiment by modifying branching-factor and then run branching-samples
+;; to see how many times out of 100 you'd branching trees before leaves.
+(defn branching-samples []
+  (count (filter #(= % true) (take 100 (repeatedly #(fn [] (branch?)))))))
+
+(def ^:const max-depth 3)
+;; no truncation: 
+;; max-depth | time (secs)
+;; ----------+----------
+;;         3 |   0.16
+;;         4 |   0.5
+;;         5 |   2
+;;         6 |   5
+;;         7 |  13
+;;         8 |  38
+;;         9 | 160
+;;        10 | 350
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
@@ -125,7 +144,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
+;;    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
     (cond (empty? frontier-path) [tree]
           (> depth max-depth) []
           true
@@ -148,9 +167,12 @@
                       child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                                      (parent-with-head child-spec depth))]
                     ;; depending on depth, generate children that are leaves before or after children that are trees.
-                    (or (and (branch? depth)
-                             (lazy-cat child-trees child-lexemes))
-                        (lazy-cat child-lexemes child-trees))))))))
+                  (cond
+                    (= depth max-depth) child-lexemes
+                    (branch? depth)
+                    (lazy-cat child-trees child-lexemes)
+                    true
+                    (lazy-cat child-lexemes child-trees))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

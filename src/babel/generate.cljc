@@ -67,30 +67,45 @@
                    (butlast path))
     (u/assoc-in! tree (concat path [::done?]) true)))
 
-(defn truncate [tree path morph-ps]
-  (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path)))
+(defn trunc-state [tree path]
   (cond 
+    (empty? path)
+    :done ;; if path is empty, don't truncate. temporarily for debugging.
+    
     (and
      (= true (u/get-in tree (concat path [::done?])))
      (or (u/get-in tree (concat path [:head]))
          (u/get-in tree (concat path [:comp]))))
-    (do
-      (println (str "truncate this: " (morph-ps tree) " at: " (vec path)))
-      (u/dissoc-paths
-       (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-       (map (fn [each]
-              (concat path each))
-            [[:head][:comp][:1][:2]])))
+    :truncatable
 
     (= ::none (u/get-in tree path ::none))
-    (do
-      (println (str "truncate done:   " (morph-ps tree) " at path: " (vec path)))
-      tree)
+    :done
     
     true
-    (-> tree
-        (truncate (concat path [:head]) morph-ps)
-        (truncate (concat path [:comp]) morph-ps))))
+    :descend-to-check))
+
+(defn truncate [tree path morph-ps]
+  (let [trunc-state (trunc-state tree path)]
+    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
+    (cond
+      (= :truncatable trunc-state)
+      (do
+        (println (str "truncate this: " (morph-ps tree) " at: " (vec path)))
+        (u/dissoc-paths
+         (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+         (map (fn [each]
+                (concat path each))
+              [[:head][:comp][:1][:2]])))
+
+      (= :done trunc-state)
+      (do
+        (println (str "truncate done:   " (morph-ps tree) " at path: " (vec path)))
+        tree)
+    
+      true
+      (-> tree
+          (truncate (concat path [:head]) morph-ps)
+          (truncate (concat path [:comp]) morph-ps)))))
 
 (defn apply-default-fn [trees default-fn]
   (if (not (empty? trees))

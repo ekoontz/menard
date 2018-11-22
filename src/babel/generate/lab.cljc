@@ -83,10 +83,10 @@
         true
         (let [one (if (= (get structure :1)
                          (get structure :head))
-                    "h:" "c:")
+                    "*" "")
               two (if (= (get structure :1)
                          (get structure :head))
-                    "c:" "h:")]
+                    "" "*")]
           (string/join ""
             (map morph-ps
                  ["[" (:rule structure)

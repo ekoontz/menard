@@ -83,10 +83,10 @@
         true
         (let [one (if (= (get structure :1)
                          (get structure :head))
-                    "*" "")
+                    "*" ".")
               two (if (= (get structure :1)
                          (get structure :head))
-                    "" "*")]
+                    "." "*")]
           (string/join ""
             (map morph-ps
                  ["[" (:rule structure)
@@ -128,20 +128,50 @@
                              [x]))]
     (g/generate spec)))
 
-(defn slow []
+(defn slowt []
   (let [spec {:rule "Z"
-              :head {:rule "X"}
+              :head {:rule "X"
+                     :head {:phrasal false
+                            :surface "ma"}
+                     :comp {:phrasal false
+                            :surface "ma"}}
               :comp {:rule "Y"
                      :comp {:rule "X"
-                            :head {:phrasal false}
-                            :comp {:phrasal false}}}}]
+                            :head {:phrasal false
+                                   :surface "da"}
+                            :comp {:phrasal false
+                                   :surface "da"}}}}]
                      
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? true
               g/default-fn (fn [x]
                              (do
-                               (log/debug (str "DEFAULT-FN: " (morph-ps x)))
+                               (log/debug (str "LAB/DEFAULT-FN: " (morph-ps x)))
+                               [x]))
+              g/morph-ps morph-ps]
+      (g/generate spec))))
+
+(defn slow []
+  (let [spec {:rule "Z"
+              :head {:rule "X"
+                     :head {:phrasal false
+                            :surface "ma"}
+                     :comp {:phrasal false
+                            :surface "ma"}}
+              :comp {:rule "Y"
+                     :comp {:rule "X"
+                            :head {:phrasal false
+                                   :surface "da"}
+                            :comp {:phrasal false
+                                   :surface "da"}}}}]
+                     
+    (binding [g/grammar (shuffle (:grammar baby-language))
+              g/lexicon (:lexicon baby-language)
+              g/truncate? false
+              g/default-fn (fn [x]
+                             (do
+                               (log/debug (str "LAB/DEFAULT-FN: " (morph-ps x)))
                                [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))

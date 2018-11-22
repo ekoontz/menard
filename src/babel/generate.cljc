@@ -18,7 +18,7 @@
 (defn branching-samples []
   (count (filter #(= % true) (take 100 (repeatedly #(fn [] (branch?)))))))
 
-(def ^:const max-depth 3)
+(def ^:const max-depth 5)
 ;; no truncation: 
 ;; max-depth | time (secs)
 ;; ----------+----------
@@ -88,9 +88,7 @@
 
 (defn trunc-state [tree path]
   (cond 
-    (empty? path)
-    :done ;; if path is empty, don't truncate. temporarily for debugging.
-    
+
     (and
      (= true (u/get-in tree (concat path [::done?])))
      (or (u/get-in tree (concat path [:head]))
@@ -98,6 +96,9 @@
     :truncatable
 
     (= ::none (u/get-in tree path ::none))
+    :done
+
+    (= false (u/get-in tree path [:phrasal]))
     :done
     
     true
@@ -118,7 +119,6 @@
 
       (= :done trunc-state)
       (do
-        (println (str "truncate done:   " (morph-ps tree) " at path: " (vec path)))
         tree)
     
       true
@@ -144,7 +144,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-;;    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
+    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
     (cond (empty? frontier-path) [tree]
           (> depth max-depth) []
           true
@@ -159,7 +159,7 @@
                                      (truncate result [] morph-ps)
                                      true
                                      result)]
-                    (if (and true truncate?) (println (str "post-truncate:" (morph-ps tree) ": " (count (str result)))))
+                    (if (and false truncate?) (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))

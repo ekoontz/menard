@@ -13,6 +13,10 @@
 ;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
 (def ^:const branching-factor 1000)
 
+(def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
+                        (log/debug (str "branch at: " % "? => " result))
+                        result))
+
 ;; you can experiment by modifying branching-factor and then run branching-samples
 ;; to see how many times out of 100 you'd branching trees before leaves.
 (defn branching-samples []
@@ -30,9 +34,6 @@
 ;;         8 |  38
 ;;         9 | 160
 ;;        10 | 350
-(def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
-                        (log/debug (str "branch at: " % "? => " result))
-                        result))
 
 (def ^:dynamic morph-ps (fn [x] x))
 (def ^:dynamic default-fn nil)

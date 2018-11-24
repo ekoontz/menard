@@ -5,7 +5,6 @@
             [clojure.string :as string]
             [clojure.tools.logging :as log]))
 
-
 (def head-first
   (let [one (atom :top)
         two (atom :top)]
@@ -35,7 +34,7 @@
                       :phrasal false}
                :comp {:cat cat
                       :phrasal false}}
-              head-first))
+              comp-first))
      
      ;; rule "Y": phrase where the comp is a rule-"X".
      (unify {:rule "Y"
@@ -140,19 +139,10 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "Z"
-              :head {:rule "X"
-                     :head {:phrasal false
-                            :surface "ma"}
-                     :comp {:phrasal false
-                            :surface "ma"}}
-              :comp {:rule "Y"
-                     :comp {:rule "X"
-                            :head {:phrasal false
-                                   :surface "da"}
-                            :comp {:phrasal false
-                                   :surface "da"}}}}]
-                     
+  (let [spec {:rule "X"
+              :head {:phrasal false}
+              :comp {:phrasal false}}]
+    
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? true
@@ -164,19 +154,9 @@
       (g/generate spec))))
 
 (defn slow []
-  (let [spec {:rule "Z"
-              :head {:rule "X"
-                     :head {:phrasal false
-                            :surface "ma"}
-                     :comp {:phrasal false
-                            :surface "ma"}}
-              :comp {:rule "Y"
-                     :comp {:rule "X"
-                            :head {:phrasal false
-                                   :surface "da"}
-                            :comp {:phrasal false
-                                   :surface "da"}}}}]
-                     
+  (let [spec {:rule "X"
+              :head {:phrasal false}
+              :comp {:phrasal false}}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? false

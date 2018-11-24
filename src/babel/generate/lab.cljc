@@ -81,12 +81,23 @@
         "_"
         
         true
-        (let [one (if (= (get structure :1)
-                         (get structure :head))
-                    "*" ".")
-              two (if (= (get structure :1)
-                         (get structure :head))
-                    "." "*")]
+        (let [one (cond (= (get structure :1)
+                           (get structure :head))
+                        "*"
+                        (= (get structure :1)
+                           (get structure :comp))
+                        "."
+                        true
+                        "?")
+              
+              two (cond (= (get structure :2)
+                           (get structure :head))
+                        "*"
+                        (= (get structure :2)
+                           (get structure :comp))
+                        "."
+                        true
+                        "?")]
           (string/join ""
             (map morph-ps
                  ["[" (:rule structure)

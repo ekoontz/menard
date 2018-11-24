@@ -89,11 +89,8 @@
 
 (defn trunc-state [tree path]
   (cond 
-
-    (and
-     (= true (u/get-in tree (concat path [::done?])))
-     (or (u/get-in tree (concat path [:head]))
-         (u/get-in tree (concat path [:comp]))))
+    
+    (u/get-in tree (concat path [::done?]))
     :truncatable
 
     (= ::none (u/get-in tree path ::none))

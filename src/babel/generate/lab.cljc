@@ -42,7 +42,7 @@
                     :cat :v}
              :comp {:rule "X"
                     :phrasal true}}
-            comp-first)
+            head-first)
 
 
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
@@ -139,9 +139,7 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "X"
-              :head {:phrasal false}
-              :comp {:phrasal false}}]
+  (let [spec {:rule "Y"}]
     
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
@@ -154,9 +152,7 @@
       (g/generate spec))))
 
 (defn slow []
-  (let [spec {:rule "X"
-              :head {:phrasal false}
-              :comp {:phrasal false}}]
+  (let [spec {:rule "Y"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? false

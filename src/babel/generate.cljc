@@ -123,9 +123,7 @@
         tree)
     
       true
-      (-> tree
-          (truncate (concat path [:head]) morph-ps)
-          (truncate (concat path [:comp]) morph-ps)))))
+      tree)))
 
 (defn apply-default-fn [trees default-fn]
   (if (not (empty? trees))

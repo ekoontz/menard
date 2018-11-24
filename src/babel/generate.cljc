@@ -118,9 +118,8 @@
       (truncate-at tree path)
       
       (= :done trunc-state)
-      (do
-        tree)
-    
+      tree
+
       true
       tree)))
 

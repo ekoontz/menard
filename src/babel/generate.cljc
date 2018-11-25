@@ -120,6 +120,11 @@
       (= :done trunc-state)
       tree
 
+      (= :descend-to-check trunc-state)
+      (-> tree
+          (truncate (concat path [:head]) morph-ps)
+          (truncate (concat path [:comp]) morph-ps))
+      
       true
       tree)))
 

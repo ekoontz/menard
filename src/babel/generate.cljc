@@ -102,20 +102,28 @@
     true
     :descend-to-check))
 
-(defn truncate-at [tree path]
-  (println (str "truncate this: " (morph-ps tree) " at: " (vec path)))
-  (u/dissoc-paths
-     (u/assoc-in! tree (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-     (map (fn [each]
-            (concat path each))
-          [[:head][:comp][:1][:2]])))
+(defn truncate-at [tree path morph-ps]
+  (let [paths (cond (empty? path)
+                    []
+                    (= (get (get-in tree (butlast path)) (last path))
+                       (get (get-in tree (butlast path)) :1))
+                    (list path (concat (butlast path) [:1]))
+                    (= (get (get-in tree (butlast path)) (last path))
+                       (get (get-in tree (butlast path)) :2))
+                    (list path (concat (butlast path) [:2]))
+                    true (throw (Exception. (str "don't know how to truncate this tree: path: " (vec path)))))]
+    (println (str "truncating " (morph-ps tree) " at: " (vec paths)))
+    (let [paths (if true [] paths)]
+      (u/dissoc-paths
+       tree
+       paths))))
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]
-    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
+;;    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
     (cond
       (= :truncatable trunc-state)
-      (truncate-at tree path)
+      (truncate-at tree path morph-ps)
       
       (= :done trunc-state)
       tree
@@ -157,6 +165,7 @@
                                      (-> result
                                          (assoc-done-to frontier-path))
                                      true result)
+;;                        debug (println (str "pre-truncate: " (morph-ps result)))
                         result (cond truncate?
                                      (truncate result [] morph-ps)
                                      true

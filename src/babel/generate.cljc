@@ -121,14 +121,10 @@
     (println (str "truncate-at: value for " (morph-ps tree) " at path/2: " (vec (concat (butlast path) [:2])) " is: "
                   (get (u/get-in tree (butlast path)) :2)))
     (println (str "truncating " (morph-ps tree) " at: " (vec paths)))
-    (let [paths paths
-          retval (u/dissoc-paths tree paths)]
-      (count
-       (map (fn [path]
-              (if (not (nil? (u/get-in retval path)))
-                (throw (Exception. (str "the retval unexpectedly has a value for path: " (vec path) ".")))))
-            paths))
-      (println (str "post-truncate: " retval))
+    (println (str " pre-truncate: " (vec (:dag_unify.core/serialized (unify tree)))))
+    (let [retval (unify (u/dissoc-paths tree paths))]
+      (println (str "post-truncate: " (vec (:dag_unify.core/serialized retval))))
+      (println (str "post-truncate: " (morph-ps retval)))
       retval)))
 
 (defn truncate [tree path morph-ps]

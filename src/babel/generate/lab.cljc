@@ -26,13 +26,14 @@
 (def baby-language
   {:grammar
    (->>
-    [(let [cat (atom :n)]
+    [(let [cat-head (atom :v)
+           cat-comp (atom :p)]
        ;; rule "X": phrase where both children are lexemes,
        ;; and both lexemes have share their :cat value and surface value.
        (unify {:rule "X"
-               :head {:cat cat
+               :head {:cat cat-head
                       :phrasal false}
-               :comp {:cat cat
+               :comp {:cat cat-comp
                       :phrasal false}}
               comp-first))
      
@@ -85,7 +86,8 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :1 is neither :head nor :comp: " structure))))
+                        (throw (Exception. (str "the :1 is neither :head nor :comp: "
+                                                (vec (:dag_unify.core/serialized structure))))))
               
               two (cond (= (get structure :2)
                            (get structure :head))
@@ -94,7 +96,8 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :2 is neither :head nor :comp: " structure))))]
+                        (throw (Exception. (str "the :2 is neither :head nor :comp: "
+                                                (vec (:dag_unify.core/serialized structure))))))]
           
           (string/join ""
             (map morph-ps
@@ -214,4 +217,16 @@
   {:cat :v, :phrasal false, :surface "ba", :babel.generate/done? true},
   :phrasal true,
   :rule "Y"})
+
+(defn dissoc-test []
+  (let [pre (u/deserialize
+             '((nil {:babel.generate/started? true, :comp :top,
+                     :rule "Y", :phrasal true, :2 :top})
+               (((:comp) (:2)) {:phrasal true, :rule "X", :2 :top, :1 :top, :head :top, :comp :top, :babel.generate/started? true})
+               (((:comp :2) (:comp :head) (:2 :2) (:2 :head)) {:phrasal false, :cat :top, :surface "ba", :babel.generate/done? true})
+               (((:comp :1) (:comp :comp) (:2 :1) (:2 :comp)) {:cat :top, :phrasal false})
+               (((:comp :2 :cat) (:comp :head :cat) (:2 :2 :cat) (:2 :head :cat)) :v)
+               (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat)) :p)))
+        post (u/dissoc-paths pre [[:comp :head]])]
+    (morph-ps post)))
 

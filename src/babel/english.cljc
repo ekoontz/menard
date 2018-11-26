@@ -20,13 +20,6 @@
                                               :subcat []}})
                            model))
 
-(defn generate-all
-  "return the (possibly infinite) set of every possible expression given input _spec_."
-  [& spec]
-  (let [spec (or spec {:synsem {:slash false
-                                :subcat []}})]
-    (take 10 (babel.generate/gen spec model))))   
-
 ;; can't decide between 'morph' or 'fo' or something other better name.
 (defn morph [expr & {:keys [from-language model show-notes]
                      :or {from-language nil

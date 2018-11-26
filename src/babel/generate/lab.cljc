@@ -87,7 +87,7 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :1 is neither :head nor :comp"))))
+                        (throw (Exception. (str "the :1 is neither :head nor :comp: " (u/strip-refs structure)))))
               
               two (cond (= (get structure :2)
                            (get structure :head))
@@ -96,7 +96,7 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :2 is neither :head nor :comp."))))]
+                        (throw (Exception. (str "the :2 is neither :head nor :comp: " (u/strip-refs structure)))))]
           
           (string/join ""
             (map morph-ps

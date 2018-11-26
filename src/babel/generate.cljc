@@ -105,18 +105,26 @@
 (defn truncate-at [tree path morph-ps]
   (let [paths (cond (empty? path)
                     []
-                    (= (get (get-in tree (butlast path)) (last path))
-                       (get (get-in tree (butlast path)) :1))
+                    (= (get (u/get-in tree (butlast path)) (last path))
+                       (get (u/get-in tree (butlast path)) :1))
                     (list path (concat (butlast path) [:1]))
-                    (= (get (get-in tree (butlast path)) (last path))
-                       (get (get-in tree (butlast path)) :2))
+                    (= (get (u/get-in tree (butlast path)) (last path))
+                       (get (u/get-in tree (butlast path)) :2))
                     (list path (concat (butlast path) [:2]))
-                    true (throw (Exception. (str "don't know how to truncate this tree: path: " (vec path)))))]
+                    true (throw (Exception. (str "don't know how to truncate this tree:"
+                                                 (morph-ps tree) ";  path: " (vec path)))))]
+    (println (str "truncate-at: value for " (morph-ps tree) " at path: " (vec path) " is: "
+                  (get (u/get-in tree (butlast path)) (last path))))
+    (println (str "get-in value for " (vec path) " is: " (u/get-in tree path)))
+    (println (str "truncate-at: value for " (morph-ps tree) " at path/1: " (vec (concat (butlast path) [:1])) " is: "
+                  (get (u/get-in tree (butlast path)) :1)))
+    (println (str "truncate-at: value for " (morph-ps tree) " at path/2: " (vec (concat (butlast path) [:2])) " is: "
+                  (get (u/get-in tree (butlast path)) :2)))
     (println (str "truncating " (morph-ps tree) " at: " (vec paths)))
-    (let [paths (if true [] paths)]
-      (u/dissoc-paths
-       tree
-       paths))))
+    (let [paths paths
+          retval (u/dissoc-paths tree paths)]
+      (println (str "post-truncate: " retval))
+      retval)))
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]

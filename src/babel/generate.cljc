@@ -123,6 +123,11 @@
     (println (str "truncating " (morph-ps tree) " at: " (vec paths)))
     (let [paths paths
           retval (u/dissoc-paths tree paths)]
+      (count
+       (map (fn [path]
+              (if (not (nil? (u/get-in retval path)))
+                (throw (Exception. (str "the retval unexpectedly has a value for path: " (vec path) ".")))))
+            paths))
       (println (str "post-truncate: " retval))
       retval)))
 

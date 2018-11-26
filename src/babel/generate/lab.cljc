@@ -57,9 +57,7 @@
    :lexicon
    (into {} (for [[surface lexemes-for-surface]
                   {"ba" [{:cat :v}]
-                   "da" [{:cat :n}]
-                   "ga" [{:cat :v}]
-                   "ma" [{:cat :n}]}]
+                   "da" [{:cat :n}]}]
               [surface (map (fn [lexeme]
                               (merge lexeme {:phrasal false
                                              :surface surface}))
@@ -87,7 +85,7 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :1 is neither :head nor :comp: " (u/strip-refs structure)))))
+                        (throw (Exception. (str "the :1 is neither :head nor :comp: " structure))))
               
               two (cond (= (get structure :2)
                            (get structure :head))
@@ -96,7 +94,7 @@
                            (get structure :comp))
                         "."
                         true
-                        (throw (Exception. (str "the :2 is neither :head nor :comp: " (u/strip-refs structure)))))]
+                        (throw (Exception. (str "the :2 is neither :head nor :comp: " structure))))]
           
           (string/join ""
             (map morph-ps

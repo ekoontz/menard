@@ -218,15 +218,57 @@
   :phrasal true,
   :rule "Y"})
 
+(defn prefix?
+  "return true iff vector a is a prefix of vector b."
+  [a b]
+  (cond (empty? a) true
+        (empty? b) false
+        (= (first a) (first b))
+        (prefix? (rest a) (rest b))
+        true false))
+
+(defn udissoc
+  "dissoc the path _path_ from _s_, where _s_ is a serialized representation of a map with reentrances."
+  [s path]
+  (if (not (empty? s))
+    (let [[paths m] (first s)]
+      (cond (some #(prefix? path %) paths)
+            :do-something
+            (some #(prefix? % path) paths)
+            :do-something-else
+            true
+            :do-the-default-thing))))
+
 (defn dissoc-test []
-  (let [pre (u/deserialize
-             '((nil {:babel.generate/started? true, :comp :top,
-                     :rule "Y", :phrasal true, :2 :top})
-               (((:comp) (:2)) {:phrasal true, :rule "X", :2 :top, :1 :top, :head :top, :comp :top, :babel.generate/started? true})
-               (((:comp :2) (:comp :head) (:2 :2) (:2 :head)) {:phrasal false, :cat :top, :surface "ba", :babel.generate/done? true})
-               (((:comp :1) (:comp :comp) (:2 :1) (:2 :comp)) {:cat :top, :phrasal false})
-               (((:comp :2 :cat) (:comp :head :cat) (:2 :2 :cat) (:2 :head :cat)) :v)
-               (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat)) :p)))
-        post (u/dissoc-paths pre [[:comp :head]])]
+  (let [post (u/dissoc-paths pre [[:comp :head]])]
     (morph-ps post)))
+
+(def pre
+  (u/deserialize
+   '((nil
+      {:babel.generate/started? true, :comp :top,
+       :rule "Y", :phrasal true, :2 :top})
+     (((:comp) (:2))
+      {:phrasal true, :rule "X", :2 :top, :1 :top, :head :top, :comp :top, :babel.generate/started? true})
+     (((:comp :2) (:comp :head) (:2 :2) (:2 :head))
+      {:phrasal false, :cat :top, :surface "ba", :babel.generate/done? true})
+     (((:comp :1) (:comp :comp) (:2 :1) (:2 :comp))
+      {:cat :top, :phrasal false})
+     (((:comp :2 :cat) (:comp :head :cat) (:2 :2 :cat) (:2 :head :cat))
+      :v)
+     (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
+      :p))))
+
+(def pred (u/serialize pre))
+
+(def pre-sets (map first pred))
+
+(defn find-matching-sets
+  "given a set of re-entrance-sets, return the subset of these where _path_ is a prefix of a path in the set."
+  [reentrance-sets path]
+  (filter some?
+          (map (fn [each-set]
+                 (and (some #(prefix? path %) each-set)
+                      each-set))
+               reentrance-sets)))
 

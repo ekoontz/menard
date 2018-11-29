@@ -278,16 +278,56 @@
 (def pre
   (u/deserialize
    '((nil
-      {:babel.generate/started? true, :comp :top,
-       :rule "Y", :phrasal true, :2 :top})
+      {:babel.generate/started? true
+       :comp :top
+       :rule "Y"
+       :phrasal true
+       :2 :top})
+
      (((:comp) (:2))
-      {:phrasal true, :rule "X", :2 :top, :1 :top, :head :top, :comp :top, :babel.generate/started? true})
+      {:phrasal true
+       :rule "X"
+       :2 :top
+       :1 :top
+       :head :top
+       :comp :top
+       :babel.generate/started? true})
+
      (((:comp :2) (:comp :head) (:2 :2) (:2 :head))
-      {:phrasal false, :cat :top, :surface "ba", :babel.generate/done? true})
+      {:phrasal false
+       :cat :top, :surface "ba", :babel.generate/done? true})
+
      (((:comp :1) (:comp :comp) (:2 :1) (:2 :comp))
       {:cat :top, :phrasal false})
+
      (((:comp :2 :cat) (:comp :head :cat) (:2 :2 :cat) (:2 :head :cat))
       :v)
+
+     (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
+      :p))))
+
+;; For now this is hand-generated until I can teach the computer to do
+;; it:
+(def post
+  (u/deserialize
+   '((nil
+      {:babel.generate/started? true
+       :comp :top
+       :rule "Y"
+       :phrasal true
+       :2 :top})
+
+     (((:comp) (:2))
+      {:phrasal true
+       :rule "X"
+       :1 :top
+       :comp :top
+       :babel.generate/started? true})
+
+     (((:comp :1) (:comp :comp) (:2 :1) (:2 :comp))
+      {:cat :top
+       :phrasal false})
+
      (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
       :p))))
 

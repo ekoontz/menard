@@ -345,10 +345,9 @@
 
 (defn dissoc-path [structure path]
   (let [matching-sets
-          (let [reentrance-sets (map first (u/serialize pre))]
-            (mapcat (fn [each-set]
-                       (and (some #(prefix? path %) each-set)
-                            each-set))
-                    reentrance-sets))]
+         (mapcat (fn [each-set]
+                   (and (some #(prefix? path %) each-set)
+                        each-set))
+                 (map first (u/serialize structure)))]
     (u/dissoc-paths structure matching-sets)))
 

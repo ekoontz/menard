@@ -227,18 +227,6 @@
         (prefix? (rest a) (rest b))
         true false))
 
-(defn udissoc
-  "dissoc the path _path_ from _s_, where _s_ is a serialized representation of a map with reentrances."
-  [s path]
-  (if (not (empty? s))
-    (let [[paths m] (first s)]
-      (cond (some #(prefix? path %) paths)
-            :do-something
-            (some #(prefix? % path) paths)
-            :do-something-else
-            true
-            :do-the-default-thing))))
-
 (defn dissoc-test []
   (let [post (u/dissoc-paths pre [[:comp :head]])]
     (morph-ps post)))
@@ -331,10 +319,30 @@
      (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
       :p))))
 
-(defn dissoc-path [structure path]
+(defn dissoc-path
+  "truncate a structure at a given path, and at any paths that
+   point to a value pointed to by that path."
+  [structure path]
   (->>
-   (map first (u/serialize structure))
+   ;; a serialized representation of the structure:
+   ;; the serialized form is a list of pairs.
+   ;; each pair <set,struct> in the list is:
+   ;; 1. set:    a set of paths pointing to an identical, reentrance-free structure.
+   ;; 2. struct: the reentrance-free structure (simply a clojure map).
+   (u/serialize structure)
+
+   ;; get the set of paths (the first element of each pair)
+   (map first)
+
+   ;; get all the paths in this set for which path is a prefix.
    (mapcat (fn [each-set]
               (and (some #(prefix? path %) each-set)
                    each-set)))
+
+   ;; be sure to truncate the input path as well, if
+   ;; it was not matched above.
+   (cons path)
+   
+   ;; return a structure like _structure_, but without
+   ;; all the paths we want to truncate.
    (u/dissoc-paths structure)))

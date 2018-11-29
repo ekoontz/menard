@@ -343,5 +343,12 @@
                     each-set))
             reentrance-sets)))
 
-(defn good-dissoc [structure path]
-  (u/dissoc-paths structure (find-matching-sets structure path)))
+(defn dissoc-path [structure path]
+  (let [matching-sets
+          (let [reentrance-sets (map first (u/serialize pre))]
+            (mapcat (fn [each-set]
+                       (and (some #(prefix? path %) each-set)
+                            each-set))
+                    reentrance-sets))]
+    (u/dissoc-paths structure matching-sets)))
+

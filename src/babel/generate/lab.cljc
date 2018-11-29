@@ -243,6 +243,38 @@
   (let [post (u/dissoc-paths pre [[:comp :head]])]
     (morph-ps post)))
 
+;; this is a partially-generated tree that looks like:
+;; 
+;;    Y
+;;   / \
+;; (H)  X
+;;     / \
+;;    C   H:ba 
+;;
+;; In the above, the root of the tree is {:rule "Y"}; the head "(H)"
+;; means that the head has been truncated already, so
+;; in the deserialized representation below, there is no
+;; :head. Also there is no :1, because the rule "Y" is head-first,
+;; so :head and :1 are identical.
+;; 
+;; The next step is to truncate the path [:comp :head], so that the tree will
+;; look like:
+;;
+;;     Y
+;;    / \
+;;  (H)  X
+;;      / \
+;;     C  (H)
+;;
+;; In other words, there is no longer any of the following paths in the tree:
+;;
+;; [:comp :head]
+;; [:2 :head]
+;; [:comp :2]
+;; [:2 :2]
+;;
+;; where all of these paths point to a single identical thing that has been truncated.
+
 (def pre
   (u/deserialize
    '((nil
@@ -259,12 +291,12 @@
      (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
       :p))))
 
-(def pred (u/serialize pre))
-
-(def pre-sets (map first pred))
+(def pre-sets (map first (u/serialize pre)))
 
 (defn find-matching-sets
-  "given a set of re-entrance-sets, return the subset of these where _path_ is a prefix of a path in the set."
+  "given a set of re-entrance-sets, return the subset of 
+   those re-entrance-sets, such that in each member of this subset,
+   there is a path where _path_ is a prefix of the path."
   [reentrance-sets path]
   (filter some?
           (map (fn [each-set]

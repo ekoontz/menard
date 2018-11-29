@@ -338,6 +338,3 @@
               (and (some #(prefix? path %) each-set)
                    each-set)))
    (u/dissoc-paths structure)))
-
-
-

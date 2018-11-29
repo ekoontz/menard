@@ -331,16 +331,17 @@
      (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
       :p))))
 
-(def pre-sets (map first (u/serialize pre)))
-
 (defn find-matching-sets
-  "given a set of re-entrance-sets, return the subset of 
-   those re-entrance-sets, such that in each member of this subset,
-   there is a path where _path_ is a prefix of the path."
-  [reentrance-sets path]
-  (filter some?
-          (map (fn [each-set]
-                 (and (some #(prefix? path %) each-set)
-                      each-set))
-               reentrance-sets)))
+  "given an structure and a path, determine its set of re-entrance-sets, and
+   return the subset of those re-entrance-sets, such that in each 
+   member of this subset, there is a path where _path_ is a 
+   prefix of the path."
+  [structure path]
+  (let [reentrance-sets (map first (u/serialize pre))]
+    (mapcat (fn [each-set]
+               (and (some #(prefix? path %) each-set)
+                    each-set))
+            reentrance-sets)))
 
+(defn good-dissoc [structure path]
+  (u/dissoc-paths structure (find-matching-sets structure path)))

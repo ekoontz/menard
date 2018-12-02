@@ -174,7 +174,7 @@
                                      (-> result
                                          (assoc-done-to frontier-path))
                                      true result)
-;;                        debug (println (str "pre-truncate: " (morph-ps result)))
+                        debug (println (str "pre-truncate: " (morph-ps result)))
                         result (cond truncate?
                                      (truncate result [] morph-ps)
                                      true
@@ -183,17 +183,17 @@
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                                       (get-lexemes child-spec))
+                                      (get-lexemes child-spec))
                       child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                                     (parent-with-head child-spec depth))]
-                    ;; depending on depth, generate children that are leaves before or after children that are trees.
+                                    (parent-with-head child-spec depth))]
+                  ;; depending on depth, generate children that are leaves before or after children that are trees.
                   (cond
-                    (= depth max-depth) child-lexemes
-                    (branch? depth)
-                    (lazy-cat child-trees child-lexemes)
-                    true
-                    (lazy-cat child-lexemes child-trees))))))))
-
+                     (= depth max-depth) child-lexemes
+                     (branch? depth)
+                     (lazy-cat child-trees child-lexemes)
+                     true
+                     (lazy-cat child-lexemes child-trees))))))))
+ 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

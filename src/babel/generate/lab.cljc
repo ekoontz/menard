@@ -58,7 +58,8 @@
    :lexicon
    (into {} (for [[surface lexemes-for-surface]
                   {"ba" [{:cat :v}]
-                   "da" [{:cat :n}]}]
+                   "da" [{:cat :n}]
+                   "ga" [{:cat :p}]}]
               [surface (map (fn [lexeme]
                               (merge lexeme {:phrasal false
                                              :surface surface}))

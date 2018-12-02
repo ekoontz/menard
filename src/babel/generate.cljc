@@ -165,8 +165,9 @@
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
-    (cond (empty? frontier-path) [tree]
-          (> depth max-depth) []
+    (cond (empty? frontier-path)
+          [tree]
+
           true
           (grow-all
            (map (fn [child]

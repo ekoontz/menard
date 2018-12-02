@@ -154,7 +154,8 @@
 (defn grow-all [trees]
   (if (not (empty? trees))
     (lazy-cat
-     (apply-default-fn (grow (first trees)) default-fn)
+     (apply-default-fn
+      (grow (first trees)) default-fn)
      (grow-all (rest trees)))))
 
 (defn grow

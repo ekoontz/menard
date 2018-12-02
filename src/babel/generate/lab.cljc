@@ -227,10 +227,6 @@
         (prefix? (rest a) (rest b))
         true false))
 
-(defn dissoc-test []
-  (let [post (u/dissoc-paths pre [[:comp :head]])]
-    (morph-ps post)))
-
 ;; this is a partially-generated tree that looks like:
 ;; 
 ;;    Y
@@ -318,6 +314,10 @@
 
      (((:comp :1 :cat) (:comp :comp :cat) (:2 :1 :cat) (:2 :comp :cat))
       :p))))
+
+(defn dissoc-test []
+  (let [post (u/dissoc-paths pre [[:comp :head]])]
+    (morph-ps post)))
 
 (defn dissoc-path
   "truncate a structure at a given path, and at any paths that

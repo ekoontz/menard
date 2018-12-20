@@ -154,7 +154,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree))))
+    (if false (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -166,7 +166,7 @@
                                      (-> result
                                          (assoc-done-to frontier-path))
                                      true result)
-                        debug (println (str "pre-truncate: " (morph-ps result)))
+                        debug (if false (println (str "pre-truncate: " (morph-ps result))))
                         result (cond truncate?
                                      (truncate result [] morph-ps)
                                      true

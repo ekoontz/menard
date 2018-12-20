@@ -4,7 +4,8 @@
             [clojure.string :as string :refer [join replace trim]]
             #?(:clj [clojure.tools.logging :as log])
             #?(:cljs [babel.logjs :as log]) 
-            [dag_unify.core :refer [assoc-in copy dissoc-paths fail? get-in ref? strip-refs unify]]))
+            [dag_unify.core :as u
+             :refer [assoc-in copy fail? get-in ref? strip-refs unify]]))
 
 (declare get-string)
 (declare plural-en)
@@ -22,8 +23,9 @@
                        (not (= :lui (get-in input [:synsem :sem :subj :pred])))
                        (not (= :lei (get-in input [:synsem :sem :subj :pred]))))
                 ;; remove :notes in these circumstances.
-                (dissoc-paths input [[:english :a :note] ;; this handles "you" in "you wash yourself"
-                                     [:english :b :b :note]]) ;; this handles "yourself" in the same sentence.
+                (-> input
+                    (u/dissoc-in [:english :a :note]) ;; this handles "you" in "you wash yourself"
+                    (u/dissoc-in [:english :b :b :note])) ;; this handles "yourself" in the same sentence.
                 input)
 
         input (cond (and (some #(= from-language %) ["es" "fr"])

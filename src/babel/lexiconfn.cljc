@@ -14,9 +14,9 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.data.json :as json]
    [clojure.string :as string]
-   [dag_unify.core :as unify :refer [create-path-in dissoc-paths exists?
-                                     fail-path fail? get-in isomorphic?
-                                     serialize strip-refs unify]]
+   [dag_unify.core :as u :refer [create-path-in exists?
+                                 fail-path fail? get-in isomorphic?
+                                 serialize strip-refs unify]]
    [korma.core :refer [exec-raw]]
    [korma.db :refer [transaction]]))
 
@@ -390,21 +390,22 @@
 (defn make-intransitive-variant [lexical-entry]
   (cond
 
-   (and (= (get-in lexical-entry [:synsem :cat]) :verb)
-        (exists? lexical-entry [:synsem :subcat :2])
-        (not (empty? (get-in lexical-entry [:synsem :subcat :2]))))
+    (and (= (get-in lexical-entry [:synsem :cat]) :verb)
+         (exists? lexical-entry [:synsem :subcat :2])
+         (not (empty? (get-in lexical-entry [:synsem :subcat :2]))))
 
-   ;; create an intransitive version of this transitive verb by removing the second arg (:synsem :subcat :2), and replacing with nil.
-   (list
-    (unify (dissoc-paths lexical-entry (list [:synsem :subcat :2]
-                                              [:serialized]))
-            {:synsem {:subcat {:2 []}}
-             :canary :tweet43}) ;; if the canary tweets, then the runtime is getting updated correctly.
+    ;; create an intransitive version of this transitive verb by removing the second arg (:synsem :subcat :2), and replacing with nil.
+    (list
+     (unify
+      (-> lexical-entry
+          (u/dissoc-in [:synsem :subcat :2]))
+      {:synsem {:subcat {:2 []}}
+       :canary :tweet43}) ;; if the canary tweets, then the runtime is getting updated correctly.
 
-    lexical-entry) ;; the original transitive lexeme.
+     lexical-entry) ;; the original transitive lexeme.
 
-   true
-   (list lexical-entry)))
+    true
+    (list lexical-entry)))
 
 ;; Rules like make-intransitive-variant multiply a single lexeme into zero or more lexemes: 
 ;; In other words, their function signature is map => seq(map).
@@ -549,10 +550,9 @@
                              ;; doing some surgery on it: (remove the object) and intransitivize it
                              (let [without-object  ;; intransitive version
                                    (unify intransitive-unspecified-obj
-                                          (dissoc-paths val
-                                                         (list [:serialized]
-                                                               [:synsem :sem :obj]
-                                                               [:synsem :subcat :2])))]
+                                          (-> val
+                                              (u/dissoc-in [:synsem :sem :obj])
+                                              (u/dissoc-in [:synsem :subcat :2])))]
                                (log/debug (str "without object: " without-object))
                                (log/debug (str "is fail? (without object): " (fail? without-object)))
                                (let [result
@@ -571,8 +571,8 @@
                      true
                      (do (if (= :verb (get-in val [:synsem :cat]))
                            (log/trace (str "no modifications apply for val: " val " ; cat: " 
-                                          (get-in val [:synsem :cat]) "; subcat: "
-                                          (get-in val [:synsem :subcat]))))
+                                           (get-in val [:synsem :cat]) "; subcat: "
+                                           (get-in val [:synsem :subcat]))))
                          (list val))))
              vals))))
 
@@ -660,7 +660,7 @@
                 original-val)))
           vals))))
 
-;; TODO: s/unify/unify/ for performance
+;; TODO: s/unify/unify!/ for performance
 ;; TODO: use (default) rather than this; it's simpler to understand and faster.
 (defn if-then [lexicon if-has unify-with]
   (map-function-on-map-vals

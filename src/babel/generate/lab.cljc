@@ -63,52 +63,53 @@
               [surface (map (fn [lexeme]
                               (merge lexeme {:phrasal false
                                              :surface surface}))
-                        lexemes-for-surface)]))})
+                            lexemes-for-surface)]))})
+                            
 
 (defn morph-ps [structure]
-  (cond (or (= :fail structure) 
-            (nil? structure)
-            (string? structure)) structure
+    (cond (or (= :fail structure) 
+              (nil? structure)
+              (string? structure)) structure
 
-        (seq? structure)
-        (map morph-ps structure)
-        
-        (u/get-in structure [:surface])
-        (morph-ps (u/get-in structure [:surface]))
+          (seq? structure)
+          (map morph-ps structure)
 
-        (= false (u/get-in structure [:phrasal] false))
-        "_"
-        
-        true
-        (let [one (cond (= (get structure :1)
-                           (get structure :head))
-                        "*"
-                        (= (get structure :1)
-                           (get structure :comp))
-                        "."
-                        true
-                        (throw (Exception. (str "the :1 is neither :head nor :comp: "
-                                                (vec (:dag_unify.core/serialized structure))))))
-              
-              two (cond (= (get structure :2)
-                           (get structure :head))
-                        "*"
-                        (= (get structure :2)
-                           (get structure :comp))
-                        "."
-                        true
-                        (throw (Exception. (str "the :2 is neither :head nor :comp: "
-                                                (vec (:dag_unify.core/serialized structure))))))]
-          
-          (string/join ""
-            (map morph-ps
-                 ["[" (:rule structure)
-                  (if (get structure :babel.generate/done?)
-                    "+" " ")
-                  " "
-                  one (u/get-in structure [:1] "_") " "
-                  two (u/get-in structure [:2] "_")
-                  "]"])))))
+          (u/get-in structure [:surface])
+          (morph-ps (u/get-in structure [:surface]))
+
+          (= false (u/get-in structure [:phrasal] false))
+          "_"
+
+          true
+          (let [one (cond (= (get structure :1)
+                             (get structure :head))
+                          "*"
+                          (= (get structure :1)
+                             (get structure :comp))
+                          "."
+                          true
+                          (throw (Exception. (str "the :1 is neither :head nor :comp: "
+                                                  (vec (:dag_unify.core/serialized structure))))))
+
+                two (cond (= (get structure :2)
+                             (get structure :head))
+                          "*"
+                          (= (get structure :2)
+                             (get structure :comp))
+                          "."
+                          true
+                          (throw (Exception. (str "the :2 is neither :head nor :comp: "
+                                                  (vec (:dag_unify.core/serialized structure))))))]
+
+            (string/join ""
+              (map morph-ps
+                   ["[" (:rule structure)
+                    (if (get structure :babel.generate/done?)
+                      "+" " ")
+                    " "
+                    one (u/get-in structure [:1] "_") " "
+                    two (u/get-in structure [:2] "_")
+                    "]"])))))
 
 (defn morph [structure]
   (cond (or (= :fail structure) 
@@ -149,7 +150,7 @@
               g/truncate? true
               g/default-fn (fn [x]
                              (do
-                               (log/debug (str "LAB/DEFAULT-FN: " (morph-ps x)))
+                               (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
                                [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))
@@ -329,26 +330,45 @@
     structure
 
     true
-    (->>
-     ;; a serialized representation of the structure:
-     ;; the serialized form is a list of pairs.
-     ;; each pair <set,struct> in the list is:
-     ;; 1. set:    a set of paths pointing to an identical, reentrance-free structure.
-     ;; 2. struct: the reentrance-free structure (simply a clojure map).
-     (u/serialize structure)
-     
-     ;; get the set of paths (the first element of each pair)
-     (map first)
-     
-     ;; get all the paths in this set for which path is a prefix.
-     (mapcat (fn [each-set]
-               (and (some #(prefix? path %) each-set)
-                    each-set)))
-     
-     ;; be sure to truncate the input path as well, if
-     ;; it was not matched above.
-     (cons path)
-     
-     ;; return a structure like _structure_, but without
-     ;; all the paths we want to truncate.
-     (u/dissoc-paths structure))))
+   (->>
+    ;; a serialized representation of the structure:
+    ;; the serialized form is a list of pairs.
+    ;; each pair <set,struct> in the list is:
+    ;; 1. set:    a set of paths pointing to an identical, reentrance-free structure.
+    ;; 2. struct: the reentrance-free structure (simply a clojure map).
+    (u/serialize structure)
+    
+    ;; get the set of paths (the first element of each pair)
+    (map first)
+    
+    ;; get all the paths in this set for which path is a prefix.
+    (mapcat (fn [each-set]
+              (and (some #(prefix? path %) each-set)
+                   each-set)))
+    
+      
+    ;; return a structure like _structure_, but without
+    ;; all the paths we want to truncate.
+    (u/dissoc-paths structure))))
+    
+    ;; be sure to truncate the input path as well, if
+    ;; it was not matched above.
+;;    (dissoc-path [path]))))
+
+(def foo (slow))
+
+(def foo2 (-> foo
+              (dissoc-path [:head])))
+
+;; something goes wrong here: foo3
+;; lacks the [[:comp][:2]] reentrance set.
+
+(def foo3 (-> foo2
+              (dissoc-path [:comp :head])))
+
+(def foo4 (-> foo3
+              (dissoc-path [:comp :comp])))
+
+
+
+

@@ -10,7 +10,7 @@
                             remove-vals verb-pred-defaults]]
    [clojure.java.io :refer [resource]]
    [clojure.tools.logging :as log]
-   [dag_unify.core :as u :refer [dissoc-paths fail? get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [fail? get-in strip-refs unify]]))
 
 (declare exception-generator)
 (declare phonize)
@@ -242,11 +242,12 @@
               :subcat {:2 {:cat :top}
                        :3 []}}}
     (fn [lexeme]
-      (unify
-       (dissoc-paths lexeme [[:synsem :sem :obj]
-                             [:synsem :subcat :2]])
-       {:applied {:intransitivize true}
-        :synsem {:subcat {:2 []}}})))
+      (-> lexeme
+          (u/dissoc-in [:synsem :sem :obj])
+          (u/dissoc-in [:synsem :subcat :2])
+          (unify
+            {:applied {:intransitivize true}
+             :synsem {:subcat {:2 []}}}))))
 
    (default {:synsem {:cat :verb}
              :phrasal-verb false})
@@ -262,10 +263,10 @@
               :subcat {:2 {:cat :prep}}}}
     (fn [lexeme]
       (unify
-       (dissoc-paths
-        (unify lexeme {:applied {:phrasal-verb-intransitivize true}})
-        [[:synsem :subcat :3]
-         [:synsem :sem :obj]])
+       (-> lexeme
+           (unify {:applied {:phrasal-verb-intransitivize true}})
+           (u/dissoc-in [:synsem :subcat :3])
+           (u/dissoc-in [:synsem :sem :obj]))
 
        ;; prevent filling-in this
        ;; in a later processing step below.
@@ -525,8 +526,9 @@
                                                 root
                                                 (get-in lexeme path))
                                               (unify
-                                               (dissoc-paths lexeme [path
-                                                                     [:english :english]])
+                                               (-> lexeme
+                                                   (u/dissoc-in path)
+                                                   (u/dissoc-in [:english :english]))
                                                merge
                                                {:exception true}
                                                {:synsem synsem-check}
@@ -705,7 +707,7 @@
                 result
                 (unify
                  ;; remove any existing [[:english :english]].
-                 (u/dissoc-paths a-map [[:english :english]])
+                 (u/dissoc-in a-map [:english :english])
                  {:english {:english a-string}}
                  common)]
             (if (= :fail result)
@@ -733,7 +735,7 @@
                           :subcat {:1 {:cat :det}}}}
 
                 structure (if (= "" (dag_unify.core/get-in structure [:english :plur]))
-                            (dag_unify.core/dissoc-paths structure [[:english :plur]])
+                            (u/dissoc-in structure [:english :plur])
                             structure)
 
                 structure (if (or
@@ -742,7 +744,7 @@
                                (= :unspec (u/get-in structure [:synsem :cat])))
                             (do (log/warn (str "removing vocabcoach-convention category from [:synsem :cat]:"
                                                (u/get-in structure [:synsem :cat])))
-                                (dag_unify.core/dissoc-paths structure [[:synsem :cat]])))
+                                (u/dissoc-in structure [:synsem :cat])))
 
                 with-structure
                 (if structure (unify base-unify structure)

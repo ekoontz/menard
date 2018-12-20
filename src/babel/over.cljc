@@ -7,7 +7,7 @@
    [dag_unify.core :refer [copy fail-path get-in unify unify!
                            ;; temporary: until we move (truncate) from here to dag_unify, we
                            ;; need these three:
-                           deserialize dissoc-paths serialize
+                           deserialize serialize
                            ;; needed for log/debug statements:
                            strip-refs]]))
 

@@ -18,7 +18,7 @@
    [clojure.edn :as edn]
    [clojure.java.io :refer [resource]]
    [clojure.repl :refer [doc]]
-   [dag_unify.core :refer [dissoc-paths fail? get-in strip-refs unify]]))
+   [dag_unify.core :as u :refer [fail? get-in strip-refs unify]]))
 
 (declare defaults)
 (declare edn2lexicon)
@@ -249,9 +249,12 @@
                           :3 []}}}
        ;; then create new intransitive entry:
        (fn [lexeme]
-         (unify (dissoc-paths lexeme [[:synsem :sem :obj]
-                                      [:synsem :subcat :2]
-                                      [:synsem :subcat :3]])
+         (unify (reduce (fn [structure path]
+                          (u/dissoc-in structure path))
+                        lexeme
+                        [[:synsem :sem :obj]
+                         [:synsem :subcat :2]
+                         [:synsem :subcat :3]])
                 {:applied {:intransitivize true}
                  :synsem {:subcat {:2 []
                                    :3 []}
@@ -525,15 +528,15 @@
                  "; vocab-cat=" vocab-cat))
   (let [structure (or structure :top)
         debug (log/debug (str "structure (pre-dissoc): " structure))
-        structure (if (= "" (dag_unify.core/get-in structure [:italiano :plur]))
-                    (dag_unify.core/dissoc-paths structure [[:italiano :plur]])
+        structure (if (= "" (u/get-in structure [:italiano :plur]))
+                    (u/dissoc-in structure [:italiano :plur])
                     structure)
         debug (log/debug (str "structure (post-dissoc): " structure))
         ends-with (str (nth surface (- (count surface) 1)))
 
         structure ;; remove [:synsem :cat] so that
         ;; vocab-cat will be allowed to override :synsem :cat, if any:
-        (dag_unify.core/dissoc-paths structure [[:synsem :cat]])]
+        (u/dissoc-in structure [:synsem :cat])]
 
     (cond
       (= vocab-cat "noun1")

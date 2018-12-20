@@ -75,7 +75,7 @@
 
         target (->
                 spec
-                (u/dissoc-paths [[:synsem :subcat]])
+                (u/dissoc-in [:synsem :subcat])
                 generate
                 target-format-fn)]
     (log/info (str "source: " source))

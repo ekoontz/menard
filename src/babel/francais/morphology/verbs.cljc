@@ -6,7 +6,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
+   [dag_unify.core :as u :refer (copy fail? get-in ref? strip-refs unify)]))
 
 ;; TODO: convert to (babel.morphology/conjugation)
 ;; (see babel.latin.morphology for an example of how to use babel.morphology/conjugation)

@@ -11,7 +11,7 @@
    [clojure.java.io :as io]
    [clojure.tools.logging :as log]
    [compojure.core :as compojure :refer [GET PUT POST DELETE ANY]]
-   [dag_unify.core :as u :refer [dissoc-paths ref? pprint strip-refs unify]]
+   [dag_unify.core :as u :refer [ref? pprint strip-refs unify]]
    [korma.core :as db]
    [ring.util.response :as resp]])
 

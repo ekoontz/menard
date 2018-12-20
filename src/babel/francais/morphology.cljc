@@ -8,7 +8,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
+   [dag_unify.core :as u :refer (copy fail? get-in ref? strip-refs unify)]))
 
 (def regular-patterns
   (concat
@@ -46,7 +46,7 @@
                              
                              lex (string/replace surface-form from to)]
                          (map #(-> %
-                                   (dissoc-paths [[:français :conjugated]])
+                                   (u/dissoc-in [:français :conjugated])
                                    (unify {:français {:conjugated true}}))
                               (filter (fn [result] (not (= :fail result)))
                                       (map (fn [lexical-entry]
@@ -98,18 +98,18 @@
           
           underspecified?
           (throw (Exception. (str "conjugate: underspecified: returning infinitive: " infinitive "; conjugate-with: " (strip-refs conjugate-with))))
-        
+          
           true
           (let [diag
                 (log/debug (str "conjugate: infinitive=" infinitive "; conjugate-with: "
                                 (strip-refs conjugate-with)))
                 
                 spec (strip-refs
-                             (unify
-                              (dissoc-paths
-                               conjugate-with [[:français :exception]])
-                              {:français {:infinitive infinitive
-                                          :exception true}}))
+                      (unify
+                       (u/dissoc-in
+                        conjugate-with [:français :exception])
+                       {:français {:infinitive infinitive
+                                   :exception true}}))
                 diag
                 (log/debug (str "conjugate: spec: " spec))
                 
@@ -126,18 +126,18 @@
                 
                 error (if (= :fail spec)
                         (throw (Exception. (str "conjugate was given conjugate-with=:fail; "
-                                              "arg1="
-                                              (strip-refs (dissoc-paths
-                                                           conjugate-with [[:français :exception]])) "; "
-                                              "arg2="
-                                              {:français {:infinitive infinitive
-                                                          :exception true}}
-                                              "; fail-path:"
-                                              (dag_unify.core/fail-path
-                                               (strip-refs (dissoc-paths
-                                                            conjugate-with [[:français :exception]]))
-                                               {:français {:infinitive infinitive
-                                                           :exception true}})))))
+                                                "arg1="
+                                                (strip-refs (u/dissoc-in
+                                                             conjugate-with [:français :exception])) "; "
+                                                "arg2="
+                                                {:français {:infinitive infinitive
+                                                            :exception true}}
+                                                "; fail-path:"
+                                                (dag_unify.core/fail-path
+                                                 (strip-refs (u/dissoc-in
+                                                              conjugate-with [:français :exception]))
+                                                 {:français {:infinitive infinitive
+                                                             :exception true}})))))
                 exceptional-surface-forms
                 (do
                   (log/debug (str "unifying spec: " spec " against irregular-conjugations."))
@@ -158,7 +158,7 @@
                                                  (not (nil? (get-in spec path nil))))
                                             (do (log/debug (str "path:" path "; value: " (get-in spec path)))
                                                 (get-in spec path))
-                                          
+                                            
                                             true (throw (Exception. (str "problem with irregular pattern:" %)))))
                                     (do (log/debug (str "irregular: unify failed: fail-path: "
                                                         (dag_unify.core/fail-path unify-with spec)))
@@ -172,20 +172,20 @@
                            (let [from (nth (:g replace-pattern) 0)
                                  to (nth (:g replace-pattern) 1)]
                              (when (and from to infinitive (re-matches from infinitive))
-                             (if (and from to infinitive
-                                      (re-matches from infinitive)
-                                      (not (= :fail
-                                              (let [unify-against (if (:u replace-pattern)
-                                                                    (:u replace-pattern)
-                                                                    :top)]
-                                                (unify unify-against
-                                                       conjugate-with)))))
-                               (do
-                                 (log/debug (str "regular: matched: from: " from "; infinitive: "
-                                                 infinitive " with "
-                                                 "unify-against: " (strip-refs (:u replace-pattern)) ";"
-                                                 "conjugate-with:" (strip-refs conjugate-with)))
-                                 (string/replace infinitive from to))))))
+                               (if (and from to infinitive
+                                        (re-matches from infinitive)
+                                        (not (= :fail
+                                                (let [unify-against (if (:u replace-pattern)
+                                                                      (:u replace-pattern)
+                                                                      :top)]
+                                                  (unify unify-against
+                                                         conjugate-with)))))
+                                 (do
+                                   (log/debug (str "regular: matched: from: " from "; infinitive: "
+                                                   infinitive " with "
+                                                   "unify-against: " (strip-refs (:u replace-pattern)) ";"
+                                                   "conjugate-with:" (strip-refs conjugate-with)))
+                                   (string/replace infinitive from to))))))
                          regular-patterns))]
             (let [results (concat exceptional-surface-forms regulars [infinitive])]
               (log/debug (if (not (empty? exceptional-surface-forms))
@@ -464,7 +464,7 @@
                               (log/trace (str (first lexeme-kv) ": looking at path: " path))
                               (mapcat (fn [lexeme]
                                         (if-let [value (get-in lexeme path)]
-                                               (log/debug " value@" path ": " value))
+                                          (log/debug " value@" path ": " value))
                                         (if (not (= ::none (get-in lexeme path ::none)))
                                           (let [infinitive (get-in lexeme [:français :français])
                                                 exceptional-lexeme
@@ -485,8 +485,9 @@
                                                      (let [exceptional-lexeme
                                                            (unify
                                                             exceptional-lexeme
-                                                            (dissoc-paths lexeme [path
-                                                                                  [:français :français]])
+                                                            (-> lexeme
+                                                                (u/dissoc-in path)
+                                                                (u/dissoc-in [:français :français]))
                                                             {:exception true
                                                              :français {:infinitive infinitive
                                                                         :exception true}})

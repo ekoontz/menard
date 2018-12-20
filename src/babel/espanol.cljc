@@ -11,10 +11,11 @@
    [clojure.repl :refer [doc]]
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
-   [dag_unify.core :refer [deserialize dissoc-paths
-                           fail? fail-path get-in serialize strip-refs
-                           ;;temporary
-                           copy]]))
+   [dag_unify.core :as u
+    :refer [deserialize
+            fail? fail-path get-in serialize strip-refs
+            ;;temporary
+            copy]]))
 
 (def small-model (promise))
 (defn small []

@@ -13,7 +13,7 @@
    [clojure.string :refer (trim)]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :as u :refer (copy dissoc-paths fail? get-in ref? strip-refs unify)]))
+   [dag_unify.core :as u :refer (copy fail? get-in ref? strip-refs unify)]))
 
 ;; analysis-patterns are declarative data that determine how analysis (inflected form ->root form)
 ;; and conjugation (root form -> inflected form) are performed.
@@ -155,7 +155,8 @@
                                                                   :fail
                                                                   true
                                                                   (unify a b)))
-                                                              [(dissoc-paths lexeme [[:italiano :italiano]])
+                                                              [(u/dissoc-in lexeme
+                                                                            [:italiano :italiano])
                                                                (merge-fn lexeme)
                                                                {:italiano {:infinitive k
                                                                            :exception true}}])]})))))))))))))))

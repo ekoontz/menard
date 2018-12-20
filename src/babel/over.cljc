@@ -4,12 +4,13 @@
    [babel.exception :refer [exception]]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
-   [dag_unify.core :refer [copy fail-path get-in unify unify!
-                           ;; temporary: until we move (truncate) from here to dag_unify, we
-                           ;; need these three:
-                           deserialize serialize
-                           ;; needed for log/debug statements:
-                           strip-refs]]))
+   [dag_unify.core :as u
+    :refer [copy fail-path get-in unify unify!
+            ;; temporary: until we move (truncate) from here to dag_unify, we
+            ;; need these three:
+            deserialize serialize
+            ;; needed for log/debug statements:
+            strip-refs]]))
 
 ;; use map or pmap.
 (def ^:const mapfn pmap)
@@ -114,7 +115,10 @@
                                        path-set))
                              path-sets)
         skeleton (first serialized)
-        truncated-skeleton (dissoc-paths skeleton truncate-paths)
+        truncated-skeleton
+        (reduce (fn [structure path]
+                  (u/dissoc-in structure path))
+                skeleton truncate-paths)
         truncated-serialized
         (cons truncated-skeleton
               (zipmap truncated-path-sets

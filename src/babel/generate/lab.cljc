@@ -87,8 +87,18 @@
                           (= (get structure :1)
                              (get structure :comp))
                           "."
+
+                          (= (get structure :2)
+                             (get structure :head))
+                          "."
+                          (= (get structure :2)
+                             (get structure :comp))
+                          "*"
+
                           true
                           (throw (Exception. (str "the :1 is neither :head nor :comp: "
+                                                  (type structure) "; empty: " (empty? structure) "; keys: "
+                                                  (keys structure) "; "
                                                   (vec (:dag_unify.core/serialized structure))))))
 
                 two (cond (= (get structure :2)
@@ -97,6 +107,13 @@
                           (= (get structure :2)
                              (get structure :comp))
                           "."
+                          (= (get structure :1)
+                             (get structure :head))
+                          "."
+                          (= (get structure :1)
+                             (get structure :comp))
+                          "*"
+                          
                           true
                           (throw (Exception. (str "the :2 is neither :head nor :comp: "
                                                   (vec (:dag_unify.core/serialized structure))))))]

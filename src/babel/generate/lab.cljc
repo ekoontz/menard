@@ -321,40 +321,6 @@
   (let [post (u/dissoc-paths pre [[:comp :head]])]
     (morph-ps post)))
 
-(defn dissoc-path
-  "truncate a structure at a given path, and at any paths that
-   point to a value pointed to by that path."
-  [structure path]
-  (cond
-    (empty? path)
-    structure
-
-    true
-   (->>
-    ;; a serialized representation of the structure:
-    ;; the serialized form is a list of pairs.
-    ;; each pair <set,struct> in the list is:
-    ;; 1. set:    a set of paths pointing to an identical, reentrance-free structure.
-    ;; 2. struct: the reentrance-free structure (simply a clojure map).
-    (u/serialize structure)
-    
-    ;; get the set of paths (the first element of each pair)
-    (map first)
-    
-    ;; get all the paths in this set for which path is a prefix.
-    (mapcat (fn [each-set]
-              (and (some #(prefix? path %) each-set)
-                   each-set)))
-    
-      
-    ;; return a structure like _structure_, but without
-    ;; all the paths we want to truncate.
-    (u/dissoc-paths structure))))
-    
-    ;; be sure to truncate the input path as well, if
-    ;; it was not matched above.
-;;    (dissoc-path [path]))))
-
 (def foo (slow))
 
 (def foo2 (-> foo

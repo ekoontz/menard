@@ -318,22 +318,22 @@
       :p))))
 
 (defn dissoc-test []
-  (let [post (u/dissoc-paths pre [[:comp :head]])]
+  (let [post (u/dissoc-in pre [:comp :head])]
     (morph-ps post)))
 
 (def foo (slow))
 
 (def foo2 (-> foo
-              (dissoc-path [:head])))
+              (u/dissoc-in [:head])))
 
 ;; something goes wrong here: foo3
 ;; lacks the [[:comp][:2]] reentrance set.
 
 (def foo3 (-> foo2
-              (dissoc-path [:comp :head])))
+              (u/dissoc-in [:comp :head])))
 
 (def foo4 (-> foo3
-              (dissoc-path [:comp :comp])))
+              (u/dissoc-in [:comp :comp])))
 
 
 

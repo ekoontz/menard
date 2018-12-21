@@ -220,15 +220,6 @@
   :phrasal true,
   :rule "Y"})
 
-(defn prefix?
-  "return true iff vector a is a prefix of vector b."
-  [a b]
-  (cond (empty? a) true
-        (empty? b) false
-        (= (first a) (first b))
-        (prefix? (rest a) (rest b))
-        true false))
-
 ;; this is a partially-generated tree that looks like:
 ;; 
 ;;    Y

@@ -103,19 +103,8 @@
     :descend-to-check))
 
 (defn truncate-at [tree path morph-ps]
-  (println (str "truncate-at: value for " (morph-ps tree) " at path: " (vec path) " is: "
-                (get (u/get-in tree (butlast path)) (last path))))
-  (println (str "get-in value for " (vec path) " is: " (u/get-in tree path)))
-  (println (str "truncate-at: value for " (morph-ps tree) " at path/1: " (vec (concat (butlast path) [:1])) " is: "
-                (get (u/get-in tree (butlast path)) :1)))
-  (println (str "truncate-at: value for " (morph-ps tree) " at path/2: " (vec (concat (butlast path) [:2])) " is: "
-                (get (u/get-in tree (butlast path)) :2)))
-  (println (str "truncating " (morph-ps tree) " at: " (vec path)))
-  (println (str " pre-truncate: " (vec (:dag_unify.core/serialized (unify tree)))))
-  (let [retval (u/dissoc-in tree path)]
-      (println (str "post-truncate: " (vec (:dag_unify.core/serialized retval))))
-      (println (str "post-truncate: " (morph-ps retval)))
-      retval))
+  (println (str "truncating: " (morph-ps tree) " at path:" (vec path)))
+  (u/dissoc-in tree path))
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]

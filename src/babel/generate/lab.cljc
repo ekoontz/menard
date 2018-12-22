@@ -42,7 +42,6 @@
      (let [cat-head (atom :v)]
        (unify {:rule "Y"
                :cat cat-head
-               :shit :shit
                :head {:phrasal false
                       :cat cat-head}
                :comp {:rule "X"

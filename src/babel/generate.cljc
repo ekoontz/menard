@@ -111,7 +111,9 @@
 ;;    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
     (cond
       (= :truncatable trunc-state)
-      (truncate-at tree path morph-ps)
+      (-> tree
+          (truncate-at [:head] morph-ps)
+          (truncate-at [:comp] morph-ps))
       
       (= :done trunc-state)
       tree
@@ -143,7 +145,8 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if false (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
+    (if true (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
+    (if true (println (str "grow: " (vec (u/serialize tree)))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -188,6 +191,12 @@
            
            (= (u/get-in tree [:phrasal]) false)
            []
+
+           (= ::none (u/get-in tree [:comp] ::none))
+           []
+
+           (= ::none (u/get-in tree [:head] ::none))
+           (cons :comp (frontier (u/get-in tree [:comp])))
     
            (and (= (u/get-in tree [:phrasal] true) true)
                 (= true (u/get-in tree [::started?]))

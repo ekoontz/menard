@@ -30,7 +30,8 @@
            cat-comp (atom :p)]
        ;; rule "X": phrase where both children are lexemes,
        ;; and both lexemes have share their :cat value and surface value.
-       (unify {:rule "X"
+       (unify {:cat cat-head
+               :rule "X"
                :head {:cat cat-head
                       :phrasal false}
                :comp {:cat cat-comp
@@ -38,12 +39,15 @@
               comp-first))
      
      ;; rule "Y": phrase where the comp is a rule-"X".
-     (unify {:rule "Y"
-             :head {:phrasal false
-                    :cat :v}
-             :comp {:rule "X"
-                    :phrasal true}}
-            head-first)
+     (let [cat-head (atom :v)]
+       (unify {:rule "Y"
+               :cat cat-head
+               :shit :shit
+               :head {:phrasal false
+                      :cat cat-head}
+               :comp {:rule "X"
+                      :phrasal true}}
+              head-first))
 
 
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.

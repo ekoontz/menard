@@ -123,7 +123,8 @@
       (= :truncatable trunc-state)
       (-> tree
           (truncate-at [:head] morph-ps)
-          (truncate-at [:comp] morph-ps))
+          (truncate-at [:comp] morph-ps)
+          (u/assoc-in [::done?] true))
       
       (= :done trunc-state)
       tree
@@ -186,7 +187,7 @@
                      (lazy-cat child-trees child-lexemes)
                      true
                      (lazy-cat child-lexemes child-trees))))))))
- 
+
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

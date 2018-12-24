@@ -118,7 +118,7 @@
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]
-;;    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
+    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
     (cond
       (= :truncatable trunc-state)
       (-> tree
@@ -168,12 +168,12 @@
                                      (-> result
                                          (assoc-done-to frontier-path))
                                      true result)
-                        debug (if false (println (str "pre-truncate: " (morph-ps result))))
+                        debug (if truncate? (println (str "pre-truncate: " (morph-ps result))))
                         result (cond truncate?
                                      (truncate result [] morph-ps)
                                      true
                                      result)]
-                    (if (and false truncate?) (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
+                    (if truncate? (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
                     result))
                 (let [child-spec (u/get-in tree frontier-path :top)
                       child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))

@@ -4,7 +4,8 @@
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :as u :refer [strip-refs unify]]))
+   [dag_unify.core :as u :refer [strip-refs unify]]
+   [dag_unify.dissoc :as d]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
@@ -103,8 +104,17 @@
     :descend-to-check))
 
 (defn truncate-at [tree path morph-ps]
-  (println (str "truncating: " (morph-ps tree) " at path:" (vec path)))
-  (u/dissoc-in tree path))
+  (let [reentrances (map first (u/serialize tree))
+        aliases
+        (filter #(or (= (first %) :comp)
+                     (= (first %) :head)
+                     (= (first %) :1)
+                     (= (first %) :2))
+                (set (d/aliases-of path reentrances)))]
+    (binding [d/remove-path?
+              (fn [path]
+                (some #(d/prefix? path %) aliases))]
+      (d/dissoc-in tree path))))
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]
@@ -146,7 +156,6 @@
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (if true (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
-    (if true (println (str "grow: " (vec (u/serialize tree)))))
     (cond (empty? frontier-path)
           [tree]
 

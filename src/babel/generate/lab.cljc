@@ -2,6 +2,7 @@
   (:require [babel.generate :as g]
             [dag_unify.core
              :as u :refer [strip-refs unify]]
+            [dag_unify.dissoc :as d]
             [clojure.string :as string]
             [clojure.tools.logging :as log]))
 
@@ -163,7 +164,7 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "Y"}]
+  (let [spec {:rule "Y" :cat :v}]
     
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
@@ -329,22 +330,22 @@
       :p))))
 
 (defn dissoc-test []
-  (let [post (u/dissoc-in pre [:comp :head])]
+  (let [post (d/dissoc-in pre [:comp :head])]
     (morph-ps post)))
 
 (def foo (slow))
 
 (def foo2 (-> foo
-              (u/dissoc-in [:head])))
+              (d/dissoc-in [:head])))
 
 ;; something goes wrong here: foo3
 ;; lacks the [[:comp][:2]] reentrance set.
 
 (def foo3 (-> foo2
-              (u/dissoc-in [:comp :head])))
+              (d/dissoc-in [:comp :head])))
 
 (def foo4 (-> foo3
-              (u/dissoc-in [:comp :comp])))
+              (d/dissoc-in [:comp :comp])))
 
 
 

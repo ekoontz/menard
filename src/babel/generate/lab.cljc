@@ -174,10 +174,10 @@
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? true
-              g/default-fn (fn [x]
-                             (do
-                               (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
-                               [x]))
+              g/default-fn (fn [tree frontier-path]
+                             [(do
+                                (println (str "LAB/DEFAULT-FN(trunc): " (morph-ps tree)))
+                                tree)])
               g/morph-ps morph-ps]
       (g/generate spec))))
 
@@ -186,10 +186,10 @@
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? false
-              g/default-fn (fn [x]
+              g/default-fn (fn [tree frontier-path]
                              (do
-                               (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
-                               [x]))
+                               (println (str "LAB/DEFAULT-FN: " (morph-ps tree)))
+                               [tree]))
               g/morph-ps morph-ps]
       (g/generate spec))))
 

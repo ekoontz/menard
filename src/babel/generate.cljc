@@ -38,10 +38,10 @@
 
 (def ^:dynamic morph-ps (fn [x] x))
 (def ^:dynamic default-fn nil)
-(def default-default-fn (fn [x]
+(def default-default-fn (fn [tree frontier-path]
                           (do
                             (println (str "DEFAULT-DEFAULT-FN."))
-                            [x])))
+                            [tree])))
 
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
@@ -154,9 +154,9 @@
                             terminated-or-not)))
 
                        ;; TODO: move to lab/pre-truncate.
-                       ;; morph-ps if possible:
+                       ;;(default-fn frontier-path)
                        (pre-truncate-fn frontier-path)
-                       
+
                        ;; truncate if desired:
                        ((fn [tree]
                           (if (and truncate? 

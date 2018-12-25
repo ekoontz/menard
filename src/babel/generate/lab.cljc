@@ -88,6 +88,11 @@
           (= false (u/get-in structure [:phrasal] false))
           "_"
 
+          (u/get-in structure [:morph-ps])
+          (do
+            (println (str "MORPH::PS:" (:morph-ps structure)))
+            (:morph-ps structure))
+          
           true
           (let [one (cond (= (get structure :1)
                              (get structure :head))
@@ -176,7 +181,8 @@
               g/default-fn (fn [x]
                              (do
                                (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
-                               [x]))
+                               (map #(u/assoc-in % [:morph-ps] (morph-ps %))
+                                    [x])))
               g/morph-ps morph-ps]
       (g/generate spec))))
 

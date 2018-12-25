@@ -95,10 +95,14 @@
     :truncatable
 
     (= ::none (u/get-in tree path ::none))
-    :done
+    (do
+      (println (str "(path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      :done)
 
     (= false (u/get-in tree path [:phrasal]))
-    :done
+    (do
+      (println (str "(phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      :done)
     
     true
     :descend-to-check))
@@ -123,8 +127,7 @@
       (= :truncatable trunc-state)
       (-> tree
           (truncate-at [:head] morph-ps)
-          (truncate-at [:comp] morph-ps)
-          (u/assoc-in [::done?] true))
+          (truncate-at [:comp] morph-ps))
       
       (= :done trunc-state)
       tree

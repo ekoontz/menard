@@ -82,31 +82,6 @@
              morph-ps (or morph-ps (:morph-ps model))]
      (first (grow-all (parent-with-head spec 0))))))
 
-(defn assoc-done-to [tree path]
-  (if (= :comp (last path))
-    (assoc-done-to (u/assoc-in! tree (concat path [::done?]) true)
-                   (butlast path))
-    (u/assoc-in! tree (concat path [::done?]) true)))
-
-(defn trunc-state [tree path]
-  (cond 
-    
-    (u/get-in tree (concat path [::done?]))
-    :truncatable
-
-    (= ::none (u/get-in tree path ::none))
-    (do
-      (if false (println (str "trunc-state: (path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree)))))
-      :done)
-
-    (= false (u/get-in tree path [:phrasal]))
-    (do
-      (if false (println (str "trunc-state: (phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree)))))
-      :done)
-    
-    true
-    :descend-to-check))
-
 (defn truncate-at [tree path morph-ps]
   (let [reentrances (map first (u/serialize tree))
         aliases
@@ -120,39 +95,18 @@
                 (some #(d/prefix? path %) aliases))]
       (d/dissoc-in tree path))))
 
-(defn truncate [tree path morph-ps]
-  (let [trunc-state (trunc-state tree path)]
-    (if false (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state "; serialized:")
-                       (vec (u/serialize tree))))
-    (cond
-      (= :truncatable trunc-state)
-      (-> tree
-          (truncate-at [:head] morph-ps)
-          (truncate-at [:comp] morph-ps))
-      
-      (= :done trunc-state)
-      tree
-
-      (= :descend-to-check trunc-state)
-      (-> tree
-          (truncate (concat path [:head]) morph-ps)
-          (truncate (concat path [:comp]) morph-ps))
-      
-      true
-      tree)))
-
-(defn apply-default-fn [trees default-fn]
-  (if (not (empty? trees))
-    (lazy-cat
-     (default-fn (first trees))
-     (apply-default-fn (rest trees) default-fn))))
-
 (defn grow-all [trees]
   (if (not (empty? trees))
     (lazy-cat
-     (apply-default-fn
-      (grow (first trees)) default-fn)
+     (grow (first trees))
      (grow-all (rest trees)))))
+
+(defn pre-truncate-fn [tree frontier-path]
+ (if (and (= :comp (last frontier-path))
+          (u/get-in tree (concat frontier-path [::done?])))
+     (u/assoc-in tree (concat (butlast frontier-path) [:morph-ps])
+                      (morph-ps (u/get-in tree (butlast frontier-path))))
+     tree))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -201,14 +155,7 @@
 
                        ;; TODO: move to lab/pre-truncate.
                        ;; morph-ps if possible:
-                       ((fn [tree]
-                          (let [tree
-                                (if (and (= :comp (last frontier-path))
-                                         (u/get-in tree (concat frontier-path [::done?])))
-                                  (u/assoc-in tree (concat (butlast frontier-path) [:morph-ps])
-                                              (morph-ps (u/get-in tree (butlast frontier-path))))
-                                  tree)]
-                            tree)))
+                       (pre-truncate-fn frontier-path)
                        
                        ;; truncate if desired:
                        ((fn [tree]
@@ -235,7 +182,6 @@
            
            (= ::none (u/get-in tree [:comp] ::none))
            []
-
            
            (= ::none (u/get-in tree [:head] ::none))
            (cons :comp (frontier (u/get-in tree [:comp])))

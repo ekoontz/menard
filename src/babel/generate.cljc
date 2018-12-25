@@ -160,7 +160,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (println (str "grow: " (morph-ps tree) " at: " (vec frontier-path) ": " (vec (u/serialize tree)))))
+    (if false (println (str "grow: " (morph-ps tree) " at: " (vec frontier-path) ": " (vec (u/serialize tree)))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -183,32 +183,39 @@
                   (lazy-cat child-lexemes child-trees)))
 
             (map (fn [child]
-                   (println (str "child at frontier-path: " frontier-path ": " (vec (u/serialize child))))
                    ;; 2. for each such child:
-                   (let [tree-with-child
-                         (-> tree
-                             ;; attach it to _tree_ at _frontier-path_:
-                             (u/assoc-in frontier-path child))]
+                   (-> tree
+                       ;; attach _child_ to _tree_ at _frontier-path_:
+                       (u/assoc-in frontier-path child)
 
-                     (println (str "tree with attached child at: " (vec frontier-path) ": "
-                                   (vec (u/serialize tree-with-child))))
+                       ;; terminate if possible:
+                       ((fn [tree]
+                          (let [terminated-or-not
+                                (if (and (= :comp (last frontier-path))
+                                         (u/get-in tree (concat frontier-path [::done?])))
+                                  (u/assoc-in tree (concat (butlast frontier-path) [::done?]) true)
+                                  tree)]
+                            (if false (println (str "post-termination at:" (vec frontier-path) ": ")
+                                               (vec (u/serialize terminated-or-not))))
+                            terminated-or-not)))
 
-                     (let [truncated-or-not
-                             (if (and truncate? false
-                                      (true? (u/get-in tree-with-child (concat frontier-path [:phrasal])))
-                                      (u/get-in tree-with-child (concat frontier-path [::done?])))
-                                (let [truncated (truncate-at tree-with-child frontier-path morph-ps)]
-                                  (println (str "truncated at: " (vec frontier-path) "; result is:"  (vec (u/serialize truncated))))
-                                  truncated)
-                                tree-with-child)]
-                       (let [terminated-or-not
-                             (if (and (= :comp (last frontier-path))
-                                      (u/get-in truncated-or-not (concat frontier-path [::done?])))
-                               (u/assoc-in truncated-or-not (concat (butlast frontier-path) [::done?]) true)
-                               truncated-or-not)]
-                         (println (str "post-termination at:" (vec frontier-path) ": "
-                                       (vec (u/serialize terminated-or-not))))
-                         terminated-or-not))))))))))
+                       ;; morph-ps if possible:
+                       ((fn [tree]
+                          (let [terminated-or-not
+                                (if (and (= :comp (last frontier-path))
+                                         (u/get-in tree (concat frontier-path [::done?])))
+                                  (u/assoc-in tree (concat (butlast frontier-path) [:morph-ps])
+                                              (morph-ps (u/get-in tree (butlast frontier-path))))
+                                  tree)]
+                            terminated-or-not)))
+                       
+                       ;; truncate if desired:
+                       ((fn [tree]
+                          (if (and truncate? 
+                                   (true? (u/get-in tree (concat frontier-path [:phrasal])))
+                                   (u/get-in tree (concat frontier-path [::done?])))
+                            (truncate-at tree frontier-path morph-ps)
+                            tree)))))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

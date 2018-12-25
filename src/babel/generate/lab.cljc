@@ -88,9 +88,7 @@
           "_"
 
           (u/get-in structure [:morph-ps])
-          (do
-            (println (str "using pre-calculated morph-ps:" (:morph-ps structure)))
-            (:morph-ps structure))
+          (:morph-ps structure)
           
           true
           (let [one (cond (= (get structure :1)
@@ -172,17 +170,14 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "Y" :cat :top}]
-    
+  (let [spec {:rule "Y"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? true
               g/default-fn (fn [x]
                              (do
                                (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
-                               (->> [x]
-                                    (map #(u/assoc-in % [:morph-ps] (morph-ps %)))
-                                    (map #(u/assoc-in % [:morph] (morph %))))))
+                               [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))
 
@@ -193,7 +188,7 @@
               g/truncate? false
               g/default-fn (fn [x]
                              (do
-                               (log/debug (str "LAB/DEFAULT-FN: " (morph-ps x)))
+                               (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
                                [x]))
               g/morph-ps morph-ps]
       (g/generate spec))))

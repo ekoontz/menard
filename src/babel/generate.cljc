@@ -96,12 +96,12 @@
 
     (= ::none (u/get-in tree path ::none))
     (do
-      (println (str "trunc-state: (path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      (if false (println (str "trunc-state: (path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree)))))
       :done)
 
     (= false (u/get-in tree path [:phrasal]))
     (do
-      (println (str "trunc-state: (phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      (if false (println (str "trunc-state: (phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree)))))
       :done)
     
     true
@@ -122,8 +122,8 @@
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]
-    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state "; serialized:"
-                  (vec (u/serialize tree))))
+    (if false (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state "; serialized:")
+                       (vec (u/serialize tree))))
     (cond
       (= :truncatable trunc-state)
       (-> tree
@@ -160,7 +160,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (println (str "grow: " (morph-ps tree) ":" frontier-path ":" (count (str tree)))))
+    (if true (println (str "grow: " (morph-ps tree) " at: " (vec frontier-path) ": " (vec (u/serialize tree)))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -182,20 +182,33 @@
                   true
                   (lazy-cat child-lexemes child-trees)))
 
-            ;; 2. for each such child, attach it at _frontier-path_:
             (map (fn [child]
-                   (let [result (cond (= true (u/get-in child [::done?]))
-                                      (-> tree
-                                          (u/assoc-in frontier-path child)
-                                          (assoc-done-to frontier-path))
-                                      true tree)
-                         debug (if truncate? (println (str "pre-truncate: " (morph-ps result))))
-                         result (cond truncate?
-                                      (truncate result [] morph-ps)
-                                      true
-                                      result)]
-                     (if truncate? (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
-                     result))))))))
+                   (println (str "child at frontier-path: " frontier-path ": " (vec (u/serialize child))))
+                   ;; 2. for each such child:
+                   (let [tree-with-child
+                         (-> tree
+                             ;; attach it to _tree_ at _frontier-path_:
+                             (u/assoc-in frontier-path child))]
+
+                     (println (str "tree with attached child at: " (vec frontier-path) ": "
+                                   (vec (u/serialize tree-with-child))))
+
+                     (let [truncated-or-not
+                             (if (and truncate? false
+                                      (true? (u/get-in tree-with-child (concat frontier-path [:phrasal])))
+                                      (u/get-in tree-with-child (concat frontier-path [::done?])))
+                                (let [truncated (truncate-at tree-with-child frontier-path morph-ps)]
+                                  (println (str "truncated at: " (vec frontier-path) "; result is:"  (vec (u/serialize truncated))))
+                                  truncated)
+                                tree-with-child)]
+                       (let [terminated-or-not
+                             (if (and (= :comp (last frontier-path))
+                                      (u/get-in truncated-or-not (concat frontier-path [::done?])))
+                               (u/assoc-in truncated-or-not (concat (butlast frontier-path) [::done?]) true)
+                               truncated-or-not)]
+                         (println (str "post-termination at:" (vec frontier-path) ": "
+                                       (vec (u/serialize terminated-or-not))))
+                         terminated-or-not))))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -207,13 +220,15 @@
 
            (= (u/get-in tree [::started?] false) false)
            []
+
            
            (= (u/get-in tree [:phrasal]) false)
            []
-
+           
            (= ::none (u/get-in tree [:comp] ::none))
            []
 
+           
            (= ::none (u/get-in tree [:head] ::none))
            (cons :comp (frontier (u/get-in tree [:comp])))
     

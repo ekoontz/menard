@@ -96,12 +96,12 @@
 
     (= ::none (u/get-in tree path ::none))
     (do
-      (println (str "(path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      (println (str "trunc-state: (path=none): done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
       :done)
 
     (= false (u/get-in tree path [:phrasal]))
     (do
-      (println (str "(phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
+      (println (str "trunc-state: (phrasal=false) done with path:" (vec path) " for this tree: " (vec (u/serialize tree))))
       :done)
     
     true
@@ -122,7 +122,8 @@
 
 (defn truncate [tree path morph-ps]
   (let [trunc-state (trunc-state tree path)]
-    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state))
+    (println (str "truncate start:  " (morph-ps tree) " at path: " (vec path) ": trunc-state: " trunc-state "; serialized:"
+                  (vec (u/serialize tree))))
     (cond
       (= :truncatable trunc-state)
       (-> tree
@@ -165,31 +166,36 @@
 
           true
           (grow-all
-           (map (fn [child]
-                  (let [result (u/assoc-in tree frontier-path child)
-                        result (cond (= true (u/get-in child [::done?]))
-                                     (-> result
-                                         (assoc-done-to frontier-path))
-                                     true result)
-                        debug (if truncate? (println (str "pre-truncate: " (morph-ps result))))
-                        result (cond truncate?
-                                     (truncate result [] morph-ps)
-                                     true
-                                     result)]
-                    (if truncate? (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
-                    result))
-                (let [child-spec (u/get-in tree frontier-path :top)
-                      child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                                      (get-lexemes child-spec))
-                      child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                                    (parent-with-head child-spec depth))]
-                  ;; depending on depth, generate children that are leaves before or after children that are trees.
-                  (cond
-                     (= depth max-depth) child-lexemes
-                     (branch? depth)
-                     (lazy-cat child-trees child-lexemes)
-                     true
-                     (lazy-cat child-lexemes child-trees))))))))
+           (->>
+
+            ;; 1. get all the possible children at _frontier-path_:
+            (let [child-spec (u/get-in tree frontier-path :top)
+                  child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                                  (get-lexemes child-spec))
+                  child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                                (parent-with-head child-spec depth))]
+                ;; depending on depth, generate children that are leaves before or after children that are trees.
+                (cond
+                  (= depth max-depth) child-lexemes
+                  (branch? depth)
+                  (lazy-cat child-trees child-lexemes)
+                  true
+                  (lazy-cat child-lexemes child-trees)))
+
+            ;; 2. for each such child, attach it at _frontier-path_:
+            (map (fn [child]
+                   (let [result (cond (= true (u/get-in child [::done?]))
+                                      (-> tree
+                                          (u/assoc-in frontier-path child)
+                                          (assoc-done-to frontier-path))
+                                      true tree)
+                         debug (if truncate? (println (str "pre-truncate: " (morph-ps result))))
+                         result (cond truncate?
+                                      (truncate result [] morph-ps)
+                                      true
+                                      result)]
+                     (if truncate? (println (str "post-truncate:   " (morph-ps result) ": " (count (str result)))))
+                     result))))))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

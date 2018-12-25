@@ -72,7 +72,6 @@
                               (merge lexeme {:phrasal false
                                              :surface surface}))
                             lexemes-for-surface)]))})
-                            
 
 (defn morph-ps [structure]
     (cond (or (= :fail structure) 
@@ -173,7 +172,7 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "Y" :cat :v}]
+  (let [spec {:rule "X" :cat :top}]
     
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
@@ -181,8 +180,9 @@
               g/default-fn (fn [x]
                              (do
                                (println (str "LAB/DEFAULT-FN: " (morph-ps x)))
-                               (map #(u/assoc-in % [:morph-ps] (morph-ps %))
-                                    [x])))
+                               (->> [x]
+                                    (map #(u/assoc-in % [:morph-ps] (morph-ps %)))
+                                    (map #(u/assoc-in % [:morph] (morph %))))))
               g/morph-ps morph-ps]
       (g/generate spec))))
 

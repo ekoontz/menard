@@ -48,7 +48,7 @@
                :comp-cat comp-cat
                :head {:phrasal false
                       :cat cat-head}
-               :comp {:rule "X"
+               :comp {:rule :top
                       :cat comp-cat
                       :phrasal true}}
               head-first))
@@ -57,7 +57,7 @@
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
      (unify {:rule "Z"
              :head {:phrasal true}
-             :comp {:rule "Y"
+             :comp {:rule :top
                     :phrasal true}}
             head-first)]
     

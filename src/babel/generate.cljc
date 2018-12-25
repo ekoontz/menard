@@ -199,15 +199,16 @@
                                                (vec (u/serialize terminated-or-not))))
                             terminated-or-not)))
 
+                       ;; TODO: move to lab/pre-truncate.
                        ;; morph-ps if possible:
                        ((fn [tree]
-                          (let [terminated-or-not
+                          (let [tree
                                 (if (and (= :comp (last frontier-path))
                                          (u/get-in tree (concat frontier-path [::done?])))
                                   (u/assoc-in tree (concat (butlast frontier-path) [:morph-ps])
                                               (morph-ps (u/get-in tree (butlast frontier-path))))
                                   tree)]
-                            terminated-or-not)))
+                            tree)))
                        
                        ;; truncate if desired:
                        ((fn [tree]

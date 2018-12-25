@@ -41,7 +41,7 @@
               comp-first))
      
      ;; rule "Y": phrase where the comp is a rule-"X".
-     (let [cat-head (atom :v)
+     (let [cat-head (atom :top)
            comp-cat (atom :top)]
        (unify {:rule "Y"
                :cat cat-head

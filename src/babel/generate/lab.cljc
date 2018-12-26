@@ -56,7 +56,7 @@
 
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
      (unify {:rule "Z"
-             :head {:phrasal :top}
+             :head {:phrasal true}
              :comp {:rule :top
                     :phrasal true}}
             head-first)]
@@ -170,7 +170,7 @@
     (g/generate spec)))
 
 (defn slowt []
-  (let [spec {:rule "Y"}]
+  (let [spec {:rule "Z"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? true
@@ -182,7 +182,7 @@
       (g/generate spec))))
 
 (defn slow []
-  (let [spec {:rule "Y"}]
+  (let [spec {:rule "Z"}]
     (binding [g/grammar (shuffle (:grammar baby-language))
               g/lexicon (:lexicon baby-language)
               g/truncate? false

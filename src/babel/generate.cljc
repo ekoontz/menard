@@ -93,10 +93,10 @@
     (binding [d/remove-path?
               (fn [path]
                 (some #(d/prefix? path %) aliases))]
-      (log/info (str "truncating:" (morph-ps tree) " at path: " (vec path) "(" (count (str tree)) ")"))
+      (log/info (str "truncating:" (morph-ps tree) " at path: " (vec path) " size=" (count (str tree))))
       (let [result
             (d/dissoc-in tree path)]
-        (log/info (str "truncated :" (morph-ps tree) " at path: " (vec path) "(" (count (str result)) ")"))
+        (log/info (str "truncated :" (morph-ps tree) " at path: " (vec path) " size=" (count (str result))))
         result))))
 
 (defn grow-all [trees]
@@ -112,13 +112,15 @@
                       (morph-ps (u/get-in tree (butlast frontier-path))))
      tree))
 
+(declare truncate-up)
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path))))
+    (if true (log/info (str "grow: " (morph-ps tree) " at: " (vec frontier-path) " size=" (count tree))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -163,11 +165,25 @@
 
                        ;; truncate if desired:
                        ((fn [tree]
-                          (if (and truncate? 
-                                   (true? (u/get-in tree (concat frontier-path [:phrasal])))
-                                   (u/get-in tree (concat frontier-path [::done?])))
-                            (truncate-at tree frontier-path morph-ps)
+                          (if truncate?
+                            (truncate-up tree frontier-path morph-ps)
                             tree)))))))))))
+
+(defn truncate-up [tree frontier-path morph-ps]
+  (log/debug (str "truncate-up with:" (morph-ps tree) " at: " (vec frontier-path)))
+
+  (cond (empty? frontier-path)
+        tree
+
+        (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
+             (u/get-in tree (concat (butlast frontier-path) [::done?])))
+        (truncate-up tree (butlast frontier-path) morph-ps)
+
+        (and (u/get-in tree (concat frontier-path [:phrasal]))
+             (u/get-in tree (concat frontier-path [::done?])))
+        (truncate-at tree frontier-path morph-ps)
+
+        true tree))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

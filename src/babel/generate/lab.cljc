@@ -56,8 +56,9 @@
 
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
      (unify {:rule "Z"
-             :head {:phrasal true}
-             :comp {:rule :top
+             :head {:rule "Y"
+                    :phrasal true}
+             :comp {:rule "X"
                     :phrasal true}}
             head-first)]
     

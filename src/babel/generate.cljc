@@ -119,7 +119,7 @@
 (declare truncate-up)
 
 (defn terminate-up [tree frontier-path]
-  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (log/info (str "terminate-up: " (vec frontier-path)))
   (let [terminated-or-not
         (if (and (= :comp (last frontier-path))
                  (u/get-in tree (concat frontier-path [::done?])))
@@ -135,7 +135,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/debug (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
+    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
     (cond (empty? frontier-path)
           [tree]
 

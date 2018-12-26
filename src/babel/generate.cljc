@@ -159,8 +159,11 @@
             (map (fn [child]
                    ;; 2. for each such child:
                    (-> tree
+
+                       (u/copy)
+                       
                        ;; attach _child_ to _tree_ at _frontier-path_:
-                       (u/assoc-in frontier-path child)
+                       (u/assoc-in! frontier-path child)
 
                        ;; terminate if possible:
                        ((fn [tree]

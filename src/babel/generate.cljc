@@ -118,6 +118,17 @@
 
 (declare truncate-up)
 
+(defn terminate-up [tree frontier-path]
+  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (let [terminated-or-not
+        (if (and (= :comp (last frontier-path))
+                 (u/get-in tree (concat frontier-path [::done?])))
+          (-> tree
+              (u/assoc-in (concat (butlast frontier-path) [::done?]) true)
+              (terminate-up (butlast frontier-path)))
+          tree)]
+    terminated-or-not))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -154,14 +165,7 @@
 
                        ;; terminate if possible:
                        ((fn [tree]
-                          (let [terminated-or-not
-                                (if (and (= :comp (last frontier-path))
-                                         (u/get-in tree (concat frontier-path [::done?])))
-                                  (u/assoc-in tree (concat (butlast frontier-path) [::done?]) true)
-                                  tree)]
-                            (if false (println (str "post-termination at:" (vec frontier-path) ": ")
-                                               (vec (u/serialize terminated-or-not))))
-                            terminated-or-not)))
+                          (terminate-up tree frontier-path)))
 
                        ;; TODO: move to lab/pre-truncate.
                        ;;(default-fn frontier-path)

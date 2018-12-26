@@ -46,7 +46,7 @@
        (unify {:rule "Y"
                :cat cat-head
                :comp-cat comp-cat
-               :head {:phrasal false
+               :head {:phrasal :top
                       :cat cat-head}
                :comp {:rule :top
                       :cat comp-cat

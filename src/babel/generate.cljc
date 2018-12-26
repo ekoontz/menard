@@ -93,7 +93,11 @@
     (binding [d/remove-path?
               (fn [path]
                 (some #(d/prefix? path %) aliases))]
-      (d/dissoc-in tree path))))
+      (log/info (str "truncating:" (morph-ps tree) " at path: " (vec path) "(" (count (str tree)) ")"))
+      (let [result
+            (d/dissoc-in tree path)]
+        (log/info (str "truncated :" (morph-ps tree) " at path: " (vec path) "(" (count (str result)) ")"))
+        result))))
 
 (defn grow-all [trees]
   (if (not (empty? trees))
@@ -114,7 +118,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if false (println (str "grow: " (morph-ps tree) " at: " (vec frontier-path) ": " (vec (u/serialize tree)))))
+    (if true (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path))))
     (cond (empty? frontier-path)
           [tree]
 

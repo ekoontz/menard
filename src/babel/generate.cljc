@@ -94,10 +94,13 @@
               (fn [path]
                 (some #(d/prefix? path %) aliases))]
       (log/info (str "truncating:" (morph-ps tree) " at path: " (vec path) " size=" (count (str tree))))
-      (let [result
-            (d/dissoc-in tree path)]
-        (log/info (str "truncated :" (morph-ps tree) " at path: " (vec path) " size=" (count (str result))))
-        result))))
+      (let [truncated
+            (->
+             tree
+             (d/dissoc-in path)
+             (u/assoc-in [:morph-ps] (morph-ps tree)))]
+        (log/info (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
+        truncated))))
 
 (defn grow-all [trees]
   (if (not (empty? trees))
@@ -120,14 +123,14 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (log/info (str "grow: " (morph-ps tree) " at: " (vec frontier-path) " size=" (count tree))))
+    (if true (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count tree))))
     (cond (empty? frontier-path)
           [tree]
 
           true
           (grow-all
-           (->>
 
+           (->>
             ;; 1. get all the possible children at _frontier-path_:
             (let [child-spec (u/get-in tree frontier-path :top)
                   child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
@@ -141,7 +144,6 @@
                   (lazy-cat child-trees child-lexemes)
                   true
                   (lazy-cat child-lexemes child-trees)))
-
             (map (fn [child]
                    ;; 2. for each such child:
                    (-> tree
@@ -167,6 +169,13 @@
                        ((fn [tree]
                           (if truncate?
                             (truncate-up tree frontier-path morph-ps)
+                            tree)))
+
+                       ;; diagnostics if desired
+                       ((fn [tree]
+                          (if truncate?
+                            (do (log/info (str "returning: " (morph-ps tree)))
+                                tree)
                             tree)))))))))))
 
 (defn truncate-up [tree frontier-path morph-ps]

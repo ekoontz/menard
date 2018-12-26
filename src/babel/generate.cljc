@@ -15,7 +15,7 @@
 (def ^:const branching-factor 1000)
 
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
-                        (log/info (str "branch at: " % "? => " result))
+                        (log/debug (str "branch at: " % "? => " result))
                         result))
 
 ;; you can experiment by modifying branching-factor and then run branching-samples
@@ -124,7 +124,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree)))))
+    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -180,7 +180,7 @@
                             tree)))))))))))
 
 (defn truncate-up [tree frontier-path morph-ps]
-  (log/info (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
+  (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
   (cond (empty? frontier-path)
         tree
 

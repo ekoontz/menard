@@ -98,7 +98,8 @@
             (->
              tree
              (d/dissoc-in path)
-             (u/assoc-in [:morph-ps] (morph-ps tree)))]
+             (u/assoc-in [:morph-ps] (morph-ps tree))
+             (u/assoc-in [::done?] true))]
         (log/info (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
@@ -180,18 +181,20 @@
 
 (defn truncate-up [tree frontier-path morph-ps]
   (log/info (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
-
-
-  (log/info (str "trunct-up1:" (vec (concat (butlast frontier-path) [:phrasal]))))
-  
   (cond (empty? frontier-path)
         tree
 
+        (and (true? (u/get-in tree (concat frontier-path [::done?])))
+             (empty? (butlast frontier-path)))
+        (->
+         tree
+         (truncate-at [:comp] morph-ps)
+         (u/assoc-in [:morph-ps] (morph-ps tree))
+         (u/assoc-in [::done?] true))
+        
         (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
         (->
          tree
-;;         (u/assoc-in (concat frontier-path [:morph-ps]) (morph-ps tree))
-;;         (truncate-at frontier-path morph-ps)
          (truncate-up (butlast frontier-path) morph-ps))
 
         (and (u/get-in tree (concat frontier-path [:phrasal]))

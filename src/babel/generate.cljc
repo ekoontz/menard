@@ -122,6 +122,7 @@
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [tree]
+  (log/debug (str "grow(0): " (vec (u/serialize tree))))
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))

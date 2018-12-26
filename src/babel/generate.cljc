@@ -15,7 +15,7 @@
 (def ^:const branching-factor 1000)
 
 (def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
-                        (log/debug (str "branch at: " % "? => " result))
+                        (log/info (str "branch at: " % "? => " result))
                         result))
 
 ;; you can experiment by modifying branching-factor and then run branching-samples
@@ -123,7 +123,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (if true (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count tree))))
+    (if true (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree)))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -179,20 +179,29 @@
                             tree)))))))))))
 
 (defn truncate-up [tree frontier-path morph-ps]
-  (log/debug (str "truncate-up with:" (morph-ps tree) " at: " (vec frontier-path)))
+  (log/info (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
 
+
+  (log/info (str "trunct-up1:" (vec (concat (butlast frontier-path) [:phrasal]))))
+  
   (cond (empty? frontier-path)
         tree
 
-        (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-             (u/get-in tree (concat (butlast frontier-path) [::done?])))
-        (truncate-up tree (butlast frontier-path) morph-ps)
+        (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
+        (->
+         tree
+;;         (u/assoc-in (concat frontier-path [:morph-ps]) (morph-ps tree))
+;;         (truncate-at frontier-path morph-ps)
+         (truncate-up (butlast frontier-path) morph-ps))
 
         (and (u/get-in tree (concat frontier-path [:phrasal]))
              (u/get-in tree (concat frontier-path [::done?])))
         (truncate-at tree frontier-path morph-ps)
 
-        true tree))
+        true
+        (do
+          (log/info (str "not truncating any more with path:" (vec frontier-path)))
+          tree)))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

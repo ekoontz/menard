@@ -93,14 +93,14 @@
     (binding [d/remove-path?
               (fn [path]
                 (some #(d/prefix? path %) aliases))]
-      (log/info (str "truncating:" (morph-ps tree) " at path: " (vec path) " size=" (count (str tree))))
+      (log/debug (str "truncating:" (morph-ps tree) " at path: " (vec path) " size=" (count (str tree))))
       (let [truncated
             (->
              tree
              (d/dissoc-in path)
              (u/assoc-in [:morph-ps] (morph-ps tree))
              (u/assoc-in [::done?] true))]
-        (log/info (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
+        (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
 (defn grow-all [trees]
@@ -133,10 +133,9 @@
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
   [tree]
-  (log/debug (str "grow(0): " (vec (u/serialize tree))))
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
+    (log/debug (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
     (cond (empty? frontier-path)
           [tree]
 
@@ -180,7 +179,7 @@
                        ;; diagnostics if desired
                        ((fn [tree]
                           (if truncate?
-                            (do (log/info (str "returning: " (morph-ps tree)))
+                            (do (log/debug (str "returning: " (morph-ps tree)))
                                 tree)
                             tree)))))))))))
 

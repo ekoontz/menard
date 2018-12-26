@@ -98,8 +98,8 @@
             (->
              tree
              (d/dissoc-in path)
-             (u/assoc-in [:morph-ps] (morph-ps tree))
-             (u/assoc-in [::done?] true))]
+             (u/assoc-in! [:morph-ps] (morph-ps tree))
+             (u/assoc-in! [::done?] true))]
         (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
@@ -112,8 +112,8 @@
 (defn pre-truncate-fn [tree frontier-path]
  (if (and (= :comp (last frontier-path))
           (u/get-in tree (concat frontier-path [::done?])))
-     (u/assoc-in tree (concat (butlast frontier-path) [:morph-ps])
-                      (morph-ps (u/get-in tree (butlast frontier-path))))
+     (u/assoc-in! tree (concat (butlast frontier-path) [:morph-ps])
+                  (morph-ps (u/get-in tree (butlast frontier-path))))
      tree))
 
 (declare truncate-up)
@@ -124,7 +124,7 @@
         (if (and (= :comp (last frontier-path))
                  (u/get-in tree (concat frontier-path [::done?])))
           (-> tree
-              (u/assoc-in (concat (butlast frontier-path) [::done?]) true)
+              (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
               (terminate-up (butlast frontier-path)))
           tree)]
     terminated-or-not))
@@ -193,8 +193,8 @@
         (->
          tree
          (truncate-at [:comp] morph-ps)
-         (u/assoc-in [:morph-ps] (morph-ps tree))
-         (u/assoc-in [::done?] true))
+         (u/assoc-in! [:morph-ps] (morph-ps tree))
+         (u/assoc-in! [::done?] true))
         
         (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
         (->

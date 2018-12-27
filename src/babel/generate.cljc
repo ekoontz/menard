@@ -97,9 +97,10 @@
       (let [truncated
             (->
              tree
-             (d/dissoc-in path)
-             (u/assoc-in! [:morph-ps] (morph-ps tree))
-             (u/assoc-in! [::done?] true))]
+             (d/dissoc-in (concat path [:head]))
+             (d/dissoc-in (concat path [:comp]))
+             (u/assoc-in! (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
+             (u/assoc-in! (concat path [::done?]) true))]
         (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
@@ -119,15 +120,20 @@
 (declare truncate-up)
 
 (defn terminate-up [tree frontier-path]
-  (log/info (str "terminate-up: " (vec frontier-path)))
-  (let [terminated-or-not
-        (if (and (= :comp (last frontier-path))
-                 (u/get-in tree (concat frontier-path [::done?])))
-          (-> tree
-              (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
-              (terminate-up (butlast frontier-path)))
-          tree)]
-    terminated-or-not))
+  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (cond
+    (and (= :comp (last frontier-path))
+         (u/get-in tree (concat frontier-path [::done?])))
+    (do
+      (log/debug (str "terminating at:" (vec (concat (butlast frontier-path) [::done?]))))
+      (-> tree
+          (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
+          (terminate-up (butlast frontier-path))))
+    true
+    (do
+      (log/debug (str "done terminating: at:" (vec frontier-path)))
+      (log/debug (str "done terminating: with done?:" (u/get-in tree [::done?] ::none)))
+      tree)))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -135,7 +141,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path) " size=" (count (str tree))))
+    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path)))
     (cond (empty? frontier-path)
           [tree]
 
@@ -182,7 +188,7 @@
                        ;; diagnostics if desired
                        ((fn [tree]
                           (if truncate?
-                            (do (log/debug (str "returning: " (morph-ps tree)))
+                            (do (log/debug (str "returning: " (morph-ps tree) " with done?" (u/get-in tree [::done?] ::none)))
                                 tree)
                             tree)))))))))))
 
@@ -193,11 +199,14 @@
 
         (and (true? (u/get-in tree (concat frontier-path [::done?])))
              (empty? (butlast frontier-path)))
-        (->
-         tree
-         (truncate-at [:comp] morph-ps)
-         (u/assoc-in! [:morph-ps] (morph-ps tree))
-         (u/assoc-in! [::done?] true))
+        (do
+          (log/debug (str "truncating tree: " (morph-ps tree) " at: " (vec frontier-path)))
+                          
+          (->
+           tree
+           (truncate-at frontier-path morph-ps)
+           (u/assoc-in! (concat frontier-path [:morph-ps]) (morph-ps (u/get-in tree frontier-path)))
+           (u/assoc-in! (concat frontier-path [::done?]) true)))
         
         (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
         (->
@@ -210,7 +219,7 @@
 
         true
         (do
-          (log/info (str "not truncating any more with path:" (vec frontier-path)))
+          (log/debug (str "not truncating any more with path:" (vec frontier-path)))
           tree)))
 
 (defn frontier

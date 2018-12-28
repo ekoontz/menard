@@ -11,7 +11,7 @@
   {"a"      [{:cat :det :subcat []}]
    "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
    "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
-   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]   
+   "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
    "the"    [{:cat :det :subcat []}]})
 
 ;; </lexicon>
@@ -19,15 +19,18 @@
 ;; <language-specific grammar rules>
 (def grammar
   [{:rule "rule-1"
-    :unify [head-last subcat-1]}])
+    :unify [head-rule head-last subcat-1]}])
 ;; </language-specific grammar rules>
 
 ;; <universal grammar rules>
 (def head-rule
   (let [comp-cat (atom :top)
+        head-pred (atom :top)
         head-cat (atom :top)]
     {:cat head-cat
-     :head {:cat head-cat}}))
+     :pred head-pred
+     :head {:cat head-cat
+            :pred head-pred}}))
 
 (def head-last
   (let [head (atom :top)
@@ -77,4 +80,3 @@
   (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :n})))))))
-

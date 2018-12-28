@@ -135,7 +135,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow:      " (morph-ps tree) " at: " (vec frontier-path)))
+    (log/debug (str "grow:      " (morph-ps tree) " at: " (vec frontier-path)))
     (cond (empty? frontier-path)
           [tree]
 
@@ -185,15 +185,13 @@
                            (do (log/debug (str "returning: " (morph-ps tree) " with done?" (u/get-in tree [::done?] ::none)))
                                tree)
                            tree))))))
-
-           ((fn [the-trees]
+           ((fn [trees]
              (let [grow-all
-                     (fn [trees]
-                       (if (not (empty? trees))
-                           (lazy-cat
-                            (grow (first trees))
-                            (grow-all (rest trees)))))]
-               (grow-all the-trees))))))))
+                   #(if (not (empty? %))
+                        (lazy-cat
+                           (grow (first %))
+                           (grow-all (rest %))))]
+               (grow-all trees))))))))
 
 (defn truncate-up [tree frontier-path morph-ps]
   (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))

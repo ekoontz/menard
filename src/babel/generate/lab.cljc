@@ -54,9 +54,9 @@
 
      ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
      (unify {:rule "Z"
-             :head {:rule "Y"
+             :head {:rule :top
                     :phrasal true}
-             :comp {:rule "X"
+             :comp {:rule "X" ;; change to "Y" to see the polynomial time increase in generation time.
                     :phrasal true}}
             head-first)]
     

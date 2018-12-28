@@ -8,11 +8,12 @@
 
 ;; <lexicon>
 (def lexicon
-  {"dog"  [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
-   "cat" [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
-   "a"    [{:cat :det :subcat []}]
-   "the"  [{:cat :det :subcat []}]
-   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]})
+  {"a"      [{:cat :det :subcat []}]
+   "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
+   "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
+   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]   
+   "the"    [{:cat :det :subcat []}]})
+
 ;; </lexicon>
 
 ;; <language-specific grammar rules>
@@ -71,9 +72,9 @@
       (g/generate spec)))
 
 (defn demo []
+  (count (take 10 (repeatedly #(println (morph (generate :top))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
   (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :n}))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate :top)))))))
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :n})))))))
+

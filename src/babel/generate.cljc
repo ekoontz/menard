@@ -136,62 +136,54 @@
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/debug (str "grow:      " (morph-ps tree) " at: " (vec frontier-path)))
-    (cond (empty? frontier-path)
-          [tree]
-
-          true
-
-          (->>
-           ;; 1. get all the possible children at _frontier-path_:
-           (let [child-spec (u/get-in tree frontier-path :top)
-                 child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                                 (get-lexemes child-spec))
-                 child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                               (parent-with-head child-spec depth))]
-             ;; depending on depth, generate children that are leaves before or after children that are trees.
-             (cond
-               (>= depth max-depth) child-lexemes
-               (branch? depth)
-               (lazy-cat child-trees child-lexemes)
-               true
-               (lazy-cat child-lexemes child-trees)))
-
-           (map (fn [child]
-                  ;; 2. for each such child:
-                  (-> tree
-                      
-                      (u/copy)
-                      
-                      ;; attach _child_ to _tree_ at _frontier-path_:
-                      (u/assoc-in! frontier-path child)
-                      
-                      ;; terminate if possible:
-                      ((fn [tree]
-                         (terminate-up tree frontier-path)))
-                      
-                      ;; TODO: move to lab/pre-truncate.
-                      ;;(default-fn frontier-path)
-                      (pre-truncate-fn frontier-path)
-                      
-                      ;; truncate if desired:
-                      ((fn [tree]
-                         (if truncate?
-                           (truncate-up tree frontier-path morph-ps)
-                           tree)))
-                      
-                      ;; diagnostics if desired
-                      ((fn [tree]
-                         (if truncate?
-                           (do (log/debug (str "returning: " (morph-ps tree) " with done?" (u/get-in tree [::done?] ::none)))
-                               tree)
-                           tree))))))
-           ((fn [trees]
-             (let [grow-all
-                   #(if (not (empty? %))
-                        (lazy-cat
-                           (grow (first %))
-                           (grow-all (rest %))))]
-               (grow-all trees))))))))
+    (cond
+      (empty? frontier-path) [tree]
+      true
+      (->>
+       ;; 1. get all the possible children at _frontier-path_:
+       (let [child-spec (u/get-in tree frontier-path :top)
+             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                             (get-lexemes child-spec))
+             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                           (parent-with-head child-spec depth))]
+         ;; depending on depth, generate children that are leaves before or after children that are trees.
+         (cond
+           (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
+           (branch? depth)
+           (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
+           true
+           (lazy-cat child-lexemes child-trees))) ;; order children which are leaves before children which are trees.
+       
+       (map (fn [child]
+              ;; 2. for each such child:
+              (-> tree
+                  
+                  (u/copy)
+                  
+                  ;; attach _child_ to _tree_ at _frontier-path_:
+                  (u/assoc-in! frontier-path child)
+                  
+                  ;; terminate if possible:
+                  ((fn [tree]
+                     (terminate-up tree frontier-path)))
+                  
+                  ;; TODO: move to lab/pre-truncate.
+                  ;;(default-fn frontier-path)
+                  (pre-truncate-fn frontier-path)
+                  
+                  ;; truncate if desired:
+                  ((fn [tree]
+                     (if truncate?
+                       (truncate-up tree frontier-path morph-ps)
+                       tree))))))
+       
+       ((fn [trees]
+          (let [grow-all
+                #(if (not (empty? %))
+                   (lazy-cat
+                    (grow (first %))
+                    (grow-all (rest %))))]
+            (grow-all trees))))))))
 
 (defn truncate-up [tree frontier-path morph-ps]
   (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))

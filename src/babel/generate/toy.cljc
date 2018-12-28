@@ -65,15 +65,8 @@
    (map #(unify head-rule %))
    (map #(apply unify (cons (dissoc-in % [:unify]) (:unify %))))))
 
-
 (defn generate [spec]
-    (binding [g/grammar (shuffle (:grammar toy-english))
+    (binding [g/grammar (:grammar toy-english)
               g/lexicon (:lexicon toy-english)
-              g/println? false
-              g/morph-ps morph-ps
-              g/default-fn (fn [x]
-                             (if (and true (= true (u/get-in x [:babel.generate/done?])))
-                               [(assoc-in x [:surface] (morph x))]
-                               [x]))]
+              g/morph-ps morph-ps]
       (g/generate spec)))
-

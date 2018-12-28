@@ -33,11 +33,11 @@
 
 ;; <lexicon>
 (def lexicon
-  {"a"      [{:cat :det}]
+  {"a"      [{:cat :det :subcat []}]
    "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
    "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
    "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
-   "the"    [{:cat :det}]})
+   "the"    [{:cat :det :subcat []}]})
 ;; </lexicon>
 
 ;; <language-specific grammar rules>

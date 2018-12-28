@@ -150,7 +150,7 @@
                                (parent-with-head child-spec depth))]
              ;; depending on depth, generate children that are leaves before or after children that are trees.
              (cond
-               (= depth max-depth) child-lexemes
+               (>= depth max-depth) child-lexemes
                (branch? depth)
                (lazy-cat child-trees child-lexemes)
                true

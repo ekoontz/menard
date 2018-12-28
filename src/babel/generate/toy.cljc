@@ -31,8 +31,8 @@
 
 ;; <language-specific grammar rules>
 (def grammar
-  {:rule "rule-1"
-   :unify [head-last subcat-1]})
+  [{:rule "rule-1"
+    :unify [head-last subcat-1]}])
 
 ;; </language-specific grammar rules>
 

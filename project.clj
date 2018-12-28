@@ -1,6 +1,6 @@
-(defproject babel "3.2.11-SNAPSHOT"
+(defproject babel "0.0.1-SNAPSHOT"
   :description "A library for natural language generation and parsing"
-  :url "http://github.com/ekoontz/babel"
+  :url "http://github.com/ekoontz/babylon"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[cljstache "2.0.0"]
@@ -45,23 +45,9 @@
                 :rhino "java -jar /Users/ekoontz/Downloads/rhino1_7R4/js-14.jar -strict"
                 :node "node --trace-gc --trace-gc-verbose"}}
   
-  :ring {:handler babel.core/app})
+  :ring {:handler babylon.core/app})
 ;; this hook doesn't work yet.
 ;;  :hooks [leiningen.cljsbuild])
-
-;; TODO: split into:
-;; 
-;; babel.core: generation, parsing, lexical compilation, encyclopedia and anything else not covered below
-;; babel.format: translation to/from json and html
-;; babel.db: SQL support (mainly Postgres/JSONB specific)
-;; babel.http: workbook, compojure http routes, querying from GETs, updating from POSTs, PUTs and PATCHes. all the ring/* and servlet-api :dependencies go here.
-;;
-;; Language-specific: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-
-;; babel.ab (Abkhaz)
-;; ..
-;; babel.zu (Zulu)
-;;
 
 
 

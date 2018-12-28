@@ -47,8 +47,8 @@
 ;; </language-specific grammar rules>
 
 ;; <compilation functions>
-;; These are used to convert a human-friendly data structure
-;; to a machine-friendly data structure.
+;; These are used to convert a human-friendly data structures
+;; to machine-friendly data structures.
 (defn process-lexicon [lexicon]
   (into {} (for [[surface lexemes-for-surface]
                  lexicon]

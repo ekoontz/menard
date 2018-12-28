@@ -1,4 +1,4 @@
-(ns babel.exception
+(ns babylon.exception
   ^{:doc "exceptions that work either in clojure or clojurescript"}
   (:refer-clojure))
 

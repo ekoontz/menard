@@ -20,6 +20,8 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
+user=> (load "babylon/generate/toy")
+nil
 user=> (in-ns 'babylon.generate.toy)
 #namespace[babylon.generate.toy]
 babylon.generate.toy=> (demo)

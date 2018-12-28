@@ -52,7 +52,8 @@
               head-first))
 
 
-     ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase.
+     ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase,
+     ;; and the comp is an "X"-phrase.
      (unify {:rule "Z"
              :head {:rule :top
                     :phrasal true}
@@ -83,7 +84,7 @@
           (u/get-in structure [:surface])
           (morph-ps (u/get-in structure [:surface]))
 
-          (= false (u/get-in structure [:phrasal] false))
+          (= false (u/get-in structure [:phrasal]))
           "_"
 
           (u/get-in structure [:morph-ps])
@@ -148,7 +149,7 @@
         (u/get-in structure [:surface])
         (morph (u/get-in structure [:surface]))
 
-        (= false (u/get-in structure [:phrasal] false))
+        (= false (u/get-in structure [:phrasal]))
         "_"
         
         true
@@ -192,4 +193,3 @@
     (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "Y"}))))))
     (println "five rule-Z expressions (with structure):")
     (count (take 5 (repeatedly #(println (morph-ps (generate {:rule "Z"}))))))))
-

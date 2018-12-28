@@ -6,6 +6,21 @@
 
 ;; a toy english grammar and lexicon.
 
+;; <lexicon>
+(def lexicon
+  {"dog"  [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
+   "cat" [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
+   "a"    [{:cat :det :subcat []}]
+   "the"  [{:cat :det :subcat []}]
+   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]})
+;; </lexicon>
+
+;; <language-specific grammar rules>
+(def grammar
+  [{:rule "rule-1"
+    :unify [head-last subcat-1]}])
+;; </language-specific grammar rules>
+
 ;; <universal grammar rules>
 (def head-rule
   (let [comp-cat (atom :top)
@@ -26,24 +41,7 @@
     {:head {:subcat {:1 complement}}
      :subcat []
      :comp complement}))
-
 ;; </universal grammar rules>
-
-;; <language-specific grammar rules>
-(def grammar
-  [{:rule "rule-1"
-    :unify [head-last subcat-1]}])
-
-;; </language-specific grammar rules>
-
-;; <lexicon>
-(def lexicon
-  {"dog"  [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
-   "cat" [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
-   "a"    [{:cat :det :subcat []}]
-   "the"  [{:cat :det :subcat []}]
-   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]})
-;; </lexicon>
 
 (declare process-lexicon)
 (declare process-grammar)
@@ -71,3 +69,11 @@
               g/lexicon (:lexicon toy-english)
               g/morph-ps morph-ps]
       (g/generate spec)))
+
+(defn demo []
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :n}))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate :top)))))))

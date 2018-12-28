@@ -1,11 +1,11 @@
 (ns babel.generate
   (:require
+   [babel.generate.truncate :as trunc]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log]) 
    [clojure.math.combinatorics :as combo]
    [clojure.string :as string]
-   [dag_unify.core :as u :refer [strip-refs unify]]
-   [dag_unify.dissoc :as d]))
+   [dag_unify.core :as u :refer [unify]]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
@@ -82,36 +82,6 @@
              morph-ps (or morph-ps (:morph-ps model))]
      (first (grow-all (parent-with-head spec 0))))))
 
-(defn truncate-at [tree path morph-ps]
-  (let [reentrances (map first (u/serialize tree))
-        aliases
-        (filter #(or (= (first %) :comp)
-                     (= (first %) :head)
-                     (= (first %) :1)
-                     (= (first %) :2))
-                (set (d/aliases-of path reentrances)))]
-    (binding [d/remove-path?
-              (fn [path]
-                (some #(d/prefix? path %) aliases))]
-      (log/debug (str "truncating:" (morph-ps tree) " at path: " (vec path) " size=" (count (str tree))))
-      (let [truncated
-            (->
-             tree
-             (d/dissoc-in (concat path [:head]))
-             (d/dissoc-in (concat path [:comp]))
-             (u/assoc-in! (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-             (u/assoc-in! (concat path [::done?]) true))]
-        (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
-        truncated))))
-
-(defn pre-truncate-fn [tree frontier-path]
- (if (and (= :comp (last frontier-path))
-          (u/get-in tree (concat frontier-path [::done?])))
-     (u/assoc-in! tree (concat (butlast frontier-path) [:morph-ps])
-                  (morph-ps (u/get-in tree (butlast frontier-path))))
-     tree))
-
-(declare truncate-up)
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
@@ -167,14 +137,10 @@
                   ((fn [tree]
                      (terminate-up tree frontier-path)))
                   
-                  ;; TODO: move to lab/pre-truncate.
-                  ;;(default-fn frontier-path)
-                  (pre-truncate-fn frontier-path)
-                  
                   ;; truncate if desired:
                   ((fn [tree]
                      (if truncate?
-                       (truncate-up tree frontier-path morph-ps)
+                       (trunc/truncate-up tree frontier-path morph-ps)
                        tree))))))
        
        ((fn [trees]
@@ -184,36 +150,6 @@
                     (grow (first %))
                     (grow-all (rest %))))]
             (grow-all trees))))))))
-
-(defn truncate-up [tree frontier-path morph-ps]
-  (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
-  (cond (empty? frontier-path)
-        tree
-
-        (and (true? (u/get-in tree (concat frontier-path [::done?])))
-             (empty? (butlast frontier-path)))
-        (do
-          (log/debug (str "truncating tree: " (morph-ps tree) " at: " (vec frontier-path)))
-                          
-          (->
-           tree
-           (truncate-at frontier-path morph-ps)
-           (u/assoc-in! (concat frontier-path [:morph-ps]) (morph-ps (u/get-in tree frontier-path)))
-           (u/assoc-in! (concat frontier-path [::done?]) true)))
-        
-        (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-        (->
-         tree
-         (truncate-up (butlast frontier-path) morph-ps))
-
-        (and (u/get-in tree (concat frontier-path [:phrasal]))
-             (u/get-in tree (concat frontier-path [::done?])))
-        (truncate-at tree frontier-path morph-ps)
-
-        true
-        (do
-          (log/debug (str "not truncating any more with path:" (vec frontier-path)))
-          tree)))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

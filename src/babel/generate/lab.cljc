@@ -1,8 +1,6 @@
 (ns babel.generate.lab
   (:require [babel.generate :as g]
-            [dag_unify.core
-             :as u :refer [strip-refs unify]]
-            [dag_unify.dissoc :as d]
+            [dag_unify.core :as u :refer [unify]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]))
 
@@ -173,26 +171,12 @@
 (def the-spec {:rule "Z"})
 
 (defn slowt []
-  (binding [g/grammar (shuffle (:grammar baby-language))
-            g/lexicon (:lexicon baby-language)
-            g/truncate? true
-            g/default-fn (fn [tree frontier-path]
-                           [(do
-                              (println (str "LAB/DEFAULT-FN(trunc): " (morph-ps tree)))
-                              tree)])
-            g/morph-ps morph-ps]
-    (g/generate the-spec)))
+  (binding [g/truncate? true]
+    (generate the-spec)))
 
 (defn slow []
-  (binding [g/grammar (shuffle (:grammar baby-language))
-            g/lexicon (:lexicon baby-language)
-            g/truncate? false
-            g/default-fn (fn [tree frontier-path]
-                           (do
-                             (println (str "LAB/DEFAULT-FN: " (morph-ps tree)))
-                             [tree]))
-            g/morph-ps morph-ps]
-    (g/generate the-spec)))
+  (binding [g/truncate? false]
+    (generate the-spec)))
 
 (defn demo []
   (do

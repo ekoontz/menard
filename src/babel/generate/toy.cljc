@@ -38,10 +38,11 @@
 
 ;; <lexicon>
 (def lexicon
-  {"dog"  [{:cat :n :pred :dog :subcat {:cat :det}}]
-   "cat" [{:cat :n :pred :cat :subcat {:cat :det}}]
+  {"dog"  [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
+   "cat" [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
    "a"    [{:cat :det :subcat []}]
-   "the"  [{:cat :det :subcat []}]})
+   "the"  [{:cat :det :subcat []}]
+   "sleeps" [{:cat :v :subcat {:1 {:cat :n}}}]})
 ;; </lexicon>
 
 (declare process-lexicon)

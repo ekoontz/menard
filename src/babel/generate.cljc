@@ -204,28 +204,29 @@
   (if (not (empty? parent-rules))
     (lazy-cat
       (let [parent-rule (first parent-rules)
-            parent-cat (u/get-in parent-rule [:synsem :cat])
-            phrases-with-phrasal-head (map (fn [child]
-                                             (u/assoc-in parent-rule [:head] child))
-                                           (filter (fn [grammar-rule]
-                                                     (= parent-cat (u/get-in grammar-rule [:synsem :cat])))
-                                                   grammar))
-            phrases-with-lexical-heads (map (fn [child]
-                                              (u/assoc-in parent-rule [:head] child))
-                                            (get-lexemes (unify
-                                                          (u/get-in spec [:head] :top)
-                                                          (u/get-in parent-rule [:head] :top))))]
+            debug (str "looking at parent-rule:" parent-rule)
+            phrases-with-phrasal-head (->> grammar
+                                           shuffle
+                                           (map #(u/assoc-in parent-rule [:head] %))
+                                           (filter #(not (= :fail %))))
+            phrases-with-lexical-head (->> (get-lexemes (unify
+                                                         (u/get-in spec [:head] :top)
+                                                         (u/get-in parent-rule [:head] :top)))
+                                           shuffle
+                                           (map #(u/assoc-in parent-rule [:head] %))
+                                           (filter #(not (= :fail %))))]
+        (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
         (cond
           (branch? depth)
           (lazy-cat
             ;; phrases that could be the head child, then lexemes that could be the head child.
             phrases-with-phrasal-head
-            phrases-with-lexical-heads)
+            phrases-with-lexical-head)
 
           true
           (lazy-cat
            ;; lexemes that could be the head child, then phrases that could be the head child.
-           phrases-with-lexical-heads
+           phrases-with-lexical-head
            phrases-with-phrasal-head)))
       (parent-with-head-1 spec depth (rest parent-rules)))))
 

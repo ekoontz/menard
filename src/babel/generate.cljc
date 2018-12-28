@@ -186,17 +186,21 @@
    tree is part of a larger subtree which we are appending at _depth_."
   [spec depth]
   ;; get all rules that match input _spec_:
-  (->> grammar
-       (map #(unify % spec))
-       (remove #(= :fail %))
-       (parent-with-head-1 spec depth)
-       (map #(u/assoc-in! % [::started?] true))))
+  (log/debug (str "parent-with-head: checking " (count grammar) " rules."))
+  (let [result
+        (->> grammar
+             (map #(unify % spec))
+             (remove #(= :fail %))
+             (parent-with-head-1 spec depth)
+             (map #(u/assoc-in! % [::started?] true)))]
+    (log/debug (str "parent-with-head: found " (count result) " matches: " (vec (map :rule result))))
+    result))
 
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))
     (lazy-cat
       (let [parent-rule (first parent-rules)
-            debug (str "looking at parent-rule:" parent-rule)
+            debug (log/debug (str "looking at parent-rule:" parent-rule))
             phrases-with-phrasal-head (->> grammar
                                            shuffle
                                            (map #(u/assoc-in parent-rule [:head] %))

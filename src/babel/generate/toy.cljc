@@ -8,11 +8,11 @@
 
 ;; <lexicon>
 (def lexicon
-  {"a"      [{:cat :det :subcat []}]
+  {"a"      [{:cat :det}]
    "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
    "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
    "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
-   "the"    [{:cat :det :subcat []}]})
+   "the"    [{:cat :det}]})
 
 ;; </lexicon>
 

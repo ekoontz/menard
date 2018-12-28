@@ -3,7 +3,6 @@
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.generate :as g]
             [babylon.generate.lab :refer [morph morph-ps]]))
-
 ;; a toy english grammar and lexicon.
 
 ;; <universal grammar rules>
@@ -33,11 +32,11 @@
 
 ;; <lexicon>
 (def lexicon
-  {"a"      [{:cat :det :subcat []}]
+  {"a"      [{:cat :det}]
    "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
    "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
    "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
-   "the"    [{:cat :det :subcat []}]})
+   "the"    [{:cat :det}]})
 ;; </lexicon>
 
 ;; <language-specific grammar rules>
@@ -50,12 +49,21 @@
 ;; These are used to convert a human-friendly data structures
 ;; to machine-friendly data structures.
 (defn process-lexicon [lexicon]
-  (into {} (for [[surface lexemes-for-surface]
-                 lexicon]
-             [surface (map (fn [lexeme]
-                             (merge lexeme {:phrasal false
-                                            :surface surface}))
-                           lexemes-for-surface)])))
+  (let [has-det {:cat :det}
+        subcat-empty {:subcat []}]
+    (into {} (for [[surface lexemes-for-surface]
+                   lexicon]
+               [surface
+                (->> lexemes-for-surface
+                     (map (fn [lexeme]
+                            (merge lexeme {:phrasal false
+                                           :surface surface})))
+                     (mapcat (fn [lexeme]
+                              (let [result (unify lexeme has-det)]
+                                (cond (not (= :fail result))
+                                      [(unify lexeme subcat-empty)]
+                                      true
+                                      [lexeme])))))]))))
 
 (defn process-grammar [grammar]
   (->>

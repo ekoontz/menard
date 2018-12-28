@@ -1,5 +1,5 @@
-(ns babel.generate.lab
-  (:require [babel.generate :as g]
+(ns babylon.generate.lab
+  (:require [babylon.generate :as g]
             [dag_unify.core :as u :refer [unify]]
             [clojure.string :as string]
             [clojure.tools.logging :as log]))
@@ -161,12 +161,8 @@
   (binding [g/grammar grammar
             g/lexicon lexicon
             g/println? false
-            g/morph-ps morph-ps
-            g/default-fn (fn [x]
-                           (if (and true (= true (u/get-in x [:babel.generate/done?])))
-                             [(assoc-in x [:surface] (morph x))]
-                             [x]))]
-    (g/generate spec)))
+            g/morph-ps morph-ps]
+      (g/generate spec)))
 
 (def the-spec {:rule "Z"})
 

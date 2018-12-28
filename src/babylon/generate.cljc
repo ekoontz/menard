@@ -1,10 +1,7 @@
-(ns babel.generate
+(ns babylon.generate
   (:require
-   [babel.generate.truncate :as trunc]
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [babel.logjs :as log]) 
-   [clojure.math.combinatorics :as combo]
-   [clojure.string :as string]
+   [babylon.generate.truncate :as trunc]
+   [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]))
 
 ;; the higher the constant below,
@@ -56,25 +53,12 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (do (log/debug (str "generating with spec: " spec))
-       (first (grow-all (parent-with-head spec 0)))))
+       (first (grow-all (parent-with-head spec 0))))))
 
-  ([spec model]
-   (log/debug (str "(generate) with model named: " (:name model)
-                   "; truncate? " truncate?))
-   (binding [grammar (or grammar (:grammar model))
-             lexicon (or lexicon
-                         (:lexicon (:generate model))
-                         (:lexicon model))
-             index-fn (or index-fn
-                          (:index-fn model)
-                          (do
-                            (log/warn (str "no index available for this model: using entire lexicon."))
-                            (fn [spec]
-                              (flatten (vals)
-                                       lexicon))))
-             morph-ps (or morph-ps (:morph-ps model))]
-     (first (grow-all (parent-with-head spec 0))))))
-
+(defn grow-all [trees]
+  (if (not (empty? trees))
+    (lazy-cat (grow (first trees))
+              (grow-all (rest trees)))))
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
@@ -135,14 +119,7 @@
                      (if truncate?
                        (trunc/truncate-up tree frontier-path morph-ps)
                        tree))))))
-       
-       ((fn [trees]
-          (let [grow-all
-                #(if (not (empty? %))
-                   (lazy-cat
-                    (grow (first %))
-                    (grow-all (rest %))))]
-            (grow-all trees))))))))
+       (grow-all)))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
@@ -189,7 +166,10 @@
   (log/debug (str "parent-with-head: checking " (count grammar) " rules."))
   (let [result
         (->> grammar
-             (map #(unify % spec))
+             (map #(do
+                     (if (= :fail %)
+                       (throw (Exception. (str "grammar rule is unexpectedly :fail: please check your grammar."))))
+                     (unify % spec)))
              (remove #(= :fail %))
              (parent-with-head-1 spec depth)
              (map #(u/assoc-in! % [::started?] true)))]
@@ -197,34 +177,40 @@
     result))
 
 (defn parent-with-head-1 [spec depth parent-rules]
+  (log/debug (str "parent-with-head: grammar count: " (count grammar)))
+  (log/debug (str "parent-with-head: parent-rules count: " (count parent-rules)))
   (if (not (empty? parent-rules))
     (lazy-cat
-      (let [parent-rule (first parent-rules)
-            debug (log/debug (str "looking at parent-rule:" parent-rule))
-            phrases-with-phrasal-head (->> grammar
-                                           shuffle
-                                           (map #(u/assoc-in parent-rule [:head] %))
-                                           (filter #(not (= :fail %))))
-            phrases-with-lexical-head (->> (get-lexemes (unify
-                                                         (u/get-in spec [:head] :top)
-                                                         (u/get-in parent-rule [:head] :top)))
-                                           shuffle
-                                           (map #(u/assoc-in parent-rule [:head] %))
-                                           (filter #(not (= :fail %))))]
-        (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
-        (cond
-          (branch? depth)
-          (lazy-cat
-            ;; phrases that could be the head child, then lexemes that could be the head child.
-            phrases-with-phrasal-head
-            phrases-with-lexical-head)
+     (do
+       (if (= 0 (count grammar))
+           (throw (Exception. (str ": grammar is empty: " (type grammar)))))
+       (let [debug (log/debug (str "grammar is: " (count grammar)))
+             parent-rule (first parent-rules)
+             debug (log/debug (str "looking at parent-rule: " (:rule parent-rule) " with rules:" (count grammar)))
+             phrases-with-phrasal-head (->> grammar
+                                            shuffle
+                                            (map #(u/assoc-in parent-rule [:head] %))
+                                            (filter #(not (= :fail %))))
+             phrases-with-lexical-head (->> (get-lexemes (unify
+                                                          (u/get-in spec [:head] :top)
+                                                          (u/get-in parent-rule [:head] :top)))
+                                            shuffle
+                                            (map #(u/assoc-in parent-rule [:head] %))
+                                            (filter #(not (= :fail %))))]
+           (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
+           (cond
+              (branch? depth)
+              (lazy-cat
+                ;; phrases that could be the head child, then lexemes that could be the head child.
+                phrases-with-phrasal-head
+                phrases-with-lexical-head)
 
-          true
-          (lazy-cat
-           ;; lexemes that could be the head child, then phrases that could be the head child.
-           phrases-with-lexical-head
-           phrases-with-phrasal-head)))
-      (parent-with-head-1 spec depth (rest parent-rules)))))
+              true
+              (lazy-cat
+                ;; lexemes that could be the head child, then phrases that could be the head child.
+                phrases-with-lexical-head
+                phrases-with-phrasal-head))))
+     (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
@@ -235,9 +221,6 @@
     []
     (->> (index-fn spec)
          (filter #(and (or (nil? lexical-filter) (lexical-filter %))
-                       ;; TODO: probably remove this in favor of per-language filtering as we
-                       ;; do in italiano.lab/lexical-filter, where we
-                       ;; have: (binding [babel.generate/lexical-filter-fn]).
                        (or (= false (u/get-in % [:exception] false))
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))

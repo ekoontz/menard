@@ -1,4 +1,4 @@
-(ns babel.generate.truncate
+(ns babylon.generate.truncate
   (:require [dag_unify.core :as u]
             [dag_unify.dissoc :as d]
             [clojure.tools.logging :as log]))

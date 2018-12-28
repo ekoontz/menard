@@ -1,26 +1,10 @@
-(ns babel.generate.toy
+(ns babylon.generate.toy
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
-            [babel.generate :as g]
-            [babel.generate.lab :refer [morph morph-ps]]))
+            [babylon.generate :as g]
+            [babylon.generate.lab :refer [morph morph-ps]]))
 
 ;; a toy english grammar and lexicon.
-
-;; <lexicon>
-(def lexicon
-  {"a"      [{:cat :det}]
-   "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
-   "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
-   "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
-   "the"    [{:cat :det}]})
-
-;; </lexicon>
-
-;; <language-specific grammar rules>
-(def grammar
-  [{:rule "rule-1"
-    :unify [head-rule head-last subcat-1]}])
-;; </language-specific grammar rules>
 
 ;; <universal grammar rules>
 (def head-rule
@@ -47,13 +31,24 @@
      :comp complement}))
 ;; </universal grammar rules>
 
-(declare process-lexicon)
-(declare process-grammar)
+;; <lexicon>
+(def lexicon
+  {"a"      [{:cat :det}]
+   "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
+   "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
+   "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
+   "the"    [{:cat :det}]})
+;; </lexicon>
 
-(def toy-english
-  {:lexicon (process-lexicon lexicon)
-   :grammar (process-grammar grammar)})
+;; <language-specific grammar rules>
+(def grammar
+  [{:rule "rule-1"
+    :unify [head-rule head-last subcat-1]}])
+;; </language-specific grammar rules>
 
+;; <compilation functions>
+;; These are used to convert a human-friendly data structure
+;; to a machine-friendly data structure.
 (defn process-lexicon [lexicon]
   (into {} (for [[surface lexemes-for-surface]
                  lexicon]
@@ -67,6 +62,11 @@
    grammar
    (map #(unify head-rule %))
    (map #(apply unify (cons (dissoc-in % [:unify]) (:unify %))))))
+;; </compilation functions>
+
+(def toy-english
+  {:lexicon (process-lexicon lexicon)
+   :grammar (process-grammar grammar)})
 
 (defn generate [spec]
     (binding [g/grammar (:grammar toy-english)

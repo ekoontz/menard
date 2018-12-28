@@ -25,16 +25,16 @@ nil
 user=> (in-ns 'babylon.generate.toy)
 #namespace[babylon.generate.toy]
 babylon.generate.toy=> (demo)
+the dog sleeps
+the dog sleeps
+the cat sleeps
+a cat sleeps
 the dog
-a a
+the dog
+the cat sleeps
+the dog sleeps
+a dog
 a cat
-the a
-a a
-the the
-the a
-the dog
-the dog
-a the
 ===
 the dog sleeps
 a cat sleeps

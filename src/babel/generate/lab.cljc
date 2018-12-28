@@ -22,56 +22,55 @@
      :1 one
      :2 two}))
 
-(def baby-language
-  {:grammar
-   (->>
-    [(let [cat-head (atom :n)
-           cat-comp (atom :p)]
-       ;; rule "X": phrase where both children are lexemes,
-       ;; and both lexemes have share their :cat value and surface value.
-       (unify {:cat cat-head
-               :cat-comp cat-comp
-               :rule "X"
-               :head {:cat cat-head
-                      :phrasal false}
-               :comp {:cat cat-comp
-                      :phrasal false}}
-              comp-first))
-     
-     ;; rule "Y": phrase where the comp is a rule-"X".
-     (let [cat-head (atom :top)
-           comp-cat (atom :top)]
-       (unify {:rule "Y"
-               :cat cat-head
-               :comp-cat comp-cat
-               :head {:phrasal :top
-                      :cat cat-head}
-               :comp {:rule :top
-                      :cat comp-cat
-                      :phrasal true}}
-              head-first))
-
-
-     ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase,
-     ;; and the comp is an "X"-phrase.
-     (unify {:rule "Z"
-             :head {:rule :top
-                    :phrasal true}
-             :comp {:rule "X" ;; change to "Y" to see the polynomial time increase in generation time.
-                    :phrasal true}}
-            head-first)]
+(def grammar
+  (->>
+   [(let [cat-head (atom :n)
+          cat-comp (atom :p)]
+      ;; rule "X": phrase where both children are lexemes,
+      ;; and both lexemes have share their :cat value and surface value.
+      (unify {:cat cat-head
+              :cat-comp cat-comp
+              :rule "X"
+              :head {:cat cat-head
+                     :phrasal false}
+              :comp {:cat cat-comp
+                     :phrasal false}}
+             comp-first))
     
-    (remove #(= :fail %)))
+    ;; rule "Y": phrase where the comp is a rule-"X".
+    (let [cat-head (atom :top)
+          comp-cat (atom :top)]
+      (unify {:rule "Y"
+              :cat cat-head
+              :comp-cat comp-cat
+              :head {:phrasal :top
+                     :cat cat-head}
+              :comp {:rule :top
+                     :cat comp-cat
+                     :phrasal true}}
+             head-first))
+    
+    
+    ;; rule "Z": phrase where the comp is a rule-"Y" and the head is some phrase,
+    ;; and the comp is an "X"-phrase.
+    (unify {:rule "Z"
+            :head {:rule :top
+                   :phrasal true}
+            :comp {:rule "X" ;; change to "Y" to see the polynomial time increase in generation time.
+                    :phrasal true}}
+           head-first)]
+    
+   (remove #(= :fail %))))
 
-   :lexicon
-   (into {} (for [[surface lexemes-for-surface]
-                  {"ba" [{:cat :v}]
-                   "da" [{:cat :n}]
-                   "ga" [{:cat :p}]}]
-              [surface (map (fn [lexeme]
-                              (merge lexeme {:phrasal false
-                                             :surface surface}))
-                            lexemes-for-surface)]))})
+(def lexicon
+  (into {} (for [[surface lexemes-for-surface]
+                 {"ba" [{:cat :v}]
+                  "da" [{:cat :n}]
+                  "ga" [{:cat :p}]}]
+             [surface (map (fn [lexeme]
+                             (merge lexeme {:phrasal false
+                                            :surface surface}))
+                           lexemes-for-surface)])))
 
 (defn morph-ps [structure]
     (cond (or (= :fail structure) 
@@ -159,8 +158,8 @@
                            (u/get-in structure [:2] "_")]))))
 
 (defn generate [spec]
-  (binding [g/grammar (shuffle (:grammar baby-language))
-            g/lexicon (:lexicon baby-language)
+  (binding [g/grammar grammar
+            g/lexicon lexicon
             g/println? false
             g/morph-ps morph-ps
             g/default-fn (fn [x]

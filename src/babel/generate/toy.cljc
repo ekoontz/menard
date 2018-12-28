@@ -38,8 +38,8 @@
 
 ;; <lexicon>
 (def lexicon
-  {"dog"  [{:cat :n :subcat {:cat :det}}]
-   "ball" [{:cat :n :subcat {:cat :det}}]
+  {"dog"  [{:cat :n :pred :dog :subcat {:cat :det}}]
+   "cat" [{:cat :n :pred :cat :subcat {:cat :det}}]
    "a"    [{:cat :det :subcat []}]
    "the"  [{:cat :det :subcat []}]})
 ;; </lexicon>

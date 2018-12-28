@@ -37,16 +37,10 @@
 ;;        10 | 350
 
 (def ^:dynamic morph-ps (fn [x] x))
-(def ^:dynamic default-fn nil)
-(def default-default-fn (fn [tree frontier-path]
-                          (do
-                            (println (str "DEFAULT-DEFAULT-FN."))
-                            [tree])))
-
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
-                          (shuffle (flatten (vals lexicon)))))
+                          (flatten (vals lexicon))))
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic println? nil)
 (def ^:dynamic truncate? nil)
@@ -67,8 +61,7 @@
   ([spec model]
    (log/debug (str "(generate) with model named: " (:name model)
                    "; truncate? " truncate?))
-   (binding [default-fn (or default-fn (:default-fn model) default-default-fn)
-             grammar (or grammar (:grammar model))
+   (binding [grammar (or grammar (:grammar model))
              lexicon (or lexicon
                          (:lexicon (:generate model))
                          (:lexicon model))
@@ -197,7 +190,6 @@
        (map #(unify % spec))
        (remove #(= :fail %))
        (parent-with-head-1 spec depth)
-       (remove #(= % :fail))
        (map #(u/assoc-in! % [::started?] true))))
 
 (defn parent-with-head-1 [spec depth parent-rules]

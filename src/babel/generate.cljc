@@ -238,4 +238,5 @@
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
-         (map #(u/assoc-in! % [::done?] true)))))
+         (map #(u/assoc-in! % [::done?] true))
+         shuffle)))

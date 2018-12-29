@@ -101,7 +101,7 @@
   (println "parsing:")
   (println "===")
   (count (take 10
-               (repeatedly #(let [expression (morph (generate {:cat :v}))]
+               (repeatedly #(let [expression (morph (generate {:cat :top}))]
                               (println (->> (parse expression)
                                             (map morph-ps)
                                             (clojure.string/join ","))))))))

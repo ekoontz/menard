@@ -1,5 +1,4 @@
 (ns babylon.parse
-  (:refer-clojure :exclude [get-in resolve find])
   (:require
    [babylon.over :as over :refer [truncate]]
    [clojure.core.cache :as cache]
@@ -7,7 +6,7 @@
    [clojure.string :as string]
    #?(:clj [clojure.tools.logging :as log])
    #?(:cljs [babel.logjs :as log])
-   [dag_unify.core :refer (get-in strip-refs)]))
+   [dag_unify.core :as u]))
 
 (def ^:const parse-with-lexical-caching true)
 
@@ -113,27 +112,27 @@
   "useful for providing an abbreviated form of a sign's comps and heads. called as part of truncation to improve parsing performance by avoiding copying unnecessary material."
   (let [language-keyword (:language-keyword model)
         root-form (or
-                   (get-in sign [language-keyword :infinitive])
-                   (get-in sign [language-keyword :root])
-                   (get-in sign [language-keyword language-keyword])
-                   (if (string? (get-in sign [language-keyword]))
-                     (get-in sign [language-keyword])))
+                   (u/get-in sign [language-keyword :infinitive])
+                   (u/get-in sign [language-keyword :root])
+                   (u/get-in sign [language-keyword language-keyword])
+                   (if (string? (u/get-in sign [language-keyword]))
+                     (u/get-in sign [language-keyword])))
         stringified ((:morph model) sign)]
     (conj (if (and root-form
-                   (= :none (get-in sign [:comp] :none))
-                   (= :none (get-in sign [:head] :none))
+                   (= :none (u/get-in sign [:comp] :none))
+                   (= :none (u/get-in sign [:head] :none))
                    (not (= root-form stringified)))
             {language-keyword {language-keyword stringified
                                :root root-form}}
             {language-keyword stringified})
-          (if-let [rule (get-in sign [:rule])]
+          (if-let [rule (u/get-in sign [:rule])]
             {:rule rule})
-          (if-let [cat (or (get-in sign [:cat])
-                           (get-in sign [:synsem :cat]))]
+          (if-let [cat (or (u/get-in sign [:cat])
+                           (u/get-in sign [:synsem :cat]))]
             {:cat cat})
-          (if-let [head (get-in sign [:head])]
+          (if-let [head (u/get-in sign [:head])]
             {:head (summarize head model)})
-          (if-let [comp (get-in sign [:comp])]
+          (if-let [comp (u/get-in sign [:comp])]
             {:comp (summarize comp model)}))))
   
 (defn parses [input n model span-map parse-with-truncate]
@@ -184,8 +183,8 @@
                                            (if parse-with-truncate
                                              (map-fn (fn [parent]
                                                        (conj
-                                                        {:head (summarize (get-in parent [:head]) model)
-                                                         :comp (summarize (get-in parent [:comp]) model)}
+                                                        {:head (summarize (u/get-in parent [:head]) model)
+                                                         :comp (summarize (u/get-in parent [:comp]) model)}
                                                         (truncate parent [[:comp]
                                                                           [:head]]
                                                                   model)))
@@ -274,8 +273,8 @@
   
 (defn leaves [parse-tree]
   "return terminal nodes (leaves) for this tree."
-  (let [head (get-in parse-tree [:head] :none)
-        comp (get-in parse-tree [:comp] :none)]
+  (let [head (u/get-in parse-tree [:head] :none)
+        comp (u/get-in parse-tree [:comp] :none)]
     (cond
       (and (= :none head)
            (= :none comp))
@@ -292,60 +291,3 @@
        (leaves head)
        (leaves comp)))))
 
-;; TODO: make a fo-ps, but instead of
-;; returning a string, it returns a map,
-;; e.g., instead of returning:
-;;   [noun-phrase C:'the' H:[nbar-s-obj H:[nbar C:'tall' H:'man'] C:[s/obj C:'you' H:'see']]]
-;; instead, return:
-;;
-;; {:rule "noun-phrase"
-;;  :c "the"
-;;  :h {:rule "nbar-s-obj"
-;;      :h {:rule "nbar"
-;;          :c "tall"
-;;         :h "man"))
-;;     :c {:rule "s/obj"
-;;          :c "you"
-;;         :h "see")))))
-;;
-;; 
-;; in other words, transform input tree into a much
-;; smaller map.
-
-(defn fo-ps [tree morph]
-  "return a human-readable string of a phrase structure tree. leaves of the tree are printed
-   by calling the supplied _morph_ function"
-  (let [head-first? (get-in tree [:first] :none)
-        cat (str (get-in tree [:synsem :cat]) "")]
-    (if (= true (get-in tree [:phrasal]))
-      (do (log/trace (str "fo-ps: rule at top of tree: " (get-in tree [:rule])))
-          (log/trace (str "fo-ps: " (strip-refs tree))))
-      (log/trace (str "fo-ps: leaf: " (strip-refs tree))))
-    (cond
-      (= :fail tree) :fail
-
-      (and (= head-first? :none)
-           (= false (get-in tree [:phrasal])))
-      (str "" (morph tree) "")
-
-      (= head-first? :comp)
-      (str "[" (get-in tree [:rule]) " "
-           "C:" (fo-ps (get-in tree [:comp]) morph) " "
-           "H:" (fo-ps (get-in tree [:head]) morph)
-           "]")
-
-      (= head-first? :head)
-      (str "[" (get-in tree [:rule]) " "
-           "H:" (fo-ps (get-in tree [:head]) morph) " "
-           "C:" (fo-ps (get-in tree [:comp]) morph)
-           "]")
-
-      (nil? tree)
-      (str "(nil)")
-
-      true "_"
-
-      ;; other possibilities for fallthrough besides "_".
-      true (strip-refs tree)
-      
-      true (str "?? " (if (nil? tree) "(nil)" (type tree))))))

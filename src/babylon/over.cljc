@@ -1,16 +1,17 @@
-(ns babel.over
+(ns babylon.over
   (:refer-clojure :exclude [get-in])
   (:require
-   [babel.exception :refer [exception]]
+   [babylon.exception :refer [exception]]
    #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [babel.logjs :as log]) 
+   #?(:cljs [babylon.logjs :as log]) 
    [dag_unify.core :as u
     :refer [copy fail-path get-in unify unify!
             ;; temporary: until we move (truncate) from here to dag_unify, we
             ;; need these three:
             deserialize serialize
             ;; needed for log/debug statements:
-            strip-refs]]))
+            strip-refs]]
+   [dag_unify.dissoc :as d]))
 
 ;; use map or pmap.
 (def ^:const mapfn pmap)
@@ -71,31 +72,31 @@
 (defn overc [parent comp]
   "add given child as the complement of the parent"
   (cond
-   (or (seq? parent)
-       (vector? parent))
-   (let [parents (lazy-seq parent)]
-     (mapcat (fn [parent]
-               (overc parent comp))
-             parents))
+    (or (seq? parent)
+        (vector? parent))
+    (let [parents (lazy-seq parent)]
+      (mapcat (fn [parent]
+                (overc parent comp))
+              parents))
 
-   (or (seq? comp)
-       (vector? comp))
-   (let [comp-children comp]
-     (mapcat (fn [child]
-               (overc parent child))
-             comp-children))
-   true
-   (let [result (unify! (copy parent)
-                        {:comp (copy comp)})
-         is-fail? (= :fail result)]
-     (if (not is-fail?)
-       (do
-         (log/debug (str "overc success: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
-                                                                          (get-in comp [:synsem :sem :pred]
-                                                                                  "(no pred for comp)"))))
-         [result])
-       (log/debug (str "overc: fail-path for rule: " (:rule parent) ":"
-                       (fail-path (copy parent) {:comp (copy comp)})))))))
+    (or (seq? comp)
+        (vector? comp))
+    (let [comp-children comp]
+      (mapcat (fn [child]
+                (overc parent child))
+              comp-children))
+    true
+    (let [result (unify! (copy parent)
+                         {:comp (copy comp)})
+          is-fail? (= :fail result)]
+      (if (not is-fail?)
+        (do
+          (log/debug (str "overc success: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
+                                                                                   (get-in comp [:synsem :sem :pred]
+                                                                                           "(no pred for comp)"))))
+          [result])
+        (log/debug (str "overc: fail-path for rule: " (:rule parent) ":"
+                        (fail-path (copy parent) {:comp (copy comp)})))))))
 
 (declare subpath?)
 
@@ -117,7 +118,7 @@
         skeleton (first serialized)
         truncated-skeleton
         (reduce (fn [structure path]
-                  (u/dissoc-in structure path))
+                  (d/dissoc-in structure path))
                 skeleton truncate-paths)
         truncated-serialized
         (cons truncated-skeleton

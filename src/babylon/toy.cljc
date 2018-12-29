@@ -1,4 +1,4 @@
-(ns babylon.generate.toy
+(ns babylon.toy
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.generate :as g]

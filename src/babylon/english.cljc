@@ -58,7 +58,10 @@
       (g/generate spec)))
 
 (defn parse [expression]
-  (binding [p/grammar grammar]
+  (binding [p/grammar grammar
+            p/lexicon lexicon
+            p/lookup (fn [word]
+                       (get lexicon word))]
     (p/parse expression
              {:grammar grammar
               :lexicon lexicon

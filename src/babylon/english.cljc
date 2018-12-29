@@ -1,6 +1,7 @@
 (ns babylon.english
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
+            [babylon.english.morphology :as m]
             [babylon.generate :as g]
             [babylon.generate.lab :refer [morph morph-ps]]
             [babylon.parse :as p]))

@@ -4,8 +4,30 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]))
 
-;; This is used to convert human-friendly data structures
-;; representing a lexicon into a machine-friendly data structure.
+;; These functions are used to a convert human-friendly lexicon
+;; into a machine-friendly data structure.
+(defn apply-rules [lexeme rules]
+  (let [one-round
+        (->> rules
+             (map
+              (fn [rule]
+                (let [[antecedent consequent] rule]
+                  (let [result (unify lexeme antecedent)]
+                    (cond (not (= :fail result))
+                          (unify lexeme consequent)
+                          true
+                          lexeme))))))]
+    (if (not (= one-round lexeme))
+      ;; lexeme changed as a result of applying rules,
+      ;; so re-apply rules.
+      (apply-rules one-round rules)
+      ;; we are done.
+      lexeme)))
+
+;; TODO: for now _rules_ assumes one-to-one:
+;; (source lexeme -> compiled lexeme),
+;; but should also support one-to-many rules:
+;; (source lexeme -> collection(compiled lexeme).
 (defn process [lexicon rules]
   (into {} (for [[surface lexemes-for-surface]
                  lexicon]
@@ -14,13 +36,8 @@
                    (map (fn [lexeme]
                           (merge lexeme {:phrasal false
                                          :surface surface})))
-                   (mapcat (fn [lexeme]
-                             (let [[antecedent consequent] (first rules)]
-                               (let [result (unify lexeme antecedent)]
-                                 (cond (not (= :fail result))
-                                       [(unify lexeme consequent)]
-                                       true
-                                       [lexeme]))))))])))
+                   (map (fn [lexeme]
+                          (apply-rules lexeme rules))))])))
 
 (defn map-function-on-map-vals [m f]
      (if (and (not (map? m))

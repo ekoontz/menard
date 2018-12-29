@@ -13,7 +13,9 @@
 ;; For generation and parsing of English.
 ;; 
 (def lexical-rules
-  [[{:cat :det} {:subcat []}]])
+  [
+   ;; determiners have an empty subcat.
+   [{:cat :det} {:subcat []}]])
 
 (def lexicon (-> "babylon/english/lexicon.edn"
                  io/resource

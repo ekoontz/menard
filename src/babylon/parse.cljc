@@ -106,7 +106,6 @@
                            {(- right-boundary left-boundary)
                             (list span-pair)}))
                        spans))))))
-(declare leaves)
 
 (defn summarize [sign model]
   "useful for providing an abbreviated form of a sign's comps and heads. called as part of truncation to improve parsing performance by avoiding copying unnecessary material."
@@ -270,24 +269,3 @@
 
            true
            (throw (Exception. "Don't know how to parse input of type: " (type input)))))))
-  
-(defn leaves [parse-tree]
-  "return terminal nodes (leaves) for this tree."
-  (let [head (u/get-in parse-tree [:head] :none)
-        comp (u/get-in parse-tree [:comp] :none)]
-    (cond
-      (and (= :none head)
-           (= :none comp))
-      [parse-tree]
-
-      (= :none head)
-      (leaves comp)
-
-      (= :none comp)
-      (leaves head)
-      
-      true
-      (concat
-       (leaves head)
-       (leaves comp)))))
-

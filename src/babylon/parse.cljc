@@ -244,9 +244,9 @@
                (if (empty? result)
                  (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
                                 (string/join ";" tokenizations)))
-                 (log/info (str "parsed input:    \"" input "\"")))
+                 (log/debug (str "parsed input:    \"" input "\"")))
                result))
-         
+           
            (or (seq? input) (vector? input))
            ;; assume input is a list of tokens.
            (let [tokens input

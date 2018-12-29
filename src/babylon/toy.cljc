@@ -47,8 +47,8 @@
 ;; </language-specific grammar rules>
 
 ;; <compilation functions>
-;; These are used to convert a human-friendly data structures
-;; to machine-friendly data structures.
+;; These are used to convert human-friendly data structures
+;; representing a lexicon and a grammar into machine-friendly data structures.
 (defn process-lexicon [lexicon]
   (let [has-det {:cat :det}
         subcat-empty {:subcat []}]

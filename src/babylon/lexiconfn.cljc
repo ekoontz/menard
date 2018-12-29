@@ -4,6 +4,24 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]))
 
+;; This is used to convert human-friendly data structures
+;; representing a lexicon into a machine-friendly data structure.
+(defn process [lexicon rules]
+  (into {} (for [[surface lexemes-for-surface]
+                 lexicon]
+             [surface
+              (->> lexemes-for-surface
+                   (map (fn [lexeme]
+                          (merge lexeme {:phrasal false
+                                         :surface surface})))
+                   (mapcat (fn [lexeme]
+                             (let [[antecedent consequent] (first rules)]
+                               (let [result (unify lexeme antecedent)]
+                                 (cond (not (= :fail result))
+                                       [(unify lexeme consequent)]
+                                       true
+                                       [lexeme]))))))])))
+
 (defn map-function-on-map-vals [m f]
      (if (and (not (map? m))
               (not (nil? m)))

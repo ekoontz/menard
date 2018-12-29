@@ -3,39 +3,23 @@
             [clojure.java.io :as io]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
+            [babylon.lexiconfn :as l]
             [babylon.generate :as g]
             [babylon.grammar :as grammar :refer [syntax-tree]]
             [babylon.parse :as p]
             [babylon.ug :refer [head-rule head-last subcat-1 process-grammar]]))
 
-;; For generation and parsing English.
+;;
+;; For generation and parsing of English.
 ;; 
-;; <compilation functions>
-;; These are used to convert human-friendly data structures
-;; representing a lexicon and a grammar into machine-friendly data structures.
-(defn process-lexicon [lexicon]
-  (let [has-det {:cat :det}
-        subcat-empty {:subcat []}]
-    (into {} (for [[surface lexemes-for-surface]
-                   lexicon]
-               [surface
-                (->> lexemes-for-surface
-                     (map (fn [lexeme]
-                            (merge lexeme {:phrasal false
-                                           :surface surface})))
-                     (mapcat (fn [lexeme]
-                              (let [result (unify lexeme has-det)]
-                                (cond (not (= :fail result))
-                                      [(unify lexeme subcat-empty)]
-                                      true
-                                      [lexeme])))))]))))
-;; </compilation functions>
+(def lexical-rules
+  [[{:cat :det} {:subcat []}]])
 
 (def lexicon (-> "babylon/english/lexicon.edn"
                  io/resource
                  slurp
                  read-string
-                 process-lexicon))
+                 (l/process lexical-rules)))
 
 (def grammar (-> "babylon/english/grammar.edn"
                  io/resource
@@ -76,14 +60,14 @@
                         (get lexicon word))})))
 
 (defn demo []
-  (println "generation:")
+  (println "Generation:")
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate :top))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :n}))))))
-  (println "parsing:")
+  (println "Parsing:")
   (println "===")
   (count (take 10
                (repeatedly #(let [expression (morph (generate {:cat :top}))]

@@ -1,6 +1,4 @@
 [{:g [#"(.*)$"   "$1s"]  ;; dog     -> dogs
   :p [#"(.*)s$"  "$1"]  ;;  dogs    -> dog
-  :agr {:number :plur}}]
-
-
-
+  :u {:cat :noun
+      :agr {:number :plur}}}]

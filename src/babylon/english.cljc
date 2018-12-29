@@ -1,7 +1,6 @@
 (ns babylon.english
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
-            [babylon.english.morphology :as m :refer [rules]]
             [babylon.generate :as g]
             [babylon.generate.lab :refer [morph morph-ps]]
             [babylon.parse :as p]
@@ -27,7 +26,6 @@
                                       [(unify lexeme subcat-empty)]
                                       true
                                       [lexeme])))))]))))
-
 ;; </compilation functions>
 
 (def lexicon (-> "babylon/english/lexicon.edn"
@@ -42,6 +40,17 @@
                  read-string
                  process-grammar))
 
+(def morphology
+  (concat
+   [(-> "babylon/english/morphology/nouns.edn"
+        clojure.java.io/resource
+        slurp
+        read-string)
+    (-> "babylon/english/morphology/verbs.edn"
+        clojure.java.io/resource
+        slurp
+        read-string)]))
+
 (defn generate [spec]
     (binding [g/grammar grammar
               g/lexicon lexicon
@@ -49,11 +58,12 @@
       (g/generate spec)))
 
 (defn parse [expression]
-  (p/parse expression
-           {:grammar grammar
-            :lexicon lexicon
-            :lookup (fn [word]
-                       (get lexicon word))}))
+  (binding [p/grammar grammar]
+    (p/parse expression
+             {:grammar grammar
+              :lexicon lexicon
+              :lookup (fn [word]
+                        (get lexicon word))})))
 
 (defn demo []
   (println "generation:")
@@ -69,5 +79,5 @@
                (repeatedly #(let [expression (morph (generate {:cat :top}))]
                               (println (->> (parse expression)
                                             (map morph-ps)
-                                            (clojure.string/join ","))))))))
+                                            (clojure.string/join ", "))))))))
 

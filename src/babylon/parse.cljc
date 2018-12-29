@@ -10,6 +10,11 @@
 
 (def ^:const parse-with-lexical-caching true)
 
+;; TODO: these three dynamic defs not used yet.
+(def ^:dynamic grammar)
+(def ^:dynamic lexicon)
+(def ^:dynamic lookup)
+
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
 (def map-fn #?(:clj pmap) #?(:cljs map))

@@ -1,12 +1,15 @@
 (ns babylon.english
-  (:require [dag_unify.core :as u :refer [unify]]
+  (:require [clojure.string :as string]
+            [clojure.java.io :as io]
+            [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.generate :as g]
-            [babylon.generate.lab :refer [morph morph-ps]]
+            [babylon.grammar :as grammar :refer [syntax-tree]]
             [babylon.parse :as p]
             [babylon.ug :refer [head-rule head-last subcat-1 process-grammar]]))
 
-;; english grammar and lexicon.
+;; For generation and parsing English.
+;; 
 ;; <compilation functions>
 ;; These are used to convert human-friendly data structures
 ;; representing a lexicon and a grammar into machine-friendly data structures.
@@ -29,13 +32,13 @@
 ;; </compilation functions>
 
 (def lexicon (-> "babylon/english/lexicon.edn"
-                 clojure.java.io/resource
+                 io/resource
                  slurp
                  read-string
                  process-lexicon))
 
 (def grammar (-> "babylon/english/grammar.edn"
-                 clojure.java.io/resource
+                 io/resource
                  slurp
                  read-string
                  process-grammar))
@@ -51,17 +54,21 @@
         slurp
         read-string)]))
 
+(defn morph [structure]
+  ;; TODO: flesh out:
+  (grammar/default-morph-fn structure))
+
 (defn generate [spec]
-    (binding [g/grammar grammar
-              g/lexicon lexicon
-              g/morph-ps morph-ps]
-      (g/generate spec)))
+  (binding [g/grammar grammar
+            g/lexicon lexicon
+            g/morph-ps syntax-tree]
+    (g/generate spec)))
 
 (defn parse [expression]
   (binding [p/grammar grammar
             p/lexicon lexicon
-            p/lookup (fn [word]
-                       (get lexicon word))]
+            p/lookup-fn (fn [word]
+                          (get lexicon word))]
     (p/parse expression
              {:grammar grammar
               :lexicon lexicon
@@ -81,6 +88,6 @@
   (count (take 10
                (repeatedly #(let [expression (morph (generate {:cat :top}))]
                               (println (->> (parse expression)
-                                            (map morph-ps)
-                                            (clojure.string/join ", "))))))))
+                                            (map syntax-tree)
+                                            (string/join ", "))))))))
 

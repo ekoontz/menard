@@ -13,7 +13,8 @@
 ;; TODO: these three dynamic defs not used yet.
 (def ^:dynamic grammar)
 (def ^:dynamic lexicon)
-(def ^:dynamic lookup)
+(declare lookup)
+(def ^:dynamic lookup-fn lookup)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")

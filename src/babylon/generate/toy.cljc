@@ -83,13 +83,6 @@
               g/morph-ps morph-ps]
       (g/generate spec)))
 
-(defn demo []
-  (count (take 10 (repeatedly #(println (morph (generate :top))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :n})))))))
-
 (defn parse [expression]
   (p/parse expression
            (merge toy-english
@@ -97,4 +90,19 @@
                              (get (:lexicon toy-english)
                                   word))})))
 
+(defn demo []
+  (println "generation:")
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate :top))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :n}))))))
+  (println "parsing:")
+  (println "===")
+  (count (take 10
+               (repeatedly #(let [expression (morph (generate {:cat :v}))]
+                              (println (->> (parse expression)
+                                            (map morph-ps)
+                                            (clojure.string/join ","))))))))
 

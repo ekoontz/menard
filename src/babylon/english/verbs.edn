@@ -1,4 +1,4 @@
-[{:g [#"(.*)$"   "$1s"]  ;; sleep     -> sleeps
+[{:g [#"(.*)$"   "$1s"] ;; sleep     -> sleeps
   :p [#"(.*)s$"  "$1"]  ;;  sleeps    -> sleep
   :u {:cat :verb
       :agr {:person :3rd

@@ -32,14 +32,11 @@
      :comp complement}))
 ;; </universal grammar rules>
 
-;; <lexicon>
-(def lexicon
-  {"a"      [{:cat :det}]
-   "cat"    [{:cat :n :pred :cat :subcat {:1 {:cat :det}}}]
-   "dog"    [{:cat :n :pred :dog :subcat {:1 {:cat :det}}}]
-   "sleeps" [{:cat :v :pred :sleeps :subcat {:1 {:cat :n}}}]   
-   "the"    [{:cat :det}]})
-;; </lexicon>
+;; lexicon
+(def lexicon (-> "babylon/english/lexicon.edn"
+                 clojure.java.io/resource
+                 slurp
+                 read-string))
 
 ;; <language-specific grammar rules>
 (def grammar

@@ -2,7 +2,8 @@
   (:require [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.generate :as g]
-            [babylon.generate.lab :refer [morph morph-ps]]))
+            [babylon.generate.lab :refer [morph morph-ps]]
+            [babylon.parse :as p]))
 ;; a toy english grammar and lexicon.
 
 ;; <universal grammar rules>
@@ -88,3 +89,12 @@
   (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :n})))))))
+
+(defn parse [expression]
+  (p/parse expression
+           (merge toy-english
+                  {:lookup (fn [word]
+                             (get (:lexicon toy-english)
+                                  word))})))
+
+

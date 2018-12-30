@@ -80,9 +80,9 @@
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate :top))))))
   (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :v}))))))
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :verb}))))))
   (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :n}))))))
+  (count (take 10 (repeatedly #(println (morph (generate {:cat :noun}))))))
   (println "Parsing:")
   (println "===")
   (count (take 10

@@ -1,5 +1,6 @@
 {"a"      [{:cat :det}]
  "cat"    [{:cat :noun :pred :cat :subcat {:1 {:cat :det}}}]
  "dog"    [{:cat :noun :pred :dog :subcat {:1 {:cat :det}}}]
- "sleeps" [{:cat :verb :pred :sleeps :subcat {:1 {:cat :n}}}]   
+ "sleep"  [(let [agr (atom :top)]
+             {:cat :verb :pred :sleeps :agr agr :subcat {:1 {:agr agr :cat :noun}}})]   
  "the"    [{:cat :det}]}

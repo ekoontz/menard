@@ -3,6 +3,7 @@
             [dag_unify.core :as u :refer [unify]]))
 
 (declare default-morph-fn)
+(declare default-morph-leaf)
 (def ^:dynamic morph default-morph-fn)
 (def ^:dynamic morph-leaf default-morph-leaf)
 

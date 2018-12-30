@@ -21,59 +21,61 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-user=> (load "babylon/toy")
+user=> (load "babylon/english")
 nil
-user=> (in-ns 'babylon.toy)
-#namespace[babylon.toy]
-babylon.toy=> (demo)
-generation:
+user=> (in-ns 'babylon.english)
+#namespace[babylon.english]
+babylon.english=> (load "grammar")
+nil
+babylon.english=> (demo)
+Generation:
 ===
-a cat
-a cat sleeps
 the cat
-the dog sleeps
-a dog
-the dog sleeps
 a cat sleeps
 the dog
-a cat
+a dog
+a dog sleeps
 the dog
-===
-the cat sleeps
-the cat sleeps
+a cat
+a cat
 the dog sleeps
+a cat sleeps
+===
+a cat sleeps
+a cat sleeps
+a dog sleeps
+the cat sleeps
+a cat sleeps
+the cat sleeps
+a dog sleeps
+the cat sleeps
 the dog sleeps
 a dog sleeps
-the dog sleeps
-a cat sleeps
-the dog sleeps
-the dog sleeps
-the cat sleeps
 ===
-the cat
-the dog
 a cat
-the dog
 a cat
 the cat
-the dog
-the dog
+a dog
 a cat
-the dog
-parsing:
+the cat
+a dog
+the cat
+the cat
+the cat
+Parsing:
 ===
+[rule-1  .[rule-1  .a *dog] *sleeps]
 [rule-1  .[rule-1  .the *cat] *sleeps]
+[rule-1  .a *dog]
+[rule-1  .the *dog]
+[rule-1  .a *cat]
 [rule-1  .[rule-1  .a *dog] *sleeps]
-[rule-1  .[rule-1  .the *dog] *sleeps]
-[rule-1  .[rule-1  .the *dog] *sleeps]
-[rule-1  .[rule-1  .a *cat] *sleeps]
-[rule-1  .[rule-1  .a *dog] *sleeps]
-[rule-1  .[rule-1  .a *cat] *sleeps]
-[rule-1  .[rule-1  .the *cat] *sleeps]
-[rule-1  .[rule-1  .the *dog] *sleeps]
-[rule-1  .[rule-1  .a *dog] *sleeps]
+[rule-1  .a *cat]
+[rule-1  .a *cat]
+[rule-1  .a *dog]
+[rule-1  .a *cat]
 10
-babylon.toy=>
+babylon.english=>
 ```
 
 

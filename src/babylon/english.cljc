@@ -46,11 +46,18 @@
 (defn morph-leaf [structure]
   ;; TODO: flesh out:
   (log/debug (str "morphology of:" structure))
-  (cond
-    (u/get-in structure [:canonical])
-    (u/get-in structure [:canonical])
-    true
-    "_"))
+  (let [{u :u g :g} (nth morphology 1)]
+    (let [unified (unify u structure)]
+      (when (not (= :fail unified))
+        (log/info (str "G: " g))
+        (log/info (str "R: " (clojure.string/replace
+                              (u/get-in structure [:canonical])
+                              (first g) (second g))))))    
+    (cond
+      (u/get-in structure [:canonical])
+      (u/get-in structure [:canonical])
+      true
+      "_")))
 
 (defn morph [structure]
   (binding [grammar/morph-leaf morph-leaf]

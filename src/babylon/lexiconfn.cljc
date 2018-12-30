@@ -22,7 +22,7 @@
                                    [lexeme]
                                    result))
                                true
-                               ;; 2. ..or (the more frequent case)
+                               ;; 2. ..or (the more frequent use case)
                                ;; _consequent_ can be another map that
                                ;; we unify against the lexeme.
                                (let [result (unify lexeme consequent)]

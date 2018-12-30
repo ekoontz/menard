@@ -51,14 +51,10 @@
 
 (defn parse [expression]
   (binding [p/grammar grammar
-            p/lexicon lexicon
             p/lookup-fn (fn [word]
                           (get lexicon word))]
     (p/parse expression
-             {:grammar grammar
-              :lexicon lexicon
-              :lookup (fn [word]
-                        (get lexicon word))})))
+             {:grammar grammar})))
 
 (defn demo []
   (println "Generation:")

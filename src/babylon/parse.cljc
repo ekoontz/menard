@@ -10,11 +10,11 @@
 
 (def ^:const parse-with-lexical-caching true)
 
-;; TODO: these three dynamic defs not used yet.
-(def ^:dynamic grammar)
-(def ^:dynamic lexicon)
 (declare lookup)
 (def ^:dynamic lookup-fn lookup)
+
+;; TODO: this dynamic def is not used yet.
+(def ^:dynamic grammar)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
@@ -28,17 +28,16 @@
       (swap! lexical-cache #(cache/hit % k)))
     (swap! lexical-cache #(cache/miss % k (if-miss-do k)))))
 
-(defn lookup [{lookup :lookup
-               lexical-cache :lexical-cache
+(defn lookup [{lexical-cache :lexical-cache
                default-fn :default-fn} k]
   (log/debug (str "lookup: k=" k))
   (let [pre-default
         (if (or (= false parse-with-lexical-caching)
                 (nil? lexical-cache))
-          (lookup k)
+          (lookup-fn k)
           (let [lookup-fn (fn [k]
                             (do (log/debug (str "cache miss for " k))
-                                (let [looked-up (lookup k)]
+                                (let [looked-up (lookup-fn k)]
                                   (if (not (empty? looked-up)) looked-up :none))))]
             (deal-with-cache k lookup-fn lexical-cache)
             (let [cache-value (get @lexical-cache k)]

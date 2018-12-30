@@ -46,7 +46,6 @@
        read-string)))
 
 (defn morph-leaf [structure]
-  ;; TODO: flesh out:
   (log/debug (str "morphology of:" structure))
   (let [matching-rules
         (filter (fn [rule]

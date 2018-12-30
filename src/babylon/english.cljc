@@ -55,6 +55,9 @@
                          (re-find from (u/get-in structure [:canonical])))))
                 morphology)]
     (cond
+      (u/get-in structure [:surface])
+      (u/get-in structure [:surface])
+
       (not (empty? matching-rules))
       (let [{[from to] :g} (first matching-rules)]
          (log/debug (str "using matching rule:" (first matching-rules)))
@@ -76,10 +79,29 @@
             g/morph-ps syntax-tree]
     (g/generate spec)))
 
+(defn matching-lexemes [word]
+  (let [from-inflected
+         (let [canonical-forms
+                 (filter #(not (nil? %))
+                         (map (fn [rule]
+                               (let [{u :u [from to] :p} rule]
+                                 (if (re-find from word)
+                                     {:canonical (clojure.string/replace word from to)
+                                      :u u})))
+                              morphology))]
+            (mapcat #(filter (fn [lexeme]
+                               (not (= :fail lexeme)))
+                             (map (fn [lexeme]
+                                    (unify (:u %) {:surface word} lexeme))
+                                  (get lexicon (:canonical %))))
+                    canonical-forms))]
+    (if (not (empty? from-inflected))
+      from-inflected
+      (get lexicon word))))
+
 (defn parse [expression]
   (binding [p/grammar grammar
-            p/lookup-fn (fn [word]
-                          (get lexicon word))]
+            p/lookup-fn matching-lexemes]
     (p/parse expression)))
 
 (defn demo []
@@ -94,7 +116,8 @@
   (println "===")
   (count (take 10
                (repeatedly #(let [expression (morph (generate {:cat :top}))]
-                              (println (->> (parse expression)
-                                            (map syntax-tree)
-                                            (string/join ", "))))))))
+                              (binding [grammar/morph-leaf morph-leaf]
+                                (println (->> (parse expression)
+                                              (map syntax-tree)
+                                              (string/join ", ")))))))))
 

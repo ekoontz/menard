@@ -1,6 +1,7 @@
 (ns babylon.english
   (:require [clojure.string :as string]
             [clojure.java.io :as io]
+            [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [unify]]
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.lexiconfn :as l]
@@ -42,15 +43,17 @@
         slurp
         read-string)]))
 
+(defn morph-leaf [structure]
+  ;; TODO: flesh out:
+  (log/info (str "morphology of:" structure))
+  (cond
+    (u/get-in structure [:canonical])
+    (u/get-in structure [:canonical])
+    true
+    "_"))
+
 (defn morph [structure]
-  (binding [grammar/morph-leaf
-            (fn [structure]
-              ;; TODO: flesh out:
-              (cond
-                 (u/get-in structure [:canonical])
-                 (u/get-in structure [:canonical])
-                 true
-                 "_"))]
+  (binding [grammar/morph-leaf morph-leaf]
     (grammar/default-morph-fn structure)))
 
 (defn generate [spec]

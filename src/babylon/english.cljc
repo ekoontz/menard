@@ -53,8 +53,7 @@
   (binding [p/grammar grammar
             p/lookup-fn (fn [word]
                           (get lexicon word))]
-    (p/parse expression
-             {:grammar grammar})))
+    (p/parse expression)))
 
 (defn demo []
   (println "Generation:")

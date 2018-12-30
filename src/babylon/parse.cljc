@@ -180,7 +180,7 @@
                                                       (:morph model))
                                            ;; fallback to (:morph model) if
                                            ;; (:morph-ps is not available)
-                                           trees (over (:grammar model) left-signs right-signs morph-ps
+                                           trees (over grammar left-signs right-signs morph-ps
                                                        (:default-fn model))]
                                        trees))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))
@@ -204,13 +204,13 @@
   each step of parsing the input, the entire tree will be preserved
   rather than just the immediate parents of the root node. Preserving
   the entire tree costs about 20% more time than truncating it."
-  ([input model & {:keys [parse-with-truncate original-input]}]
+  ([input & {:keys [parse-with-truncate original-input]}]
    (let [parse-with-truncate
          (cond (= parse-with-truncate false)
                false
                true true)
          original-input (if original-input original-input input)
-         model (if (future? model) @model model)]
+         model {}]
      (cond (= (type input) java.io.BufferedReader)
            (parse-from-file input model)
            (string? input)
@@ -218,7 +218,7 @@
              (log/debug (str "parsing input: '" input "'"))
              ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
-                   result (parse tokenizations model
+                   result (parse tokenizations
                                  :parse-with-truncate parse-with-truncate
                                  :original-input original-input)]
                (if (empty? result)

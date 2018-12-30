@@ -34,18 +34,18 @@
 
 (def morphology
   (concat
-   [(-> "babylon/english/morphology/nouns.edn"
-        clojure.java.io/resource
-        slurp
-        read-string)
-    (-> "babylon/english/morphology/verbs.edn"
-        clojure.java.io/resource
-        slurp
-        read-string)]))
+   (-> "babylon/english/morphology/nouns.edn"
+       clojure.java.io/resource
+       slurp
+       read-string)
+   (-> "babylon/english/morphology/verbs.edn"
+       clojure.java.io/resource
+       slurp
+       read-string)))
 
 (defn morph-leaf [structure]
   ;; TODO: flesh out:
-  (log/info (str "morphology of:" structure))
+  (log/debug (str "morphology of:" structure))
   (cond
     (u/get-in structure [:canonical])
     (u/get-in structure [:canonical])

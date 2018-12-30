@@ -48,14 +48,20 @@
 (defn morph-leaf [structure]
   ;; TODO: flesh out:
   (log/debug (str "morphology of:" structure))
-  (let [{u :u g :g} (nth morphology 1)]
-    (let [unified (unify u structure)]
-      (when (not (= :fail unified))
-        (log/info (str "G: " g))
-        (log/info (str "R: " (clojure.string/replace
-                              (u/get-in structure [:canonical])
-                              (first g) (second g))))))    
+  (let [matching-rules
+        (filter (fn [rule]
+                  (let [{u :u [from to] :g} rule
+                        unified (unify u structure)]
+                    (and (not (= :fail unified))
+                         (re-find from (u/get-in structure [:canonical])))))
+                morphology)]
     (cond
+      (not (empty? matching-rules))
+      (let [{[from to] :g} (first matching-rules)]
+         (log/debug (str "using matching rule:" (first matching-rules)))
+        (clojure.string/replace (u/get-in structure [:canonical])
+                                from to))
+      
       (u/get-in structure [:canonical])
       (u/get-in structure [:canonical])
       true

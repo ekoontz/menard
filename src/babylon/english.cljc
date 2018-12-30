@@ -7,8 +7,7 @@
             [babylon.generate :as g]
             [babylon.grammar :as grammar :refer [syntax-tree]]
             [babylon.parse :as p]
-            [babylon.ug :refer [head-rule head-last subcat-1 process-grammar]]))
-
+            [babylon.ug :refer [process-grammar]]))
 ;;
 ;; For generation and parsing of English.
 ;; 

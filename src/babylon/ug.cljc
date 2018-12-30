@@ -5,11 +5,14 @@
 ;; universal grammar rules
 (def head-rule
   (let [comp-cat (atom :top)
+        head-agr (atom :top)
         head-pred (atom :top)
         head-cat (atom :top)]
-    {:cat head-cat
+    {:agr head-agr
+     :cat head-cat
      :pred head-pred
-     :head {:cat head-cat
+     :head {:agr head-agr
+            :cat head-cat
             :pred head-pred}}))
 
 (def head-last

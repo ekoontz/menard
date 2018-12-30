@@ -8,7 +8,7 @@
             [babylon.generate :as g]
             [babylon.grammar :as grammar :refer [syntax-tree]]
             [babylon.parse :as p]
-            [babylon.ug :as ug :refer [process-grammar]]))
+            [babylon.ug :as ug]))
 ;;
 ;; For generation and parsing of English.
 ;; 
@@ -30,7 +30,7 @@
       io/resource
       slurp
       read-string
-      process-grammar))
+      ug/process))
 
 (def morphology
   (concat

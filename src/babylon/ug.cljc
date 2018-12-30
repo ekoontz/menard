@@ -26,9 +26,9 @@
      :subcat []
      :comp complement}))
 
-(defn process-grammar [grammar]
+(defn process [grammar]
   (->>
    grammar
    (map #(apply unify
-                (cons (dissoc-in % [:unify])
+                (cons (dissoc % :unify)
                       (map eval (:unify %)))))))

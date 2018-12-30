@@ -1,2 +1,2 @@
 [{:rule "rule-1"
-  :unify [head-rule head-last subcat-1]}]
+  :unify [ug/head-rule ug/head-last ug/subcat-1]}]

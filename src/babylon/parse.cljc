@@ -172,8 +172,7 @@
                                                               (lookup model string))
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
-                                      right-signs (lazy-cat right-lexemes (filter map? right))
-                                      ]
+                                      right-signs (lazy-cat right-lexemes (filter map? right))]
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
@@ -194,20 +193,7 @@
                                                                           [:head]]
                                                                   model)))
                                                      trees))]
-                                       (if (not (empty? trees))
-                                         (log/trace (str "parse/parses: trees: "
-                                                         (string/join ","
-                                                                      (map #(morph-ps %) trees))))
-                                         (log/trace (str "no trees found for left/right:")))
-                                       (log/trace (str " left: "
-                                                       (string/join ","
-                                                                    (map #(morph-ps %) left-signs))))
-                                       (log/trace (str " right: "
-                                                       (string/join ","
-                                                                    (map #(morph-ps %) right-signs))))
-                                       (if (and false parse-with-truncate) truncated-trees trees)))
-                                   ;; TODO: explain why we can use (first) here for the left- and right-strings.
-                                   ;; Throw an exception if (> 1 (count left-strings)) or (> 1 (count right-strings))
+                                       (if false truncated-trees trees)))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))
                                 ;; </value>
                                 })

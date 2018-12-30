@@ -6,25 +6,40 @@
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
-(defn apply-rules [lexeme rules]
+(defn apply-rules [rules lexemes]
   (let [one-round
         (->> rules
-             (map
+             (mapcat
               (fn [rule]
                 (let [[antecedent consequent] rule]
-                  (let [result (unify lexeme antecedent)]
-                    (cond (not (= :fail result))
-                          (unify lexeme consequent)
-                          true
-                          lexeme))))))]
-    (if (not (= one-round lexeme))
-      ;; lexeme changed as a result of applying rules,
-      ;; so re-apply rules.
-      (apply-rules one-round rules)
+                  (mapcat (fn [lexeme]
+                             (cond
+                               (fn? consequent)
+                               ;; 1. _consequent_ can be a function that
+                               ;; takes a map and returns a sequence of maps..
+                               (let [result (consequent lexeme)]
+                                 (if (empty? result)
+                                   [lexeme]
+                                   result))
+                               true
+                               ;; 2. ..or (the more frequent case)
+                               ;; _consequent_ can be another map that
+                               ;; we unify against the lexeme.
+                               (let [result (unify lexeme consequent)]
+                                 (cond (not (= :fail result))
+                                       [result]
+                                       true
+                                       [lexeme]))))
+                          lexemes)))))]
+    (if (= (count (set one-round))
+           (count (set (vec (clojure.set/union lexemes one-round)))))
       ;; we are done.
-      lexeme)))
+      lexemes
+      ;; set of lexemes changed as a result of applying rules,
+      ;; so re-apply rules:
+      (apply-rules rules one-round))))
 
-;; TODO: for now _rules_ assumes one-to-one:
+;; TODO: for now _rules_ assumes one-to-one rules:
 ;; (source lexeme -> compiled lexeme),
 ;; but should also support one-to-many rules:
 ;; (source lexeme -> collection(compiled lexeme).
@@ -36,8 +51,7 @@
                    (map (fn [lexeme]
                           (merge lexeme {:phrasal false
                                          :surface surface})))
-                   (map (fn [lexeme]
-                          (apply-rules lexeme rules))))])))
+                   (apply-rules rules))])))
 
 (defn map-function-on-map-vals [m f]
      (if (and (not (map? m))

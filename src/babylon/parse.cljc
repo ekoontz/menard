@@ -182,18 +182,8 @@
                                            ;; fallback to (:morph model) if
                                            ;; (:morph-ps is not available)
                                            trees (over (:grammar model) left-signs right-signs morph-ps
-                                                       (:default-fn model))
-                                           truncated-trees
-                                           (if parse-with-truncate
-                                             (map-fn (fn [parent]
-                                                       (conj
-                                                        {:head (summarize (u/get-in parent [:head]) model)
-                                                         :comp (summarize (u/get-in parent [:comp]) model)}
-                                                        (truncate parent [[:comp]
-                                                                          [:head]]
-                                                                  model)))
-                                                     trees))]
-                                       (if false truncated-trees trees)))
+                                                       (:default-fn model))]
+                                       trees))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))
                                 ;; </value>
                                 })

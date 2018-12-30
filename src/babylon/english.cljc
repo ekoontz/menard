@@ -43,8 +43,15 @@
         read-string)]))
 
 (defn morph [structure]
-  ;; TODO: flesh out:
-  (grammar/default-morph-fn structure))
+  (binding [grammar/morph-leaf
+            (fn [structure]
+              ;; TODO: flesh out:
+              (cond
+                 (u/get-in structure [:canonical])
+                 (u/get-in structure [:canonical])
+                 true
+                 "_"))]
+    (grammar/default-morph-fn structure)))
 
 (defn generate [spec]
   (binding [g/grammar grammar

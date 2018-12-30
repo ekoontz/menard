@@ -44,11 +44,11 @@
 ;; but should also support one-to-many rules:
 ;; (source lexeme -> collection(compiled lexeme).
 (defn process [lexicon rules]
-  (into {} (for [[surface lexemes-for-surface]
+  (into {} (for [[canonical lexemes]
                  lexicon]
-             [surface
-              (->> lexemes-for-surface
+             [canonical
+              (->> lexemes
                    (map (fn [lexeme]
                           (merge lexeme {:phrasal false
-                                         :surface surface})))
+                                         :canonical canonical})))
                    (apply-rules rules))])))

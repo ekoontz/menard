@@ -1,28 +1,36 @@
 (ns babylon.grammar
   (:require [clojure.string :as string]
             [dag_unify.core :as u :refer [unify]]))
-            
+
+(declare default-morph-fn)
+(def ^:dynamic morph default-morph-fn)
+(def ^:dynamic morph-leaf default-morph-leaf)
+
+(defn default-morph-leaf [structure]
+  (cond
+    
+    (u/get-in structure [:canonical])
+    (u/get-in structure [:canonical])
+
+    true
+    "_"))
+
 (defn default-morph-fn [structure]
   (cond (or (= :fail structure) 
             (nil? structure)
             (string? structure)) structure
 
         (seq? structure)
-        (map default-morph-fn structure)
+        (map morph structure)
         
-        (u/get-in structure [:surface])
-        (default-morph-fn (u/get-in structure [:surface]))
-
         (= false (u/get-in structure [:phrasal]))
-        "_"
+        (morph-leaf structure)
         
         true
         (string/join " "
-                     (map default-morph-fn
+                     (map morph
                           [(u/get-in structure [:1] "_")
                            (u/get-in structure [:2] "_")]))))
-
-(def ^:dynamic morph default-morph-fn)
 
 (defn syntax-tree [structure]
     (cond (or (= :fail structure) 
@@ -31,12 +39,6 @@
 
           (seq? structure)
           (map syntax-tree structure)
-
-          (u/get-in structure [:surface])
-          (syntax-tree (u/get-in structure [:surface]))
-
-          (= false (u/get-in structure [:phrasal]))
-          "_"
 
           (u/get-in structure [:syntax-tree])
           (:syntax-tree structure)

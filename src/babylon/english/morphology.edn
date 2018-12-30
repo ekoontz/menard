@@ -1,0 +1,6 @@
+[
+ ;; 1. determiners have an empty subcat.
+ [{:cat :det} {:subcat []}]]
+ 
+ 
+ 

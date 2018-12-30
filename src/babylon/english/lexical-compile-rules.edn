@@ -1,0 +1,7 @@
+[
+ ;; 1. determiners have an empty subcat.
+ [{:cat :det} {:subcat []}]]
+ ;; 2. add more lexical compilation rules...
+
+ 
+ 

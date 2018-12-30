@@ -12,21 +12,24 @@
 ;; For generation and parsing of English.
 ;; 
 (def lexical-rules
-  [
-   ;; determiners have an empty subcat.
-   [{:cat :det} {:subcat []}]])
+  (-> "babylon/english/lexical-compile-rules.edn"
+      io/resource
+      slurp
+      read-string))
 
-(def lexicon (-> "babylon/english/lexicon.edn"
-                 io/resource
-                 slurp
-                 read-string
-                 (l/process lexical-rules)))
+(def lexicon
+  (-> "babylon/english/lexicon.edn"
+      io/resource
+      slurp
+      read-string
+      (l/process lexical-rules)))
 
-(def grammar (-> "babylon/english/grammar.edn"
-                 io/resource
-                 slurp
-                 read-string
-                 process-grammar))
+(def grammar
+  (-> "babylon/english/grammar.edn"
+      io/resource
+      slurp
+      read-string
+      process-grammar))
 
 (def morphology
   (concat

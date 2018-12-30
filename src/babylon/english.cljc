@@ -23,6 +23,8 @@
       io/resource
       slurp
       read-string
+      ((fn [lexicon]
+         (map #(eval %) lexicon)))
       (l/process lexical-rules)))
 
 (def grammar

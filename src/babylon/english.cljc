@@ -58,6 +58,8 @@
             m/morphology morphology]
      (grammar/syntax-tree structure)))
 
+;; TODO: rewrite this in lexical-compile-rules.edn-style,
+;; with antecedents and consequents.
 (defn lexical-defaults
   "used to create inflected forms for lexemes when generating."
   [lexeme]

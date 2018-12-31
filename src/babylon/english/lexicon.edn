@@ -1,4 +1,4 @@
-{"a"      [{:cat :det}]
+{"a"      [{:cat :det :agr {:number :sing}}]
  "cat"    [{:cat :noun :pred :cat :subcat {:1 {:cat :det}}}]
  "dog"    [{:cat :noun :pred :dog :subcat {:1 {:cat :det}}}]
  "sleep"  [(let [agr (atom :top)]

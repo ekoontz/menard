@@ -13,36 +13,35 @@
               (fn [rule]
                 (let [[antecedent consequent] rule]
                   (mapcat (fn [lexeme]
-                             (cond
-                               (fn? consequent)
-                               ;; 1. _consequent_ can be a function that
-                               ;; takes a map and returns a sequence of maps..
-                               (let [result (consequent lexeme)]
-                                 (if (empty? result)
-                                   [lexeme]
-                                   result))
-                               true
-                               ;; 2. ..or (the more frequent use case)
-                               ;; _consequent_ can be another map that
-                               ;; we unify against the lexeme.
-                               (let [result (unify lexeme consequent)]
-                                 (cond (not (= :fail result))
-                                       [result]
-                                       true
-                                       [lexeme]))))
-                          lexemes)))))]
-    (if (= (count (set one-round))
-           (count (set (vec (clojure.set/union lexemes one-round)))))
-      ;; we are done.
-      lexemes
-      ;; set of lexemes changed as a result of applying rules,
-      ;; so re-apply rules:
-      (apply-rules rules one-round))))
+                            (cond
+                              (= :fail (unify lexeme antecedent))
+                              []
+                              
+                              (fn? consequent)
+                              ;; 1. _consequent_ can be a function that
+                              ;; takes a map and returns a sequence of maps.
+                              (let [result (consequent lexeme)]
+                                (filter #(not (u/isomorphic? lexeme %))
+                                        result))
 
-;; TODO: for now _rules_ assumes one-to-one rules:
-;; (source lexeme -> compiled lexeme),
-;; but should also support one-to-many rules:
-;; (source lexeme -> collection(compiled lexeme).
+                              true
+                              ;; 2. ..or (the more frequent use case)
+                              ;; _consequent_ can be another map that
+                              ;; we unify against the lexeme.
+                              (let [result (unify lexeme consequent)]
+                                (cond
+                                  (= :fail result)
+                                  []
+                                  (u/isomorphic? result lexeme)
+                                  []
+                                  true
+                                  [result]))))
+                          lexemes)))))]
+    (cond (empty? one-round)
+          lexemes
+          true
+          (apply-rules rules one-round))))
+
 (defn process [lexicon rules]
   (into {} (for [[canonical lexemes]
                  lexicon]

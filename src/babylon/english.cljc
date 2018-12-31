@@ -7,6 +7,7 @@
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
             [babylon.grammar :as grammar]
+            [babylon.morphology :as m]
             [babylon.parse :as p]
             [babylon.ug :as ug]))
 ;;
@@ -47,41 +48,20 @@
        slurp
        read-string)))
 
-(defn morph-leaf [structure]
-  (log/debug (str "morphology of:" structure))
-  (let [matching-rules
-        (filter (fn [rule]
-                  (let [{u :u [from to] :g} rule
-                        unified (unify u structure)]
-                    (and (not (= :fail unified))
-                         (re-find from (u/get-in structure [:canonical])))))
-                morphology)]
-    (cond
-      (u/get-in structure [:surface])
-      (u/get-in structure [:surface])
-
-      (not (empty? matching-rules))
-      (let [{[from to] :g} (first matching-rules)]
-         (log/debug (str "using matching rule:" (first matching-rules)))
-        (clojure.string/replace (u/get-in structure [:canonical])
-                                from to))
-      
-      (u/get-in structure [:canonical])
-      (u/get-in structure [:canonical])
-      true
-      "_")))
-
 (defn morph [structure]
-  (binding [grammar/morph-leaf morph-leaf]
+  (binding [grammar/morph-leaf m/morph-leaf
+            m/morphology morphology]
     (grammar/default-morph-fn structure)))
 
 (defn syntax-tree [structure]
-  (binding [grammar/morph-leaf morph-leaf]
+  (binding [grammar/morph-leaf m/morph-leaf
+            m/morphology morphology]
      (grammar/syntax-tree structure)))
 
 (defn generate [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
+            m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate spec)))
 
@@ -104,8 +84,7 @@
   (println "===")
   (count (take 10
                (repeatedly #(let [expression (morph (generate {:cat :top}))]
-                              (binding [grammar/morph-leaf morph-leaf]
-                                (println (->> (parse expression)
-                                              (map syntax-tree)
-                                              (string/join ", ")))))))))
+                              (println (->> (parse expression)
+                                            (map syntax-tree)
+                                            (string/join ", "))))))))
 

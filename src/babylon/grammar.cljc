@@ -1,20 +1,11 @@
 (ns babylon.grammar
-  (:require [clojure.string :as string]
+  (:require [babylon.morphology :as m]
+            [clojure.string :as string]
             [dag_unify.core :as u :refer [unify]]))
 
 (declare default-morph-fn)
-(declare default-morph-leaf)
 (def ^:dynamic morph default-morph-fn)
-(def ^:dynamic morph-leaf default-morph-leaf)
-
-(defn default-morph-leaf [structure]
-  (cond
-    
-    (u/get-in structure [:canonical])
-    (u/get-in structure [:canonical])
-
-    true
-    "_"))
+(def ^:dynamic morph-leaf m/morph-leaf)
 
 (defn default-morph-fn [structure]
   (cond (or (= :fail structure) 

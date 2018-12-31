@@ -58,9 +58,21 @@
             m/morphology morphology]
      (grammar/syntax-tree structure)))
 
+(defn lexical-defaults
+  "used to create inflected forms for lexemes when generating."
+  [lexeme]
+  (cond (= :noun (u/get-in lexeme [:cat]))
+        [(unify lexeme {:cat :noun
+                        :agr {:number :plur}})
+         (unify lexeme {:cat :noun
+                        :agr {:number :sing}})]
+        true
+        [lexeme]))
+
 (defn generate [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
+            g/lexical-defaults lexical-defaults
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate spec)))

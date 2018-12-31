@@ -212,6 +212,10 @@
                 phrases-with-phrasal-head))))
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
+(def ^:dynamic lexical-defaults
+  (fn [lexeme]
+    [lexeme]))
+
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
@@ -224,6 +228,8 @@
                        (or (= false (u/get-in % [:exception] false))
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))
+         (mapcat (fn [lexeme]
+                   (lexical-defaults lexeme)))
          (filter #(not (= :fail %)))
          (map #(u/assoc-in! % [::done?] true))
          shuffle)))

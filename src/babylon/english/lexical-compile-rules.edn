@@ -1,7 +1,11 @@
 [
  ;; 1. determiners have an empty subcat.
- [{:cat :det} {:subcat []}]]
- ;; 2. add more lexical compilation rules...
+ [{:cat :det} {:subcat []}]
+ [{:cat :noun}
+  (let [agr (atom :top)]
+    {:agr agr
+     :cat :noun
+     :subcat {:1 {:agr agr}}})]]
 
  
  

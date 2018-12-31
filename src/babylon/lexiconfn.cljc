@@ -51,3 +51,26 @@
                           (merge lexeme {:phrasal false
                                          :canonical canonical})))
                    (apply-rules rules))])))
+
+(def ^:dynamic lexicon)
+(def ^:dynamic morphology)
+
+(defn matching-lexemes [word]
+  (let [from-inflected
+         (let [canonical-forms
+                 (filter #(not (nil? %))
+                         (map (fn [rule]
+                               (let [{u :u [from to] :p} rule]
+                                 (if (re-find from word)
+                                     {:canonical (clojure.string/replace word from to)
+                                      :u u})))
+                              morphology))]
+            (mapcat #(filter (fn [lexeme]
+                               (not (= :fail lexeme)))
+                             (map (fn [lexeme]
+                                    (unify (:u %) {:surface word} lexeme))
+                                  (get lexicon (:canonical %))))
+                    canonical-forms))]
+    (if (not (empty? from-inflected))
+      from-inflected
+      (get lexicon word))))

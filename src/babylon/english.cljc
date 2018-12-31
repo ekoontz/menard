@@ -6,7 +6,7 @@
             [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
-            [babylon.grammar :as grammar :refer [syntax-tree]]
+            [babylon.grammar :as grammar]
             [babylon.parse :as p]
             [babylon.ug :as ug]))
 ;;
@@ -72,6 +72,10 @@
 (defn morph [structure]
   (binding [grammar/morph-leaf morph-leaf]
     (grammar/default-morph-fn structure)))
+
+(defn syntax-tree [structure]
+  (binding [grammar/morph-leaf morph-leaf]
+     (grammar/syntax-tree structure)))
 
 (defn generate [spec]
   (binding [g/grammar grammar

@@ -16,7 +16,9 @@
   (-> "babylon/english/lexical-compile-rules.edn"
       io/resource
       slurp
-      read-string))
+      read-string
+      ((fn [rule]
+         (map #(eval %) rule)))))
 
 (def lexicon
   (-> "babylon/english/lexicon.edn"

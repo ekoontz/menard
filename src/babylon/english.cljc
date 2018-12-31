@@ -30,6 +30,16 @@
          (map #(eval %) lexicon)))
       (l/process lexical-rules)))
 
+;; used during generation to turn a single
+;; compiled lexical entry into multiple inflected
+;; forms as part of a syntax tree.
+(def lexical-default-rules
+  (concat
+   (-> "babylon/english/lexical-default-rules.edn"
+       io/resource
+       slurp
+       read-string)))
+
 (def grammar
   (-> "babylon/english/grammar.edn"
       io/resource
@@ -58,23 +68,10 @@
             m/morphology morphology]
      (grammar/syntax-tree structure)))
 
-;; TODO: rewrite this in lexical-compile-rules.edn-style,
-;; with antecedents and consequents.
-(defn lexical-defaults
-  "used to create inflected forms for lexemes when generating."
-  [lexeme]
-  (cond (= :noun (u/get-in lexeme [:cat]))
-        [(unify lexeme {:cat :noun
-                        :agr {:number :plur}})
-         (unify lexeme {:cat :noun
-                        :agr {:number :sing}})]
-        true
-        [lexeme]))
-
 (defn generate [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
-            g/lexical-defaults lexical-defaults
+            g/lexical-default-rules lexical-default-rules
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate spec)))

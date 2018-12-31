@@ -73,6 +73,7 @@
     (p/parse expression)))
 
 (defn demo []
+  (load "grammar")
   (println "Generation:")
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate :top))))))

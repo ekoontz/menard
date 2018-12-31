@@ -25,8 +25,6 @@ user=> (load "babylon/english")
 nil
 user=> (in-ns 'babylon.english)
 #namespace[babylon.english]
-babylon.english=> (load "grammar")
-nil
 babylon.english=> (demo)
 Generation:
 ===

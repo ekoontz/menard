@@ -6,40 +6,29 @@
             [babylon.grammar :as grammar]
             [babylon.morphology :as m]
             [babylon.parse :as p]
-            [babylon.ug :as ug]))
+            [babylon.ug :as ug]
+            [clojure.tools.logging :as log]
+            [dag_unify.core :as u :refer [unify]]))
 ;;
 ;; For generation and parsing of English.
 ;; 
 (def lexical-rules
-  (-> "babylon/english/lexical-compile-rules.edn"
+  (-> "babylon/english/lexical-rules.edn"
       io/resource
       slurp
       read-string
       ((fn [rule]
          (map #(eval %) rule)))))
 
+;; the lexicon itself. we use the lexical-rules
+;; to transform the human-readable entries into more complete
+;; entries.
 (def lexicon
   (-> "babylon/english/lexicon.edn"
       io/resource
       slurp
       read-string
-      ((fn [lexicon]
-         (map #(eval %) lexicon)))
-      (l/process lexical-rules)))
-
-;; used during generation to turn a single
-;; compiled lexical entry into multiple inflected
-;; forms as part of a syntax tree.
-;; TODO: should be used during parsing as well to avoid
-;; allowing incorrect agreeement: e.g. *"the cats see itself"
-(def lexical-default-rules
-  (concat
-   (-> "babylon/english/lexical-default-rules.edn"
-       io/resource
-       slurp
-       read-string
-       ((fn [rule]
-          (map #(eval %) rule))))))
+      (l/apply-rules-to-lexicon lexical-rules)))
 
 (def grammar
   (-> "babylon/english/grammar.edn"
@@ -62,7 +51,7 @@
 (defn morph [structure]
   (binding [grammar/morph-leaf m/morph-leaf
             m/morphology morphology]
-    (grammar/default-morph-fn structure)))
+     (grammar/default-morph-fn structure)))
 
 (defn syntax-tree [structure]
   (binding [grammar/morph-leaf m/morph-leaf
@@ -72,7 +61,6 @@
 (defn generate [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
-            g/lexical-default-rules lexical-default-rules
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate spec)))
@@ -80,7 +68,6 @@
 (defn grow-all [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
-            g/lexical-default-rules lexical-default-rules
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/grow-all (g/parent-with-head spec 0))))

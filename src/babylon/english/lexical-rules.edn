@@ -1,0 +1,116 @@
+[{:rule 1
+  :if {:cat :det
+       :agr ::unspec}
+  :then [{:agr {:number :sing}}
+         {:agr {:number :plur}}]}
+
+ {:rule 2
+  :if {:cat :noun
+       :propernoun ::unspec
+       :pronoun ::unspec
+       :subcat ::unspec
+       :agr ::unspec}
+  :then [(let [agr (atom {:number :sing})]
+           {:cat :noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         (let [agr (atom {:number :plur})]
+           {:cat :noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         {:cat :noun
+          :reflexive false
+          :propernoun false
+          :pronoun false
+          :agr {:number :plur}
+          :subcat []}]}
+
+ {:rule 3
+  :if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec
+       :agr ::unspec}
+  :then [(let [agr (atom {:number :sing})]
+           {:cat :noun
+            :rule :3-1
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         (let [agr (atom {:number :plur})]
+           {:cat :noun
+            :rule :3-2
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         {:cat :noun
+          :rule :3-3
+          :reflexive false
+          :propernoun false
+          :pronoun false
+          :agr {:number :plur}
+          :subcat []}]}
+
+ {:rule 4
+  :if {:cat :noun
+       :pronoun true
+       :reflexive true}
+  :then [{:propernoun false
+          :subcat []
+          :case :acc}]}
+
+ {:rule 5
+  :if {:cat :noun
+       :pronoun true
+       :reflexive false}
+  :then [{:propernoun false
+          :subcat []}]}
+
+ {:rule 6
+  :if {:cat :verb
+       :subcat {:1 {:cat ::unspec}
+                :2 {:cat ::unspec}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :reflexive false
+            :rule :6-1
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}
+                     :2 []}})
+         (let [agr (atom :top)]
+           {:agr agr
+            :rule :6-2
+            :reflexive false
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}
+                     :2 {:cat :noun
+                         :reflexive false
+                         :case :acc}}})
+         (let [agr (atom :top)]
+           {:agr agr
+            :rule :6-3
+            :reflexive true
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}
+                     :2 {:agr agr
+                         :reflexive true
+                         :cat :noun
+                         :case :acc}}})]}]
+        

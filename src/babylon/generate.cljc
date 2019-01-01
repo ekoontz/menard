@@ -33,11 +33,17 @@
 ;;         9 | 160
 ;;        10 | 350
 
-(def ^:dynamic morph-ps (fn [x] x))
+(def ^:dynamic morph-ps (fn [x]
+                          (cond (map? x)
+                                (vec (u/serialize x))
+                                (or (nil? x)
+                                    (keyword? x)) x
+                                true (str x "(type:" (type x) ")"))))
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
                           (flatten (vals lexicon))))
+
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic println? nil)
 (def ^:dynamic truncate? nil)
@@ -163,13 +169,16 @@
    tree is part of a larger subtree which we are appending at _depth_."
   [spec depth]
   ;; get all rules that match input _spec_:
-  (log/debug (str "parent-with-head: checking " (count grammar) " rules."))
+  (log/debug (str "parent-with-head: checking " (count grammar) " rules with spec: " spec))
   (let [result
         (->> grammar
-             (map #(do
+             (map #(let [result (unify % spec)]
+                     (log/debug (str "looking at rule:" (:rule %)))
                      (if (= :fail %)
                        (throw (Exception. (str "grammar rule is unexpectedly :fail: please check your grammar."))))
-                     (unify % spec)))
+                     (if (not (= :fail result))
+                       (log/debug (str "result:" (morph-ps result))))
+                     result))
              (remove #(= :fail %))
              (parent-with-head-1 spec depth)
              (map #(u/assoc-in! % [::started?] true)))]
@@ -177,8 +186,8 @@
     result))
 
 (defn parent-with-head-1 [spec depth parent-rules]
-  (log/debug (str "parent-with-head: grammar count: " (count grammar)))
-  (log/debug (str "parent-with-head: parent-rules count: " (count parent-rules)))
+  (log/debug (str "parent-with-head-1: grammar count: " (count grammar)))
+  (log/debug (str "parent-with-head-1: parent-rules count: " (count parent-rules)))
   (if (not (empty? parent-rules))
     (lazy-cat
      (do
@@ -195,7 +204,10 @@
                                                           (u/get-in spec [:head] :top)
                                                           (u/get-in parent-rule [:head] :top)))
                                             shuffle
-                                            (map #(u/assoc-in parent-rule [:head] %))
+                                            (map #(u/assoc-in parent-rule [:head]
+                                                              (do
+                                                                (log/debug (str "lexeme: canonical:" (:canonical %)))
+                                                                %)))
                                             (filter #(not (= :fail %))))]
            (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
            (cond
@@ -213,7 +225,7 @@
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (def ^:dynamic lexical-default-rules
-  [:top [:top]])
+  [[:top [:top]]])
 
 (defn lexical-defaults
   "used to create inflected forms for lexemes when generating."

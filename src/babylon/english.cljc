@@ -95,7 +95,7 @@
   (println "Parsing:")
   (println "===")
   (count (take 10
-               (repeatedly #(let [expression (morph (generate {:cat :top}))]
+               (repeatedly #(let [expression (morph (generate {:subcat []}))]
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))

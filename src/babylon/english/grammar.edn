@@ -1,2 +1,5 @@
 [{:rule "rule-1"
-  :unify [babylon.ug/head-rule babylon.ug/head-last babylon.ug/subcat-1]}]
+  :unify [babylon.ug/head-rule babylon.ug/head-last babylon.ug/subcat-1]}
+ {:rule "rule-2"
+  :cat :verb
+  :unify [babylon.ug/head-rule babylon.ug/head-first babylon.ug/subcat-2]}]

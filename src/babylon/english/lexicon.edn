@@ -1,6 +1,11 @@
 {"a"      [{:cat :det :agr {:number :sing}}]
  "cat"    [{:cat :noun :pred :cat :subcat {:1 {:cat :det}}}]
  "dog"    [{:cat :noun :pred :dog :subcat {:1 {:cat :det}}}]
+ "see"    [(let [agr (atom :top)]
+             {:cat :verb :pred :see :agr agr
+              :subcat {:1 {:agr agr :cat :noun}
+                       :2 {:cat :noun}}})]   
  "sleep"  [(let [agr (atom :top)]
-             {:cat :verb :pred :sleep :agr agr :subcat {:1 {:agr agr :cat :noun}}})]   
+             {:cat :verb :pred :sleep :agr agr :subcat {:1 {:agr agr :cat :noun}
+                                                        :2 []}})]
  "the"    [{:cat :det}]}

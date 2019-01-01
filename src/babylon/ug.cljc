@@ -15,6 +15,14 @@
             :cat head-cat
             :pred head-pred}}))
 
+(def head-first
+  (let [head (atom :top)
+        comp (atom :top)]
+    {:head head
+     :1 head
+     :comp comp
+     :2 comp}))
+
 (def head-last
   (let [head (atom :top)
         comp (atom :top)]
@@ -25,9 +33,17 @@
 
 (def subcat-1
   (let [complement (atom {:subcat []})]
-    {:head {:subcat {:1 complement}}
+    {:head {:subcat {:1 complement :2 []}}
      :subcat []
      :comp complement}))
+
+(def subcat-2
+  (let [complement-1 (atom {:subcat []})
+        complement-2 (atom {:subcat []})]
+    {:head {:subcat {:1 complement-1
+                     :2 complement-2}}
+     :subcat {:1 complement-1}
+     :comp complement-2}))
 
 (defn process [grammar]
   (->>

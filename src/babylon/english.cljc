@@ -104,6 +104,10 @@
   (count (take 10 (repeatedly #(println (morph (generate {:cat :verb}))))))
   (println "===")
   (count (take 10 (repeatedly #(println (morph (generate {:cat :noun}))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive true}))))))
+  (println "===")
+  (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive false}))))))
   (println "Parsing:")
   (println "===")
   (count (take 10

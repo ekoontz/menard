@@ -34,7 +34,7 @@
         true
         (mapcat
          (fn [parent]
-           (let [[head comp] (if (= (:first parent) :head)
+           (let [[head comp] (if (= (:1 parent) (:head parent))
                                [child1 child2]
                                [child2 child1])]
              (overhc parent head comp)))

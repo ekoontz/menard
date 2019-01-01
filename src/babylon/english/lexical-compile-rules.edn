@@ -5,7 +5,14 @@
   (let [agr (atom :top)]
     {:agr agr
      :cat :noun
-     :subcat {:1 {:agr agr}}})]]
+     :subcat {:1 {:agr agr}}})]
+ [{:cat :noun}
+  {:reflexive false}]
+ [{:cat :verb}
+  {:subcat {:1 {:case :nom}}}]
+ [{:cat :verb}
+  {:subcat {:2 {:case :acc}}}]]
 
+   
  
  

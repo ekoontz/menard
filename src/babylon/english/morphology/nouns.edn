@@ -6,9 +6,11 @@
  {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
   :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
   :u {:cat :noun
+      :pronoun false
       :agr {:number :plur}}}
 
  {:g [#"^(.*[hsx])$"  "$1es"] ;; ash     -> ashes
   :p [#"^(.*)es$"     "$1"]   ;; ashes   -> ash
   :u {:cat :noun
+      :pronoun false
       :agr {:number :plur}}}]

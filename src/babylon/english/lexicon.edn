@@ -1,6 +1,8 @@
 {"a"      [{:cat :det :agr {:number :sing}}]
  "cat"    [{:cat :noun :pred :cat :subcat {:1 {:cat :det}}}]
  "dog"    [{:cat :noun :pred :dog :subcat {:1 {:cat :det}}}]
+ "itself"     [{:case :acc :agr {:number :sing} :pronoun true :cat :noun :reflexive true :subcat []}]
+ "themselves" [{:case :acc :agr {:number :plur} :pronoun true :cat :noun :reflexive true :subcat []}]
  "see"    [(let [agr (atom :top)]
              {:cat :verb :pred :see :agr agr
               :subcat {:1 {:agr agr :cat :noun}

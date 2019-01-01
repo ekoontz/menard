@@ -7,12 +7,15 @@
   (let [comp-cat (atom :top)
         head-agr (atom :top)
         head-pred (atom :top)
-        head-cat (atom :top)]
+        head-cat (atom :top)
+        reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
+     :reflexive reflexive
      :pred head-pred
      :head {:agr head-agr
             :cat head-cat
+            :reflexive reflexive
             :pred head-pred}}))
 
 (def head-first

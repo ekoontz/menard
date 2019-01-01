@@ -33,12 +33,16 @@
 ;; used during generation to turn a single
 ;; compiled lexical entry into multiple inflected
 ;; forms as part of a syntax tree.
+;; TODO: should be used during parsing as well to avoid
+;; allowing incorrect agreeement: e.g. *"the cats see itself"
 (def lexical-default-rules
   (concat
    (-> "babylon/english/lexical-default-rules.edn"
        io/resource
        slurp
-       read-string)))
+       read-string
+       ((fn [rule]
+          (map #(eval %) rule))))))
 
 (def grammar
   (-> "babylon/english/grammar.edn"
@@ -75,6 +79,14 @@
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate spec)))
+
+(defn grow-all [spec]
+  (binding [g/grammar grammar
+            g/lexicon lexicon
+            g/lexical-default-rules lexical-default-rules
+            m/morphology morphology
+            g/morph-ps syntax-tree]
+    (g/grow-all (g/parent-with-head spec 0))))
 
 (defn parse [expression]
   (binding [p/grammar grammar

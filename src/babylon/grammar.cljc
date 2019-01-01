@@ -3,9 +3,8 @@
             [clojure.string :as string]
             [dag_unify.core :as u :refer [unify]]))
 
-(declare default-morph-fn)
-(def ^:dynamic morph default-morph-fn)
-(def ^:dynamic morph-leaf m/morph-leaf)
+(declare morph)
+(declare morph-leaf)
 
 (defn default-morph-fn [structure]
   (cond (or (= :fail structure) 
@@ -23,6 +22,9 @@
                      (map morph
                           [(u/get-in structure [:1] "_")
                            (u/get-in structure [:2] "_")]))))
+
+(def ^:dynamic morph default-morph-fn)
+(def ^:dynamic morph-leaf m/morph-leaf)
 
 (defn syntax-tree [structure]
     (cond (or (= :fail structure) 

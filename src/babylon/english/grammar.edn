@@ -1,5 +1,9 @@
-[{:rule "rule-1"
-  :unify [babylon.ug/head-rule babylon.ug/head-last babylon.ug/subcat-1]}
- {:rule "rule-2"
+[{:rule "s"
   :cat :verb
-  :unify [babylon.ug/head-rule babylon.ug/head-first babylon.ug/subcat-2]}]
+  :unify [babylon.ug/head-rule babylon.ug/head-last babylon.ug/subcat-1]}
+ {:rule "vp"
+  :cat :verb
+  :unify [babylon.ug/head-rule babylon.ug/head-first babylon.ug/subcat-2]}
+ {:rule "np"
+  :cat :noun
+  :unify [babylon.ug/head-rule babylon.ug/head-last babylon.ug/subcat-1]}]

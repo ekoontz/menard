@@ -1,9 +1,6 @@
 (ns babylon.english
   (:require [clojure.string :as string]
             [clojure.java.io :as io]
-            [clojure.tools.logging :as log]
-            [dag_unify.core :as u :refer [unify]]
-            [dag_unify.dissoc :refer [dissoc-in]]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
             [babylon.grammar :as grammar]

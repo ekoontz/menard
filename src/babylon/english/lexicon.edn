@@ -1,13 +1,12 @@
-{"a"      [{:cat :det :agr {:number :sing}}]
- "cat"    [{:cat :noun :pred :cat :subcat {:1 {:cat :det}}}]
- "dog"    [{:cat :noun :pred :dog :subcat {:1 {:cat :det}}}]
- "itself"     [{:case :acc :agr {:number :sing} :pronoun true :cat :noun :reflexive true :subcat []}]
- "themselves" [{:case :acc :agr {:number :plur} :pronoun true :cat :noun :reflexive true :subcat []}]
- "see"    [(let [agr (atom :top)]
-             {:cat :verb :pred :see :agr agr
-              :subcat {:1 {:agr agr :cat :noun}
-                       :2 {:cat :noun}}})]   
- "sleep"  [(let [agr (atom :top)]
-             {:cat :verb :pred :sleep :agr agr :subcat {:1 {:agr agr :cat :noun}
-                                                        :2 []}})]
- "the"    [{:cat :det}]}
+{"a"          [{:cat :det :agr {:number :sing}}]
+ "cat"        [{:cat :noun :pred :cat}]
+ "dog"        [{:cat :noun :pred :dog}]
+ "itself"     [{:cat :noun :case :acc :agr {:number :sing} :pronoun true :reflexive true}]
+ "themselves" [{:cat :noun :case :acc :agr {:number :plur} :pronoun true :reflexive true}]
+ "see"        [{:cat :verb :pred :see
+                :subcat {:1 :top
+                         :2 :top}}]
+ "sleep"      [{:cat :verb :pred :sleep
+                :subcat {:1 :top
+                         :2 []}}]
+ "the"        [{:cat :det}]}

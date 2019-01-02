@@ -1,12 +1,15 @@
-[[{:cat :noun}
+[;; a noun has a singular and plural form.
+ [{:cat :noun}
   [{:agr {:number :plur}}
    {:agr {:number :sing}}]]
 
+ ;; a verb's object is either reflexive and agrees with the subject,
+ ;; or is not reflexive (and has no agreement relation to the subject).
  [{:cat :verb
    :subcat {:1 :top
             :2 :top}}
   (let [agr (atom :top)]
-    [{:subcat {:1 {:agr agr} :2 {:agr agr :reflexive true}}}
+    [{:agr agr :subcat {:2 {:agr agr :reflexive true}}}
      {:subcat {:2 {:reflexive false}}}])]]
 
 

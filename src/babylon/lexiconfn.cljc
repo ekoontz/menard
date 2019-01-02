@@ -6,6 +6,32 @@
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
+
+(defn apply-one-rule [rule lexeme]
+  (let [[antecedent consequent] rule]
+    (cond
+       (= :fail (unify lexeme antecedent))
+       []
+       (fn? consequent)
+       ;; 1. _consequent_ can be a function that
+       ;; takes a map and returns a sequence of maps.
+       (let [result (consequent lexeme)]
+         (filter #(not (u/isomorphic? lexeme %))
+                 result))
+
+       true
+       ;; 2. ..or (the more frequent use case)
+       ;; _consequent_ can be another map that
+       ;; we unify against the lexeme.
+       (let [result (unify lexeme consequent)]
+         (cond
+           (= :fail result)
+           []
+           (u/isomorphic? result lexeme)
+           []
+           true
+           [result])))))
+
 (defn apply-rules [rules lexemes]
   (let [one-round
         (->> rules
@@ -13,29 +39,7 @@
               (fn [rule]
                 (let [[antecedent consequent] rule]
                   (mapcat (fn [lexeme]
-                            (cond
-                              (= :fail (unify lexeme antecedent))
-                              []
-                              
-                              (fn? consequent)
-                              ;; 1. _consequent_ can be a function that
-                              ;; takes a map and returns a sequence of maps.
-                              (let [result (consequent lexeme)]
-                                (filter #(not (u/isomorphic? lexeme %))
-                                        result))
-
-                              true
-                              ;; 2. ..or (the more frequent use case)
-                              ;; _consequent_ can be another map that
-                              ;; we unify against the lexeme.
-                              (let [result (unify lexeme consequent)]
-                                (cond
-                                  (= :fail result)
-                                  []
-                                  (u/isomorphic? result lexeme)
-                                  []
-                                  true
-                                  [result]))))
+                            (apply-one-rule rule lexeme))
                           lexemes)))))]
     (cond (empty? one-round)
           lexemes
@@ -46,16 +50,19 @@
   (into {} (for [[canonical lexemes]
                  lexicon]
              [canonical
-              (->> lexemes
-                   (map (fn [lexeme]
-                          (merge lexeme {:phrasal false
-                                         :canonical canonical})))
-                   (apply-rules rules))])))
+              (let [lexemes (if (vector? lexemes) lexemes (vec lexemes))]
+                (->> lexemes
+                     (map (fn [lexeme]
+                            (merge lexeme {:phrasal false
+                                           :canonical canonical})))
+                     (apply-rules rules)))])))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)
 
-(defn matching-lexemes [word]
+(defn matching-lexemes
+  "given a surface form _word_, find all matching lexical entries."
+  [word]
   (let [from-inflected
          (let [canonical-forms
                  (filter #(not (nil? %))

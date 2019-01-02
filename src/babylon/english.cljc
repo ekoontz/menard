@@ -18,14 +18,15 @@
       ((fn [rule]
          (map #(eval %) rule)))))
 
+;; the lexicon itself. we use the lexical-compile-rules
+;; to transform the human-readable entries into more complete
+;; entries.
 (def lexicon
   (-> "babylon/english/lexicon.edn"
       io/resource
       slurp
-      read-string
-      ((fn [lexicon]
-         (map #(eval %) lexicon)))
-      (l/process lexical-rules)))
+      read-string))
+;;      (l/process lexical-rules)))
 
 ;; used during generation to turn a single
 ;; compiled lexical entry into multiple inflected

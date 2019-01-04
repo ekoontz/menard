@@ -18,6 +18,12 @@
       ((fn [rule]
          (map #(eval %) rule)))))
 
+(def all-lexical-rules
+  (-> "babylon/english/lexical-rules.edn"
+      io/resource
+      slurp
+      read-string))
+
 ;; the lexicon itself. we use the lexical-compile-rules
 ;; to transform the human-readable entries into more complete
 ;; entries.

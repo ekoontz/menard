@@ -1,0 +1,78 @@
+[
+ ;; 1. determiners
+ ;; determiners have an empty subcat.
+ {:cat :det :subcat []}
+
+ ;; 2. nouns
+ ;; a common noun..
+ [{:cat :noun
+   :pronoun false
+   :propernoun false}
+  ;;  has a singular form:
+  {:agr {:number :sing}}
+  ;; ..and a plural form:
+  {:agr {:number :plur}}]
+
+
+ ;; pronouns are not reflexive by default.
+ {:cat :noun
+  :pronoun true
+  :reflexive false}
+
+ ;; pronouns and proper nouns are disjunct (if it's one, it's not the other), part 1.
+ {:cat :noun
+  :pronoun true
+  :propernoun false}
+
+ ;; pronouns and proper nouns are disjunct (if it's one, it's not the other), part 2.
+ {:cat :noun
+  :pronoun false
+  :propernoun true}
+
+ ;; pronouns have no determiners:
+ {:cat :noun
+  :pronoun true
+  :subcat []}
+
+  ;; proper nouns have no determiners:
+ {:cat :noun
+  :propernoun true
+  :subcat []}
+
+ ;; common nouns subcategorize for an agreeing determiner.
+ (let [agr (atom :top)]
+  {:cat :noun
+   :agr agr
+   :pronoun false
+   :propernoun false
+   :subcat {:1 {:cat :det :agr agr}}})
+ 
+ ;; 3. verbs
+ ;; subject-verb agreement:
+ (let [agr (atom :top)]
+  {:cat :verb
+   :agr agr
+   :subcat {:1 {:cat :noun
+                :agr agr
+                :case :nom}}})
+
+ ;; object of verbs is a noun and has accusative case:
+ {:cat :verb
+  :subcat {:2 {:cat :noun
+               :case :acc}}}
+
+ ;; for verbs that have an object.. 
+ [{:cat :verb
+   :subcat {:2 {:cat :noun}}}
+  ;; either the object is a reflexive pronoun that agrees with the subject:
+  (let [agr (atom :top)]
+    {:agr agr :subcat {:2 {:agr agr
+                           :pronoun true
+                           :reflexive true}}})
+
+  ;; or is not reflexive (and has no agreement relation to the subject).
+  {:subcat {:2 {:reflexive false}}}]]
+
+ 
+
+

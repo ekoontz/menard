@@ -1,0 +1,48 @@
+;;
+;; constraints weed out bad stuff after expansion-defaults have been
+;; applied.
+;; for each <constraint,lexeme> pair:
+;; each constraint has a left side (a map)
+;; and a right side (a vector of maps).
+;; if the left side unifies, then the right side must
+;; unify. the lexeme is replaced with this
+;; unified result.
+;; if the lexeme does not unify, remove the lexeme with a WARN,
+;; or possibly even ERROR.
+;; 
+[;; 1. determiners
+ ;; determiners have an empty subcat.
+ {:cat :det}
+ {:subcat []}
+
+ ;; 2. nouns
+ ;; pronouns have no determiners:
+ {:cat :noun
+  :pronoun true}
+ {:subcat []}
+
+  ;; proper nouns have no determiners:
+ {:cat :noun
+  :propernoun true}
+ {:subcat []}
+
+ ;; common nouns subcategorize for an agreeing determiner.
+ {:cat :noun
+  :pronoun false
+  :propernoun false}
+ (let [agr (atom :top)]
+  {:cat :noun
+   :agr agr
+   :pronoun false
+   :propernoun false
+   :subcat {:1 {:cat :det :agr agr}}})
+ 
+ ;; 3. verbs
+ ;; subject-verb agreement:
+ {:cat :verb}
+ (let [agr (atom :top)]
+   {:cat :verb
+    :agr agr
+    :subcat {:1 {:cat :noun
+                 :agr agr
+                 :case :nom}}})]

@@ -1,5 +1,5 @@
 [;; determiners have an empty subcat.
- [{:cat :det} {:subcat [] :rules {:a true}}]
+ [{:cat :det} {:subcat []}]
 
  ;; nouns are common by default (not pronouns or propernouns)
  [{:cat :noun} {:pronoun false :propernoun false :rules {:b true}}]

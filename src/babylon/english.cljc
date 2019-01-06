@@ -22,7 +22,29 @@
   (-> "babylon/english/lexical-rules.edn"
       io/resource
       slurp
-      read-string))
+      read-string
+      ((fn [rule]
+         (map #(eval %) rule)))))
+
+(defn apply-rule-to [rule lexemes]
+  (cond (map? rule)
+        (map #(unify rule %
+                     lexemes))
+        (or (vector? rule)
+            (seq? rule))
+        (let [rules rule]
+          (->>
+           lexemes
+           (mapcat (fn [lexeme]
+                     (->> rule
+                          (map (fn [rule]
+                                 (let [[ante conseq] rule]
+                                    (->>
+                                     conseq
+                                     (map (fn [each-conseq]
+                                             (unify each-conseq lexeme)))
+                                     (filter #(not (= :fail %))))))))))))))
+         
 
 ;; the lexicon itself. we use the lexical-compile-rules
 ;; to transform the human-readable entries into more complete

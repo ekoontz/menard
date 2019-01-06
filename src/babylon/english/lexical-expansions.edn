@@ -1,0 +1,46 @@
+;; , ____________________,
+;; | expansion-defaults  | -> constraints
+;; `---------------------'
+;;
+;; expansion-defaults turn a single lexeme into a set of alternatives
+;; for example, if a verb has no object specified, the lexeme
+;; will be turned into a set of two lexemes, where one variants
+;; is intransitive, and the other is transitive.
+;; in other cases, the set may be just a single member: the lexeme
+;; that was unified with the expansion-default.
+;;
+;; example: if a lexeme is transitive, then either the object is
+;; a reflexive pronoun and agrees with the subject,
+;; or is not a reflexive pronoun.
+[
+ {:cat :noun
+  :propernoun true}
+ [{:pronoun false}]
+ 
+ {:cat :noun
+  :propernoun false}
+ [{:pronoun true}]
+
+ {:cat :noun
+  :propernoun false
+  :pronoun false}
+ [{:agr {:number :sing}}
+  {:agr {:number :plur}}]
+
+ {:cat :verb
+  :subcat {:2 {:cat :noun}}}
+ [;; either the object is a reflexive pronoun that agrees with the subject:
+  (let [agr (atom :top)]
+    {:agr agr
+     :subcat {:2 {:agr agr
+                  :pronoun true
+                  :reflexive true}}})
+  
+  ;; or is not reflexive (and has no agreement relation to the subject).
+  {:subcat {:2 {:case :acc
+                :reflexive false}}}]]
+
+
+ 
+
+

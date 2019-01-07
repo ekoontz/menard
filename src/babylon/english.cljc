@@ -18,11 +18,14 @@
       ((fn [rule]
          (map #(eval %) rule)))))
 
-(defn apply-rule [lexeme consequent]
+(defn apply-rule [lexeme consequent antecedent]
   (let [result (unify lexeme consequent)]
     (cond (= :fail result)
-          (do (log/error (str "failed to unify lexeme:" lexeme " and consequent: " consequent))
-              (throw (Exception. (str "failed to unify lexeme:" lexeme " and consequent: " consequent "."))))
+          (let [error-message (str "matched antecedent: " antecedent
+                                   ", but failed to unify lexeme:" (vec (u/serialize lexeme))
+                                   " and consequent: " (vec (u/serialize consequent)))]
+              (log/error error-message)
+              (throw (Exception. error-message)))
           (u/isomorphic? lexeme result)
           (do (log/info (str "reached fixed point with unify lexeme:" lexeme " and consequent: " consequent "."))
               [])
@@ -32,11 +35,14 @@
 
 (defn apply-rules [lexeme rules]
   (->> rules
-       (filter #(let [[antecedent consequents] %]
+       (filter #(let [{antecedent :if
+                       consequents :then} %]
                   (not (= :fail (unify antecedent lexeme)))))
-       (mapcat #(let [[antecent consequents] %]
-                  consequents))
-       (mapcat #(apply-rule lexeme %))))
+       (mapcat #(let [{antecedent :if
+                       consequents :then} %]
+                  (mapcat (fn [consequent]
+                            (apply-rule lexeme consequent antecedent))
+                          consequents)))))
 
 (defn apply-rule-to [rule lexemes]
   (cond (map? rule)

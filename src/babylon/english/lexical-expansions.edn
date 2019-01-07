@@ -1,4 +1,4 @@
-;; , ____________________,
+;; ,---------------------,
 ;; | expansion-defaults  | -> constraints
 ;; `---------------------'
 ;;
@@ -9,24 +9,34 @@
 ;; in other cases, the set may be just a single member: the lexeme
 ;; that was unified with the expansion-default.
 ;;
-;; example: if a lexeme is transitive, then either the object is
-;; a reflexive pronoun and agrees with the subject,
-;; or is not a reflexive pronoun.
-[
- {:cat :noun
-  :propernoun true}
- [{:pronoun false}]
- 
- {:cat :noun
-  :propernoun false}
- [{:pronoun true}]
-
+;; Expansion-defaults apply cyclically over each set of lexemes in
+;; a lexicon's value until a fixed point is reached.
+;;
+[;; common nouns
  {:cat :noun
   :propernoun false
   :pronoun false}
  [{:agr {:number :sing}}
   {:agr {:number :plur}}]
 
+ ;; plural common nouns have two variants: one
+ ;; subcategorizes for a determiner ("the cats sleep");
+ ;; the other does not subcategorize for a determiner ("dogs walk")
+ {:cat :noun
+  :propernoun false
+  :pronoun false
+  :agr {:number :plur}}
+ [{:subcat []}
+  {:subcat {:1 {:cat :det}}}]
+
+ ;; verbs have two subcategorization frames: intransitive and transitive.
+ {:cat :verb}
+ [{:subcat {:1 {:cat :noun}
+            :2 []}}
+  {:subcat {:1 {:cat :noun}
+            :2 {:cat :noun}}}]
+
+ ;; verbs with a direct object:
  {:cat :verb
   :subcat {:2 {:cat :noun}}}
  [;; either the object is a reflexive pronoun that agrees with the subject:

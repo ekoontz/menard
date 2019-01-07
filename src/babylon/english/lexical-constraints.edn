@@ -1,3 +1,6 @@
+;;                         ,-------------,
+;;   expansion-defaults -> | constraints |
+;;                         `-------------'
 ;;
 ;; constraints weed out bad stuff after expansion-defaults have been
 ;; applied.
@@ -11,31 +14,34 @@
 ;; or possibly even ERROR.
 ;; 
 [;; 1. determiners
- ;; determiners have an empty subcat.
+ ;; determiners have an empty subcat:
  {:cat :det}
  {:subcat []}
 
  ;; 2. nouns
- ;; pronouns have no determiners:
+ ;; pronouns have no determiners and are not propernouns:
  {:cat :noun
   :pronoun true}
- {:subcat []}
+ {:subcat []
+  :propernoun false}
 
-  ;; proper nouns have no determiners:
+  ;; proper nouns have no determiners and are not pronouns:
  {:cat :noun
   :propernoun true}
- {:subcat []}
+ {:subcat []
+  :pronoun false}
 
  ;; common nouns subcategorize for an agreeing determiner.
  {:cat :noun
   :pronoun false
-  :propernoun false}
+  :propernoun false
+  :subcat {:1 {:cat :det}}}
  (let [agr (atom :top)]
   {:cat :noun
    :agr agr
    :pronoun false
    :propernoun false
-   :subcat {:1 {:cat :det :agr agr}}})
+   :subcat {:1 {:agr agr}}})
  
  ;; 3. verbs
  ;; subject-verb agreement:

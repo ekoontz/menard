@@ -11,20 +11,32 @@
 ;; For generation and parsing of English.
 ;; 
 (def lexical-rules
-  (-> "babylon/english/lexical-compile-rules.edn"
-      io/resource
-      slurp
-      read-string
-      ((fn [rule]
-         (map #(eval %) rule)))))
-
-(def all-lexical-rules
   (-> "babylon/english/lexical-rules.edn"
       io/resource
       slurp
       read-string
       ((fn [rule]
          (map #(eval %) rule)))))
+
+(defn apply-rule [lexeme consequent]
+  (let [result (unify lexeme consequent)]
+    (cond (= :fail result)
+          (do (log/error (str "failed to unify lexeme:" lexeme " and consequent: " consequent))
+              (throw (Exception. (str "failed to unify lexeme:" lexeme " and consequent: " consequent "."))))
+          (u/isomorphic? lexeme result)
+          (do (log/info (str "reached fixed point with unify lexeme:" lexeme " and consequent: " consequent "."))
+              [])
+          true
+          (do (log/info (str "apply-rule: lexeme: " lexeme " with conseq: " consequent))
+              [result]))))
+
+(defn apply-rules [lexeme rules]
+  (->> rules
+       (filter #(let [[antecedent consequents] %]
+                  (not (= :fail (unify antecedent lexeme)))))
+       (mapcat #(let [[antecent consequents] %]
+                  consequents))
+       (mapcat #(apply-rule lexeme %))))
 
 (defn apply-rule-to [rule lexemes]
   (cond (map? rule)
@@ -43,7 +55,9 @@
                                      conseq
                                      (map (fn [each-conseq]
                                              (unify each-conseq lexeme)))
-                                     (filter #(not (= :fail %))))))))))))))
+                                     (filter #(not (= :fail %))))))))))))
+        true
+        (throw (Exception. (str "could not process rule with this type: ")))))
          
 
 ;; the lexicon itself. we use the lexical-compile-rules

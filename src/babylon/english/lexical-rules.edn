@@ -1,7 +1,33 @@
-[[ ;; common nouns
-  {:cat :noun
-   :propernoun false
-   :pronoun false}
-  [{:agr {:number :sing}}
-   {:agr {:number :plur}}]]]
+[{:if {:cat :det
+       :agr ::unspec}
+  :then [{:agr {:number :sing}}
+         {:agr {:number :plur}}]}
+
+ {:if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec
+       :agr ::unspec}
+  :then [(let [agr (atom {:number :sing})]
+           {:cat :noun
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         (let [agr (atom {:number :plur})]
+           {:cat :noun
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         {:cat :noun
+          :agr {:number :plur}
+          :subcat []}]}
+
+ {:if {:cat :noun
+       :pronoun true
+       :reflexive true}
+  :then [{:propernoun false
+          :case :acc}]}
+
+ {:if {:cat :verb}
+  :then [:top]}]
 

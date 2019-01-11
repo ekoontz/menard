@@ -18,7 +18,7 @@
       ((fn [rule]
          (map #(eval %) rule)))))
 
-(defn apply-rule [lexeme consequent antecedent]
+(defn apply-rule [rule lexeme consequent antecedent]
   (let [result (unify lexeme consequent)]
     (log/info (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent "; result: " result))
     (cond (= :fail result)
@@ -27,27 +27,33 @@
                                    " and consequent: " (vec (u/serialize consequent)))]
               (log/error error-message)
               (throw (Exception. error-message)))
-          (u/isomorphic? lexeme result)
-          (do (log/info (str "reached fixed point with unify lexeme:" lexeme " and consequent: " consequent "."))
-              [result])
           true
           (do (log/info (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
-              [result]))))
+              [(unify result
+                      (if rule
+                        {:rule {rule true}}
+                        :top))]))))
 
 (def default-rule
   {:if :top
-    :then [:top]})
+   :rule :default
+   :then [:top]})
 
 (defn apply-rules [rules lexeme]
-  (->> (cons default-rule rules)
-       (filter #(let [{antecedent :if
-                       consequents :then} %]
-                  (not (= :fail (unify antecedent lexeme)))))
-       (mapcat #(let [{antecedent :if
-                       consequents :then} %]
-                  (mapcat (fn [consequent]
-                            (apply-rule lexeme consequent antecedent))
-                          consequents)))))
+  (let [with-rules
+         (->> rules
+              (filter #(let [{antecedent :if
+                              consequents :then} %]
+                          (not (= :fail (unify antecedent lexeme)))))
+              (mapcat #(let [{rule :rule
+                              antecedent :if
+                              consequents :then} %]
+                        (mapcat (fn [consequent]
+                                    (apply-rule rule lexeme consequent antecedent))
+                                consequents))))]
+    (if (not (empty? with-rules))
+      with-rules
+      [(unify lexeme {:rule {::no-rules-matched? true}})])))
 
 (defn apply-rules-to-lexicon [lexicon rules]
   (into {}

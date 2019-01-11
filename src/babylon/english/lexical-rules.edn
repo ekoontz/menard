@@ -3,6 +3,35 @@
   :then [{:agr {:number :sing}}
          {:agr {:number :plur}}]}
 
+ {:if {:cat :det
+       :agr :sing}
+  :then [{}]}
+
+ {:if {:cat :noun
+       :propernoun ::unspec
+       :pronoun ::unspec
+       :subcat ::unspec
+       :agr ::unspec}
+  :then [(let [agr (atom {:number :sing})]
+           {:cat :noun
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         (let [agr (atom {:number :plur})]
+           {:cat :noun
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         {:cat :noun
+          :propernoun false
+          :pronoun false
+          :agr {:number :plur}
+          :subcat []}]}
+
  {:if {:cat :noun
        :propernoun false
        :pronoun false
@@ -10,18 +39,25 @@
        :agr ::unspec}
   :then [(let [agr (atom {:number :sing})]
            {:cat :noun
+            :propernoun false
+            :pronoun false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          (let [agr (atom {:number :plur})]
            {:cat :noun
+            :propernoun false
+            :pronoun false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
          {:cat :noun
+          :propernoun false
+          :pronoun false
           :agr {:number :plur}
           :subcat []}]}
 
+ 
  {:if {:cat :noun
        :pronoun true
        :reflexive true}

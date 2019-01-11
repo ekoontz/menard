@@ -1,8 +1,21 @@
-{"a"          [{:cat :det :agr {:number :sing}}]
- "cat"        [{:cat :noun :pred :cat}]
- "dog"        [{:cat :noun :pred :dog}]
- "itself"     [{:cat :noun :agr {:number :sing} :pronoun true :reflexive true}]
- "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
+{"a"          [{:cat :det
+                :agr {:number :sing}}]
+ "cat"        [{:cat :noun
+                :pred :cat
+                :pronoun false
+                :propernoun false}]
+ "dog"        [{:cat :noun
+                :pred :dog
+                :pronoun false
+                :propernoun false}]
+ "itself"     [{:cat :noun
+                :agr {:number :sing}
+                :pronoun true
+                :reflexive true}]
+ "themselves" [{:cat :noun
+                :agr {:number :plur}
+                :pronoun true
+                :reflexive true}]
  "see"        [{:cat :verb :pred :see
                 :subcat {:1 :top
                          :2 :top}}]

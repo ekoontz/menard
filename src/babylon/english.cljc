@@ -20,6 +20,7 @@
 
 (defn apply-rule [lexeme consequent antecedent]
   (let [result (unify lexeme consequent)]
+    (log/info (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent "; result: " result))
     (cond (= :fail result)
           (let [error-message (str "matched antecedent: " antecedent
                                    ", but failed to unify lexeme:" (vec (u/serialize lexeme))
@@ -28,13 +29,17 @@
               (throw (Exception. error-message)))
           (u/isomorphic? lexeme result)
           (do (log/info (str "reached fixed point with unify lexeme:" lexeme " and consequent: " consequent "."))
-              [])
+              [result])
           true
-          (do (log/info (str "apply-rule: lexeme: " lexeme " with conseq: " consequent))
+          (do (log/info (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [result]))))
 
-(defn apply-rules [lexeme rules]
-  (->> rules
+(def default-rule
+  {:if :top
+    :then [:top]})
+
+(defn apply-rules [rules lexeme]
+  (->> (cons default-rule rules)
        (filter #(let [{antecedent :if
                        consequents :then} %]
                   (not (= :fail (unify antecedent lexeme)))))
@@ -44,27 +49,16 @@
                             (apply-rule lexeme consequent antecedent))
                           consequents)))))
 
-(defn apply-rule-to [rule lexemes]
-  (cond (map? rule)
-        (map #(unify rule %
-                     lexemes))
-        (or (vector? rule)
-            (seq? rule))
-        (let [rules rule]
-          (->>
-           lexemes
-           (mapcat (fn [lexeme]
-                     (->> rule
-                          (map (fn [rule]
-                                 (let [[ante conseq] rule]
-                                    (->>
-                                     conseq
-                                     (map (fn [each-conseq]
-                                             (unify each-conseq lexeme)))
-                                     (filter #(not (= :fail %))))))))))))
-        true
-        (throw (Exception. (str "could not process rule with this type: ")))))
-         
+(defn apply-rules-to-lexicon [lexicon rules]
+  (into {}
+        (for [[k lexemes] lexicon]
+          (if (not (empty? lexemes))
+            [k (->> lexemes
+                    (mapcat (fn [lexeme]
+                              (apply-rules rules lexeme)))
+                    (map (fn [lexeme]
+                           (merge lexeme
+                                  {:canonical k}))))]))))
 
 ;; the lexicon itself. we use the lexical-compile-rules
 ;; to transform the human-readable entries into more complete
@@ -73,8 +67,8 @@
   (-> "babylon/english/lexicon.edn"
       io/resource
       slurp
-      read-string))
-;;      (l/process lexical-rules)))
+      read-string
+      (apply-rules-to-lexicon lexical-rules)))
 
 ;; used during generation to turn a single
 ;; compiled lexical entry into multiple inflected

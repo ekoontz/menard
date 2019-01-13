@@ -3,7 +3,7 @@
   :u {:cat :noun
       :agr {:number :sing}}}
 
- {:g [#"^(.*[elnprt])[y]$"  "$1ies"] ;; puppy     -> puppies
+ {:g [#"^(.*[^aiou])[y]$"  "$1ies"] ;; puppy     -> puppies
   :p [#"^(.*)ies$"     "$1y"] 
   :u {:cat :noun
       :pronoun false

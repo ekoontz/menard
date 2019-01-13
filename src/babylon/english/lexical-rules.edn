@@ -4,8 +4,10 @@
   :then [{:agr {:number :sing}}
          {:agr {:number :plur}}]}
 
- {:rule 2
+ {:rule :common-noun
   :if {:cat :noun
+       :propernoun false
+       :pronoun false
        :subcat ::unspec
        :agr ::unspec}
   :then [(let [agr (atom {:number :sing})]
@@ -31,10 +33,11 @@
           :agr {:number :plur}
           :subcat []}]}
 
- {:rule :plural-irregular-noun
+ {:rule :irregular-plural-common-noun
   :if {:cat :noun
        :propernoun false
        :pronoun false
+       :regular false
        :subcat ::unspec
        :agr {:number :plur}}
   :then [(let [agr (atom {:number :plur})]
@@ -52,54 +55,23 @@
           :agr {:number :plur}
           :subcat []}]}
 
- {:rule :singular-irregular-noun
+ {:rule :irregular-singular-common-noun
   :if {:cat :noun
        :propernoun false
        :pronoun false
+       :regular false
        :subcat ::unspec
        :agr {:number :sing}}
   :then [(let [agr (atom {:number :sing})]
            {:cat :noun
-            :rule :single-irregular-noun
             :reflexive false
             :propernoun false
             :pronoun false
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})]}
- {:rule 3
-  :if {:cat :noun
-       :propernoun false
-       :pronoun false
-       :subcat ::unspec
-       :agr ::unspec}
-  :then [(let [agr (atom {:number :sing})]
-           {:cat :noun
-            :rule :3-1
-            :reflexive false
-            :propernoun false
-            :pronoun false
-            :agr agr
-            :subcat {:1 {:cat :det :agr agr}
-                     :2 []}})
-         (let [agr (atom {:number :plur})]
-           {:cat :noun
-            :rule :3-2
-            :reflexive false
-            :propernoun false
-            :pronoun false
-            :agr agr
-            :subcat {:1 {:cat :det :agr agr}
-                     :2 []}})
-         {:cat :noun
-          :rule :3-3
-          :reflexive false
-          :propernoun false
-          :pronoun false
-          :agr {:number :plur}
-          :subcat []}]}
 
- {:rule 4
+ {:rule :reflexive-is-accusative
   :if {:cat :noun
        :pronoun true
        :reflexive true}
@@ -107,14 +79,14 @@
           :subcat []
           :case :acc}]}
 
- {:rule 5
+ {:rule :nonreflexive
   :if {:cat :noun
        :pronoun true
        :reflexive false}
   :then [{:propernoun false
           :subcat []}]}
 
- {:rule 6
+ {:rule :transitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}
                 :2 {:cat ::unspec}}}
@@ -147,7 +119,7 @@
                          :reflexive true
                          :cat :noun
                          :case :acc}}})]}
- {:rule 7
+ {:rule :intransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}
                 :2 []}}

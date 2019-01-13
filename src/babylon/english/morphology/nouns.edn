@@ -8,33 +8,33 @@
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}
-      :rules-matched {:plural-irregular-noun false}}}
+      :regular true}}
       
  {:g [#"^(.*)fe$"   "$1ves"] ;; life -> lives
   :p [#"^(.*)ves$"  "$1fe"] 
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}
-      :rules-matched {:plural-irregular-noun false}}}
+      :regular true}}
  
  {:g [#"^(.*[cs]h)$"  "$1es"] ;;   ash   -> ashes
   :p [#"^(.*)es$"  "$1"]  
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}
-      :rules-matched {:plural-irregular-noun false}}}
+      :regular true}}
       
  {:g [#"^(.*[sx])$"  "$1es"] ;; class   -> classes
   :p [#"^(.*)es$"    "$1"]   ;;
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}
-      :rules-matched {:plural-irregular-noun false}}}
+      :regular true}}
  
  {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
   :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}
-      :rules-matched {:plural-irregular-noun false}}}]
+      :regular true}}]
 

@@ -1,0 +1,9 @@
+[{:rule :regular-noun
+  :if {:cat :noun
+       :regular ::unspec}
+  :then [{:regular true}]}
+ {:rule :regular-verb
+   :if {:cat :verb}
+       :regular ::unspec
+  :then [{:regular true}]}]
+

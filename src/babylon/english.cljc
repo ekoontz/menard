@@ -12,6 +12,15 @@
 ;;
 ;; For generation and parsing of English.
 ;; 
+
+(def lexical-defaults
+  (-> "babylon/english/lexical-defaults.edn"
+      io/resource
+      slurp
+      read-string
+      ((fn [rule]
+         (map #(eval %) rule)))))
+
 (def lexical-rules
   (-> "babylon/english/lexical-rules.edn"
       io/resource
@@ -28,7 +37,8 @@
       io/resource
       slurp
       read-string
-      (l/apply-rules-to-lexicon lexical-rules)))
+      (l/apply-rules-to-lexicon lexical-defaults false)
+      (l/apply-rules-to-lexicon lexical-rules true)))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

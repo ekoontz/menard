@@ -12,7 +12,7 @@
     (log/debug (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                    "; result: " result))
     (cond (= :fail result)
-          (let [error-message (str "matched antecedent: " antecedent
+          (let [error-message (str "rule: " rule " matched antecedent: " antecedent
                                    ", but failed to unify lexeme:" (vec (u/serialize lexeme))
                                    " and consequent: " (vec (u/serialize consequent)))]
               (log/error error-message)
@@ -24,7 +24,7 @@
                           {:rules-matched {rule true}}
                           :top))]))))
 
-(defn apply-rules [rules lexeme]
+(defn apply-rules [rules lexeme if-no-rules-matched?]
   (let [with-rules
          (->> rules
               (filter #(let [{antecedent :if
@@ -36,17 +36,20 @@
                         (mapcat (fn [consequent]
                                     (apply-rule rule lexeme consequent antecedent))
                                 consequents))))]
-    (if (not (empty? with-rules))
-      with-rules
-      [(unify lexeme {:rules-matched {::no-rules-matched? true}})])))
+    (cond (not (empty? with-rules))
+          with-rules
+          if-no-rules-matched?
+          [(unify lexeme {:rules-matched {::no-rules-matched? true}})]
+          true
+          [lexeme])))
 
-(defn apply-rules-to-lexicon [lexicon rules]
+(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
   (into {}
         (for [[k lexemes] lexicon]
           (if (not (empty? lexemes))
             [k (->> lexemes
                     (mapcat (fn [lexeme]
-                               (apply-rules rules lexeme)))
+                               (apply-rules rules lexeme if-no-rules-matched?)))
                     (mapcat (fn [lexeme]
                                [(unify lexeme
                                        {:phrasal false

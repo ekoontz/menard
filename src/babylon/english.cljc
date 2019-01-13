@@ -89,6 +89,11 @@
             p/lookup-fn l/matching-lexemes]
     (p/parse expression)))
 
+(defn analyze [surface]
+  (binding [l/lexicon lexicon
+            l/morphology morphology]
+    (l/matching-lexemes surface)))              
+
 (defn demo []
   (load "grammar")
   (println "Generation:")

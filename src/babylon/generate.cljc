@@ -218,7 +218,7 @@
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (def ^:dynamic lexical-default-rules
-  [:top [:top]])
+  [[:top [:top]]])
 
 (defn lexical-defaults
   "used to create inflected forms for lexemes when generating."

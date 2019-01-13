@@ -171,58 +171,52 @@
   [spec depth]
   ;; get all rules that match input _spec_:
   (log/debug (str "parent-with-head: checking " (count grammar) " rules with spec: " spec))
-  (let [result
-        (->> grammar
-             (map #(let [result (unify % spec)]
-                     (log/debug (str "looking at rule:" (:rule %)))
-                     (if (= :fail %)
-                       (throw (Exception. (str "grammar rule is unexpectedly :fail: please check your grammar."))))
-                     (if (not (= :fail result))
-                       (log/debug (str "result:" (morph-ps result))))
-                     result))
-             (remove #(= :fail %))
-             (parent-with-head-1 spec depth)
-             (map #(u/assoc-in! % [::started?] true)))]
-    (log/debug (str "parent-with-head: found " (count result) " matches: " (vec (map :rule result))))
-    result))
+  (->> grammar
+       (map #(let [result (unify % spec)]
+               (log/debug (str "looking at rule:" (:rule %)))
+               (if (= :fail %)
+                   (throw (Exception. (str "grammar rule is unexpectedly :fail: please check your grammar."))))
+               (if (not (= :fail result))
+                   (log/debug (str "result:" (morph-ps result))))
+               result))
+       (remove #(= :fail %))
+       (parent-with-head-1 spec depth)
+       (map #(u/assoc-in! % [::started?] true))))
+
+(defn wtf [spec]
+  (count grammar))
 
 (defn parent-with-head-1 [spec depth parent-rules]
-  (log/debug (str "parent-with-head-1: grammar count: " (count grammar)))
-  (log/debug (str "parent-with-head-1: parent-rules count: " (count parent-rules)))
   (if (not (empty? parent-rules))
     (lazy-cat
-     (do
-       (if (= 0 (count grammar))
-           (throw (Exception. (str ": grammar is empty: " (type grammar)))))
-       (let [debug (log/debug (str "grammar is: " (count grammar)))
-             parent-rule (first parent-rules)
-             debug (log/debug (str "looking at parent-rule: " (:rule parent-rule) " with rules:" (count grammar)))
-             phrases-with-phrasal-head (->> grammar
-                                            shuffle
-                                            (map #(u/assoc-in parent-rule [:head] %))
-                                            (filter #(not (= :fail %))))
-             phrases-with-lexical-head (->> (get-lexemes-fast
-                                             (unify
-                                              (u/get-in spec [:head] :top)
-                                              (u/get-in parent-rule [:head] :top)))
-                                            (map #(u/assoc-in parent-rule [:head]
-                                                              (do
-                                                                (log/debug (str "lexeme: canonical:" (:canonical %)))
-                                                                %)))
-                                            (filter #(not (= :fail %))))]
-           (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
-           (cond
-              (branch? depth)
-              (lazy-cat
-                ;; phrases that could be the head child, then lexemes that could be the head child.
-                phrases-with-phrasal-head
-                phrases-with-lexical-head)
+     (let [parent-rule (first parent-rules)
+           debug (log/debug (str "looking at parent-rule: " (:rule parent-rule) " with rules:" (count grammar)))
+           phrases-with-phrasal-head (->> grammar
+                                          shuffle
+                                          (map #(u/assoc-in parent-rule [:head] %))
+                                          (filter #(not (= :fail %))))
+           phrases-with-lexical-head (->> (get-lexemes-fast
+                                           (unify
+                                            (u/get-in spec [:head] :top)
+                                            (u/get-in parent-rule [:head] :top)))
+                                          (map #(u/assoc-in parent-rule [:head]
+                                                            (do
+                                                              (log/debug (str "lexeme: canonical:" (:canonical %)))
+                                                              %)))
+                                          (filter #(not (= :fail %))))]
+         (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
+         (cond
+            (branch? depth)
+            (lazy-cat
+              ;; phrases that could be the head child, then lexemes that could be the head child.
+              phrases-with-phrasal-head
+              phrases-with-lexical-head)
 
-              true
-              (lazy-cat
-                ;; lexemes that could be the head child, then phrases that could be the head child.
-                phrases-with-lexical-head
-                phrases-with-phrasal-head))))
+            true
+            (lazy-cat
+              ;; lexemes that could be the head child, then phrases that could be the head child.
+              phrases-with-lexical-head
+              phrases-with-phrasal-head)))
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (defn get-lexemes

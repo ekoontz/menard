@@ -12,6 +12,14 @@
                 :agr {:number :sing}
                 :pronoun true
                 :reflexive true}]
+ "kitten"        [{:cat :noun
+                   :pred :kitten
+                   :pronoun false
+                   :propernoun false}]
+ "puppy"        [{:cat :noun
+                  :pred :puppy
+                  :pronoun false
+                  :propernoun false}]
  "themselves" [{:cat :noun
                 :agr {:number :plur}
                 :pronoun true

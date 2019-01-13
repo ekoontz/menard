@@ -3,8 +3,8 @@
   :u {:cat :noun
       :agr {:number :sing}}}
 
- {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
-  :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
+ {:g [#"^(.*)[y]$"  "$1ies"] ;; puppy     -> puppies
+  :p [#"^(.*)ies$"     "$1y"] 
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}}}
@@ -13,4 +13,12 @@
   :p [#"^(.*)es$"     "$1"]   ;; ashes   -> ash
   :u {:cat :noun
       :pronoun false
+      :agr {:number :plur}}}
+
+ {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
+  :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
+  :u {:cat :noun
+      :pronoun false
       :agr {:number :plur}}}]
+
+

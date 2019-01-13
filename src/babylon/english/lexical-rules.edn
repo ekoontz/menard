@@ -61,4 +61,5 @@
        :pronoun true
        :reflexive true}
   :then [{:propernoun false
+          :subcat []
           :case :acc}]}]

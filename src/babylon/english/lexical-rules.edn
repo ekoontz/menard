@@ -69,5 +69,13 @@
        :pronoun true
        :reflexive false}
   :then [{:propernoun false
-          :subcat []}]}]
+          :subcat []}]}
 
+ {:rule 6
+  :if {:cat :verb
+       :subcat {:1 {:cat ::unspec}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}}})]}]

@@ -203,7 +203,6 @@
              phrases-with-lexical-head (->> (get-lexemes (unify
                                                           (u/get-in spec [:head] :top)
                                                           (u/get-in parent-rule [:head] :top)))
-                                            shuffle
                                             (map #(u/assoc-in parent-rule [:head]
                                                               (do
                                                                 (log/debug (str "lexeme: canonical:" (:canonical %)))

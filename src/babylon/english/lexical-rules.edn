@@ -112,5 +112,17 @@
                      :2 {:agr agr
                          :reflexive true
                          :cat :noun
-                         :case :acc}}})]}]
+                         :case :acc}}})]}
+ {:rule 7
+  :if {:cat :verb
+       :subcat {:1 {:cat ::unspec}
+                :2 []}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :reflexive false
+            :rule :7-1
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}
+                     :2 []}})]}]
         

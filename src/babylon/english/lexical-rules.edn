@@ -6,8 +6,6 @@
 
  {:rule 2
   :if {:cat :noun
-       :propernoun ::unspec
-       :pronoun ::unspec
        :subcat ::unspec
        :agr ::unspec}
   :then [(let [agr (atom {:number :sing})]
@@ -33,6 +31,42 @@
           :agr {:number :plur}
           :subcat []}]}
 
+ {:rule :plural-irregular-noun
+  :if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec
+       :agr {:number :plur}}
+  :then [(let [agr (atom {:number :plur})]
+           {:cat :noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})
+         {:cat :noun
+          :reflexive false
+          :propernoun false
+          :pronoun false
+          :agr {:number :plur}
+          :subcat []}]}
+
+ {:rule :singular-irregular-noun
+  :if {:cat :noun
+       :propernoun false
+       :pronoun false
+       :subcat ::unspec
+       :agr {:number :sing}}
+  :then [(let [agr (atom {:number :sing})]
+           {:cat :noun
+            :rule :single-irregular-noun
+            :reflexive false
+            :propernoun false
+            :pronoun false
+            :agr agr
+            :subcat {:1 {:cat :det :agr agr}
+                     :2 []}})]}
  {:rule 3
   :if {:cat :noun
        :propernoun false

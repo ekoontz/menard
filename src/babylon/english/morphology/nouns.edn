@@ -3,35 +3,38 @@
   :u {:cat :noun
       :agr {:number :sing}}}
 
- {:g [#"^(.*[^aiou])[y]$"  "$1ies"] ;; puppy     -> puppies
+ {:g [#"^(.*[^aeiou])[y]$"  "$1ies"] ;; puppy     -> puppies
   :p [#"^(.*)ies$"     "$1y"] 
   :u {:cat :noun
       :pronoun false
-      :agr {:number :plur}}}
-
+      :agr {:number :plur}
+      :rules-matched {:plural-irregular-noun false}}}
+      
  {:g [#"^(.*)fe$"   "$1ves"] ;; life -> lives
   :p [#"^(.*)ves$"  "$1fe"] 
   :u {:cat :noun
       :pronoun false
-      :agr {:number :plur}}}
-
+      :agr {:number :plur}
+      :rules-matched {:plural-irregular-noun false}}}
  
  {:g [#"^(.*[cs]h)$"  "$1es"] ;;   ash   -> ashes
   :p [#"^(.*)es$"  "$1"]  
   :u {:cat :noun
       :pronoun false
-      :agr {:number :plur}}}
-
+      :agr {:number :plur}
+      :rules-matched {:plural-irregular-noun false}}}
+      
  {:g [#"^(.*[sx])$"  "$1es"] ;; class   -> classes
   :p [#"^(.*)es$"    "$1"]   ;;
   :u {:cat :noun
       :pronoun false
-      :agr {:number :plur}}}
-
+      :agr {:number :plur}
+      :rules-matched {:plural-irregular-noun false}}}
+ 
  {:g [#"^(.*)$"       "$1s"] ;; dog     -> dogs
   :p [#"^(.*)s$"      "$1"]  ;; dogs    -> dog
   :u {:cat :noun
       :pronoun false
-      :agr {:number :plur}}}]
-
+      :agr {:number :plur}
+      :rules-matched {:plural-irregular-noun false}}}]
 

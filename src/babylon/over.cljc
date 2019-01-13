@@ -27,9 +27,6 @@
 (defn over [parents child1 & [child2]]
   (cond (map? parents)
         (over [parents] child1 child2)
-
-        (symbol? parents)
-        (throw (Exception. (str "wtf..?? " parents)))
         
         true
         (mapcat

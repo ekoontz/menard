@@ -224,23 +224,6 @@
                 phrases-with-phrasal-head))))
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
-(def ^:dynamic lexical-default-rules
-  [[:top [:top]]])
-
-(defn lexical-defaults
-  "used to create inflected forms for lexemes when generating."
-  [lexeme]
-  (mapcat (fn [rule]
-            (let [[antecedent consequents] rule]
-              (cond (not (= :fail (unify antecedent lexeme)))
-                    (->> consequents
-                         (map (fn [consequent]
-                                (unify consequent lexeme)))
-                         (filter #(not (= :fail %))))
-                    true
-                    [lexeme])))
-          lexical-default-rules))
-
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
    is a function that we call with _spec_ to get a set of lexemes
@@ -253,8 +236,6 @@
                        (or (= false (u/get-in % [:exception] false))
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))
-         (mapcat (fn [lexeme]
-                   (lexical-defaults lexeme)))
          (filter #(not (= :fail %)))
          (shuffle)
          (map #(u/assoc-in! % [::done?] true)))))

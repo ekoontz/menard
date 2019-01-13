@@ -61,10 +61,11 @@
           (if (not (empty? lexemes))
             [k (->> lexemes
                     (mapcat (fn [lexeme]
-                              (apply-rules rules lexeme)))
-                    (map (fn [lexeme]
-                           (merge lexeme
-                                  {:canonical k}))))]))))
+                               (apply-rules rules lexeme)))
+                    (mapcat (fn [lexeme]
+                               [(unify lexeme
+                                       {:phrasal false
+                                        :canonical k})])))]))))
 
 ;; the lexicon itself. we use the lexical-compile-rules
 ;; to transform the human-readable entries into more complete

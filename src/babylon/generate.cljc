@@ -97,7 +97,7 @@
        ;; 1. get all the possible children at _frontier-path_:
        (let [child-spec (u/get-in tree frontier-path :top)
              child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                             (get-lexemes child-spec))
+                             (get-lexemes-fast child-spec))
              child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                            (parent-with-head child-spec depth))]
          ;; depending on depth, generate children that are leaves before or after children that are trees.
@@ -201,9 +201,10 @@
                                             shuffle
                                             (map #(u/assoc-in parent-rule [:head] %))
                                             (filter #(not (= :fail %))))
-             phrases-with-lexical-head (->> (get-lexemes (unify
-                                                          (u/get-in spec [:head] :top)
-                                                          (u/get-in parent-rule [:head] :top)))
+             phrases-with-lexical-head (->> (get-lexemes-fast
+                                             (unify
+                                              (u/get-in spec [:head] :top)
+                                              (u/get-in parent-rule [:head] :top)))
                                             (map #(u/assoc-in parent-rule [:head]
                                                               (do
                                                                 (log/debug (str "lexeme: canonical:" (:canonical %)))

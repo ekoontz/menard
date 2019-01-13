@@ -256,5 +256,5 @@
          (mapcat (fn [lexeme]
                    (lexical-defaults lexeme)))
          (filter #(not (= :fail %)))
-         (map #(u/assoc-in! % [::done?] true))
-         shuffle)))
+         (shuffle)
+         (map #(u/assoc-in! % [::done?] true)))))

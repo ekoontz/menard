@@ -3,14 +3,27 @@
   :u {:cat :noun
       :agr {:number :sing}}}
 
- {:g [#"^(.*)[y]$"  "$1ies"] ;; puppy     -> puppies
+ {:g [#"^(.*[elnprt])[y]$"  "$1ies"] ;; puppy     -> puppies
   :p [#"^(.*)ies$"     "$1y"] 
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}}}
 
- {:g [#"^(.*[hsx])$"  "$1es"] ;; ash     -> ashes
-  :p [#"^(.*)es$"     "$1"]   ;; ashes   -> ash
+ {:g [#"^(.*)fe$"   "$1ves"] ;; life -> lives
+  :p [#"^(.*)ves$"  "$1fe"] 
+  :u {:cat :noun
+      :pronoun false
+      :agr {:number :plur}}}
+
+ 
+ {:g [#"^(.*[cs]h)$"  "$1es"] ;;   ash   -> ashes
+  :p [#"^(.*)es$"  "$1"]  
+  :u {:cat :noun
+      :pronoun false
+      :agr {:number :plur}}}
+
+ {:g [#"^(.*[sx])$"  "$1es"] ;; class   -> classes
+  :p [#"^(.*)es$"    "$1"]   ;;
   :u {:cat :noun
       :pronoun false
       :agr {:number :plur}}}

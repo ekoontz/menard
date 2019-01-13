@@ -50,6 +50,7 @@
 
 (declare frontier)
 (declare get-lexemes)
+(declare get-lexemes-fast)
 (declare grow)
 (declare grow-all)
 (declare parent-with-head)
@@ -238,3 +239,6 @@
          (filter #(not (= :fail %)))
          (shuffle)
          (map #(u/assoc-in! % [::done?] true)))))
+
+(defn get-lexemes-fast [spec]
+  (take 100000000 (get-lexemes spec)))

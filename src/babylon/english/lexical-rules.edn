@@ -62,4 +62,12 @@
        :reflexive true}
   :then [{:propernoun false
           :subcat []
-          :case :acc}]}]
+          :case :acc}]}
+
+ {:rule 5
+  :if {:cat :noun
+       :pronoun true
+       :reflexive false}
+  :then [{:propernoun false
+          :subcat []}]}]
+

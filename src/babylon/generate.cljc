@@ -33,7 +33,12 @@
 ;;         9 | 160
 ;;        10 | 350
 
-(def ^:dynamic morph-ps (fn [x] x))
+(def ^:dynamic morph-ps (fn [x]
+                          (cond (map? x)
+                                (vec (u/serialize x))
+                                (or (nil? x)
+                                    (keyword? x)) x
+                                true (str x "(type:" (type x) ")"))))
 (def ^:dynamic grammar nil)
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]

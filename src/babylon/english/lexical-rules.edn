@@ -92,14 +92,6 @@
                 :2 {:cat ::unspec}}}
   :then [(let [agr (atom :top)]
            {:agr agr
-            :reflexive false
-            :rule :6-1
-            :subcat {:1 {:agr agr
-                         :cat :noun
-                         :case :nom}
-                     :2 []}})
-         (let [agr (atom :top)]
-           {:agr agr
             :rule :6-2
             :reflexive false
             :subcat {:1 {:agr agr

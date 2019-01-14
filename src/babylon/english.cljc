@@ -36,16 +36,35 @@
         (apply-rules-in-order (rest rules))
         (l/apply-rules-to-lexicon [(first rules)] false))))
 
-;; the lexicon itself. we use the lexical-rules
-;; to transform the human-readable entries into more complete
-;; entries.
-(def lexicon
-  (-> "babylon/english/lexicon.edn"
+(def misc-lexicon
+  (-> "babylon/english/lexicon/misc.edn"
       io/resource
       slurp
       read-string
       (apply-rules-in-order lexical-defaults)
       (l/apply-rules-to-lexicon lexical-rules true)))
+
+(def noun-lexicon
+  (-> "babylon/english/lexicon/nouns.edn"
+      io/resource
+      slurp
+      read-string
+      (apply-rules-in-order lexical-defaults)
+      (l/apply-rules-to-lexicon lexical-rules true)))
+
+(def verb-lexicon
+  (-> "babylon/english/lexicon/verbs.edn"
+      io/resource
+      slurp
+      read-string
+      (apply-rules-in-order lexical-defaults)
+      (l/apply-rules-to-lexicon lexical-rules true)))
+
+(def lexicon
+  (merge-with concat
+              misc-lexicon
+              noun-lexicon
+              verb-lexicon))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

@@ -1,10 +1,30 @@
 [{:g [#"^(.*)$"   "$1s"] ;; sleep     -> sleeps
-  :p [#"^(.*)s$"  "$1"]  ;; sleeps    -> sleep
+  :p [#"^(.*)s$"  "$1"] 
   :u {:cat :verb
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^(.*)$"  "$1"] ;; no change
-  :p [#"^(.*)$"  "$1"]  ;; no change
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
+  :u {:cat :verb
+      :agr {:person :1st
+            :number :sing}}}
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
+  :u {:cat :verb
+      :agr {:person :2nd
+            :number :sing}}}
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
+  :u {:cat :verb
+      :agr {:person :1st
+            :number :plur}}}
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
+  :u {:cat :verb
+      :agr {:person :2nd
+            :number :plur}}}
+ {:g [#"^(.*)$"  "$1"] 
+  :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
       :agr {:person :3rd
             :number :plur}}}]

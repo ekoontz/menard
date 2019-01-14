@@ -124,4 +124,13 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
-
+(defn benchmark []
+  (repeatedly
+   #(println
+     (morph
+      (time (generate
+             {:cat :verb
+              :pred :top
+              :comp {:phrasal true}
+              :head {:phrasal true
+                     :comp {:phrasal true}}}))))))

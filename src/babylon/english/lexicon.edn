@@ -36,6 +36,7 @@
  "hand" [{:cat :noun :pred :hand :pronoun false :propernoun false}]
  "head" [{:cat :noun :pred :head :pronoun false :propernoun false}]
  "health" [{:cat :noun :pred :health :pronoun false :propernoun false}]
+ "her" [{:cat :noun :pronoun true :case :acc :reflexive false}]
  "history" [{:cat :noun :pred :history :pronoun false :propernoun false}]
  "home" [{:cat :noun :pred :home :pronoun false :propernoun false}]
  "hour" [{:cat :noun :pred :hour :pronoun false :propernoun false}]

@@ -75,12 +75,14 @@
             g/morph-ps syntax-tree]
     (g/generate spec)))
 
-(defn grow-all [spec]
+(defn generate-n
+  "generate _n_ consecutive expressions that satisfy _spec_."
+  [n spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree]
-    (g/grow-all (g/parent-with-head spec 0))))
+      (vec (take n (g/grow-all (g/parent-with-head spec 0))))))
 
 (defn parse [expression]
   (binding [p/grammar grammar

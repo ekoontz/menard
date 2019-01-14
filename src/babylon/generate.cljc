@@ -46,6 +46,7 @@
 
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic println? nil)
+(def ^:dynamic shuffle? true)
 (def ^:dynamic truncate? nil)
 
 (declare frontier)
@@ -55,6 +56,7 @@
 (declare grow-all)
 (declare parent-with-head)
 (declare parent-with-head-1)
+(declare shuffle-or-not)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
@@ -189,7 +191,7 @@
      (let [parent-rule (first parent-rules)
            debug (log/debug (str "looking at parent-rule: " (:rule parent-rule) " with rules:" (count grammar)))
            phrases-with-phrasal-head (->> grammar
-                                          shuffle
+                                          shuffle-or-not
                                           (map #(u/assoc-in parent-rule [:head] %))
                                           (filter #(not (= :fail %))))
            phrases-with-lexical-head (->> (get-lexemes-fast
@@ -229,8 +231,11 @@
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
-         (shuffle)
+         shuffle-or-not
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn get-lexemes-fast [spec]
   (take 100000000 (get-lexemes spec)))
+
+(defn shuffle-or-not [x]
+  (if shuffle? (shuffle x) x))

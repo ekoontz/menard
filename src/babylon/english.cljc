@@ -81,7 +81,8 @@
   (binding [g/grammar grammar
             g/lexicon lexicon
             m/morphology morphology
-            g/morph-ps syntax-tree]
+            g/morph-ps syntax-tree
+            g/shuffle? false]
       (vec (take n (g/grow-all (g/parent-with-head spec 0))))))
 
 (defn parse [expression]

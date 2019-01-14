@@ -100,16 +100,19 @@
                      :2 {:cat :noun
                          :reflexive false
                          :case :acc}}})
-         (let [agr (atom :top)]
+         (let [agr (atom :top)
+               sem (atom :top)]
            {:agr agr
             :rule :6-3
             :reflexive true
             :subcat {:1 {:agr agr
                          :cat :noun
-                         :case :nom}
+                         :case :nom
+                         :sem sem}
                      :2 {:agr agr
                          :reflexive true
                          :cat :noun
+                         :sem sem
                          :case :acc}}})]}
  {:rule :intransitive-verbs
   :if {:cat :verb

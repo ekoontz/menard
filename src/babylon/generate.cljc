@@ -183,9 +183,6 @@
        (parent-with-head-1 spec depth)
        (map #(u/assoc-in! % [::started?] true))))
 
-(defn wtf [spec]
-  (count grammar))
-
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))
     (lazy-cat

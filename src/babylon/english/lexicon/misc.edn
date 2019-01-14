@@ -39,6 +39,13 @@
              :pronoun true
              :reflexive true
              :sem {:human true}}]
+ "I" [{:cat :noun
+       :case :nom
+       :agr {:number :sing
+             :person :1st}
+       :sem {:human true}
+       :pronoun true
+       :reflexive false}]
  "it" [{:cat :noun
         :case :nom
         :agr {:number :sing
@@ -61,4 +68,11 @@
          :pronoun true
          :reflexive false}]
  "the" [{:cat :det}]
- "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]}
+ "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
+ "you" [{:cat :noun
+         :case :nom
+         :agr {:person :2nd}
+         :sem {:human true}
+         :pronoun true
+         :reflexive false}]}
+

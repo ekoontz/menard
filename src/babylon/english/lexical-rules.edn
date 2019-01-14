@@ -86,6 +86,12 @@
   :then [{:propernoun false
           :subcat []}]}
 
+ {:rule :propernoun
+  :if {:cat :noun
+       :pronoun false
+       :propernoun true}
+  :then [{:subcat []}]}
+ 
  {:rule :transitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}

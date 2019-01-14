@@ -52,6 +52,14 @@
       (apply-rules-in-order lexical-defaults)
       (l/apply-rules-to-lexicon lexical-rules true)))
 
+(def propernoun-lexicon
+  (-> "babylon/english/lexicon/propernouns.edn"
+      io/resource
+      slurp
+      read-string
+      (apply-rules-in-order lexical-defaults)
+      (l/apply-rules-to-lexicon lexical-rules true)))
+
 (def verb-lexicon
   (-> "babylon/english/lexicon/verbs.edn"
       io/resource
@@ -64,6 +72,7 @@
   (merge-with concat
               misc-lexicon
               noun-lexicon
+              propernoun-lexicon
               verb-lexicon))
 
 (def grammar

@@ -29,6 +29,13 @@
       ((fn [rule]
          (map #(eval %) rule)))))
 
+(defn apply-rules-in-order [lexicon rules]
+  (if (empty? rules)
+    lexicon
+    (-> lexicon
+        (apply-rules-in-order (rest rules))
+        (l/apply-rules-to-lexicon [(first rules)] false))))
+
 ;; the lexicon itself. we use the lexical-rules
 ;; to transform the human-readable entries into more complete
 ;; entries.
@@ -37,7 +44,7 @@
       io/resource
       slurp
       read-string
-      (l/apply-rules-to-lexicon lexical-defaults false)
+      (apply-rules-in-order lexical-defaults)
       (l/apply-rules-to-lexicon lexical-rules true)))
 
 (def grammar

@@ -10,7 +10,8 @@
        :pronoun false
        :subcat ::unspec
        :agr ::unspec}
-  :then [(let [agr (atom {:number :sing})]
+  :then [(let [agr (atom {:number :sing
+                          :person :3rd})]
            {:cat :noun
             :reflexive false
             :propernoun false
@@ -18,7 +19,8 @@
             :agr agr
             :subcat {:1 {:cat :det :agr agr}
                      :2 []}})
-         (let [agr (atom {:number :plur})]
+         (let [agr (atom {:number :plur
+                          :person :3rd})]
            {:cat :noun
             :reflexive false
             :propernoun false
@@ -30,7 +32,8 @@
           :reflexive false
           :propernoun false
           :pronoun false
-          :agr {:number :plur}
+          :agr {:number :plur
+                :person :3rd}
           :subcat []}]}
 
  {:rule :irregular-plural-common-noun
@@ -40,7 +43,8 @@
        :regular false
        :subcat ::unspec
        :agr {:number :plur}}
-  :then [(let [agr (atom {:number :plur})]
+  :then [(let [agr (atom {:number :plur
+                          :person :3rd})]
            {:cat :noun
             :reflexive false
             :propernoun false
@@ -52,7 +56,8 @@
           :reflexive false
           :propernoun false
           :pronoun false
-          :agr {:number :plur}
+          :agr {:number :plur
+                :person :3rd}
           :subcat []}]}
 
  {:rule :irregular-singular-common-noun
@@ -62,7 +67,8 @@
        :regular false
        :subcat ::unspec
        :agr {:number :sing}}
-  :then [(let [agr (atom {:number :sing})]
+  :then [(let [agr (atom {:number :sing
+                          :person :3rd})]
            {:cat :noun
             :reflexive false
             :propernoun false

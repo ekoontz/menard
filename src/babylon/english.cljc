@@ -1,5 +1,6 @@
 (ns babylon.english
-  (:require [clojure.string :as string]
+  (:require [clojure.java.io :as io]
+            [clojure.string :as string]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
             [babylon.grammar :as grammar]
@@ -10,33 +11,10 @@
             [dag_unify.core :as u :refer [unify]]))
 ;;
 ;; For generation and parsing of English.
-;; 
-(def misc-lexicon
-  (-> "babylon/english/lexicon/misc.edn"
-      io/resource
-      slurp
-      read-string
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
-      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
+;;
 
-(def noun-lexicon
-  (-> "babylon/english/lexicon/nouns.edn"
-      io/resource
-      slurp
-      read-string
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
-      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
-
-(def propernoun-lexicon
-  (-> "babylon/english/lexicon/propernouns.edn"
-      io/resource
-      slurp
-      read-string
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
-      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
-
-(def verb-lexicon
-  (-> "babylon/english/lexicon/verbs.edn"
+(defn compile-lexicon [filename]
+  (-> filename
       io/resource
       slurp
       read-string
@@ -45,10 +23,10 @@
 
 (def lexicon
   (merge-with concat
-              misc-lexicon
-              noun-lexicon
-              propernoun-lexicon
-              verb-lexicon))
+    (compile-lexicon "babylon/english/lexicon/misc.edn")
+    (compile-lexicon "babylon/english/lexicon/propernouns.edn")
+    (compile-lexicon "babylon/english/lexicon/nouns.edn")
+    (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

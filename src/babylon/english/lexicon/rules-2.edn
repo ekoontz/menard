@@ -102,38 +102,48 @@
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}
                 :2 {:cat ::unspec}}}
-  :then [(let [agr (atom :top)]
+  :then [(let [agr (atom :top)
+               subj (atom :top)
+               obj (atom :top)]
            {:agr agr
-            :rule :6-2
             :reflexive false
-            :subcat {:1 {:agr agr
-                         :cat :noun
-                         :case :nom}
-                     :2 {:cat :noun
-                         :reflexive false
-                         :case :acc}}})
-         (let [agr (atom :top)
-               sem (atom :top)]
-           {:agr agr
-            :rule :6-3
-            :reflexive true
+            :sem {:subj subj
+                  :obj obj}
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom
-                         :sem sem}
+                         :sem subj}
+                     :2 {:cat :noun
+                         :reflexive false
+                         :case :acc
+                         :sem obj}}})
+         (let [agr (atom :top)
+               subj (atom :top)
+               obj (atom :top)]
+           {:agr agr
+            :reflexive true
+            :sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :sem subj}
                      :2 {:agr agr
                          :reflexive true
                          :cat :noun
-                         :sem sem
+                         :sem obj
                          :case :acc}}})]}
  {:rule :intransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}
                 :2 []}}
-  :then [(let [agr (atom :top)]
+  :then [(let [agr (atom :top)
+               subj (atom :top)]
            {:agr agr
+            :sem {:subj subj}
             :reflexive false
             :subcat {:1 {:agr agr
+                         :sem subj
                          :cat :noun
                          :case :nom}
                      :2 []}})]}]

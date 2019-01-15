@@ -6,17 +6,17 @@
 (def head-rule
   (let [comp-cat (atom :top)
         head-agr (atom :top)
-        head-pred (atom :top)
+        head-sem (atom :top)
         head-cat (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :reflexive reflexive
-     :pred head-pred
+     :sem head-sem
      :head {:agr head-agr
             :cat head-cat
             :reflexive reflexive
-            :pred head-pred}}))
+            :sem head-sem}}))
 
 (def head-first
   (let [head (atom :top)

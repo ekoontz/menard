@@ -1,12 +1,12 @@
-{"cat" [{:cat :noun :pred :cat :pronoun false :propernoun false}]
- "dog" [{:cat :noun :pred :dog :pronoun false :propernoun false}]
- "man" [{:cat :noun :regular false :pred :man :pronoun false :propernoun false :agr {:number :sing}}]
- "men" [{:cat :noun :regular false :pred :man :pronoun false :propernoun false :agr {:number :plur}}]
- "name" [{:cat :noun :pred :name :pronoun false :propernoun false}]
- "people" [{:cat :noun :regular false :pred :people :pronoun false :propernoun false :agr {:number :plur}}]
- "person" [{:cat :noun :regular false :pred :person :pronoun false :propernoun false :agr {:number :sing}}]
- "puppy" [{:cat :nound :pred :puppy :pronoun false :propernoun false}]
- "sheep" [{:cat :noun :regular false :pred :sheep :pronoun false :propernoun false :agr {:number :sing}}
-          {:cat :noun :regular false :pred :sheep :pronoun false :propernoun false :agr {:number :plur}}]
- "woman" [{:cat :noun :regular false :pred :woman :pronoun false :propernoun false :agr {:number :sing}}]
- "women" [{:cat :noun :regular false :pred :woman :pronoun false :propernoun false :agr {:number :plur}}]}
+{"cat" [{:cat :noun :sem {:pred :cat} :pronoun false :propernoun false}]
+ "dog" [{:cat :noun :sem {:pred :dog} :pronoun false :propernoun false}]
+ "man" [{:cat :noun :regular false :sem {:pred :man} :pronoun false :propernoun false :agr {:number :sing}}]
+ "men" [{:cat :noun :regular false :sem {:pred :man} :pronoun false :propernoun false :agr {:number :plur}}]
+ "name" [{:cat :noun :sem {:pred :name} :pronoun false :propernoun false}]
+ "people" [{:cat :noun :regular false :sem {:pred :people} :pronoun false :propernoun false :agr {:number :plur}}]
+ "person" [{:cat :noun :regular false :sem {:pred :person} :pronoun false :propernoun false :agr {:number :sing}}]
+ "puppy" [{:cat :nound :sem {:pred :puppy} :pronoun false :propernoun false}]
+ "sheep" [{:cat :noun :regular false :sem {:pred :sheep} :pronoun false :propernoun false :agr {:number :sing}}
+          {:cat :noun :regular false :sem {:pred :sheep} :pronoun false :propernoun false :agr {:number :plur}}]
+ "woman" [{:cat :noun :regular false :sem {:pred :woman} :pronoun false :propernoun false :agr {:number :sing}}]
+ "women" [{:cat :noun :regular false :sem {:pred :woman} :pronoun false :propernoun false :agr {:number :plur}}]}

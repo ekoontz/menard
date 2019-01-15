@@ -1,5 +1,8 @@
-{"see" [{:cat :verb :pred :see :subcat {:1 :top
-                                        :2 :top}}]
- "sleep" [{:cat :verb :pred :sleep
-                :subcat {:1 :top
-                         :2 []}}]}
+{"see" [{:cat :verb
+         :sem {:pred :see}
+         :subcat {:1 :top
+                  :2 :top}}]
+ "sleep" [{:cat :verb
+           :sem {:pred :sleep}
+           :subcat {:1 :top
+                    :2 []}}]}

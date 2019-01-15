@@ -1,6 +1,5 @@
 (ns babylon.english
   (:require [clojure.string :as string]
-            [clojure.java.io :as io]
             [babylon.lexiconfn :as l]
             [babylon.generate :as g]
             [babylon.grammar :as grammar]
@@ -12,61 +11,37 @@
 ;;
 ;; For generation and parsing of English.
 ;; 
-
-(def lexical-defaults
-  (-> "babylon/english/lexical-defaults.edn"
-      io/resource
-      slurp
-      read-string
-      ((fn [rule]
-         (map #(eval %) rule)))))
-
-(def lexical-rules
-  (-> "babylon/english/lexical-rules.edn"
-      io/resource
-      slurp
-      read-string
-      ((fn [rule]
-         (map #(eval %) rule)))))
-
-(defn apply-rules-in-order [lexicon rules]
-  (if (empty? rules)
-    lexicon
-    (-> lexicon
-        (apply-rules-in-order (rest rules))
-        (l/apply-rules-to-lexicon [(first rules)] false))))
-
 (def misc-lexicon
   (-> "babylon/english/lexicon/misc.edn"
       io/resource
       slurp
       read-string
-      (apply-rules-in-order lexical-defaults)
-      (l/apply-rules-to-lexicon lexical-rules true)))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
+      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
 
 (def noun-lexicon
   (-> "babylon/english/lexicon/nouns.edn"
       io/resource
       slurp
       read-string
-      (apply-rules-in-order lexical-defaults)
-      (l/apply-rules-to-lexicon lexical-rules true)))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
+      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
 
 (def propernoun-lexicon
   (-> "babylon/english/lexicon/propernouns.edn"
       io/resource
       slurp
       read-string
-      (apply-rules-in-order lexical-defaults)
-      (l/apply-rules-to-lexicon lexical-rules true)))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
+      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
 
 (def verb-lexicon
   (-> "babylon/english/lexicon/verbs.edn"
       io/resource
       slurp
       read-string
-      (apply-rules-in-order lexical-defaults)
-      (l/apply-rules-to-lexicon lexical-rules true)))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
+      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
 
 (def lexicon
   (merge-with concat

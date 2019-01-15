@@ -1,6 +1,7 @@
 (ns babylon.lexiconfn
   (:require
    [babylon.exception :refer [exception]]
+   [clojure.java.io :as io]
    [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]))
 
@@ -79,6 +80,21 @@
            []
            true
            [result])))))
+
+(defn read-rules [rules-filename]
+  (-> rules-filename
+      io/resource
+      slurp
+      read-string
+      ((fn [rule]
+         (map #(eval %) rule)))))
+
+(defn apply-rules-in-order [lexicon rules]
+  (if (empty? rules)
+    lexicon
+    (-> lexicon
+        (apply-rules-in-order (rest rules))
+        (apply-rules-to-lexicon [(first rules)] false))))
 
 (defn apply-rules-cyclicly [rules lexemes]
   (let [one-round

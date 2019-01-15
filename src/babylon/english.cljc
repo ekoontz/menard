@@ -73,12 +73,16 @@
             m/morphology morphology]
      (grammar/default-morph-fn structure)))
 
-(defn syntax-tree [structure]
+(defn syntax-tree
+  "print a concise representation of a tree."
+  [structure]
   (binding [grammar/morph-leaf m/morph-leaf
             m/morphology morphology]
      (grammar/syntax-tree structure)))
 
-(defn generate [spec]
+(defn generate
+  "generate one random expression that satisfies _spec_."
+  [spec]
   (binding [g/grammar grammar
             g/lexicon lexicon
             m/morphology morphology
@@ -86,7 +90,7 @@
     (g/generate spec)))
 
 (defn generate-n
-  "generate _n_ consecutive expressions that satisfy _spec_."
+  "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [n spec]
   (binding [g/grammar grammar
             g/lexicon lexicon

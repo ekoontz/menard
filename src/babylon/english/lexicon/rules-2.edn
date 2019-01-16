@@ -118,12 +118,11 @@
                          :case :acc
                          :sem obj}}})
          (let [agr (atom :top)
-               subj (atom :top)
-               obj (atom :top)]
+               subj (atom :top)]
            {:agr agr
             :reflexive true
             :sem {:subj subj
-                  :obj obj}
+                  :obj subj}
             :subcat {:1 {:agr agr
                          :cat :noun
                          :case :nom
@@ -131,7 +130,7 @@
                      :2 {:agr agr
                          :reflexive true
                          :cat :noun
-                         :sem obj
+                         :sem subj
                          :case :acc}}})]}
 
  {:rule :intransitive-verbs

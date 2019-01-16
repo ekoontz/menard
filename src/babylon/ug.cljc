@@ -47,10 +47,3 @@
                      :2 complement-2}}
      :subcat {:1 complement-1}
      :comp complement-2}))
-
-(defn process [grammar]
-  (->>
-   grammar
-   (map #(apply unify
-                (cons (dissoc % :unify)
-                      (map eval (:unify %)))))))

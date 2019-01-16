@@ -89,5 +89,8 @@
           (map? structure)
           (morph structure)))
 
-
-
+(defn process [grammar]
+  (->> grammar
+       (map #(apply unify
+                    (cons (dissoc % :unify)
+                          (map eval (:unify %)))))))

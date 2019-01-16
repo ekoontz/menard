@@ -55,7 +55,6 @@
                                [(unify lexeme
                                        {:phrasal false
                                         :canonical k})])))]))))
-
 (defn apply-one-rule [rule lexeme]
   (let [[antecedent consequent] rule]
     (cond
@@ -87,7 +86,7 @@
       slurp
       read-string
       ((fn [rule]
-         (map #(eval %) rule)))))
+        (eval rule)))))
 
 (defn apply-rules-in-order [lexicon rules]
   (if (empty? rules)

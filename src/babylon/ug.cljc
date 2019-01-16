@@ -45,6 +45,17 @@
      :subcat []
      :comp complement}))
 
+(def subcat-1-1
+  (let [reference (atom :top)
+        adjunct (atom {:ref reference})
+        subcat-1 (atom :top)]
+    {:head {:subcat {:1 subcat-1 :2 []}}
+     :comp {:sem adjunct}
+     :sem {:ref reference
+           :mod {:first adjunct
+                 :rest []}}
+     :subcat {:1 subcat-1 :2 []}}))
+
 (def subcat-2
   (let [complement-1 (atom {:subcat []})
         complement-2 (atom {:subcat []})]

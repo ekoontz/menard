@@ -79,6 +79,9 @@
             :sem {:human true}
             :pronoun true
             :reflexive true}]
+
+ "red" [{:cat :adjective
+         :sem {:pred :red}}]
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing

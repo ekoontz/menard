@@ -176,10 +176,8 @@
    tree is part of a larger subtree which we are appending at _depth_."
   [spec depth]
   ;; get all rules that match input _spec_:
-  (log/debug (str "parent-with-head: checking " (count grammar) " rules with spec: " spec))
   (->> grammar
        (map #(unify % spec))
-       (remove #(= :fail %))
        (mapcat (fn [parent-rule]
                  (let [phrasal-children
                        (->> grammar
@@ -188,18 +186,16 @@
                                                 (:rule %)))
                             shuffle-or-not)
                        lexical-children
-                       (->> (get-lexemes
+                       (->> (get-lexemes-fast
                               (unify
                                 (u/get-in spec [:head] :top)
-                                (u/get-in parent-rule [:head] :top)))
-                            shuffle-or-not)]
-                   (->>
-                     (cond (branch? depth)
-                           (lazy-cat phrasal-children lexical-children)
-                           true
-                           (lazy-cat lexical-children phrasal-children))
-                     (map #(u/assoc-in parent-rule [:head] %))
-                     (filter #(not (= :fail %)))))))
+                                (u/get-in parent-rule [:head] :top))))]
+                   (->> (cond (branch? depth)
+                              (lazy-cat phrasal-children lexical-children)
+                              true
+                              (lazy-cat lexical-children phrasal-children))
+                        (map #(u/assoc-in parent-rule [:head] %))
+                        (filter #(not (= :fail %)))))))
        (map #(u/assoc-in! % [::started?] true))))
 
 (defn get-lexemes

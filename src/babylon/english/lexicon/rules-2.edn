@@ -1,4 +1,4 @@
-[{:rule 1
+[{:rule :determiner-expansion
   :if {:cat :det
        :agr ::unspec}
   :then [{:agr {:number :sing}}
@@ -133,6 +133,7 @@
                          :cat :noun
                          :sem obj
                          :case :acc}}})]}
+
  {:rule :intransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat ::unspec}

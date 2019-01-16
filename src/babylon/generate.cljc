@@ -167,6 +167,10 @@
            (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
 
+(def allowed-head-children
+  {"s" #{"vp"}
+   "np" #{"nbar"}})
+
 (defn parent-with-head
   "Return every possible tree from the given spec; if depth > 0, 
    tree is part of a larger subtree which we are appending at _depth_."
@@ -182,15 +186,6 @@
                    (log/debug (str "result:" (morph-ps result))))
                result))
        (remove #(= :fail %))
-       (parent-with-head-1 spec depth)
-       (map #(u/assoc-in! % [::started?] true))))
-
-(def allowed-head-children
-  {"s" #{"vp"}
-   "np" #{"nbar"}})
-
-(defn parent-with-head-1 [spec depth parent-rules]
-  (->> parent-rules
        (map (fn [parent-rule]
               (let [phrases-with-phrasal-head
                     (->> grammar
@@ -228,7 +223,8 @@
                    ;; lexemes that could be the head child, then phrases that could be the head child.
                    phrases-with-lexical-head
                    phrases-with-phrasal-head)))))
-       (reduce concat)))
+       (reduce concat)
+       (map #(u/assoc-in! % [::started?] true))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

@@ -180,39 +180,26 @@
   (->> grammar
        (map #(unify % spec))
        (remove #(= :fail %))
-       (map (fn [parent-rule]
-              (let [phrases-with-phrasal-head
-                    (->> grammar
-                         (filter #(contains? (get allowed-head-children
-                                                  (:rule parent-rule))
-                                             (:rule %)))
-                         shuffle-or-not
-                         (map #(let [result (u/assoc-in parent-rule [:head] %)]
-                                 (if (= :fail result)
-                                   (log/info (str "failed: " (:rule parent-rule) " -> " (:rule %)))
-                                   (log/info (str (:rule parent-rule) " -> " (:rule %))))
-                                 result))
-                         (filter #(not (= :fail %))))
-                    phrases-with-lexical-head
-                    (->> (get-lexemes-fast
-                          (unify
-                           (u/get-in spec [:head] :top)
-                           (u/get-in parent-rule [:head] :top)))
-                         (map #(u/assoc-in parent-rule [:head] %))
-                         (filter #(not (= :fail %))))]
-                (cond
-                  (branch? depth)
-                  (lazy-cat
-                   ;; phrases that could be the head child, then lexemes that could be the head child.
-                   phrases-with-phrasal-head
-                   phrases-with-lexical-head)
-                  
-                  true
-                  (lazy-cat
-                   ;; lexemes that could be the head child, then phrases that could be the head child.
-                   phrases-with-lexical-head
-                   phrases-with-phrasal-head)))))
-       (reduce concat)
+       (mapcat (fn [parent-rule]
+                 (let [phrasal-children
+                       (->> grammar
+                            (filter #(contains? (get allowed-head-children
+                                                     (:rule parent-rule))
+                                                (:rule %)))
+                            shuffle-or-not)
+                       lexical-children
+                       (->> (get-lexemes
+                              (unify
+                                (u/get-in spec [:head] :top)
+                                (u/get-in parent-rule [:head] :top)))
+                            shuffle-or-not)]
+                   (->>
+                     (cond (branch? depth)
+                           (lazy-cat phrasal-children lexical-children)
+                           true
+                           (lazy-cat lexical-children phrasal-children))
+                     (map #(u/assoc-in parent-rule [:head] %))
+                     (filter #(not (= :fail %)))))))
        (map #(u/assoc-in! % [::started?] true))))
 
 (defn get-lexemes

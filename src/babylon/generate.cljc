@@ -178,13 +178,7 @@
   ;; get all rules that match input _spec_:
   (log/debug (str "parent-with-head: checking " (count grammar) " rules with spec: " spec))
   (->> grammar
-       (map #(let [result (unify % spec)]
-               (log/debug (str "looking at rule:" (:rule %)))
-               (if (= :fail %)
-                   (throw (Exception. (str "grammar rule is unexpectedly :fail: please check your grammar."))))
-               (if (not (= :fail result))
-                   (log/debug (str "result:" (morph-ps result))))
-               result))
+       (map #(unify % spec))
        (remove #(= :fail %))
        (map (fn [parent-rule]
               (let [phrases-with-phrasal-head

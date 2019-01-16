@@ -111,7 +111,7 @@
              {:cat :verb
               :pred :top
               :comp {:phrasal true
-                     :head {:phrasal false}}
+                     :head {:phrasal true}}
               :head {:phrasal true
                      :comp {:phrasal true
-                            :head {:phrasal false}}}}))))))
+                            :head {:phrasal true}}}}))))))

@@ -91,7 +91,7 @@
   [tree]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/debug (str "grow:      " (morph-ps tree) " at: " (vec frontier-path)))
+    (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path)))
     (cond
       (empty? frontier-path) [tree]
       true
@@ -200,7 +200,7 @@
                                           (map #(let [result (u/assoc-in parent-rule [:head] %)]
                                                   (if (= :fail result)
                                                     (log/info (str "failed: " (:rule parent-rule) " -> " (:rule %)))
-                                                   (log/info (str "passed: " (:rule parent-rule) " -> " (:rule %))))
+                                                   (log/info (str (:rule parent-rule) " -> " (:rule %))))
                                                   result))
                                           (filter #(not (= :fail %))))
            phrases-with-lexical-head (->> (get-lexemes-fast

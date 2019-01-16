@@ -21,6 +21,7 @@
 
 (def lexicon
   (merge-with concat
+    (compile-lexicon "babylon/english/lexicon/adjectives.edn")
     (compile-lexicon "babylon/english/lexicon/misc.edn")
     (compile-lexicon "babylon/english/lexicon/propernouns.edn")
     (compile-lexicon "babylon/english/lexicon/nouns.edn")

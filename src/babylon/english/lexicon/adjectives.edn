@@ -1,0 +1,4 @@
+{"red" [{:cat :adjective
+         :sem {:pred :red}}]
+ "tall" [{:cat :adjective
+          :sem {:pred :tall}}]}

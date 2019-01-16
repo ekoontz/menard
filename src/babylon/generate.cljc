@@ -11,14 +11,14 @@
 ;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
 (def ^:const branching-factor 1000)
 
-(def ^:const branch? #(let [result (= 0 (rand-int (+ % branching-factor)))]
+(def ^:const phrasal-children-first? #(let [result (= 0 (rand-int (+ % branching-factor)))]
                         (log/debug (str "branch at: " % "? => " result))
                         result))
 
 ;; you can experiment by modifying branching-factor and then run branching-samples
 ;; to see how many times out of 100 you'd branching trees before leaves.
 (defn branching-samples []
-  (count (filter #(= % true) (take 100 (repeatedly #(fn [] (branch?)))))))
+  (count (filter #(= % true) (take 100 (repeatedly #(fn [] (phrasal-children-first?)))))))
 
 (def ^:const max-depth 5)
 ;; no truncation: 
@@ -105,7 +105,7 @@
          ;; depending on depth, generate children that are leaves before or after children that are trees.
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
-           (branch? depth)
+           (phrasal-children-first? depth)
            (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
            true
            (lazy-cat child-lexemes child-trees))) ;; order children which are leaves before children which are trees.
@@ -190,7 +190,7 @@
                               (unify
                                 (u/get-in spec [:head] :top)
                                 (u/get-in parent-rule [:head] :top))))]
-                   (->> (cond (branch? depth)
+                   (->> (cond (phrasal-children-first? depth)
                               (lazy-cat phrasal-children lexical-children)
                               true
                               (lazy-cat lexical-children phrasal-children))

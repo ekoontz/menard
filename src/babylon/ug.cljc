@@ -33,7 +33,7 @@
  (let [head (atom :top)
        comp (atom :top)]
    (unify
-    head-last
+    head-rule
     {:head head
      :1 comp
      :comp comp

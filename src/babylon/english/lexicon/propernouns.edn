@@ -1,13 +1,11 @@
 {"Antonia" [{:cat :noun
-             :agr {:number :sing
-                   :gender :fem}
+             :agr {:gender :fem}
              :sem {:human true}
              :pred :antonio
              :pronoun false
              :propernoun true}]
  "Antonio" [{:cat :noun
-             :agr {:number :sing
-                   :gender :masc}
+             :agr {:gender :masc}
              :sem {:human true}
              :pred :antonio
              :pronoun false

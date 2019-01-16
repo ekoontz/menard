@@ -96,7 +96,9 @@
   :if {:cat :noun
        :pronoun false
        :propernoun true}
-  :then [{:subcat []}]}
+  :then [{:agr {:person :3rd
+                :number :sing}
+          :subcat []}]}
  
  {:rule :transitive-verbs
   :if {:cat :verb

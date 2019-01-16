@@ -185,14 +185,23 @@
        (parent-with-head-1 spec depth)
        (map #(u/assoc-in! % [::started?] true))))
 
+(def allowed-head-children
+  {"s" #{"vp"}
+   "np" #{"nbar"}})
+
 (defn parent-with-head-1 [spec depth parent-rules]
   (if (not (empty? parent-rules))
     (lazy-cat
      (let [parent-rule (first parent-rules)
-           debug (log/debug (str "looking at parent-rule: " (:rule parent-rule) " with rules:" (count grammar)))
            phrases-with-phrasal-head (->> grammar
+                                          (filter #(contains? (get allowed-head-children (:rule parent-rule))
+                                                              (:rule %)))
                                           shuffle-or-not
-                                          (map #(u/assoc-in parent-rule [:head] %))
+                                          (map #(let [result (u/assoc-in parent-rule [:head] %)]
+                                                  (if (= :fail result)
+                                                    (log/info (str "failed: " (:rule parent-rule) " -> " (:rule %)))
+                                                   (log/info (str "passed: " (:rule parent-rule) " -> " (:rule %))))
+                                                  result))
                                           (filter #(not (= :fail %))))
            phrases-with-lexical-head (->> (get-lexemes-fast
                                            (unify
@@ -208,14 +217,14 @@
             (branch? depth)
             (lazy-cat
               ;; phrases that could be the head child, then lexemes that could be the head child.
-              phrases-with-phrasal-head
-              phrases-with-lexical-head)
-
+             phrases-with-phrasal-head
+             phrases-with-lexical-head)
+            
             true
             (lazy-cat
-              ;; lexemes that could be the head child, then phrases that could be the head child.
-              phrases-with-lexical-head
-              phrases-with-phrasal-head)))
+             ;; lexemes that could be the head child, then phrases that could be the head child.
+             phrases-with-lexical-head
+             phrases-with-phrasal-head)))
      (parent-with-head-1 spec depth (rest parent-rules)))))
 
 (defn get-lexemes
@@ -239,3 +248,4 @@
 
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))
+

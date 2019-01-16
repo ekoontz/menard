@@ -110,6 +110,8 @@
       (time (generate
              {:cat :verb
               :pred :top
-              :comp {:phrasal true}
+              :comp {:phrasal true
+                     :head {:phrasal false}}
               :head {:phrasal true
-                     :comp {:phrasal true}}}))))))
+                     :comp {:phrasal true
+                            :head {:phrasal false}}}}))))))

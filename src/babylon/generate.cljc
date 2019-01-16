@@ -198,13 +198,8 @@
                           (unify
                            (u/get-in spec [:head] :top)
                            (u/get-in parent-rule [:head] :top)))
-                         (map #(u/assoc-in parent-rule [:head]
-                                           (do
-                                             (log/debug (str "lexeme: canonical:" (:canonical %)))
-                                             %)))
+                         (map #(u/assoc-in parent-rule [:head] %))
                          (filter #(not (= :fail %))))]
-                (log/debug (str "parent-with-head-1 (phrases): spec=" spec "; depth=" depth
-                                "; parent-rule=" (:rule parent-rule) ":" (count phrases-with-phrasal-head)))
                 (cond
                   (branch? depth)
                   (lazy-cat

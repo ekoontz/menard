@@ -3,36 +3,41 @@
   (:require [dag_unify.dissoc :refer [dissoc-in]]))
 
 ;; universal grammar rules
+
 (def head-rule
-  (let [comp-cat (atom :top)
-        head-agr (atom :top)
-        head-sem (atom :top)
-        head-cat (atom :top)
-        reflexive (atom :top)]
-    {:agr head-agr
-     :cat head-cat
-     :reflexive reflexive
-     :sem head-sem
-     :head {:agr head-agr
-            :cat head-cat
-            :reflexive reflexive
-            :sem head-sem}}))
+ (let [comp-cat (atom :top)
+       head-agr (atom :top)
+       head-sem (atom :top)
+       head-cat (atom :top)
+       reflexive (atom :top)]
+   {:agr head-agr
+    :cat head-cat
+    :reflexive reflexive
+    :sem head-sem
+    :head {:agr head-agr
+           :cat head-cat
+           :reflexive reflexive
+           :sem head-sem}}))
 
 (def head-first
   (let [head (atom :top)
         comp (atom :top)]
-    {:head head
-     :1 head
-     :comp comp
-     :2 comp}))
+    (unify
+     head-rule
+     {:head head
+      :1 head
+      :comp comp
+      :2 comp})))
 
 (def head-last
-  (let [head (atom :top)
-        comp (atom :top)]
+ (let [head (atom :top)
+       comp (atom :top)]
+   (unify
+    head-last
     {:head head
      :1 comp
      :comp comp
-     :2 head}))
+     :2 head})))
 
 (def subcat-1
   (let [complement (atom {:subcat []})]

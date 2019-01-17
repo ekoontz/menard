@@ -47,8 +47,8 @@
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
-  ([spec]
-   (first (mapcat grow (parent-with-head spec 0)))))
+  [spec]
+  (first (mapcat grow (parent-with-head spec 0))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -172,8 +172,9 @@
    that matches the given _spec_."
   [spec]
   (if (= true (u/get-in spec [:phrasal]))
-    []
+    (lazy-seq [])
     (->> (index-fn spec)
+         lazy-seq
          (filter #(and (or (nil? lexical-filter) (lexical-filter %))
                        (or (= false (u/get-in % [:exception] false))
                            (not (= :verb (u/get-in % [:synsem :cat]))))))
@@ -183,7 +184,9 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn get-lexemes-fast [spec]
-  (take 100000000 (get-lexemes spec)))
+  (if false
+    (get-lexemes spec)
+    (take 1000 (get-lexemes spec))))
 
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))

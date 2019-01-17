@@ -61,8 +61,7 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
-   (do (log/debug (str "generating with spec: " spec))
-       (first (grow-all2 (parent-with-head spec 0))))))
+   (first (mapcat grow (parent-with-head spec 0)))))
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
@@ -79,17 +78,6 @@
       (log/debug (str "done terminating: at:" (vec frontier-path)))
       (log/debug (str "done terminating: with done?:" (u/get-in tree [::done?] ::none)))
       tree)))
-
-(defn grow-all [trees]
-  (if (not (empty? trees))
-    (lazy-cat (grow (first trees))
-              (grow-all (rest trees)))))
-
-(defn grow-all2 [trees]
-  (lazy-seq
-   (mapcat (fn [tree]
-             (grow tree))                 
-           trees)))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively

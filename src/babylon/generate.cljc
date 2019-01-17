@@ -34,17 +34,13 @@
                           (flatten (vals lexicon))))
 
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic println? nil)
 (def ^:dynamic shuffle? true)
 (def ^:dynamic truncate? nil)
 
 (declare frontier)
 (declare get-lexemes)
 (declare get-lexemes-fast)
-(declare grow)
-(declare grow-all)
 (declare parent-with-head)
-(declare parent-with-head-1)
 (declare shuffle-or-not)
 
 (defn generate

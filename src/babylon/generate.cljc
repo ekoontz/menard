@@ -12,8 +12,8 @@
 (def ^:const branching-factor 1000)
 
 (def ^:const phrasal-children-first? #(let [result (= 0 (rand-int (+ % branching-factor)))]
-                        (log/debug (str "branch at: " % "? => " result))
-                        result))
+                                         (log/debug (str "branch at: " % "? => " result))
+                                         result))
 
 ;; you can experiment by modifying branching-factor and then run branching-samples
 ;; to see how many times out of 100 you'd branching trees before leaves.

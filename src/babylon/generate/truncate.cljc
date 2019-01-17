@@ -25,11 +25,14 @@
         (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
-(defn truncate-up [tree frontier-path morph-ps]
+(defn truncate-up [tree frontier-path morph-ps truncate?]
   (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
-  (cond (empty? frontier-path)
+  (cond (not truncate?)
         tree
 
+        (empty? frontier-path)
+        tree
+        
         (and (true? (u/get-in tree (concat frontier-path [::done?])))
              (empty? (butlast frontier-path)))
         (do

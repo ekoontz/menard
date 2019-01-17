@@ -120,14 +120,11 @@
                   (u/assoc-in! frontier-path child)
                   
                   ;; terminate if possible:
-                  ((fn [tree]
-                     (terminate-up tree frontier-path)))
+                  (terminate-up frontier-path)
                   
                   ;; truncate if desired:
-                  ((fn [tree]
-                     (if truncate?
-                       (trunc/truncate-up tree frontier-path morph-ps)
-                       tree))))))
+                  (trunc/truncate-up frontier-path morph-ps truncate?))))
+
        (grow-all)))))
 
 (defn frontier

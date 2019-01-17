@@ -82,10 +82,6 @@
          (mapcat grow)
          lazy-seq)))))
 
-(def allowed-head-children
-  {"s" #{"vp"}
-   "np" #{"nbar"}})
-
 (defn parent-with-head
   "Return every possible tree from the given spec; if depth > 0, 
    tree is part of a larger subtree which we are appending at _depth_."
@@ -96,15 +92,12 @@
        (mapcat (fn [parent-rule]
                  (let [phrasal-children
                        (->> grammar
-                            (filter #(contains? (get allowed-head-children
-                                                     (:rule parent-rule))
-                                                (:rule %)))
                             shuffle-or-not)
                        lexical-children
                        (->> (get-lexemes-fast
-                              (unify
-                                (u/get-in spec [:head] :top)
-                                (u/get-in parent-rule [:head] :top))))]
+                             (unify
+                              (u/get-in spec [:head] :top)
+                              (u/get-in parent-rule [:head] :top))))]
                    (->> (cond (phrasal-children-first? depth)
                               (lazy-cat phrasal-children lexical-children)
                               true

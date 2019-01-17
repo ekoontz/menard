@@ -70,7 +70,7 @@
             m/morphology morphology
             g/morph-ps syntax-tree
             g/shuffle? false]
-      (vec (take n (g/grow-all (g/parent-with-head spec 0))))))
+      (vec (take n (g/grow (g/parent-with-head spec 0))))))
 
 (defn parse [expression]
   (binding [p/grammar grammar

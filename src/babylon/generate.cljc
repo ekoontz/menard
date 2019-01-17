@@ -40,6 +40,7 @@
 (declare frontier)
 (declare get-lexemes)
 (declare get-lexemes-fast)
+(declare grow)
 (declare parent-with-head)
 (declare shuffle-or-not)
 (declare terminate-up)

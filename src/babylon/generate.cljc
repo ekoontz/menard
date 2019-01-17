@@ -62,7 +62,7 @@
   "Return one expression matching spec _spec_ given the model _model_."
   ([spec]
    (do (log/debug (str "generating with spec: " spec))
-       (first (grow-all (parent-with-head spec 0))))))
+       (first (grow-all2 (parent-with-head spec 0))))))
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
@@ -85,6 +85,12 @@
     (lazy-cat (grow (first trees))
               (grow-all (rest trees)))))
 
+(defn grow-all2 [trees]
+  (lazy-seq
+   (mapcat (fn [tree]
+             (grow tree))                 
+           trees)))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -95,26 +101,27 @@
     (cond
       (empty? frontier-path) [tree]
       true
-      (->>
-       (let [child-spec (u/get-in tree frontier-path :top)
-             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                             (get-lexemes-fast child-spec))
-             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                           (parent-with-head child-spec depth))]
+      (let [child-spec (u/get-in tree frontier-path :top)
+            child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                            (get-lexemes-fast child-spec))
+            child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                          (parent-with-head child-spec depth))]
+       (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
            (phrasal-children-first? depth)
            (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
            true
-           (lazy-cat child-lexemes child-trees))) ;; order children which are leaves before children which are trees.
+           (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
        
-       (map (fn [child]
-               (-> tree
-                   (u/copy)
-                   (u/assoc-in! frontier-path child)
-                   (terminate-up frontier-path)
-                   (trunc/truncate-up frontier-path morph-ps truncate?))))
-       (grow-all)))))
+         (map (fn [child]
+                (-> tree
+                    (u/copy)
+                    (u/assoc-in! frontier-path child)
+                    (terminate-up frontier-path)
+                    (trunc/truncate-up frontier-path morph-ps truncate?))))
+         (mapcat grow)
+         lazy-seq)))))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

@@ -111,19 +111,19 @@
            (lazy-cat child-lexemes child-trees))) ;; order children which are leaves before children which are trees.
        
        (map (fn [child]
-              ;; 2. for each such child:
-              (-> tree
+                 ;; 2. for each such child:
+               (-> tree
                   
-                  (u/copy)
+                   (u/copy)
+                 
+                   ;; attach _child_ to _tree_ at _frontier-path_:
+                   (u/assoc-in! frontier-path child)
                   
-                  ;; attach _child_ to _tree_ at _frontier-path_:
-                  (u/assoc-in! frontier-path child)
+                   ;; terminate if possible:
+                   (terminate-up frontier-path)
                   
-                  ;; terminate if possible:
-                  (terminate-up frontier-path)
-                  
-                  ;; truncate if desired:
-                  (trunc/truncate-up frontier-path morph-ps truncate?))))
+                   ;; truncate if desired:
+                   (trunc/truncate-up frontier-path morph-ps truncate?))))
 
        (grow-all)))))
 

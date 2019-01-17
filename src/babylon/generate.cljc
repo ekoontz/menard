@@ -64,11 +64,6 @@
    (do (log/debug (str "generating with spec: " spec))
        (first (grow-all (parent-with-head spec 0))))))
 
-(defn grow-all [trees]
-  (if (not (empty? trees))
-    (lazy-cat (grow (first trees))
-              (grow-all (rest trees)))))
-
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
   (cond
@@ -85,6 +80,11 @@
       (log/debug (str "done terminating: with done?:" (u/get-in tree [::done?] ::none)))
       tree)))
 
+(defn grow-all [trees]
+  (if (not (empty? trees))
+    (lazy-cat (grow (first trees))
+              (grow-all (rest trees)))))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -96,13 +96,11 @@
       (empty? frontier-path) [tree]
       true
       (->>
-       ;; 1. get all the possible children at _frontier-path_:
        (let [child-spec (u/get-in tree frontier-path :top)
              child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
                              (get-lexemes-fast child-spec))
              child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                            (parent-with-head child-spec depth))]
-         ;; depending on depth, generate children that are leaves before or after children that are trees.
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
            (phrasal-children-first? depth)
@@ -111,20 +109,11 @@
            (lazy-cat child-lexemes child-trees))) ;; order children which are leaves before children which are trees.
        
        (map (fn [child]
-                 ;; 2. for each such child:
                (-> tree
-                  
                    (u/copy)
-                 
-                   ;; attach _child_ to _tree_ at _frontier-path_:
                    (u/assoc-in! frontier-path child)
-                  
-                   ;; terminate if possible:
                    (terminate-up frontier-path)
-                  
-                   ;; truncate if desired:
                    (trunc/truncate-up frontier-path morph-ps truncate?))))
-
        (grow-all)))))
 
 (defn frontier

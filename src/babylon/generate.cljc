@@ -11,9 +11,10 @@
 ;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
 (def ^:const branching-factor 1000)
 
-(def ^:const phrasal-children-first? #(let [result (= 0 (rand-int (+ % branching-factor)))]
-                                         (log/debug (str "branch at: " % "? => " result))
-                                         result))
+(defn phrasal-children-first? [depth]
+  (let [result (= 0 (rand-int (+ depth branching-factor)))]
+    (log/debug (str "branch at: " depth "? => " result))
+    result))
 
 ;; you can experiment by modifying branching-factor and then run branching-samples
 ;; to see how many times out of 100 you'd branching trees before leaves.
@@ -21,18 +22,6 @@
   (count (filter #(= % true) (take 100 (repeatedly #(fn [] (phrasal-children-first?)))))))
 
 (def ^:const max-depth 5)
-;; no truncation: 
-;; max-depth | time (secs)
-;; ----------+----------
-;;         3 |   0.16
-;;         4 |   0.5
-;;         5 |   2
-;;         6 |   5
-;;         7 |  13
-;;         8 |  38
-;;         9 | 160
-;;        10 | 350
-
 (def ^:dynamic morph-ps (fn [x]
                           (cond (map? x)
                                 (vec (u/serialize x))

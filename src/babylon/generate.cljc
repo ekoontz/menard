@@ -44,11 +44,12 @@
 (declare match-against-rules)
 (declare shuffle-or-not)
 (declare terminate-up)
+(declare generate-all)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   [spec]
-  (first (mapcat grow (match-against-rules spec grammar))))
+  (first (generate-all spec grammar)))
 
 (defn generate-all
   "Return the subset of _grammar_ that unfies with spec _spec_, and return the unified result for each member of that subset."

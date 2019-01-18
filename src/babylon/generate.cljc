@@ -94,6 +94,28 @@
          (mapcat grow)
          lazy-seq)))))
 
+(defn get-lexemes
+  "Get lexemes matching the spec. Use index, where the index 
+   is a function that we call with _spec_ to get a set of lexemes
+   that matches the given _spec_."
+  [spec]
+  (if (= true (u/get-in spec [:phrasal]))
+    (lazy-seq [])
+    (->> (index-fn spec)
+         lazy-seq
+         (filter #(and (or (nil? lexical-filter) (lexical-filter %))
+                       (or (= false (u/get-in % [:exception] false))
+                           (not (= :verb (u/get-in % [:synsem :cat]))))))
+         (map #(unify % spec))
+         (filter #(not (= :fail %)))
+         shuffle-or-not
+         (map #(u/assoc-in! % [::done?] true)))))
+
+(defn get-lexemes-fast [spec]
+  (if false
+    (get-lexemes spec)
+    (take 1000 (get-lexemes spec))))
+
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
   (cond
@@ -146,28 +168,6 @@
            true
            (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
-
-(defn get-lexemes
-  "Get lexemes matching the spec. Use index, where the index 
-   is a function that we call with _spec_ to get a set of lexemes
-   that matches the given _spec_."
-  [spec]
-  (if (= true (u/get-in spec [:phrasal]))
-    (lazy-seq [])
-    (->> (index-fn spec)
-         lazy-seq
-         (filter #(and (or (nil? lexical-filter) (lexical-filter %))
-                       (or (= false (u/get-in % [:exception] false))
-                           (not (= :verb (u/get-in % [:synsem :cat]))))))
-         (map #(unify % spec))
-         (filter #(not (= :fail %)))
-         shuffle-or-not
-         (map #(u/assoc-in! % [::done?] true)))))
-
-(defn get-lexemes-fast [spec]
-  (if false
-    (get-lexemes spec)
-    (take 1000 (get-lexemes spec))))
 
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))

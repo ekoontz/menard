@@ -39,7 +39,6 @@
 
 (declare frontier)
 (declare get-lexemes)
-(declare get-lexemes-fast)
 (declare grow)
 (declare match-against-rules)
 (declare shuffle-or-not)
@@ -76,7 +75,7 @@
       true
       (let [child-spec (u/get-in tree frontier-path :top)
             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                            (get-lexemes-fast child-spec))
+                            (take 100000 (get-lexemes child-spec)))
             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                           (match-against-rules child-spec grammar))]
         (->>
@@ -111,11 +110,6 @@
          (filter #(not (= :fail %)))
          shuffle-or-not
          (map #(u/assoc-in! % [::done?] true)))))
-
-(defn get-lexemes-fast [spec]
-  (if false
-    (get-lexemes spec)
-    (take 1000 (get-lexemes spec))))
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))

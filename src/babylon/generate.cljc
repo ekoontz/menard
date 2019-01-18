@@ -91,8 +91,7 @@
                 (-> tree
                     (u/copy)
                     (u/assoc-in! frontier-path child)
-                    (terminate-up frontier-path)
-                    (trunc/truncate-up frontier-path morph-ps truncate?))))
+                    (terminate-up frontier-path))))
          (mapcat (fn [tree]
                    (grow tree grammar)))
          lazy-seq)))))

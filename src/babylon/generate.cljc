@@ -47,13 +47,15 @@
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
-  [spec]
+  [spec grammar]
   (first (generate-all spec grammar)))
 
 (defn generate-all
   "Return the subset of _grammar_ that unfies with spec _spec_, and return the unified result for each member of that subset."
   [spec grammar]
-  (mapcat grow (match-against-rules spec grammar)))
+  (->> (match-against-rules spec grammar)
+       (mapcat (fn [tree]
+                 (grow tree grammar)))))
 
 (defn match-against-rules [spec grammar]
   (->> grammar
@@ -66,7 +68,7 @@
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [tree]
+  [tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path)))
@@ -91,7 +93,8 @@
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path)
                     (trunc/truncate-up frontier-path morph-ps truncate?))))
-         (mapcat grow)
+         (mapcat (fn [tree]
+                   (grow tree grammar)))
          lazy-seq)))))
 
 (defn get-lexemes

@@ -61,7 +61,9 @@
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate (unify spec
-                       {:subcat []}))))
+                       {:subcat []})
+                grammar)))
+
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]

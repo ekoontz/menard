@@ -62,17 +62,17 @@
             g/morph-ps syntax-tree]
     (g/generate (unify spec
                        {:subcat []}))))
-
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
-  [n spec]
+  [spec n]
   (binding [g/grammar grammar
             g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree
-            g/shuffle? false])
-  (take n (mapcat g/grow (g/match-against-rules spec))))
-
+            g/shuffle? false]
+    (take n (g/generate-all (unify spec
+                                   {:subcat []})
+                            grammar))))
 (defn parse [expression]
   (binding [p/grammar grammar
             l/lexicon lexicon

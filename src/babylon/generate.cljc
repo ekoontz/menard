@@ -28,7 +28,7 @@
                                 (or (nil? x)
                                     (keyword? x)) x
                                 true (str x "(type:" (type x) ")"))))
-(def ^:dynamic grammar nil)
+(def ^:dynamic grammar [])
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
                           (flatten (vals lexicon))))
@@ -48,7 +48,20 @@
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   [spec]
-  (first (mapcat grow (match-against-rules spec))))
+  (first (mapcat grow (match-against-rules spec grammar))))
+
+(defn generate-all
+  "Return the subset of _grammar_ that unfies with spec _spec_, and return the unified result for each member of that subset."
+  [spec grammar]
+  (mapcat grow (match-against-rules spec grammar)))
+
+(defn match-against-rules [spec grammar]
+  (->> grammar
+       shuffle-or-not
+       (map (fn [grammar-rule]
+              (unify grammar-rule spec)))
+       (remove #(= % :fail))
+       (map #(u/assoc-in! % [::started?] true))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -64,7 +77,7 @@
             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
                             (get-lexemes-fast child-spec))
             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                          (match-against-rules child-spec))]
+                          (match-against-rules child-spec grammar))]
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
@@ -158,11 +171,3 @@
 
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))
-
-(defn match-against-rules [spec]
-  (->> grammar
-       shuffle-or-not
-       (map (fn [grammar-rule]
-              (unify grammar-rule spec)))
-       (remove #(= % :fail))
-       (map #(u/assoc-in! % [::started?] true))))

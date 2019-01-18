@@ -77,7 +77,7 @@
       true
       (let [child-spec (u/get-in tree frontier-path :top)
             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                            (take 100000 (get-lexemes child-spec)))
+                            (get-lexemes child-spec))
             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                           (match-against-rules child-spec grammar))]
         (->>

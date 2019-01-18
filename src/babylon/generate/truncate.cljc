@@ -21,7 +21,7 @@
              (d/dissoc-in (concat path [:head]))
              (d/dissoc-in (concat path [:comp]))
              (u/assoc-in! (concat path [:morph-ps]) (morph-ps (u/get-in tree path)))
-             (u/assoc-in! (concat path [::done?]) true))]
+             (u/assoc-in! (concat path [:babylon.generate/done?]) true))]
         (log/debug (str "     to:   " (morph-ps truncated) "; size=" (count (str truncated))))
         truncated))))
 
@@ -42,7 +42,7 @@
            tree
            (truncate-at frontier-path morph-ps)
            (u/assoc-in! (concat frontier-path [:morph-ps]) (morph-ps (u/get-in tree frontier-path)))
-           (u/assoc-in! (concat frontier-path [::done?]) true)))
+           (u/assoc-in! (concat frontier-path [:babylon.generate/done?]) true)))
         
         (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
         (->
@@ -50,7 +50,7 @@
          (truncate-up (butlast frontier-path) morph-ps))
 
         (and (u/get-in tree (concat frontier-path [:phrasal]))
-             (u/get-in tree (concat frontier-path [::done?])))
+             (u/get-in tree (concat frontier-path [:babylon.generate/done?])))
         (truncate-at tree frontier-path morph-ps)
 
         true

@@ -17,11 +17,14 @@
         (= false (u/get-in structure [:phrasal]))
         (morph-leaf structure)
         
-        true
+        (and (u/get-in structure [:1])
+             (u/get-in structure [:2]))
         (string/join " "
                      (map morph
                           [(u/get-in structure [:1] "_")
-                           (u/get-in structure [:2] "_")]))))
+                           (u/get-in structure [:2] "_")]))
+        true "_"))
+
 
 (def ^:dynamic morph default-morph-fn)
 (def ^:dynamic morph-leaf m/morph-leaf)

@@ -60,7 +60,8 @@
             g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree]
-    (g/generate spec)))
+    (g/generate (unify spec
+                       {:subcat []}))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
@@ -69,8 +70,8 @@
             g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree
-            g/shuffle? false]
-      (vec (take n (g/grow (g/parent-with-head spec 0))))))
+            g/shuffle? false])
+  (take n (mapcat g/grow (g/match-against-rules spec))))
 
 (defn parse [expression]
   (binding [p/grammar grammar
@@ -104,12 +105,20 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
+
+(defn b []
+  (generate
+   {:cat :verb
+    :pred :top
+    :comp {:phrasal true}}))
+
 (defn benchmark []
   (repeatedly
    #(println
      (morph
       (time (generate
              {:cat :verb
+              :subcat []
               :pred :top
               :comp {:phrasal true
                      :head {:phrasal true}}

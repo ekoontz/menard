@@ -41,14 +41,14 @@
 (declare get-lexemes)
 (declare get-lexemes-fast)
 (declare grow)
-(declare parent-with-head)
+(declare match-against-rules)
 (declare shuffle-or-not)
 (declare terminate-up)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
   [spec]
-  (first (mapcat grow (parent-with-head spec 0))))
+  (first (mapcat grow (match-against-rules spec))))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -64,15 +64,14 @@
             child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
                             (get-lexemes-fast child-spec))
             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                          (parent-with-head child-spec depth))]
-       (->>
+                          (match-against-rules child-spec))]
+        (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
            (phrasal-children-first? depth)
            (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
            true
            (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-       
          (map (fn [child]
                 (-> tree
                     (u/copy)
@@ -81,30 +80,6 @@
                     (trunc/truncate-up frontier-path morph-ps truncate?))))
          (mapcat grow)
          lazy-seq)))))
-
-(defn parent-with-head
-  "Return every possible tree from the given spec; if depth > 0, 
-   tree is part of a larger subtree which we are appending at _depth_."
-  [spec depth]
-  ;; get all rules that match input _spec_:
-  (->> grammar
-       (map #(unify % spec))
-       (mapcat (fn [parent-rule]
-                 (let [phrasal-children
-                       (->> grammar
-                            shuffle-or-not)
-                       lexical-children
-                       (->> (get-lexemes-fast
-                             (unify
-                              (u/get-in spec [:head] :top)
-                              (u/get-in parent-rule [:head] :top))))]
-                   (->> (cond (phrasal-children-first? depth)
-                              (lazy-cat phrasal-children lexical-children)
-                              true
-                              (lazy-cat lexical-children phrasal-children))
-                        (map #(u/assoc-in parent-rule [:head] %))
-                        (filter #(not (= :fail %)))))))
-       (map #(u/assoc-in! % [::started?] true))))
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
@@ -184,3 +159,10 @@
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))
 
+(defn match-against-rules [spec]
+  (->> grammar
+       shuffle-or-not
+       (map (fn [grammar-rule]
+              (unify grammar-rule spec)))
+       (remove #(= % :fail))
+       (map #(u/assoc-in! % [::started?] true))))

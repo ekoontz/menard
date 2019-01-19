@@ -7,17 +7,19 @@
 (def head-rule
  (let [comp-cat (atom :top)
        head-agr (atom :top)
-       head-sem (atom :top)
        head-cat (atom :top)
        reflexive (atom :top)]
    {:agr head-agr
     :cat head-cat
     :reflexive reflexive
-    :sem head-sem
     :head {:agr head-agr
            :cat head-cat
-           :reflexive reflexive
-           :sem head-sem}}))
+           :reflexive reflexive}}))
+
+(def head-sem-is-parent-sem
+ (let [head-sem (atom :top)]
+   {:sem head-sem
+    :head {:sem head-sem}}))
 
 (def head-first
   (let [head (atom :top)
@@ -48,12 +50,14 @@
 (def subcat-1-1
   (let [reference (atom :top)
         adjunct (atom {:ref reference})
+        head-mod (atom :top)
         subcat-1 (atom :top)]
-    {:head {:subcat {:1 subcat-1 :2 []}}
+    {:head {:sem {:mod head-mod}
+            :subcat {:1 subcat-1 :2 []}}
      :comp {:sem adjunct}
      :sem {:ref reference
            :mod {:first adjunct
-                 :rest []}}
+                 :rest head-mod}}
      :subcat {:1 subcat-1 :2 []}}))
 
 (def subcat-2

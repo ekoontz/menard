@@ -101,6 +101,7 @@
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))
          (lazy-mapcat (fn [tree]
+                        (log/debug (str "size of tree: " (morph-ps tree) " : " (count (str tree))))
                         (grow tree grammar)))
          lazy-seq)))))
 

@@ -5,7 +5,7 @@
  "name" [{:cat :noun :sem {:pred :name} :pronoun false :propernoun false}]
  "people" [{:cat :noun :regular false :sem {:pred :people} :pronoun false :propernoun false :agr {:number :plur}}]
  "person" [{:cat :noun :regular false :sem {:pred :person} :pronoun false :propernoun false :agr {:number :sing}}]
- "puppy" [{:cat :nound :sem {:pred :puppy} :pronoun false :propernoun false}]
+ "puppy" [{:cat :noun :sem {:pred :puppy} :pronoun false :propernoun false}]
  "sheep" [{:cat :noun :regular false :sem {:pred :sheep} :pronoun false :propernoun false :agr {:number :sing}}
           {:cat :noun :regular false :sem {:pred :sheep} :pronoun false :propernoun false :agr {:number :plur}}]
  "woman" [{:cat :noun :regular false :sem {:pred :woman} :pronoun false :propernoun false :agr {:number :sing}}]

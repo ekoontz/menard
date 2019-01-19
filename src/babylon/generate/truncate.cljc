@@ -47,7 +47,7 @@
         (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
         (->
          tree
-         (truncate-up (butlast frontier-path) morph-ps))
+         (truncate-up (butlast frontier-path) morph-ps truncate?))
 
         (and (u/get-in tree (concat frontier-path [:phrasal]))
              (u/get-in tree (concat frontier-path [:babylon.generate/done?])))

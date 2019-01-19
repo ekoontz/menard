@@ -33,7 +33,7 @@
         (empty? frontier-path)
         tree
         
-        (and (true? (u/get-in tree (concat frontier-path [::done?])))
+        (and (true? (u/get-in tree (concat frontier-path [:babylon.generate/done?])))
              (empty? (butlast frontier-path)))
         (do
           (log/debug (str "truncating tree: " (morph-ps tree) " at: " (vec frontier-path)))

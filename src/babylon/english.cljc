@@ -107,13 +107,6 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
-
-(defn b []
-  (generate
-   {:cat :verb
-    :pred :top
-    :comp {:phrasal true}}))
-
 (defn benchmark []
   (repeatedly
    #(println

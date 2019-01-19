@@ -65,6 +65,13 @@
        (remove #(= % :fail))
        (map #(u/assoc-in! % [::started?] true))))
 
+(defn lazy-mapcat [f seqs]
+  (if (not (empty? seqs))
+     (lazy-cat
+       (f (first seqs))
+       (lazy-mapcat f (rest seqs)))
+     []))
+
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
@@ -87,13 +94,14 @@
            (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
            true
            (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
+         (take 100000000000000) ;; this improves performance but I don't know why.
          (map (fn [child]
                 (-> tree
                     (u/copy)
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))
-         (mapcat (fn [tree]
-                   (grow tree grammar)))
+         (lazy-mapcat (fn [tree]
+                        (grow tree grammar)))
          lazy-seq)))))
 
 (defn get-lexemes

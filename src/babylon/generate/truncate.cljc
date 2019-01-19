@@ -27,6 +27,10 @@
 
 (defn truncate-up [tree frontier-path morph-ps truncate?]
   (log/debug (str "truncat-up:" (morph-ps tree) " at: " (vec frontier-path)))
+  (log/debug (str "(not truncate?):" (not truncate?)))
+  (log/debug (str "(empty? frontier-path):" (empty? frontier-path)))
+  (log/debug (str "(true? (u/get-in tree (concat frontier-path [::done?]))): "
+                 (true? (u/get-in tree (concat frontier-path [::done?])))))
   (cond (not truncate?)
         tree
 

@@ -131,6 +131,8 @@
                          :sem subj}
                      :2 {:agr agr
                          :reflexive true
+                         :pronoun true
+                         :propernoun false
                          :cat :noun
                          :sem subj
                          :case :acc}}})]}

@@ -7,7 +7,15 @@
  {:rule "np"
   :cat :noun
   :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1]}
- {:rule "nbar"
+ {:rule "nbar1"
   :cat :noun
   :comp {:cat :adjective}
-  :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}]
+  :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
+ {:rule "nbar2"
+  :cat :noun
+  :comp {:cat :verb
+         :slash true}
+  :unify [babylon.ug/head-first babylon.ug/subcat-new-rule]}
+ {:rule "s-slash"
+  :cat :verb
+  :unify [babylon.ug/head-last babylon.ug/subcat-1-slash]}]

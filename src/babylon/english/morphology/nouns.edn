@@ -23,7 +23,7 @@
       :regular true}}
  
  {:g [#"^(.*[cs]h)$"  "$1es"] ;;   ash   -> ashes
-  :p [#"^(.*)es$"  "$1"]  
+  :p [#"^(.*[cs]h)es$"  "$1"]  
   :u {:cat :noun
       :rules-matched {:morphology-noun-plur-3 true}
       :pronoun false

@@ -91,16 +91,14 @@
 (defn demo []
   (load "grammar")
   (println "Generation:")
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate :top))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :verb}))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :noun}))))))
-  (println "===")
+  (println "= transitive sentences =")
+  (count (take 10 (repeatedly #(println (morph (generate
+                                                {:cat :verb
+                                                 :sem {:pred :see
+                                                       :reflexive false
+                                                       :obj {:pred :top}}}))))))
+  (println "= reflexive sentences =")
   (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive true}))))))
-  (println "===")
-  (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive false}))))))
   (println "Parsing:")
   (println "===")
   (count (take 10

@@ -53,15 +53,15 @@
         head-mod (atom :top)
         pred (atom :top)
         subcat-1 (atom :top)]
-    {:head {:sem {:mod head-mod
-                  :pred pred
+    {:head {:mod head-mod
+            :sem {:pred pred
                   :ref reference}
             :subcat {:1 subcat-1 :2 []}}
      :comp {:sem adjunct}
+     :mod {:first adjunct
+           :rest head-mod}
      :sem {:ref reference
-           :pred pred
-           :mod {:first adjunct
-                 :rest head-mod}}
+           :pred pred}
      :subcat {:1 subcat-1 :2 []}}))
 
 (def subcat-2

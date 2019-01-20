@@ -883,9 +883,9 @@ A Clojure library for generation and parsing of natural language expressions.
 # Getting Started
 
 ```
-[Sat 19/01/12 20:14 PST] <ekoontz@MacBo..:~/babylon> 52203  (git)-[master]-
+[Sun 19/01/20 10:51 PST] <ekoontz@Eugen..:~/babylon> 52098 [130]  (git)-[master]-
 % lein repl
-nREPL server started on port 61540 on host 127.0.0.1 - nrepl://127.0.0.1:61540
+nREPL server started on port 51179 on host 127.0.0.1 - nrepl://127.0.0.1:51179
 REPL-y 0.3.7, nREPL 0.2.12
 Clojure 1.9.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
@@ -901,62 +901,61 @@ nil
 user=> (in-ns 'babylon.english)
 #namespace[babylon.english]
 babylon.english=> (demo)
-babylon.english=> (demo)
 Generation:
 ===
 
 = transitive sentences =
 
-it sees itself
-lives see areas
-systems see schools
-it sees itself
+Antonio sees Antonio
+I see myself
+women see questions
+Antonio sees Antonio
+works see Antonia
+Antonia sees herself
+she sees herself
+groups see ways
+places see her
 Antonia sees Antonia
-he sees himself
-it sees itself
-students see mothers
-cats see me
-it sees itself
 
 = reflexive sentences =
 
-it sees itself
-cats see themselves
-I see myself
-Antonio sees Antonio
-Antonia sees herself
-she sees itself
-she sees itself
-weeks see themselves
+women see themselves
+Antonia sees Antonia
 Antonio sees himself
 Antonio sees Antonio
+it sees itself
+I see myself
+Antonia sees herself
+he sees himself
+Antonia sees Antonia
+Antonio sees himself
 
 = 'long' sentences =
 
-the small worlds see the tall facts
-a small part sees the small problem
-the tall programs see a small puppy
-the small areas see the tall states
-the tall questions see the small eyes
-the tall puppies see the small money
-the tall schools see the tall points
-the tall families see the small dogs
-the tall people see a tall puppy
-the small governments see the small lots
+the small moneys see the tall words
+the tall weeks see the tall facts
+the tall word sees a tall question
+a tall man sees the small businesses
+a tall name sees the small governments
+the small week sees the tall work
+the tall puppies see the tall jobs
+the tall governments see a small money
+the small cases see the small works
+the small rooms see the tall book
 
 Parsing:
 ===
 
-[s  .months *see]
-[s  .facts *see]
-[s  .families *see]
-[np  .the *problems]
-[np  .the *families]
-[np  .the *day]
-[s  .states *sleep]
-[np  .the *room]
-[s  .businesses *see], [s  .businesses *see]
-[s  .questions *sleep]
+[np  .the *groups]
+[np  .the *stories]
+[np  .a *thing]
+[s  .days *sleep]
+[s  .books *sleep]
+[s  .studies *see]
+[np  .the *life]
+[np  .a *mother]
+[s  .cats *sleep]
+[s  .problems *see]
 10
 babylon.english=>
 ```

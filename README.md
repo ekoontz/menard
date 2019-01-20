@@ -5,6 +5,11 @@
 
 A Clojure library for generation and parsing of natural language expressions.
 
+Based on a linguistic theory called HPSG. For more details please see:
+
+- http://hpsg.stanford.edu/
+- https://en.wikipedia.org/wiki/Head-driven_phrase_structure_grammar
+
 # Getting Started
 
 ```

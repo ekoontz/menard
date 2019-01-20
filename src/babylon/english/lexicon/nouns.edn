@@ -1,12 +1,12 @@
 {"cat" [{:cat :noun :sem {:pred :cat}}]
  "dog" [{:cat :noun :sem {:mod [] :pred :dog}}]
- "man" [{:cat :noun :regular false :sem {:pred :man} :agr {:number :sing}}]
- "men" [{:cat :noun :regular false :sem {:pred :man} :agr {:number :plur}}]
+ "man" [{:cat :noun :sem {:pred :man} :agr {:number :sing}}]
+ "men" [{:cat :noun :sem {:pred :man} :agr {:number :plur}}]
  "name" [{:cat :noun :sem {:pred :name}}]
- "people" [{:cat :noun :regular false :sem {:pred :people} :agr {:number :plur}}]
- "person" [{:cat :noun :regular false :sem {:pred :person} :agr {:number :sing}}]
- "puppy" [{:cat :noun :sem {:pred :puppy} :pronoun false :propernoun false}]
- "sheep" [{:cat :noun :regular false :sem {:pred :sheep} :agr {:number :sing}}
-          {:cat :noun :regular false :sem {:pred :sheep} :agr {:number :plur}}]
- "woman" [{:cat :noun :regular false :sem {:pred :woman} :agr {:number :sing}}]
- "women" [{:cat :noun :regular false :sem {:pred :woman} :agr {:number :plur}}]}
+ "people" [{:cat :noun :sem {:pred :people} :agr {:number :plur}}]
+ "person" [{:cat :noun :sem {:pred :person} :agr {:number :sing}}]
+ "puppy" [{:cat :noun :sem {:pred :puppy}}]
+ "sheep" [{:cat :noun :sem {:pred :sheep} :agr {:number :sing}}
+          {:cat :noun :sem {:pred :sheep} :agr {:number :plur}}]
+ "woman" [{:cat :noun :sem {:pred :woman} :agr {:number :sing}}]
+ "women" [{:cat :noun :sem {:pred :woman} :agr {:number :plur}}]}

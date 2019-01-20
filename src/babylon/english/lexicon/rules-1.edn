@@ -4,6 +4,7 @@
        :propernoun ::unspec
        :regular false}
   :then [{:pronoun false
+          :regular false
           :propernoun false}]}
  {:rule :regular-verb
   :if {:cat :verb}

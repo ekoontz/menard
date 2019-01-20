@@ -901,78 +901,65 @@ nil
 user=> (in-ns 'babylon.english)
 #namespace[babylon.english]
 babylon.english=> (demo)
+babylon.english=> (demo)
 Generation:
 ===
-itself sleeps
-themselves sleeps
-dogs sleeps
-the sleeps
-kittens sleeps
-itself sleeps
-kittens sleeps
-dogs see
-puppies see
-cats sleeps
-===
-itself sleeps
-cats see
-cats sleeps
-dogs see
-kittens see
-puppies sleeps
-kittens see
-puppies see
-the sleeps
-kittens see
-===
-a cat
-a dog
-the dogs
-a puppy
-the puppy
-the cats
-a kitten
-the kitten
-the cat
-the dogs
-===
-the dog sees itself
-the cat sees itself
-the puppy sees itself
+
+= transitive sentences =
+
+it sees itself
+lives see areas
+systems see schools
+it sees itself
+Antonia sees Antonia
+he sees himself
+it sees itself
+students see mothers
+cats see me
+it sees itself
+
+= reflexive sentences =
+
+it sees itself
 cats see themselves
-a puppy sees itself
-a dog sees itself
-the puppy sees itself
-the cat sees itself
-puppies see themselves
-a kitten sees itself
-===
-kittens see
-puppies see
-dogs see
-cats see
-dogs see
-kittens see
-puppies see
-puppies see
-dogs see
-cats see
+I see myself
+Antonio sees Antonio
+Antonia sees herself
+she sees itself
+she sees itself
+weeks see themselves
+Antonio sees himself
+Antonio sees Antonio
+
+= 'long' sentences =
+
+the small worlds see the tall facts
+a small part sees the small problem
+the tall programs see a small puppy
+the small areas see the tall states
+the tall questions see the small eyes
+the tall puppies see the small money
+the tall schools see the tall points
+the tall families see the small dogs
+the tall people see a tall puppy
+the small governments see the small lots
+
 Parsing:
 ===
-[s  .kittens *see]
-[s  .kittens *sleeps]
-[s  .a *sleeps]
-[s  .kittens *see]
-[s  .itself *sleeps]
-[s  .cats *see]
-[s  .puppies *see]
-[s  .a *sleeps]
-[s  .cats *see]
-[s  .cats *sleeps]
+
+[s  .months *see]
+[s  .facts *see]
+[s  .families *see]
+[np  .the *problems]
+[np  .the *families]
+[np  .the *day]
+[s  .states *sleep]
+[np  .the *room]
+[s  .businesses *see], [s  .businesses *see]
+[s  .questions *sleep]
 10
 babylon.english=>
 ```
-
 
 # License
 

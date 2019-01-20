@@ -1,13 +1,6 @@
 language: clojure
 lein: 2.8.1
 script: lein with-profile travis-ci test
-addons:
-  postgresql: "9.6"
-before_script:
-  - psql -c 'create database babel;' -U postgres
-  - psql -U postgres babel < src/sql/babel.sql
-  - echo "(load \"babel/korma\")(babel.korma/create-tables (babel.korma/init-db))" | lein repl
-  - echo "(load \"babel/directory\")(babel.directory/write-lexicons)" | lein repl
 sudo: false
 env:
   global:

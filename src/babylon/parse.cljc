@@ -1,14 +1,10 @@
 (ns babylon.parse
   (:require
    [babylon.over :as over :refer [truncate]]
-   [clojure.core.cache :as cache]
    [clojure.set :refer [union]]
    [clojure.string :as string]
-   #?(:clj [clojure.tools.logging :as log])
-   #?(:cljs [babel.logjs :as log])
+   [clojure.tools.logging :as log]
    [dag_unify.core :as u]))
-
-(def ^:const parse-with-lexical-caching true)
 
 (declare lookup)
 (def ^:dynamic lookup-fn lookup)
@@ -19,29 +15,9 @@
 (def tokenizer #"[ ']")
 (def map-fn #?(:clj pmap) #?(:cljs map))
 
-;; thanks to http://tobiasbayer.com/post/2014-11-12-using-clojures-core-dot-cache/
-(defn deal-with-cache [k if-miss-do lexical-cache]
-  (if (cache/has? @lexical-cache k)
-    (do
-      (log/trace (str "cache hit for " k))
-      (swap! lexical-cache #(cache/hit % k)))
-    (swap! lexical-cache #(cache/miss % k (if-miss-do k)))))
-
-(defn lookup [{lexical-cache :lexical-cache
-               default-fn :default-fn} k]
+(defn lookup [{default-fn :default-fn} k]
   (log/debug (str "lookup: k=" k))
-  (let [pre-default
-        (if (or (= false parse-with-lexical-caching)
-                (nil? lexical-cache))
-          (lookup-fn k)
-          (let [lookup-fn (fn [k]
-                            (do (log/debug (str "cache miss for " k))
-                                (let [looked-up (lookup-fn k)]
-                                  (if (not (empty? looked-up)) looked-up :none))))]
-            (deal-with-cache k lookup-fn lexical-cache)
-            (let [cache-value (get @lexical-cache k)]
-              (if (= cache-value :none) nil
-                  cache-value))))]
+  (let [pre-default (lookup-fn k)]
     (log/trace (str "default-fn: nil? " (nil? default-fn)))
     (log/trace (str "pre-default: count: " (count pre-default)))
     (cond (nil? default-fn)
@@ -137,7 +113,7 @@
             {:head (summarize head model)})
           (if-let [comp (u/get-in sign [:comp])]
             {:comp (summarize comp model)}))))
-  
+
 (defn parses [input n model span-map parse-with-truncate]
   (cond
     (= n 1) input

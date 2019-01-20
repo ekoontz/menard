@@ -1,0 +1,12 @@
+[{:rule :regular-noun
+  :if {:cat :noun
+       :pronoun ::unspec
+       :propernoun ::unspec
+       :regular ::unspec}
+  :then [{:regular true
+          :pronoun false
+          :propernoun false}]}]
+{:rule :noun-mod
+ :if {:cat :noun
+      :sem {:mod ::unspec}}
+ :then [{:sem {:mod []}}]}

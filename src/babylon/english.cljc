@@ -16,6 +16,7 @@
 (defn compile-lexicon [filename]
   (-> filename
       l/read-rules
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-0.edn"))
       (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules-1.edn"))
       (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules-2.edn") true)))
 

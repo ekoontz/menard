@@ -84,7 +84,7 @@
          :agr {:number :sing
                :person :3rd
                :gender :fem}
-         :sem {:human true
+         :sem {:ref {:human true}
                :pred :she}
          :pronoun true
          :reflexive false}]

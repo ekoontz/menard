@@ -4,7 +4,7 @@
         :agr {:number :sing
               :person :3rd
               :gender :masc}
-        :sem {:human true
+        :sem {:ref {:human true}
               :pred :he}
         :pronoun true
         :reflexive false}]
@@ -15,7 +15,7 @@
                :gender :fem}
          :pronoun true
          :reflexive false
-         :sem {:human true
+         :sem {:ref {:human true}
                :pred :she}}]
  "herself" [{:cat :noun
              :case :acc
@@ -24,7 +24,7 @@
                    :gender :fem}
              :pronoun true
              :reflexive true
-             :sem {:human true}}]
+             :sem {:ref {:human true}}}]
  "him" [{:cat :noun
          :case :acc
          :agr {:number :sing
@@ -32,7 +32,7 @@
                :gender :masc}
          :pronoun true
          :reflexive false
-         :sem {:human true
+         :sem {:ref {:human true}
                :pred :he}}]
  "himself" [{:cat :noun
              :case :acc
@@ -41,12 +41,12 @@
                    :gender :masc}
              :pronoun true
              :reflexive true
-             :sem {:human true}}]
+             :sem {:ref {:human true}}}]
  "I" [{:cat :noun
        :case :nom
        :agr {:number :sing
              :person :1st}
-       :sem {:human true
+       :sem {:ref {:human true}
              :pred :i}
        :pronoun true
        :reflexive false}]
@@ -54,21 +54,21 @@
         :case :nom
         :agr {:number :sing
               :person :3rd}
-        :sem {:human false
+        :sem {:ref {:human false}
               :pred :it}
         :pronoun true
         :reflexive false}]
  "itself" [{:cat :noun
             :agr {:number :sing
                   :person :3rd}
-            :sem {:human false}
+            :sem {:ref {:human false}}
             :pronoun true
             :reflexive true}]
  "me" [{:cat :noun
         :case :acc
         :agr {:number :sing
               :person :1st}
-        :sem {:human true
+        :sem {:ref {:human true}
               :pred :i}
         :pronoun true
         :reflexive false}]
@@ -76,7 +76,7 @@
             :case :acc
             :agr {:number :sing
                   :person :1st}
-            :sem {:human true}
+            :sem {:ref {:human true}}
             :pronoun true
             :reflexive true}]
  "she" [{:cat :noun

@@ -3,11 +3,9 @@
        :agr ::unspec
        :pronoun ::unspec
        :propernoun ::unspec
-       :regular ::unspec}
+       :regular ::unspec
+       :sem {:mod ::unspec}}
   :then [{:regular true
           :pronoun false
-          :propernoun false}]}
- {:rule :noun-mod
-  :if {:cat :noun
-       :sem {:mod ::unspec}}}
- :then [{:sem {:mod []}}]]
+          :sem {:mod []}
+          :propernoun false}]}]

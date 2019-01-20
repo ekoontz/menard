@@ -3,7 +3,8 @@
  "book" [{:cat :noun :sem {:pred :book}}]
  "business" [{:cat :noun :sem {:pred :business}}]
  "case" [{:cat :noun :sem {:pred :case}}]
- "cat" [{:cat :noun :sem {:pred :cat}}]
+ "cat" [{:cat :noun :sem {:pred :cat :ref {:animate true
+                                           :human false}}}]
  "company" [{:cat :noun :sem {:pred :company}}]
  "country" [{:cat :noun :sem {:pred :country}}]
  "day" [{:cat :noun :sem {:pred :day}}]

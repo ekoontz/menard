@@ -142,7 +142,8 @@
   :then [(let [agr (atom :top)
                subj (atom :top)]
            {:agr agr
-            :sem {:subj subj}
+            :sem {:subj subj
+                  :obj :unspec}
             :reflexive false
             :subcat {:1 {:agr agr
                          :sem subj

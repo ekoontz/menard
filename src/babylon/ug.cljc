@@ -51,11 +51,15 @@
   (let [reference (atom :top)
         adjunct (atom {:ref reference})
         head-mod (atom :top)
+        pred (atom :top)
         subcat-1 (atom :top)]
-    {:head {:sem {:mod head-mod}
+    {:head {:sem {:mod head-mod
+                  :pred pred
+                  :ref reference}
             :subcat {:1 subcat-1 :2 []}}
      :comp {:sem adjunct}
      :sem {:ref reference
+           :pred pred
            :mod {:first adjunct
                  :rest head-mod}}
      :subcat {:1 subcat-1 :2 []}}))

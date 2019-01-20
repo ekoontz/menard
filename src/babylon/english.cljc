@@ -145,3 +145,9 @@
               :head {:phrasal true
                      :comp {:phrasal true
                             :head {:phrasal true}}}}))))))
+
+(defn wtf-parse [input-string path]
+  (->> input-string
+       parse
+       (map #(u/get-in % path))
+       u/pprint))

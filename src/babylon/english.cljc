@@ -91,21 +91,47 @@
 (defn demo []
   (load "grammar")
   (println "Generation:")
+  (println "===")
+  (println)
   (println "= transitive sentences =")
+  (println)
   (count (take 10 (repeatedly #(println (morph (generate
                                                 {:cat :verb
                                                  :sem {:pred :see
                                                        :reflexive false
                                                        :obj {:pred :top}}}))))))
+  (println)
   (println "= reflexive sentences =")
+  (println)
   (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive true}))))))
+
+  (println)
+  (println "= 'long' sentences =")
+  (println)
+  (count
+   (take 10
+    (repeatedly
+      #(println
+         (morph
+          (generate
+           {:cat :verb
+            :subcat []
+            :pred :top
+            :comp {:phrasal true
+                   :head {:phrasal true}}
+            :head {:phrasal true
+                   :comp {:phrasal true
+                          :head {:phrasal true}}}}))))))
+  (println)
   (println "Parsing:")
   (println "===")
+  (println)
   (count (take 10
                (repeatedly #(let [expression (morph (generate {:subcat []}))]
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
+
 (defn benchmark []
   (repeatedly
    #(println

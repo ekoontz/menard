@@ -8,7 +8,7 @@
  "company" [{:cat :noun :sem {:pred :company}}]
  "country" [{:cat :noun :sem {:pred :country}}]
  "day" [{:cat :noun :sem {:pred :day}}]
- "dog" [{:cat :noun :sem {:mod [] :pred :dog}}]
+ "dog" [{:cat :noun :sem {:pred :dog}}]
  "eye" [{:cat :noun :sem {:pred :eye}}]
  "fact" [{:cat :noun :sem {:pred :fact}}]
  "family" [{:cat :noun :sem {:pred :family}}]

@@ -7,8 +7,8 @@
           babylon.ug/comp-mod-is-obj-mod]}
  {:rule "np"
   :cat :noun
-  :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1]}
-;;          babylon.ug/head-mod-is-subj-mod]}
+  :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1
+          babylon.ug/head-mod-is-subj-mod]}
  {:rule "nbar1"
   :cat :noun
   :comp {:cat :adjective}

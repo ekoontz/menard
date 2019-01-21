@@ -21,6 +21,16 @@
    {:sem head-sem
     :head {:sem head-sem}}))
 
+(def head-mod-is-subj-mod
+ (let [head-mod (atom :top)]
+   {:sem {:mod {:subj head-mod}}
+    :head {:mod head-mod}}))
+
+(def comp-mod-is-obj-mod
+ (let [comp-mod (atom :top)]
+   {:sem {:mod {:obj comp-mod}}
+    :comp {:mod comp-mod}}))
+
 (def head-first
   (let [head (atom :top)
         comp (atom :top)]
@@ -64,9 +74,7 @@
      :mod {:first adjunct
            :rest head-mod}
      :sem {:ref reference
-           :pred pred
-           :mod {:first adjunct
-                 :rest head-mod}}
+           :pred pred}
      :slash false
      :subcat {:1 subcat-1 :2 []}}))
 
@@ -98,25 +106,24 @@
 (def subcat-new-rule
   (let [reference (atom :top)
         object-of-adjunct (atom {:ref reference})
-        adjunct (atom {:ref reference})
+        adjunct-ref (atom {:ref reference})
         head-mod (atom :top)
         pred (atom :top)
-        subcat-of-head (atom {:subcat {:1 :top
-                                       :2 []}})
-        subcat-of-adjunct (atom {:sem {:obj object-of-adjunct}
-                                 :subcat {:1 subcat-of-head
-                                          :2 []}})]
-    {:subcat {:1 subcat-of-head
-              :2 []}
-     :sem {:mod {:first adjunct
-                 :rest head-mod}
-           :pred pred
+        subcat-of-head (atom {:1 {:top :top}
+                              :2 {:top :top}})
+        adjunct (atom {:sem object-of-adjunct
+                       :subcat {:1 subcat-of-head
+                                :2 []}})]
+    {:subcat subcat-of-head
+     :mod {:first adjunct-ref
+           :rest head-mod}
+     :sem {:pred pred
            :ref reference}
-     :head {:sem {:mod head-mod
-                  :pred pred
+     :head {:mod head-mod
+            :sem {:pred pred
                   :ref reference}
             :subcat subcat-of-head}
-     :comp {:sem adjunct
-            :subcat {:1 subcat-of-adjunct
+     :comp {:sem adjunct-ref
+            :subcat {:1 adjunct
                      :2 []}}}))
 

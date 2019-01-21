@@ -42,8 +42,11 @@
      :2 head})))
 
 (def subcat-1
-  (let [complement (atom {:subcat []})]
-    {:head {:subcat {:1 complement :2 []}}
+  (let [complement (atom {:subcat []})
+        mod (atom :top)]
+    {:head {:mod mod
+            :subcat {:1 complement :2 []}}
+     :mod mod
      :subcat []
      :comp complement}))
 
@@ -73,16 +76,19 @@
      :comp complement-2}))
 
 (def subcat-1-slash
-  (let [obj (atom {:top :top})
+  (let [obj (atom {:top :top}) ;; verb must be transitive: prevent obj from being simply :unspec.
         sem (atom :top)
         subj (atom :top)]
     {:cat :verb
      :sem sem
-     :subcat {:1 obj
-              :2 []}
      :comp subj
      :slash true
      :head {:sem sem
             :slash false
             :subcat {:1 subj
                      :2 obj}}}))
+;; for nbar2:
+(def object-of-comp-is-head
+  (let [head-sem (atom :top)]
+    {:sem head-sem
+     :comp {:sem {:obj head-sem}}}))

@@ -20,5 +20,18 @@
                     (filter #(= "s-slash" (:rule %)))
                     (map #(u/get-in % [:sem])))
                first (u/get-in [:subcat :1]) (get :sem)))))
-  (is (not (empty? (parse "cat I see")))))
+  (is (not (empty? (parse "cat I see"))))
+  (let [cat-I-see (parse "cat I see")]
+    (is (= 1 (count cat-I-see)))
+    (is (= "nbar2" (-> cat-I-see first :rule)))
+    (is (= :see (-> cat-I-see first (u/get-in [:mod :first :pred]))))
+    (is (empty? (-> cat-I-see first (u/get-in [:mod :rest]))))))
+(is (not (empty? (parse "small cat I see"))))
+(let [parses (parse "small cat I see")]
+  (is (= 1 (count parses)))
+  (is (= "nbar2" (-> parses first :rule)))
+  (is (= :see (-> parses first (u/get-in [:mod :first :pred]))))
+  (is (= :small (-> parses first (u/get-in [:mod :rest :first :pred]))))
+  (is (empty? (-> parses first (u/get-in [:mod :rest :rest])))))
+
 

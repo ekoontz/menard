@@ -11,7 +11,13 @@
   :cat :noun
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
+ {:rule "nbar2"
+  :cat :noun
+  :comp {:rule "s-slash"
+         :phrasal true}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
+          babylon.ug/object-of-comp-is-head]}
  {:rule "s-slash"
   :cat :verb
-  :subcat {:1 {:reflexive false}}
+  :reflexive false
   :unify [babylon.ug/head-last babylon.ug/subcat-1-slash]}]

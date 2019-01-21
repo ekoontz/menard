@@ -12,9 +12,13 @@
     (is (not (empty? I-see)))
     (is (= 2 (count I-see)))
     (is (contains? (set (->> I-see (map :rule))) "s-slash"))
-    (is (= (-> (->> I-see (filter #(= "s-slash" (:rule %))) (map #(u/get-in % [:sem])))
+    (is (= (-> (->> I-see
+                    (filter #(= "s-slash" (:rule %)))
+                    (map #(u/get-in % [:sem])))
                first (u/get-in [:sem]) (get :obj))
-           (-> (->> I-see (filter #(= "s-slash" (:rule %))) (map #(u/get-in % [:sem])))
+           (-> (->> I-see
+                    (filter #(= "s-slash" (:rule %)))
+                    (map #(u/get-in % [:sem])))
                first (u/get-in [:subcat :1]) (get :sem)))))
   (is (not (empty? (parse "cat I see")))))
 

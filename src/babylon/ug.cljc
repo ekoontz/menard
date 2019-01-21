@@ -71,3 +71,18 @@
                      :2 complement-2}}
      :subcat {:1 complement-1}
      :comp complement-2}))
+
+(def subcat-1-slash
+  (let [obj (atom {:top :top})
+        sem (atom :top)
+        subj (atom :top)]
+    {:cat :verb
+     :sem sem
+     :subcat {:1 obj
+              :2 []}
+     :comp subj
+     :slash true
+     :head {:sem sem
+            :slash false
+            :subcat {:1 subj
+                     :2 obj}}}))

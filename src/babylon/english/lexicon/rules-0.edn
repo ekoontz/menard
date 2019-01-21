@@ -7,5 +7,5 @@
        :sem {:mod ::unspec}}
   :then [{:regular true
           :pronoun false
-          :sem {:mod []}
+          :mod []
           :propernoun false}]}]

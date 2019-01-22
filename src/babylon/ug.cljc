@@ -106,3 +106,23 @@
   (let [head-mod (atom :top)]
     {:sem {:subj-mod head-mod}
      :comp {:mod head-mod}}))
+
+;; most of this should move to lexicon of entries like "that":
+(def use-complement-sem
+  (let [comp-sem (atom :top)
+        comp-mod (atom :top)
+        comp-subcat (atom {:1 :top
+                           :2 []})
+        comp {:sem comp-sem
+              :slash true
+              :cat :verb
+              :subcat comp-subcat
+              :mod comp-mod}]
+    {:head {:subcat {:1 comp
+                     :2 []}}
+     :sem comp-sem
+     :subcat comp-subcat
+     :mod comp-mod
+     :comp comp}))
+
+        

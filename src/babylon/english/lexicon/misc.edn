@@ -88,6 +88,10 @@
                :pred :she}
          :pronoun true
          :reflexive false}]
+ "that" [{:cat :comp
+          :subcat {:1 {:cat :verb
+                       :slash true}
+                   :2 []}}]
  "the" [{:cat :det}]
  "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
  "you" [{:cat :noun

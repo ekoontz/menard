@@ -4,6 +4,7 @@
           babylon.ug/comp-mod-is-subj-mod]}
  {:rule "vp"
   :cat :verb
+  :head {:slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem]}
  {:rule "np"
   :cat :noun

@@ -81,7 +81,8 @@
   (let [obj-sem (atom :top)
         obj (atom {:sem obj-sem}) ;; verb must be transitive: prevent obj from being simply :unspec.
         subj-sem (atom :top)
-        subj (atom {:sem subj-sem})
+        subj (atom {:subcat []
+                    :sem subj-sem})
         sem (atom {:obj obj-sem
                    :subj subj-sem})]
     {:cat :verb

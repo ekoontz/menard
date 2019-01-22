@@ -1,6 +1,7 @@
 [{:rule "s"
   :cat :verb
-  :unify [babylon.ug/head-last babylon.ug/subcat-1 babylon.ug/head-sem-is-parent-sem]}
+  :unify [babylon.ug/head-last babylon.ug/subcat-1 babylon.ug/head-sem-is-parent-sem
+          babylon.ug/comp-mod-is-subj-mod]}
  {:rule "vp"
   :cat :verb
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem]}

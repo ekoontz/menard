@@ -91,6 +91,7 @@
               :2 []}
      :slash true
      :head {:sem sem
+            :phrasal false
             :slash false
             :subcat {:1 subj
                      :2 obj}}}))

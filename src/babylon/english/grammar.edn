@@ -23,4 +23,4 @@
  {:rule "s-slash"
   :cat :verb
   :reflexive false
-  :unify [babylon.ug/head-last babylon.ug/subcat-1-slash]}]
+  :unify [babylon.ug/head-last babylon.ug/subcat-2-slash]}]

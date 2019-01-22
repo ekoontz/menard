@@ -84,6 +84,8 @@
     {:cat :verb
      :sem sem
      :comp subj
+     :subcat {:1 obj
+              :2 []}
      :slash true
      :head {:sem sem
             :slash false

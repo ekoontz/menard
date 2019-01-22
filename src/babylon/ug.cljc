@@ -78,9 +78,12 @@
      :comp complement-2}))
 
 (def subcat-2-slash
-  (let [obj (atom {:top :top}) ;; verb must be transitive: prevent obj from being simply :unspec.
-        sem (atom :top)
-        subj (atom :top)]
+  (let [obj-sem (atom :top)
+        obj (atom {:sem obj-sem}) ;; verb must be transitive: prevent obj from being simply :unspec.
+        subj-sem (atom :top)
+        subj (atom {:sem subj-sem})
+        sem (atom {:obj obj-sem
+                   :subj subj-sem})]
     {:cat :verb
      :sem sem
      :comp subj

@@ -13,6 +13,7 @@
   :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
  {:rule "nbar2"
   :cat :noun
+  :head {:phrasal false}
   :comp {:rule "s-slash"
          :phrasal true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1

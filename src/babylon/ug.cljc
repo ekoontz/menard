@@ -5,21 +5,22 @@
 ;; universal grammar rules
 
 (def head-rule
- (let [comp-cat (atom :top)
-       head-agr (atom :top)
-       head-cat (atom :top)
-       reflexive (atom :top)]
-   {:agr head-agr
-    :cat head-cat
-    :reflexive reflexive
-    :head {:agr head-agr
-           :cat head-cat
-           :reflexive reflexive}}))
+  (let [comp-cat (atom :top)
+        head-agr (atom :top)
+        head-cat (atom :top)
+        reflexive (atom :top)]
+    {:agr head-agr
+     :cat head-cat
+     :reflexive reflexive
+     :head {:agr head-agr
+            :cat head-cat
+            :reflexive reflexive}
+     :phrasal true}))
 
 (def head-sem-is-parent-sem
- (let [head-sem (atom :top)]
-   {:sem head-sem
-    :head {:sem head-sem}}))
+  (let [head-sem (atom :top)]
+    {:sem head-sem
+     :head {:sem head-sem}}))
 
 (def head-first
   (let [head (atom :top)
@@ -45,6 +46,7 @@
   (let [complement (atom {:subcat []})
         mod (atom :top)]
     {:head {:mod mod
+            :slash false
             :subcat {:1 complement :2 []}}
      :mod mod
      :subcat []

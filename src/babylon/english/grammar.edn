@@ -1,26 +1,36 @@
-[{:rule "s"
+[{:rule "comp"
+  :head {:cat :comp}
+  :slash true
+  :unify [babylon.ug/head-first babylon.ug/use-complement-sem]}
+ {:rule "s"
   :cat :verb
+  :slash false
   :unify [babylon.ug/head-last babylon.ug/subcat-1 babylon.ug/head-sem-is-parent-sem
           babylon.ug/comp-mod-is-subj-mod]}
  {:rule "vp"
   :cat :verb
+  :slash false
   :head {:slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem]}
  {:rule "np"
   :cat :noun
+  :slash false
   :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1]}
  {:rule "nbar"
   :cat :noun
+  :slash false
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
  {:rule "nbar2"
+  :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:rule "s-slash"
+  :comp {:slash true
          :phrasal true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/object-of-comp-is-head]}
  {:rule "s-slash"
+  :slash true
   :cat :verb
   :reflexive false
   :unify [babylon.ug/head-last babylon.ug/subcat-2-slash]}]

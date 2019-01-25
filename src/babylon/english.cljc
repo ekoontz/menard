@@ -103,7 +103,7 @@
   (println)
   (println "= reflexive sentences =")
   (println)
-  (count (take 10 (repeatedly #(println (morph (generate {:pred :see :reflexive true}))))))
+  (count (take 10 (repeatedly #(println (morph (generate {:sem {:pred :see} :reflexive true}))))))
 
   (println)
   (println "= 'long' sentences =")

@@ -97,8 +97,8 @@
   (println)
   (count (take 10 (repeatedly #(println (morph (generate
                                                 {:cat :verb
+                                                 :reflexive false
                                                  :sem {:pred :see
-                                                       :reflexive false
                                                        :obj {:pred :top}}}))))))
   (println)
   (println "= reflexive sentences =")

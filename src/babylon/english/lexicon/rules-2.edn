@@ -98,6 +98,7 @@
        :propernoun true}
   :then [{:agr {:person :3rd
                 :number :sing}
+          :reflexive false
           :subcat []}]}
  
  {:rule :transitive-verbs

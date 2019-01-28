@@ -1,7 +1,11 @@
-[{:rule "comp"
+[{:rule "comp1"
   :head {:cat :comp}
   :slash true
-  :unify [babylon.ug/head-first babylon.ug/use-complement-sem]}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat babylon.ug/head-sem-is-parent-sem]}
+; {:rule "comp2"
+;  :head {:cat :comp}
+;  :slash false
+;  :unify [babylon.ug/head-first]}
  {:rule "s"
   :cat :verb
   :slash false
@@ -31,6 +35,7 @@
           babylon.ug/object-of-comp-is-head]}
  {:rule "s-slash"
   :slash true
+  :complement {:case :nom}
   :cat :verb
   :reflexive false
   :unify [babylon.ug/head-last babylon.ug/subcat-2-slash]}]

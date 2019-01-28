@@ -8,4 +8,10 @@
   :then [{:regular true
           :pronoun false
           :mod []
-          :propernoun false}]}]
+          :propernoun false}]}
+ {:rule :complementizer
+  :if {:cat :comp}
+  :then [(let [sem (atom :top)]
+            {:sem sem
+             :subcat {:1 {:sem sem}}})]}]
+

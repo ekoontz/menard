@@ -88,10 +88,25 @@
                :pred :she}
          :pronoun true
          :reflexive false}]
- "that" [{:cat :comp
+ "that" [;; "<x> that you see <x>"
+         {:cat :comp
           :subcat {:1 {:cat :verb
+                       :subcat {:1 {:cat :noun
+                                    :case :acc
+                                    :reflexive false}
+                                :2 []}
                        :slash true}
                    :2 []}}]
+          ;; "<x> that <x> sees you"
+;         {:cat :comp
+;          :subcat {:1 {:cat :verb
+;                       :subcat {:1 {:cat :noun
+;                                    :case :nom
+;                                    :reflexive false
+;                                :2 []
+;                       :slash false]
+;                   :2 []}}]
+;         {:cat :det}]
  "the" [{:cat :det}]
  "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
  "you" [{:cat :noun

@@ -22,6 +22,11 @@
     {:sem head-sem
      :head {:sem head-sem}}))
 
+(def slash-is-head-slash
+  (let [head-slash (atom :top)]
+    {:slash head-slash
+     :head {:slash head-slash}}))
+
 (def head-first
   (let [head (atom :top)
         comp (atom :top)]
@@ -44,8 +49,11 @@
 
 (def subcat-1
   (let [complement (atom {:subcat []})
+        agr (atom :top)
         mod (atom :top)]
-    {:head {:mod mod
+    {:agr agr
+     :head {:mod mod
+            :agr agr
             :slash false
             :subcat {:1 complement :2 []}}
      :mod mod
@@ -56,12 +64,15 @@
   (let [reference (atom :top)
         adjunct (atom {:ref reference})
         head-mod (atom :top)
+        agr (atom :top)
         pred (atom :top)
         subcat-1 (atom :top)]
     {:head {:mod head-mod
+            :agr agr
             :sem {:pred pred
                   :ref reference}
             :subcat {:1 subcat-1 :2 []}}
+     :agr agr
      :comp {:sem adjunct}
      :mod {:first adjunct
            :rest head-mod}
@@ -69,12 +80,28 @@
            :pred pred}
      :subcat {:1 subcat-1 :2 []}}))
 
+(def subcat-1-1-comp-subcat
+  (let [comp-subcat (atom :top)
+        agr (atom :top)
+        complement (atom {:agr agr
+                          :subcat comp-subcat})]
+    {:head {:agr agr
+            :subcat {:1 complement
+                     :2 []}}
+     :agr agr
+     :comp complement
+     :subcat comp-subcat}))
+
 (def subcat-2
-  (let [complement-1 (atom {:subcat []})
+  (let [agr (atom :top)
+        complement-1 (atom {:subcat []})
         complement-2 (atom {:subcat []})]
-    {:head {:subcat {:1 complement-1
+    {:head {:agr agr
+            :subcat {:1 complement-1
                      :2 complement-2}}
-     :subcat {:1 complement-1}
+     :agr agr
+     :subcat {:1 complement-1
+              :2 []}
      :comp complement-2}))
 
 (def subcat-2-slash
@@ -102,27 +129,18 @@
     {:sem head-sem
      :comp {:sem {:obj head-sem}}}))
 
+;; for nbar3:
+(def subject-of-comp-is-head
+  (let [head-sem (atom :top)]
+    {:sem head-sem
+     :comp {:sem {:subj head-sem}}}))
+
 (def comp-mod-is-subj-mod
-  (let [head-mod (atom :top)]
-    {:sem {:subj-mod head-mod}
-     :comp {:mod head-mod}}))
+  (let [comp-mod (atom :top)]
+    {:sem {:subj-mod comp-mod}
+     :comp {:mod comp-mod}}))
 
-;; most of this should move to lexicon of entries like "that":
-(def use-complement-sem
-  (let [comp-sem (atom :top)
-        comp-mod (atom :top)
-        comp-subcat (atom {:1 :top
-                           :2 []})
-        comp {:sem comp-sem
-              :slash true
-              :cat :verb
-              :subcat comp-subcat
-              :mod comp-mod}]
-    {:head {:subcat {:1 comp
-                     :2 []}}
-     :sem comp-sem
-     :subcat comp-subcat
-     :mod comp-mod
-     :comp comp}))
-
-        
+(def comp-mod-is-obj-mod
+  (let [comp-mod (atom :top)]
+    {:sem {:obj-mod comp-mod}
+     :comp {:mod comp-mod}}))

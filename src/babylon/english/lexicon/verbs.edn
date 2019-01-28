@@ -32,7 +32,7 @@
  "see" [{:cat :verb :sem {:pred :see} :subcat {:1 :top :2 :top}}]
  "seem" [{:cat :verb :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
- "sleep" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 []}}]
+ "sleep" [{:cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}]
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}}]
  "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 :top}}]

@@ -3,6 +3,11 @@
   :u {:cat :verb
       :agr {:person :3rd
             :number :sing}}}
+ {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
+  :p [#"^(.*)oes$" "$1o"] 
+  :u {:cat :verb
+      :agr {:person :3rd
+            :number :sing}}}
  {:g [#"^(.*[^r][^y])$" "$1s"] ;; sleep -> sleeps
   :p [#"^(.*)s$"    "$1"] 
   :u {:cat :verb

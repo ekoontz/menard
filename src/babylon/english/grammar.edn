@@ -1,7 +1,8 @@
-[{:rule "comp"
-  :head {:cat :comp}
-  :slash true
-  :unify [babylon.ug/head-first babylon.ug/use-complement-sem]}
+[{:rule "comp1"
+  :head {:cat :comp
+         :phrasal false}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat
+          babylon.ug/head-sem-is-parent-sem babylon.ug/slash-is-head-slash]}
  {:rule "s"
   :cat :verb
   :slash false
@@ -11,7 +12,8 @@
   :cat :verb
   :slash false
   :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem]}
+  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
+          babylon.ug/comp-mod-is-obj-mod]}
  {:rule "np"
   :cat :noun
   :slash false
@@ -21,16 +23,31 @@
   :slash false
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
- {:rule "nbar2"
+ {:rule "nbar2" ;; 'cat I see'
   :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:slash true
-         :phrasal true}
+  :comp {:rule "s-slash"
+         :phrasal true :cat :verb :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/object-of-comp-is-head]}
- {:rule "s-slash"
+ {:rule "nbar3" ;; 'cat that sees me'
+  :slash false
+  :cat :noun
+  :head {:phrasal false}
+  :comp {:phrasal true :cat :comp}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
+          babylon.ug/subject-of-comp-is-head]}
+ {:rule "nbar4" ;; 'cat that I see'
+  :slash false
+  :cat :noun
+  :head {:phrasal false}
+  :comp {:phrasal true :cat :comp}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
+          babylon.ug/object-of-comp-is-head]}
+ {:rule "s-slash" ;; 'I see' in '[nbar2 the cat [s-slash I see]'
   :slash true
+  :complement {:case :nom}
   :cat :verb
   :reflexive false
   :unify [babylon.ug/head-last babylon.ug/subcat-2-slash]}]

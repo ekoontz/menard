@@ -22,6 +22,11 @@
     {:sem head-sem
      :head {:sem head-sem}}))
 
+(def slash-is-head-slash
+  (let [head-slash (atom :top)]
+    {:slash head-slash
+     :head {:slash head-slash}}))
+
 (def head-first
   (let [head (atom :top)
         comp (atom :top)]
@@ -109,6 +114,12 @@
   (let [head-sem (atom :top)]
     {:sem head-sem
      :comp {:sem {:obj head-sem}}}))
+
+;; for nbar3:
+(def subject-of-comp-is-head
+  (let [head-sem (atom :top)]
+    {:sem head-sem
+     :comp {:sem {:subj head-sem}}}))
 
 (def comp-mod-is-subj-mod
   (let [head-mod (atom :top)]

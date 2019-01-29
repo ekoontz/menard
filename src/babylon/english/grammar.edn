@@ -20,18 +20,18 @@
   :slash false
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
- {:rule "nbar2"
+ {:rule "nbar2" ;; 'cat I see'
   :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:phrasal true}
+  :comp {:phrasal true :cat :verb}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/object-of-comp-is-head]}
- {:rule "nbar3"
+ {:rule "nbar3" ;; 'cat that sees me'
   :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:phrasal true}
+  :comp {:phrasal true :cat :comp}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
  {:rule "s-slash"

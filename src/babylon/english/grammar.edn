@@ -25,7 +25,7 @@
   :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:phrasal true :cat :verb}
+  :comp {:phrasal true :cat :verb :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/object-of-comp-is-head]}
  {:rule "nbar3" ;; 'cat that sees me'

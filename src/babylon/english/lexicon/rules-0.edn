@@ -11,7 +11,10 @@
           :propernoun false}]}
  {:rule :complementizer
   :if {:cat :comp}
-  :then [(let [sem (atom :top)]
-            {:sem sem
-             :subcat {:1 {:sem sem}}})]}]
+  :then [(let [sem (atom :top)
+               agr (atom :top)]
+           {:agr agr
+            :sem sem
+            :subcat {:1 {:agr agr
+                         :sem sem}}})]}]
 

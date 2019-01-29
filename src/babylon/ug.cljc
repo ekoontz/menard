@@ -76,9 +76,13 @@
 
 (def subcat-1-1-comp-subcat
   (let [comp-subcat (atom :top)
-        complement (atom {:subcat comp-subcat})]
-    {:head {:subcat {:1 complement
+        agr (atom :top)
+        complement (atom {:agr agr
+                          :subcat comp-subcat})]
+    {:head {:agr agr
+            :subcat {:1 complement
                      :2 []}}
+     :agr agr
      :comp complement
      :subcat comp-subcat}))
 

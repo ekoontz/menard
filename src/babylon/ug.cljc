@@ -126,5 +126,3 @@
   (let [head-mod (atom :top)]
     {:sem {:subj-mod head-mod}
      :comp {:mod head-mod}}))
-
-        

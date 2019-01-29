@@ -49,8 +49,11 @@
 
 (def subcat-1
   (let [complement (atom {:subcat []})
+        agr (atom :top)
         mod (atom :top)]
-    {:head {:mod mod
+    {:agr agr
+     :head {:mod mod
+            :agr agr
             :slash false
             :subcat {:1 complement :2 []}}
      :mod mod
@@ -61,12 +64,15 @@
   (let [reference (atom :top)
         adjunct (atom {:ref reference})
         head-mod (atom :top)
+        agr (atom :top)
         pred (atom :top)
         subcat-1 (atom :top)]
     {:head {:mod head-mod
+            :agr agr
             :sem {:pred pred
                   :ref reference}
             :subcat {:1 subcat-1 :2 []}}
+     :agr agr
      :comp {:sem adjunct}
      :mod {:first adjunct
            :rest head-mod}
@@ -87,10 +93,13 @@
      :subcat comp-subcat}))
 
 (def subcat-2
-  (let [complement-1 (atom {:subcat []})
+  (let [agr (atom :top)
+        complement-1 (atom {:subcat []})
         complement-2 (atom {:subcat []})]
-    {:head {:subcat {:1 complement-1
+    {:head {:agr agr
+            :subcat {:1 complement-1
                      :2 complement-2}}
+     :agr agr
      :subcat {:1 complement-1
               :2 []}
      :comp complement-2}))

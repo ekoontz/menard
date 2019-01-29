@@ -87,7 +87,8 @@
         complement-2 (atom {:subcat []})]
     {:head {:subcat {:1 complement-1
                      :2 complement-2}}
-     :subcat {:1 complement-1}
+     :subcat {:1 complement-1
+              :2 []}
      :comp complement-2}))
 
 (def subcat-2-slash

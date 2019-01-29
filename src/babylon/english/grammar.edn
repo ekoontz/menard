@@ -35,7 +35,7 @@
   :comp {:phrasal true :cat :comp}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
- {:rule "s-slash"
+ {:rule "s-slash" ;; 'that I see' in '[nbar2 the cat [s-slash that I see]'
   :slash true
   :complement {:case :nom}
   :cat :verb

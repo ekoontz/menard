@@ -1,7 +1,8 @@
 [{:rule "comp1"
   :head {:cat :comp
          :phrasal false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat babylon.ug/slash-is-head-slash]}
+  :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat
+          babylon.ug/head-sem-is-parent-sem babylon.ug/slash-is-head-slash]}
  {:rule "s"
   :cat :verb
   :slash false

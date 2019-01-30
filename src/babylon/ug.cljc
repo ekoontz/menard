@@ -139,3 +139,7 @@
   (let [head-mod (atom :top)]
     {:sem {:subj-mod head-mod}
      :comp {:mod head-mod}}))
+(def comp-mod-is-obj-mod
+  (let [comp-mod (atom :top)]
+    {:sem {:obj-mod comp-mod}
+     :comp {:mod comp-mod}}))

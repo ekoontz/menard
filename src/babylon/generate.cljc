@@ -40,9 +40,10 @@
 (declare get-lexemes)
 (declare grow)
 (declare match-against-rules)
+(declare generate-all)
+(declare lazy-mapcat)
 (declare shuffle-or-not)
 (declare terminate-up)
-(declare generate-all)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."
@@ -63,13 +64,6 @@
               (unify grammar-rule spec)))
        (remove #(= % :fail))
        (map #(u/assoc-in! % [::started?] true))))
-
-(defn lazy-mapcat [f seqs]
-  (if (not (empty? seqs))
-     (lazy-cat
-       (f (first seqs))
-       (lazy-mapcat f (rest seqs)))
-     []))
 
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -176,3 +170,11 @@
 
 (defn shuffle-or-not [x]
   (if shuffle? (shuffle x) x))
+
+(defn lazy-mapcat [f seqs]
+  (if (not (empty? seqs))
+     (lazy-cat
+       (f (first seqs))
+       (lazy-mapcat f (rest seqs)))
+     []))
+

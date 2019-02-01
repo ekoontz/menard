@@ -11,7 +11,7 @@
                   (let [{u :u [from to] :g} rule
                         unified (unify u structure)]
                     (and (not (= :fail unified))
-                         (re-find from (u/get-in structure [:canonical])))))
+                         (re-find from (u/get-in structure [:canonical] "")))))
                 morphology)]
     (cond
       (u/get-in structure [:surface])
@@ -20,7 +20,7 @@
       (not (empty? matching-rules))
       (let [{[from to] :g} (first matching-rules)]
          (log/debug (str "using matching rule:" (first matching-rules)))
-        (clojure.string/replace (u/get-in structure [:canonical])
+        (clojure.string/replace (u/get-in structure [:canonical] "")
                                 from to))
       
       (u/get-in structure [:canonical])

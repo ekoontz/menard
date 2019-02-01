@@ -28,7 +28,6 @@
                                 (or (nil? x)
                                     (keyword? x)) x
                                 true (str x "(type:" (type x) ")"))))
-(def ^:dynamic grammar [])
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
                           (flatten (vals lexicon))))

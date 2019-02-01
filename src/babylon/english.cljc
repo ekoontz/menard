@@ -57,8 +57,7 @@
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
-  (binding [g/grammar grammar
-            g/lexicon lexicon
+  (binding [g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree]
     (g/generate (unify spec
@@ -68,8 +67,7 @@
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]
-  (binding [g/grammar grammar
-            g/lexicon lexicon
+  (binding [g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree
             g/shuffle? false]

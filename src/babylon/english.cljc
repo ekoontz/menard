@@ -145,22 +145,3 @@
               :head {:phrasal true
                      :comp {:phrasal true
                             :head {:phrasal true}}}}))))))
-
-(defn wtf-parse [input-string path]
-  (lazy-cat
-    (->> input-string
-         analyze
-         (map #(u/get-in % path))
-         u/pprint)
-
-    (->> input-string
-         parse
-         (map #(u/get-in % path))
-         u/pprint)))
-
-(defn wtf-generate [input-spec path]
-  (repeatedly #(-> input-spec
-                   generate
-                   morph
-                   (u/get-in path)
-                   println)))

@@ -6,7 +6,7 @@
 
 <div>
   <img alt="Image of Auroch from the Ishtar Gate of Babylon" 
-       src="https://www.ancient.eu/uploads/images/738.jpg?v=1485682813" align="left" height="100">
+       src="https://www.ancient.eu/uploads/images/738.jpg?v=1485682813" height="100">
 </div>
 
 A Clojure library for generation and parsing of natural language expressions.

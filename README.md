@@ -1,7 +1,7 @@
 [![Clojars Project](https://img.shields.io/clojars/v/babylon.svg)](https://clojars.org/babylon)
 [![Build Status](https://secure.travis-ci.org/ekoontz/babylon.png?branch=master)](http://travis-ci.org/ekoontz/babylon)
 
-# babylon
+# Babylon
 
 <div>
   <img alt="Image of Auroch from the Ishtar Gate of Babylon" 

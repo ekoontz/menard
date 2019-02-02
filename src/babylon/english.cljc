@@ -143,3 +143,25 @@
               :head {:phrasal true
                      :comp {:phrasal true
                             :head {:phrasal true}}}}))))))
+
+(defn poetry []
+  (repeatedly
+   #(do
+      (print
+       (str
+        (string/capitalize
+         (morph
+          (generate
+           {:cat :verb
+            :subcat []
+            :pred :top
+            :comp {:phrasal true
+                   :head {:phrasal true}}
+            :head {:phrasal true
+                   :comp {:phrasal true
+                          :head {:phrasal true}}}})))
+        ". "))
+      (flush))))
+
+
+

@@ -54,7 +54,7 @@
                     (mapcat (fn [lexeme]
                                [(unify lexeme
                                        {:phrasal false
-                                        :canonical k})])))]))))
+                                        :canonical (u/get-in lexeme [:canonical] k)})])))]))))
 (defn apply-one-rule [rule lexeme]
   (let [[antecedent consequent] rule]
     (cond

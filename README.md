@@ -1,5 +1,6 @@
 [![Clojars Project](https://img.shields.io/clojars/v/babylon.svg)](https://clojars.org/babylon)
 [![Build Status](https://secure.travis-ci.org/ekoontz/babylon.png?branch=master)](http://travis-ci.org/ekoontz/babylon)
+[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
 
 # Babylon
 

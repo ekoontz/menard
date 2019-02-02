@@ -1,0 +1,27 @@
+{"am" [{:cat :verb
+        :agr {:number :sing
+              :person :1st}
+        :canonical "be"
+        :sem {:pred :be}}]
+
+ "are" [{:cat :verb
+         :canonical "be"
+         :agr {:number :sing
+               :person :2nd}
+         :sem {:pred :be}}
+        {:cat :verb
+         :canonical "be"
+         :agr {:number :plur}
+         :sem {:pred :be}}]
+
+ "came" [{:cat :verb
+          :canonical "come"
+          :sem {:pred :come
+                :tense :past}}]
+
+ "is" [{:cat :verb
+        :canonical "be"
+        :agr {:number :sing
+              :person :3rd}
+        :sem {:pred :be}}]}
+

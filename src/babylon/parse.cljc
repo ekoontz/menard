@@ -7,13 +7,8 @@
    [dag_unify.core :as u]))
 
 (declare lookup)
+
 (def ^:dynamic lookup-fn lookup)
-
-(def ^:dynamic grammar nil)
-
-;; for now, using a language-independent tokenizer.
-(def tokenizer #"[ ']")
-(def map-fn #?(:clj pmap) #?(:cljs map))
 
 (defn lookup [{default-fn :default-fn} k]
   (log/debug (str "lookup: k=" k))
@@ -24,6 +19,14 @@
           pre-default
           true
           (mapcat default-fn pre-default))))
+
+
+(def ^:dynamic grammar nil)
+
+;; for now, using a language-independent tokenizer.
+(def tokenizer #"[ ']")
+(def map-fn #?(:clj pmap) #?(:cljs map))
+
 
 ;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
 (defn over [grammar left right morph default-fn]

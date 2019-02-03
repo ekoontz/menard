@@ -130,7 +130,7 @@
                                             (map syntax-tree)
                                             (string/join ", "))))))))
 (defn an [input]
-  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
+  (-> input string/capitalize (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))    
 
 (defn poetry-line []
   (->

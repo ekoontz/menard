@@ -5,8 +5,10 @@
 # Babylon
 
 <div>
-  <img alt="Image of Auroch from the Ishtar Gate of Babylon" 
-       src="https://www.ancient.eu/uploads/images/738.jpg?v=1485682813" height="100">
+  <a href="https://en.wikipedia.org/wiki/Ishtar_Gate">
+    <img alt="Image of Auroch from the Ishtar Gate of Babylon" 
+         src="https://www.ancient.eu/uploads/images/738.jpg?v=1485682813" height="100">
+  </a>
 </div>
 
 A Clojure library for generation and parsing of natural language expressions.

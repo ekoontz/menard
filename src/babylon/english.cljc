@@ -132,7 +132,7 @@
 
 (defn capitalize-first-letter [input]
   (string/join ""
-     (concat (string/capitalize (take 1 input))
+     (concat (string/capitalize (first input))
              (rest input))))
 
 (defn an [input]

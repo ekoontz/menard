@@ -129,8 +129,14 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
+
+(defn capitalize-first-letter [input]
+  (string/join ""
+     (concat (string/capitalize (take 1 input))
+             (rest input))))
+
 (defn an [input]
-  (-> input string/capitalize (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))    
+  (-> input (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))
 
 (defn poetry-line []
   (->
@@ -145,7 +151,7 @@
    generate
    morph
    an
-   string/capitalize
+   capitalize-first-letter
    (str ". ")))
 
 (defn benchmark []

@@ -129,6 +129,8 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
+(defn an [input]
+  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
 
 (defn benchmark []
   (repeatedly

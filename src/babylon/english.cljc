@@ -135,38 +135,38 @@
 (defn benchmark []
   (repeatedly
    #(println
-     (morph
-      (time (generate
-             {:cat :verb
-              :subcat []
-              :pred :top
+     (->
+      {:cat :verb
+       :subcat []
+       :pred :top
+       :comp {:phrasal true
+              :head {:phrasal true}}
+       :head {:phrasal true
               :comp {:phrasal true
-                     :head {:phrasal true}}
-              :head {:phrasal true
-                     :comp {:phrasal true
-                            :head {:phrasal true}}}}))))))
-
-(defn an [input]
-  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
+                     :head {:phrasal true}}}})
+     generate
+     time
+     morph
+     an
+     string/capitalize
+     (str ". "))))
 
 (defn poetry []
   (repeatedly
    #(do
       (print
-       (str
-        (string/capitalize
-         (morph
-          (generate
-           {:cat :verb
-            :subcat []
-            :pred :top
-            :comp {:phrasal true
-                   :head {:phrasal true}}
-            :head {:phrasal true
-                   :comp {:phrasal true
-                          :head {:phrasal true}}}})))
-        ". "))
+       (->
+        {:cat :verb
+         :subcat []
+         :pred :top
+         :comp {:phrasal true
+                :head {:phrasal true}}
+         :head {:phrasal true
+                :comp {:phrasal true
+                       :head {:phrasal true}}}}
+        generate
+        morph
+        an
+        string/capitalize
+        (str ". ")))
       (flush))))
-
-
-

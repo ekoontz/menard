@@ -132,41 +132,29 @@
 (defn an [input]
   (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
 
+(defn poetry-line []
+  (->
+   {:cat :verb
+    :subcat []
+    :pred :top
+    :comp {:phrasal true
+           :head {:phrasal true}}
+    :head {:phrasal true
+           :comp {:phrasal true
+                  :head {:phrasal true}}}}
+   generate
+   morph
+   an
+   string/capitalize
+   (str ". ")))
+
 (defn benchmark []
   (repeatedly
    #(println
-     (->
-      {:cat :verb
-       :subcat []
-       :pred :top
-       :comp {:phrasal true
-              :head {:phrasal true}}
-       :head {:phrasal true
-              :comp {:phrasal true
-                     :head {:phrasal true}}}})
-     generate
-     time
-     morph
-     an
-     string/capitalize
-     (str ". "))))
+     (time (poetry-line)))))
 
 (defn poetry []
   (repeatedly
-   #(do
-      (print
-       (->
-        {:cat :verb
-         :subcat []
-         :pred :top
-         :comp {:phrasal true
-                :head {:phrasal true}}
-         :head {:phrasal true
-                :comp {:phrasal true
-                       :head {:phrasal true}}}}
-        generate
-        morph
-        an
-        string/capitalize
-        (str ". ")))
-      (flush))))
+   #(println
+     (poetry-line))))
+

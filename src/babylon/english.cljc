@@ -138,8 +138,8 @@
    the rest alone (they might already be upper-case like the pronoun 'I', and should stay that way)."
   [input]
   (string/join ""
-     (concat (string/capitalize (first input))
-             (rest input))))
+               (concat (string/capitalize (first input))
+                       (rest input))))
 
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel."

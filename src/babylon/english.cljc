@@ -165,6 +165,9 @@
    #(println
      (time (poetry-line)))))
 
+(defn an [input]
+  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
+
 (defn poetry []
   (repeatedly
    #(println

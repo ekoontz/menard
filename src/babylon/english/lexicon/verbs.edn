@@ -1,6 +1,27 @@
 {
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
- "be" [{:cat :verb :sem {:pred :be} :subcat {:1 :top :2 :top}}]
+ "be" (let [s1 {:agr {:person :1st
+                      :number :sing}
+                :surface "am"}
+            s2 {:agr {:person :2nd
+                      :number :sing}
+                :surface "are"}
+            s3 {:agr {:person :3rd
+                      :number :sing}
+                :surface "is"}
+            p1 {:agr {:person :1st
+                      :number :plur}
+                :surface "are"}
+            p2 {:agr {:person :2nd
+                      :number :plur}
+                :surface "are"}
+            p3 {:agr {:person :3rd
+                      :number :plur}
+                :surface "are"}]
+        [{:cat :verb
+          :sem {:pred :be}
+          :subcat {:1 :top :2 :top}
+          :exceptions [s1 s2 s3 p1 p2 p3]}])
  "become" [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 []}}]
  "begin" [{:cat :verb :sem {:pred :begin} :subcat {:1 :top :2 :top}}]
  "call" [{:cat :verb :sem {:pred :call} :subcat {:1 :top :2 :top}}]

@@ -144,6 +144,9 @@
                      :comp {:phrasal true
                             :head {:phrasal true}}}}))))))
 
+(defn an [input]
+  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
+
 (defn poetry []
   (repeatedly
    #(do

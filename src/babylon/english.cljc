@@ -28,6 +28,22 @@
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
     (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
+(def lexeme (-> "babylon/english/lexicon/verbs.edn" l/read-rules (get "be") first))
+(def canonical "be")
+
+(defn exceptions
+  "generate exceptional lexical entries"
+  [canonical lexeme]
+  (map (fn [exception]
+         {(:surface exception)
+          (merge lexeme
+                 exception
+                 {:canonical canonical})})
+       (:exceptions lexeme)))
+
+(def exceptions-test
+  (exceptions canonical lexeme))
+
 (def grammar
   (-> "babylon/english/grammar.edn"
       io/resource

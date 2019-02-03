@@ -131,9 +131,13 @@
 
 ;; for nbar3:
 (def subject-of-comp-is-head
-  (let [head-sem (atom :top)]
-    {:sem head-sem
-     :comp {:sem {:subj head-sem}}}))
+  (let [head-sem (atom :top)
+        head-agr (atom :top)]
+    {:agr head-agr
+     :sem head-sem
+     :head {:agr head-agr}
+     :comp {:agr head-agr
+            :sem {:subj head-sem}}}))
 
 (def comp-mod-is-subj-mod
   (let [comp-mod (atom :top)]

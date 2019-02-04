@@ -64,9 +64,13 @@
   (binding [g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree]
-    (g/generate (unify spec
-                       {:subcat []})
-                grammar)))
+    (let [spec (let [with-subcat-empty
+                     (unify spec {:subcat []})]
+                 (if (= :fail with-subcat-empty)
+                   spec
+                   with-subcat-empty))]
+      (g/generate spec
+                  grammar))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

@@ -18,10 +18,12 @@
       (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
       (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true)))
 
+(declare add-exceptions-to-lexicon)
+
 (defn compile-lexicon [filename]
   (-> filename
       l/read-rules
-      exceptions-all
+      add-exceptions-to-lexicon
       apply-rules-to))
 
 (defn exceptions
@@ -53,15 +55,16 @@
                 (exceptions canonical lexeme)))
       (merge-with-all concat)))
 
-(defn exceptions-all
-  "generate all the exceptions possible for the input lexicon."
+(defn add-exceptions-to-lexicon
+  "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
   (let [canonicals (keys lexicon)])
   (merge-with-all
    concat
-   (map (fn [canonical]
-          (exceptions-for canonical (get lexicon canonical)))
-        (keys lexicon))))
+   (cons lexicon
+         (map (fn [canonical]
+                (exceptions-for canonical (get lexicon canonical)))
+              (keys lexicon)))))
 
 (def lexicon
   (merge-with concat

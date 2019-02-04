@@ -20,29 +20,66 @@
       (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
       (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true)))
 
+(defn exceptions
+  "generate exceptional lexical entries"
+  [canonical lexeme]
+  (map (fn [exception]
+         (let [surface (:surface exception)]
+           {surface
+            [(unify (dag_unify.dissoc/dissoc-in lexeme [:exceptions])
+                    exception
+                    {:canonical canonical})]}))
+       (:exceptions lexeme)))
+
+(defn merge-with-all
+  "having some personal cognitive difficulty in using apply with merge-with,
+   so instead using this function as a workaround."
+  [merge-with-fn args]
+  (if (not (empty? args))
+    (merge-with merge-with-fn
+                (first args)
+                (merge-with-all merge-with-fn (rest args)))
+    {}))
+
+(defn exceptions-for
+  "generate all the exceptions possible for the sequence _lexemes_, each of which 
+   has _canonical_ as the canonical form for the exception."
+ [canonical lexemes]
+ (->> lexemes
+      (mapcat (fn [lexeme]
+                (exceptions canonical lexeme)))
+      (merge-with-all concat)))
+
+(defn exceptions-all
+  "generate all the exceptions possible for the input lexicon."
+  [lexicon]
+  (let [canonicals (keys lexicon)])
+  (merge-with-all
+   concat
+   (map (fn [canonical]
+          (exceptions-for canonical (get lexicon canonical)))
+        (keys lexicon))))
+
+(def lexemes (-> "babylon/english/lexicon/verbs.edn" l/read-rules (get "be")))
+(def canonical "be")
+
+(def exceptions-test
+  (exceptions-for canonical lexemes))
+
 (def lexicon
   (merge-with concat
     (compile-lexicon "babylon/english/lexicon/adjectives.edn")
     (compile-lexicon "babylon/english/lexicon/misc.edn")
     (compile-lexicon "babylon/english/lexicon/propernouns.edn")
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
-    (compile-lexicon "babylon/english/lexicon/verbs.edn")))
+    (compile-lexicon "babylon/english/lexicon/verbs.edn")
+    (-> "babylon/english/lexicon/verbs.edn"
+                         l/read-rules
+                         exceptions-all
+                         (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn"))
+                         (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
+                         (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true))))
 
-(def lexeme (-> "babylon/english/lexicon/verbs.edn" l/read-rules (get "be") first))
-(def canonical "be")
-
-(defn exceptions
-  "generate exceptional lexical entries"
-  [canonical lexeme]
-  (map (fn [exception]
-         {(:surface exception)
-          (merge lexeme
-                 exception
-                 {:canonical canonical})})
-       (:exceptions lexeme)))
-
-(def exceptions-test
-  (exceptions canonical lexeme))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

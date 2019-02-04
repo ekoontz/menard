@@ -12,13 +12,16 @@
 ;;
 ;; For generation and parsing of English.
 ;;
+(defn apply-rules-to [lexicon]
+  (-> lexicon
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn"))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
+      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true)))
 
 (defn compile-lexicon [filename]
   (-> filename
       l/read-rules
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn"))
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
-      (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true)))
+      apply-rules-to))
 
 (defn exceptions
   "generate exceptional lexical entries"
@@ -74,12 +77,9 @@
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
     (compile-lexicon "babylon/english/lexicon/verbs.edn")
     (-> "babylon/english/lexicon/verbs.edn"
-                         l/read-rules
-                         exceptions-all
-                         (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn"))
-                         (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
-                         (l/apply-rules-to-lexicon (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") true))))
-
+        l/read-rules
+        exceptions-all
+        apply-rules-to)))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

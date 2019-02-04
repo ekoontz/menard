@@ -3,7 +3,9 @@
    [babylon.exception :refer [exception]]
    [clojure.java.io :as io]
    [clojure.tools.logging :as log]
-   [dag_unify.core :as u :refer [unify]]))
+   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.dissoc :as d]))
+
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
@@ -151,7 +153,7 @@
   (map (fn [exception]
          (let [surface (:surface exception)]
            {surface
-            [(unify (dag_unify.dissoc/dissoc-in lexeme [:exceptions])
+            [(unify (d/dissoc-in lexeme [:exceptions])
                     exception
                     {:canonical canonical})]}))
        (:exceptions lexeme)))

@@ -11,56 +11,18 @@
 
  ;; TODO: should be only a single rule with some
  ;; map that expands this into 2 rules:
- {:rule "vp1sing"
+ {:rule "vp-present-sing"
   :cat :verb
   :infl :present
-  :agr {:person :1st
-        :number :sing}
+  :agr {:number :sing}
   :slash false
   :head {:slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
           babylon.ug/comp-mod-is-obj-mod]}
- {:rule "vp2sing"
+ {:rule "vp-present-plur"
   :cat :verb
   :infl :present
-  :agr {:person :2nd
-        :number :sing}
-  :slash false
-  :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod]}
- {:rule "vp3sing"
-  :cat :verb
-  :infl :present
-  :agr {:person :3rd
-        :number :sing}
-  :slash false
-  :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod]}
- {:rule "vp1plur"
-  :cat :verb
-  :infl :present
-  :agr {:person :1st
-        :number :plur}
-  :slash false
-  :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod]}
- {:rule "vp2plur"
-  :cat :verb
-  :infl :present
-  :agr {:person :2nd
-        :number :plur}
-  :slash false
-  :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod]}
- {:rule "vp3plur"
-  :cat :verb
-  :infl :present
-  :agr {:person :3rd
-        :number :plur}
+  :agr {:number :plur}
   :slash false
   :head {:slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem

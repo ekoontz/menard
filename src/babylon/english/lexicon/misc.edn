@@ -88,9 +88,11 @@
                :pred :she}
          :pronoun true
          :reflexive false}]
- "that" [;; "<x> that you see <x>"
+
+ "that" [;; "[comp1 *that [s-slash you *see]]"
          {:cat :comp
           :slash true
+          :sense 1
           :subcat {:1 {:cat :verb
                        :subcat {:1 {:cat :noun
                                     :case :acc
@@ -98,16 +100,21 @@
                                 :2 []}
                        :slash true}
                    :2 []}}
-          ;; "<x> that <x> sees you"
-         {:cat :comp
-          :slash false
-          :subcat {:1 {:cat :verb
-                       :subcat {:1 {:cat :noun
-                                    :case :nom
-                                    :reflexive false}
-                                :2 []}
-                       :slash false}
-                   :2 []}}]
+         ;; "[comp1 *that [vp sees you]]"
+         ;; in this case agreement is with the subject of the vp, so :agrmust be percolated upwards:
+         (let [agr (atom {:from-comp 43})]
+           {:cat :comp
+            :agr agr
+            :slash false
+            :sense 2
+            :subcat {:1 {:agr agr
+                         :cat :verb
+                         :subcat {:1 {:agr agr
+                                      :cat :noun
+                                      :case :nom}
+                                  :2 []}
+                         :slash false}
+                     :2 []}})]
  "the" [{:cat :det}]
  "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
  "they" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :3rd :number :plur}}]

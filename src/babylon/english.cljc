@@ -21,6 +21,7 @@
 (defn compile-lexicon [filename]
   (-> filename
       l/read-rules
+      exceptions-all
       apply-rules-to))
 
 (defn exceptions
@@ -68,11 +69,7 @@
     (compile-lexicon "babylon/english/lexicon/misc.edn")
     (compile-lexicon "babylon/english/lexicon/propernouns.edn")
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
-    (compile-lexicon "babylon/english/lexicon/verbs.edn")
-    (-> "babylon/english/lexicon/verbs.edn"
-        l/read-rules
-        exceptions-all
-        apply-rules-to)))
+    (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

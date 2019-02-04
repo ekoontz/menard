@@ -144,3 +144,43 @@
     (if (not (empty? from-inflected))
       from-inflected
       (get lexicon word))))
+
+(defn exceptions
+  "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"
+  [canonical lexeme]
+  (map (fn [exception]
+         (let [surface (:surface exception)]
+           {surface
+            [(unify (dag_unify.dissoc/dissoc-in lexeme [:exceptions])
+                    exception
+                    {:canonical canonical})]}))
+       (:exceptions lexeme)))
+
+(defn merge-with-all
+  "having some personal cognitive difficulty in using apply with merge-with,
+   so instead using this function as a workaround."
+  [merge-with-fn args]
+  (if (not (empty? args))
+    (merge-with merge-with-fn
+                (first args)
+                (merge-with-all merge-with-fn (rest args)))))
+
+(defn exceptions-for
+  "generate all the exceptions possible for the sequence _lexemes_, each of which 
+   has _canonical_ as the canonical form for the exception."
+ [canonical lexemes]
+ (->> lexemes
+      (mapcat (fn [lexeme]
+                (exceptions canonical lexeme)))
+      (merge-with-all concat)))
+
+(defn add-exceptions-to-lexicon
+  "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
+  [lexicon]
+  (let [canonicals (keys lexicon)])
+  (merge-with-all
+   concat
+   (cons lexicon
+         (map (fn [canonical]
+                (exceptions-for canonical (get lexicon canonical)))
+              (keys lexicon)))))

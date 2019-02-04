@@ -49,7 +49,7 @@
   :comp {:phrasal true :cat :comp :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/object-of-comp-is-head]}
- {:rule "s-slash" ;; 'I see' in '[nbar2 the cat [s-slash I see]'
+ {:rule "s-slash" ;; 'I see' in '[nbar2 cat [s-slash I see]'
   :slash true
   :complement {:case :nom}
   :cat :verb

@@ -41,8 +41,7 @@
   (if (not (empty? args))
     (merge-with merge-with-fn
                 (first args)
-                (merge-with-all merge-with-fn (rest args)))
-    {}))
+                (merge-with-all merge-with-fn (rest args)))))
 
 (defn exceptions-for
   "generate all the exceptions possible for the sequence _lexemes_, each of which 
@@ -62,12 +61,6 @@
    (map (fn [canonical]
           (exceptions-for canonical (get lexicon canonical)))
         (keys lexicon))))
-
-(def lexemes (-> "babylon/english/lexicon/verbs.edn" l/read-rules (get "be")))
-(def canonical "be")
-
-(def exceptions-test
-  (exceptions-for canonical lexemes))
 
 (def lexicon
   (merge-with concat

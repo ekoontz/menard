@@ -21,7 +21,6 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 # Getting Started
 
 ```
-[Sun 19/01/20 10:51 PST] <ekoontz@Eugen..:~/babylon> 52098 [130]  (git)-[master]-
 % lein repl
 nREPL server started on port 51179 on host 127.0.0.1 - nrepl://127.0.0.1:51179
 REPL-y 0.3.7, nREPL 0.2.12

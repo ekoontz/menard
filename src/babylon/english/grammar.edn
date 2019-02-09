@@ -39,7 +39,9 @@
   :slash false
   :cat :noun
   :head {:phrasal false}
-  :comp {:phrasal true :cat :comp}
+  :comp {:phrasal true
+         :cat :comp
+         :slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
  {:rule "nbar4" ;; 'cat that I see'

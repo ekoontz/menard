@@ -1,9 +1,10 @@
 {
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
- "be" (let [;; irregulars for "be":
-            pres-1st {:infl :present :agr {:person :1st :number :sing} :surface "am"}
-            pres-3rd {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
-            pres-else {:infl :present :agr :surface "are"}
+ "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
+                        {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
+                        ;; 'are' should be the last of the {:infl :present}s, so it's
+                        ;; used as the 'else'/default.
+                        {:infl :present :surface "are"}]
 
             ;; possible subcategorizations for "be":
             subject-only {:subcat {:1 {:cat :noun}
@@ -19,22 +20,22 @@
         [{:cat :verb
           :sem {:pred :be}
           :subcat subject-only
-          :exceptions [pres-1st pres-3rd pres-else]}
+          :exceptions exceptions}
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-object-noun
-          :exceptions [pres-1st pres-3rd pres-else]}
+          :exceptions exceptions}
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-adjective
-          :exceptions [pres-1st pres-3rd pres-else]}])
+          :exceptions exceptions}])
 
- "become" (let [past {:infl :past-simple}
-                     :surface "became"
-                 past-perfect {:infl :past-perfect
-                               :surface "become"}])
-          [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 :top}
-            :exceptions [past past-perfect]}]
+ "become" (let [past {:infl :past-simple
+                      :surface "became"}
+                past-perfect {:infl :past-perfect
+                              :surface "become"}]
+           [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 :top}
+             :exceptions [past past-perfect]}])
 
  "begin" (let [past {:infl :past-simple
                      :surface "began"}

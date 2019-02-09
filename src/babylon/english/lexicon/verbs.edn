@@ -30,28 +30,28 @@
           :subcat subject-adjective
           :exceptions exceptions}])
 
- "become" (let [past {:infl :past-simple
-                      :surface "became"}
-                past-perfect {:infl :past-perfect
-                              :surface "become"}]
+ "become" (let [exceptions [{:infl :past-simple
+                             :surface "became"}
+                            {:infl :past-perfect
+                             :surface "become"}]]
            [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 :top}
-             :exceptions [past past-perfect]}])
+             :exceptions exceptions}])
 
- "begin" (let [past {:infl :past-simple
-                     :surface "began"}
-               past-perfect {:infl :past-perfect
-                             :surface "begun"}]
+ "begin" (let [exceptions [{:infl :past-simple
+                            :surface "began"}
+                           {:infl :past-perfect
+                            :surface "begun"}]]
           [{:cat :verb :sem {:pred :begin} :subcat {:1 :top :2 :top}
-            :exceptions [past past-perfect]}])
+            :exceptions exceptions}])
 
  "call" [{:cat :verb :sem {:pred :call} :subcat {:1 :top :2 :top}}]
 
- "come" (let [past {:infl :past-simple
-                    :surface "came"}
-              past-perfect {:infl :past-perfect
-                            :surface "come"}]
+ "come" (let [exceptions [{:infl :past-simple
+                           :surface "came"}
+                          {:infl :past-perfect
+                           :surface "come"}]]
           [{:cat :verb :sem {:pred :come} :subcat {:1 :top :2 []}
-            :exceptions [past past-perfect]}])
+            :exceptions exceptions}])
  
  "do" [{:cat :verb :sem {:pred :do} :subcat {:1 :top :2 :top}}]
  "feel" [{:cat :verb :sem {:pred :feel} :subcat {:1 :top :2 :top}}]

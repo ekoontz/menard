@@ -148,3 +148,9 @@
   (let [comp-mod (atom :top)]
     {:sem {:obj-mod comp-mod}
      :comp {:mod comp-mod}}))
+
+;; root rules: which child (head or comp) is the root of a tree.
+(def head-is-root
+  (let [root (atom :top)]
+    {:canonical root
+     :head {:canonical root}}))

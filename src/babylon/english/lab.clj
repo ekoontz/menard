@@ -12,13 +12,8 @@
                   :comp {:phrasal true
                          :comp {:phrasal true}}}}}
    {:phrasal true
-    :rule "np"
-    :head {:rule "nbar3"
-           :phrasal true
-            :comp {:phrasal true
-                   :rule "comp1"
-                   :comp {:phrasal true
-                          :rule "s-slash"}}}}])
+    :rule "s"
+    :canonical "be"}])
 
 (defn gen
   "how to generate a noun phrase with particular constraints."

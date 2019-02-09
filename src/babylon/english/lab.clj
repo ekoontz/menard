@@ -1,6 +1,6 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [generate morph syntax-tree]]
+   [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
    [dag_unify.core :as u :refer [unify]]))
 
 (defn a-specific-noun-phrase

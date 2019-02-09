@@ -27,10 +27,31 @@
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-adjective
- "become" [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 []}}]
- "begin" [{:cat :verb :sem {:pred :begin} :subcat {:1 :top :2 :top}}]
+          :exceptions [pres-1st pres-3rd pres-else]}])
+
+ "become" (let [past {:infl :past-simple}
+                     :surface "became"
+                 past-perfect {:infl :past-perfect
+                               :surface "become"}])
+          [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 :top}
+            :exceptions [past past-perfect]}]
+
+ "begin" (let [past {:infl :past-simple
+                     :surface "began"}
+               past-perfect {:infl :past-perfect
+                             :surface "begun"}]
+          [{:cat :verb :sem {:pred :begin} :subcat {:1 :top :2 :top}
+            :exceptions [past past-perfect]}])
+
  "call" [{:cat :verb :sem {:pred :call} :subcat {:1 :top :2 :top}}]
- "come" [{:cat :verb :sem {:pred :come} :subcat {:1 :top :2 []}}]
+
+ "come" (let [past {:infl :past-simple
+                    :surface "came"}
+              past-perfect {:infl :past-perfect
+                            :surface "come"}]
+          [{:cat :verb :sem {:pred :come} :subcat {:1 :top :2 []}
+            :exceptions [past past-perfect]}])
+ 
  "do" [{:cat :verb :sem {:pred :do} :subcat {:1 :top :2 :top}}]
  "feel" [{:cat :verb :sem {:pred :feel} :subcat {:1 :top :2 :top}}]
  "find" [{:cat :verb :sem {:pred :find} :subcat {:1 :top :2 :top}}]

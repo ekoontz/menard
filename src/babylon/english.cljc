@@ -46,18 +46,43 @@
    (-> "babylon/english/morphology/verbs.edn"
        l/read-rules)))
 
-(defn morph [structure]
-  (binding [grammar/morph-leaf m/morph-leaf
-            m/morphology morphology]
-     (grammar/default-morph-fn structure)))
+(defn an
+  "change 'a' to 'an' if the next word starts with a vowel; 
+   and change 'an' to 'a' if the next word does *not* start with a vowel."
+  [input]
+  (-> input
+      (string/replace #"\b([aA]) ([aeiou])"  "$1n $2")
+      (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
+
+(defn morph
+  ([structure]
+   (binding [grammar/morph-leaf m/morph-leaf
+             m/morphology morphology]
+     (-> (grammar/default-morph-fn structure)
+         an)))
+
+  ([structure & {:keys [sentence-punctuation?]}]
+   (binding [grammar/morph-leaf m/morph-leaf
+             m/morphology morphology]
+     (if sentence-punctuation?
+       (-> (grammar/default-morph-fn structure)
+           an
+           sentence-punctuation)))))
+
+(defn sentence-punctuation
+  "Capitalizes the first letter and puts a period (.) at the end."
+  [input]
+  (str (string/capitalize (first input))
+       (subs input 1 (count input))
+       "."))
 
 (defn syntax-tree
   "print a concise representation of a tree."
   [structure]
   (binding [grammar/morph-leaf m/morph-leaf
             m/morphology morphology]
-     (grammar/syntax-tree structure)))
-
+    (grammar/syntax-tree structure)))
+        
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
@@ -69,8 +94,8 @@
                  (if (= :fail with-subcat-empty)
                    spec
                    with-subcat-empty))]
-      (g/generate spec
-                  grammar))))
+      (-> spec
+          (g/generate grammar)))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
@@ -137,44 +162,4 @@
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
-
-(defn capitalize-first-letter
-  "clojure.string/capitalize is too much: it lower-cases every word in the string *except*
-   the first letter. We need a function that capitalizes the first letter and leaves
-   the rest alone (they might already be upper-case like the pronoun 'I', and should stay that way)."
-  [input]
-  (string/join ""
-     (concat (string/capitalize (first input))
-             (rest input))))
-
-(defn an
-  "change 'a' to 'an' if the next word starts with a vowel."
-  [input]
-  (-> input (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))
-
-(defn poetry-line []
-  (->
-   {:cat :verb
-    :subcat []
-    :pred :top
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :head {:phrasal true}}}}
-   generate
-   morph
-   an
-   capitalize-first-letter
-   (str ". ")))
-
-(defn benchmark []
-  (repeatedly
-   #(println
-     (time (poetry-line)))))
-
-(defn poetry []
-  (repeatedly
-   #(println
-     (poetry-line))))
 

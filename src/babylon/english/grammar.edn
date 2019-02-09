@@ -2,13 +2,13 @@
   :head {:cat :comp
          :phrasal false}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat
-          babylon.ug/head-sem-is-parent-sem babylon.ug/slash-is-head-slash]}
-
+          babylon.ug/head-sem-is-parent-sem babylon.ug/slash-is-head-slash
+          babylon.ug/head-is-root]}
  {:rule "s"
   :cat :verb
   :slash false
   :unify [babylon.ug/head-last babylon.ug/subcat-1 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-subj-mod]}
+          babylon.ug/comp-mod-is-subj-mod babylon.ug/head-is-root]}
 
  ;; TODO: should be only a single rule with some
  ;; map that expands this into 2 rules:
@@ -18,17 +18,19 @@
   :slash false
   :head {:slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod]}
+          babylon.ug/comp-mod-is-obj-mod babylon.ug/head-is-root]}
 
  {:rule "np"
   :cat :noun
   :slash false
-  :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1]}
+  :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1
+          babylon.ug/head-is-root]}
+
  {:rule "nbar"
   :cat :noun
   :slash false
   :comp {:cat :adjective}
-  :unify [babylon.ug/head-last babylon.ug/subcat-1-1]}
+  :unify [babylon.ug/head-last babylon.ug/subcat-1-1 babylon.ug/head-is-root]}
 
  {:rule "nbar2" ;; 'cat I see'
   :slash false
@@ -39,7 +41,7 @@
          :cat :verb
          :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head]}
+          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root]}
 
  {:rule "nbar3" ;; 'cat that sees me'
   :slash false
@@ -49,7 +51,7 @@
          :cat :comp
          :slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/subject-of-comp-is-head]}
+          babylon.ug/subject-of-comp-is-head babylon.ug/head-is-root]}
 
  {:rule "nbar4" ;; 'cat that I see'
   :slash false
@@ -59,11 +61,11 @@
          :cat :comp
          :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head]}
+          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root]}
 
  {:rule "s-slash" ;; 'I see' in '[nbar2 cat [s-slash I see]'
   :slash true
   :complement {:case :nom}
   :cat :verb
   :reflexive false
-  :unify [babylon.ug/head-last babylon.ug/subcat-2-slash]}]
+  :unify [babylon.ug/head-last babylon.ug/subcat-2-slash babylon.ug/head-is-root]}]

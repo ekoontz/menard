@@ -46,18 +46,43 @@
    (-> "babylon/english/morphology/verbs.edn"
        l/read-rules)))
 
-(defn morph [structure]
-  (binding [grammar/morph-leaf m/morph-leaf
-            m/morphology morphology]
-     (grammar/default-morph-fn structure)))
+(defn an
+  "change 'a' to 'an' if the next word starts with a vowel; 
+   and change 'an' to 'a' if the next word does *not* start with a vowel."
+  [input]
+  (-> input
+      (string/replace #"\b([aA]) ([aeiou])"  "$1n $2")
+      (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
+
+(defn morph
+  ([structure]
+   (binding [grammar/morph-leaf m/morph-leaf
+             m/morphology morphology]
+     (-> (grammar/default-morph-fn structure)
+         an)))
+
+  ([structure & {:keys [sentence-punctuation?]}]
+   (binding [grammar/morph-leaf m/morph-leaf
+             m/morphology morphology]
+     (if sentence-punctuation?
+       (-> (grammar/default-morph-fn structure)
+           an
+           sentence-punctuation)))))
+
+(defn sentence-punctuation
+  "Capitalizes the first letter and puts a period (.) at the end."
+  [input]
+  (str (string/capitalize (first input))
+       (subs input 1 (count input))
+       "."))
 
 (defn syntax-tree
   "print a concise representation of a tree."
   [structure]
   (binding [grammar/morph-leaf m/morph-leaf
             m/morphology morphology]
-     (grammar/syntax-tree structure)))
-
+    (grammar/syntax-tree structure)))
+        
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]
@@ -69,8 +94,8 @@
                  (if (= :fail with-subcat-empty)
                    spec
                    with-subcat-empty))]
-      (g/generate spec
-                  grammar))))
+      (-> spec
+          (g/generate grammar)))))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

@@ -3,33 +3,29 @@
    [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
    [dag_unify.core :as u :refer [unify]]))
 
-(defn a-specific-noun-phrase
-  "how to generate a noun phrase with particular constraints."
-  []
-  (let [my-bespoke-noun-phrase
-        (generate {:phrasal true
-                   :rule "np"
-                   :head {:rule "nbar4" :phrasal true
-                          :comp {:phrasal true}}})]
-    (let [some-structural-info
-            {:st (syntax-tree my-bespoke-noun-phrase)
-             :morph (morph my-bespoke-noun-phrase)
-             :phrase? (u/get-in my-bespoke-noun-phrase [:head :comp :phrasal])}]
-      (:st some-structural-info))))
+(def specs
+  [{:phrasal true
+    :rule "np"
+    :head {:rule "nbar4"
+           :phrasal true
+           :comp {:phrasal true
+                  :comp {:phrasal true
+                         :comp {:phrasal true}}}}}
 
-(defn a-specific-noun-phrase-2
+   {:phrasal true
+    :rule "np"
+    :head {:rule "nbar3"
+           :phrasal true
+            :comp {:phrasal true
+                   :rule "comp1"
+                   :comp {:phrasal true
+                          :rule "s-slash"}}}}])
+
+(defn gen
   "how to generate a noun phrase with particular constraints."
-  []
-  (let [my-bespoke-noun-phrase
-        (generate {:phrasal true
-                   :rule "np"
-                   :head {:rule "nbar3" :phrasal true
-                          :comp {:phrasal true
-                                 :rule "comp1"
-                                 :comp {:phrasal true
-                                        :rule "s-slash"}}}})]
-    (let [some-structural-info
-            {:st (syntax-tree my-bespoke-noun-phrase)
-             :morph (morph my-bespoke-noun-phrase)
-             :phrase? (u/get-in my-bespoke-noun-phrase [:head :comp :phrasal])}]
-      (:morph some-structural-info))))
+  [i]
+  (let [expression (generate (nth specs i))]
+      {:st (syntax-tree expression)
+       :morph (morph expression)
+;;       :parses (map syntax-tree (parse (morph expression)))
+       :phrase? (u/get-in expression [:head :comp :phrasal])}))

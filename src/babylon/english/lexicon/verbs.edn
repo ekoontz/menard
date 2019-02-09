@@ -1,12 +1,11 @@
 {
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
- "be" (let [s1 {:infl :present :agr {:person :1st :number :sing} :surface "am"}
-            s2 {:infl :present :agr {:person :2nd :number :sing} :surface "are"}
-            s3 {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
-            p1 {:infl :present :agr {:person :1st :number :plur} :surface "are"}
-            p2 {:infl :present :agr {:person :2nd :number :plur} :surface "are"}
-            p3 {:infl :present :agr {:person :3rd :number :plur} :surface "are"}
+ "be" (let [;; irregulars for "be":
+            pres-1st {:infl :present :agr {:person :1st :number :sing} :surface "am"}
+            pres-3rd {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
+            pres-else {:infl :present :agr :surface "are"}
 
+            ;; possible subcategorizations for "be":
             subject-only {:subcat {:1 {:cat :noun}
                                    :2 []}}
 
@@ -17,19 +16,17 @@
             subject-adjective {:subcat {:1 {:cat :noun}
                                         :2 {:cat :adjective}
                                         :3 []}}]
-        
         [{:cat :verb
           :sem {:pred :be}
           :subcat subject-only
-          :exceptions [s1 s2 s3 p1 p2 p3]}
+          :exceptions [pres-1st pres-3rd pres-else]}
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-object-noun
-          :exceptions [s1 s2 s3 p1 p2 p3]}
+          :exceptions [pres-1st pres-3rd pres-else]}
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-adjective
-          :exceptions [s1 s2 s3 p1 p2 p3]}])
  "become" [{:cat :verb :sem {:pred :become} :subcat {:1 :top :2 []}}]
  "begin" [{:cat :verb :sem {:pred :begin} :subcat {:1 :top :2 :top}}]
  "call" [{:cat :verb :sem {:pred :call} :subcat {:1 :top :2 :top}}]

@@ -13,6 +13,9 @@
                          :comp {:phrasal true}}}}}
    {:phrasal true
     :rule "s"
+    :comp {:phrasal true
+           :agr {:number :sing}
+           :sem {:pred :dog}}
     :canonical "be"}])
 
 (defn gen
@@ -21,6 +24,7 @@
   (let [expression (generate (nth specs i))]
       {:st (syntax-tree expression)
        :morph (morph expression)
+       :agr (u/strip-refs (u/get-in expression [:head :agr]))
        ;;       :parses (map syntax-tree (parse (morph expression)))
        :phrase? (u/get-in expression [:head :comp :phrasal])}))
 

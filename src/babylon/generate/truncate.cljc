@@ -1,10 +1,11 @@
 (ns babylon.generate.truncate
   (:require [dag_unify.core :as u]
             [dag_unify.dissoc :as d]
+            [dag_unify.serialization :as s]
             [clojure.tools.logging :as log]))
 
 (defn truncate-at [tree path morph-ps]
-  (let [reentrances (map first (u/serialize tree))
+  (let [reentrances (map first (s/serialize tree))
         aliases
         (filter #(or (= (first %) :comp)
                      (= (first %) :head)

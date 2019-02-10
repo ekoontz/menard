@@ -3,9 +3,9 @@
    [babylon.exception :refer [exception]]
    [clojure.java.io :as io]
    [clojure.tools.logging :as log]
+   [dag_unify.serialization :as s :refer [serialize]]
    [dag_unify.core :as u :refer [unify]]
    [dag_unify.dissoc :as d]))
-
 
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
@@ -16,8 +16,8 @@
                    "; result: " result))
     (cond (= :fail result)
           (let [error-message (str "rule: " rule " matched antecedent: " antecedent
-                                   ", but failed to unify lexeme:" (vec (u/serialize lexeme))
-                                   " and consequent: " (vec (u/serialize consequent)))]
+                                   ", but failed to unify lexeme:" (vec (s/serialize lexeme))
+                                   " and consequent: " (vec (s/serialize consequent)))]
               (log/error error-message)
               (throw (Exception. error-message)))
           true

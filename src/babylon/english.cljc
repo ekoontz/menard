@@ -54,6 +54,8 @@
       (string/replace #"\b([aA]) ([aeiou])"  "$1n $2")
       (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
 
+(declare sentence-punctuation)
+
 (defn morph
   ([structure]
    (binding [grammar/morph-leaf m/morph-leaf

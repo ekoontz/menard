@@ -10,9 +10,11 @@
             subject-only {:subcat {:1 {:cat :noun}
                                    :2 []}}
 
-            subject-object-noun {:subcat {:1 {:cat :noun}
-                                          :2 {:cat :noun}
-                                          :3 []}}
+            subject-object-noun
+            ;; TODO: they must agree in number 
+            {:subcat {:1 {:cat :noun
+                          :2 {:cat :noun}
+                          :3 []}}}
 
             subject-adjective {:subcat {:1 {:cat :noun}
                                         :2 {:cat :adjective}

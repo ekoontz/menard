@@ -2,7 +2,8 @@
   (:require
    [babylon.generate.truncate :as trunc]
    [clojure.tools.logging :as log]
-   [dag_unify.core :as u :refer [unify]]))
+   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.serialization :as s]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
@@ -24,7 +25,7 @@
 (def ^:const max-depth 5)
 (def ^:dynamic morph-ps (fn [x]
                           (cond (map? x)
-                                (vec (u/serialize x))
+                                (vec (s/serialize x))
                                 (or (nil? x)
                                     (keyword? x)) x
                                 true (str x "(type:" (type x) ")"))))
@@ -68,7 +69,7 @@
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."
-  [tree grammar]
+  [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path)))

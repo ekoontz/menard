@@ -6,11 +6,13 @@
    #?(:cljs [babylon.logjs :as log]) 
    [dag_unify.core :as u
     :refer [copy fail-path get-in unify unify!
-            ;; temporary: until we move (truncate) from here to dag_unify, we
-            ;; need these three:
-            deserialize serialize
             ;; needed for log/debug statements:
             strip-refs]]
+   [dag_unify.serialization :as s
+    :refer ;; temporary: until we move (truncate) from here to dag_unify, we
+    ;; need these three:
+    [deserialize serialize]]
+
    [dag_unify.dissoc :as d]))
 
 ;; use map or pmap.
@@ -98,9 +100,9 @@
 (declare subpath?)
 
 (defn truncate [input truncate-paths language-model]
-  (let [serialized (if (:dag_unify.core/serialized input)
-                     (:dag_unify.core/serialized input)
-                     (serialize input))
+  (let [serialized (if (s/serialize input)
+                     (s/serialize input)
+                     (s/serialize input))
         paths-and-vals (rest serialized)
         path-sets (mapfn first paths-and-vals)
         path-vals (mapfn second paths-and-vals)

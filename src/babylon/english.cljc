@@ -160,7 +160,8 @@
   (println "===")
   (println)
   (count (take 10
-               (repeatedly #(let [expression (morph (generate {:subcat []}))]
+               (repeatedly #(let [expression (morph (generate {:cat (first (shuffle [:noun :verb]))
+                                                               :subcat []}))]
                               (println (->> (parse expression)
                                             (map syntax-tree)
                                             (string/join ", "))))))))

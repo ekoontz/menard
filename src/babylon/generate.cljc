@@ -86,9 +86,9 @@
         (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
         (if (and (empty? child-lexemes) (empty? child-trees))
           (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
-                                  (u/strip-refs child-spec)". (1)"))))
+                                  (u/strip-refs child-spec) " (no phrases or lexemes match)"))))
         (if (and (empty? child-lexemes) (>= depth max-depth))
-          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (2)"))))
+          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)"))))
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

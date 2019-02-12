@@ -22,7 +22,7 @@
 (defn branching-samples []
   (count (filter #(= % true) (take 100 (repeatedly #(fn [] (phrasal-children-first?)))))))
 
-(def ^:const max-depth 5)
+(def ^:const max-depth 6)
 (def ^:dynamic morph-ps (fn [x]
                           (cond (map? x)
                                 (vec (s/serialize x))

@@ -81,6 +81,14 @@
                             (get-lexemes child-spec))
             child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
                           (match-against-rules child-spec grammar))]
+        (log/debug (str "lexical children: " (count child-lexemes)))
+        (log/debug (str "phrasal children: " (count child-trees)))
+        (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
+        (if (and (empty? child-lexemes) (empty? child-trees))
+          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
+                                  (u/strip-refs child-spec)". (1)"))))
+        (if (and (empty? child-lexemes) (>= depth max-depth))
+          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (2)"))))
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

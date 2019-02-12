@@ -154,3 +154,7 @@
   (let [root (atom :top)]
     {:canonical root
      :head {:canonical root}}))
+
+(def nominal-phrase
+  {:reflexive false
+   :agr {:person :3rd}})

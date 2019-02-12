@@ -24,13 +24,13 @@
   :cat :noun
   :slash false
   :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1
-          babylon.ug/head-is-root]}
+          babylon.ug/head-is-root babylon.ug/nominal-phrase]}
 
  {:rule "nbar"
   :cat :noun
   :slash false
   :comp {:cat :adjective}
-  :unify [babylon.ug/head-last babylon.ug/subcat-1-1 babylon.ug/head-is-root]}
+  :unify [babylon.ug/head-last babylon.ug/subcat-1-1 babylon.ug/head-is-root babylon.ug/nominal-phrase]}
 
  {:rule "nbar2" ;; 'cat I see'
   :slash false
@@ -41,7 +41,7 @@
          :cat :verb
          :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root]}
+          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
 
  {:rule "nbar3" ;; 'cat that sees me'
   :slash false
@@ -51,7 +51,7 @@
          :cat :comp
          :slash false}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/subject-of-comp-is-head babylon.ug/head-is-root]}
+          babylon.ug/subject-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
 
  {:rule "nbar4" ;; 'cat that I see'
   :slash false
@@ -61,7 +61,7 @@
          :cat :comp
          :slash true}
   :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root]}
+          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
 
  {:rule "s-slash" ;; 'I see' in '[nbar2 cat [s-slash I see]'
   :slash true

@@ -51,3 +51,19 @@
    #(println
      (poetry-line))))
 
+(defn long-s []
+  (count
+   (take 1
+    (repeatedly
+      #(println
+         (morph
+          (generate
+           {:cat :verb
+            :subcat []
+            :pred :top
+            :comp {:phrasal true
+                   :head {:phrasal true}}
+            :head {:phrasal true
+                   :comp {:phrasal true
+                          :head {:phrasal true}}}})))))))
+

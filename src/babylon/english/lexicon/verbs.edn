@@ -1,6 +1,7 @@
 {
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
- "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
+ "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"
+                         :subcat {:1 {:phrasal false}}}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         ;; 'are' should be the last of the {:infl :present}s, so it's
                         ;; used as the 'else'/default.

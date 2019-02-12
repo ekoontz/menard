@@ -131,6 +131,7 @@
                          :case :nom
                          :sem subj}
                      :2 {:agr agr
+                         :phrasal false
                          :reflexive true
                          :cat :noun
                          :sem subj

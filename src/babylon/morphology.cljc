@@ -11,7 +11,7 @@
                   (let [{u :u [from to] :g} rule
                         unified (unify u structure)]
                     (and (not (= :fail unified))
-                         (re-find from (u/get-in structure [:canonical] "")))))
+                         (re-find from (str (u/get-in structure [:canonical] ""))))))
                 morphology)]
     (cond
       (u/get-in structure [:surface])

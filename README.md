@@ -43,58 +43,59 @@ Generation:
 
 = transitive sentences =
 
-years see her
-companies see times
-numbers see dogs
-parts see puppies
-rooms see women
-people see companies
-worlds see months
-families see Antonio
-hands see Antonia
-hands see states
+Groups see words.
+Worlds see sheep.
+Antonia sees dogs.
+Works see sheep.
+Schools see problems.
+We see numbers.
+Problems see people.
+Cases see systems.
+Books see jobs.
+Students see you.
 
 = reflexive sentences =
 
-I see myself
-I see myself
-he sees himself
-I see myself
-it sees itself
-Antonia sees herself
-it sees itself
-she sees herself
-it sees itself
-Antonio sees himself
+Eyes see themselves.
+Works see themselves.
+She sees herself.
+He sees himself.
+It sees itself.
+Antonia sees herself.
+Antonia sees herself.
+She sees herself.
+Antonio sees himself.
+I see myself.
 
 = 'long' sentences =
 
-the lot that is gives the month I am
-the government that looks gets the strong times
-the puppy that areas are is a small money
-the weeks that things call became the year problems do
-the waters that words take are the military names
-the system that became talks a local money
-the places that think help the ways that live
-the hand months feel lives a better life
-the systems that came move the true lots
-a mother eyes work shows the lot that countries have
+The programs that look go the mothers that use.
+A political money feels the mothers that give.
+An only program seems the questions countries help.
+The dogs that I am do the question that tries.
+The country eyes are leaves a government that looks.
+The numbers that moneys begun want a name that stories seem.
+A night Antonio play began a right that lots have.
+The eyes parts talk live the tall points.
+A dog that means say a man that helps.
+The parts he are work an able point.
 
 Parsing:
 ===
 
-[s  .puppies *seem], [s-slash  .puppies *seem]
-[s  .books *are], [s  .books *are], [s  .books *are], [s-slash  .books *are], [s-slash  .books *are], [s-slash  .books *are]
-[s  .states *say], [s-slash  .states *say]
-[np  .the *rights]
+[s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are]
+[s  .dogs *make], [s-slash  .dogs *make]
+[s  .she *is], [s  .she *is], [s  .she *is], [s-slash  .she *is], [s-slash  .she *is], [s-slash  .she *is]
+[s  .questions *hear], [s-slash  .questions *hear]
+[s  .stories *look], [s-slash  .stories *look]
+WARN  15 feb 2019 08:35:54,496 babylon.parse: could not parse: "she began". Tokenizations attempted: she;began
+
 [np  .a *world]
-[np  .the *family]
-[s  .areas *look], [s-slash  .areas *look]
-[np  .the *student]
-[s  .hands *come], [s  .hands *come]
-[np  .the *number]
+[s  .worlds *find], [s-slash  .worlds *find]
+WARN  15 feb 2019 08:35:55,322 babylon.parse: could not parse: "he tries". Tokenizations attempted: he;tries
+
+[np  .the *people]
 10
-babylon.english=>
 ```
 
 # License

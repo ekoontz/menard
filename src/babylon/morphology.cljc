@@ -4,7 +4,10 @@
 
 (def ^:dynamic morphology)
 
-(defn morph-leaf [structure]
+(defn morph-leaf
+  "apply morphology to a leaf node of a tree; where
+the morphology is a set of rules, each of which looks like:"
+  [structure]
   (log/debug (str "morphology of:" structure))
   (let [matching-rules
         (filter (fn [rule]
@@ -12,8 +15,20 @@
                         unified (unify u structure)]
                     (and (not (= :fail unified))
                          (re-find from (str (u/get-in structure [:canonical] ""))))))
-                morphology)]
+                morphology)
+        exceptions (u/get-in structure [:exceptions])
+        exceptionless (if exceptions
+                        (dissoc structure :exceptions))
+        first-matching-exception
+        (if exceptions
+          (first (filter #(not (= :fail %))
+                         (map #(unify exceptionless %)
+                              exceptions))))]
+    
     (cond
+      first-matching-exception
+      (morph-leaf first-matching-exception)
+
       (u/get-in structure [:surface])
       (u/get-in structure [:surface])
 

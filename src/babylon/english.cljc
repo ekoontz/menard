@@ -178,7 +178,9 @@
 (defn an
   "change 'a' to 'an' if the next word starts with a vowel."
   [input]
-  (-> input (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))
+  (-> input
+      (string/replace #"\b([aA]) ([aeiou])"   "$1n $2")
+      (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
 
 (defn poetry-line []
   (->

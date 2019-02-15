@@ -172,20 +172,6 @@
    the rest alone (they might already be upper-case like the pronoun 'I', and should stay that way)."
   [input]
   (string/join ""
-     (concat (string/capitalize (first input))
-             (rest input))))
-
-(defn an
-  "change 'a' to 'an' if the next word starts with a vowel."
-  [input]
-  (-> input (string/replace #"\b([aA]) ([aeiou])" "$1n $2")))
-
-(defn capitalize-first-letter
-  "clojure.string/capitalize is too much: it lower-cases every word in the string *except*
-   the first letter. We need a function that capitalizes the first letter and leaves
-   the rest alone (they might already be upper-case like the pronoun 'I', and should stay that way)."
-  [input]
-  (string/join ""
                (concat (string/capitalize (first input))
                        (rest input))))
 
@@ -214,9 +200,6 @@
   (repeatedly
    #(println
      (time (poetry-line)))))
-
-(defn an [input]
-  (-> input string/capitalize (string/replace #"\b([aA]) ()" "$1n $2")))    
 
 (defn poetry []
   (repeatedly

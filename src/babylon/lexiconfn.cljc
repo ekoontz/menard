@@ -155,7 +155,8 @@
            {surface
             [(unify (d/dissoc-in lexeme [:exceptions])
                     exception
-                    {:canonical canonical})]}))
+                    {:exception true
+                     :canonical canonical})]}))
        (:exceptions lexeme)))
 
 (defn merge-with-all

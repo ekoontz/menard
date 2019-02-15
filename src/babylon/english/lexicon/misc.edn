@@ -1,4 +1,5 @@
 {"a" [{:cat :det :agr {:number :sing}}]
+ "an" [{:cat :det :agr {:number :sing}}]
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing

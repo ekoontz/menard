@@ -132,12 +132,16 @@
                                                 {:cat :verb
                                                  :reflexive false
                                                  :sem {:pred :see
-                                                       :obj {:pred :top}}}))))))
+                                                       :obj {:pred :top}}})
+                                               :sentence-punctuation? true)))))
   (println)
   (println "= reflexive sentences =")
   (println)
-  (count (take 10 (repeatedly #(println (morph (generate {:cat :verb :sem {:pred :see} :reflexive true}))))))
-
+  (count (take 10 (repeatedly #(println (morph
+                                         (generate {:cat :verb
+                                                    :sem {:pred :see}
+                                                    :reflexive true})
+                                         :sentence-punctuation? true)))))
   (println)
   (println "= 'long' sentences =")
   (println)
@@ -154,7 +158,8 @@
                    :head {:phrasal true}}
             :head {:phrasal true
                    :comp {:phrasal true
-                          :head {:phrasal true}}}}))))))
+                          :head {:phrasal true}}}})
+          :sentence-punctuation? true)))))
   (println)
   (println "Parsing:")
   (println "===")

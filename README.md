@@ -43,56 +43,56 @@ Generation:
 
 = transitive sentences =
 
-Antonio sees Antonio
-I see myself
-women see questions
-Antonio sees Antonio
-works see Antonia
-Antonia sees herself
-she sees herself
-groups see ways
-places see her
-Antonia sees Antonia
+years see her
+companies see times
+numbers see dogs
+parts see puppies
+rooms see women
+people see companies
+worlds see months
+families see Antonio
+hands see Antonia
+hands see states
 
 = reflexive sentences =
 
-women see themselves
-Antonia sees Antonia
-Antonio sees himself
-Antonio sees Antonio
-it sees itself
 I see myself
-Antonia sees herself
+I see myself
 he sees himself
-Antonia sees Antonia
+I see myself
+it sees itself
+Antonia sees herself
+it sees itself
+she sees herself
+it sees itself
 Antonio sees himself
 
 = 'long' sentences =
 
-the small moneys see the tall words
-the tall weeks see the tall facts
-the tall word sees a tall question
-a tall man sees the small businesses
-a tall name sees the small governments
-the small week sees the tall work
-the tall puppies see the tall jobs
-the tall governments see a small money
-the small cases see the small works
-the small rooms see the tall book
+the lot that is gives the month I am
+the government that looks gets the strong times
+the puppy that areas are is a small money
+the weeks that things call became the year problems do
+the waters that words take are the military names
+the system that became talks a local money
+the places that think help the ways that live
+the hand months feel lives a better life
+the systems that came move the true lots
+a mother eyes work shows the lot that countries have
 
 Parsing:
 ===
 
-[np  .the *groups]
-[np  .the *stories]
-[np  .a *thing]
-[s  .days *sleep]
-[s  .books *sleep]
-[s  .studies *see]
-[np  .the *life]
-[np  .a *mother]
-[s  .cats *sleep]
-[s  .problems *see]
+[s  .puppies *seem], [s-slash  .puppies *seem]
+[s  .books *are], [s  .books *are], [s  .books *are], [s-slash  .books *are], [s-slash  .books *are], [s-slash  .books *are]
+[s  .states *say], [s-slash  .states *say]
+[np  .the *rights]
+[np  .a *world]
+[np  .the *family]
+[s  .areas *look], [s-slash  .areas *look]
+[np  .the *student]
+[s  .hands *come], [s  .hands *come]
+[np  .the *number]
 10
 babylon.english=>
 ```

@@ -25,8 +25,11 @@
                            (u/get-in structure [:2] "_")]))
         true "_"))
 
-
 (def ^:dynamic morph default-morph-fn)
+
+;; TODO: remove this usage of ^:dynamic; this is difficult, because if we
+;; change morphology.cljc, we have to load this file (grammar.cljc)
+;; for the morphology.cljc changes to become effective.
 (def ^:dynamic morph-leaf m/morph-leaf)
 
 (defn syntax-tree [structure]

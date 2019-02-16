@@ -31,9 +31,15 @@ the morphology is a set of rules, each of which looks like:"
 
       (= (u/get-in structure [:surface])
          "??")                     
-      (do
-        (println (str "failed to morph leaf: " (u/strip-refs structure)))
-        (throw (Exception. (str "failed to morph leaf:" (u/strip-refs structure)))))
+      (let [keep-going true ;; don't throw error if true.
+            find-error (or (u/get-in structure [:infl :error])
+                           (u/get-in structure [:agr :error])
+                           (str "unknown error: " (u/strip-refs structure)))]
+        (if keep-going
+          find-error
+          (do
+            (println (str "failed to morph leaf: " find-error))
+            (throw (Exception. (str "failed to morph leaf:" find-error))))))
 
       (u/get-in structure [:surface])
       (u/get-in structure [:surface])

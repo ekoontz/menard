@@ -28,7 +28,7 @@
        ;;       :parses (map syntax-tree (parse (morph expression)))
        :phrase? (u/get-in expression [:head :comp :phrasal])}))
 
-(def poetry-specs
+(def specific-sentence-spec
   [{:cat :verb
     :subcat []
     :pred :top
@@ -41,6 +41,15 @@
                   :head {:canonical "dog"}}}
     :head {:phrasal false
            :canonical "be"}}])
+
+(def poetry-specs
+  [{:cat :verb
+    :subcat []
+    :pred :top
+    :comp {:phrasal true
+           :rule "np"
+           :head {:phrasal true}}
+    :head {:phrasal true}}])
 
 (defn poetry-line []
   (->

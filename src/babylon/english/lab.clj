@@ -28,28 +28,40 @@
        ;;       :parses (map syntax-tree (parse (morph expression)))
        :phrase? (u/get-in expression [:head :comp :phrasal])}))
 
-(defn poetry-line []
-  (->
-   {:cat :verb
+(def poetry-specs
+  [{:cat :verb
     :subcat []
     :pred :top
     :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :head {:phrasal true}}}}
-   generate
-   (morph :sentence-punctuation? true)))
+           :rule "np"
+           :agr {:number :sing
+                 :person :3rd}
+           :head {:phrasal true
+                  :rule "nbar2"
+                  :head {:canonical "dog"}}}
+    :head {:phrasal false
+           :canonical "be"}}])
+
+(defn poetry-line []
+  (->
+   poetry-specs
+   shuffle
+   first
+   generate))
 
 (defn benchmark []
   (repeatedly
-   #(println
-     (time (poetry-line)))))
+   #(time (->
+           (poetry-line)
+           (morph :sentence-punctuation? true)
+           println))))
 
 (defn poetry []
   (repeatedly
-   #(println
-     (poetry-line))))
+   #(-> 
+     (poetry-line)
+     (morph :sentence-punctuation? true)
+     println)))
 
 (defn long-s []
   (count

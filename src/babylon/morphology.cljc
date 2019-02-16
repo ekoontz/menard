@@ -29,6 +29,12 @@ the morphology is a set of rules, each of which looks like:"
       first-matching-exception
       (morph-leaf first-matching-exception)
 
+      (= (u/get-in structure [:surface])
+         "??")                     
+      (do
+        (println (str "failed to morph leaf: " (u/strip-refs structure)))
+        (throw (Exception. (str "failed to morph leaf:" (u/strip-refs structure)))))
+
       (u/get-in structure [:surface])
       (u/get-in structure [:surface])
 

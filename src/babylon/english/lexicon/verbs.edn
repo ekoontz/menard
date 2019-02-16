@@ -2,12 +2,20 @@
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"
                          :subcat {:1 {:phrasal false}}}
+                        {:infl :present :agr {:person :2nd :number :sing} :surface "are"
+                         :subcat {:1 {:phrasal false}}}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
-                        ;; 'are' should be the last of the {:infl :present}s, so it's
-                        ;; used as the 'else'/default.
-                        {:infl :present :surface "are"}]
-
-            ;; possible subcategorizations for "be":
+                        {:infl :present :agr {:person :1st :number :plur} :surface "are"
+                         :subcat {:1 {:phrasal false}}}
+                        {:infl :present :agr {:person :2nd :number :plur} :surface "are"
+                         :subcat {:1 {:phrasal false}}}
+                        {:infl :present :agr {:person :3rd :number :plur} :surface "are"}
+                        {:infl :present
+                         :agr {:error :unspecified-agreement}
+                         :surface "??"}
+                        {:infl {:error :unspecified-infl}
+                         :surface "??"}]
+            ;; the 3 possible subcategorizations for "be":
             subject-only {:subcat {:1 {:cat :noun}
                                    :2 []}}
 

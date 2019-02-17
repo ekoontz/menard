@@ -1,5 +1,5 @@
-[{:g [#"^(.*)ry$"   "$1ries"] ;; try  -> tries
-  :p [#"^(.*r)ies$" "$1ry"] 
+[{:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
+  :p [#"^(.*)ies$" "$1y"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
@@ -10,8 +10,8 @@
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
- {:g [#"^(.*)$"    "$1s"] ;; sleep -> sleeps
-  :p [#"^(.*)s$"   "$1"] 
+ {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
+  :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd

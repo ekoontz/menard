@@ -69,8 +69,14 @@
  "find" [{:cat :verb :sem {:pred :find} :subcat {:1 :top :2 :top}}]
  "get" [{:cat :verb :sem {:pred :get} :subcat {:1 :top :2 :top}}]
  "give" [{:cat :verb :sem {:pred :give} :subcat {:1 :top :2 :top}}]
- "go" [{:cat :verb :sem {:pred :go} :subcat {:1 :top :2 :top}}]
- "have" [{:cat :verb :sem {:pred :have} :subcat {:1 :top :2 :top}}]
+ "go" [{:cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}]
+ "have" (let [exceptions [{:infl :present
+                           :agr {:person :3rd :number :sing}
+                           :surface "has"}]]
+           [{:cat :verb
+             :sem {:pred :have}
+             :subcat {:1 :top :2 :top}
+             :exceptions exceptions}])
  "hear" [{:cat :verb :sem {:pred :hear} :subcat {:1 :top :2 :top}}]
  "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]
  "keep" [{:cat :verb :sem {:pred :keep} :subcat {:1 :top :2 :top}}]

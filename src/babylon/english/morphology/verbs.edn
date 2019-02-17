@@ -1,41 +1,49 @@
 [{:g [#"^(.*)ry$"   "$1ries"] ;; try  -> tries
   :p [#"^(.*r)ies$" "$1ry"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
   :p [#"^(.*)oes$" "$1o"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)$"    "$1s"] ;; sleep -> sleeps
   :p [#"^(.*)s$"   "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :3rd
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :1st
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :2nd
             :number :sing}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :1st
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :2nd
             :number :plur}}}
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
+      :infl :present
       :agr {:person :3rd
             :number :plur}}}]
 

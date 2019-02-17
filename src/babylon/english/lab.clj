@@ -43,13 +43,22 @@
            :canonical "be"}}])
 
 (def poetry-specs
-  [{:cat :verb
+  [
+   {:cat :verb
     :subcat []
     :pred :top
     :comp {:phrasal true
            :rule "np"
            :head {:phrasal true}}
-    :head {:phrasal true}}])
+    :head {:agr {:person :3rd}
+           :phrasal true}}
+
+   {:cat :verb
+    :subcat []
+    :pred :top
+    :comp {:phrasal false}
+    :head {:phrasal true
+           :agr {:person :3rd}}}])
 
 (defn poetry-line []
   (->

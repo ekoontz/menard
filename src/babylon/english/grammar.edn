@@ -1,38 +1,22 @@
-[{:rule "comp1"
+[{:rule "comp1" ;; 'that I see'; 'that sees me'
   :head {:cat :comp
          :phrasal false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-1-1-comp-subcat
-          babylon.ug/head-sem-is-parent-sem babylon.ug/slash-is-head-slash
-          babylon.ug/head-is-root]}
- {:rule "s"
-  :cat :verb
-  :slash false
-  :unify [babylon.ug/head-last babylon.ug/subcat-1 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-subj-mod babylon.ug/head-is-root]}
-
- ;; TODO: should be only a single rule with some
- ;; map that expands this into 2 rules:
- {:rule "vp-present"
-  :cat :verb
-  :infl :present
-  :slash false
-  :head {:slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-2 babylon.ug/head-sem-is-parent-sem
-          babylon.ug/comp-mod-is-obj-mod babylon.ug/head-is-root]}
-
- {:rule "np"
-  :cat :noun
-  :slash false
-  :unify [babylon.ug/head-last babylon.ug/head-sem-is-parent-sem babylon.ug/subcat-1
-          babylon.ug/head-is-root babylon.ug/nominal-phrase]}
-
- {:rule "nbar"
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/slash-is-head-slash
+          babylon.ug/subcat-1-1-comp-subcat]}
+ 
+ {:rule "nbar" ;; 'black cat'
   :cat :noun
   :slash false
   :comp {:cat :adjective}
-  :unify [babylon.ug/head-last babylon.ug/subcat-1-1 babylon.ug/head-is-root babylon.ug/nominal-phrase]}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/nominal-phrase
+          babylon.ug/subcat-1-1]}
 
- {:rule "nbar2" ;; 'cat I see'
+ {:rule "nbar2" ;; 'cat [s-slash I see]'
   :slash false
   :cat :noun
   :head {:phrasal false}
@@ -40,32 +24,72 @@
          :phrasal true
          :cat :verb
          :slash true}
-  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
-
- {:rule "nbar3" ;; 'cat that sees me'
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/nominal-phrase
+          babylon.ug/object-of-comp-is-head
+          babylon.ug/subcat-1-1]}
+ 
+ {:rule "nbar3" ;; 'cat [comp1 that [vp-present sees me]]'
   :slash false
   :cat :noun
   :head {:phrasal false}
   :comp {:phrasal true
          :cat :comp
          :slash false}
-  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/subject-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/nominal-phrase
+          babylon.ug/subcat-1-1
+          babylon.ug/subject-of-comp-is-head]}
 
- {:rule "nbar4" ;; 'cat that I see'
+ {:rule "nbar4" ;; 'cat [comp1 that [s-slash I see]]'
   :slash false
   :cat :noun
   :head {:phrasal false}
   :comp {:phrasal true
          :cat :comp
          :slash true}
-  :unify [babylon.ug/head-first babylon.ug/subcat-1-1
-          babylon.ug/object-of-comp-is-head babylon.ug/head-is-root babylon.ug/nominal-phrase]}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/nominal-phrase
+          babylon.ug/object-of-comp-is-head
+          babylon.ug/subcat-1-1]}
+
+ {:rule "np"
+  :cat :noun
+  :slash false
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/subcat-1]}
+
+ {:rule "s"
+  :cat :verb
+  :slash false
+  :unify [babylon.ug/comp-mod-is-subj-mod
+          babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/subcat-1]}
 
  {:rule "s-slash" ;; 'I see' in '[nbar2 cat [s-slash I see]'
   :slash true
   :complement {:case :nom}
   :cat :verb
   :reflexive false
-  :unify [babylon.ug/head-last babylon.ug/subcat-2-slash babylon.ug/head-is-root]}]
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/subcat-2-slash]}
+
+ ;; TODO: generalize to all :infls, not just :present.
+ {:rule "vp-present"
+  :cat :verb
+  :infl :present
+  :slash false
+  :head {:slash false}
+  :unify [babylon.ug/head-first
+          babylon.ug/comp-mod-is-obj-mod
+          babylon.ug/head-is-root
+          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/subcat-2]}] 

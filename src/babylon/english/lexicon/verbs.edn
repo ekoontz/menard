@@ -16,18 +16,18 @@
                         {:infl {:error :unspecified-infl}
                          :surface "??"}]
             ;; the 3 possible subcategorizations for "be":
-            subject-only {:subcat {:1 {:cat :noun}
-                                   :2 []}}
+            subject-only {:1 {:cat :noun}
+                          :2 []}
 
             subject-object-noun
             ;; TODO: they must agree in number 
-            {:subcat {:1 {:cat :noun
-                          :2 {:cat :noun}
-                          :3 []}}}
+            {:1 {:cat :noun}
+             :2 {:cat :noun}
+             :3 []}
 
-            subject-adjective {:subcat {:1 {:cat :noun}
-                                        :2 {:cat :adjective}
-                                        :3 []}}]
+            subject-adjective {:1 {:cat :noun}
+                               :2 {:cat :adjective}
+                               :3 []}]
         [{:cat :verb
           :sem {:pred :be}
           :subcat subject-only

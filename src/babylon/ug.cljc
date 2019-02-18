@@ -7,13 +7,16 @@
 (def head-rule
   (let [comp-cat (atom :top)
         head-agr (atom :top)
+        head-infl (atom :top)
         head-cat (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
+     :infl head-infl
      :reflexive reflexive
      :head {:agr head-agr
             :cat head-cat
+            :infl head-infl
             :reflexive reflexive}
      :phrasal true}))
 

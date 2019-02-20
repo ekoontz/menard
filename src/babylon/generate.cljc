@@ -117,8 +117,7 @@
     (->> (index-fn spec)
          lazy-seq
          (filter #(and (or (nil? lexical-filter) (lexical-filter %))
-                       (or (= false (u/get-in % [:exception] false))
-                           (not (= :verb (u/get-in % [:synsem :cat]))))))
+                       (= false (u/get-in % [:exception] false))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
          shuffle-or-not

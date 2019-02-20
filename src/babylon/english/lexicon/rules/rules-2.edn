@@ -103,8 +103,8 @@
  
  {:rule :transitive-verbs
   :if {:cat :verb
-       :subcat {:1 {:cat ::unspec}
-                :2 {:cat ::unspec}}}
+       :subcat {:1 {:cat :noun}
+                :2 {:cat :noun}}}
   :then [(let [agr (atom :top)
                subj (atom :top)
                obj (atom :top)]
@@ -139,7 +139,7 @@
 
  {:rule :intransitive-verbs
   :if {:cat :verb
-       :subcat {:1 {:cat ::unspec}
+       :subcat {:1 {:cat :noun}
                 :2 []}}
   :then [(let [agr (atom :top)
                subj (atom :top)]

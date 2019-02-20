@@ -1,4 +1,10 @@
-[{:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
+[{:g [#"^(.*ay)$"   "$1s"] ;; play  -> plays
+  :p [#"^(.*ay)s$"  "$1y"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+ {:g [#"^(.*)y$"   "$1ies"] ;; try  -> tries
   :p [#"^(.*)ies$" "$1y"] 
   :u {:cat :verb
       :infl :present
@@ -6,6 +12,12 @@
             :number :sing}}}
  {:g [#"^(.*)o$"   "$1oes"] ;; go  -> goes
   :p [#"^(.*)oes$" "$1o"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
+ {:g [#"^(.*e)$"  "$1s"] ;; give -> gives
+  :p [#"^(.*e)s$" "$1"] 
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd

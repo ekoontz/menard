@@ -22,6 +22,12 @@
       :infl :present
       :agr {:person :3rd
             :number :sing}}}
+ {:g [#"^(.*ch)$"   "$1es"] ;; teach -> teaches
+  :p [#"^(.*ch)es$" "$1"] 
+  :u {:cat :verb
+      :infl :present
+      :agr {:person :3rd
+            :number :sing}}}
  {:g [#"^(.*[^y])$"  "$1s"] ;; sleep -> sleeps
   :p [#"^(.*[^e])s$" "$1"] 
   :u {:cat :verb

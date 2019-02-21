@@ -57,13 +57,11 @@
           [{:cat :verb :sem {:pred :come} :subcat {:1 :top :2 []}
             :exceptions exceptions}])
  
- "do" (let [exceptions [{:infl :past-simple
-                         :surface "did"}]]
+ "do" (let [exceptions [{:infl :past-simple :surface "did"}]]
           [{:exceptions exceptions
             :cat :verb :sem {:pred :do} :subcat {:1 :top :2 :top}}])
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}]]
-           [{:exceptions exceptions
-             :cat :verb :sem {:pred :feel} :subcat {:1 :top :2 :top}}])
+           [{:exceptions exceptions :cat :verb :sem {:pred :feel} :subcat {:1 :top :2 :top}}])
  "find" (let [exceptions [{:infl :past-simple :surface "found"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :find} :subcat {:1 :top :2 :top}}])
  "get" (let [exceptions [{:infl :past-simple :surface "got"}]]
@@ -71,10 +69,8 @@
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :give} :subcat {:1 :top :2 :top}}])
  "go"
- (let [exceptions [{:infl :past-simple
-                    :surface "went"}]]
-   [{:exceptions exceptions
-     :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}])
+ (let [exceptions [{:infl :past-simple :surface "went"}]]
+   [{:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}])
  "have" (let [exceptions [{:infl :present
                            :agr {:person :3rd :number :sing}
                            :surface "has"}
@@ -85,8 +81,7 @@
              :subcat {:1 :top :2 :top}
              :exceptions exceptions}])
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}]]
-          [{:exceptions exceptions
-            :cat :verb :sem {:pred :hear} :subcat {:1 :top :2 :top}}])
+          [{:exceptions exceptions :cat :verb :sem {:pred :hear} :subcat {:1 :top :2 :top}}])
  "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]
  "keep" (let [exceptions [{:infl :past-simple :surface "kept"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :keep} :subcat {:1 :top :2 :top}}])
@@ -109,19 +104,15 @@
  "put" (let [exceptions [{:infl :past-simple :surface "put"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :put} :subcat {:1 :top :2 :top}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}]]
-          [{:exceptions exceptions
-            :cat :verb :sem {:pred :run} :subcat {:1 :top :2 :top}}])
+          [{:exceptions exceptions :cat :verb :sem {:pred :run} :subcat {:1 :top :2 :top}}])
  "say" (let [exceptions [{:infl :past-simple :surface "said"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :say} :subcat {:1 :top :2 :top}}])
- "see" (let [exceptions [{:infl :past-simple
-                          :surface "saw"}]]
-         [{:exceptions exceptions
-           :cat :verb :sem {:pred :see} :subcat {:1 :top :2 :top}}])
+ "see" (let [exceptions [{:infl :past-simple :surface "saw"}]]
+         [{:exceptions exceptions :cat :verb :sem {:pred :see} :subcat {:1 :top :2 :top}}])
  "seem" [{:cat :verb :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}]]
-           [{:exceptions exceptions
-             :cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}])
+           [{:exceptions exceptions :cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}]]
           [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}

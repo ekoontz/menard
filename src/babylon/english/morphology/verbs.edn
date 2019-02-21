@@ -65,9 +65,9 @@
   :u {:cat :verb
       :infl :past-simple}}
 
- ;; try/tried
- {:g [#"^(.*)y$" "$1ied"]
-  :p [#"^(.*)ied$" "$1y"]
+ ;; try/tried (but not play/played)
+ {:g [#"^(.*[^aeiou])y$" "$1ied"]
+  :p [#"^(.*[^aeiou])ied$" "$1y"]
   :u {:cat :verb
       :infl :past-simple}}
  

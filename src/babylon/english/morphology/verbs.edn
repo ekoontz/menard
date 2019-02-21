@@ -57,5 +57,9 @@
   :u {:cat :verb
       :infl :present
       :agr {:person :3rd
-            :number :plur}}}]
+            :number :plur}}}
 
+ {:g [#"^(.*)$" "$1ed"]
+  :p [#"^(.*)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}]

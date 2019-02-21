@@ -80,7 +80,8 @@
   :complement {:case :nom}
   :cat :verb
   :reflexive false
-  :options [{:infl :present}]
+  :options [{:infl :present}
+            {:infl :past-simple}]
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/subcat-2-slash]}

@@ -22,7 +22,7 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-nREPL server started on port 65218 on host 127.0.0.1 - nrepl://127.0.0.1:65218
+nREPL server started on port 52766 on host 127.0.0.1 - nrepl://127.0.0.1:52766
 REPL-y 0.3.7, nREPL 0.2.12
 Clojure 1.10.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
@@ -35,62 +35,62 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
 
 user=> (load "babylon/english")
 nil
-babylon.english=> (babylon.english/demo)
+user=> (babylon.english/demo)
 Generation:
 ===
 
 = transitive sentences =
 
-Eyes see governments.
-We see families.
-Points see things.
-Words see me.
-Days see systems.
-Weeks see me.
-Homes see programs.
-Questions see hands.
-Lots see mothers.
-Books see systems.
+Antonia saw hands.
+Systems see questions.
+Places saw Antonio.
+Moneys see schools.
+Months see eyes.
+She saw students.
+Times see facts.
+Worlds see jobs.
+Companies see areas.
+Weeks saw studies.
 
 = reflexive sentences =
 
-He sees himself.
-He sees himself.
-Problems see themselves.
-Antonio sees himself.
-I see myself.
+It saw itself.
+It saw itself.
+Puppies saw themselves.
+I saw myself.
 It sees itself.
 It sees itself.
-Antonio sees himself.
-I see myself.
+Schools saw themselves.
+Antonio saw himself.
+He saw himself.
 I see myself.
 
 = 'long' sentences =
 
-The bad businesses let a thing dogs turn.
-The places that puppies move use a puppy studies make.
-The things women let give the certain names.
-A world that Antonio gets means a question lots need.
-The works that hands give let a state that waters help.
-The major businesses play the cases that we get.
-The students that companies run turn a problem that eyes find.
-The points that companies began make the night governments get.
-The true lots begin the men that began.
-A book that says lets the facts that days want.
+The waters that began think the able questions.
+The days sheep use took the old story.
+The lots that knew take a state that jobs need.
+The waters that began walk the sheep that works talk.
+The eyes that women move tell the businesses that ran.
+A problem that shows kept the waters that did.
+The months that like left the only days.
+The times cases are find an eye that kept.
+The whole cats feel a fact systems try.
+The jobs that rooms put found the rooms that put.
 
 Parsing:
 ===
 
-[np  .a *program]
-[s  .rooms *take], [s-slash  .rooms *take]
-[np  .the *water]
-[s  .waters *work], [s-slash  .waters *work]
-[s  .you *became], [s-slash  .you *became]
-[np  .a *system]
-[np  .the *parts]
-[s  .points *go]
-[np  .a *mother]
-[np  .the *things]
+[np  .a *money]
+[s  .questions *help], [s-slash  .questions *help]
+[s  .groups *take], [s-slash  .groups *take]
+[s  .worlds *have], [s-slash  .worlds *have]
+[np  .a *right]
+[s  .waters *began]
+[np  .the *studies]
+[np  .a *life]
+[s  .lives *come]
+[np  .a *company]
 10
 babylon.english=>
 ```

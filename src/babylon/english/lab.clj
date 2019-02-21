@@ -19,7 +19,7 @@
     :canonical "be"}])
 
 (defn gen
-  "how to generate a noun phrase with particular constraints."
+  "how to generate a phrase with particular constraints."
   [i]
   (let [expression (generate (nth specs i))]
       {:st (syntax-tree expression)

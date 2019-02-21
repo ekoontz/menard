@@ -5,4 +5,14 @@
        :regular false}
   :then [{:pronoun false
           :regular false
-          :propernoun false}]}]
+          :propernoun false}]}
+
+ {:rule :subject-verb-agreement
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}}}
+  :then [(let [agr (atom :top)]
+           {:agr agr
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom}}})]}]
+

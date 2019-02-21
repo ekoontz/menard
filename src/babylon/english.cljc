@@ -122,7 +122,6 @@
     (l/matching-lexemes surface)))              
 
 (defn demo []
-  (load "grammar")
   (println "Generation:")
   (println "===")
   (println)

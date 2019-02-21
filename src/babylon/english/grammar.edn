@@ -67,6 +67,7 @@
  {:rule "s"
   :cat :verb
   :slash false
+  :options [{:infl :present}]
   :unify [babylon.ug/comp-mod-is-subj-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
@@ -78,15 +79,16 @@
   :complement {:case :nom}
   :cat :verb
   :reflexive false
+  :options [{:infl :present}]
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/subcat-2-slash]}
 
  ;; TODO: generalize to all :infls, not just :present.
- {:rule "vp-present"
+ {:rule "vp"
   :cat :verb
-  :infl :present
   :slash false
+  :options [{:infl :present}]
   :head {:slash false}
   :unify [babylon.ug/head-first
           babylon.ug/comp-mod-is-obj-mod

@@ -2,19 +2,12 @@
  "ask" [{:cat :verb :sem {:pred :ask} :subcat {:1 :top :2 :top}}]
  "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"
                          :subcat {:1 {:phrasal false}}}
-                        {:infl :present :agr {:person :2nd :number :sing} :surface "are"
-                         :subcat {:1 {:phrasal false}}}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
-                        {:infl :present :agr {:person :1st :number :plur} :surface "are"
-                         :subcat {:1 {:phrasal false}}}
-                        {:infl :present :agr {:person :2nd :number :plur} :surface "are"
-                         :subcat {:1 {:phrasal false}}}
-                        {:infl :present :agr {:person :3rd :number :plur} :surface "are"}
-                        {:infl :present
-                         :agr {:error :unspecified-agreement}
-                         :surface "??"}
-                        {:infl {:error :unspecified-infl}
-                         :surface "??"}]
+                        {:infl :present :surface "are"}
+                        {:infl :past-simple :agr {:number :plur} :surface "were"}
+                        {:infl :past-simple :agr {:person :2nd} :surface "were"}
+                        {:infl :past-simple :surface "was"}]
+                         
             ;; the 3 possible subcategorizations for "be":
             subject-only {:1 {:cat :noun}
                           :2 []}
@@ -64,12 +57,19 @@
           [{:cat :verb :sem {:pred :come} :subcat {:1 :top :2 []}
             :exceptions exceptions}])
  
- "do" [{:cat :verb :sem {:pred :do} :subcat {:1 :top :2 :top}}]
+ "do" (let [exceptions [{:infl :past-simple
+                         :surface "did"}]]
+          [{:exceptions exceptions
+            :cat :verb :sem {:pred :do} :subcat {:1 :top :2 :top}}])
  "feel" [{:cat :verb :sem {:pred :feel} :subcat {:1 :top :2 :top}}]
  "find" [{:cat :verb :sem {:pred :find} :subcat {:1 :top :2 :top}}]
  "get" [{:cat :verb :sem {:pred :get} :subcat {:1 :top :2 :top}}]
  "give" [{:cat :verb :sem {:pred :give} :subcat {:1 :top :2 :top}}]
- "go" [{:cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}]
+ "go"
+ (let [exceptions [{:infl :past-simple
+                    :surface "went"}]]
+   [{:exceptions exceptions
+     :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}])
  "have" (let [exceptions [{:infl :present
                            :agr {:person :3rd :number :sing}
                            :surface "has"}]]
@@ -77,9 +77,15 @@
              :sem {:pred :have}
              :subcat {:1 :top :2 :top}
              :exceptions exceptions}])
- "hear" [{:cat :verb :sem {:pred :hear} :subcat {:1 :top :2 :top}}]
+ "hear" (let [exceptions [{:infl :past-simple
+                           :surface "heard"}]]
+          [{:exceptions exceptions
+            :cat :verb :sem {:pred :hear} :subcat {:1 :top :2 :top}}])
  "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]
- "keep" [{:cat :verb :sem {:pred :keep} :subcat {:1 :top :2 :top}}]
+ "keep" (let [exceptions [{:infl :past-simple
+                           :surface "kept"}]]
+           [{:exceptions exceptions
+             :cat :verb :sem {:pred :keep} :subcat {:1 :top :2 :top}}])
  "know" [{:cat :verb :sem {:pred :know} :subcat {:1 :top :2 :top}}]
  "leave" [{:cat :verb :sem {:pred :leave} :subcat {:1 :top :2 :top}}]
  "let" [{:cat :verb :sem {:pred :let} :subcat {:1 :top :2 :top}}]
@@ -91,20 +97,39 @@
  "move" [{:cat :verb :sem {:pred :move} :subcat {:1 :top :2 :top}}]
  "need" [{:cat :verb :sem {:pred :need} :subcat {:1 :top :2 :top}}]
  "play" [{:cat :verb :sem {:pred :play} :subcat {:1 :top :2 :top}}]
- "put" [{:cat :verb :sem {:pred :put} :subcat {:1 :top :2 :top}}]
- "run" [{:cat :verb :sem {:pred :run} :subcat {:1 :top :2 :top}}]
- "say" [{:cat :verb :sem {:pred :say} :subcat {:1 :top :2 :top}}]
- "see" [{:cat :verb :sem {:pred :see} :subcat {:1 :top :2 :top}}]
+ "put" (let [exceptions [{:infl :past-simple
+                          :surface "put"}]]
+         [{:exceptions exceptions
+           :cat :verb :sem {:pred :put} :subcat {:1 :top :2 :top}}])
+ "run" (let [exceptions [{:infl :past-simple
+                          :surface "ran"}]]
+          [{:exceptions exceptions
+            :cat :verb :sem {:pred :run} :subcat {:1 :top :2 :top}}])
+ "say" (let [exceptions [{:infl :past-simple
+                          :surface "said"}]]
+         [{:exceptions exceptions :cat :verb :sem {:pred :say} :subcat {:1 :top :2 :top}}])
+ "see" (let [exceptions [{:infl :past-simple
+                          :surface "saw"}]]
+         [{:exceptions exceptions
+           :cat :verb :sem {:pred :see} :subcat {:1 :top :2 :top}}])
  "seem" [{:cat :verb :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
- "sleep" [{:cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}]
+ "sleep" (let [exceptions [{:infl :past-simple
+                            :surface "slept"}]]
+           [{:exceptions exceptions
+             :cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}]]
           [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}
             :exceptions exceptions}])
  "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 :top}}]
- "tell" [{:cat :verb :sem {:pred :tell} :subcat {:1 :top :2 :top}}]
- "think" [{:cat :verb :sem {:pred :think} :subcat {:1 :top :2 :top}}]
+ "tell" (let [exceptions [{:infl :past-simple :surface "told"}]]
+          [{:exceptions exceptions
+            :cat :verb :sem {:pred :tell} :subcat {:1 :top :2 :top}}])
+ "think" (let [exceptions {:infl :past-simple
+                           :surface "thought"}]
+           [{:exceptions exceptions
+             :cat :verb :sem {:pred :think} :subcat {:1 :top :2 :top}}])
  "try" [{:cat :verb :sem {:pred :try} :subcat {:1 :top :2 :top}}]
  "turn" [{:cat :verb :sem {:pred :turn} :subcat {:1 :top :2 :top}}]
  "use" [{:cat :verb :sem {:pred :use} :subcat {:1 :top :2 :top}}]

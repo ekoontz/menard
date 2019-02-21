@@ -59,6 +59,19 @@
       :agr {:person :3rd
             :number :plur}}}
 
+ ;; bake/baked
+ {:g [#"^(.*)e$" "$1ed"]
+  :p [#"^(.*e)d$" "$1"]
+  :u {:cat :verb
+      :infl :past-simple}}
+
+ ;; try/tried
+ {:g [#"^(.*)y$" "$1ied"]
+  :p [#"^(.*)ied$" "$1y"]
+  :u {:cat :verb
+      :infl :past-simple}}
+ 
+ ;; walk/walked
  {:g [#"^(.*)$" "$1ed"]
   :p [#"^(.*)ed$" "$1"]
   :u {:cat :verb

@@ -97,6 +97,18 @@
 
 (defn process [grammar]
   (->> grammar
+
+       ;; each member of :unify in a rule is a symbol.
+       ;; evaluate each symbol, which should be a dag, and reduce-unify the
+       ;; rule and all such evaluated symbols in :unify.
        (map #(apply unify
                     (cons (dissoc % :unify)
-                          (map eval (:unify %)))))))
+                          (map eval (:unify %)))))
+
+       ;; for each member of :option in a rule,
+       ;; create a new rule unified with that member.
+       (mapcat (fn [base-rule]
+                 (->> (:options base-rule [:top])
+                      (map (fn [option]
+                             (unify base-rule option)))
+                      (filter #(not (= % :fail))))))))

@@ -99,7 +99,9 @@
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
  "sleep" [{:cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}]
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
- "take" [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}}]
+ "take" (let [exceptions [{:infl :past-simple :surface "took"}]]
+          [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}
+            :exceptions exceptions}])
  "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 :top}}]
  "tell" [{:cat :verb :sem {:pred :tell} :subcat {:1 :top :2 :top}}]
  "think" [{:cat :verb :sem {:pred :think} :subcat {:1 :top :2 :top}}]

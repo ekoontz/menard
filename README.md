@@ -22,9 +22,9 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-nREPL server started on port 51179 on host 127.0.0.1 - nrepl://127.0.0.1:51179
+nREPL server started on port 65218 on host 127.0.0.1 - nrepl://127.0.0.1:65218
 REPL-y 0.3.7, nREPL 0.2.12
-Clojure 1.9.0
+Clojure 1.10.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
@@ -35,67 +35,64 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
 
 user=> (load "babylon/english")
 nil
-user=> (in-ns 'babylon.english)
-#namespace[babylon.english]
-babylon.english=> (demo)
+babylon.english=> (babylon.english/demo)
 Generation:
 ===
 
 = transitive sentences =
 
-Groups see words.
-Worlds see sheep.
-Antonia sees dogs.
-Works see sheep.
-Schools see problems.
-We see numbers.
-Problems see people.
-Cases see systems.
-Books see jobs.
-Students see you.
+Eyes see governments.
+We see families.
+Points see things.
+Words see me.
+Days see systems.
+Weeks see me.
+Homes see programs.
+Questions see hands.
+Lots see mothers.
+Books see systems.
 
 = reflexive sentences =
 
-Eyes see themselves.
-Works see themselves.
-She sees herself.
 He sees himself.
-It sees itself.
-Antonia sees herself.
-Antonia sees herself.
-She sees herself.
+He sees himself.
+Problems see themselves.
 Antonio sees himself.
+I see myself.
+It sees itself.
+It sees itself.
+Antonio sees himself.
+I see myself.
 I see myself.
 
 = 'long' sentences =
 
-The programs that look go the mothers that use.
-A political money feels the mothers that give.
-An only program seems the questions countries help.
-The dogs that I am do the question that tries.
-The country eyes are leaves a government that looks.
-The numbers that moneys begun want a name that stories seem.
-A night Antonio play began a right that lots have.
-The eyes parts talk live the tall points.
-A dog that means say a man that helps.
-The parts he are work an able point.
+The bad businesses let a thing dogs turn.
+The places that puppies move use a puppy studies make.
+The things women let give the certain names.
+A world that Antonio gets means a question lots need.
+The works that hands give let a state that waters help.
+The major businesses play the cases that we get.
+The students that companies run turn a problem that eyes find.
+The points that companies began make the night governments get.
+The true lots begin the men that began.
+A book that says lets the facts that days want.
 
 Parsing:
 ===
 
-[s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are], [s-slash  .you *are]
-[s  .dogs *make], [s-slash  .dogs *make]
-[s  .she *is], [s  .she *is], [s  .she *is], [s-slash  .she *is], [s-slash  .she *is], [s-slash  .she *is]
-[s  .questions *hear], [s-slash  .questions *hear]
-[s  .stories *look], [s-slash  .stories *look]
-WARN  15 feb 2019 08:35:54,496 babylon.parse: could not parse: "she began". Tokenizations attempted: she;began
-
-[np  .a *world]
-[s  .worlds *find], [s-slash  .worlds *find]
-WARN  15 feb 2019 08:35:55,322 babylon.parse: could not parse: "he tries". Tokenizations attempted: he;tries
-
-[np  .the *people]
+[np  .a *program]
+[s  .rooms *take], [s-slash  .rooms *take]
+[np  .the *water]
+[s  .waters *work], [s-slash  .waters *work]
+[s  .you *became], [s-slash  .you *became]
+[np  .a *system]
+[np  .the *parts]
+[s  .points *go]
+[np  .a *mother]
+[np  .the *things]
 10
+babylon.english=>
 ```
 
 # License

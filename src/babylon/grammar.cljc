@@ -99,11 +99,11 @@
   (->> grammar
 
        ;; each member of :unify in a rule is a symbol.
-       ;; evaluate each symbol, which should be a dag, and reduce-unify the
-       ;; rule and all such evaluated symbols in :unify.
-       (map #(apply unify
-                    (cons (dissoc % :unify)
-                          (map eval (:unify %)))))
+       ;; evaluate each symbol, which should be a dag, and
+       ;; combine all of them with the original rule.
+       (map #(reduce unify
+                     (cons (dissoc % :unify)
+                           (map eval (:unify %)))))
 
        ;; for each member of :option in a rule,
        ;; create a new rule unified with that member.

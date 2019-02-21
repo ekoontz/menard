@@ -106,5 +106,6 @@
  "try" [{:cat :verb :sem {:pred :try} :subcat {:1 :top :2 :top}}]
  "turn" [{:cat :verb :sem {:pred :turn} :subcat {:1 :top :2 :top}}]
  "use" [{:cat :verb :sem {:pred :use} :subcat {:1 :top :2 :top}}]
+ "walk" [{:cat :verb :sem {:pred :walk} :subcat {:1 :top :2 :top}}]
  "want" [{:cat :verb :sem {:pred :want} :subcat {:1 :top :2 :top}}]
  "work" [{:cat :verb :sem {:pred :work} :subcat {:1 :top :2 :top}}]}

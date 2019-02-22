@@ -44,21 +44,41 @@
 
 (def poetry-specs
   [
-   {:cat :verb
-    :subcat []
-    :pred :top
-    :comp {:phrasal true
-           :rule "np"
-           :head {:phrasal true}}
-    :head {:agr {:person :3rd}
-           :phrasal true}}
 
    {:cat :verb
     :subcat []
-    :pred :top
-    :comp {:phrasal false}
+    :phrasal true}
+
+   {:cat :verb
+    :subcat []
+    :phrasal true
+    :head {:phrasal true}}
+
+   {:cat :verb
+    :subcat []
+    :phrasal true
+    :comp {:phrasal true}}
+
+   {:cat :verb
+    :subcat []
+    :comp {:phrasal true}
+    :phrasal true
+    :head {:phrasal true}}
+
+   {:cat :verb
+    :subcat []
+    :phrasal true
+    :comp {:phrasal true
+           :head {:phrasal true}}
+    :head {:phrasal true}}
+
+   {:cat :verb
+    :phrasal true
+    :subcat []
+    :comp {:phrasal true
+           :head {:phrasal true}}
     :head {:phrasal true
-           :agr {:person :3rd}}}])
+           :comp {:phrasal true}}}])
 
 (defn poetry-line []
   (->

@@ -70,9 +70,14 @@
           [{:exceptions exceptions :cat :verb :sem {:pred :give} :subcat {:1 :top :2 :top}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}]]
-   [{:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}
-    {:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 {:cat :prep}
-                                                                         :3 []}}])
+   [{:exceptions exceptions
+     :cat :verb :sem {:pred :go}
+     :subcat {:1 :top :2 []}}
+    {:exceptions exceptions
+     :cat :verb :sem {:pred :go}
+     :subcat {:1 :top :2 {:cat :prep
+                          :sem {:pred :to}}
+                      :3 []}}])
  "have" (let [exceptions [{:infl :present
                            :agr {:person :3rd :number :sing}
                            :surface "has"}
@@ -95,7 +100,10 @@
           [{:exceptions exceptions :cat :verb :sem {:pred :let} :subcat {:1 :top :2 :top}}])
  "like" [{:cat :verb :sem {:pred :like} :subcat {:1 :top :2 :top}}]
  "live" [{:cat :verb :sem {:pred :live} :subcat {:1 :top :2 :top}}]
- "look" [{:cat :verb :sem {:pred :look} :subcat {:1 :top :2 :top}}]
+ "look" [{:cat :verb :sem {:pred :look} :subcat {:1 :top :2 []}}
+         {:cat :verb :sem {:pred :look} :subcat {:1 :top :2 {:cat :prep
+                                                             :sem {:pred :at}}
+                                                         :3 []}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :make} :subcat {:1 :top :2 :top}}])
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}]]

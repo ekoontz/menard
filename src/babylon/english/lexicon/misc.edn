@@ -1,5 +1,13 @@
 {"a" [{:cat :det :agr {:number :sing}}]
  "an" [{:cat :det :agr {:number :sing}}]
+ "at" (let [obj (atom :top)]
+        [{:cat :prep
+          :subcat {:1 {:cat :noun
+                       :subcat []
+                       :sem obj}
+                   :2 []}
+          :sem {:pred :at
+                :obj obj}}])
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing

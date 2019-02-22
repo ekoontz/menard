@@ -70,7 +70,9 @@
           [{:exceptions exceptions :cat :verb :sem {:pred :give} :subcat {:1 :top :2 :top}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}]]
-   [{:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}])
+   [{:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 []}}
+    {:exceptions exceptions :cat :verb :sem {:pred :go} :subcat {:1 :top :2 {:cat :prep}
+                                                                         :3 []}}])
  "have" (let [exceptions [{:infl :present
                            :agr {:person :3rd :number :sing}
                            :surface "has"}

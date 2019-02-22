@@ -64,6 +64,13 @@
           babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 
+ {:rule "pp"
+  :cat :prep
+  :subcat []
+  :unify [babylon.ug/head-first
+          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/subcat-1]}
+
  {:rule "s"
   :cat :verb
   :slash false

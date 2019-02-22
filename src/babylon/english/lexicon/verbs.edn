@@ -118,7 +118,7 @@
           [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}
             :exceptions exceptions}])
  "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 :top}}]
- "teach" (let [exceptions [{:infl :past-simple :surface "tought"}]]
+ "teach" (let [exceptions [{:infl :past-simple :surface "taught"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :teach} :subcat {:1 :top :2 :top}}])
  "tell" (let [exceptions [{:infl :past-simple :surface "told"}]]
           [{:exceptions exceptions

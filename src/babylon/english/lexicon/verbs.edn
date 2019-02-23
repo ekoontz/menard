@@ -101,9 +101,11 @@
  "like" [{:cat :verb :sem {:pred :like} :subcat {:1 :top :2 :top}}]
  "live" [{:cat :verb :sem {:pred :live} :subcat {:1 :top :2 :top}}]
  "look" [{:cat :verb :sem {:pred :look} :subcat {:1 :top :2 []}}
-         {:cat :verb :sem {:pred :look} :subcat {:1 :top :2 {:cat :prep
-                                                             :sem {:pred :at}}
-                                                         :3 []}}]
+         {:cat :verb :sem {:pred :look}
+          :subcat {:1 :top
+                   :2 {:cat :prep
+                       :sem {:pred :at}}
+                   :3 []}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :make} :subcat {:1 :top :2 :top}}])
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}]]

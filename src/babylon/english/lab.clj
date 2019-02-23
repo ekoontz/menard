@@ -1,7 +1,8 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
-   [dag_unify.core :as u :refer [unify]]))
+   [dag_unify.core :as u :refer [unify]]
+   [clojure.tools.logging :as log]))
 
 (def specs
   [{:phrasal true
@@ -81,11 +82,15 @@
            :comp {:phrasal true}}}])
 
 (defn poetry-line []
-  (->
-   poetry-specs
-   shuffle
-   first
-   generate))
+  (try
+    (->
+     poetry-specs
+     shuffle
+     first
+     generate)
+    (catch Exception e
+      (log/warn (str "failed to generate:" e))
+      (str "??"))))
 
 (defn benchmark []
   (repeatedly

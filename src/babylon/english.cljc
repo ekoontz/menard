@@ -85,6 +85,19 @@
             m/morphology morphology]
     (grammar/syntax-tree structure)))
         
+(defn lookup
+  "find lexemes that satisfy _spec_."
+  [spec]
+  (binding [g/lexicon lexicon
+            m/morphology morphology
+            g/morph-ps syntax-tree]
+    (let [spec (let [with-subcat-empty
+                     (unify spec {:subcat []})]
+                 (if (= :fail with-subcat-empty)
+                   spec
+                   with-subcat-empty))]
+       (g/get-lexemes spec))))
+
 (defn generate
   "generate one random expression that satisfies _spec_."
   [spec]

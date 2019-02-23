@@ -165,7 +165,6 @@
           (generate
            {:cat :verb
             :subcat []
-            :pred :top
             :comp {:phrasal true
                    :head {:phrasal true}}
             :head {:phrasal true

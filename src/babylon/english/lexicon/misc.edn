@@ -126,6 +126,11 @@
         :subcat {:1 {:sem {:location true}}}}]
         :sem {:pred :to}
 
+ "very" [{:cat :intensifier
+          :subcat {:1 {:cat :adjective
+                       :phrasal false}
+                   :2 []}}]
+ 
  "we" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :1st :number :plur}}]
  "you" [{:cat :noun
          :case :nom

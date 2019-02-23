@@ -20,6 +20,12 @@
             :reflexive reflexive}
      :phrasal true}))
 
+(def head-comp-rule ;; the :cat of the _comp_ is the :cat of the parent.
+  (let [comp-cat (atom :top)]
+    {:cat comp-cat
+     :comp {:cat comp-cat}
+     :phrasal true}))
+
 (def head-sem-is-parent-sem
   (let [head-sem (atom :top)]
     {:sem head-sem
@@ -39,6 +45,14 @@
       :1 head
       :comp comp
       :2 comp})))
+
+(def head-first-1 ;; used for e.g. intensifier-phrase, where [:head :cat] != [:cat].
+  (let [head (atom :top)
+        comp (atom :top)]
+     {:head head
+      :1 head
+      :comp comp
+      :2 comp}))
 
 (def head-last
  (let [head (atom :top)

@@ -167,9 +167,7 @@
             :subcat []
             :comp {:phrasal true
                    :head {:phrasal true}}
-            :head {:phrasal true
-                   :comp {:phrasal true
-                          :head {:phrasal true}}}})
+            :head {:phrasal true}})
           :sentence-punctuation? true)))))
   (println)
   (println "Parsing:")

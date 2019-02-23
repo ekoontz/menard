@@ -1,13 +1,7 @@
 {"a" [{:cat :det :agr {:number :sing}}]
  "an" [{:cat :det :agr {:number :sing}}]
- "at" (let [obj (atom :top)]
-        [{:cat :prep
-          :subcat {:1 {:cat :noun
-                       :subcat []
-                       :sem obj}
-                   :2 []}
-          :sem {:pred :at
-                :obj obj}}])
+ "at" [{:cat :prep
+        :sem {:pred :to}}]
  "he" [{:cat :noun
         :case :nom
         :agr {:number :sing
@@ -128,14 +122,9 @@
  "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
  "they" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :3rd :number :plur}}]
 
- "to" (let [obj (atom {:location true})]
-        [{:cat :prep
-          :subcat {:1 {:cat :noun
-                       :subcat []
-                       :sem obj}
-                   :2 []}
-          :sem {:pred :to
-                :obj obj}}])
+ "to" [{:cat :prep
+        :subcat {:1 {:sem {:location true}}}}]
+        :sem {:pred :to}
 
  "we" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :1st :number :plur}}]
  "you" [{:cat :noun

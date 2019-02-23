@@ -1,5 +1,6 @@
 {"a" [{:cat :det :agr {:number :sing}}]
- "an" [{:cat :det :agr {:number :sing}}]
+ "an" [{:exception true
+        :cat :det :agr {:number :sing}}]
  "at" [{:cat :prep
         :sem {:pred :at}}]
  "he" [{:cat :noun

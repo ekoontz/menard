@@ -134,6 +134,19 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
+(defn generate-long-sentence []
+  (try (generate
+        {:cat :verb
+         :subcat []
+         :comp {:phrasal true
+                :head {:phrasal true}}
+         :head {:phrasal true
+                :comp {:phrasal true
+                       :head {:phrasal true}}}})
+       (catch babylon.generate.exception e
+         (do (log/warn (str "failed to generate: " e "; retrying.."))
+             (generate-long-sentence)))))
+
 (defn demo []
   (println "Generation:")
   (println "===")
@@ -162,12 +175,7 @@
     (repeatedly
       #(println
          (morph
-          (generate
-           {:cat :verb
-            :subcat []
-            :comp {:phrasal true
-                   :head {:phrasal true}}
-            :head {:phrasal true}})
+          (generate-long-sentence)
           :sentence-punctuation? true)))))
   (println)
   (println "Parsing:")

@@ -7,11 +7,7 @@
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.10.0"]
                  [org.clojure/tools.logging "0.4.0"]]
-  :resource-paths ["resources"]
-  :plugins [[cider/cider-nrepl "0.18.0"]
-            [lein-environ "1.0.0"]
-            [lein-localrepo "0.4.0"]
-            [lein-pprint "1.1.1"]])
+  :resource-paths ["resources"])
 
 
 

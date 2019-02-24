@@ -1,5 +1,6 @@
 (ns babylon.generate
   (:require
+   [babylon.generate.exception]
    [babylon.generate.truncate :as trunc]
    [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]
@@ -85,10 +86,10 @@
         (log/debug (str "phrasal children: " (count child-trees)))
         (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
         (if (and (empty? child-lexemes) (empty? child-trees))
-          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
-                                  (u/strip-refs child-spec) " (no phrases or lexemes match)"))))
+          (throw (babylon.generate.exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec=")
+                                  (u/strip-refs child-spec) " (no phrases or lexemes match)")))
         (if (and (empty? child-lexemes) (>= depth max-depth))
-          (throw (Exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)"))))
+          (throw (babylon.generation.exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)"))))
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

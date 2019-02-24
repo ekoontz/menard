@@ -87,10 +87,19 @@
         (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
         (if (and (empty? child-lexemes) (empty? child-trees))
           (throw (babylon.generate.exception.
-                  (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
-                       (u/strip-refs child-spec) " (no phrases or lexemes match)"))))
+                  {:message
+                     (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
+                          (u/strip-refs child-spec) " (no phrases or lexemes match)")
+                   :tree tree
+                   :frontier-path frontier-path
+                   :child-spec child-spec})))
         (if (and (empty? child-lexemes) (>= depth max-depth))
-          (throw (babylon.generate.exception. (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)"))))
+          (throw (babylon.generate.exception.
+                  {:message
+                   (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)")
+                   :tree tree
+                   :frontier-path frontier-path
+                   :child-spec child-spec})))
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

@@ -148,7 +148,7 @@
         (catch Exception e
           (do (log/warn (str "failed to generate: "
                              (syntax-tree (:tree (ex-data e))) " with spec:"
-                             (u/strip-refs (:child-spec (ex-data e)) "; retrying ")
+                             (u/strip-refs (:child-spec (ex-data e))) "; retrying "
                              "with same root: '" (u/get-in (:tree (ex-data e)) [:root])
                              "'.."))
               (generate-long-sentence

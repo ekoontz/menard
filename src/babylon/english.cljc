@@ -134,18 +134,25 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-(defn generate-long-sentence []
-  (try (generate
-        {:cat :verb
-         :subcat []
-         :comp {:phrasal true
-                :head {:phrasal true}}
-         :head {:phrasal true
-                :comp {:phrasal true
-                       :head {:phrasal true}}}})
-       (catch Exception e
-         (do (log/warn (str "failed to generate: " (keys (ex-data e)) "; retrying.."))
-             (generate-long-sentence)))))
+(defn generate-long-sentence [& {:keys [spec]}]
+  (let [extra-constraints
+        (if spec spec
+            {:comp {:phrasal true
+                    :head {:phrasal true}}
+             :head {:phrasal true
+                    :comp {:phrasal true
+                           :head {:phrasal true}}}})]
+   (try (generate
+         (unify {:cat :verb :subcat []}
+                extra-constraints))
+        (catch Exception e
+          (do (log/warn (str "failed to generate: "
+                             (syntax-tree (:tree (ex-data e))) " with spec:"
+                             (u/strip-refs (:child-spec (ex-data e)) "; retrying ")
+                             "with same root: '" (u/get-in (:tree (ex-data e)) [:root])
+                             "'.."))
+              (generate-long-sentence
+               :spec {:root (u/get-in (:tree (ex-data e)) [:root])}))))))
 
 (defn demo []
   (println "Generation:")

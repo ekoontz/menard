@@ -7,10 +7,7 @@
                  [log4j/log4j "1.2.17"]
                  [org.clojure/clojure "1.10.0"]
                  [org.clojure/tools.logging "0.4.0"]]
-  :resource-paths ["resources"]
-  :aot [babylon.generate.exception]
-;;  :target-path "target/%s/"
-  :uberjar {:aot [babylon.generate.exception]})
+  :resource-paths ["resources"])
 
 
 

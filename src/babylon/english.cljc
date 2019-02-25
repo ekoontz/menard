@@ -143,8 +143,8 @@
          :head {:phrasal true
                 :comp {:phrasal true
                        :head {:phrasal true}}}})
-       (catch babylon.generate.exception e
-         (do (log/warn (str "failed to generate: " e "; retrying.."))
+       (catch Exception e
+         (do (log/warn (str "failed to generate: " (keys (ex-data e)) "; retrying.."))
              (generate-long-sentence)))))
 
 (defn demo []

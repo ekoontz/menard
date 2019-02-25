@@ -169,8 +169,9 @@
 ;; root rules: which child (head or comp) is the root of a tree.
 (def head-is-root
   (let [root (atom :top)]
-    {:canonical root
-     :head {:canonical root}}))
+    {:root root
+     :head {:root root
+            :canonical root}}))
 
 (def nominal-phrase
   {:reflexive false

@@ -76,6 +76,7 @@
   :cat :prep
   :subcat []
   :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
           babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 

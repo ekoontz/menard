@@ -60,8 +60,10 @@
   ([structure]
    (binding [grammar/morph-leaf m/morph-leaf
              m/morphology morphology]
-     (-> (grammar/default-morph-fn structure)
-         an)))
+     (cond (nil? structure) structure
+           true
+           (-> (grammar/default-morph-fn structure)
+               an))))
 
   ([structure & {:keys [sentence-punctuation?]}]
    (binding [grammar/morph-leaf m/morph-leaf

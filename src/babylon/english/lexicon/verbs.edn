@@ -129,7 +129,7 @@
  "take" (let [exceptions [{:infl :past-simple :surface "took"}]]
           [{:cat :verb :sem {:pred :take} :subcat {:1 :top :2 :top}
             :exceptions exceptions}])
- "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 :top}}
+ "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 []}}
          {:cat :verb :sem {:pred :talk}
           :subcat {:1 :top
                    :2 {:cat :prep

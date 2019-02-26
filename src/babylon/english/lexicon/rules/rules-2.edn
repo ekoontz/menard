@@ -134,6 +134,39 @@
                          :sem subj
                          :case :acc}}})]}
 
+ {:rule :transitive-verbs-prep
+  :if {:cat :verb
+       :subcat {:1 {:cat :noun}
+                :2 {:cat :prep}}}
+  :then [(let [subj (atom :top)
+               iobj (atom :top)]
+           {:reflexive false
+            :sem {:subj subj
+                  :iobj iobj}
+            :subcat {:1 {:cat :noun
+                         :case :nom
+                         :sem subj}
+                     :2 {:cat :prep
+                         :reflexive false
+                         :case :acc
+                         :sem {:obj iobj}}}})
+         ;; reflexive: subject and object agree.
+         (let [subj (atom :top)
+               agr (atom :top)]
+           {:reflexive true
+            :sem {:subj subj
+                  :iobj subj}
+            :subcat {:1 {:agr agr
+                         :cat :noun
+                         :case :nom
+                         :sem subj}
+                     :2 {:agr agr
+                         :phrasal false
+                         :reflexive true
+                         :cat :prep
+                         :sem subj
+                         :case :acc}}})]}
+
  {:rule :intransitive-verbs
   :if {:cat :verb
        :subcat {:1 {:cat :noun}

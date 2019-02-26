@@ -83,6 +83,8 @@
             :sem {:ref {:human true}}
             :pronoun true
             :reflexive true}]
+ "on" [{:cat :prep
+        :sem {:pred :on}}]
  "she" [{:cat :noun
          :case :nom
          :agr {:number :sing

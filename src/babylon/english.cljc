@@ -138,7 +138,8 @@
   (let [extra-constraints
         (if spec spec
             {:comp {:phrasal true
-                    :head {:phrasal true}}
+                    :head {:phrasal true
+                           :head {:phrasal true}}}
              :head {:phrasal true
                     :comp {:phrasal true
                            :head {:phrasal true}}}})]

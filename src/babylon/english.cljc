@@ -136,27 +136,42 @@
             l/morphology morphology]
     (l/matching-lexemes surface)))              
 
-(defn generate-long-sentence [& {:keys [spec]}]
-  (let [extra-constraints
-        (if spec spec
-            {:comp {:phrasal true
-                    :head {:phrasal true
-                           :head {:phrasal true}}}
-             :head {:phrasal true
-                    :comp {:phrasal true
-                           :head {:phrasal true}}}})]
-   (try (generate
-         (unify {:cat :verb :subcat []}
-                extra-constraints))
-        (catch Exception e
-          (do (log/warn (str "failed to generate: "
-                             (syntax-tree (:tree (ex-data e))) " with spec:"
-                             (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                             (:frontier-path (ex-data e)) "; retrying "
-                             "with same root: '" (u/get-in (:tree (ex-data e)) [:root])
-                             "'.."))
-              (generate-long-sentence
-               :spec {:root (u/get-in (:tree (ex-data e)) [:root])}))))))
+(def tree-specs
+  [{:comp {:phrasal true
+           :head {:phrasal true
+                  :head {:phrasal true}}}
+    :head {:phrasal true
+           :comp {:phrasal true
+                  :head {:phrasal true}}}}
+
+   {:comp {:phrasal true
+           :head {:phrasal true
+                  :head {:phrasal true}}}
+    :head {:phrasal true
+           :comp {:phrasal true}}}
+
+   {:comp {:phrasal false}
+    :head {:phrasal false}}])
+
+
+(defn generate-long-sentence [& {:keys [spec trees]}]
+  (if (empty? trees)
+    (throw (Exception. (str "no trees left; can't generate a sentence.")))
+   (let [extra-constraints (if spec spec :top)
+         tree (unify extra-constraints (first trees))]
+    (try (generate
+          (unify {:cat :verb :subcat []}
+                 tree))
+         (catch Exception e
+           (do (log/warn (str "failed to generate: "
+                              (syntax-tree (:tree (ex-data e))) " with spec:"
+                              (u/strip-refs (:child-spec (ex-data e))) "; at path:"
+                              (:frontier-path (ex-data e)) "; retrying "
+                              "with same root: '" (u/get-in (:tree (ex-data e)) [:root])
+                              "'.."))
+               (generate-long-sentence
+                :trees (rest trees)
+                :spec {:root (u/get-in (:tree (ex-data e)) [:root])})))))))
 
 (defn demo []
   (println "Generation:")
@@ -186,7 +201,7 @@
     (repeatedly
       #(println
          (morph
-          (generate-long-sentence)
+          (generate-long-sentence :trees tree-specs)
           :sentence-punctuation? true)))))
   (println)
   (println "Parsing:")

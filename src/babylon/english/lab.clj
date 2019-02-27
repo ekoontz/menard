@@ -89,7 +89,11 @@
      first
      generate)
     (catch Exception e
-      (log/warn (str "failed to generate:" e))
+      (log/warn (str "failed to generate: "
+                     (syntax-tree (:tree (ex-data e))) " with spec:"
+                     (u/strip-refs (:child-spec (ex-data e))) "; at path:"
+                     (:frontier-path (ex-data e))))
+
       (str "??"))))
 
 (defn benchmark []

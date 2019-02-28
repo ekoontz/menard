@@ -102,7 +102,6 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2-slash]}
 
- ;; TODO: generalize to all :infls, not just :present.
  {:rule "vp"
   :cat :verb
   :slash false

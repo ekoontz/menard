@@ -80,6 +80,11 @@
            :head {:phrasal true}}
     :head {:phrasal true
            :comp {:phrasal true}}}])
+(def custom-spec
+  (if true
+    {:root "go"
+     :sem {:obj {:top :top}}}
+    :top))
 
 (defn poetry-line []
   (try
@@ -87,6 +92,7 @@
      poetry-specs
      shuffle
      first
+     (unify custom-spec)
      generate)
     (catch Exception e
       (log/warn (str "failed to generate: "

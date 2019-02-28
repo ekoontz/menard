@@ -93,8 +93,8 @@
                      (syntax-tree (:tree (ex-data e))) " with spec:"
                      (u/strip-refs (:child-spec (ex-data e))) "; at path:"
                      (:frontier-path (ex-data e))))
-
-      (str "??"))))
+      
+      (poetry-line))))
 
 (defn benchmark []
   (repeatedly

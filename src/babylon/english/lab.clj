@@ -79,7 +79,18 @@
     :comp {:phrasal true
            :head {:phrasal true}}
     :head {:phrasal true
-           :comp {:phrasal true}}}])
+           :comp {:phrasal true}}}
+
+   {:cat :verb
+    :phrasal true
+    :subcat []
+    :comp {:phrasal true
+           :head {:phrasal true}}
+    :head {:phrasal true
+           :comp {:phrasal true
+                  :comp {:phrasal true}}}}])
+
+;; enable to generate with a part.
 (def custom-spec
   (if true
     {:root "go"

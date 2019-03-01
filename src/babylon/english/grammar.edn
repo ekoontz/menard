@@ -83,12 +83,7 @@
  {:rule "s"
   :cat :verb
   :slash false
-  :options [{:infl :present
-             :sem {:tense :present
-                   :aspect :simple}}
-            {:infl :past-simple
-             :sem {:tense :past
-                   :aspect :simple}}]
+  :options babylon.english/tenses
   :unify [babylon.ug/comp-mod-is-subj-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
@@ -100,12 +95,7 @@
   :complement {:case :nom}
   :cat :verb
   :reflexive false
-  :options [{:infl :present
-             :sem {:tense :present
-                   :aspect :simple}}
-            {:infl :past-simple
-             :sem {:tense :past
-                   :aspect :simple}}]
+  :options babylon.english/tenses
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/subcat-2-slash]}
@@ -113,8 +103,7 @@
  {:rule "vp"
   :cat :verb
   :slash false
-  :options [{:infl :present}
-            {:infl :past-simple}]
+  :options babylon.english/tenses
   :head {:slash false}
   :unify [babylon.ug/head-first
           babylon.ug/comp-mod-is-obj-mod

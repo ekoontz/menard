@@ -108,7 +108,7 @@
        ;; for each member of :option in a rule,
        ;; create a new rule unified with that member.
        (mapcat (fn [base-rule]
-                 (->> (:options base-rule [:top])
+                 (->> (eval (:options base-rule [:top]))
                       (map (fn [option]
                              (unify base-rule option)))
                       (filter #(not (= % :fail))))))))

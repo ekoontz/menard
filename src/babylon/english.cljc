@@ -32,6 +32,13 @@
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
     (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
+(def tenses [{:infl :present
+              :sem {:tense :present
+                    :aspect :simple}}
+             {:infl :past-simple
+              :sem {:tense :past
+                    :aspect :simple}}])
+
 (def grammar
   (-> "babylon/english/grammar.edn"
       io/resource

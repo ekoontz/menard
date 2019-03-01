@@ -96,12 +96,12 @@
                    :child-spec child-spec})))
         (if (and (empty? child-lexemes) (>= depth max-depth))
           (throw (ex-info
-                  (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)"
-                       {:tree tree
-                        :frontier-path frontier-path
-                        :depth depth
-                        :max-depth max-depth
-                        :child-spec child-spec}))))
+                  (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)")
+                  {:tree tree
+                   :frontier-path frontier-path
+                   :depth depth
+                   :max-depth max-depth
+                   :child-spec child-spec})))
         (->>
          (cond
            (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

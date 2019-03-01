@@ -173,6 +173,12 @@
      :head {:root root
             :canonical root}}))
 
+(def comp-is-root
+  (let [root (atom :top)]
+    {:root root
+     :comp {:root root
+            :canonical root}}))
+
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})

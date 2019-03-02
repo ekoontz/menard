@@ -147,4 +147,19 @@
  "use" [{:cat :verb :sem {:pred :use} :subcat {:1 :top :2 :top}}]
  "walk" [{:cat :verb :sem {:pred :walk} :subcat {:1 :top :2 :top}}]
  "want" [{:cat :verb :sem {:pred :want} :subcat {:1 :top :2 :top}}]
+ "will" [(let [agr (atom :top)
+               sem (atom {:tense :future})]
+           {:cat :verb
+            :aux true
+            :infl :base
+            :sem sem
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :aux false
+                         :cat :verb
+                         :infl :base
+                         :sem sem
+                         :subcat {:1 {:agr agr}
+                                  :2 []}}
+                     :2 []}})]
  "work" [{:cat :verb :sem {:pred :work} :subcat {:1 :top :2 :top}}]}

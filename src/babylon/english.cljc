@@ -32,12 +32,31 @@
     (compile-lexicon "babylon/english/lexicon/nouns.edn")
     (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
-(def tenses [{:infl :present
-              :sem {:tense :present
-                    :aspect :simple}}
-             {:infl :past-simple
-              :sem {:tense :past
-                    :aspect :simple}}])
+(def finite-tenses
+  [{:infl :present
+    :sem {:tense :future}
+    :head {:infl :present
+           :aux true}}
+   {:infl :present
+    :sem {:tense :present
+          :aspect :simple}}
+   {:infl :past-simple
+    :sem {:tense :past
+          :aspect :simple}}])
+
+(def tenses
+  (concat finite-tenses
+          [{:infl :base}]))
+
+(def aux-tenses
+  [{:sem {:tense :future}}])
+
+(def vp-aux-phrase
+  (let [comp-subcat (atom :top)
+        comp (atom {:subcat comp-subcat})]
+    {:subcat comp-subcat
+     :head {:subcat {:1 comp}}
+     :comp comp}))
 
 (def grammar
   (-> "babylon/english/grammar.edn"

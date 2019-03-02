@@ -27,10 +27,14 @@
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})]}
-
  {:rule :transitive-verb-obj-is-noun
   :if {:cat :verb
        :subcat {:1 {:cat :noun}
                 :2 {:cat :noun}}}
-  :then [{:subcat {:2 {:cat :noun}}}]}]
+  :then [{:subcat {:2 {:cat :noun}}}]}
+
+ {:rule :aux-default-is-false
+  :if {:cat :verb
+       :aux ::unspec}
+  :then [{:aux false}]}]
 

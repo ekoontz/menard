@@ -107,8 +107,8 @@
                        :slash true}
                    :2 []}}
          ;; "[comp1 *that [vp sees you]]"
-         ;; in this case agreement is with the subject of the vp, so :agrmust be percolated upwards:
-         (let [agr (atom {:from-comp 43})]
+         ;; in this case agreement is with the subject of the vp, so :agr must be percolated upwards:
+         (let [agr (atom :top)]
            {:cat :comp
             :agr agr
             :slash false

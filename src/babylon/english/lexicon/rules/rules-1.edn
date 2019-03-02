@@ -16,3 +16,9 @@
                          :cat :noun
                          :case :nom}}})]}]
 
+; {:rule :aux-verb
+;  :if {:cat :verb
+;       :aux true
+;  :then [(let [sem (atom :top)]
+;           {:sem sem
+;            :comp {:sem sem}})]}]

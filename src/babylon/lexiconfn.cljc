@@ -128,7 +128,12 @@
 (defn matching-lexemes
   "given a surface form _surface_, find all matching lexical entries."
   [surface]
-  (let [from-inflected
+  (let [;; Apply morpologic rules against surface to find a set of hypotheses
+        ;; about the surface form. Each morphological rule has a :p key,
+        ;; which we used to turn the surface form in to the canonical form.
+        ;; We then use the :u key, also in the rule, to find the agreement and infl
+        ;; specificities of this inflected form.
+        from-inflected
          (let [canonical-forms
                  (filter #(not (nil? %))
                          (map (fn [rule]
@@ -142,9 +147,23 @@
                              (map (fn [lexeme]
                                     (unify (:u %) {:surface surface} lexeme))
                                   (get lexicon (:canonical %))))
-                    canonical-forms))]
-    (if (not (empty? from-inflected))
-      from-inflected
+                    canonical-forms))
+        ;; however, some (or even all) of the hypotheses might be wrong, if there are
+        ;; exceptional surface forms which preclude these hypotheses. For example,
+        ;; applying the rules for regular verbs in English, for infl present and agr 3rd sing,
+        ;; the singular form of "be" is "bes", but there is an exceptional form "is" that should
+        ;; be used instead. So this filter removes the spurious "bes" from the hypotheses generated
+        ;; from _from_inflected_ above.
+        filter-against-exceptions
+        (filter (fn [analyze-hypothesis]
+                  (let [filter-with
+                        {:infl (u/get-in analyze-hypothesis [:infl])
+                         :agr (u/get-in analyze-hypothesis [:agr])}]
+                    (empty? (filter #(not (= :fail (unify % filter-with)))
+                                    (:exceptions analyze-hypothesis)))))
+                from-inflected)]
+    (if (not (empty? filter-against-exceptions))
+      (vec (set filter-against-exceptions))
       (get lexicon surface))))
 
 (defn exceptions

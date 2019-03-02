@@ -53,8 +53,11 @@
 
 (def vp-aux-phrase
   (let [comp-subcat (atom :top)
-        comp (atom {:subcat comp-subcat})]
+        reflexive (atom :top)
+        comp (atom {:reflexive reflexive
+                    :subcat comp-subcat})]
     {:subcat comp-subcat
+     :reflexive reflexive
      :head {:subcat {:1 comp}}
      :comp comp}))
 

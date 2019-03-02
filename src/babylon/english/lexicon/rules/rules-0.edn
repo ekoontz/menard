@@ -27,11 +27,18 @@
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})]}
- {:rule :transitive-verb-obj-is-noun
+
+ ;; if a verb does not specify a particular
+ ;; transitivity, generate both transitive and intransitive forms
+ ;; of the verb.
+ {:rule :subcat-unspecified
   :if {:cat :verb
        :subcat {:1 {:cat :noun}
-                :2 {:cat :noun}}}
-  :then [{:subcat {:2 {:cat :noun}}}]}
+                :2 ::unspec}}
+  :then [{:subcat {:1 {:cat :noun}
+                   :2 []}}
+         {:subcat {:1 {:cat :noun}
+                   :2 {:cat :noun}}}]}
 
  {:rule :aux-default-is-false
   :if {:cat :verb

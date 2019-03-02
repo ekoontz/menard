@@ -126,26 +126,26 @@
 (def ^:dynamic morphology)
 
 (defn matching-lexemes
-  "given a surface form _word_, find all matching lexical entries."
-  [word]
+  "given a surface form _surface_, find all matching lexical entries."
+  [surface]
   (let [from-inflected
          (let [canonical-forms
                  (filter #(not (nil? %))
                          (map (fn [rule]
                                (let [{u :u [from to] :p} rule]
-                                 (if (re-find from word)
-                                     {:canonical (clojure.string/replace word from to)
+                                 (if (re-find from surface)
+                                     {:canonical (clojure.string/replace surface from to)
                                       :u u})))
                               morphology))]
             (mapcat #(filter (fn [lexeme]
                                (not (= :fail lexeme)))
                              (map (fn [lexeme]
-                                    (unify (:u %) {:surface word} lexeme))
+                                    (unify (:u %) {:surface surface} lexeme))
                                   (get lexicon (:canonical %))))
                     canonical-forms))]
     (if (not (empty? from-inflected))
       from-inflected
-      (get lexicon word))))
+      (get lexicon surface))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"

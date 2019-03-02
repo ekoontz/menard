@@ -151,7 +151,7 @@
                sem (atom {:tense :future})]
            {:cat :verb
             :aux true
-            :infl :base
+            :infl :present
             :sem sem
             :agr agr
             :subcat {:1 {:agr agr

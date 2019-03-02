@@ -35,8 +35,7 @@
 (def finite-tenses
   [{:infl :present
     :sem {:tense :future}
-    :head {:infl :present
-           :aux true}}
+    :head {:aux true}}
    {:infl :present
     :sem {:tense :present
           :aspect :simple}}
@@ -49,7 +48,8 @@
           [{:infl :base}]))
 
 (def aux-tenses
-  [{:sem {:tense :future}}])
+  [{:infl :present
+    :sem {:tense :future}}])
 
 (def vp-aux-phrase
   (let [comp-subcat (atom :top)
@@ -132,7 +132,12 @@
   (binding [g/lexicon lexicon
             m/morphology morphology
             g/morph-ps syntax-tree]
-    (let [spec (let [with-subcat-empty
+    (let [spec (let [with-cat
+                     (unify spec {:cat (first (shuffle [:noun :verb]))})]
+                 (if (= :fail with-cat)
+                     spec
+                     with-cat))
+          spec (let [with-subcat-empty
                      (unify spec {:subcat []})]
                  (if (= :fail with-subcat-empty)
                    spec

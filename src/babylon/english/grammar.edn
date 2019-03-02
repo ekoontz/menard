@@ -120,7 +120,8 @@
            :2 []}
   :aux true
   :options babylon.english/aux-tenses
-  :comp {:cat :verb}
+  :comp {:cat :verb
+         :slash false}
   :head {:slash false
          :phrasal false
          :cat :verb

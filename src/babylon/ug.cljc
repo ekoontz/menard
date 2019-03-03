@@ -99,14 +99,17 @@
 
 (def subcat-1-1-comp-subcat
   (let [comp-subcat (atom :top)
+        reflexive (atom :top)
         agr (atom :top)
         complement (atom {:agr agr
+                          :reflexive reflexive
                           :subcat comp-subcat})]
     {:head {:agr agr
             :subcat {:1 complement
                      :2 []}}
      :agr agr
      :comp complement
+     :reflexive reflexive
      :subcat comp-subcat}))
 
 (def subcat-2

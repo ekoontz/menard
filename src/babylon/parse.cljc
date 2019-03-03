@@ -6,27 +6,12 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :as u]))
 
-(declare lookup)
-
-(def ^:dynamic lookup-fn lookup)
-
-(defn lookup [{default-fn :default-fn} k]
-  (log/debug (str "lookup: k=" k))
-  (let [pre-default (lookup-fn k)]
-    (log/trace (str "default-fn: nil? " (nil? default-fn)))
-    (log/trace (str "pre-default: count: " (count pre-default)))
-    (cond (nil? default-fn)
-          pre-default
-          true
-          (mapcat default-fn pre-default))))
-
-
+(def ^:dynamic lookup-fn)
 (def ^:dynamic grammar nil)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
 (def map-fn #?(:clj pmap) #?(:cljs map))
-
 
 ;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
 (defn over [grammar left right morph default-fn]
@@ -143,10 +128,10 @@
                                       left-strings (filter string? left)
                                       right-strings (filter string? right)
                                       left-lexemes (mapcat (fn [string]
-                                                             (lookup model string))
+                                                             (lookup-fn string))
                                                            left-strings)
                                       right-lexemes (mapcat (fn [string]
-                                                              (lookup model string))
+                                                              (lookup-fn string))
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))]

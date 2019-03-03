@@ -81,6 +81,7 @@
           babylon.ug/subcat-1]}
 
  {:rule "s"
+  :sem {:mood :decl}
   :cat :verb
   :slash false
   :options babylon.english/finite-tenses
@@ -90,7 +91,28 @@
           babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 
- {:rule "s-slash" ;; 'I see' in '[nbar2 cat [s-slash I see]'
+ {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
+  :top-level? false
+  :cat :verb
+  :sem {:mood :interog}
+  :head {:infl :base}
+  :unify [babylon.ug/subcat-1
+          babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/head-sem-is-parent-sem]}
+
+ {:rule "s-interog"
+  :top-level? true
+  :cat :verb
+  :sem {:mood :interog}
+  :head {:aux true :phrasal false}
+  :comp {:sem {:mood :interog}}
+  :unify [babylon.ug/subcat-1
+          babylon.ug/comp-is-root
+          babylon.ug/head-first]}
+ 
+ {:rule "s-slash" ;; [nbar2 *cat .[s-slash .I *see]'
+  :sem {:mood :decl}
   :slash true
   :complement {:case :nom}
   :cat :verb
@@ -100,7 +122,7 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2-1-slash]}
 
- {:rule "vp"
+ {:rule "vp" ;; [vp *see .it]
   :cat :verb
   :aux false
   :slash false
@@ -113,7 +135,8 @@
           babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-2]} 
 
- {:rule "vp-aux"
+ {:rule "vp-aux" ;; [s [vp-aux .will *see]]
+  :sem {:mood :decl}
   :cat :verb
   :slash false
   :subcat {:1 {:top :top}
@@ -132,7 +155,8 @@
           babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1-1-comp-subcat]}
  
- {:rule "vp-aux-slash"
+ {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
+  :sem {:mood :decl}
   :cat :verb
   :slash true
   :aux true

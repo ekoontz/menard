@@ -95,14 +95,16 @@
      (if sentence-punctuation?
        (-> (grammar/default-morph-fn structure)
            an
-           sentence-punctuation)))))
+           (sentence-punctuation (u/get-in structure [:sem :mood] :decl)))))))
 
 (defn sentence-punctuation
-  "Capitalizes the first letter and puts a period (.) at the end."
-  [input]
+  "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
+  [input mood]
   (str (string/capitalize (first input))
        (subs input 1 (count input))
-       "."))
+       (if (= mood :interog)
+         "?"
+         ".")))
 
 (defn syntax-tree
   "print a concise representation of a tree."
@@ -190,7 +192,8 @@
    (let [extra-constraints (if spec spec :top)
          tree (unify extra-constraints (first trees))]
     (try (generate
-          (unify {:cat :verb :subcat []}
+          (unify {:cat :verb :subcat []
+                  :sem {:mood :decl}}
                  tree))
          (catch Exception e
            (do (log/warn (str "failed to generate: "
@@ -213,6 +216,7 @@
                                                 {:cat :verb
                                                  :reflexive false
                                                  :sem {:pred :see
+                                                       :mood :decl
                                                        :obj {:pred :top}}})
                                                :sentence-punctuation? true)))))
   (println)
@@ -220,7 +224,8 @@
   (println)
   (count (take 10 (repeatedly #(println (morph
                                          (generate {:cat :verb
-                                                    :sem {:pred :see}
+                                                    :sem {:pred :see
+                                                          :mood :decl}
                                                     :reflexive true})
                                          :sentence-punctuation? true)))))
   (println)

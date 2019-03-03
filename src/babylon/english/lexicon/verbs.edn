@@ -148,7 +148,8 @@
  "walk" [{:cat :verb :sem {:pred :walk}}]
  "want" [{:cat :verb :sem {:pred :want}}]
  "will" [(let [agr (atom :top)
-               sem (atom {:tense :future})]
+               sem (atom {:mood :decl
+                          :tense :future})]
            {:cat :verb
             :aux true
             :infl :present
@@ -160,6 +161,21 @@
                          :infl :base
                          :sem sem
                          :subcat {:1 {:agr agr}}}
+                     :2 []}})
+         (let [agr (atom :top)
+               sem (atom {:mood :interog
+                          :tense :future})]
+           {:cat :verb
+            :aux true
+            :infl :present
+            :sem sem
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :top-level? false
+                         :aux false
+                         :cat :verb
+                         :sem sem
+                         :subcat []}
                      :2 []}})]
 
  "would" [(let [agr (atom :top)
@@ -175,6 +191,21 @@
                           :infl :base
                           :sem sem
                           :subcat {:1 {:agr agr}}}
+                      :2 []}})
+          (let [agr (atom :top)
+                sem (atom {:mood :interog
+                           :tense :conditional})]
+            {:cat :verb
+             :aux true
+             :infl :present
+             :sem sem
+             :agr agr
+             :subcat {:1 {:agr agr
+                          :top-level? false
+                          :aux false
+                          :cat :verb
+                          :sem sem
+                          :subcat []}
                       :2 []}})]
-
+ 
  "work" [{:cat :verb :sem {:pred :work}}]}

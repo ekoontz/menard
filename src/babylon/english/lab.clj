@@ -48,8 +48,15 @@
 
    {:cat :verb
     :subcat []
+    :sem {:mood :decl}
     :phrasal true}
 
+   {:cat :verb
+    :subcat []
+    :rule "s-interog"
+    :sem {:mood :interog}
+    :phrasal true}
+   
    {:cat :verb
     :subcat []
     :phrasal true
@@ -103,6 +110,7 @@
      shuffle
      first
      (unify custom-spec)
+     (unify {:top-level? true})
      generate)
     (catch Exception e
       (log/debug (str "failed to generate: "

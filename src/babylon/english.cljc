@@ -131,7 +131,8 @@
                      spec
                      with-cat))
           spec (let [with-subcat-empty
-                     (unify spec {:subcat []})]
+                     (unify spec {:slash false
+                                  :subcat []})]
                  (if (= :fail with-subcat-empty)
                    spec
                    with-subcat-empty))]

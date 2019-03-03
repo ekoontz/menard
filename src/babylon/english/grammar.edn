@@ -130,8 +130,9 @@
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
           babylon.ug/head-sem-is-parent-sem
-          babylon.english/vp-aux-phrase]}
-
+          babylon.english/vp-aux-phrase
+          babylon.ug/subcat-1-1-comp-subcat]}
+ 
  {:rule "vp-aux-slash"
   :cat :verb
   :slash true

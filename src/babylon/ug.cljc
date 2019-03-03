@@ -124,7 +124,7 @@
               :2 []}
      :comp complement-2}))
 
-(def subcat-2-slash
+(def subcat-2-1-slash
   (let [obj-sem (atom :top)
         obj (atom {:sem obj-sem}) ;; verb must be transitive: prevent obj from being simply :unspec.
         subj-sem (atom :top)
@@ -139,8 +139,7 @@
               :2 []}
      :slash true
      :head {:sem sem
-            :phrasal false
-            :slash false
+            :slash true
             :subcat {:1 subj
                      :2 obj}}}))
 ;; for nbar2:

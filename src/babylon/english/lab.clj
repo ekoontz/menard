@@ -92,7 +92,7 @@
 
 ;; enable to generate with a part.
 (def custom-spec
-  (if true
+  (if false
     {:sem {:tense :future}}
     :top))
 

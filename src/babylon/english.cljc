@@ -34,6 +34,9 @@
 
 (def finite-tenses
   [{:infl :present
+    :sem {:tense :conditional}
+    :head {:aux true}}
+   {:infl :present
     :sem {:tense :future}
     :head {:aux true}}
    {:infl :present
@@ -49,6 +52,8 @@
 
 (def aux-tenses
   [{:infl :present
+    :sem {:tense :conditional}}
+   {:infl :present
     :sem {:tense :future}}])
 
 (def grammar

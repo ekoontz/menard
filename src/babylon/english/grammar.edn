@@ -137,15 +137,8 @@
   :slash true
   :aux true
   :options babylon.english/aux-tenses
-
-  :comp {:cat :verb
-         :slash false}
-
-  :head {:slash false
-         :phrasal false
-         :cat :verb
+  :head {:phrasal false
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
-          babylon.ug/head-sem-is-parent-sem
-          babylon.english/vp-aux-phrase]}]
+          babylon.ug/subcat-2-2-slash]}]

@@ -98,7 +98,7 @@
   :options babylon.english/tenses
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/subcat-2-slash]}
+          babylon.ug/subcat-2-1-slash]}
 
  {:rule "vp"
   :cat :verb

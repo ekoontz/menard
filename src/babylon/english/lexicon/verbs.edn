@@ -60,6 +60,8 @@
  "do" (let [exceptions [{:infl :past-simple :surface "did"}]]
           [{:exceptions exceptions
             :cat :verb :sem {:pred :do}}])
+ "eat" (let [exceptions [{:infl :past-simple :surface "ate"}]]
+         [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :feel}}])
  "find" (let [exceptions [{:infl :past-simple :surface "found"}]]

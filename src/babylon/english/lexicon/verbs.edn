@@ -159,7 +159,6 @@
                          :cat :verb
                          :infl :base
                          :sem sem
-                         :subcat {:1 {:agr agr}
-                                  :2 []}}
+                         :subcat {:1 {:agr agr}}}
                      :2 []}})]
  "work" [{:cat :verb :sem {:pred :work}}]}

@@ -51,11 +51,6 @@
   [{:infl :present
     :sem {:tense :future}}])
 
-(def vp-aux-phrase
-  (let [reflexive (atom :top)]
-    {:reflexive reflexive
-     :comp {:reflexive reflexive}}))
-
 (def grammar
   (-> "babylon/english/grammar.edn"
       io/resource

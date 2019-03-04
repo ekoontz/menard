@@ -33,6 +33,7 @@
  ;; of the verb.
  {:rule :subcat-unspecified
   :if {:cat :verb
+       :aux false
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}}
   :then [{:subcat {:1 {:cat :noun}

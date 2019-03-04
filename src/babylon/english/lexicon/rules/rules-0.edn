@@ -1,6 +1,6 @@
 [{:rule :regular-noun
   :if {:cat :noun
-       :agr ::unspec
+       :agr {:number ::unspec}
        :pronoun ::unspec
        :propernoun ::unspec
        :regular ::unspec

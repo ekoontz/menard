@@ -9,7 +9,7 @@
        :propernoun false
        :pronoun false
        :subcat ::unspec
-       :agr ::unspec}
+       :agr {:number ::unspec}}
   :then [(let [agr (atom {:number :sing
                           :person :3rd})]
            {:cat :noun

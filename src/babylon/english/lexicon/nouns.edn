@@ -1,7 +1,7 @@
 {
  "area" [{:cat :noun :sem {:pred :area}}]
  "book" [{:cat :noun :sem {:pred :book}}]
- "boy" [{:cat :noun :sem {:pred :girl} :agr {:gender :masc}}]
+ "boy" [{:cat :noun :sem {:pred :boy} :agr {:gender :masc}}]
  "business" [{:cat :noun :sem {:pred :business}}]
  "case" [{:cat :noun :sem {:pred :case}}]
  "cat" [{:cat :noun :sem {:pred :cat :ref {:animate true

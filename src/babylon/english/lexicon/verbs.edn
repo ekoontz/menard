@@ -149,10 +149,12 @@
  "use" [{:cat :verb :sem {:pred :use}}]
  "walk" [{:cat :verb :sem {:pred :walk}}]
  "want" [{:cat :verb :sem {:pred :want}}]
- "will" [{:cat :verb
+ "will" [{:aux true
+          :cat :verb
           :infl :present
           :sem {:tense :future}}]
- "would" [{:cat :verb
+ "would" [{:aux true
+           :cat :verb
            :infl :present
            :sem {:tense :conditional}}]
 

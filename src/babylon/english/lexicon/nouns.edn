@@ -1,6 +1,7 @@
 {
  "area" [{:cat :noun :sem {:pred :area}}]
  "book" [{:cat :noun :sem {:pred :book}}]
+ "boy" [{:cat :noun :sem {:pred :girl} :agr {:gender :masc}}]
  "business" [{:cat :noun :sem {:pred :business}}]
  "case" [{:cat :noun :sem {:pred :case}}]
  "cat" [{:cat :noun :sem {:pred :cat :ref {:animate true
@@ -12,6 +13,7 @@
  "eye" [{:cat :noun :sem {:pred :eye}}]
  "fact" [{:cat :noun :sem {:pred :fact}}]
  "family" [{:cat :noun :sem {:pred :family}}]
+ "girl" [{:cat :noun :sem {:pred :girl} :agr {:gender :fem}}]
  "government" [{:cat :noun :sem {:pred :government}}]
  "group" [{:cat :noun :sem {:pred :group}}]
  "hand" [{:cat :noun :sem {:pred :hand}}]

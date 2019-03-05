@@ -32,8 +32,22 @@
          {:cat :verb
           :sem {:pred :be}
           :subcat subject-adjective
+          :exceptions exceptions}
+         {:cat :verb
+          :aux true
+          :infl :present
+          :sem {:tense :present
+                :aspect :progressive}
+          :subcat {:1 {:infl :gerund}}
+          :exceptions exceptions}
+         {:cat :verb
+          :aux true
+          :infl :past-simple
+          :sem {:tense :past
+                :aspect :progressive}
+          :subcat {:1 {:infl :gerund}}
           :exceptions exceptions}])
-
+ 
  "become" (let [exceptions [{:infl :past-simple
                              :surface "became"}
                             {:infl :past-perfect

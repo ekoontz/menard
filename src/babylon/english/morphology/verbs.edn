@@ -104,9 +104,29 @@
   :u {:cat :verb
       :infl :base}}
 
+ ;; stop/stopping,put/putting,run/running
+ {:g [#"^(.*[iou])([npst])$"          "$1$2$2ing"]
+  :p [#"^(.*[iou][npst])([npst])ing$" "$1"]
+  :u {:cat :verb
+      :infl :gerund}}
+
+ ;; let/letting
+ {:g [#"^(.*[e])([t])$"       "$1$2$2ing"]
+  :p [#"^(.*[e][t])([t])ing$" "$1"]
+  :u {:cat :verb
+      :infl :gerund}}
+ 
+ ;; smoke/smoking
+ ;; the double-dots prevent e-removal for "be"
+ ;; : be->being, not be->bing
+ {:g [#"^(..*)e$"    "$1ing"]
+  :p [#"^(..*)ing$"  "$1e"]
+  :u {:cat :verb
+      :infl :gerund}}
+
  ;; walk/walking
- {:g [#"^(.*[^e])$"    "$1ing"]
-  :p [#"^(.*[^e])ing$" "$1"]
+ {:g [#"^(.*)$"    "$1ing"]
+  :p [#"^(.*)ing$" "$1"]
   :u {:cat :verb
       :infl :gerund}}
 

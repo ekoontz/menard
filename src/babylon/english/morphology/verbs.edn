@@ -102,4 +102,17 @@
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 
   :u {:cat :verb
-      :infl :base}}]
+      :infl :base}}
+
+ ;; walk/walking
+ {:g [#"^(.*[^e])$"    "$1ing"]
+  :p [#"^(.*[^e])ing$" "$1"]
+  :u {:cat :verb
+      :infl :gerund}}
+
+ ;; smoke/smoking
+ {:g [#"^(.*)e$"    "$1ing"]
+  :p [#"^(.*)ing$"  "$1e"]
+  :u {:cat :verb
+      :infl :gerund}}]
+

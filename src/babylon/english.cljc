@@ -54,7 +54,8 @@
 
 (def tenses
   (concat finite-tenses
-          [{:infl :base}]))
+          [{:infl :base}
+           {:infl :gerund}]))
 
 (def aux-tenses
   [{:infl :present

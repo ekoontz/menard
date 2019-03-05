@@ -26,7 +26,6 @@
             :subcat {:1 {:agr agr
                          :aux false
                          :cat :verb
-                         :infl :base
                          :sem sem
                          :subcat {:1 {:agr agr}}}
                      :2 []}})

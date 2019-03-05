@@ -119,7 +119,7 @@
  ;; smoke/smoking
  ;; the double-dots prevent e-removal for "be"
  ;; : be->being, not be->bing
- {:g [#"^(..*)e$"    "$1ing"]
+ {:g [#"^(..*[^e])e$"    "$1ing"]
   :p [#"^(..*)ing$"  "$1e"]
   :u {:cat :verb
       :infl :gerund}}

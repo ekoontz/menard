@@ -33,29 +33,51 @@
     (compile-lexicon "babylon/english/lexicon/verbs.edn")))
 
 (def finite-tenses
-  [{:infl :present
+  [;; "would see"
+   {:infl :present
     :sem {:tense :conditional}
     :head {:aux true}}
+   ;; "will see"
    {:infl :present
     :sem {:tense :future}
     :head {:aux true}}
+
+   ;; "sees"
    {:infl :present
     :sem {:tense :present
           :aspect :simple}}
+
+   ;; "saw"
    {:infl :past-simple
     :sem {:tense :past
           :aspect :simple}}
+
+   ;; "is seeing"
    {:head {:aux true}
     :sem {:tense :present
           :aspect :progressive}}
+
+   ;; "was seeing"
    {:head {:aux true}
     :sem {:tense :past
-          :aspect :progressive}}])
+          :aspect :progressive}}
+
+   ;; "has seen"
+   {:head {:aux true}
+    :sem {:tense :past
+          :aspect :perfect}}
+
+   ;; "had seen"
+   {:head {:aux true}
+    :sem {:tense :past
+          :aspect :pluperfect}}])
+
 
 (def tenses
   (concat finite-tenses
           [{:infl :base}
-           {:infl :gerund}]))
+           {:infl :gerund}
+           {:infl :past-participle}]))
 
 (def aux-tenses
   [{:infl :present
@@ -67,7 +89,13 @@
           :aspect :progressive}}
    {:infl :past-simple
     :sem {:tense :past
-          :aspect :progressive}}])
+          :aspect :progressive}}
+   {:infl :present
+    :sem {:tense :past
+          :aspect :perfect}}
+   {:infl :past-simple
+    :sem {:tense :past
+          :aspect :pluperfect}}])
 
 (def grammar
   (-> "babylon/english/grammar.edn"

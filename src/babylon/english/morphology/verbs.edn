@@ -97,6 +97,25 @@
   :u {:cat :verb
       :infl :past-simple}}
 
+ ;; inflection: past-particple
+ ;; bake/baked
+ {:g [#"^(.*)e$" "$1ed"]
+  :p [#"^(.*e)d$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+
+ ;; try/tried (but not play/played)
+ {:g [#"^(.*[^aeiou])y$" "$1ied"]
+  :p [#"^(.*[^aeiou])ied$" "$1y"]
+  :u {:cat :verb
+      :infl :past-particple}}
+ 
+ ;; walk/walked
+ {:g [#"^(.*)$" "$1ed"]
+  :p [#"^(.*)ed$" "$1"]
+  :u {:cat :verb
+      :infl :past-participle}}
+ 
  ;; base inflection: used as a complement for auxiliary 'will'.
  ;; e.g. "will sleep"
  {:g [#"^(.*)$"  "$1"] 
@@ -117,8 +136,8 @@
       :infl :gerund}}
  
  ;; smoke/smoking
- ;; the double-dots prevent e-removal for "be"
- ;; : be->being, not be->bing
+ ;; the double-dots prevent 'e'-removal for "be" or "see"
+ ;;    be->being, not bing; see -> seeing, not seing
  {:g [#"^(..*[^e])e$"    "$1ing"]
   :p [#"^(..*)ing$"  "$1e"]
   :u {:cat :verb

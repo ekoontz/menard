@@ -101,7 +101,22 @@
                            :surface "had"}]]
            [{:cat :verb
              :sem {:pred :have}
+             :exceptions exceptions}
+            {:cat :verb
+             :aux true
+             :infl :present
+             :sem {:tense :past
+                   :aspect :perfect}
+             :subcat {:1 {:infl :past-participle}}
+             :exceptions exceptions}
+            {:cat :verb
+             :aux true
+             :infl :past-simple
+             :sem {:tense :past
+                   :aspect :pluperfect}
+             :subcat {:1 {:infl :past-participle}}
              :exceptions exceptions}])
+
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :hear}}])
  "help" [{:cat :verb :sem {:pred :help} :subcat {:1 :top :2 :top}}]

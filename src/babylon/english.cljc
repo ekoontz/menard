@@ -44,7 +44,13 @@
           :aspect :simple}}
    {:infl :past-simple
     :sem {:tense :past
-          :aspect :simple}}])
+          :aspect :simple}}
+   {:head {:aux true}
+    :sem {:tense :present
+          :aspect :progressive}}
+   {:head {:aux true}
+    :sem {:tense :past
+          :aspect :progressive}}])
 
 (def tenses
   (concat finite-tenses
@@ -54,7 +60,13 @@
   [{:infl :present
     :sem {:tense :conditional}}
    {:infl :present
-    :sem {:tense :future}}])
+    :sem {:tense :future}}
+   {:infl :present
+    :sem {:tense :present
+          :aspect :progressive}}
+   {:infl :past-simple
+    :sem {:tense :past
+          :aspect :progressive}}])
 
 (def grammar
   (-> "babylon/english/grammar.edn"

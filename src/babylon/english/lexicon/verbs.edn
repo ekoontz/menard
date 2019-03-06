@@ -8,15 +8,18 @@
                         {:infl :past-simple :surface "was"}
                         {:infl :past-participle :surface "been"}]
             ;; the 3 possible subcategorizations for "be":
+            ;; "I am"
             subject-only {:1 {:cat :noun}
                           :2 []}
 
+            ;; "I am a student"
             subject-object-noun
             ;; TODO: they must agree in number 
             {:1 {:cat :noun}
              :2 {:cat :noun}
              :3 []}
 
+            ;; "I am sure"
             subject-adjective {:1 {:cat :noun}
                                :2 {:cat :adjective}
                                :3 []}]
@@ -75,7 +78,7 @@
           [{:exceptions exceptions
             :cat :verb :sem {:pred :do}}])
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
-                         {:infl :past-participle :surface "ate"}]]
+                         {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])
  "feel" (let [exceptions [{:infl :past-simple :surface "felt"}
                           {:infl :past-participle :surface "felt"}]]
@@ -146,9 +149,11 @@
                    :2 {:cat :prep
                        :sem {:pred :at}}
                    :3 []}}]
- "make" (let [exceptions [{:infl :past-simple :surface "made"}]]
-          [{:exceptions exceptions :cat :verb :sem {:pred :make}}])
- "mean" (let [exceptions [{:infl :past-simple :surface "meant"}]]
+ "make" (let [exceptions [{:infl :past-simple :surface "made"}
+                          {:infl :past-particple :surface "made"}]]
+           [{:exceptions exceptions :cat :verb :sem {:pred :make}}])
+ "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
+                          {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :mean}}])
  "move" [{:cat :verb :sem {:pred :move} :subcat {:1 :top :2 :top}}]
  "need" [{:cat :verb :sem {:pred :need} :subcat {:1 :top :2 :top}}]
@@ -184,7 +189,8 @@
  "teach" (let [exceptions [{:infl :past-simple :surface "taught"}
                            {:infl :past-participle :surface "taught"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :teach}}])
- "tell" (let [exceptions [{:infl :past-simple :surface "told"}]]
+ "tell" (let [exceptions [{:infl :past-simple :surface "told"}
+                          {:infl :past-participle :surface "told"}]]
           [{:exceptions exceptions
             :cat :verb :sem {:pred :tell}}])
  "think" (let [exceptions [{:infl :past-simple :surface "thought"}

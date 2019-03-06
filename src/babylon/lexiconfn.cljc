@@ -135,13 +135,13 @@
         ;; specificities of this inflected form.
         from-inflected
          (let [canonical-forms
-                 (filter #(not (nil? %))
-                         (map (fn [rule]
-                               (let [{u :u [from to] :p} rule]
-                                 (if (re-find from surface)
-                                     {:canonical (clojure.string/replace surface from to)
-                                      :u u})))
-                              morphology))]
+               (filter #(not (nil? %))
+                       (map (fn [rule]
+                              (let [{u :u [from to] :p} rule]
+                                (if (re-find from surface)
+                                  {:canonical (clojure.string/replace surface from to)
+                                   :u u})))
+                            morphology))]
             (mapcat #(filter (fn [lexeme]
                                (not (= :fail lexeme)))
                              (map (fn [lexeme]
@@ -162,20 +162,24 @@
                     (empty? (filter #(not (= :fail (unify % filter-with)))
                                     (:exceptions analyze-hypothesis)))))
                 from-inflected)]
-    (if (not (empty? filter-against-exceptions))
-      (vec (set filter-against-exceptions))
-      (get lexicon surface))))
+    (let [from-regular-morphology
+          (vec (set filter-against-exceptions))
+          exceptions (get lexicon surface)]
+      (if (and (not (empty? from-regular-morphology))
+               (not (empty? exceptions)))
+        (log/info (str "regular morphology: " (count from-regular-morphology) "; exceptions: " (count exceptions))))
+      (concat
+       from-regular-morphology exceptions))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"
   [canonical lexeme]
   (map (fn [exception]
-         (let [surface (:surface exception)]
-           {surface
-            [(unify (d/dissoc-in lexeme [:exceptions])
-                    exception
-                    {:exception true
-                     :canonical canonical})]}))
+         {(:surface exception)
+          [(unify (d/dissoc-in lexeme [:exceptions])
+                  exception
+                  {:exception true
+                   :canonical canonical})]})
        (:exceptions lexeme)))
 
 (defn merge-with-all

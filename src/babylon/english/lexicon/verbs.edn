@@ -1,14 +1,12 @@
 {
  "ask" [{:cat :verb :sem {:pred :ask}}]
- "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"
-                         :subcat {:1 {:phrasal false}}}
+ "be" (let [exceptions [{:infl :present :agr {:person :1st :number :sing} :surface "am"}
                         {:infl :present :agr {:person :3rd :number :sing} :surface "is"}
                         {:infl :present :surface "are"}
                         {:infl :past-simple :agr {:number :plur} :surface "were"}
                         {:infl :past-simple :agr {:person :2nd} :surface "were"}
                         {:infl :past-simple :surface "was"}
                         {:infl :past-participle :surface "been"}]
-                         
             ;; the 3 possible subcategorizations for "be":
             subject-only {:1 {:cat :noun}
                           :2 []}

@@ -199,7 +199,6 @@
 (defn add-exceptions-to-lexicon
   "augment existing lexicon with new entries for all the exceptions possible for the input lexicon."
   [lexicon]
-  (let [canonicals (keys lexicon)])
   (merge-with-all
    concat
    (cons lexicon

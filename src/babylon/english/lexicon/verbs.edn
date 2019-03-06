@@ -153,7 +153,8 @@
  "move" [{:cat :verb :sem {:pred :move} :subcat {:1 :top :2 :top}}]
  "need" [{:cat :verb :sem {:pred :need} :subcat {:1 :top :2 :top}}]
  "play" [{:cat :verb :sem {:pred :play} :subcat {:1 :top :2 :top}}]
- "put" (let [exceptions [{:infl :past-simple :surface "put"}]]
+ "put" (let [exceptions [{:infl :past-simple :surface "put"}
+                         {:infl :past-participle :surface "put"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :put}}])
  "run" (let [exceptions [{:infl :past-simple :surface "ran"}
                          {:infl :past-participle :surface "run"}]]

@@ -134,20 +134,24 @@
         ;; We then use the :u key, also in the rule, to find the agreement and infl
         ;; specificities of this inflected form.
         from-inflected
-         (let [canonical-forms
-               (filter #(not (nil? %))
-                       (map (fn [rule]
-                              (let [{u :u [from to] :p} rule]
-                                (if (re-find from surface)
-                                  {:canonical (clojure.string/replace surface from to)
-                                   :u u})))
-                            morphology))]
-            (mapcat #(filter (fn [lexeme]
-                               (not (= :fail lexeme)))
-                             (map (fn [lexeme]
-                                    (unify (:u %) {:surface surface} lexeme))
-                                  (get lexicon (:canonical %))))
-                    canonical-forms))
+        (let [canonical-forms
+              (filter #(not (nil? %))
+                      (map (fn [rule]
+                             (let [{u :u [from to] :p} rule]
+                               (if (re-find from surface)
+                                 {:canonical (clojure.string/replace surface from to)
+                                  :u u})))
+                           morphology))]
+          (mapcat (fn [canonical-form]
+                    (filter (fn [lexeme]
+                              (not (= :fail lexeme)))
+                            (map (fn [lexeme]
+                                   (unify (:u canonical-form)
+                                          {:surface surface
+                                           :canonical (:canonical canonical-form)}
+                                          lexeme))
+                                 (get lexicon (:canonical canonical-form)))))
+                  canonical-forms))
         ;; however, some (or even all) of the hypotheses might be wrong, if there are
         ;; exceptional surface forms which preclude these hypotheses. For example,
         ;; applying the rules for regular verbs in English, for infl present and agr 3rd sing,
@@ -168,8 +172,7 @@
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
         (log/info (str "regular morphology: " (count from-regular-morphology) "; exceptions: " (count exceptions))))
-      (concat
-       from-regular-morphology exceptions))))
+      (concat from-regular-morphology exceptions))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"

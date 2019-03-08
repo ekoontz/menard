@@ -92,21 +92,24 @@
           babylon.ug/subcat-1]}
 
  {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
-  :top-level? false
+  :slash true
   :cat :verb
   :sem {:mood :interog}
-  :options [{:head {:infl :base}} {:head {:infl :gerund}}]
+  :options [{:head {:infl :base}} {:head {:infl :gerund}}
+            {:head {:infl :past-participle}}]
+  
   :unify [babylon.ug/subcat-1
           babylon.ug/head-last
-          babylon.ug/head-is-root
+          babylon.ug/comp-is-root
           babylon.ug/head-sem-is-parent-sem]}
 
  {:rule "s-interog"
-  :top-level? true
+  :slash false
   :cat :verb
   :sem {:mood :interog}
   :head {:aux true :phrasal false}
-  :comp {:sem {:mood :interog}}
+  :comp {:slash true
+         :sem {:mood :interog}}
   :unify [babylon.ug/subcat-1
           babylon.ug/comp-is-root
           babylon.ug/head-first]}

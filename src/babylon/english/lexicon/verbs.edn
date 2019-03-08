@@ -150,7 +150,7 @@
                        :sem {:pred :at}}
                    :3 []}}]
  "make" (let [exceptions [{:infl :past-simple :surface "made"}
-                          {:infl :past-particple :surface "made"}]]
+                          {:infl :past-participle :surface "made"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :make}}])
  "mean" (let [exceptions [{:infl :past-simple :surface "meant"}
                           {:infl :past-participle :surface "meant"}]]

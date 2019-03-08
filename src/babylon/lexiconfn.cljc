@@ -168,10 +168,22 @@
                 from-inflected)]
     (let [from-regular-morphology
           (vec (set filter-against-exceptions))
-          exceptions (get lexicon surface)]
+          ;; the lexicon contains both canonical forms and exceptions.
+          ;; this complicated filter below is supposed to enforce the following
+          ;; contraint:
+          ;; 1. Get all forms where there is an inflection resulting in _surface_.
+          ;; 2.a. If there are no inflected forms (i.e. 1. is empty), then return any forms from the lexicon
+          ;;      that are the same as the input. This is for words that aren't inflected, for example
+          ;;      determiners, prepositions, pronouns, etc; in general, closed-class lexemes.
+          ;; 2.b. If there are inflected forms, return any forms from the lexicom where the canonical form
+          ;;      of the verb is different from the input. This is for the
+          ;;      rest of words, (i.e. open-class lexemes).
+          exceptions (filter #(or (empty? from-regular-morphology)
+                                  (not (= (:canonical % ::none) surface)))
+                             (get lexicon surface))]
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
-        (log/info (str "regular morphology: " (count from-regular-morphology) "; exceptions: " (count exceptions))))
+        (log/warn (str "both regular morphology of '" surface "' " (count from-regular-morphology) " and exceptions: " (count exceptions))))
       (concat from-regular-morphology exceptions))))
 
 (defn exceptions

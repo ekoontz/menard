@@ -256,8 +256,7 @@
   (count (take 10 (repeatedly #(println (morph (generate
                                                 {:cat :verb
                                                  :reflexive false
-                                                 :sem {:pred :see
-                                                       :mood :decl
+                                                 :sem {:mood :decl
                                                        :obj {:pred :top}}})
                                                :sentence-punctuation? true)))))
   (println)
@@ -265,20 +264,20 @@
   (println)
   (count (take 10 (repeatedly #(println (morph
                                          (generate {:cat :verb
-                                                    :sem {:pred :see
-                                                          :mood :decl}
+                                                    :sem {:mood :decl}
                                                     :reflexive true})
                                          :sentence-punctuation? true)))))
   (println)
-  (println "= 'long' sentences =")
+  (println "= Interrogative sentences =")
   (println)
   (count
    (take 10
     (repeatedly
-      #(println
-         (morph
-          (generate-long-sentence :trees tree-specs)
-          :sentence-punctuation? true)))))
+     #(-> {:cat :verb
+           :sem {:mood :interog}}
+          generate
+          (morph :sentence-punctuation? true)
+          println))))
   (println)
   (println "Parsing:")
   (println "===")

@@ -132,7 +132,7 @@
                           {:infl :past-participle :surface "kept"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :keep}}])
  "know" (let [exceptions [{:infl :past-simple :surface "knew"}
-                          {:infl :past-participle :surface "knew"}]]
+                          {:infl :past-participle :surface "known"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :know}}])
  "leave" (let [exceptions [{:infl :past-simple :surface "left"}
                            {:infl :past-participle :surface "left"}]]

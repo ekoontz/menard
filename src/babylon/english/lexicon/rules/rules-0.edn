@@ -58,14 +58,6 @@
 
  {:rule :dont-inflect-determiners
   :if {:cat :det}
-  :then [{:inflected? true}]}
-
- {:rule :dont-inflect-pronouns
-  :if {:pronoun true}
-  :then [{:inflected? true}]}
-
- {:rule :dont-inflect-propernouns
-  :if {:propernoun true}
   :then [{:inflected? true}]}]
 
 

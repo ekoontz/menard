@@ -40,5 +40,12 @@
                          :cat :verb
                          :sem sem
                          :subcat []}
-                     :2 []}})]}]
+                     :2 []}})]}
 
+ {:rule :dont-inflect-pronouns
+  :if {:pronoun true}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-propernouns
+  :if {:propernoun true}
+  :then [{:inflected? true}]}]

@@ -120,7 +120,7 @@
   :complement {:case :nom}
   :cat :verb
   :reflexive false
-  :options babylon.english/tenses
+  :options babylon.english/finite-tenses
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
           babylon.ug/subcat-2-1-slash]}

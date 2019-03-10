@@ -178,13 +178,15 @@
           ;; 2.b. If there are inflected forms, return any forms from the lexicom where the canonical form
           ;;      of the verb is different from the input. This is for the
           ;;      rest of words, (i.e. open-class lexemes).
-          exceptions (filter #(or (empty? from-regular-morphology)
-                                  (not (= (:canonical % ::none) surface)))
+          exceptions (filter #(or (= true (:exception %))
+                                  (= true (:inflected? %)))
                              (get lexicon surface))]
       (if (and (not (empty? from-regular-morphology))
                (not (empty? exceptions)))
-        (log/warn (str "both regular morphology of '" surface "' " (count from-regular-morphology) " and exceptions: " (count exceptions))))
-      (concat from-regular-morphology exceptions))))
+        (log/warn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
+      (concat
+       from-regular-morphology
+        exceptions))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"

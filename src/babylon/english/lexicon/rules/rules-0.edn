@@ -44,10 +44,29 @@
  {:rule :aux-default-is-false
   :if {:cat :verb
        :aux ::unspec}
-  :then [{:aux false}]}]
+  :then [{:aux false}]}
 
+ ;; <non-inflecting rules>
+ ;;
+ ;; Closed-class words don't inflect. Need to
+ ;; set :inflected? so that babylon.lexiconfn/analyze
+ ;; will find them properly.
 
+ {:rule :dont-inflect-prepositions
+  :if {:cat :prep}
+  :then [{:inflected? true}]}
 
+ {:rule :dont-inflect-determiners
+  :if {:cat :det}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-pronouns
+  :if {:pronoun true}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-propernouns
+  :if {:propernoun true}
+  :then [{:inflected? true}]}]
 
 
 

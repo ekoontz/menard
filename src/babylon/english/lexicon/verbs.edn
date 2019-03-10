@@ -94,7 +94,7 @@
           [{:exceptions exceptions :cat :verb :sem {:pred :give}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}
-                   {:infl :past-participle :surface "went"}]]
+                   {:infl :past-participle :surface "gone"}]]
    [{:exceptions exceptions
      :cat :verb :sem {:pred :go}
      :subcat {:2 []}}

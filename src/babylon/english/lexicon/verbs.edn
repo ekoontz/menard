@@ -107,9 +107,10 @@
                               {:agr {:person :2nd} :surface "have"}
                               {:agr {:person :3rd :number :sing} :surface "has"}
                               {:agr {:person :3rd :number :plur} :surface "have"}]
-              exceptions [{:agr {:person :1st} :surface "have"}
-                          {:agr {:person :2nd} :surface "have"}
-                          {:agr {:person :3rd :number :sing} :surface "has"}
+              exceptions [{:infl :present :agr {:person :1st} :surface "have"}
+                          {:infl :present :agr {:person :2nd} :surface "have"}
+                          {:infl :present
+                           :agr {:person :3rd :number :sing} :surface "has"}
                           {:agr {:person :3rd :number :plur} :surface "have"}
                           {:infl :past-simple :surface "had"}
                           {:infl :past-participle :surface "had"}]]

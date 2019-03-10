@@ -103,7 +103,14 @@
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}])
- "have" (let [exceptions [{:infl :present :agr {:person :3rd :number :sing} :surface "has"}
+ "have" (let [aux-exceptions [{:agr {:person :1st} :surface "have"}
+                              {:agr {:person :2nd} :surface "have"}
+                              {:agr {:person :3rd :number :sing} :surface "has"}
+                              {:agr {:person :3rd :number :plur} :surface "have"}]
+              exceptions [{:agr {:person :1st} :surface "have"}
+                          {:agr {:person :2nd} :surface "have"}
+                          {:agr {:person :3rd :number :sing} :surface "has"}
+                          {:agr {:person :3rd :number :plur} :surface "have"}
                           {:infl :past-simple :surface "had"}
                           {:infl :past-participle :surface "had"}]]
           [{:cat :verb
@@ -115,14 +122,15 @@
             :sem {:tense :past
                   :aspect :perfect}
             :subcat {:1 {:infl :past-participle}}
-            :exceptions exceptions}
+            :exceptions aux-exceptions}
            {:cat :verb
             :aux true
+            :inflected? true
             :infl :past-simple
             :sem {:tense :past
                   :aspect :pluperfect}
             :subcat {:1 {:infl :past-participle}}
-            :exceptions exceptions}])
+            :surface "had"}])
 
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]

@@ -147,6 +147,7 @@
                               (not (= :fail lexeme)))
                             (map (fn [lexeme]
                                    (unify (:u canonical-form)
+                                          {:inflected? false}
                                           {:surface surface
                                            :canonical (:canonical canonical-form)}
                                           lexeme))

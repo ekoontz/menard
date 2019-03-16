@@ -1,6 +1,5 @@
 (ns babylon.generate
   (:require
-   [babylon.generate.exception]
    [babylon.generate.truncate :as trunc]
    [clojure.tools.logging :as log]
    [dag_unify.core :as u :refer [unify]]

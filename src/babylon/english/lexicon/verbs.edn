@@ -90,7 +90,7 @@
                          {:infl :past-participle :surface "got"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :get}}])
  "give" (let [exceptions [{:infl :past-simple :surface "gave"}
-                          {:infl :past-participle :surface "gave"}]]
+                          {:infl :past-participle :surface "given"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :give}}])
  "go"
  (let [exceptions [{:infl :past-simple :surface "went"}

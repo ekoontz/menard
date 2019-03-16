@@ -1,44 +1,40 @@
 (ns babylon.grammar
   (:require [babylon.morphology :as m]
             [clojure.string :as string]
+            [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [unify]]))
 
-(declare morph)
-(declare morph-leaf)
-
-(defn default-morph-fn [structure]
+(defn default-morph-fn [structure morphology]
   (cond (or (= :fail structure) 
             (nil? structure)
             (string? structure)) structure
 
         (seq? structure)
-        (map morph structure)
+        (map (fn [structure]
+               (default-morph-fn structure morphology))
+             structure)
         
         (= false (u/get-in structure [:phrasal]))
-        (morph-leaf structure)
+        (m/morph-leaf structure morphology)
         
         (and (u/get-in structure [:1])
              (u/get-in structure [:2]))
         (string/join " "
-                     (map morph
+                     (map (fn [structure]
+                            (default-morph-fn structure morphology))
                           [(u/get-in structure [:1] "_")
                            (u/get-in structure [:2] "_")]))
         true "_"))
 
-(def ^:dynamic morph default-morph-fn)
-
-;; TODO: remove this usage of ^:dynamic; this is difficult, because if we
-;; change morphology.cljc, we have to load this file (grammar.cljc)
-;; for the morphology.cljc changes to become effective.
-(def ^:dynamic morph-leaf m/morph-leaf)
-
-(defn syntax-tree [structure]
+(defn syntax-tree [structure morphology]
     (cond (or (= :fail structure) 
               (nil? structure)
               (string? structure)) structure
 
           (seq? structure)
-          (map syntax-tree structure)
+          (map (fn [structure]
+                 (syntax-tree structure morphology))
+               structure)
 
           (u/get-in structure [:syntax-tree])
           (:syntax-tree structure)
@@ -83,7 +79,7 @@
                                                   (vec (:dag_unify.core/serialized structure))))))]
 
             (string/join ""
-              (map syntax-tree
+              (map (fn [structure] (syntax-tree structure morphology))
                    ["[" (:rule structure)
                     (if (get structure :babel.generate/done?)
                       "+" " ")
@@ -93,7 +89,7 @@
                     "]"])))
 
           (map? structure)
-          (morph structure)))
+          (default-morph-fn structure morphology)))
 
 (defn process [grammar]
   (->> grammar

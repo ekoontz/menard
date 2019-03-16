@@ -123,18 +123,17 @@
 
 (defn morph
   ([structure]
-   (binding [grammar/morph-leaf m/morph-leaf
-             m/morphology morphology]
+   (binding [grammar/morph-leaf m/morph-leaf]
      (cond (nil? structure) structure
            true
-           (-> (grammar/default-morph-fn structure)
+           (-> (grammar/default-morph-fn structure morphology)
                an))))
 
   ([structure & {:keys [sentence-punctuation?]}]
    (binding [grammar/morph-leaf m/morph-leaf
              m/morphology morphology]
      (if sentence-punctuation?
-       (-> (grammar/default-morph-fn structure)
+       (-> (grammar/default-morph-fn structure morphology)
            an
            (sentence-punctuation (u/get-in structure [:sem :mood] :decl)))))))
 
@@ -150,9 +149,7 @@
 (defn syntax-tree
   "print a concise representation of a tree."
   [structure]
-  (binding [grammar/morph-leaf m/morph-leaf
-            m/morphology morphology]
-    (grammar/syntax-tree structure)))
+  (grammar/syntax-tree structure morphology))
         
 (defn lookup
   "find lexemes that satisfy _spec_."

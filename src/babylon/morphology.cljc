@@ -2,20 +2,18 @@
   (:require [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [unify]]))
 
-(def ^:dynamic morphology)
-
 (defn morph-leaf
   "apply morphology to a leaf node of a tree; where
 the morphology is a set of rules, each of which looks like:"
-  [structure]
-  (log/debug (str "morphology of:" structure))
+  [structure morphology]
   (let [matching-rules
-        (filter (fn [rule]
-                  (let [{u :u [from to] :g} rule
-                        unified (unify u structure)]
-                    (and (not (= :fail unified))
-                         (re-find from (str (u/get-in structure [:canonical] ""))))))
-                morphology)
+        (if (not (u/get-in structure [:inflected?]))
+          (filter (fn [rule]
+                    (let [{u :u [from to] :g} rule
+                          unified (unify u structure)]
+                      (and (not (= :fail unified))
+                           (re-find from (str (u/get-in structure [:canonical] ""))))))
+                  morphology))
         exceptions (u/get-in structure [:exceptions])
         exceptionless (if exceptions
                         (dissoc structure :exceptions))
@@ -27,28 +25,24 @@ the morphology is a set of rules, each of which looks like:"
     
     (cond
       first-matching-exception
-      (morph-leaf first-matching-exception)
-
-      (= (u/get-in structure [:surface])
-         "??")                     
-      (let [keep-going true ;; don't throw error if true.
-            find-error (or (u/get-in structure [:infl :error])
-                           (u/get-in structure [:agr :error])
-                           (str "unknown error: " (u/strip-refs structure)))
-            error-info (cond (= find-error :unspecified-agreement)
-                             (u/get-in structure [:agr])
-                             (= find-error :unspecified-infl)
-                             (u/get-in structure [:infl] ::unknown-infl)
-                             true (u/strip-refs structure))]
-        (if keep-going
-          error-info
-          (do
-            (println (str "failed to morph leaf: " find-error))
-            (throw (Exception. (str "failed to morph leaf:" find-error))))))
+      (morph-leaf first-matching-exception morphology)
 
       (u/get-in structure [:surface])
       (u/get-in structure [:surface])
 
+      (= true (u/get-in structure [:inflected?] false))
+      (u/get-in structure [:canonical])
+      
+      (nil? matching-rules)
+      (throw (Exception. (str "something went wrong: no rules matched for:"
+                              (u/strip-refs structure))))
+
+      (not (seq? matching-rules))
+      (throw (Exception. (str "something went wrong: matching-rules "
+                              "should be a sequence but it's a: "
+                              (type matching-rules)
+                              " for matching: " (u/strip-refs structure))))
+      
       (not (empty? matching-rules))
       (let [{[from to] :g} (first matching-rules)]
          (log/debug (str "using matching rule:" (first matching-rules)))

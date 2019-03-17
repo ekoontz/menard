@@ -123,19 +123,16 @@
 
 (defn morph
   ([structure]
-   (binding [grammar/morph-leaf m/morph-leaf]
-     (cond (nil? structure) structure
-           true
-           (-> (grammar/default-morph-fn structure morphology)
-               an))))
+   (cond (nil? structure) structure
+         true
+         (-> (grammar/default-morph-fn structure morphology)
+             an)))
 
   ([structure & {:keys [sentence-punctuation?]}]
-   (binding [grammar/morph-leaf m/morph-leaf
-             m/morphology morphology]
-     (if sentence-punctuation?
-       (-> (grammar/default-morph-fn structure morphology)
-           an
-           (sentence-punctuation (u/get-in structure [:sem :mood] :decl)))))))
+   (if sentence-punctuation?
+     (-> (grammar/default-morph-fn structure morphology)
+         an
+         (sentence-punctuation (u/get-in structure [:sem :mood] :decl))))))
 
 (defn sentence-punctuation
   "Capitalizes the first letter and puts a period (.) or question mark (?) at the end."
@@ -155,7 +152,6 @@
   "find lexemes that satisfy _spec_."
   [spec]
   (binding [g/lexicon lexicon
-            m/morphology morphology
             g/morph-ps syntax-tree]
     (let [spec (let [with-subcat-empty
                      (unify spec {:subcat []})]
@@ -168,7 +164,6 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [g/lexicon lexicon
-            m/morphology morphology
             g/morph-ps syntax-tree]
     (let [spec (let [with-cat
                      (unify spec {:cat (first (shuffle [:noun :verb]))})]
@@ -188,7 +183,6 @@
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]
   (binding [g/lexicon lexicon
-            m/morphology morphology
             g/morph-ps syntax-tree
             g/shuffle? false]
     (take n (g/generate-all (unify spec

@@ -111,6 +111,7 @@
   :comp {:slash true
          :sem {:mood :interog}}
   :unify [babylon.ug/subcat-1
+          babylon.ug/head-sem-is-parent-sem
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
  

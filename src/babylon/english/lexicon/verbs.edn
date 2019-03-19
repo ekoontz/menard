@@ -103,10 +103,24 @@
      :subcat {:2 {:cat :prep
                   :sem {:pred :to}}
               :3 []}}])
- "have" (let [aux-exceptions [{:agr {:person :1st} :surface "have"}
-                              {:agr {:person :2nd} :surface "have"}
-                              {:agr {:person :3rd :number :sing} :surface "has"}
-                              {:agr {:person :3rd :number :plur} :surface "have"}]
+ "have" (let [aux-exceptions [{:agr {:person :1st} :surface "have" :infl :present
+                               :sem {:tense :past
+                                     :aspect :perfect}}
+                              {:agr {:person :2nd} :surface "have" :infl :present
+                               :sem {:tense :past
+                                     :aspect :perfect}}
+                              {:agr {:person :3rd :number :sing} :surface "has"
+                               :infl :present
+                               :sem {:tense :past
+                                     :aspect :perfect}}
+                              {:agr {:person :3rd :number :plur} :surface "have"
+                               :infl :present
+                               :sem {:tense :past
+                                     :aspect :perfect}}
+                              {:surface "had"
+                               :infl :past-simple
+                               :sem {:tense :past
+                                     :aspect :pluperfect}}]
               exceptions [{:infl :present :agr {:person :1st} :surface "have"}
                           {:infl :present :agr {:person :2nd} :surface "have"}
                           {:infl :present
@@ -119,9 +133,6 @@
             :exceptions exceptions}
            {:cat :verb
             :aux true
-            :infl :present
-            :sem {:tense :past
-                  :aspect :perfect}
             :subcat {:1 {:infl :past-participle}}
             :exceptions aux-exceptions}
            {:cat :verb

@@ -185,8 +185,17 @@
                                  :parse-with-truncate parse-with-truncate
                                  :original-input original-input)]
                (if (empty? result)
-                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
-                                (string/join ";" tokenizations)))
+                 (let [analyses
+                       (zipmap
+                        tokenizations
+                        (map (fn [token]
+                               (lookup-fn token))
+                             tokenizations))]
+                   (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
+                                  (string/join ";"
+                                               (map (fn [token]
+                                                      (str token ":" (count (get analyses token)) ""))
+                                                    tokenizations)))))
                  (log/debug (str "parsed input:    \"" input "\"")))
                result))
            

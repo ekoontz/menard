@@ -136,15 +136,7 @@
            {:cat :verb
             :aux true
             :subcat {:1 {:infl :past-participle}}
-            :exceptions aux-exceptions}
-           {:cat :verb
-            :aux true
-            :inflected? true
-            :infl :past-simple
-            :sem {:tense :past
-                  :aspect :pluperfect}
-            :subcat {:1 {:infl :past-participle}}
-            :surface "had"}])
+            :exceptions aux-exceptions}])
 
  "hear" (let [exceptions [{:infl :past-simple :surface "heard"}
                           {:infl :past-participle :surface "heard"}]]

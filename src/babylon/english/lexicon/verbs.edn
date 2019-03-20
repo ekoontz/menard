@@ -120,12 +120,14 @@
                               {:surface "had"
                                :infl :past-simple
                                :sem {:tense :past
-                                     :aspect :pluperfect}}]
+                                     :aspect :pluperfect}}
+                              {:surface "had"
+                               :infl :past-participle}]
               exceptions [{:infl :present :agr {:person :1st} :surface "have"}
                           {:infl :present :agr {:person :2nd} :surface "have"}
                           {:infl :present
                            :agr {:person :3rd :number :sing} :surface "has"}
-                          {:agr {:person :3rd :number :plur} :surface "have"}
+                          {:infl :present :agr {:person :3rd :number :plur} :surface "have"}
                           {:infl :past-simple :surface "had"}
                           {:infl :past-participle :surface "had"}]]
           [{:cat :verb

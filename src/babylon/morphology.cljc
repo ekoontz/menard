@@ -6,6 +6,8 @@
   "apply morphology to a leaf node of a tree; where
 the morphology is a set of rules, each of which looks like:"
   [structure morphology]
+  (if (= (:cat structure) :verb)
+    (log/debug (str "morph-leaf:" (u/strip-refs structure))))
   (let [matching-rules
         (if (not (u/get-in structure [:inflected?]))
           (filter (fn [rule]
@@ -23,6 +25,7 @@ the morphology is a set of rules, each of which looks like:"
                          (map #(unify exceptionless %)
                               exceptions))))]
     
+    (log/debug (str "first-matching-exception: " (u/strip-refs first-matching-exception)))
     (cond
       first-matching-exception
       (morph-leaf first-matching-exception morphology)

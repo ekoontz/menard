@@ -123,8 +123,13 @@
                      :2 []}})]
  "the" [{:cat :det}]
  "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
- "they" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :3rd :number :plur}}]
-
+ "they" [{:cat :noun
+          :pronoun true
+          :reflexive false
+          :case :nom
+          :agr {:person :3rd :number :plur}
+          :sem {:pred :they}}]
+ 
  "to" [{:cat :prep
         :sem {:pred :to}}]
 
@@ -133,7 +138,12 @@
                        :phrasal false}
                    :2 []}}]
  
- "we" [{:cat :noun :pronoun true :reflexive false :case :nom :agr {:person :1st :number :plur}}]
+ "we" [{:cat :noun
+        :sem {:pred :we}
+        :pronoun true
+        :reflexive false
+        :case :nom
+        :agr {:person :1st :number :plur}}]
  "you" [{:cat :noun
          :case :nom
          :agr {:person :2nd}

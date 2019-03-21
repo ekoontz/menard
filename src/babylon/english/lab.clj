@@ -130,7 +130,7 @@
 (defn poetry []
   (repeatedly
    #(-> 
-     (poetry-line)
+     (or (poetry-line) "(failed)")
      (morph :sentence-punctuation? true)
      println)))
 

@@ -24,8 +24,8 @@ the morphology is a set of rules, each of which looks like:"
           (first (filter #(not (= :fail %))
                          (map #(unify exceptionless %)
                               exceptions))))]
-    
-    (log/debug (str "first-matching-exception: " (u/strip-refs first-matching-exception)))
+    (if first-matching-exception
+      (log/debug (str "morph-leaf: " (u/strip-refs first-matching-exception))))
     (cond
       first-matching-exception
       (morph-leaf first-matching-exception morphology)

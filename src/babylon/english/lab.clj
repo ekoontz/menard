@@ -150,3 +150,22 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
+(defn bug-in-have-aux []
+  (count
+   (take 100
+         (repeatedly
+          #(println
+            (let [expr
+                  (generate
+                   {:cat :verb
+                    :reflexive false
+                    :sem {:mood :decl
+                          :pred :use
+                          :aspect :progressive
+                          :tense :past
+                          :subj {:pred :they}}})]
+              (str "m:" (morph expr
+                               :sentence-punctuation? true)
+                   "; sem:" (u/strip-refs (u/get-in expr [:sem])))))))))
+
+

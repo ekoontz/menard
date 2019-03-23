@@ -19,15 +19,29 @@
                          :sem sem}}})]}
  {:rule :preposition
   :if {:cat :prep}
-  :then [(let [obj (atom :top)]
+  :then [(let [obj (atom :top)
+               agr (atom :top)]
            {:cat :prep
+            :agr agr
+            :reflexive true
             :subcat {:1 {:case :acc
+                         :reflexive true
+                         :cat :noun
+                         :agr agr
+                         :subcat []
+                         :sem obj}
+                     :2 []}
+            :sem {:obj obj}})
+         (let [obj (atom :top)]
+           {:cat :prep
+            :reflexive false
+            :subcat {:1 {:case :acc
+                         :reflexive false
                          :cat :noun
                          :subcat []
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})]}
-
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb.

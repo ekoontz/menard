@@ -22,8 +22,10 @@ Based on a linguistic theory called HPSG (Head Driven Phrase Structure Grammar).
 
 ```
 % lein repl
-nREPL server started on port 52766 on host 127.0.0.1 - nrepl://127.0.0.1:52766
-REPL-y 0.3.7, nREPL 0.2.12
+Warning: implicit hook found: lein-environ.plugin/hooks
+Hooks are deprecated and will be removed in a future version.
+nREPL server started on port 61788 on host 127.0.0.1 - nrepl://127.0.0.1:61788
+REPL-y 0.4.3, nREPL 0.6.0
 Clojure 1.10.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_121-b13
     Docs: (doc function-name-here)
@@ -41,58 +43,58 @@ Generation:
 
 = transitive sentences =
 
-Antonia saw hands.
-Systems see questions.
-Places saw Antonio.
-Moneys see schools.
-Months see eyes.
-She saw students.
-Times see facts.
-Worlds see jobs.
-Companies see areas.
-Weeks saw studies.
+Businesses have turned systems.
+He had had groups.
+Rights will keep dogs.
+Lives have sheep.
+Rooms ate mothers.
+We had known businesses.
+She goes to women.
+Hands were doing things.
+Programs would see jobs.
+You had let girls.
 
 = reflexive sentences =
 
-It saw itself.
-It saw itself.
-Puppies saw themselves.
-I saw myself.
-It sees itself.
-It sees itself.
-Schools saw themselves.
-Antonio saw himself.
-He saw himself.
-I see myself.
+She would leave herself.
+It will know itself.
+I will begin myself.
+I let myself.
+She will do herself.
+It was working itself.
+Antonia had called herself.
+Antonia will use herself.
+It was going to itself.
+It will go to itself.
 
-= 'long' sentences =
+= Interrogative sentences =
 
-The waters that began think the able questions.
-The days sheep use took the old story.
-The lots that knew take a state that jobs need.
-The waters that began walk the sheep that works talk.
-The eyes that women move tell the businesses that ran.
-A problem that shows kept the waters that did.
-The months that like left the only days.
-The times cases are find an eye that kept.
-The whole cats feel a fact systems try.
-The jobs that rooms put found the rooms that put.
+Will she let?
+Has it used?
+Had numbers tried?
+Have women lived?
+Will lots teach?
+Are puppies keeping?
+Would numbers see?
+Had names kept?
+Had schools taught?
+Would men be?
 
 Parsing:
 ===
 
-[np  .a *money]
-[s  .questions *help], [s-slash  .questions *help]
-[s  .groups *take], [s-slash  .groups *take]
-[s  .worlds *have], [s-slash  .worlds *have]
-[np  .a *right]
-[s  .waters *began]
-[np  .the *studies]
-[np  .a *life]
-[s  .lives *come]
-[np  .a *company]
+[s  .weeks *[vp-aux  *are .walking]], [s-slash  .weeks *[vp-aux-slash  *are .walking]], [s-slash  .weeks *[vp-aux-slash  *are .walking]]
+[np  .the *works]
+[np  .the *person]
+[s  .facts *move], [s-comp  .facts *move], [s-slash  .facts *move]
+[np  .the *book]
+[np  .the *ways]
+[np  .a *case]
+[np  .a *way]
+[np  .the *point]
+[np  .the *stories]
 10
-babylon.english=>
+user=>
 ```
 
 # License

@@ -202,7 +202,7 @@
            [{:exceptions exceptions :cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
-                          {:infl :past-participle :surface "took"}]]
+                          {:infl :past-participle :surface "taken"}]]
           [{:cat :verb :sem {:pred :take}
             :exceptions exceptions}])
  "talk" [{:cat :verb :sem {:pred :talk} :subcat {:1 :top :2 []}}

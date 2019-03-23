@@ -135,6 +135,14 @@
             :exceptions exceptions}
            {:cat :verb
             :aux true
+            :sem {:tense :past
+                  :aspect :perfect}
+            :subcat {:1 {:infl :past-participle}}
+            :exceptions aux-exceptions}
+           {:cat :verb
+            :aux true
+            :sem {:tense :past
+                  :aspect :pluperfect}
             :subcat {:1 {:infl :past-participle}}
             :exceptions aux-exceptions}])
 

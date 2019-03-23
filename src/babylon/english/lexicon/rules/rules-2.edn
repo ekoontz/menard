@@ -163,7 +163,7 @@
                      :2 {:agr agr
                          :reflexive true
                          :cat :prep
-                         :sem subj
+                         :sem {:obj subj}
                          :case :acc}}})]}
 
  {:rule :intransitive-verbs

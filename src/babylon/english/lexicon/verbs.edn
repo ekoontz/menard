@@ -229,11 +229,13 @@
  "will" [{:aux true
           :cat :verb
           :infl :present
+          :inflected? true
           :sem {:tense :future}
           :subcat {:1 {:infl :base}}}]
  "would" [{:aux true
            :cat :verb
            :infl :present
+           :inflected? true
            :sem {:tense :conditional}
            :subcat {:1 {:infl :base}}}]
  "work" [{:cat :verb :sem {:pred :work}}]}

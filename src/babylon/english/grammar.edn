@@ -18,7 +18,10 @@
   :cat :verb
   :infl :base ;; TODO: also possible is :gerund ("not sleeping")
   :head {:rule "vp"
-         :phrasal true}
+         :phrasal true
+         :aux false
+         :slash false
+         :reflexive false}
   :slash false
   :subcat {:1 {:top :top}}
   :comp {:cat :neg}
@@ -31,6 +34,9 @@
   :cat :verb
   :infl :base ;; TODO: also possible is :gerund ("not sleeping")
   :head {:phrasal false
+         :aux false
+         :slash false
+         :reflexive false
          :sem {:obj :unspec}}
   :slash false
   :subcat {:1 {:top :top}}

@@ -37,6 +37,7 @@
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
           babylon.ug/object-of-comp-is-head
+          babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
  
  {:rule "nbar3" ;; 'cat [comp1 that [vp-present sees me]]'
@@ -49,6 +50,7 @@
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
+          babylon.ug/sem-mod
           babylon.ug/subcat-1-1
           babylon.ug/subject-of-comp-is-head]}
 
@@ -63,6 +65,7 @@
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
           babylon.ug/object-of-comp-is-head
+          babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
  {:rule "np"

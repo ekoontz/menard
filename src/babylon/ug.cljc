@@ -197,3 +197,8 @@
 (def nominal-phrase
   {:reflexive false
    :agr {:person :3rd}})
+
+(def comp-sem-is-head-sem
+  (let [sem (atom :top)]
+    {:head {:sem sem}
+     :comp {:sem sem}}))

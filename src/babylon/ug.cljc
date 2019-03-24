@@ -90,7 +90,8 @@
         adjunct (atom {:ref reference})
         head-mod (atom :top)
         pred (atom :top)]
-    {:head {:sem {:pred pred
+    {:head {:mod head-mod
+            :sem {:pred pred
                   :ref reference}}
      :comp {:sem adjunct}
      :mod {:first adjunct

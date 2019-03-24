@@ -10,7 +10,7 @@
   (is (not (empty? (parse "the small cat sleeps"))))
   (let [I-see (parse "I see")]
     (is (not (empty? I-see)))
-    (is (= 2 (count I-see)))
+    (is (= 3 (count I-see)))
     (is (contains? (set (->> I-see (map :rule))) "s-slash"))
     (is (= (-> (->> I-see
                     (filter #(= "s-slash" (:rule %)))

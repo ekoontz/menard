@@ -88,14 +88,14 @@
             :agr agr
             :sem {:pred pred
                   :ref reference}
-            :subcat {:1 subcat-1 :2 []}}
+            :subcat subcat-1}
      :agr agr
      :comp {:sem adjunct}
      :mod {:first adjunct
            :rest head-mod}
      :sem {:ref reference
            :pred pred}
-     :subcat {:1 subcat-1 :2 []}}))
+     :subcat subcat-1}))
 
 (def subcat-1-1-comp-subcat
   (let [comp-subcat (atom :top)

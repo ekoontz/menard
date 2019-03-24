@@ -83,6 +83,15 @@
             :sem {:ref {:human true}}
             :pronoun true
             :reflexive true}]
+
+ "not" [(let [sem (atom :top)]
+          {:cat :neg
+           :sem sem
+           :subcat {:1 {:cat :verb
+                        :sem sem
+                        :infl :base}
+                    :2 []}})]
+
  "on" [{:cat :prep
         :sem {:pred :on}}]
  "she" [{:cat :noun

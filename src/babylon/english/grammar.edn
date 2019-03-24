@@ -16,10 +16,13 @@
  
  {:rule "neg-p" ;; 'not sleep'
   :cat :verb
+  :infl :base ;; TODO: also possible is :gerund ("not sleeping")
   :slash false
   :comp {:cat :neg}
-  :unify [babylon.ug/head-last
+  :unify [babylon.ug/comp-sem-is-head-sem
           babylon.ug/head-is-root
+          babylon.ug/head-last
+          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1-1]}
 
  {:rule "nbar" ;; 'black cat'

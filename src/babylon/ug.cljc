@@ -78,24 +78,25 @@
      :comp complement}))
 
 (def subcat-1-1
+  (let [agr (atom :top)
+        subcat-1 (atom :top)]
+    {:head {:agr agr
+            :subcat subcat-1}
+     :agr agr
+     :subcat subcat-1}))
+
+(def sem-mod
   (let [reference (atom :top)
         adjunct (atom {:ref reference})
         head-mod (atom :top)
-        agr (atom :top)
-        pred (atom :top)
-        subcat-1 (atom :top)]
-    {:head {:mod head-mod
-            :agr agr
-            :sem {:pred pred
-                  :ref reference}
-            :subcat subcat-1}
-     :agr agr
+        pred (atom :top)]
+    {:head {:sem {:pred pred
+                  :ref reference}}
      :comp {:sem adjunct}
      :mod {:first adjunct
            :rest head-mod}
      :sem {:ref reference
-           :pred pred}
-     :subcat subcat-1}))
+           :pred pred}}))
 
 (def subcat-1-1-comp-subcat
   (let [comp-subcat (atom :top)

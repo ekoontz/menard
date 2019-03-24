@@ -70,6 +70,10 @@
   :if {:cat :adjective}
   :then [{:inflected? true}]}
 
+ {:rule :dont-inflect-complementizers
+  :if {:cat :comp}
+  :then [{:inflected? true}]}
+
  {:rule :dont-inflect-prepositions
   :if {:cat :prep}
   :then [{:inflected? true}]}

@@ -80,6 +80,10 @@
 
  {:rule :dont-inflect-determiners
   :if {:cat :det}
+  :then [{:inflected? true}]}
+
+ {:rule :dont-inflect-negs
+  :if {:cat :neg}
   :then [{:inflected? true}]}]
 
 

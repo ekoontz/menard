@@ -14,6 +14,14 @@
           babylon.ug/head-first-1
           babylon.ug/subcat-1]}
  
+ {:rule "neg-p" ;; 'not sleep'
+  :cat :verb
+  :slash false
+  :comp {:cat :neg}
+  :unify [babylon.ug/head-last
+          babylon.ug/head-is-root
+          babylon.ug/subcat-1-1]}
+
  {:rule "nbar" ;; 'black cat'
   :cat :noun
   :slash false

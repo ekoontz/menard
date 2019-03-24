@@ -66,6 +66,10 @@
  ;; set :inflected? so that babylon.lexiconfn/analyze
  ;; will find them properly.
 
+ {:rule :dont-inflect-adjectives
+  :if {:cat :adjective}
+  :then [{:inflected? true}]}
+
  {:rule :dont-inflect-prepositions
   :if {:cat :prep}
   :then [{:inflected? true}]}

@@ -14,15 +14,30 @@
           babylon.ug/head-first-1
           babylon.ug/subcat-1]}
  
- {:rule "neg-p" ;; 'not sleep'
+ {:rule "neg-p-phrasal" ;; 'not see it'
   :cat :verb
   :infl :base ;; TODO: also possible is :gerund ("not sleeping")
+  :head {:rule "vp"
+         :phrasal true}
   :slash false
+  :subcat {:1 {:top :top}}
   :comp {:cat :neg}
   :unify [babylon.ug/comp-sem-is-head-sem
           babylon.ug/head-is-root
           babylon.ug/head-last
-          babylon.ug/head-sem-is-parent-sem
+          babylon.ug/subcat-1-1]}
+
+ {:rule "neg-p-nonphrasal" ;; 'not sleep'
+  :cat :verb
+  :infl :base ;; TODO: also possible is :gerund ("not sleeping")
+  :head {:phrasal false
+         :sem {:obj :unspec}}
+  :slash false
+  :subcat {:1 {:top :top}}
+  :comp {:cat :neg}
+  :unify [babylon.ug/comp-sem-is-head-sem
+          babylon.ug/head-is-root
+          babylon.ug/head-last
           babylon.ug/subcat-1-1]}
 
  {:rule "nbar" ;; 'black cat'

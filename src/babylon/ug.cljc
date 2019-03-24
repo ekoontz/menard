@@ -9,15 +9,18 @@
         head-agr (atom :top)
         head-infl (atom :top)
         head-cat (atom :top)
+        head-sem (atom :top)
         reflexive (atom :top)]
     {:agr head-agr
      :cat head-cat
      :infl head-infl
      :reflexive reflexive
+     :sem head-sem
      :head {:agr head-agr
             :cat head-cat
             :infl head-infl
-            :reflexive reflexive}
+            :reflexive reflexive
+            :sem head-sem}
      :phrasal true}))
 
 (def head-comp-rule ;; the :cat of the _comp_ is the :cat of the parent.
@@ -25,11 +28,6 @@
     {:cat comp-cat
      :comp {:cat comp-cat}
      :phrasal true}))
-
-(def head-sem-is-parent-sem
-  (let [head-sem (atom :top)]
-    {:sem head-sem
-     :head {:sem head-sem}}))
 
 (def slash-is-head-slash
   (let [head-slash (atom :top)]

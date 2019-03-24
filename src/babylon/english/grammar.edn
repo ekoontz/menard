@@ -3,7 +3,6 @@
          :phrasal false}
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/slash-is-head-slash
           babylon.ug/subcat-1-1-comp-subcat]}
  
@@ -73,7 +72,6 @@
   :slash false
   :unify [babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 
  {:rule "pp"
@@ -81,7 +79,6 @@
   :subcat []
   :unify [babylon.ug/head-first
           babylon.ug/head-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 
  {:rule "s"
@@ -92,7 +89,6 @@
   :unify [babylon.ug/comp-mod-is-subj-mod
           babylon.ug/head-last
           babylon.ug/head-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1]}
 
  {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
@@ -104,8 +100,7 @@
   
   :unify [babylon.ug/subcat-1
           babylon.ug/head-last
-          babylon.ug/comp-is-root
-          babylon.ug/head-sem-is-parent-sem]}
+          babylon.ug/comp-is-root]}
 
  {:rule "s-interog"
   :slash false
@@ -115,7 +110,6 @@
   :comp {:slash true
          :sem {:mood :interog}}
   :unify [babylon.ug/subcat-1
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/comp-is-root
           babylon.ug/head-first]}
  
@@ -140,7 +134,6 @@
   :unify [babylon.ug/head-first
           babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-2]} 
 
  {:rule "vp-aux" ;; [s [vp-aux .will *see]]
@@ -160,7 +153,6 @@
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
-          babylon.ug/head-sem-is-parent-sem
           babylon.ug/subcat-1-1-comp-subcat]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]

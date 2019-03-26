@@ -22,6 +22,7 @@
          :aux false
          :slash false
          :reflexive false}
+  :sem {:polarity :neg}
   :slash false
   :subcat {:1 {:top :top}}
   :comp {:cat :neg}
@@ -38,6 +39,7 @@
          :slash false
          :reflexive false
          :sem {:obj :unspec}}
+  :sem {:polarity :neg}
   :slash false
   :subcat {:1 {:top :top}}
   :comp {:cat :neg}

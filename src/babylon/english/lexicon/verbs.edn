@@ -76,25 +76,25 @@
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]
             aux-exceptions [{:agr {:person :1st} :surface "do" :infl :present
-                             :sem {:tense :past
-                                   :aspect :perfect}}
+                             :sem {:tense :present
+                                   :aspect :simple}}
                             {:agr {:person :2nd} :surface "do" :infl :present
-                             :sem {:tense :past
-                                   :aspect :perfect}}
+                             :sem {:tense :present
+                                   :aspect :simple}}
                             {:agr {:person :3rd :number :sing} :surface "does"
+                             :infl :present
+                             :sem {:tense :present
+                                   :aspect :simple}}
+                            {:agr {:person :3rd :number :plur} :surface "do"
                              :infl :present
                              :sem {:tense :past
                                    :aspect :perfect}}
-                            {:agr {:person :3rd :number :plur} :surface "do"
-                               :infl :present
-                               :sem {:tense :past
-                                     :aspect :perfect}}
                             {:surface "did"
-                               :infl :past-simple
-                               :sem {:tense :past
-                                     :aspect :pluperfect}}
+                             :infl :past-simple
+                             :sem {:tense :past
+                                   :aspect :pluperfect}}
                             {:surface "done"
-                               :infl :past-participle}]]
+                             :infl :past-participle}]]
           [{:exceptions exceptions
             :cat :verb :sem {:pred :do}}])
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}

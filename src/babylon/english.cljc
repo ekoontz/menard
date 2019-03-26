@@ -53,22 +53,26 @@
           :aspect :simple}}
 
    ;; "is seeing"
-   {:head {:aux true}
+   {:infl :present
+    :head {:aux true}
     :sem {:tense :present
           :aspect :progressive}}
 
    ;; "was seeing"
-   {:head {:aux true}
+   {:infl :past-simple
+    :head {:aux true}
     :sem {:tense :past
           :aspect :progressive}}
 
    ;; "has seen"
-   {:head {:aux true}
+   {:infl :present
+    :head {:aux true}
     :sem {:tense :past
           :aspect :perfect}}
 
    ;; "had seen"
-   {:head {:aux true}
+   {:infl :past-simple
+    :head {:aux true}
     :sem {:tense :past
           :aspect :pluperfect}}])
 

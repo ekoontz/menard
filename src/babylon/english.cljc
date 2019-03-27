@@ -97,6 +97,9 @@
    {:infl :present
     :sem {:tense :past
           :aspect :perfect}}
+   {:infl :present
+    :sem {:tense :present
+          :aspect :simple}}
    {:infl :past-simple
     :sem {:tense :past
           :aspect :pluperfect}}])

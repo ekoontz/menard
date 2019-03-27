@@ -75,10 +75,10 @@
  
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]
-            aux-exceptions [{:agr {:person :1st} :surface "do" :infl :present
+            aux-exceptions [{:agr {:person :1st} :infl :present :surface "do"
                              :sem {:tense :present
                                    :aspect :simple}}
-                            {:agr {:person :2nd} :surface "do" :infl :present
+                            {:agr {:person :2nd} :infl :present :surface "do"
                              :sem {:tense :present
                                    :aspect :simple}}
                             {:agr {:person :3rd :number :sing} :surface "does"
@@ -87,16 +87,20 @@
                                    :aspect :simple}}
                             {:agr {:person :3rd :number :plur} :surface "do"
                              :infl :present
-                             :sem {:tense :past
-                                   :aspect :perfect}}
-                            {:surface "did"
-                             :infl :past-simple
-                             :sem {:tense :past
-                                   :aspect :pluperfect}}
-                            {:surface "done"
-                             :infl :past-participle}]]
+                             :sem {:tense :present
+                                   :aspect :simple}}]]
+                          ;  {:surface "did"
+                          ;   :infl :past-simple
+                          ;   :sem {:tense :past
+                          ;         :aspect :perfect}}
+;                            {:surface "done"
+;                             :infl :past-participle}]]
           [{:exceptions exceptions
-            :cat :verb :sem {:pred :do}}])
+            :cat :verb :sem {:pred :do}}
+           {:exceptions aux-exceptions
+            :subcat {:1 {:infl :base}}
+            :cat :verb
+            :aux true}])
  "eat" (let [exceptions [{:infl :past-simple :surface "ate"}
                          {:infl :past-participle :surface "eaten"}]]
          [{:exceptions exceptions :cat :verb :sem {:pred :eat}}])

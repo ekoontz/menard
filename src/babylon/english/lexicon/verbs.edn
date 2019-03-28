@@ -74,7 +74,8 @@
             :exceptions exceptions}])
  
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
-                        {:infl :past-participle :surface "done"}]
+                        {:infl :past-participle :surface "done"}
+                        {:infl :present :agr {:person :3rd :number :sing} :surface "does"}]
             aux-exceptions [{:agr {:person :1st} :infl :present :surface "do"
                              :sem {:tense :present
                                    :aspect :simple}}
@@ -82,15 +83,13 @@
                              :sem {:tense :present
                                    :aspect :simple}}
                             {:agr {:person :3rd :number :sing} :surface "does"
-                             :infl :present
-                             :sem {:tense :present
-                                   :aspect :simple}}
+                             :infl :present}
                             {:agr {:person :3rd :number :plur} :surface "do"
                              :infl :present
                              :sem {:tense :present
-                                   :aspect :simple}}]]
-                          ;  {:surface "did"
-                          ;   :infl :past-simple
+                                   :aspect :simple}}
+                            {:surface "did"
+                             :infl :past-simple}]]
                           ;   :sem {:tense :past
                           ;         :aspect :perfect}}
 ;                            {:surface "done"

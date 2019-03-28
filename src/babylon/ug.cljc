@@ -77,7 +77,8 @@
 
 (def subcat-1-1
   (let [agr (atom :top)
-        subcat-1 (atom :top)]
+        subcat-1 (atom {:1 :top
+                        :2 []})]
     {:head {:agr agr
             :subcat subcat-1}
      :agr agr

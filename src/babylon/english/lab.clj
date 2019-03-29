@@ -150,7 +150,7 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
-(defn bug-in-have-aux []
+(defn bug-in-negatives []
   (count
    (take 100
          (repeatedly
@@ -158,11 +158,11 @@
             (let [expr
                   (generate
                    {:cat :verb
-                    :reflexive false
-                    :sem {:mood :decl
-                          :pred :use
-                          :aspect :progressive
-                          :tense :past
+                    :sem {:polarity :neg
+                          :pred :talk
+                          :mood :decl
+                          :aspect :simple
+                          :tense :present
                           :subj {:pred :they}}})]
               (str "m:" (morph expr
                                :sentence-punctuation? true)

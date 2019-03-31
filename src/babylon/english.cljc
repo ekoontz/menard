@@ -317,8 +317,3 @@
    #(println
      (time (poetry-line)))))
 
-(defn poetry []
-  (repeatedly
-   #(println
-     (poetry-line))))
-

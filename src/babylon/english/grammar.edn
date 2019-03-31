@@ -145,8 +145,8 @@
   :aux true
   :options (babylon.english/option-sets
             babylon.english/aux-tenses
-            [{:head {:phrasal false}}
-             {:head {:phrasal true
+            [{:comp {:phrasal false}}
+             {:comp {:phrasal true
                      :rule "vp"}}])
   :comp {:cat :verb
          :slash false}

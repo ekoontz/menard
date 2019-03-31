@@ -97,6 +97,14 @@
     :sem {:tense :past
           :aspect :pluperfect}}])
 
+(defn option-sets [set-a set-b]
+  (remove #(= :fail %)
+          (mapcat (fn [a-member]
+                     (map (fn [b-member]
+                            (unify a-member b-member))
+                          set-b))
+                  set-a)))
+
 (def grammar
   (-> "babylon/english/grammar.edn"
       io/resource

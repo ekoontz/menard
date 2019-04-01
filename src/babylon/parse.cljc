@@ -9,10 +9,11 @@
 (def ^:dynamic grammar nil)
 (def ^:dynamic morph (fn [x] "-xx-"))
 (def ^:dynamic syntax-tree (fn [x] "[-xx-]"))
+(def ^:dynamic truncate? true)
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-(def map-fn #?(:clj map) #?(:cljs map))
+(def map-fn #?(:clj pmap) #?(:cljs map))
 
 (declare overc)
 (declare overh)
@@ -146,11 +147,11 @@
                             (list span-pair)}))
                        spans))))))
 
-(defn parses [input n model span-map parse-with-truncate]
+(defn parses [input n model span-map]
   (cond
     (= n 1) input
     (> n 1)
-    (let [minus-1 (parses input (- n 1) model span-map parse-with-truncate)]
+    (let [minus-1 (parses input (- n 1) model span-map)]
       (log/debug (str "parses: input=" input))
       (merge minus-1
              (reduce (fn [x y]
@@ -192,10 +193,13 @@
                                             (over grammar left-signs right-signs morph-ps
                                                   (:default-fn model))
                                             (map #(-> %
-                                                      (dissoc :head) (dissoc :comp)
-                                                      (dissoc :1) (dissoc :2)
-                                                      (assoc :surface (morph %))
-                                                      (assoc :syntax-tree (syntax-tree %)))))]
+                                                      ((fn [tree]
+                                                         (cond truncate?
+                                                               (-> tree (dissoc :head) (dissoc :comp)
+                                                                   (dissoc :1) (dissoc :2)
+                                                                   (assoc :surface (morph %))
+                                                                   (assoc :syntax-tree (syntax-tree %)))
+                                                               true tree))))))]
                                        trees))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))})
                              ;; </value>
@@ -214,16 +218,9 @@
    If the input is a string, then use a language-independent tokenizer
   to turn the string into a sequence of tokens.  In the latter case,
   the tokens are assumed to be produced by splitting a string in some
-  language-dependent way. If parse-with-truncate is false, then at
-  each step of parsing the input, the entire tree will be preserved
-  rather than just the immediate parents of the root node. Preserving
-  the entire tree costs about 20% more time than truncating it."
-  ([input & {:keys [parse-with-truncate original-input]}]
-   (let [parse-with-truncate
-         (cond (= parse-with-truncate false)
-               false
-               true true)
-         original-input (if original-input original-input input)
+  language-dependent way."
+  ([input & {:keys [original-input]}]
+   (let [original-input (if original-input original-input input)
          model {}]
      (cond (= (type input) java.io.BufferedReader)
            (parse-from-file input model)
@@ -233,7 +230,6 @@
              ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
                    result (parse tokenizations
-                                 :parse-with-truncate parse-with-truncate
                                  :original-input original-input)]
                (if (empty? result)
                  (let [analyses
@@ -262,7 +258,7 @@
              (log/debug (str "input map:" input-map))
              (let [all-parses
                    (parses input-map token-count model
-                           (span-map token-count) parse-with-truncate)
+                           (span-map token-count))
                    result
                    {:token-count token-count
                     :complete-parses

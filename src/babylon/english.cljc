@@ -192,7 +192,9 @@
   (binding [p/grammar grammar
             l/lexicon lexicon
             l/morphology morphology
-            p/lookup-fn l/matching-lexemes]
+            p/lookup-fn l/matching-lexemes
+            p/syntax-tree syntax-tree
+            p/morph morph]
     (p/parse expression)))
 
 (defn analyze [surface]

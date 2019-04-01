@@ -1,6 +1,5 @@
 (ns babylon.parse
   (:require
-   [babylon.over :as over :refer [truncate]]
    [clojure.set :refer [union]]
    [clojure.string :as string]
    [clojure.tools.logging :as log]
@@ -8,19 +7,91 @@
 
 (def ^:dynamic lookup-fn)
 (def ^:dynamic grammar nil)
+(def ^:dynamic morph (fn [x] "-xx-"))
+(def ^:dynamic syntax-tree (fn [x] "[-xx-]"))
 
 ;; for now, using a language-independent tokenizer.
 (def tokenizer #"[ ']")
-(def map-fn #?(:clj pmap) #?(:cljs map))
+(def map-fn #?(:clj map) #?(:cljs map))
 
-;; TODO: use dag_unify/assoc-in rather than over/over, so that we can remove babel.over.
-(defn over [grammar left right morph default-fn]
-  "opportunity for additional logging before calling the real (over)"
-  (if default-fn
-    (->>
-     (over/over grammar left right)
-     (mapcat default-fn))
-    (over/over grammar left right)))
+(declare overc)
+(declare overh)
+(declare overhc)
+
+;; TODO: distinguish between when:
+;; 1) called with only a child1 (no child2),
+;; 2) called with both a child1 and a child2, but child2's supplied value is nil:
+;;    should be treated the same as empty list.
+(defn over [parents child1 & [child2]]
+  (cond (map? parents)
+        (over [parents] child1 child2)
+        
+        true
+        (mapcat
+         (fn [parent]
+           (let [[head comp] (if (= (:1 parent) (:head parent))
+                               [child1 child2]
+                               [child2 child1])]
+             (overhc parent head comp)))
+         parents)))
+
+(defn overhc [parent head comp]
+  (-> parent
+      (overh head)
+      (overc comp)))
+
+(defn overh
+  "add given head as the head child of the phrase: parent."
+  [parent head]
+  ;; TODO: get rid of all this type-checking and use
+  ;; whatever people use for Clojure argument type-checking.
+  (cond
+    (or (seq? head)
+        (vector? head))
+    (mapcat (fn [child]
+              (overh parent child))
+            head)
+    true
+    ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
+    ;; and save 'true' for errors.
+    (let [result (u/unify! (u/copy parent)
+                           {:head (u/copy head)})]
+      (if (not (= :fail result))
+        (do
+          (log/debug (str "overh success: " (get-in parent [:rule]) "-> cat=" (get-in head [:synsem :cat])))
+          (log/debug (str "overh success: " (get-in parent [:rule]) "-> pred=" (get-in head [:synsem :sem :pred]))) 
+          [result])
+        (log/debug (str "overh: fail-path for rule: " (:rule parent) ":"
+                        (u/fail-path (u/copy parent) {:head (u/copy head)})))))))
+
+(defn overc [parent comp]
+  "add given child as the complement of the parent"
+  (cond
+    (or (seq? parent)
+        (vector? parent))
+    (let [parents (lazy-seq parent)]
+      (mapcat (fn [parent]
+                (overc parent comp))
+              parents))
+
+    (or (seq? comp)
+        (vector? comp))
+    (let [comp-children comp]
+      (mapcat (fn [child]
+                (overc parent child))
+              comp-children))
+    true
+    (let [result (u/unify! (u/copy parent)
+                           {:comp (u/copy comp)})
+          is-fail? (= :fail result)]
+      (if (not is-fail?)
+        (do
+          (log/debug (str "overc success: " (get-in parent [:rule]) " -> " (get-in comp [:rule]
+                                                                                   (get-in comp [:synsem :sem :pred]
+                                                                                           "(no pred for comp)"))))
+          [result])
+        (log/debug (str "overc: fail-path for rule: " (:rule parent) ":"
+                        (u/fail-path (u/copy parent) {:comp (u/copy comp)})))))))
 
 (defn square-cross-product [x]
   (mapcat (fn [each-x]
@@ -75,33 +146,6 @@
                             (list span-pair)}))
                        spans))))))
 
-(defn summarize [sign model]
-  "useful for providing an abbreviated form of a sign's comps and heads. called as part of truncation to improve parsing performance by avoiding copying unnecessary material."
-  (let [language-keyword (:language-keyword model)
-        root-form (or
-                   (u/get-in sign [language-keyword :infinitive])
-                   (u/get-in sign [language-keyword :root])
-                   (u/get-in sign [language-keyword language-keyword])
-                   (if (string? (u/get-in sign [language-keyword]))
-                     (u/get-in sign [language-keyword])))
-        stringified ((:morph model) sign)]
-    (conj (if (and root-form
-                   (= :none (u/get-in sign [:comp] :none))
-                   (= :none (u/get-in sign [:head] :none))
-                   (not (= root-form stringified)))
-            {language-keyword {language-keyword stringified
-                               :root root-form}}
-            {language-keyword stringified})
-          (if-let [rule (u/get-in sign [:rule])]
-            {:rule rule})
-          (if-let [cat (or (u/get-in sign [:cat])
-                           (u/get-in sign [:synsem :cat]))]
-            {:cat cat})
-          (if-let [head (u/get-in sign [:head])]
-            {:head (summarize head model)})
-          (if-let [comp (u/get-in sign [:comp])]
-            {:comp (summarize comp model)}))))
-
 (defn parses [input n model span-map parse-with-truncate]
   (cond
     (= n 1) input
@@ -143,12 +187,19 @@
                                                       (:morph model))
                                            ;; fallback to (:morph model) if
                                            ;; (:morph-ps is not available)
-                                           trees (over grammar left-signs right-signs morph-ps
-                                                       (:default-fn model))]
+                                           trees
+                                           (->>
+                                            (over grammar left-signs right-signs morph-ps
+                                                  (:default-fn model))
+                                            (map #(-> %
+                                                      (dissoc :head) (dissoc :comp)
+                                                      (dissoc :1) (dissoc :2)
+                                                      (assoc :surface (morph %))
+                                                      (assoc :syntax-tree (syntax-tree %)))))]
                                        trees))
-                                   [(string/join " " [(first left-strings) (first right-strings)])]))
-                                ;; </value>
-                                })
+                                   [(string/join " " [(first left-strings) (first right-strings)])]))})
+                             ;; </value>
+                             
                              (get span-map n)))))))
 
 (declare parse)

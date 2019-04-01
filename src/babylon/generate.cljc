@@ -1,3 +1,4 @@
+;; TODO: s/morph-ps/syntax-tree/
 (ns babylon.generate
   (:require
    [babylon.generate.truncate :as trunc]
@@ -11,6 +12,10 @@
 ;; set to 0 to always put trees before leaves.
 ;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
 (def ^:const branching-factor 1000)
+
+(def ^:dynamic morph (fn [x] "-xx-"))
+(def ^:dynamic syntax-tree (fn [x] "[-xx-]"))
+(def ^:dynamic truncate? true)
 
 (defn phrasal-children-first? [depth]
   (let [result (= 0 (rand-int (+ depth branching-factor)))]
@@ -136,7 +141,7 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn terminate-up [tree frontier-path]
-  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (log/info (str "terminate-up: " (vec frontier-path)))
   (cond
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
@@ -150,6 +155,15 @@
       (log/debug (str "done terminating: at:" (vec frontier-path)))
       (log/debug (str "done terminating: with done?:" (u/get-in tree [::done?] ::none)))
       tree)))
+
+(defn truncate [tree]
+  (-> tree
+      (assoc :surface (morph tree))
+      (assoc :syntax-tree (syntax-tree tree))
+      (dissoc :head)
+      (dissoc :comp)
+      (dissoc :1)
+      (dissoc :2)))
 
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."

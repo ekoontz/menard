@@ -164,7 +164,9 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [g/lexicon lexicon
-            g/morph-ps syntax-tree]
+            g/morph-ps syntax-tree
+            g/syntax-tree syntax-tree
+            g/morph morph]
     (let [spec (let [with-cat
                      (unify spec {:cat (first (shuffle [:noun :verb]))})]
                  (if (= :fail with-cat)
@@ -178,6 +180,11 @@
                    with-subcat-empty))]
       (-> spec
           (g/generate grammar)))))
+
+(defn truncate [tree]
+  (binding [g/syntax-tree syntax-tree
+            g/morph morph]
+    (g/truncate tree)))
 
 (defn generate-n
   "generate _n_ consecutive in-order expressions that satisfy _spec_."

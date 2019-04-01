@@ -183,15 +183,9 @@
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
-                                     (let [morph-ps (if (:morph-ps model)
-                                                      (:morph-ps model)
-                                                      (:morph model))
-                                           ;; fallback to (:morph model) if
-                                           ;; (:morph-ps is not available)
-                                           trees
+                                     (let [trees
                                            (->>
-                                            (over grammar left-signs right-signs morph-ps
-                                                  (:default-fn model))
+                                            (over grammar left-signs right-signs)
                                             (map #(-> %
                                                       ((fn [tree]
                                                          (cond truncate?

@@ -152,7 +152,7 @@
   "find lexemes that satisfy _spec_."
   [spec]
   (binding [g/lexicon lexicon
-            g/morph-ps syntax-tree]
+            g/syntax-tree syntax-tree]
     (let [spec (let [with-subcat-empty
                      (unify spec {:subcat []})]
                  (if (= :fail with-subcat-empty)
@@ -164,7 +164,6 @@
   "generate one random expression that satisfies _spec_."
   [spec]
   (binding [g/lexicon lexicon
-            g/morph-ps syntax-tree
             g/syntax-tree syntax-tree
             g/morph morph]
     (let [spec (let [with-cat
@@ -190,7 +189,7 @@
   "generate _n_ consecutive in-order expressions that satisfy _spec_."
   [spec n]
   (binding [g/lexicon lexicon
-            g/morph-ps syntax-tree
+            g/syntax-tree syntax-tree
             g/shuffle? false]
     (take n (g/generate-all (unify spec
                                    {:subcat []})

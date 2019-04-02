@@ -1,4 +1,3 @@
-;; TODO: s/morph-ps/syntax-tree/
 (ns babylon.generate
   (:require
    [babylon.generate.truncate :as trunc]
@@ -28,12 +27,7 @@
   (count (filter #(= % true) (take 100 (repeatedly #(fn [] (phrasal-children-first?)))))))
 
 (def ^:const max-depth 6)
-(def ^:dynamic morph-ps (fn [x]
-                          (cond (map? x)
-                                (vec (s/serialize x))
-                                (or (nil? x)
-                                    (keyword? x)) x
-                                true (str x "(type:" (type x) ")"))))
+
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
                           (flatten (vals lexicon))))
@@ -77,7 +71,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/debug (str "grow: " (morph-ps tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
+    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (cond
       (empty? frontier-path) [tree]
       true
@@ -91,7 +85,7 @@
         (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
         (if (and (empty? child-lexemes) (empty? child-trees))
           (throw (ex-info
-                  (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path "; child-spec="
+                  (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path "; child-spec="
                        (u/strip-refs child-spec) " (no phrases or lexemes match)")
                   {:tree tree
                    :frontier-path frontier-path
@@ -100,7 +94,7 @@
                    :child-spec child-spec})))
         (if (and (empty? child-lexemes) (>= depth max-depth))
           (throw (ex-info
-                  (str "cannot grow this tree: " (morph-ps tree) " at: " frontier-path ". (max depth reached)")
+                  (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path ". (max depth reached)")
                   {:tree tree
                    :frontier-path frontier-path
                    :depth depth
@@ -120,7 +114,7 @@
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))
          (lazy-mapcat (fn [tree]
-                        (log/debug (str "size of tree: " (morph-ps tree) " : " (count (str tree))))
+                        (log/debug (str "size of tree: " (syntax-tree tree) " : " (count (str tree))))
                         (grow tree grammar)))
          lazy-seq)))))
 

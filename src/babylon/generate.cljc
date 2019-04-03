@@ -135,12 +135,12 @@
          (map #(u/assoc-in! % [::done?] true)))))
 
 (defn terminate-up [tree frontier-path]
-  (log/info (str "terminate-up: " (vec frontier-path)))
+  (log/debug (str "terminate-up: " (vec frontier-path)))
   (cond
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
     (do
-      (log/debug (str "terminating at:" (vec (concat (butlast frontier-path) [::done?]))))
+      (log/info (str "terminating at:" (vec (butlast frontier-path))))
       (-> tree
           (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
           (terminate-up (butlast frontier-path))))

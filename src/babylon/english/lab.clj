@@ -169,3 +169,63 @@
                    "; sem:" (u/strip-refs (u/get-in expr [:sem])))))))))
 
 
+;; thanks to Symfrog @ https://stackoverflow.com/a/26215960/9617245
+;; this one has bugs on big outputs like the "food"
+;; graphs generated below.
+(defn dissoc-in-symfrog [m p]
+  (if (get-in m p) 
+    (update-in m
+               (butlast p)
+               dissoc (last p))
+    m))
+
+;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
+(defn dissoc-in
+  "Dissociate a value in a nested associative structure, identified by a sequence
+  of keys. Any collections left empty by the operation will be dissociated from
+  their containing structures."
+  ([m ks]
+   (if-let [[k & ks] ks]
+     (if ks
+       (let [v (dissoc-in (get m k) ks)]
+         (if (empty? v)
+           (dissoc m k)
+           (assoc m k v)))
+       (dissoc m k))
+     m)))
+
+(defn learning
+  ([m ks]
+   (type ks)))
+
+(defn dissoc-test []
+  (let [food (u/strip-refs
+              (generate
+               {:cat :verb
+                :reflexive false
+                :sem {:mood :decl
+                      :pred :use
+                      :aspect :progressive
+                      :tense :past
+                      :subj {:pred :they}}}))]
+    (keys (-> food (dissoc-in [:comp])))))
+
+(defn dissoc-test-2 []
+  (let [food (u/strip-refs
+              (generate
+               {:cat :verb
+                :reflexive false
+                :sem {:mood :decl
+                      :pred :use
+                      :aspect :progressive
+                      :tense :past
+                      :subj {:pred :they}}}))]
+    (-> food
+        (dissoc-in [:comp])
+        (dissoc-in [:head])
+        (dissoc-in [:1])
+        (dissoc-in [:2])
+        u/pprint)))
+
+
+                  

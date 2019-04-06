@@ -208,18 +208,6 @@
                       :aspect :progressive
                       :tense :past
                       :subj {:pred :they}}}))]
-    (keys (-> food (dissoc-in [:comp])))))
-
-(defn dissoc-test-2 []
-  (let [food (u/strip-refs
-              (generate
-               {:cat :verb
-                :reflexive false
-                :sem {:mood :decl
-                      :pred :use
-                      :aspect :progressive
-                      :tense :past
-                      :subj {:pred :they}}}))]
     (-> food
         (dissoc-in [:comp])
         (dissoc-in [:head])

@@ -185,18 +185,14 @@
   of keys. Any collections left empty by the operation will be dissociated from
   their containing structures."
   ([m ks]
-   (if-let [[k & ks] ks]
-     (if ks
-       (let [v (dissoc-in (get m k) ks)]
+   (if-let [[head & tail] ks]
+     (if tail
+       (let [v (dissoc-in (get m head) tail)]
          (if (empty? v)
-           (dissoc m k)
-           (assoc m k v)))
-       (dissoc m k))
+           (dissoc m head)
+           (assoc m head v)))
+       (dissoc m head))
      m)))
-
-(defn learning
-  ([m ks]
-   (type ks)))
 
 (defn dissoc-test []
   (let [food (u/strip-refs

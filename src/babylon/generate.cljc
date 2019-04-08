@@ -14,7 +14,7 @@
 
 (def ^:dynamic morph (fn [x] "-no-morph-function-"))
 (def ^:dynamic syntax-tree (fn [x] "[-no-syntax-tree-function-]"))
-(def ^:dynamic truncate? true)
+(def ^:dynamic truncate? false)
 
 (defn phrasal-children-first? [depth]
   (let [result (= 0 (rand-int (+ depth branching-factor)))]
@@ -34,7 +34,6 @@
 
 (def ^:dynamic lexical-filter nil)
 (def ^:dynamic shuffle? true)
-(def ^:dynamic truncate? nil)
 
 (declare frontier)
 (declare get-lexemes)
@@ -71,7 +70,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
+    (log/info (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (cond
       (empty? frontier-path) [tree]
       true
@@ -173,8 +172,6 @@
       m)
     (truncate m)))
 
-(def truncate-enabled? true)
-
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path)))
   (cond
@@ -185,7 +182,7 @@
        (if (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
          (do
            (log/debug (str "you should terminate this phrase at path: " (butlast frontier-path)))
-           (if truncate-enabled? (truncate-in tree (butlast frontier-path))
+           (if truncate? (truncate-in tree (butlast frontier-path))
                tree))
          tree)
        (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)

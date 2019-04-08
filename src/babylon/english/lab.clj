@@ -151,51 +151,26 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
-(defn bug-in-have-aux []
-  (count
-   (take 100
-         (repeatedly
-          #(println
-            (let [expr
-                  (generate
-                   {:cat :verb
-                    :reflexive false
-                    :sem {:mood :decl
-                          :pred :use
-                          :aspect :progressive
-                          :tense :past
-                          :subj {:pred :they}}})]
-              (str "m:" (morph expr
-                               :sentence-punctuation? true)
-                   "; sem:" (u/strip-refs (u/get-in expr [:sem])))))))))
-
-
-;; thanks to Symfrog @ https://stackoverflow.com/a/26215960/9617245
-;; this one has bugs on big outputs like the "food"
-;; graphs generated below.
-(defn dissoc-in-symfrog [m p]
-  (if (get-in m p) 
-    (update-in m
-               (butlast p)
-               dissoc (last p))
-    m))
-
-(defn truncate-test []
+(defn a-dog-were-seeing-a-cat []
   (let [spec
         {:cat :verb
-         :comp {:phrasal true
-                :rule "np"}
-         :head {:comp {:comp {:phrasal true
-                              :rule "np"}}}
          :reflexive false
+         :agr {:number :sing}
          :sem {:mood :decl
                :pred :see
-               :obj {:pred :cat}
                :aspect :progressive
                :tense :past
-               :subj {:pred :dog}}}]
-    (binding [g/syntax-tree syntax-tree
-              g/morph morph]
-      (let [generated (generate spec)]
-         (println (str "syntax-tree: " (syntax-tree generated)
-                       "; size: " (count (str generated))))))))
+               :subj {:pred :dog}
+               :obj {:pred :cat}}
+         :comp {:rule "np"
+                :phrasal true}}]
+    
+    (count
+       (take 100
+             (repeatedly
+               #(println
+                  (let [expr
+                         (generate
+                            spec)]
+                     (str "m:" (morph expr :sentence-punctuation? true)))))))))
+

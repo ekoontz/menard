@@ -195,12 +195,5 @@
     (binding [g/syntax-tree syntax-tree
               g/morph morph]
       (let [generated (generate spec)]
-         (println (str "not truncated: " (syntax-tree generated)
-                       "; size: " (count (str generated))))
-         (let [truncated
-               (-> generated
-                   (g/truncate-in [:head])
-                   (g/truncate-in [:comp])
-                   (g/truncate-in []))]
-           (println (str "truncated:     " (syntax-tree truncated)
-                         "; size: " (count (str truncated)))))))))
+         (println (str "syntax-tree: " (syntax-tree generated)
+                       "; size: " (count (str generated))))))))

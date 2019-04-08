@@ -132,7 +132,8 @@
   (repeatedly
    #(-> 
      (or (poetry-line) "(failed)")
-     (morph :sentence-punctuation? true)
+     ;;     (morph :sentence-punctuation? true)
+     syntax-tree
      println)))
 
 (defn long-s []
@@ -185,6 +186,8 @@
         {:cat :verb
          :comp {:phrasal true
                 :rule "np"}
+         :head {:comp {:comp {:phrasal true
+                              :rule "np"}}}
          :reflexive false
          :sem {:mood :decl
                :pred :see

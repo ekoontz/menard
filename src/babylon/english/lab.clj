@@ -204,15 +204,16 @@
       (assoc :syntax-tree (syntax-tree m))))
 
 (defn truncate-in
-  "Truncate the value at path _ks_ within _m_."
-  [m ks]
-  (if (empty? ks)
-    (truncate m)
-    (let []
-      (swap! (get (u/get-in m (butlast ks))
-                  (last ks))
-             (fn [x] (truncate (u/get-in m ks))))
-      m)))
+  "Truncate the value at path _path_ within _m_. if path is not empty, then 
+  (get (u/get-in m (butlast path)) (last path)) must be an atom."
+  [m path]
+  (if (not (empty? path))
+    (do
+      (swap! (get (u/get-in m (butlast path))
+                  (last path))
+             (fn [x] (truncate (u/get-in m path))))
+      m)
+    (truncate m)))
 
 (defn truncate-test []
   (let [spec

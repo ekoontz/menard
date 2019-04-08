@@ -184,17 +184,22 @@
   "Dissociate a value in a nested associative structure, identified by a sequence
   of keys. Any collections left empty by the operation will be dissociated from
   their containing structures."
-  ([m ks]
-   (if-let [[head & tail] ks]
-     (if tail
-       (let [v (dissoc-in (get m head) tail)]
-         (if (empty? v)
-           (dissoc m head)
-           (assoc m head v)))
-       (dissoc m head))
-     m)))
+  [m ks]
+  (if-let [[head & tail] ks]
+    (if tail
+      (let [v (dissoc-in (get m head) tail)]
+        (if (empty? v)
+          (dissoc m head)
+          (assoc m head v)))
+      (dissoc m head))
+    m))
 
-(defn truncate-in [m p]
+(defn truncate [m]
+  m)
+
+(defn truncate-in
+  "Truncate the value at path _p_ within _m_."
+  [m p]
   (if (empty? p)
      (-> (reduce (fn [m path]
                    (dissoc-in m path))

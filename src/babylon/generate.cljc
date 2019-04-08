@@ -111,6 +111,9 @@
          (map (fn [child]
                 (-> tree
                     (u/copy)
+                    ((fn [tree]
+                       (log/info (str "adding child at: " frontier-path))
+                       tree))
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))
          (lazy-mapcat (fn [tree]
@@ -140,7 +143,7 @@
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
     (do
-      (log/info (str "terminating at:" (vec (butlast frontier-path))))
+      (log/info (str "terminating: frontier-path: " frontier-path))
       (-> tree
           (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
           (terminate-up (butlast frontier-path))))

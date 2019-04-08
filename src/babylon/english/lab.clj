@@ -194,7 +194,7 @@
        (dissoc m head))
      m)))
 
-(defn truncate-within [m p]
+(defn truncate-at [m p]
   (if (empty? p)
      (-> (reduce (fn [m path]
                    (dissoc-in m path))
@@ -203,47 +203,12 @@
                   [:head] [:2]])
          (assoc :surface (morph m))
          (assoc :syntax-tree (syntax-tree m)))
-    (let [truncated-within (truncate-within (u/get-in m p) [])
+    (let [truncated-within (truncate-at (u/get-in m p) [])
           truncate-from (u/get-in m (butlast p))]
       (swap! (get truncate-from (last p)) (fn [x] truncated-within))
       m)))
 
 (defn truncate-test []
-  (let [foo
-        (generate
-         {:cat :verb
-          :reflexive false
-          :sem {:mood :decl
-                :pred :use
-                :aspect :simple
-                :tense :present
-                :subj {:pred :they}}})
-        truncated (truncate-within foo [])]
-    (println (str "not truncated: " (syntax-tree foo)
-                  "; size: " (count (str foo))))
-    (println (str "truncated    : " (syntax-tree truncated)
-                  "; size: " (count (str truncated))))))
-
-(defn truncate-within-test []
-  (let [spec
-        {:cat :verb
-         :reflexive false
-         :sem {:mood :decl
-               :pred :use
-               :aspect :progressive
-               :tense :past
-               :subj {:pred :they}}}]
-    (let [generated (generate spec)]
-      (println (str "not truncated: " (syntax-tree generated)
-                    "; size: " (count (str generated))))
-      (let [do-truncation (truncate-within generated [:head])]
-        (println (str "truncated:     " (syntax-tree generated)
-                      "; size: " (count (str generated))))
-        (let [final (truncate generated)]
-          (println (str "truncated:     " (syntax-tree final)
-                        "; size: " (count (str final)))))))))
-
-(defn truncate-within-test-2 []
   (let [spec
         {:cat :verb
          :comp {:phrasal true
@@ -259,9 +224,9 @@
                     "; size: " (count (str generated))))
       (let [truncated
             (-> generated
-                (truncate-within [:head])
-                (truncate-within [:comp])
-                (truncate-within []))]
+                (truncate-at [:head])
+                (truncate-at [:comp])
+                (truncate-at []))]
         (println (str "truncated:     " (syntax-tree truncated)
                       "; size: " (count (str truncated))))))))
 

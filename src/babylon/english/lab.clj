@@ -1,6 +1,7 @@
 (ns babylon.english.lab
   (:require
    [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
+   [babylon.generate :as g]
    [dag_unify.core :as u :refer [unify]]
    [clojure.tools.logging :as log]))
 
@@ -179,42 +180,6 @@
                dissoc (last p))
     m))
 
-;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
-(defn dissoc-in
-  "Dissociate a value in a nested associative structure, identified by a sequence
-  of keys. Any collections left empty by the operation will be dissociated from
-  their containing structures."
-  [m ks]
-  (if-let [[head & tail] ks]
-    (if tail
-      (let [v (dissoc-in (get m head) tail)]
-        (if (empty? v)
-          (dissoc m head)
-          (assoc m head v)))
-      (dissoc m head))
-    m))
-
-(defn truncate [m]
-  (-> (reduce (fn [m path]
-                 (dissoc-in m path))
-              m
-              [[:comp] [:1]
-               [:head] [:2]])
-      (assoc :surface (morph m))
-      (assoc :syntax-tree (syntax-tree m))))
-
-(defn truncate-in
-  "Truncate the value at path _path_ within _m_. if path is not empty, then 
-  (get (u/get-in m (butlast path)) (last path)) must be an atom."
-  [m path]
-  (if (not (empty? path))
-    (do
-      (swap! (get (u/get-in m (butlast path))
-                  (last path))
-             (fn [x] (truncate (u/get-in m path))))
-      m)
-    (truncate m)))
-
 (defn truncate-test []
   (let [spec
         {:cat :verb
@@ -222,18 +187,20 @@
                 :rule "np"}
          :reflexive false
          :sem {:mood :decl
-               :pred :walk
+               :pred :see
+               :obj {:pred :cat}
                :aspect :progressive
                :tense :past
                :subj {:pred :dog}}}]
-    (let [generated (generate spec)]
-      (println (str "not truncated: " (syntax-tree generated)
-                    "; size: " (count (str generated))))
-      (let [truncated
-            (-> generated
-                (truncate-in [:head])
-                (truncate-in [:comp])
-                (truncate-in []))]
-        (println (str "truncated:     " (syntax-tree truncated)
-                      "; size: " (count (str truncated))))))))
-
+    (binding [g/syntax-tree syntax-tree
+              g/morph morph]
+      (let [generated (generate spec)]
+         (println (str "not truncated: " (syntax-tree generated)
+                       "; size: " (count (str generated))))
+         (let [truncated
+               (-> generated
+                   (g/truncate-in [:head])
+                   (g/truncate-in [:comp])
+                   (g/truncate-in []))]
+           (println (str "truncated:     " (syntax-tree truncated)
+                         "; size: " (count (str truncated)))))))))

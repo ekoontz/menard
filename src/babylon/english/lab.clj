@@ -194,7 +194,7 @@
        (dissoc m head))
      m)))
 
-(defn truncate-at [m p]
+(defn truncate-in [m p]
   (if (empty? p)
      (-> (reduce (fn [m path]
                    (dissoc-in m path))
@@ -203,7 +203,7 @@
                   [:head] [:2]])
          (assoc :surface (morph m))
          (assoc :syntax-tree (syntax-tree m)))
-    (let [truncated-within (truncate-at (u/get-in m p) [])
+    (let [truncated-within (truncate-in (u/get-in m p) [])
           truncate-from (u/get-in m (butlast p))]
       (swap! (get truncate-from (last p)) (fn [x] truncated-within))
       m)))
@@ -224,9 +224,9 @@
                     "; size: " (count (str generated))))
       (let [truncated
             (-> generated
-                (truncate-at [:head])
-                (truncate-at [:comp])
-                (truncate-at []))]
+                (truncate-in [:head])
+                (truncate-in [:comp])
+                (truncate-in []))]
         (println (str "truncated:     " (syntax-tree truncated)
                       "; size: " (count (str truncated))))))))
 

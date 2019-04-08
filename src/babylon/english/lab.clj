@@ -220,8 +220,9 @@
                   "; size: " (count (str truncated))))))
 
 (defn truncate-within [m p]
-  (let [truncated-within (truncate (u/get-in m p))]
-    (swap! (get m :head) (fn [x] truncated-within))))
+  (let [truncated-within (truncate (u/get-in m p))
+        truncate-from (u/get-in m (butlast p))]
+    (swap! (get truncate-from (last p)) (fn [x] truncated-within))))
 
 (defn truncate-within-test []
   (let [spec
@@ -234,8 +235,10 @@
                :subj {:pred :they}}}]
     (let [generated (generate spec)]
       (println (str "not truncated: " (syntax-tree generated)
-                    "; size: " (count (str generated)))))
-    (let [generated (generate spec)
-          do-truncation (truncate-within generated [:head])]
-      (println (str "truncated:     " (syntax-tree generated)
-                    "; size: " (count (str generated)))))))
+                    "; size: " (count (str generated))))
+      (let [do-truncation (truncate-within generated [:head])]
+        (println (str "truncated:     " (syntax-tree generated)
+                      "; size: " (count (str generated))))
+        (let [final (truncate generated)]
+          (println (str "truncated:     " (syntax-tree final)
+                        "; size: " (count (str final)))))))))

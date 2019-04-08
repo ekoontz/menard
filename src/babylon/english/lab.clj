@@ -221,32 +221,21 @@
 
 (defn truncate-within [m p]
   (let [truncated-within (truncate (u/get-in m p))]
-    (swap! (u/get-in m :head) truncated-within)))
+    (swap! (get m :head) (fn [x] truncated-within))))
 
 (defn truncate-within-test []
-  (let [foo
-        (generate
-         {:cat :verb
-          :reflexive false
-          :sem {:mood :decl
-                :pred :use
-                :aspect :progressive
-                :tense :past
-                :subj {:pred :they}}})
-        truncated-head (truncate (u/get-in foo [:head]))]
-    (println (str "not truncated: " (syntax-tree foo)
-                  "; size: " (count (str foo))))
-;;    (truncate-with foo [:head])
-    (swap! (get foo :head)
-           (fn [x] truncated-head))
-    (println (str "truncated    : " (syntax-tree foo)
-                  "; size: " (count (str foo))))))
-
-
-
-
-
-
-
-
-
+  (let [spec
+        {:cat :verb
+         :reflexive false
+         :sem {:mood :decl
+               :pred :use
+               :aspect :progressive
+               :tense :past
+               :subj {:pred :they}}}]
+    (let [generated (generate spec)]
+      (println (str "not truncated: " (syntax-tree generated)
+                    "; size: " (count (str generated)))))
+    (let [generated (generate spec)
+          do-truncation (truncate-within generated [:head])]
+      (println (str "truncated:     " (syntax-tree generated)
+                    "; size: " (count (str generated)))))))

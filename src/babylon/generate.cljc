@@ -112,7 +112,7 @@
                 (-> tree
                     (u/copy)
                     ((fn [tree]
-                       (log/info (str "adding child at: " frontier-path))
+                       (log/debug (str "adding child at: " frontier-path))
                        tree))
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))

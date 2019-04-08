@@ -207,16 +207,11 @@
   "Truncate the value at path _p_ within _m_."
   [m p]
   (if (empty? p)
-     (-> (reduce (fn [m path]
-                   (dissoc-in m path))
-                 m
-                 [[:comp] [:1]
-                  [:head] [:2]])
-         (assoc :surface (morph m))
-         (assoc :syntax-tree (syntax-tree m)))
-    (let [truncated-within (truncate-in (u/get-in m p) [])
-          truncate-from (u/get-in m (butlast p))]
-      (swap! (get truncate-from (last p)) (fn [x] truncated-within))
+    (truncate m)
+    (let []
+      (swap! (get (u/get-in m (butlast p))
+                  (last p))
+             (fn [x] (truncate (u/get-in m p))))
       m)))
 
 (defn truncate-test []

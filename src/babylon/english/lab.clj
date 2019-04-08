@@ -195,7 +195,13 @@
     m))
 
 (defn truncate [m]
-  m)
+  (-> (reduce (fn [m path]
+                 (dissoc-in m path))
+              m
+              [[:comp] [:1]
+               [:head] [:2]])
+      (assoc :surface (morph m))
+      (assoc :syntax-tree (syntax-tree m))))
 
 (defn truncate-in
   "Truncate the value at path _p_ within _m_."

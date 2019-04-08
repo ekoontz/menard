@@ -204,14 +204,14 @@
       (assoc :syntax-tree (syntax-tree m))))
 
 (defn truncate-in
-  "Truncate the value at path _p_ within _m_."
-  [m p]
-  (if (empty? p)
+  "Truncate the value at path _ks_ within _m_."
+  [m ks]
+  (if (empty? ks)
     (truncate m)
     (let []
-      (swap! (get (u/get-in m (butlast p))
-                  (last p))
-             (fn [x] (truncate (u/get-in m p))))
+      (swap! (get (u/get-in m (butlast ks))
+                  (last ks))
+             (fn [x] (truncate (u/get-in m ks))))
       m)))
 
 (defn truncate-test []

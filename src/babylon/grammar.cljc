@@ -13,6 +13,9 @@
         (map (fn [structure]
                (default-morph-fn structure morphology))
              structure)
+
+        (u/get-in structure [:surface])
+        (:surface structure)
         
         (= false (u/get-in structure [:phrasal]))
         (m/morph-leaf structure morphology)

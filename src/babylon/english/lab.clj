@@ -132,8 +132,7 @@
   (repeatedly
    #(-> 
      (or (poetry-line) "(failed)")
-     ;;     (morph :sentence-punctuation? true)
-     syntax-tree
+     (morph :sentence-punctuation? true)
      println)))
 
 (defn long-s []

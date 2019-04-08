@@ -12,8 +12,8 @@
 ;; set to a large X (e.g. 10 to (virtually) always put leaves before trees.
 (def ^:const branching-factor 1000)
 
-(def ^:dynamic morph (fn [x] "-xx-"))
-(def ^:dynamic syntax-tree (fn [x] "[-xx-]"))
+(def ^:dynamic morph (fn [x] "-no-morph-function-"))
+(def ^:dynamic syntax-tree (fn [x] "[-no-syntax-tree-function-]"))
 (def ^:dynamic truncate? true)
 
 (defn phrasal-children-first? [depth]

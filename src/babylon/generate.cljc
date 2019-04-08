@@ -196,15 +196,6 @@
       (log/debug (str "done terminating: with done?:" (u/get-in tree [::done?] ::none)))
       tree)))
 
-(defn truncate [tree]
-  (-> tree
-      (assoc :surface (morph tree))
-      (assoc :syntax-tree (syntax-tree tree))
-      (dissoc :head)
-      (dissoc :comp)
-      (dissoc :1)
-      (dissoc :2)))
-
 (defn frontier
   "get the next path to which to adjoin within _tree_, or empty path [], if tree is complete."
   [tree]

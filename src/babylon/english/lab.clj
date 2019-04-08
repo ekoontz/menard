@@ -194,22 +194,59 @@
        (dissoc m head))
      m)))
 
-(defn dissoc-test []
-  (let [food (u/strip-refs
-              (generate
-               {:cat :verb
-                :reflexive false
-                :sem {:mood :decl
-                      :pred :use
-                      :aspect :progressive
-                      :tense :past
-                      :subj {:pred :they}}}))]
-    (-> food
-        (dissoc-in [:comp])
-        (dissoc-in [:head])
-        (dissoc-in [:1])
-        (dissoc-in [:2])
-        u/pprint)))
+(defn truncate [m]
+  (-> (reduce (fn [m path]
+                (dissoc-in m path))
+              m
+              [[:comp] [:1]
+               [:head] [:2]])
+      (assoc :surface (morph m))
+      (assoc :syntax-tree (syntax-tree m))))
+
+(defn truncate-test []
+  (let [foo
+        (generate
+         {:cat :verb
+          :reflexive false
+          :sem {:mood :decl
+                :pred :use
+                :aspect :simple
+                :tense :present
+                :subj {:pred :they}}})
+        truncated (truncate foo)]
+    (println (str "not truncated: " (syntax-tree foo)
+                  "; size: " (count (str foo))))
+    (println (str "truncated    : " (syntax-tree truncated)
+                  "; size: " (count (str truncated))))))
+
+(defn truncate-within [m p]
+  (let [truncated-within (truncate (u/get-in m p))]
+    (swap! (u/get-in m :head) truncated-within)))
+
+(defn truncate-within-test []
+  (let [foo
+        (generate
+         {:cat :verb
+          :reflexive false
+          :sem {:mood :decl
+                :pred :use
+                :aspect :progressive
+                :tense :past
+                :subj {:pred :they}}})
+        truncated-head (truncate (u/get-in foo [:head]))]
+    (println (str "not truncated: " (syntax-tree foo)
+                  "; size: " (count (str foo))))
+;;    (truncate-with foo [:head])
+    (swap! (get foo :head)
+           (fn [x] truncated-head))
+    (println (str "truncated    : " (syntax-tree foo)
+                  "; size: " (count (str foo))))))
 
 
-                  
+
+
+
+
+
+
+

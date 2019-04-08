@@ -194,14 +194,19 @@
        (dissoc m head))
      m)))
 
-(defn truncate [m]
-  (-> (reduce (fn [m path]
-                (dissoc-in m path))
-              m
-              [[:comp] [:1]
-               [:head] [:2]])
-      (assoc :surface (morph m))
-      (assoc :syntax-tree (syntax-tree m))))
+(defn truncate-within [m p]
+  (if (empty? p)
+     (-> (reduce (fn [m path]
+                   (dissoc-in m path))
+                 m
+                 [[:comp] [:1]
+                  [:head] [:2]])
+         (assoc :surface (morph m))
+         (assoc :syntax-tree (syntax-tree m)))
+    (let [truncated-within (truncate-within (u/get-in m p) [])
+          truncate-from (u/get-in m (butlast p))]
+      (swap! (get truncate-from (last p)) (fn [x] truncated-within))
+      m)))
 
 (defn truncate-test []
   (let [foo
@@ -213,25 +218,11 @@
                 :aspect :simple
                 :tense :present
                 :subj {:pred :they}}})
-        truncated (truncate foo)]
+        truncated (truncate-within foo [])]
     (println (str "not truncated: " (syntax-tree foo)
                   "; size: " (count (str foo))))
     (println (str "truncated    : " (syntax-tree truncated)
                   "; size: " (count (str truncated))))))
-
-(defn truncate-within [m p]
-  (if (empty? p)
-     (-> (reduce (fn [m path]
-                   (dissoc-in m path))
-                 m
-                 [[:comp] [:1]
-                  [:head] [:2]])
-         (assoc :surface (morph m))
-         (assoc :syntax-tree (syntax-tree m)))
-    (let [truncated-within (truncate (u/get-in m p))
-          truncate-from (u/get-in m (butlast p))]
-      (swap! (get truncate-from (last p)) (fn [x] truncated-within))
-      m)))
 
 (defn truncate-within-test []
   (let [spec
@@ -270,7 +261,7 @@
             (-> generated
                 (truncate-within [:head])
                 (truncate-within [:comp])
-                (truncate))]
+                (truncate-within []))]
         (println (str "truncated:     " (syntax-tree truncated)
                       "; size: " (count (str truncated))))))))
 

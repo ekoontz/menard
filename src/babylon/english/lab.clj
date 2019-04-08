@@ -220,10 +220,18 @@
                   "; size: " (count (str truncated))))))
 
 (defn truncate-within [m p]
-  (let [truncated-within (truncate (u/get-in m p))
-        truncate-from (u/get-in m (butlast p))]
-    (swap! (get truncate-from (last p)) (fn [x] truncated-within))
-    m))
+  (if (empty? p)
+     (-> (reduce (fn [m path]
+                   (dissoc-in m path))
+                 m
+                 [[:comp] [:1]
+                  [:head] [:2]])
+         (assoc :surface (morph m))
+         (assoc :syntax-tree (syntax-tree m)))
+    (let [truncated-within (truncate (u/get-in m p))
+          truncate-from (u/get-in m (butlast p))]
+      (swap! (get truncate-from (last p)) (fn [x] truncated-within))
+      m)))
 
 (defn truncate-within-test []
   (let [spec
@@ -251,7 +259,7 @@
                 :rule "np"}
          :reflexive false
          :sem {:mood :decl
-               :pred :use
+               :pred :walk
                :aspect :progressive
                :tense :past
                :subj {:pred :dog}}}]

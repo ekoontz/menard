@@ -2,8 +2,7 @@
   (:require
    [babylon.generate.truncate :as trunc]
    [clojure.tools.logging :as log]
-   [dag_unify.core :as u :refer [unify]]
-   [dag_unify.serialization :as s]))
+   [dag_unify.core :as u :refer [unify]]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves
@@ -160,6 +159,40 @@
       (assoc :surface (morph m))
       (assoc :syntax-tree (syntax-tree m))))
 
+(defn create-words [tree frontier-path]
+  (cond (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+             (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+        (do
+          (log/info (str "create-words at: " frontier-path))
+          (u/assoc-in tree
+                      frontier-path
+                      (let [one-infl (atom :top)
+                            two-infl (atom :top)
+                            one-agr (atom :top)
+                            two-agr (atom :top)
+                            one-root (atom :top)
+                            two-root (atom :top)
+                            one-canonical (atom :top)
+                            two-canonical (atom :top)]
+                        {:1 {:infl one-infl
+                             :agr one-agr
+                             :root one-root
+                             :canonical one-canonical}
+                         :2 {:infl two-infl
+                             :agr two-agr
+                             :root two-root
+                             :canonical two-canonical}
+                         :words {:first {:infl one-infl
+                                         :agr one-agr
+                                         :root one-root
+                                         :canonical one-canonical}
+                                 :rest {:first {:infl two-infl
+                                                :agr two-agr
+                                                :root two-root
+                                                :canonical two-canonical}}}})))
+        true
+        tree))
+
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 
   (get (u/get-in m (butlast path)) (last path)) must be an atom."
@@ -179,12 +212,13 @@
          (u/get-in tree (concat frontier-path [::done?])))
     (do
       (->
-       (if (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-         (do
-           (log/debug (str "you should terminate this phrase at path: " (butlast frontier-path)))
-           (if truncate? (truncate-in tree (butlast frontier-path))
-               tree))
-         tree)
+       tree
+       (create-words (butlast frontier-path))
+       ((fn [tree]
+          (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
+                   truncate?)
+            (truncate-in tree (butlast frontier-path))
+            tree)))
        (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
        (terminate-up (butlast frontier-path))))
     true

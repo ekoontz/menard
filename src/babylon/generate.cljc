@@ -163,33 +163,28 @@
   (cond (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
-          (log/info (str "create-words at: " frontier-path))
+          (log/info (str "create-words(1) at: " frontier-path))
           (u/assoc-in tree
                       frontier-path
-                      (let [one-infl (atom :top)
-                            two-infl (atom :top)
-                            one-agr (atom :top)
-                            two-agr (atom :top)
-                            one-root (atom :top)
-                            two-root (atom :top)
-                            one-canonical (atom :top)
-                            two-canonical (atom :top)]
-                        {:1 {:infl one-infl
-                             :agr one-agr
-                             :root one-root
-                             :canonical one-canonical}
-                         :2 {:infl two-infl
-                             :agr two-agr
-                             :root two-root
-                             :canonical two-canonical}
-                         :words {:first {:infl one-infl
-                                         :agr one-agr
-                                         :root one-root
-                                         :canonical one-canonical}
-                                 :rest {:first {:infl two-infl
-                                                :agr two-agr
-                                                :root two-root
-                                                :canonical two-canonical}}}})))
+                      (let [one (atom :top)
+                            two (atom :top)]
+                        {:1 one
+                         :2 two
+                         :words {:first one
+                                 :rest {:first two}}})))
+
+        (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+             (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+        (do
+          (log/info (str "create-words(2) at: " frontier-path))
+          (u/assoc-in tree
+                      frontier-path
+                      (let [one (atom :top)
+                            two (atom :top)]
+                        {:1 one
+                         :2 {:words two}
+                         :words {:first one
+                                 :rest two}})))
         true
         tree))
 

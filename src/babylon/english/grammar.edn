@@ -16,6 +16,8 @@
  
  {:rule "nbar" ;; 'black cat'
   :cat :noun
+  :head {:pronoun false
+         :propernoun false}
   :slash false
   :comp {:cat :adjective}
   :unify [babylon.ug/head-last
@@ -27,7 +29,10 @@
  {:rule "nbar2" ;; 'cat [s-slash I see]'
   :slash false
   :cat :noun
-  :head {:phrasal false}
+  :head {:phrasal false
+         :pronoun false
+         :propernoun false}
+
   :comp {:rule "s-slash"
          :phrasal true
          :cat :verb

@@ -70,7 +70,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow: " (or "tree" (syntax-tree tree)) " at: " (vec frontier-path) "; #:" (count (str tree))))
+    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (cond
       (empty? frontier-path) [tree]
       true
@@ -161,7 +161,7 @@
          (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
          (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
-          (log/info (str "create-words(1) at: " frontier-path))
+          (log/debug (str "create-words(1) at: " frontier-path))
           (u/assoc-in tree
                       frontier-path
                       (let [one (atom :top)
@@ -174,7 +174,7 @@
         (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
-          (log/info (str "create-words(2) at: " frontier-path))
+          (log/debug (str "create-words(2) at: " frontier-path))
           (u/assoc-in tree
                       frontier-path
                       (let [one (atom :top)
@@ -187,7 +187,7 @@
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/info (str "create-words(3) at: " frontier-path "; tail-path:" (vec tail-path)))
+          (log/debug (str "create-words(3) at: " frontier-path "; tail-path:" (vec tail-path)))
           (u/assoc-in tree
                       (concat frontier-path [:words])
                       (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
@@ -196,7 +196,7 @@
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/info (str "create-words(4) at: " frontier-path "; tail-path:" (vec tail-path)))
+          (log/debug (str "create-words(4) at: " frontier-path "; tail-path:" (vec tail-path)))
           (u/assoc-in tree
                       (concat frontier-path [:words])
                       (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
@@ -228,7 +228,7 @@
     (truncate m)))
 
 (defn terminate-up [tree frontier-path]
-  (log/info (str "terminate-up: " (vec frontier-path)))
+  (log/debug (str "terminate-up: " (vec frontier-path)))
   (cond
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))

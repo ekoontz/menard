@@ -230,6 +230,7 @@
                            tail-path
                            (u/get-in tree (concat frontier-path [:2 :words]))))))
 
+        ;; TODO: throw exception here.
         true
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
           (log/warn (str "create-words(5)..??? tail-path: " tail-path))

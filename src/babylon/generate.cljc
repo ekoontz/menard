@@ -157,38 +157,55 @@
     path
     (find-tail-path tree (concat path [:rest]))))
 
+(def unify-morphology
+  (let [one {:agr (atom :top)
+             :canonical (atom :top)
+             :exceptions (atom :top)
+             :cat (atom :top)
+             :infl (atom :top)
+             :root (atom :top)}
+        two {:agr (atom :top)
+             :canonical (atom :top)
+             :cat (atom :top)
+             :infl (atom :top)
+             :root (atom :top)}]
+    {:1 {:agr (:agr one)
+         :canonical (:canonical one)
+         :cat (:cat one)
+         :exceptions (:exceptions one)
+         :infl (:infl one)
+         :root (:root one)}
+     :2 {:agr (:agr two)
+         :canonical (:canonical two)
+         :cat (:cat two)
+         :infl (:infl two)
+         :root (:root two)}
+     :words {:first one
+             :rest {:first two}}}))
+
 (defn create-words [tree frontier-path]
   (cond (and
          (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
          (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
-          (log/debug (str "create-words(1) at: " frontier-path))
-          (u/assoc-in tree
-                      frontier-path
-                      (->
-                        (let [one (atom :top)
-                              two (atom :top)]
-                          {:1 one
-                           :2 two
-                           :words {:first one
-                                   :rest {:first two}}}))))
+          (-> tree
+              (assoc-in [:words :first :cw-match] :1)
+              (assoc-in [:words :rest :first :cw-match] :1)
+              (u/assoc-in frontier-path unify-morphology)))
         (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        (do
-          (log/debug (str "create-words(2) at: " frontier-path))
-          (u/assoc-in tree
-                      frontier-path
-                      (let [one (atom :top)
-                            two (atom :top)]
-                        {:1 one
-                         :2 {:words two}
-                         :words {:first one
-                                 :rest two}})))
+        (-> tree
+            (u/assoc-in frontier-path
+                        (let [one (atom {:cw-match :2})
+                              two (atom :top)]
+                          {:1 one
+                           :2 {:words two}
+                           :words {:first one
+                                   :rest two}})))
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/debug (str "create-words(3) at: " frontier-path "; tail-path:" (vec tail-path)))
           (u/assoc-in tree
                       (concat frontier-path [:words])
                       (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
@@ -197,11 +214,12 @@
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/debug (str "create-words(4) at: " frontier-path "; tail-path:" (vec tail-path)))
-          (u/assoc-in tree
-                      (concat frontier-path [:words])
-                      (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
-                                  tail-path (u/get-in tree (concat frontier-path [:2 :words])))))
+          (-> tree
+              (u/assoc-in
+               (concat frontier-path [:words])
+               (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
+                           tail-path (u/get-in tree (concat frontier-path [:2 :words]))))))
+
         true
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
           (log/warn (str "create-words(5)..??? tail-path: " tail-path))

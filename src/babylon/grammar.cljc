@@ -30,7 +30,7 @@
           (string/join " " (map (fn [word] (default-morph-fn word morphology))
                                 words)))
         
-        (= false (u/get-in structure [:phrasal]))
+        (= false (u/get-in structure [:phrasal] false))
         (m/morph-leaf structure morphology)
         
         (and (u/get-in structure [:1])

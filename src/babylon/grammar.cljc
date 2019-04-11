@@ -4,6 +4,14 @@
             [clojure.tools.logging :as log]
             [dag_unify.core :as u :refer [unify]]))
 
+(defn list-as-map-to-list
+  "turn a map represention of a list: e.g. {:first :a :rest {:first :b}}
+   into a list: e.g. [a b]"
+  [m]
+  (if (u/get-in m [:first])
+     (cons (u/get-in m [:first])
+           (list-as-map-to-list (u/get-in m [:rest])))))
+
 (defn default-morph-fn [structure morphology]
   (cond (or (= :fail structure) 
             (nil? structure)
@@ -16,6 +24,11 @@
 
         (u/get-in structure [:surface])
         (:surface structure)
+        
+        (u/get-in structure [:words])
+        (let [words (list-as-map-to-list (u/get-in structure [:words]))]
+          (string/join " " (map (fn [word] (default-morph-fn word morphology))
+                                words)))
         
         (= false (u/get-in structure [:phrasal]))
         (m/morph-leaf structure morphology)

@@ -20,10 +20,10 @@ the morphology is a set of rules, each of which looks like:"
         exceptionless (if exceptions
                         (dissoc structure :exceptions))
         first-matching-exception
-        (if exceptions
+        (if (and exceptions (not (keyword? exceptions))) ;; if :top, ignore.
           (first (filter #(not (= :fail %))
-                         (map #(unify exceptionless %)
-                              exceptions))))]
+                          (map #(unify exceptionless %)
+                               exceptions))))]
     (if first-matching-exception
       (log/debug (str "morph-leaf: " (u/strip-refs first-matching-exception))))
     (cond

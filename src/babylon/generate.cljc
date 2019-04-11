@@ -221,18 +221,22 @@
     (truncate m)))
 
 (defn terminate-up [tree frontier-path]
-  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (log/info (str "terminate-up: " (vec frontier-path)))
   (cond
+    (empty? frontier-path)
+    (create-words tree frontier-path)
+
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
     (do
       (->
-       (if (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-         (do
-           (log/debug (str "you should terminate this phrase at path: " (butlast frontier-path)))
-           (if truncate? (truncate-in tree (butlast frontier-path))
-               tree))
-         tree)
+       tree
+       (create-words frontier-path)
+       ((fn [tree]
+          (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
+                   truncate?)
+              (truncate-in tree (butlast frontier-path))
+           tree)))
        (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
        (terminate-up (butlast frontier-path))))
     true

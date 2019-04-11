@@ -14,7 +14,7 @@
 
 (def ^:dynamic morph (fn [x] "-no-morph-function-"))
 (def ^:dynamic syntax-tree (fn [x] "[-no-syntax-tree-function-]"))
-(def ^:dynamic truncate? false)
+(def ^:dynamic truncate? true)
 
 (defn phrasal-children-first? [depth]
   (let [result (= 0 (rand-int (+ depth branching-factor)))]

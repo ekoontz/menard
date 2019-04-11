@@ -104,20 +104,35 @@
     {:sem {:tense :future}}
     :top))
 
+(def poetry-specs2
+  [{:cat :verb
+    :rule "s"
+    :sem {:tense :present
+          :aspect :progressive}
+    :phrasal true
+    :subcat []
+    :comp {:phrasal true
+           :rule "np"
+           :head {:phrasal false}
+           :comp {:phrasal false}}
+    :head {:phrasal true
+           :head {:phrasal false}
+           :comp {:phrasal false}}}])
+
 (defn poetry-line []
   (try
     (->
-     poetry-specs
+     poetry-specs2
      shuffle
      first
      (unify custom-spec)
      (unify {:top-level? true})
      generate)
     (catch Exception e
-      (log/debug (str "failed to generate: "
+      (log/warn (str "failed to generate: "
                      (syntax-tree (:tree (ex-data e))) " with spec:"
                      (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                     (:frontier-path (ex-data e))))
+                     (:frontier-path (ex-data e)) ";e=" e))
       
       (poetry-line))))
 

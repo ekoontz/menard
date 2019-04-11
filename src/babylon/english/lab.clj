@@ -122,7 +122,8 @@
      first
      (unify custom-spec)
      (unify {:top-level? true})
-     generate)
+     generate
+     time)
     (catch Exception e
       (log/warn (str "failed to generate: "
                      (syntax-tree (:tree (ex-data e))) " with spec:"

@@ -189,9 +189,12 @@
   (cond (and
          (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
          (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+        ;; (1): both children at _frontier-path_ are leaves.
         (do
           (-> tree
               (u/assoc-in frontier-path unify-morphology-leaf-leaf)))
+
+        ;; (2) child :1 at _frontier-path_ is a leaf, child :2 is a tree.
         (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
@@ -199,12 +202,12 @@
           (-> tree
               (u/assoc-in frontier-path unify-morphology-leaf-tree)))
 
-        ;; (2): child :1 at _frontier-path_ is a tree; child :2 is a leaf.
+        ;; (3): child :1 at _frontier-path_ is a tree; child :2 is a leaf.
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/debug (str "create-words(2); tree is at: " (vec (concat frontier-path [:2]))
+          (log/debug (str "create-words(3); tree is at: " (vec (concat frontier-path [:2]))
                           "; tail-path is: " (vec tail-path)))
           (->
            tree
@@ -216,11 +219,11 @@
                                (s/create-path-in (concat tail-path [:first])
                                                  unify-morphology-tree-leaf)}))))
 
-        ;; both children at _frontier-path_ are trees.
+        ;; (4) both children at _frontier-path_ are trees.
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/debug (str "create-words(3)"))
+          (log/debug (str "create-words(4)"))
           (-> tree
               (u/assoc-in
                (concat frontier-path [:words])

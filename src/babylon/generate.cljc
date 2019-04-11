@@ -182,20 +182,27 @@
                          :2 {:words two}
                          :words {:first one
                                  :rest two}})))
-        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
+        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+             (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
           (log/info (str "create-words(3) at: " frontier-path "; tail-path:" (vec tail-path)))
           (u/assoc-in tree
                       (concat frontier-path [:words])
+                      (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
+                                  tail-path {:first (u/get-in tree (concat frontier-path [:2]))})))
 
-                      ;; note: not u/assoc-in: (regular-assoc) is cheaper and
-                      ;;  we don't need unification in this case.
+        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
+        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
+                                        [])]
+          (log/info (str "create-words(4) at: " frontier-path "; tail-path:" (vec tail-path)))
+          (u/assoc-in tree
+                      (concat frontier-path [:words])
                       (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
                                   tail-path (u/get-in tree (concat frontier-path [:2 :words])))))
         true
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
-          (log/warn (str "create-words(4)..??? tail-path: " tail-path))
+          (log/warn (str "create-words(5)..??? tail-path: " tail-path))
           tree)))
 
 (defn truncate [m]
@@ -251,15 +258,12 @@
 (defn terminate-up [tree frontier-path]
   (log/info (str "terminate-up: " (vec frontier-path)))
   (cond
-    (empty? frontier-path)
-    (create-words tree frontier-path)
-
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
     (do
       (->
        tree
-       (create-words frontier-path)
+       (create-words (butlast frontier-path))
        ((fn [tree]
           (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
                    truncate?)

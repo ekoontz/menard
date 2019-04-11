@@ -244,7 +244,8 @@
            (u/assoc-in (concat frontier-path [:words])
                        (u/get-in tree (concat frontier-path [:1 :words])))
            (unify {:2 unify-morphology-tree-leaf
-                   :words {:rest {:rest {:first unify-morphology-tree-leaf}}}})))
+                   :words
+                   {:rest {:rest {:first unify-morphology-tree-leaf}}}})))
 
         ;; both children at _frontier-path_ are trees.
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))

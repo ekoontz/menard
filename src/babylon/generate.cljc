@@ -157,7 +157,7 @@
     path
     (find-tail-path tree (concat path [:rest]))))
 
-(def unify-morphology
+(def unify-morphology-leaf-leaf
   (let [one {:agr (atom :top)
              :canonical (atom :top)
              :exceptions (atom :top)
@@ -189,25 +189,27 @@
      :words {:first one
              :rest {:first two}}}))
 
+(def unify-morphology-tree-leaf
+  (let [one (atom :top)
+        two (atom :top)]
+    {:1 one
+     :2 {:words two}
+     :words {:first one
+             :rest two}}))
+
 (defn create-words [tree frontier-path]
   (cond (and
          (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
          (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
           (-> tree
-              (u/assoc-in frontier-path unify-morphology)))
+              (u/assoc-in frontier-path unify-morphology-leaf-leaf)))
         (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do
           (log/debug (str "create-words(1)"))
           (-> tree
-              (u/assoc-in frontier-path
-                          (let [one (atom :top)
-                                two (atom :top)]
-                            {:1 one
-                             :2 {:words two}
-                             :words {:first one
-                                     :rest two}}))))
+              (u/assoc-in frontier-path unify-morphology-tree-leaf)))
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))

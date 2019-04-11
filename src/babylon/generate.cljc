@@ -244,35 +244,6 @@
                [:head] [:2]])
       (assoc :syntax-tree (syntax-tree m))))
 
-(defn create-words [tree frontier-path]
-  (cond (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-             (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        (do
-          (log/info (str "create-words(1) at: " frontier-path))
-          (u/assoc-in tree
-                      frontier-path
-                      (let [one (atom :top)
-                            two (atom :top)]
-                        {:1 one
-                         :2 two
-                         :words {:first one
-                                 :rest {:first two}}})))
-
-        (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-             (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        (do
-          (log/info (str "create-words(2) at: " frontier-path))
-          (u/assoc-in tree
-                      frontier-path
-                      (let [one (atom :top)
-                            two (atom :top)]
-                        {:1 one
-                         :2 {:words two}
-                         :words {:first one
-                                 :rest two}})))
-        true
-        tree))
-
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 
   (get (u/get-in m (butlast path)) (last path)) must be an atom."

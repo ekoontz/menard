@@ -188,10 +188,22 @@
      :words {:first one
              :rest {:first two}}}))
 
-(def unify-morphology-tree-leaf
-  (let [one (atom :top)
+(def unify-morphology-leaf-tree
+  (let [one {:agr (atom :top)
+             :canonical (atom :top)
+             :exceptions (atom :top)
+             :cat (atom :top)
+             :infl (atom :top)
+             :inflected? (atom :top)
+             :root (atom :top)}
         two (atom :top)]
-    {:1 one
+    {:1 {:agr (:agr one)
+         :canonical (:canonical one)
+         :cat (:cat one)
+         :exceptions (:exceptions one)
+         :infl (:infl one)
+         :inflected? (:inflected? one)
+         :root (:root one)}
      :2 {:words two}
      :words {:first one
              :rest two}}))
@@ -208,7 +220,7 @@
         (do
           (log/debug (str "create-words(1)"))
           (-> tree
-              (u/assoc-in frontier-path unify-morphology-tree-leaf)))
+              (u/assoc-in frontier-path unify-morphology-leaf-tree)))
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))

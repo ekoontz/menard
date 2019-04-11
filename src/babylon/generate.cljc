@@ -208,9 +208,14 @@
      :words {:first one
              :rest two}}))
 
-(defn unify-morphology-tree-leaf [tree frontier-path]
-  (let [agr (u/get-in tree (concat frontier-path [:2 :agr]))]
-    (u/get-in tree (concat frontier-path [:2]))))
+(def unify-morphology-tree-leaf
+  {:agr (atom :top)
+   :canonical (atom :top)
+   :cat (atom :top)
+   :exceptions (atom :top)
+   :infl (atom :top)
+   :inflected? (atom :top)
+   :root (atom :top)})
 
 (defn create-words [tree frontier-path]
   (cond (and
@@ -233,17 +238,14 @@
                                         [])]
           (log/info (str "create-words(2); tree is at: " (vec (concat frontier-path [:2]))
                          "; tail-path is: " (vec tail-path)))
-          (log/info (str "create-words(2); agr is: " (u/get-in tree (concat frontier-path [:2 :agr]))))
-          (let [agr-two (atom :top)
-                canonical-two (atom :top)]
-           (->
-            tree
-            (u/assoc-in (concat frontier-path [:words])
-                        (u/get-in tree (concat frontier-path [:1 :words])))
-            (unify {:2 {:agr agr-two
-                        :canonical canonical-two}
-                    :words {:rest {:rest {:agr agr-two
-                                          :canonical canonical-two}}}}))))
+          (->
+           tree
+           (u/assoc-in (concat frontier-path [:words])
+                       (u/get-in tree (concat frontier-path [:1 :words])))
+           (unify {:2 {:agr (:agr unify-morphology-tree-leaf)
+                       :canonical (:canonical unify-morphology-tree-leaf)}
+                   :words {:rest {:rest {:first {:agr (:agr unify-morphology-tree-leaf)
+                                                 :canonical (:canonical unify-morphology-tree-leaf)}}}}})))
 
         ;; both children at _frontier-path_ are trees.
         (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))

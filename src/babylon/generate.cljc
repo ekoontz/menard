@@ -164,13 +164,18 @@
           (log/debug (str "create-words(1) at: " frontier-path))
           (u/assoc-in tree
                       frontier-path
-                      (let [one (atom :top)
-                            two (atom :top)]
-                        {:1 one
-                         :2 two
-                         :words {:first one
-                                 :rest {:first two}}})))
-
+                      (->
+                        (let [one (atom :top)
+                              two (atom :top)]
+                          {:1 one
+                           :2 two
+                           :words {:first one
+                                   :rest {:first two}}})
+                        ;; TODO: make this work for several paths, not just one.
+                        ((fn [tree]
+                           (if (u/get-in tree [:words :first :subcat :1])
+                             (truncate-in tree [:words :first :subcat :1])
+                             tree))))))
         (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
              (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (do

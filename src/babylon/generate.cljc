@@ -71,7 +71,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow: " (or true (syntax-tree tree)) " at: " (vec frontier-path) "; #:" (count (str tree))))
+    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (cond
       (empty? frontier-path) [tree]
       true
@@ -204,8 +204,8 @@
              (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
         (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
                                         [])]
-          (log/info (str "create-words(2); tree is at: " (vec (concat frontier-path [:2]))
-                         "; tail-path is: " (vec tail-path)))
+          (log/debug (str "create-words(2); tree is at: " (vec (concat frontier-path [:2]))
+                          "; tail-path is: " (vec tail-path)))
           (->
            tree
            (u/assoc-in (concat frontier-path [:words])

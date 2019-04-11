@@ -151,6 +151,54 @@
       (dissoc m head))
     m))
 
+(defn find-tail-path [tree path]
+  (if (nil? (u/get-in tree path))
+    path
+    (find-tail-path tree (concat path [:rest]))))
+
+(defn create-words [tree frontier-path]
+  (cond (and
+         (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+         (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+        (do
+          (log/info (str "create-words(1) at: " frontier-path))
+          (u/assoc-in tree
+                      frontier-path
+                      (let [one (atom :top)
+                            two (atom :top)]
+                        {:1 one
+                         :2 two
+                         :words {:first one
+                                 :rest {:first two}}})))
+
+        (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+             (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+        (do
+          (log/info (str "create-words(2) at: " frontier-path))
+          (u/assoc-in tree
+                      frontier-path
+                      (let [one (atom :top)
+                            two (atom :top)]
+                        {:1 one
+                         :2 {:words two}
+                         :words {:first one
+                                 :rest two}})))
+        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
+        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
+                                        [])]
+          (log/info (str "create-words(3) at: " frontier-path "; tail-path:" (vec tail-path)))
+          (u/assoc-in tree
+                      (concat frontier-path [:words])
+
+                      ;; note: not u/assoc-in: (regular-assoc) is cheaper and
+                      ;;  we don't need unification in this case.
+                      (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
+                                  tail-path (u/get-in tree (concat frontier-path [:2 :words])))))
+        true
+        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
+          (log/warn (str "create-words(4)..??? tail-path: " tail-path))
+          tree)))
+
 (defn truncate [m]
   (-> (reduce (fn [m path]
                  (dissoc-in m path))

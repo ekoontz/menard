@@ -49,7 +49,9 @@
  {:rule "nbar3" ;; 'cat [comp1 that [vp-present sees me]]'
   :slash false
   :cat :noun
-  :head {:phrasal false}
+  :head {:phrasal false
+         :pronoun false
+         :propernoun false}
   :comp {:phrasal true
          :cat :comp
          :slash false}
@@ -63,7 +65,9 @@
  {:rule "nbar4" ;; 'cat [comp1 that [s-slash I see]]'
   :slash false
   :cat :noun
-  :head {:phrasal false}
+  :head {:phrasal false
+         :pronoun false
+         :propernoun false}
   :comp {:phrasal true
          :cat :comp
          :slash true}

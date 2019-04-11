@@ -211,7 +211,6 @@
               m
               [[:comp] [:1]
                [:head] [:2]])
-      (assoc :surface (morph m))
       (assoc :syntax-tree (syntax-tree m))))
 
 (defn create-words [tree frontier-path]

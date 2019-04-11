@@ -42,6 +42,7 @@
 (declare lazy-mapcat)
 (declare shuffle-or-not)
 (declare terminate-up)
+(declare truncate-in)
 
 (defn generate
   "Return one expression matching spec _spec_ given the model _model_."

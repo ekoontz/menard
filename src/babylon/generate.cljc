@@ -156,66 +156,33 @@
     path
     (find-tail-path tree (concat path [:rest]))))
 
+(defn make-word []
+   {:agr (atom :top)
+    :canonical (atom :top)
+    :exceptions (atom :top)
+    :cat (atom :top)
+    :infl (atom :top)
+    :inflected? (atom :top)
+    :root (atom :top)})
+
 (def unify-morphology-leaf-leaf
-  (let [one {:agr (atom :top)
-             :canonical (atom :top)
-             :exceptions (atom :top)
-             :cat (atom :top)
-             :infl (atom :top)
-             :inflected? (atom :top)
-             :root (atom :top)}
-        two {:agr (atom :top)
-             :canonical (atom :top)
-             :cat (atom :top)
-             :exceptions (atom :top)
-             :infl (atom :top)
-             :inflected? (atom :top)
-             :root (atom :top)}]
-    {:1 {:agr (:agr one)
-         :canonical (:canonical one)
-         :cat (:cat one)
-         :exceptions (:exceptions one)
-         :infl (:infl one)
-         :inflected? (:inflected? one)
-         :root (:root one)}
-     :2 {:agr (:agr two)
-         :canonical (:canonical two)
-         :cat (:cat two)
-         :exceptions (:exceptions two)
-         :infl (:infl two)
-         :inflected? (:inflected? two)
-         :root (:root two)}
+  (let [one (make-word)
+        two (make-word)]
+    {:1 one
+     :2 two
      :words {:first one
              :rest {:first two}}}))
 
 (def unify-morphology-leaf-tree
-  (let [one {:agr (atom :top)
-             :canonical (atom :top)
-             :exceptions (atom :top)
-             :cat (atom :top)
-             :infl (atom :top)
-             :inflected? (atom :top)
-             :root (atom :top)}
+  (let [one (make-word)
         two (atom :top)]
-    {:1 {:agr (:agr one)
-         :canonical (:canonical one)
-         :cat (:cat one)
-         :exceptions (:exceptions one)
-         :infl (:infl one)
-         :inflected? (:inflected? one)
-         :root (:root one)}
+    {:1 one
      :2 {:words two}
      :words {:first one
              :rest two}}))
 
 (def unify-morphology-tree-leaf
-  {:agr (atom :top)
-   :canonical (atom :top)
-   :cat (atom :top)
-   :exceptions (atom :top)
-   :infl (atom :top)
-   :inflected? (atom :top)
-   :root (atom :top)})
+  (make-word))
 
 (defn create-words [tree frontier-path]
   (cond (and

@@ -130,9 +130,21 @@
           :agr {:person :3rd :number :plur}
           :sem {:pred :they}}]
  
- "to" [{:cat :prep
-        :sem {:pred :to}}]
+ "to" [;; "to the park"
+       {:cat :prep
+        :sem {:pred :to}}
 
+       ;; "to sleep"
+       (let [sem (atom :top)]
+         {:cat :particle
+          :infl :infinitive
+          :inflected? true
+          :sem sem
+          :subcat {:1 {:cat :verb
+                       :sem sem
+                       :infl :base}
+                   :2 []}})]
+ 
  "very" [{:cat :intensifier
           :subcat {:1 {:cat :adjective
                        :phrasal false}

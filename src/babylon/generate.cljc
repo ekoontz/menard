@@ -2,7 +2,8 @@
   (:require
    [babylon.generate.truncate :as trunc]
    [clojure.tools.logging :as log]
-   [dag_unify.core :as u :refer [unify]]))
+   [dag_unify.core :as u :refer [unify]]
+   [dag_unify.serialization :as s]))
 
 ;; the higher the constant below,
 ;; the more likely we'll first generate leaves

@@ -4,6 +4,16 @@
 
 ;; universal grammar rules
 
+(def head-sem
+  (let [sem (atom :top)]
+    {:sem sem
+     :head {:sem sem}}))
+
+(def head-infl
+  (let [infl (atom :top)]
+    {:infl infl
+     :head {:infl infl}}))
+
 (def head-rule
   (let [comp-cat (atom :top)
         head-agr (atom :top)

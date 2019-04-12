@@ -7,8 +7,9 @@
 
 (def ^:dynamic lookup-fn)
 (def ^:dynamic grammar nil)
-(def ^:dynamic morph (fn [x] "-xx-"))
-(def ^:dynamic syntax-tree (fn [x] "[-xx-]"))
+(def ^:dynamic morph (fn [x] "-x-m-x-"))
+(def ^:dynamic syntax-tree (fn [x] (throw (Exception. "[-x-st-x-]"))))
+;;(def ^:dynamic syntax-tree  nil)
 (def ^:dynamic truncate? true)
 
 ;; for now, using a language-independent tokenizer.
@@ -148,11 +149,13 @@
                        spans))))))
 
 (defn parses [input n model span-map]
+  (log/info (str "parses: " syntax-tree))
   (cond
     (= n 1) input
     (> n 1)
     (let [minus-1 (parses input (- n 1) model span-map)]
       (log/debug (str "parses: input=" input))
+      (log/debug (str "parses: syntax-tree: " syntax-tree))
       (merge minus-1
              (reduce (fn [x y]
                        (merge-with concat x y))
@@ -180,21 +183,19 @@
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))]
+                                  (log/info (str "syntax-tree: " syntax-tree))
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
-                                     (let [trees
-                                           (->>
-                                            (over grammar left-signs right-signs)
-                                            (map #(-> %
-                                                      ((fn [tree]
-                                                         (cond truncate?
-                                                               (-> tree (dissoc :head) (dissoc :comp)
-                                                                   (dissoc :1) (dissoc :2)
-                                                                   (assoc :surface (morph %))
-                                                                   (assoc :syntax-tree (syntax-tree %)))
-                                                               true tree))))))]
-                                       trees))
+                                     (->>
+                                      (over grammar left-signs right-signs)
+                                      (map (fn [tree]
+                                             (cond truncate?
+                                                   (-> tree (dissoc :head) (dissoc :comp)
+                                                       (dissoc :1) (dissoc :2)
+                                                       (assoc :surface (morph tree))
+                                                       (assoc :syntax-tree (syntax-tree tree)))
+                                                   true tree)))))
                                    [(string/join " " [(first left-strings) (first right-strings)])]))})
                              ;; </value>
                              
@@ -220,7 +221,7 @@
            (parse-from-file input model)
            (string? input)
            (do
-             (log/debug (str "parsing input: '" input "'"))
+             (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
              ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
              (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
                    result (parse tokenizations

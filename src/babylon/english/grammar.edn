@@ -14,6 +14,17 @@
           babylon.ug/head-first-1
           babylon.ug/subcat-1]}
  
+ {:rule "infinitive" ;; 'to sleep'
+  :cat :verb
+  :head {:cat :particle
+         :infl :infinitive}
+  :comp {:cat :verb}
+  :unify [babylon.ug/comp-is-root
+          babylon.ug/head-first-1
+          babylon.ug/head-infl
+          babylon.ug/head-sem
+          babylon.ug/subcat-1-1-comp-subcat]}
+ 
  {:rule "nbar" ;; 'black cat'
   :cat :noun
   :head {:pronoun false

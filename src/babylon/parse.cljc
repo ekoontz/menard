@@ -8,8 +8,6 @@
 (def ^:dynamic lookup-fn)
 (def ^:dynamic grammar nil)
 (def ^:dynamic morph (fn [x] "-x-m-x-"))
-(def ^:dynamic syntax-tree (fn [x] (throw (Exception. "[-x-st-x-]"))))
-;;(def ^:dynamic syntax-tree  nil)
 (def ^:dynamic truncate? true)
 
 ;; for now, using a language-independent tokenizer.
@@ -148,12 +146,11 @@
                             (list span-pair)}))
                        spans))))))
 
-(defn parses [input n model span-map]
-  (log/info (str "parses: " syntax-tree))
+(defn parses [input n span-map syntax-tree]
   (cond
     (= n 1) input
     (> n 1)
-    (let [minus-1 (parses input (- n 1) model span-map)]
+    (let [minus-1 (parses input (- n 1) span-map syntax-tree)]
       (log/debug (str "parses: input=" input))
       (log/debug (str "parses: syntax-tree: " syntax-tree))
       (merge minus-1
@@ -214,53 +211,50 @@
   to turn the string into a sequence of tokens.  In the latter case,
   the tokens are assumed to be produced by splitting a string in some
   language-dependent way."
-  ([input & {:keys [original-input]}]
-   (let [original-input (if original-input original-input input)
-         model {}]
-     (cond (= (type input) java.io.BufferedReader)
-           (parse-from-file input model)
-           (string? input)
-           (do
-             (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
-             ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
-             (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
-                   result (parse tokenizations
-                                 :original-input original-input)]
-               (if (empty? result)
-                 (let [analyses
-                       (zipmap
-                        tokenizations
-                        (map (fn [token]
-                               (lookup-fn token))
-                             tokenizations))]
-                   (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
-                                  (string/join ";"
-                                               (map (fn [token]
-                                                      (str token ":" (count (get analyses token)) ""))
-                                                    tokenizations)))))
-                 (log/debug (str "parsed input:    \"" input "\"")))
-               result))
+  ([input syntax-tree]
+   (cond (string? input)
+         (do
+           (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
+           ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
+           (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
+                 result (parse tokenizations syntax-tree)]
+             (if (empty? result)
+               (let [analyses
+                     (zipmap
+                      tokenizations
+                      (map (fn [token]
+                             (lookup-fn token))
+                           tokenizations))]
+                 (log/warn (str "could not parse: \"" input "\". Tokenizations attempted: "
+                                (string/join ";"
+                                             (map (fn [token]
+                                                    (str token ":" (count (get analyses token)) ""))
+                                                  tokenizations)))))
+               (log/debug (str "parsed input:    \"" input "\"")))
+             result))
            
-           (or (seq? input) (vector? input))
-           ;; assume input is a list of tokens.
-           (let [tokens input
-                 token-count (count tokens)
-                 token-count-range (range 0 token-count)
-                 input-map (zipmap (map (fn [i] [i (+ i 1)])
-                                        token-count-range)
-                                   (map (fn [i] [(nth tokens i)])
-                                        token-count-range))]
-             (log/debug (str "input map:" input-map))
-             (let [all-parses
-                   (parses input-map token-count model
-                           (span-map token-count))
-                   result
-                   {:token-count token-count
-                    :complete-parses
-                    (filter map? (get all-parses
-                                      [0 token-count]))
-                    :all-parses all-parses}]
-               (:complete-parses result)))
+         (or (seq? input) (vector? input))
+         ;; assume input is a list of tokens.
+         (let [tokens input
+               token-count (count tokens)
+               token-count-range (range 0 token-count)
+               input-map (zipmap (map (fn [i] [i (+ i 1)])
+                                      token-count-range)
+                                 (map (fn [i] [(nth tokens i)])
+                                      token-count-range))]
+           (log/debug (str "input map:" input-map))
+           (let [all-parses
+                 (parses input-map token-count
+                         (span-map token-count) syntax-tree)
+                 result
+                 {:token-count token-count
+                  :complete-parses
+                  (filter map? (get all-parses
+                                    [0 token-count]))
+                  :all-parses all-parses}]
+             (:complete-parses result)))
+         true
+         (throw (Exception. (str "Don't know how to parse input of type: " (type input)))))))
 
-           true
-           (throw (Exception. "Don't know how to parse input of type: " (type input)))))))
+
+

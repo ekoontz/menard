@@ -180,7 +180,6 @@
                                                             right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))]
-                                  (log/info (str "syntax-tree: " syntax-tree))
                                   (lazy-cat
                                    (if (and (not (empty? left-signs))
                                             (not (empty? right-signs)))
@@ -214,7 +213,7 @@
   ([input syntax-tree]
    (cond (string? input)
          (do
-           (log/info (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
+           (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
            ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
            (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
                  result (parse tokenizations syntax-tree)]

@@ -49,7 +49,8 @@
         comp (atom :top)]
     (unify
      head-rule
-     {:head head
+     {:phrasal true
+      :head head
       :1 head
       :comp comp
       :2 comp})))
@@ -57,7 +58,8 @@
 (def head-first-1 ;; used for e.g. intensifier-phrase, where [:head :cat] != [:cat].
   (let [head (atom :top)
         comp (atom :top)]
-     {:head head
+    {:phrasal true
+     :head head
       :1 head
       :comp comp
       :2 comp}))

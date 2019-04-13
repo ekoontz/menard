@@ -225,7 +225,11 @@
  "turn" [{:cat :verb :sem {:pred :turn}}]
  "use" [{:cat :verb :sem {:pred :use}}]
  "walk" [{:cat :verb :sem {:pred :walk}}]
- "want" [{:cat :verb :sem {:pred :want}}]
+ "want" [{:cat :verb :sem {:pred :want}
+          :modal true
+          :subcat {:1 {:infl :infinitive
+                       :cat :verb
+                       :subcat {:1 {:top :top}}}}}]
  "will" [{:aux true
           :cat :verb
           :infl :present

@@ -187,4 +187,28 @@
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
-          babylon.ug/subcat-2-2-slash]}]
+          babylon.ug/subcat-2-2-slash]}
+
+ {:rule "vp-modal" ;; [vp-modal *wants .[*to .sleep]
+  :sem {:mood :decl}
+  :cat :verb
+  :slash false
+  :subcat {:1 {:top :top}
+           :2 []}
+  :aux false
+  :modal true
+  :options babylon.english/tenses
+  :comp {:cat :verb
+         :infl :infinitive
+         :phrasal true
+         :slash false}
+  :head {:slash false
+         :phrasal false
+         :cat :verb
+         :aux false
+         :modal true}
+  :unify [babylon.ug/head-first
+          babylon.ug/head-is-root
+          babylon.ug/subcat-1-1-comp-subcat]}]
+
+;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]

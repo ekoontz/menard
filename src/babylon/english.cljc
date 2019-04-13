@@ -199,9 +199,9 @@
             l/lexicon lexicon
             l/morphology morphology
             p/lookup-fn l/matching-lexemes
-            p/syntax-tree syntax-tree
+            p/syntax-tree babylon.english/syntax-tree
             p/morph morph]
-    (p/parse expression)))
+    (p/parse expression syntax-tree)))
 
 (defn analyze [surface]
   (binding [l/lexicon lexicon

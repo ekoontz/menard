@@ -7,7 +7,6 @@
 
 (def ^:dynamic lookup-fn)
 (def ^:dynamic grammar nil)
-(def ^:dynamic morph (fn [x] "-x-m-x-"))
 (def ^:dynamic truncate? true)
 
 ;; for now, using a language-independent tokenizer.
@@ -146,11 +145,11 @@
                             (list span-pair)}))
                        spans))))))
 
-(defn parses [input n span-map syntax-tree]
+(defn parses [input n span-map syntax-tree morph]
   (cond
     (= n 1) input
     (> n 1)
-    (let [minus-1 (parses input (- n 1) span-map syntax-tree)]
+    (let [minus-1 (parses input (- n 1) span-map syntax-tree morph)]
       (log/debug (str "parses: input=" input))
       (log/debug (str "parses: syntax-tree: " syntax-tree))
       (merge minus-1
@@ -210,13 +209,13 @@
   to turn the string into a sequence of tokens.  In the latter case,
   the tokens are assumed to be produced by splitting a string in some
   language-dependent way."
-  ([input syntax-tree]
+  ([input syntax-tree morph]
    (cond (string? input)
          (do
            (log/debug (str "parsing input: '" input "' with syntax-tree: " syntax-tree))
            ;; tokenize input (more than one tokenization is possible), and parse each tokenization.
            (let [tokenizations (filter #(not (empty? %)) (string/split input tokenizer))
-                 result (parse tokenizations syntax-tree)]
+                 result (parse tokenizations syntax-tree morph)]
              (if (empty? result)
                (let [analyses
                      (zipmap
@@ -244,7 +243,7 @@
            (log/debug (str "input map:" input-map))
            (let [all-parses
                  (parses input-map token-count
-                         (span-map token-count) syntax-tree)
+                         (span-map token-count) syntax-tree morph)
                  result
                  {:token-count token-count
                   :complete-parses
@@ -254,6 +253,3 @@
              (:complete-parses result)))
          true
          (throw (Exception. (str "Don't know how to parse input of type: " (type input)))))))
-
-
-

@@ -158,7 +158,7 @@
           babylon.ug/head-is-root
           babylon.ug/subcat-2]} 
 
- {:rule "vp-aux" ;; [s [vp-aux .will *see]]
+ {:rule "vp-aux" ;; [vp-aux *will .see]
   :sem {:mood :decl}
   :cat :verb
   :slash false

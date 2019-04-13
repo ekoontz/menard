@@ -108,7 +108,8 @@
            :pred pred}}))
 
 (def subcat-1-1-comp-subcat
-  (let [comp-subcat (atom :top)
+  (let [comp-subcat (atom {:1 {:top :top}
+                           :2 []})
         reflexive (atom :top)
         agr (atom :top)
         complement (atom {:agr agr

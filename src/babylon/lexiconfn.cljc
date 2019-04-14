@@ -17,9 +17,11 @@
     (cond (= :fail result)
           (let [error-message (str "rule: " rule " matched antecedent: " antecedent
                                    ", but failed to unify lexeme:" (vec (s/serialize lexeme))
-                                   " and consequent: " (vec (s/serialize consequent)))]
-              (log/error error-message)
-              (throw (Exception. error-message)))
+                                   " and consequent: " (vec (s/serialize consequent))
+                                   "; fail-path: "
+                                   (u/fail-path lexeme consequent))]
+            (log/error error-message)
+            (throw (Exception. error-message)))
           true
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result

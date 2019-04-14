@@ -42,17 +42,21 @@
                          :sem obj}
                      :2 []}
             :sem {:obj obj}})]}
+
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
  ;; of the verb.
  {:rule :subcat-unspecified
   :if {:cat :verb
        :aux false
+       :modal ::unspecified
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}}
-  :then [{:subcat {:1 {:cat :noun}
+  :then [{:modal false
+          :subcat {:1 {:cat :noun}
                    :2 []}}
-         {:subcat {:1 {:cat :noun}
+         {:modal false
+          :subcat {:1 {:cat :noun}
                    :2 {:cat :noun}}}]}
 
  {:rule :aux-default-is-false
@@ -80,7 +84,11 @@
 
  {:rule :dont-inflect-determiners
   :if {:cat :det}
-  :then [{:inflected? true}]}]
+  :then [{:inflected? true}]}
 
+ ;; </non-inflecting rules>
 
-
+ {:rule :modal-default-false
+  :if {:cat :verb
+       :modal ::unspec}
+  :then [{:modal false}]}]

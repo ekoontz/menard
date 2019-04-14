@@ -223,7 +223,9 @@
  "think" (let [exceptions [{:infl :past-simple :surface "thought"}
                            {:infl :past-participle :surface "thought"}]]
            [{:exceptions exceptions :cat :verb :sem {:pred :think}}])
- "try" [{:cat :verb :sem {:pred :try}}]
+ "try" [{:cat :verb
+         :sem {:pred :try}
+         :modal true}]
  "turn" [{:cat :verb :sem {:pred :turn}}]
  "use" [{:cat :verb :sem {:pred :use}}]
  "walk" [{:cat :verb :sem {:pred :walk}}]

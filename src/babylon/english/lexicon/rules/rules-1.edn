@@ -50,4 +50,20 @@
  {:rule :dont-inflect-propernouns
   :if {:cat :noun
        :propernoun true}
-  :then [{:inflected? true}]}]
+  :then [{:inflected? true}]}
+
+ {:rule :modals
+  :if {:cat :verb
+       :modal true}
+  :then [(let [subj (atom :top)
+               subcat-subj (atom {:sem subj})
+               obj (atom {:subj subj})]
+           {:sem {:subj subj
+                  :obj obj}
+            :subcat {:1 {:infl :infinitive
+                         :cat :verb
+                         :sem obj
+                         :subcat {:1 subcat-subj
+                                  :2 []}}
+                     :2 []}})]}]
+

@@ -66,13 +66,18 @@
 
  "call" [{:cat :verb :sem {:pred :call}}]
 
+ "can" [{:modal :base
+         :cat :verb
+         :infl :present
+         :inflected? true
+         :sem {:pred :be-able-to}}]
+
  "come" (let [exceptions [{:infl :past-simple
                            :surface "came"}
                           {:infl :past-participle
                            :surface "come"}]]
           [{:cat :verb :sem {:pred :come} :subcat {:2 []}
             :exceptions exceptions}])
- 
  "do" (let [exceptions [{:infl :past-simple :surface "did"}
                         {:infl :past-participle :surface "done"}]]
           [{:exceptions exceptions
@@ -181,9 +186,17 @@
                           {:infl :past-participle :surface "meant"}]]
           [{:exceptions exceptions :cat :verb :sem {:pred :mean}}])
  "move" [{:cat :verb :sem {:pred :move} :subcat {:1 :top :2 :top}}]
+
+ "must" [{:modal :base
+          :cat :verb
+          :infl :present
+          :inflected? true
+          :sem {:pred :must}}]
+
  "need" [{:cat :verb
           :sem {:pred :need}
-          :modal true}]
+          :modal :infinitive}]
+
  "play" [{:cat :verb :sem {:pred :play} :subcat {:1 :top :2 :top}}]
  "put" (let [exceptions [{:infl :past-simple :surface "put"}
                          {:infl :past-participle :surface "put"}]]
@@ -201,7 +214,8 @@
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}
                            {:infl :past-participle :surface "slept"}]]
-           [{:exceptions exceptions :cat :verb :sem {:pred :sleep} :subcat {:1 :top :2 []}}])
+           [{:exceptions exceptions :cat :verb :sem {:pred :sleep}
+             :subcat {:1 :top :2 []}}])
  "start" [{:cat :verb :sem {:pred :start} :subcat {:1 :top :2 :top}}]
  "take" (let [exceptions [{:infl :past-simple :surface "took"}
                           {:infl :past-participle :surface "taken"}]]
@@ -225,13 +239,13 @@
            [{:exceptions exceptions :cat :verb :sem {:pred :think}}])
  "try" [{:cat :verb
          :sem {:pred :try}
-         :modal true}]
+         :modal :infinitive}]
  "turn" [{:cat :verb :sem {:pred :turn}}]
  "use" [{:cat :verb :sem {:pred :use}}]
  "walk" [{:cat :verb :sem {:pred :walk}}]
  "want" [{:cat :verb
           :sem {:pred :want}
-          :modal true}]
+          :modal :infinitive}]
  "will" [{:aux true
           :cat :verb
           :infl :present

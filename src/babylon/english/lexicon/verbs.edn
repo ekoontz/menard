@@ -209,7 +209,10 @@
          [{:exceptions exceptions :cat :verb :sem {:pred :say}}])
  "see" (let [exceptions [{:infl :past-simple :surface "saw"}
                          {:infl :past-participle :surface "seen"}]]
-         [{:exceptions exceptions :cat :verb :sem {:pred :see}}])
+         [{:exceptions exceptions :cat :verb :sem {:pred :see}
+           :subcat {:2 []}}
+          {:exceptions exceptions :cat :verb :sem {:pred :see}
+           :subcat {:2 {:cat :noun}}}])
  "seem" [{:cat :verb :sem {:pred :seem} :subcat {:1 :top :2 :top}}]
  "show" [{:cat :verb :sem {:pred :show} :subcat {:1 :top :2 :top}}]
  "sleep" (let [exceptions [{:infl :past-simple :surface "slept"}

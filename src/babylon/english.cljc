@@ -248,45 +248,61 @@
                 :trees (rest trees)
                 :spec {:root (u/get-in (:tree (ex-data e)) [:root])})))))))
 
+(defn generate-retry [spec tries]
+  (try (generate spec)
+       (catch Exception e
+         (do
+           (log/warn (str "failed to generate: "                  
+                          (syntax-tree (:tree (ex-data e))) " with spec:"
+                          (u/strip-refs (:child-spec (ex-data e))) "; at path:"
+                          (:frontier-path (ex-data e)) ";e=" (type e)))
+           (if (> tries 0)
+             (generate-retry spec (- tries 1))
+             (throw e))))))
+
 (defn demo []
   (println "Generation:")
   (println "===")
   (println)
   (println "= transitive sentences =")
   (println)
-  (count (take 10 (repeatedly #(println (morph (generate
-                                                {:cat :verb
-                                                 :reflexive false
-                                                 :sem {:mood :decl
-                                                       :obj {:pred :top}}})
-                                               :sentence-punctuation? true)))))
+  (count (take 10 (repeatedly #(->
+                                {:cat :verb
+                                 :reflexive false
+                                 :sem {:mood :decl
+                                       :obj {:pred :top}}}
+                                (generate-retry 3)
+                                (morph :sentence-punctuation? true)
+                                println))))
+
   (println)
   (println "= reflexive sentences =")
   (println)
-  (count (take 10 (repeatedly #(println (morph
-                                         (generate {:cat :verb
-                                                    :sem {:mood :decl}
-                                                    :reflexive true})
-                                         :sentence-punctuation? true)))))
+  (count (take 10 (repeatedly #(->
+                                {:cat :verb
+                                 :sem {:mood :decl}
+                                 :reflexive true}
+                                (generate-retry 3)
+                                (morph :sentence-punctuation? true)
+                                println))))
   (println)
   (println "= Interrogative sentences =")
   (println)
   (count
-   (take 10
-    (repeatedly
-     #(-> {:cat :verb
-           :sem {:mood :interog}}
-          generate
-          (morph :sentence-punctuation? true)
-          println))))
+   (take 10 (repeatedly #(-> {:cat :verb
+                              :sem {:mood :interog}}
+                             (generate-retry 3)
+                             (morph :sentence-punctuation? true)
+                             println))))
   (println)
   (println "Parsing:")
   (println "===")
   (println)
   (count (take 10
-               (repeatedly #(let [expression (morph (generate {:cat (first (shuffle [:noun :verb]))
-                                                               :subcat []}))]
-                              (println (->> (parse expression)
+               (repeatedly #(let [surface (morph (generate-retry {:cat (first (shuffle [:noun :verb]))
+                                                                  :subcat []}
+                                                                 3))]
+                              (println (->> (parse surface)
                                             (map syntax-tree)
                                             (string/join ", "))))))))
 

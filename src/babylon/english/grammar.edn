@@ -14,11 +14,13 @@
           babylon.ug/head-first-1
           babylon.ug/subcat-1]}
  
- {:rule "infinitive" ;; 'to sleep'
+ {:rule "infinitive" ;; 'to sleep','to see the cat', 'to try to sleep', 'to try to see the cat'
   :cat :verb
   :head {:cat :particle
          :infl :infinitive}
   :comp {:cat :verb}
+  :options [{:modal false}
+            {:modal :infinitive}]
   :unify [babylon.ug/comp-is-root
           babylon.ug/head-first-1
           babylon.ug/head-infl

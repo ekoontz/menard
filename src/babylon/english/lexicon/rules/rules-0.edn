@@ -91,4 +91,9 @@
  {:rule :modal-default-false
   :if {:cat :verb
        :modal ::unspec}
-  :then [{:modal false}]}]
+  :then [{:modal false}]}
+
+ {:rule :transitive-verbs-prep
+  :if {:cat :verb
+       :subcat {:2 {:cat :prep}}}
+  :then [{:transitive-prep true}]}]

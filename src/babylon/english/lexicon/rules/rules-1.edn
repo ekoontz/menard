@@ -26,6 +26,19 @@
             :subcat {:1 {:agr agr
                          :aux false
                          :cat :verb
+                         :modal false
+                         :sem sem
+                         :subcat {:1 {:agr agr}}}
+                     :2 []}})
+         (let [agr (atom :top)
+               sem (atom {:mood :decl})]
+           {:cat :verb
+            :sem sem
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :aux false
+                         :cat :verb
+                         :modal :infinitive
                          :sem sem
                          :subcat {:1 {:agr agr}}}
                      :2 []}})
@@ -38,10 +51,24 @@
                          :top-level? false
                          :aux false
                          :cat :verb
+                         :modal false
+                         :sem sem
+                         :subcat []}
+                     :2 []}})
+         (let [agr (atom :top)
+               sem (atom {:mood :interog})]
+           {:cat :verb
+            :sem sem
+            :agr agr
+            :subcat {:1 {:agr agr
+                         :top-level? false
+                         :aux false
+                         :cat :verb
+                         :modal :infinitive
                          :sem sem
                          :subcat []}
                      :2 []}})]}
-
+ 
  {:rule :dont-inflect-pronouns
   :if {:cat :noun
        :pronoun true}
@@ -75,10 +102,15 @@
                obj (atom {:subj subj})]
            {:sem {:subj subj
                   :obj obj}
+            :infl :base
             :subcat {:1 {:infl :base
                          :cat :verb
                          :sem obj
                          :subcat {:1 subcat-subj
                                   :2 []}}
-                     :2 []}})]}]
+                     :2 []}})]}
 
+ {:rule :transitive-verb-prep-default-false
+  :if {:cat :verb
+       :transitive-prep ::unspec}
+  :then [{:transitive-prep false}]}]

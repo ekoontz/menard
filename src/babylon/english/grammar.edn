@@ -214,6 +214,7 @@
  {:rule "vp-modal-2" ;; [vp-modal-2 *can .sleep]
   :sem {:mood :decl}
   :cat :verb
+  :infl :base
   :slash false
   :subcat {:1 {:top :top}
            :2 []}

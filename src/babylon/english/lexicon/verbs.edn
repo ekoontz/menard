@@ -68,7 +68,6 @@
 
  "can" [{:modal :base
          :cat :verb
-         :infl :present
          :inflected? true
          :sem {:pred :be-able-to}}]
 
@@ -189,7 +188,6 @@
 
  "must" [{:modal :base
           :cat :verb
-          :infl :present
           :inflected? true
           :sem {:pred :must}}]
 

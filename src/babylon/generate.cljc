@@ -31,9 +31,7 @@
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]
                           (flatten (vals lexicon))))
-
 (def ^:dynamic lexical-filter nil)
-(def ^:dynamic shuffle? true)
 
 (declare frontier)
 (declare get-lexemes)
@@ -41,7 +39,6 @@
 (declare match-against-rules)
 (declare generate-all)
 (declare lazy-mapcat)
-(declare shuffle-or-not)
 (declare terminate-up)
 (declare truncate-in)
 
@@ -59,7 +56,6 @@
 
 (defn match-against-rules [spec grammar]
   (->> grammar
-       shuffle-or-not
        (map (fn [grammar-rule]
               (unify grammar-rule spec)))
        (remove #(= % :fail))
@@ -134,7 +130,6 @@
                        (= false (u/get-in % [:exception] false))))
          (map #(unify % spec))
          (filter #(not (= :fail %)))
-         shuffle-or-not
          (map #(u/assoc-in! % [::done?] true)))))
 
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
@@ -315,9 +310,6 @@
            true
            (throw (Exception. (str "could not determine frontier for this tree: " tree))))]
     retval))
-
-(defn shuffle-or-not [x]
-  (if shuffle? (shuffle x) x))
 
 (defn lazy-mapcat [f seqs]
   (if (not (empty? seqs))

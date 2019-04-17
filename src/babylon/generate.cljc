@@ -103,19 +103,13 @@
            (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
            true
            (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-         (take 100000000000000) ;; this improves performance but I don't know why.
          (map (fn [child]
                 (-> tree
                     (u/copy)
-                    ((fn [tree]
-                       (log/debug (str "adding child at: " frontier-path))
-                       tree))
                     (u/assoc-in! frontier-path child)
                     (terminate-up frontier-path))))
          (lazy-mapcat (fn [tree]
-                        (log/debug (str "size of tree: " (syntax-tree tree) " : " (count (str tree))))
-                        (grow tree grammar)))
-         lazy-seq)))))
+                        (grow tree grammar))))))))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 

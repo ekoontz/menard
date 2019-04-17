@@ -161,27 +161,3 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
-
-(defn a-dog-were-seeing-a-cat []
-  (let [spec
-        {:cat :verb
-         :reflexive false
-         :agr {:number :sing}
-         :sem {:mood :decl
-               :pred :see
-               :aspect :progressive
-               :tense :past
-               :subj {:pred :dog}
-               :obj {:pred :cat}}
-         :comp {:rule "np"
-                :phrasal true}}]
-    
-    (count
-       (take 100
-             (repeatedly
-               #(println
-                  (let [expr
-                         (generate
-                            spec)]
-                     (str "m:" (morph expr :sentence-punctuation? true)))))))))
-

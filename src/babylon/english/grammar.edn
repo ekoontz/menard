@@ -120,6 +120,10 @@
  {:rule "s-comp" ;; [s-interog did [s-comp .she *sleep]]
   :slash true
   :cat :verb
+
+  ;; TODO: should be part of head (e.g. "sleep" in example "did she sleep"
+  :comp {:cat :noun}
+
   :sem {:mood :interog}
   :options [{:head {:infl :base}} {:head {:infl :gerund}}
             {:head {:infl :past-participle}}]

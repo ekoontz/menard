@@ -186,9 +186,9 @@
               g/morph morph
               g/index-fn (fn [spec]
                            (cond (= (u/get-in spec [:cat]) :verb)
-                                 verb-lexicon
+                                 (shuffle verb-lexicon)
                                  true
-                                 non-verb-lexicon))]
+                                 (shuffle non-verb-lexicon)))]
       (let [spec (let [with-cat
                        (unify spec {:cat (first (shuffle [:noun :verb]))})]
                    (if (= :fail with-cat)
@@ -286,6 +286,7 @@
   (println)
   (count (take 10 (repeatedly #(->
                                 {:cat :verb
+                                 :rule "s"
                                  :reflexive false
                                  :sem {:mood :decl
                                        :obj {:pred :top}}}
@@ -298,7 +299,7 @@
   (println)
   (count (take 10 (repeatedly #(->
                                 {:cat :verb
-                                 :sem {:mood :decl}
+                                 :rule "s"
                                  :reflexive true}
                                 (generate-retry 3)
                                 (morph :sentence-punctuation? true)
@@ -339,30 +340,3 @@
   (-> input
       (string/replace #"\b([aA]) ([aeiou])"   "$1n $2")
       (string/replace #"\b([aA])n ([^aeiou])" "$1 $2")))
-
-(defn poetry-line []
-  (->
-   {:cat :verb
-    :subcat []
-    :pred :top
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :head {:phrasal true}}}}
-   generate
-   morph
-   an
-   capitalize-first-letter
-   (str ". ")))
-
-(defn benchmark []
-  (repeatedly
-   #(println
-     (time (poetry-line)))))
-
-(defn poetry []
-  (repeatedly
-   #(println
-     (poetry-line))))
-

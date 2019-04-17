@@ -169,11 +169,13 @@
 
 (def verb-lexicon
   (->> flattened-lexicon
-       (filter #(= (u/get-in % [:cat]) :verb))))
+       (filter #(and (not (u/get-in % [:exception]))
+                     (= (u/get-in % [:cat]) :verb)))))
   
 (def non-verb-lexicon
   (->> flattened-lexicon
-         (filter #(not (= (u/get-in % [:cat]) :verb)))))
+         (filter #(and (not (= (u/get-in % [:cat]) :verb))
+                       (not (u/get-in % [:exception]))))))
 
 (defn generate
   "generate one random expression that satisfies _spec_."

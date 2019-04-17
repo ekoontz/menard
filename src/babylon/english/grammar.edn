@@ -69,6 +69,7 @@
          :cat :comp
          :slash false}
   :unify [babylon.ug/head-first
+          babylon.ug/head-rule
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
           babylon.ug/sem-mod
@@ -85,6 +86,7 @@
          :cat :comp
          :slash true}
   :unify [babylon.ug/head-first
+          babylon.ug/head-rule
           babylon.ug/head-is-root
           babylon.ug/nominal-phrase
           babylon.ug/object-of-comp-is-head

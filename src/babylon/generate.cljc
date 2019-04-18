@@ -51,8 +51,8 @@
   "Return the subset of _grammar_ that unfies with spec _spec_, and return the unified result for each member of that subset."
   [spec grammar]
   (->> (match-against-rules spec grammar)
-       (mapcat (fn [tree]
-                 (grow tree grammar)))))
+       (lazy-mapcat (fn [tree]
+                      (grow tree grammar)))))
 
 (defn match-against-rules [spec grammar]
   (->> grammar

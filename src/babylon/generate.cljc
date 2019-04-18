@@ -26,7 +26,7 @@
 (defn branching-samples []
   (count (filter #(= % true) (take 100 (repeatedly #(fn [] (phrasal-children-first?)))))))
 
-(def ^:const max-depth 6)
+(def ^:const max-depth 7)
 
 (def ^:dynamic lexicon nil)
 (def ^:dynamic index-fn (fn [spec]

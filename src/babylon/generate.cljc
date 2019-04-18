@@ -68,48 +68,53 @@
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
-    (cond
-      (empty? frontier-path) [tree]
-      true
-      (let [child-spec (u/get-in tree frontier-path :top)
-            child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
-                            (get-lexemes child-spec))
-            child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
-                          (match-against-rules child-spec grammar))]
-        (log/debug (str "lexical children: " (count child-lexemes)))
-        (log/debug (str "phrasal children: " (count child-trees)))
-        (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
-        (if (and (empty? child-lexemes) (empty? child-trees))
-          (throw (ex-info
-                  (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path "; child-spec="
-                       (u/strip-refs child-spec) " (no phrases or lexemes match)")
-                  {:tree tree
-                   :frontier-path frontier-path
-                   :depth depth
-                   :max-depth max-depth
-                   :child-spec child-spec})))
-        (if (and (empty? child-lexemes) (>= depth max-depth))
-          (throw (ex-info
-                  (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path ". (max depth reached)")
-                  {:tree tree
-                   :frontier-path frontier-path
-                   :depth depth
-                   :max-depth max-depth
-                   :child-spec child-spec})))
-        (->>
-         (cond
-           (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
-           (phrasal-children-first? depth)
-           (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
-           true
-           (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-         (map (fn [child]
-                (-> tree
-                    (u/copy)
-                    (u/assoc-in! frontier-path child)
-                    (terminate-up frontier-path))))
-         (lazy-mapcat (fn [tree]
-                        (grow tree grammar))))))))
+    (let [retval
+          (cond
+            (empty? frontier-path) [tree]
+            true
+            (let [child-spec (u/get-in tree frontier-path :top)
+                  child-lexemes (if (not (= true (u/get-in child-spec [:phrasal])))
+                                  (get-lexemes child-spec))
+                  child-trees (if (not (= false (u/get-in child-spec [:phrasal])))
+                                (match-against-rules child-spec grammar))]
+              (log/debug (str "lexical children: " (count child-lexemes)))
+              (log/debug (str "phrasal children: " (count child-trees)))
+              (log/debug (str "total children: " (count (concat child-trees child-lexemes))))
+              (if (and (empty? child-lexemes) (empty? child-trees))
+                (throw (ex-info
+                        (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path "; child-spec="
+                             (u/strip-refs child-spec) " (no phrases or lexemes match)")
+                        {:tree tree
+                         :frontier-path frontier-path
+                         :depth depth
+                         :max-depth max-depth
+                         :child-spec child-spec})))
+              (if (and (empty? child-lexemes) (>= depth max-depth))
+                (throw (ex-info
+                        (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path ". (max depth reached)")
+                        {:tree tree
+                         :frontier-path frontier-path
+                         :depth depth
+                         :max-depth max-depth
+                         :child-spec child-spec})))
+              (->>
+               (cond
+                 (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
+                 (phrasal-children-first? depth)
+                 (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
+                 true
+                 (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
+               (take 1000000000)
+               (map (fn [child]
+                      (-> tree
+                          (u/copy)
+                          (u/assoc-in! frontier-path child)
+                          (terminate-up frontier-path))))
+               (lazy-mapcat (fn [tree]
+                              (grow tree grammar))))))]
+      (log/debug (str "done growing; first result: " (if (not (empty? retval))
+                                                      (syntax-tree (first retval)))))
+      retval)))
 
 (defn get-lexemes
   "Get lexemes matching the spec. Use index, where the index 
@@ -118,13 +123,17 @@
   [spec]
   (if (= true (u/get-in spec [:phrasal]))
     (lazy-seq [])
-    (->> (index-fn spec)
-         lazy-seq
-         (filter #(and (or (nil? lexical-filter) (lexical-filter %))
-                       (= false (u/get-in % [:exception] false))))
-         (map #(unify % spec))
-         (filter #(not (= :fail %)))
-         (map #(u/assoc-in! % [::done?] true)))))
+    (do
+      (log/debug (str "getting lexemes with: " spec))
+      (let [retval
+            (->> (index-fn spec)
+                 lazy-seq
+                 (filter #(and (or (nil? lexical-filter) (lexical-filter %))))
+                 (map #(unify % spec))
+                 (filter #(not (= :fail %)))
+                 (map #(u/assoc-in! % [::done?] true)))]
+        (log/debug (str "got lexemes."))
+        retval))))
 
 ;; https://github.com/weavejester/medley/blob/1.1.0/src/medley/core.cljc#L20
 (defn dissoc-in
@@ -175,56 +184,60 @@
   (make-word))
 
 (defn create-words [tree frontier-path]
-  (cond (and
-         (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-         (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        ;; (1): both children at _frontier-path_ are leaves.
-        (do
-          (-> tree
-              (u/assoc-in frontier-path unify-morphology-leaf-leaf)))
+  (log/debug (str "creating words: " (syntax-tree tree) " at: " frontier-path))
+  (let [retval
+        (cond (and
+               (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+               (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+              ;; (1): both children at _frontier-path_ are leaves.
+              (do
+                (-> tree
+                    (u/assoc-in frontier-path unify-morphology-leaf-leaf)))
 
-        ;; (2) child :1 at _frontier-path_ is a leaf, child :2 is a tree.
-        (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-             (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        (do
-          (log/debug (str "create-words(1)"))
-          (-> tree
-              (u/assoc-in frontier-path unify-morphology-leaf-tree)))
+              ;; (2) child :1 at _frontier-path_ is a leaf, child :2 is a tree.
+              (and (= false (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+                   (= true (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+              (do
+                (log/debug (str "create-words(1)"))
+                (-> tree
+                    (u/assoc-in frontier-path unify-morphology-leaf-tree)))
 
-        ;; (3): child :1 at _frontier-path_ is a tree; child :2 is a leaf.
-        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
-             (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
-        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
-                                        [])]
-          (log/debug (str "create-words(3); tree is at: " (vec (concat frontier-path [:2]))
-                          "; tail-path is: " (vec tail-path)))
-          (->
-           tree
-           (u/assoc-in (concat frontier-path [:words])
-                       (u/get-in tree (concat frontier-path [:1 :words])))
-           (u/assoc-in frontier-path
-                       (unify {:2 unify-morphology-tree-leaf
-                               :words
-                               (s/create-path-in (concat tail-path [:first])
-                                                 unify-morphology-tree-leaf)}))))
+              ;; (3): child :1 at _frontier-path_ is a tree; child :2 is a leaf.
+              (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false))
+                   (= false (u/get-in tree (concat frontier-path [:2 :phrasal]) false)))
+              (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
+                                              [])]
+                (log/debug (str "create-words(3); tree is at: " (vec (concat frontier-path [:2]))
+                                "; tail-path is: " (vec tail-path)))
+                (->
+                 tree
+                 (u/assoc-in (concat frontier-path [:words])
+                             (u/get-in tree (concat frontier-path [:1 :words])))
+                 (u/assoc-in frontier-path
+                             (unify {:2 unify-morphology-tree-leaf
+                                     :words
+                                     (s/create-path-in (concat tail-path [:first])
+                                                       unify-morphology-tree-leaf)}))))
 
-        ;; (4) both children at _frontier-path_ are trees.
-        (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
-        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
-                                        [])]
-          (log/debug (str "create-words(4)"))
-          (-> tree
-              (u/assoc-in
-               (concat frontier-path [:words])
-               (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
-                           tail-path
-                           (u/get-in tree (concat frontier-path [:2 :words]))))))
+              ;; (4) both children at _frontier-path_ are trees.
+              (and (= true (u/get-in tree (concat frontier-path [:1 :phrasal]) false)))
+              (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:1 :words]))
+                                              [])]
+                (log/debug (str "create-words(4)"))
+                (-> tree
+                    (u/assoc-in
+                     (concat frontier-path [:words])
+                     (u/assoc-in (u/get-in tree (concat frontier-path [:1 :words]))
+                                 tail-path
+                                 (u/get-in tree (concat frontier-path [:2 :words]))))))
 
-        ;; TODO: throw exception here.
-        true
-        (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
-          (log/warn (str "create-words(5)..??? tail-path: " tail-path))
-          tree)))
+              ;; TODO: throw exception here.
+              true
+              (let [tail-path (find-tail-path (u/get-in tree (concat frontier-path [:words])))]
+                (log/warn (str "create-words(5)..??? tail-path: " tail-path))
+                tree))]
+    (log/debug (str "done creating words."))
+    retval))
 
 (defn truncate [m]
   (-> (reduce (fn [m path]

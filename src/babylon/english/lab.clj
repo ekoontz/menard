@@ -97,33 +97,13 @@
     :head {:phrasal true
            :comp {:phrasal true
                   :comp {:phrasal true}}}}])
-
-;; enable to generate with a part.
-(def custom-spec
-  (if false
-    {:sem {:tense :future}}
-    :top))
-
-(def the-cat-sleeps
-  {:cat :verb
-   :sem {:tense :present
-         :aspect :simple}
-   :rule "s"
-   :head {:phrasal false}
-   :comp {:phrasal true
-          :head {:phrasal false}
-          :comp {:phrasal false}}})
-  
 (defn poetry-line []
   (try
     (->
      poetry-specs
      shuffle
      first
-     (unify custom-spec)
-     (unify {:top-level? true})
-     generate
-     time)
+     generate)
     (catch Exception e
       (log/warn (str "failed to generate: "
                      (syntax-tree (:tree (ex-data e))) " with spec:"

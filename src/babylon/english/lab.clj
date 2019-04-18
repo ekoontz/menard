@@ -97,6 +97,7 @@
     :head {:phrasal true
            :comp {:phrasal true
                   :comp {:phrasal true}}}}])
+
 (defn poetry-line []
   (try
     (->
@@ -105,26 +106,23 @@
      first
      generate)
     (catch Exception e
-      (log/warn (str "failed to generate: "
+      (log/warn (str "fail:(" (-> e ex-data :why) ":)"
                      (syntax-tree (:tree (ex-data e))) " with spec:"
                      (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                     (:frontier-path (ex-data e)) ";e=" (type e)))
-      
-      (poetry-line))))
+                     (:frontier-path (ex-data e)) "; immediate-parent: "
+                     (-> e ex-data :immediate-parent :rule))))))
 
 (defn benchmark []
   (repeatedly
    #(time (->
-           (poetry-line)
+           (or (poetry-line) "(failed)")
            (morph :sentence-punctuation? true)
            println))))
 
 (defn poetry []
-  (repeatedly
-   #(-> 
-     (or (poetry-line) "(failed)")
-     (morph :sentence-punctuation? true)
-     println)))
+  (loop []
+    (println (morph (or (poetry-line) "(failed)") :sentence-punctuation? true))
+    (recur)))
 
 (defn long-s []
   (count

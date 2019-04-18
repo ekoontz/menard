@@ -34,13 +34,6 @@
 
 (def finite-tenses
   [;; "would see"
-   {:infl :present
-    :sem {:tense :conditional}
-    :head {:aux true}}
-   ;; "will see"
-   {:infl :present
-    :sem {:tense :future}
-    :head {:aux true}}
 
    ;; "sees"
    {:infl :present
@@ -50,32 +43,7 @@
    ;; "saw"
    {:infl :past-simple
     :sem {:tense :past
-          :aspect :simple}}
-
-   ;; "is seeing"
-   {:infl :present
-    :head {:aux true}
-    :sem {:tense :present
-          :aspect :progressive}}
-
-   ;; "was seeing"
-   {:infl :past-simple
-    :head {:aux true}
-    :sem {:tense :past
-          :aspect :progressive}}
-
-   ;; "has seen"
-   {:infl :present
-    :head {:aux true}
-    :sem {:tense :past
-          :aspect :perfect}}
-
-   ;; "had seen"
-   {:infl :past-simple
-    :head {:aux true}
-    :sem {:tense :past
-          :aspect :pluperfect}}])
-
+          :aspect :simple}}])
 
 (def tenses
   (concat finite-tenses
@@ -286,6 +254,18 @@
   (println)
   (println "= transitive sentences =")
   (println)
+
+  ;; TODO: generate should strip off the :head's and :comp's and
+  ;;  pass them along to (grow).
+  ;;  until then, commenting out the following that
+  ;;  don't work:
+  ;; :phrasal true
+  ;;:head {:cat :verb
+  ;;                                     :rule "vp"
+  ;;                                    :phrasal true
+  ;;                                     :head {:cat :verb
+  ;;                                            :phrasal false
+  ;;                                            :subcat {:2 {:top :top}})
   (count (take 10 (repeatedly #(->
                                 {:cat :verb
                                  :rule "s"

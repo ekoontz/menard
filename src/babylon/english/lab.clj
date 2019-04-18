@@ -45,74 +45,12 @@
            :canonical "be"}}])
 
 (def poetry-specs
-  [
-
-   {:cat :verb
-    :subcat []
-    :sem {:mood :decl}
-    :phrasal true}
-
-   {:cat :verb
-    :subcat []
-    :rule "s-interog"
-    :sem {:mood :interog}
-    :phrasal true}
-   
-   {:cat :verb
-    :subcat []
-    :phrasal true
-    :head {:phrasal true}}
-
-   {:cat :verb
-    :subcat []
-    :phrasal true
-    :comp {:phrasal true}}
-
-   {:cat :verb
-    :subcat []
-    :comp {:phrasal true}
-    :phrasal true
-    :head {:phrasal true}}
-
-   {:cat :verb
+  [{:cat :verb
     :subcat []
     :phrasal true
     :comp {:phrasal true
            :head {:phrasal true}}
-    :head {:phrasal true}}
-
-   {:cat :verb
-    :phrasal true
-    :subcat []
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true}}}
-
-   {:cat :verb
-    :phrasal true
-    :subcat []
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :comp {:phrasal true}}}}])
-
-;; enable to generate with a part.
-(def custom-spec
-  (if false
-    {:sem {:tense :future}}
-    :top))
-
-(def the-cat-sleeps
-  {:cat :verb
-   :sem {:tense :present
-         :aspect :simple}
-   :rule "s"
-   :head {:phrasal false}
-   :comp {:phrasal true
-          :head {:phrasal false}
-          :comp {:phrasal false}}})
+    :head {:phrasal true}}])
   
 (defn poetry-line []
   (try
@@ -120,8 +58,6 @@
      poetry-specs
      shuffle
      first
-     (unify custom-spec)
-     (unify {:top-level? true})
      generate
      time)
     (catch Exception e

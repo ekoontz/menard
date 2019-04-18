@@ -1,11 +1,4 @@
-[{:rule "comp1" ;; 'that I see'; 'that sees me'
-  :head {:cat :comp
-         :phrasal false}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/slash-is-head-slash
-          babylon.ug/subcat-1-1-comp-subcat]}
- 
+[
  {:rule "intensifier" ;; 'very small'
   :cat :adjective
   :head {:cat :intensifier}
@@ -41,69 +34,10 @@
           babylon.ug/sem-mod
           babylon.ug/subcat-1-1]}
 
- {:rule "nbar2" ;; 'cat [s-slash I see]'
-  :slash false
-  :cat :noun
-  :head {:phrasal false
-         :pronoun false
-         :propernoun false}
-
-  :comp {:rule "s-slash"
-         :phrasal true
-         :cat :verb
-         :slash true}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/nominal-phrase
-          babylon.ug/object-of-comp-is-head
-          babylon.ug/sem-mod
-          babylon.ug/subcat-1-1]}
- 
- {:rule "nbar3" ;; 'cat [comp1 that [vp-present sees me]]'
-  :slash false
-  :cat :noun
-  :head {:phrasal false
-         :pronoun false
-         :propernoun false}
-  :comp {:phrasal true
-         :cat :comp
-         :slash false}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-rule
-          babylon.ug/head-is-root
-          babylon.ug/nominal-phrase
-          babylon.ug/sem-mod
-          babylon.ug/subcat-1-1
-          babylon.ug/subject-of-comp-is-head]}
-
- {:rule "nbar4" ;; 'cat [comp1 that [s-slash I see]]'
-  :slash false
-  :cat :noun
-  :head {:phrasal false
-         :pronoun false
-         :propernoun false}
-  :comp {:phrasal true
-         :cat :comp
-         :slash true}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-rule
-          babylon.ug/head-is-root
-          babylon.ug/nominal-phrase
-          babylon.ug/object-of-comp-is-head
-          babylon.ug/sem-mod
-          babylon.ug/subcat-1-1]}
-
  {:rule "np"
   :cat :noun
   :slash false
   :unify [babylon.ug/head-last
-          babylon.ug/head-is-root
-          babylon.ug/subcat-1]}
-
- {:rule "pp"
-  :cat :prep
-  :subcat []
-  :unify [babylon.ug/head-first
           babylon.ug/head-is-root
           babylon.ug/subcat-1]}
 
@@ -165,25 +99,6 @@
           babylon.ug/comp-mod-is-obj-mod
           babylon.ug/head-is-root
           babylon.ug/subcat-2]} 
-
- {:rule "vp-aux" ;; [vp-aux *will .see]
-  :sem {:mood :decl}
-  :cat :verb
-  :slash false
-  :subcat {:1 {:top :top}
-           :2 []}
-  :aux true
-  :options babylon.english/aux-tenses
-  :comp {:cat :verb
-         :slash false}
-
-  :head {:slash false
-         :phrasal false
-         :cat :verb
-         :aux true}
-  :unify [babylon.ug/head-first
-          babylon.ug/comp-is-root
-          babylon.ug/subcat-1-1-comp-subcat]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
   :sem {:mood :decl}

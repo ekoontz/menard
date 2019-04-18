@@ -85,6 +85,8 @@
                         (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path "; child-spec="
                              (u/strip-refs child-spec) " (no phrases or lexemes match)")
                         {:tree tree
+                         :why :no-match
+                         :immediate-parent (u/get-in tree (butlast frontier-path))
                          :frontier-path frontier-path
                          :depth depth
                          :max-depth max-depth
@@ -93,7 +95,9 @@
                 (throw (ex-info
                         (str "cannot grow this tree: " (syntax-tree tree) " at: " frontier-path ". (max depth reached)")
                         {:tree tree
+                         :why :too-deep
                          :frontier-path frontier-path
+                         :immediate-parent (u/get-in tree (butlast frontier-path))
                          :depth depth
                          :max-depth max-depth
                          :child-spec child-spec})))

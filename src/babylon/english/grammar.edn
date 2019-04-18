@@ -94,6 +94,8 @@
           babylon.ug/subcat-1-1]}
 
  {:rule "np"
+  :reflexive false
+  :agr {:person :3rd}
   :cat :noun
   :slash false
   :unify [babylon.ug/head-last

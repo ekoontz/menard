@@ -63,6 +63,9 @@
 
 (declare handle-generation-failure)
 
+;; TODO: (grow) isn't really accurate; you start with a tree
+;; and return an infinite series of the trees with one thing added.
+;; maybe 'tree-to-forest-by-addition' or something.
 (defn grow
   "Recursively generate trees given input trees. continue recursively
    until no further expansion is possible."

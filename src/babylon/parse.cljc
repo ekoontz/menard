@@ -17,6 +17,13 @@
 (declare overh)
 (declare overhc)
 
+(defn lazy-mapcat [f seqs]
+  (if (not (empty? seqs))
+     (lazy-cat
+       (f (first seqs))
+       (lazy-mapcat f (rest seqs)))
+     []))
+
 ;; TODO: distinguish between when:
 ;; 1) called with only a child1 (no child2),
 ;; 2) called with both a child1 and a child2, but child2's supplied value is nil:

@@ -247,7 +247,7 @@
     (truncate m)))
 
 (defn terminate-up [tree frontier-path]
-  (log/debug (str "terminate-up: " (vec frontier-path)))
+  (log/debug (str "terminate-up: " (vec frontier-path) ": " (syntax-tree tree)))
   (cond
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))

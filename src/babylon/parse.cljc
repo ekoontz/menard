@@ -129,7 +129,7 @@
           ;; e.g. (spanpairs 5) =>
           ;; ([0 1] [0 2].. [0 5] [1 2] ..[1 4] [1 5] .... [4 5])
           spanpairs (fn [n]
-                      (mapcat (fn [x]
+                      (lazy-mapcat (fn [x]
                                 (map-fn (fn [y]
                                           [x y])
                                         (range (+ x 1) (+ n 1))))
@@ -178,12 +178,12 @@
                                       right (get minus-1 (second span-pair))
                                       left-strings (filter string? left)
                                       right-strings (filter string? right)
-                                      left-lexemes (mapcat (fn [string]
-                                                             (lookup-fn string))
-                                                           left-strings)
-                                      right-lexemes (mapcat (fn [string]
-                                                              (lookup-fn string))
-                                                            right-strings)
+                                      left-lexemes (lazy-mapcat (fn [string]
+                                                                  (lookup-fn string))
+                                                                left-strings)
+                                      right-lexemes (lazy-mapcat (fn [string]
+                                                                   (lookup-fn string))
+                                                                 right-strings)
                                       left-signs (lazy-cat left-lexemes (filter map? left))
                                       right-signs (lazy-cat right-lexemes (filter map? right))]
                                   (lazy-cat

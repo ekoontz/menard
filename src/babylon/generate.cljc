@@ -101,7 +101,10 @@
                       (-> tree
                           (u/copy)
                           (u/assoc-in! frontier-path child)
-                          (terminate-up frontier-path))))
+                          ((fn [tree]
+                             (if (= false (u/get-in child [:phrasal]))
+                               (terminate-up tree frontier-path)
+                               tree))))))
                (lazy-mapcat (fn [tree]
                               (grow tree grammar))))))]
       (log/debug (str "done growing; first result: " (if (not (empty? retval))

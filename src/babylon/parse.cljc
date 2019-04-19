@@ -76,9 +76,9 @@
     (or (seq? parent)
         (vector? parent))
     (let [parents (lazy-seq parent)]
-      (mapcat (fn [parent]
-                (overc parent comp))
-              parents))
+      (lazy-mapcat (fn [parent]
+                    (overc parent comp))
+                   parents))
 
     (or (seq? comp)
         (vector? comp))

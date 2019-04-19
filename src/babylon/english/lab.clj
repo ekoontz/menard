@@ -46,57 +46,12 @@
 
 (def poetry-specs
   [
-
-   {:cat :verb
-    :subcat []
-    :sem {:mood :decl}
-    :phrasal true}
-
-   {:cat :verb
-    :subcat []
-    :rule "s-interog"
-    :sem {:mood :interog}
-    :phrasal true}
-   
-   {:cat :verb
-    :subcat []
-    :phrasal true
-    :head {:phrasal true}}
-
-   {:cat :verb
-    :subcat []
-    :phrasal true
-    :comp {:phrasal true}}
-
-   {:cat :verb
-    :subcat []
-    :comp {:phrasal true}
-    :phrasal true
-    :head {:phrasal true}}
-
-   {:cat :verb
-    :subcat []
-    :phrasal true
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true}}
-
    {:cat :verb
     :phrasal true
     :subcat []
-    :comp {:phrasal true
-           :head {:phrasal true}}
+    :comp {:phrasal false}
     :head {:phrasal true
-           :comp {:phrasal true}}}
-
-   {:cat :verb
-    :phrasal true
-    :subcat []
-    :comp {:phrasal true
-           :head {:phrasal true}}
-    :head {:phrasal true
-           :comp {:phrasal true
-                  :comp {:phrasal true}}}}])
+           :comp {:phrasal true}}}])
 
 (defn poetry-line []
   (try

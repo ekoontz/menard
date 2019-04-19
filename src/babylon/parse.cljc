@@ -33,7 +33,7 @@
         (over [parents] child1 child2)
         
         true
-        (mapcat
+        (lazy-mapcat
          (fn [parent]
            (let [[head comp] (if (= (:1 parent) (:head parent))
                                [child1 child2]
@@ -54,9 +54,9 @@
   (cond
     (or (seq? head)
         (vector? head))
-    (mapcat (fn [child]
-              (overh parent child))
-            head)
+    (lazy-mapcat (fn [child]
+                   (overh parent child))
+                 head)
     true
     ;; TODO: 'true' here assumes that both parent and head are maps: make this assumption explicit,
     ;; and save 'true' for errors.

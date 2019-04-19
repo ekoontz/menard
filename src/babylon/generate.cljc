@@ -62,6 +62,10 @@
        (map #(u/assoc-in! % [::started?] true))))
 
 (declare handle-generation-failure)
+(defn eugenes-map [f items]
+  (when (not (empty? items))
+    (cons (f (first items))
+          (lazy-seq (eugenes-map f (rest items))))))
 
 ;; TODO: (grow) isn't really accurate; you start with a tree
 ;; and return an infinite series of the trees with one thing added.
@@ -117,14 +121,15 @@
                  (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
                  true
                  (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-               (map (fn [child]
-                      (-> tree
-                          (u/copy)
-                          (u/assoc-in! frontier-path child)
-                          ((fn [tree]
-                             (if (= false (u/get-in child [:phrasal]))
-                               (terminate-up tree frontier-path)
-                               tree))))))
+               (eugenes-map
+                (fn [child]
+                  (-> tree
+                      (u/copy)
+                      (u/assoc-in! frontier-path child)
+                      ((fn [tree]
+                         (if (= false (u/get-in child [:phrasal]))
+                           (terminate-up tree frontier-path)
+                           tree))))))
                (lazy-mapcat (fn [tree]
                               (grow tree grammar))))))]
       (log/debug (str "done growing; first result: " (if (not (empty? retval))

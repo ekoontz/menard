@@ -248,9 +248,15 @@
                [:head] [:2]])
       (assoc :syntax-tree (syntax-tree m))))
 
-(defn fold-up [m path]
-  (log/debug (str "fold up: " (syntax-tree m) " at: " (butlast path)))
-  m)
+(defn fold-up [tree path]
+  (let [h (u/get-in tree (concat (butlast (butlast path))) [:head])
+        h2 (u/get-in tree path)])
+  (log/info (str "fold up:"
+                 " H: " (syntax-tree (u/get-in tree (concat (butlast (butlast path))
+                                                            [:head])))
+                 " H2: " (syntax-tree (u/get-in tree path))
+                 "; T: " (syntax-tree tree)))
+  tree)
 
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 

@@ -100,13 +100,13 @@
                         (u/fail-path (u/copy parent) {:comp (u/copy comp)})))))))
 
 (defn square-cross-product [x]
-  (mapcat (fn [each-x]
-            (filter #(not (nil? %))
-                    (map-fn (fn [each-y]
-                              (if (= (second each-x) (first each-y))
-                                [each-x each-y]))
-                            x)))
-          x))
+  (lazy-mapcat (fn [each-x]
+                 (filter #(not (nil? %))
+                         (map-fn (fn [each-y]
+                                   (if (= (second each-x) (first each-y))
+                                     [each-x each-y]))
+                                 x)))
+             x))
 
 (defn span-map [max]
   "return a map of size -> _spans_, where _size_ is an integer, and _spans_ are all

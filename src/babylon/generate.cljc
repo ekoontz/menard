@@ -107,11 +107,11 @@
                (eugenes-map
                 (fn [child]
                   (-> tree
-                      (u/copy)
+                      u/copy
                       (u/assoc-in! frontier-path child)
                       ((fn [tree]
-                         (if (= false (u/get-in child [:phrasal]))
-                           (terminate-up tree frontier-path)
+                         (if (or true (= false (u/get-in child [:phrasal])))
+                           (terminate-up tree frontier-path child)
                            tree))))))
                (lazy-mapcat (fn [tree]
                               (grow tree grammar))))))]
@@ -275,7 +275,8 @@
 
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 
-  (get (u/get-in m (butlast path)) (last path)) must be an atom."
+  truncate-in expects: (get (u/get-in m (butlast path)) (last path)) to be an atom;
+  otherwise it will throw an exception when trying to swap! that value."
   [m path]
   (if (not (empty? path))
     (do
@@ -285,7 +286,7 @@
       m)
     (truncate m)))
 
-(defn terminate-up [tree frontier-path]
+(defn terminate-up [tree frontier-path child]
   (log/debug (str "terminate-up: " (vec frontier-path) ": " (syntax-tree tree)))
   (cond
     (and (= :comp (last frontier-path))
@@ -306,12 +307,11 @@
       tree
       (create-words (butlast frontier-path))
       ((fn [tree]
-         (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-                  truncate?)
+         (if truncate?
            (truncate-in tree (butlast frontier-path))
            tree)))
       (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
-      (terminate-up (butlast frontier-path)))
+      (terminate-up (butlast frontier-path) child))
 
     (and (= (last frontier-path) :head)
          (not (empty? (butlast frontier-path)))

@@ -248,6 +248,10 @@
                [:head] [:2]])
       (assoc :syntax-tree (syntax-tree m))))
 
+(defn fold-up [m path]
+  (log/debug (str "fold up: " (syntax-tree m) " at: " (butlast path)))
+  m)
+
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 
   (get (u/get-in m (butlast path)) (last path)) must be an atom."
@@ -259,10 +263,6 @@
              (fn [x] (truncate (u/get-in m path))))
       m)
     (truncate m)))
-
-(defn fold-up [tree path]
-  (log/debug (str "fold up: " (butlast path)  " up from: " path))
-  tree)
 
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path) ": " (syntax-tree tree)))
@@ -277,7 +277,8 @@
     ;; (done) -> H   C <- @frontier-path (done)
     ;;
     ;; 
-    ;; then truncate this to:
+    ;; then truncate-in this to:
+    ;;
     ;;             T'
     ;;
     (->
@@ -299,15 +300,15 @@
     ;; 
     ;;                           T
     ;;                          / \
-    ;;               (done) -> H   C
+    ;;                 done -> H   C
     ;;                            / \ 
-    ;; @frontier-path (done) -> H2  C2 <- (not started yet)
+    ;;  @frontier-path: done -> H2   C2 <- not started yet
     ;;
-    ;; then fold this up into:
+    ;; then fold this up to:
     ;; 
-    ;;   T
-    ;;  / \
-    ;; H'  C2
+    ;;                           T'
+    ;;                          / \
+    ;;                         H'  C2
     ;;
     (fold-up tree frontier-path)
 

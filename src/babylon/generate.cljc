@@ -73,6 +73,26 @@
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
     (log/info (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
+
+    (if (and (= (last frontier-path)
+                :head)
+             (not (empty? (butlast frontier-path)))
+             (= :comp (last (butlast frontier-path))))
+      ;; in the following situation:
+      ;; 
+      ;;   .
+      ;;  / \
+      ;; H   C
+      ;;    / 
+      ;;   H  <- @frontier-path
+      ;;
+      ;; then fold this up into:
+      ;;   .
+      ;;  / \
+      ;; H'
+      ;;
+      (log/info (str "fold lower: " (butlast frontier-path)  " up to: " frontier-path)))
+
     (let [retval
           (cond
             (empty? frontier-path) [tree]
@@ -108,7 +128,7 @@
                (lazy-mapcat (fn [tree]
                               (grow tree grammar))))))]
       (log/debug (str "done growing; first result: " (if (not (empty? retval))
-                                                      (syntax-tree (first retval)))))
+                                                       (syntax-tree (first retval)))))
       retval)))
 
 (defn get-lexemes

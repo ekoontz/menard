@@ -83,9 +83,9 @@
     (or (seq? comp)
         (vector? comp))
     (let [comp-children comp]
-      (mapcat (fn [child]
-                (overc parent child))
-              comp-children))
+      (lazy-mapcat (fn [child]
+                     (overc parent child))
+                   comp-children))
     true
     (let [result (u/unify! (u/copy parent)
                            {:comp (u/copy comp)})

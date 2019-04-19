@@ -107,12 +107,8 @@
                (eugenes-map
                 (fn [child]
                   (-> tree
-                      u/copy
-                      (u/assoc-in! frontier-path child)
-                      ((fn [tree]
-                         (if (or true (= false (u/get-in child [:phrasal])))
-                           (terminate-up tree frontier-path child)
-                           tree))))))
+                      (u/assoc-in frontier-path child)
+                      (terminate-up frontier-path child))))
                (lazy-mapcat (fn [tree]
                               (grow tree grammar))))))]
       (log/debug (str "done growing; first result: " (if (not (empty? retval))

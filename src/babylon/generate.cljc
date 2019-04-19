@@ -95,7 +95,7 @@
       ;;  / \
       ;; H'
       ;;
-      (log/info (str "fold lower: " (butlast frontier-path)  " up to: " frontier-path)))
+      (log/info (str "fold up: " (butlast frontier-path)  " up from: " frontier-path)))
 
     (let [retval
           (cond

@@ -249,6 +249,21 @@
       (assoc :syntax-tree (syntax-tree m))))
 
 (defn fold-up [tree path]
+  ;; 
+  ;; If tree T looks like:
+  ;; 
+  ;;                           T
+  ;;                          / \
+  ;;                 done -> H   C
+  ;;                            / \ 
+  ;;  @frontier-path: done -> H2   C2 <- not started yet
+  ;;
+  ;; then fold this up to:
+  ;; 
+  ;;                           T'
+  ;;                          / \
+  ;;                         H'  C2
+  ;;
   (let [h (u/get-in tree (concat (butlast (butlast path))) [:head])
         h2 (u/get-in tree path)])
   (log/info (str "fold up:"

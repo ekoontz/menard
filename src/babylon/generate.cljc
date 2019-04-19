@@ -33,6 +33,7 @@
                           (flatten (vals lexicon))))
 (def ^:dynamic lexical-filter nil)
 
+(declare fold-up)
 (declare frontier)
 (declare get-lexemes)
 (declare grow)
@@ -67,8 +68,10 @@
     (cons (f (first items))
           (lazy-seq (eugenes-map f (rest items))))))
 
-;; TODO: (grow) isn't really accurate; you start with a tree
-;; and return an infinite series of the trees with one thing added.
+;; TODO: (grow) isn't really the greatest name. Rather than "growing" a
+;; a tree you grow an entire forest using a single tree as input.
+;; each member of the forest differs from the input tree by having a single
+;; thing (either a phrase or a lexeme) added to it.
 ;; maybe 'tree-to-forest-by-addition' or something.
 (defn grow
   "Recursively generate trees given input trees. continue recursively
@@ -76,27 +79,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/info (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
-
-    (if (and (= (last frontier-path)
-                :head)
-             (not (empty? (butlast frontier-path)))
-             (= :comp (last (butlast frontier-path))))
-      ;; in the following situation:
-      ;; 
-      ;;   .
-      ;;  / \
-      ;; H   C
-      ;;    / 
-      ;;   H  <- @frontier-path
-      ;;
-      ;; then fold this up into:
-      ;;   .
-      ;;  / \
-      ;; H'
-      ;;
-      (log/info (str "fold up: " (butlast frontier-path)  " up from: " frontier-path)))
-
+    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (let [retval
           (cond
             (empty? frontier-path) [tree]
@@ -277,22 +260,57 @@
       m)
     (truncate m)))
 
+(defn fold-up [tree path]
+  (log/debug (str "fold up: " (butlast path)  " up from: " path))
+  tree)
+
 (defn terminate-up [tree frontier-path]
   (log/debug (str "terminate-up: " (vec frontier-path) ": " (syntax-tree tree)))
   (cond
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
-    (do
-      (->
-       tree
-       (create-words (butlast frontier-path))
-       ((fn [tree]
-          (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
-                   truncate?)
-            (truncate-in tree (butlast frontier-path))
-            tree)))
-       (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
-       (terminate-up (butlast frontier-path))))
+    ;;
+    ;; If tree T looks like:
+    ;; 
+    ;;             T
+    ;;            / \
+    ;; (done) -> H   C <- @frontier-path (done)
+    ;;
+    ;; 
+    ;; then truncate this to:
+    ;;             T'
+    ;;
+    (->
+      tree
+      (create-words (butlast frontier-path))
+      ((fn [tree]
+         (if (and (u/get-in tree (concat (butlast frontier-path) [:phrasal]))
+                  truncate?)
+           (truncate-in tree (butlast frontier-path))
+           tree)))
+      (u/assoc-in! (concat (butlast frontier-path) [::done?]) true)
+      (terminate-up (butlast frontier-path)))
+
+    (and (= (last frontier-path) :head)
+         (not (empty? (butlast frontier-path)))
+         (= :comp (last (butlast frontier-path))))
+    ;; 
+    ;; If tree T looks like:
+    ;; 
+    ;;                           T
+    ;;                          / \
+    ;;               (done) -> H   C
+    ;;                            / \ 
+    ;; @frontier-path (done) -> H2  C2 <- (not started yet)
+    ;;
+    ;; then fold this up into:
+    ;; 
+    ;;   T
+    ;;  / \
+    ;; H'  C2
+    ;;
+    (fold-up tree frontier-path)
+
     true
     (do
       (log/debug (str "done terminating: at:" (vec frontier-path)))

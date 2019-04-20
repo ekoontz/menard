@@ -1,6 +1,6 @@
 (ns babylon.english.lab
   (:require
-   [babylon.english :as en :refer [analyze generate morph parse syntax-tree]]
+   [babylon.english :as en :refer [analyze generate grammar morph parse syntax-tree]]
    [babylon.generate :as g]
    [dag_unify.core :as u :refer [unify]]
    [clojure.tools.logging :as log]))
@@ -137,3 +137,36 @@
             :head {:phrasal true
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
+
+
+(defn add-rule-at [tree rule-name at]
+  (map #(u/assoc-in tree at %)
+       (->> grammar (filter #(= (:rule %) rule-name)))))
+
+(defn add-lexeme-at [tree surface at]
+  (map #(u/assoc-in tree at %)
+       (analyze surface)))
+
+(def skel
+  (->> grammar
+       (filter #(= (:rule %) "s"))
+       (mapcat (fn [each]
+                 (add-rule-at each "vp-aux" [:head])))
+       (mapcat (fn [each]
+                 (add-lexeme-at each "would" [:head :head])))
+       (mapcat (fn [each]
+                 (add-rule-at each "vp" [:head :comp])))
+       (mapcat (fn [each]
+                 (add-lexeme-at each "play" [:head :comp :head])))
+       (filter #(not (= % :fail)))
+       first))
+
+(defn fold-up [tree path]
+  (binding [g/syntax-tree en/syntax-tree]
+    (g/fold-up tree path)))
+
+
+
+
+
+

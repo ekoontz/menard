@@ -249,26 +249,35 @@ s of data (e.g. the whole tree)
   ;; 
   ;; If tree T looks like:
   ;; 
-  ;;                           T
-  ;;                          / \
-  ;;                 done -> H   C
-  ;;                            / \ 
-  ;;  @frontier-path: done -> H2   C2 <- not started yet
+  ;;                  T
+  ;;                 / \
+  ;;        done -> H   C
+  ;;                   / \ 
+  ;;  @path: done -> H2   C2 <- not started yet
   ;;
   ;; then fold this up to:
   ;; 
-  ;;                           T'
-  ;;                          / \
-  ;;                         H'  C2
+  ;;                  T'
+  ;;                 / \
+  ;;               H'   C2
   ;;
-  (let [h (u/get-in tree (concat (butlast (butlast path))) [:head])
-        h2 (u/get-in tree path)])
-  (log/debug (str "fold up:"
-                  " H: " (syntax-tree (u/get-in tree (concat (butlast (butlast path))
-                                                            [:head])))
-                  " H2: " (syntax-tree (u/get-in tree path))
-                  "; T: " (syntax-tree tree)))
-  tree)
+  (let [h-path (-> path butlast butlast (concat [:head]))
+        h (u/get-in tree h-path)
+        h2 (u/get-in tree path)]
+    (log/info (str "fold up:"
+                    "  H: " (syntax-tree (u/get-in tree h-path))
+                    "; H2: " (syntax-tree (u/get-in tree path))
+                    "; T: " (syntax-tree tree)))
+    (if false
+      (do
+        (swap! (get (u/get-in tree h-path)
+                    :subcat)
+               (fn [x] (u/get-in tree (concat path [:subcat]))))
+        (swap! (get (u/get-in tree h-path)
+                    :comp)
+               (fn [x] (u/get-in tree (concat path [:comp]))))
+        tree))
+    tree))
 
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 

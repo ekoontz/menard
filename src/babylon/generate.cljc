@@ -248,22 +248,25 @@ s of data (e.g. the whole tree)
 (defn fold-up [tree path]
   ;; 
   ;; If tree T looks like:
-  ;; 
   ;;                  T
+  ;;                 ...
+  ;;                  P
   ;;                 / \
   ;;        done -> H   C
   ;;                   / \ 
   ;;  @path: done -> H2   C2 <- not started yet
   ;;
   ;; then fold this up to:
-  ;; 
-  ;;                  T'
+  ;;                  T
+  ;;                 ...
+  ;;                  P'
   ;;                 / \
   ;;               H'   C2
   ;;
   (let [h-path (-> path butlast butlast (concat [:head]))
         h (u/get-in tree h-path)
         h2 (u/get-in tree path)]
+    (log/info (str "h-path: " (vec h-path)))
     (log/info (str "fold up:"
                     "  H: " (syntax-tree (u/get-in tree h-path))
                     "; H2: " (syntax-tree (u/get-in tree path))
@@ -276,8 +279,8 @@ s of data (e.g. the whole tree)
         (swap! (get (u/get-in tree h-path)
                     :comp)
                (fn [x] (u/get-in tree (concat path [:comp]))))
-        tree))
-    tree))
+        tree)
+      tree)))
 
 (defn truncate-in
   "Truncate the value at path _path_ within _m_. if path is not empty, then 

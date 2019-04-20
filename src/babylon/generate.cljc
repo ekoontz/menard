@@ -97,6 +97,7 @@
                                          (empty? child-lexemes) (empty? child-trees)
                                          (u/get-in child-spec [:phrasal])
                                          (u/get-in tree (concat (butlast frontier-path) [:rule])))
+s of data (e.g. the whole tree)
               (->>
                (cond
                  (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.

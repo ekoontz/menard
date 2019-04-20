@@ -263,11 +263,11 @@ s of data (e.g. the whole tree)
   ;;
   (let [h (u/get-in tree (concat (butlast (butlast path))) [:head])
         h2 (u/get-in tree path)])
-  (log/info (str "fold up:"
-                 " H: " (syntax-tree (u/get-in tree (concat (butlast (butlast path))
+  (log/debug (str "fold up:"
+                  " H: " (syntax-tree (u/get-in tree (concat (butlast (butlast path))
                                                             [:head])))
-                 " H2: " (syntax-tree (u/get-in tree path))
-                 "; T: " (syntax-tree tree)))
+                  " H2: " (syntax-tree (u/get-in tree path))
+                  "; T: " (syntax-tree tree)))
   tree)
 
 (defn truncate-in

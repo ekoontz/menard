@@ -324,7 +324,9 @@
                                                                   :subcat []}
                                                                  3))]
                               (println (->> (parse surface)
-                                            (map syntax-tree)
+                                            (map (fn [tree]
+                                                   (binding [p/lookup-fn l/matching-lexemes]
+                                                     (syntax-tree tree))))
                                             (string/join ", "))))))))
 
 (defn capitalize-first-letter

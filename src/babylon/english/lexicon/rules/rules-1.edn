@@ -18,56 +18,17 @@
  {:rule :aux-verbs
   :if {:cat :verb
        :aux true}
-  :then [(let [agr (atom :top)
-               sem (atom {:mood :decl})]
-           {:cat :verb
-            :sem sem
+  :then (let [agr (atom :top)
+              subject (atom {:agr agr
+                             :cat :noun
+                             :subcat []})]
+          [{:cat :verb
             :agr agr
-            :subcat {:1 {:agr agr
+            :subcat {:1 subject
+                     :2 {:agr agr
                          :aux false
                          :cat :verb
-                         :modal false
-                         :sem sem
-                         :subcat {:1 {:agr agr}}}
-                     :2 []}})
-         (let [agr (atom :top)
-               sem (atom {:mood :decl})]
-           {:cat :verb
-            :sem sem
-            :agr agr
-            :subcat {:1 {:agr agr
-                         :aux false
-                         :cat :verb
-                         :modal :infinitive
-                         :sem sem
-                         :subcat {:1 {:agr agr}}}
-                     :2 []}})
-         (let [agr (atom :top)
-               sem (atom {:mood :interog})]
-           {:cat :verb
-            :sem sem
-            :agr agr
-            :subcat {:1 {:agr agr
-                         :top-level? false
-                         :aux false
-                         :cat :verb
-                         :modal false
-                         :sem sem
-                         :subcat []}
-                     :2 []}})
-         (let [agr (atom :top)
-               sem (atom {:mood :interog})]
-           {:cat :verb
-            :sem sem
-            :agr agr
-            :subcat {:1 {:agr agr
-                         :top-level? false
-                         :aux false
-                         :cat :verb
-                         :modal :infinitive
-                         :sem sem
-                         :subcat []}
-                     :2 []}})]}
+                         :subcat {:1 subject}}}}])}
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun

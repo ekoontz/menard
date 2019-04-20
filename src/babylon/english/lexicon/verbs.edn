@@ -40,14 +40,14 @@
           :infl :present
           :sem {:tense :present
                 :aspect :progressive}
-          :subcat {:1 {:infl :gerund}}
+          :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}
          {:cat :verb
           :aux true
           :infl :past-simple
           :sem {:tense :past
                 :aspect :progressive}
-          :subcat {:1 {:infl :gerund}}
+          :subcat {:2 {:infl :gerund}}
           :exceptions exceptions}])
  
  "become" (let [exceptions [{:infl :past-simple
@@ -144,7 +144,7 @@
             :aux true
             :sem {:tense :past
                   :aspect :perfect}
-            :subcat {:1 {:infl :past-participle}}
+            :subcat {:2 {:infl :past-participle}}
             :exceptions aux-exceptions}
            {:cat :verb
             :aux true
@@ -252,11 +252,11 @@
           :infl :present
           :inflected? true
           :sem {:tense :future}
-          :subcat {:1 {:infl :base}}}]
+          :subcat {:2 {:infl :base}}}]
  "would" [{:aux true
            :cat :verb
            :infl :present
            :inflected? true
            :sem {:tense :conditional}
-           :subcat {:1 {:infl :base}}}]
+           :subcat {:2 {:infl :base}}}]
  "work" [{:cat :verb :sem {:pred :work}}]}

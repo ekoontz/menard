@@ -17,7 +17,8 @@
                          :case :nom}}})]}
  {:rule :aux-verbs
   :if {:cat :verb
-       :aux true}
+       :aux true
+       :subcat {:2 {:cat :verb}}}
   :then (let [agr (atom :top)
               subject (atom {:agr agr
                              :cat :noun

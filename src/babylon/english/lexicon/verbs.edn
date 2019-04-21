@@ -258,5 +258,11 @@
            :infl :present
            :inflected? true
            :sem {:tense :conditional}
+           :subcat {:2 []}}
+          {:aux true
+           :cat :verb
+           :infl :present
+           :inflected? true
+           :sem {:tense :conditional}
            :subcat {:2 {:infl :base}}}]
  "work" [{:cat :verb :sem {:pred :work}}]}

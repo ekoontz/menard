@@ -185,7 +185,7 @@
          :aux true}
   :unify [babylon.ug/head-first
           babylon.ug/comp-is-root
-          babylon.ug/subcat-1-1-comp-subcat]}
+          babylon.ug/subcat-2]}
  
  {:rule "vp-aux-slash" ;; [np .the [nbar2 *cat .[s-slash .she *[vp-aux-slash *will .see]]]]
   :sem {:mood :decl}

@@ -127,8 +127,8 @@
 
 (def subcat-2
   (let [agr (atom :top)
-        complement-1 (atom {:subcat []})
-        complement-2 (atom {:subcat []})]
+        complement-1 (atom {:top :top})
+        complement-2 (atom {:top :top})]
     {:head {:agr agr
             :subcat {:1 complement-1
                      :2 complement-2}}

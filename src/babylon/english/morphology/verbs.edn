@@ -116,7 +116,7 @@
   :u {:cat :verb
       :infl :past-participle}}
  
- ;; base inflection: used as a complement for auxiliary 'will'.
+ ;; base inflection: used as a complement for auxiliaries like "will" and "would".
  ;; e.g. "will sleep"
  {:g [#"^(.*)$"  "$1"] 
   :p [#"^(.*)$"  "$1"] 

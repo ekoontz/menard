@@ -43,6 +43,7 @@
                                 consequents))))]
     (cond (not (empty? with-rules))
           with-rules
+
           if-no-rules-matched?
           [(unify lexeme {:rules-matched {::no-rules-matched? true}})]
           true
@@ -59,30 +60,6 @@
                                [(unify lexeme
                                        {:phrasal false
                                         :canonical (u/get-in lexeme [:canonical] k)})])))]))))
-(defn apply-one-rule [rule lexeme]
-  (let [[antecedent consequent] rule]
-    (cond
-       (= :fail (unify lexeme antecedent))
-       []
-       (fn? consequent)
-       ;; 1. _consequent_ can be a function that
-       ;; takes a map and returns a sequence of maps.
-       (let [result (consequent lexeme)]
-         (filter #(not (u/isomorphic? lexeme %))
-                 result))
-
-       true
-       ;; 2. ..or (the more frequent use case)
-       ;; _consequent_ can be another map that
-       ;; we unify against the lexeme.
-       (let [result (unify lexeme consequent)]
-         (cond
-           (= :fail result)
-           []
-           (u/isomorphic? result lexeme)
-           []
-           true
-           [result])))))
 
 (defn read-rules [rules-filename]
   (-> rules-filename
@@ -98,31 +75,6 @@
     (-> lexicon
         (apply-rules-in-order (rest rules))
         (apply-rules-to-lexicon [(first rules)] false))))
-
-(defn apply-rules-cyclicly [rules lexemes]
-  (let [one-round
-        (->> rules
-             (mapcat
-              (fn [rule]
-                (let [[antecedent consequent] rule]
-                  (mapcat (fn [lexeme]
-                            (apply-one-rule rule lexeme))
-                          lexemes)))))]
-    (cond (empty? one-round)
-          lexemes
-          true
-          (apply-rules-cyclicly rules one-round))))
-
-(defn process [lexicon rules]
-  (into {} (for [[canonical lexemes]
-                 lexicon]
-             [canonical
-              (let [lexemes (if (vector? lexemes) lexemes (vec lexemes))]
-                (->> lexemes
-                     (map (fn [lexeme]
-                            (merge lexeme {:phrasal false
-                                           :canonical canonical})))
-                     (apply-rules rules)))])))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)
@@ -229,3 +181,48 @@
          (map (fn [canonical]
                 (exceptions-for canonical (get lexicon canonical)))
               (keys lexicon)))))
+
+
+;; move all this stuff out into its own namespace 
+;; or deprecate and remove.
+(declare apply-one-rule)
+
+(defn apply-rules-cyclicly [rules lexemes]
+  (let [one-round
+        (->> rules
+             (mapcat
+              (fn [rule]
+                (let [[antecedent consequent] rule]
+                  (mapcat (fn [lexeme]
+                            (apply-one-rule rule lexeme))
+                          lexemes)))))]
+    (cond (empty? one-round)
+          lexemes
+          true
+          (apply-rules-cyclicly rules one-round))))
+
+(defn apply-one-rule [rule lexeme]
+  (let [[antecedent consequent] rule]
+    (cond
+       (= :fail (unify lexeme antecedent))
+       []
+       (fn? consequent)
+       ;; 1. _consequent_ can be a function that
+       ;; takes a map and returns a sequence of maps.
+       (let [result (consequent lexeme)]
+         (filter #(not (u/isomorphic? lexeme %))
+                 result))
+
+       true
+       ;; 2. ..or (the more frequent use case)
+       ;; _consequent_ can be another map that
+       ;; we unify against the lexeme.
+       (let [result (unify lexeme consequent)]
+         (cond
+           (= :fail result)
+           []
+           (u/isomorphic? result lexeme)
+           []
+           true
+           [result])))))
+

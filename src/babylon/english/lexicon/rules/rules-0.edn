@@ -49,7 +49,7 @@
  {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux false
-       :modal ::unspecified
+       :modal false
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}}
   :then [{:modal false

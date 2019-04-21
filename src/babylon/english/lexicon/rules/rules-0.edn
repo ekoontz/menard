@@ -45,8 +45,8 @@
 
  ;; if a verb does not specify a particular
  ;; transitivity, generate both transitive and intransitive forms
- ;; of the verb.
- {:rule :subcat-unspecified
+ ;; of the verb, where the second form has a noun second argument.
+ {:rule :subcat-unspecified-nonaux
   :if {:cat :verb
        :aux false
        :modal ::unspecified
@@ -58,7 +58,7 @@
          {:modal false
           :subcat {:1 {:cat :noun}
                    :2 {:cat :noun}}}]}
-
+ 
  {:rule :aux-default-is-false
   :if {:cat :verb
        :aux ::unspec}
@@ -95,5 +95,6 @@
 
  {:rule :transitive-verbs-prep
   :if {:cat :verb
+       :aux false
        :subcat {:2 {:cat :prep}}}
   :then [{:transitive-prep true}]}]

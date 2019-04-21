@@ -316,44 +316,43 @@
 
 (defn handle-generation-failure [syntax-tree frontier-path child-spec child-lexemes-empty?
                                  child-trees-empty? child-spec-phrasal? immediate-parent]
-  (if (and (= false (u/get-in child-spec [:phrasal] true))
-           child-lexemes-empty?)
-    (throw (ex-info
-            (str "cannot grow this tree: " syntax-tree " at: " frontier-path " (no lexemes match)")
-            {:tree syntax-tree
-             :immediate-parent immediate-parent
-             :why :no-lexemes-match
-             :frontier-path frontier-path
-             :max-depth max-depth
-             :child-spec child-spec})))
+  (cond (and (= false (u/get-in child-spec [:phrasal] true)) child-lexemes-empty?)
+        (throw (ex-info
+                (str "cannot grow this tree: " syntax-tree " at: " frontier-path " (no lexemes match)")
+                {:tree syntax-tree
+                 :immediate-parent immediate-parent
+                 :why :no-lexemes-match
+                 :frontier-path frontier-path
+                 :max-depth max-depth
+                 :child-spec child-spec}))
 
-  (if (and (= true (u/get-in child-spec [:phrasal] false))
-           child-trees-empty?)
-     (throw (ex-info
-             (str "cannot grow this tree: " syntax-tree " at: " frontier-path " (no rules match)")
-             {:tree syntax-tree
-              :immediate-parent immediate-parent
-              :why :no-rules-match
-              :frontier-path frontier-path
-              :max-depth max-depth
-              :child-spec child-spec})))
+        (and (= true (u/get-in child-spec [:phrasal] false)) child-trees-empty?)
+        (throw (ex-info
+                (str "cannot grow this tree: " syntax-tree " at: " frontier-path " (no rules match)")
+                {:tree syntax-tree
+                 :immediate-parent immediate-parent
+                 :why :no-rules-match
+                 :frontier-path frontier-path
+                 :max-depth max-depth
+                 :child-spec child-spec}))
               
-  (if (and child-lexemes-empty? child-trees-empty?)
-      (throw (ex-info
-              (str "cannot grow this tree: " syntax-tree " at: " frontier-path "; (no lexemes or rules match)")
-              {:tree syntax-tree
-               :immediate-parent immediate-parent
-               :why :no-lexemes-or-rules-match
-               :frontier-path frontier-path
-               :max-depth max-depth
-               :child-spec child-spec})))
-              
-  (if (and child-lexemes-empty? child-trees-empty?)
-      (throw (ex-info
-              (str "cannot grow this tree: " syntax-tree " at: " frontier-path ". (max depth reached)")
-              {:tree syntax-tree
-               :immediate-parent immediate-parent
-               :why :too-deep
-               :frontier-path frontier-path
-               :max-depth max-depth
-               :child-spec child-spec}))))
+        (and child-lexemes-empty? child-trees-empty?)
+        (throw (ex-info
+                (str "cannot grow this tree: " syntax-tree " at: " frontier-path "; (no lexemes or rules match)")
+                {:tree syntax-tree
+                 :immediate-parent immediate-parent
+                 :why :no-lexemes-or-rules-match
+                 :frontier-path frontier-path
+                 :max-depth max-depth
+                 :child-spec child-spec}))
+        
+        (and child-lexemes-empty? child-trees-empty?)
+        (throw (ex-info
+                (str "cannot grow this tree: " syntax-tree " at: " frontier-path ". (max depth reached)")
+                {:tree syntax-tree
+                 :immediate-parent immediate-parent
+                 :why :too-deep
+                 :frontier-path frontier-path
+                 :max-depth max-depth
+                 :child-spec child-spec}))))
+

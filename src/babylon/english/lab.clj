@@ -106,12 +106,10 @@
      first
      generate)
     (catch Exception e
-      (log/warn (str "fail:(" (-> e ex-data :why) ":)"
-                     (syntax-tree (:tree (ex-data e))) " with spec:"
-                     (u/strip-refs (:child-spec (ex-data e))) "; at path:"
-                     (:frontier-path (ex-data e)) "; immediate-parent: "
-                     (-> e ex-data :immediate-parent :rule))))))
-
+      (log/warn (str "poetry-line failure: " (-> e ex-data :why) "; tree: "
+                     (syntax-tree (:tree (ex-data e))) "; at path:" (:frontier-path (ex-data e))
+                     "; immediate-parent: " (-> e ex-data :immediate-parent :rule)
+                     "; phrasal? " (-> e ex-data :phrasal?))))))
 (defn benchmark []
   (repeatedly
    #(time (->

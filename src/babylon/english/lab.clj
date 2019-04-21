@@ -161,12 +161,3 @@
        (filter #(not (= % :fail)))
        first))
 
-(defn fold-up [tree path]
-  (binding [g/syntax-tree en/syntax-tree]
-    (g/fold-up tree path)))
-
-
-
-
-
-

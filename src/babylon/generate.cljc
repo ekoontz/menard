@@ -94,8 +94,6 @@
                  (lazy-cat child-trees child-lexemes) ;; order children which are trees before children which are leaves.
                  true
                  (lazy-cat child-lexemes child-trees)) ;; order children which are leaves before children which are trees.
-               ;; TODO: probably can remove this.
-               (take 1000000000)
                (map (fn [child]
                       (-> tree
                           (u/copy)

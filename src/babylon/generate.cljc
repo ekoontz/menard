@@ -88,6 +88,7 @@
                          :why :no-match
                          :immediate-parent (u/get-in tree (butlast frontier-path))
                          :frontier-path frontier-path
+                         :phrasal? (u/get-in tree (concat frontier-path [:phrasal]))
                          :depth depth
                          :max-depth max-depth
                          :child-spec child-spec})))

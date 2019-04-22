@@ -97,7 +97,6 @@
                                          (empty? child-lexemes) (empty? child-trees)
                                          (u/get-in child-spec [:phrasal])
                                          (u/get-in tree (concat (butlast frontier-path) [:rule])))
-s of data (e.g. the whole tree)
               (->>
                (cond
                  (>= depth max-depth) child-lexemes ;; max-depth has been reached: return only lexemes.
@@ -268,9 +267,9 @@ s of data (e.g. the whole tree)
         h2 (u/get-in tree path)]
     (log/info (str "h-path: " (vec h-path)))
     (log/info (str "fold up:"
-                    "  H: " (syntax-tree (u/get-in tree h-path))
-                    "; H2: " (syntax-tree (u/get-in tree path))
-                    "; T: " (syntax-tree tree)))
+                   "  H: " (syntax-tree (u/get-in tree h-path))
+                   "; H2: " (syntax-tree (u/get-in tree path))
+                   "; T: " (syntax-tree tree)))
     (if false
       (do
         (swap! (get (u/get-in tree h-path)

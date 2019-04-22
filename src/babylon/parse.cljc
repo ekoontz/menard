@@ -5,7 +5,10 @@
    [clojure.tools.logging :as log]
    [dag_unify.core :as u]))
 
-(def ^:dynamic lookup-fn)
+(def ^:dynamic lookup-fn
+  (fn [token]
+    []))
+    
 (def ^:dynamic grammar nil)
 (def ^:dynamic truncate? true)
 

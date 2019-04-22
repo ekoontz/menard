@@ -115,14 +115,19 @@
        first))
 
 (defn fold-up [tree]
-  (let [would-see
-        {:surface "would+see"
+  (let [path [:head]
+        tree (u/get-in tree path)
+        would-see
+        {:surface (str
+                   (clojure.string/join " " [(morph (u/get-in tree [:head]))
+                                             (morph (u/get-in tree [:comp :head]))])
+                   " ..")
          :syntax-tree (syntax-tree (u/get-in tree [:head]))
-         :sem (u/get-in tree [:head :head :sem])
-         :subcat {:1 (u/get-in tree [:head :head :subcat :1])
-                  :2 (u/get-in tree [:head :comp :head :subcat :2])
+         :sem (u/get-in tree [:head :sem])
+         :subcat {:1 (u/get-in tree [:head :subcat :1])
+                  :2 (u/get-in tree [:comp :head :subcat :2])
                   :3 []}}]
-    (swap! (get (u/get-in tree [:head]) :head)
+    (swap! (get (u/get-in tree []) :head)
            (fn [x] would-see))
-    (swap! (get (u/get-in tree [:head]) :comp)
-           (fn [x] (u/get-in tree [:head :comp :comp])))))
+    (swap! (get (u/get-in tree []) :comp)
+           (fn [x] (u/get-in tree [:comp :comp])))))

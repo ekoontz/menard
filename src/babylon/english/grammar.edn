@@ -178,7 +178,6 @@
   :options babylon.english/aux-tenses
   :comp {:cat :verb
          :slash false}
-
   :head {:slash false
          :phrasal false
          :cat :verb

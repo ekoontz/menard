@@ -102,6 +102,14 @@
      (rest path))
     (u/assoc-in tree [:babylon.generate/started?] true)))
 
+(defn set-done [tree path]
+  (if (and (not (empty? path))
+           (= :comp (last path)))
+      (set-done
+       (u/assoc-in tree (concat path [:babylon.generate/done?]) true)
+       (butlast path))
+    (u/assoc-in tree (concat path [:babylon.generate/done?]) true)))
+
 (defn add-rule-at [tree rule-name at]
   (->> grammar
        (filter #(= (:rule %) rule-name))
@@ -111,7 +119,7 @@
 (defn add-lexeme-at [tree surface at]
   (->> (analyze surface)
        (map #(u/assoc-in tree at %))
-       (map #(u/assoc-in % (concat at [:babylon.generate/done?]) true))))
+       (map #(set-done % at))))
 
 (def skel
   (->> grammar
@@ -123,6 +131,17 @@
        (filter #(not (= % :fail)))
        first))
 
+(def skel2
+  (->> grammar
+       (filter #(= (:rule %) "s"))
+       (mapcat #(add-rule-at % "vp-aux" [:head]))
+       (mapcat #(add-lexeme-at % "would" [:head :head]))
+       (mapcat #(add-rule-at % "vp" [:head :comp]))
+       (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
+       (mapcat #(add-lexeme-at % "her" [:head :comp :comp]))
+       (filter #(not (= % :fail)))
+       first))
+
 (defn fold-up [tree path]
   (let [tree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
     (swap! (get tree :head)
@@ -131,6 +150,7 @@
                         (clojure.string/join " " [(morph (u/get-in tree [:head]))
                                                   (morph (u/get-in tree [:comp :head]))])
                         " ..")
+              :babylon.generate/done? true
               :syntax-tree (syntax-tree (u/get-in tree [:head]))
               :sem (u/get-in tree [:head :sem])
               :subcat {:1 (u/get-in tree [:head :subcat :1])

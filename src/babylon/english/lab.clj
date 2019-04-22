@@ -95,14 +95,23 @@
                    :comp {:phrasal true
                           :head {:phrasal true}}}})))))))
 
+(defn set-started [tree path]
+  (if (not (empty? path))
+    (set-started
+     (u/assoc-in tree (concat path [:babylon.generate/started?]) true)
+     (rest path))
+    (u/assoc-in tree [:babylon.generate/started?] true)))
 
 (defn add-rule-at [tree rule-name at]
-  (map #(u/assoc-in tree at %)
-       (->> grammar (filter #(= (:rule %) rule-name)))))
+  (->> grammar
+       (filter #(= (:rule %) rule-name))
+       (map #(u/assoc-in tree at %))
+       (map #(set-started % at))))
 
 (defn add-lexeme-at [tree surface at]
-  (map #(u/assoc-in tree at %)
-       (analyze surface)))
+  (->> (analyze surface)
+       (map #(u/assoc-in tree at %))
+       (map #(u/assoc-in % (concat at [:babylon.generate/done?]) true))))
 
 (def skel
   (->> grammar

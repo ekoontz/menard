@@ -69,7 +69,7 @@
   [^clojure.lang.PersistentArrayMap tree grammar]
   (let [frontier-path (frontier tree)
         depth (count frontier-path)]
-    (log/debug (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
+    (log/info (str "grow: " (syntax-tree tree) " at: " (vec frontier-path) "; #:" (count (str tree))))
     (let [retval
           (cond
             (empty? frontier-path) [tree]

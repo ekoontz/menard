@@ -114,20 +114,21 @@
        (filter #(not (= % :fail)))
        first))
 
-(defn fold-up [tree]
-  (let [path [:head]
-        tree (u/get-in tree path)
-        would-see
-        {:surface (str
-                   (clojure.string/join " " [(morph (u/get-in tree [:head]))
-                                             (morph (u/get-in tree [:comp :head]))])
-                   " ..")
-         :syntax-tree (syntax-tree (u/get-in tree [:head]))
-         :sem (u/get-in tree [:head :sem])
-         :subcat {:1 (u/get-in tree [:head :subcat :1])
-                  :2 (u/get-in tree [:comp :head :subcat :2])
-                  :3 []}}]
-    (swap! (get (u/get-in tree []) :head)
-           (fn [x] would-see))
-    (swap! (get (u/get-in tree []) :comp)
+(defn fold-up [tree path]
+  (let [tree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
+    (swap! (get tree :head)
+           (fn [x]
+             {:surface (str
+                        (clojure.string/join " " [(morph (u/get-in tree [:head]))
+                                                  (morph (u/get-in tree [:comp :head]))])
+                        " ..")
+              :syntax-tree (syntax-tree (u/get-in tree [:head]))
+              :sem (u/get-in tree [:head :sem])
+              :subcat {:1 (u/get-in tree [:head :subcat :1])
+                       :2 (u/get-in tree [:comp :head :subcat :2])
+                       :3 []}}))
+    (swap! (get tree :comp)
            (fn [x] (u/get-in tree [:comp :comp])))))
+
+(defn do-it []
+  (fold-up skel [:head]))

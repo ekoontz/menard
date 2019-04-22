@@ -20,16 +20,23 @@
        :aux true
        :subcat {:2 {:cat :verb}}}
   :then (let [agr (atom :top)
+              reflexive (atom :top)
+              sem (atom :top)
               subject (atom {:agr agr
                              :cat :noun
                              :subcat []})]
-          [{:cat :verb
-            :agr agr
+          [{:agr agr
+            :cat :verb
+            :reflexive reflexive
+            :sem sem
             :subcat {:1 subject
                      :2 {:agr agr
                          :aux false
                          :cat :verb
-                         :subcat {:1 subject}}}}])}
+                         :reflexive reflexive
+                         :sem sem
+                         :subcat {:1 subject
+                                  :2 []}}}}])}
  
  {:rule :dont-inflect-pronouns
   :if {:cat :noun

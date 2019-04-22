@@ -107,14 +107,22 @@
 (def skel
   (->> grammar
        (filter #(= (:rule %) "s"))
-       (mapcat (fn [each]
-                 (add-rule-at each "vp-aux" [:head])))
-       (mapcat (fn [each]
-                 (add-lexeme-at each "would" [:head :head])))
-       (mapcat (fn [each]
-                 (add-rule-at each "vp" [:head :comp])))
-       (mapcat (fn [each]
-                 (add-lexeme-at each "play" [:head :comp :head])))
+       (mapcat #(add-rule-at % "vp-aux" [:head]))
+       (mapcat #(add-lexeme-at % "would" [:head :head]))
+       (mapcat #(add-rule-at % "vp" [:head :comp]))
+       (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
        (filter #(not (= % :fail)))
        first))
 
+(defn fold-up [tree]
+  (let [would-see
+        {:surface "would+see"
+         :syntax-tree (syntax-tree (u/get-in tree [:head]))
+         :sem (u/get-in tree [:head :head :sem])
+         :subcat {:1 (u/get-in tree [:head :head :subcat :1])
+                  :2 (u/get-in tree [:head :comp :head :subcat :2])
+                  :3 []}}]
+    (swap! (get (u/get-in tree [:head]) :head)
+           (fn [x] would-see))
+    (swap! (get (u/get-in tree [:head]) :comp)
+           (fn [x] (u/get-in tree [:head :comp :comp])))))

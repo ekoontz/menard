@@ -118,18 +118,20 @@
 
 (defn add-lexeme-at [tree surface at]
   (->> (analyze surface)
-       (map #(u/assoc-in tree at %))
+       (map (fn [lexeme]
+              (log/debug (str "lexeme: " (u/fail-path (u/get-in tree at)
+                                                      lexeme)))
+              (u/assoc-in tree at lexeme)))
        (map #(set-done % at))))
 
-(def skel
+(def skels
   (->> grammar
        (filter #(= (:rule %) "s"))
        (mapcat #(add-rule-at % "vp-aux" [:head]))
        (mapcat #(add-lexeme-at % "would" [:head :head]))
        (mapcat #(add-rule-at % "vp" [:head :comp]))
        (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
-       (filter #(not (= % :fail)))
-       first))
+       (filter #(not (= % :fail)))))
 
 (def skel2
   (->> grammar
@@ -143,7 +145,9 @@
        first))
 
 (defn fold-up [tree path]
-  (let [tree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
+  (let [tree
+        (-> (u/get-in tree path) ;; <- descend tree to the subtree to be operated on.
+            (dissoc :dag_unify.serialization/serialized))]
     (swap! (get tree :head)
            (fn [x]
              {:surface (str
@@ -159,5 +163,30 @@
     (swap! (get tree :comp)
            (fn [x] (u/get-in tree [:comp :comp])))))
 
-(defn do-it []
-  (fold-up skel [:head]))
+(defn do-it [skels]
+  (loop [skels skels]
+    (if (not (empty? skels))
+      (fold-up (first skels) [:head])
+      (recur (rest skels))))
+
+  (first skels))
+
+;;    (if false
+;;      (->>
+;;       (-> skel
+;;           (add-lexeme-at "her" [:head :comp])
+;;       (filter #(not (= % :fail)))
+;;       first)))
+
+;;(def skel (do-it skels)
+
+;; BUG: this fails:
+;; (u/assoc-in skel [:head :comp] (first (analyze "her")))
+
+;; also this:
+;; (unify skel (create-path-in [:head :comp] (first (analyze "her"))))
+
+;; also this:
+;; (def u1 (u/copy skel))
+;; (def u2 (u/copy (dag_unify.serialization/create-path-in [:head :comp] (first (analyze "her")))))
+;; (unify u1 u2)

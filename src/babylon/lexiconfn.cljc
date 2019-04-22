@@ -10,7 +10,7 @@
 ;; These functions are used to a convert human-friendly lexicon
 ;; into a machine-friendly data structure.
 
-(defn apply-rule [rule lexeme consequent antecedent]
+(defn apply-rule [rule lexeme consequent antecedent rule-group]
   (let [result (unify lexeme consequent)]
     (log/debug (str "apply-rule: lexeme: " lexeme "; consequent: " consequent "; antecedent:" antecedent
                    "; result: " result))
@@ -26,10 +26,10 @@
           (do (log/debug (str "apply-rule: lexeme: " lexeme " with conseq: " consequent "= " result))
               [(unify result
                         (if rule
-                          {:rules-matched {rule true}}
+                          {:rules-matched {rule-group {rule true}}}
                           :top))]))))
 
-(defn apply-rules [rules lexeme if-no-rules-matched?]
+(defn apply-rules [rules lexeme if-no-rules-matched? rule-group]
   (let [with-rules
          (->> rules
               (filter #(let [{antecedent :if
@@ -39,23 +39,23 @@
                               antecedent :if
                               consequents :then} %]
                         (mapcat (fn [consequent]
-                                    (apply-rule rule lexeme consequent antecedent))
+                                    (apply-rule rule lexeme consequent antecedent rule-group))
                                 consequents))))]
     (cond (not (empty? with-rules))
           with-rules
 
           if-no-rules-matched?
-          [(unify lexeme {:rules-matched {::no-rules-matched? true}})]
+          [(unify lexeme {:rules-matched {rule-group {::no-rules-matched? true}}})]
           true
           [lexeme])))
 
-(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched?]
+(defn apply-rules-to-lexicon [lexicon rules if-no-rules-matched? rule-group]
   (into {}
         (for [[k lexemes] lexicon]
           (if (not (empty? lexemes))
             [k (->> lexemes
                     (mapcat (fn [lexeme]
-                               (apply-rules rules lexeme if-no-rules-matched?)))
+                               (apply-rules rules lexeme if-no-rules-matched? rule-group)))
                     (mapcat (fn [lexeme]
                                [(unify lexeme
                                        {:phrasal false
@@ -69,12 +69,12 @@
       ((fn [rule]
         (eval rule)))))
 
-(defn apply-rules-in-order [lexicon rules]
+(defn apply-rules-in-order [lexicon rules rule-group]
   (if (empty? rules)
     lexicon
     (-> lexicon
-        (apply-rules-in-order (rest rules))
-        (apply-rules-to-lexicon [(first rules)] false))))
+        (apply-rules-in-order (rest rules) rule-group)
+        (apply-rules-to-lexicon [(first rules)] false rule-group))))
 
 (def ^:dynamic lexicon)
 (def ^:dynamic morphology)
@@ -141,7 +141,7 @@
         (log/warn (str "(matching-lexemes '" surface "'): both regular inflections (" (count from-regular-morphology) ") and exceptions (" (count exceptions) ").")))
       (concat
        from-regular-morphology
-        exceptions))))
+       exceptions))))
 
 (defn exceptions
   "generate exceptional lexical entries given a _canonical_ surface form and an input lexeme"

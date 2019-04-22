@@ -53,11 +53,14 @@
        :subcat {:1 {:cat :noun}
                 :2 ::unspec}}
   :then [{:modal false
-          :subcat {:1 {:cat :noun}
+          :subcat {:1 {:cat :noun
+                       :subcat []}
                    :2 []}}
          {:modal false
-          :subcat {:1 {:cat :noun}
-                   :2 {:cat :noun}}}]}
+          :subcat {:1 {:cat :noun
+                       :subcat []}
+                   :2 {:cat :noun
+                       :subcat []}}}]}
  
  {:rule :aux-default-is-false
   :if {:cat :verb

@@ -14,9 +14,9 @@
 ;;
 (defn apply-rules-to [lexicon]
   (-> lexicon
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn"))
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn"))
-      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-2.edn"))))
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-0.edn") :0)
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-1.edn") :1)
+      (l/apply-rules-in-order (l/read-rules "babylon/english/lexicon/rules/rules-2.edn") :2)))
 
 (defn compile-lexicon [filename]
   (-> filename

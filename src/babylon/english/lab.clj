@@ -137,7 +137,16 @@
                                                   (morph (u/get-in tree [:comp :head]))])
                         " ..")
               :babylon.generate/done? true
-              :syntax-tree (syntax-tree (u/get-in tree [:head]))
+              ;; TODO: needs to be sensitive to the orderedness of the children:
+              ;; currently assumes that head is first (:head == :1,:comp == :2)
+              ;; but need to also check and handle (:comp == :1,:head == :2)
+              :syntax-tree (str (syntax-tree (u/get-in tree [:head]))
+                                " .["
+                                (u/get-in tree [:comp :rule])
+                                " "
+                                "*"
+                                (syntax-tree (u/get-in tree [:comp :head]))
+                                " ")
               :sem (u/get-in tree [:head :sem])
               :subcat {:1 (u/get-in tree [:head :subcat :1])
                        :2 (u/get-in tree [:comp :head :subcat :2])

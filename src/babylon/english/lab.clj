@@ -152,8 +152,8 @@
                        :3 []}}))
     (log/info (str "swap comp.."))
     (swap! (get tree :comp)
-           (fn [x] (u/get-in tree [:comp :comp])))
-    tree))
+           (fn [x] (u/get-in tree [:comp :comp])))))
+
 ;; 1. build unfolded trees:
 ;;
 ;;    s
@@ -187,9 +187,11 @@
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-  (empty? (map #(fold-up % [:head]) skels))
   (->>
    skels
+   (map (fn [tree]
+          (do (fold-up tree [:head])
+              tree)))
    ;; we have to reach into the internals of dag_unify to
    ;; to remove the now-invalid cached serialization of
    ;; each tree.

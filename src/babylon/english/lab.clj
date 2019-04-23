@@ -160,7 +160,6 @@
     (log/info (str "swap comp.."))
     (swap! (get tree :comp)
            (fn [x] (u/get-in tree [:comp :comp])))
-    (dissoc tree :dag_unify.serialization/serialized)))
 
 ;; 1. build unfolded trees:
 ;;

@@ -117,12 +117,17 @@
        (map #(u/assoc-in tree at %))
        (map #(set-started % at))))
 
+(def cached-lexicon
+  {"would" (analyze "would")
+   "see" (->>
+          (analyze "see")
+          (filter #(= (u/get-in % [:infl]) :base))
+          (filter #(= (u/get-in % [:reflexive] false) false)))
+   "her" (analyze "her")})
+
 (defn add-lexeme-at [tree surface at]
-  (->> (analyze surface)
-       (map (fn [lexeme]
-              (log/debug (str "lexeme: " (u/fail-path (u/get-in tree at)
-                                                      lexeme)))
-              (u/assoc-in tree at lexeme)))
+  (->> (get cached-lexicon surface)
+       (map #(u/assoc-in tree at %))
        (map #(set-done % at))))
 
 (defn fold-up [tree path]

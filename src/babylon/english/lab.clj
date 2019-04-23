@@ -129,37 +129,6 @@
              (= :noun (u/get-in % [:cat]))
              (= :acc (u/get-in % [:case :acc] :acc))))))
 
-;; 1. build unfolded trees:
-;;
-;;    s
-;;   / \ 
-;;  /   \ H
-;;  _    vp-aux
-;;      /   \
-;;     / H   vp
-;;   would  / \
-;;         /   \
-;;      H /     \
-;;      see      _
-;;
-(defn create-bolts []
-  (->> grammar
-       (filter #(= (:rule %) "s"))
-       (mapcat #(add-rule-at % "vp-aux" [:head]))
-       (mapcat #(add-lexeme-at % "would" (g/frontier %)))
-       (mapcat #(add-rule-at % "vp" (g/frontier %)))
-       (mapcat #(add-lexeme-at % "see" (g/frontier %)))
-       (filter #(not (= % :fail)))))
-
-;; 2. fold up tree from the above representation to:
-;;    s
-;;   / \
-;;  /   \ H
-;;  _    vp-aux
-;;      /      \
-;;     / H      \
-;;    would see  _
-;;
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]
     (log/info (str "swap head.."))
@@ -193,15 +162,6 @@
     ;; each tree:
     (dissoc tree :dag_unify.serialization/serialized)))
 
-;; 3. add complement at path [:head :comp]:
-;;    s
-;;   / \
-;;  /   \ H
-;;  _     vp-aux
-;;       /      \
-;;      / H      \
-;;    would see   <new complement>
-;;
 (defn add-lower-comp [tree]
   (map (fn [lexeme]
          (u/assoc-in tree (g/frontier tree) lexeme))
@@ -209,10 +169,48 @@
 
 (defn working-example []
   (->>
-   (create-bolts)
+   ;; 1. build unfolded trees:
+   ;;
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   \
+   ;;     / H   vp
+   ;;   would  / \
+   ;;         /   \
+   ;;      H /     \
+   ;;      see      _
+   ;;
+   grammar
+   (filter #(= (:rule %) "s"))
+   (map #(set-started % []))
+   (mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
+   (mapcat #(add-lexeme-at % "would" (g/frontier %)))
+   (mapcat #(add-rule-at % "vp" (g/frontier %)))
+   (mapcat #(add-lexeme-at % "see" (g/frontier %)))
+
+   ;; 2. fold up tree from the above representation to:
+   ;;    s
+   ;;   / \
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /      \
+   ;;     / H      \
+   ;;    would see  _
+   ;;
    (remove #(= % :fail))
    (map #(fold-up % [:head]))
-   (remove #(= % :fail))
+
+   ;; 3. add complement at path [:head :comp]:
+   ;;    s
+   ;;   / \
+   ;;  /   \ H
+   ;;  _     vp-aux
+   ;;       /      \
+   ;;      / H      \
+   ;;    would see   <new complement>
+   ;;
    (g/lazy-mapcat add-lower-comp)
    (remove #(= % :fail))))
 

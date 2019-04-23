@@ -187,7 +187,7 @@
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-  (empty? (take 10000000 (map #(fold-up % [:head]) skels)))
+  (empty? (map #(fold-up % [:head]) skels))
   (->>
    skels
    ;; we have to reach into the internals of dag_unify to

@@ -117,14 +117,6 @@
        (map #(u/assoc-in tree at %))
        (map #(set-started % at))))
 
-(def cached-lexicon
-  {"would" (analyze "would")
-   "see" (->>
-          (analyze "see")
-          (filter #(= (u/get-in % [:infl]) :base))
-          (filter #(= (u/get-in % [:reflexive] false) false)))
-   "her" (analyze "her")})
-
 (defn add-lexeme-at [tree surface at]
   (->> (get cached-lexicon surface)
        (map #(u/assoc-in tree at %))
@@ -151,7 +143,7 @@
                                 " .["
                                 (u/get-in tree [:comp :rule])
                                 " "
-                                "*"
+                                "*^"
                                 (syntax-tree (u/get-in tree [:comp :head]))
                                 " ")
               :sem (u/get-in tree [:head :sem])
@@ -195,7 +187,7 @@
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-  (empty? (map #(fold-up % [:head]) skels))
+  (empty? (take 10000000 (map #(fold-up % [:head]) skels)))
   (->>
    skels
    ;; we have to reach into the internals of dag_unify to

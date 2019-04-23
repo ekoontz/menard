@@ -186,12 +186,23 @@
   (->>
    trees
    (map (fn [tree]
-          (do (fold-up (u/get-in tree [:head]))
-              tree)))
+          (fold-up (u/get-in tree [:head]))
+          tree))
    ;; we have to reach into the internals of dag_unify to
    ;; to remove the now-invalid cached serialization of
    ;; each tree:
    (map #(dissoc % :dag_unify.serialization/serialized))))
+
+(defn do-one-fold [tree]
+  (->
+   tree
+   ((fn [tree]
+      (fold-up (u/get-in tree [:head]))
+      tree))
+   ;; we have to reach into the internals of dag_unify to
+   ;; to remove the now-invalid cached serialization of
+   ;; each tree:
+   (dissoc :dag_unify.serialization/serialized)))
 
 ;; 3. add complement at path [:head :comp]:
 ;;    s

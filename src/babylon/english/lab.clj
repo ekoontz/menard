@@ -145,7 +145,7 @@
        (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
        (filter #(not (= % :fail)))))
 
-;; 2. fold up trees to:
+;; 2. fold up tree from the above representation to:
 ;;    s
 ;;   / \
 ;;  /   \ H

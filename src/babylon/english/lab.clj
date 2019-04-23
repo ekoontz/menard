@@ -127,9 +127,9 @@
   (let [subtree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
     (log/info (str "swap head.."))
     (swap! (get subtree :head)
-           (fn [x]
+           (fn [head]
              {:surface (str
-                        (clojure.string/join " " [(morph (u/get-in subtree [:head]))
+                        (clojure.string/join " " [(morph head)
                                                   (morph (u/get-in subtree [:comp :head]))])
                         " ..")
               :babylon.generate/done? true
@@ -137,7 +137,7 @@
               ;; TODO: needs to be sensitive to the orderedness of the children:
               ;; currently assumes that head is first (:head == :1,:comp == :2)
               ;; but need to also check and handle (:comp == :1,:head == :2)
-              :syntax-tree (str (syntax-tree (u/get-in subtree [:head]))
+              :syntax-tree (str (syntax-tree head)
                                 " .["
                                 (u/get-in subtree [:comp :rule])
                                 " "
@@ -145,13 +145,13 @@
                                 (syntax-tree (u/get-in subtree [:comp :head]))
                                 " ")
 
-              :sem (u/get-in subtree [:head :sem])
-              :subcat {:1 (u/get-in subtree [:head :subcat :1])
+              :sem (u/get-in head [:sem])
+              :subcat {:1 (u/get-in head [:subcat :1])
                        :2 (u/get-in subtree [:comp :head :subcat :2])
                        :3 []}}))
     (log/info (str "swap comp.."))
     (swap! (get subtree :comp)
-           (fn [x] (u/get-in subtree [:comp :comp])))))
+           (fn [comp] (u/get-in comp [:comp])))))
 
 ;; 1. build unfolded trees:
 ;;

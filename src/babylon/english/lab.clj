@@ -194,7 +194,7 @@
               tree)))
    ;; we have to reach into the internals of dag_unify to
    ;; to remove the now-invalid cached serialization of
-   ;; each tree.
+   ;; each tree:
    (map #(dissoc % :dag_unify.serialization/serialized))))
 
 ;; 3. add complement at path [:head :comp]:

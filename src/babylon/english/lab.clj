@@ -131,6 +131,7 @@
        (map #(set-done % at))))
 
 (defn fold-up [tree path]
+  (log/info (str "folding: " (syntax-tree tree) " at: " path))
   (let [tree
         (->
          tree
@@ -160,7 +161,7 @@
     (log/info (str "swap comp.."))
     (swap! (get tree :comp)
            (fn [x] (u/get-in tree [:comp :comp])))
-
+    tree))
 ;; 1. build unfolded trees:
 ;;
 ;;    s
@@ -194,11 +195,7 @@
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-  (loop [skels skels]
-    (when (not (empty? skels))
-      (log/info (str "folding:" (syntax-tree (first skels))))
-      (fold-up (first skels) [:head])
-      (recur (rest skels))))
+  (empty? (map #(fold-up % [:head]) skels))
   (->>
    skels
    ;; we have to reach into the internals of dag_unify to

@@ -140,9 +140,9 @@
   (->> grammar
        (filter #(= (:rule %) "s"))
        (mapcat #(add-rule-at % "vp-aux" [:head]))
-       (mapcat #(add-lexeme-at % "would" [:head :head]))
-       (mapcat #(add-rule-at % "vp" [:head :comp]))
-       (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
+       (mapcat #(add-lexeme-at % "would" (g/frontier %)))
+       (mapcat #(add-rule-at % "vp" (g/frontier %)))
+       (mapcat #(add-lexeme-at % "see" (g/frontier %)))
        (filter #(not (= % :fail)))))
 
 ;; 2. fold up tree from the above representation to:

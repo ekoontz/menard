@@ -201,14 +201,25 @@
   (-> tree
       (u/assoc-in (g/frontier tree) (first (analyze "her")))))
 
+(def accusative-nominals
+  (->>
+   (flatten (vals babylon.english/lexicon))
+   (filter #(and
+             (= :noun (u/get-in % [:cat]))
+             (= :acc (u/get-in % [:case :acc] :acc))))))
+
+(defn add-all-lower-comp [tree]
+  (map (fn [lexeme]
+         (u/assoc-in tree (g/frontier tree) lexeme))
+       (shuffle accusative-nominals)))
+
 (defn working-example []
   (->>
    (create-bolts)
    (remove #(= % :fail))
    (map #(fold-up % [:head]))
    (remove #(= % :fail))
-   (map add-lower-comp)
-   (remove #(= % :fail))
-   (map syntax-tree)))
+   (g/lazy-mapcat add-all-lower-comp)
+   (remove #(= % :fail))))
 
 ;;(repeatedly #(println (syntax-tree (first (working-example)))))

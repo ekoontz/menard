@@ -192,9 +192,9 @@
 ;;   / \
 ;;  /   \ H
 ;;  _     vp-aux
-;;       /     \
-;;      / H     \
-;;    would see  <new complement>
+;;       /      \
+;;      / H      \
+;;    would see   <new complement>
 ;;
 (defn add-lower-comp [tree]
   (log/info (str "adding lower comp at: " (g/frontier tree)))

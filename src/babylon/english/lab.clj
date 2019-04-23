@@ -179,13 +179,12 @@
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-    (log/info (str "folding.."))
-    (loop [skels skels]
-      (when (not (empty? skels))
-        (fold-up (first skels) [:head])
-        (recur (rest skels))))
-    (map #(dissoc % :dag_unify.serialization/serialized)
-         skels))
+  (log/info (str "folding.."))
+  (loop [skels skels]
+    (when (not (empty? skels))
+      (fold-up (first skels) [:head])
+      (recur (rest skels))))
+  skels)
 
 ;; 3. add complement at path [:head :comp]:
 ;;    s
@@ -198,7 +197,7 @@
 ;;
 (defn add-lower-comp [skels]
   (log/info (str "adding lower comp.."))
-  (binding [s/memoized? false]
+  (binding [s/memoized? true]
     (->> skels
          (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
          (filter #(not (= :fail %))))))

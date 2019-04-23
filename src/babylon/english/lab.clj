@@ -135,6 +135,7 @@
         (->
          tree
          (u/get-in path))] ;; <- descend tree to the subtree to be operated on.
+    (log/info (str "swap head.."))
     (swap! (get tree :head)
            (fn [x]
              {:surface (str
@@ -156,9 +157,10 @@
               :subcat {:1 (u/get-in tree [:head :subcat :1])
                        :2 (u/get-in tree [:comp :head :subcat :2])
                        :3 []}}))
+    (log/info (str "swap comp.."))
     (swap! (get tree :comp)
-           (fn [x] (u/get-in tree [:comp :comp])))))
-
+           (fn [x] (u/get-in tree [:comp :comp])))
+    (dissoc tree :dag_unify.serialization/serialized)))
 
 ;; 1. build unfolded trees:
 ;;
@@ -187,15 +189,15 @@
 ;;    s
 ;;   / \
 ;;  /   \ H
-;;  _     vp-aux
-;;       /     \
-;;      / H     \
+;;  _    vp-aux
+;;      /      \
+;;     / H      \
 ;;    would see  _
 ;;
 (defn do-fold [skels]
-  (log/info (str "folding.."))
   (loop [skels skels]
     (when (not (empty? skels))
+      (log/info (str "folding:" (syntax-tree (first skels))))
       (fold-up (first skels) [:head])
       (recur (rest skels))))
   (->>

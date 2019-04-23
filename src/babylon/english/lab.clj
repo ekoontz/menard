@@ -197,10 +197,9 @@
 ;;
 (defn add-lower-comp [skels]
   (log/info (str "adding lower comp.."))
-  (binding [s/memoized? true]
-    (->> skels
-         (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
-         (filter #(not (= :fail %))))))
+  (->> skels
+       (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
+       (filter #(not (= :fail %)))))
 
 (defn working-example []
   (-> (create-bolts)

@@ -146,7 +146,21 @@
            (fn [x] (u/get-in tree [:comp :comp])))))
 
 
-(defn skels []
+;; 1. build unfolded trees:
+;;
+;;    s
+;;   / \ 
+;;  /   \ H
+;;  _    vp-aux
+;;      /   \
+;;     / H   vp
+;;   would  / \
+;;         /   \
+;;      H /     \
+;;      see      _
+;;
+(defn create-bolts []
+  (log/info (str "creating bolts.."))
   (->> grammar
        (filter #(= (:rule %) "s"))
        (mapcat #(add-rule-at % "vp-aux" [:head]))
@@ -155,16 +169,17 @@
        (mapcat #(add-lexeme-at % "see" [:head :comp :head]))
        (filter #(not (= % :fail)))))
 
-(defn do-it []
-  (let [skels (skels)]
-    (loop [skels skels]
-      (when (not (empty? skels))
-        (fold-up (first skels) [:head])
-        (recur (rest skels))))
-    (map #(dissoc % :dag_unify.serialization/serialized)
-         skels)))
-
-(defn do-it-with [skels]
+;; 2. fold up trees to:
+;;    s
+;;   / \
+;;  /   \ H
+;;  _     vp-aux
+;;       /     \
+;;      / H     \
+;;    would see  _
+;;
+(defn do-fold [skels]
+    (log/info (str "folding.."))
     (loop [skels skels]
       (when (not (empty? skels))
         (fold-up (first skels) [:head])
@@ -172,13 +187,23 @@
     (map #(dissoc % :dag_unify.serialization/serialized)
          skels))
 
-(defn do-it-more [skels]
+;; 3. add complement at path [:head :comp]:
+;;    s
+;;   / \
+;;  /   \ H
+;;  _     vp-aux
+;;       /     \
+;;      / H     \
+;;    would see  _
+;;
+(defn add-lower-comp [skels]
+  (log/info (str "adding lower comp.."))
   (binding [s/memoized? false]
     (->> skels
          (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
          (filter #(not (= :fail %))))))
 
-(defn maybe-working []
-  (-> (skels)
-      (do-it-with)
-      (do-it-more)))
+(defn working-example []
+  (-> (create-bolts)
+      (do-fold)
+      (add-lower-comp)))

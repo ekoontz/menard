@@ -124,35 +124,34 @@
 
 (defn fold-up [tree path]
   (log/info (str "folding: " (syntax-tree tree) " at: " path))
-  (let [tree
-        (->
-         tree
-         (u/get-in path))] ;; <- descend tree to the subtree to be operated on.
+  (let [subtree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
     (log/info (str "swap head.."))
-    (swap! (get tree :head)
+    (swap! (get subtree :head)
            (fn [x]
              {:surface (str
-                        (clojure.string/join " " [(morph (u/get-in tree [:head]))
-                                                  (morph (u/get-in tree [:comp :head]))])
+                        (clojure.string/join " " [(morph (u/get-in subtree [:head]))
+                                                  (morph (u/get-in subtree [:comp :head]))])
                         " ..")
               :babylon.generate/done? true
+
               ;; TODO: needs to be sensitive to the orderedness of the children:
               ;; currently assumes that head is first (:head == :1,:comp == :2)
               ;; but need to also check and handle (:comp == :1,:head == :2)
-              :syntax-tree (str (syntax-tree (u/get-in tree [:head]))
+              :syntax-tree (str (syntax-tree (u/get-in subtree [:head]))
                                 " .["
-                                (u/get-in tree [:comp :rule])
+                                (u/get-in subtree [:comp :rule])
                                 " "
                                 "*^"
-                                (syntax-tree (u/get-in tree [:comp :head]))
+                                (syntax-tree (u/get-in subtree [:comp :head]))
                                 " ")
-              :sem (u/get-in tree [:head :sem])
-              :subcat {:1 (u/get-in tree [:head :subcat :1])
-                       :2 (u/get-in tree [:comp :head :subcat :2])
+
+              :sem (u/get-in subtree [:head :sem])
+              :subcat {:1 (u/get-in subtree [:head :subcat :1])
+                       :2 (u/get-in subtree [:comp :head :subcat :2])
                        :3 []}}))
     (log/info (str "swap comp.."))
-    (swap! (get tree :comp)
-           (fn [x] (u/get-in tree [:comp :comp])))))
+    (swap! (get subtree :comp)
+           (fn [x] (u/get-in subtree [:comp :comp])))))
 
 ;; 1. build unfolded trees:
 ;;
@@ -186,9 +185,9 @@
 ;;     / H      \
 ;;    would see  _
 ;;
-(defn do-fold [skels]
+(defn do-fold [trees]
   (->>
-   skels
+   trees
    (map (fn [tree]
           (do (fold-up tree [:head])
               tree)))
@@ -206,9 +205,9 @@
 ;;      / H     \
 ;;    would see  _
 ;;
-(defn add-lower-comp [skels]
+(defn add-lower-comp [trees]
   (log/info (str "adding lower comp.."))
-  (->> skels
+  (->> trees
        (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
        (filter #(not (= :fail %)))))
 

@@ -122,36 +122,33 @@
        (map #(u/assoc-in tree at %))
        (map #(set-done % at))))
 
-(defn fold-up [tree path]
-  (log/info (str "folding: " (syntax-tree tree) " at: " path))
-  (let [subtree (u/get-in tree path)] ;; <- descend tree to the subtree to be operated on.
-    (log/info (str "swap head.."))
-    (swap! (get subtree :head)
-           (fn [head]
-             {:surface (str
-                        (clojure.string/join " " [(morph head)
-                                                  (morph (u/get-in subtree [:comp :head]))])
-                        " ..")
-              :babylon.generate/done? true
+(defn fold-up [subtree]
+  (log/info (str "swap head.."))
+  (swap! (get subtree :head)
+         (fn [head]
+           {:surface (str
+                      (clojure.string/join " " [(morph head)
+                                                (morph (u/get-in subtree [:comp :head]))])
+                      " ..")
+            :babylon.generate/done? true
+            ;; TODO: needs to be sensitive to the orderedness of the children:
+            ;; currently assumes that head is first (:head == :1,:comp == :2)
+            ;; but need to also check and handle (:comp == :1,:head == :2)
+            :syntax-tree (str (syntax-tree head)
+                              " .["
+                              (u/get-in subtree [:comp :rule])
+                              " "
+                              "*^"
+                              (syntax-tree (u/get-in subtree [:comp :head]))
+                              " ")
 
-              ;; TODO: needs to be sensitive to the orderedness of the children:
-              ;; currently assumes that head is first (:head == :1,:comp == :2)
-              ;; but need to also check and handle (:comp == :1,:head == :2)
-              :syntax-tree (str (syntax-tree head)
-                                " .["
-                                (u/get-in subtree [:comp :rule])
-                                " "
-                                "*^"
-                                (syntax-tree (u/get-in subtree [:comp :head]))
-                                " ")
-
-              :sem (u/get-in head [:sem])
-              :subcat {:1 (u/get-in head [:subcat :1])
-                       :2 (u/get-in subtree [:comp :head :subcat :2])
-                       :3 []}}))
-    (log/info (str "swap comp.."))
-    (swap! (get subtree :comp)
-           (fn [comp] (u/get-in comp [:comp])))))
+            :sem (u/get-in head [:sem])
+            :subcat {:1 (u/get-in head [:subcat :1])
+                     :2 (u/get-in subtree [:comp :head :subcat :2])
+                     :3 []}}))
+  (log/info (str "swap comp.."))
+  (swap! (get subtree :comp)
+         (fn [comp] (u/get-in comp [:comp]))))
 
 ;; 1. build unfolded trees:
 ;;
@@ -189,7 +186,7 @@
   (->>
    trees
    (map (fn [tree]
-          (do (fold-up tree [:head])
+          (do (fold-up (u/get-in tree [:head]))
               tree)))
    ;; we have to reach into the internals of dag_unify to
    ;; to remove the now-invalid cached serialization of

@@ -118,7 +118,7 @@
        (map #(set-started % at))))
 
 (defn add-lexeme-at [tree surface at]
-  (->> (get cached-lexicon surface)
+  (->> (analyze surface)
        (map #(u/assoc-in tree at %))
        (map #(set-done % at))))
 
@@ -203,9 +203,9 @@
 ;;    would see  _
 ;;
 (defn add-lower-comp [tree]
-  (log/info (str "adding lower comp.."))
+  (log/info (str "adding lower comp at: " (g/frontier tree)))
   (-> tree
-      (u/assoc-in [:head :comp] (first (analyze "her")))))
+      (u/assoc-in (g/frontier tree) (first (analyze "her")))))
 
 (defn working-example []
   (->>

@@ -164,7 +164,6 @@
 ;;      see      _
 ;;
 (defn create-bolts []
-  (log/info (str "creating bolts.."))
   (->> grammar
        (filter #(= (:rule %) "s"))
        (mapcat #(add-rule-at % "vp-aux" [:head]))
@@ -182,18 +181,7 @@
 ;;     / H      \
 ;;    would see  _
 ;;
-(defn do-fold [trees]
-  (->>
-   trees
-   (map (fn [tree]
-          (fold-up (u/get-in tree [:head]))
-          tree))
-   ;; we have to reach into the internals of dag_unify to
-   ;; to remove the now-invalid cached serialization of
-   ;; each tree:
-   (map #(dissoc % :dag_unify.serialization/serialized))))
-
-(defn do-one-fold [tree]
+(defn do-fold [tree]
   (->
    tree
    ((fn [tree]
@@ -213,13 +201,17 @@
 ;;      / H     \
 ;;    would see  _
 ;;
-(defn add-lower-comp [trees]
+(defn add-lower-comp [tree]
   (log/info (str "adding lower comp.."))
-  (->> trees
-       (map #(u/assoc-in % [:head :comp] (first (analyze "her"))))
-       (filter #(not (= :fail %)))))
+  (-> tree
+      (u/assoc-in [:head :comp] (first (analyze "her")))))
 
 (defn working-example []
-  (-> (create-bolts)
-      (do-fold)
-      (add-lower-comp)))
+  (->>
+   (create-bolts)
+   (remove #(= % :fail))
+   (map do-fold)
+   (remove #(= % :fail))
+   (map add-lower-comp)
+   (remove #(= % :fail))
+   (map syntax-tree)))

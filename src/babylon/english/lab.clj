@@ -210,3 +210,5 @@
    (map add-lower-comp)
    (remove #(= % :fail))
    (map syntax-tree)))
+
+;;(repeatedly #(println (syntax-tree (first (working-example)))))

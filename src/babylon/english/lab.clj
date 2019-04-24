@@ -121,9 +121,10 @@
 
 (def flattened-lexicon (-> babylon.english/lexicon vals flatten))
 
-(defn add-with-spec [tree]
+(defn add-with-spec [tree & [spec]]
   (let [at (g/frontier tree)
-        spec (u/get-in tree at)]
+        spec (or spec :top)
+        spec (unify spec (u/get-in tree at))]
     (if (= spec :fail)
       []
       (do
@@ -184,7 +185,7 @@
    shuffle
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat #(add-with-spec % {:canonical "would"}))
 
    ;; 2. add vp->verb:
    ;;
@@ -223,7 +224,7 @@
    ;;      / H      \
    ;;    would see   <new>
    ;;
-   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat #(add-with-spec % {:canonical "themselves"}))
 
 
    ;; 5. add complement at path [:comp]:
@@ -235,7 +236,7 @@
    ;;       / H     \
    ;;    would see   herself
    ;;
-   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat #(add-with-spec % {:canonical "you"}))
    (remove #(= % :fail))))
 
 (defn demo []

@@ -122,7 +122,7 @@
                          :slash false}
                      :2 []}})]
  "the" [{:cat :det}]
- "themselves" [{:cat :noun :agr {:number :plur} :pronoun true :reflexive true}]
+ "themselves" [{:cat :noun :agr {:person :3rd :number :plur} :pronoun true :reflexive true}]
  "they" [{:cat :noun
           :pronoun true
           :reflexive false

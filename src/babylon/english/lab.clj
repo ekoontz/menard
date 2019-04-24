@@ -112,10 +112,26 @@
     (u/assoc-in tree (concat path [:babylon.generate/done?]) true)))
 
 (defn add-rule-at [tree rule-name at]
+  (log/debug (str "adding rule: " rule-name " at: " at))
   (->> grammar
        (filter #(= (:rule %) rule-name))
-       (map #(u/assoc-in tree at %))
-       (map #(set-started % at))))
+       shuffle
+       (g/eugenes-map #(u/assoc-in tree at %))
+       (g/eugenes-map #(set-started % at))))
+
+(def flattened-lexicon (-> babylon.english/lexicon vals flatten))
+
+(defn add-with-spec [tree]
+  (let [frontier (g/frontier tree)
+        spec (u/get-in tree frontier)]
+    (if (= spec :fail)
+      []
+      (do
+        (log/debug (str "spec: " (u/strip-refs spec)))
+        (->> flattened-lexicon
+             (remove #(= :fail (unify % spec)))
+             shuffle
+             (g/eugenes-map #(u/assoc-in tree frontier %)))))))
 
 (defn add-lexeme-at [tree surface at]
   (->> (analyze surface)
@@ -155,20 +171,6 @@
     ;; each tree:
     (dissoc tree :dag_unify.serialization/serialized)))
 
-(def flattened-lexicon (-> babylon.english/lexicon vals flatten))
-
-(defn add-with-spec [tree]
-  (let [frontier (g/frontier tree)
-        spec (u/get-in tree frontier)]
-    (if (= spec :fail)
-      []
-      (do
-        (log/debug (str "spec: " spec))
-        (->> flattened-lexicon
-             (remove #(= :fail (unify % spec)))
-             shuffle
-             (g/eugenes-map #(u/assoc-in tree frontier %)))))))
-
 (defn working-example []
   (->>
    ;; 1. build unfolded trees:
@@ -186,11 +188,12 @@
    ;;
    grammar
    (filter #(= (:rule %) "s"))
-   (map #(set-started % []))
-   (mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (mapcat #(add-lexeme-at % "would" (g/frontier %)))
-   (mapcat #(add-rule-at % "vp" (g/frontier %)))
+   shuffle
+   (g/eugenes-map #(set-started % []))
+   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
+;;   (mapcat #(add-rule-at % "vp" (g/frontier %)))
+;;   (g/lazy-mapcat add-with-spec)
    
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -201,8 +204,8 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   (remove #(= % :fail))
-   (map #(fold-up % [:head]))
+;;   (remove #(= % :fail))
+;;   (map #(fold-up % [:head]))
 
    ;; 3. add complement at path [:head :comp]:
    ;;    s
@@ -213,7 +216,28 @@
    ;;      / H      \
    ;;    would see   <new complement>
    ;;
-   (g/lazy-mapcat add-with-spec)
+;;   (g/lazy-mapcat add-with-spec)
    (remove #(= % :fail))))
 
 ;;(repeatedly #(println (syntax-tree (first (working-example)))))
+
+(def s-rules (->>
+              grammar
+              (filter #(= (:rule %) "s"))))
+
+(defn ex2 []
+  (->> 
+   grammar
+   (filter #(= (u/get-in % [:rule]) "s"))
+   shuffle
+   (g/eugenes-map #(set-started % []))
+   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
+   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat (fn [tree]
+                    (->> grammar
+                         (filter #(= (:rule %) "vp"))
+                         (g/eugenes-map #(u/assoc-in tree [:head :comp] %)))))
+   (remove #(= :fail %))))
+
+
+                                

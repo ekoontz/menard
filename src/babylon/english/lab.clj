@@ -122,8 +122,8 @@
 (def flattened-lexicon (-> babylon.english/lexicon vals flatten))
 
 (defn add-with-spec [tree]
-  (let [frontier (g/frontier tree)
-        spec (u/get-in tree frontier)]
+  (let [at (g/frontier tree)
+        spec (u/get-in tree at)]
     (if (= spec :fail)
       []
       (do
@@ -188,8 +188,8 @@
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
-;;   (mapcat #(add-rule-at % "vp" (g/frontier %)))
-;;   (g/lazy-mapcat add-with-spec)
+   (mapcat #(add-rule-at % "vp" (g/frontier %)))
+   (g/lazy-mapcat add-with-spec)
    
    ;; 2. fold up tree from the above representation to:
    ;;    s
@@ -200,8 +200,8 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-;;   (remove #(= % :fail))
-;;   (map #(fold-up % [:head]))
+   (remove #(= % :fail))
+   (map #(fold-up % [:head]))
 
    ;; 3. add complement at path [:head :comp]:
    ;;    s
@@ -210,30 +210,26 @@
    ;;  _     vp-aux
    ;;       /      \
    ;;      / H      \
-   ;;    would see   <new complement>
+   ;;    would see   <new>
    ;;
-;;   (g/lazy-mapcat add-with-spec)
+   (g/lazy-mapcat add-with-spec)
+
+
+   ;; 3. add complement at path [:comp]:
+   ;;     s
+   ;;   /   \
+   ;;  /     \ H
+   ;;  <new>  vp-aux
+   ;;        /     \
+   ;;       / H     \
+   ;;    would see   herself
+   ;;
+   (g/lazy-mapcat add-with-spec)
    (remove #(= % :fail))))
 
-;;(repeatedly #(println (syntax-tree (first (working-example)))))
+(defn demo []
+  (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
-(def s-rules (->>
-              grammar
-              (filter #(= (:rule %) "s"))))
-
-(defn ex2 []
-  (->> 
-   grammar
-   (filter #(= (u/get-in % [:rule]) "s"))
-   shuffle
-   (g/eugenes-map #(set-started % []))
-   (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat add-with-spec)
-   (g/lazy-mapcat (fn [tree]
-                    (->> grammar
-                         (filter #(= (:rule %) "vp"))
-                         (g/eugenes-map #(u/assoc-in tree [:head :comp] %)))))
-   (remove #(= :fail %))))
 
 
                                 

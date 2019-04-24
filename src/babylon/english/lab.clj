@@ -130,6 +130,7 @@
   (let [at (g/frontier tree)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
+    (log/debug (str "adding to: " (syntax-tree tree) " at:" at))
     (if (= spec :fail)
       []
       (do
@@ -142,7 +143,8 @@
 
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]
-    (log/debug (str "swap head.."))
+    (log/info (str "swap head at:" at ": " (syntax-tree subtree)))
+    (log/info (str "agr: " (u/strip-refs (u/get-in subtree [:head]))))
     (swap! (get subtree :head)
            (fn [head]
              {:surface (str
@@ -160,7 +162,6 @@
                                 "*^"
                                 (syntax-tree (u/get-in subtree [:comp :head]))
                                 " ")
-
               :sem (u/get-in head [:sem])
               :subcat {:1 (u/get-in head [:subcat :1])
                        :2 (u/get-in subtree [:comp :head :subcat :2])
@@ -190,7 +191,8 @@
    shuffle
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
-   (g/lazy-mapcat #(add-with-spec % {:canonical "would"}))
+   (g/lazy-mapcat #(add-with-spec % {:aux true
+                                     :canonical "be"}))
 
    ;; 2. add vp->verb:
    ;;
@@ -229,7 +231,7 @@
    ;;      / H      \
    ;;    would see   <new>
    ;;
-   (g/lazy-mapcat #(add-with-spec % {:canonical "themselves"}))
+   (g/lazy-mapcat #(add-with-spec %))
 
 
    ;; 5. add complement at path [:comp]:
@@ -241,12 +243,8 @@
    ;;       / H     \
    ;;    would see   herself
    ;;
-   (g/lazy-mapcat #(add-with-spec % {:canonical "you"}))
+   (g/lazy-mapcat #(add-with-spec % {:canonical "he"}))
    (remove #(= % :fail))))
 
 (defn demo []
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
-
-
-
-                                

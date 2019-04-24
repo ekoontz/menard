@@ -222,3 +222,5 @@
 
 
 ;; TODO {:rule "vp-modal-slash"}] ;; [nbar *book .[s-slash .she *[vp-modal-slash *wants .[*to .find]]]]
+;; TODO {:rule "vp-slash"} ;; [np .the [ nbar *woman .[s-slash .I *[vp-slash *talk .to]]]]
+

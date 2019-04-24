@@ -122,16 +122,9 @@
        (map #(u/assoc-in tree at %))
        (map #(set-done % at))))
 
-(def accusative-nominals
-  (->>
-   (flatten (vals babylon.english/lexicon))
-   (filter #(and
-             (= :noun (u/get-in % [:cat]))
-             (= :acc (u/get-in % [:case :acc] :acc))))))
-
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]
-    (log/info (str "swap head.."))
+    (log/debug (str "swap head.."))
     (swap! (get subtree :head)
            (fn [head]
              {:surface (str
@@ -154,7 +147,7 @@
               :subcat {:1 (u/get-in head [:subcat :1])
                        :2 (u/get-in subtree [:comp :head :subcat :2])
                        :3 []}}))
-    (log/info (str "swap comp.."))
+    (log/debug (str "swap comp.."))
     (swap! (get subtree :comp)
            (fn [comp] (u/get-in comp [:comp])))
     ;; we have to reach into the internals of dag_unify to
@@ -162,10 +155,19 @@
     ;; each tree:
     (dissoc tree :dag_unify.serialization/serialized)))
 
-(defn add-lower-comp [tree]
-  (map (fn [lexeme]
-         (u/assoc-in tree (g/frontier tree) lexeme))
-       (shuffle accusative-nominals)))
+(def flattened-lexicon (-> babylon.english/lexicon vals flatten))
+
+(defn add-with-spec [tree]
+  (let [frontier (g/frontier tree)
+        spec (u/get-in tree frontier)]
+    (if (= spec :fail)
+      []
+      (do
+        (log/debug (str "spec: " spec))
+        (->> flattened-lexicon
+             (remove #(= :fail (unify % spec)))
+             shuffle
+             (g/eugenes-map #(u/assoc-in tree frontier %)))))))
 
 (defn working-example []
   (->>
@@ -188,8 +190,8 @@
    (mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (mapcat #(add-lexeme-at % "would" (g/frontier %)))
    (mapcat #(add-rule-at % "vp" (g/frontier %)))
-   (mapcat #(add-lexeme-at % "see" (g/frontier %)))
-
+   (g/lazy-mapcat add-with-spec)
+   
    ;; 2. fold up tree from the above representation to:
    ;;    s
    ;;   / \
@@ -211,7 +213,7 @@
    ;;      / H      \
    ;;    would see   <new complement>
    ;;
-   (g/lazy-mapcat add-lower-comp)
+   (g/lazy-mapcat add-with-spec)
    (remove #(= % :fail))))
 
 ;;(repeatedly #(println (syntax-tree (first (working-example)))))

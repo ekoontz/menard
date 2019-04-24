@@ -169,18 +169,15 @@
 
 (defn working-example []
   (->>
-   ;; 1. build unfolded trees:
+   ;; 1. build s->vp-aux->aux-verb:
    ;;
    ;;    s
    ;;   / \ 
    ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /   \
-   ;;     / H   vp
-   ;;   would  / \
-   ;;         /   \
-   ;;      H /     \
-   ;;      see      _
+   ;;  _    vp-aux(new)
+   ;;      /   
+   ;;     / H   
+   ;;   would(new)
    ;;
    grammar
    (filter #(= (:rule %) "s"))
@@ -188,10 +185,24 @@
    (g/eugenes-map #(set-started % []))
    (g/lazy-mapcat #(add-rule-at % "vp-aux" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
-   (mapcat #(add-rule-at % "vp" (g/frontier %)))
+
+   ;; 2. add vp->verb:
+   ;;
+   ;;    s
+   ;;   / \ 
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /   \
+   ;;     / H   vp(new)
+   ;;   would  / \
+   ;;         /   \
+   ;;      H /     \
+   ;;      see      _
+   ;;
+   (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
    
-   ;; 2. fold up tree from the above representation to:
+   ;; 3. fold up tree from the above representation to:
    ;;    s
    ;;   / \
    ;;  /   \ H
@@ -201,9 +212,9 @@
    ;;    would see  _
    ;;
    (remove #(= % :fail))
-   (map #(fold-up % [:head]))
+   (g/eugenes-map #(fold-up % [:head]))
 
-   ;; 3. add complement at path [:head :comp]:
+   ;; 4. add complement at path [:head :comp]:
    ;;    s
    ;;   / \
    ;;  /   \ H
@@ -215,7 +226,7 @@
    (g/lazy-mapcat add-with-spec)
 
 
-   ;; 3. add complement at path [:comp]:
+   ;; 5. add complement at path [:comp]:
    ;;     s
    ;;   /   \
    ;;  /     \ H

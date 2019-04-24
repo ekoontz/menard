@@ -131,12 +131,8 @@
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle
-             (g/eugenes-map #(u/assoc-in tree frontier %)))))))
-
-(defn add-lexeme-at [tree surface at]
-  (->> (analyze surface)
-       (map #(u/assoc-in tree at %))
-       (map #(set-done % at))))
+             (g/eugenes-map #(u/assoc-in tree at %))
+             (map #(set-done % at)))))))
 
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]

@@ -119,7 +119,12 @@
        (g/eugenes-map #(u/assoc-in tree at %))
        (g/eugenes-map #(set-started % at))))
 
-(def flattened-lexicon (-> babylon.english/lexicon vals flatten))
+(def flattened-lexicon
+  (->>
+   babylon.english/lexicon
+   vals
+   flatten
+   (filter #(not (u/get-in % [:exception])))))
 
 (defn add-with-spec [tree & [spec]]
   (let [at (g/frontier tree)

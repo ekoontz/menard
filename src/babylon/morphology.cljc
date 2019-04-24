@@ -14,6 +14,7 @@ the morphology is a set of rules, each of which looks like:"
                     (let [{u :u [from to] :g} rule
                           unified (unify u structure)]
                       (and (not (= :fail unified))
+                           (string? (u/get-in structure [:canonical] :top))
                            (re-find from (str (u/get-in structure [:canonical] ""))))))
                   morphology))
         exceptions (u/get-in structure [:exceptions])

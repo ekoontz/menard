@@ -134,6 +134,11 @@
                          :sem subj
                          :case :acc}}})]}
 
+ ;; TODO: currently we set [:subcat :2 :subcat] = [],
+ ;; to prevent *"I talk to"
+ ;; but we need to allow for [:subcat :2 :subcat :1] = {:top :top}
+ ;; so that we can allow: "the woman I was talking to"
+ ;; where: vp-slash -> "talking to"
  {:rule :transitive-verbs-prep-2
   :if {:cat :verb
        :transitive-prep true
@@ -142,12 +147,9 @@
   :then [(let [subj (atom :top)
                iobj (atom :top)]
            {:reflexive false
-            :sem {:subj subj
-                  :iobj iobj}
-            :subcat {:1 {:cat :noun
-                         :case :nom
-                         :sem subj}
-                     :2 {:cat :prep
+            :sem {:iobj iobj}
+            :subcat {:2 {:cat :prep
+                         :subcat []
                          :reflexive false
                          :case :acc
                          :sem {:obj iobj}}}})
@@ -158,12 +160,11 @@
             :sem {:subj subj
                   :iobj subj}
             :subcat {:1 {:agr agr
-                         :cat :noun
-                         :case :nom
                          :sem subj}
                      :2 {:agr agr
                          :reflexive true
                          :cat :prep
+                         :subcat []
                          :sem {:obj subj}
                          :case :acc}}})]}
 

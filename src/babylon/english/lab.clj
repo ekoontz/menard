@@ -233,7 +233,7 @@
    ;;      / H      \
    ;;    would see   <new>
    ;;
-   (g/lazy-mapcat #(add-with-spec %))
+;;   (g/lazy-mapcat #(add-with-spec %))
 
 
    ;; 5. add complement at path [:comp]:
@@ -245,8 +245,24 @@
    ;;       / H     \
    ;;    would see   herself
    ;;
-   (g/lazy-mapcat #(add-with-spec % {:canonical "he"}))
+;;   (g/lazy-mapcat #(add-with-spec % {:canonical "he"}))
    (remove #(= % :fail))))
 
 (defn demo []
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
+
+(defn demo2 []
+  (let [with-words (-> (first (working-example))
+                       (u/assoc-in [:head] g/unify-morphology-fold))
+        raised-comp (u/get-in with-words [:head :comp :comp])]
+    (do
+      (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
+      (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
+      ;; TODO: syntax-tree
+      (->
+       with-words
+       (dissoc :dag_unify.serialization/serialized)))))
+       
+
+
+      

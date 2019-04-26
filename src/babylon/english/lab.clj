@@ -253,7 +253,7 @@
 
 (defn demo2 []
   (let [with-words (-> (first (working-example))
-                       (u/assoc-in [:head] g/unify-morphology-fold))
+                       (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
       (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
@@ -261,8 +261,7 @@
       ;; TODO: syntax-tree
       (->
        with-words
-       (dissoc :dag_unify.serialization/serialized)))))
-       
+       (dissoc :dag_unify.serialization/serialized)
+       (add-with-spec)
+       first))))
 
-
-      

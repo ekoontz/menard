@@ -180,17 +180,26 @@
              :rest two}}))
 
 (def unify-morphology-fold
-  (make-word))
+  (let [one (make-word)
+        two (make-word)]
+    {:1 one
+     :2 {:1 two}
+     :words {:first one
+             :rest {:first two}}}))
 
 (def unify-morphology-tree-leaf
   (make-word))
+
+(defn create-folded-words [tree frontier-path]
+  (if (empty? (u/get-in tree (concat frontier-path [:words])))
+     (create-folded-words-1 tree frontier-path)
+     (create-folded-words-2 tree frontier-path)))
 
 (defn create-folded-words-1
   "create a word list for a given subtree (tree+frontier-path),
    where :1 is a word, by adding the the word at :1 with the new word at :2 :1."
   [tree frontier-path]
-  (u/assoc-in frontier-path
-              (u/assoc-in [:head] unify-morphology-fold)))
+  (u/assoc-in tree frontier-path unify-morphology-fold))
 
 (defn create-folded-words-2
   "create a word list for a given subtree (tree+frontier-path),

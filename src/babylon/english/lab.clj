@@ -252,16 +252,24 @@
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
 (defn demo2 []
-  (let [with-words (-> (first (working-example))
-                       (g/create-folded-words-1 [:head]))
+  (let [input (first (working-example))
+        with-words (-> (u/copy input) (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
       (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
       (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
-      ;; TODO: syntax-tree
       (->
        with-words
        (dissoc :dag_unify.serialization/serialized)
+       (u/assoc-in [:head :syntax-tree]
+                   (fn [lower-comp]
+                      (str "["
+                           (u/get-in input [:head :rule])
+                           " " (syntax-tree (u/get-in input [:head :head]))
+                           " " ".[" (u/get-in input [:head :comp :rule])
+                           " "      (syntax-tree (u/get-in input [:head :comp :head]))
+                           " " (syntax-tree lower-comp) "]"
+                           "]")))
        (add-with-spec)
        first))))
 

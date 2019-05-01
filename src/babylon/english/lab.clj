@@ -131,7 +131,7 @@
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
     (if (not (= tree :fail))
-      (log/info (str "adding to: " (syntax-tree tree) " at:" at)))
+      (log/debug (str "adding to: " (syntax-tree tree) " at:" at)))
     (if (= spec :fail)
       []
       (do
@@ -255,7 +255,7 @@
         ;;         /   \
         ;;      H /     \
         ;;      see      _
-        with-words (-> (u/copy input) (g/create-folded-words-1 [:head]))
+        with-words (-> input (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
       ;; 2. fold up tree from the above representation to:

@@ -190,6 +190,8 @@
 (def unify-morphology-tree-leaf
   (make-word))
 
+(declare create-folded-words-1)
+(declare create-folded-words-2)
 (defn create-folded-words [tree frontier-path]
   (if (empty? (u/get-in tree (concat frontier-path [:words])))
      (create-folded-words-1 tree frontier-path)
@@ -397,7 +399,6 @@
 
            (= (u/get-in tree [::started?] false) false)
            []
-
            
            (= (u/get-in tree [:phrasal]) false)
            []

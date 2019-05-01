@@ -178,7 +178,14 @@
     ;; to remove the now-invalid cached serialization of
     ;; each tree:
     (-> tree
-      (dissoc :dag_unify.serialization/serialized))))
+        (dissoc :dag_unify.serialization/serialized)
+        (reduce (fn [m path]
+                  (g/dissoc-in m path))
+                tree
+                [(concat at [:head])
+                 (concat at [:comp])
+                 (concat at [:1])
+                 (concat at [:2])]))))
 ;;      (g/create-words at))))
 
 (defn working-example []

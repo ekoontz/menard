@@ -186,7 +186,6 @@
                  (concat at [:comp])
                  (concat at [:1])
                  (concat at [:2])]))))
-;;      (g/create-words at))))
 
 (defn working-example []
   (->>
@@ -287,6 +286,10 @@
                                 "]")))
              add-with-spec
              first)]
-        with-head-comp-comp))))
-
+        (-> with-head-comp-comp
+            (u/assoc-in [:head]
+                        (unify {:2 g/unify-morphology-tree-leaf
+                                :words (dag_unify.serialization/create-path-in
+                                        [:rest :rest :first] 
+                                        g/unify-morphology-tree-leaf)})))))))
 

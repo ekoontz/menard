@@ -293,4 +293,17 @@
                                         [:rest :rest :first] 
                                         g/unify-morphology-tree-leaf)
                                 :syntax-tree (head-syntax-tree
-                                              (morph (u/get-in with-head-comp-comp [:head :comp])))})))))))
+                                              (morph (u/get-in with-head-comp-comp [:head :comp])))}))
+            (dissoc :dag_unify.serialization/serialized)
+            ((fn [tree]
+               (binding [g/syntax-tree syntax-tree]
+                 (g/truncate-in tree [:head]))))
+            (dissoc :dag_unify.serialization/serialized)
+            add-with-spec
+            first
+            (g/create-words [])
+            ((fn [tree]
+               (binding [g/syntax-tree syntax-tree]
+                 (g/truncate-in tree []))))
+            (dissoc :dag_unify.serialization/serialized))))))
+

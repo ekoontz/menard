@@ -265,10 +265,10 @@
                    (fn [lower-comp]
                       (str "["
                            (u/get-in input [:head :rule])
-                           " " (syntax-tree (u/get-in input [:head :head]))
+                           " *" (syntax-tree (u/get-in input [:head :head]))
                            " " ".[" (u/get-in input [:head :comp :rule])
-                           " "      (syntax-tree (u/get-in input [:head :comp :head]))
-                           " " (syntax-tree lower-comp) "]"
+                           " *"     (syntax-tree (u/get-in input [:head :comp :head]))
+                           " ." (syntax-tree lower-comp) "]"
                            "]")))
        (add-with-spec)
        first))))

@@ -130,7 +130,8 @@
   (let [at (g/frontier tree)
         spec (or spec :top)
         spec (unify spec (u/get-in tree at))]
-    (log/debug (str "adding to: " (syntax-tree tree) " at:" at))
+    (if (not (= tree :fail))
+      (log/info (str "adding to: " (syntax-tree tree) " at:" at)))
     (if (= spec :fail)
       []
       (do

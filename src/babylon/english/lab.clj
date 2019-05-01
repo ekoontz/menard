@@ -222,26 +222,12 @@
    ;;
    (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
-   
-   (remove #(= % :fail))
-  ;; (g/eugenes-map #(fold-up % [:head]))
-
-   ;; 5. add complement at path [:comp]:
-   ;;     s
-   ;;   /   \
-   ;;  /     \ H
-   ;;  <new>  vp-aux
-   ;;        /     \
-   ;;       / H     \
-   ;;    would see   herself
-   ;;
-;;   (g/lazy-mapcat #(add-with-spec % {:canonical "he"}))
    (remove #(= % :fail))))
 
 (defn demo []
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
-(defn do-raise [tree]
+(defn do-fold [tree]
   (let [tree (g/create-folded-words-1 tree [:head])
         raised-comp (u/get-in tree [:head :comp :comp])]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
@@ -274,7 +260,7 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   do-raise
+   do-fold
    
    ;; 3. add complement at path [:head :comp]:
    ;;    s

@@ -279,31 +279,31 @@
                    " " ".[" (u/get-in input [:head :comp :rule])
                    " *"     (syntax-tree (u/get-in input [:head :comp :head]))
                    " ." (syntax-tree lower-comp) "]"
-                   "]"))
-            with-head-comp-comp
-            (->
-             with-words
-             (dissoc :dag_unify.serialization/serialized)
-             add-with-spec
-             first)]
-        (-> with-head-comp-comp
-            (u/assoc-in [:head]
+                   "]"))]
+        (->
+         with-words
+         (dissoc :dag_unify.serialization/serialized)
+         add-with-spec
+         first
+         ((fn [tree]
+            (u/assoc-in tree
+                        [:head]
                         (unify {:2 g/unify-morphology-tree-leaf
                                 :words (dag_unify.serialization/create-path-in
-                                        [:rest :rest :first] 
-                                        g/unify-morphology-tree-leaf)
+                                          [:rest :rest :first] 
+                                          g/unify-morphology-tree-leaf)
                                 :syntax-tree (head-syntax-tree
-                                              (morph (u/get-in with-head-comp-comp [:head :comp])))}))
-            (dissoc :dag_unify.serialization/serialized)
-            ((fn [tree]
-               (binding [g/syntax-tree syntax-tree]
-                 (g/truncate-in tree [:head]))))
-            (dissoc :dag_unify.serialization/serialized)
-            add-with-spec
-            first
-            (g/create-words [])
-            ((fn [tree]
-               (binding [g/syntax-tree syntax-tree]
-                 (g/truncate-in tree []))))
-            (dissoc :dag_unify.serialization/serialized))))))
+                                              (morph (u/get-in tree [:head :comp])))}))))
+         (dissoc :dag_unify.serialization/serialized)
+         ((fn [tree]
+           (binding [g/syntax-tree syntax-tree]
+               (g/truncate-in tree [:head]))))
+         (dissoc :dag_unify.serialization/serialized)
+         add-with-spec
+         first
+         (g/create-words [])
+         ((fn [tree]
+           (binding [g/syntax-tree syntax-tree]
+              (g/truncate-in tree []))))
+         (dissoc :dag_unify.serialization/serialized))))))
 

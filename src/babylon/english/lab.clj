@@ -249,54 +249,52 @@
         (dissoc :dag_unify.serialization/serialized))))
 
 (defn demo2 []
-  (let [];; create a tree that looks like:
-        ;;
-        ;;    s
-        ;;   / \ 
-        ;;  /   \ H
-        ;;  _    vp-aux
-        ;;      /   \
-        ;;     / H   vp(new)
-        ;;   would  / \
-        ;;         /   \
-        ;;      H /     \
-        ;;      see      _
-      (->
-       ;; 2. fold up tree from the above representation to:
-       ;;    s
-       ;;   / \
-       ;;  /   \ H
-       ;;  _    vp-aux
-       ;;      /      \
-       ;;     / H      \
-       ;;    would see  _
-       ;;
-       (working-example)
-       first
-       (g/create-folded-words-1 [:head])
-       do-raise
-
-       ;; 3. add complement at path [:head :comp]:
-       ;;    s
-       ;;   / \
-       ;;  /   \ H
-       ;;  _     vp-aux
-       ;;       /      \
-       ;;      / H      \
-       ;;    would see   <new>
-       ;;
-       add-with-spec
-       first
-       (u/assoc-in [:head]
-                   (unify {:2 g/unify-morphology-tree-leaf
-                           :words (dag_unify.serialization/create-path-in
-                                   [:rest :rest :first] 
-                                   g/unify-morphology-tree-leaf)}))
-       (g/truncate-in [:head])
-       add-with-spec
-       first
-       (g/create-words [])
-       ((fn [tree]
-          (binding [g/syntax-tree syntax-tree]
-            (g/truncate-in tree [])))))))
+  ;; create a tree that looks like:
+  ;;
+  ;;    s
+  ;;   / \ 
+  ;;  /   \ H
+  ;;  _    vp-aux
+  ;;      /   \
+  ;;     / H   vp(new)
+  ;;   would  / \
+  ;;         /   \
+  ;;      H /     \
+  ;;      see      _
+  (->
+   (working-example)
+   first
+   ;; 2. fold up tree from the above representation to:
+   ;;    s
+   ;;   / \
+   ;;  /   \ H
+   ;;  _    vp-aux
+   ;;      /      \
+   ;;     / H      \
+   ;;    would see  _
+   ;;
+   (g/create-folded-words-1 [:head])
+   do-raise
+   
+   ;; 3. add complement at path [:head :comp]:
+   ;;    s
+   ;;   / \
+   ;;  /   \ H
+   ;;  _     vp-aux
+   ;;       /      \
+   ;;      / H      \
+   ;;    would see   <new>
+   ;;
+   add-with-spec
+   first
+   (u/assoc-in [:head]
+               (unify {:2 g/unify-morphology-tree-leaf
+                       :words (dag_unify.serialization/create-path-in
+                               [:rest :rest :first] 
+                               g/unify-morphology-tree-leaf)}))
+   (g/truncate-in [:head])
+   add-with-spec
+   first
+   (g/create-words [])
+   (g/truncate-in [])))
 

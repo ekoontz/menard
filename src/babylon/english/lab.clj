@@ -223,29 +223,8 @@
    (g/lazy-mapcat #(add-rule-at % "vp" (g/frontier %)))
    (g/lazy-mapcat add-with-spec)
    
-   ;; 3. fold up tree from the above representation to:
-   ;;    s
-   ;;   / \
-   ;;  /   \ H
-   ;;  _    vp-aux
-   ;;      /      \
-   ;;     / H      \
-   ;;    would see  _
-   ;;
    (remove #(= % :fail))
   ;; (g/eugenes-map #(fold-up % [:head]))
-
-   ;; 4. add complement at path [:head :comp]:
-   ;;    s
-   ;;   / \
-   ;;  /   \ H
-   ;;  _     vp-aux
-   ;;       /      \
-   ;;      / H      \
-   ;;    would see   <new>
-   ;;
-;;   (g/lazy-mapcat #(add-with-spec %))
-
 
    ;; 5. add complement at path [:comp]:
    ;;     s
@@ -264,11 +243,30 @@
 
 (defn demo2 []
   (let [input (first (working-example))
-        ;; ^input is a tree that looks like 3. above.
-        
+        ;; ^input is a tree that looks like:
+        ;;
+        ;;    s
+        ;;   / \ 
+        ;;  /   \ H
+        ;;  _    vp-aux
+        ;;      /   \
+        ;;     / H   vp(new)
+        ;;   would  / \
+        ;;         /   \
+        ;;      H /     \
+        ;;      see      _
         with-words (-> (u/copy input) (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
+      ;; 2. fold up tree from the above representation to:
+      ;;    s
+      ;;   / \
+      ;;  /   \ H
+      ;;  _    vp-aux
+      ;;      /      \
+      ;;     / H      \
+      ;;    would see  _
+      ;;
       (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
       (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
       (let [head-syntax-tree
@@ -283,6 +281,18 @@
         (->
          with-words
          (dissoc :dag_unify.serialization/serialized)
+
+
+         ;; 3. add complement at path [:head :comp]:
+         ;;    s
+         ;;   / \
+         ;;  /   \ H
+         ;;  _     vp-aux
+         ;;       /      \
+         ;;      / H      \
+         ;;    would see   <new>
+         ;;
+
          add-with-spec
          first
          ((fn [tree]

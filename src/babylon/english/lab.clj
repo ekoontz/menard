@@ -146,47 +146,6 @@
              (g/eugenes-map #(u/assoc-in tree at %))
              (map #(set-done % at)))))))
 
-(defn fold-up [tree at]
-  (let [subtree (u/get-in tree at)]
-    (log/debug (str "swap head at:" at ": " (syntax-tree subtree)))
-    (log/debug (str "agr: " (u/strip-refs (u/get-in subtree [:head]))))
-    (swap! (get subtree :head)
-           (fn [head]
-             (unify
-              (let [agr (atom (u/get-in head [:subcat :1 :agr]))]
-                {:agr agr
-                 :subcat {:1 {:agr agr}}})
-              {:babylon.generate/done? true
-               ;; TODO: needs to be sensitive to the orderedness of the children:
-               ;; currently assumes that head is first (:head == :1,:comp == :2)
-               ;; but need to also check and handle (:comp == :1,:head == :2)
-               :syntax-tree (str (syntax-tree head)
-                                 " .["
-                                 (u/get-in subtree [:comp :rule])
-                                 " "
-                                 "*^"
-                                 (syntax-tree (u/get-in subtree [:comp :head]))
-                                 " ")
-               :sem (u/get-in head [:sem])
-               :subcat {:1 (u/get-in head [:subcat :1])
-                        :2 (u/get-in subtree [:comp :head :subcat :2])
-                        :3 []}})))
-    (log/debug (str "swap comp.."))
-    (swap! (get subtree :comp)
-           (fn [comp] (u/get-in comp [:comp])))
-    ;; we have to reach into the internals of dag_unify to
-    ;; to remove the now-invalid cached serialization of
-    ;; each tree:
-    (-> tree
-        (dissoc :dag_unify.serialization/serialized)
-        (reduce (fn [m path]
-                  (g/dissoc-in m path))
-                tree
-                [(concat at [:head])
-                 (concat at [:comp])
-                 (concat at [:1])
-                 (concat at [:2])]))))
-
 (defn working-example []
   (->>
    ;; 1. build s->vp-aux->aux-verb:
@@ -224,9 +183,6 @@
    (g/lazy-mapcat add-with-spec)
    (remove #(= % :fail))))
 
-(defn demo []
-  (repeatedly #(println (syntax-tree (time (first (working-example)))))))
-
 (defn do-fold [tree]
   (let [tree (g/create-folded-words-1 tree [:head])
         raised-comp (u/get-in tree [:head :comp :comp])]
@@ -235,8 +191,8 @@
     (-> tree
         (dissoc :dag_unify.serialization/serialized))))
 
-(defn demo2 []
-  ;; create a tree that looks like:
+(defn demo []
+  ;; 1. create a tree that looks like:
   ;;
   ;;    s
   ;;   / \ 

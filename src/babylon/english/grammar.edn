@@ -199,28 +199,6 @@
           babylon.ug/comp-is-root
           babylon.ug/subcat-2-2-slash]}
 
- {:rule "vp-modal-1" ;; [vp-modal-1 *wants .[*to .sleep]
-  :sem {:mood :decl}
-  :cat :verb
-  :slash false
-  :subcat {:1 {:top :top}
-           :2 []}
-  :aux false
-  :modal :infinitive
-  :options babylon.english/tenses
-  :comp {:cat :verb
-         :infl :infinitive
-         :phrasal true
-         :slash false}
-  :head {:slash false
-         :phrasal false
-         :cat :verb
-         :aux false
-         :modal :infinitive}
-  :unify [babylon.ug/head-first
-          babylon.ug/head-is-root
-          babylon.ug/subcat-1-1-comp-subcat]}
-
  {:rule "vp-modal-2" ;; [vp-modal-2 *can .sleep]
   :sem {:mood :decl}
   :cat :verb

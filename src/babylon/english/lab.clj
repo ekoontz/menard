@@ -242,7 +242,8 @@
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
 (defn do-raise [tree]
-  (let [raised-comp (u/get-in tree [:head :comp :comp])]
+  (let [tree (g/create-folded-words-1 tree [:head])
+        raised-comp (u/get-in tree [:head :comp :comp])]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
     (-> tree
@@ -273,7 +274,6 @@
    ;;     / H      \
    ;;    would see  _
    ;;
-   (g/create-folded-words-1 [:head])
    do-raise
    
    ;; 3. add complement at path [:head :comp]:

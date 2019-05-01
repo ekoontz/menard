@@ -272,10 +272,10 @@
       (let [head-syntax-tree
             (fn [lower-comp]
               (str "["
-                   (u/get-in input [:head :rule])
-                   " *" (syntax-tree (u/get-in input [:head :head]))
-                   " " ".[" (u/get-in input [:head :comp :rule])
-                   " *"     (syntax-tree (u/get-in input [:head :comp :head]))
+                   (u/get-in with-words [:head :rule])
+                   " *" (syntax-tree (u/get-in with-words [:head :head]))
+                   " " ".[" (u/get-in with-words [:head :comp :rule])
+                   " *"     (syntax-tree (u/get-in with-words [:head :comp :head]))
                    " ." (syntax-tree lower-comp) "]"
                    "]"))]
         (->

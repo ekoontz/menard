@@ -134,12 +134,18 @@
     (if (= spec :fail)
       []
       (do
+        ;; TODO: apply the :syntax-tree value at the appropriate node,
+        ;; if it's a function. The appropriate node is 
+        ;; related to the _at_ param. The value to be applied is the new
+        ;; lexeme we added.
         (log/debug (str "spec: " (u/strip-refs spec)))
         (->> flattened-lexicon
              (remove #(= :fail (unify % spec)))
              shuffle
              (g/eugenes-map #(u/assoc-in tree at %))
              (map #(set-done % at)))))))
+
+
 
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]
@@ -253,6 +259,8 @@
 
 (defn demo2 []
   (let [input (first (working-example))
+        ;; ^input is a tree that looks like 3. above.
+        
         with-words (-> (u/copy input) (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
@@ -270,6 +278,5 @@
                            " *"     (syntax-tree (u/get-in input [:head :comp :head]))
                            " ." (syntax-tree lower-comp) "]"
                            "]")))
-       (add-with-spec)
+       add-with-spec
        first))))
-

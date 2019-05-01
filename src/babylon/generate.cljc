@@ -339,6 +339,16 @@
 (defn terminate-up [tree frontier-path child]
   (log/debug (str "terminate-up: " (vec frontier-path) ": " (syntax-tree tree)))
   (cond
+    ;;
+    ;; in this case, H:word is a fold-up.
+    ;;                   T
+    ;;                  / \
+    ;; (done) -> H:words   C <- @frontier-path (done)
+    (and (= :comp (last frontier-path))
+         (u/get-in tree (concat frontier-path [::done?]))
+         (map? (u/get-in tree (concat (butlast frontier-path) [:words]))))
+    (throw (Exception. (str "TODO.")))
+    
     (and (= :comp (last frontier-path))
          (u/get-in tree (concat frontier-path [::done?])))
     ;;

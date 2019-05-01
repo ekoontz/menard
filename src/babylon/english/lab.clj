@@ -146,8 +146,6 @@
              (g/eugenes-map #(u/assoc-in tree at %))
              (map #(set-done % at)))))))
 
-
-
 (defn fold-up [tree at]
   (let [subtree (u/get-in tree at)]
     (log/debug (str "swap head at:" at ": " (syntax-tree subtree)))
@@ -267,17 +265,21 @@
     (do
       (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
       (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
-      (->
-       with-words
-       (dissoc :dag_unify.serialization/serialized)
-       (u/assoc-in [:head :syntax-tree]
-                   (fn [lower-comp]
-                      (str "["
-                           (u/get-in input [:head :rule])
-                           " *" (syntax-tree (u/get-in input [:head :head]))
-                           " " ".[" (u/get-in input [:head :comp :rule])
-                           " *"     (syntax-tree (u/get-in input [:head :comp :head]))
-                           " ." (syntax-tree lower-comp) "]"
-                           "]")))
-       add-with-spec
-       first))))
+      (let [with-head-comp-comp
+            (->
+             with-words
+             (dissoc :dag_unify.serialization/serialized)
+             (u/assoc-in [:head :syntax-tree]
+                         (fn [lower-comp]
+                           (str "["
+                                (u/get-in input [:head :rule])
+                                " *" (syntax-tree (u/get-in input [:head :head]))
+                                " " ".[" (u/get-in input [:head :comp :rule])
+                                " *"     (syntax-tree (u/get-in input [:head :comp :head]))
+                                " ." (syntax-tree lower-comp) "]"
+                                "]")))
+             add-with-spec
+             first)]
+        with-head-comp-comp))))
+
+

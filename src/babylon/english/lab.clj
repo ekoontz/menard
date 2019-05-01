@@ -242,8 +242,7 @@
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
 (defn demo2 []
-  (let [input (first (working-example))
-        ;; ^input is a tree that looks like:
+  (let [;; create a tree that looks like:
         ;;
         ;;    s
         ;;   / \ 
@@ -255,7 +254,7 @@
         ;;         /   \
         ;;      H /     \
         ;;      see      _
-        with-words (-> input (g/create-folded-words-1 [:head]))
+        with-words (-> (working-example) first (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
     (do
       ;; 2. fold up tree from the above representation to:

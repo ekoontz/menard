@@ -314,18 +314,7 @@
                               :sem {:mood :interog}}
                              (generate-retry 3)
                              (morph :sentence-punctuation? true)
-                             println))))
-  (println)
-  (println "Parsing:")
-  (println "===")
-  (println)
-  (count (take 10
-               (repeatedly #(let [surface (morph (generate-retry {:cat (first (shuffle [:noun :verb]))
-                                                                  :subcat []}
-                                                                 3))]
-                              (println (->> (parse surface)
-                                            (map syntax-tree)
-                                            (string/join ", "))))))))
+                             println)))))
 
 (defn capitalize-first-letter
   "clojure.string/capitalize is too much: it lower-cases every word in the string *except*

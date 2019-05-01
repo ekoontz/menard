@@ -241,6 +241,12 @@
 (defn demo []
   (repeatedly #(println (syntax-tree (time (first (working-example)))))))
 
+(defn do-raise [tree]
+  (let [raised-comp (u/get-in tree [:head :comp :comp])]
+    (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
+    (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
+    tree))
+
 (defn demo2 []
   (let [;; create a tree that looks like:
         ;;
@@ -256,63 +262,61 @@
         ;;      see      _
         with-words (-> (working-example) first (g/create-folded-words-1 [:head]))
         raised-comp (u/get-in with-words [:head :comp :comp])]
-    (do
-      ;; 2. fold up tree from the above representation to:
-      ;;    s
-      ;;   / \
-      ;;  /   \ H
-      ;;  _    vp-aux
-      ;;      /      \
-      ;;     / H      \
-      ;;    would see  _
-      ;;
-      (swap! (get (u/get-in with-words [:head :head :subcat]) :2) (fn [old] raised-comp))
-      (swap! (get (u/get-in with-words [:head]) :comp) (fn [old] raised-comp))
-      (let [head-syntax-tree
-            (fn [lower-comp]
-              (str "["
-                   (u/get-in with-words [:head :rule])
-                   " *" (syntax-tree (u/get-in with-words [:head :head]))
-                   " " ".[" (u/get-in with-words [:head :comp :rule])
-                   " *"     (syntax-tree (u/get-in with-words [:head :comp :head]))
-                   " ." (syntax-tree lower-comp) "]"
-                   "]"))]
-        (->
-         with-words
-         (dissoc :dag_unify.serialization/serialized)
+    ;; 2. fold up tree from the above representation to:
+    ;;    s
+    ;;   / \
+    ;;  /   \ H
+    ;;  _    vp-aux
+    ;;      /      \
+    ;;     / H      \
+    ;;    would see  _
+    ;;
+    (do-raise with-words)
+    (let [head-syntax-tree
+          (fn [lower-comp]
+            (str "["
+                 (u/get-in with-words [:head :rule])
+                 " *" (syntax-tree (u/get-in with-words [:head :head]))
+                 " " ".[" (u/get-in with-words [:head :comp :rule])
+                 " *"     (syntax-tree (u/get-in with-words [:head :comp :head]))
+                 " ." (syntax-tree lower-comp) "]"
+                 "]"))]
+      (->
+       with-words
+       (dissoc :dag_unify.serialization/serialized)
+       
 
-
-         ;; 3. add complement at path [:head :comp]:
-         ;;    s
-         ;;   / \
-         ;;  /   \ H
-         ;;  _     vp-aux
-         ;;       /      \
-         ;;      / H      \
-         ;;    would see   <new>
-         ;;
-
-         add-with-spec
-         first
-         ((fn [tree]
-            (u/assoc-in tree
-                        [:head]
-                        (unify {:2 g/unify-morphology-tree-leaf
-                                :words (dag_unify.serialization/create-path-in
-                                          [:rest :rest :first] 
-                                          g/unify-morphology-tree-leaf)
-                                :syntax-tree (head-syntax-tree
-                                              (morph (u/get-in tree [:head :comp])))}))))
-         (dissoc :dag_unify.serialization/serialized)
-         ((fn [tree]
-           (binding [g/syntax-tree syntax-tree]
-               (g/truncate-in tree [:head]))))
-         (dissoc :dag_unify.serialization/serialized)
-         add-with-spec
-         first
-         (g/create-words [])
-         ((fn [tree]
-           (binding [g/syntax-tree syntax-tree]
-              (g/truncate-in tree []))))
-         (dissoc :dag_unify.serialization/serialized))))))
+       ;; 3. add complement at path [:head :comp]:
+       ;;    s
+       ;;   / \
+       ;;  /   \ H
+       ;;  _     vp-aux
+       ;;       /      \
+       ;;      / H      \
+       ;;    would see   <new>
+       ;;
+       
+       add-with-spec
+       first
+       ((fn [tree]
+          (u/assoc-in tree
+                      [:head]
+                      (unify {:2 g/unify-morphology-tree-leaf
+                              :words (dag_unify.serialization/create-path-in
+                                      [:rest :rest :first] 
+                                      g/unify-morphology-tree-leaf)
+                              :syntax-tree (head-syntax-tree
+                                            (morph (u/get-in tree [:head :comp])))}))))
+       (dissoc :dag_unify.serialization/serialized)
+       ((fn [tree]
+          (binding [g/syntax-tree syntax-tree]
+            (g/truncate-in tree [:head]))))
+       (dissoc :dag_unify.serialization/serialized)
+       add-with-spec
+       first
+       (g/create-words [])
+       ((fn [tree]
+          (binding [g/syntax-tree syntax-tree]
+            (g/truncate-in tree []))))
+       (dissoc :dag_unify.serialization/serialized)))))
 

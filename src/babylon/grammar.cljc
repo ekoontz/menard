@@ -51,10 +51,15 @@
         (map (fn [structure]
                (syntax-tree structure morphology))
              structure)
-        
+
+        (and (u/get-in structure [:syntax-tree])
+             (fn? (u/get-in structure [:syntax-tree])))
+        ;; apply the function but using an empty argument.
+        ((u/get-in structure [:syntax-tree]) "_")
+
         (u/get-in structure [:syntax-tree])
         (:syntax-tree structure)
-        
+
         (or (:head structure)
             (:comp structure))
         (let [one (cond (= (get structure :1)
@@ -76,7 +81,6 @@
                                                 (type structure) "; empty: " (empty? structure) "; keys: "
                                                 (keys structure) "; "
                                                 (vec (:dag_unify.core/serialized structure))))))
-              
               two (cond (= (get structure :2)
                            (get structure :head))
                         "*"

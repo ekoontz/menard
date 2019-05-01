@@ -245,7 +245,8 @@
   (let [raised-comp (u/get-in tree [:head :comp :comp])]
     (swap! (get (u/get-in tree [:head :head :subcat]) :2) (fn [old] raised-comp))
     (swap! (get (u/get-in tree [:head]) :comp) (fn [old] raised-comp))
-    tree))
+    (-> tree
+        (dissoc :dag_unify.serialization/serialized))))
 
 (defn demo2 []
   (let [;; create a tree that looks like:
@@ -261,30 +262,28 @@
         ;;      H /     \
         ;;      see      _
         with-words (-> (working-example) first (g/create-folded-words-1 [:head]))
-        raised-comp (u/get-in with-words [:head :comp :comp])]
-    ;; 2. fold up tree from the above representation to:
-    ;;    s
-    ;;   / \
-    ;;  /   \ H
-    ;;  _    vp-aux
-    ;;      /      \
-    ;;     / H      \
-    ;;    would see  _
-    ;;
-    (do-raise with-words)
-    (let [head-syntax-tree
-          (fn [lower-comp]
-            (str "["
-                 (u/get-in with-words [:head :rule])
-                 " *" (syntax-tree (u/get-in with-words [:head :head]))
-                 " " ".[" (u/get-in with-words [:head :comp :rule])
-                 " *"     (syntax-tree (u/get-in with-words [:head :comp :head]))
-                 " ." (syntax-tree lower-comp) "]"
-                 "]"))]
+        raised-comp (u/get-in with-words [:head :comp :comp])
+
+        head-syntax-tree
+        (fn [lower-comp]
+          (str "["
+               (u/get-in with-words [:head :rule])
+               " *" (syntax-tree (u/get-in with-words [:head :head]))
+               " " ".[" (u/get-in with-words [:head :comp :rule])
+               " *"     (syntax-tree (u/get-in with-words [:head :comp :head]))
+               " ." (syntax-tree lower-comp) "]"
+               "]"))]
       (->
-       with-words
-       (dissoc :dag_unify.serialization/serialized)
-       
+       ;; 2. fold up tree from the above representation to:
+       ;;    s
+       ;;   / \
+       ;;  /   \ H
+       ;;  _    vp-aux
+       ;;      /      \
+       ;;     / H      \
+       ;;    would see  _
+       ;;
+       (do-raise with-words)
 
        ;; 3. add complement at path [:head :comp]:
        ;;    s
@@ -295,7 +294,6 @@
        ;;      / H      \
        ;;    would see   <new>
        ;;
-       
        add-with-spec
        first
        ((fn [tree]
@@ -318,5 +316,5 @@
        ((fn [tree]
           (binding [g/syntax-tree syntax-tree]
             (g/truncate-in tree []))))
-       (dissoc :dag_unify.serialization/serialized)))))
+       (dissoc :dag_unify.serialization/serialized))))
 
